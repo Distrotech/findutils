@@ -22,7 +22,8 @@ find.gnu/printf-symlink.xo \
 find.gnu/printf.xo \
 find.gnu/prune-default-print.xo  \
 find.gnu/xtype-symlink.xo \
-find.posix/sv-bug-11175.xo
+find.posix/sv-bug-11175.xo \
+find.gnu/follow-arg-parent-symlink.xo
 
 EXTRA_DIST_EXP = \
 config/unix.exp \
@@ -43,7 +44,8 @@ find.gnu/printf.exp \
 find.gnu/printf-symlink.exp \
 find.gnu/prune-default-print.exp \
 find.gnu/xtype-symlink.exp \
-find.posix/sv-bug-11175.exp
+find.posix/sv-bug-11175.exp \
+find.gnu/follow-arg-parent-symlink.exp
 
 EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO)
 
