@@ -701,6 +701,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 			 | (m & S_IXOTH ? 00001 : 0))));
 	  }
 	  break;
+	  
 	case 'n':		/* number of links */
 	  fprintf (fp, segment->text,
 		   human_readable ((uintmax_t) stat_buf->st_nlink,
@@ -747,6 +748,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	      }
 	    /* else fallthru */
 	  }
+	  
 	case 'U':		/* UID number */
 	  fprintf (fp, segment->text,
 		   human_readable ((uintmax_t) stat_buf->st_uid, hbuf,

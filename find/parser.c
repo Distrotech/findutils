@@ -1707,21 +1707,15 @@ make_segment (struct segment **segment, char *format, int len, int kind)
 
     case 'a':			/* atime in `ctime' format */
     case 'A':			/* atime in user-specified strftime format */
-    case 'b':			/* size in 512-byte blocks */
     case 'c':			/* ctime in `ctime' format */
     case 'C':			/* ctime in user-specified strftime format */
-    case 'D':                   /* Filesystem device on which the file exits */
     case 'F':			/* filesystem type */
-    case 'G':			/* GID number */
     case 'g':			/* group name */
     case 'i':			/* inode number */
-    case 'k':			/* size in 1K blocks */
     case 'l':			/* object of symlink */
-    case 'n':			/* number of links */
     case 's':			/* size in bytes */
     case 't':			/* mtime in `ctime' format */
     case 'T':			/* mtime in user-specified strftime format */
-    case 'U':			/* UID number */
     case 'u':			/* user name */
     case 'y':			/* file type */
     case 'Y':			/* symlink pointed file type */
@@ -1735,6 +1729,20 @@ make_segment (struct segment **segment, char *format, int len, int kind)
       *fmt++ = 's';
       break;
 
+      /* Numeric items that one might expect to honour 
+       * #, 0, + flags but which do not.
+       */
+    case 'G':			/* GID number */
+    case 'U':			/* UID number */
+    case 'b':			/* size in 512-byte blocks */
+    case 'D':                   /* Filesystem device on which the file exits */
+    case 'k':			/* size in 1K blocks */
+    case 'n':			/* number of links */
+      fprintf_stat_needed = true;
+      *fmt++ = 's';
+      
+      /* Numeric items that DO honour #, 0, + flags.
+       */
     case 'd':			/* depth in search tree (0 = ARGV element) */
       *fmt++ = 'd';
       break;

@@ -1168,9 +1168,9 @@ printed to the standard error output (because it was probably a typo).
 @subsection Format Directives
 
 @samp{-printf} and @samp{-fprintf} support the following format
-directives to print information about the file being processed.
-The C @code{printf} function, field width and precision specifiers
-are supported, as applied to string (%s) types. I.E. you can specify
+directives to print information about the file being processed.  The C
+@code{printf} function, field width and precision specifiers are
+supported, as applied to string (%s) types. That is, you can specify
 "minimum field width"."maximum field width" for each directive.
 
 @samp{%%} is a literal percent sign.  A @samp{%} character followed by
@@ -1185,6 +1185,7 @@ is printed), and a warning message is printed to the standard error output
 * Size Directives::
 * Location Directives::
 * Time Directives::
+* Formatting Flags::
 @end menu
 
 @node Name Directives
@@ -1192,17 +1193,24 @@ is printed), and a warning message is printed to the standard error output
 
 @table @code
 @item %p
-File's name.
+@c supports %-X.Yp
+File's name (not the absolute path name, but the name of the file as
+it was encountered by find - that is, as a relative path from one of
+the starting points).
 @item %f
 File's name with any leading directories removed (only the last element).
+@c supports %-X.Yf
 @item %h
 Leading directories of file's name (all but the last element and the
 slash before it).
+@c supports %-X.Yh
 @item %P
 File's name with the name of the command line argument under which
 it was found removed from the beginning.
+@c supports %-X.YP
 @item %H
 Command line argument under which file was found.
+@c supports %-X.YH
 @end table
 
 @node Ownership Directives
@@ -1210,15 +1218,23 @@ Command line argument under which file was found.
 
 @table @code
 @item %g
+@c supports %-X.Yg
 File's group name, or numeric group ID if the group has no name.
 @item %G
+@c supports %-X.Yg
+@c TODO: Needs to support # flag and 0 flag
 File's numeric group ID.
 @item %u
+@c supports %-X.Yu
 File's user name, or numeric user ID if the user has no name.
 @item %U
+@c supports %-X.Yu
+@c TODO: Needs to support # flag
 File's numeric user ID.
 @item %m
-File's permissions (in octal).
+@c full support, including # and 0.
+File's permissions (in octal).   If you always want to have a leading
+zero on the number, use the '#' format flag, for example '%#m'.
 @end table
 
 @node Size Directives
@@ -1228,7 +1244,7 @@ File's permissions (in octal).
 @item %k
 Amount of disk space occupied by the file, measured in 1K blocks
 (rounded up).  This can be less than the length of the file if 
-it is a sparse file (that is, it has ``holes'').
+it is a sparse file (that is, it has ``holes'').  
 @item %b
 File's size in 512-byte blocks (rounded up).  This also can be less 
 than the length of the file, if the file is sparse.
@@ -1390,6 +1406,21 @@ date (mm/dd/yy)
 @item x
 locale's date representation (mm/dd/yy)
 @end table
+
+@node Formatting Flags
+@subsubsection Formatting Flags
+
+The @samp{%m} and @samp{%d} directives support the @samp{#}, @samp{0}
+and @samp{+} flags, but the other directives do not, even if they
+print numbers.  Numeric directives that do not support these flags
+include 
+
+@samp{G},
+@samp{U},
+@samp{b},
+@samp{D},
+@samp{k} and
+@samp{n}.
 
 @node Run Commands
 @section Run Commands

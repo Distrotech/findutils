@@ -505,7 +505,10 @@ File's permission bits (in octal).  This option uses the 'traditional'
 numbers which most Unix implementations use, but if your particular 
 implementation uses an unusual ordering of octal permissions bits, you
 will see a difference between the actual value of the file's mode and
-the output of @samp{%m}.
+the output of %m.   Normally you will want to have a leading
+zero on this number, and to do this, you should use the 
+.B #
+flag (as in, for example, '%#m').
 .IP %n
 Number of hard links to file.
 .IP %p
@@ -532,6 +535,24 @@ File's type (like %y), plus follow symlinks: L=loop, N=nonexistent
 .PP
 A `%' character followed by any other character is discarded (but the
 other character is printed).
+
+The %m and %d directives support the 
+.B #
+, 
+.B 0 
+and 
+.B + 
+flags, but the other directives do not, even if they
+print numbers.  Numeric directives that do not support these flags
+include 
+.BR G , 
+.BR U , 
+.BR b , 
+.BR D , 
+.B  k 
+and 
+.BR n .
+
 .RE
 .IP \-prune
 If \-depth is not given, true; do not descend the current directory.
