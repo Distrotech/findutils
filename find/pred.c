@@ -1529,7 +1529,7 @@ print_tree (FILE *fp, struct predicate *node, int indent)
     return;
   for (i = 0; i < indent; i++)
     fprintf (fp, "    ");
-  fprintf (fp, "pred = %s type = %s prec = %s addr = %x\n",
+  fprintf (fp, "pred = %s type = %s prec = %s addr = %p\n",
 	  find_pred_name (node->pred_func),
 	  type_name (node->p_type), prec_name (node->p_prec), node);
   for (i = 0; i < indent; i++)
