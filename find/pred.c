@@ -1036,16 +1036,20 @@ pred_perm (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   switch (pred_ptr->args.perm.kind)
     {
     case PERM_AT_LEAST:
-      return (~stat_buf->st_mode & pred_ptr->args.perm.val) != 0;
+      return (stat_buf->st_mode & pred_ptr->args.perm.val) == pred_ptr->args.perm.val;
+      break;
 
     case PERM_ANY:
       return (stat_buf->st_mode & pred_ptr->args.perm.val) != 0;
+      break;
 
     case PERM_EXACT:
       return (stat_buf->st_mode & MODE_ALL) == pred_ptr->args.perm.val;
+      break;
 
     default:
       abort ();
+      break;
     }
 }
 
