@@ -1,7 +1,8 @@
+localedir = $(datadir)/locale
 bin_PROGRAMS = xargs
 man_MANS = xargs.1
-INCLUDES = -I.. -I$(top_srcdir)/lib
-LDADD = ../find/version.o ../lib/libfind.a
+INCLUDES = -I.. -I$(top_srcdir)/lib -I../intl -DLOCALEDIR=\"$(localedir)\"
+LDADD = ../find/version.o ../lib/libfind.a @INTLLIBS@
 EXTRA_DIST = $(man_MANS)
 SUBDIRS = testsuite
 

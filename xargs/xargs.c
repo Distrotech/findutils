@@ -105,6 +105,23 @@
 extern int errno;
 #endif
 
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#define textdomain(Domain)
+#define bindtextdomain(Package, Directory)
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
+
 /* Return nonzero if S is the EOF string.  */
 #define EOF_STR(s) (eof_str && *eof_str == *s && !strcmp (eof_str, s))
 
@@ -121,8 +138,7 @@ typedef int boolean;
 #define VOID char
 #endif
 
-VOID *xmalloc P_ ((size_t n));
-VOID *xrealloc P_ ((VOID * p, size_t n));
+#include <xalloc.h>
 void error P_ ((int status, int errnum, char *message,...));
 
 extern char *version_string;
@@ -257,6 +273,12 @@ main (argc, argv)
 
   program_name = argv[0];
 
+#ifdef HAVE_SETLOCALE
+  setlocale (LC_ALL, "");
+#endif
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain (PACKAGE);
+
   orig_arg_max = ARG_MAX;
   if (orig_arg_max == -1)
     orig_arg_max = LONG_MAX;
@@ -273,7 +295,7 @@ main (argc, argv)
   /* Take the size of the environment into account.  */
   arg_max -= env_size (environ);
   if (arg_max <= 0)
-    error (1, 0, "environment is too large for exec");
+    error (1, 0, _("environment is too large for exec"));
 
   while ((optc = getopt_long (argc, argv, "+0e::i::l::n:prs:txP:",
 			      longopts, (int *) 0)) != -1)
@@ -347,7 +369,7 @@ main (argc, argv)
 	  break;
 
 	case 'v':
-	  printf ("GNU xargs version %s\n", version_string);
+	  printf (_("GNU xargs version %s\n"), version_string);
 	  exit (0);
 
 	default:
@@ -521,8 +543,8 @@ read_line ()
 
 	case QUOTE:
 	  if (c == '\n')
-	    error (1, 0, "unmatched %s quote",
-		   quotc == '"' ? "double" : "single");
+	    error (1, 0, _("unmatched %s quote"),
+		   quotc == '"' ? _("double") : _("single"));
 	  if (c == quotc)
 	    {
 	      state = NORM;
@@ -535,7 +557,7 @@ read_line ()
 	  break;
 	}
       if (p >= endbuf)
-	error (1, 0, "argument line too long");
+	error (1, 0, _("argument line too long"));
       *p++ = c;
     }
 }
@@ -580,7 +602,7 @@ read_string ()
 	  return len;
 	}
       if (p >= endbuf)
-	error (1, 0, "argument line too long");
+	error (1, 0, _("argument line too long"));
       *p++ = c;
     }
 }
@@ -641,7 +663,7 @@ do_insert (arg, arglen, lblen)
     }
   while (*arg);
   if (*arg)
-    error (1, 0, "command too long");
+    error (1, 0, _("command too long"));
   *p++ = '\0';
   push_arg (insertbuf, p - insertbuf);
 }
@@ -661,11 +683,11 @@ push_arg (arg, len)
       if (cmd_argv_chars + len > arg_max)
 	{
 	  if (initial_args || cmd_argc == initial_argc)
-	    error (1, 0, "can not fit single argument within argument list size limit");
+	    error (1, 0, _("can not fit single argument within argument list size limit"));
 	  if (replace_pat
 	      || (exit_if_size_exceeded &&
 		  (lines_per_exec || args_per_exec)))
-	    error (1, 0, "argument list too long");
+	    error (1, 0, _("argument list too long"));
 	  do_exec ();
 	}
       if (!initial_args && args_per_exec &&
@@ -758,7 +780,7 @@ do_exec ()
       switch (child)
 	{
 	case -1:
-	  error (1, errno, "cannot fork");
+	  error (1, errno, _("cannot fork"));
 
 	case 0:		/* Child.  */
 	  execvp (cmd_argv[0], cmd_argv);
@@ -822,7 +844,7 @@ wait_for_proc (all)
 
 	  pid = wait (&status);
 	  if (pid < 0)
-	    error (1, errno, "error waiting for child process");
+	    error (1, errno, _("error waiting for child process"));
 
 	  /* Find the entry in `pids' for the child process
 	     that exited.  */
@@ -838,11 +860,11 @@ wait_for_proc (all)
       if (WEXITSTATUS (status) == 126 || WEXITSTATUS (status) == 127)
 	exit (WEXITSTATUS (status));	/* Can't find or run the command.  */
       if (WEXITSTATUS (status) == 255)
-	error (124, 0, "%s: exited with status 255; aborting", cmd_argv[0]);
+	error (124, 0, _("%s: exited with status 255; aborting"), cmd_argv[0]);
       if (WIFSTOPPED (status))
-	error (125, 0, "%s: stopped by signal %d", cmd_argv[0], WSTOPSIG (status));
+	error (125, 0, _("%s: stopped by signal %d"), cmd_argv[0], WSTOPSIG (status));
       if (WIFSIGNALED (status))
-	error (125, 0, "%s: terminated by signal %d", cmd_argv[0], WTERMSIG (status));
+	error (125, 0, _("%s: terminated by signal %d"), cmd_argv[0], WTERMSIG (status));
       if (WEXITSTATUS (status) != 0)
 	child_error = 123;
 
@@ -869,19 +891,19 @@ parse_num (str, option, min, max)
   val = strtol (str, &eptr, 10);
   if (eptr == str || *eptr)
     {
-      fprintf (stderr, "%s: invalid number for -%c option\n",
+      fprintf (stderr, _("%s: invalid number for -%c option\n"),
 	       program_name, option);
       usage (stderr, 1);
     }
   else if (val < min)
     {
-      fprintf (stderr, "%s: value for -%c option must be >= %ld\n",
+      fprintf (stderr, _("%s: value for -%c option must be >= %ld\n"),
 	       program_name, option, min);
       usage (stderr, 1);
     }
   else if (max >= 0 && val > max)
     {
-      fprintf (stderr, "%s: value for -%c option must be < %ld\n",
+      fprintf (stderr, _("%s: value for -%c option must be < %ld\n"),
 	       program_name, option, max);
       usage (stderr, 1);
     }
@@ -907,13 +929,13 @@ usage (stream, status)
      FILE *stream;
      int status;
 {
-  fprintf (stream, "\
+  fprintf (stream, _("\
 Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
        [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-str]]\n\
        [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n\
        [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n\
        [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n\
-       [command [initial-arguments]]\n",
+       [command [initial-arguments]]\n"),
 	   program_name);
   exit (status);
 }
