@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.3\n"
-"Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-01-29 00:13+0000\n"
-"PO-Revision-Date: 2004-11-04 22:58+0100\n"
+"Project-Id-Version: findutils 4.2.6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-11-21 12:38+0000\n"
+"PO-Revision-Date: 2004-11-24 09:24+0100\n"
 "Last-Translator: Marcel Telka <marcel@telka.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -24,76 +24,92 @@ msgstr "neplatný parameter %s pre %s"
 msgid "ambiguous argument %s for %s"
 msgstr "nejednoznačný parameter %s pre %s"
 
+#. We try to put synonyms on the same line.  The assumption is that
+#. synonyms follow each other
 #: gnulib/lib/argmatch.c:157
 #, c-format
 msgid "Valid arguments are:"
 msgstr "Platné parametre sú:"
 
-#: gnulib/lib/error.c:121
+#: gnulib/lib/error.c:123
 msgid "Unknown system error"
 msgstr "Neznáma systémova chyba"
 
-#: gnulib/lib/getopt.c:551 gnulib/lib/getopt.c:570
+#: gnulib/lib/getopt.c:553 gnulib/lib/getopt.c:572
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: voľba `%s' je nejednoznačná\n"
 
-#: gnulib/lib/getopt.c:603 gnulib/lib/getopt.c:607
+#: gnulib/lib/getopt.c:605 gnulib/lib/getopt.c:609
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: voľba `--%s' neumožňuje parameter\n"
 
-#: gnulib/lib/getopt.c:616 gnulib/lib/getopt.c:621
+#: gnulib/lib/getopt.c:618 gnulib/lib/getopt.c:623
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: voľba `%c%s' neumožňuje parameter\n"
 
-#: gnulib/lib/getopt.c:667 gnulib/lib/getopt.c:689 gnulib/lib/getopt.c:1020
-#: gnulib/lib/getopt.c:1042
+#: gnulib/lib/getopt.c:669 gnulib/lib/getopt.c:691 gnulib/lib/getopt.c:1022
+#: gnulib/lib/getopt.c:1044
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: voľba `%s' vyžaduje parameter\n"
 
-#: gnulib/lib/getopt.c:727 gnulib/lib/getopt.c:730
+#: gnulib/lib/getopt.c:729 gnulib/lib/getopt.c:732
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: nerozpoznaná voľba `--%s'\n"
 
-#: gnulib/lib/getopt.c:738 gnulib/lib/getopt.c:741
+#: gnulib/lib/getopt.c:740 gnulib/lib/getopt.c:743
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: nerozpoznaná voľba `%c%s'\n"
 
-#: gnulib/lib/getopt.c:796 gnulib/lib/getopt.c:799
+#: gnulib/lib/getopt.c:798 gnulib/lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: nepovolená voľba -- %c\n"
 
-#: gnulib/lib/getopt.c:805 gnulib/lib/getopt.c:808
+#: gnulib/lib/getopt.c:807 gnulib/lib/getopt.c:810
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: neplatná voľba -- %c\n"
 
-#: gnulib/lib/getopt.c:863 gnulib/lib/getopt.c:882 gnulib/lib/getopt.c:1095
-#: gnulib/lib/getopt.c:1116
+#: gnulib/lib/getopt.c:865 gnulib/lib/getopt.c:884 gnulib/lib/getopt.c:1097
+#: gnulib/lib/getopt.c:1118
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: voľba vyžaduje parameter -- %c\n"
 
-#: gnulib/lib/getopt.c:935 gnulib/lib/getopt.c:954
+#: gnulib/lib/getopt.c:937 gnulib/lib/getopt.c:956
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: voľba `-W %s' je nejednoznačná\n"
 
-#: gnulib/lib/getopt.c:978 gnulib/lib/getopt.c:999
+#: gnulib/lib/getopt.c:980 gnulib/lib/getopt.c:1001
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: voľba `-W %s' neumožňuje použiť parameter\n"
 
-#: gnulib/lib/human.c:484
+#: gnulib/lib/human.c:483
 msgid "block size"
 msgstr "veľkosť bloku"
 
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
 #: gnulib/lib/quotearg.c:240
 msgid "`"
 msgstr "`"
@@ -182,634 +198,463 @@ msgstr "^[yYaAáÁ]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:92
+#: find/util.c:90
 msgid "oops -- invalid default insertion of and!"
 msgstr "chyba -- neplatné implicitné vloženie logického súčinu (and)!"
 
-#: find/util.c:151
-#, fuzzy, c-format
+#: find/util.c:148
+#, c-format
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Použitie: %s [cesta...] [výraz]\n"
+msgstr "Použitie: %s [-H] [-L] [-P] [cesta...] [výraz]\n"
 
-#: find/find.c:381
-msgid ""
-"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
-"that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr ""
-"Premenná prostredia FIND_BLOCK_SIZE je nepodporovaná, jediná vec, ktorá "
-"ovplyvňuje veľkosť bloku je premenná prostredia POSIXLY_CORRECT"
+#: find/find.c:336
+msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr "Premenná prostredia FIND_BLOCK_SIZE je nepodporovaná, jediná vec, ktorá ovplyvňuje veľkosť bloku je premenná prostredia POSIXLY_CORRECT"
 
-#: find/find.c:448
+#: find/find.c:404
 msgid "paths must precede expression"
 msgstr "cesty musia byť pred výrazom"
 
-#: find/find.c:453
+#. Command line option not recognized
+#: find/find.c:409
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "neplatný predikát `%s'"
 
-#: find/find.c:459
+#. Command line option requires an argument
+#: find/find.c:415
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "chýbajúci parameter pre `%s'"
 
-#: find/find.c:461
+#: find/find.c:417
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "neplatný parameter `%s' pre `%s'"
 
-#: find/find.c:490
+#: find/find.c:446
 #, c-format
 msgid "Predicate List:\n"
 msgstr "Zoznam predikátov:\n"
 
-#: find/find.c:503
+#: find/find.c:459
 msgid "unexpected extra predicate"
 msgstr "neočakávaný predikát navyše"
 
-#: find/find.c:507
+#: find/find.c:463
 #, c-format
 msgid "Eval Tree:\n"
 msgstr "Vyhodnocovací strom:\n"
 
-#: find/find.c:520
+#: find/find.c:474
 #, c-format
 msgid "Optimized Eval Tree:\n"
 msgstr "Optimalizovaný vyhodnocovací strom:\n"
 
-#: find/find.c:522
-#, fuzzy, c-format
-msgid "Optimized command line:\n"
-msgstr "Optimalizovaný vyhodnocovací strom:\n"
-
-#: find/find.c:537 find/find.c:540
+#: find/find.c:488 find/find.c:491
 msgid "cannot get current directory"
 msgstr "nemôžem zistiť aktuálny adresár"
 
-#: find/find.c:766
+#: find/find.c:694
 #, c-format
-msgid "Warning: filesystem %s has recently been unmounted."
-msgstr ""
+msgid "Filesystem %s has recently been unmounted."
+msgstr "Súborový systém %s bol nedávno odpojený."
 
-#: find/find.c:776
+#: find/find.c:701
 #, c-format
-msgid "Warning: filesystem %s has recently been mounted."
-msgstr ""
+msgid "Filesystem %s has recently been mounted."
+msgstr "Súborový systém %s bol nedávno pripojený."
 
-#: find/find.c:791
+#: find/find.c:715
 #, c-format
-msgid ""
-"%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, filesystem type is %s) [ref %ld]"
-msgstr ""
-"%s%s zmenený počas vykonávania %s (staré číslo zariadenia %ld, nové číslo "
-"zariadenia %ld, typ súborového systému je %s) [odk %ld]"
+msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"
+msgstr "%s%s zmenený počas vykonávania %s (staré číslo zariadenia %ld, nové číslo zariadenia %ld, typ súborového systému je %s) [odk %ld]"
 
-#: find/find.c:823
+#: find/find.c:743
 #, c-format
-msgid ""
-"%s%s changed during execution of %s (old inode number %ld, new inode number %"
-"ld, filesystem type is %s) [ref %ld]"
-msgstr ""
-"%s%s zmenený počas vykonávania %s (staré číslo i-uzla %ld, nové číslo i-uzla "
-"%ld, typ súborového systému je %s) [odk %ld]"
+msgid "%s%s changed during execution of %s (old inode number %ld, new inode number %ld, filesystem type is %s) [ref %ld]"
+msgstr "%s%s zmenený počas vykonávania %s (staré číslo i-uzla %ld, nové číslo i-uzla %ld, typ súborového systému je %s) [odk %ld]"
 
-#: find/find.c:1068
+#: find/find.c:963 find/parser.c:1190
+msgid "virtual memory exhausted"
+msgstr "virtuálna pamäť bola vyčerpaná"
+
+#: find/fstype.c:293
 #, c-format
-msgid ""
-"Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
-"already visited the directory to which it points."
-msgstr ""
+msgid "error in %s: %s"
+msgstr "chyba v %s: %s"
 
-#: find/find.c:1083
-#, c-format
-msgid ""
-"Filesystem loop detected; `%s' has the same device number and inode as a "
-"directory which is %d %s."
-msgstr ""
-
-#: find/find.c:1087
-msgid "level higher in the filesystem hierarchy"
-msgstr ""
-
-#: find/find.c:1088
-msgid "levels higher in the filesystem hierarchy"
-msgstr ""
-
-#: find/find.c:1469
-#, c-format
-msgid ""
-"WARNING: Hard link count is wrong for %s: this may be a bug in your "
-"filesystem driver.  Automatically turning on find's -noleaf option.  Earlier "
-"results may have failed to include directories that should have been "
-"searched."
-msgstr ""
-
-#: find/fstype.c:231
+#: find/fstype.c:382
 msgid "unknown"
 msgstr "neznámy"
 
-#: find/parser.c:312
+#: find/parser.c:302
 #, c-format
-msgid ""
-"warning: you have specified the %s option after a non-option argument %s, "
-"but options are not positional (%s affects tests specified before it as well "
-"as those specified after it).  Please specify options before other "
-"arguments.\n"
-msgstr ""
+msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
+msgstr "upozornenie: zadali ste voľbu %s po parametri %s, ktorý nemá voľby, ale voľby nie sú pozičné (%s postihuje testy zadané predtým a tiež tie, ktoré sú zadané potom). Prosím, zadajte voľby pred ostatnými parametrami.\n"
 
-#: find/parser.c:552
-msgid ""
-"warning: the -d option is deprecated; please use -depth instead, because the "
-"latter is a POSIX-compliant feature."
-msgstr ""
-"upozornenie: voľby -d je neodporúčaná; prosím použite namiesto nej -depth, "
-"pretože táto spĺňa požiadavky POSIX."
+#: find/parser.c:541
+msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
+msgstr "upozornenie: voľby -d je neodporúčaná; prosím použite namiesto nej -depth, pretože táto spĺňa požiadavky POSIX."
 
-#: find/parser.c:719
+#: find/parser.c:702
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Použitie: %s [cesta...] [výraz]\n"
 
-#: find/parser.c:721
-#, fuzzy
+#: find/parser.c:704
 msgid ""
-"\n"
 "default path is the current directory; default expression is -print\n"
-"expression may consist of: operators, options, tests, and actions:\n"
+"expression may consist of:\n"
+"operators (decreasing precedence; -and is implicit where no others are given):\n"
+"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
 msgstr ""
 "implicitná cesta je aktuálny adresár; implicitný výraz je -print\n"
 "výraz môže pozostávať z:\n"
 "operátorov (klesajúca priorita; -and je implicitný, ak nie je zadaný iný):\n"
-"      ( VÝRAZ ) ! VÝRAZ -not VÝRAZ VÝRAZ1 -a VÝRAZ2 VÝRAZ1 -and VÝRAZ2\n"
+"      ( VÝRAZ ) ! VÝRAZ -not VÝRAZ VÝRAZ1 -a VÝRAZ2 VÝRAZ1 -and VÝRAZ2"
 
-#: find/parser.c:724
-#, fuzzy
+#: find/parser.c:709
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are "
-"given):\n"
-"      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
-"      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
-msgstr ""
-"implicitná cesta je aktuálny adresár; implicitný výraz je -print\n"
-"výraz môže pozostávať z:\n"
-"operátorov (klesajúca priorita; -and je implicitný, ak nie je zadaný iný):\n"
-"      ( VÝRAZ ) ! VÝRAZ -not VÝRAZ VÝRAZ1 -a VÝRAZ2 VÝRAZ1 -and VÝRAZ2\n"
-
-#: find/parser.c:728
-#, fuzzy
-msgid ""
+"      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
 "positional options (always true): -daystart -follow\n"
-"normal options (always true, specified before other expressions):\n"
-"      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
-"      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
+"normal options (always true, specified before other expressions): -depth\n"
+"      --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n"
+"      -ignore_readdir_race -noignore_readdir_race\n"
+"tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"
 msgstr ""
 "      VÝRAZ1 -o VÝRAZ2 VÝRAZ1 -or VÝRAZ2 VÝRAZ1 , VÝRAZ2\n"
-"volieb (vždy pravda): -daystart -delete -depth -follow --help\n"
-"      -maxdepth ÚROVNE -mindepth ÚROVNE -mount -noleaf --version -xdev\n"
+"pozičných volieb (vždy pravda): -daystart -follow\n"
+"obyčajných volieb (vždy pravda, zadané pred ostatnými výrazmi): -depth\n"
+"      --help -maxdepth ÚROVNE -mindepth ÚROVNE -mount -noleaf --version -xdev\n"
 "testov (N môže byť +N, -N alebo N): -amin N -anewer SÚBOR -atime N -cmin N"
 
-#: find/parser.c:733
-#, fuzzy
+#: find/parser.c:715
 msgid ""
-"tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
-"PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 "      -cnewer SÚBOR -ctime N -empty -false -fstype TYP -gid N -group NÁZOV\n"
 "      -ilname VZOR -iname VZOR -inum N -iwholename VZOR -iregex VZOR\n"
 "      -links N -lname VZOR -mmin N -mtime N -name VZOR -newer SÚBOR"
 
-#: find/parser.c:738
-#, fuzzy
+#: find/parser.c:719
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
-"      -used N -user NAME -xtype [bcdpfls]\n"
+"      -used N -user NAME -xtype [bcdpfls]"
 msgstr ""
 "      -nouser -nogroup -path VZOR -perm [+-]MÓD -regex VZOR\n"
 "      -wholename VZOR -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
-"      -used N -user MENO -xtype [bcdpfls]\n"
+"      -used N -user MENO -xtype [bcdpfls]"
 
-#: find/parser.c:742
-#, fuzzy
+#: find/parser.c:723
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-"delete\n"
+"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -delete\n"
 "      -quit\n"
 msgstr ""
 "akcie: -exec PRÍKAZ ; -fprint SÚBOR -fprint0 SÚBOR -fprintf SÚBOR FORMÁT\n"
-"      -ok PRÍKAZ ; -print -print0 -printf FORMÁT -prune -ls\n"
+"      -fls SÚBOR -ok PRÍKAZ ; -print -print0 -printf FORMÁT -prune -ls -delete\n"
+"      -quit\n"
 
-#: find/parser.c:746
+#: find/parser.c:727
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
-"Chyby môžete oznamovať (a sledovať postup ich odstraňovania) pomocou "
-"stránky\n"
+"Chyby môžete oznamovať (a sledovať postup ich odstraňovania) pomocou stránky\n"
 "oznamovania chýb pre findutils na http://savannah.gnu.org/ (iba anglicky),\n"
 "alebo, ak nemáte prístup k www, odoslaním elektronickej pošty na adresu\n"
 "<bug-findutils@gnu.org> (iba anglicky).\n"
-"Komentáre k slovenskému prekladu zasielajte na adresu <sk-i18n@lists.linux."
-"sk>."
+"Komentáre k slovenskému prekladu zasielajte na adresu <sk-i18n@lists.linux.sk>."
 
-#: find/parser.c:777
+#: find/parser.c:758
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "kontrola správnosti knižničnej funkcie fnmatch() zlyhala."
 
-#: find/parser.c:820
-msgid ""
-"warning: the predicate -ipath is deprecated; please use -iwholename instead."
-msgstr ""
-"upozornenie: predikát -ipath neodporúčaný; použite namiesto neho -iwholename."
+#: find/parser.c:801
+msgid "warning: the predicate -ipath is deprecated; please use -iwholename instead."
+msgstr "upozornenie: predikát -ipath neodporúčaný; použite namiesto neho -iwholename."
 
-#: find/parser.c:1213
+#: find/parser.c:1188
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "neplatný mód `%s'"
 
-#: find/parser.c:1215
-msgid "virtual memory exhausted"
-msgstr "virtuálna pamäť bola vyčerpaná"
-
-#: find/parser.c:1364
+#: find/parser.c:1339
 msgid "invalid null argument to -size"
 msgstr "neplatný prázdny parameter pre -size"
 
-#: find/parser.c:1410
+#: find/parser.c:1385
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "neplatný typ -size `%c'"
 
-#: find/parser.c:1527
+#: find/parser.c:1478
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find verzia %s\n"
 
-#: find/parser.c:1528
-#, c-format
-msgid "Features enabled: "
-msgstr ""
-
-#: find/parser.c:1740
+#: find/parser.c:1650
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "upozornenie: nerozlíšený prepínací znak `\\%c'"
 
-#: find/parser.c:1786
+#. An unrecognized % escape.  Print the char after the %.
+#: find/parser.c:1696
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "upozornenie: nerozpoznaná formátovacia direktíva '%%%c'"
 
-#: find/parser.c:1892
-#, c-format
-msgid ""
-"The current directory is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove the "
-"current directory from your $PATH (that is, remove \".\" or leading or "
-"trailing colons)"
-msgstr ""
-
-#: find/parser.c:1978
-msgid ""
-"You may not use {} within the utility name for -execdir and -okdir, because "
-"this is a potential security problem."
-msgstr ""
-
-#: find/parser.c:2001
-#, c-format
-msgid "Only one instance of {} is supported with -exec%s ... +"
-msgstr ""
-
-#: find/parser.c:2232 find/parser.c:2313
+#: find/parser.c:1938 find/parser.c:2018
 #, c-format
 msgid "inserting %s\n"
 msgstr "vkladám %s\n"
 
-#: find/parser.c:2233 find/parser.c:2314
+#: find/parser.c:1939 find/parser.c:2019
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "     typ: %s    %s  "
 
-#: find/pred.c:1135 find/pred.c:1172
+#. The draft open standard requires that, in the POSIX locale,
+#. the last non-blank character of this prompt be '?'.
+#. The exact format is not specified.
+#. This standard does not have requirements for locales other than POSIX
+#.
+#: find/pred.c:1076
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1545 find/pred.c:1650 xargs/xargs.c:962
+#: find/pred.c:1393 xargs/xargs.c:1052
 msgid "cannot fork"
 msgstr "nemôžem vykonať fork"
 
-#: find/pred.c:1585 find/pred.c:1670
+#: find/pred.c:1413
 #, c-format
 msgid "error waiting for %s"
 msgstr "chyba pri čakaní na %s"
 
-#: find/pred.c:1593 find/pred.c:1676
+#: find/pred.c:1419
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s ukončený signálom %d"
 
-#: find/pred.c:1814
+#: find/pred.c:1537
 #, c-format
 msgid "left:\n"
 msgstr "vľavo:\n"
 
-#: find/pred.c:1818
+#: find/pred.c:1541
 #, c-format
 msgid "right:\n"
 msgstr "vpravo:\n"
 
-#: find/pred.c:1903
-msgid "[stat called here] "
-msgstr ""
-
-#: find/pred.c:1904
-msgid "[type needed here] "
-msgstr ""
-
-#: find/tree.c:67 find/tree.c:72 find/tree.c:119 find/tree.c:158
+#: find/tree.c:66 find/tree.c:72 find/tree.c:91 find/tree.c:111
+#: find/tree.c:147
 msgid "invalid expression"
 msgstr "neplatný výraz"
 
-#: find/tree.c:76
-msgid ""
-"invalid expression; you have used a binary operator with nothing before it."
-msgstr ""
-
-#: find/tree.c:80
-#, fuzzy
-msgid "invalid expression; you have too many ')'"
-msgstr "neplatný výraz"
-
-#: find/tree.c:99
-msgid ""
-"invalid expression; I was expecting to find a ')' somewhere but did not see "
-"one."
-msgstr ""
-
-#: find/tree.c:104 find/tree.c:326
+#: find/tree.c:96 find/tree.c:161 find/tree.c:313 find/tree.c:443
 msgid "oops -- invalid expression type!"
 msgstr "ach -- neplatný typ výrazu!"
 
-#: find/tree.c:173
-#, fuzzy, c-format
-msgid "oops -- invalid expression type (%d)!"
-msgstr "ach -- neplatný typ výrazu!"
-
-#: find/tree.c:245
+#. Normalized tree.
+#: find/tree.c:232
 #, c-format
 msgid "Normalized Eval Tree:\n"
 msgstr "Normalizovaný rozhodovací strom:\n"
 
-#: find/tree.c:457
-#, fuzzy
-msgid "oops -- invalid expression type in mark_stat!"
-msgstr "ach -- neplatný typ výrazu!"
-
-#: find/tree.c:493
-#, fuzzy
-msgid "oops -- invalid expression type in mark_type!"
-msgstr "ach -- neplatný typ výrazu!"
-
-#: locate/code.c:128
-#, fuzzy, c-format
+#: locate/code.c:127
+#, c-format
 msgid ""
 "Usage: %s [--version | --help]\n"
 "or     %s most_common_bigrams < file-list > locate-database\n"
-msgstr "Použitie: %s most_common_bigrams < zoznam > kódovaný_zoznam\n"
+msgstr ""
+"Použitie: %s [--version | --help]\n"
+"alebo     %s most_common_bigrams < zoznam-súborov > databáza-umiestnení\n"
 
-#: locate/code.c:132 locate/locate.c:785 xargs/xargs.c:1130
+#: locate/code.c:131 locate/locate.c:659 xargs/xargs.c:1220
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
 msgstr ""
 "\n"
-"Správy o chybách zasielajte na adresu <bug-findutils@gnu.org> (iba "
-"anglicky).\n"
-"Komentáre k slovenskému prekladu zasielajte na adresu <sk-i18n@lists.linux."
-"sk>.\n"
+"Správy o chybách zasielajte na adresu <bug-findutils@gnu.org> (iba anglicky).\n"
+"Komentáre k slovenskému prekladu zasielajte na adresu <sk-i18n@lists.linux.sk>.\n"
 
-#: locate/code.c:166
-#, fuzzy, c-format
+#: locate/code.c:164
+#, c-format
 msgid "GNU findutils version %s\n"
-msgstr "GNU find verzia %s\n"
+msgstr "GNU findutils verzia %s\n"
 
-#: locate/locate.c:133
+#. Printable name of units used in WARN_SECONDS
+#: locate/locate.c:128
 msgid "days"
 msgstr "dní"
 
-#: locate/locate.c:493
-#, c-format
-msgid "Locate database size: %s bytes\n"
-msgstr ""
-
-#: locate/locate.c:497
-#, c-format
-msgid "Filenames: %s "
-msgstr ""
-
-#: locate/locate.c:500
-#, c-format
-msgid "with a cumulative length of %s bytes"
-msgstr ""
-
-#: locate/locate.c:504
-#, c-format
-msgid ""
-"\n"
-"\tof which %s contain whitespace, "
-msgstr ""
-
-#: locate/locate.c:507
-#, c-format
-msgid ""
-"\n"
-"\t%s contain newline characters, "
-msgstr ""
-
-#: locate/locate.c:510
-#, c-format
-msgid ""
-"\n"
-"\tand %s contain characters with the high bit set.\n"
-msgstr ""
-
-#: locate/locate.c:514
-#, c-format
-msgid "Compression ratio %4.2f%%\n"
-msgstr ""
-
-#: locate/locate.c:642
+#. For example:
+#. warning: database `fred' is more than 8 days old
+#: locate/locate.c:531
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "upozornenie: databáza `%s' je staršia ako %d %s"
 
-#: locate/locate.c:666
-#, c-format
-msgid "Database %s is in the %s format.\n"
-msgstr ""
-
-#: locate/locate.c:668
-msgid "old"
-msgstr ""
-
-#: locate/locate.c:722
+#. This should not happen generally , but since we're
+#. * reading in data which is outside our control, we
+#. * cannot prevent it.
+#.
+#: locate/locate.c:604
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "databáza pre locate `%s' je poškodená alebo neplatná"
 
-#: locate/locate.c:778
-#, fuzzy, c-format
+#: locate/locate.c:654
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | --existing]\n"
-"      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
-"      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
-"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
-"stdio ]\n"
-"      [-r | --regex ] [--version] [--help] pattern...\n"
+"      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n"
+"      [--version] [--help] pattern...\n"
 msgstr ""
 "Použitie: %s [-d cesta | --database=cesta] [-e | --existing]\n"
-"      [-i | --ignore-case] [--version] [--help] vzor...\n"
+"      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n"
+"      [--version] [--help] vzor...\n"
 
-#: locate/locate.c:875
+#: locate/locate.c:669
+#, c-format
+msgid "warning: locate database path `%s' contains a leading colon, which is not a valid database name"
+msgstr "upozornenie: cesta databázy umiestnení `%s' obsahuje úvodnú dvojbodku; toto nie je platný názov databázy"
+
+#: locate/locate.c:677
+#, c-format
+msgid "warning: locate database path `%s' contains a trailing colon, which is not a valid database name"
+msgstr "upozornenie: cesta databázy umiestnení `%s' obsahuje záverečnú dvojbodku; toto nie je platný názov databázy"
+
+#: locate/locate.c:762
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locale verzia %s\n"
 
-#: locate/locate.c:910
-#, fuzzy
+#: locate/locate.c:775
 msgid "argument to --limit"
-msgstr "riadok s parametrom je príliš dlhý"
+msgstr "parameter pre --limit"
 
-#: xargs/xargs.c:386
+#: xargs/xargs.c:392
 msgid "environment is too large for exec"
 msgstr "prostredie je príliš veľké na vykonanie"
 
-#: xargs/xargs.c:499
+#: xargs/xargs.c:498
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs verzia %s\n"
 
-#: xargs/xargs.c:519
-#, c-format
-msgid "Cannot open input file `%s'"
-msgstr ""
-
-#: xargs/xargs.c:545
+#: xargs/xargs.c:528
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
-msgstr ""
+msgstr "Zmenšenie arg_max (%ld) na arg_size (%ld)\n"
 
-#: xargs/xargs.c:554
+#: xargs/xargs.c:537
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
-msgstr ""
+msgstr "Vaše premenné prostredia zaberajú %ld byjtov\n"
 
-#: xargs/xargs.c:557
+#: xargs/xargs.c:540
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
-msgstr ""
+msgstr "Dolné a horné POSIX limity pre dĺžku parametrov: %ld, %ld\n"
 
-#: xargs/xargs.c:561
+#: xargs/xargs.c:544
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
-msgstr ""
+msgstr "Maximálna dĺžka príkazu, ktorú môžeme momentálne používať: %ld\n"
 
-#: xargs/xargs.c:564
+#: xargs/xargs.c:547
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
-msgstr ""
+msgstr "Veľkosť vyrovnávacej pamäte príkazov, ktorú práve používame: %ld\n"
 
-#: xargs/xargs.c:669 xargs/xargs.c:814 xargs/xargs.c:868
+#. I suspect that this can never happen now, because append_char_to_buf()
+#. * should only be called wen replace_pat is true.
+#.
+#: xargs/xargs.c:641 xargs/xargs.c:777 xargs/xargs.c:825
 msgid "argument line too long"
 msgstr "riadok s parametrom je príliš dlhý"
 
-#: xargs/xargs.c:799
+#: xargs/xargs.c:762
 #, c-format
-msgid ""
-"unmatched %s quote; by default quotes are special to xargs unless you use "
-"the -0 option"
-msgstr ""
-"nezodpovedajúce úvodzovky %s; štandardne sú úvodzovky špeciálne pre xargs, "
-"pokiaľ nepoužijete voľbu -0"
+msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
+msgstr "nezodpovedajúce úvodzovky %s; štandardne sú úvodzovky špeciálne pre xargs, pokiaľ nepoužijete voľbu -0"
 
-#: xargs/xargs.c:800
+#: xargs/xargs.c:763
 msgid "double"
 msgstr "dvojitý"
 
-#: xargs/xargs.c:800
+#: xargs/xargs.c:763
 msgid "single"
 msgstr "jednoduchý"
 
-#: xargs/xargs.c:1026
+#: xargs/xargs.c:914
+msgid "command too long"
+msgstr "príkaz je príliš dlhý"
+
+#: xargs/xargs.c:932
+msgid "can not fit single argument within argument list size limit"
+msgstr "nemôžem upraviť jediný parameter na veľkosť zodpovedajúcu limitu zoznamu parametrov"
+
+#: xargs/xargs.c:937
+msgid "argument list too long"
+msgstr "zoznam parametrov je príliš dlhý"
+
+#: xargs/xargs.c:1116
 msgid "error waiting for child process"
 msgstr "chyba pri zápise do procesu potomka"
 
-#: xargs/xargs.c:1042
+#: xargs/xargs.c:1132
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: ukončený so stavom 255; prerušujem"
 
-#: xargs/xargs.c:1044
+#: xargs/xargs.c:1134
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: zastavený signálom %d"
 
-#: xargs/xargs.c:1046
+#: xargs/xargs.c:1136
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: ukončený signálom %d"
 
-#: xargs/xargs.c:1070
+#: xargs/xargs.c:1160
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: neplatné číslo pre voľbu -%c\n"
 
-#: xargs/xargs.c:1077
-#, fuzzy, c-format
+#: xargs/xargs.c:1167
+#, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
-msgstr "%s: hodnota pre voľbu -%c musí byť >= %ld\n"
+msgstr "%s: hodnota pre voľbu -%c by mala byť >= %ld\n"
 
-#: xargs/xargs.c:1091
-#, fuzzy, c-format
+#: xargs/xargs.c:1181
+#, c-format
 msgid "%s: value for -%c option should be < %ld\n"
-msgstr "%s: hodnota pre voľbu -%c musí byť < %ld\n"
+msgstr "%s: hodnota pre voľbu -%c by mala byť < %ld\n"
 
-#: xargs/xargs.c:1122
-#, fuzzy, c-format
+#: xargs/xargs.c:1212
+#, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
-"str]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
-"       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n"
-"       [--version] [--help] [command [initial-arguments]]\n"
+"       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
+"       [command [initial-arguments]]\n"
 msgstr ""
 "Použitie: %s [-0prtx] [-e[eof-reť]] [-i[nahr-reť]] [-l[max-riadkov]]\n"
-"       [-n max-param] [-s max-znakov] [-P max-proc] [--null] [--eof[=eof-"
-"reť]]\n"
+"       [-n max-param] [-s max-znakov] [-P max-proc] [--null] [--eof[=eof-reť]]\n"
 "       [--replace[=nahr-reť]] [--max-lines[=max-riadkov]] [--interactive]\n"
 "       [--max-chars=max-znakov] [--verbose] [--exit] [--max-procs=max-proc]\n"
 "       [--max-args=max-param] [--no-run-if-empty] [--version] [--help]\n"
 "       [príkaz [počiatočné-parametre]]\n"
-
-#~ msgid "command too long"
-#~ msgstr "príkaz je príliš dlhý"
-
-#~ msgid "can not fit single argument within argument list size limit"
-#~ msgstr ""
-#~ "nemôžem upraviť jediný parameter na veľkosť zodpovedajúcu limitu zoznamu "
-#~ "parametrov"
-
-#~ msgid "argument list too long"
-#~ msgstr "zoznam parametrov je príliš dlhý"
-
-#~ msgid "error in %s: %s"
-#~ msgstr "chyba v %s: %s"
