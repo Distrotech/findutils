@@ -184,7 +184,15 @@ main (int argc, char **argv)
   xstat = lstat;
 #endif /* !DEBUG_STAT */
 
+#if 0  
   human_block_size (getenv ("FIND_BLOCK_SIZE"), 0, &output_block_size);
+#else
+  if (getenv("FIND_BLOCK_SIZE"))
+    {
+      error (1, errno, _("The environment variable FIND_BLOCK_SIZE is not supported"));
+    }
+  
+#endif
 
 #ifdef DEBUG
   printf ("cur_day_start = %s", ctime (&cur_day_start));

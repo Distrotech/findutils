@@ -127,10 +127,15 @@ int stat PARAMS((const char *__path, struct stat *__statbuf));
 #define MODE_RWX	(S_IXUSR | S_IXGRP | S_IXOTH | MODE_RW)
 #define MODE_ALL	(S_ISUID | S_ISGID | S_ISVTX | MODE_RWX)
 
+#if 1
+#include <stdbool.h>
+typedef bool boolean;
+#else
 /* Not char because of type promotion; NeXT gcc can't handle it.  */
 typedef int boolean;
 #define		true    1
 #define		false	0
+#endif
 
 /* Pointer to function returning boolean. */
 typedef boolean (*PFB)();
