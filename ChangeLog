@@ -274,28 +274,6 @@
 	* configure.in, find/defs.h, find/find.c, find/parser.c, find/pred.c, locate/bigram.c, locate/locate.c:
 	Don't need banner to emphasise the location of the call to jy_SORTZ
 
-2004-11-15  James Youngman <jay@gnu.org>
-
-	* import-gnulib.sh:
-	Avoid test -e because not all systems are POSIX-compliant (bug
-	#11005).  Also don't need regex module any more if we're not building
-	in intl.
-
-	* Makefile.am, configure.in:
-	These days gnulib likes to include 'libintl.h' which our very old intl/ directory lacks.   For the moment, disable use of the internal intl/ directory
-
-	* doc/find.texi:
-	Use @ref not @xref for a reference at the beginning of a sentence.
-
-	* intl/Makefile.in:
-	Make sure gnulib.lib is on the #include path (Savannah bug #11002)
-
-	* locate/locate.c:
-	Use base_name instead of basename - fixes Savannah bug 11003.
-
-	* configure.in, find/defs.h, find/find.c, find/parser.c, find/pred.c, locate/bigram.c, locate/locate.c:
-	Don't need banner to emphasise the location of the call to jy_SORTZ
-
 2004-11-12  James Youngman <jay@gnu.org>
 
 	* NEWS, doc/find.texi, find/defs.h, find/find.1, find/find.c, find/parser.c, find/pred.c, find/testsuite/find.gnu/posix-dflt.exp, find/testsuite/find.gnu/posix-dflt.xo, find/testsuite/find.gnu/posix-h.exp, find/testsuite/find.gnu/posix-h.xo, find/testsuite/find.gnu/posix-l.exp, find/testsuite/find.gnu/posix-l.xo, find/util.c:
