@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.3\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-01-25 09:04+0000\n"
+"POT-Creation-Date: 2005-01-29 00:13+0000\n"
 "PO-Revision-Date: 2004-11-03 13:04+0100\n"
 "Last-Translator: Taco Witte <tcwitte@cs.uu.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -450,22 +450,27 @@ msgstr "ongeldig null argument bij -size"
 msgid "invalid -size type `%c'"
 msgstr "ongeldig -size type `%c'"
 
-#: find/parser.c:1525
+#: find/parser.c:1527
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versie %s\n"
 
-#: find/parser.c:1712
+#: find/parser.c:1528
+#, c-format
+msgid "Features enabled: "
+msgstr ""
+
+#: find/parser.c:1740
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "let op: onbekende escape `\\%c'"
 
-#: find/parser.c:1758
+#: find/parser.c:1786
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "let op: onbekende opmaakopdracht `%%%c'"
 
-#: find/parser.c:1864
+#: find/parser.c:1892
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -474,23 +479,23 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:1950
+#: find/parser.c:1978
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:1973
+#: find/parser.c:2001
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2204 find/parser.c:2285
+#: find/parser.c:2232 find/parser.c:2313
 #, c-format
 msgid "inserting %s\n"
 msgstr "tussenvoegen %s\n"
 
-#: find/parser.c:2205 find/parser.c:2286
+#: find/parser.c:2233 find/parser.c:2314
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    type: %s    %s  "
@@ -583,7 +588,7 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Gebruik: %s meest_gebruikelijke_bigrams < lijst > gecodeerde_lijst\n"
 
-#: locate/code.c:132 locate/locate.c:749 xargs/xargs.c:1130
+#: locate/code.c:132 locate/locate.c:785 xargs/xargs.c:1130
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -597,88 +602,89 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU find versie %s\n"
 
-#: locate/locate.c:131
+#: locate/locate.c:133
 msgid "days"
 msgstr "dagen"
 
-#: locate/locate.c:473
+#: locate/locate.c:493
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr ""
 
-#: locate/locate.c:477
+#: locate/locate.c:497
 #, c-format
 msgid "Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:480
+#: locate/locate.c:500
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr ""
 
-#: locate/locate.c:484
+#: locate/locate.c:504
 #, c-format
 msgid ""
 "\n"
 "\tof which %s contain whitespace, "
 msgstr ""
 
-#: locate/locate.c:487
+#: locate/locate.c:507
 #, c-format
 msgid ""
 "\n"
 "\t%s contain newline characters, "
 msgstr ""
 
-#: locate/locate.c:490
+#: locate/locate.c:510
 #, c-format
 msgid ""
 "\n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:494
+#: locate/locate.c:514
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr ""
 
-#: locate/locate.c:606
+#: locate/locate.c:642
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "let op: database `%s' is meer dan %d %s oud"
 
-#: locate/locate.c:630
+#: locate/locate.c:666
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr ""
 
-#: locate/locate.c:632
+#: locate/locate.c:668
 msgid "old"
 msgstr ""
 
-#: locate/locate.c:686
+#: locate/locate.c:722
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "locate-gegevensbank `%s' is kapot of ongeldig"
 
-#: locate/locate.c:742
+#: locate/locate.c:778
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | --existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
-"      [-P | -H | --nofollow] [-L | --follow] [--version]\n"
-"      [--help] pattern...\n"
+"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
+"stdio ]\n"
+"      [-r | --regex ] [--version] [--help] pattern...\n"
 msgstr ""
 "Gebruik: %s [-d pad | --database=pad] [-e | --existing]\n"
 "      [-i | --ignore-case] [--version] [--help] patroon...\n"
 
-#: locate/locate.c:837
+#: locate/locate.c:875
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate versie %s\n"
 
-#: locate/locate.c:868
+#: locate/locate.c:910
 #, fuzzy
 msgid "argument to --limit"
 msgstr "argumentregel te lang"
