@@ -117,11 +117,14 @@ char const *starting_dir = ".";
    unreadable parents.  */
 int starting_desc;
 
+/* The stat buffer of the initial working directory. */
+struct stat starting_stat_buf;
+
 /* If true, we have called stat on the current path. */
 boolean have_stat;
 
 /* The file being operated on, relative to the current directory.
-   Used for stat, readlink, and opendir.  */
+   Used for stat, readlink, remove, and opendir.  */
 char *rel_pathname;
 
 /* Length of current path. */
@@ -274,6 +277,8 @@ main (int argc, char **argv)
       if (! starting_dir)
 	error (1, errno, _("cannot get current directory"));
     }
+  if ((*xstat) (".", &starting_stat_buf) != 0)
+    error (1, errno, _("cannot get current directory"));
 
   /* If no paths are given, default to ".".  */
   for (i = 1; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
@@ -284,12 +289,35 @@ main (int argc, char **argv)
   exit (exit_status);
 }
 
+/* Safely go back to the starting directory. */
+static void
+chdir_back (void)
+{
+  struct stat stat_buf;
+
+  if (starting_desc < 0)
+    {
+      if (chdir (starting_dir) != 0)
+	error (1, errno, "%s", starting_dir);
+      if ((*xstat) (".", &stat_buf) != 0)
+	error (1, errno, "%s", starting_dir);
+      if (stat_buf.st_dev != starting_stat_buf.st_dev ||
+	  stat_buf.st_ino != starting_stat_buf.st_ino)
+	error (1, 0, _("%s changed during execution of %s"), starting_dir, program_name);
+    }
+  else
+    {
+      if (fchdir (starting_desc) != 0)
+	error (1, errno, "%s", starting_dir);
+    }
+}
+
 /* Descend PATHNAME, which is a command-line argument.  */
 
 static void
 process_top_path (char *pathname)
 {
-  struct stat stat_buf;
+  struct stat stat_buf, cur_stat_buf;
 
   curdepth = 0;
   path_length = strlen (pathname);
@@ -306,11 +334,16 @@ process_top_path (char *pathname)
 	  exit_status = 1;
 	  return;
 	}
+
+      /* Check that we are where we should be. */
+      if ((*xstat) (".", &cur_stat_buf) != 0)
+	error (1, errno, "%s", pathname);
+      if (cur_stat_buf.st_dev != stat_buf.st_dev ||
+	  cur_stat_buf.st_ino != stat_buf.st_ino)
+	error (1, 0, _("%s changed during execution of %s"), pathname, program_name);
+
       process_path (pathname, ".", false, ".");
-      if (starting_desc < 0
-	  ? chdir (starting_dir) != 0
-	  : fchdir (starting_desc) != 0)
-	error (1, errno, "%s", starting_dir);
+      chdir_back ();
     }
   else
     process_path (pathname, pathname, false, ".");
@@ -352,6 +385,8 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
   struct stat stat_buf;
   static dev_t root_dev;	/* Device ID of current argument pathname. */
   int i;
+  struct stat dir_buf;
+  int parent_desc;
 
   /* Assume it is a non-directory initially. */
   stat_buf.st_mode = 0;
@@ -445,6 +480,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 {
   char *name_space;		/* Names of files in PATHNAME. */
   int subdirs_left;		/* Number of unexamined subdirs in PATHNAME. */
+  struct stat stat_buf;
 
   subdirs_left = statp->st_nlink - 2; /* Account for name and ".". */
 
@@ -482,6 +518,13 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  exit_status = 1;
 	  return;
 	}
+
+      /* Check that we are where we should be. */
+      if ((*xstat) (".", &stat_buf) != 0)
+	error (1, errno, "%s", pathname);
+      if (stat_buf.st_dev != dir_ids[dir_curr].dev ||
+	  stat_buf.st_ino != dir_ids[dir_curr].ino)
+	error (1, 0, _("%s changed during execution of %s"), starting_dir, program_name);
 
       for (namep = name_space; *namep; namep += file_len - pathname_len + 1)
 	{
@@ -529,15 +572,26 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	    dir = "..";
 	  else
 	    {
-	      if (starting_desc < 0
-		  ? chdir (starting_dir) != 0
-		  : fchdir (starting_desc) != 0)
-		error (1, errno, "%s", starting_dir);
+	      chdir_back ();
 	      dir = parent;
 	    }
 
 	  if (chdir (dir) != 0)
 	    error (1, errno, "%s", parent);
+
+	  /* Check that we are where we should be. */
+	  if ((*xstat) (".", &stat_buf) != 0)
+	    error (1, errno, "%s", pathname);
+	  if (stat_buf.st_dev !=
+	      (dir_curr > 0 ? dir_ids[dir_curr-1].dev : starting_stat_buf.st_dev) ||
+	      stat_buf.st_ino !=
+	      (dir_curr > 0 ? dir_ids[dir_curr-1].ino : starting_stat_buf.st_ino))
+	    {
+	      if (dereference)
+	        error (1, 0, _("%s changed during execution of %s"), parent, program_name);
+	      else
+	        error (1, 0, _("%s/.. changed during execution of %s"), starting_dir, program_name);
+	    }
 	}
 
       if (cur_path)
