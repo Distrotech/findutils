@@ -16,6 +16,8 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
    USA.
 */
+#ifndef INC_DEFS_H
+#define INC_DEFS_H 1
 
 #include <config.h>
 #include <sys/types.h>
@@ -447,3 +449,5 @@ extern int path_length;
 extern int (*xstat) ();
 extern boolean dereference;
 extern boolean warnings;
+
+#endif
