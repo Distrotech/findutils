@@ -23,6 +23,19 @@ and executes the
 followed by arguments read from standard input.  Blank lines on the
 standard input are ignored.
 .P
+Because Unix filenames can contain blanks and newlines, this default
+behaviour is often problematic; filenames containing blanks
+and/or newlines are incorrectly processed by 
+.BR xargs .
+In these situations it is better to use the `-0' option, which
+prevents such problems.   When using this option you will need to 
+ensure that the program which produces the input for 
+.B xargs 
+also uses a null character as a separator.  If that program is 
+GNU 
+.B find
+for example, the `-print0' option does this for you.
+.P
 If any invocation of the command exits with a status of 255, 
 .B xargs 
 will stop immediately without reading any firther input.  An error
@@ -109,7 +122,8 @@ Find files named
 .B core
 in or below the directory 
 .B /tmp 
-and delete them.
+and delete them.  Note that this will work incorrectly if there are 
+any filenames containing newlines or spaces.
 .P
 .B find /tmp -name core -type f -print0 | xargs -0 /bin/rm -f
 

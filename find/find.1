@@ -21,11 +21,9 @@ The first argument that begins with `\-', `(', `)', `,', or `!' is taken
 to be the beginning of the expression; any arguments before it are
 paths to search, and any arguments after it are the rest of the
 expression.  If no paths are given, the current directory is used.  If
-no expression is given, the expression `\-print' is used.
-.PP
-.B find
-exits with status 0 if all files are processed successfully, greater
-than 0 if errors occur.
+no expression is given, the expression `\-print' is used (but you
+should probably consider using `\-print0' instead, anyway).
+.
 .SH EXPRESSIONS
 .P
 The expression is made up of options (which affect overall operation
@@ -265,11 +263,20 @@ Like \-exec but ask the user first (on the standard input); if the
 response does not start with `y' or `Y', do not run the command, and
 return false.
 .IP \-print
-True; print the full file name on the standard output, followed by a newline.
+True; print the full file name on the standard output, followed by a
+newline.   If you are piping the output of 
+.B find 
+into another program and there is the faintest possibility that the files 
+which you are searching for might contain a newline, then you should 
+seriously consider using the `\-print0' option instead of `\-print'.
+
 .IP \-print0
 True; print the full file name on the standard output, followed by a
-null character.  This allows file names that contain newlines to be
+null character (instead of the newline character that `-print' uses).  
+This allows file names that contain newlines to be
 correctly interpreted by programs that process the \fBfind\fR output.
+This option corresponds to the `\-0' option of
+.BR xargs .
 .IP "\-printf \fIformat\fR"
 True; print \fIformat\fR on the standard output, interpreting `\e'
 escapes and `%' directives.  Field widths and precisions can be
@@ -458,6 +465,38 @@ Same as \fIexpr1\fR \-o \fIexpr2\fR.
 List; both \fIexpr1\fR and \fIexpr2\fR are always evaluated.
 The value of \fIexpr1\fR is discarded; the value of the list is the
 value of \fIexpr2\fR.
+.SH "EXAMPLES"
+.nf
+.B find /tmp -name core -type f -print | xargs /bin/rm -f
+
+.fi
+Find files named 
+.B core
+in or below the directory 
+.B /tmp 
+and delete them.  Note that this will work incorrectly if there are 
+any filenames containing newlines or spaces.
+.P
+.B find /tmp -name core -type f -print0 | xargs -0 /bin/rm -f
+
+.fi
+Find files named 
+.B core
+in or below the directory 
+.B /tmp 
+and delete them, processing filenames in such a way that file or 
+directory names containing spaces or newlines are correctly handled.
+.P
+.nf
+.B cut -d: -f1 < /etc/passwd | sort | xargs echo
+
+.fi
+Generates a compact listing of all the users on the system.
+.SH EXIT STATUS
+.PP
+.B find
+exits with status 0 if all files are processed successfully, greater
+than 0 if errors occur.
 .SH "SEE ALSO"
 \fBlocate\fP(1L), \fBlocatedb\fP(5L), \fBupdatedb\fP(1L), \fBxargs\fP(1L)
 \fBFinding Files\fP (on-line in Info, or printed)
