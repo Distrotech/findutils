@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-31 12:11+0000\n"
+"POT-Creation-Date: 2004-11-07 22:33+0000\n"
 "PO-Revision-Date: 2001-06-08 17:02+0200\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -229,7 +229,7 @@ msgstr "oh, oh -- ¡inserción por defecto de `and' inválida!"
 #  ¡Olé! Gracias a tos los de es@li.org que me habeis dado "ruta de acceso".
 #  No se qué significado tendría mi vida sin vuestra ayuda ;), snif ... :~)
 #  IPG
-#: find/util.c:148 find/parser.c:625
+#: find/util.c:148 find/parser.c:693
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Modo de empleo: %s [ruta-de-acceso...] [expresión]\n"
@@ -284,14 +284,14 @@ msgstr "Árbol de Evaluación Optimizado:\n"
 msgid "cannot get current directory"
 msgstr "no se puede obtener el directorio actual"
 
-#: find/find.c:368
+#: find/find.c:378
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:385
+#: find/find.c:395
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -319,7 +319,7 @@ msgstr ""
 #
 # FIXME: Preguntar a Richard Stallman por qué se empeña en usar la
 # palabra virtual. sv
-#: find/find.c:603 find/parser.c:1101
+#: find/find.c:613 find/parser.c:1171
 msgid "virtual memory exhausted"
 msgstr "memoria agotada"
 
@@ -332,7 +332,16 @@ msgstr "error en %s: %s"
 msgid "unknown"
 msgstr "desconocido"
 
-#: find/parser.c:462
+#: find/parser.c:296
+#, c-format
+msgid ""
+"warning: you have specified the %s option after a non-option argument %s, "
+"but options are not positional (%s affects tests specified before it as well "
+"as those specified after it).  Please specify options before other "
+"arguments.\n"
+msgstr ""
+
+#: find/parser.c:530
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -362,13 +371,14 @@ msgstr ""
 # o mejor "si no se da ninguno". sv
 #
 # Lo dejo así. ipg
-#: find/parser.c:627
+#: find/parser.c:695
+#, fuzzy
 msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of:\n"
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
-"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
+"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
 msgstr ""
 "la ruta de acceso por defecto es el directorio actual; la expresión por\n"
 "defecto es -print\n"
@@ -376,12 +386,15 @@ msgstr ""
 "operadores (prioridad decreciente; se supone -and si no se dan):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:632
+#: find/parser.c:700
 #, fuzzy
 msgid ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
-"options (always true): -daystart -delete -depth -follow --help\n"
-"      -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n"
+"positional options (always true): -daystart -follow\n"
+"normal options (always true, specified before other expressions): -depth\n"
+"      --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -"
+"xdev\n"
+"      -ignore_readdir_race -noignore_readdir_race\n"
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"
 msgstr ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
@@ -402,7 +415,7 @@ msgstr ""
 #
 #        También me han sugerido `patrón', pero prefiero EXPR-REG. IPG
 #
-#: find/parser.c:637
+#: find/parser.c:706
 #, fuzzy
 msgid ""
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -415,43 +428,46 @@ msgstr ""
 "      -ipath EXPR-REG -iregex EXPR-REG -links N -lname EXPR-REG\n"
 "      -mmin N -mtime N -name EXPR-REG -newer FICHERO\n"
 
-#: find/parser.c:641
+#: find/parser.c:710
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
-"      -used N -user NAME -xtype [bcdpfls]\n"
+"      -used N -user NAME -xtype [bcdpfls]"
 msgstr ""
 "      -nouser -nogroup -path EXPR-REG -perm [+-]MODO -regex EXPR-REG\n"
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NOMBRE\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:645
+#: find/parser.c:714
+#, fuzzy
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-"      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
+"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
+"delete\n"
+"      -quit\n"
 msgstr ""
 "acciones: -exec ORDEN ; -fprint FICHERO -fprint0 FICHERO\n"
 "      -fprintf FICHERO FORMATO -ok ORDEN ; -print -print0\n"
 "      -printf FORMATO -prune -ls\n"
 
-#: find/parser.c:648
+#: find/parser.c:718
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
 
-#: find/parser.c:679
+#: find/parser.c:749
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 
-#: find/parser.c:722
+#: find/parser.c:792
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 
-#: find/parser.c:1099
+#: find/parser.c:1169
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "modo inválido `%s'"
@@ -460,37 +476,37 @@ msgstr "modo inválido `%s'"
 # un rato rara. (msgstr "el argumento nulo para la opción -size no es válido"). IPG
 # ¿No es demasiado libre? sv
 # Sí, pero lo justo para que explique bien qué coño ha ocurrido :) ipg
-#: find/parser.c:1239
+#: find/parser.c:1309
 msgid "invalid null argument to -size"
 msgstr "no se ha dado el argumento requerido a la opción -size"
 
-#: find/parser.c:1285
+#: find/parser.c:1355
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "tipo dado a -size inválido `%c'"
 
-#: find/parser.c:1373
+#: find/parser.c:1443
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versión %s\n"
 
-#: find/parser.c:1528
+#: find/parser.c:1598
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "atención: secuencia de escape `\\%c' no reconocida"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1574
+#: find/parser.c:1644
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "atención: directiva de formato `%%%c' no reconocida"
 
-#: find/parser.c:1807 find/parser.c:1887
+#: find/parser.c:1877 find/parser.c:1957
 #, c-format
 msgid "inserting %s\n"
 msgstr "insertando %s\n"
 
-#: find/parser.c:1808 find/parser.c:1888
+#: find/parser.c:1878 find/parser.c:1958
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    tipo: %s    %s  "
@@ -624,13 +640,13 @@ msgid "Usage: %s most_common_bigrams < list > coded_list\n"
 msgstr "Modo de empleo: %s bigramas_más_comunes < lista > lista_codificada\n"
 
 #. Printable name of units used in WARN_SECONDS
-#: locate/locate.c:124
+#: locate/locate.c:127
 msgid "days"
 msgstr "días"
 
 #. For example:
 #. warning: database `fred' is more than 8 days old
-#: locate/locate.c:309
+#: locate/locate.c:518
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "atención: la base de datos `%s' tiene una antigüedad de más de %d %s"
@@ -639,21 +655,22 @@ msgstr "atención: la base de datos `%s' tiene una antigüedad de más de %d %s"
 #. * reading in data which is outside our control, we
 #. * cannot prevent it.
 #.
-#: locate/locate.c:388
+#: locate/locate.c:591
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr ""
 
-#: locate/locate.c:476
-#, c-format
+#: locate/locate.c:640
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | --existing]\n"
-"      [-i | --ignore-case] [--version] [--help] pattern...\n"
+"      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n"
+"      [--version] [--help] pattern...\n"
 msgstr ""
 "Modo de empleo: %s [-d ruta-de-acceso | --database=ruta-de-acceso]\n"
 "   [-e | --existing] [-i | --ignore-case] [--version] [--help] expr-reg...\n"
 
-#: locate/locate.c:480 xargs/xargs.c:1085
+#: locate/locate.c:645 xargs/xargs.c:1085
 #, fuzzy
 msgid ""
 "\n"
@@ -662,10 +679,29 @@ msgstr ""
 "\n"
 "Comunicar `bugs' a <bug-findutils@gnu.org>."
 
-#: locate/locate.c:538
+#: locate/locate.c:655
+#, c-format
+msgid ""
+"warning: locate database path `%s' contains a leading colon, which is not a "
+"valid database name"
+msgstr ""
+
+#: locate/locate.c:663
+#, c-format
+msgid ""
+"warning: locate database path `%s' contains a trailing colon, which is not a "
+"valid database name"
+msgstr ""
+
+#: locate/locate.c:748
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate versión %s\n"
+
+#: locate/locate.c:761
+#, fuzzy
+msgid "argument to --limit"
+msgstr "línea de argumentos demasiado larga"
 
 #: xargs/xargs.c:322
 msgid "environment is too large for exec"

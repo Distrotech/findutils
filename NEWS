@@ -8,7 +8,9 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     doesn't support that much).
 *** If you specify a 'find' option after non-option, a warning message 
     is now issued.  Options should be specified immediately after the 
-    list of paths to search.
+    list of paths to search.  These warnings are enabled if you
+    specify the -warn option, or if stdin is a tty.  They are diabled
+    by the use of the -nowarn option.  
 *** Like find, the locate program now supports an option --null (short form -0)
     which changes the result separator from newline to NULL.
 *** Locate supports the option -c (long form --count) which suppresses normal

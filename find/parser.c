@@ -101,6 +101,7 @@ static boolean parse_newer PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_noleaf PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_nogroup PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_nouser PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_nowarn PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_ok PARAMS((char *argv[], int *arg_ptr));
 boolean parse_open PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_or PARAMS((char *argv[], int *arg_ptr));
@@ -123,6 +124,7 @@ static boolean parse_wholename PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_xdev PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_ignore_race PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_noignore_race PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_warn PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_xtype PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_quit PARAMS((char *argv[], int *arg_ptr));
 
@@ -140,6 +142,7 @@ static FILE *open_output_file PARAMS((char *path));
 #ifdef DEBUG
 char *find_pred_name PARAMS((PFB pred_func));
 #endif /* DEBUG */
+
 
 
 enum arg_type
@@ -224,6 +227,7 @@ static struct parser_table const parse_table[] =
   {ARG_TEST,               "nogroup",               parse_nogroup},
   {ARG_TEST,               "nouser",                parse_nouser},
   {ARG_OPTION,             "noignore_readdir_race", parse_noignore_race},/* GNU */
+  {ARG_OPTION,             "nowarn",                parse_nowarn},       /* GNU */
   {ARG_PUNCTUATION,        "o",                     parse_or},
   {ARG_PUNCTUATION,        "or",                    parse_or},		 /* GNU */
   {ARG_ACTION,             "ok",                    parse_ok},
@@ -243,6 +247,7 @@ static struct parser_table const parse_table[] =
   {ARG_TEST,               "user",                  parse_user},
   {ARG_TEST,               "version",               parse_version},	/* GNU */
   {ARG_TEST,               "-version",              parse_version},	/* GNU */
+  {ARG_OPTION,             "warn",                  parse_warn},        /* GNU */
   {ARG_TEST,               "wholename",             parse_wholename},   /* GNU, replaces -path */
   {ARG_TEST,               "xdev",                  parse_xdev},
   {ARG_TEST,               "xtype",                 parse_xtype},	/* GNU */
@@ -289,7 +294,8 @@ find_parser (char *search_name)
 	       */
 	      if (parse_table[i].type == ARG_OPTION)
 		{
-		  if (first_nonoption_arg != NULL)
+		  if ((first_nonoption_arg != NULL)
+		      && warnings )
 		    {
 		      /* option which folows a non-option */
 		      error (0, 0,
@@ -526,9 +532,12 @@ parse_d (char **argv, int *arg_ptr)
 {
   (void) argv;
   (void) arg_ptr;
-  error (0, 0,
-	 _("warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."));
   
+  if (warnings)
+    {
+      error (0, 0,
+	     _("warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."));
+    }
   return parse_depth(argv, arg_ptr);
 }
  
@@ -1071,6 +1080,13 @@ parse_nouser (char **argv, int *arg_ptr)
 }
 
 static boolean
+parse_nowarn (char **argv, int *arg_ptr)
+{
+  warnings = false;
+  return true;;
+}
+
+static boolean
 parse_ok (char **argv, int *arg_ptr)
 {
   return (insert_exec_ok (pred_ok, argv, arg_ptr));
@@ -1462,6 +1478,13 @@ static boolean
 parse_noignore_race (char **argv, int *arg_ptr)
 {
   ignore_readdir_race = false;
+  return true;
+}
+
+static boolean
+parse_warn (char **argv, int *arg_ptr)
+{
+  warnings = true;
   return true;
 }
 

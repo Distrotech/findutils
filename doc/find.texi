@@ -1851,7 +1851,7 @@ might place it in the file your shell runs when you log out
 which shell you use).
 
 @example
-find /tmp -depth -user $LOGNAME -type f -delete 
+find /tmp -depth -user "$LOGNAME" -type f -delete 
 @end example
 
 If your @code{find} command removes directories, you may find that 
@@ -2258,6 +2258,64 @@ Print a summary of the command-line argument format and exit.
 @item --version
 Print the version number of @code{find} and exit.
 @end table
+
+
+@menu
+* Warning Messages::
+@end menu
+
+
+@node Warning Messages,,, Invoking find
+@subsection Warning Messages
+
+If there is an error on the @code{find} command line, an error message
+is normally issued.  However, there are some usages that are
+inadvisable but which @code{find} should still accept.  Under these
+circumstances, @code{find} may issue a warning message.  By default,
+warnings are enabled only if @code{find} is being run interactively
+(specifically, if the standard input is a terminal).  Warning messages
+can be controlled explicitly by the use of options on the command
+line:
+
+@table @code
+@item -warn
+Issue warning messages where appropriate.
+@item -nowarn
+Do not issue warning messages.
+@end table
+
+These options take effect at the point on the command line where they
+are specified.  Therefore if you specify @samp{-nowarn} at the end of
+the command line, you will not see warning messages for any problems
+occurring before that.  The warning messages affected by the above
+options are triggered by:
+
+@itemize @minus
+@item
+Use of the @samp{-d} option which is deprecated; please use
+@samp{-depth} instead, since the latter is POSIX-compliant.
+@item
+Use of the @samp{-ipath} option which is deprecated; please use
+@samp{-iwholename} instead.
+@item 
+Specifying an option (for example @samp{-mindepth}) after a non-option
+(for example @samp{-type} or @samp{-print}) on the command line.
+@end itemize
+
+
+The default behaviour above is designed to work in that way so that
+existing shell scripts which use such constructs don't generate
+spurious errors, but people will be made aware of the problem.
+
+Some warning messages are issued for less common or more serious
+problems, and so cannot be turned off:
+
+@itemize @minus
+@item
+Use of an unrecognised backslash escape sequence with @samp{-fprintf}
+@item
+Use of an unrecognised formatting directive with @samp{-fprintf}
+@end itemize
 
 @node Invoking locate, Invoking updatedb, Invoking find, Reference
 @section Invoking @code{locate}

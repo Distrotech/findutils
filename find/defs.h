@@ -427,3 +427,4 @@ extern int exit_status;
 extern int path_length;
 extern int (*xstat) ();
 extern boolean dereference;
+extern boolean warnings;

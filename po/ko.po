@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-31 12:11+0000\n"
+"POT-Creation-Date: 2004-11-07 22:33+0000\n"
 "PO-Revision-Date: 1996-10-07 22:13+0900\n"
 "Last-Translator: Bang Jun-Young <bangjy@nownuri.nowcom.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -209,7 +209,7 @@ msgstr ""
 msgid "oops -- invalid default insertion of and!"
 msgstr "윽 -- and를 내정치로 부적절하게 삽입했습니다!"
 
-#: find/util.c:148 find/parser.c:625
+#: find/util.c:148 find/parser.c:693
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "사용법: %s [경로...] [수식]\n"
@@ -265,21 +265,21 @@ msgstr "정규화된 평가 트리:\n"
 msgid "cannot get current directory"
 msgstr "시작 디렉토리로 돌아갈 수 없습니다"
 
-#: find/find.c:368
+#: find/find.c:378
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:385
+#: find/find.c:395
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
 "ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:603 find/parser.c:1101
+#: find/find.c:613 find/parser.c:1171
 msgid "virtual memory exhausted"
 msgstr "가상 메모리가 바닥났음"
 
@@ -292,19 +292,29 @@ msgstr "%s에 오류: %s"
 msgid "unknown"
 msgstr "알 수 없음"
 
-#: find/parser.c:462
+#: find/parser.c:296
+#, c-format
+msgid ""
+"warning: you have specified the %s option after a non-option argument %s, "
+"but options are not positional (%s affects tests specified before it as well "
+"as those specified after it).  Please specify options before other "
+"arguments.\n"
+msgstr ""
+
+#: find/parser.c:530
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 
-#: find/parser.c:627
+#: find/parser.c:695
+#, fuzzy
 msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of:\n"
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
-"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
+"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
 msgstr ""
 "기본 경로는 현재 디렉토리입니다; 기본 수식은 -print입니다\n"
 "수식은 다음과 같이 이루어질 수 있습니다:\n"
@@ -312,12 +322,15 @@ msgstr ""
 "됨)\n"
 "      ( EXPR ) | EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:632
+#: find/parser.c:700
 #, fuzzy
 msgid ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
-"options (always true): -daystart -delete -depth -follow --help\n"
-"      -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n"
+"positional options (always true): -daystart -follow\n"
+"normal options (always true, specified before other expressions): -depth\n"
+"      --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -"
+"xdev\n"
+"      -ignore_readdir_race -noignore_readdir_race\n"
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"
 msgstr ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
@@ -325,7 +338,7 @@ msgstr ""
 "      -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n"
 "시험 (N은 +N, -N, N이 될 수 있음): -amin N -answer FILE -atime N -cmin N\n"
 
-#: find/parser.c:637
+#: find/parser.c:706
 msgid ""
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
 "      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
@@ -333,73 +346,76 @@ msgid ""
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 
-#: find/parser.c:641
+#: find/parser.c:710
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
-"      -used N -user NAME -xtype [bcdpfls]\n"
+"      -used N -user NAME -xtype [bcdpfls]"
 msgstr ""
 
-#: find/parser.c:645
+#: find/parser.c:714
+#, fuzzy
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-"      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
+"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
+"delete\n"
+"      -quit\n"
 msgstr ""
 "행동: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
 
-#: find/parser.c:648
+#: find/parser.c:718
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
 
-#: find/parser.c:679
+#: find/parser.c:749
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 
-#: find/parser.c:722
+#: find/parser.c:792
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 
-#: find/parser.c:1099
+#: find/parser.c:1169
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "부적절한 모드 `%s'"
 
-#: find/parser.c:1239
+#: find/parser.c:1309
 msgid "invalid null argument to -size"
 msgstr "-size에 부적절한 널 인수가 주어짐"
 
-#: find/parser.c:1285
+#: find/parser.c:1355
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "부적절한 -size 형 `%c'"
 
-#: find/parser.c:1373
+#: find/parser.c:1443
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find 버전 %s\n"
 
-#: find/parser.c:1528
+#: find/parser.c:1598
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "경고: 인식할 수 없는 이스케이프 `\\%c'"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1574
+#: find/parser.c:1644
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "경고: 인식할 수 없는 형식 지시자 `%%%c'"
 
-#: find/parser.c:1807 find/parser.c:1887
+#: find/parser.c:1877 find/parser.c:1957
 #, c-format
 msgid "inserting %s\n"
 msgstr "%s를 삽입함\n"
 
-#: find/parser.c:1808 find/parser.c:1888
+#: find/parser.c:1878 find/parser.c:1958
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    형: %s    %s  "
@@ -459,13 +475,13 @@ msgid "Usage: %s most_common_bigrams < list > coded_list\n"
 msgstr "사용법: %s most_common_bigrams < list > coded_list\n"
 
 #. Printable name of units used in WARN_SECONDS
-#: locate/locate.c:124
+#: locate/locate.c:127
 msgid "days"
 msgstr ""
 
 #. For example:
 #. warning: database `fred' is more than 8 days old
-#: locate/locate.c:309
+#: locate/locate.c:518
 #, fuzzy, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "경고: 데이터베이스 `%s'는 %s 이상 오래되었습니다"
@@ -474,28 +490,48 @@ msgstr "경고: 데이터베이스 `%s'는 %s 이상 오래되었습니다"
 #. * reading in data which is outside our control, we
 #. * cannot prevent it.
 #.
-#: locate/locate.c:388
+#: locate/locate.c:591
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr ""
 
-#: locate/locate.c:476
+#: locate/locate.c:640
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | --existing]\n"
-"      [-i | --ignore-case] [--version] [--help] pattern...\n"
+"      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n"
+"      [--version] [--help] pattern...\n"
 msgstr "사용법: %s [-d 경로] [--database=경로] [--version] [--help] 패턴...\n"
 
-#: locate/locate.c:480 xargs/xargs.c:1085
+#: locate/locate.c:645 xargs/xargs.c:1085
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
 msgstr ""
 
-#: locate/locate.c:538
+#: locate/locate.c:655
+#, c-format
+msgid ""
+"warning: locate database path `%s' contains a leading colon, which is not a "
+"valid database name"
+msgstr ""
+
+#: locate/locate.c:663
+#, c-format
+msgid ""
+"warning: locate database path `%s' contains a trailing colon, which is not a "
+"valid database name"
+msgstr ""
+
+#: locate/locate.c:748
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate 버전 %s\n"
+
+#: locate/locate.c:761
+#, fuzzy
+msgid "argument to --limit"
+msgstr "인수 행이 너무 깁니다"
 
 #: xargs/xargs.c:322
 msgid "environment is too large for exec"

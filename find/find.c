@@ -149,6 +149,11 @@ int exit_status;
 boolean ignore_readdir_race;
 
 
+/* If true, we issue warning messages
+ */
+boolean warnings;
+
+
 #ifdef DEBUG_STAT
 static int
 debug_stat (file, bufp)
@@ -176,6 +181,16 @@ main (int argc, char **argv)
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
+  if (isatty(0))
+    {
+      warnings = true;
+    }
+  else
+    {
+      warnings = false;
+    }
+  
+  
   predicates = NULL;
   last_pred = NULL;
   do_dir_first = true;

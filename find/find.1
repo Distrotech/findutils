@@ -104,6 +104,13 @@ tree).  If only the files' names need to be examined, there is no need
 to stat them; this gives a significant increase in search speed.
 .IP "\-version, \-\-version"
 Print the \fBfind\fR version number and exit.
+.IP "\-warn, \-nowarn"
+Turn warning messages on or off.  These warnings apply only to the
+command line usage, not to any conditions that 
+.B find 
+might encounter when it searches directories.  The default behaviour
+corresponds to \-warn if standard input is a tty, and to -nowarn
+otherwise.
 .IP \-xdev
 Don't descend directories on other filesystems.
 
