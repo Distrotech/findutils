@@ -24,6 +24,8 @@
 set env(find) ../../find/find
 # use the local help commands for updatedb
 set env(LIBEXECDIR) ..
+# do not ignore any file systems for this test
+set env(PRUNEFS) ""
 global UPDATEDB
 # look for UPDATEDB
 if ![info exists UPDATEDB] {
