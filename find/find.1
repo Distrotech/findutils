@@ -192,7 +192,14 @@ Any of the permission bits \fImode\fR are set for the file.
 File name matches regular expression \fIpattern\fR.  This is a match
 on the whole path, not a search.  For example, to match a file named
 `./fubar3', you can use the regular expression `.*bar.' or `.*b.*3',
-but not `b.*r3'.
+but not `b.*r3'.  The regular expressions understood by 
+.B find 
+follow the conventions for the 
+.B re_match 
+system library function where this is present (i.e. on systems using
+the GNU C Library).  On other systems, the implementation within
+Gnulib is used; by default, Gnulib provides "basic" regular
+expressions.
 .IP "\-size \fIn\fR[bckw]"
 File uses \fIn\fP units of space.  The units are 512-byte blocks by
 default or if `b' follows \fIn\fP, bytes if `c' follows \fIn\fP,
