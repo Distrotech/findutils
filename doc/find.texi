@@ -666,7 +666,9 @@ kilobytes (1024 bytes)
 @end table
 
 The size does not count indirect blocks, but it does count blocks in
-sparse files that are not actually allocated.
+sparse files that are not actually allocated.  This handling of sparse
+files differs from the output of the @samp{%k} and @samp{%b} format
+specifiers for the @samp{-printf} predicate.
 @end deffn
 
 @deffn Test -empty
@@ -1135,9 +1137,12 @@ File's permissions (in octal).
 
 @table @code
 @item %k
-File's size in 1K blocks (rounded up).
+Amount of disk space occupied by the file, measured in 1K blocks
+(rounded up).  This can be less than the length of the file if 
+it is a sparse file (that is, it has ``holes'').
 @item %b
-File's size in 512-byte blocks (rounded up).
+File's size in 512-byte blocks (rounded up).  This also can be less 
+than the length of the file, if the file is sparse.
 @item %s
 File's size in bytes.
 @end table
