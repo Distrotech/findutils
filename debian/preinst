@@ -6,10 +6,11 @@ case "$1" in
   install|upgrade)
       dpkg --assert-support-predepends
       version=$2
-      if dpkg --compare-versions $version le-nl 4.1-14 ; then
+      if dpkg --compare-versions $version le-nl 4.1-15 ; then
 	echo /etc/cron.daily/find has a new format.
 	echo Consider using the new /etc/cron.daily/find
-	echo and modifing /etc/find.conf
+	echo and modifing /etc/updatedb.conf
+	echo Old versions of /etc/cron.daily/find may not work
       fi
       ;;
 
