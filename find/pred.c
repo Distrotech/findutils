@@ -25,6 +25,7 @@
 #include <grp.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <assert.h>
 #include <fcntl.h>
 #include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/dirname.h"
@@ -295,21 +296,15 @@ pred_amin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_and (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  int match = 0;
+  
   if (pred_ptr->pred_left == NULL
       || (*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
 					    pred_ptr->pred_left))
     {
       /* Check whether we need a stat here. */
-      if (pred_ptr->need_stat)
-	{
-	  if (!state.have_stat && (*options.xstat) (state.rel_pathname, stat_buf) != 0)
-	    {
-	      error (0, errno, "%s", pathname);
-	      state.exit_status = 1;
-	      return (false);
-	    }
-	  state.have_stat = true;
-	}
+      if (get_info(pathname, state.rel_pathname, stat_buf, pred_ptr) != 0)
+	    return false;
       return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 						  pred_ptr->pred_right));
     }
@@ -369,16 +364,9 @@ pred_comma (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     (*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
 				       pred_ptr->pred_left);
   /* Check whether we need a stat here. */
-  if (pred_ptr->need_stat)
-    {
-      if (!state.have_stat && (*options.xstat) (state.rel_pathname, stat_buf) != 0)
-	{
-	  error (0, errno, "%s", pathname);
-	  state.exit_status = 1;
-	  return (false);
-	}
-      state.have_stat = true;
-    }
+  /* TODO: what about need_type? */
+  if (get_info(pathname, state.rel_pathname, stat_buf, pred_ptr) != 0)
+    return false;
   return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 					      pred_ptr->pred_right));
 }
@@ -1082,16 +1070,9 @@ boolean
 pred_negate (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   /* Check whether we need a stat here. */
-  if (pred_ptr->need_stat)
-    {
-      if (!state.have_stat && (*options.xstat) (state.rel_pathname, stat_buf) != 0)
-	{
-	  error (0, errno, "%s", pathname);
-	  state.exit_status = 1;
-	  return false;
-	}
-      state.have_stat = true;
-    }
+  /* TODO: what about need_type? */
+  if (get_info(pathname, state.rel_pathname, stat_buf, pred_ptr) != 0)
+    return false;
   return (!(*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 					      pred_ptr->pred_right));
 }
@@ -1222,17 +1203,8 @@ pred_or (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       || !(*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
 					     pred_ptr->pred_left))
     {
-      /* Check whether we need a stat here. */
-      if (pred_ptr->need_stat)
-	{
-	  if (!state.have_stat && (*options.xstat) (state.rel_pathname, stat_buf) != 0)
-	    {
-	      error (0, errno, "%s", pathname);
-	      state.exit_status = 1;
-	      return false;
-	    }
-	  state.have_stat = true;
-	}
+      if (get_info(pathname, state.rel_pathname, stat_buf, pred_ptr) != 0)
+	return false;
       return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 						  pred_ptr->pred_right));
     }
@@ -1384,11 +1356,19 @@ pred_true (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_type (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  mode_t mode = stat_buf->st_mode;
+  mode_t mode;
   mode_t type = pred_ptr->args.type;
 
-  (void) pathname;
+  assert(state.have_type);
+  assert(state.type != 0);
   
+  (void) pathname;
+
+  if (state.have_stat)
+     mode = stat_buf->st_mode;
+  else
+     mode = state.type;
+
 #ifndef S_IFMT
   /* POSIX system; check `mode' the slow way. */
   if ((S_ISBLK (mode) && type == S_IFBLK)
@@ -1803,6 +1783,26 @@ print_tree (FILE *fp, struct predicate *node, int indent)
   fprintf (fp, "pred = %s type = %s prec = %s addr = %p\n",
 	  find_pred_name (node->pred_func),
 	  type_name (node->p_type), prec_name (node->p_prec), node);
+  if (node->need_stat || node->need_type)
+    {
+      int comma = 0;
+      
+      for (i = 0; i < indent; i++)
+	fprintf (fp, "    ");
+      
+      fprintf (fp, "Needs ");
+      if (node->need_stat)
+	{
+	  fprintf (fp, "stat");
+	  comma = 1;
+	}
+      if (node->need_type)
+	{
+	  fprintf (fp, "%stype", comma ? "," : "");
+	}
+      fprintf (fp, "\n");
+    }
+  
   for (i = 0; i < indent; i++)
     fprintf (fp, "    ");
   fprintf (fp, _("left:\n"));
@@ -1893,8 +1893,9 @@ print_optlist (FILE *fp, struct predicate *p)
     {
       print_parenthesised(fp, p->pred_left);
       fprintf (fp,
-	       "%s%s ",
+	       "%s%s%s ",
 	       p->need_stat ? _("[stat called here] ") : "",
+	       p->need_type ? _("[type needed here] ") : "",
 	       blank_rtrim (find_pred_name (p->pred_func), name));
       print_parenthesised(fp, p->pred_right);
     }

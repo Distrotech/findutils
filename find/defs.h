@@ -83,6 +83,10 @@ int optionl_stat PARAMS((const char *name, struct stat *p));
 int optionp_stat PARAMS((const char *name, struct stat *p));
 int optionh_stat PARAMS((const char *name, struct stat *p));
 
+int get_statinfo PARAMS((const char *pathname, const char *name, struct stat *p));
+
+
+
 #ifndef S_ISUID
 # define S_ISUID 0004000
 #endif
@@ -290,7 +294,8 @@ struct predicate
   /* True if this predicate node requires a stat system call to execute. */
   boolean need_stat;
 
-
+  /* True if this predicate node requires knowledge of the file type. */
+  boolean need_type;
 
   /* Information needed by the predicate processor.
      Next to each member are listed the predicates that use it. */
@@ -323,6 +328,10 @@ struct predicate
   struct predicate *pred_left;
   struct predicate *pred_right;
 };
+
+/* find.c. */
+int get_info PARAMS((const char *pathname, const char *name, struct stat *p, struct predicate *pred_ptr));
+
 
 /* find library function declarations.  */
 
@@ -454,6 +463,7 @@ struct predicate *
 get_expr PARAMS((struct predicate **input, short int prev_prec));
 boolean opt_expr PARAMS((struct predicate **eval_treep));
 boolean mark_stat PARAMS((struct predicate *tree));
+boolean mark_type PARAMS((struct predicate *tree));
 
 /* util.c */
 struct predicate *get_new_pred PARAMS((void));
@@ -518,6 +528,10 @@ struct state
   
   /* If true, we have called stat on the current path. */
   boolean have_stat;
+  
+  /* If true, we know the type of the current path. */
+  boolean have_type;
+  mode_t type;			/* this is the actual type */
   
   /* The file being operated on, relative to the current directory.
      Used for stat, readlink, remove, and opendir.  */

@@ -1,6 +1,6 @@
-/* savedir.c -- save the list of files in a directory in a string
+/* savedirinfo.c -- Save the list of files in a directory, with additional information.
 
-   Copyright 1990, 1997, 1998, 1999, 2000, 2001, 2003, 2004 Free
+   Copyright 1990, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005 Free
    Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -17,7 +17,8 @@
    along with this program; if not, write to the Free Software Foundation,
    Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
-/* Written by David MacKenzie <djm@gnu.ai.mit.edu>. */
+/* Written by James Youngman, <jay@gnu.org>. */
+/* Derived from savedir.c, written by David MacKenzie <djm@gnu.org>. */
 
 #if HAVE_CONFIG_H
 # include <config.h>
@@ -67,10 +68,25 @@
 #include "extendbuf.h"
 #include "savedirinfo.h"
 
+/* In order to use struct dirent.d_type, it has to be enabled on the
+ * configure command line, and we have to have a d_type member in 
+ * 'struct dirent'.
+ */
+#if !defined(USE_STRUCT_DIRENT_D_TYPE)
+/* Not enabled, hence pretend it is absent. */
 #undef HAVE_STRUCT_DIRENT_D_TYPE
+#endif
+#if !defined(HAVE_STRUCT_DIRENT_D_TYPE)
+/* Not present, so cannot use it. */
+#undef USE_STRUCT_DIRENT_D_TYPE
+#endif
 
 
-#if defined HAVE_STRUCT_DIRENT_D_TYPE
+#if defined(HAVE_STRUCT_DIRENT_D_TYPE) && defined(USE_STRUCT_DIRENT_D_TYPE)
+/* Convert the value of struct dirent.d_type into a value for 
+ * struct stat.st_mode (at least the file type bits), or zero
+ * if the type is DT_UNKNOWN or is a value we don't know about.
+ */
 static mode_t
 type_to_mode(unsigned type)
 {
@@ -82,19 +98,19 @@ type_to_mode(unsigned type)
     case DT_FIFO: return S_IFIFO;
 #endif
 #ifdef DT_CHR
-    case DT_CHR: return S_IFCHR;
-#endif
-#ifdef DT_DIR
-    case DT_DIR: return S_IFDIR;
-#endif
-#ifdef DT_BLK
-    case DT_BLK: return S_IFBLK;
-#endif
-#ifdef DT_REG
-    case DT_REG: return S_IFREG;
-#endif
-#ifdef DT_LNK
-    case DT_LNK: return S_IFLNK;
+    case DT_CHR:  return S_IFCHR;
+#endif		  
+#ifdef DT_DIR	  
+    case DT_DIR:  return S_IFDIR;
+#endif		  
+#ifdef DT_BLK	  
+    case DT_BLK:  return S_IFBLK;
+#endif		  
+#ifdef DT_REG	  
+    case DT_REG:  return S_IFREG;
+#endif		  
+#ifdef DT_LNK	  
+    case DT_LNK:  return S_IFLNK;
 #endif
 #ifdef DT_SOCK
     case DT_SOCK: return S_IFSOCK;
@@ -119,7 +135,7 @@ savedirinfo (const char *dir, struct savedir_dirinfo **extra)
   struct dirent *dp;
   char *name_space;
   size_t namebuf_allocated = 0u, namebuf_used = 0u;
-#if defined HAVE_STRUCT_DIRENT_D_TYPE
+#if defined(HAVE_STRUCT_DIRENT_D_TYPE) && defined(USE_STRUCT_DIRENT_D_TYPE)
   size_t extra_allocated = 0u, extra_used = 0u;
   struct savedir_dirinfo *info = NULL;
 #endif
@@ -148,7 +164,7 @@ savedirinfo (const char *dir, struct savedir_dirinfo **extra)
 	  namebuf_used += entry_size;
 
 
-#if defined HAVE_STRUCT_DIRENT_D_TYPE
+#if defined(HAVE_STRUCT_DIRENT_D_TYPE) && defined(USE_STRUCT_DIRENT_D_TYPE)
 	  /* Remember the type. */
 	  if (extra)
 	    {
@@ -156,6 +172,7 @@ savedirinfo (const char *dir, struct savedir_dirinfo **extra)
 			       (extra_used+1) * sizeof(struct savedir_dirinfo),
 			       &extra_allocated);
 	      info[extra_used].type_info = type_to_mode(dp->d_type);
+	      ++extra_used;
 	    }
 #endif
 	}
@@ -174,7 +191,7 @@ savedirinfo (const char *dir, struct savedir_dirinfo **extra)
       return NULL;
     }
   
-#if defined HAVE_STRUCT_DIRENT_D_TYPE
+#if defined(HAVE_STRUCT_DIRENT_D_TYPE) && defined(USE_STRUCT_DIRENT_D_TYPE)
   if (extra && info)
     *extra = info;
 #endif

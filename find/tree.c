@@ -372,6 +372,7 @@ set_new_parent (struct predicate *curr, enum predicate_precedence high_prec, str
   new_parent->p_type = BI_OP;
   new_parent->p_prec = high_prec;
   new_parent->need_stat = false;
+  new_parent->need_type = false;
 
   switch (high_prec)
     {
@@ -453,7 +454,44 @@ mark_stat (struct predicate *tree)
       return (false);
 
     default:
-      error (1, 0, _("oops -- invalid expression type!"));
+      error (1, 0, _("oops -- invalid expression type in mark_stat!"));
       return (false);
     }
 }
+
+/* Find the first node in expression tree TREE that we will
+   need to know the file type, if any.   Operates in the same 
+   was as mark_stat().
+*/
+boolean
+mark_type (struct predicate *tree)
+{
+  /* The tree is executed in-order, so walk this way (apologies to Aerosmith)
+     to find the first predicate for which the type information is needed. */
+  switch (tree->p_type)
+    {
+    case NO_TYPE:
+    case PRIMARY_TYPE:
+      return tree->need_type;
+
+    case UNI_OP:
+      if (mark_type (tree->pred_right))
+	tree->need_type = true;
+      return false;
+
+    case BI_OP:
+      /* ANDs and ORs are linked along ->left ending in NULL. */
+      if (tree->pred_left != NULL)
+	mark_type (tree->pred_left);
+
+      if (mark_type (tree->pred_right))
+	tree->need_type = true;
+
+      return false;
+
+    default:
+      error (1, 0, _("oops -- invalid expression type in mark_type!"));
+      return (false);
+    }
+}
+

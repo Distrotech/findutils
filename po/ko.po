@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-01-22 18:41+0000\n"
+"POT-Creation-Date: 2005-01-23 11:18+0000\n"
 "PO-Revision-Date: 1996-10-07 22:13+0900\n"
 "Last-Translator: Bang Jun-Young <bangjy@nownuri.nowcom.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -189,114 +189,123 @@ msgstr ""
 msgid "^[nN]"
 msgstr ""
 
-#: find/util.c:91
+#: find/util.c:92
 msgid "oops -- invalid default insertion of and!"
 msgstr "윽 -- and를 내정치로 부적절하게 삽입했습니다!"
 
-#: find/util.c:149
+#: find/util.c:151
 #, fuzzy, c-format
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "사용법: %s [경로...] [수식]\n"
 
-#: find/find.c:339
+#: find/find.c:381
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
 
-#: find/find.c:406
+#: find/find.c:448
 #, fuzzy
 msgid "paths must precede expression"
 msgstr "부적절한 수식"
 
-#: find/find.c:411
+#: find/find.c:453
 #, fuzzy, c-format
 msgid "invalid predicate `%s'"
 msgstr "부적절한 모드 `%s'"
 
-#: find/find.c:417
+#: find/find.c:459
 #, fuzzy, c-format
 msgid "missing argument to `%s'"
 msgstr "-size에 부적절한 널 인수가 주어짐"
 
-#: find/find.c:419
+#: find/find.c:461
 #, fuzzy, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "-size에 부적절한 널 인수가 주어짐"
 
-#: find/find.c:448
+#: find/find.c:490
 #, c-format
 msgid "Predicate List:\n"
 msgstr ""
 
-#: find/find.c:461
+#: find/find.c:503
 msgid "unexpected extra predicate"
 msgstr ""
 
-#: find/find.c:465
+#: find/find.c:507
 #, fuzzy, c-format
 msgid "Eval Tree:\n"
 msgstr "정규화된 평가 트리:\n"
 
-#: find/find.c:476
+#: find/find.c:520
 #, fuzzy, c-format
 msgid "Optimized Eval Tree:\n"
 msgstr "정규화된 평가 트리:\n"
 
-#: find/find.c:478
+#: find/find.c:522
 #, fuzzy, c-format
 msgid "Optimized command line:\n"
 msgstr "정규화된 평가 트리:\n"
 
-#: find/find.c:493 find/find.c:496
+#: find/find.c:537 find/find.c:540
 #, fuzzy
 msgid "cannot get current directory"
 msgstr "시작 디렉토리로 돌아갈 수 없습니다"
 
-#: find/find.c:722
+#: find/find.c:766
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr ""
 
-#: find/find.c:732
+#: find/find.c:776
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr ""
 
-#: find/find.c:747
+#: find/find.c:791
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:779
+#: find/find.c:823
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
 "ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:1015
+#: find/find.c:1059
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1030
+#: find/find.c:1074
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1034
+#: find/find.c:1078
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1035
+#: find/find.c:1079
 msgid "levels higher in the filesystem hierarchy"
+msgstr ""
+
+#: find/find.c:1453
+#, c-format
+msgid ""
+"WARNING: Hard link count is wrong for %s: this may be a bug in your "
+"filesystem driver.  Automatically turning on find's -noleaf option.  Earlier "
+"results may have failed to include directories that should have been "
+"searched."
 msgstr ""
 
 #: find/fstype.c:231
@@ -424,22 +433,22 @@ msgstr "-size에 부적절한 널 인수가 주어짐"
 msgid "invalid -size type `%c'"
 msgstr "부적절한 -size 형 `%c'"
 
-#: find/parser.c:1524
+#: find/parser.c:1525
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find 버전 %s\n"
 
-#: find/parser.c:1696
+#: find/parser.c:1712
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "경고: 인식할 수 없는 이스케이프 `\\%c'"
 
-#: find/parser.c:1742
+#: find/parser.c:1758
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "경고: 인식할 수 없는 형식 지시자 `%%%c'"
 
-#: find/parser.c:1847
+#: find/parser.c:1864
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -448,42 +457,42 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:1933
+#: find/parser.c:1950
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:1956
+#: find/parser.c:1973
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2187 find/parser.c:2268
+#: find/parser.c:2204 find/parser.c:2285
 #, c-format
 msgid "inserting %s\n"
 msgstr "%s를 삽입함\n"
 
-#: find/parser.c:2188 find/parser.c:2269
+#: find/parser.c:2205 find/parser.c:2286
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    형: %s    %s  "
 
-#: find/pred.c:1152 find/pred.c:1189
+#: find/pred.c:1133 find/pred.c:1170
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr ""
 
-#: find/pred.c:1564 find/pred.c:1664 xargs/xargs.c:962
+#: find/pred.c:1544 find/pred.c:1644 xargs/xargs.c:962
 msgid "cannot fork"
 msgstr ""
 
-#: find/pred.c:1599 find/pred.c:1684
+#: find/pred.c:1579 find/pred.c:1664
 #, c-format
 msgid "error waiting for %s"
 msgstr "%s를 기다리는 도중 오류 발생"
 
-#: find/pred.c:1607 find/pred.c:1690
+#: find/pred.c:1587 find/pred.c:1670
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s가 신호 %d에 의해 종료됨"
@@ -500,6 +509,10 @@ msgstr "오른쪽:\n"
 
 #: find/pred.c:1897
 msgid "[stat called here] "
+msgstr ""
+
+#: find/pred.c:1898
+msgid "[type needed here] "
 msgstr ""
 
 #: find/tree.c:67 find/tree.c:72 find/tree.c:119 find/tree.c:158
@@ -522,7 +535,7 @@ msgid ""
 "one."
 msgstr ""
 
-#: find/tree.c:104 find/tree.c:326 find/tree.c:456
+#: find/tree.c:104 find/tree.c:326
 msgid "oops -- invalid expression type!"
 msgstr "윽 -- 부적절한 수식 형입니다!"
 
@@ -535,6 +548,16 @@ msgstr "윽 -- 부적절한 수식 형입니다!"
 #, c-format
 msgid "Normalized Eval Tree:\n"
 msgstr "정규화된 평가 트리:\n"
+
+#: find/tree.c:457
+#, fuzzy
+msgid "oops -- invalid expression type in mark_stat!"
+msgstr "윽 -- 부적절한 수식 형입니다!"
+
+#: find/tree.c:493
+#, fuzzy
+msgid "oops -- invalid expression type in mark_type!"
+msgstr "윽 -- 부적절한 수식 형입니다!"
 
 #: locate/code.c:128
 #, fuzzy, c-format

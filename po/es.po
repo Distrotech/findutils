@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-01-22 18:41+0000\n"
+"POT-Creation-Date: 2005-01-23 11:18+0000\n"
 "PO-Revision-Date: 2001-06-08 17:02+0200\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -204,7 +204,7 @@ msgstr "^[sS]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:91
+#: find/util.c:92
 msgid "oops -- invalid default insertion of and!"
 msgstr "oh, oh -- ¡inserción por defecto de `and' inválida!"
 
@@ -213,108 +213,117 @@ msgstr "oh, oh -- ¡inserción por defecto de `and' inválida!"
 #  ¡Olé! Gracias a tos los de es@li.org que me habeis dado "ruta de acceso".
 #  No se qué significado tendría mi vida sin vuestra ayuda ;), snif ... :~)
 #  IPG
-#: find/util.c:149
+#: find/util.c:151
 #, fuzzy, c-format
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Modo de empleo: %s [ruta-de-acceso...] [expresión]\n"
 
-#: find/find.c:339
+#: find/find.c:381
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
 
-#: find/find.c:406
+#: find/find.c:448
 msgid "paths must precede expression"
 msgstr "Las rutas-de-acceso deben preceder la expresión"
 
-#: find/find.c:411
+#: find/find.c:453
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "predicado inválido `%s'"
 
-#: find/find.c:417
+#: find/find.c:459
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "no se ha dado el argumento requerido a la opción `%s'"
 
-#: find/find.c:419
+#: find/find.c:461
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "argumento `%s' inválido para la opción `%s'"
 
-#: find/find.c:448
+#: find/find.c:490
 #, c-format
 msgid "Predicate List:\n"
 msgstr "Lista Predicado:\n"
 
-#: find/find.c:461
+#: find/find.c:503
 msgid "unexpected extra predicate"
 msgstr ""
 
-#: find/find.c:465
+#: find/find.c:507
 #, c-format
 msgid "Eval Tree:\n"
 msgstr "Árbol de Evaluación:\n"
 
-#: find/find.c:476
+#: find/find.c:520
 #, c-format
 msgid "Optimized Eval Tree:\n"
 msgstr "Árbol de Evaluación Optimizado:\n"
 
-#: find/find.c:478
+#: find/find.c:522
 #, fuzzy, c-format
 msgid "Optimized command line:\n"
 msgstr "Árbol de Evaluación Optimizado:\n"
 
-#: find/find.c:493 find/find.c:496
+#: find/find.c:537 find/find.c:540
 msgid "cannot get current directory"
 msgstr "no se puede obtener el directorio actual"
 
-#: find/find.c:722
+#: find/find.c:766
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr ""
 
-#: find/find.c:732
+#: find/find.c:776
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr ""
 
-#: find/find.c:747
+#: find/find.c:791
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:779
+#: find/find.c:823
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
 "ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:1015
+#: find/find.c:1059
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1030
+#: find/find.c:1074
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1034
+#: find/find.c:1078
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1035
+#: find/find.c:1079
 msgid "levels higher in the filesystem hierarchy"
+msgstr ""
+
+#: find/find.c:1453
+#, c-format
+msgid ""
+"WARNING: Hard link count is wrong for %s: this may be a bug in your "
+"filesystem driver.  Automatically turning on find's -noleaf option.  Earlier "
+"results may have failed to include directories that should have been "
+"searched."
 msgstr ""
 
 #: find/fstype.c:231
@@ -543,22 +552,22 @@ msgstr "no se ha dado el argumento requerido a la opción -size"
 msgid "invalid -size type `%c'"
 msgstr "tipo dado a -size inválido `%c'"
 
-#: find/parser.c:1524
+#: find/parser.c:1525
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versión %s\n"
 
-#: find/parser.c:1696
+#: find/parser.c:1712
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "atención: secuencia de escape `\\%c' no reconocida"
 
-#: find/parser.c:1742
+#: find/parser.c:1758
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "atención: directiva de formato `%%%c' no reconocida"
 
-#: find/parser.c:1847
+#: find/parser.c:1864
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -567,28 +576,28 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:1933
+#: find/parser.c:1950
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:1956
+#: find/parser.c:1973
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2187 find/parser.c:2268
+#: find/parser.c:2204 find/parser.c:2285
 #, c-format
 msgid "inserting %s\n"
 msgstr "insertando %s\n"
 
-#: find/parser.c:2188 find/parser.c:2269
+#: find/parser.c:2205 find/parser.c:2286
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    tipo: %s    %s  "
 
-#: find/pred.c:1152 find/pred.c:1189
+#: find/pred.c:1133 find/pred.c:1170
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
@@ -633,16 +642,16 @@ msgstr "< %s ... %s > ? "
 # Al fin y al cabo es la coletilla que tengo yo al final de mi
 # comentario, ¿no? Me parece lo mismo, má o meno, pero por no meternos
 # en darle caña y acabar ya esto de una vez :) ...
-#: find/pred.c:1564 find/pred.c:1664 xargs/xargs.c:962
+#: find/pred.c:1544 find/pred.c:1644 xargs/xargs.c:962
 msgid "cannot fork"
 msgstr "falló la llamada al sistema `fork()'"
 
-#: find/pred.c:1599 find/pred.c:1684
+#: find/pred.c:1579 find/pred.c:1664
 #, c-format
 msgid "error waiting for %s"
 msgstr "error esperando al proceso %s"
 
-#: find/pred.c:1607 find/pred.c:1690
+#: find/pred.c:1587 find/pred.c:1670
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s terminado por la señal %d"
@@ -659,6 +668,10 @@ msgstr "derecha:\n"
 
 #: find/pred.c:1897
 msgid "[stat called here] "
+msgstr ""
+
+#: find/pred.c:1898
+msgid "[type needed here] "
 msgstr ""
 
 #: find/tree.c:67 find/tree.c:72 find/tree.c:119 find/tree.c:158
@@ -715,7 +728,7 @@ msgstr ""
 # (Donde menos me pegan es en el "oh, oh", parece cosa de Papá Noel...). sv
 #
 # Será por las fechas ... ;) ok, claudico. ipg
-#: find/tree.c:104 find/tree.c:326 find/tree.c:456
+#: find/tree.c:104 find/tree.c:326
 msgid "oops -- invalid expression type!"
 msgstr "oh, oh -- ¡tipo de expresión inválido!"
 
@@ -762,6 +775,84 @@ msgstr "oh, oh -- ¡tipo de expresión inválido!"
 #, c-format
 msgid "Normalized Eval Tree:\n"
 msgstr "Árbol de Evaluación Normalizado:\n"
+
+# Creo que la traducción ideal de oops sería ¡huy! sv
+# Y si no: ¿A algún español le has visto que diga "oops"?
+#
+# Si :) Todas las mañanas en el espejo. De todas maneras,
+# `¡huy!' creo que no expresa exactamente el `indicar que
+# parece que hay un problema' ... yo creo que quedaría
+# mejor `oh, oh' (Rainman ... :). ipg
+#
+# Pero si después del huy te dicen que la expresión no es válida, está
+# claro que había un problema...
+# Ya, pero puestos, casi podríamos buscar una expresión común para
+# los `oops'
+# Pon `oh, oh', si crees que es lo apropiado.
+# Lo decía más que nada por no dejarlo en inglés siendo el español
+# tan rico y variado para las interjecciones.
+# (Y me consta que tú sabes bastante de esto :-)
+# ¡¡Carajo!! ¿yo?. Voy a dejar `oh, oh', y si a la gente le gusta
+# (a mí me parece coñero), lo dejamos, y si no, ponemos `huy'. ipg
+# Vale. sv
+#
+# Aquí también tengo pensado hacer publicidad ;-) sv
+#
+# Aparte de lo anterior. Si vas a dejar "oh, oh", ¿no sería mejor
+# ponerlo sin tantas exclamaciones? (no me pegan)
+#
+# Ok. ipg
+#
+# Pero yo decía al revés... (como en el original).
+# Lo cambio. sv
+# E incluso si te parece, no ponemos ninguna exclamación en ninguno
+# de los dos sitios.
+# (Donde menos me pegan es en el "oh, oh", parece cosa de Papá Noel...). sv
+#
+# Será por las fechas ... ;) ok, claudico. ipg
+#: find/tree.c:457
+#, fuzzy
+msgid "oops -- invalid expression type in mark_stat!"
+msgstr "oh, oh -- ¡tipo de expresión inválido!"
+
+# Creo que la traducción ideal de oops sería ¡huy! sv
+# Y si no: ¿A algún español le has visto que diga "oops"?
+#
+# Si :) Todas las mañanas en el espejo. De todas maneras,
+# `¡huy!' creo que no expresa exactamente el `indicar que
+# parece que hay un problema' ... yo creo que quedaría
+# mejor `oh, oh' (Rainman ... :). ipg
+#
+# Pero si después del huy te dicen que la expresión no es válida, está
+# claro que había un problema...
+# Ya, pero puestos, casi podríamos buscar una expresión común para
+# los `oops'
+# Pon `oh, oh', si crees que es lo apropiado.
+# Lo decía más que nada por no dejarlo en inglés siendo el español
+# tan rico y variado para las interjecciones.
+# (Y me consta que tú sabes bastante de esto :-)
+# ¡¡Carajo!! ¿yo?. Voy a dejar `oh, oh', y si a la gente le gusta
+# (a mí me parece coñero), lo dejamos, y si no, ponemos `huy'. ipg
+# Vale. sv
+#
+# Aquí también tengo pensado hacer publicidad ;-) sv
+#
+# Aparte de lo anterior. Si vas a dejar "oh, oh", ¿no sería mejor
+# ponerlo sin tantas exclamaciones? (no me pegan)
+#
+# Ok. ipg
+#
+# Pero yo decía al revés... (como en el original).
+# Lo cambio. sv
+# E incluso si te parece, no ponemos ninguna exclamación en ninguno
+# de los dos sitios.
+# (Donde menos me pegan es en el "oh, oh", parece cosa de Papá Noel...). sv
+#
+# Será por las fechas ... ;) ok, claudico. ipg
+#: find/tree.c:493
+#, fuzzy
+msgid "oops -- invalid expression type in mark_type!"
+msgstr "oh, oh -- ¡tipo de expresión inválido!"
 
 #: locate/code.c:128
 #, fuzzy, c-format

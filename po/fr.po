@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.3\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-01-22 18:41+0000\n"
+"POT-Creation-Date: 2005-01-23 11:18+0000\n"
 "PO-Revision-Date: 2004-11-04 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -183,16 +183,16 @@ msgstr "^[yY]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:91
+#: find/util.c:92
 msgid "oops -- invalid default insertion of and!"
 msgstr "L'insertion du paramètre par défaut « and » est invalide."
 
-#: find/util.c:149
+#: find/util.c:151
 #, fuzzy, c-format
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Usage: %s [CHEMIN] [EXPRESSION]\n"
 
-#: find/find.c:339
+#: find/find.c:381
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -201,64 +201,64 @@ msgstr ""
 "chose qui peut affecter la taille de bloc est la variable d'environnement "
 "POSIXLY_CORRECT"
 
-#: find/find.c:406
+#: find/find.c:448
 msgid "paths must precede expression"
 msgstr "les chemins doivent précéder l'expression"
 
-#: find/find.c:411
+#: find/find.c:453
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "prédicat invalide « %s »"
 
-#: find/find.c:417
+#: find/find.c:459
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "Paramètre manquant pour « %s »"
 
-#: find/find.c:419
+#: find/find.c:461
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "Paramètre invalide « %s » pour « %s »"
 
-#: find/find.c:448
+#: find/find.c:490
 #, c-format
 msgid "Predicate List:\n"
 msgstr "Liste des prédicats:\n"
 
-#: find/find.c:461
+#: find/find.c:503
 msgid "unexpected extra predicate"
 msgstr "prédicat superflu inattendu"
 
-#: find/find.c:465
+#: find/find.c:507
 #, c-format
 msgid "Eval Tree:\n"
 msgstr "Arbre de l'évaluation:\n"
 
-#: find/find.c:476
+#: find/find.c:520
 #, c-format
 msgid "Optimized Eval Tree:\n"
 msgstr "Arbre optimisé de l'évalution:\n"
 
-#: find/find.c:478
+#: find/find.c:522
 #, fuzzy, c-format
 msgid "Optimized command line:\n"
 msgstr "Arbre optimisé de l'évalution:\n"
 
-#: find/find.c:493 find/find.c:496
+#: find/find.c:537 find/find.c:540
 msgid "cannot get current directory"
 msgstr "Ne peut trouver le répertoire courant"
 
-#: find/find.c:722
+#: find/find.c:766
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr ""
 
-#: find/find.c:732
+#: find/find.c:776
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr ""
 
-#: find/find.c:747
+#: find/find.c:791
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -267,7 +267,7 @@ msgstr ""
 "%s%s a été modifié durant l'exécution de %s (ancien no de périphérique %ld, "
 "nouveau no de périphérique %ld, type du système de fichiers est %s) [ref %ld]"
 
-#: find/find.c:779
+#: find/find.c:823
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -276,26 +276,35 @@ msgstr ""
 "%s%s a été modifié durant l'exécution de %s (ancien no d'inode %ld, nouveau "
 "no d'inode %ld, type du système de fichiers est %s) [ref %ld]"
 
-#: find/find.c:1015
+#: find/find.c:1059
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1030
+#: find/find.c:1074
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1034
+#: find/find.c:1078
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1035
+#: find/find.c:1079
 msgid "levels higher in the filesystem hierarchy"
+msgstr ""
+
+#: find/find.c:1453
+#, c-format
+msgid ""
+"WARNING: Hard link count is wrong for %s: this may be a bug in your "
+"filesystem driver.  Automatically turning on find's -noleaf option.  Earlier "
+"results may have failed to include directories that should have been "
+"searched."
 msgstr ""
 
 #: find/fstype.c:231
@@ -449,22 +458,22 @@ msgstr "Paramètre nul invalide pour l'option -size"
 msgid "invalid -size type `%c'"
 msgstr "Type invalide pour l'option -size « %c »"
 
-#: find/parser.c:1524
+#: find/parser.c:1525
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "« find » de GNU version %s\n"
 
-#: find/parser.c:1696
+#: find/parser.c:1712
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "AVERTISSEMENT: séquence d'échappement « \\%c » inconnue."
 
-#: find/parser.c:1742
+#: find/parser.c:1758
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "AVERTISSEMENT: directive de formatage « %%%c » inconnue."
 
-#: find/parser.c:1847
+#: find/parser.c:1864
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -473,42 +482,42 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:1933
+#: find/parser.c:1950
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:1956
+#: find/parser.c:1973
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2187 find/parser.c:2268
+#: find/parser.c:2204 find/parser.c:2285
 #, c-format
 msgid "inserting %s\n"
 msgstr "Insertion de %s\n"
 
-#: find/parser.c:2188 find/parser.c:2269
+#: find/parser.c:2205 find/parser.c:2286
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    type: %s    %s  "
 
-#: find/pred.c:1152 find/pred.c:1189
+#: find/pred.c:1133 find/pred.c:1170
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1564 find/pred.c:1664 xargs/xargs.c:962
+#: find/pred.c:1544 find/pred.c:1644 xargs/xargs.c:962
 msgid "cannot fork"
 msgstr "Ne peut faire un clonage (fork)."
 
-#: find/pred.c:1599 find/pred.c:1684
+#: find/pred.c:1579 find/pred.c:1664
 #, c-format
 msgid "error waiting for %s"
 msgstr "Erreur s'attendait à %s"
 
-#: find/pred.c:1607 find/pred.c:1690
+#: find/pred.c:1587 find/pred.c:1670
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s a terminé son exécution par le signal %d"
@@ -525,6 +534,10 @@ msgstr "droit:\n"
 
 #: find/pred.c:1897
 msgid "[stat called here] "
+msgstr ""
+
+#: find/pred.c:1898
+msgid "[type needed here] "
 msgstr ""
 
 #: find/tree.c:67 find/tree.c:72 find/tree.c:119 find/tree.c:158
@@ -547,7 +560,7 @@ msgid ""
 "one."
 msgstr ""
 
-#: find/tree.c:104 find/tree.c:326 find/tree.c:456
+#: find/tree.c:104 find/tree.c:326
 msgid "oops -- invalid expression type!"
 msgstr "Le type d'expression est invalide."
 
@@ -560,6 +573,16 @@ msgstr "Le type d'expression est invalide."
 #, c-format
 msgid "Normalized Eval Tree:\n"
 msgstr "Évalution normalisée de l'arborescence:\n"
+
+#: find/tree.c:457
+#, fuzzy
+msgid "oops -- invalid expression type in mark_stat!"
+msgstr "Le type d'expression est invalide."
+
+#: find/tree.c:493
+#, fuzzy
+msgid "oops -- invalid expression type in mark_type!"
+msgstr "Le type d'expression est invalide."
 
 #: locate/code.c:128
 #, fuzzy, c-format

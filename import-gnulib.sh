@@ -135,3 +135,10 @@ echo
 ) > gnulib/m4/Makefile.am
 
 
+
+# We also need config.rpath, because configure calls it, but for 
+# some reason, "autoreconf -i" doesn't fetch it.  
+for f in config.rpath
+do
+  (set -x; cp "$1"/config/"$f" . )
+done

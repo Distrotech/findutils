@@ -43,7 +43,7 @@
 #include "../gnulib/lib/canonicalize.h"
 #include "closeout.h"
 #include <modetype.h>
-#include "../gnulib/lib/savedir.h"
+#include "savedirinfo.h"
 #include "buildcmd.h"
 
 #ifdef HAVE_LOCALE_H
@@ -70,8 +70,8 @@
 
 
 static void init_mounted_dev_list(void);
-static void process_top_path PARAMS((char *pathname));
-static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent));
+static void process_top_path PARAMS((char *pathname, mode_t mode));
+static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent, mode_t type));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
 
 static void complete_pending_execdirs(struct predicate *p);
@@ -282,8 +282,50 @@ cleanup(void)
       complete_pending_execdirs(eval_tree);
     }
 }
-
-
+
+/* Get the stat information for a file, if it is 
+ * not already known. 
+ */
+int
+get_statinfo (const char *pathname, const char *name, struct stat *p)
+{
+  if (!state.have_stat && (*options.xstat) (name, p) != 0)
+    {
+      if (!options.ignore_readdir_race || (errno != ENOENT) )
+	{
+	  error (0, errno, "%s", pathname);
+	  state.exit_status = 1;
+	}
+      return -1;
+    }
+  state.have_stat = true;
+  state.have_type = true;
+  state.type = p->st_mode;
+  return 0;
+}
+
+/* Get the stat/type information for a file, if it is 
+ * not already known. 
+ */
+int
+get_info (const char *pathname,
+	  const char *name,
+	  struct stat *p,
+	  struct predicate *pred_ptr)
+{
+  /* If we need the full stat info, or we need the type info but don't 
+   * already have it, stat the file now.
+   */
+  if (pred_ptr->need_stat)
+    {
+      return get_statinfo(pathname, state.rel_pathname, p);
+    }
+  if ((pred_ptr->need_type && (0 == state.have_type)))
+    {
+      return get_statinfo(pathname, state.rel_pathname, p);
+    }
+  return 0;
+}
 
 int
 main (int argc, char **argv)
@@ -471,6 +513,8 @@ main (int argc, char **argv)
 
   /* Determine the point, if any, at which to stat the file. */
   mark_stat (eval_tree);
+  /* Determine the point, if any, at which to determine file type. */
+  mark_type (eval_tree);
 
 #ifdef DEBUG
   fprintf (stderr, _("Optimized Eval Tree:\n"));
@@ -498,7 +542,7 @@ main (int argc, char **argv)
   /* If no paths are given, default to ".".  */
   for (i = end_of_leading_options; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
     {
-      process_top_path (argv[i]);
+      process_top_path (argv[i], 0);
     }
 
   /* If there were no path arguments, default to ".". */
@@ -511,7 +555,7 @@ main (int argc, char **argv)
        * "find -printf %H" (note, not "find . -printf %H").
        */
       char defaultpath[2] = ".";
-      process_top_path (defaultpath);
+      process_top_path (defaultpath, 0);
     }
 
   /* If "-exec ... {} +" has been used, there may be some 
@@ -970,11 +1014,11 @@ chdir_back (void)
 
 /* Descend PATHNAME, which is a command-line argument.  */
 static void
-process_top_path (char *pathname)
+process_top_path (char *pathname, mode_t mode)
 {
   state.curdepth = 0;
   state.path_length = strlen (pathname);
-  process_path (pathname, pathname, false, ".");
+  process_path (pathname, pathname, false, ".", mode);
 }
 
 
@@ -1051,7 +1095,8 @@ issue_loop_warning(const char *name, const char *pathname, int level)
    Return nonzero iff PATHNAME is a directory. */
 
 static int
-process_path (char *pathname, char *name, boolean leaf, char *parent)
+process_path (char *pathname, char *name, boolean leaf, char *parent,
+	      mode_t mode)
 {
   struct stat stat_buf;
   static dev_t root_dev;	/* Device ID of current argument pathname. */
@@ -1059,26 +1104,58 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
 
   /* Assume it is a non-directory initially. */
   stat_buf.st_mode = 0;
-
   state.rel_pathname = name;
+  state.type = 0;
+  state.have_stat = false;
+  state.have_type = false;
 
-  if (leaf)
-    state.have_stat = false;
+  /* If we know the type of the directory entry, and it is not a
+   * symbolic link, we may be able to avoid a stat() or lstat() call.
+   */
+  if (mode)
+    {
+      if (S_ISLNK(mode) && following_links())
+	{
+	  /* mode is wrong because we should have followed the symlink. */
+	  if (get_statinfo(pathname, name, &stat_buf) != 0)
+	    return 0;
+	  mode = state.type = stat_buf.st_mode;
+	  state.have_type = true;
+	}
+      else
+	{
+	  state.have_type = true;
+	  stat_buf.st_mode = state.type = mode;
+	}
+    }
   else
     {
-      if ((*options.xstat) (name, &stat_buf) != 0)
+      /* Mode is not yet known; may have to stat the file unless we 
+       * can deduce that it is not a directory (which is all we need to 
+       * know at this stage)
+       */
+      if (leaf)
 	{
-	  if (!options.ignore_readdir_race || (errno != ENOENT) )
-	    {
-	      error (0, errno, "%s", pathname);
-	      state.exit_status = 1;
-	    }
-	  return 0;
+	  state.have_stat = false;
+	  state.have_type = false;;
+	  state.type = 0;
 	}
-      state.have_stat = true;
-    }
+      else
+	{
+	  if (get_statinfo(pathname, name, &stat_buf) != 0)
+	    return 0;
 
-  if (!S_ISDIR (stat_buf.st_mode))
+	  /* If -L is in effect and we are dealing with a symlink,
+	   * st_mode is the mode of the pointed-to file, while mode is
+	   * the mode of the directory entry (S_IFLNK).  Hence now
+	   * that we have the stat information, override "mode".
+	   */
+	  state.type = stat_buf.st_mode;
+	  state.have_type = true;
+	}
+    }
+  
+  if (!S_ISDIR (state.type))
     {
       if (state.curdepth >= options.mindepth)
 	apply_predicate (pathname, &stat_buf, eval_tree);
@@ -1087,6 +1164,15 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
 
   /* From here on, we're working on a directory.  */
 
+  
+  /* Now we really need to stat the directory, even if we knoe the
+   * type, because we need information like struct stat.st_rdev.
+   */
+  if (get_statinfo(pathname, name, &stat_buf) != 0)
+    return 0;
+
+  state.have_stat = true;
+  mode = state.type = stat_buf.st_mode;	/* use full info now that we have it. */
   state.stop_at_current_level =
     options.maxdepth >= 0
     && state.curdepth >= options.maxdepth;
@@ -1236,12 +1322,15 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 {
   char *name_space;		/* Names of files in PATHNAME. */
   int subdirs_left;		/* Number of unexamined subdirs in PATHNAME. */
+  int idx;			/* Which entry are we on? */
   struct stat stat_buf;
-
+  struct savedir_dirinfo *dirinfo;
+  
   subdirs_left = statp->st_nlink - 2; /* Account for name and ".". */
 
   errno = 0;
-  name_space = savedir (name);
+  name_space = savedirinfo (name, &dirinfo);
+  
   if (name_space == NULL)
     {
       assert(errno != 0);
@@ -1326,8 +1415,13 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	}
 #endif
 
-      for (namep = name_space; *namep; namep += file_len - pathname_len + 1)
+      for (idx=0, namep = name_space; *namep; namep += file_len - pathname_len + 1, ++idx)
 	{
+	  /* savedirinfo() may return dirinfo=NULL if extended information 
+	   * is not available. 
+	   */
+	  mode_t mode = dirinfo ? dirinfo[idx].type_info : 0;
+
 	  /* Append this directory entry's name to the path being searched. */
 	  file_len = pathname_len + strlen (namep);
 	  if (file_len > cur_path_size)
@@ -1345,20 +1439,44 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 
 	  state.curdepth++;
 	  if (!options.no_leaf_check)
-	    /* Normal case optimization.
-	       On normal Unix filesystems, a directory that has no
-	       subdirectories has two links: its name, and ".".  Any
-	       additional links are to the ".." entries of its
-	       subdirectories.  Once we have processed as many
-	       subdirectories as there are additional links, we know
-	       that the rest of the entries are non-directories --
-	       in other words, leaf files. */
-	    subdirs_left -= process_path (cur_path, cur_name,
-					  subdirs_left == 0, pathname);
+	    {
+	      if (mode && S_ISDIR(mode) && (subdirs_left == 0))
+		{
+		  /* This is a subdirectory, but the number of directories we 
+		   * have found now exceeds the number we would expect given 
+		   * the hard link count on the parent.   This is likely to be 
+		   * a bug in the filesystem driver (e.g. Linux's 
+		   * /proc filesystem) or may just be a fact that the OS 
+		   * doesn't really handle hard links with Unix semantics.
+		   * In the latter case, -noleaf should be used routinely.
+		   */
+		  error(0, 0, _("WARNING: Hard link count is wrong for %s: this may be a bug in your filesystem driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
+			parent);
+		  state.exit_status = 1; /* We know the result is wrong, now */
+		  options.no_leaf_check = true;	/* Don't make same
+						   mistake again */
+		  subdirs_left = 1; /* band-aid for this iteration. */
+		}
+	      
+	      /* Normal case optimization.  On normal Unix
+		 filesystems, a directory that has no subdirectories
+		 has two links: its name, and ".".  Any additional
+		 links are to the ".." entries of its subdirectories.
+		 Once we have processed as many subdirectories as
+		 there are additional links, we know that the rest of
+		 the entries are non-directories -- in other words,
+		 leaf files. */
+	      subdirs_left -= process_path (cur_path, cur_name,
+					    subdirs_left == 0, pathname,
+					    mode);
+	    }
 	  else
-	    /* There might be weird (e.g., CD-ROM or MS-DOS) filesystems
-	       mounted, which don't have Unix-like directory link counts. */
-	    process_path (cur_path, cur_name, false, pathname);
+	    {
+	      /* There might be weird (e.g., CD-ROM or MS-DOS) filesystems
+		 mounted, which don't have Unix-like directory link counts. */
+	      process_path (cur_path, cur_name, false, pathname, mode);
+	    }
+	  
 	  state.curdepth--;
 	}
 
@@ -1485,6 +1603,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
       if (cur_path)
 	free (cur_path);
       free (name_space);
+      free (dirinfo);
     }
 }
 

@@ -68,6 +68,7 @@ get_new_pred (void)
   last_pred->side_effects = false;
   last_pred->no_default_print = false;
   last_pred->need_stat = true;
+  last_pred->need_type = true;
   last_pred->args.str = NULL;
   last_pred->pred_next = NULL;
   last_pred->pred_left = NULL;
@@ -101,6 +102,7 @@ get_new_pred_chk_op (void)
 	new_pred->p_type = BI_OP;
 	new_pred->p_prec = AND_PREC;
 	new_pred->need_stat = false;
+	new_pred->need_type = false;
 	new_pred->args.str = NULL;
 
       default:
