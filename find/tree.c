@@ -60,7 +60,7 @@ static struct predicate *set_new_parent PARAMS((struct predicate *curr, enum pre
 struct predicate *
 get_expr (struct predicate **input, short int prev_prec)
 {
-  struct predicate *next;
+  struct predicate *next = NULL;
 
   if (*input == NULL)
     error (1, 0, _("invalid expression"));
@@ -235,6 +235,7 @@ opt_expr (struct predicate **eval_treep)
 
   /* Rearrange the predicates. */
   prevp = eval_treep;
+  biop_prec = NO_PREC; /* not COMMA_PREC */
   if ((*prevp) && (*prevp)->p_type == BI_OP)
     biop_prec = (*prevp)->p_prec;
   while ((curr = *prevp) != NULL)

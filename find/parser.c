@@ -1789,8 +1789,6 @@ insert_time (char **argv, int *arg_ptr, PFB pred)
 static boolean
 get_num (char *str, uintmax_t *num, enum comparison_type *comp_type)
 {
-  int len_num;			/* Length of field. */
-
   if (str == NULL)
     return (false);
   switch (str[0])
