@@ -34,26 +34,6 @@
 #endif
 
 
-/* Return the last component of pathname FNAME, with leading slashes
-   compressed into one slash. */
-
-#ifndef HAVE_BASENAME
-const char *
-basename (fname)
-     const char *fname;
-{
-  const char *p;
-
-  /* For "/", "//", etc., return "/". */
-  for (p = fname; *p == '/'; ++p)
-    /* Do nothing. */ ;
-  if (*p == '\0')
-    return p - 1;
-  p = strrchr (fname, '/');
-  return (p == NULL ? fname : p + 1);
-}
-#endif /* not HAVE_BASENAME */
-
 /* Return a pointer to a new predicate structure, which has been
    linked in as the last one in the predicates list.
 
@@ -63,7 +43,7 @@ basename (fname)
    Set all cells in the new structure to the default values. */
 
 struct predicate *
-get_new_pred ()
+get_new_pred (void)
 {
   register struct predicate *new_pred;
 
@@ -99,7 +79,7 @@ get_new_pred ()
    predicate is an operator.  If it isn't, the AND operator is inserted. */
 
 struct predicate *
-get_new_pred_chk_op ()
+get_new_pred_chk_op (void)
 {
   struct predicate *new_pred;
 
@@ -145,8 +125,7 @@ get_new_pred_chk_op ()
    operator. */
 
 struct predicate *
-insert_primary (pred_func)
-     boolean (*pred_func) ();
+insert_primary (boolean (*pred_func) (/* ??? */))
 {
   struct predicate *new_pred;
 
@@ -162,8 +141,7 @@ insert_primary (pred_func)
 }
 
 void
-usage (msg)
-     char *msg;
+usage (char *msg)
 {
   if (msg)
     fprintf (stderr, "%s: %s\n", program_name, msg);

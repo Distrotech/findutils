@@ -33,9 +33,11 @@
 # define N_(String) (String)
 #endif
 
-static struct predicate *scan_rest P_((struct predicate **input, struct predicate *head, int prev_prec));
-static void merge_pred P_((struct predicate *beg_list, struct predicate *end_list, struct predicate **last_p));
-static struct predicate *set_new_parent P_((struct predicate *curr, enum predicate_precedence high_prec, struct predicate **prevp));
+static struct predicate *scan_rest PARAMS((struct predicate **input,
+				       struct predicate *head,
+				       short int prev_prec));
+static void merge_pred PARAMS((struct predicate *beg_list, struct predicate *end_list, struct predicate **last_p));
+static struct predicate *set_new_parent PARAMS((struct predicate *curr, enum predicate_precedence high_prec, struct predicate **prevp));
 
 /* Return a pointer to a tree that represents the
    expression prior to non-unary operator *INPUT.
@@ -57,9 +59,7 @@ static struct predicate *set_new_parent P_((struct predicate *curr, enum predica
    our caller, so get_expr recurses. */
 
 struct predicate *
-get_expr (input, prev_prec)
-     struct predicate **input;
-     short prev_prec;
+get_expr (struct predicate **input, short int prev_prec)
 {
   struct predicate *next;
 
@@ -128,10 +128,9 @@ get_expr (input, prev_prec)
    PREV_PREC is the precedence of the previous predicate element. */
 
 static struct predicate *
-scan_rest (input, head, prev_prec)
-     struct predicate **input;
-     struct predicate *head;
-     short prev_prec;
+scan_rest (struct predicate **input,
+	   struct predicate *head,
+	   short int prev_prec)
 {
   struct predicate *tree;	/* The new tree we are building. */
 
@@ -188,8 +187,7 @@ scan_rest (input, head, prev_prec)
      Return true if the tree contains side effects, false if not. */
 
 boolean
-opt_expr (eval_treep)
-     struct predicate **eval_treep;
+opt_expr (struct predicate **eval_treep)
 {
   /* List of -name and -path predicates to move. */
   struct predicate *name_list = NULL;
@@ -349,10 +347,7 @@ opt_expr (eval_treep)
    HIGH_PREC. */
 
 static struct predicate *
-set_new_parent (curr, high_prec, prevp)
-     struct predicate *curr;
-     enum predicate_precedence high_prec;
-     struct predicate **prevp;
+set_new_parent (struct predicate *curr, enum predicate_precedence high_prec, struct predicate **prevp)
 {
   struct predicate *new_parent;
 
@@ -397,8 +392,7 @@ set_new_parent (curr, high_prec, prevp)
    into the tree at LAST_P. */
 
 static void
-merge_pred (beg_list, end_list, last_p)
-     struct predicate *beg_list, *end_list, **last_p;
+merge_pred (struct predicate *beg_list, struct predicate *end_list, struct predicate **last_p)
 {
   end_list->pred_left = *last_p;
   *last_p = beg_list;
@@ -415,8 +409,7 @@ merge_pred (beg_list, end_list, last_p)
    in TREE requires a stat, false if not. */
 
 boolean
-mark_stat (tree)
-     struct predicate *tree;
+mark_stat (struct predicate *tree)
 {
   /* The tree is executed in-order, so walk this way (apologies to Aerosmith)
      to find the first predicate for which the stat is needed. */

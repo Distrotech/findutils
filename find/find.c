@@ -55,10 +55,10 @@
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
 
-static void process_top_path P_((char *pathname));
-static int process_path P_((char *pathname, char *name, boolean leaf, char *parent));
-static void process_dir P_((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
-static boolean no_side_effects P_((struct predicate *pred));
+static void process_top_path PARAMS((char *pathname));
+static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent));
+static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
+static boolean no_side_effects PARAMS((struct predicate *pred));
 
 /* Name this program was run with. */
 char *program_name;
@@ -143,9 +143,7 @@ debug_stat (file, bufp)
 #endif /* DEBUG_STAT */
 
 int
-main (argc, argv)
-     int argc;
-     char *argv[];
+main (int argc, char **argv)
 {
   int i;
   PFB parse_function;		/* Pointer to who is to do the parsing. */
@@ -278,8 +276,7 @@ main (argc, argv)
 /* Descend PATHNAME, which is a command-line argument.  */
 
 static void
-process_top_path (pathname)
-     char *pathname;
+process_top_path (char *pathname)
 {
   struct stat stat_buf;
 
@@ -342,11 +339,7 @@ static int dir_curr = -1;
    Return nonzero iff PATHNAME is a directory. */
 
 static int
-process_path (pathname, name, leaf, parent)
-     char *pathname;
-     char *name;
-     boolean leaf;
-     char *parent;
+process_path (char *pathname, char *name, boolean leaf, char *parent)
 {
   struct stat stat_buf;
   static dev_t root_dev;	/* Device ID of current argument pathname. */
@@ -408,6 +401,11 @@ process_path (pathname, name, leaf, parent)
   if (do_dir_first && curdepth >= mindepth)
     apply_predicate (pathname, &stat_buf, eval_tree);
 
+#ifdef DEBUG
+  fprintf(stderr, "pathname = %s, stop_at_current_level = %d\n",
+	  pathname, stop_at_current_level);
+#endif /* DEBUG */
+  
   if (stop_at_current_level == false)
     /* Scan directory on disk. */
     process_dir (pathname, name, strlen (pathname), &stat_buf, parent);
@@ -435,12 +433,7 @@ process_path (pathname, name, leaf, parent)
    starting directory.  */
 
 static void
-process_dir (pathname, name, pathlen, statp, parent)
-     char *pathname;
-     char *name;
-     int pathlen;
-     struct stat *statp;
-     char *parent;
+process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *parent)
 {
   char *name_space;		/* Names of files in PATHNAME. */
   int subdirs_left;		/* Number of unexamined subdirs in PATHNAME. */
@@ -550,8 +543,7 @@ process_dir (pathname, name, pathlen, statp, parent)
    predicate list PRED, false if there are any. */
 
 static boolean
-no_side_effects (pred)
-     struct predicate *pred;
+no_side_effects (struct predicate *pred)
 {
   while (pred != NULL)
     {

@@ -55,81 +55,81 @@
 #define endpwent()
 #endif
 
-static boolean parse_amin P_((char *argv[], int *arg_ptr));
-static boolean parse_and P_((char *argv[], int *arg_ptr));
-static boolean parse_anewer P_((char *argv[], int *arg_ptr));
-static boolean parse_atime P_((char *argv[], int *arg_ptr));
-boolean parse_close P_((char *argv[], int *arg_ptr));
-static boolean parse_cmin P_((char *argv[], int *arg_ptr));
-static boolean parse_cnewer P_((char *argv[], int *arg_ptr));
-static boolean parse_comma P_((char *argv[], int *arg_ptr));
-static boolean parse_ctime P_((char *argv[], int *arg_ptr));
-static boolean parse_daystart P_((char *argv[], int *arg_ptr));
-static boolean parse_depth P_((char *argv[], int *arg_ptr));
-static boolean parse_empty P_((char *argv[], int *arg_ptr));
-static boolean parse_exec P_((char *argv[], int *arg_ptr));
-static boolean parse_false P_((char *argv[], int *arg_ptr));
-static boolean parse_fls P_((char *argv[], int *arg_ptr));
-static boolean parse_fprintf P_((char *argv[], int *arg_ptr));
-static boolean parse_follow P_((char *argv[], int *arg_ptr));
-static boolean parse_fprint P_((char *argv[], int *arg_ptr));
-static boolean parse_fprint0 P_((char *argv[], int *arg_ptr));
-static boolean parse_fstype P_((char *argv[], int *arg_ptr));
-static boolean parse_gid P_((char *argv[], int *arg_ptr));
-static boolean parse_group P_((char *argv[], int *arg_ptr));
-static boolean parse_help P_((char *argv[], int *arg_ptr));
-static boolean parse_ilname P_((char *argv[], int *arg_ptr));
-static boolean parse_iname P_((char *argv[], int *arg_ptr));
-static boolean parse_inum P_((char *argv[], int *arg_ptr));
-static boolean parse_ipath P_((char *argv[], int *arg_ptr));
-static boolean parse_iregex P_((char *argv[], int *arg_ptr));
-static boolean parse_links P_((char *argv[], int *arg_ptr));
-static boolean parse_lname P_((char *argv[], int *arg_ptr));
-static boolean parse_ls P_((char *argv[], int *arg_ptr));
-static boolean parse_maxdepth P_((char *argv[], int *arg_ptr));
-static boolean parse_mindepth P_((char *argv[], int *arg_ptr));
-static boolean parse_mmin P_((char *argv[], int *arg_ptr));
-static boolean parse_mtime P_((char *argv[], int *arg_ptr));
-static boolean parse_name P_((char *argv[], int *arg_ptr));
-static boolean parse_negate P_((char *argv[], int *arg_ptr));
-static boolean parse_newer P_((char *argv[], int *arg_ptr));
-static boolean parse_noleaf P_((char *argv[], int *arg_ptr));
-static boolean parse_nogroup P_((char *argv[], int *arg_ptr));
-static boolean parse_nouser P_((char *argv[], int *arg_ptr));
-static boolean parse_ok P_((char *argv[], int *arg_ptr));
-boolean parse_open P_((char *argv[], int *arg_ptr));
-static boolean parse_or P_((char *argv[], int *arg_ptr));
-static boolean parse_path P_((char *argv[], int *arg_ptr));
-static boolean parse_perm P_((char *argv[], int *arg_ptr));
-boolean parse_print P_((char *argv[], int *arg_ptr));
-static boolean parse_print0 P_((char *argv[], int *arg_ptr));
-static boolean parse_printf P_((char *argv[], int *arg_ptr));
-static boolean parse_prune P_((char *argv[], int *arg_ptr));
-static boolean parse_regex P_((char *argv[], int *arg_ptr));
-static boolean insert_regex P_((char *argv[], int *arg_ptr, boolean ignore_case));
-static boolean parse_size P_((char *argv[], int *arg_ptr));
-static boolean parse_true P_((char *argv[], int *arg_ptr));
-static boolean parse_type P_((char *argv[], int *arg_ptr));
-static boolean parse_uid P_((char *argv[], int *arg_ptr));
-static boolean parse_used P_((char *argv[], int *arg_ptr));
-static boolean parse_user P_((char *argv[], int *arg_ptr));
-static boolean parse_version P_((char *argv[], int *arg_ptr));
-static boolean parse_xdev P_((char *argv[], int *arg_ptr));
-static boolean parse_xtype P_((char *argv[], int *arg_ptr));
+static boolean parse_amin PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_and PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_anewer PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_atime PARAMS((char *argv[], int *arg_ptr));
+boolean parse_close PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_cmin PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_cnewer PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_comma PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_ctime PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_daystart PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_depth PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_empty PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_exec PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_false PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_fls PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_fprintf PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_follow PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_fprint PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_fprint0 PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_fstype PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_gid PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_group PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_help PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_ilname PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_iname PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_inum PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_ipath PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_iregex PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_links PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_lname PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_ls PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_maxdepth PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_mindepth PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_mmin PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_mtime PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_name PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_negate PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_newer PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_noleaf PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_nogroup PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_nouser PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_ok PARAMS((char *argv[], int *arg_ptr));
+boolean parse_open PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_or PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_path PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_perm PARAMS((char *argv[], int *arg_ptr));
+boolean parse_print PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_print0 PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_printf PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_prune PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_regex PARAMS((char *argv[], int *arg_ptr));
+static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, boolean ignore_case));
+static boolean parse_size PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_true PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_type PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_uid PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_used PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_user PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_version PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_xdev PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_xtype PARAMS((char *argv[], int *arg_ptr));
 
-static boolean insert_regex P_((char *argv[], int *arg_ptr, boolean ignore_case));
-static boolean insert_type P_((char *argv[], int *arg_ptr, boolean (*which_pred )()));
-static boolean insert_fprintf P_((FILE *fp, boolean (*func )(), char *argv[], int *arg_ptr));
-static struct segment **make_segment P_((struct segment **segment, char *format, int len, int kind));
-static boolean insert_exec_ok P_((boolean (*func )(), char *argv[], int *arg_ptr));
-static boolean get_num_days P_((char *str, unsigned long *num_days, enum comparison_type *comp_type));
-static boolean insert_time P_((char *argv[], int *arg_ptr, PFB pred));
-static boolean get_num P_((char *str, unsigned long *num, enum comparison_type *comp_type));
-static boolean insert_num P_((char *argv[], int *arg_ptr, PFB pred));
-static FILE *open_output_file P_((char *path));
+static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, boolean ignore_case));
+static boolean insert_type PARAMS((char *argv[], int *arg_ptr, boolean (*which_pred )()));
+static boolean insert_fprintf PARAMS((FILE *fp, boolean (*func )(), char *argv[], int *arg_ptr));
+static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len, int kind));
+static boolean insert_exec_ok PARAMS((boolean (*func )(), char *argv[], int *arg_ptr));
+static boolean get_num_days PARAMS((char *str, unsigned long *num_days, enum comparison_type *comp_type));
+static boolean insert_time PARAMS((char *argv[], int *arg_ptr, PFB pred));
+static boolean get_num PARAMS((char *str, unsigned long *num, enum comparison_type *comp_type));
+static boolean insert_num PARAMS((char *argv[], int *arg_ptr, PFB pred));
+static FILE *open_output_file PARAMS((char *path));
 
 #ifdef DEBUG
-char *find_pred_name P_((PFB pred_func));
+char *find_pred_name PARAMS((PFB pred_func));
 #endif /* DEBUG */
 
 struct parser_table
@@ -226,8 +226,7 @@ static struct parser_table const parse_table[] =
    Return NULL if SEARCH_NAME is not a valid predicate name. */
 
 PFB
-find_parser (search_name)
-     char *search_name;
+find_parser (char *search_name)
 {
   int i;
 
@@ -250,9 +249,7 @@ find_parser (search_name)
    The predicate structure is updated with the new information. */
 
 static boolean
-parse_amin (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_amin (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   unsigned long num;
@@ -270,9 +267,7 @@ parse_amin (argv, arg_ptr)
 }
 
 static boolean
-parse_and (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_and (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -288,9 +283,7 @@ parse_and (argv, arg_ptr)
 }
 
 static boolean
-parse_anewer (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_anewer (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   struct stat stat_newer;
@@ -306,17 +299,13 @@ parse_anewer (argv, arg_ptr)
 }
 
 static boolean
-parse_atime (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_atime (char **argv, int *arg_ptr)
 {
   return (insert_time (argv, arg_ptr, pred_atime));
 }
 
 boolean
-parse_close (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_close (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -332,9 +321,7 @@ parse_close (argv, arg_ptr)
 }
 
 static boolean
-parse_cmin (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_cmin (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   unsigned long num;
@@ -352,9 +339,7 @@ parse_cmin (argv, arg_ptr)
 }
 
 static boolean
-parse_cnewer (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_cnewer (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   struct stat stat_newer;
@@ -370,9 +355,7 @@ parse_cnewer (argv, arg_ptr)
 }
 
 static boolean
-parse_comma (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_comma (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -388,17 +371,13 @@ parse_comma (argv, arg_ptr)
 }
 
 static boolean
-parse_ctime (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_ctime (char **argv, int *arg_ptr)
 {
   return (insert_time (argv, arg_ptr, pred_ctime));
 }
 
 static boolean
-parse_daystart (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_daystart (char **argv, int *arg_ptr)
 {
   struct tm *local;
 
@@ -414,35 +393,27 @@ parse_daystart (argv, arg_ptr)
 }
 
 static boolean
-parse_depth (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_depth (char **argv, int *arg_ptr)
 {
   do_dir_first = false;
   return (true);
 }
  
 static boolean
-parse_empty (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_empty (char **argv, int *arg_ptr)
 {
   insert_primary (pred_empty);
   return (true);
 }
 
 static boolean
-parse_exec (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_exec (char **argv, int *arg_ptr)
 {
   return (insert_exec_ok (pred_exec, argv, arg_ptr));
 }
 
 static boolean
-parse_false (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_false (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -452,9 +423,7 @@ parse_false (argv, arg_ptr)
 }
 
 static boolean
-parse_fls (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_fls (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -468,9 +437,7 @@ parse_fls (argv, arg_ptr)
 }
 
 static boolean 
-parse_fprintf (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_fprintf (char **argv, int *arg_ptr)
 {
   FILE *fp;
 
@@ -488,9 +455,7 @@ parse_fprintf (argv, arg_ptr)
 }
 
 static boolean
-parse_follow (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_follow (char **argv, int *arg_ptr)
 {
   dereference = true;
   xstat = stat;
@@ -499,9 +464,7 @@ parse_follow (argv, arg_ptr)
 }
 
 static boolean
-parse_fprint (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_fprint (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -516,9 +479,7 @@ parse_fprint (argv, arg_ptr)
 }
 
 static boolean
-parse_fprint0 (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_fprint0 (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -533,9 +494,7 @@ parse_fprint0 (argv, arg_ptr)
 }
 
 static boolean
-parse_fstype (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_fstype (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -548,17 +507,13 @@ parse_fstype (argv, arg_ptr)
 }
 
 static boolean
-parse_gid (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_gid (char **argv, int *arg_ptr)
 {
   return (insert_num (argv, arg_ptr, pred_gid));
 }
 
 static boolean
-parse_group (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_group (char **argv, int *arg_ptr)
 {
   struct group *cur_gr;
   struct predicate *our_pred;
@@ -585,9 +540,7 @@ parse_group (argv, arg_ptr)
 }
 
 static boolean
-parse_help (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_help (char **argv, int *arg_ptr)
 {
   printf (_("\
 Usage: %s [path...] [expression]\n"), program_name);
@@ -616,9 +569,7 @@ actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n\
 }
 
 static boolean
-parse_ilname (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_ilname (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -631,9 +582,7 @@ parse_ilname (argv, arg_ptr)
 }
 
 static boolean
-parse_iname (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_iname (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -647,17 +596,13 @@ parse_iname (argv, arg_ptr)
 }
 
 static boolean
-parse_inum (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_inum (char **argv, int *arg_ptr)
 {
   return (insert_num (argv, arg_ptr, pred_inum));
 }
 
 static boolean
-parse_ipath (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_ipath (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -671,25 +616,19 @@ parse_ipath (argv, arg_ptr)
 }
 
 static boolean
-parse_iregex (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_iregex (char **argv, int *arg_ptr)
 {
   return insert_regex (argv, arg_ptr, true);
 }
 
 static boolean
-parse_links (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_links (char **argv, int *arg_ptr)
 {
   return (insert_num (argv, arg_ptr, pred_links));
 }
 
 static boolean
-parse_lname (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_lname (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -702,9 +641,7 @@ parse_lname (argv, arg_ptr)
 }
 
 static boolean
-parse_ls (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_ls (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -714,9 +651,7 @@ parse_ls (argv, arg_ptr)
 }
 
 static boolean
-parse_maxdepth (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_maxdepth (char **argv, int *arg_ptr)
 {
   int depth_len;
 
@@ -733,9 +668,7 @@ parse_maxdepth (argv, arg_ptr)
 }
 
 static boolean
-parse_mindepth (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_mindepth (char **argv, int *arg_ptr)
 {
   int depth_len;
 
@@ -752,9 +685,7 @@ parse_mindepth (argv, arg_ptr)
 }
 
 static boolean
-parse_mmin (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_mmin (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   unsigned long num;
@@ -772,17 +703,13 @@ parse_mmin (argv, arg_ptr)
 }
 
 static boolean
-parse_mtime (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_mtime (char **argv, int *arg_ptr)
 {
   return (insert_time (argv, arg_ptr, pred_mtime));
 }
 
 static boolean
-parse_name (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_name (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -796,9 +723,7 @@ parse_name (argv, arg_ptr)
 }
 
 static boolean
-parse_negate (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_negate (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -814,9 +739,7 @@ parse_negate (argv, arg_ptr)
 }
 
 static boolean
-parse_newer (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_newer (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   struct stat stat_newer;
@@ -832,9 +755,7 @@ parse_newer (argv, arg_ptr)
 }
 
 static boolean
-parse_noleaf (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_noleaf (char **argv, int *arg_ptr)
 {
   no_leaf_check = true;
   return true;
@@ -857,9 +778,7 @@ unsigned gid_allocated;
 #endif
 
 static boolean
-parse_nogroup (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_nogroup (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -892,9 +811,7 @@ parse_nogroup (argv, arg_ptr)
 }
 
 static boolean
-parse_nouser (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_nouser (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -927,17 +844,13 @@ parse_nouser (argv, arg_ptr)
 }
 
 static boolean
-parse_ok (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_ok (char **argv, int *arg_ptr)
 {
   return (insert_exec_ok (pred_ok, argv, arg_ptr));
 }
 
 boolean
-parse_open (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_open (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -953,9 +866,7 @@ parse_open (argv, arg_ptr)
 }
 
 static boolean
-parse_or (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_or (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -971,9 +882,7 @@ parse_or (argv, arg_ptr)
 }
 
 static boolean
-parse_path (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_path (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -987,9 +896,7 @@ parse_path (argv, arg_ptr)
 }
 
 static boolean
-parse_perm (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_perm (char **argv, int *arg_ptr)
 {
   unsigned long perm_val;
   int mode_start = 0;
@@ -1040,9 +947,7 @@ parse_perm (argv, arg_ptr)
 }
 
 boolean
-parse_print (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_print (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -1056,9 +961,7 @@ parse_print (argv, arg_ptr)
 }
 
 static boolean
-parse_print0 (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_print0 (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -1072,9 +975,7 @@ parse_print0 (argv, arg_ptr)
 }
 
 static boolean
-parse_printf (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_printf (char **argv, int *arg_ptr)
 {
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
@@ -1082,9 +983,7 @@ parse_printf (argv, arg_ptr)
 }
 
 static boolean
-parse_prune (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_prune (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -1094,18 +993,13 @@ parse_prune (argv, arg_ptr)
 }
 
 static boolean
-parse_regex (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_regex (char **argv, int *arg_ptr)
 {
   return insert_regex (argv, arg_ptr, false);
 }
 
 static boolean
-insert_regex (argv, arg_ptr, ignore_case)
-     char *argv[];
-     int *arg_ptr;
-     boolean ignore_case;
+insert_regex (char **argv, int *arg_ptr, boolean ignore_case)
 {
   struct predicate *our_pred;
   struct re_pattern_buffer *re;
@@ -1143,9 +1037,7 @@ insert_regex (argv, arg_ptr, ignore_case)
 }
 
 static boolean
-parse_size (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_size (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   unsigned long num;
@@ -1206,9 +1098,7 @@ parse_size (argv, arg_ptr)
 }
 
 static boolean
-parse_true (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_true (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -1218,26 +1108,19 @@ parse_true (argv, arg_ptr)
 }
 
 static boolean
-parse_type (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_type (char **argv, int *arg_ptr)
 {
   return insert_type (argv, arg_ptr, pred_type);
 }
 
 static boolean
-parse_uid (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_uid (char **argv, int *arg_ptr)
 {
   return (insert_num (argv, arg_ptr, pred_uid));
 }
 
 static boolean
-parse_used (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
-
+parse_used (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   unsigned long num_days;
@@ -1255,9 +1138,7 @@ parse_used (argv, arg_ptr)
 }
 
 static boolean
-parse_user (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_user (char **argv, int *arg_ptr)
 {
   struct passwd *cur_pwd;
   struct predicate *our_pred;
@@ -1284,9 +1165,7 @@ parse_user (argv, arg_ptr)
 }
 
 static boolean
-parse_version (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_version (char **argv, int *arg_ptr)
 {
   extern char *version_string;
 
@@ -1296,27 +1175,20 @@ parse_version (argv, arg_ptr)
 }
 
 static boolean
-parse_xdev (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_xdev (char **argv, int *arg_ptr)
 {
   stay_on_filesystem = true;
   return true;
 }
 
 static boolean
-parse_xtype (argv, arg_ptr)
-     char *argv[];
-     int *arg_ptr;
+parse_xtype (char **argv, int *arg_ptr)
 {
   return insert_type (argv, arg_ptr, pred_xtype);
 }
 
 static boolean
-insert_type (argv, arg_ptr, which_pred)
-     char *argv[];
-     int *arg_ptr;
-     boolean (*which_pred) ();
+insert_type (char **argv, int *arg_ptr, boolean (*which_pred) (/* ??? */))
 {
   unsigned long type_cell;
   struct predicate *our_pred;
@@ -1367,11 +1239,7 @@ insert_type (argv, arg_ptr, which_pred)
 static boolean fprintf_stat_needed;
 
 static boolean
-insert_fprintf (fp, func, argv, arg_ptr)
-     FILE *fp;
-     boolean (*func) ();
-     char *argv[];
-     int *arg_ptr;
+insert_fprintf (FILE *fp, boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 {
   char *format;			/* Beginning of unprocessed format string. */
   register char *scan;		/* Current address in scanning `format'. */
@@ -1504,10 +1372,7 @@ insert_fprintf (fp, func, argv, arg_ptr)
    Return the address of the `next' pointer of the new segment. */
 
 static struct segment **
-make_segment (segment, format, len, kind)
-     struct segment **segment;
-     char *format;
-     int len, kind;
+make_segment (struct segment **segment, char *format, int len, int kind)
 {
   char *fmt;
 
@@ -1579,10 +1444,7 @@ make_segment (segment, format, len, kind)
 }
 
 static boolean
-insert_exec_ok (func, argv, arg_ptr)
-     boolean (*func) ();
-     char *argv[];
-     int *arg_ptr;
+insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 {
   int start, end;		/* Indexes in ARGV of start & end of cmd. */
   int num_paths;		/* Number of args with path replacements. */
@@ -1661,10 +1523,7 @@ insert_exec_ok (func, argv, arg_ptr)
    get the appropriate information for a time predicate processor. */
 
 static boolean
-get_num_days (str, num_days, comp_type)
-     char *str;
-     unsigned long *num_days;
-     enum comparison_type *comp_type;
+get_num_days (char *str, long unsigned int *num_days, enum comparison_type *comp_type)
 {
   int len_days;			/* length of field */
 
@@ -1718,10 +1577,7 @@ get_num_days (str, num_days, comp_type)
    Used by -atime, -ctime, and -mtime parsers. */
 
 static boolean
-insert_time (argv, arg_ptr, pred)
-     char *argv[];
-     int *arg_ptr;
-     PFB pred;
+insert_time (char **argv, int *arg_ptr, PFB pred)
 {
   struct predicate *our_pred;
   unsigned long num_days;
@@ -1769,10 +1625,7 @@ insert_time (argv, arg_ptr, pred)
    Used by the -inum and -links predicate parsers. */
 
 static boolean
-get_num (str, num, comp_type)
-     char *str;
-     unsigned long *num;
-     enum comparison_type *comp_type;
+get_num (char *str, long unsigned int *num, enum comparison_type *comp_type)
 {
   int len_num;			/* Length of field. */
 
@@ -1826,10 +1679,7 @@ get_num (str, num, comp_type)
    Used by -inum and -links parsers. */
 
 static boolean
-insert_num (argv, arg_ptr, pred)
-     char *argv[];
-     int *arg_ptr;
-     PFB pred;
+insert_num (char **argv, int *arg_ptr, PFB pred)
 {
   struct predicate *our_pred;
   unsigned long num;
@@ -1856,8 +1706,7 @@ insert_num (argv, arg_ptr, pred)
 }
 
 static FILE *
-open_output_file (path)
-     char *path;
+open_output_file (char *path)
 {
   FILE *f;
 

@@ -42,8 +42,8 @@ extern int errno;
 # define N_(String) (String)
 #endif
 
-static char *filesystem_type_uncached P_((char *path, char *relpath, struct stat *statp));
-static int xatoi P_((char *cp));
+static char *filesystem_type_uncached PARAMS((char *path, char *relpath, struct stat *statp));
+static int xatoi PARAMS((char *cp));
 
 #ifdef FSTYPE_MNTENT		/* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
 #include <mntent.h>
@@ -200,10 +200,7 @@ static int fstype_known = 0;
    Return "unknown" if its filesystem type is unknown.  */
 
 char *
-filesystem_type (path, relpath, statp)
-     char *path;
-     char *relpath;
-     struct stat *statp;
+filesystem_type (char *path, char *relpath, struct stat *statp)
 {
   static char *current_fstype = NULL;
   static dev_t current_dev;
@@ -225,10 +222,7 @@ filesystem_type (path, relpath, statp)
    Return "unknown" if its filesystem type is unknown.  */
 
 static char *
-filesystem_type_uncached (path, relpath, statp)
-     char *path;
-     char *relpath;
-     struct stat *statp;
+filesystem_type_uncached (char *path, char *relpath, struct stat *statp)
 {
   char *type = NULL;
 
@@ -376,8 +370,7 @@ filesystem_type_uncached (path, relpath, statp)
    part of CP. */
 
 static int
-xatoi (cp)
-     char *cp;
+xatoi (char *cp)
 {
   int val;
   

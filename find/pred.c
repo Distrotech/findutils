@@ -87,9 +87,9 @@
 # endif
 #endif
 
-static boolean insert_lname P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case));
-static boolean launch P_((struct predicate *pred_ptr));
-static char *format_date P_((time_t when, int kind));
+static boolean insert_lname PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case));
+static boolean launch PARAMS((struct predicate *pred_ptr));
+static char *format_date PARAMS((time_t when, int kind));
 
 #ifdef	DEBUG
 struct pred_assoc
@@ -195,10 +195,7 @@ struct prec_assoc prec_table[] =
    Return true if the file passes this predicate, false if not. */
 
 boolean
-pred_amin (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_amin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -220,10 +217,7 @@ pred_amin (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_and (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_and (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (pred_ptr->pred_left == NULL
       || (*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
@@ -248,10 +242,7 @@ pred_and (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_anewer (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_anewer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (stat_buf->st_atime > pred_ptr->args.time)
     return (true);
@@ -259,10 +250,7 @@ pred_anewer (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_atime (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_atime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -285,19 +273,13 @@ pred_atime (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_close (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_close (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   return (true);
 }
 
 boolean
-pred_cmin (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_cmin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -319,10 +301,7 @@ pred_cmin (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_cnewer (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_cnewer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (stat_buf->st_ctime > pred_ptr->args.time)
     return (true);
@@ -330,10 +309,7 @@ pred_cnewer (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_comma (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_comma (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (pred_ptr->pred_left != NULL)
     (*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
@@ -354,10 +330,7 @@ pred_comma (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_ctime (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_ctime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -380,10 +353,7 @@ pred_ctime (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_empty (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (S_ISDIR (stat_buf->st_mode))
     {
@@ -424,10 +394,7 @@ pred_empty (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_exec (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   int i;
   int path_pos;
@@ -465,29 +432,20 @@ pred_exec (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_false (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_false (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   return (false);
 }
 
 boolean
-pred_fls (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_fls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   list_file (pathname, rel_pathname, stat_buf, pred_ptr->args.stream);
   return (true);
 }
 
 boolean
-pred_fprint (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_fprint (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   fputs (pathname, pred_ptr->args.stream);
   putc ('\n', pred_ptr->args.stream);
@@ -495,10 +453,7 @@ pred_fprint (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_fprint0 (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_fprint0 (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   fputs (pathname, pred_ptr->args.stream);
   putc (0, pred_ptr->args.stream);
@@ -506,10 +461,7 @@ pred_fprint0 (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_fprintf (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   FILE *fp = pred_ptr->args.printf_vec.stream;
   struct segment *segment;
@@ -699,10 +651,7 @@ pred_fprintf (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_fstype (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_fstype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (strcmp (filesystem_type (pathname, rel_pathname, stat_buf),
 	      pred_ptr->args.str) == 0)
@@ -711,10 +660,7 @@ pred_fstype (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_gid (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_gid (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -735,10 +681,7 @@ pred_gid (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_group (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_group (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (pred_ptr->args.gid == stat_buf->st_gid)
     return (true);
@@ -747,33 +690,24 @@ pred_group (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_ilname (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_ilname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   return insert_lname (pathname, stat_buf, pred_ptr, true);
 }
 
 boolean
-pred_iname (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_iname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   const char *base;
 
-  base = basename (pathname);
+  base = base_name (pathname);
   if (fnmatch (pred_ptr->args.str, base, FNM_PERIOD | FNM_CASEFOLD) == 0)
     return (true);
   return (false);
 }
 
 boolean
-pred_inum (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_inum (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -794,10 +728,7 @@ pred_inum (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_ipath (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_ipath (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (fnmatch (pred_ptr->args.str, pathname, FNM_CASEFOLD) == 0)
     return (true);
@@ -805,10 +736,7 @@ pred_ipath (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_links (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_links (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -829,20 +757,13 @@ pred_links (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_lname (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   return insert_lname (pathname, stat_buf, pred_ptr, false);
 }
 
 static boolean
-insert_lname (pathname, stat_buf, pred_ptr, ignore_case)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
-     boolean ignore_case;
+insert_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case)
 {
   boolean ret = false;
 #ifdef S_ISLNK
@@ -862,20 +783,14 @@ insert_lname (pathname, stat_buf, pred_ptr, ignore_case)
 }
 
 boolean
-pred_ls (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_ls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   list_file (pathname, rel_pathname, stat_buf, stdout);
   return (true);
 }
 
 boolean
-pred_mmin (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_mmin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -897,10 +812,7 @@ pred_mmin (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_mtime (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_mtime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -923,24 +835,18 @@ pred_mtime (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_name (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_name (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   const char *base;
 
-  base = basename (pathname);
+  base = base_name (pathname);
   if (fnmatch (pred_ptr->args.str, base, FNM_PERIOD) == 0)
     return (true);
   return (false);
 }
 
 boolean
-pred_negate (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_negate (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   /* Check whether we need a stat here. */
   if (pred_ptr->need_stat)
@@ -958,10 +864,7 @@ pred_negate (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_newer (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_newer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (stat_buf->st_mtime > pred_ptr->args.time)
     return (true);
@@ -969,10 +872,7 @@ pred_newer (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_nogroup (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_nogroup (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
 #ifdef CACHE_IDS
   extern char *gid_unused;
@@ -984,10 +884,7 @@ pred_nogroup (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_nouser (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_nouser (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
 #ifdef CACHE_IDS
   extern char *uid_unused;
@@ -999,15 +896,17 @@ pred_nouser (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_ok (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   int i, yes;
   
   fflush (stdout);
-  fprintf (stderr, "< %s ... %s > ? ",
+  /* The draft open standard requires that, in the POSIX locale,
+     the last non-blank character of this prompt be '?'.
+     The exact format is not specified.
+     This standard does not have requirements for locales other than POSIX
+  */
+  fprintf (stderr, _("< %s ... %s > ? "),
 	   pred_ptr->args.exec_vec.vec[0], pathname);
   fflush (stderr);
   i = getchar ();
@@ -1020,19 +919,13 @@ pred_ok (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_open (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_open (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   return (true);
 }
 
 boolean
-pred_or (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_or (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (pred_ptr->pred_left == NULL
       || !(*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
@@ -1057,10 +950,7 @@ pred_or (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_path (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_path (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (fnmatch (pred_ptr->args.str, pathname, 0) == 0)
     return (true);
@@ -1068,10 +958,7 @@ pred_path (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_perm (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_perm (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (pred_ptr->args.perm & 010000)
     {
@@ -1098,20 +985,14 @@ pred_perm (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_print (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_print (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   puts (pathname);
   return (true);
 }
 
 boolean
-pred_print0 (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_print0 (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   fputs (pathname, stdout);
   putc (0, stdout);
@@ -1119,20 +1000,14 @@ pred_print0 (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_prune (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_prune (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   stop_at_current_level = true;
   return (do_dir_first);	/* This is what SunOS find seems to do. */
 }
 
 boolean
-pred_regex (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_regex (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   int len = strlen (pathname);
   if (re_match (pred_ptr->args.regex, pathname, len, 0,
@@ -1142,10 +1017,7 @@ pred_regex (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_size (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_size (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   unsigned long f_val;
 
@@ -1170,19 +1042,13 @@ pred_size (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_true (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_true (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   return (true);
 }
 
 boolean
-pred_type (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_type (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   unsigned long mode = stat_buf->st_mode;
   unsigned long type = pred_ptr->args.type;
@@ -1213,10 +1079,7 @@ pred_type (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_uid (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_uid (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   switch (pred_ptr->args.info.kind)
     {
@@ -1237,10 +1100,7 @@ pred_uid (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_used (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_used (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   time_t delta;
 
@@ -1265,10 +1125,7 @@ pred_used (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_user (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_user (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (pred_ptr->args.uid == stat_buf->st_uid)
     return (true);
@@ -1277,10 +1134,7 @@ pred_user (pathname, stat_buf, pred_ptr)
 }
 
 boolean
-pred_xtype (pathname, stat_buf, pred_ptr)
-     char *pathname;
-     struct stat *stat_buf;
-     struct predicate *pred_ptr;
+pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   struct stat sbuf;
   int (*ystat) ();
@@ -1317,8 +1171,7 @@ pred_xtype (pathname, stat_buf, pred_ptr)
     Otherwise return false, possibly printing an error message. */
 
 static boolean
-launch (pred_ptr)
-     struct predicate *pred_ptr;
+launch (struct predicate *pred_ptr)
 {
   int status;
   pid_t wait_ret, child_pid;
@@ -1396,9 +1249,7 @@ launch (pred_ptr)
    strftime format character KIND.  */
 
 static char *
-format_date (when, kind)
-     time_t when;
-     int kind;
+format_date (time_t when, int kind)
 {
   static char fmt[3];
   static char buf[64];		/* More than enough space. */
