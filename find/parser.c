@@ -274,31 +274,49 @@ find_parser (char *search_name)
 	   * argument is conditional on some preceding 
 	   * tests.  This might typically be the case with,
 	   * for example, -maxdepth.
+	   *
+	   * The options -daystart and -follow are exempt 
+	   * from this treatment, since their positioning
+	   * in the command line does have an effect on 
+	   * subsequent tests but not previous ones.  That
+	   * might be intentional on the part of the user.
 	   */
-	  if (parse_table[i].type == ARG_OPTION)
+	  if (parser_name[i].type != ARG_POSITIONAL_OPTION)
 	    {
-	      if (first_nonoption_arg != NULL)
+	      /* Something other than -follow/-daystart.
+	       * If this is an option, check if it followed
+	       * a non-option and if so, issue a warning.
+	       */
+	      if (parse_table[i].type == ARG_OPTION)
 		{
-		  /* issue a warning. */
-		  error (0, 0,
-			 _("warning: you have specified the %s "
-			   "option after a non-option argument %s, "
-			   "but options are not positional (%s affects "
-			   "tests specified before it as well as those "
-			   "specified after it).  Please specify options "
-			   "before other arguments.\n"),
-			 original_arg,
-			 first_nonoption_arg,
-			 original_arg);
+		  if (first_nonoption_arg != NULL)
+		    {
+		      /* option which folows a non-option */
+		      error (0, 0,
+			     _("warning: you have specified the %s "
+			       "option after a non-option argument %s, "
+			       "but options are not positional (%s affects "
+			       "tests specified before it as well as those "
+			       "specified after it).  Please specify options "
+			       "before other arguments.\n"),
+			     original_arg,
+			     first_nonoption_arg,
+			     original_arg);
+		    }
+		}
+	      else
+		{
+		  /* Not an option or a positional option,
+		   * so remember we've seen it in order to 
+		   * use it in a possible future warning message.
+		   */
+		  if (first_nonoption_arg == NULL)
+		    {
+		      first_nonoption_arg = original_arg;
+		    }
 		}
 	    }
-	  else
-	    {
-	      if (first_nonoption_arg == NULL)
-		{
-		  first_nonoption_arg = original_arg;
-		}
-	    }
+	  
 	  return (parse_table[i].parser_func);
 	}
     }
