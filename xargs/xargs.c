@@ -193,8 +193,10 @@ static size_t rplen = 0;
 
 /* If nonzero, when this string is read on stdin it is treated as
    end of file.
-   I don't like this - it should default to NULL.  */
-static char *eof_str = "_";
+   IEEE Std 1003.1, 2004 Edition allows this to be NULL.
+   In findutils releases up to and including 4.2.8, this was "_".
+*/
+static char *eof_str = NULL;
 
 /* If nonzero, the maximum number of nonblank lines from stdin to use
    per command line.  */
@@ -410,7 +412,7 @@ main (int argc, char **argv)
   
 
   
-  while ((optc = getopt_long (argc, argv, "+0a:e::i::l::n:prs:txP:",
+  while ((optc = getopt_long (argc, argv, "+0a:E::e::i::l::n:prs:txP:",
 			      longopts, (int *) 0)) != -1)
     {
       switch (optc)
@@ -419,8 +421,9 @@ main (int argc, char **argv)
 	  read_args = read_string;
 	  break;
 
-	case 'e':
-	  if (optarg)
+	case 'E':		/* POSIX */
+	case 'e':		/* deprecated */
+	  if (optarg && (strlen(optarg) > 0))
 	    eof_str = optarg;
 	  else
 	    eof_str = 0;
