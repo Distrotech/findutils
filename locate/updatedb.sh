@@ -82,6 +82,24 @@ getuid() {
     id | cut -d'(' -f 1 | cut -d'=' -f2
 }
 
+# figure out if su supports the -s option
+select_shell() {
+    if su "$1" -s $SHELL false < /dev/null  ; then
+	# No.
+	echo ""
+    else
+	if su "$1" -s $SHELL true < /dev/null  ; then
+	    # Yes.
+	    echo "-s $SHELL"
+        else
+	    # su is unconditionally failing.  We won't be able to 
+	    # figure out what is wrong, so be conservative.
+	    echo ""
+	fi
+    fi
+}
+
+
 # You can set these in the environment, or use command-line options,
 # to override their defaults:
 
@@ -166,7 +184,7 @@ cd "$changeto"
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A1
-    su $LOCALUSER -s $SHELL -c \
+    su $LOCALUSER `select_shell $LOCALUSER` -c \
     "$find $SEARCHPATHS $FINDOPTIONS \
      \\( $prunefs_exp \
      -type d -regex '$PRUNEREGEX' \\) -prune -o $print_option"
@@ -182,7 +200,7 @@ if test -n "$NETPATHS"; then
 myuid=`getuid` 
 if [ "$myuid" = 0 ]; then
     # : A3
-    su $NETUSER -s $SHELL -c \
+    su $NETUSER `select_shell $NETUSER` -c \
      "$find $NETPATHS $FINDOPTIONS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o $print_option" ||
     exit $?
   else
@@ -236,7 +254,7 @@ cd "$changeto"
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A5
-    su $LOCALUSER -s $SHELL -c \
+    su $LOCALUSER `select_shell $LOCALUSER` -c \
     "$find $SEARCHPATHS $FINDOPTIONS \
      \( $prunefs_exp \
      -type d -regex '$PRUNEREGEX' \) -prune -o $print_option" || exit $?
@@ -252,7 +270,7 @@ if test -n "$NETPATHS"; then
   myuid=`getuid`
   if [ "$myuid" = 0 ]; then
     # : A7
-    su $NETUSER -s $SHELL -c \
+    su $NETUSER `select_shell $NETUSER` -c \
      "$find $NETPATHS $FINDOPTIONS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o $print_option" ||
     exit $?
   else
