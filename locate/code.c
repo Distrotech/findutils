@@ -74,7 +74,7 @@
 #include "locatedb.h"
 #include <getline.h>
 
-char *xmalloc ();
+char *xmalloc (size_t);
 
 /* The name this program was run with.  */
 char *program_name;
@@ -86,8 +86,7 @@ static char bigrams[257] = {0};
 /* Return the offset of PATTERN in STRING, or -1 if not found. */
 
 static int
-strindex (string, pattern)
-     char *string, *pattern;
+strindex (char *string, char *pattern)
 {
   register char *s;
 
@@ -107,8 +106,7 @@ strindex (string, pattern)
 /* Return the length of the longest common prefix of strings S1 and S2. */
 
 static int
-prefix_length (s1, s2)
-     char *s1, *s2;
+prefix_length (char *s1, char *s2)
 {
   register char *start;
 
@@ -118,9 +116,7 @@ prefix_length (s1, s2)
 }
 
 int
-main (argc, argv)
-     int argc;
-     char **argv;
+main (int argc, char **argv)
 {
   char *path;			/* The current input entry.  */
   char *oldpath;		/* The previous input entry.  */

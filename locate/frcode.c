@@ -78,7 +78,7 @@
 #include "locatedb.h"
 #include <getline.h>
 
-char *xmalloc ();
+char *xmalloc (size_t);
 
 /* The name this program was run with.  */
 char *program_name;
@@ -86,9 +86,7 @@ char *program_name;
 /* Write out a 16-bit int, high byte first (network byte order).  */
 
 static void
-put_short (c, fp)
-     int c;
-     FILE *fp;
+put_short (int c, FILE *fp)
 {
   putc (c >> 8, fp);
   putc (c, fp); 
@@ -97,8 +95,7 @@ put_short (c, fp)
 /* Return the length of the longest common prefix of strings S1 and S2. */
 
 static int
-prefix_length (s1, s2)
-     char *s1, *s2;
+prefix_length (char *s1, char *s2)
 {
   register char *start;
 
@@ -108,9 +105,7 @@ prefix_length (s1, s2)
 }
 
 int
-main (argc, argv)
-     int argc;
-     char **argv;
+main (int argc, char **argv)
 {
   char *path;			/* The current input entry.  */
   char *oldpath;		/* The previous input entry.  */
