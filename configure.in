@@ -30,8 +30,6 @@ AC_PROG_RANLIB
 AC_PROG_MAKE_SET
 AC_SYS_LARGEFILE
 
-jm_CHECK_ALL_TYPES
-
 dnl Try to get a POSIX.1 environment.
 
 dnl Checks for libraries.
@@ -79,7 +77,6 @@ AC_TYPE_PID_T
 AC_CHECK_TYPE(ino_t, unsigned long)
 AC_CHECK_TYPE(dev_t, unsigned long)
 AC_TYPE_MODE_T
-jm_AC_TYPE_UINTMAX_T
 AC_STRUCT_ST_BLOCKS
 AC_CHECK_MEMBERS([struct stat.st_rdev])
 AC_STRUCT_TM
@@ -91,31 +88,26 @@ AC_FUNC_STRFTIME
 AC_REPLACE_FUNCS(memcmp memset stpcpy strdup strftime strspn strstr \
      strtol strtoul waitpid)
 
-jm_MACROS
-
 AC_CHECK_FUNCS(fchdir getcwd strerror endgrent endpwent)
 AC_FUNC_VPRINTF
 AC_FUNC_ALLOCA
 AC_FUNC_GETMNTENT
 AC_FUNC_CLOSEDIR_VOID
 
+gl_XALLOC
+
 dnl internationalization macros
 AM_GNU_GETTEXT
 
-# These no-op lines work around a bug in automake 1.4:
-# it doesn't recognize the assignments to LIBOBJS in m4/*.m4.
-: LIBOBJS="$LIBOBJS fnmatch.o lstat.o"
-: LIBOBJS="$LIBOBJS malloc.o memcmp.o mktime.o"
-: LIBOBJS="$LIBOBJS realloc.o regex.o stat.o strftime.o"
-
 # This is necessary so that .o files in LIBOBJS are also built via
 # the ANSI2KNR-filtering rules.
-LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
+#LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
+AC_CONFIG_SUBDIRS(gnulib)
 AC_OUTPUT(
-	Makefile lib/Makefile lib/posix/Makefile
+	Makefile 
 	find/Makefile find/testsuite/Makefile
 	xargs/Makefile xargs/testsuite/Makefile
 	locate/Makefile locate/testsuite/Makefile
 	intl/Makefile po/Makefile.in po/Makefile
-	doc/Makefile m4/Makefile
+	doc/Makefile lib/Makefile
 	)

@@ -485,7 +485,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
   subdirs_left = statp->st_nlink - 2; /* Account for name and ".". */
 
   errno = 0;
-  name_space = savedir (name, statp->st_size);
+  name_space = savedir (name);
   if (name_space == NULL)
     {
       if (errno)

@@ -22,7 +22,7 @@
 #include <signal.h>
 #include <pwd.h>
 #include <grp.h>
-#include "basename.h"
+#include "dirname.h"
 #include "human.h"
 #include "modetype.h"
 #include "wait.h"
