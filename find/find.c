@@ -45,6 +45,7 @@
 #include <modetype.h>
 #include "savedirinfo.h"
 #include "buildcmd.h"
+#include "dirname.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -316,6 +317,7 @@ get_info (const char *pathname,
   /* If we need the full stat info, or we need the type info but don't 
    * already have it, stat the file now.
    */
+  (void) name;
   if (pred_ptr->need_stat)
     {
       return get_statinfo(pathname, state.rel_pathname, p);
@@ -860,6 +862,14 @@ safely_chdir(const char *dest,
   char *name = NULL;
   boolean rv_set = false;
   
+  /* We're about to leave a directory.  If there are any -execdir
+   * argument lists which have been built but have not yet been
+   * processed, do them now because they must be done in the same
+   * directory.
+   */
+  complete_pending_execdirs(eval_tree);
+  
+
   saved_errno = errno = 0;
   dotfd = open(".", O_RDONLY);
   if (dotfd >= 0)
@@ -1021,13 +1031,56 @@ chdir_back (void)
     }
 }
 
-/* Descend PATHNAME, which is a command-line argument.  */
+/* Descend PATHNAME, which is a command-line argument.  
+   Actions like -execdir assume that we are in the 
+   parent directory of the file we're examining, 
+   and on entry to this function our working directory
+   is whetever it was when find was invoked.  Therefore
+   If PATHNAME is "." we just leave things as they are. 
+   Otherwise, we figure out what the parent directory is, 
+   and move to that.
+*/
 static void
 process_top_path (char *pathname, mode_t mode)
 {
+  int dirchange;
+  const char *parent_dir;
+  const char *base = base_name(pathname);
+  
   state.curdepth = 0;
   state.path_length = strlen (pathname);
-  process_path (pathname, pathname, false, ".", mode);
+
+  if (0 == strcmp(pathname, "."))
+    {
+      dirchange = 0;
+      parent_dir = NULL;
+      base = pathname;
+    }
+  else
+    {
+      enum TraversalDirection direction;
+      struct stat st;
+
+      dirchange = 1;
+      parent_dir = dir_name(pathname);
+      if (0 == strcmp(base, ".."))
+	direction = TraversingUp;
+      else
+	direction = TraversingDown;
+      if (SafeChdirOK != safely_chdir(parent_dir, direction, &st))
+	{
+	  error (0, errno, "%s", parent_dir);
+	  state.exit_status = 1;
+	}
+    }
+  
+  process_path (pathname, base, false, ".", mode);
+  complete_pending_execdirs(eval_tree);
+  
+  if (dirchange)
+    {
+      chdir_back();
+    }
 }
 
 
@@ -1362,6 +1415,13 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
       cur_path_size = 0;
       cur_path = NULL;
 
+      /* We're about to leave the directory.  If there are any
+       * -execdir argument lists which have been built but have not
+       * yet been processed, do them now because they must be done in
+       * the same directory.
+       */
+      complete_pending_execdirs(eval_tree);
+      
 #if USE_SAFE_CHDIR
       if (strcmp (name, "."))
 	{
@@ -1502,7 +1562,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
        * yet been processed, do them now because they must be done in
        * the same directory.
        */
-      complete_pending_execdirs(eval_tree);
+      complete_pending_execdirs(eval_tree); 
 
 #if USE_SAFE_CHDIR
       if (strcmp (name, "."))
