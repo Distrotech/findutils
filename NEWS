@@ -1,4 +1,11 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.6
+**  Bug Fixes
+*** find now copes rather better when a directory appears to change just as
+    it is about to start examining it, which happens with automount.
+    This is because automount mounts filesystems as you change
+    directory into them.  This should resolve Savannah bugs #3998, #9043.
+
 * Major changes in release 4.2.5
 **  Functionality Changes
 *** The POSIX options -H and -L are supported.  These control whether or not

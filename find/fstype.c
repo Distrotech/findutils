@@ -29,9 +29,13 @@
 #else
 extern int errno;
 #endif
+#include <assert.h>
 
 /* Need declaration of function `xstrtoumax' */
 #include "../gnulib/lib/xstrtol.h"
+
+#include "extendbuf.h"
+
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -377,3 +381,59 @@ filesystem_type_uncached (const char *path, const char *relpath, const struct st
 
   return xstrdup (type ? type : _("unknown"));
 }
+
+
+
+
+
+char *
+get_mounted_filesystems (void)
+{
+#ifdef FSTYPE_MNTENT		/* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
+  char *table = MOUNTED;
+  FILE *mfp;
+  struct mntent *mnt;
+  char *result = NULL;
+  size_t alloc_size = 0u;
+  size_t used = 0u;
+  
+
+  mfp = setmntent (table, "r");
+  if (mfp == NULL)
+    error (1, errno, "%s", table);
+
+  while (NULL != (mnt = getmntent (mfp)))
+    {
+      size_t len;
+      
+#ifdef MNTTYPE_IGNORE
+      if (!strcmp (mnt->mnt_type, MNTTYPE_IGNORE))
+	continue;
+#endif
+
+      len = strlen(mnt->mnt_dir) + 1;
+      result = extendbuf(result, used+len, &alloc_size);
+      strcpy(&result[used], mnt->mnt_dir);
+      used += len;		/* len already includes one for the \0 */
+    }
+  if (endmntent (mfp) == 0)
+    error (0, errno, "%s", table);
+
+  if (used)
+    {
+      /* Add the extra terminating \0 */
+      result = extendbuf(result, used+1, &alloc_size);
+      result[used] = 0;
+    }
+  else
+    {
+      assert(NULL == result);	/* Postcondition. */
+    }
+  return result;
+
+#else
+  /* No getmntent(). */
+  return NULL;
+#endif
+}
+

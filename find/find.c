@@ -26,6 +26,7 @@
 #include "defs.h"
 
 #include <errno.h>
+#include <assert.h>
 
 
 #ifdef HAVE_FCNTL_H
@@ -60,6 +61,7 @@
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
 
 
+static void init_mount_point_list(void);
 static void process_top_path PARAMS((char *pathname));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
@@ -159,6 +161,12 @@ boolean ignore_readdir_race;
  */
 boolean warnings;
 
+
+enum TraversalDirection
+  {
+    TraversingUp,
+    TraversingDown
+  };
 
 
 /* optionh_stat() implements the stat operation when the -H option is
@@ -329,7 +337,9 @@ main (int argc, char **argv)
     }
 
   set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
-  
+
+  init_mount_point_list();
+
 #endif
 
 #ifdef DEBUG
@@ -504,7 +514,7 @@ main (int argc, char **argv)
 }
 
 
-static const char *
+static char *
 specific_dirname(const char *dir)
 {
   char dirname[1024];
@@ -525,7 +535,113 @@ specific_dirname(const char *dir)
     }
 }
 
+enum MountPointStateChange
+  {
+    MountPointRecentlyMounted,
+    MountPointRecentlyUnmounted,
+    MountPointStateUnchanged
+  };
 
+static char *mount_points = NULL;
+
+/* Initialise our idea of what the list of mount points is. 
+ * this function is called exactly once.
+ */
+static void
+init_mount_point_list(void)
+{
+  assert(NULL == mount_points);
+  mount_points = get_mounted_filesystems();
+}
+
+/* list_item_present: Search for NEEDLE in HAYSTACK.
+ *
+ * NEEDLE is a normal C string.  HAYSTACK is a list of concatenated C strings, 
+ * each with a terminating NUL.   The last item in the list is identified by 
+ * the fact that its terminating NUL is itself followed by a second NUL.
+ *
+ * This data structure does not lend itself to fast searching, but we only
+ * do this when wd_sanity_check() thinks that a filesystem might have been 
+ * mounted or unmounted.   That doesn't happen very often.
+ */
+static int
+list_item_present(const char *needle, const char *haystack)
+{
+  if (NULL != haystack)
+    {
+      const char *s = haystack;
+      while (*s)
+	{
+	  if (0 == strcmp(s, needle))
+	    {
+	      return 1;
+	    }
+	  else
+	    {
+	      s += strlen(s);
+	      ++s;			/* skip the first NUL. */
+	    }
+	}
+    }
+  return 0;
+}
+
+
+/* Determine if a directory has recently had a filesystem 
+ * mounted on it or unmounted from it.
+ */
+static enum MountPointStateChange
+get_mount_point_state(const char *dir)
+{
+  int was_mounted, is_mounted;
+
+  was_mounted = list_item_present(dir, mount_points);
+  
+  if (mount_points)
+    {
+      free(mount_points);
+    }
+  mount_points = get_mounted_filesystems();
+  
+  is_mounted = list_item_present(dir, mount_points);
+
+  if (was_mounted == is_mounted)
+    return MountPointStateUnchanged;
+  else if (is_mounted)
+    return MountPointRecentlyMounted;
+  else 
+    return MountPointRecentlyUnmounted;
+}
+
+
+/* Examine the results of the stat() of a directory from before we
+ * entered or left it, with the results of stat()ing it afterward.  If
+ * these are different, the filesystem tree has been modified while we
+ * were traversing it.  That might be an attempt to use a race
+ * condition to persuade find to do something it didn't intend
+ * (e.g. an attempt by an ordinary user to exploit the fact that root
+ * sometimes runs find on the whole filesystem).  However, this can
+ * also happen if automount is running (certainly on Solaris).  With 
+ * automount, moving into a directory can cause a filesystem to be 
+ * mounted there.
+ *
+ * To cope sensibly with this, we will raise an error if we see the
+ * device number change unless we are chdir()ing into a subdirectory,
+ * and the directory we moved into has been mounted or unmounted "recently".  
+ * Here "recently" means since we started "find" or we last re-read 
+ * the /etc/mnttab file. 
+ *
+ * If the device number does not change but the inode does, that is a
+ * problem.
+ *
+ * If the device number and inode are both the same, we are happy.
+ *
+ * If a filesystem is (un)mounted as we chdir() into the directory, that 
+ * may mean that we're now examining a section of the filesystem that might 
+ * have been excluded from consideration (via -prune or -quit for example).
+ * Hence we print a warning message to indicate that the output of find 
+ * might be inconsistent due to the change in the filesystem.
+ */
 static void
 wd_sanity_check(const char *thing_to_stat,
 		const char *program_name,
@@ -533,45 +649,106 @@ wd_sanity_check(const char *thing_to_stat,
 		const struct stat *oldinfo,
 		struct stat *newinfo,
 		int parent,
-		int line_no)
+		int line_no,
+		enum TraversalDirection direction)
 {
   const char *fstype;
+  char *specific_what = NULL;
+  
+  int isfatal = 1;
   
   if ((*xstat) (".", newinfo) != 0)
     error (1, errno, "%s", thing_to_stat);
   
   if (oldinfo->st_dev != newinfo->st_dev)
     {
-      what = specific_dirname(what);
-      fstype = filesystem_type(thing_to_stat, ".", newinfo);
+      specific_what = specific_dirname(what);
       
-      error (1, 0,
-	     _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
-	     what,
-	     parent ? "/.." : "",
-	     program_name,
-	     (long) oldinfo->st_dev,
-	     (long) newinfo->st_dev,
-	     fstype,
-	     line_no);
-      /*free(what);*/
+      /* This condition is rare, so once we are here it is 
+       * reasonable to perform an expensive computation to 
+       * determine if we should continue or fail. 
+       */
+      if (TraversingDown == direction)
+	{
+	  /* We stat()ed a directory, chdir()ed into it (we know this 
+	   * since direction is TraversingDown), stat()ed it again,
+	   * and noticed that the device numbers are different.  Check
+	   * if the filesystem was recently mounted. 
+	   * 
+	   * If it was, it looks like chdir()ing into the directory
+	   * caused a filesystem to be mounted.  Maybe automount is
+	   * running.  Anyway, that's probably OK - but it happens
+	   * only when we are moving downward.
+	   *
+	   * We also allow for the possibility that a similar thing
+	   * has happened with the unmounting of a filesystem.  This
+	   * is much rarer, as it relies on an automounter timeout
+	   * occurring at exactly the wrong moment.
+	   */
+	  enum MountPointStateChange transition = get_mount_point_state(what);
+	  switch (transition)
+	    {
+	    case MountPointRecentlyUnmounted:
+	      isfatal = 0;
+	      error (0, 0,
+		     _("Filesystem %s has recently been unmounted."),
+		     what);
+	      break;
+	      
+	    case MountPointRecentlyMounted:
+	      isfatal = 0;
+	      error (0, 0,
+		     _("Filesystem %s has recently been mounted."),
+		     what);
+	      break;
+
+	    case MountPointStateUnchanged:
+	      isfatal = 1;
+	      break;
+	    }
+	}
+
+      if (isfatal)
+	{
+	  fstype = filesystem_type(thing_to_stat, ".", newinfo);
+	  error (isfatal, 0,
+		 _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
+		 specific_what,
+		 parent ? "/.." : "",
+		 program_name,
+		 (long) oldinfo->st_dev,
+		 (long) newinfo->st_dev,
+		 fstype,
+		 line_no);
+	}
+      else
+	{
+	  /* Since the device has changed under us, the inode number 
+	   * will almost certainly also be different. However, we have 
+	   * already decided that this is not a problem.  Hence we return
+	   * without checking the inode number.
+	   */
+	  free(specific_what);
+	  return;
+	}
     }
 
+  /* Device number was the same, check if the inode has changed. */
   if (oldinfo->st_ino != newinfo->st_ino)
     {
-      what = specific_dirname(what);
+      specific_what = specific_dirname(what);
       fstype = filesystem_type(thing_to_stat, ".", newinfo);
       
       error (1, 0,
 	     _("%s%s changed during execution of %s (old inode number %ld, new inode number %ld, filesystem type is %s) [ref %ld]"),
-	     what, 
+	     specific_what, 
 	     parent ? "/.." : "",
 	     program_name,
 	     (long) oldinfo->st_ino,
 	     (long) newinfo->st_ino,
 	     fstype,
 	     line_no);
-      /*free(what);*/
+      free(specific_what);
     }
 }
 
@@ -589,7 +766,8 @@ chdir_back (void)
 
       wd_sanity_check(starting_dir,
 		      program_name, starting_dir,
-		      &starting_stat_buf, &stat_buf, 0, __LINE__);
+		      &starting_stat_buf, &stat_buf, 0, __LINE__,
+		      TraversingUp);
     }
   else
     {
@@ -626,7 +804,8 @@ process_top_path (char *pathname)
 
       /* Check that we are where we should be. */
       wd_sanity_check(pathname, program_name, pathname,
-		      &stat_buf, &cur_stat_buf, 0, __LINE__);
+		      &stat_buf, &cur_stat_buf, 0, __LINE__,
+		      TraversingDown);
 
       process_path (pathname, ".", false, ".");
       chdir_back ();
@@ -814,7 +993,8 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  tmp.st_ino = dir_ids[dir_curr].ino;
 	  wd_sanity_check(pathname,
 			  program_name, starting_dir,
-			  &tmp, &stat_buf, 0, __LINE__);
+			  &tmp, &stat_buf, 0, __LINE__, 
+			  TraversingDown);
 	}
 
       for (namep = name_space; *namep; namep += file_len - pathname_len + 1)
@@ -899,7 +1079,8 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 			      program_name,
 			      deref ? parent : starting_dir,
 			      &tmp, &stat_buf,
-			      problem_is_with_parent, __LINE__);
+			      problem_is_with_parent, __LINE__, 
+			      TraversingUp);
 	    }
 	}
 
