@@ -39,7 +39,8 @@ libfind_a_SOURCES = regex.h \
 			xstrtoumax.c \
 			getline.c \
 			getline.h \
-			basename.c
+			basename.c \
+			yesno.c
 
 libfind_a_LIBADD = @LIBOBJS@ \
 		@ALLOCA@
