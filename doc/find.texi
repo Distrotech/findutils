@@ -1176,7 +1176,7 @@ List; both @var{expr1} and @var{expr2} are always evaluated.  True if
 @var{expr2} is true.  The value of @var{expr1} is discarded.  This
 operator lets you do multiple independent operations on one traversal,
 without depending on whether other operations succeeded.  The two 
-operations @var{expr1} and @var{expr2} are not always filly
+operations @var{expr1} and @var{expr2} are not always fully
 independent, since @var{expr1} might have side effects like touching
 or deleting files, or it might use @samp{-prune} which would also
 affect @var{expr2}.
@@ -2641,6 +2641,7 @@ contains metacharacters, it must match exactly.  If not, it must match
 part of the whole file name.
 
 @item --statistics
+@itemx -S
 Print some summary information for each locate database.  No search is
 performed. 
 
