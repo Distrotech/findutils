@@ -258,6 +258,27 @@ main (int argc, char **argv)
   /* Done parsing the predicates.  Build the evaluation tree. */
   cur_pred = predicates;
   eval_tree = get_expr (&cur_pred, NO_PREC);
+
+  /* Check if we have any left-over predicates (this fixes
+   * Debian bug #185202).
+   */
+  if (cur_pred != NULL)
+    {
+      /* This happens for example if the user gave 
+       * the command 'find x -print \)'
+       */
+      const char *predname = find_pred_name (cur_pred->pred_func);
+
+      /* Remove trainling whitespace.  We need to use an int */
+      size_t len = strlen(predname);
+      while (len > 0 && isblank(predname[len-1]))
+	{
+	  --len;
+	}
+      error (1, 0, _("unexpected extra predicate `%.*s'"), 
+	     (int)len, predname);
+    }
+  
 #ifdef	DEBUG
   printf (_("Eval Tree:\n"));
   print_tree (eval_tree, 0);
