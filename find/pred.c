@@ -1553,6 +1553,11 @@ launch (const struct buildcmd_control *ctl,
        */
       if (!execp->use_current_dir)
 	{
+	  /* Even if DEBUG_STAT is set, don't announce our change of 
+	   * directory, since we're not going to emit a subsequent 
+	   * announcement of a call to stat() anyway, as we're about 
+	   * to exec something. 
+	   */
 	  if (starting_desc < 0
 	      ? chdir (starting_dir) != 0
 	      : fchdir (starting_desc) != 0)

@@ -891,6 +891,9 @@ safely_chdir(const char *dest,
 	      goto fail;
 	    }
 #endif	  
+#ifdef DEBUG_STAT
+	  fprintf(stderr, "safely_chdir(): chdir(\"%s\")\n", dest);
+#endif
 	  if (0 == chdir(dest))
 	    {
 	      /* check we ended up where we wanted to go */
@@ -992,6 +995,9 @@ chdir_back (void)
   
   if (starting_desc < 0)
     {
+#ifdef DEBUG_STAT
+      fprintf(stderr, "chdir_back(): chdir(\"%s\")\n", starting_dir);
+#endif
       if (chdir (starting_dir) != 0)
 	error (1, errno, "%s", starting_dir);
 
@@ -1007,6 +1013,9 @@ chdir_back (void)
     }
   else
     {
+#ifdef DEBUG_STAT
+      fprintf(stderr, "chdir_back(): chdir(<starting-point>)\n");
+#endif
       if (fchdir (starting_desc) != 0)
 	error (1, errno, "%s", starting_dir);
     }
@@ -1382,12 +1391,19 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	    }
 	}
 #else
-      if (strcmp (name, ".") && chdir (name) < 0)
+      if (0 != strcmp (name, "."))
 	{
-	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
-	  return;
+#ifdef DEBUG_STAT
+	  fprintf(stderr, "process_dir(): chdir(\"%s\")\n", name);
+#endif
+	  if (chdir (name) < 0)
+	    {
+	      error (0, errno, "%s", pathname);
+	      exit_status = 1;
+	      return;
+	    }
 	}
+      
 
       /* Check that we are where we should be. */
       if (1)
@@ -1563,6 +1579,9 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      dir = parent;
 	    }
 
+#ifdef DEBUG_STAT
+	  fprintf(stderr, "process_dir(): chdir(\"%s\")\n", dir);
+#endif
 	  if (chdir (dir) != 0)
 	    error (1, errno, "%s", parent);
 
