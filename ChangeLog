@@ -1,3 +1,49 @@
+2000-01-26  Kevin Dalley  <kevind@rahul.net>
+
+	* acconfig.h: added internationalization.
+
+	* intl/*: copied from tar-1.13.17.
+
+	* locate/Makefile.am, locate/locate.c, locate/code.c:
+	internationalized file.
+
+	* locate/frcode.c, locate/bigram.c: include headers from ../lib
+	directory.
+
+	* xargs/Makefile.am, xargs/xargs.c: internationalized directory.
+
+2000-01-24  Kevin Dalley  <kevind@rahul.net>
+
+	* lib/xmalloc.c, lib/regex.c, lib/getopt.c: internationalization
+	works with current version of gettext.
+
+	* lib/getline.h : added declaration of getstr.
+	* lib/Makefile.am (libfind_a_SOURCES): added getline.[ch] to
+	standard compilation. Added internationalization.
+	* find/Makefile.am (INCLUDES): corrected -I options for building
+	in other directories.
+	(LDADD): changes for internationalization.
+
+	* configure.in (ALL_LINGUAS): added internationalization. 
+	getline.c is always compiled and linked, because of getstr.
+	AM_GNU_GETTEXT
+
+	* Makefile.am: 
+	(DISTCLEANFILES): added intl/libintl.h
+	(AUTOMAKE_OPTIONS): added gnits to AUTOMAKE_OPTIONS
+	(SUBDIRS): added intl and po
+
+	* acconfig.h: added internationalization values
+
+	* THANKS: added thanks file for gnits compatibility.
+
+2000-01-22  Kevin Dalley  <kevind@rahul.net>
+
+	* added po and intl directories.
+
+	* Added internationalization, only with slightly out of date po
+	files for many locales.
+
 2000-01-18  Kevin Dalley  <kevind@rahul.net>
 
 	* Version 4.1.2
@@ -173,7 +219,6 @@
 	
 	* updatedb.sh: when NETPATHS is used, only su to NETUSER if whoami
 	is root
-	
 1996-04-27  Kevin Dalley  <kevind@rahul.net>
 
 	* lib/getline.c (getstr): verify that nchars_avail is *really*
@@ -263,7 +308,7 @@ Sat Oct  1 17:43:13 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
 	* find/pred.c (launch): Use pid_t.
 
 	* xargs/xargs.c (EOF_STR): Define and use.
-	[__STDC__]: Delcare xrealloc and xmalloc using void *.
+	[__STDC__]: Declare xrealloc and xmalloc using void *.
 	* find/defs.h: Likewise.
 
 	* find/defs.h: Only declare stpcpy if !HAVE_STPCPY.
