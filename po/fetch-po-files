@@ -1,0 +1,179 @@
+#! /bin/sh
+
+# fetch-po-files -- fetches the .po files from the Translation Project website
+# Copyright (C) 2005 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+# USA.
+#
+# Written by James Youngman.
+
+URLBASE="http://www.iro.umontreal.ca/translation/maint"
+
+
+if [ $# -ne 2 ]; then
+	echo "You need to specify the package name and a destination directory on the command line." >&2
+	exit 1
+fi
+
+
+
+PACKAGE="$1"
+DESTDIR="$2"
+shift
+
+debug () {
+	: nothing
+}
+
+info () {
+	echo "$@"
+}
+
+
+v_update_needed() {
+	debug "update_required: Checking $@"
+	vnew=$1
+	vexisting=$2
+
+	major_new=$(echo $vnew | cut -s -d. -f1)
+	major_existing=$(echo $vexisting | cut -s -d. -f1)
+	if [ -z "$major_new" ]; then
+		debug "New version number empty, update not needed"
+		false
+	elif [ -z "$major_existing" ]; then
+		debug "Existing version number empty, update is needed"
+		true
+	elif [ $major_new -gt $major_existing ]; then
+		debug "$vnew > $vexisting, update needed"
+		true
+	elif [ $major_new -lt $major_existing ]; then
+		debug "$vnew < $vexisting, update NOT needed"
+		true
+	else
+		v_update_needed \
+			$(echo $vnew      | cut -s -d. -f2-) \
+			$(echo $vexisting | cut -s -d. -f2-)
+	fi
+}
+
+d_update_needed() {
+    # Determine if an update is neeededon the basis of the version numbers.
+    cat "$@" | 
+		tr -d '"' | 
+		grep "^PO-Revision-Date: " | 
+		sed -e 's/PO-Revision-Date: //' -e 's/\\n$//' | 
+		LANG=C sort -c >/dev/null
+}
+
+
+
+getversion() {
+	grep Project-Id-Version: < "$1" |
+		tr -d '"' | 
+		sed -e 's/^.*'$PACKAGE' //' -e 's/\\n$//'
+}
+
+
+check_versions() {
+	if vnew=$(getversion "$1"); then
+		if vexisting=$(getversion "$2"); then 
+			if v_update_needed "$vnew" "$vexisting"; then
+				true
+			else
+				d_update_needed "$2" "$1" && \
+			        info "Timestamp fields indicate $1 is newer than $2" 
+			fi
+		else
+			false
+		fi
+	else
+		false
+	fi
+}
+
+
+update_required() {
+	new="$1"
+	existing="$2"
+	# ls -ltrd "$new" "$existing"
+
+	if ! [ -e "$existing" ] ; then
+		debug "$existing does not exist, using $new"
+		true
+	elif cmp $new $existing >/dev/null 2>&1; then
+		info "$new and $existing are identical"
+		false
+	elif check_versions "$new" "$existing"; then
+		info "Fetched file has newer version number or date stamp"
+		true
+	else
+		false
+	fi
+}
+
+
+possible_update() {
+	
+	debug "Possible update of $3/$1"
+
+	new="$2/$1"
+	existing="$3/$1"
+
+	if update_required $new $existing; then
+		info "Updating $1..."
+		rm -f $existing
+		mv $new $existing
+	else
+		rm -f $new
+	fi
+}
+
+
+
+main () {
+	potfile=$DESTDIR/$PACKAGE.pot
+	if [ -f  $potfile ] ; then
+		echo "OK".
+	else
+		echo "$potfile is not present.  Did you specify the right command line?" >&2
+		exit 1
+	fi
+	tmpdir=`mktemp -d`
+
+	
+	# set -x
+	printf "Fetching .po files..."
+	wget --quiet --recursive --directory-prefix="$tmpdir" --level=1 --accept "*.po" --no-directories "$URLBASE"/"$PACKAGE"
+	echo done
+	# cp /tmp/po-updates/$PACKAGE/*.po "$tmpdir"
+	# touch "$tmpdir"/*.po 
+
+	for f in $(cd $tmpdir && ls *.po ); do
+		possible_update "$f" "$tmpdir" "$DESTDIR" 	
+	done
+	cd /
+	rm -rf "$tmpdir"
+}
+
+
+# getversion gl.po
+# update_needed 4.1.5 4.1.5
+# update_needed 4.1.15 4.1.5
+# update_needed 5.0 4.1.5
+# update_needed 4.2.6 5.0 
+# exit 0
+
+main "$@"
