@@ -908,8 +908,12 @@ enum SafeChdirStatus
     SafeChdirFailNonexistent
   };
 
-/* Safely perform a change in directory.
+/* Safely perform a change in directory.  We do this by calling
+ * lstat() on the subdirectory, using chdir() tro move into it, and
+ * then lstat()ing ".".  We compare the results of the two stat calls
+ * to see if they are consistent.  If not, we sound the alarm.
  *
+ * If following_links() is true, we do follow symbolic links.
  */
 static enum SafeChdirStatus
 safely_chdir_lstat(const char *dest,
@@ -920,21 +924,9 @@ safely_chdir_lstat(const char *dest,
   struct stat statbuf_arrived;
   int rv, dotfd=-1;
   int saved_errno;		/* specific_dirname() changes errno. */
-  char *name = NULL;
   boolean rv_set = false;
   
-  /* We're about to leave a directory.  If there are any -execdir
-   * argument lists which have been built but have not yet been
-   * processed, do them now because they must be done in the same
-   * directory.
-   */
-  complete_pending_execdirs(eval_tree);
-  
-
   saved_errno = errno = 0;
-  time(NULL);
-  opendir(".");
-  time(NULL);
 
   dotfd = open(".", O_RDONLY);
   if (dotfd >= 0)
@@ -1025,8 +1017,6 @@ safely_chdir_lstat(const char *dest,
 		  rv_set = true;
 		  if (options.ignore_readdir_race)
 		    errno = 0;	/* don't issue err msg */
-		  else
-		    name = specific_dirname(dest);
 		}
 	      else if (ENOTDIR == saved_errno)
 		{
@@ -1042,7 +1032,6 @@ safely_chdir_lstat(const char *dest,
 		{
 		  rv = SafeChdirFailChdirFailed;
 		  rv_set = true;
-		  name = specific_dirname(dest);
 		}
 	      goto fail;
 	    }
@@ -1052,7 +1041,7 @@ safely_chdir_lstat(const char *dest,
 	  saved_errno = errno;
 	  rv = SafeChdirFailStat;
 	  rv_set = true;
-	  name = specific_dirname(dest);
+
 	  if ( (ENOENT == saved_errno) || (0 == state.curdepth))
 	    saved_errno = 0;	/* don't issue err msg */
 	  goto fail;
@@ -1066,23 +1055,20 @@ safely_chdir_lstat(const char *dest,
       goto fail;
     }
 
+  /* This is the success path, so we clear errno.  The caller probably
+   * won't be calling error() anyway.
+   */
   saved_errno = 0;
   
   /* We use the same exit path for successs or failure. 
    * which has occurred is recorded in RV. 
    */
  fail:
+  /* We do not call error() as this would result in a duplicate error
+   * message when the caller does the same thing.
+   */
   if (saved_errno)
-    {
-      errno = saved_errno;
-      
-      /* do not call error() as this would result in a duplicate error message 
-       * when the caller does the same thing. 
-       */
-    }
-  
-  free(name);
-  name = NULL;
+    errno = saved_errno;
   
   if (dotfd >= 0)
     {
@@ -1093,30 +1079,36 @@ safely_chdir_lstat(const char *dest,
   return rv;
 }
 
-
+#if defined(O_NOFOLLOW)
+/* Safely change working directory to the specified subdirectory.
+ * We use open() with O_NOFOLLOW, followed by fchdir().  This ensures
+ * that we don't follow symbolic links (of course, we do follow them
+ * if the -L option is in effect).
+ */
 static enum SafeChdirStatus
 safely_chdir_nofollow(const char *dest,
 		      enum TraversalDirection direction,
 		      struct stat *statbuf_dest,
 		      enum ChdirSymlinkHandling symlink_handling)
 {
-#ifdef O_NOFOLLOW
-  int extraflags = following_links() ? 0 : O_NOFOLLOW;
-#else
-  int extraflags = 0;
-#endif
+  int extraflags = following_links() ? O_NOFOLLOW : 0;
 
+  errno = 0;
   int fd = open(dest, O_RDONLY|extraflags);
   if (fd < 0)
     {
-      /* POSIX normally requires this to fail with EISDIR, but
-       * it's worth a try.
-       */
-      fd = open(dest, O_WRONLY|extraflags);
-      if (fd < 0)
-	goto fallback;
+      switch (errno)
+	{
+	case ELOOP:
+	  return SafeChdirFailSymlink; /* This is why we use O_NOFOLLOW */
+	case ENOENT:
+	  return SafeChdirFailNonexistent;
+	default:
+	  return SafeChdirFailChdirFailed;
+	}
     }
-
+  
+  errno = 0;
   if (0 == fchdir(fd))
     {
       close(fd);
@@ -1124,16 +1116,25 @@ safely_chdir_nofollow(const char *dest,
     }
   else
     {
+      int saved_errno = errno;
       close(fd);
-      goto fallback;
+      errno = saved_errno;
+      
+      switch (errno)
+	{
+	case ENOTDIR:
+	  return SafeChdirFailNotDir;
+	  
+	case EACCES:
+	case EBADF:		/* Shouldn't happen */
+	case EINTR:
+	case EIO:
+	default:
+	  return SafeChdirFailChdirFailed;
+	}
     }
-  
- fallback:  
-  if (NULL == mounted_devices)
-    init_mounted_dev_list();
-  
-  return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_handling);
 }
+#endif
 
 static enum SafeChdirStatus
 safely_chdir(const char *dest,
@@ -1141,11 +1142,17 @@ safely_chdir(const char *dest,
 	     struct stat *statbuf_dest,
 	     enum ChdirSymlinkHandling symlink_handling)
 {
+  /* We're about to leave a directory.  If there are any -execdir
+   * argument lists which have been built but have not yet been
+   * processed, do them now because they must be done in the same
+   * directory.
+   */
+  complete_pending_execdirs(eval_tree);
+
 #if defined O_NOFOLLOW  
   if (options.open_nofollow_available)
     return safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_handling);
 #endif
-  
   return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_handling);
 }
 
