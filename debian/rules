@@ -49,10 +49,11 @@ binary-arch:	checkroot build
 	install -d debian/tmp/etc/cron.daily
 	install -d debian/tmp/var
 	install -d debian/tmp/var/lib
-	install -d debian/tmp/var/lib/locate
+	install -d  -g nogroup -m 2755 -o nobody debian/tmp/var/lib/locate
 	cp debian/{postinst,postrm,preinst} debian/tmp/DEBIAN/.
-	cp debian/cron.find debian/tmp/etc/cron.daily/find
 	chmod +x debian/tmp/DEBIAN/{postinst,postrm,preinst}
+	cp debian/cron.find debian/tmp/etc/cron.daily/find
+	chmod +x debian/cron.find debian/tmp/etc/cron.daily/find
 	$(MAKE) prefix=`pwd`/debian/tmp/usr \
 		localstatedir=`pwd`/debian/tmp/var/lib/locate \
 		libexecdir=`pwd`/debian/tmp/usr/lib/locate \
