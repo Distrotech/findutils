@@ -1,0 +1,45 @@
+This file describes how to build findutils starting from a set of code
+checked out of CVS, rather than from a releasaed source distribution.
+
+1. Prerequisites
+ * A C compiler
+ * GNU Autoconf version 2.57 or later (earlier versions *may* work)
+ * GNU Automake version 1.7 or later (earlier versions *may* work)
+ * CVS
+
+2. Obtain a copy of Gnulib
+
+ To obtain a copy of the gnulib library, check it out via anonymous CVS
+ from the GNU CVS server.   Make sure you check it out into a separate 
+ directory, away from the findutils sources.
+ 
+    cvs -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnulib login
+ (when asked for a password, just press return)
+
+    cvs -z3 -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnulib co gnulib
+
+
+
+3. Generate a gnulib installation within the fileutils source tree
+
+ Change your working directory to the findutils source directory (that 
+ is, the directory containing this file).   Then run the following 
+ command:-
+
+    sh import-gnulib.sh   <name of the directory containing gnulib>
+
+The above command may result in some errors from autoconf and
+automake.  These are benign unless they occur again in the following
+step - so don;t worry about them unless you see them both times.
+
+4. Remove the "@FNMATCH_H@" from gnulib/lib/Makefile.am (it appears as
+   a dependency of "all-local").
+
+5. Generate the configure scripts and Makefile.in files.
+
+    aclocal -I gnulib/m4 
+    autoheader
+    autoconf
+    automake --add-missing --copy
+
+6. Run "configure" and "make" in the normal way.

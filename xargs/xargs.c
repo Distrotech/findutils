@@ -13,11 +13,20 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   Foundation, Inc., 9 Temple Place - Suite 330, Boston, MA 02111-1307,
+   USA.
+*/
 
 /* Written by Mike Rendell <michael@cs.mun.ca>
    and David MacKenzie <djm@gnu.ai.mit.edu>.  */
 
+#include <gnulib/config.h>
+#undef VERSION
+#undef PACKAGE_VERSION
+#undef PACKAGE_TARNAME
+#undef PACKAGE_STRING
+#undef PACKAGE_NAME
+#undef PACKAGE
 #include <config.h>
 
 # ifndef PARAMS
@@ -28,7 +37,9 @@
 #  endif
 # endif
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <ctype.h>
 
 #if !defined (isascii) || defined (STDC_HEADERS)

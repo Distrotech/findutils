@@ -13,9 +13,18 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   Foundation, Inc., 9 Temple Place - Suite 330, Boston, MA 02111-1307,
+   USA.
+*/
 
 #if HAVE_CONFIG_H
+# include <gnulib/config.h>
+# undef VERSION
+# undef PACKAGE_VERSION
+# undef PACKAGE_TARNAME
+# undef PACKAGE_STRING
+# undef PACKAGE_NAME
+# undef PACKAGE
 # include <config.h>
 #endif
 
@@ -207,10 +216,12 @@ list_file (name, relname, statp, current_time, output_block_size, stream)
   modebuf[10] = '\0';
 
   fprintf (stream, "%6s ",
-	   human_readable ((uintmax_t) statp->st_ino, hbuf, 1, 1));
+	   human_readable ((uintmax_t) statp->st_ino, hbuf, human_ceiling,
+			   1, 1));
 
   fprintf (stream, "%4s ",
 	   human_readable ((uintmax_t) ST_NBLOCKS (*statp), hbuf,
+			   human_ceiling,
 			   ST_NBLOCKSIZE, output_block_size));
 
   /* The space between the mode and the number of links is the POSIX
@@ -239,7 +250,8 @@ list_file (name, relname, statp, current_time, output_block_size, stream)
 #endif
   else
     fprintf (stream, "%8s ",
-	     human_readable ((uintmax_t) statp->st_size, hbuf, 1,
+	     human_readable ((uintmax_t) statp->st_size, hbuf, human_ceiling,
+			     1,
 			     output_block_size < 0 ? output_block_size : 1));
 
   if ((when_local = localtime (&statp->st_mtime)))
@@ -276,14 +288,16 @@ list_file (name, relname, statp, current_time, output_block_size, stream)
       if (statp->st_mtime < 0)
 	{
 	  char const *num = human_readable (- (uintmax_t) statp->st_mtime,
-					    hbuf, 1, 1);
+					    hbuf, human_ceiling, 1, 1);
 	  int sign_width = width - strlen (num);
 	  fprintf (stream, "%*s%s ",
 		   sign_width < 0 ? 0 : sign_width, "-", num);
 	}
       else
 	fprintf (stream, "%*s ", width,
-		 human_readable ((uintmax_t) statp->st_mtime, hbuf, 1, 1));
+		 human_readable ((uintmax_t) statp->st_mtime, hbuf,
+				 human_ceiling,
+				 1, 1));
     }
 
   print_name_with_quoting (name, stream);

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.5\n"
-"POT-Creation-Date: 2001-05-20 12:12-0700\n"
+"POT-Creation-Date: 2003-05-26 14:40+0100\n"
 "PO-Revision-Date: 2000-05-28 18:28\n"
 "Last-Translator: Denis Perchine <dyp@perchine.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -13,249 +13,266 @@ msgstr ""
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: lib/argmatch.c:159
-#, c-format
-msgid "invalid argument %s for `%s'"
+#: gnulib/lib/argmatch.c:135
+#, fuzzy, c-format
+msgid "invalid argument %s for %s"
 msgstr "неверный аргумент %s у `%s'"
 
-#: lib/argmatch.c:160
-#, c-format
-msgid "ambiguous argument %s for `%s'"
+#: gnulib/lib/argmatch.c:136
+#, fuzzy, c-format
+msgid "ambiguous argument %s for %s"
 msgstr "неверный аргумент %s у `%s'"
 
 #. We try to put synonyms on the same line.  The assumption is that
 #. synonyms follow each other
-#: lib/argmatch.c:178
+#: gnulib/lib/argmatch.c:155
 msgid "Valid arguments are:"
 msgstr "Верные аргументы:"
 
-#: lib/error.c:102
+#: gnulib/lib/error.c:135 gnulib/lib/error.c:163
 msgid "Unknown system error"
 msgstr "Неизвестная системная ошибка"
 
-#: lib/getopt.c:675
+#: gnulib/lib/getopt.c:688 gnulib/lib/getopt.c:700
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: ключ `%s' неоднозначен\n"
 
-#: lib/getopt.c:700
+#: gnulib/lib/getopt.c:733 gnulib/lib/getopt.c:737
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: ключ `--%s' используется без аргумента\n"
 
-#: lib/getopt.c:705
+#: gnulib/lib/getopt.c:746 gnulib/lib/getopt.c:751
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: ключ `%c%s' используется без аргумента\n"
 
-#: lib/getopt.c:723 lib/getopt.c:896
+#: gnulib/lib/getopt.c:787 gnulib/lib/getopt.c:800 gnulib/lib/getopt.c:1089
+#: gnulib/lib/getopt.c:1102
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: ключ `%s' требует аргумент\n"
 
-#. --option
-#: lib/getopt.c:752
+#: gnulib/lib/getopt.c:838 gnulib/lib/getopt.c:841
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: неизвестный ключ `--%s'\n"
 
-#. +option or -option
-#: lib/getopt.c:756
+#: gnulib/lib/getopt.c:849 gnulib/lib/getopt.c:852
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: неизвестный ключ `%c%s'\n"
 
-#. 1003.2 specifies the format of this message.
-#: lib/getopt.c:782
+#: gnulib/lib/getopt.c:899 gnulib/lib/getopt.c:902
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: недопустимый ключ -- %c\n"
 
-#: lib/getopt.c:785
+#: gnulib/lib/getopt.c:908 gnulib/lib/getopt.c:911
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: неверный ключ -- %c\n"
 
-#. 1003.2 specifies the format of this message.
-#: lib/getopt.c:815 lib/getopt.c:945
+#: gnulib/lib/getopt.c:958 gnulib/lib/getopt.c:969 gnulib/lib/getopt.c:1155
+#: gnulib/lib/getopt.c:1168
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: ключ требует аргумент -- %c\n"
 
-#: lib/getopt.c:862
+#: gnulib/lib/getopt.c:1021 gnulib/lib/getopt.c:1032
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: ключ `-W %s' неоднозначен\n"
 
-#: lib/getopt.c:880
+#: gnulib/lib/getopt.c:1056 gnulib/lib/getopt.c:1068
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: ключ `-W %s' используется без аргумента\n"
 
-#: lib/human.c:321
+#: gnulib/lib/human.c:361
 msgid "block size"
 msgstr "размер блока"
 
-#: lib/quotearg.c:221
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#: gnulib/lib/quotearg.c:236
 msgid "`"
 msgstr "`"
 
-#: lib/quotearg.c:224
+#: gnulib/lib/quotearg.c:237
 msgid "'"
 msgstr "'"
 
-#: lib/regex.c:1029
+#: gnulib/lib/regex.c:1362
 msgid "Success"
 msgstr "Успех"
 
-#: lib/regex.c:1032
+#: gnulib/lib/regex.c:1365
 msgid "No match"
 msgstr "Нет совпадений"
 
-#: lib/regex.c:1035
+#: gnulib/lib/regex.c:1368
 msgid "Invalid regular expression"
 msgstr "Неверное регулярное выражение"
 
-#: lib/regex.c:1038
+#: gnulib/lib/regex.c:1371
 msgid "Invalid collation character"
 msgstr "Неверный знак сопоставления"
 
-#: lib/regex.c:1041
+#: gnulib/lib/regex.c:1374
 msgid "Invalid character class name"
 msgstr "Неверное имя класса знаков"
 
-#: lib/regex.c:1044
+#: gnulib/lib/regex.c:1377
 msgid "Trailing backslash"
 msgstr "Завершающий обратный слэш"
 
-#: lib/regex.c:1047
+#: gnulib/lib/regex.c:1380
 msgid "Invalid back reference"
 msgstr "Неверная обратная ссылка"
 
-#: lib/regex.c:1050
+#: gnulib/lib/regex.c:1383
 msgid "Unmatched [ or [^"
 msgstr "Несбалансированная [ или [^"
 
-#: lib/regex.c:1053
+#: gnulib/lib/regex.c:1386
 msgid "Unmatched ( or \\("
 msgstr "Несбалансированная ( или \\("
 
-#: lib/regex.c:1056
+#: gnulib/lib/regex.c:1389
 msgid "Unmatched \\{"
 msgstr "Несбалансированная \\{"
 
-#: lib/regex.c:1059
+#: gnulib/lib/regex.c:1392
 msgid "Invalid content of \\{\\}"
 msgstr "Неверное содержимое \\{\\}"
 
-#: lib/regex.c:1062
+#: gnulib/lib/regex.c:1395
 msgid "Invalid range end"
 msgstr "Неверный конец промежутка"
 
-#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
-#. before exiting when memory is exhausted.  Goes through gettext.
-#: lib/regex.c:1065 lib/xmalloc.c:66
+#: gnulib/lib/regex.c:1398
 msgid "Memory exhausted"
 msgstr "Не хватает памяти"
 
-#: lib/regex.c:1068
+#: gnulib/lib/regex.c:1401
 msgid "Invalid preceding regular expression"
 msgstr "Неверное предшествующее регулярное выражение"
 
-#: lib/regex.c:1071
+#: gnulib/lib/regex.c:1404
 msgid "Premature end of regular expression"
 msgstr "Неожиданный конец регулярного выражения"
 
-#: lib/regex.c:1074
+#: gnulib/lib/regex.c:1407
 msgid "Regular expression too big"
 msgstr "Регулярное выражение слишком большое"
 
-#: lib/regex.c:1077
+#: gnulib/lib/regex.c:1410
 msgid "Unmatched ) or \\)"
 msgstr "Несбалансированная ) или \\)"
 
-#: lib/regex.c:5861
+#: gnulib/lib/regex.c:8029
 msgid "No previous regular expression"
 msgstr "Нет предыдущего регулярного выражения"
 
-#: lib/rpmatch.c:78
+#: gnulib/lib/rpmatch.c:78
 msgid "^[yY]"
 msgstr ""
 
-#: lib/rpmatch.c:81
+#: gnulib/lib/rpmatch.c:81
 msgid "^[nN]"
 msgstr ""
 
-#: find/util.c:87
+#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
+#. before exiting when memory is exhausted.  Goes through gettext.
+#: gnulib/lib/xmalloc.c:63
+#, fuzzy
+msgid "memory exhausted"
+msgstr "Не хватает памяти"
+
+#: find/util.c:89
 msgid "oops -- invalid default insertion of and!"
 msgstr "оопс -- неверная вставка по умолчанию оператора 'И' (and)"
 
-#: find/parser.c:553 find/util.c:145
+#: find/util.c:147 find/parser.c:555
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Использование: %s [путь...] [выражение]\n"
 
-#: find/find.c:203
+#: find/find.c:204
 msgid "paths must precede expression"
 msgstr "пути должны быть перед выражением"
 
 #. Command line option not recognized
-#: find/find.c:208
+#: find/find.c:209
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "неверный предикат `%s'"
 
 #. Command line option requires an argument
-#: find/find.c:214
+#: find/find.c:215
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "отсутствует аргумент у `%s'"
 
-#: find/find.c:216
+#: find/find.c:217
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "неверный аргумент `%s' у `%s'"
 
-#: find/find.c:245
+#: find/find.c:246
 msgid "Predicate List:\n"
 msgstr "Список предикатов:\n"
 
-#: find/find.c:253
+#: find/find.c:254
 msgid "Eval Tree:\n"
 msgstr "Дерево вычислений:\n"
 
-#: find/find.c:264
+#: find/find.c:265
 msgid "Optimized Eval Tree:\n"
 msgstr "Оптимизированное дерево вычислений:\n"
 
-#: find/find.c:278 find/find.c:281
+#: find/find.c:279 find/find.c:282
 msgid "cannot get current directory"
 msgstr "не могу получить текущий каталог"
 
-#: find/find.c:306 find/find.c:343 find/find.c:527 find/find.c:591
+#: find/find.c:307 find/find.c:344 find/find.c:528 find/find.c:592
 #, c-format
 msgid "%s changed during execution of %s"
 msgstr ""
 
-#: find/find.c:497 find/parser.c:937
+#: find/find.c:498 find/parser.c:939
 msgid "virtual memory exhausted"
 msgstr "не хватает виртуальной памяти"
 
-#: find/find.c:593
+#: find/find.c:594
 #, c-format
 msgid "%s/.. changed during execution of %s"
 msgstr ""
 
-#: find/fstype.c:274
+#: find/fstype.c:276
 #, c-format
 msgid "error in %s: %s"
 msgstr "ошибка в %s: %s"
 
-#: find/fstype.c:363
+#: find/fstype.c:365
 msgid "unknown"
 msgstr "неизвестный"
 
-#: find/parser.c:555
+#: find/parser.c:557
 msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of:\n"
@@ -269,7 +286,7 @@ msgstr ""
 "других):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:560
+#: find/parser.c:562
 msgid ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
 "options (always true): -daystart -depth -follow --help\n"
@@ -281,7 +298,7 @@ msgstr ""
 "      -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n"
 "tests (N может быть +N или -N или N): -amin N -anewer FILE -atime N -cmin N\n"
 
-#: find/parser.c:565
+#: find/parser.c:567
 msgid ""
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
 "      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
@@ -291,7 +308,7 @@ msgstr ""
 "      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n"
 
-#: find/parser.c:569
+#: find/parser.c:571
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
@@ -301,7 +318,7 @@ msgstr ""
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:573
+#: find/parser.c:575
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
@@ -309,48 +326,48 @@ msgstr ""
 "действия: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
 
-#: find/parser.c:576 locate/locate.c:430 xargs/xargs.c:925
+#: find/parser.c:578 locate/locate.c:485 xargs/xargs.c:936
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>."
 msgstr ""
 
-#: find/parser.c:935
+#: find/parser.c:937
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "неверный режим '%s'"
 
-#: find/parser.c:1068
+#: find/parser.c:1070
 msgid "invalid null argument to -size"
 msgstr "отсутствует аргумент у -size"
 
-#: find/parser.c:1104
+#: find/parser.c:1106
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "неверный тип '%c' для -size"
 
-#: find/parser.c:1192
+#: find/parser.c:1194
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find версии %s\n"
 
-#: find/parser.c:1333
+#: find/parser.c:1335
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "предупреждение: нераспознаваемая последовательность '\\%c'"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1379
+#: find/parser.c:1381
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "предyпреждение: нераспознаваемый формат директивы '%%%c'"
 
-#: find/parser.c:1588 find/parser.c:1670
+#: find/parser.c:1590 find/parser.c:1672
 #, c-format
 msgid "inserting %s\n"
 msgstr "вставляю %s\n"
 
-#: find/parser.c:1589 find/parser.c:1671
+#: find/parser.c:1591 find/parser.c:1673
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "     тип: %s    %s  "
@@ -360,66 +377,66 @@ msgstr "     тип: %s    %s  "
 #. The exact format is not specified.
 #. This standard does not have requirements for locales other than POSIX
 #.
-#: find/pred.c:982
+#: find/pred.c:984
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1265 xargs/xargs.c:777
+#: find/pred.c:1267 xargs/xargs.c:788
 msgid "cannot fork"
 msgstr "не могу создать процесс"
 
-#: find/pred.c:1285
+#: find/pred.c:1287
 #, c-format
 msgid "error waiting for %s"
 msgstr "ошибка ожидания %s"
 
-#: find/pred.c:1291
+#: find/pred.c:1293
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s прерван по сигналу %d"
 
-#: find/pred.c:1406
+#: find/pred.c:1408
 msgid "left:\n"
 msgstr "слева:\n"
 
-#: find/pred.c:1410
+#: find/pred.c:1412
 msgid "right:\n"
 msgstr "справа:\n"
 
-#: find/tree.c:63 find/tree.c:69 find/tree.c:88 find/tree.c:108
-#: find/tree.c:144
+#: find/tree.c:65 find/tree.c:71 find/tree.c:90 find/tree.c:110
+#: find/tree.c:146
 msgid "invalid expression"
 msgstr "неверное выражение"
 
-#: find/tree.c:93 find/tree.c:158 find/tree.c:309 find/tree.c:439
+#: find/tree.c:95 find/tree.c:160 find/tree.c:311 find/tree.c:441
 msgid "oops -- invalid expression type!"
 msgstr "оопс -- неверный тип выражения!"
 
 #. Normalized tree.
-#: find/tree.c:229
+#: find/tree.c:231
 msgid "Normalized Eval Tree:\n"
 msgstr "Нормализованное Дерево:\n"
 
-#: locate/code.c:136
+#: locate/code.c:145
 #, c-format
 msgid "Usage: %s most_common_bigrams < list > coded_list\n"
 msgstr ""
 "Использование: %s most_common_bigrams < список > зашифрованный_список\n"
 
 #. Printable name of units used in WARN_SECONDS
-#: locate/locate.c:115
+#: locate/locate.c:124
 msgid "days"
 msgstr "дней"
 
 #. For example:
 #. warning: database `fred' is more than 8 days old
-#: locate/locate.c:250
+#: locate/locate.c:305
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "предупреждение: база данных '%s' устарела более чем на %d %s"
 
-#: locate/locate.c:426
+#: locate/locate.c:481
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | --existing]\n"
@@ -428,84 +445,84 @@ msgstr ""
 "Использование: %s [-d путь] [--database=путь] [--version] [--help]\n"
 "      [-e | --existing] маска...\n"
 
-#: locate/locate.c:488
+#: locate/locate.c:543
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate версии %s\n"
 
-#: xargs/xargs.c:298
+#: xargs/xargs.c:309
 msgid "environment is too large for exec"
 msgstr "окружение слишком велико для исполнения"
 
-#: xargs/xargs.c:372
+#: xargs/xargs.c:383
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs версии %s\n"
 
-#: xargs/xargs.c:546
+#: xargs/xargs.c:557
 #, c-format
 msgid "unmatched %s quote"
 msgstr "Несбалансированная %s кавычка"
 
-#: xargs/xargs.c:547
+#: xargs/xargs.c:558
 msgid "double"
 msgstr "двойная"
 
-#: xargs/xargs.c:547
+#: xargs/xargs.c:558
 msgid "single"
 msgstr "одинарная"
 
-#: xargs/xargs.c:560 xargs/xargs.c:605
+#: xargs/xargs.c:571 xargs/xargs.c:616
 msgid "argument line too long"
 msgstr "строка аргументов слишком велика"
 
-#: xargs/xargs.c:663
+#: xargs/xargs.c:674
 msgid "command too long"
 msgstr "команда слишком велика"
 
-#: xargs/xargs.c:681
+#: xargs/xargs.c:692
 msgid "can not fit single argument within argument list size limit"
 msgstr "аргумент по размеру выходит за пределы списка аргументов"
 
-#: xargs/xargs.c:685
+#: xargs/xargs.c:696
 msgid "argument list too long"
 msgstr "список аргументов слишком велик"
 
-#: xargs/xargs.c:839
+#: xargs/xargs.c:850
 msgid "error waiting for child process"
 msgstr "ошибка ожидания дочернего процесса"
 
-#: xargs/xargs.c:855
+#: xargs/xargs.c:866
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: завершен со статусом 255; прерываюсь"
 
-#: xargs/xargs.c:857
+#: xargs/xargs.c:868
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: остановлен по сигналу %d"
 
-#: xargs/xargs.c:859
+#: xargs/xargs.c:870
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: завершен по сигналу %d"
 
-#: xargs/xargs.c:882
+#: xargs/xargs.c:893
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: неверное число для опции -%c\n"
 
-#: xargs/xargs.c:888
+#: xargs/xargs.c:899
 #, c-format
 msgid "%s: value for -%c option must be >= %ld\n"
 msgstr "%s: значение для опции -%c должно быть >= %ld\n"
 
-#: xargs/xargs.c:894
+#: xargs/xargs.c:905
 #, c-format
 msgid "%s: value for -%c option must be < %ld\n"
 msgstr "%s: значение для опции -%c должно быть < %ld\n"
 
-#: xargs/xargs.c:917
+#: xargs/xargs.c:928
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"

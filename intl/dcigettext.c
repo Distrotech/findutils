@@ -23,6 +23,11 @@
 #endif
 
 #ifdef HAVE_CONFIG_H
+# include <gnulib/config.h>
+# undef VERSION
+# undef PACKAGE_VERSION
+# undef PACKAGE_TARNAME
+# undef PACKAGE_STRING
 # include <config.h>
 #endif
 
@@ -972,18 +977,18 @@ plural_lookup (domain, n, translation, translation_len)
      size_t translation_len;
 {
   struct loaded_domain *domaindata = (struct loaded_domain *) domain->data;
-  unsigned long int index;
+  unsigned long int idx; /* can't call this index, we may need to use index() */
   const char *p;
 
-  index = plural_eval (domaindata->plural, n);
-  if (index >= domaindata->nplurals)
+  idx = plural_eval (domaindata->plural, n);
+  if (idx >= domaindata->nplurals)
     /* This should never happen.  It means the plural expression and the
        given maximum value do not match.  */
-    index = 0;
+    idx = 0;
 
   /* Skip INDEX strings at TRANSLATION.  */
   p = translation;
-  while (index-- > 0)
+  while (idx-- > 0)
     {
 #ifdef _LIBC
       p = __rawmemchr (p, '\0');

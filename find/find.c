@@ -1,5 +1,5 @@
 /* find -- search for files in a directory hierarchy
-   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,7 +13,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   Foundation, Inc., 9 Temple Place - Suite 330, Boston, MA 02111-1307,
+   USA.*/
 
 /* GNU find was written by Eric Decker <cire@cisco.com>,
    with enhancements by David MacKenzie <djm@gnu.ai.mit.edu>,
@@ -183,7 +184,15 @@ main (int argc, char **argv)
   xstat = lstat;
 #endif /* !DEBUG_STAT */
 
+#if 0  
   human_block_size (getenv ("FIND_BLOCK_SIZE"), 0, &output_block_size);
+#else
+  if (getenv("FIND_BLOCK_SIZE"))
+    {
+      error (1, errno, _("The environment variable FIND_BLOCK_SIZE is not supported"));
+    }
+  
+#endif
 
 #ifdef DEBUG
   printf ("cur_day_start = %s", ctime (&cur_day_start));
@@ -485,7 +494,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
   subdirs_left = statp->st_nlink - 2; /* Account for name and ".". */
 
   errno = 0;
-  name_space = savedir (name, statp->st_size);
+  name_space = savedir (name);
   if (name_space == NULL)
     {
       if (errno)

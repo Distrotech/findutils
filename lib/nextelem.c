@@ -13,12 +13,21 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   Foundation, Inc., 9 Temple Place - Suite 330, Boston, MA 02111-1307,
+   USA.
+*/
 
 /* Written by David MacKenzie <djm@gnu.ai.mit.edu>,
    inspired by John P. Rouillard <rouilj@cs.umb.edu>.  */
 
 #ifdef HAVE_CONFIG_H
+#include <gnulib/config.h>
+#undef VERSION
+#undef PACKAGE_VERSION
+#undef PACKAGE_TARNAME
+#undef PACKAGE_STRING
+#undef PACKAGE
+#undef PACKAGE_NAME
 #include <config.h>
 #endif
 

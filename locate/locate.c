@@ -1,5 +1,5 @@
 /* locate -- search databases for filenames that match patterns
-   Copyright (C) 1994 Free Software Foundation, Inc.
+   Copyright (C) 1994, 96, 98, 99, 2000, 2003 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,7 +13,9 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   Foundation, Inc., 9 Temple Place - Suite 330, Boston, MA 02111-1307,
+   USA.
+*/
 
 /* Usage: locate [options] pattern...
 
@@ -48,6 +50,13 @@
    Modified by David MacKenzie <djm@gnu.ai.mit.edu>.  */
 
 #define _GNU_SOURCE
+#include <gnulib/config.h>
+#undef VERSION
+#undef PACKAGE_VERSION
+#undef PACKAGE_TARNAME
+#undef PACKAGE_STRING
+#undef PACKAGE_NAME
+#undef PACKAGE
 #include <config.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -191,6 +200,52 @@ last_literal_end (name)
   return subp;
 }
 
+/* getstr()
+ *
+ * Read bytes from FP into the buffer at offset OFFSET in (*BUF),
+ * until we reach DELIMITER or end-of-file.   We reallocate the buffer 
+ * as necessary, altering (*BUF) and (*SIZ) as appropriate.  No assumption 
+ * is made regarding the content of the data (i.e. the implementation is 
+ * 8-bit clean, the only delimiter is DELIMITER).
+ *
+ * Written Fri May 23 18:41:16 2003 by James Youngman, because getstr() 
+ * has been removed from gnulib.  
+ *
+ * We call the function locate_read_str() to avoid a name clash with the curses
+ * function getstr().
+ */
+static int locate_read_str(char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
+{
+  char * p = NULL;
+  size_t sz = 0;
+  int needed, nread;
+
+  nread = getdelim(&p, &sz, delimiter, fp);
+  if (nread >= 0)
+    {
+      assert(p != NULL);
+      
+      needed = offs + nread;
+      if (needed > (*siz))
+	{
+	  char *pnew = realloc(*buf, needed);
+	  if (NULL == pnew)
+	    {
+	      return -1;	/* FAIL */
+	    }
+	  else
+	    {
+	      *siz = needed;
+	      *buf = pnew;
+	    }
+	}
+      memcpy((*buf)+offs, p, nread);
+      free(p);
+    }
+  return nread;
+}
+
+
 /* Print the entries in DBFILE that match shell globbing pattern PATHPART.
    Return the number of entries printed.  */
 
@@ -251,7 +306,7 @@ locate (pathpart, dbfile, ignore_case)
 	     dbfile, WARN_NUMBER_UNITS, _(warn_name_units));
     }
 
-  pathsize = 1026;		/* Increased as necessary by getstr.  */
+  pathsize = 1026;		/* Increased as necessary by locate_read_str.  */
   path = xmalloc (pathsize);
 
   nread = fread (path, 1, sizeof (LOCATEDB_MAGIC), fp);
@@ -319,14 +374,14 @@ locate (pathpart, dbfile, ignore_case)
 	    count += c;
 
 	  /* Overlay the old path with the remainder of the new.  */
-	  nread = getstr (&path, &pathsize, fp, '\0', count);
+	  nread = locate_read_str (&path, &pathsize, fp, 0, count); 
 	  if (nread < 0)
 	    break;
 	  c = getc (fp);
 	  s = path + count + nread - 2; /* Move to the last char in path.  */
 	  assert (s[0] != '\0');
 	  assert (s[1] == '\0'); /* Our terminator.  */
-	  assert (s[2] == '\0'); /* Added by getstr.  */
+	  assert (s[2] == '\0'); /* Added by locate_read_str.  */
 	}
 
       /* If the previous path matched, scan the whole path for the last

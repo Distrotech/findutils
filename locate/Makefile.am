@@ -11,11 +11,11 @@ man_MANS = locate.1 updatedb.1 locatedb.5
 EXTRA_DIST = locatedb.h updatedb.sh $(man_MANS)
 CLEANFILES = updatedb
 
-INCLUDES = -I$(top_srcdir)/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
+INCLUDES = -I$(top_srcdir)/lib -I../gnulib/lib -I$(top_srcdir)/gnulib/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
 
-LDADD = ../find/version.o ../lib/libfind.a @INTLLIBS@
+LDADD = ../find/version.o ../lib/libfind.a ../gnulib/lib/libgnulib.a @INTLLIBS@
 
-$(PROGRAMS) $(LIBPROGRAMS): ../find/version.o ../lib/libfind.a
+$(PROGRAMS) $(LIBPROGRAMS): ../find/version.o ../lib/libfind.a ../gnulib/lib/libgnulib.a
 
 updatedb: updatedb.sh
 	rm -f $@

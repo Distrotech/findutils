@@ -13,8 +13,17 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   Foundation, Inc., 9 Temple Place - Suite 330, Boston, MA 02111-1307,
+   USA.
+*/
 
+#include <gnulib/config.h>
+#undef VERSION
+#undef PACKAGE_VERSION
+#undef PACKAGE_TARNAME
+#undef PACKAGE_STRING
+#undef PACKAGE_NAME
+#undef PACKAGE
 #include <config.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -118,10 +127,15 @@ int stat PARAMS((const char *__path, struct stat *__statbuf));
 #define MODE_RWX	(S_IXUSR | S_IXGRP | S_IXOTH | MODE_RW)
 #define MODE_ALL	(S_ISUID | S_ISGID | S_ISVTX | MODE_RWX)
 
+#if 1
+#include <stdbool.h>
+typedef bool boolean;
+#else
 /* Not char because of type promotion; NeXT gcc can't handle it.  */
 typedef int boolean;
 #define		true    1
 #define		false	0
+#endif
 
 /* Pointer to function returning boolean. */
 typedef boolean (*PFB)();
