@@ -222,12 +222,6 @@
 /* Define if you have the INTTYPES_H function.  */
 #undef HAVE_INTTYPES_H
 
-/* Define if you have the LSTAT_EMPTY_STRING_BUG function.  */
-#undef HAVE_LSTAT_EMPTY_STRING_BUG
-
-/* Define if you have the STAT_EMPTY_STRING_BUG function.  */
-#undef HAVE_STAT_EMPTY_STRING_BUG
-
 /* Define if you have the STRUCT_UTIMBUF function.  */
 #undef HAVE_STRUCT_UTIMBUF
 
@@ -455,4 +449,14 @@
 
 /* Define if compiler has function prototypes */
 #undef PROTOTYPES
+
+/* Define if lstat has the bug that it succeeds when given the zero-length
+   file name argument.  The lstat from SunOS4.1.4 and the Hurd as of 1998-11-01)
+   do this.  */
+#undef HAVE_LSTAT_EMPTY_STRING_BUG
+
+/* Define if stat has the bug that it succeeds when given the zero-length
+   file name argument.  The stat from SunOS4.1.4 and the Hurd as of 1998-11-01)
+   do this.  */
+#undef HAVE_STAT_EMPTY_STRING_BUG
 

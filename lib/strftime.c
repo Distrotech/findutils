@@ -1,4 +1,4 @@
-/* Copyright (C) 1991,92,93,94,95,96,97,98 Free Software Foundation, Inc.
+/* Copyright (C) 1991,92,93,94,95,96,97,98,99 Free Software Foundation, Inc.
 
    NOTE: The canonical source of this file is maintained with the GNU C Library.
    Bugs can be reported to bug-glibc@prep.ai.mit.edu.
@@ -10,8 +10,8 @@
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Library General Public License for more details.
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
@@ -100,7 +100,7 @@ extern char *tzname[];
 #endif
 
 #ifndef __P
-# if defined (__GNUC__) || (defined (__STDC__) && __STDC__)
+# if defined __GNUC__ || (defined __STDC__ && __STDC__)
 #  define __P(args) args
 # else
 #  define __P(args) ()
@@ -157,9 +157,7 @@ extern char *tzname[];
 # if ! HAVE_TM_GMTOFF
 static struct tm *my_strftime_gmtime_r __P ((const time_t *, struct tm *));
 static struct tm *
-my_strftime_gmtime_r (t, tp)
-     const time_t *t;
-     struct tm *tp;
+my_strftime_gmtime_r (const time_t *t, struct tm *tp)
 {
   struct tm *l = gmtime (t);
   if (! l)
@@ -171,9 +169,7 @@ my_strftime_gmtime_r (t, tp)
 
 static struct tm *my_strftime_localtime_r __P ((const time_t *, struct tm *));
 static struct tm *
-my_strftime_localtime_r (t, tp)
-     const time_t *t;
-     struct tm *tp;
+my_strftime_localtime_r (const time_t *t, struct tm *tp)
 {
   struct tm *l = localtime (t);
   if (! l)
@@ -274,10 +270,7 @@ static const char zeroes[16] = /* "0000000000000000" */
 static char *memcpy_lowcase __P ((char *dest, const char *src, size_t len));
 
 static char *
-memcpy_lowcase (dest, src, len)
-     char *dest;
-     const char *src;
-     size_t len;
+memcpy_lowcase (char *dest, const char *src, size_t len)
 {
   while (len-- > 0)
     dest[len] = TOLOWER ((unsigned char) src[len]);
@@ -287,10 +280,7 @@ memcpy_lowcase (dest, src, len)
 static char *memcpy_uppcase __P ((char *dest, const char *src, size_t len));
 
 static char *
-memcpy_uppcase (dest, src, len)
-     char *dest;
-     const char *src;
-     size_t len;
+memcpy_uppcase (char *dest, const char *src, size_t len)
 {
   while (len-- > 0)
     dest[len] = TOUPPER ((unsigned char) src[len]);
@@ -304,9 +294,7 @@ memcpy_uppcase (dest, src, len)
 # define tm_diff ftime_tm_diff
 static int tm_diff __P ((const struct tm *, const struct tm *));
 static int
-tm_diff (a, b)
-     const struct tm *a;
-     const struct tm *b;
+tm_diff (const struct tm *a, const struct tm *b)
 {
   /* Compute intervening leap days correctly even if year is negative.
      Take care to avoid int overflow in leap day calculations,
@@ -341,9 +329,7 @@ static int iso_week_days __P ((int, int));
 __inline__
 #endif
 static int
-iso_week_days (yday, wday)
-     int yday;
-     int wday;
+iso_week_days (int yday, int wday)
 {
   /* Add enough to the first operand of % to make it nonnegative.  */
   int big_enough_multiple_of_7 = (-YDAY_MINIMUM / 7 + 2) * 7;
@@ -411,12 +397,8 @@ static char const month_name[][10] =
    anywhere, so to determine how many characters would be
    written, use NULL for S and (size_t) UINT_MAX for MAXSIZE.  */
 size_t
-my_strftime (s, maxsize, format, tp ut_argument)
-      char *s;
-      size_t maxsize;
-      const char *format;
-      const struct tm *tp;
-      ut_argument_spec
+my_strftime (char *s, size_t maxsize, const char *format, const struct tm *tp
+	     ut_argument_spec)
 {
   int hour12 = tp->tm_hour;
 #ifdef _NL_CURRENT
@@ -511,7 +493,7 @@ my_strftime (s, maxsize, format, tp ut_argument)
 	case '%':
 	  break;
 
-	case '\a': case '\b': case '\t': case '\n':
+	case '\b': case '\t': case '\n':
 	case '\v': case '\f': case '\r':
 	case ' ': case '!': case '"': case '#': case '&': case'\'':
 	case '(': case ')': case '*': case '+': case ',': case '-':
@@ -529,10 +511,11 @@ my_strftime (s, maxsize, format, tp ut_argument)
 	case 'r': case 's': case 't': case 'u': case 'v': case 'w':
 	case 'x': case 'y': case 'z': case '{': case '|': case '}':
 	case '~':
-	  /* The C Standard requires these 98 characters (plus '%') to
+	  /* The C Standard requires these 97 characters (plus '%', '\a') to
 	     be in the basic execution character set.  None of these
 	     characters can start a multibyte sequence, so they need
-	     not be analyzed further.  */
+	     not be analyzed further.  Some old compilers object to
+	     '\a', so don't bother optimizing for it.  */
 	  add (1, *p = *f);
 	  continue;
 
@@ -1043,7 +1026,6 @@ my_strftime (s, maxsize, format, tp ut_argument)
 	  add (1, *p = '\t');
 	  break;
 
-	case 'f':
 	case 'u':		/* POSIX.2 extension.  */
 	  DO_NUMBER (1, (tp->tm_wday - 1 + 7) % 7 + 1);
 
@@ -1238,7 +1220,7 @@ my_strftime (s, maxsize, format, tp ut_argument)
 	}
     }
 
-  if (p && i < maxsize)
+  if (p && maxsize != 0)
     *p = '\0';
   return i;
 }

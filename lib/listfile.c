@@ -15,8 +15,8 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+#if HAVE_CONFIG_H
+# include <config.h>
 #endif
 
 #include <sys/types.h>
@@ -28,14 +28,16 @@
 #include <errno.h>
 #include "pathmax.h"
 
-#if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
+#if HAVE_STRING_H || STDC_HEADERS
 #include <string.h>
 #else
 #include <strings.h>
 #endif
-#ifdef STDC_HEADERS
-#include <stdlib.h>
+
+#if STDC_HEADERS
+# include <stdlib.h>
 #else
+char *getenv ();
 extern int errno;
 #endif
 
@@ -65,6 +67,9 @@ extern int errno;
 #define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
 #endif
 
+#if defined(S_ISLNK)
+int readlink ();
+#endif
 
 /* Extract or fake data from a `struct stat'.
    ST_NBLOCKS: Number of 512-byte blocks in the file
@@ -85,9 +90,10 @@ extern int errno;
 # endif
 #endif
 
-/* Convert B 512-byte blocks to kilobytes if K is nonzero,
+/* Convert NUMBER 512-byte blocks to kilobytes if KILOFLAG is nonzero,
    otherwise return it unchanged. */
-#define convert_blocks(b, k) ((k) ? ((b) + 1) / 2 : (b))
+#define convert_blocks(Number, Kiloflag) \
+  ((Kiloflag) ? ((Number) + 1) / 2 : (Number))
 
 #ifndef _POSIX_VERSION
 struct passwd *getpwuid ();
@@ -151,7 +157,8 @@ list_file (name, relname, statp, stream)
 
   fprintf (stream, "%6lu ", statp->st_ino);
 
-  fprintf (stream, "%4lu ", convert_blocks (ST_NBLOCKS (statp), kilobytes));
+  fprintf (stream, "%4lu ",
+	   (long) convert_blocks (ST_NBLOCKS (statp), kilobytes));
 
   /* The space between the mode and the number of links is the POSIX
      "optional alternate access method flag". */

@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4a from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -9,7 +9,6 @@
 # but WITHOUT ANY WARRANTY, to the extent permitted by law; without
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
-
 
 SHELL = @SHELL@
 
@@ -46,9 +45,10 @@ AUTOMAKE = @AUTOMAKE@
 AUTOHEADER = @AUTOHEADER@
 
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_STRIP_FLAG =
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -57,14 +57,23 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+
+@SET_MAKE@
+AMDEP = @AMDEP@
+AMTAR = @AMTAR@
+AWK = @AWK@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CPP = @CPP@
+CXX = @CXX@
+CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
+DEPDIR = @DEPDIR@
 GENCAT = @GENCAT@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
+GNU_PACKAGE = @GNU_PACKAGE@
 GT_NO = @GT_NO@
 GT_YES = @GT_YES@
 INCLUDES = @INCLUDES@
@@ -85,13 +94,17 @@ U = @U@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+install_sh = @install_sh@
 l = @l@
+
 
 info_TEXINFOS = find.texi
 find_TEXINFOS = perm.texi
+subdir = doc
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
+DIST_SOURCES = 
 TEXI2DVI = texi2dvi
 INFO_DEPS = find.info
 DVIS = find.dvi
@@ -100,9 +113,8 @@ DIST_COMMON =  $(find_TEXINFOS) Makefile.am Makefile.in mdate-sh \
 stamp-vti texinfo.tex version.texi
 
 
-DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = tar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
@@ -150,7 +162,7 @@ DVIPS = dvips
 	  && $(MAKEINFO) `echo $< | sed 's,.*/,,'`
 
 .texi.dvi:
-	TEXINPUTS=.:$$TEXINPUTS \
+	TEXINPUTS=$(srcdir):$$TEXINPUTS \
 	  MAKEINFO='$(MAKEINFO) -I $(srcdir)' $(TEXI2DVI) $<
 
 .texi:
@@ -169,7 +181,7 @@ DVIPS = dvips
 	  && $(MAKEINFO) `echo $< | sed 's,.*/,,'`
 
 .texinfo.dvi:
-	TEXINPUTS=.:$$TEXINPUTS \
+	TEXINPUTS=$(srcdir):$$TEXINPUTS \
 	  MAKEINFO='$(MAKEINFO) -I $(srcdir)' $(TEXI2DVI) $<
 
 .txi.info:
@@ -178,7 +190,7 @@ DVIPS = dvips
 	  && $(MAKEINFO) `echo $< | sed 's,.*/,,'`
 
 .txi.dvi:
-	TEXINPUTS=.:$$TEXINPUTS \
+	TEXINPUTS=$(srcdir):$$TEXINPUTS \
 	  MAKEINFO='$(MAKEINFO) -I $(srcdir)' $(TEXI2DVI) $<
 
 .txi:
@@ -194,7 +206,7 @@ install-info-am: $(INFO_DEPS)
 	@list='$(INFO_DEPS)'; \
 	for file in $$list; do \
 	  d=$(srcdir); \
-	  for ifile in `cd $$d && echo $$file $$file-[0-9] $$file-[0-9][0-9]`; do \
+	  for ifile in `CDPATH=: && cd $$d && echo $$file $$file-[0-9] $$file-[0-9][0-9]`; do \
 	    if test -f $$d/$$ifile; then \
 	      echo " $(INSTALL_DATA) $$d/$$ifile $(DESTDIR)$(infodir)/$$ifile"; \
 	      $(INSTALL_DATA) $$d/$$ifile $(DESTDIR)$(infodir)/$$ifile; \
@@ -213,24 +225,26 @@ install-info-am: $(INFO_DEPS)
 uninstall-info:
 	$(PRE_UNINSTALL)
 	@if $(SHELL) -c 'install-info --version | sed 1q | fgrep -s -v -i debian' >/dev/null 2>&1; then \
-	  ii=yes; \
-	else ii=; fi; \
-	list='$(INFO_DEPS)'; \
-	for file in $$list; do \
-	  test -z "$ii" \
-	    || install-info --info-dir=$(DESTDIR)$(infodir) --remove $$file; \
-	done
+	  list='$(INFO_DEPS)'; \
+	  for file in $$list; do \
+	    echo " install-info --info-dir=$(DESTDIR)$(infodir) --remove $(DESTDIR)$(infodir)/$$file"; \
+	    install-info --info-dir=$(DESTDIR)$(infodir) --remove $(DESTDIR)$(infodir)/$$file; \
+	  done; \
+	else :; fi
 	@$(NORMAL_UNINSTALL)
-	list='$(INFO_DEPS)'; \
+	@list='$(INFO_DEPS)'; \
 	for file in $$list; do \
-	  (cd $(DESTDIR)$(infodir) && rm -f $$file $$file-[0-9] $$file-[0-9][0-9]); \
+	  (if cd $(DESTDIR)$(infodir); then \
+	     echo " rm -f $$file $$file-[0-9] $$file-[0-9][0-9])"; \
+	     rm -f $$file $$file-[0-9] $$file-[0-9][0-9]; \
+	   else :; fi); \
 	done
 
 dist-info: $(INFO_DEPS)
 	list='$(INFO_DEPS)'; \
 	for base in $$list; do \
 	  d=$(srcdir); \
-	  for file in `cd $$d && eval echo $$base*`; do \
+	  for file in `CDPATH=: && cd $$d && eval echo $$base*`; do \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	    || cp -p $$d/$$file $(distdir)/$$file; \
@@ -238,9 +252,10 @@ dist-info: $(INFO_DEPS)
 	done
 
 mostlyclean-aminfo:
-	-rm -f find.aux find.cp find.cps find.dvi find.fn find.fns find.ky \
-	  find.kys find.ps find.log find.pg find.toc find.tp find.tps \
-	  find.vr find.vrs find.op find.tr find.cv find.cn
+	-rm -f find.aux find.cp find.cps find.dvi find.fn find.fns find.pgs \
+	  find.ky find.kys find.ps find.log find.pg find.toc find.tp \
+	  find.tps find.vr find.vrs find.op find.tr find.cv find.cn \
+	  find.cm find.ov
 
 clean-aminfo:
 
@@ -259,18 +274,11 @@ TAGS:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = doc
-
 distdir: $(DISTFILES)
-	here=`cd $(top_builddir) && pwd`; \
-	top_distdir=`cd $(top_distdir) && pwd`; \
-	distdir=`cd $(distdir) && pwd`; \
-	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu doc/Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pR $$d/$$file $(distdir); \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
@@ -300,7 +308,7 @@ uninstall: uninstall-am
 all-am: Makefile $(INFO_DEPS)
 all-redirect: all-am
 install-strip:
-	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs:
 	$(mkinstalldirs)  $(DESTDIR)$(infodir)
 
@@ -314,6 +322,7 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	-rm -f Makefile.in
 mostlyclean-am:  mostlyclean-vti mostlyclean-aminfo mostlyclean-generic
 
 mostlyclean: mostlyclean-am
@@ -338,8 +347,8 @@ install-info-am uninstall-info mostlyclean-aminfo distclean-aminfo \
 clean-aminfo maintainer-clean-aminfo tags distdir info-am info dvi-am \
 dvi check check-am installcheck-am installcheck install-exec-am \
 install-exec install-data-am install-data install-am install \
-uninstall-am uninstall all-redirect all-am all installdirs \
-mostlyclean-generic distclean-generic clean-generic \
+uninstall-am uninstall all-redirect all-am all install-strip \
+installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 

@@ -1,6 +1,6 @@
 /* getline.c -- Replacement for GNU C library function getline
 
-Copyright (C) 1993, 1996, 1997 Free Software Foundation, Inc.
+Copyright (C) 1993, 1996, 1997, 1998 Free Software Foundation, Inc.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License as
@@ -31,20 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. */
 #include <stdio.h>
 #include <sys/types.h>
 
-#if defined __GNU_LIBRARY__ && HAVE_GETDELIM
-
-int
-getline (lineptr, n, stream)
-     char **lineptr;
-     size_t *n;
-     FILE *stream;
-{
-  return getdelim (lineptr, n, '\n', stream);
-}
-
-
-#else /* ! have getdelim */
-
+/* define getstr even if the other functions are unneeded */
 # define NDEBUG
 # include <assert.h>
 
@@ -63,17 +50,12 @@ char *malloc (), *realloc ();
    as necessary.  Return the number of characters read (not including the
    null terminator), or -1 on error or EOF.  */
 
-int
-getstr (lineptr, n, stream, terminator, offset)
-     char **lineptr;
-     size_t *n;
-     FILE *stream;
-     char terminator;
-     size_t offset;
+ssize_t
+getstr (char **lineptr, size_t *n, FILE *stream, char terminator, size_t offset)
 {
   int nchars_avail;		/* Allocated but unused chars in *LINEPTR.  */
   char *read_pos;		/* Where we're reading into *LINEPTR. */
-  int ret;
+  ssize_t ret;
 
   if (!lineptr || !n || !stream)
     return -1;
@@ -137,21 +119,29 @@ getstr (lineptr, n, stream, terminator, offset)
   return ret;
 }
 
-int
-getline (lineptr, n, stream)
-     char **lineptr;
-     size_t *n;
-     FILE *stream;
+#ifndef HAVE_GETLINE
+#if defined __GNU_LIBRARY__ && HAVE_GETDELIM
+ssize_t
+getline (char **lineptr, size_t *n, FILE *stream)
+{
+  return getdelim (lineptr, n, '\n', stream);
+}
+
+#else /* ! have getdelim */
+
+ssize_t
+getline (char **lineptr, size_t *n, FILE *stream)
 {
   return getstr (lineptr, n, stream, '\n', 0);
 }
 
-int
-getdelim (lineptr, n, delimiter, stream)
-     char **lineptr;
-     size_t *n;
-     int delimiter;
-     FILE *stream;
+#endif
+#endif
+
+
+#if ! (defined __GNU_LIBRARY__ && HAVE_GETDELIM)
+ssize_t
+getdelim (char **lineptr, size_t *n, int delimiter, FILE *stream)
 {
   return getstr (lineptr, n, stream, delimiter, 0);
 }

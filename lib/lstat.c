@@ -1,7 +1,7 @@
 /* Work around the bug in some systems whereby lstat succeeds when
    given the zero-length file name argument.  The lstat from SunOS4.1.4
    has this bug.
-   Copyright (C) 1997, 1998 Free Software Foundation, Inc.
+   Copyright (C) 1997-2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,6 +28,56 @@
 extern int errno;
 #endif
 
+#ifdef STAT_MACROS_BROKEN
+# undef S_ISLNK
+#endif
+#if !defined(S_ISLNK) && defined(S_IFLNK)
+# define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
+#endif
+
+char *xmalloc ();
+
+/* lstat works different on Linux and Solaris systems.  POSIX (see
+   `pathname resolution' in the glossary) requires that programs like `ls'
+   take into consideration the fact that FILE has a trailing slash when
+   FILE is a symbolic link.  On Linux systems, the lstat function already
+   has the desired semantics (in treating `lstat("symlink/",sbuf)' just like
+   `lstat("symlink/.",sbuf)', but on Solaris it does not.
+
+   If FILE has a trailing slash and specifies a symbolic link,
+   then append a `.' to FILE and call lstat a second time.  */
+
+static int
+slash_aware_lstat (const char *file, struct stat *sbuf)
+{
+  size_t len;
+  char *new_file;
+
+  int lstat_result = lstat (file, sbuf);
+
+  if (lstat_result != 0 || !S_ISLNK (sbuf->st_mode))
+    return lstat_result;
+
+  len = strlen (file);
+  if (file[len - 1] != '/')
+    return lstat_result;
+
+  /* FILE refers to a symbolic link and the name ends with a slash.
+     Append a `.' to FILE and repeat the lstat call.  */
+
+  /* Add one for the `.' we might have to append, and one more
+     for the trailing NUL.  */
+  new_file = xmalloc (len + 1 + 1);
+  memcpy (new_file, file, len);
+  new_file[len] = '.';
+  new_file[len + 1] = 0;
+
+  lstat_result = lstat (new_file, sbuf);
+  free (new_file);
+
+  return lstat_result;
+}
+
 /* This is a wrapper for lstat(2).
    If FILE is the empty string, fail with errno == ENOENT.
    Otherwise, return the result of calling the real lstat.
@@ -35,6 +85,9 @@ extern int errno;
    This works around the bug in some systems whereby lstat succeeds when
    given the zero-length file name argument.  The lstat from SunOS4.1.4
    has this bug.  */
+
+/* This function also provides a version of lstat with consistent semantics
+   when FILE specifies a symbolic link and has a trailing slash.  */
 
 int
 rpl_lstat (const char *file, struct stat *sbuf)
@@ -45,5 +98,5 @@ rpl_lstat (const char *file, struct stat *sbuf)
       return -1;
     }
 
-  return lstat (file, sbuf);
+  return slash_aware_lstat (file, sbuf);
 }

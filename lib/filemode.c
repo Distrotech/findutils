@@ -1,5 +1,5 @@
 /* filemode.c -- make a string describing file modes
-   Copyright (C) 1985, 1990, 1993, 1998 Free Software Foundation, Inc.
+   Copyright (C) 1985, 1990, 1993, 1998, 1999 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -48,6 +48,25 @@
 # endif
 #endif
 
+#if !S_IRGRP
+# define S_IRGRP (S_IRUSR >> 3)
+#endif
+#if !S_IWGRP
+# define S_IWGRP (S_IWUSR >> 3)
+#endif
+#if !S_IXGRP
+# define S_IXGRP (S_IXUSR >> 3)
+#endif
+#if !S_IROTH
+# define S_IROTH (S_IRUSR >> 6)
+#endif
+#if !S_IWOTH
+# define S_IWOTH (S_IWUSR >> 6)
+#endif
+#if !S_IXOTH
+# define S_IXOTH (S_IXUSR >> 6)
+#endif
+
 #ifdef STAT_MACROS_BROKEN
 # undef S_ISBLK
 # undef S_ISCHR
@@ -89,23 +108,15 @@
 #if !defined(S_ISNWK) && defined(S_IFNWK) /* HP/UX */
 # define S_ISNWK(m) (((m) & S_IFMT) == S_IFNWK)
 #endif
-
-/* Look at read, write, and execute bits in BITS and set
-   flags in CHARS accordingly.  */
-
-static void
-rwx (short unsigned int bits, char *chars)
-{
-  chars[0] = (bits & S_IRUSR) ? 'r' : '-';
-  chars[1] = (bits & S_IWUSR) ? 'w' : '-';
-  chars[2] = (bits & S_IXUSR) ? 'x' : '-';
-}
+#if !defined(S_ISDOOR) && defined(S_IFDOOR) /* Solaris 2.5 and up */
+# define S_ISDOOR(m) (((m) & S_IFMT) == S_IFDOOR)
+#endif
 
 /* Set the 's' and 't' flags in file attributes string CHARS,
    according to the file mode BITS.  */
 
 static void
-setst (short unsigned int bits, char *chars)
+setst (mode_t bits, char *chars)
 {
 #ifdef S_ISUID
   if (bits & S_ISUID)
@@ -142,6 +153,7 @@ setst (short unsigned int bits, char *chars)
 /* Return a character indicating the type of file described by
    file mode BITS:
    'd' for directories
+   'D' for doors
    'b' for block special files
    'c' for character special files
    'm' for multiplexor files
@@ -153,7 +165,7 @@ setst (short unsigned int bits, char *chars)
    '?' for any other file type.  */
 
 static char
-ftypelet (long int bits)
+ftypelet (mode_t bits)
 {
 #ifdef S_ISBLK
   if (S_ISBLK (bits))
@@ -185,6 +197,10 @@ ftypelet (long int bits)
   if (S_ISNWK (bits))
     return 'n';
 #endif
+#ifdef S_ISDOOR
+  if (S_ISDOOR (bits))
+    return 'D';
+#endif
 
   /* The following two tests are for Cray DMF (Data Migration
      Facility), which is a HSM file system.  A migrated file has a
@@ -208,12 +224,18 @@ ftypelet (long int bits)
    is given as an argument.  */
 
 void
-mode_string (short unsigned int mode, char *str)
+mode_string (mode_t mode, char *str)
 {
-  str[0] = ftypelet ((long) mode);
-  rwx ((mode & 0700) << 0, &str[1]);
-  rwx ((mode & 0070) << 3, &str[4]);
-  rwx ((mode & 0007) << 6, &str[7]);
+  str[0] = ftypelet (mode);
+  str[1] = mode & S_IRUSR ? 'r' : '-';
+  str[2] = mode & S_IWUSR ? 'w' : '-';
+  str[3] = mode & S_IXUSR ? 'x' : '-';
+  str[4] = mode & S_IRGRP ? 'r' : '-';
+  str[5] = mode & S_IWGRP ? 'w' : '-';
+  str[6] = mode & S_IXGRP ? 'x' : '-';
+  str[7] = mode & S_IROTH ? 'r' : '-';
+  str[8] = mode & S_IWOTH ? 'w' : '-';
+  str[9] = mode & S_IXOTH ? 'x' : '-';
   setst (mode, str);
 }
 

@@ -1,7 +1,7 @@
 /* Work around the bug in some systems whereby stat succeeds when
    given the zero-length file name argument.  The stat from SunOS4.1.4
    has this bug.
-   Copyright (C) 1997, 1998 Free Software Foundation, Inc.
+   Copyright (C) 1997-2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
