@@ -1,3 +1,10 @@
+findutils (4.1-18) unstable; urgency=low
+
+  * added extra '\' so that localuser, prunefs, and prunepaths can work
+    together, which fixes bug #6640n
+
+ -- Kevin Dalley <kevin@aimnet.com>  Thu, 23 Jan 1997 02:00:11 -0800
+
 findutils (4.1-17) unstable; urgency=low
 
   * corrected permission on /var/lib/locate again in postinst.
@@ -21,7 +28,7 @@ findutils (4.1-16) unstable; urgency=low
 
 findutils (4.1-15) unstable; urgency=low
 
-  * added PRUNEREGEX as variable in updatedb and --prunefs as option to
+  * added PRUNEFS as variable in updatedb and --prunefs as option to
     updatedb (solves bug #1239, which is RFE)
   * rename cron.find to cron.updatedb (and cron.daily/find to
     cron.daily/updatedb)
