@@ -995,6 +995,9 @@ parse_prune (char **argv, int *arg_ptr)
 
   our_pred = insert_primary (pred_prune);
   our_pred->need_stat = false;
+  /* -prune has a side effect that it does not descend into
+     the current directory. */
+  our_pred->side_effects = true;
   return (true);
 }
 
