@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.3\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-01-23 11:18+0000\n"
+"POT-Creation-Date: 2005-01-25 09:04+0000\n"
 "PO-Revision-Date: 2004-11-03 02:26+0100\n"
 "Last-Translator: Marco d'Itri <md@linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -276,29 +276,29 @@ msgstr ""
 "%s%s è cambiato durante l'esecuzione di %s (vecchio numero di inode %ld, "
 "nuovo numero di inode %ld, il filesystem è di tipo %s) [rif. %ld]"
 
-#: find/find.c:1059
+#: find/find.c:1068
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1074
+#: find/find.c:1083
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1078
+#: find/find.c:1087
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1079
+#: find/find.c:1088
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1453
+#: find/find.c:1469
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -497,40 +497,40 @@ msgstr "inserimento di %s\n"
 msgid "    type: %s    %s  "
 msgstr "    tipo: %s    %s  "
 
-#: find/pred.c:1133 find/pred.c:1170
+#: find/pred.c:1135 find/pred.c:1172
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1544 find/pred.c:1644 xargs/xargs.c:962
+#: find/pred.c:1545 find/pred.c:1650 xargs/xargs.c:962
 msgid "cannot fork"
 msgstr "impossibile fare fork"
 
-#: find/pred.c:1579 find/pred.c:1664
+#: find/pred.c:1585 find/pred.c:1670
 #, c-format
 msgid "error waiting for %s"
 msgstr "errore aspettando %s"
 
-#: find/pred.c:1587 find/pred.c:1670
+#: find/pred.c:1593 find/pred.c:1676
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s terminato dal segnale %d"
 
-#: find/pred.c:1808
+#: find/pred.c:1814
 #, c-format
 msgid "left:\n"
 msgstr "sinistra:\n"
 
-#: find/pred.c:1812
+#: find/pred.c:1818
 #, c-format
 msgid "right:\n"
 msgstr "destra:\n"
 
-#: find/pred.c:1897
+#: find/pred.c:1903
 msgid "[stat called here] "
 msgstr ""
 
-#: find/pred.c:1898
+#: find/pred.c:1904
 msgid "[type needed here] "
 msgstr ""
 
@@ -585,7 +585,7 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Uso: %s bigrammi_più_comuni < lista > lista_codificata\n"
 
-#: locate/code.c:132 locate/locate.c:706 xargs/xargs.c:1130
+#: locate/code.c:132 locate/locate.c:749 xargs/xargs.c:1130
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -602,83 +602,84 @@ msgstr "GNU find versione %s\n"
 msgid "days"
 msgstr "giorni"
 
-#: locate/locate.c:539
-#, c-format
-msgid "warning: database `%s' is more than %d %s old"
-msgstr "attenzione: il database `%s' ha più di %d %s"
-
-#: locate/locate.c:563
-#, c-format
-msgid "Database %s is in the %s format.\n"
-msgstr ""
-
-#: locate/locate.c:565
-msgid "old"
-msgstr ""
-
-#: locate/locate.c:619
-#, c-format
-msgid "locate database `%s' is corrupt or invalid"
-msgstr "il database di locate '%s' è corrotto o non valido"
-
-#: locate/locate.c:646
+#: locate/locate.c:473
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr ""
 
-#: locate/locate.c:650
+#: locate/locate.c:477
 #, c-format
 msgid "Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:653
+#: locate/locate.c:480
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr ""
 
-#: locate/locate.c:657
+#: locate/locate.c:484
 #, c-format
 msgid ""
 "\n"
 "\tof which %s contain whitespace, "
 msgstr ""
 
-#: locate/locate.c:660
+#: locate/locate.c:487
 #, c-format
 msgid ""
 "\n"
 "\t%s contain newline characters, "
 msgstr ""
 
-#: locate/locate.c:663
+#: locate/locate.c:490
 #, c-format
 msgid ""
 "\n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:667
+#: locate/locate.c:494
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr ""
 
-#: locate/locate.c:700
+#: locate/locate.c:606
+#, c-format
+msgid "warning: database `%s' is more than %d %s old"
+msgstr "attenzione: il database `%s' ha più di %d %s"
+
+#: locate/locate.c:630
+#, c-format
+msgid "Database %s is in the %s format.\n"
+msgstr ""
+
+#: locate/locate.c:632
+msgid "old"
+msgstr ""
+
+#: locate/locate.c:686
+#, c-format
+msgid "locate database `%s' is corrupt or invalid"
+msgstr "il database di locate '%s' è corrotto o non valido"
+
+#: locate/locate.c:742
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | --existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
-"      [--version] [--help] pattern...\n"
+"      [-P | -H | --nofollow] [-L | --follow] [--version]\n"
+"      [--help] pattern...\n"
 msgstr ""
 "Uso: %s [-d percorso | --database=percorso] [ -e | --existing]\n"
 "    [-i | --ignore-case] [--version] [--help] modello...\n"
 
-#: locate/locate.c:792
+#: locate/locate.c:837
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate versione %s\n"
 
-#: locate/locate.c:809
+#: locate/locate.c:868
 #, fuzzy
 msgid "argument to --limit"
 msgstr "la riga dell'argomento è troppo lunga"
