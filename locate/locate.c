@@ -743,8 +743,8 @@ usage (stream)
 Usage: %s [-d path | --database=path] [-e | --existing]\n\
       [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
-      [-P | -H | --nofollow] [-L | --follow] [--version]\n\
-      [--help] pattern...\n"),
+      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n\
+      [--version] [--help] pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
