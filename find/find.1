@@ -804,8 +804,17 @@ this behaviour.  If the leaf optimisation has been turned off with
 .BR -noleaf ,
 the directory entry will always be examined and the diagnostic message
 will be issued where it is appropriate.  Symbolic links cannot be used
-to create filesystem cycles, so they don't ever cause this warning to
-be issued.
+to create filesystem cycles as such, but if the \-L option or the
+\-follow option is in use, a diagnostic message is issued when 
+.B find 
+encounters a loop of symbolic links.  As with loops containing hard
+links, the leaf optimisation will often mean that 
+.B find
+knows that it doesn't need to call 
+.I stat()
+or
+.I chdir() 
+on the symbolic link, so this diagnostic is frequently not neccessary.
 .P
 The \-d option is supported for comatibility with various BSD systems,
 but you should use the POSIX-compliant predicate \-depth instead.
