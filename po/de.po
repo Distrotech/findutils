@@ -5,13 +5,34 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.3\n"
-"POT-Creation-Date: 2000-04-02 15:34-0700\n"
+"POT-Creation-Date: 2000-04-12 02:51-0700\n"
 "PO-Revision-Date: 2000-02-19 20:30+01:00\n"
 "Last-Translator: Nils Naumann <nnau@gmx.net>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
+
+#: lib/argmatch.c:159
+#, fuzzy, c-format
+msgid "invalid argument %s for `%s'"
+msgstr "Ungültiges Argument \"%s\" für \"%s\"."
+
+#: lib/argmatch.c:160
+#, fuzzy, c-format
+msgid "ambiguous argument %s for `%s'"
+msgstr "Ungültiges Argument \"%s\" für \"%s\"."
+
+#. We try to put synonyms on the same line.  The assumption is that
+#. synonyms follow each other
+#: lib/argmatch.c:178
+#, fuzzy
+msgid "Valid arguments are:"
+msgstr "Ungültiges Argument \"%s\" für \"%s\"."
+
+#: lib/error.c:102
+msgid "Unknown system error"
+msgstr ""
 
 #: lib/getopt.c:675
 #, c-format
@@ -72,162 +93,160 @@ msgstr "%s: Die Option \"-W %s\" ist mehrdeutig.\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: Die Option \"-W %s\" gestattet kein Argument.\n"
 
-#: lib/regex.c:1018
+#: lib/human.c:321
+msgid "block size"
+msgstr ""
+
+#: lib/quotearg.c:215
+msgid "`"
+msgstr ""
+
+#: lib/quotearg.c:218
+msgid "'"
+msgstr ""
+
+#: lib/regex.c:1029
 msgid "Success"
 msgstr "Erfolg"
 
-#. REG_NOERROR
-#: lib/regex.c:1019
+#: lib/regex.c:1032
 msgid "No match"
 msgstr "Kein Treffer"
 
-#. REG_NOMATCH
-#: lib/regex.c:1020
+#: lib/regex.c:1035
 msgid "Invalid regular expression"
 msgstr "Ungültiger regulärer Ausdruck."
 
-#. REG_BADPAT
-#: lib/regex.c:1021
+#: lib/regex.c:1038
 msgid "Invalid collation character"
 msgstr "Ungültiges Vergleichszeichen."
 
-#. REG_ECOLLATE
-#: lib/regex.c:1022
+#: lib/regex.c:1041
 msgid "Invalid character class name"
 msgstr "Ungültiger Zeichenklassenname."
 
-#. REG_ECTYPE
-#: lib/regex.c:1023
+#: lib/regex.c:1044
 msgid "Trailing backslash"
 msgstr "Angehängter Schrägstrich rückwärts."
 
-#. REG_EESCAPE
-#: lib/regex.c:1024
+#: lib/regex.c:1047
 msgid "Invalid back reference"
 msgstr "Ungültiger Rückbezug."
 
-#. REG_ESUBREG
-#: lib/regex.c:1025
+#: lib/regex.c:1050
 msgid "Unmatched [ or [^"
 msgstr "Nicht korrespondierende [ oder [^."
 
-#. REG_EBRACK
-#: lib/regex.c:1026
+#: lib/regex.c:1053
 msgid "Unmatched ( or \\("
 msgstr "Nicht korrespondierende ( oder \\(."
 
-#. REG_EPAREN
-#: lib/regex.c:1027
+#: lib/regex.c:1056
 msgid "Unmatched \\{"
 msgstr "Nicht korrespondierende \\{."
 
-#. REG_EBRACE
-#: lib/regex.c:1028
+#: lib/regex.c:1059
 msgid "Invalid content of \\{\\}"
 msgstr "Ungültiger Inhalt von \\{\\}"
 
-#. REG_BADBR
-#: lib/regex.c:1029
+#: lib/regex.c:1062
 msgid "Invalid range end"
 msgstr "Ungültiges Bereichsende."
 
-#. REG_ERANGE
-#: lib/regex.c:1030 lib/xmalloc.c:66
+#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
+#. before exiting when memory is exhausted.  Goes through gettext.
+#: lib/regex.c:1065 lib/xmalloc.c:66
 msgid "Memory exhausted"
 msgstr "Der virtuelle Arbeitsspeicher ist erschöpft."
 
-#. REG_ESPACE
-#: lib/regex.c:1031
+#: lib/regex.c:1068
 msgid "Invalid preceding regular expression"
 msgstr "Vorhergehender regulärer Ausdruck ist ungültig."
 
-#. REG_BADRPT
-#: lib/regex.c:1032
+#: lib/regex.c:1071
 msgid "Premature end of regular expression"
 msgstr "Vorzeitiges Ende des regulären Ausdrucks."
 
-#. REG_EEND
-#: lib/regex.c:1033
+#: lib/regex.c:1074
 msgid "Regular expression too big"
 msgstr "Der reguläre Ausdruck ist zu lang."
 
-#. REG_ESIZE
-#: lib/regex.c:1034
+#: lib/regex.c:1077
 msgid "Unmatched ) or \\)"
 msgstr "Nicht korrespondierende ) oder \\)."
 
-#: lib/regex.c:5521
+#: lib/regex.c:5861
 msgid "No previous regular expression"
 msgstr "Kein vorhergehender regulärer Ausdruck."
 
-#: find/util.c:90
+#: find/util.c:86
 msgid "oops -- invalid default insertion of and!"
 msgstr "Oops -- Automatisches Einfügen von \"-and\" ist ungültig!"
 
-#: find/parser.c:545 find/util.c:148
+#: find/parser.c:550 find/util.c:144
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Syntax: %s [Pfad...] [Suchkriterium]\n"
 
-#: find/find.c:192
+#: find/find.c:200
 msgid "paths must precede expression"
 msgstr "Der Pfad muß vor dem Suchkriterium stehen."
 
 #. Command line option not recognized
-#: find/find.c:197
+#: find/find.c:205
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "ungültiges Prädikat `%s'"
 
 #. Command line option requires an argument
-#: find/find.c:203
+#: find/find.c:211
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "Fehlendes Argument für \"%s\"."
 
-#: find/find.c:205
+#: find/find.c:213
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "Ungültiges Argument \"%s\" für \"%s\"."
 
-#: find/find.c:234
+#: find/find.c:242
 msgid "Predicate List:\n"
 msgstr "Prädikat Liste:\n"
 
-#: find/find.c:242
+#: find/find.c:250
 msgid "Eval Tree:\n"
 msgstr "Auswertbaum:\n"
 
-#: find/find.c:253
+#: find/find.c:261
 msgid "Optimized Eval Tree:\n"
 msgstr "Optimierter Auswertbaum:\n"
 
-#: find/find.c:260
+#: find/find.c:268
 msgid "cannot get current directory"
 msgstr "Kann nicht ins aktuelle Verzeichnis wechseln."
 
-#: find/find.c:264
+#: find/find.c:272
 msgid "cannot open current directory"
 msgstr "Kann das aktuelle Verzeichnis nicht öffnen."
 
-#: find/find.c:304 find/pred.c:1209
+#: find/find.c:312 find/pred.c:1274
 msgid "cannot return to starting directory"
 msgstr "Kann nicht ins Startverzeichnis zurückkehren."
 
-#: find/find.c:454 find/parser.c:924
+#: find/find.c:461 find/parser.c:932
 msgid "virtual memory exhausted"
 msgstr "Virtueller Arbeitsspeicher erschöpft."
 
-#: find/fstype.c:275
+#: find/fstype.c:274
 #, c-format
 msgid "error in %s: %s"
 msgstr "Fehler in %s: %s."
 
-#: find/fstype.c:364
+#: find/fstype.c:363
 msgid "unknown"
 msgstr "unbekannt"
 
-#: find/parser.c:547
+#: find/parser.c:552
 msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of:\n"
@@ -240,7 +259,7 @@ msgstr ""
 "Operatoren (In abnehmendem Vorrang. Kein Operator bedeutet \"-and\".):\n"
 " ( AUSDR ) ! AUSDR -not AUSDR AUSDR1 -a AUSDR2 AUSDR1 -and AUSDR2\n"
 
-#: find/parser.c:552
+#: find/parser.c:557
 msgid ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
 "options (always true): -daystart -depth -follow --help\n"
@@ -252,7 +271,7 @@ msgstr ""
 "      -maxdepth EBENEN -mindepth EBENEN -mount -noleaf --version -xdev\n"
 "Tests (N kann +N, -N oder N sein): -amin N -anewer File -atime N -cmin N\n"
 
-#: find/parser.c:557
+#: find/parser.c:562
 msgid ""
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
 "      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
@@ -263,7 +282,7 @@ msgstr ""
 "      -iregex SUCHMUSTER -links N -lname SUCHMUSTER -mmin N -mtime N \n"
 "      -name SUCHMUSTER -newer DATEI\n"
 
-#: find/parser.c:561
+#: find/parser.c:566
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
@@ -273,7 +292,7 @@ msgstr ""
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:565
+#: find/parser.c:570
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
@@ -281,41 +300,41 @@ msgstr ""
 "Aktionen: -exec KOMMANDO ; -fprint DATEI -fprint0 DATEI -fprintf DATEI "
 "FORMAT\"      -ok KOMMANDO ; -print -print0 -printf FORMAT -prune -ls\n"
 
-#: find/parser.c:922
+#: find/parser.c:930
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "Ungültiger Modus `%s'."
 
-#: find/parser.c:1052
+#: find/parser.c:1058
 msgid "invalid null argument to -size"
 msgstr "\"-size\" erfordert ein Argument."
 
-#: find/parser.c:1088
+#: find/parser.c:1094
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "Ungültige Einheit `%c' für \"-size\"."
 
-#: find/parser.c:1173
+#: find/parser.c:1182
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find Version %s\n"
 
-#: find/parser.c:1308
+#: find/parser.c:1317
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "Warnung: Unerkanntes Sonderzeichen `\\%c'."
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1354
+#: find/parser.c:1363
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "Warnung: Unerkannte Formatanweisung `%%%c'."
 
-#: find/parser.c:1596 find/parser.c:1697
+#: find/parser.c:1570 find/parser.c:1652
 #, c-format
 msgid "inserting %s\n"
 msgstr "Einfügen von %s.\n"
 
-#: find/parser.c:1597 find/parser.c:1698
+#: find/parser.c:1571 find/parser.c:1653
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "     Typ: %s    %s  "
@@ -325,54 +344,44 @@ msgstr "     Typ: %s    %s  "
 #. The exact format is not specified.
 #. This standard does not have requirements for locales other than POSIX
 #.
-#: find/pred.c:909
+#: find/pred.c:982
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr ""
 
-#: find/pred.c:1196 xargs/xargs.c:777
+#: find/pred.c:1261 xargs/xargs.c:777
 msgid "cannot fork"
 msgstr "Kann keinen neuen Prozeß starten."
 
-#: find/pred.c:1221
+#: find/pred.c:1287
 #, c-format
 msgid "error waiting for %s"
 msgstr "Fehler beim Warten auf das Prozeßende von %s."
 
-#: find/pred.c:1227
-#, c-format
-msgid "wait got pid %d, expected pid %d"
-msgstr "Ende von Prozeß %d erkannt und %d erwartet."
-
-#: find/pred.c:1233
-#, c-format
-msgid "%s stopped by signal %d"
-msgstr "Prozeß %s angehalten durch das Signal %d."
-
-#: find/pred.c:1240
+#: find/pred.c:1293
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "Prozeß %s abgebrochen durch das Signal %d."
 
-#: find/pred.c:1332
+#: find/pred.c:1408
 msgid "left:\n"
 msgstr "links:\n"
 
-#: find/pred.c:1336
+#: find/pred.c:1412
 msgid "right:\n"
 msgstr "rechts:\n"
 
-#: find/tree.c:67 find/tree.c:73 find/tree.c:92 find/tree.c:112
-#: find/tree.c:148
+#: find/tree.c:63 find/tree.c:69 find/tree.c:88 find/tree.c:108
+#: find/tree.c:144
 msgid "invalid expression"
 msgstr "Ungültiger Ausdruck."
 
-#: find/tree.c:97 find/tree.c:162 find/tree.c:309 find/tree.c:438
+#: find/tree.c:93 find/tree.c:158 find/tree.c:305 find/tree.c:434
 msgid "oops -- invalid expression type!"
 msgstr "Oops -- ungültige Ausdrucksart!"
 
 #. Normalized tree.
-#: find/tree.c:230
+#: find/tree.c:226
 msgid "Normalized Eval Tree:\n"
 msgstr "Normalisierter Auswertbaum:\n"
 
@@ -498,3 +507,9 @@ msgstr ""
 "       [--max-procs=Prozeßanzahl] [--max-args=Argumentanzahl]\n"
 "       [--no-run-if-empty] [--version] [--help] [Kommando "
 "[Anfangsargumente]]\n"
+
+#~ msgid "wait got pid %d, expected pid %d"
+#~ msgstr "Ende von Prozeß %d erkannt und %d erwartet."
+
+#~ msgid "%s stopped by signal %d"
+#~ msgstr "Prozeß %s angehalten durch das Signal %d."

@@ -5,13 +5,34 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1\n"
-"POT-Creation-Date: 2000-04-02 15:34-0700\n"
+"POT-Creation-Date: 2000-04-12 02:51-0700\n"
 "PO-Revision-Date: 1996-07-05 19:39\n"
 "Last-Translator: Johan Linde <jl@theophys.kth.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
+
+#: lib/argmatch.c:159
+#, fuzzy, c-format
+msgid "invalid argument %s for `%s'"
+msgstr "tomt argument till -size ogiltigt"
+
+#: lib/argmatch.c:160
+#, fuzzy, c-format
+msgid "ambiguous argument %s for `%s'"
+msgstr "tomt argument till -size ogiltigt"
+
+#. We try to put synonyms on the same line.  The assumption is that
+#. synonyms follow each other
+#: lib/argmatch.c:178
+#, fuzzy
+msgid "Valid arguments are:"
+msgstr "tomt argument till -size ogiltigt"
+
+#: lib/error.c:102
+msgid "Unknown system error"
+msgstr ""
 
 #: lib/getopt.c:675
 #, c-format
@@ -72,173 +93,171 @@ msgstr ""
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr ""
 
-#: lib/regex.c:1018
+#: lib/human.c:321
+msgid "block size"
+msgstr ""
+
+#: lib/quotearg.c:215
+msgid "`"
+msgstr ""
+
+#: lib/quotearg.c:218
+msgid "'"
+msgstr ""
+
+#: lib/regex.c:1029
 msgid "Success"
 msgstr ""
 
-#. REG_NOERROR
-#: lib/regex.c:1019
+#: lib/regex.c:1032
 msgid "No match"
 msgstr ""
 
-#. REG_NOMATCH
-#: lib/regex.c:1020
+#: lib/regex.c:1035
 #, fuzzy
 msgid "Invalid regular expression"
 msgstr "ogiltigt uttryck"
 
-#. REG_BADPAT
-#: lib/regex.c:1021
+#: lib/regex.c:1038
 msgid "Invalid collation character"
 msgstr ""
 
-#. REG_ECOLLATE
-#: lib/regex.c:1022
+#: lib/regex.c:1041
 msgid "Invalid character class name"
 msgstr ""
 
-#. REG_ECTYPE
-#: lib/regex.c:1023
+#: lib/regex.c:1044
 msgid "Trailing backslash"
 msgstr ""
 
-#. REG_EESCAPE
-#: lib/regex.c:1024
+#: lib/regex.c:1047
 msgid "Invalid back reference"
 msgstr ""
 
-#. REG_ESUBREG
-#: lib/regex.c:1025
+#: lib/regex.c:1050
 #, fuzzy
 msgid "Unmatched [ or [^"
 msgstr "omaka %s citattecken"
 
-#. REG_EBRACK
-#: lib/regex.c:1026
+#: lib/regex.c:1053
 #, fuzzy
 msgid "Unmatched ( or \\("
 msgstr "omaka %s citattecken"
 
-#. REG_EPAREN
-#: lib/regex.c:1027
+#: lib/regex.c:1056
 #, fuzzy
 msgid "Unmatched \\{"
 msgstr "omaka %s citattecken"
 
-#. REG_EBRACE
-#: lib/regex.c:1028
+#: lib/regex.c:1059
 msgid "Invalid content of \\{\\}"
 msgstr ""
 
-#. REG_BADBR
-#: lib/regex.c:1029
+#: lib/regex.c:1062
 msgid "Invalid range end"
 msgstr ""
 
-#. REG_ERANGE
-#: lib/regex.c:1030 lib/xmalloc.c:66
+#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
+#. before exiting when memory is exhausted.  Goes through gettext.
+#: lib/regex.c:1065 lib/xmalloc.c:66
 #, fuzzy
 msgid "Memory exhausted"
 msgstr "virtuellt minne slut"
 
-#. REG_ESPACE
-#: lib/regex.c:1031
+#: lib/regex.c:1068
 #, fuzzy
 msgid "Invalid preceding regular expression"
 msgstr "ogiltigt uttryck"
 
-#. REG_BADRPT
-#: lib/regex.c:1032
+#: lib/regex.c:1071
 msgid "Premature end of regular expression"
 msgstr ""
 
-#. REG_EEND
-#: lib/regex.c:1033
+#: lib/regex.c:1074
 msgid "Regular expression too big"
 msgstr ""
 
-#. REG_ESIZE
-#: lib/regex.c:1034
+#: lib/regex.c:1077
 #, fuzzy
 msgid "Unmatched ) or \\)"
 msgstr "omaka %s citattecken"
 
-#: lib/regex.c:5521
+#: lib/regex.c:5861
 msgid "No previous regular expression"
 msgstr ""
 
-#: find/util.c:90
+#: find/util.c:86
 msgid "oops -- invalid default insertion of and!"
 msgstr "hoppsan -- felaktigt automatiskt insatt \"and\""
 
-#: find/parser.c:545 find/util.c:148
+#: find/parser.c:550 find/util.c:144
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Användning: %s [sökväg...] [uttryck]\n"
 
-#: find/find.c:192
+#: find/find.c:200
 msgid "paths must precede expression"
 msgstr ""
 
 #. Command line option not recognized
-#: find/find.c:197
+#: find/find.c:205
 #, fuzzy, c-format
 msgid "invalid predicate `%s'"
 msgstr "ogiltig rättighet \"%s\""
 
 #. Command line option requires an argument
-#: find/find.c:203
+#: find/find.c:211
 #, fuzzy, c-format
 msgid "missing argument to `%s'"
 msgstr "tomt argument till -size ogiltigt"
 
-#: find/find.c:205
+#: find/find.c:213
 #, fuzzy, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "tomt argument till -size ogiltigt"
 
-#: find/find.c:234
+#: find/find.c:242
 msgid "Predicate List:\n"
 msgstr ""
 
-#: find/find.c:242
+#: find/find.c:250
 #, fuzzy
 msgid "Eval Tree:\n"
 msgstr "Normaliserat evalueringsträd:\n"
 
-#: find/find.c:253
+#: find/find.c:261
 #, fuzzy
 msgid "Optimized Eval Tree:\n"
 msgstr "Normaliserat evalueringsträd:\n"
 
-#: find/find.c:260
+#: find/find.c:268
 #, fuzzy
 msgid "cannot get current directory"
 msgstr "kan inte återvända till startkatalogen"
 
-#: find/find.c:264
+#: find/find.c:272
 #, fuzzy
 msgid "cannot open current directory"
 msgstr "kan inte återvända till startkatalogen"
 
-#: find/find.c:304 find/pred.c:1209
+#: find/find.c:312 find/pred.c:1274
 msgid "cannot return to starting directory"
 msgstr "kan inte återvända till startkatalogen"
 
-#: find/find.c:454 find/parser.c:924
+#: find/find.c:461 find/parser.c:932
 msgid "virtual memory exhausted"
 msgstr "virtuellt minne slut"
 
-#: find/fstype.c:275
+#: find/fstype.c:274
 #, c-format
 msgid "error in %s: %s"
 msgstr "fel i %s: %s"
 
-#: find/fstype.c:364
+#: find/fstype.c:363
 msgid "unknown"
 msgstr "okänd"
 
-#: find/parser.c:547
+#: find/parser.c:552
 msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of:\n"
@@ -253,7 +272,7 @@ msgstr ""
 "anges):\n"
 "      ( UTTR ) ! UTTR -not UTTR UTTR1 -a UTTR2 UTTR1 -and UTTR2\n"
 
-#: find/parser.c:552
+#: find/parser.c:557
 msgid ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
 "options (always true): -daystart -depth -follow --help\n"
@@ -265,7 +284,7 @@ msgstr ""
 "      -maxdepth NIVÅER -mindepth NIVÅER -mount -noleaf --version -xdev\n"
 "test  (N kan vara +N, -N eller N): -amin N -anewer FIL -atime N -cmin N\n"
 
-#: find/parser.c:557
+#: find/parser.c:562
 msgid ""
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
 "      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
@@ -275,7 +294,7 @@ msgstr ""
 "      -ilname MÖNSTER -iname MÖNSTER -inum N -ipath MÖNSTER -iregex MÖNSTER\n"
 "      -links N -lname MÖNSTER -mmin N -mtime N -name MÖNSTER -newer FIL\n"
 
-#: find/parser.c:561
+#: find/parser.c:566
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
@@ -285,7 +304,7 @@ msgstr ""
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAMN\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:565
+#: find/parser.c:570
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
@@ -293,41 +312,41 @@ msgstr ""
 "funktioner: -exec KOMMANDO ; -fprint FIL -fprint0 FIL -fprintf FIL FORMAT\n"
 "      -ok KOMMANDO ; -print -print0 -printf FORMAT -prune -ls\n"
 
-#: find/parser.c:922
+#: find/parser.c:930
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "ogiltig rättighet \"%s\""
 
-#: find/parser.c:1052
+#: find/parser.c:1058
 msgid "invalid null argument to -size"
 msgstr "tomt argument till -size ogiltigt"
 
-#: find/parser.c:1088
+#: find/parser.c:1094
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "ogiltig typ \"%c\" för -size"
 
-#: find/parser.c:1173
+#: find/parser.c:1182
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find version %s\n"
 
-#: find/parser.c:1308
+#: find/parser.c:1317
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "varning: okänd kontrollsekvens \"\\%c\""
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1354
+#: find/parser.c:1363
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "varning: okänd formatanvisning \"%%%c\""
 
-#: find/parser.c:1596 find/parser.c:1697
+#: find/parser.c:1570 find/parser.c:1652
 #, c-format
 msgid "inserting %s\n"
 msgstr "sätter in %s\n"
 
-#: find/parser.c:1597 find/parser.c:1698
+#: find/parser.c:1571 find/parser.c:1653
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "     typ: %s    %s  "
@@ -337,54 +356,44 @@ msgstr "     typ: %s    %s  "
 #. The exact format is not specified.
 #. This standard does not have requirements for locales other than POSIX
 #.
-#: find/pred.c:909
+#: find/pred.c:982
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr ""
 
-#: find/pred.c:1196 xargs/xargs.c:777
+#: find/pred.c:1261 xargs/xargs.c:777
 msgid "cannot fork"
 msgstr "kan inte grena"
 
-#: find/pred.c:1221
+#: find/pred.c:1287
 #, c-format
 msgid "error waiting for %s"
 msgstr "fel vid väntandet på %s"
 
-#: find/pred.c:1227
-#, c-format
-msgid "wait got pid %d, expected pid %d"
-msgstr "wait fick pid %d, förväntade sig pid %d"
-
-#: find/pred.c:1233
-#, c-format
-msgid "%s stopped by signal %d"
-msgstr "%s stoppades av signal %d"
-
-#: find/pred.c:1240
+#: find/pred.c:1293
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s avslutades av signal %d"
 
-#: find/pred.c:1332
+#: find/pred.c:1408
 msgid "left:\n"
 msgstr "vänster:\n"
 
-#: find/pred.c:1336
+#: find/pred.c:1412
 msgid "right:\n"
 msgstr "höger:\n"
 
-#: find/tree.c:67 find/tree.c:73 find/tree.c:92 find/tree.c:112
-#: find/tree.c:148
+#: find/tree.c:63 find/tree.c:69 find/tree.c:88 find/tree.c:108
+#: find/tree.c:144
 msgid "invalid expression"
 msgstr "ogiltigt uttryck"
 
-#: find/tree.c:97 find/tree.c:162 find/tree.c:309 find/tree.c:438
+#: find/tree.c:93 find/tree.c:158 find/tree.c:305 find/tree.c:434
 msgid "oops -- invalid expression type!"
 msgstr "hoppsan -- ogiltig typ av uttryck!"
 
 #. Normalized tree.
-#: find/tree.c:230
+#: find/tree.c:226
 msgid "Normalized Eval Tree:\n"
 msgstr "Normaliserat evalueringsträd:\n"
 
@@ -512,3 +521,9 @@ msgstr ""
 "[--max-procs=MAX-PROC]\n"
 "           [--max-args=MAX-ARG] [--no-run-if-empty] [--version] [--help]\n"
 "           [KOMMANDO [STARTARGUMENT]]\n"
+
+#~ msgid "wait got pid %d, expected pid %d"
+#~ msgstr "wait fick pid %d, förväntade sig pid %d"
+
+#~ msgid "%s stopped by signal %d"
+#~ msgstr "%s stoppades av signal %d"
