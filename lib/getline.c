@@ -79,11 +79,12 @@ getstr (lineptr, n, stream, terminator, offset)
       assert(*n - nchars_avail == read_pos - *lineptr);
       if (nchars_avail < 1)
 	{
-	  if (*n > MIN_CHUNK)
-	    *n *= 2;
-	  else
-	    *n += MIN_CHUNK;
-
+	  /* make sure that
+	   *   1.  nchars_avail is at least one
+	   *   2.  always make *n a multiple of MIN_CHUNK just larger
+	   *       than condition 1 requires
+	   */
+	  *n = ((read_pos - *lineptr + 1) + 1)/MIN_CHUNK * MIN_CHUNK;
 	  nchars_avail = *n + *lineptr - read_pos;
 	  *lineptr = realloc (*lineptr, *n);
 	  if (!*lineptr)
