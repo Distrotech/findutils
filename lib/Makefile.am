@@ -14,7 +14,7 @@ DISTCLEANFILES =
 MAINTAINERCLEANFILES =
 INCLUDES = -I$(top_srcdir)/gnulib/lib
 
-libfind_a_SOURCES += modetype.h
+libfind_a_SOURCES += modetype.h nextelem.h
 libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c
 # savedirtypes.c
 
