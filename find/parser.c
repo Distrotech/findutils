@@ -82,6 +82,7 @@ static boolean parse_iname PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_inum PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_ipath PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_iregex PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_iwholename PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_links PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_lname PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_ls PARAMS((char *argv[], int *arg_ptr));
@@ -113,6 +114,7 @@ static boolean parse_uid PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_used PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_user PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_version PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_wholename PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_xdev PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_ignore_race PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_noignore_race PARAMS((char *argv[], int *arg_ptr));
@@ -182,8 +184,9 @@ static struct parser_table const parse_table[] =
   {"ilname", parse_ilname},	/* GNU */
   {"iname", parse_iname},	/* GNU */
   {"inum", parse_inum},		/* GNU, Unix */
-  {"ipath", parse_ipath},	/* GNU */
+  {"ipath", parse_ipath},	/* GNU, deprecated in favour of iwholename */
   {"iregex", parse_iregex},	/* GNU */
+  {"iwholename", parse_iwholename}, /* GNU */
   {"links", parse_links},
   {"lname", parse_lname},	/* GNU */
   {"ls", parse_ls},		/* GNU, Unix */
@@ -204,7 +207,7 @@ static struct parser_table const parse_table[] =
   {"o", parse_or},
   {"or", parse_or},		/* GNU */
   {"ok", parse_ok},
-  {"path", parse_path},		/* GNU, HP-UX */
+  {"path", parse_path},		/* GNU, HP-UX, GNU prefers wholename */
   {"perm", parse_perm},
   {"print", parse_print},
   {"print0", parse_print0},	/* GNU */
@@ -219,6 +222,8 @@ static struct parser_table const parse_table[] =
   {"user", parse_user},
   {"version", parse_version},	/* GNU */
   {"-version", parse_version},	/* GNU */
+  {"wholename", parse_wholename}, /* GNU, replaces -path */
+
   {"xdev", parse_xdev},
   {"xtype", parse_xtype},	/* GNU */
   {0, 0}
@@ -567,19 +572,21 @@ operators (decreasing precedence; -and is implicit where no others are given):\n
       EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n\
 options (always true): -daystart -depth -follow --help\n\
       -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n\
-tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"));
+tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"));
   puts (_("\
       -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n\
-      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n\
-      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n"));
+      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n\
+      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"));
   puts (_("\
       -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n\
-      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n\
-      -xtype [bcdpfls]\n"));
+      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n\
+      -used N -user NAME -xtype [bcdpfls]\n"));
   puts (_("\
 actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n\
       -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"));
-  puts (_("\nReport bugs to <bug-findutils@gnu.org>."));
+  puts (_("Report (and track progress on fixing) bugs via the findutils bug-reporting\n\
+page at http://savannah.gnu.org/ or, if you have no web access, by sending\n\
+email to <bug-findutils@gnu.org>."));
   exit (0);
 }
 
@@ -616,8 +623,22 @@ parse_inum (char **argv, int *arg_ptr)
   return (insert_num (argv, arg_ptr, pred_inum));
 }
 
+/* -ipath is deprecated (at RMS's request) in favour of 
+ * -iwholename.   See the node "GNU Manuals" in standards.texi
+ * for the rationale for this (basically, GNU prefers the use 
+ * of the phrase "file name" to "path name"
+ */
 static boolean
 parse_ipath (char **argv, int *arg_ptr)
+{
+  error (0, 0,
+	 _("warning: the predicate -ipath is deprecated; please use -iwholename instead."));
+  
+  return parse_iwholename(argv, arg_ptr);
+}
+
+static boolean
+parse_iwholename (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -900,8 +921,22 @@ parse_or (char **argv, int *arg_ptr)
   return (true);
 }
 
+/* -path is deprecated (at RMS's request) in favour of 
+ * -iwholename.   See the node "GNU Manuals" in standards.texi
+ * for the rationale for this (basically, GNU prefers the use 
+ * of the phrase "file name" to "path name".
+ *
+ * We do not issue a warning that this usage is deprecated
+ * since HPUX find supports this predicate also.
+ */
 static boolean
 parse_path (char **argv, int *arg_ptr)
+{
+  return parse_wholename(argv, arg_ptr);
+}
+
+static boolean
+parse_wholename (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
