@@ -5,6 +5,16 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     find will follow symbolic links.
 *** The BSD option -P is also now supported (though in any case 
     it is the default).
+**  Documentation improvements
+***  Better documentation for "xargs -i".
+**  Bug Fixes
+*** "make install" now respects DESTDIR when generating localstatedir.
+    (this is only relevant if you are installing to some location
+    other than the one that you indictaed when you ran "configure").
+*** Compatible with automake versions 1.8 and 1.9.
+*** Build problems on UNICOS now fixed, though the linker will still generate 
+    warnings because we try to link with the nonexistent library
+    "-lsun".  Edit $(LIBS) to work around this problem.
 
 * Major changes in release 4.2.4
 **  Functionality Changes
