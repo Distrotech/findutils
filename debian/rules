@@ -74,7 +74,7 @@ binary-arch:	checkroot build
 	ln -s ChangeLog.gz debian/tmp/usr/doc/$(package)/changelog.gz
 	install -m 0644 debian/README.debian \
 		debian/tmp/usr/doc/$(package)
-	dpkg-shlibdeps debian/tmp/usr/bin/{find,locate,xargs}
+	dpkg-shlibdeps -dPre-Depends debian/tmp/usr/bin/{find,locate,xargs}
 	dpkg-gencontrol
 	dpkg --build debian/tmp ..
 
