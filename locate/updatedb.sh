@@ -201,7 +201,7 @@ fi
 rm -f $LOCATE_DB.n
 trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' HUP TERM
 
-# Alphabetize subdirectories before file entries using tr.  James says:
+# Alphabetize subdirectories before file entries using tr.  James Woods says:
 # "to get everything in monotonic collating sequence, to avoid some
 # breakage i'll have to think about."
 {
