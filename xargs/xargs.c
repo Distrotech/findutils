@@ -412,7 +412,7 @@ main (int argc, char **argv)
   
 
   
-  while ((optc = getopt_long (argc, argv, "+0a:E::e::i::l::n:prs:txP:",
+  while ((optc = getopt_long (argc, argv, "+0a:E:e::i::I:l::L:n:prs:txP:",
 			      longopts, (int *) 0)) != -1)
     {
       switch (optc)
