@@ -1,6 +1,4 @@
 -*-outline-*-
-* lib/filemode.c has "# undef S_ISDOOR" added.  This should be moved upstream.
-
 * -fstype core dumps on sparc-sun-sunos4.1.3_U1 with gcc-2.95.2
 This is on foxtrot.rahul.net.  dbx does not work on compiled find.
 Perhaps gcc is installed incorrectly.  "find / -fstype ufs" core dumps
@@ -14,22 +12,7 @@ quickly.  cc works correctly.
 ** Should these files be internationalized?
 	strftime.c
 
-** Should translated long options be offered in locate and xargs?
 ** updatedb.sh should be internationalized as well
-
-* new standards with Austin group
-** "-H" and "-L" options to find were added by Austin group standards.
-They need to be implemented.
-
-**Austin added the following options to xargs:
--I perhaps replaces -i
-
--L perhaps replaces -l
-
--E slightly different from -e
-
-* Should fnmatch.h be a link to fnmatch.h.in?
-See tar distribution for an example. 
 
 * Eliminate unnecessary strcpy calls in xargs.
 
@@ -46,8 +29,6 @@ my point is:
 - sort on a big list is costly (here we do locate on big big file system)
 - find may (in theory) sort incrementally very easily by sorting only the current
 directory entries before recursion
-- it would also solve the lack of \0 sort that prevents you to use the -print0
-to handle \n in file names properly
 
 
 * large file problems
@@ -71,11 +52,6 @@ checked at run time to determine whether isupper should be called first.
 
 * BeOS problems with multibyte
 Bruno Haible reported problems with BeOS.
-
-* What should be the default value of PRUNEFS in updatedb?
-Currently, it is:
-: ${PRUNEFS="nfs NFS proc"}
-Perhaps it should default to nothing.
 
 * Include example of use of updatedb in documentation.
 Use something close to the Debian daily cron job.
