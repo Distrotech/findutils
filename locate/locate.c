@@ -50,6 +50,13 @@
    Modified by David MacKenzie <djm@gnu.ai.mit.edu>.  */
 
 #define _GNU_SOURCE
+#include <gnulib/config.h>
+#undef VERSION
+#undef PACKAGE_VERSION
+#undef PACKAGE_TARNAME
+#undef PACKAGE_STRING
+#undef PACKAGE_NAME
+#undef PACKAGE
 #include <config.h>
 #include <stdio.h>
 #include <sys/types.h>

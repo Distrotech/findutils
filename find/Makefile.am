@@ -3,7 +3,7 @@ localedir = $(datadir)/locale
 bin_PROGRAMS = find
 find_SOURCES = find.c fstype.c parser.c pred.c tree.c util.c version.c
 EXTRA_DIST = defs.h $(man_MANS)
-INCLUDES = -I$(top_srcdir)/lib -I$(top_srcdir)/gnulib/lib -I../intl -DLOCALEDIR=\"$(localedir)\"
+INCLUDES = -I../gnulib/lib -I$(top_srcdir)/lib -I$(top_srcdir)/gnulib/lib -I../intl -DLOCALEDIR=\"$(localedir)\"
 LDADD = ../lib/libfind.a ../gnulib/lib/libgnulib.a @INTLLIBS@
 man_MANS = find.1
 SUBDIRS = testsuite

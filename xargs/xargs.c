@@ -20,6 +20,13 @@
 /* Written by Mike Rendell <michael@cs.mun.ca>
    and David MacKenzie <djm@gnu.ai.mit.edu>.  */
 
+#include <gnulib/config.h>
+#undef VERSION
+#undef PACKAGE_VERSION
+#undef PACKAGE_TARNAME
+#undef PACKAGE_STRING
+#undef PACKAGE_NAME
+#undef PACKAGE
 #include <config.h>
 
 # ifndef PARAMS
@@ -30,7 +37,9 @@
 #  endif
 # endif
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <ctype.h>
 
 #if !defined (isascii) || defined (STDC_HEADERS)

@@ -18,6 +18,13 @@
 */
 
 #if HAVE_CONFIG_H
+# include <gnulib/config.h>
+# undef VERSION
+# undef PACKAGE_VERSION
+# undef PACKAGE_TARNAME
+# undef PACKAGE_STRING
+# undef PACKAGE_NAME
+# undef PACKAGE
 # include <config.h>
 #endif
 
