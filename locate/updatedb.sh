@@ -21,7 +21,7 @@
 usage="\
 Usage: updatedb [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
        [--prunepaths='dir1 dir2...'] [--output=dbfile] [--netuser=user]
-       [--old-format] [--version] [--help]"
+       [--prunefs='fs1 fs2...'] [--old-format] [--version] [--help]"
 
 old=no
 for arg
@@ -32,6 +32,7 @@ do
     --localpaths) SEARCHPATHS="$val" ;;
     --netpaths) NETPATHS="$val" ;;
     --prunepaths) PRUNEPATHS="$val" ;;
+    --prunefs) PRUNEFS="$val" ;;
     --output) LOCATE_DB="$val" ;;
     --netuser) NETUSER="$val" ;;
     --old-format) old=yes ;;
@@ -53,7 +54,7 @@ done
 : ${NETPATHS=}
 
 # Directories to not put in the database, which would otherwise be.
-: ${PRUNEPATHS="/tmp /usr/tmp /var/tmp /afs /amd /net /alex"}
+: ${PRUNEPATHS="/tmp /usr/tmp /var/tmp /afs"}
 
 # The same, in the form of a regex that find can use.
 test -z "$PRUNEREGEX" &&
@@ -86,6 +87,15 @@ fi
 
 PATH=$LIBEXECDIR:$BINDIR:/usr/ucb:/bin:/usr/bin:$PATH export PATH
 
+: ${PRUNEFS=nfs NFS proc}
+
+if test -n "$PRUNEFS"; then
+prunefs_exp=`echo $PRUNEFS |sed -e 's/\([^ ]\+\)/-o -fstype \1/g' \
+ -e 's/-o //' -e 's/$/ -o/'`
+else
+  prunefs_exp=''
+fi
+
 # Make and code the file list.
 # Sort case insensitively for users' convenience.
 
@@ -95,7 +105,8 @@ if test $old = no; then
 {
 if test -n "$SEARCHPATHS"; then
   $find $SEARCHPATHS \
-  \( -fstype nfs -o -fstype NFS -o -fstype proc -o -type d -regex "$PRUNEREGEX" \) -prune -o -print
+   \( $prunefs_exp \
+   -type d -regex "$PRUNEREGEX" \) -prune -o -print
 fi
 
 if test -n "$NETPATHS"; then
@@ -131,8 +142,10 @@ trap 'rm -f $bigrams $filelist; exit' 1 15
 {
 if test -n "$SEARCHPATHS"; then
   $find $SEARCHPATHS \
-  \( -fstype nfs -o -fstype NFS -o -type d -regex "$PRUNEREGEX" \) -prune -o -print
+   \( $prunefs_exp \
+   -type d -regex "$PRUNEREGEX" \) -prune -o -print
 fi
+
 if test -n "$NETPATHS"; then
   if [ "`whoami`" = root ]; then
     su $NETUSER -c \
