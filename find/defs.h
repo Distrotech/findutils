@@ -374,6 +374,7 @@ boolean pred_perm PARAMS((char *pathname, struct stat *stat_buf, struct predicat
 boolean pred_print PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_print0 PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_prune PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_quit PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_regex PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_size PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_true PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));

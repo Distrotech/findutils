@@ -1139,6 +1139,15 @@ pred_prune (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 }
 
 boolean
+pred_quit (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  (void) &pathname;
+  (void) &stat_buf;
+  (void) &pred_ptr;
+  exit(0);
+}
+
+boolean
 pred_regex (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   int len = strlen (pathname);

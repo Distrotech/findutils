@@ -124,6 +124,7 @@ static boolean parse_xdev PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_ignore_race PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_noignore_race PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_xtype PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_quit PARAMS((char *argv[], int *arg_ptr));
 
 static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, boolean ignore_case));
 static boolean insert_type PARAMS((char *argv[], int *arg_ptr, boolean (*which_pred )()));
@@ -220,6 +221,7 @@ static struct parser_table const parse_table[] =
   {"print0", parse_print0},	/* GNU */
   {"printf", parse_printf},	/* GNU */
   {"prune", parse_prune},
+  {"quit",  parse_quit},	/* GNU */
   {"regex", parse_regex},	/* GNU */
   {"size", parse_size},
   {"true", parse_true},		/* GNU */
@@ -1169,6 +1171,15 @@ parse_prune (char **argv, int *arg_ptr)
   our_pred->side_effects = true;
   return (true);
 }
+
+static boolean 
+parse_quit  (char **argv, int *arg_ptr)
+{
+  struct predicate *our_pred = insert_primary (pred_quit);
+  (*arg_ptr)++;
+  return true;
+}
+
 
 static boolean
 parse_regex (char **argv, int *arg_ptr)

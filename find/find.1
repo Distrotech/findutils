@@ -47,11 +47,38 @@ Process each directory's contents before the directory itself.
 .IP \-d
 A synonym for \-depth, for compatibility with FreeBSD, MacOS X and OpenBSD.
 .IP \-follow
-Dereference symbolic links.  Implies \-noleaf.
+Dereference symbolic links.  Implies \-noleaf.  The position of the 
+.B \-follow
+option changes the behaviour of the 
+.B \-newer 
+predicate; any files
+listed as the argument of 
+.B \-newer 
+will be dereferenced if they are symbolic links.
+Similarly, the 
+.B \-type 
+predicate will always match against the type of the file that a
+symbolic link points to rather than the link itself.  Using 
+.B \-follow 
+causes the 
+.B \-lname
+and 
+.B \-ilname 
+predicates always to return false.
 .IP "\-help, \-\-help"
 Print a summary of the command-line usage of
 .B find
 and exit.
+.IP \-ignore_readdir_race
+Normally, \fBfind\fR will emit an error message when it fails to stat a file.
+If you give this option and a file is deleted between the time \fBfind\fR 
+reads the name of the file from the directory and the time it tries to stat 
+the file, nno error message will be issued.    This also applies to files
+or directories whose names are given on the command line.  This option takes
+effect at the time the command line is read, which means that you cannot search
+one part of the filesystem with this option on and part of it with this option
+off (if you need to do that, you will need to issue two \fBfind\fR commands
+instead, one with the option and one without it).
 .IP "\-maxdepth \fIlevels\fR"
 Descend at most \fIlevels\fR (a non-negative integer) levels of
 directories below the command line arguments.  `\-maxdepth 0' means
@@ -64,6 +91,8 @@ the command line arguments.
 Don't descend directories on other filesystems.  An alternate name for
 \-xdev, for compatibility with some other versions of
 .BR find .
+.IP \-noignore_readdir_race
+Turns off the effect of \-ignore_readdir_race. 
 .IP "\-noleaf"
 Do not optimize by assuming that directories contain 2 fewer
 subdirectories than their hard link count.  This option is needed when
@@ -83,6 +112,7 @@ to stat them; this gives a significant increase in search speed.
 Print the \fBfind\fR version number and exit.
 .IP \-xdev
 Don't descend directories on other filesystems.
+
 .SS TESTS
 .P
 Numeric arguments can be specified as
@@ -272,9 +302,11 @@ file of type \fIc\fR; if \-follow has been given, true if \fIc\fR is
 `l'.  In other words, for symbolic links, \-xtype checks the type of
 the file that \-type does not check.
 .SS ACTIONS
+
 .IP "\-delete\fR"
 Delete files; true if removal succeeded.  If the removal failed, an
 error message is issued.
+
 .IP "\-exec \fIcommand\fR ;"
 Execute \fIcommand\fR; true if 0 status is returned.  All following
 arguments to
@@ -287,13 +319,12 @@ of
 .BR find .
 Both of these constructions might need to be escaped (with a `\e') or
 quoted to protect them from expansion by the shell.  See the
-.IP "\-exec \fIcommand\fR +"
-This variant of \-exec is not yet supported, but is required by POSIX.
-
 .B EXAMPLES
 section for examples of the use of the `-exec' option.
-The command is
-executed in the starting directory.
+The command is executed in the starting directory.
+
+.IP "\-exec \fIcommand\fR +"
+This variant of \-exec is not yet supported, but is required by POSIX.
 
 .IP "\-fls \fIfile\fR"
 True; like \-ls but write to \fIfile\fR like \-fprint.
@@ -505,22 +536,21 @@ other character is printed).
 If \-depth is not given, true; do not descend the current directory.
 .br
 If \-depth is given, false; no effect.
+
+.IP "\-quit"
+Exit immediately with return value zero.  No child proceses will be
+left running, but no more paths specified on the command line will be 
+processed.   For example,
+.B find /tmp/foo /tmp/bar -print -quit
+will print only
+.BR /tmp/foo .
+
+
 .IP \-ls
 True; list current file in `ls \-dils' format on standard output.
 The block counts are of 1K blocks, unless the environment variable
 POSIXLY_CORRECT is set, in which case 512-byte blocks are used.
-.IP \-ignore_readdir_race
-Normally, \fBfind\fR will emit an error message when it fails to stat a file.
-If you give this option and a file is deleted between the time \fBfind\fR 
-reads the name of the file from the directory and the time it tries to stat 
-the file, nno error message will be issued.    This also applies to files
-or directories whose names are given on the command line.  This option takes
-effect at the time the command line is read, which means that you cannot search
-one part of the filesystem with this option on and part of it with this option
-off (if you need to do that, you will need to issue two \fBfind\fR commands
-instead, one with the option and one without it).
-.IP \-noignore_readdir_race
-Turns off the effect of \-ignore_readdir_race. 
+
 .SS OPERATORS
 .P
 Listed in order of decreasing precedence:
