@@ -191,6 +191,15 @@ struct perm_val
   mode_t val;
 };
 
+/* dir_id is used to support loop detection in find.c and 
+ * also to support the -samefile test.
+ */
+struct dir_id
+{
+  ino_t ino;
+  dev_t dev;
+};
+
 struct size_val
 {
   enum comparison_type kind;
@@ -262,6 +271,8 @@ struct predicate
   /* True if this predicate node requires a stat system call to execute. */
   boolean need_stat;
 
+
+
   /* Information needed by the predicate processor.
      Next to each member are listed the predicates that use it. */
   union
@@ -276,6 +287,7 @@ struct predicate
     gid_t gid;			/* group */
     time_t time;		/* newer */
     struct perm_val perm;	/* perm */
+    struct dir_id   fileid;	/* samefile */
     mode_t type;		/* type */
     FILE *stream;		/* fprint fprint0 */
     struct format_val printf_vec; /* printf fprintf */
@@ -392,6 +404,7 @@ boolean pred_print0 PARAMS((char *pathname, struct stat *stat_buf, struct predic
 boolean pred_prune PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_quit PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_regex PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_samefile PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_size PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_true PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_type PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));

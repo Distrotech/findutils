@@ -114,6 +114,7 @@ static boolean parse_printf PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_prune PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_regex PARAMS((char *argv[], int *arg_ptr));
 static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, boolean ignore_case));
+static boolean parse_samefile PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_size PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_true PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_type PARAMS((char *argv[], int *arg_ptr));
@@ -240,6 +241,7 @@ static struct parser_table const parse_table[] =
   {ARG_TEST,               "prune",                 parse_prune},
   {ARG_ACTION,             "quit",                  parse_quit},	/* GNU */
   {ARG_TEST,               "regex",                 parse_regex},	/* GNU */
+  {ARG_TEST,               "samefile",              parse_samefile},    /* GNU */
   {ARG_TEST,               "size",                  parse_size},
   {ARG_TEST,               "true",                  parse_true},	/* GNU */
   {ARG_TEST,               "type",                  parse_type},
@@ -1397,6 +1399,27 @@ parse_size (char **argv, int *arg_ptr)
   (*arg_ptr)++;
   return (true);
 }
+
+
+static boolean
+parse_samefile (char **argv, int *arg_ptr)
+{
+  struct predicate *our_pred;
+  struct stat st;
+  
+  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
+    return (false);
+  if ((*options.xstat) (argv[*arg_ptr], &st))
+    error (1, errno, "%s", argv[*arg_ptr]);
+  
+  our_pred = insert_primary (pred_samefile);
+  our_pred->args.fileid.ino = st.st_ino;
+  our_pred->args.fileid.dev = st.st_dev;
+  our_pred->need_stat = true;
+  (*arg_ptr)++;
+  return (true);
+}
+
 
 static boolean
 parse_true (char **argv, int *arg_ptr)

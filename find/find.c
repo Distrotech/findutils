@@ -952,11 +952,6 @@ process_top_path (char *pathname)
 
 /* Info on each directory in the current tree branch, to avoid
    getting stuck in symbolic link loops.  */
-struct dir_id
-{
-  ino_t ino;
-  dev_t dev;
-};
 static struct dir_id *dir_ids = NULL;
 /* Entries allocated in `dir_ids'.  */
 static int dir_alloc = 0;

@@ -618,15 +618,40 @@ find . -lname '*sysdep.c'
 @node Hard Links
 @subsection Hard Links
 
-To find hard links, first get the inode number of the file whose links
-you want to find.  You can learn a file's inode number and the number of
-links to it by running @samp{ls -i} or @samp{find -ls}.  If the file has
-more than one link, you can search for the other links by passing that
-inode number to @samp{-inum}.  Add the @samp{-xdev} option if you are
-starting the search at a directory that has other filesystems mounted on
-it, such as @file{/usr} on many systems.  Doing this saves needless
-searching, since hard links to a file must be on the same filesystem.
-@xref{Filesystems}.
+Hard links allow more than one name to refer to the same file.  To
+find all the names which refer to the same file as NAME, use
+@samp{-samefile NAME}.  If you are not using the @samp{-L} option, you
+can confine your search to one filesystem using the @samp{-xdev}
+option.  This is useful because hard links cannot point outside a
+single filesystem, so this can cut down on needless searching.
+
+If the @samp{-L} option is in effect, and NAME is in fact a symbolic
+link, the symbolic link will be dereferenced.  Hence you are searching
+for other links (hard or symbolic) to the file pointed to by NAME.  If
+@samp{-L} is in effect but NAME is not itself a symbolic link, other
+symbolic links to the file NAME will be matched.
+
+You can also search for files by inode number.  This can occasionally
+be useful in diagnosing problems with filesystems for example, because
+@code{fsck} tends to print inode numbers.  Inode numbers also
+occasionally turn up in log messages for some types of software, and
+are used to support the @code{ftok()} library function.
+
+You can learn a file's inode number and the number of links to it by
+running @samp{ls -li} or @samp{find -ls}.  
+
+You can search for hard links to inode number NUM by using @samp{-inum
+NUM}. If there are any file system mount points below the directory
+where you are starting the search, use the @samp{-xdev} option unless
+you are also using the @samp{-L} option.  Using @samp{-xdev} this
+saves needless searching, since hard links to a file must be on the
+same filesystem.  @xref{Filesystems}.
+
+@deffn Test -samefile NAME
+File is a hard link to the same inode as NAME.  If the @samp{-L}
+option is in effect, symbolic links to the same file as NAME points to
+are also matched.
+@end deffn
 
 @deffn Test -inum n
 File has inode number @var{n}.  The @samp{+} and @samp{-} qualifiers
@@ -637,6 +662,8 @@ You can also search for files that have a certain number of links, with
 @samp{-links}.  Directories normally have at least two hard links; their
 @file{.} entry is the second one.  If they have subdirectories, each of
 those also has a hard link called @file{..} to its parent directory.
+The @file{.} and @file{..} directory entries are not normally searched
+unless they are mentioned on the @code{find} command line.
 
 @deffn Test -links n
 File has @var{n} hard links.

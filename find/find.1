@@ -269,7 +269,9 @@ shell, an initial '.' can be matched by '*'.  That is,
 will match the file `.foobar'.
 
 .IP "\-inum \fIn\fR"
-File has inode number \fIn\fR.
+File has inode number \fIn\fR.  It is normally easier to use the 
+.B \-samefile
+test instead.
 .IP "\-ipath \fIpattern\fR"
 Behaves in the same way as \-iwholename.  This option is deprecated,
 so please do not use it.
@@ -351,6 +353,9 @@ system library function where this is present (i.e. on systems using
 the GNU C Library).  On other systems, the implementation within
 Gnulib is used; by default, Gnulib provides ``basic'' regular
 expressions.
+.IP "\-samefile \fIname\fR"
+File refers to the same inode as \fIname\fR.   When -L is in effect,
+this can include symbolic links.
 .IP "\-size \fIn\fR[cwbkMG]"
 File uses \fIn\fP units of space.  The following suffixes 
 can be used:
