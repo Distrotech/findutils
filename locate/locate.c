@@ -108,6 +108,7 @@ extern int errno;
 #include <getline.h>
 #include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/error.h"
+#include "dirname.h"
 
 /* Note that this evaluates C many times.  */
 #ifdef _LIBC
@@ -118,7 +119,7 @@ extern int errno;
 # define TOLOWER(Ch) (isupper (Ch) ? tolower (Ch) : (Ch))
 #endif
 
-typedef enum {false, true} boolean;
+/* typedef enum {false, true} boolean; */
 
 /* Warn if a database is older than this.  8 days allows for a weekly
    update that takes up to a day to perform.  */
@@ -311,7 +312,9 @@ struct casefolder
 
 
 
-typedef int (*visitfunc)(const char *filename, void *context);
+typedef int (*visitfunc)(const char *tested_filename,
+			 const char *printed_filename,
+			 void *context);
 
 struct visitor
 {
@@ -325,14 +328,14 @@ static struct visitor *inspectors = NULL;
 static struct visitor *lastinspector = NULL;
 
 static int
-process_filename(const char *filename)
+process_filename(const char *tested_filename, const char *printed_filename)
 {
   int result = VISIT_CONTINUE;
   const struct visitor *p = inspectors;
   
   while ( (VISIT_CONTINUE == result) && (NULL != p) )
     {
-      result = (p->inspector)(filename, p->context);
+      result = (p->inspector)(tested_filename, printed_filename, p->context);
       p = p->next;
     }
 
@@ -363,20 +366,23 @@ add_visitor(visitfunc fn, void *context)
 
 
 static int
-visit_justprint(const char *name, void *context)
+visit_justprint(const char *testname, const char *printname, void *context)
 {
-  (void)&context;
-  fputs(name, stdout);
+  (void) context;
+  (void) testname;
+  fputs(printname, stdout);
   putchar(separator);
   return VISIT_CONTINUE;
 }
 
 static int
-visit_exists(const char *name, void *context)
+visit_exists(const char *testname, const char *printname, void *context)
 {
   struct stat st;
-  (void)&context;
-  if (stat(name, &st) != 0)
+  (void) context;
+  (void) printname;
+  
+  if (stat(testname, &st) != 0)
     {
       return VISIT_REJECTED;
     }
@@ -387,28 +393,30 @@ visit_exists(const char *name, void *context)
 }
 
 static int
-visit_substring_match_nocasefold(const char *name, void *context)
+visit_substring_match_nocasefold(const char *testname, const char *printname, void *context)
 {
   const char *pattern = context;
+  (void) printname;
 
-  if (NULL != strstr(name, pattern))
+  if (NULL != strstr(testname, pattern))
     return VISIT_CONTINUE;
   else
     return VISIT_REJECTED;
 }
 
 static int
-visit_substring_match_casefold(const char *name, void *context)
+visit_substring_match_casefold(const char *testname, const char *printname, void *context)
 {
   struct casefolder * p = context;
-  size_t len = strlen(name);
+  size_t len = strlen(testname);
 
+  (void) printname;
   if (len > p->buffersize)
     {
       p->buffer = xrealloc(p->buffer, len+1);
       p->buffersize = len+1;
     }
-  lc_strcpy(p->buffer, name);
+  lc_strcpy(p->buffer, testname);
   
   
   if (NULL != strstr(p->buffer, p->pattern))
@@ -419,10 +427,11 @@ visit_substring_match_casefold(const char *name, void *context)
 
 
 static int
-visit_globmatch_nofold(const char *name, void *context)
+visit_globmatch_nofold(const char *testname, const char *printname, void *context)
 {
   const char *glob = context;
-  if (fnmatch(glob, name, 0) != 0)
+  (void) printname;
+  if (fnmatch(glob, testname, 0) != 0)
     return VISIT_REJECTED;
   else
     return VISIT_CONTINUE;
@@ -430,10 +439,11 @@ visit_globmatch_nofold(const char *name, void *context)
 
 
 static int
-visit_globmatch_casefold(const char *name, void *context)
+visit_globmatch_casefold(const char *testname, const char *printname, void *context)
 {
   const char *glob = context;
-  if (fnmatch(glob, name, FNM_CASEFOLD) != 0)
+  (void) printname;
+  if (fnmatch(glob, testname, FNM_CASEFOLD) != 0)
     return VISIT_REJECTED;
   else
     return VISIT_CONTINUE;
@@ -450,10 +460,11 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
   int c;			/* An input byte.  */
   int nread;		     /* number of bytes read from an entry. */
   char *path;		       /* The current input database entry. */
+  const char *testpath;
   size_t pathsize;		/* Amount allocated for it.  */
   int count = 0; /* The length of the prefix shared with the previous database entry.  */
   
-  boolean old_format = false; /* true if reading a bigram-encoded database.  */
+  int old_format = 0; /* true if reading a bigram-encoded database.  */
   
 
 
@@ -486,8 +497,8 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
     {
       /* No glob characters reuired.  Hence we match on 
        * _any part_ of the filename, not just the 
-       * basename.  This seems odd to me, but it was 
-       * the behaviour of the code before I touched it...
+       * basename.  This seems odd to me, but it is the 
+       * traditional behaviour.
        * James Youngman <jay@gnu.org> 
        */
       if (ignore_case)
@@ -536,7 +547,7 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
 	  bigram1[i] = getc (fp);
 	  bigram2[i] = getc (fp);
 	}
-      old_format = true;
+      old_format = 1;
     }
 
   /* If we ignore case, convert it to lower first so we don't have to
@@ -604,7 +615,8 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
 	  assert (s[2] == '\0'); /* Added by locate_read_str.  */
 	}
 
-      if (VISIT_ACCEPTED == process_filename(basename_only ? basename(path) : path))
+      testpath = basename_only ? base_name(path) : path;
+      if (VISIT_ACCEPTED == process_filename(testpath, path))
 	{
 	  if ((++items_accepted >= limit) && use_limit)
 	    {
