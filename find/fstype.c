@@ -262,8 +262,12 @@ filesystem_type_uncached (path, relpath, statp)
       else
 #endif /* not hpux */
 	{
-	  if (stat (mnt->mnt_dir, &disk_stats) == -1)
-	    error (1, errno, "error in %s: %s", table, mnt->mnt_dir);
+	  if (stat (mnt->mnt_dir, &disk_stats) == -1) {
+	    if (errno == EACCES)
+	      continue;
+	    else
+	      error (1, errno, "error in %s: %s", table, mnt->mnt_dir);
+	  }
 	  dev = disk_stats.st_dev;
 	}
 
@@ -332,7 +336,7 @@ filesystem_type_uncached (path, relpath, statp)
     }
   else
     {
-#ifdef MFSNAMELEN		/* NetBSD.  */
+#ifdef HAVE_F_FSTYPENAME_IN_STATFS
       type = xstrdup (fss.f_fstypename);
 #else
       type = fstype_to_string (fss.f_type);
