@@ -18,9 +18,11 @@ package = findutils
 
 build:
 	$(checkdir)
-	./configure --prefix=/usr
-	$(MAKE) localstatedir='$(prefix)/var/lib/locate' \
-		libexecdir=/usr/lib/locate \
+	./configure --prefix=/usr --localstatedir=/var/lib/locate \
+		--libexecdir='$${prefix}/lib/locate' \
+		--mandir='$${prefix}/share/man' \
+		--infodir='$${prefix}/share/info'
+	$(MAKE) \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
 	cd doc ; makeinfo find.texi
 	touch build
@@ -41,7 +43,7 @@ binary-arch:	checkroot build
 	$(checkdir)
 	-rm -rf debian/tmp
 	install -d debian/tmp debian/tmp/DEBIAN
-	install -d debian/tmp/usr/doc/$(package)
+	install -d debian/tmp/usr/share/doc/$(package)
 	install -d debian/tmp/usr/bin
 	install -d debian/tmp/usr/lib
 	install -d debian/tmp/usr/lib/locate
@@ -50,32 +52,35 @@ binary-arch:	checkroot build
 	install -d debian/tmp/var
 	install -d debian/tmp/var/lib
 	install -d debian/tmp/var/lib/locate
-	install debian/{postinst,prerm,preinst} debian/tmp/DEBIAN/.
+	install debian/postinst debian/prerm debian/preinst debian/tmp/DEBIAN/.
 	install -m 0644 debian/conffiles debian/tmp/DEBIAN/.
 	install debian/cron.find debian/tmp/etc/cron.daily/find
 	install -m 0644 debian/updatedb.conf debian/tmp/etc/updatedb.conf
 	$(MAKE) prefix=`pwd`/debian/tmp/usr \
 		localstatedir=`pwd`/debian/tmp/var/lib/locate \
-		libexecdir=`pwd`/debian/tmp/usr/lib/locate \
 		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 		INSTALL_PROGRAM='install -c' \
 		install
-	gzip -9v debian/tmp/usr/info/*
-	gzip -9v debian/tmp/usr/man/man[15]/*
-	install -m 0644 debian/copyright debian/tmp/usr/doc/$(package)/.
+	install -d debian/tmp/usr/share/doc-base
+	install -m 0644 debian/doc-base \
+		debian/tmp/usr/share/doc-base/findutils
+	gzip -9v debian/tmp/usr/share/info/*
+	gzip -9v debian/tmp/usr/share/man/man[15]/*
+	install -m 0644 debian/copyright debian/tmp/usr/share/doc/$(package)/.
 	install -m 0644 debian/changelog \
-		debian/tmp/usr/doc/$(package)/changelog.Debian
-	gzip -9v debian/tmp/usr/doc/$(package)/changelog.Debian
+		debian/tmp/usr/share/doc/$(package)/changelog.Debian
+	gzip -9v debian/tmp/usr/share/doc/$(package)/changelog.Debian
 	for file in ChangeLog INSTALL NEWS README TODO; do \
 		install -m 0644 $$file \
-			debian/tmp/usr/doc/$(package);\
-		gzip -9v debian/tmp/usr/doc/$(package)/$$file;\
+			debian/tmp/usr/share/doc/$(package);\
+		gzip -9v debian/tmp/usr/share/doc/$(package)/$$file;\
 	done
-	ln -s ChangeLog.gz debian/tmp/usr/doc/$(package)/changelog.gz
+	ln -s ChangeLog.gz debian/tmp/usr/share/doc/$(package)/changelog.gz
 	install -m 0644 debian/README.debian \
-		debian/tmp/usr/doc/$(package)
-	dpkg-shlibdeps -dPre-Depends debian/tmp/usr/bin/{find,locate,xargs}
-	dpkg-gencontrol
+		debian/tmp/usr/share/doc/$(package)
+	dpkg-shlibdeps -dPre-Depends debian/tmp/usr/bin/find \
+		debian/tmp/usr/bin/locate debian/tmp/usr/bin/xargs
+	dpkg-gencontrol -isp
 	dpkg --build debian/tmp ..
 
 define checkdir
