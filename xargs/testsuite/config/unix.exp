@@ -72,15 +72,16 @@ proc xargs_start { passfail options {infile ""}} {
     set testname [file tail $testbase]
 
     set outfile "$testbase.xo"
+    set errfile "$testbase.xe"
     if {$infile != ""} then {
 	set infile "[file dirname [file dirname $testbase]]/inputs/$infile"
     } else {
 	set infile /dev/null
     }
 
-    catch "exec rm -f xargs.out"
+    catch "exec rm -f xargs.out xargs.err"
 
-    set cmd "$XARGS $XARGSFLAGS $options < $infile > xargs.out"
+    set cmd "$XARGS $XARGSFLAGS $options < $infile > xargs.out 2> xargs.err"
     send_log "$cmd\n"
     if $verbose>1 then {
 	send_user "Spawning \"$cmd\"\n"
@@ -88,29 +89,52 @@ proc xargs_start { passfail options {infile ""}} {
 
     catch "exec $cmd" comp_output
     if {$comp_output != ""} then {
+	# The command failed; if that was the desired effect, the 
+	# test might still pass
 	send_log "$comp_output\n"
 	if $verbose>1 then {
 	    send_user "$comp_output\n"
 	}
 	if $fail_good then {
+	    # expected failure
 	    pass "$testname"
 	} else {
+	    # unexpected failure
 	    fail "$testname, $comp_output"
 	}
 	return
     }
 
+    # The command succeeded, but that might not have been the expected result.
     if [file exists $outfile] then {
 	set cmp_cmd "cmp xargs.out $outfile"
 	send_log "$cmp_cmd\n"
 	catch "exec $cmp_cmd" cmpout
 	if {$cmpout != ""} then {
-	    fail "$testname, $cmpout"
+	    # stdout is wrong.
+	    fail "$testname, wrong stdout output: $cmpout"
 	    return
 	}
     } else {
 	if {[file size xargs.out] != 0} then {
-	    fail "$testname, output should be empty"
+	    fail "$testname, output on stdout should be empty"
+	    return
+	}
+    }
+
+    # If testname.xe exists, check the stderr result.
+    if [file exists $errfile] then {
+	set cmp_cmd "cmp xargs.err $errfile"
+	send_log "$cmp_cmd\n"
+	catch "exec $cmp_cmd" cmperr
+	if {$cmperr != ""} then {
+	    # stderr is wrong.
+	    fail "$testname, wrong stderr output: $cmperr"
+	    return
+	}
+    } else {
+	if {[file size xargs.err] != 0} then {
+	    fail "$testname, output on stderr should be empty"
 	    return
 	}
     }
@@ -120,5 +144,7 @@ proc xargs_start { passfail options {infile ""}} {
 # Called by runtest.
 # Clean up (remove temporary files) before runtest exits.
 proc xargs_exit {} {
-    catch "exec rm -f xargs.out"
+    catch "exec rm -f xargs.out xargs.err"
 }
+
+
