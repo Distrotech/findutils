@@ -309,6 +309,8 @@ Carriage return.
 Horizontal tab.
 .IP \ev
 Vertical tab.
+.IP \e\0
+ASCII NUL.
 .IP \e\e
 A literal backslash (`\e').
 .IP \eNNN
@@ -474,6 +476,83 @@ Same as \fIexpr1\fR \-o \fIexpr2\fR.
 List; both \fIexpr1\fR and \fIexpr2\fR are always evaluated.
 The value of \fIexpr1\fR is discarded; the value of the list is the
 value of \fIexpr2\fR.
+
+.SH "STANDARDS CONFORMANCE"
+The following options are specified in the POSIX standard 
+(IEEE Std 1003.1, 2003 Edition):
+.IP "\-name"
+This option is supported, but POSIX conformance depends on the 
+POSIX conformance of the system's 
+.BR fnmatch (3) 
+library function.
+
+.IP "\-type"
+Supported.   POSIX specifies `b', `c', `d', `l', `p', `f' and `s'.
+GNU find also supports `D', representing a Door, where the OS provides these.
+
+.IP "\-ok"
+Supported.   Interpretation of the response is not locale-dependent
+(see ENVIRONMENT VARIABLES).
+
+.IP "Other predicates"
+The predicates
+`-atime',
+`-ctime',
+`-depth',
+`-exec',
+`-group',
+`-links',
+`-mtime',
+`-newer',
+`-nogroup',
+`-nouser',
+`-perm',
+`-print',
+`-prune',
+`-size',
+`-user' and 
+`-xdev',
+are all supported.
+
+.P
+The POSIX standard specifies parentheses `(', `)', negation `!' and the
+`and' and `or' operators (`-a', `-o').   
+.P
+All other options, predicates, expressions and so forth are extensions 
+beyond the POSIX standard.  Many of these extensions are not unique to 
+GNU find, however.
+.SH "ENVIRONMENT VARIABLES"
+.IP POSIXLY_CORRECT
+Determines the block size used by `-ls'.
+.IP LANG
+Provides a default value for the internationalization variables that
+are unset or null.
+.IP LC_ALL
+If set to a non-empty string value, override the values of all the
+other internationalization variables.
+.IP LC_COLLATE
+The POSIX standard specifies that this variable affects the pattern
+matching to be used for the `-name' option.   GNU find uses the 
+.BR fnmatch (3) 
+library function, and so support for `LC_COLLATE' depends on the
+system library.    
+.IP
+POSIX also specifies that the `LC_COLLATE' environment 
+variable affects the interpretation of the user's response to the 
+query issued by `-ok', but this is not the case for GNU find.
+.IP LC_CTYPE 
+This variable affects the treatment of character classes used with 
+the `-name' option, if the system's 
+.BR fnmatch (3) 
+library function supports this.   It has no effect on the behaviour 
+of the `-ok' expression.
+.IP LC_MESSAGES
+Determines the locale to be used for internationalised messages.
+.IP NLSPATH
+Determines the location of the internationalisation message catalogues.
+.IP PATH
+Affects the directores which are searched to find the executables 
+invoked by `-exec' and `-ok'.
 .SH "EXAMPLES"
 .nf
 .B find /tmp -name core -type f -print | xargs /bin/rm -f
@@ -531,5 +610,3 @@ the findutils package in general can be sent to the
 .I bug-findutils
 mailing list.  To join the list, send email to 
 .IR bug-findutils-request@gnu.org .
-
-
