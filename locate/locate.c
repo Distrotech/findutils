@@ -256,8 +256,8 @@ struct casefolder
 
 
 
-typedef int (*visitfunc)(const char *tested_filename,
-			 const char *printed_filename,
+typedef int (*visitfunc)(const char *munged_filename,
+			 const char *original_filename,
 			 void *context);
 
 struct visitor
@@ -272,14 +272,14 @@ static struct visitor *inspectors = NULL;
 static struct visitor *lastinspector = NULL;
 
 static int
-process_filename(const char *tested_filename, const char *printed_filename)
+process_filename(const char *munged_filename, const char *original_filename)
 {
   int result = VISIT_CONTINUE;
   const struct visitor *p = inspectors;
   
   while ( (VISIT_CONTINUE == result) && (NULL != p) )
     {
-      result = (p->inspector)(tested_filename, printed_filename, p->context);
+      result = (p->inspector)(munged_filename, original_filename, p->context);
       p = p->next;
     }
 
@@ -311,28 +311,28 @@ add_visitor(visitfunc fn, void *context)
 
 
 static int
-visit_justprint(const char *testname, const char *printname, void *context)
+visit_justprint(const char *munged_filename, const char *original_filename, void *context)
 {
   (void) context;
-  (void) testname;
-  fputs(printname, stdout);
+  (void) munged_filename;
+  fputs(original_filename, stdout);
   putchar(separator);
   return VISIT_CONTINUE;
 }
 
 static int
-visit_exists(const char *testname, const char *printname, void *context)
+visit_exists(const char *munged_filename, const char *original_filename, void *context)
 {
   struct stat st;
   (void) context;
-  (void) testname;
+  (void) munged_filename;
 
-  /* testname has been converted in some way (to lower case,
-   * or is just the basename of the file), and printname has not.  
-   * Hence only printname is still actually the name of the file 
+  /* munged_filename has been converted in some way (to lower case,
+   * or is just the basename of the file), and original_filename has not.  
+   * Hence only original_filename is still actually the name of the file 
    * whose existence we would need to check.
    */
-  if (stat(printname, &st) != 0)
+  if (stat(original_filename, &st) != 0)
     {
       return VISIT_REJECTED;
     }
@@ -343,30 +343,30 @@ visit_exists(const char *testname, const char *printname, void *context)
 }
 
 static int
-visit_substring_match_nocasefold(const char *testname, const char *printname, void *context)
+visit_substring_match_nocasefold(const char *munged_filename, const char *original_filename, void *context)
 {
   const char *pattern = context;
-  (void) printname;
+  (void) original_filename;
 
-  if (NULL != strstr(testname, pattern))
+  if (NULL != strstr(munged_filename, pattern))
     return VISIT_CONTINUE;
   else
     return VISIT_REJECTED;
 }
 
 static int
-visit_substring_match_casefold(const char *testname, const char *printname, void *context)
+visit_substring_match_casefold(const char *munged_filename, const char *original_filename, void *context)
 {
   struct casefolder * p = context;
-  size_t len = strlen(testname);
+  size_t len = strlen(munged_filename);
 
-  (void) printname;
+  (void) original_filename;
   if (len+1 > p->buffersize)
     {
       p->buffer = xrealloc(p->buffer, len+1); /* XXX: consider using extendbuf(). */
       p->buffersize = len+1;
     }
-  lc_strcpy(p->buffer, testname);
+  lc_strcpy(p->buffer, munged_filename);
   
   
   if (NULL != strstr(p->buffer, p->pattern))
@@ -377,11 +377,11 @@ visit_substring_match_casefold(const char *testname, const char *printname, void
 
 
 static int
-visit_globmatch_nofold(const char *testname, const char *printname, void *context)
+visit_globmatch_nofold(const char *munged_filename, const char *original_filename, void *context)
 {
   const char *glob = context;
-  (void) printname;
-  if (fnmatch(glob, testname, 0) != 0)
+  (void) original_filename;
+  if (fnmatch(glob, munged_filename, 0) != 0)
     return VISIT_REJECTED;
   else
     return VISIT_CONTINUE;
@@ -389,21 +389,21 @@ visit_globmatch_nofold(const char *testname, const char *printname, void *contex
 
 
 static int
-visit_globmatch_casefold(const char *testname, const char *printname, void *context)
+visit_globmatch_casefold(const char *munged_filename, const char *original_filename, void *context)
 {
   const char *glob = context;
-  (void) printname;
-  if (fnmatch(glob, testname, FNM_CASEFOLD) != 0)
+  (void) original_filename;
+  if (fnmatch(glob, munged_filename, FNM_CASEFOLD) != 0)
     return VISIT_REJECTED;
   else
     return VISIT_CONTINUE;
 }
 
 static int
-visit_stats(const char *testname, const char *printname, void *context)
+visit_stats(const char *munged_filename, const char *original_filename, void *context)
 {
   struct locate_stats *p = context;
-  size_t len = strlen(printname);
+  size_t len = strlen(original_filename);
   const char *s;
   int highbit, whitespace, newline;
 
@@ -411,7 +411,7 @@ visit_stats(const char *testname, const char *printname, void *context)
   p->total_filename_length += len;
   
   highbit = whitespace = newline = 0;
-  for (s=printname; *s; ++s)
+  for (s=original_filename; *s; ++s)
     {
       if ( (int)(*s) & 128 )
 	highbit = 1;
@@ -515,7 +515,7 @@ new_locate (char *pathpart,
 	}
 
       /* We add visit_exists() as late as possible to reduce the
-       * number of stat() calls.  (Idea by Bas van Gompel).
+       * number of stat() calls.
        */
       if (check_existence)
 	add_visitor(visit_exists, NULL);
@@ -698,7 +698,8 @@ usage (stream)
 {
   fprintf (stream, _("\
 Usage: %s [-d path | --database=path] [-e | --existing]\n\
-      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n\
+      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n\
+      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
       [--version] [--help] pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
@@ -714,6 +715,7 @@ static struct option const longopts[] =
   {"null", no_argument, NULL, '0'},
   {"count", no_argument, NULL, 'c'},
   {"wholename", no_argument, NULL, 'w'},
+  {"wholepath", no_argument, NULL, 'w'}, /* Synonym. */
   {"basename", no_argument, NULL, 'b'},
   {"stdio", no_argument, NULL, 's'},
   {"mmap",  no_argument, NULL, 'm'},
@@ -753,7 +755,7 @@ main (argc, argv)
 
   check_existence = 0;
 
-  while ((optc = getopt_long (argc, argv, "bcd:eil:sm0S", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "bcd:eil:sm0Sw", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
