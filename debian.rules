@@ -25,7 +25,7 @@ package = findutils
 # The version of the package (for example, `19.28').
 version = 4.1
 # The Debian revision of the package (for example, `2').
-debian = 11
+debian = 12
 
 build:
 # Builds the binary package.
@@ -85,7 +85,8 @@ binary:
 	  debian-tmp/usr/doc/copyright/$(package)
 	rm -f debian-tmp/usr/info/find.info*.gz
 	gzip -9f debian-tmp/usr/info/find.info*
-	sed -e '2s/=/$(version)-$(debian)/; \
+	sed -e '1s/=/$(package)/; \
+		2s/=/$(version)-$(debian)/; \
 		3s/=/$(shell dpkg --print-architecture)/;' \
 	    debian.control > debian-tmp/DEBIAN/control
 	chmod 644 debian-tmp/DEBIAN/control
