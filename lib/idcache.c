@@ -33,12 +33,6 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#ifndef _POSIX_VERSION
-struct passwd *getpwuid ();
-struct passwd *getpwnam ();
-struct group *getgrgid ();
-struct group *getgrnam ();
-#endif
 
 char *xmalloc ();
 char *xstrdup ();

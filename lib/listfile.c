@@ -36,7 +36,6 @@
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #else
-char *getenv ();
 extern int errno;
 #endif
 
@@ -66,9 +65,6 @@ extern int errno;
 #define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
 #endif
 
-#if defined(S_ISLNK)
-int readlink ();
-#endif
 
 /* Extract or fake data from a `struct stat'.
    ST_NBLOCKS: Number of 512-byte blocks in the file

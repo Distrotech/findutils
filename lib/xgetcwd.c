@@ -30,7 +30,6 @@ extern int errno;
 #include "pathmax.h"
 
 #ifndef HAVE_GETCWD
-char *getwd ();
 #define getcwd(buf, max) getwd (buf)
 #else
 char *getcwd ();

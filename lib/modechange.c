@@ -34,8 +34,6 @@
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
-#else
-char *malloc ();
 #endif
 
 #ifndef NULL

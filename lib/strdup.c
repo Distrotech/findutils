@@ -22,9 +22,6 @@
 #ifdef STDC_HEADERS
 #include <string.h>
 #include <stdlib.h>
-#else
-char *malloc ();
-char *strcpy ();
 #endif
 
 /* Return a newly allocated copy of STR,

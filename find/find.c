@@ -38,9 +38,6 @@
 #define lstat stat
 #endif
 
-int lstat ();
-int stat ();
-
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
 

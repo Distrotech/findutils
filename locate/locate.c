@@ -67,8 +67,6 @@
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
-#else
-char *getenv ();
 #endif
 
 #ifdef STDC_HEADERS

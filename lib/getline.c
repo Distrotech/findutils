@@ -29,8 +29,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. */
 
 #if STDC_HEADERS
 #include <stdlib.h>
-#else
-char *malloc (), *realloc ();
 #endif
 
 /* Always add at least this many bytes when extending the buffer.  */

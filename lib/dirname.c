@@ -21,8 +21,6 @@
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
-#else
-char *malloc ();
 #endif
 #if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
 #include <string.h>

@@ -29,10 +29,6 @@
 
 #if STDC_HEADERS
 #include <stdlib.h>
-#else
-VOID *malloc ();
-VOID *realloc ();
-void free ();
 #endif
 
 #ifndef EXIT_FAILURE

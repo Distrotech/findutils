@@ -32,11 +32,6 @@
 #define SIGCHLD SIGCLD
 #endif
 
-#ifndef _POSIX_VERSION
-struct passwd *getpwuid ();
-struct group *getgrgid ();
-#endif
-
 #if HAVE_DIRENT_H
 # include <dirent.h>
 # define NAMLEN(dirent) strlen((dirent)->d_name)
@@ -83,9 +78,6 @@ struct group *getgrgid ();
 #  endif
 # endif
 #endif
-
-int lstat ();
-int stat ();
 
 static boolean insert_lname P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case));
 static boolean launch P_((struct predicate *pred_ptr));

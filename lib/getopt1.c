@@ -47,8 +47,6 @@
    to get __GNU_LIBRARY__ defined.  */
 #ifdef __GNU_LIBRARY__
 #include <stdlib.h>
-#else
-char *getenv ();
 #endif
 
 #ifndef	NULL

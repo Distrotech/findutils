@@ -98,11 +98,6 @@
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #else
-char *malloc ();
-void exit ();
-void free ();
-long strtol ();
-
 extern int errno;
 #endif
 

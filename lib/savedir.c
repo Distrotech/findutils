@@ -54,9 +54,6 @@
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <string.h>
-#else
-char *malloc ();
-char *realloc ();
 #endif
 #ifndef NULL
 #define NULL 0

@@ -36,35 +36,13 @@
 #define ISDIGIT(c) (isascii (c) && isdigit (c))
 #define ISUPPER(c) (isascii (c) && isupper (c))
 
-#ifndef _POSIX_VERSION
-/* POSIX.1 header files should declare these.  */
-struct group *getgrnam ();
-struct passwd *getpwnam ();
-#endif
-
-#ifdef CACHE_IDS
-/* These two aren't specified by POSIX.1.  */
-struct group *getgrent ();
-struct passwd *getpwent ();
-#endif
-
 #ifndef S_IFLNK
 #define lstat stat
 #endif
 
-int lstat ();
-int stat ();
-#ifndef atol /* for Linux */
-long atol ();
-#endif
-struct tm *localtime ();
-
 #ifdef _POSIX_SOURCE
 #define endgrent()
 #define endpwent()
-#else
-void endgrent ();
-void endpwent ();
 #endif
 
 static boolean parse_amin P_((char *argv[], int *arg_ptr));
