@@ -59,7 +59,16 @@ from the link itself (unless it is a broken symbolic link or
 .B find
 is unable to examine the file to which the link points).  Use of this
 option implies \-noleaf.  If you later use the \-P option, \-noleaf
-will still be in effect.
+will still be in effect.  If \-L is in effect and 
+.B find 
+discovers a symbolic link to a subdirectory during its search, 
+the subdirectory pointed to by the symbolic link will be searched.
+.IP
+When the \-L option is in effect, the \-type predicate will always
+match against the type of the file that a symbolic link points to
+rather than the link itself (unless the symbolic link is broken).
+Using \-L causes the \-lname and \-ilname predicates always to return
+false.
 
 .IP \-H
 Do not follow symbolic links, except while processing the command
@@ -72,18 +81,15 @@ command line is a symbolic link, and the link can be resolved.  For
 that situation, the information used is taken from whatever the link
 points to (that is, the link is followed).  The information about the
 link itself is used as a fallback if the file pointed to by the
-symbolic link cannot be examined.
-
-When the \-L option is in effect, the \-type predicate will always
-match against the type of the file that a symbolic link points to
-rather than the link itself (unless the symbolic link is broken).
-Using \-L causes the \-lname and \-ilname predicates always to return
-false.
+symbolic link cannot be examined.  If \-H is in effect and one of the
+paths specified on the command line is a symbolic link to a directory,
+the contents of that directory will be examined (though of course
+\-maxdepth 0 would prevent this).
 .P
-If more than one of \-H, \-L and \-P are both specified, each
-overrides the others; the last one appearing on the command line takes
-effect.  Since it is the default, the \-P option should be considered
-to be in effect unless either \-H or \-L is specified.
+If more than one of \-H, \-L and \-P is specified, each overrides the
+others; the last one appearing on the command line takes effect.
+Since it is the default, the \-P option should be considered to be in
+effect unless either \-H or \-L is specified.
 
 GNU 
 .B find
@@ -110,8 +116,8 @@ same consideration applies to \-anewer and \-cnewer.
 
 The \-follow option has a similar effect to \-L, though it takes
 effect at the point where it appears (that is, if \-L is not used but
-\-follow is, any symbolic links appearing after it on the command line
-will be dereferenced).
+\-follow is, any symbolic links appearing after \-follow on the
+command line will be dereferenced, and those before it will not).
 
 .P
 .SH EXPRESSIONS
