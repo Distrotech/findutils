@@ -1044,16 +1044,15 @@ static void
 process_top_path (char *pathname, mode_t mode)
 {
   int dirchange;
-  const char *parent_dir;
+  char *parent_dir = dir_name(pathname);
   char *base = base_name(pathname);
   
   state.curdepth = 0;
   state.path_length = strlen (pathname);
 
-  if (0 == strcmp(pathname, "."))
+  if (0 == strcmp(pathname, parent_dir))
     {
       dirchange = 0;
-      parent_dir = NULL;
       base = pathname;
     }
   else
@@ -1062,7 +1061,6 @@ process_top_path (char *pathname, mode_t mode)
       struct stat st;
 
       dirchange = 1;
-      parent_dir = dir_name(pathname);
       if (0 == strcmp(base, ".."))
 	direction = TraversingUp;
       else
@@ -1076,6 +1074,9 @@ process_top_path (char *pathname, mode_t mode)
 	  return;
 	}
     }
+
+  free (parent_dir);
+  parent_dir = NULL;
   
   process_path (pathname, base, false, ".", mode);
   complete_pending_execdirs(eval_tree);
