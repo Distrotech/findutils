@@ -465,16 +465,14 @@ extern char *version_string;
 char *program_name;
 
 static void
-usage (stream, status)
+usage (stream)
      FILE *stream;
-     int status;
 {
   fprintf (stream, _("\
 Usage: %s [-d path | --database=path] [-e | --existing]\n\
       [-i | --ignore-case] [--version] [--help] pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
-  exit (status);
 }
 
 static struct option const longopts[] =
@@ -528,18 +526,24 @@ main (argc, argv)
 	break;
 	
       case 'h':
-	usage (stdout, 0);
+	usage (stdout);
+	return 0;
 
       case 'v':
 	printf (_("GNU locate version %s\n"), version_string);
-	exit (0);
+	return 0;
 
       default:
-	usage (stderr, 1);
+	usage (stderr);
+	return 1;
       }
 
   if (optind == argc)
-    usage (stderr, 1);
+    {
+      usage (stderr);
+      return 1;
+    }
+  
 
   for (; optind < argc; optind++)
     {
@@ -549,5 +553,8 @@ main (argc, argv)
 	found |= locate (argv[optind], e, ignore_case);
     }
 
-  exit (!found);
+  if (found)
+    return 0;
+  else
+    return 1;
 }

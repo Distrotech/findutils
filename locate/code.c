@@ -144,7 +144,7 @@ main (int argc, char **argv)
     {
       fprintf (stderr, _("Usage: %s most_common_bigrams < list > coded_list\n"),
 	       argv[0]);
-      exit (2);
+      return 2;
     }
 
   fp = fopen (argv[1], "r");
@@ -152,7 +152,7 @@ main (int argc, char **argv)
     {
       fprintf (stderr, "%s: ", argv[0]);
       perror (argv[1]);
-      exit (1);
+      return 1;
     }
 
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
@@ -229,5 +229,5 @@ main (int argc, char **argv)
   free (path);
   free (oldpath);
 
-  exit (0);
+  return 0;
 }

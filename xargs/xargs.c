@@ -295,7 +295,7 @@ static void add_proc PARAMS ((pid_t pid));
 static void wait_for_proc PARAMS ((boolean all));
 static long parse_num PARAMS ((char *str, int option, long min, long max));
 static long env_size PARAMS ((char **envp));
-static void usage PARAMS ((FILE * stream, int status));
+static void usage PARAMS ((FILE * stream));
 
 int
 main (int argc, char **argv)
@@ -347,7 +347,8 @@ main (int argc, char **argv)
 	  break;
 
 	case 'h':
-	  usage (stdout, 0);
+	  usage (stdout);
+	  return 0;
 
 	case 'i':
 	  if (optarg)
@@ -407,10 +408,11 @@ main (int argc, char **argv)
 
 	case 'v':
 	  printf (_("GNU xargs version %s\n"), version_string);
-	  exit (0);
+	  return 0;
 
 	default:
-	  usage (stderr, 1);
+	  usage (stderr);
+	  return 1;
 	}
     }
 
@@ -483,7 +485,7 @@ main (int argc, char **argv)
     }
 
   wait_for_proc (true);
-  exit (child_error);
+  return child_error;
 }
 
 #if 0
@@ -943,6 +945,7 @@ do_exec (void)
 	  execvp (cmd_argv[0], cmd_argv);
 	  error (0, errno, "%s", cmd_argv[0]);
 	  _exit (errno == ENOENT ? 127 : 126);
+	  /*NOTREACHED*/
 	}
       add_proc (child);
     }
@@ -1044,19 +1047,22 @@ parse_num (char *str, int option, long int min, long int max)
     {
       fprintf (stderr, _("%s: invalid number for -%c option\n"),
 	       program_name, option);
-      usage (stderr, 1);
+      usage (stderr);
+      exit(1);
     }
   else if (val < min)
     {
       fprintf (stderr, _("%s: value for -%c option must be >= %ld\n"),
 	       program_name, option, min);
-      usage (stderr, 1);
+      usage (stderr);
+      exit(1);
     }
   else if (max >= 0 && val > max)
     {
       fprintf (stderr, _("%s: value for -%c option must be < %ld\n"),
 	       program_name, option, max);
-      usage (stderr, 1);
+      usage (stderr);
+      exit(1);
     }
   return val;
 }
@@ -1075,7 +1081,7 @@ env_size (char **envp)
 }
 
 static void
-usage (FILE *stream, int status)
+usage (FILE *stream)
 {
   fprintf (stream, _("\
 Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
@@ -1086,5 +1092,4 @@ Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
        [command [initial-arguments]]\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
-  exit (status);
 }

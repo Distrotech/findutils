@@ -30,9 +30,9 @@
 #else
 #include <sys/file.h>
 #endif
-#include <human.h>
+#include "../gnulib/lib/human.h"
 #include <modetype.h>
-#include <savedir.h>
+#include "../gnulib/lib/savedir.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -316,7 +316,7 @@ main (int argc, char **argv)
   if (i == 1)
     process_top_path (".");
 
-  exit (exit_status);
+  return exit_status;
 }
 
 /* Safely go back to the starting directory. */

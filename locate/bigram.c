@@ -118,5 +118,5 @@ main (int argc, char **argv)
   free (path);
   free (oldpath);
 
-  exit (0);
+  return 0;
 }
