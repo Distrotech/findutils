@@ -89,7 +89,7 @@ fi
 : ${bigram=@bigram@}
 : ${code=@code@}
 
-PATH=$LIBEXECDIR:$BINDIR:/usr/ucb:/bin:/usr/bin:$PATH export PATH
+PATH=$LIBEXECDIR:/bin:/usr/bin:$PATH export PATH
 
 : ${PRUNEFS=nfs NFS proc}
 
@@ -112,10 +112,10 @@ if test $old = no; then
 {
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
-    su -s /bin/sh $LOCALUSER -c \
+    su $LOCALUSER -c \
     "$find $SEARCHPATHS \
      \\( $prunefs_exp \
-     -type d -regex \"$PRUNEREGEX\" \\) -prune -o -print"
+     -type d -regex '$PRUNEREGEX' \\) -prune -o -print"
   else
     $find $SEARCHPATHS \
      \( $prunefs_exp \
@@ -125,8 +125,8 @@ fi
 
 if test -n "$NETPATHS"; then
   if [ "`whoami`" = root ]; then
-    su -s /bin/sh $NETUSER -c \
-     "$find $NETPATHS \\( -type d -regex \"$PRUNEREGEX\" -prune \\) -o -print"
+    su $NETUSER -c \
+     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print"
   else
     $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print
   fi
@@ -165,10 +165,10 @@ trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' 1 15
 {
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
-    su -s /bin/sh $LOCALUSER -c \
+    su $LOCALUSER -c \
     "$find $SEARCHPATHS \
      \( $prunefs_exp \
-     -type d -regex "$PRUNEREGEX" \) -prune -o -print"
+     -type d -regex '$PRUNEREGEX' \) -prune -o -print"
   else
     $find $SEARCHPATHS \
      \( $prunefs_exp \
@@ -178,8 +178,8 @@ fi
 
 if test -n "$NETPATHS"; then
   if [ "`whoami`" = root ]; then
-    su -s /bin/sh $NETUSER -c \
-     "$find $NETPATHS \\( -type d -regex \"$PRUNEREGEX\" -prune \\) -o -print"
+    su $NETUSER -c \
+     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print"
   else
     $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print
   fi
