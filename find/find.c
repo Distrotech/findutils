@@ -1063,11 +1063,25 @@ safely_chdir_lstat(const char *dest,
 				   &changed))
 		{
 		  /* Only allow one failure. */
-		  if ((RETRY_IF_SANITY_CHECK_FAILS == isfatal)
-		      && (0 == fchdir(dotfd)))
+		  if (RETRY_IF_SANITY_CHECK_FAILS == isfatal)
 		    {
-		      isfatal = FATAL_IF_SANITY_CHECK_FAILS;
-		      goto retry;
+		      if (0 == fchdir(dotfd))
+			{
+			  isfatal = FATAL_IF_SANITY_CHECK_FAILS;
+			  goto retry;
+			}
+		      else
+			{
+			  /* Failed to return to original directory,
+			   * but we know that the current working
+			   * directory is not the one that we intend
+			   * to be in.  Since fchdir() failed, we
+			   * can't recover from this and so this error
+			   * is fatal.
+			   */
+			  error(1, errno,
+				"failed to return to parent directory");
+			}
 		    }
 		  else
 		    {
