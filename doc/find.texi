@@ -2176,6 +2176,9 @@ frequency with which the databases are updated and the directories for
 which they contain entries depend on how often @code{updatedb} is run,
 and with which arguments.
 
+You can obtain some statistics about the databases by using
+@samp{locate --statistics}.
+
 @menu
 * Database Locations::
 * Database Formats::
@@ -2187,12 +2190,12 @@ and with which arguments.
 @section Database Locations
 
 There can be multiple file name databases.  Users can select which
-databases @code{locate} searches using an environment variable or a
-command line option.  The system administrator can choose the file name
-of the default database, the frequency with which the databases are
-updated, and the directories for which they contain entries.  File name
-databases are updated by running the @code{updatedb} program, typically
-nightly.
+databases @code{locate} searches using the @code{LOCATE_PATH}
+environment variable or a command line option.  The system
+administrator can choose the file name of the default database, the
+frequency with which the databases are updated, and the directories
+for which they contain entries.  File name databases are updated by
+running the @code{updatedb} program, typically nightly.
 
 In networked environments, it often makes sense to build a database at
 the root of each filesystem, containing the entries for that filesystem.
@@ -2214,6 +2217,10 @@ allow machines with different byte orderings to share the databases.  The
 new GNU @code{locate} can read both the old and new database formats.
 However, old versions of @code{locate} and @code{find} produce incorrect
 results if given a new-format database.
+
+If you run @samp{locate --statistics}, the resulting summary indicates
+the type of each locate database.  
+
 
 @menu
 * New Database Format::
@@ -2251,6 +2258,9 @@ Databases can not be concatenated together, even if the first (dummy)
 entry is trimmed from all but the first database.  This is because the
 offset-differential count in the first entry of the second and following
 databases will be wrong.
+
+In the ouptut of @samp{locate --statistics}, the new database format
+is referred to as @samp{LOCATE02}.
 
 @node Sample Database
 @subsection Sample Database
@@ -2320,6 +2330,10 @@ single character.
 The old format therefore can not faithfully store entries with non-ASCII
 characters. It therefore should not be used in internationalized
 environments.
+
+The ouptut of @samp{locate --statistics} will give an incorrect count
+of the number of filenames containing newlines or high-bit characters
+for old-format databases.
 
 @node Newline Handling
 @section Newline Handling
@@ -2519,7 +2533,8 @@ Ignore case distinctions in both the pattern and the file names.
 @item --null
 @itemx -0
 Results are separated with the ASCII NUL character rather than the
-newline character.
+newline character.  To get the full benefit of the use of this option,
+use the new locate database format (that is the default anyway).
 
 @item --count
 @itemx -c
@@ -2544,6 +2559,10 @@ also called the ``base name''.  For example, the base name of
 @file{/tmp/mystuff/foo.old.c} is @file{foo.old.c}.  If the pattern
 contains metacharacters, it must match exactly.  If not, it must match
 part of the whole file name.
+
+@item --statistics
+Print some summary information for each locate database.  No search is
+performed. 
 
 @item --help
 Print a summary of the options to @code{locate} and exit.
@@ -2600,6 +2619,18 @@ You can also use the environment variable @code{LOCALUSER} to set this user.
 The user to search network directories as, using @code{su}.
 Default is @code{daemon}.
 You can also use the environment variable @code{NETUSER} to set this user.
+
+@item --old-format
+Generate a locate database in the old format, for compatibility with
+versions of @code{locate} other than GNU @code{locate}.  Using this
+option means that @code{locate} will not be able to properly handle
+non-ASCII characters in filenames (that is, filenames containing
+characters which have the eighth bit set, such as many of the
+characters from the ISO-8859-1 character set).
+@item --help
+Print a summary of the command-line argument format and exit.
+@item --version
+Print the version number of @code{updatedb} and exit.
 @end table
 
 @node Invoking xargs, ,  Invoking updatedb, Reference
