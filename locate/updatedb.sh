@@ -50,6 +50,13 @@ $usage" >&2
   esac
 done
 
+getuid() {
+    # format of "id" output is ...
+    # uid=1(daemon) gid=1(other)
+    # for `id's that don't understand -u
+    id | cut -d'(' -f 1 | cut -d'=' -f2
+}
+
 # You can set these in the environment, or use command-line options,
 # to override their defaults:
 
@@ -129,7 +136,8 @@ if test -n "$SEARCHPATHS"; then
 fi
 
 if test -n "$NETPATHS"; then
-if [ "`id -u`" = 0 ]; then
+myuid=`getuid`
+if [ "$myuid" = 0 ]; then
     su $NETUSER -c \
      "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print"
   else
@@ -182,7 +190,8 @@ if test -n "$SEARCHPATHS"; then
 fi
 
 if test -n "$NETPATHS"; then
-  if [ "`id -u`" = 0 ]; then
+  myuid=`getuid`
+  if [ "$myuid" = 0 ]; then
     su $NETUSER -c \
      "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print"
   else
