@@ -741,7 +741,12 @@ processed.   For example,
 .B find /tmp/foo /tmp/bar \-print \-quit
 will print only
 .BR /tmp/foo .
-
+Any command lines which have been built up with `
+.B \-execdir ... {} +
+.R \' 
+will be invoked before 
+.B find
+exits.
 
 .IP \-ls
 True; list current file in `ls \-dils' format on standard output.
