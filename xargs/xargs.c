@@ -491,6 +491,61 @@ main (int argc, char **argv)
   exit (child_error);
 }
 
+#if 0
+static int
+append_char_to_buf(char **pbuf, char **pend, char **pp, int c)
+{
+  char *end_of_buffer = *pend;
+  char *start_of_buffer = *pbuf;
+  char *p = *pp;
+  if (p >= end_of_buffer)
+    {
+      if (replace_pat)
+	{
+	  size_t len = end_of_buffer - start_of_buffer;
+	  size_t offset = p - start_of_buffer;
+	  len *= 2;
+	  start_of_buffer = xrealloc(start_of_buffer, len*2);
+	  if (NULL != start_of_buffer)
+	    {
+	      end_of_buffer = start_of_buffer + len;
+	      p = start_of_buffer + offset;
+	      *p++ = c;
+
+	      /* Update the caller's idea of where the buffer is. */
+	      *pbuf = start_of_buffer;
+	      *pend = end_of_buffer;
+	      *pp = p;
+	      
+	      return 0;
+	    }
+	  else
+	    {
+	      /* Failed to reallocate. */
+	      return -1;
+	    }
+	}
+      else
+	{
+	  /* I suspect that this can never happen now, because append_char_to_buf()
+	   * should only be called wen replace_pat is true.
+	   */
+	  error (1, 0, _("argument line too long"));
+	  /*NOTREACHED*/
+	  return -1;
+	}
+    }
+  else
+    {
+      /* Enough space remains. */
+      *p++ = c;
+      *pp = p;
+      return 0;
+    }
+}
+#endif
+
+
 /* Read a line of arguments from stdin and add them to the list of
    arguments to pass to the command.  Ignore blank lines and initial blanks.
    Single and double quotes and backslashes quote metacharacters and blanks
@@ -609,9 +664,13 @@ read_line (void)
 	  state = NORM;
 	  break;
 	}
+#if 1
       if (p >= endbuf)
 	error (1, 0, _("argument line too long"));
       *p++ = c;
+#else
+      append_char_to_buf(&linebuf, &endbuf, &p, c);
+#endif
     }
 }
 
@@ -763,6 +822,7 @@ push_arg (char *arg, size_t len)
 	{
 	  if (initial_args || cmd_argc == initial_argc)
 	    error (1, 0, _("can not fit single argument within argument list size limit"));
+	  /* option -i (replace_pat) implies -x (exit_if_size_exceeded) */
 	  if (replace_pat
 	      || (exit_if_size_exceeded &&
 		  (lines_per_exec || args_per_exec)))
