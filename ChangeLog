@@ -1,4 +1,23 @@
-2000-10-09  Kevin Dalley  <kevin@seti.org>
+2000-10-10  Kevin Dalley  <kevin@seti.org>
+
+	* locate/testsuite/locate.gnu/ignore_case3.xo,
+	locate/testsuite/locate.gnu/ignore_case3.exp,
+	locate/testsuite/locate.gnu/ignore_case2.exp,
+	locate/testsuite/locate.gnu/ignore_case1.xo,
+	locate/testsuite/locate.gnu/ignore_case1.exp: place locatedb
+	inside tmp directory, add subdir directory under tmp.
+
+	* locate/testsuite/config/unix.exp: clean up tmp after test is
+	finished. 
+
+2000-10-10  Kevin Dalley  <kevind@rahul.net>
+
+	* locate/testsuite/config/unix.exp (Repository): 
+
+2000-10-09  Kevin Dalley  <kevind@rahul.net>
+
+	* lib/fnmatch.c, lib/fnmatch.h: reverted to older version of
+	fnmatch which works with Solaris.
 
 	* locate/testsuite/config/unix.exp: dejagnu unix.exp
 
@@ -63,7 +82,7 @@
 	* lib/lstat.c, lib/stat.c: removed from repository.  These files
 	are generated from lib/xstat.in.
 
-2000-08-24  Kevin Dalley  <kevin@seti.org>
+2000-08-24  Kevin Dalley  <kevind@rahul.net>
 
 	* doc/find.texi (Invoking xargs): changed @var{-s} to @samp{-s}.
 
