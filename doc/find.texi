@@ -3076,6 +3076,8 @@ immediately.  This prevents filesystem manipulation attacks from
 persuading @code{find} to search parts of the filesystem it did not
 intend.
 
+@subsubsection Working with automounters
+
 Where an automounter is in use, it can be the case that the use of the
 @code{chdir()} system call can itself cause a new filesystem to be
 mounted at that point.  This will cause @code{find}'s security check
@@ -3086,6 +3088,39 @@ administrator).  Therefore, if the @code{chdir()} sanity check fails,
 the current directory; if so, @code{find} will issue a warning message
 and continue.  
 
+To make this solution work, @code{find} reads the list of mounted
+filesystems at startup, and again when the sanity check fails.  It
+compares the two lists to find out if the directory it has moved into
+has just been mounted.
+
+@subsubsection Problems with Dead NFS servers.
+
+Examining every mount point on the system has a downside too.  In
+general, @code{find} will be used to search just part of the
+filesystem.  However, @code{find} examines every mount point.  If the
+system has a filesystem mounted on an unresponsive NFS server,
+@code{find} will hang, waiting for the NFS server to respond.  Worse,
+it does this even if the affected mount point is not within the
+directory tree that find would have searched anyway.
+
+This is very unfortunate.  However, as far as I can see the
+alternatives are also nasty:
+
+@itemize @bullet
+@item
+leave @code{find} vulnerable to race conditions (i.e. not detect a
+change in a directory as we @code{chdir()} into it)
+@item
+use the sanity check, but don't take account of automounters - this
+results in find not being able to search large parts of the system if
+an automounter is in place. 
+@end itemize
+
+So, the residual problem you are left with is that your system will
+not work well if it is a client of a dead NFS server.  As far as I can
+tell, it is not possible to fix all three problems at once.  If you
+have some ideas about how @code{find} could do this better, please
+send email to the @email{bug-findutils@@gnu.org} mailing list.
 
 @subsection Race Conditions with -exec
 
