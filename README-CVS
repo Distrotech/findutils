@@ -1,5 +1,5 @@
 This file describes how to build findutils starting from a set of code
-checked out of CVS, rather than from a releasaed source distribution.
+checked out of CVS, rather than from a released source distribution.
 
 1. Prerequisites
  * A C compiler
@@ -33,7 +33,9 @@ automake.  These are benign unless they occur again in the following
 step - so don;t worry about them unless you see them both times.
 
 4. Remove the "@FNMATCH_H@" from gnulib/lib/Makefile.am (it appears as
-   a dependency of "all-local").
+   a dependency of "all-local").  With recent versions of Gnulib, this 
+   may no longer be necessary, so don't worry if you can't see
+   "@FNMATCH_H@".
 
 5. Generate the configure scripts and Makefile.in files.
 
