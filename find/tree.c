@@ -237,8 +237,6 @@ opt_expr (eval_treep)
 	{
           if (curr->p_prec != biop_prec)
 	    curr = set_new_parent(curr, biop_prec, prevp);
-          else
-	    biop_prec = curr->p_prec;
 	}
 	  
       /* See which predicate type we have. */
@@ -249,6 +247,11 @@ opt_expr (eval_treep)
 	{
 	case NO_TYPE:
 	case PRIMARY_TYPE:
+	  /* Don't rearrange the arguments of the comma operator, it is
+	     not commutative.  */
+	  if (biop_prec == COMMA_PREC)
+	    break;
+
 	  /* If it's one of our special primaries, move it to the
 	     front of the list for that primary. */
 	  if (pred_func == pred_name || pred_func == pred_path)
