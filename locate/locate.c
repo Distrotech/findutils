@@ -89,6 +89,9 @@ typedef enum {false, true} boolean;
 /* Printable version of WARN_SECONDS.  */
 #define WARN_MESSAGE "8 days"
 
+/* Check for existence of files before printing them out? */
+int check_existence = 0;
+
 char *next_element ();
 char *xmalloc ();
 char *xrealloc ();
@@ -311,8 +314,11 @@ locate (pathpart, dbfile)
 		prev_fast_match = true;
 		if (globflag == false || fnmatch (pathpart, path, 0) == 0)
 		  {
-		    puts (path);
-		    ++printed;
+		    if (!check_existence || stat(path, &st) == 0)
+		      {
+			puts (path);
+			++printed;
+		      }
 		  }
 		break;
 	      }
@@ -344,7 +350,8 @@ usage (stream, status)
      int status;
 {
   fprintf (stream, "\
-Usage: %s [-d path] [--database=path] [--version] [--help] pattern...\n",
+Usage: %s [-d path | --database=path] [--version] [--help]\n"
+	   "      [-e | --existing] pattern...\n",
 	   program_name);
   exit (status);
 }
@@ -352,6 +359,7 @@ Usage: %s [-d path] [--database=path] [--version] [--help] pattern...\n",
 static struct option const longopts[] =
 {
   {"database", required_argument, NULL, 'd'},
+  {"existing", no_argument, NULL, 'e'},
   {"help", no_argument, NULL, 'h'},
   {"version", no_argument, NULL, 'v'},
   {NULL, no_argument, NULL, 0}
@@ -371,11 +379,17 @@ main (argc, argv)
   if (dbpath == NULL)
     dbpath = LOCATE_DB;
 
-  while ((optc = getopt_long (argc, argv, "d:", longopts, (int *) 0)) != -1)
+  check_existence = 0;
+
+  while ((optc = getopt_long (argc, argv, "d:e", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case 'd':
 	dbpath = optarg;
+	break;
+
+      case 'e':
+	check_existence = 1;
 	break;
 
       case 'h':
