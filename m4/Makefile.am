@@ -10,6 +10,7 @@ d-ino.m4 \
 d-type.m4 \
 error.m4 \
 fnmatch.m4 \
+fnmatchcase.m4 \
 fstypename.m4 \
 getline.m4 \
 gettext.m4 \
@@ -26,6 +27,7 @@ ls-mntd-fs.m4 \
 lstat-slash.m4 \
 lstat.m4 \
 malloc.m4 \
+mbstate_t.m4 \
 memcmp.m4 \
 prereq.m4 \
 progtest.m4 \
