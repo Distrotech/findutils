@@ -59,10 +59,10 @@ AC_TRY_CPP([#include <sys/statfs.h>
 #include <sys/vmount.h>], AC_DEFINE(FSTYPE_AIX_STATFS, 1, [Define to use AIX3 statfs to get filesystem type.]) fstype=AIX)
 fi
 if test $fstype = no; then  
-AC_TRY_CPP([#include <mntent.h>], AC_DEFINE(FSTYPE_MNTENT, 1, [Define to use 4.3BSD getmntent to get filesystem type.]) fstype=4.3BSD)
+AC_EGREP_HEADER(f_type;, sys/mount.h, AC_DEFINE(FSTYPE_STATFS, 1, [Define to use 4.4BSD and OSF1 statfs to get filesystem type.]) fstype=4.4BSD/OSF1)
 fi
 if test $fstype = no; then  
-AC_EGREP_HEADER(f_type;, sys/mount.h, AC_DEFINE(FSTYPE_STATFS, 1, [Define to use 4.4BSD and OSF1 statfs to get filesystem type.]) fstype=4.4BSD/OSF1)
+AC_TRY_CPP([#include <mntent.h>], AC_DEFINE(FSTYPE_MNTENT, 1, [Define to use 4.3BSD getmntent to get filesystem type.]) fstype=4.3BSD)
 fi
 if test $fstype = no; then  
 AC_TRY_CPP([#include <sys/mount.h>
