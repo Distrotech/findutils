@@ -321,6 +321,79 @@ main (int argc, char **argv)
 
   return exit_status;
 }
+
+
+static const char *
+specific_dirname(const char *dir)
+{
+  char dirname[1024];
+  
+  if (0 != strcmp(".", dir))
+    {
+      return strdup(dir);
+    }
+
+  /* OK, what's '.'? */
+  if (NULL != getcwd(dirname, sizeof(dirname)))
+    {
+      return strdup(dirname);
+    }
+  else
+    {
+      return strdup(dir);
+    }
+}
+
+
+static void
+wd_sanity_check(const char *thing_to_stat,
+		const char *program_name,
+		const char *what,
+		const struct stat *oldinfo,
+		struct stat *newinfo,
+		int parent,
+		int line_no)
+{
+  const char *fstype;
+  
+  if ((*xstat) (".", newinfo) != 0)
+    error (1, errno, "%s", thing_to_stat);
+  
+  if (oldinfo->st_dev != newinfo->st_dev)
+    {
+      what = specific_dirname(what);
+      fstype = filesystem_type(thing_to_stat, ".", newinfo);
+      
+      error (1, 0,
+	     _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
+	     what,
+	     parent ? "/.." : "",
+	     program_name,
+	     (long) oldinfo->st_dev,
+	     (long) newinfo->st_dev,
+	     fstype,
+	     line_no);
+      /*free(what);*/
+    }
+
+  if (oldinfo->st_ino != newinfo->st_ino)
+    {
+      what = specific_dirname(what);
+      fstype = filesystem_type(thing_to_stat, ".", newinfo);
+      
+      error (1, 0,
+	     _("%s%s changed during execution of %s (old inode number %ld, new inode number %ld, filesystem type is %s) [ref %ld]"),
+	     what, 
+	     parent ? "/.." : "",
+	     program_name,
+	     (long) oldinfo->st_ino,
+	     (long) newinfo->st_ino,
+	     fstype,
+	     line_no);
+      /*free(what);*/
+    }
+}
+
 
 /* Safely go back to the starting directory. */
 static void
@@ -332,11 +405,10 @@ chdir_back (void)
     {
       if (chdir (starting_dir) != 0)
 	error (1, errno, "%s", starting_dir);
-      if ((*xstat) (".", &stat_buf) != 0)
-	error (1, errno, "%s", starting_dir);
-      if (stat_buf.st_dev != starting_stat_buf.st_dev ||
-	  stat_buf.st_ino != starting_stat_buf.st_ino)
-	error (1, 0, _("%s changed during execution of %s"), starting_dir, program_name);
+
+      wd_sanity_check(starting_dir,
+		      program_name, starting_dir,
+		      &starting_stat_buf, &stat_buf, 0, __LINE__);
     }
   else
     {
@@ -372,11 +444,8 @@ process_top_path (char *pathname)
 	}
 
       /* Check that we are where we should be. */
-      if ((*xstat) (".", &cur_stat_buf) != 0)
-	error (1, errno, "%s", pathname);
-      if (cur_stat_buf.st_dev != stat_buf.st_dev ||
-	  cur_stat_buf.st_ino != stat_buf.st_ino)
-	error (1, 0, _("%s changed during execution of %s"), pathname, program_name);
+      wd_sanity_check(pathname, program_name, pathname,
+		      &stat_buf, &cur_stat_buf, 0, __LINE__);
 
       process_path (pathname, ".", false, ".");
       chdir_back ();
@@ -557,11 +626,15 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	}
 
       /* Check that we are where we should be. */
-      if ((*xstat) (".", &stat_buf) != 0)
-	error (1, errno, "%s", pathname);
-      if (stat_buf.st_dev != dir_ids[dir_curr].dev ||
-	  stat_buf.st_ino != dir_ids[dir_curr].ino)
-	error (1, 0, _("%s changed during execution of %s"), starting_dir, program_name);
+      if (1)
+	{
+	  struct stat tmp = {0};
+	  tmp.st_dev = dir_ids[dir_curr].dev;
+	  tmp.st_ino = dir_ids[dir_curr].ino;
+	  wd_sanity_check(pathname,
+			  program_name, starting_dir,
+			  &tmp, &stat_buf, 0, __LINE__);
+	}
 
       for (namep = name_space; *namep; namep += file_len - pathname_len + 1)
 	{
@@ -617,17 +690,28 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	    error (1, errno, "%s", parent);
 
 	  /* Check that we are where we should be. */
-	  if ((*xstat) (".", &stat_buf) != 0)
-	    error (1, errno, "%s", pathname);
-	  if (stat_buf.st_dev !=
-	      (dir_curr > 0 ? dir_ids[dir_curr-1].dev : starting_stat_buf.st_dev) ||
-	      stat_buf.st_ino !=
-	      (dir_curr > 0 ? dir_ids[dir_curr-1].ino : starting_stat_buf.st_ino))
+	  if (1)
 	    {
-	      if (dereference)
-	        error (1, 0, _("%s changed during execution of %s"), parent, program_name);
+	      struct stat tmp;
+	      int problem_is_with_parent;
+	      
+	      if (dir_curr > 0)
+		{
+		  tmp.st_dev = dir_ids[dir_curr-1].dev;
+		  tmp.st_ino = dir_ids[dir_curr-1].ino;
+		}
 	      else
-	        error (1, 0, _("%s/.. changed during execution of %s"), starting_dir, program_name);
+		{
+		  tmp.st_dev = starting_stat_buf.st_dev;
+		  tmp.st_ino = starting_stat_buf.st_ino;
+		}
+
+	      problem_is_with_parent = dereference ? 1 : 0;
+	      wd_sanity_check(pathname,
+			      program_name,
+			      dereference ? parent : starting_dir,
+			      &tmp, &stat_buf,
+			      problem_is_with_parent, __LINE__);
 	    }
 	}
 
