@@ -103,7 +103,7 @@ extern int errno;
 #else
 /* We used to use (String) instead of just String, but HP-UX 11.23 for
  * ia64 has what seems to be a compiler bug, because it refuses input
- * like: static const char buf[] = ("string");
+ * like: static const char buf[] = ("string");i
  */
 # define N_(String) String
 #endif

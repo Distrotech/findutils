@@ -49,7 +49,8 @@
 #ifdef gettext_noop
 # define N_(String) gettext_noop (String)
 #else
-# define N_(String) (String)
+/* See locate.c for explanation as to why not use (String) */
+# define N_(String) String
 #endif
 
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
