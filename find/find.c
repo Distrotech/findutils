@@ -289,6 +289,8 @@ set_follow_state(enum SymlinkOption opt)
       xstat = optionh_stat;
       no_leaf_check = true;
     }
+
+  symlink_handling = opt;
   
   /* For DBEUG_STAT, the choice is made at runtime within debug_stat()
    * by checking the contents of the symlink_handling variable.
@@ -551,7 +553,11 @@ specific_dirname(const char *dir)
     }
   else
     {
-      return canonicalize_filename_mode(dir, CAN_EXISTING);
+      const char *result = canonicalize_filename_mode(dir, CAN_EXISTING);
+      if (NULL == result)
+	return strdup(dir);
+      else
+	return result;
     }
 }
 
@@ -714,6 +720,12 @@ fs_likely_to_be_automounted(const char *fs)
   return ( (0==strcmp(fs, "nfs")) || (0==strcmp(fs, "autofs")));
 }
 
+enum WdSanityCheckFatality
+  {
+    FATAL_IF_SANITY_CHECK_FAILS,
+    NON_FATAL_IF_SANITY_CHECK_FAILS
+  };
+
 
 /* Examine the results of the stat() of a directory from before we
  * entered or left it, with the results of stat()ing it afterward.  If
@@ -743,27 +755,29 @@ fs_likely_to_be_automounted(const char *fs)
  * Hence we print a warning message to indicate that the output of find 
  * might be inconsistent due to the change in the filesystem.
  */
-static void
+static boolean
 wd_sanity_check(const char *thing_to_stat,
 		const char *program_name,
 		const char *what,
-		const struct stat *oldinfo,
+		dev_t old_dev,
+		ino_t old_ino,
 		struct stat *newinfo,
 		int parent,
 		int line_no,
 		enum TraversalDirection direction,
+		enum WdSanityCheckFatality isfatal,
 		boolean *changed) /* output parameter */
 {
   const char *fstype;
   char *specific_what = NULL;
-  int isfatal = 1, silent = 0;
+  int silent = 0;
   
   *changed = false;
   
   if ((*xstat) (".", newinfo) != 0)
     error (1, errno, "%s", thing_to_stat);
   
-  if (oldinfo->st_dev != newinfo->st_dev)
+  if (old_dev != newinfo->st_dev)
     {
       *changed = true;
       specific_what = specific_dirname(what);
@@ -795,7 +809,7 @@ wd_sanity_check(const char *thing_to_stat,
 	  switch (transition)
 	    {
 	    case MountPointRecentlyUnmounted:
-	      isfatal = 0;
+	      isfatal = NON_FATAL_IF_SANITY_CHECK_FAILS;
 	      if (!silent)
 		{
 		  error (0, 0,
@@ -805,7 +819,7 @@ wd_sanity_check(const char *thing_to_stat,
 	      break;
 	      
 	    case MountPointRecentlyMounted:
-	      isfatal = 0;
+	      isfatal = NON_FATAL_IF_SANITY_CHECK_FAILS;
 	      if (!silent)
 		{
 		  error (0, 0,
@@ -815,23 +829,25 @@ wd_sanity_check(const char *thing_to_stat,
 	      break;
 
 	    case MountPointStateUnchanged:
-	      isfatal = 1;
+	      /* leave isfatal as it is */
 	      break;
 	    }
 	}
 
-      if (isfatal)
+      if (FATAL_IF_SANITY_CHECK_FAILS == isfatal)
 	{
 	  fstype = filesystem_type(thing_to_stat, ".", newinfo);
-	  error (isfatal, 0,
+	  error (1, 0,
 		 _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
 		 specific_what,
 		 parent ? "/.." : "",
 		 program_name,
-		 (long) oldinfo->st_dev,
+		 (long) old_dev,
 		 (long) newinfo->st_dev,
 		 fstype,
 		 line_no);
+	  /*NOTREACHED*/
+	  return false;
 	}
       else
 	{
@@ -841,79 +857,162 @@ wd_sanity_check(const char *thing_to_stat,
 	   * without checking the inode number.
 	   */
 	  free(specific_what);
-	  return;
+	  return true;
 	}
     }
 
   /* Device number was the same, check if the inode has changed. */
-  if (oldinfo->st_ino != newinfo->st_ino)
+  if (old_ino != newinfo->st_ino)
     {
       *changed = true;
       specific_what = specific_dirname(what);
       fstype = filesystem_type(thing_to_stat, ".", newinfo);
       
-      error (1, 0,
+      error ((isfatal == FATAL_IF_SANITY_CHECK_FAILS) ? 1 : 0,
+	     0,			/* no relevant errno value */
 	     _("%s%s changed during execution of %s (old inode number %ld, new inode number %ld, filesystem type is %s) [ref %ld]"),
 	     specific_what, 
 	     parent ? "/.." : "",
 	     program_name,
-	     (long) oldinfo->st_ino,
+	     (long) old_ino,
 	     (long) newinfo->st_ino,
 	     fstype,
 	     line_no);
       free(specific_what);
+      return false;
     }
+  
+  return true;
 }
 
 enum SafeChdirStatus
   {
     SafeChdirOK,
     SafeChdirFailSymlink,
+    SafeChdirFailNotDir,
     SafeChdirFailStat,
-    SafeChdirFailDefect
+    SafeChdirFailWouldBeUnableToReturn,
+    SafeChdirFailChdirFailed,
+    SafeChdirFailNonexistent
   };
 
-/* Safely perform a change in directory. */
+/* Safely perform a change in directory.
+ *
+ */
 static int 
 safely_chdir(const char *dest, enum TraversalDirection direction)
 {
   struct stat statbuf_dest, statbuf_arrived;
-  int rv=SafeChdirFailDefect, dotfd=-1;
+  int rv, dotfd=-1;
+  int saved_errno;		/* specific_dirname() changes errno. */
   char *name = NULL;
-
-  errno = 0;
+  boolean rv_set = false;
+  
+  saved_errno = errno = 0;
   dotfd = open(".", O_RDONLY);
   if (dotfd >= 0)
     {
       /* Stat the directory we're going to. */
-      if (0 == (following_links() ? stat : lstat)(dest, &statbuf_dest))
+      if (0 == xstat(dest, &statbuf_dest))
 	{
 #ifdef S_ISLNK
 	  if (!following_links() && S_ISLNK(statbuf_dest.st_mode))
 	    {
 	      rv = SafeChdirFailSymlink;
+	      rv_set = true;
+	      saved_errno = 0;	/* silence the error message */
 	      goto fail;
 	    }
 #endif	  
-	  chdir(dest);
+#ifdef S_ISDIR
+	  /* Although the immediately following chdir() would detect
+	   * the fact that this is not a directory for us, this would
+	   * result in an extra system call that fails.  Anybody
+	   * examining the system-call trace should ideally not be
+	   * concerned that something is actually failing.
+	   */
+	  if (!S_ISDIR(statbuf_dest.st_mode))
+	    {
+	      rv = SafeChdirFailNotDir;
+	      rv_set = true;
+	      saved_errno = 0;	/* silence the error message */
+	      goto fail;
+	    }
+#endif	  
+	  if (0 == chdir(dest))
+	    {
+	      /* check we ended up where we wanted to go */
+	      boolean changed = false;
+	      wd_sanity_check(".", program_name, ".",
+			      statbuf_dest.st_dev,
+			      statbuf_dest.st_ino,
+			      &statbuf_arrived, 
+			      0, __LINE__, direction,
+			      FATAL_IF_SANITY_CHECK_FAILS,
+			      &changed);
+	      close(dotfd);
+	      return SafeChdirOK;
+	    }
+	  else
+	    {
+	      saved_errno = errno;
+	      if (ENOENT == saved_errno)
+		{
+		  rv = SafeChdirFailNonexistent;
+		  rv_set = true;
+		  if (ignore_readdir_race)
+		    errno = 0;	/* don't issue err msg */
+		  else
+		    name = specific_dirname(dest);
+		}
+	      else if (ENOTDIR == saved_errno)
+		{
+		  /* This can happen if the we stat a directory,
+		   * and then filesystem activity changes it into 
+		   * a non-directory.
+		   */
+		  saved_errno = 0;	/* don't issue err msg */
+		  rv = SafeChdirFailNotDir;
+		  rv_set = true;
+		}
+	      else
+		{
+		  rv = SafeChdirFailChdirFailed;
+		  rv_set = true;
+		}
+	      goto fail;
+	    }
 	}
       else
 	{
+	  saved_errno = errno;
 	  rv = SafeChdirFailStat;
+	  rv_set = true;
 	  name = specific_dirname(dest);
+	  if ( (ENOENT == saved_errno) || (0 == curdepth))
+	    saved_errno = 0;	/* don't issue err msg */
 	  goto fail;
 	}
     }
   else
     {
+      /* We do not have read permissions on "." */
+      rv = SafeChdirFailWouldBeUnableToReturn;
+      rv_set = true;
+      goto fail;
     }
+
+  saved_errno = 0;
   
+  /* We use the same exit path for successs or failure. 
+   * which has occurred is recorded in RV. 
+   */
  fail:
-  if (errno)
+  if (saved_errno)
     {
       if (NULL == name)
 	name = specific_dirname(".");
-      error(0, errno, "%s", name);
+      error(0, saved_errno, "%s", name);
     }
   
   free(name);
@@ -924,6 +1023,7 @@ safely_chdir(const char *dest, enum TraversalDirection direction)
       close(dotfd);
       dotfd = -1;
     }
+  assert(rv_set);
   return rv;
 }
 
@@ -941,9 +1041,14 @@ chdir_back (void)
 	error (1, errno, "%s", starting_dir);
 
       wd_sanity_check(starting_dir,
-		      program_name, starting_dir,
-		      &starting_stat_buf, &stat_buf, 0, __LINE__,
-		      TraversingUp, &dummy);
+		      program_name,
+		      starting_dir,
+		      starting_stat_buf.st_dev,
+		      starting_stat_buf.st_ino,
+		      &stat_buf, 0, __LINE__,
+		      TraversingUp,
+		      FATAL_IF_SANITY_CHECK_FAILS,
+		      &dummy);
     }
   else
     {
@@ -967,6 +1072,7 @@ process_top_path (char *pathname)
      once here and once in process_path.  It's not too bad, though,
      since the kernel can read the stat information out of its inode
      cache the second time.  */
+#if 0
   if ((*xstat) (pathname, &stat_buf) == 0 && S_ISDIR (stat_buf.st_mode))
     {
       if (chdir (pathname) < 0)
@@ -982,14 +1088,49 @@ process_top_path (char *pathname)
       /* Check that we are where we should be. */
       wd_sanity_check(pathname, program_name,
 		      ".",
-		      &stat_buf, &cur_stat_buf, 0, __LINE__,
-		      TraversingDown, &dummy);
+		      stat_buf.st_dev,
+		      stat_buf.st_ino,
+		      &cur_stat_buf, 0, __LINE__,
+		      TraversingDown,
+		      FATAL_IF_SANITY_CHECK_FAILS,
+		      &dummy);
 
       process_path (pathname, ".", false, ".");
       chdir_back ();
     }
   else
-    process_path (pathname, pathname, false, ".");
+    {
+      process_path (pathname, pathname, false, ".");
+    }
+#else
+  enum SafeChdirStatus rv = safely_chdir(pathname, TraversingDown);
+  
+  switch (rv)
+    {
+    case SafeChdirOK:
+      process_path (pathname, ".", false, ".");
+      chdir_back ();
+      return;
+      
+    case SafeChdirFailNonexistent:
+    case SafeChdirFailStat:
+    case SafeChdirFailWouldBeUnableToReturn:
+    case SafeChdirFailSymlink:
+    case SafeChdirFailNotDir:
+    case SafeChdirFailChdirFailed:
+      if ((SafeChdirFailNonexistent==rv) && !ignore_readdir_race)
+	{
+	  error (0, errno, "%s", pathname);
+	  exit_status = 1;
+	}
+      else
+	{
+	  process_path (pathname, pathname, false, ".");
+	}
+      chdir_back ();
+      return;
+    }
+#endif
 }
 
 /* Info on each directory in the current tree branch, to avoid
@@ -1007,6 +1148,47 @@ static int dir_alloc = 0;
 static int dir_curr = -1;
 /* (Arbitrary) number of entries to grow `dir_ids' by.  */
 #define DIR_ALLOC_STEP 32
+
+
+
+/* We've detected a filesystem loop.   This is caused by one of 
+ * two things:
+ *
+ * 1. Option -L is in effect and we've hit a symbolic link that 
+ *    points to an ancestor.  This is harmless.  We won't traverse the 
+ *    symbolic link.
+ *
+ * 2. We have hit a real cycle in the directory hierarchy.  In this 
+ *    case, we issue a diagnostic message (POSIX requires this) and we
+ *    skip that directory entry.
+ */
+static void
+issue_loop_warning(const char *name, const char *pathname, int level)
+{
+  struct stat stbuf_link;
+  if (lstat(name, &stbuf_link) != 0)
+    stbuf_link.st_mode = S_IFREG;
+  
+  if (!S_ISLNK(stbuf_link.st_mode))
+    {
+      int distance = 1 + (dir_curr-level);
+      /* We have found an infinite loop.  POSIX requires us to
+       * issue a diagnostic.  Usually we won't get to here
+       * because when the leaf optimisation is on, it will cause
+       * the subdirectory to be skipped.  If /a/b/c/d is a hard
+       * link to /a/b, then the link count of /a/b/c is 2,
+       * because the ".." entry of /b/b/c/d points to /a, not
+       * to /a/b/c.
+       */
+      error(0, 0,
+	    _("Filesystem loop detected; `%s' has the same device number and inode as a directory which is %d %s."),
+	    pathname,
+	    distance,
+	    (distance == 1 ?
+	     _("level higher in the filesystem hierarchy") :
+	     _("levels higher in the filesystem hierarchy")));
+    }
+}
 
 /* Recursively descend path PATHNAME, applying the predicates.
    LEAF is true if PATHNAME is known to be in a directory that has no
@@ -1066,8 +1248,11 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
   for (i = 0; i <= dir_curr; i++)
     if (stat_buf.st_ino == dir_ids[i].ino &&
 	stat_buf.st_dev == dir_ids[i].dev)
-      stop_at_current_level = true;
-
+      {
+	stop_at_current_level = true;
+	issue_loop_warning(name, pathname, i);
+      }
+  
   if (dir_alloc <= ++dir_curr)
     {
       dir_alloc += DIR_ALLOC_STEP;
@@ -1166,18 +1351,16 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
       /* Check that we are where we should be. */
       if (1)
 	{
-	  struct stat tmp;
-	  boolean changed;
-	  
-	  memset(&tmp, 0, sizeof(tmp));
-	  tmp.st_dev = dir_ids[dir_curr].dev;
-	  tmp.st_ino = dir_ids[dir_curr].ino;
-	  changed = false;
+	  boolean changed = false;
 	  wd_sanity_check(pathname,
 			  program_name,
 			  ".",
-			  &tmp, &stat_buf, 0, __LINE__, 
-			  TraversingDown, &changed);
+			  dir_ids[dir_curr].dev,
+			  dir_ids[dir_curr].ino,
+			  &stat_buf, 0, __LINE__, 
+			  TraversingDown,
+			  FATAL_IF_SANITY_CHECK_FAILS,
+			  &changed);
 	  if (changed)
 	    {
 	      /* If there had been a change but wd_sanity_check()
@@ -1267,9 +1450,13 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      wd_sanity_check(pathname,
 			      program_name,
 			      parent,
-			      &tmp, &stat_buf,
+			      tmp.st_dev,
+			      tmp.st_ino,
+			      &stat_buf,
 			      problem_is_with_parent, __LINE__, 
-			      TraversingUp, &changed);
+			      TraversingUp,
+			      FATAL_IF_SANITY_CHECK_FAILS,
+			      &changed);
 	    }
 	}
 
