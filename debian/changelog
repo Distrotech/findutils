@@ -1,3 +1,20 @@
+findutils (4.1-15) unstable; urgency=low
+
+  * added PRUNEREGEX as variable in updatedb and --prunefs as option to
+    updatedb (solves bug #1239, which is RFE)
+  * rename cron.find to cron.updatedb (and cron.daily/find to
+    cron.daily/updatedb)
+  * find.texi, find.info*: changed certain defaults back to the way they
+    were in the original release, added prunefs option
+  * findutils/locate/updatedb.sh: added prunefs option
+  * debian/rules: added find.conf and changed method of installation of files
+  * debian/preinst: add information about changed find.conf when upgrading
+  * debian/find.conf: updatedb configuration file
+  * debian/find.conf: use find.conf
+  * debian/conffiles: added find.conf as configuration file
+
+ -- Kevin Dalley <kevin@aimnet.com>  Fri, 27 Dec 1996 11:41:16 -0800
+
 findutils (4.1-14) stable unstable; urgency=low
 
   * install conffiles so that find is a conffile (this was last during the
