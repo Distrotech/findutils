@@ -1,4 +1,14 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.18
+** Bug Fixes
+*** "find -depth" was missing out non-leaf directories when they contain 
+    other directories.  This affected findutils releases 4.2.15,
+    4.2.16 and 4.2.17, but the bug is now fixed.
+*** Find no longer hangs on systems which are clients of unresponsive 
+    NFS servers.
+**  Documentation improvements
+*** Improvements and corrections to the find.1 manpage, including corrections to the descriptions of -H and -L.
+
 * Major changes in release 4.2.17
 ** Bug Fixes
 *** bug #11861 	undefined symbol "basename" on IRIX 5.3 
