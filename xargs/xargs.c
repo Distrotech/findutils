@@ -303,6 +303,8 @@ main (int argc, char **argv)
   int optc;
   int always_run_command = 1;
   long orig_arg_max;
+  long arg_size;
+  long size_of_environment = env_size(environ);
   char *default_cmd = "/bin/echo";
   int (*read_args) PARAMS ((void)) = read_line;
 
@@ -320,12 +322,8 @@ main (int argc, char **argv)
   orig_arg_max -= 2048; /* POSIX.2 requires subtracting 2048.  */
   arg_max = orig_arg_max;
 
-  /* Sanity check for systems with huge ARG_MAX defines (e.g., Suns which
-     have it at 1 meg).  Things will work fine with a large ARG_MAX but it
-     will probably hurt the system more than it needs to; an array of this
-     size is allocated.  */
-  if (arg_max > 20 * 1024)
-    arg_max = 20 * 1024;
+  arg_size = 20 * 1048 + size_of_environment;
+  
 
   /* Take the size of the environment into account.  */
   arg_max -= env_size (environ);
@@ -383,7 +381,7 @@ main (int argc, char **argv)
 	  break;
 
 	case 's':
-	  arg_max = parse_num (optarg, 's', 1L, orig_arg_max);
+	  arg_size = parse_num (optarg, 's', 1L, orig_arg_max);
 	  break;
 
 	case 't':
@@ -425,6 +423,22 @@ main (int argc, char **argv)
       argc = 1;
       argv = &default_cmd;
     }
+
+  /* Taking into account the sisze of the environment, 
+   * figure out how large a buffer we need to
+   * hold all the arguments.  We cannot use ARG_MAX 
+   * directly since that may be arbitrarily large.
+   * This is from a patch by Bob Prolux, <bob@proulx.com>.
+   */
+  if (arg_max > arg_size)
+    {
+      arg_max = arg_size;
+    }
+  if (size_of_environment > arg_max)
+    {
+      error (1, 0, _("environment is too large for max-chars size, try using the -s option"));
+    }
+  
 
   linebuf = (char *) xmalloc (arg_max + 1);
   argbuf = (char *) xmalloc (arg_max + 1);
