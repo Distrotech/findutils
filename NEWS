@@ -1,4 +1,10 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.19-CVS
+**  Functionality Changes
+*** "find -printf "%h\n" will now print "." for files in the current directory.
+    Previously it printed nothing (but there was a bug in the %h
+    implementation anyway).  This fixes Savannah bug #12085.
+
 * Major changes in release 4.2.18
 ** Bug Fixes
 *** "find -depth" was missing out non-leaf directories when they contain 
@@ -13,7 +19,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 ** Bug Fixes
 *** bug #11861 	undefined symbol "basename" on IRIX 5.3 
 *** bug #11865 	xargs -i regression  (as compared to findutils-4.2.12)
-*** bug #11866 	Typo in pred_okdir reders it useless (affecting 4.2.16 only)
+*** bug #11866 	Typo in pred_okdir renders it useless (affecting 4.2.16 only)
 *** patch #3723 fix recent process_top_path change (for -execdir on /)
 *** Fixing bug #11866 and applying patch #3723 made -execdir work much better.
 *** find bar/baz/ugh now works again if baz is a symbolic link (broken 

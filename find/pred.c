@@ -641,9 +641,9 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	      {
 		/* If there is no slash in the pathname, we still
 		 * print the string because it contains characters
-		 * other than just '%s'.
+		 * other than just '%s'.  The %h expands to ".".
 		 */
-		fprintf (fp, segment->text, "");
+		fprintf (fp, segment->text, ".");
 	      }
 	    else
 	      {

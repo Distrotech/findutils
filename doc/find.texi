@@ -1385,7 +1385,11 @@ File's name with any leading directories removed (only the last element).
 @c supports %-X.Yf
 @item %h
 Leading directories of file's name (all but the last element and the
-slash before it).
+slash before it).  If the file's name contains no slashes (for example
+because it was named on the command line and is in the current working
+directory), then ``%h'' expands to ``.''.  This prevents ``%h/%f''
+expanding to ``/foo'', which would be surprising and probably not
+desirable.
 @c supports %-X.Yh
 @item %P
 File's name with the name of the command line argument under which
