@@ -989,6 +989,16 @@ push_arg (char *arg, size_t len)
       cmd_argv[cmd_argc++] = argbuf + cmd_argv_chars;
       strcpy (argbuf + cmd_argv_chars, arg);
       cmd_argv_chars += len;
+      
+      /* If we have now collected enough arguments,
+       * do the exec immediately.  This must be 
+       * conditional on arg!=NULL, sinc do_exec() 
+       * actually calls push_arg(NULL, 0).
+       */
+      if (!initial_args
+	  && args_per_exec
+	  && (cmd_argc - initial_argc) == args_per_exec)
+	do_exec ();
     }
 }
 
