@@ -531,7 +531,10 @@ finds them (and, if it later comes across the linked-to file, it will
 examine that, too).  If you would prefer @code{find} to dereference
 the links and examine the file that each link points to, specify the
 @samp{-L} option to @code{find}.  You can explicitly specify the
-default behaviour by using the @samp{-H} option.  
+default behaviour by using the @samp{-P} option.    The @samp{-H}
+option is a half-way-between option which ensures that any symbolic
+links listed on the command line are dereferenced, but other symbolic
+links are not.
 
 Symbolic links are different to ``hard links'' in the sense that you
 need permissions upon the linked-to file in order to be able to
@@ -546,16 +549,28 @@ The options controlling the behaviour of @code{find} with respect to
 links are as follows :-
 
 @table @samp
+@item -P
+@code{find} does not dereference symbolic links at all.  This is the
+default behaviour.  This option must be specified before any of the
+path names on the command line.
 @item -H
 @code{find} does not dereference symbolic links (except in the case of
-file names on the command line, which are dereferenced).  This option
-must be specified before any of the path names on the command line.
+file names on the command line, which are dereferenced).  If a
+symbolic link cannot be dereferenced, the information for the symbolic
+link itself is used.  This option must be specified before any of the
+path names on the command line.
 @item -L
 @code{find} dereferences symbolic links where possible, and where this
 is not possible it uses the properties of the symbolic link itself.
 This option must be specified before any of the path names on the
 command line.  Use of this option also implies the same behaviour as
-the @samp{-noleaf} option.   
+the @samp{-noleaf} option.   If you later use the @samp{-H} or
+@samp{-P} options, this does not turn off @samp{-noleaf}.
+
+@item -follow
+This option forms part of the ``expression'' and must be specified
+after the path names, but it is otherwise equivalent to @samp{-L}.
+@end table
 
 The following differences in behavior occur when the @samp{-L} option
 is used:
@@ -565,7 +580,8 @@ is used:
 @code{find} follows symbolic links to directories when searching
 directory trees.
 @item
-@samp{-lname} and @samp{-ilname} always return false.
+@samp{-lname} and @samp{-ilname} always return false (unless they
+happen to match broken symbolic links).
 @item
 @samp{-type} reports the types of the files that symbolic links point
 to.
@@ -573,18 +589,11 @@ to.
 Implies @samp{-noleaf} (@pxref{Directories}).
 @end itemize
 
-@item -follow
-This option forms part of the ``expression'' and must be specified
-after the path names, but it is otherwise equivalent to @samp{-L}.
-Prior to the release of findutils-4.2.5 (the release in which
-@samp{-L} and @samp{-H} were introduced), this option affected whether
-or not symbolic links listed on the command line would be dereferenced
-or not, but this is no longer true; such symbolic links are now always
-dereferenced (for compatibility with the way the POSIX option
-@samp{-L} works).
-@end table
-
-
+If the @samp{-L} option or the @samp{-H} option is used, 
+the filenames used as arguments to @samp{-newer}, @samp{-anewer}, and
+@samp{-cnewer} are dereferenced and the timestamp from the pointed-to
+file is used instead (if possible -- otherwise the timestamp from the
+symbolic link is used).
 
 @deffn Test -lname pattern
 @deffnx Test -ilname pattern
@@ -615,7 +624,8 @@ searching, since hard links to a file must be on the same filesystem.
 @xref{Filesystems}.
 
 @deffn Test -inum n
-File has inode number @var{n}.
+File has inode number @var{n}.  The @samp{+} and @samp{-} qualifiers
+also work, though these are rarely useful.
 @end deffn
 
 You can also search for files that have a certain number of links, with
@@ -625,6 +635,14 @@ those also has a hard link called @file{..} to its parent directory.
 
 @deffn Test -links n
 File has @var{n} hard links.
+@end deffn
+
+@deffn Test -links +n
+File has more than @var{n} hard links.
+@end deffn
+
+@deffn Test -links -n
+File has fewer than @var{n} hard links.
 @end deffn
 
 @node Time
@@ -2312,25 +2330,55 @@ discussed in this manual.
 @section Invoking @code{find}
 
 @example
-find @r{[}@var{file}@dots{}@r{]} @r{[}@var{expression}@r{]}
+find @r{[-H] [-L] [-P]} @r{[}@var{file}@dots{}@r{]} @r{[}@var{expression}@r{]}
 @end example
 
 @code{find} searches the directory tree rooted at each file name
 @var{file} by evaluating the @var{expression} on each file it finds in
 the tree.
 
-@code{find} considers the first argument that begins with @samp{-},
-@samp{(}, @samp{)}, @samp{,}, or @samp{!} to be the beginning of the
-expression; any arguments before it are paths to search, and any
-arguments after it are the rest of the expression.  If no paths are
-given, the current directory is used.  If no expression is given, the
-expression @samp{-print} is used.
+The options @samp{-H}, @samp{-L} or @samp{-P} may be specified at the
+start of the command line (if none of these is specified, @samp{-P} is
+assumed).  The arguments after these are a list of files or
+directories that should be searched.
+
+This list of files to search is followed by a list of expressions
+describing the files we wish to search for.  The first part of the
+expression is recgnised by the fact that it begins with @samp{-},
+@samp{(}, @samp{)}, @samp{,}, or @samp{!}.  Any arguments after it are
+the rest of the expression.  If no paths are given, the current
+directory is used.  If no expression is given, the expression
+@samp{-print} is used.
 
 @code{find} exits with status 0 if all files are processed successfully,
 greater than 0 if errors occur.
 
+Three options can precede the list of path names.  They determine the
+way that symbolic links are handled.
+
+@table @code
+@item -P
+Never follow symbolic links (this is the default), except in the case
+of the @samp{-xtype} predicate.
+@item -L
+Always follow symbolic links, except in the case of the @samp{-xtype}
+predicate.
+@item -H
+Follow symbolic links specified in the list of paths to search, or
+which are otherwise specified on the command line.
+@end table
+
+If @code{find} would follow a symbolic link, but cannot for any reason
+(for example, because it has insufficient permissions or the link is
+broken), it falls back on using the properties of the symbolic link
+itself.  @xref{Symbolic Links} for a more complete description of how
+symbolic links are handled.
+
 @xref{Primary Index}, for a summary of all of the tests, actions, and
-options that the expression can contain.
+options that the expression can contain.  If the expression is
+missing, @samp{-print} is assumed.
+
+
 
 @code{find} also recognizes two options for administrative use:
 

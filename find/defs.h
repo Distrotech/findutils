@@ -323,7 +323,17 @@ char *xstrdup PARAMS((char *string));
 /* find global function declarations.  */
 
 /* find.c */
-void set_follow_state PARAMS((boolean follow));
+/* SymlinkOption represents the choice of 
+ * -P, -L or -P (default) on the command line.
+ */
+enum SymlinkOption 
+  {
+    SYMLINK_ALWAYS_DEREF,	/* Option -L */
+    SYMLINK_NEVER_DEREF,	/* Option -P */
+    SYMLINK_DEREF_ARGSONLY	/* Option -H */
+  };
+
+void set_follow_state PARAMS((enum SymlinkOption opt));
 
 /* fstype.c */
 char *filesystem_type PARAMS((const char *path, const char *relpath, const struct stat *statp));

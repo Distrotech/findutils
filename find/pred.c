@@ -1276,19 +1276,38 @@ pred_user (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  struct stat sbuf;
-  int (*ystat) ();
+  struct stat sbuf;		/* local copy, not stat_buf because we're using a different stat method */
+  int (*ystat) (const char*, struct stat *p);
 
-  ystat = xstat == lstat ? stat : lstat;
+  switch (symlink_handling)
+    {
+    case SYMLINK_ALWAYS_DEREF:
+      ystat = optionl_stat(file, buf);
+    case SYMLINK_DEREF_ARGSONLY:
+    case SYMLINK_NEVER_DEREF:
+      ystat = optionp_stat(file, buf);
+    }
+  
   if ((*ystat) (rel_pathname, &sbuf) != 0)
     {
-      if (ystat == stat && errno == ENOENT)
-	/* Mimic behavior of ls -lL. */
-	return (pred_type (pathname, stat_buf, pred_ptr));
-      error (0, errno, "%s", pathname);
-      exit_status = 1;
-      return (false);
+      if (ystat == optionl_stat && errno == ENOENT)
+	{
+	  /* If we failed to follow the symlink,
+	   * fall back on looking at the symlink itself. 
+	   */
+	  /* Mimic behavior of ls -lL. */
+	  return (pred_type (pathname, stat_buf, pred_ptr));
+	}
+      else
+	{
+	  error (0, errno, "%s", pathname);
+	  exit_status = 1;
+	}
+      return false;
     }
+  /* Now that we have our stat() information, query it in the same 
+   * way that -type does.
+   */
   return (pred_type (pathname, &sbuf, pred_ptr));
 }
 

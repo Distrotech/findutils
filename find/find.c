@@ -59,6 +59,7 @@
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
 
+
 static void process_top_path PARAMS((char *pathname));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
@@ -138,7 +139,9 @@ char *rel_pathname;
 int path_length;
 
 /* true if following symlinks.  Should be consistent with xstat.  */
-boolean dereference;
+/* boolean dereference; */
+enum SymlinkOption symlink_handling;
+
 
 /* Pointer to the function used to stat files. */
 int (*xstat) ();
@@ -162,18 +165,26 @@ static int
 debug_stat (const char *file, struct stat *bufp)
 {
   fprintf (stderr, "debug_stat (%s)\n", file);
-  if (dereference)
-    return optionh_stat(file, bufp);
-  else
-    return optionl_stat(file, bufp);
+  switch (symlink_handling)
+    {
+    case SYMLINK_ALWAYS_DEREF:
+      return optionl_stat(file, bufp);
+    case SYMLINK_DEREF_ARGSONLY:
+      return optionh_stat(file, bufp);
+    case SYMLINK_NEVER_DEREF:
+      return optionp_stat(file, bufp);
+    }
 }
 #endif /* DEBUG_STAT */
+
+
 
-/* optionh_stat() implements the stat operation when the -H option is in effect.
+/* optionh_stat() implements the stat operation when the -H option is
+ * in effect.
  * 
- * If the item to be examined is a command-line argument, we follow symbolic links.
- * If the stat() call fails on the command-line item, we fall back on the properties
- * of the symbolic link.
+ * If the item to be examined is a command-line argument, we follow
+ * symbolic links.  If the stat() call fails on the command-line item,
+ * we fall back on the properties of the symbolic link.
  *
  * If the item to be examined is not a command-line argument, we
  * examine the link itself.
@@ -206,36 +217,56 @@ optionh_stat(const char *name, struct stat *p)
 }
 
 /* optionl_stat() implements the stat operation when the -L option is
- * in effect.  That option makes us examine the symbolic link itself,
- * not the thing it points to.
+ * in effect.  That option makes us examine the thing the symbolic
+ * link points to, not the symbolic link itself.
  */
 static int 
 optionl_stat(const char *name, struct stat *p)
 {
-  return stat(name, p);
-}
-
-void 
-set_follow_state(boolean follow)
-{
-  if (follow)
+  if (0 == stat(name, p))
     {
-      /* -L option (or -follow) */
-      dereference = false;
-      xstat = optionl_stat;
-      no_leaf_check = false;
+      return 0;			/* normal case. */
     }
   else
     {
-      /* -H option (or default behaviour) */
-      dereference = true;
+      return lstat(name, p);	/* can't follow link, return the link itself. */
+    }
+}
+
+/* optionp_stat() implements the stat operation when the -P option is
+ * in effect (this is also the default).  That option makes us examine
+ * the symbolic link itself, not the thing it points to.
+ */
+static int 
+optionp_stat(const char *name, struct stat *p)
+{
+  return lstat(name, p);
+}
+
+void 
+set_follow_state(enum SymlinkOption opt)
+{
+  switch (opt)
+    {
+    case SYMLINK_ALWAYS_DEREF:  /* -L */
+      xstat = optionl_stat;
+      no_leaf_check = false;
+      break;
+      
+    case SYMLINK_NEVER_DEREF:	/* -P (default) */
+      xstat = optionp_stat;
+      /* Can't turn on no_leaf_check because the user might have specified 
+       * -noleaf anyway
+       */
+      break;
+      
+    case SYMLINK_DEREF_ARGSONLY: /* -H */
       xstat = optionh_stat;
       no_leaf_check = true;
     }
-
-  /* For DBEUG_STAT, the choice between optionh_stat() and
-   * optionl_stat() is made at runtime within debug_stat() by checking
-   * the contents of the DEREFERENCE variable.
+  
+  /* For DBEUG_STAT, the choice is made at runtime within debug_stat()
+   * by checking the contents of the symlink_handling variable.
    */
 #if defined(DEBUG_STAT)
   xstat = debug_stat;
@@ -298,7 +329,7 @@ main (int argc, char **argv)
       error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
     }
 
-  set_follow_state(false);
+  set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
   
 #endif
 
@@ -306,26 +337,23 @@ main (int argc, char **argv)
   printf ("cur_day_start = %s", ctime (&cur_day_start));
 #endif /* DEBUG */
 
-  /* Check for -H or -L options. */
+  /* Check for -P, -H or -L options. */
   for (i=1; (end_of_leading_options = i) < argc; ++i)
     {
       if (0 == strcmp("-H", argv[i]))
 	{
 	  /* Meaning: dereference symbolic links on command line, but nowhere else. */
-	  set_follow_state(false);
-#if 0
-	  fprintf(stderr,
-		  _("Warning: option -H is not yet supported.  Sorry.\n"));
-#endif
+	  set_follow_state(SYMLINK_DEREF_ARGSONLY);
 	}
       else if (0 == strcmp("-L", argv[i]))
 	{
 	  /* Meaning: dereference all symbolic links. */
-	  set_follow_state(true);
-#if 0
-	  fprintf(stderr,
-		  _("Warning: option -L is not yet supported.  Sorry.  Try using the -follow option instead.\n"));
-#endif
+	  set_follow_state(SYMLINK_ALWAYS_DEREF);
+	}
+      else if (0 == strcmp("-P", argv[i]))
+	{
+	  /* Meaning: never dereference symbolic links (default). */
+	  set_follow_state(SYMLINK_NEVER_DEREF);
 	}
       else if (0 == strcmp("--", argv[i]))
 	{
@@ -831,8 +859,15 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  /* We could go back and do the next command-line arg
 	     instead, maybe using longjmp.  */
 	  char const *dir;
-
-	  if (!dereference)
+	  boolean deref;
+	  if (symlink_handling == SYMLINK_ALWAYS_DEREF)
+	    deref = true;
+	  else if (symlink_handling == SYMLINK_DEREF_ARGSONLY && (curdepth == 0))
+	    deref = true;
+	  else
+	    deref = false;
+	  
+	  if (!deref)
 	    dir = "..";
 	  else
 	    {
@@ -860,10 +895,10 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 		  tmp.st_ino = starting_stat_buf.st_ino;
 		}
 
-	      problem_is_with_parent = dereference ? 1 : 0;
+	      problem_is_with_parent = deref ? 1 : 0;
 	      wd_sanity_check(pathname,
 			      program_name,
-			      dereference ? parent : starting_dir,
+			      deref ? parent : starting_dir,
 			      &tmp, &stat_buf,
 			      problem_is_with_parent, __LINE__);
 	    }

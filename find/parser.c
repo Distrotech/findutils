@@ -609,7 +609,7 @@ parse_follow (char **argv, int *arg_ptr)
   (void) argv;
   (void) arg_ptr;
 
-  set_follow_state(true);
+  set_follow_state(SYMLINK_ALWAYS_DEREF);
   return true;
 }
 
