@@ -368,9 +368,6 @@ main (int argc, char **argv)
   xstat = debug_stat;
 #endif /* !DEBUG_STAT */
 
-#if 0  
-  human_block_size (getenv ("FIND_BLOCK_SIZE"), 0, &output_block_size);
-#else
   if (getenv("POSIXLY_CORRECT"))
     output_block_size = 512;
   else
@@ -964,11 +961,6 @@ safely_chdir(const char *dest,
       /* do not call error() as this would result in a duplicate error message 
        * when the caller does the same thing. 
        */
-#if 0
-      if (NULL == name)
-	name = specific_dirname(".");
-      error(0, saved_errno, "%s", name);
-#endif
     }
   
   free(name);
@@ -1017,91 +1009,11 @@ chdir_back (void)
 static void
 process_top_path (char *pathname)
 {
+  curdepth = 0;
+  path_length = strlen (pathname);
   process_path (pathname, pathname, false, ".");
 }
 
-
-static void
-old_process_top_path (char *pathname)
-{
-  struct stat stat_buf, cur_stat_buf;
-  boolean dummy;
-  
-  curdepth = 0;
-  path_length = strlen (pathname);
-
-  /* We stat each pathname given on the command-line twice --
-     once here and once in process_path.  It's not too bad, though,
-     since the kernel can read the stat information out of its inode
-     cache the second time.  */
-#if USE_SAFE_CHDIR
-  if ((*xstat) (pathname, &stat_buf) == 0 && S_ISDIR (stat_buf.st_mode))
-    {
-      enum SafeChdirStatus rv = safely_chdir(pathname, TraversingDown, &stat_buf);
-      
-      switch (rv)
-	{
-	case SafeChdirOK:
-	  process_path (pathname, ".", false, ".");
-	  chdir_back ();
-	  return;
-	  
-	case SafeChdirFailNonexistent:
-	case SafeChdirFailStat:
-	case SafeChdirFailWouldBeUnableToReturn:
-	case SafeChdirFailSymlink:
-	case SafeChdirFailNotDir:
-	case SafeChdirFailChdirFailed:
-	  if ((SafeChdirFailNonexistent==rv) && !ignore_readdir_race)
-	    {
-	      error (0, errno, "%s", pathname);
-	      exit_status = 1;
-	    }
-	  else
-	    {
-	      process_path (pathname, pathname, false, ".");
-	    }
-	  chdir_back ();
-	  return;
-	}
-    }
-  else
-    {
-      /* Not a directory */
-      process_path (pathname, pathname, false, ".");
-    }
-#else
-  if ((*xstat) (pathname, &stat_buf) == 0 && S_ISDIR (stat_buf.st_mode))
-    {
-      if (chdir (pathname) < 0)
-	{
-	  if (!ignore_readdir_race || (errno != ENOENT) )
-	    {
-	      error (0, errno, "%s", pathname);
-	      exit_status = 1;
-	    }
-	  return;
-	}
-
-      /* Check that we are where we should be. */
-      wd_sanity_check(pathname, program_name,
-		      ".",
-		      stat_buf.st_dev,
-		      stat_buf.st_ino,
-		      &cur_stat_buf, 0, __LINE__,
-		      TraversingDown,
-		      FATAL_IF_SANITY_CHECK_FAILS,
-		      &dummy);
-
-      process_path (pathname, ".", false, ".");
-      chdir_back ();
-    }
-  else
-    {
-      process_path (pathname, pathname, false, ".");
-    }
-#endif
-}
 
 /* Info on each directory in the current tree branch, to avoid
    getting stuck in symbolic link loops.  */
