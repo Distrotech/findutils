@@ -1244,6 +1244,11 @@ insert_type (char **argv, int *arg_ptr, boolean (*which_pred) (/* ??? */))
       type_cell = S_IFSOCK;
       break;
 #endif
+#ifdef S_IFDOOR
+    case 'D':			/* Solaris door */
+      type_cell = S_IFDOOR;
+      break;
+#endif
     default:			/* None of the above ... nuke 'em. */
       return (false);
     }
