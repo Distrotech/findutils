@@ -48,6 +48,10 @@ xargs.sysv/l1n4.xo \
 xargs.sysv/l2.xo \
 xargs.sysv/trace.xo
 
+
+EXTRA_DIST_XE = \
+xargs.sysv/trace.xe
+
 EXTRA_DIST_XI = \
 inputs/blank.xi \
 inputs/eofstr.xi \
@@ -59,7 +63,7 @@ inputs/lines.xi \
 inputs/quotes.xi
 
 
-EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO) $(EXTRA_DIST_XI)
+EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO) $(EXTRA_DIST_XI) $(EXTRA_DIST_XE)
 
 
 
