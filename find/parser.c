@@ -52,7 +52,6 @@ struct passwd *getpwent ();
 #define lstat stat
 #endif
 
-char *strstr ();
 int lstat ();
 int stat ();
 #ifndef atol /* for Linux */

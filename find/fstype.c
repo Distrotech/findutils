@@ -30,9 +30,6 @@
 extern int errno;
 #endif
 
-char *strdup ();
-char *strstr ();
-
 static char *filesystem_type_uncached P_((char *path, char *relpath, struct stat *statp));
 static int xatoi P_((char *cp));
 

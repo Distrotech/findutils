@@ -60,9 +60,6 @@
 #define memcpy(dest, source, count) (bcopy((source), (dest), (count)))
 #endif
 
-char *strstr ();
-char *strdup ();
-
 #ifndef _POSIX_SOURCE
 #include <sys/param.h>
 #endif
