@@ -4,7 +4,7 @@ locate \- list files in databases that match a pattern
 .SH SYNOPSIS
 .B locate
 [\-d path | \-\-database=path] [-e | --existing] [-i | --ignore-case]
-[\-0 | \-\-null] [\-c | \-\-count] [\-\-wholename] [\-\-basename] 
+[\-0 | \-\-null] [\-c | \-\-count] [\-\-wholename] [\-b | \-\-basename] 
 [\-l N | \-\-limit=N] [\-\-statistics] [\-\-version] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
@@ -92,7 +92,7 @@ Use ASCII NUL as a separator, instead of newline.
 Match against the whole name of the file as listed in the database.
 This is the default.
 .TP
-.I "\-\-basename"
+.I "\-b, \-\-basename"
 Results are considered to match if the pattern specified matches the
 final component of the name of a file as listed in the database.
 This final component is usually referred to as the `base name'.

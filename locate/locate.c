@@ -772,7 +772,7 @@ main (argc, argv)
 
   check_existence = 0;
 
-  while ((optc = getopt_long (argc, argv, "cd:eil:sm0S", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "bcd:eil:sm0S", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
