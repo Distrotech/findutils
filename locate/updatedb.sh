@@ -31,8 +31,12 @@ Usage: updatedb [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
 old=no
 for arg
 do
-  opt=`echo $arg|sed 's/^\([^=]*\).*/\1/'`
-  val=`echo $arg|sed 's/^[^=]*=\(.*\)/\1/'`
+  # If we are unable to fork, the back-tick operator will 
+  # fail (and the shell will emit an error message).  When 
+  # this happens, we exit with error value 71 (EX_OSERR).
+  # Alternative candidate - 75, EX_TEMPFAIL.
+  opt=`echo $arg|sed 's/^\([^=]*\).*/\1/'`  || exit 71
+  val=`echo $arg|sed 's/^[^=]*=\(.*\)/\1/'` || exit 71
   case "$opt" in
     --localpaths) SEARCHPATHS="$val" ;;
     --netpaths) NETPATHS="$val" ;;
@@ -96,10 +100,10 @@ export TMPDIR
 : ${BINDIR=@bindir@}
 
 # The names of the utilities to run to build the database.
-: ${find=${BINDIR}/@find@}
-: ${frcode=${LIBEXECDIR}/@frcode@}
-: ${bigram=${LIBEXECDIR}/@bigram@}
-: ${code=${LIBEXECDIR}/@code@}
+: ${find:=${BINDIR}/@find@}
+: ${frcode:=${LIBEXECDIR}/@frcode@}
+: ${bigram:=${LIBEXECDIR}/@bigram@}
+: ${code:=${LIBEXECDIR}/@code@}
 
 PATH=/bin:/usr/bin:${BINDIR}; export PATH
 
@@ -121,14 +125,16 @@ trap 'rm -f $LOCATE_DB.n; exit' 1 15
 if test $old = no; then
 
 # FIXME figure out how to sort null-terminated strings, and use -print0.
-{
+if {
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
+    # : A1
     su $LOCALUSER -c \
     "$find $SEARCHPATHS \
      \\( $prunefs_exp \
      -type d -regex '$PRUNEREGEX' \\) -prune -o -print"
   else
+    # : A2
     $find $SEARCHPATHS \
      \( $prunefs_exp \
      -type d -regex "$PRUNEREGEX" \) -prune -o -print
@@ -136,15 +142,28 @@ if test -n "$SEARCHPATHS"; then
 fi
 
 if test -n "$NETPATHS"; then
-myuid=`getuid`
+myuid=`getuid` 
 if [ "$myuid" = 0 ]; then
+    # : A3
     su $NETUSER -c \
-     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print"
+     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print" ||
+    exit $?
   else
-    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print
+    # : A4
+    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print ||
+    exit $?
   fi
 fi
 } | sort -f | $frcode > $LOCATE_DB.n
+then
+    # OK so far
+    true
+else
+    rv=$?
+    echo "Failed to generate $LOCATE_DB.n" >&2
+    rm -f $LOCATE_DB.n
+    exit $rv
+fi
 
 # To avoid breaking locate while this script is running, put the
 # results in a temp file, then rename it atomically.
@@ -178,24 +197,30 @@ trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' 1 15
 {
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
+    # : A5
     su $LOCALUSER -c \
     "$find $SEARCHPATHS \
      \( $prunefs_exp \
-     -type d -regex '$PRUNEREGEX' \) -prune -o -print"
+     -type d -regex '$PRUNEREGEX' \) -prune -o -print" || exit $?
   else
+    # : A6
     $find $SEARCHPATHS \
      \( $prunefs_exp \
-     -type d -regex "$PRUNEREGEX" \) -prune -o -print
+     -type d -regex "$PRUNEREGEX" \) -prune -o -print || exit $?
   fi
 fi
 
 if test -n "$NETPATHS"; then
   myuid=`getuid`
   if [ "$myuid" = 0 ]; then
+    # : A7
     su $NETUSER -c \
-     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print"
+     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print" ||
+    exit $?
   else
-    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print
+    # : A8
+    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print ||
+    exit $?
   fi
 fi
 } | tr / '\001' | sort -f | tr '\001' / > $filelist
