@@ -625,8 +625,8 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	case 'k':		/* size in 1K blocks */
 	  fprintf (fp, segment->text,
 		   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
-				   hbuf,
-				   ST_NBLOCKSIZE, 1024, human_ceiling)); 
+				   hbuf, human_ceiling,
+				   ST_NBLOCKSIZE, 1024)); 
 	  break;
 	case 'l':		/* object of symlink */
 #ifdef S_ISLNK
