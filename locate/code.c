@@ -118,6 +118,20 @@ prefix_length (char *s1, char *s2)
   return s1 - start;
 }
 
+extern char *version_string;
+
+static void
+usage (stream)
+     FILE *stream;
+{
+  fprintf (stream, _("\
+Usage: %s [--version | --help]\n\
+or     %s most_common_bigrams < file-list > locate-database\n"),
+	   program_name, program_name);
+  fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
+}
+
+
 int
 main (int argc, char **argv)
 {
@@ -136,11 +150,21 @@ main (int argc, char **argv)
 
   if (argc != 2)
     {
-      fprintf (stderr, _("Usage: %s most_common_bigrams < list > coded_list\n"),
-	       argv[0]);
+      usage(stderr);
       return 2;
     }
-
+  
+  if (0 == strcmp(argv[1], "--help"))
+    {
+      usage(stdout);
+      return 0;
+    }
+  else if (0 == strcmp(argv[1], "--version"))
+    {
+      printf (_("GNU findutils version %s\n"), version_string);
+      return 0;
+    }
+  
   fp = fopen (argv[1], "r");
   if (fp == NULL)
     {
