@@ -667,7 +667,7 @@ get_mount_state(dev_t newdev)
 static int
 fs_likely_to_be_automounted(const char *fs)
 {
-  return ( (0==strcmp(fs, "nfs")) || (0==strcmp(fs, "autofs")));
+  return ( (0==strcmp(fs, "nfs")) || (0==strcmp(fs, "autofs")) || (0==strcmp(fs, "subfs")));
 }
 
 enum WdSanityCheckFatality
