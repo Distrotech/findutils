@@ -18,11 +18,6 @@ EXTRA_DIST += modetype.h
 INCLUDES = -I$(top_srcdir)/gnulib/lib
 MOSTLYCLEANFILES += modetype.h
 
-libfind_a_SOURCES += fnmatch_.h
-EXTRA_DIST += fnmatch_loop.c
-DISTCLEANFILES += fnmatch.h
-
 libfind_a_SOURCES += modetype.h
-
 libfind_a_SOURCES += listfile.c nextelem.c
 

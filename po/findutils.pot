@@ -1,197 +1,214 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-05-20 12:12-0700\n"
+"POT-Creation-Date: 2003-05-24 18:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: 8-bit\n"
+"Content-Transfer-Encoding: 8bit\n"
 
-#: lib/argmatch.c:159
+#: gnulib/lib/argmatch.c:135
 #, c-format
-msgid "invalid argument %s for `%s'"
+msgid "invalid argument %s for %s"
 msgstr ""
 
-#: lib/argmatch.c:160
+#: gnulib/lib/argmatch.c:136
 #, c-format
-msgid "ambiguous argument %s for `%s'"
+msgid "ambiguous argument %s for %s"
 msgstr ""
 
 #. We try to put synonyms on the same line.  The assumption is that
 #. synonyms follow each other
-#: lib/argmatch.c:178
+#: gnulib/lib/argmatch.c:155
 msgid "Valid arguments are:"
 msgstr ""
 
-#: lib/error.c:102
+#: gnulib/lib/error.c:135 gnulib/lib/error.c:163
 msgid "Unknown system error"
 msgstr ""
 
-#: lib/getopt.c:675
+#: gnulib/lib/getopt.c:688 gnulib/lib/getopt.c:700
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr ""
 
-#: lib/getopt.c:700
+#: gnulib/lib/getopt.c:733 gnulib/lib/getopt.c:737
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr ""
 
-#: lib/getopt.c:705
+#: gnulib/lib/getopt.c:746 gnulib/lib/getopt.c:751
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr ""
 
-#: lib/getopt.c:723 lib/getopt.c:896
+#: gnulib/lib/getopt.c:787 gnulib/lib/getopt.c:800 gnulib/lib/getopt.c:1089
+#: gnulib/lib/getopt.c:1102
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr ""
 
-#. --option
-#: lib/getopt.c:752
+#: gnulib/lib/getopt.c:838 gnulib/lib/getopt.c:841
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr ""
 
-#. +option or -option
-#: lib/getopt.c:756
+#: gnulib/lib/getopt.c:849 gnulib/lib/getopt.c:852
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr ""
 
-#. 1003.2 specifies the format of this message.
-#: lib/getopt.c:782
+#: gnulib/lib/getopt.c:899 gnulib/lib/getopt.c:902
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr ""
 
-#: lib/getopt.c:785
+#: gnulib/lib/getopt.c:908 gnulib/lib/getopt.c:911
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr ""
 
-#. 1003.2 specifies the format of this message.
-#: lib/getopt.c:815 lib/getopt.c:945
+#: gnulib/lib/getopt.c:958 gnulib/lib/getopt.c:969 gnulib/lib/getopt.c:1155
+#: gnulib/lib/getopt.c:1168
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr ""
 
-#: lib/getopt.c:862
+#: gnulib/lib/getopt.c:1021 gnulib/lib/getopt.c:1032
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr ""
 
-#: lib/getopt.c:880
+#: gnulib/lib/getopt.c:1056 gnulib/lib/getopt.c:1068
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr ""
 
-#: lib/human.c:321
+#: gnulib/lib/human.c:361
 msgid "block size"
 msgstr ""
 
-#: lib/quotearg.c:221
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#: gnulib/lib/quotearg.c:236
 msgid "`"
 msgstr ""
 
-#: lib/quotearg.c:224
+#: gnulib/lib/quotearg.c:237
 msgid "'"
 msgstr ""
 
-#: lib/regex.c:1029
+#: gnulib/lib/regex.c:1362
 msgid "Success"
 msgstr ""
 
-#: lib/regex.c:1032
+#: gnulib/lib/regex.c:1365
 msgid "No match"
 msgstr ""
 
-#: lib/regex.c:1035
+#: gnulib/lib/regex.c:1368
 msgid "Invalid regular expression"
 msgstr ""
 
-#: lib/regex.c:1038
+#: gnulib/lib/regex.c:1371
 msgid "Invalid collation character"
 msgstr ""
 
-#: lib/regex.c:1041
+#: gnulib/lib/regex.c:1374
 msgid "Invalid character class name"
 msgstr ""
 
-#: lib/regex.c:1044
+#: gnulib/lib/regex.c:1377
 msgid "Trailing backslash"
 msgstr ""
 
-#: lib/regex.c:1047
+#: gnulib/lib/regex.c:1380
 msgid "Invalid back reference"
 msgstr ""
 
-#: lib/regex.c:1050
+#: gnulib/lib/regex.c:1383
 msgid "Unmatched [ or [^"
 msgstr ""
 
-#: lib/regex.c:1053
+#: gnulib/lib/regex.c:1386
 msgid "Unmatched ( or \\("
 msgstr ""
 
-#: lib/regex.c:1056
+#: gnulib/lib/regex.c:1389
 msgid "Unmatched \\{"
 msgstr ""
 
-#: lib/regex.c:1059
+#: gnulib/lib/regex.c:1392
 msgid "Invalid content of \\{\\}"
 msgstr ""
 
-#: lib/regex.c:1062
+#: gnulib/lib/regex.c:1395
 msgid "Invalid range end"
+msgstr ""
+
+#: gnulib/lib/regex.c:1398
+msgid "Memory exhausted"
+msgstr ""
+
+#: gnulib/lib/regex.c:1401
+msgid "Invalid preceding regular expression"
+msgstr ""
+
+#: gnulib/lib/regex.c:1404
+msgid "Premature end of regular expression"
+msgstr ""
+
+#: gnulib/lib/regex.c:1407
+msgid "Regular expression too big"
+msgstr ""
+
+#: gnulib/lib/regex.c:1410
+msgid "Unmatched ) or \\)"
+msgstr ""
+
+#: gnulib/lib/regex.c:8029
+msgid "No previous regular expression"
+msgstr ""
+
+#: gnulib/lib/rpmatch.c:78
+msgid "^[yY]"
+msgstr ""
+
+#: gnulib/lib/rpmatch.c:81
+msgid "^[nN]"
 msgstr ""
 
 #. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
 #. before exiting when memory is exhausted.  Goes through gettext.
-#: lib/regex.c:1065 lib/xmalloc.c:66
-msgid "Memory exhausted"
-msgstr ""
-
-#: lib/regex.c:1068
-msgid "Invalid preceding regular expression"
-msgstr ""
-
-#: lib/regex.c:1071
-msgid "Premature end of regular expression"
-msgstr ""
-
-#: lib/regex.c:1074
-msgid "Regular expression too big"
-msgstr ""
-
-#: lib/regex.c:1077
-msgid "Unmatched ) or \\)"
-msgstr ""
-
-#: lib/regex.c:5861
-msgid "No previous regular expression"
-msgstr ""
-
-#: lib/rpmatch.c:78
-msgid "^[yY]"
-msgstr ""
-
-#: lib/rpmatch.c:81
-msgid "^[nN]"
+#: gnulib/lib/xmalloc.c:63
+msgid "memory exhausted"
 msgstr ""
 
 #: find/util.c:87
 msgid "oops -- invalid default insertion of and!"
 msgstr ""
 
-#: find/parser.c:553 find/util.c:145
+#: find/util.c:145 find/parser.c:553
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr ""
@@ -293,7 +310,7 @@ msgid ""
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
 msgstr ""
 
-#: find/parser.c:576 locate/locate.c:430 xargs/xargs.c:925
+#: find/parser.c:576 locate/locate.c:476 xargs/xargs.c:925
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>."
@@ -397,19 +414,19 @@ msgstr ""
 
 #. For example:
 #. warning: database `fred' is more than 8 days old
-#: locate/locate.c:250
+#: locate/locate.c:296
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr ""
 
-#: locate/locate.c:426
+#: locate/locate.c:472
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | --existing]\n"
 "      [-i | --ignore-case] [--version] [--help] pattern...\n"
 msgstr ""
 
-#: locate/locate.c:488
+#: locate/locate.c:534
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr ""
