@@ -1,0 +1,142 @@
+#! /usr/bin/make -f
+#
+# Last updated: 1996/05/27 08:10:50 by Kevin Dalley <kevin@aimnet.com>
+#
+# To make the binary distribution package, the ``Debianized'' source package
+# and the context diff to the original package, type `./debian.rules dist'.
+# Make sure that `debian.rules' is executable before the final distribution
+# is made.
+#
+# Invoke each target with `./debian.rules <target>'.  All targets should be
+# invoked with the package root as the current directory.
+#
+# The `binary' target must be run as root, as it needs to install files with
+# specific ownerships.  The `diff' target assumes that you have the original
+# source package available, unpacked, in ../$(package)-$(version).orig, or that you have
+# the previous revision of the ``Debianized'' source package and context diff
+# in the parent directory.
+
+CC = gcc
+CFLAGS = -O2
+LDFLAGS = -s
+
+# The name of the package (for example, `emacs').
+package = findutils
+# The version of the package (for example, `19.28').
+version = 4.1
+# The Debian revision of the package (for example, `2').
+debian = 12
+
+build:
+# Builds the binary package.
+	./configure --prefix=/usr
+	make CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+	  libexecdir=/usr/lib/locate localstatedir=/var/lib/locate
+	( cd doc ; makeinfo find.texi )
+	touch stamp-build
+
+clean:
+# Undoes the effect of `make -f debian.rules build'.
+	make distclean
+	rm -f stamp-build
+	rm -rf debian-tmp
+
+binary:
+# Makes a binary package.
+	test -f stamp-build || make -f debian.rules build
+	install -d -g root -m 755 -o root debian-tmp
+	chmod g-s debian-tmp
+	install -d -g root -m 755 -o root debian-tmp/DEBIAN
+	install -d -g root -m 755 -o root debian-tmp/etc/cron.daily
+	install -g root -m 755 -o root cron.find \
+	  debian-tmp/etc/cron.daily/find
+	install -d -g root -m 755 -o root debian-tmp/usr/bin
+	install -g root -m 755 -o root find/find \
+	  debian-tmp/usr/bin/find
+	install -g root -m 755 -o root locate/locate \
+	  debian-tmp/usr/bin/locate
+	install -g root -m 755 -o root locate/updatedb \
+	  debian-tmp/usr/bin/updatedb
+	install -g root -m 755 -o root xargs/xargs \
+	  debian-tmp/usr/bin/xargs
+	install -d -g root -m 755 -o root debian-tmp/usr/info
+	install -g root -m 644 -o root doc/find.info* \
+	  debian-tmp/usr/info
+	install -d -g root -m 755 -o root debian-tmp/usr/lib/locate
+	install -g root -m 755 -o root locate/bigram locate/code \
+		locate/frcode debian-tmp/usr/lib/locate
+	install -d -g root -m 755 -o root debian-tmp/usr/man/man1
+	install -g root -m 644 -o root find/find.1 \
+	  debian-tmp/usr/man/man1/find.1
+	install -g root -m 644 -o root locate/locate.1 \
+	  debian-tmp/usr/man/man1/locate.1
+	install -g root -m 644 -o root locate/updatedb.1 \
+	  debian-tmp/usr/man/man1/updatedb.1
+	install -g root -m 644 -o root xargs/xargs.1 \
+	  debian-tmp/usr/man/man1/xargs.1
+	install -d -g root -m 755 -o root debian-tmp/usr/man/man5
+	install -d -g root -m 755 -o root debian-tmp/usr/lib/locate
+	install -d -g root -m 755 -o root debian-tmp/var/lib
+	install -d -g nogroup -m 2755 -o nobody debian-tmp/var/lib/locate
+	install -g root -m 644 -o root locate/locatedb.5 \
+	  debian-tmp/usr/man/man5/locatedb.5
+	install -d -g root -m 755 -o root debian-tmp/usr/doc/copyright
+	install -g root -m 644 -o root debian.README \
+	  debian-tmp/usr/doc/copyright/$(package)
+	rm -f debian-tmp/usr/info/find.info*.gz
+	gzip -9f debian-tmp/usr/info/find.info*
+	sed -e '1s/=/$(package)/; \
+		2s/=/$(version)-$(debian)/; \
+		3s/=/$(shell dpkg --print-architecture)/;' \
+	    debian.control > debian-tmp/DEBIAN/control
+	chmod 644 debian-tmp/DEBIAN/control
+	install -g root -m 644 -o root debian.conffiles \
+	  debian-tmp/DEBIAN/conffiles
+	install -g root -m 755 -o root debian.postinst \
+	  debian-tmp/DEBIAN/postinst
+	install -g root -m 755 -o root debian.postrm \
+	  debian-tmp/DEBIAN/postrm
+	install -g root -m 755 -o root debian.preinst \
+	  debian-tmp/DEBIAN/preinst
+	dpkg --build debian-tmp
+	mv debian-tmp.deb \
+	../$(package)-$(version)-$(debian).$(shell dpkg --print-architecture).deb
+
+source:	clean
+# Makes a source package.
+	( cd .. && tar cf - $(package)-$(version) | \
+		gzip -9f > $(package)-$(version)-$(debian).tar.gz )
+
+diff:	clean
+# Makes a context diff.
+	-test -d ../$(package)-$(version).orig -o \
+		-f ../$(package)-$(version)-`expr $(debian) - 1`.diff.gz \
+	  || ( echo "Original source package is not available." ; false )
+	-test -d ../$(package)-$(version).orig || make -f debian.rules orig
+	#cp -a ../$(package)-$(version).orig/doc/find.info* doc
+	cd .. && \
+	(diff -ruN $(package)-$(version).orig $(package)-$(version) \
+	 >$(package)-$(version)-$(debian).diff; [ $$? = 1 ]) && \
+	gzip -9vf $(package)-$(version)-$(debian).diff
+	-test -f stamp-orig \
+	  && rm -rf ../$(package)-$(version).orig && rm -f stamp-orig
+
+dist: binary source diff
+# Prepares the package for distribution.
+
+orig:
+# Prepares the original package from the previous
+# Debian revision source package and context diff.
+	( cd .. \
+	  && mkdir $(package).orig \
+	  && cd $(package).orig \
+	  && tar xzf ../$(package)-$(version)-`expr $(debian) - 1`.tar.gz \
+	  && cd $(package)-$(version) \
+	  && ( zcat ../../$(package)-$(version)-`expr $(debian) - 1`.diff.gz \
+	    | patch -sER -p1 ) \
+	  && find . -name "*.orig" -exec rm -f {} \; \
+	  && cd .. \
+	  && mv $(package)-$(version) ../$(package)-$(version).orig \
+	  && cd .. \
+	  && rmdir $(package).orig )
+	touch stamp-orig
