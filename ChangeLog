@@ -1,4 +1,44 @@
-2004-10-17  James Youngman <jay@gnu.org>
+2004-10-22  jay  <jay@orbital>
+
+	* doc/find.texi: Syntax corrections.
+
+	* doc/find.texi: Indicate that "-exec {}+" is not yet supported.
+
+	* find/find.1: Indicate that "{}+" is not yet supported.
+
+	* find/testsuite/find.gnu/name-period.xo, find/testsuite/find.gnu/name-period.exp, find/find.1, doc/find.texi:
+	The -name predicate must allow '*' to match '.foo' as demanded by IEEE
+	Std 1003.2-1992 Interpretation #126.
+
+	* find/pred.c:
+	Remove use of FNM_PERIOD for -name as demanded by IEEE Std 1003.2-1992
+	Interpretation #126
+
+	* find/parser.c: Fix for compilation (on AIX 4.3) with GCC 2.x.
+
+	* xargs/xargs.c:
+	Changed the erorr message issued when there is an unmatched quote to
+	point out that the user might have wanted to use the -0 option instead.
+
+2004-10-17  jay  <jay@orbital>
+
+	* configure.in:
+	Define intmax_t if it is not already defined - allows parser.c to compile on AIX 4.3
+
+	* configure.in:
+	Adjust version number to indicate that this s/w has moved on since the
+	4.2.1 release.
+
+	* configure.in: preparing to release 4.2.1
+
+	* ChangeLog: updated with current changes
+
+	* README-CVS: Updated to go with newer version of gnulib.
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po, po/tr.po:
+	preparation for release
+
+	* NEWS: Mention the changes to "trap".
 
 	* NEWS: Brought up to date.
 
