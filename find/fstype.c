@@ -52,8 +52,12 @@ extern int errno;
 
 static char *filesystem_type_uncached PARAMS((const char *path, const char *relpath, const struct stat *statp));
 
-#ifdef FSTYPE_MNTENT		/* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
-#include <mntent.h>
+#if defined(FSTYPE_MNTENT) || defined(HAVE_GETMNTENT) /* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
+
+#if HAVE_MNTENT_H
+# include <mntent.h>
+#endif
+
 #if !defined(MOUNTED)
 # if defined(MNT_MNTTAB)	/* HP-UX.  */
 #  define MOUNTED MNT_MNTTAB
@@ -62,6 +66,11 @@ static char *filesystem_type_uncached PARAMS((const char *path, const char *relp
 #  define MOUNTED MNTTABNAME
 # endif
 #endif
+
+#if !defined(MOUNTED)		/* last resort. */
+# define MOUNTED "/etc/mtab"
+#endif
+
 #endif
 
 #ifdef FSTYPE_GETMNT		/* Ultrix.  */
