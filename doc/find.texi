@@ -2069,6 +2069,13 @@ database file names.  You can also use the environment variable
 @code{LOCATE_PATH} to set the list of database files to search.  The
 option overrides the environment variable if both are used.
 
+@item --existing
+@itemx -e
+Only print out such names that currently exist (instead of such names
+that existed when the database was created).
+Note that this may slow down the program a lot, if there are many matches
+in the database.
+
 @item --help
 Print a summary of the options to @code{locate} and exit.
 
