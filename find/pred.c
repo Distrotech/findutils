@@ -672,6 +672,16 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  }
 #endif				/* S_ISLNK */
 	  break;
+	  
+	case 'M':		/* mode as 10 chars (eg., "-rwxr-x--x" */
+	  {
+	    char modestring[16] ;
+	    mode_string (stat_buf->st_mode, modestring);
+	    modestring[10] = '\0';
+	    fprintf (fp, segment->text, modestring);
+	  }
+	  break;
+	  
 	case 'm':		/* mode as octal number (perms only) */
 	  {
 	    /* Output the mode portably using the traditional numbers,
@@ -1365,11 +1375,13 @@ format_date (time_t when, int kind)
 {
   static char buf[MAX (LONGEST_HUMAN_READABLE + 2, 64)];
   struct tm *tm;
-  char fmt[3];
+  char fmt[6];
 
   fmt[0] = '%';
   fmt[1] = kind;
   fmt[2] = '\0';
+  if (kind == '+')
+    strcpy (fmt, "%F+%T");
 
   if (kind != '@'
       && (tm = localtime (&when))

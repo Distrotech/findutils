@@ -1646,7 +1646,7 @@ insert_fprintf (FILE *fp, boolean (*func) (/* ??? */), char **argv, int *arg_ptr
 	  if (*scan2 == '.')
 	    for (scan2++; ISDIGIT (*scan2); scan2++)
 	      /* Do nothing. */ ;
-	  if (strchr ("abcdDfFgGhHiklmnpPstuUyY", *scan2))
+	  if (strchr ("abcdDfFgGhHiklmMnpPstuUyY", *scan2))
 	    {
 	      segmentp = make_segment (segmentp, format, scan2 - format,
 				       (int) *scan2);
@@ -1713,6 +1713,7 @@ make_segment (struct segment **segment, char *format, int len, int kind)
     case 'g':			/* group name */
     case 'i':			/* inode number */
     case 'l':			/* object of symlink */
+    case 'M':			/* mode in `ls -l' format (eg., "drwxr-xr-x") */
     case 's':			/* size in bytes */
     case 't':			/* mtime in `ctime' format */
     case 'T':			/* mtime in user-specified strftime format */

@@ -403,7 +403,7 @@ File's last access time in the format specified by \fIk\fR, which is
 either `@' or a directive for the C `strftime' function.  The possible
 values for \fIk\fR are listed below; some of them might not be
 available on all systems, due to differences in `strftime' between
-systems.
+systems.  
 .RS
 .IP @
 seconds since Jan. 1, 1970, 00:00 GMT.
@@ -427,6 +427,10 @@ time, 12-hour (hh:mm:ss [AP]M)
 second (00..61)
 .IP T
 time, 24-hour (hh:mm:ss)
+.IP +
+Date and time, separated by '+', for example `2004-04-28+22:22:05'.
+The time is given in the current timezone (which may be affected by
+setting the TZ environment variable).  This is a GNU extension.
 .IP X
 locale's time representation (H:M:S)
 .IP Z
