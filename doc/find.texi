@@ -6,9 +6,7 @@
 @c @setchapternewpage odd
 @c %**end of header
 
-@set EDITION 1.1
-@set VERSION 4.1
-@set UPDATED November 1994
+@include version.texi
 
 @iftex
 @finalout
@@ -115,7 +113,7 @@ Bernstein.  Many other people have contributed bug fixes, small
 improvements, and helpful suggestions.  Thanks!
 
 Mail suggestions and bug reports for these programs to
-@code{bug-gnu-utils@@prep.ai.mit.edu}.  Please include the version
+@code{bug-findutils@@gnu.org}.  Please include the version
 number, which you can get by running @samp{find --version}.
 
 @menu
@@ -886,22 +884,30 @@ The operators are, in order of decreasing precedence:
 
 @table @code
 @item @asis{( @var{expr} )}
+@findex ()
 Force precedence.  True if @var{expr} is true.
 
 @item @asis{! @var{expr}}
 @itemx @asis{-not @var{expr}}
+@findex !
+@findex -not
 True if @var{expr} is false.
 
 @item @asis{@var{expr1 expr2}}
 @itemx @asis{@var{expr1} -a @var{expr2}}
 @itemx @asis{@var{expr1} -and @var{expr2}}
+@findex -a
+@findex -and
 And; @var{expr2} is not evaluated if @var{expr1} is false.
 
 @item @asis{@var{expr1} -o @var{expr2}}
 @itemx @asis{@var{expr1} -or @var{expr2}}
+@findex -o
+@findex -or
 Or; @var{expr2} is not evaluated if @var{expr1} is true.
 
 @item @asis{@var{expr1} , @var{expr2}}
+@findex ,
 List; both @var{expr1} and @var{expr2} are always evaluated.  True if
 @var{expr2} is true.  The value of @var{expr1} is discarded.  This
 operator lets you do multiple independent operations on one traversal,
@@ -1346,7 +1352,7 @@ file names exceeds the operating system's command-line length limit.
 necessary without exceeding the limit:
 
 @example
-find $HOME -name '*.c' -print | grep -l sprintf
+find $HOME -name '*.c' -print | xargs grep -l sprintf
 @end example
 
 However, if the command needs to have its standard input be a terminal
@@ -1713,8 +1719,7 @@ Removing old files from @file{/tmp} is commonly done from @code{cron}:
 find /tmp /var/tmp -not -type d -mtime +3 -print0 |
   xargs --null --no-run-if-empty rm -f
 
-find /tmp /var/tmp -depth -mindepth 1 -type d -empty -print0 |
-  xargs --null --no-run-if-empty rmdir
+find /tmp /var/tmp -depth -mindepth 1 -type d -empty -exec rmdir @{@} \;
 @end example
 
 The second @code{find} command above uses @samp{-depth} so it cleans out
