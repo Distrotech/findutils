@@ -137,7 +137,7 @@ void error ();
 
 /* Read in a 16-bit int, high byte first (network byte order).  */
 
-static int
+static short
 get_short (fp)
      FILE *fp;
 {
@@ -368,7 +368,7 @@ locate (pathpart, dbfile, ignore_case)
       else
 	{
 	  if (c == LOCATEDB_ESCAPE)
-	    count += get_short (fp);
+	    count += (short)get_short (fp);
 	  else if (c > 127)
 	    count += c - 256;
 	  else
