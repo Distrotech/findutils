@@ -1,4 +1,131 @@
-2004-10-31  jay  <jay@orbital>
+2004-11-08  James Youngman <jay@gnu.org>
+
+	* NEWS, doc/find.texi, find/defs.h, find/find.1, find/find.c, find/parser.c, po/da.po, po/de.po, po/es.po, po/findutils.pot, po/gl.po, po/id.po, po/ko.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po:
+	Turn warning messages off by default if stdin is not a tty; allow these to be controlled explicitly by options -warn and -nowarn
+
+	* po/et.po, po/it.po: Updated translation files
+
+	* po/sk.po: New translation file
+
+	* po/fr.po, po/nl.po, po/tr.po: Updated translation files
+
+	* configure.in: Added Slovak (sk) language.
+
+	* xargs/xargs.c:
+	Enforcing a lower limit on the value specified by -s makes the test
+	suite fail.  Removed that lower limit.
+
+	* locate/Makefile.am: Oops, multilocate doesn't exist yet.
+
+	* NEWS: *** empty log message ***
+
+	* doc/find.texi, locate/updatedb.1, locate/updatedb.sh:
+	Added option --findoptions to updatedb
+
+	* locate/Makefile.am, locate/locatedb.5, locate/updatedb.1, xargs/xargs.1:
+	Fixed section numbers in manpage titles and cross-references
+
+	* NEWS, doc/find.texi, xargs/xargs.1, xargs/xargs.c:
+	Increased the default argument length and improved POSIX compliance of the handling of out-of-range values for the -s option
+
+2004-11-07  James Youngman <jay@gnu.org>
+
+	* m4/Makefile.am:
+	Added in the extra files we need to distribute, nullsort.m4
+	order-bad.bin order-good.bin
+
+	* doc/find.texi: Documented locate's --limit option
+
+	* locate/locate.1, locate/locate.c:
+	Implmented --limit and corrected the implementation of the -i option.
+
+2004-11-06  James Youngman <jay@gnu.org>
+
+	* NEWS, doc/find.texi, locate/locate.1:
+	Documented --wholename and --basename and updated the NEWS file
+
+	* README-CVS:
+	Give the autogen commands in a form that you can usefullt cut and paste into a shell
+
+	* NEWS: Options --null and --count) for locate
+
+	* lib/nextelem.c:
+	Don't return '.' for an empty path element, because the path we are splitting may not be intended to contain directories
+
+	* configure.in: we're working on findutils-4.2.4 now
+
+	* locate/Makefile.am: Substitute @SORT_SUPPORTS_Z@
+
+	* doc/find.texi:
+	Documented new locate option --null and newline handling
+
+	* locate/locate.1, locate/locate.c:
+	New locate options --null, --wholename, --basename, --count
+
+	* locate/frcode.c, locate/updatedb.1, locate/updatedb.sh:
+	correctly handle newlines in the file names
+
+	* configure.in: Determine if sort -z works
+
+	* m4/nullsort.m4, m4/order-bad.bin, m4/order-good.bin:
+	jy_SORTZ: a macro to determine if the system has a sort command with a working -z option
+
+2004-11-01  James Youngman <jay@gnu.org>
+
+	* NEWS: Fixed "find -printf '%H\n'".
+
+	* find/find.c:
+	Avoid segfault if -printf %H is used where the matched file was the default, unspecified starting point, the current directory
+
+2004-10-31  James Youngman <jay@gnu.org>
+
+	* find/find.1, find/parser.c: NetBSD also supports -d.
+
+	* find/find.1, doc/find.texi:
+	Documented the behaviour of -daystart and -follow in more detail
+
+	* find/parser.c: Corrected the usage message.
+
+	* find/parser.c:
+	When deciding whether to issue a warning about options following
+	non-options, ignore any options whose position affects the tests
+	(i.e. -daystart and -follow).
+
+	* find/parser.c: -daystart is a positional option like -follow.
+
+	* find/parser.c:
+	Issue a warning message if an option is specified after a test or an
+	action (because the user might have believed that the behaviour of the
+	option is in some way conditional on the preceding tests).
+
+	* locate/updatedb.sh:
+	Oops; removed some test code that I shouldn't have checked in.
+
+	* locate/updatedb.sh:
+	Indicate that the old locate database format will shortly be unsupported.
+
+	* doc/find.texi:
+	Use @direntry instead of hard-coding START-INFO-DIR-ENTRY inside @ifinfo.
+
+	* locate/updatedb.1: Updated default location of locatedb file.
+
+	* README-alpha:
+	Updated to give correct FTP location and to not talk about "test"
+	versions of automake, which are no longer required.
+
+	* locate/updatedb.sh:
+	Incorporated the default list of filesystems to avoid from the Debian
+	package.  Also added /afs and /sfs to the default pruned paths.
+
+	* configure.in: Released findutils 4.2.3
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po, po/tr.po:
+	did make distcheck, which updates these files
+
+	* find/defs.h, find/fstype.c:
+	Use const qualifier in arguments to filesystem_type() to allow callers with const variables to use them
+
+	* ChangeLog: Updated.
 
 	* NEWS: Added new news.
 
@@ -7,7 +134,7 @@
 	during execution of %s" - that is when we chdir back to the parent
 	directory only to find that it has changed.
 
-2004-10-30  jay  <jay@orbital>
+2004-10-30  James Youngman <jay@gnu.org>
 
 	* .cvsignore, NEWS, doc/find.texi, find/defs.h, find/find.1, find/parser.c, find/pred.c:
 	Implemented the -quit action
@@ -57,7 +184,7 @@
 	* find/fstype.c, locate/locate.c:
 	Fixes for Savannah bug #3727 (Intel icc compilation errors).
 
-2004-10-25  jay  <jay@orbital>
+2004-10-25  James Youngman <jay@gnu.org>
 
 	* doc/find.texi, find/find.1, find/parser.c, find/pred.c:
 	Support -printf %D, which prints the device number of the containing filesystem
@@ -71,7 +198,7 @@
 	* configure.in, find/parser.c, find/pred.c, xargs/xargs.c:
 	No need to #define _GNU_SOURCE if we use gl_INIT.
 
-2004-10-24  jay  <jay@orbital>
+2004-10-24  James Youngman <jay@gnu.org>
 
 	* ChangeLog: Prepared to release findutils-4.2.2.
 
