@@ -824,7 +824,7 @@ print_args (boolean ask)
 
 
 /* Close stdin and attach /dev/null to it.
- * If 
+ * This resolves Savannah bug #3992.
  */
 static void
 prep_child_for_exec (void)
