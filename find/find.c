@@ -199,13 +199,16 @@ fallback_stat(const char *name, struct stat *p, int prev_rv)
   switch (errno)
     {
     case ENOENT:
-    case EACCES:
-    case ELOOP:
+    case ENOTDIR:
       return lstat(name, p);
 
+    case EACCES:
+    case EIO:
+    case ELOOP:
     case ENAMETOOLONG:
+    case EOVERFLOW:
     default:
-      return prev_rv;		/* lstat() won't help. */
+      return prev_rv;	       
     }
 }
 
