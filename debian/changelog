@@ -1,3 +1,13 @@
+findutils (4.1-34) unstable; urgency=low
+
+  * removed cron.updatedb (fixes bug #31300).
+  * added const to declaration of basename, which should satisfy Linux as
+    well as Hurd (fixes bug #31325).
+  * added /var/spool to PRUNEPATHS in updatedb.conf so that /var/spool is
+    not scanned by updatedb (fixes bug #31301).
+
+ -- Kevin Dalley <kevind@rahul.net>  Sat, 30 Jan 1999 16:51:34 -0800
+
 findutils (4.1-33) frozen unstable; urgency=low
 
   * re to remove predependency problem with a specific version libc6.
@@ -9,7 +19,7 @@ findutils (4.1-32) frozen unstable; urgency=low
   * added documentation for the environment variables PRUNEPATHS, PRUNEFS, 
     and NETPATHS for updatedb in find.texi and updatedb.1.  Added
     documentation for --prunefs in updatedb. (fixes bug #29755).
-  * link ChangeLog.gz to changelog.gz, to following policy manual.
+  * link ChangeLog.gz to changelog.gz, to follow policy manual.
 
  -- Kevin Dalley <kevind@rahul.net>  Fri,  4 Dec 1998 23:17:57 -0800
 
