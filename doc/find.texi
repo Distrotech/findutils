@@ -1181,7 +1181,9 @@ True; like @samp{-ls} but write to @var{file} like @samp{-fprint}
 @deffn Action -printf format
 True; print @var{format} on the standard output, interpreting @samp{\}
 escapes and @samp{%} directives.  Field widths and precisions can be
-specified as with the @code{printf} C function.  Unlike @samp{-print},
+specified as with the @code{printf} C function.  Format flags (like
+@samp{#} for example) mnay not work as you expect because many of the
+fields, even numeric ones, are printed with %s.  Unlike @samp{-print},
 @samp{-printf} does not add a newline at the end of the string.
 @end deffn
 
@@ -1236,6 +1238,8 @@ directives to print information about the file being processed.  The C
 @code{printf} function, field width and precision specifiers are
 supported, as applied to string (%s) types. That is, you can specify
 "minimum field width"."maximum field width" for each directive.
+Format flags (like @samp{#} for example) mnay not work as you expect
+because many of the fields, even numeric ones, are printed with %s.
 
 @samp{%%} is a literal percent sign.  A @samp{%} character followed by
 an unrecognised character (i.e. not a known directive or printf field

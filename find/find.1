@@ -459,8 +459,10 @@ space to be correctly interpreted by programs that process the
 .IP "\-printf \fIformat\fR"
 True; print \fIformat\fR on the standard output, interpreting `\e'
 escapes and `%' directives.  Field widths and precisions can be
-specified as with the `printf' C function.  Unlike \-print, \-printf
-does not add a newline at the end of the string.  The escapes and
+specified as with the `printf' C function (but please note that many
+of the fields are printed as %s rather than %d, and this may mean that
+flags don't work as you might expect).  Unlike \-print, \-printf does
+not add a newline at the end of the string.  The escapes and
 directives are:
 .RS
 .IP \ea
