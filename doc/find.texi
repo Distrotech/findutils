@@ -1075,13 +1075,16 @@ printed to the standard error output (because it was probably a typo).
 @subsection Format Directives
 
 @samp{-printf} and @samp{-fprintf} support the following format
-directives to print information about the file being processed.  Unlike
-the C @code{printf} function, they do not support field width specifiers.
+directives to print information about the file being processed.
+The C @code{printf} function, field width and precision specifiers
+are supported, as applied to string (%s) types. I.E. you can specify
+"minimum field width"."maximum field width" for each directive.
 
 @samp{%%} is a literal percent sign.  A @samp{%} character followed by
-any other character is discarded (but the other character is printed),
-and a warning message is printed to the standard error output (because
-it was probably a typo).
+an unrecognised character (i.e. not a known directive or printf field
+width and precision specifier), is discarded (but the unrecognised character
+is printed), and a warning message is printed to the standard error output
+(because it was probably a typo).
 
 @menu
 * Name Directives::
