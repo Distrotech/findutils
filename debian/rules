@@ -71,8 +71,8 @@ binary-arch:	checkroot build
 			debian/tmp/usr/doc/$(package);\
 		gzip -9v debian/tmp/usr/doc/$(package)/$$file;\
 	done
-	install -m 0644 ChangeLog debian/tmp/usr/doc/changelog
-	gzip -9v debian/tmp/usr/doc/changelog
+	install -m 0644 ChangeLog debian/tmp/usr/doc/$(package)/changelog
+	gzip -9v debian/tmp/usr/doc/$(package)/changelog
 	install -m 0644 debian/README.debian \
 		debian/tmp/usr/doc/$(package)
 	dpkg-shlibdeps debian/tmp/usr/bin/{find,locate,xargs}
