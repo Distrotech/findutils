@@ -24,6 +24,7 @@ find.gnu/printf.xo \
 find.gnu/prune-default-print.xo  \
 find.gnu/xtype-symlink.xo \
 find.posix/sv-bug-11175.xo \
+find.posix/sv-bug-12181.xo \
 find.posix/depth1.xo \
 find.posix/sizes.xo \
 find.gnu/follow-arg-parent-symlink.xo
