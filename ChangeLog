@@ -1,3 +1,24 @@
+2000-10-21  Paul Eggert  <eggert@twinsun.com>
+
+	If open + fchdir fails, fall back on xgetcwd + chdir.
+	The old code tested for this at compile-time,
+	but SunOS 4.1.4 fchdir can fail at run-time.
+
+	* find/defs.h (fchdir): Define to -1 if not available.
+	* find/defs.h (starting_dir, starting_desc):
+	Always declare.  starting_dir now points to const.
+	* find/find.c (starting_dir, starting_desc): Likewise.
+	* find/find.c (starting_dir):
+	Now "." if starting_desc is nonnegative, for benefit of diagnostics.
+	(main, process_top_path, process_dir):
+	If open + fchdir fails, fall back on xgetcwd + chdir.
+	* find/pred.c (launch): Likewise.
+
+2000-10-20  Kevin Dalley  <kevin@seti.org>
+
+	* xargs/xargs.c, locate/updatedb.sh, locate/locate.c (usage),
+	find/parser.c (parse_help): add bug reporting address to help
+
 2000-10-13  Kevin Dalley  <kevin@seti.org>
 
 	* depcomp, lib/depcomp: depcomp moved from lib to .
