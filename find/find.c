@@ -219,7 +219,7 @@ debug_stat (const char *file, struct stat *bufp)
 {
   ++stat_count;
   fprintf (stderr, "debug_stat (%s)\n", file);
-  switch (symlink_handling)
+  switch (options.symlink_handling)
     {
     case SYMLINK_ALWAYS_DEREF:
       return optionl_stat(file, bufp);
@@ -259,7 +259,7 @@ set_follow_state(enum SymlinkOption opt)
    * by checking the contents of the symlink_handling variable.
    */
 #if defined(DEBUG_STAT)
-  xstat = debug_stat;
+  options.xstat = debug_stat;
 #endif /* !DEBUG_STAT */
 }
 
@@ -303,7 +303,7 @@ main (int argc, char **argv)
   state.exit_status = 0;
 
 #if defined(DEBUG_STAT)
-  xstat = debug_stat;
+  options.xstat = debug_stat;
 #endif /* !DEBUG_STAT */
 
   if (getenv("POSIXLY_CORRECT"))
@@ -322,7 +322,7 @@ main (int argc, char **argv)
   init_mounted_dev_list();
 
 #ifdef DEBUG
-  fprintf (stderr, "cur_day_start = %s", ctime (&cur_day_start));
+  fprintf (stderr, "cur_day_start = %s", ctime (&options.cur_day_start));
 #endif /* DEBUG */
 
   /* Check for -P, -H or -L options. */
