@@ -23,7 +23,18 @@
 #include <errno.h>
 #include <assert.h>
 
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #ifdef HAVE_SYS_MNTIO_H
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
 #include <sys/mntio.h>
 #endif
 #ifdef HAVE_SYS_MKDEV_H
@@ -32,6 +43,8 @@
 
 #if defined(MNTIOC_NMNTS) && defined(MNTIOC_GETDEVLIST)
 #define USE_MNTIOC_GETDEVLIST 1
+#else
+#undef USE_MNTIOC_GETDEVLIST
 #endif
 
 
@@ -43,6 +56,7 @@ extern int errno;
 
 #include "defs.h"
 #include "../gnulib/lib/dirname.h"
+#include "xalloc.h"
 #include "modetype.h"
 
 /* Need declaration of function `xstrtoumax' */
@@ -577,7 +591,6 @@ get_mounted_devices (size_t *n)
 	  
 	  if (0 == ioctl(fd, MNTIOC_GETDEVLIST, devlist))
 	    {
-	      printf("fd=%d nmnts=%d\n", fd, nmnts);
 	      for (i = 0; i < nmnts; ++i)
 		{
 		  result[i] = makedev(devlist[2*i], devlist[2*i+1]);
@@ -587,6 +600,7 @@ get_mounted_devices (size_t *n)
 	      return result;
 	    }
 	}
+      close(fd);
     }
   error (1, errno, "%s", MOUNTED);
   /*NOTREAHED*/
