@@ -1,4 +1,88 @@
-2004-03-13  James Youngman  <jay@gnu.org>
+2004-10-02  jay  <jay@orbital>
+
+	* NEWS: brought up to date with recent changes
+
+	* locate/testsuite/config/unix.exp,
+	locate/testsuite/locate.gnu/ignore_case1.exp,
+	locate/testsuite/locate.gnu/ignore_case3.exp, locate/updatedb.sh:
+	Added new option --changecwd to updatedb so that the 'cd /' which
+	it does can be compatible with the requirements of the test suite.
+	Specifically, the test suite relies on being able to use relative
+	pathnames
+
+	* find/pred.c:
+	Fixed usage of human_readable() in '%k' format specifier to fix a bug
+	reported by Dmitry V. Levin (arguments to human_readable() were
+	specified in the wrong order, which resulted in a floating-point
+	error).
+
+2004-08-08  jay  <jay@orbital>
+
+	* locate/updatedb.sh:
+	cd to / to avoid inability to examine the current directory if we're
+	invoked via cron (and hence in root's home directory for example).
+
+	* doc/find.texi, find/find.1:
+	Deprecate -path and -ipath in favour of -wholename and -iwholename
+
+	* find/parser.c:
+	As per RMS's suggestion, deprecate -path and -ipath in favour of
+	-wholename and -iwholename.
+
+	* locate/locate.c:
+	Fixed Savannah bug #9923, in which get_short() returns large positive
+	ints when it should be returning negative shorts.
+
+	* xargs/xargs.1:
+	Applied documentation improvements suggested by Dan Jacobson
+	<jidanni@jidanni.org>.
+
+	* xargs/xargs.c:
+	Don't check size_of_environment against arg_max since that causes the
+	test suite to fail.
+
+	* xargs/xargs.1, xargs/xargs.c: Better documentation for the -i option
+
+2004-05-03  jay  <jay@orbital>
+
+	* find/find.1:
+	document the various suffixes for -size and also the new 
+	option -ignore_readdir_race
+
+	* locate/locate.c:
+	Fixes Savannah bug #8623 (failure to check consistency of data 
+	read from locate database)
+
+	* locate/updatedb.sh:
+	Resolves Savannah bug 4380, that updatedb generates an empty
+	database if one of the commands fails
+
+	* NEWS: Talk about -ignore_readdir_race
+
+	* doc/find.texi:
+	Documented -ignore_readdir_race and -noignore_readdir_race
+
+	* find/find.c:
+	-ignore_readdir_race should have no effect if the reason for the
+	 failure of stat(2) was anything other than ENOENT.
+
+	* find/defs.h, find/find.c, find/parser.c:
+	Fixed Savannah bug 4391 (readdir race condition leading to 
+	spurious error messages)
+
+2004-04-24  jay  <jay@orbital>
+
+	* README-CVS: Corrected the instructions for getting gnulib via CVS.
+
+2004-04-13  jay  <jay@orbital>
+
+	* doc/find.texi:
+	Actioned Savannah bug #8558 (find complains when it tries to recurse
+	into directories that it had removed).
+
+2004-03-13  jay  <jay@orbital>
+
+	* ChangeLog: Updated from checkin comments.
 
 	* find/find.c:
 	Oops, there is no access to the predicate name table if DEBUG is 
