@@ -875,15 +875,63 @@ user or group, using the @code{chown} or @code{chgrp} program.
 structured and how to specify them.
 
 @deffn Test -perm mode
-True if the
-file's permissions are exactly @var{mode} (which can be numeric or symbolic).
-Symbolic modes use mode 0 as a point of departure.
+
+True if the file's permissions are exactly @var{mode} (which can be
+numeric or symbolic).
+
 If @var{mode} starts with @samp{-}, true if
 @emph{all} of the permissions set in @var{mode} are set for the file;
 permissions not set in @var{mode} are ignored.
 If @var{mode} starts with @samp{+}, true if
 @emph{any} of the permissions set in @var{mode} are set for the file;
 permissions not set in @var{mode} are ignored.
+
+
+If you don't use the @samp{+} or @samp{-} form with a symbolic mode
+string, you may have to specify a rather complex mode string.  For
+example @samp{-perm g=w} will only match files which have mode 0020
+(that is, ones for which group write permission is the only permission
+set).  It is more likely that you will want to use the @samp{+} or
+@samp{-} forms, for example @samp{-perm -g=w}, which matches any file
+with group write permission.
+
+
+@table @samp
+@item -perm 664
+Match files which have read and write permission for their owner,
+and group, but which the rest of the world can read but not write to.  
+Files which meet these criteria but have other permissions bits set
+(for example if someone can execute the file) will not be matched.
+
+@item -perm -664
+Match files which have read and write permission for their owner,
+and group, but which the rest of the world can read but not write to,
+without regard to the presence of any extra permission bits (for
+example the executable bit).  This will match a file which has mode
+0777, for example.
+
+@item -perm +222
+Match files which are writeable by somebody (their owner, or
+their group, or anybody else).
+
+@item -perm +022
+Match files which are writeable by either their owner or their
+group.  The files don't have to be writeable by both the owner and
+group to be matched; either will do.
+
+@item -perm +g+w,o+w
+As above.
+
+@item -perm +g=w,o=w
+As above
+
+@item -perm -022
+Search for files which are writeable by both their owner and their
+group.
+
+@item -perm -g+w,o+w
+As above.
+@end table
 @end deffn
 
 @node Contents

@@ -317,11 +317,28 @@ See \-wholename.   The predicate \-path is also supported by HP-UX
 .BR find .
 .IP "\-perm \fImode\fR"
 File's permission bits are exactly \fImode\fR (octal or symbolic).
-Symbolic modes use mode 0 as a point of departure.
+Since an exact match is required, if you want to use this form for
+symbolic modes, you may have to specify a rather complex mode string.
+For example '\-perm g=w' will only match files which have mode 0020
+(that is, ones for which group write permission is the only permission
+set).  It is more likely that you will want to use the '+' or '-'
+forms, for example '\-perm -g=w', which matches any file with group
+write permission.  See the
+.B EXAMPLES 
+section for some illustrative examples.
 .IP "\-perm \-\fImode\fR"
 All of the permission bits \fImode\fR are set for the file.
+Symbolic modes are accepted in this form, and this is usually the way
+in which would want to use them.  You must specify 'u', 'g' or 'o' if
+you use a symbolic mode.   See the 
+.B EXAMPLES 
+section for some illustrative examples.
 .IP "\-perm +\fImode\fR"
-Any of the permission bits \fImode\fR are set for the file.
+Any of the permission bits \fImode\fR are set for the file.  Symbolic
+modes are accepted in this form.  You must specify 'u', 'g' or 'o' if
+you use a symbolic mode.  See the
+.B EXAMPLES 
+section for some illustrative examples.
 .IP "\-regex \fIpattern\fR"
 File name matches regular expression \fIpattern\fR.  This is a match
 on the whole path, not a search.  For example, to match a file named
@@ -916,6 +933,61 @@ remainder is discarded.  That means that to match
 .BR 0 ,
 a file will have to have a modification in the past which is less than
 24 hours ago.
+
+
+.P
+.nf
+.B find . -perm 664
+
+.fi
+Search for files which have read and write permission for their owner,
+and group, but which the rest of the world can read but not write to.  
+Files which meet these criteria but have other permissions bits set
+(for example if someone can execute the file) will not be matched.
+
+.P
+.nf
+.B find . -perm -664
+
+.fi
+Search for files which have read and write permission for their owner,
+and group, but which the rest of the world can read but not write to,
+without regard to the presence of any extra permission bits (for
+example the executable bit).  This will match a file which has mode
+0777, for example.
+
+.P
+.nf
+.B find . -perm +222
+
+.fi
+Search for files which are writeable by somebody (their owner, or
+their group, or anybody else).
+
+.P
+.nf
+.B find . -perm +022
+.B find . -perm +g+w,o+w
+.B find . -perm +g=w,o=w
+
+.fi
+All three of these commands do the same thing, but the first one uses
+the octal representation of the file mode, and the other two use the
+symbolic form.  These commands all search for files which are
+writeable by either their owner or their group.  The files don't have
+to be writeable by both the owner and group to be matched; either will
+do.
+
+.P
+.nf
+.B find . -perm -022
+.B find . -perm -g+w,o+w
+
+.fi
+Both these commands do the same thing; search for files which are
+writeable by both their owner and their group.
+
+
 
 .SH EXIT STATUS
 .PP
