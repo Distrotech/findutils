@@ -4,8 +4,8 @@ locate \- list files in databases that match a pattern
 .SH SYNOPSIS
 .B locate
 [\-d path | \-\-database=path] [-e | --existing] [-i | --ignore-case]
-[\-0 | \-\-null] [\-c | \-\-count] [\-\-wholename] 
-[\-\-basename] [\-l N | \-\-limit=N] [\-\-version] [\-\-help] pattern...
+[\-0 | \-\-null] [\-c | \-\-count] [\-\-wholename] [\-\-basename] 
+[\-l N | \-\-limit=N] [\-\-statistics] [\-\-version] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -96,6 +96,12 @@ This is the default.
 Results are considered to match if the pattern specified matches the
 final component of the name of a file as listed in the database.
 This final component is usually referred to as the `base name'.
+.TP
+.I "\-\-statistics"
+Print various statistics about each locate database and then exit
+without performing a search.  Any patterns given on the command line
+are ignored.  For compatibility with BSD, \-S is accepted as a synonym
+for \-\-statistics.
 .TP
 .I "\-\-help"
 Print a summary of the options to
