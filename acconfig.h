@@ -34,3 +34,27 @@
 /* Define to `unsigned long' if <sys/types.h> doesn't define.  */
 #undef ino_t
 
+/* Define to rpl_fnmatch if the replacement function should be used.  */
+#undef fnmatch
+
+/* Define to 1 if assertions should be disabled.  */
+#undef NDEBUG
+
+/* Define to rpl_malloc if the replacement function should be used.  */
+#undef malloc
+
+/* Define to rpl_memcmp if the replacement function should be used.  */
+#undef memcmp
+
+/* Define to gnu_mktime if the replacement function should be used.  */
+#undef mktime
+
+/* Define to rpl_realloc if the replacement function should be used.  */
+#undef realloc
+
+/* Define to `int' if <sys/types.h> doesn't define.  */
+#undef ssize_t
+
+/* Define to `unsigned long' or `unsigned long long'
+   if <inttypes.h> doesn't define.  */
+#undef uintmax_t
