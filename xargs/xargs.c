@@ -462,11 +462,6 @@ main (int argc, char **argv)
 	   */
 	case 's':
 	  arg_size = parse_num (optarg, 's', 1L, posix_arg_size_max, 0);
-	  if (arg_size < posix_arg_size_min)
-	    {
-	      error (0, 0, "warning: value %ld for -s option is too small, using %ld instead", arg_size, posix_arg_size_min);
-	      arg_size = posix_arg_size_min;
-	    }
 	  if (arg_size > posix_arg_size_max)
 	    {
 	      error (0, 0, "warning: value %ld for -s option is too large, using %ld instead", arg_size, posix_arg_size_max);
