@@ -317,7 +317,17 @@ main (int argc, char **argv)
   for (i = 1; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
     process_top_path (argv[i]);
   if (i == 1)
-    process_top_path (".");
+    {
+      /* 
+       * We use a temporary variable here because some actions modify 
+       * the path temporarily.  Hence if we use a string constant, 
+       * we get a coredump.  The best example of this is if we say 
+       * "find -printf %H" (note, not "find . -printf %H").
+       */
+      char defaultpath[2] = ".";
+      process_top_path (defaultpath);
+    }
+  
 
   return exit_status;
 }
