@@ -4,6 +4,11 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** If you specify an option after non-option, a warning message is now issued. 
     Options should be specified immediately after the list of paths to
     search.
+*** Like find, the locate program now supports an option --null (short form -0)
+    which changes the result separator from newline to NULL.
+*** Locate supports the option -c (long form --count) which suppresses normal
+    output but prints on stdout the number of results produced (like
+    grep -c).
 **  Bug Fixes
 *** "find -printf '%H\n'" now works (rather than segfaulting) on
     systems that have non-writable string constants.
