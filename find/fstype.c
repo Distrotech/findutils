@@ -178,7 +178,7 @@ set_fstype_devno(struct mount_entry *p)
   
   if (p->me_dev == (dev_t)-1)
     {
-      if (0 == stat(p->me_mountdir, &stbuf))
+      if (0 == xstat(p->me_mountdir, &stbuf))
 	{
 	  p->me_dev = stbuf.st_dev;
 	  return 0;
