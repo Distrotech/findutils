@@ -1797,6 +1797,7 @@ make_segment (struct segment **segment, char *format, int len, int kind)
     case 'n':			/* number of links */
       fprintf_stat_needed = true;
       *fmt++ = 's';
+      break;
       
       /* Numeric items that DO honour #, 0, + flags.
        */
