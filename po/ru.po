@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.5\n"
-"POT-Creation-Date: 2001-01-20 22:45-0800\n"
+"POT-Creation-Date: 2001-05-20 12:12-0700\n"
 "PO-Revision-Date: 2000-05-28 18:28\n"
 "Last-Translator: Denis Perchine <dyp@perchine.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -195,46 +195,56 @@ msgstr "оопс -- неверная вставка по умолчанию оператора 'И' (and)"
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Использование: %s [путь...] [выражение]\n"
 
-#: find/find.c:200
+#: find/find.c:203
 msgid "paths must precede expression"
 msgstr "пути должны быть перед выражением"
 
 #. Command line option not recognized
-#: find/find.c:205
+#: find/find.c:208
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "неверный предикат `%s'"
 
 #. Command line option requires an argument
-#: find/find.c:211
+#: find/find.c:214
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "отсутствует аргумент у `%s'"
 
-#: find/find.c:213
+#: find/find.c:216
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "неверный аргумент `%s' у `%s'"
 
-#: find/find.c:242
+#: find/find.c:245
 msgid "Predicate List:\n"
 msgstr "Список предикатов:\n"
 
-#: find/find.c:250
+#: find/find.c:253
 msgid "Eval Tree:\n"
 msgstr "Дерево вычислений:\n"
 
-#: find/find.c:261
+#: find/find.c:264
 msgid "Optimized Eval Tree:\n"
 msgstr "Оптимизированное дерево вычислений:\n"
 
-#: find/find.c:275
+#: find/find.c:278 find/find.c:281
 msgid "cannot get current directory"
 msgstr "не могу получить текущий каталог"
 
-#: find/find.c:461 find/parser.c:937
+#: find/find.c:306 find/find.c:343 find/find.c:527 find/find.c:591
+#, c-format
+msgid "%s changed during execution of %s"
+msgstr ""
+
+#: find/find.c:497 find/parser.c:937
 msgid "virtual memory exhausted"
 msgstr "не хватает виртуальной памяти"
+
+#: find/find.c:593
+#, c-format
+msgid "%s/.. changed during execution of %s"
+msgstr ""
 
 #: find/fstype.c:274
 #, c-format
@@ -324,22 +334,23 @@ msgstr "неверный тип '%c' для -size"
 msgid "GNU find version %s\n"
 msgstr "GNU find версии %s\n"
 
-#: find/parser.c:1328
+#: find/parser.c:1333
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "предупреждение: нераспознаваемая последовательность '\\%c'"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1374
+#: find/parser.c:1379
+#, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "предyпреждение: нераспознаваемый формат директивы '%%%c'"
 
-#: find/parser.c:1583 find/parser.c:1665
+#: find/parser.c:1588 find/parser.c:1670
 #, c-format
 msgid "inserting %s\n"
 msgstr "вставляю %s\n"
 
-#: find/parser.c:1584 find/parser.c:1666
+#: find/parser.c:1589 find/parser.c:1671
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "     тип: %s    %s  "
@@ -354,25 +365,25 @@ msgstr "     тип: %s    %s  "
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1262 xargs/xargs.c:777
+#: find/pred.c:1265 xargs/xargs.c:777
 msgid "cannot fork"
 msgstr "не могу создать процесс"
 
-#: find/pred.c:1282
+#: find/pred.c:1285
 #, c-format
 msgid "error waiting for %s"
 msgstr "ошибка ожидания %s"
 
-#: find/pred.c:1288
+#: find/pred.c:1291
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s прерван по сигналу %d"
 
-#: find/pred.c:1403
+#: find/pred.c:1406
 msgid "left:\n"
 msgstr "слева:\n"
 
-#: find/pred.c:1407
+#: find/pred.c:1410
 msgid "right:\n"
 msgstr "справа:\n"
 

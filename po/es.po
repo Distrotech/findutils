@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.1\n"
-"POT-Creation-Date: 2001-01-20 22:45-0800\n"
+"POT-Creation-Date: 2001-05-20 12:12-0700\n"
 "PO-Revision-Date: 1996-12-01 20:48+0100\n"
 "Last-Translator: Iñaky Pérez González <inaky@peloncho.fis.ucm.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -240,12 +240,12 @@ msgstr "oh, oh -- ¡inserción por defecto de `and' no válida!"
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Modo de empleo: %s [ruta-de-acceso...] [expresión]\n"
 
-#: find/find.c:200
+#: find/find.c:203
 msgid "paths must precede expression"
 msgstr ""
 
 #. Command line option not recognized
-#: find/find.c:205
+#: find/find.c:208
 #, fuzzy, c-format
 msgid "invalid predicate `%s'"
 msgstr "modo no válido `%s'"
@@ -255,7 +255,7 @@ msgstr "modo no válido `%s'"
 # ¿No es demasiado libre? sv
 # Sí, pero lo justo para que explique bien qué coño ha ocurrido :) ipg
 #. Command line option requires an argument
-#: find/find.c:211
+#: find/find.c:214
 #, fuzzy, c-format
 msgid "missing argument to `%s'"
 msgstr "no se ha dado el argumento requerido a la opción -size"
@@ -264,21 +264,21 @@ msgstr "no se ha dado el argumento requerido a la opción -size"
 # un rato rara. (msgstr "el argumento nulo para la opción -size no es válido"). IPG
 # ¿No es demasiado libre? sv
 # Sí, pero lo justo para que explique bien qué coño ha ocurrido :) ipg
-#: find/find.c:213
+#: find/find.c:216
 #, fuzzy, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "no se ha dado el argumento requerido a la opción -size"
 
-#: find/find.c:242
+#: find/find.c:245
 msgid "Predicate List:\n"
 msgstr ""
 
-#: find/find.c:250
+#: find/find.c:253
 #, fuzzy
 msgid "Eval Tree:\n"
 msgstr "Árbol de Evaluación Normalizado:\n"
 
-#: find/find.c:261
+#: find/find.c:264
 #, fuzzy
 msgid "Optimized Eval Tree:\n"
 msgstr "Árbol de Evaluación Normalizado:\n"
@@ -295,10 +295,15 @@ msgstr "Árbol de Evaluación Normalizado:\n"
 #
 # Pondré un anuncio en es@li.org para que ocurra eso... ;-) sv
 #
-#: find/find.c:275
+#: find/find.c:278 find/find.c:281
 #, fuzzy
 msgid "cannot get current directory"
 msgstr "no se pudo volver al directorio de partida"
+
+#: find/find.c:306 find/find.c:343 find/find.c:527 find/find.c:591
+#, c-format
+msgid "%s changed during execution of %s"
+msgstr ""
 
 # Propongo eliminar la palabra virtual. En un sistema GNU, la memoria virtual
 # y la otra son la misma cosa, desde el punto de vista de las aplicaciones
@@ -321,9 +326,14 @@ msgstr "no se pudo volver al directorio de partida"
 #
 # FIXME: Preguntar a Richard Stallman por qué se empeña en usar la
 # palabra virtual. sv
-#: find/find.c:461 find/parser.c:937
+#: find/find.c:497 find/parser.c:937
 msgid "virtual memory exhausted"
 msgstr "memoria agotada"
+
+#: find/find.c:593
+#, c-format
+msgid "%s/.. changed during execution of %s"
+msgstr ""
 
 #: find/fstype.c:274
 #, c-format
@@ -459,22 +469,23 @@ msgstr "tipo dado a -size no válido `%c'"
 msgid "GNU find version %s\n"
 msgstr "GNU find versión %s\n"
 
-#: find/parser.c:1328
+#: find/parser.c:1333
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "atención: secuencia de escape `\\%c' no reconocida"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1374
+#: find/parser.c:1379
+#, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "atención: directiva de formato `%%%c' no reconocida"
 
-#: find/parser.c:1583 find/parser.c:1665
+#: find/parser.c:1588 find/parser.c:1670
 #, c-format
 msgid "inserting %s\n"
 msgstr "insertando %s\n"
 
-#: find/parser.c:1584 find/parser.c:1666
+#: find/parser.c:1589 find/parser.c:1671
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    tipo: %s    %s  "
@@ -529,25 +540,25 @@ msgstr ""
 # Al fin y al cabo es la coletilla que tengo yo al final de mi
 # comentario, ¿no? Me parece lo mismo, má o meno, pero por no meternos
 # en darle caña y acabar ya esto de una vez :) ...
-#: find/pred.c:1262 xargs/xargs.c:777
+#: find/pred.c:1265 xargs/xargs.c:777
 msgid "cannot fork"
 msgstr "falló la llamada al sistema `fork()'"
 
-#: find/pred.c:1282
+#: find/pred.c:1285
 #, c-format
 msgid "error waiting for %s"
 msgstr "error esperando al proceso %s"
 
-#: find/pred.c:1288
+#: find/pred.c:1291
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s terminado por la señal %d"
 
-#: find/pred.c:1403
+#: find/pred.c:1406
 msgid "left:\n"
 msgstr "izquierda:\n"
 
-#: find/pred.c:1407
+#: find/pred.c:1410
 msgid "right:\n"
 msgstr "derecha:\n"
 

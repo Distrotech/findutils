@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.5\n"
-"POT-Creation-Date: 2001-01-20 22:45-0800\n"
+"POT-Creation-Date: 2001-05-20 12:12-0700\n"
 "PO-Revision-Date: 2000-05-19 12:16+02:00\n"
 "Last-Translator: Ivo Timmermans <itimmermans@bigfoot.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -196,46 +196,56 @@ msgstr "oops -- ongeldige standaard tussenvoeging van and!"
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Gebruik: %s [pad...] [expressie]\n"
 
-#: find/find.c:200
+#: find/find.c:203
 msgid "paths must precede expression"
 msgstr "padnamen moeten de expressies voorgaan"
 
 #. Command line option not recognized
-#: find/find.c:205
+#: find/find.c:208
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "ongeldig predikaat `%s'"
 
 #. Command line option requires an argument
-#: find/find.c:211
+#: find/find.c:214
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "ontbrekend argument voor `%s'"
 
-#: find/find.c:213
+#: find/find.c:216
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "ongeldig argument `%s' voor `%s'"
 
-#: find/find.c:242
+#: find/find.c:245
 msgid "Predicate List:\n"
 msgstr "Predikatenlijst:\n"
 
-#: find/find.c:250
+#: find/find.c:253
 msgid "Eval Tree:\n"
 msgstr "Evaluatieboom:\n"
 
-#: find/find.c:261
+#: find/find.c:264
 msgid "Optimized Eval Tree:\n"
 msgstr "Geoptimaliseerde Evaluatieboom:\n"
 
-#: find/find.c:275
+#: find/find.c:278 find/find.c:281
 msgid "cannot get current directory"
 msgstr "kan de huidige map niet opvragen"
 
-#: find/find.c:461 find/parser.c:937
+#: find/find.c:306 find/find.c:343 find/find.c:527 find/find.c:591
+#, c-format
+msgid "%s changed during execution of %s"
+msgstr ""
+
+#: find/find.c:497 find/parser.c:937
 msgid "virtual memory exhausted"
 msgstr "geen virtueel geheugen beschikbaar"
+
+#: find/find.c:593
+#, c-format
+msgid "%s/.. changed during execution of %s"
+msgstr ""
 
 #: find/fstype.c:274
 #, c-format
@@ -326,22 +336,23 @@ msgstr "ongeldig -size type `%c'"
 msgid "GNU find version %s\n"
 msgstr "GNU find versie %s\n"
 
-#: find/parser.c:1328
+#: find/parser.c:1333
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "let op: onbekende escape `\\%c'"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1374
+#: find/parser.c:1379
+#, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "let op: onbekende opmaakopdracht `%%%c'"
 
-#: find/parser.c:1583 find/parser.c:1665
+#: find/parser.c:1588 find/parser.c:1670
 #, c-format
 msgid "inserting %s\n"
 msgstr "tussenvoegen %s\n"
 
-#: find/parser.c:1584 find/parser.c:1666
+#: find/parser.c:1589 find/parser.c:1671
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    type: %s    %s  "
@@ -356,25 +367,25 @@ msgstr "    type: %s    %s  "
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1262 xargs/xargs.c:777
+#: find/pred.c:1265 xargs/xargs.c:777
 msgid "cannot fork"
 msgstr "kan geen nieuw proces beginnen"
 
-#: find/pred.c:1282
+#: find/pred.c:1285
 #, c-format
 msgid "error waiting for %s"
 msgstr "fout bij wachten op %s"
 
-#: find/pred.c:1288
+#: find/pred.c:1291
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s afgebroken door signaal %d"
 
-#: find/pred.c:1403
+#: find/pred.c:1406
 msgid "left:\n"
 msgstr "links:\n"
 
-#: find/pred.c:1407
+#: find/pred.c:1410
 msgid "right:\n"
 msgstr "rechts:\n"
 

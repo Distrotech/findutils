@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.5\n"
-"POT-Creation-Date: 2001-01-20 22:45-0800\n"
+"POT-Creation-Date: 2001-05-20 12:12-0700\n"
 "PO-Revision-Date: 2000-06-03 14:46+02:00\n"
 "Last-Translator: Giovanni Bortolozzo <borto@pluto.linux.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -195,46 +195,56 @@ msgstr "ahiahiahi -- inserimento di default di and non valido!"
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Uso: %s [percorso...] [espressione]\n"
 
-#: find/find.c:200
+#: find/find.c:203
 msgid "paths must precede expression"
 msgstr "il percorso deve precedere l'espressione"
 
 #. Command line option not recognized
-#: find/find.c:205
+#: find/find.c:208
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "predicato `%s' non valido"
 
 #. Command line option requires an argument
-#: find/find.c:211
+#: find/find.c:214
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "manca l'argomento di `%s'"
 
-#: find/find.c:213
+#: find/find.c:216
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "`%s' non è un argomento valido per `%s'"
 
-#: find/find.c:242
+#: find/find.c:245
 msgid "Predicate List:\n"
 msgstr "Lista dei Predicati:\n"
 
-#: find/find.c:250
+#: find/find.c:253
 msgid "Eval Tree:\n"
 msgstr "Albero di Valutazione:\n"
 
-#: find/find.c:261
+#: find/find.c:264
 msgid "Optimized Eval Tree:\n"
 msgstr "Albero di Valutazione Ottimizzato:\n"
 
-#: find/find.c:275
+#: find/find.c:278 find/find.c:281
 msgid "cannot get current directory"
 msgstr "impossibile ottenere la directory corrente"
 
-#: find/find.c:461 find/parser.c:937
+#: find/find.c:306 find/find.c:343 find/find.c:527 find/find.c:591
+#, c-format
+msgid "%s changed during execution of %s"
+msgstr ""
+
+#: find/find.c:497 find/parser.c:937
 msgid "virtual memory exhausted"
 msgstr "memoria virtuale esaurita"
+
+#: find/find.c:593
+#, c-format
+msgid "%s/.. changed during execution of %s"
+msgstr ""
 
 #: find/fstype.c:274
 #, c-format
@@ -325,22 +335,23 @@ msgstr "tipo `%c' di -size non valido"
 msgid "GNU find version %s\n"
 msgstr "GNU find versione %s\n"
 
-#: find/parser.c:1328
+#: find/parser.c:1333
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "attenzione: sequenza di escape `\\%c' sconosciuta"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1374
+#: find/parser.c:1379
+#, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "attenzione: direttiva di formato `%%%c' sconosciuta"
 
-#: find/parser.c:1583 find/parser.c:1665
+#: find/parser.c:1588 find/parser.c:1670
 #, c-format
 msgid "inserting %s\n"
 msgstr "inserimento di %s\n"
 
-#: find/parser.c:1584 find/parser.c:1666
+#: find/parser.c:1589 find/parser.c:1671
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    tipo: %s    %s  "
@@ -355,25 +366,25 @@ msgstr "    tipo: %s    %s  "
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1262 xargs/xargs.c:777
+#: find/pred.c:1265 xargs/xargs.c:777
 msgid "cannot fork"
 msgstr "impossibile eseguire fork"
 
-#: find/pred.c:1282
+#: find/pred.c:1285
 #, c-format
 msgid "error waiting for %s"
 msgstr "errore nell'attesa di %s"
 
-#: find/pred.c:1288
+#: find/pred.c:1291
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s terminato dal signal %d"
 
-#: find/pred.c:1403
+#: find/pred.c:1406
 msgid "left:\n"
 msgstr "sinistro:\n"
 
-#: find/pred.c:1407
+#: find/pred.c:1410
 msgid "right:\n"
 msgstr "destro:\n"
 
