@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS = ../lib/ansi2knr
+AUTOMAKE_OPTIONS = std-options
 localedir = $(datadir)/locale
 bin_PROGRAMS = xargs
 man_MANS = xargs.1

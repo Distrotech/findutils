@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS = ../lib/ansi2knr
+AUTOMAKE_OPTIONS = std-options
 localedir = $(datadir)/locale
 bin_PROGRAMS = find
 find_SOURCES = find.c fstype.c parser.c pred.c tree.c util.c version.c
