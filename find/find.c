@@ -34,6 +34,7 @@
 #else
 #include <sys/file.h>
 #endif
+#include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/human.h"
 #include "../gnulib/lib/canonicalize.h"
 #include <modetype.h>
@@ -180,6 +181,7 @@ following_links(void)
     case SYMLINK_DEREF_ARGSONLY:
       return (curdepth == 0);
     case SYMLINK_NEVER_DEREF:
+    default:
       return 0;
     }
 }
@@ -740,25 +742,28 @@ wd_sanity_check(const char *thing_to_stat,
 		struct stat *newinfo,
 		int parent,
 		int line_no,
-		enum TraversalDirection direction)
+		enum TraversalDirection direction,
+		boolean *changed) /* output parameter */
 {
   const char *fstype;
   char *specific_what = NULL;
-  
   int isfatal = 1;
+  
+  *changed = false;
   
   if ((*xstat) (".", newinfo) != 0)
     error (1, errno, "%s", thing_to_stat);
   
   if (oldinfo->st_dev != newinfo->st_dev)
     {
+      *changed = true;
       specific_what = specific_dirname(what);
       
       /* This condition is rare, so once we are here it is 
        * reasonable to perform an expensive computation to 
        * determine if we should continue or fail. 
        */
-      if (1 || TraversingDown == direction)
+      if (TraversingDown == direction)
 	{
 	  /* We stat()ed a directory, chdir()ed into it (we know this 
 	   * since direction is TraversingDown), stat()ed it again,
@@ -826,6 +831,7 @@ wd_sanity_check(const char *thing_to_stat,
   /* Device number was the same, check if the inode has changed. */
   if (oldinfo->st_ino != newinfo->st_ino)
     {
+      *changed = true;
       specific_what = specific_dirname(what);
       fstype = filesystem_type(thing_to_stat, ".", newinfo);
       
@@ -910,7 +916,8 @@ static void
 chdir_back (void)
 {
   struct stat stat_buf;
-
+  boolean dummy;
+  
   if (starting_desc < 0)
     {
       if (chdir (starting_dir) != 0)
@@ -919,7 +926,7 @@ chdir_back (void)
       wd_sanity_check(starting_dir,
 		      program_name, starting_dir,
 		      &starting_stat_buf, &stat_buf, 0, __LINE__,
-		      TraversingUp);
+		      TraversingUp, &dummy);
     }
   else
     {
@@ -934,7 +941,8 @@ static void
 process_top_path (char *pathname)
 {
   struct stat stat_buf, cur_stat_buf;
-
+  boolean dummy;
+  
   curdepth = 0;
   path_length = strlen (pathname);
 
@@ -958,7 +966,7 @@ process_top_path (char *pathname)
       wd_sanity_check(pathname, program_name,
 		      ".",
 		      &stat_buf, &cur_stat_buf, 0, __LINE__,
-		      TraversingDown);
+		      TraversingDown, &dummy);
 
       process_path (pathname, ".", false, ".");
       chdir_back ();
@@ -1141,14 +1149,28 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
       /* Check that we are where we should be. */
       if (1)
 	{
-	  struct stat tmp = {0};
+	  struct stat tmp;
+	  boolean changed;
+	  
+	  memset(&tmp, 0, sizeof(tmp));
 	  tmp.st_dev = dir_ids[dir_curr].dev;
 	  tmp.st_ino = dir_ids[dir_curr].ino;
+	  changed = false;
 	  wd_sanity_check(pathname,
 			  program_name,
 			  ".",
 			  &tmp, &stat_buf, 0, __LINE__, 
-			  TraversingDown);
+			  TraversingDown, &changed);
+	  if (changed)
+	    {
+	      /* If there had been a change but wd_sanity_check()
+	       * accepted it, we need to accept that on the 
+	       * way back up as well, so modify our record 
+	       * of what we think we should see later. 
+	       */
+	      dir_ids[dir_curr].dev = stat_buf.st_dev;
+	      dir_ids[dir_curr].ino = stat_buf.st_ino;
+	    }
 	}
 
       for (namep = name_space; *namep; namep += file_len - pathname_len + 1)
@@ -1192,13 +1214,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  /* We could go back and do the next command-line arg
 	     instead, maybe using longjmp.  */
 	  char const *dir;
-	  boolean deref;
-	  if (symlink_handling == SYMLINK_ALWAYS_DEREF)
-	    deref = true;
-	  else if (symlink_handling == SYMLINK_DEREF_ARGSONLY && (curdepth == 0))
-	    deref = true;
-	  else
-	    deref = false;
+	  boolean deref = following_links() ? true : false;
 	  
 	  if (!deref)
 	    dir = "..";
@@ -1214,9 +1230,11 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  /* Check that we are where we should be. */
 	  if (1)
 	    {
+	      boolean changed = false;
 	      struct stat tmp;
 	      int problem_is_with_parent;
 	      
+	      memset(&tmp, 0, sizeof(tmp));
 	      if (dir_curr > 0)
 		{
 		  tmp.st_dev = dir_ids[dir_curr-1].dev;
@@ -1231,10 +1249,10 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      problem_is_with_parent = deref ? 1 : 0;
 	      wd_sanity_check(pathname,
 			      program_name,
-			      deref ? parent : starting_dir,
+			      parent,
 			      &tmp, &stat_buf,
 			      problem_is_with_parent, __LINE__, 
-			      TraversingUp);
+			      TraversingUp, &changed);
 	    }
 	}
 
