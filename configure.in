@@ -45,14 +45,16 @@ gl_INIT
 
 dnl Try to get a POSIX.1 environment.
 
-dnl Checks for libraries.
-AC_CHECK_LIB(sun, getpwnam)
+dnl Checks for libraries.  If getpwnam() isn't present in the 
+dnl C library, try -lsun.
+AC_CHECK_FUNC(getpwnam, [],
+[AC_CHECK_LIB(sun, getpwnam)])
 
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h string.h limits.h unistd.h errno.h stdlib.h stddef.h)
 AC_CHECK_HEADERS(unistd.h inttypes.h fcntl.h locale.h stdint.h)
-AC_CHECK_HEADERS(sys/param.h)
+AC_CHECK_HEADERS(sys/param.h mntent.h)
 AC_HEADER_MAJOR
 AC_HEADER_DIRENT
 AC_HEADER_STAT
@@ -103,8 +105,13 @@ AC_REPLACE_FUNCS(memcmp memset stpcpy strdup strstr strtol strtoul)
 AC_CHECK_FUNCS(fchdir getcwd strerror endgrent endpwent)
 AC_FUNC_VPRINTF
 AC_FUNC_ALLOCA
-AC_FUNC_GETMNTENT
 AC_FUNC_CLOSEDIR_VOID
+
+dnl We don't just use AC_FUNC_GETMNTENT directly because it 
+dnl will try to use -lsun on platforms which have getmntent() in the 
+dnl C library, for example UNICOS.
+AC_CHECK_FUNC(getmntent, [], [AC_FUNC_GETMNTENT])
+AC_CHECK_FUNCS(getmntent)
 
 dnl Checks for library functions that are provided by findlib.
 FINDLIB_REPLACE_FUNCS(waitpid strspn)
