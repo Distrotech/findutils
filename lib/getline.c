@@ -32,7 +32,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA. */
 #endif
 
 /* Always add at least this many bytes when extending the buffer.  */
-#define MIN_CHUNK 64
+#define MIN_CHUNK 1024
 
 /* Read up to (and including) a TERMINATOR from STREAM into *LINEPTR
    + OFFSET (and null-terminate it). *LINEPTR is a pointer returned from
