@@ -42,10 +42,8 @@ stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
 xalloc xalloc-die xgetcwd  xstrtol  xstrtoumax yesno human filemode \
 getline stpcpy canonicalize mountlist closeout gettext"
 
-# Modules needed for the "intl" subdirectory.
-#intl_modules="regex"
-# We currently don't use the intl subdirectory.
-intl_modules=""
+# We need regex to ensure that we can build on platforms like 
+# Solaris which lack those functions. 
 
 modules="$findutils_modules $intl_modules"
 export modules
