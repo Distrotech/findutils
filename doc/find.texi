@@ -3084,14 +3084,14 @@ of problem.  The exact form of these safeguards depends on the
 properties of your system.  
 
 @menu 
-* O_FOLLOW::                       Safely changing directory using fchdir().
+* O_NOFOLLOW::                     Safely changing directory using fchdir().
 * Systems without O_NOFOLLOW::     Checking for symbolic links after chdir().
 * Working with automounters::      These can look like race condition exploits
-* Problems with dead NFS servers:: If you don't have O_FOLLOW, this is a problem.
+* Problems with dead NFS servers:: If you don't have O_NOFOLLOW, this is a problem.
 @end menu
 
-@node O_FOLLOW
-@subsubsection O_FOLLOW 
+@node O_NOFOLLOW
+@subsubsection O_NOFOLLOW 
 
 If your system supports the O_NOFOLLOW flag @footnote{GNU/Linux
 (kernel version 2.1.126 and later) and FreeBSD (3.0-CURRENT and later)
@@ -3139,25 +3139,25 @@ support for the O_NOFOLLOW flag is more complex.  Each time
 to move to, issues the @code{chdir()} system call, and then checks
 that it has ended up in the subdirectory it expected.  If not, an
 error message is issued and @code{find} exits immediately.  This
-method also prevents filesystem manipulation attacks from persuading
+method prevents filesystem manipulation attacks from persuading
 @code{find} to search parts of the filesystem it did not intend.
-However, we heve to take special steps in order not to be
-unneccessarily concluding that there is a problem aut ``automount''
-mount points.
+However, we heve to take special steps in order not to unneccessarily
+conclude that there is a problem with any ``automount'' mount points.
 
 @node Working with automounters
 @subsubsection Working with automounters
 
-Where an automounter is in use on systems that do not support
-O_FOLLOW, it can be the case that the use of the @code{chdir()} system
-call can itself cause a new filesystem to be mounted at that point.
-This will cause @code{find}'s security check to fail.  However, this
-does not normally represent a security problem (since the automounter
-configuration is normally set up by the system administrator).
-Therefore, if the @code{chdir()} sanity check fails, @code{find} will
-check to see if a new filesystem has been mounted at the current
-directory; if so, @code{find} will issue a warning message and
-continue.
+Where an automounter is in use it can be the case that the use of the
+@code{chdir()} system call can itself cause a new filesystem to be
+mounted at that point.  On systems that do not support O_NOFOLLOW,
+this will cause @code{find}'s security check to fail.  
+
+However, this does not normally represent a security problem (since
+the automounter configuration is normally set up by the system
+administrator).  Therefore, if the @code{chdir()} sanity check fails,
+@code{find} will check to see if a new filesystem has been mounted at
+the current directory; if so, @code{find} will issue a warning message
+and continue.
 
 To make this solution work, @code{find} reads the list of mounted
 filesystems at startup, and again when the sanity check fails.  It
@@ -3176,7 +3176,7 @@ it does this even if the affected mount point is not within the
 directory tree that find would have searched anyway.
 
 This is very unfortunate.  However, this problem only affects systems
-that have no support for O_FOLLOW.  As far as I can tell, it is not
+that have no support for O_NOFOLLOW.  As far as I can tell, it is not
 possible on such systems to fix all three problems (the race
 condition, the false-alarm at automount mount points, and the hang at
 startup if there is a dead NFS server) at once.  If you have some
