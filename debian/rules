@@ -49,7 +49,7 @@ binary-arch:	checkroot build
 	install -d debian/tmp/etc/cron.daily
 	install -d debian/tmp/var
 	install -d debian/tmp/var/lib
-	install -d  -g nogroup -m 2755 -o nobody debian/tmp/var/lib/locate
+	install -d debian/tmp/var/lib/locate
 	install debian/{postinst,postrm,preinst,conffiles} debian/tmp/DEBIAN/.
 	install debian/cron.find debian/tmp/etc/cron.daily/find
 	install debian/updatedb.conf debian/tmp/etc/updatedb.conf
