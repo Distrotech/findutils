@@ -20,14 +20,13 @@
 # csh original by James Woods; sh conversion by David MacKenzie.
 
 usage="\
-Usage: updatedb [--findoptions='-option1 -option2...']
+Usage: $0 [--findoptions='-option1 -option2...']
        [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
        [--prunepaths='dir1 dir2...'] [--prunefs='fs1 fs2...']
        [--output=dbfile] [--netuser=user] [--localuser=user] 
        [--old-format] [--version] [--help]
 
-  Report bugs to <bug-findutils@gnu.org>.
-       "
+Report bugs to <bug-findutils@gnu.org>."
 changeto=/
 old=no
 for arg
