@@ -19,6 +19,7 @@ find.gnu/posix-dflt.xo \
 find.gnu/posix-h.xo \
 find.gnu/posix-l.xo \
 find.gnu/printf-symlink.xo \
+find.gnu/printf-h.xo \
 find.gnu/printf.xo \
 find.gnu/prune-default-print.xo  \
 find.gnu/xtype-symlink.xo \
@@ -43,6 +44,7 @@ find.gnu/posix-h.exp \
 find.gnu/posix-l.exp \
 find.gnu/printf.exp \
 find.gnu/printf-symlink.exp \
+find.gnu/printf-h.exp \
 find.gnu/prune-default-print.exp \
 find.gnu/xtype-symlink.exp \
 find.posix/sv-bug-11175.exp \
