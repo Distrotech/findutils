@@ -747,6 +747,10 @@ AC_DEFUN(jm_MACROS,
   if test $am_cv_func_working_getline != yes; then
     AC_CHECK_FUNCS(getdelim)
   fi
+
+  # These tests are for df.
+  jm_FSTYPENAME
+
 ])
 
 AC_DEFUN(jm_CHECK_ALL_TYPES,
@@ -2096,6 +2100,39 @@ AC_DEFUN(AM_FUNC_GETLINE,
       [Define if you have the GETLINE function.])dnl
   fi
 ])
+
+#serial 2
+
+dnl From Jim Meyering.
+dnl
+dnl See if struct statfs has the f_fstypename member.
+dnl If so, define HAVE_F_FSTYPENAME_IN_STATFS.
+dnl
+
+AC_DEFUN(jm_FSTYPENAME,
+  [
+    AC_CACHE_CHECK([for f_fstypename in struct statfs],
+		   fu_cv_sys_f_fstypename_in_statfs,
+      [
+	AC_TRY_COMPILE(
+	  [
+#include <sys/param.h>
+#include <sys/types.h>
+#include <sys/mount.h>
+	  ],
+	  [struct statfs s; int i = sizeof s.f_fstypename;],
+	  fu_cv_sys_f_fstypename_in_statfs=yes,
+	  fu_cv_sys_f_fstypename_in_statfs=no
+	)
+      ]
+    )
+
+    if test $fu_cv_sys_f_fstypename_in_statfs = yes; then
+      AC_DEFINE_UNQUOTED(HAVE_F_FSTYPENAME_IN_STATFS, 1,
+			 [Define if struct statfs has the f_fstypename member.])
+    fi
+  ]
+)
 
 #serial 4
 

@@ -250,6 +250,8 @@ realloc_.c: realloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/realloc.c; then echo $(srcdir)/realloc.c; else echo realloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > realloc_.c
 regex_.c: regex.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/regex.c; then echo $(srcdir)/regex.c; else echo regex.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > regex_.c
+rpmatch_.c: rpmatch.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/rpmatch.c; then echo $(srcdir)/rpmatch.c; else echo rpmatch.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > rpmatch_.c
 stat_.c: stat.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/stat.c; then echo $(srcdir)/stat.c; else echo stat.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > stat_.c
 stpcpy_.c: stpcpy.c $(ANSI2KNR)
@@ -282,7 +284,7 @@ waitpid_.c: waitpid.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/waitpid.c; then echo $(srcdir)/waitpid.c; else echo waitpid.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > waitpid_.c
 alloca_.o error_.o fileblocks_.o find_.o fnmatch_.o fstype_.o lstat_.o \
 malloc_.o memcmp_.o memcpy_.o memset_.o mktime_.o parser_.o pred_.o \
-realloc_.o regex_.o stat_.o stpcpy_.o strdup_.o strftime_.o \
+realloc_.o regex_.o rpmatch_.o stat_.o stpcpy_.o strdup_.o strftime_.o \
 strncasecmp_.o strspn_.o strstr_.o strtol_.o strtoul_.o strtoull_.o \
 strtoumax_.o tree_.o util_.o version_.o waitpid_.o : $(ANSI2KNR)
 
