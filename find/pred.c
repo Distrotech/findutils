@@ -23,6 +23,7 @@
 #include <signal.h>
 #include <pwd.h>
 #include <grp.h>
+#include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/dirname.h"
 #include "../gnulib/lib/human.h"
 #include "modetype.h"

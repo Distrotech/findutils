@@ -18,6 +18,7 @@
 */
 
 #include "defs.h"
+#include "../gnulib/lib/xalloc.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
