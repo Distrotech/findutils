@@ -1333,6 +1333,67 @@ issue_loop_warning(const char *name, const char *pathname, int level)
     }
 }
 
+/* Take a "mode" indicator and fill in the files of 'state'.
+ */
+static int
+digest_mode(mode_t mode,
+	    const char *pathname,
+	    const char *name,
+	    struct stat *pstat,
+	    boolean leaf)
+{
+  /* If we know the type of the directory entry, and it is not a
+   * symbolic link, we may be able to avoid a stat() or lstat() call.
+   */
+  if (mode)
+    {
+      if (S_ISLNK(mode) && following_links())
+	{
+	  /* mode is wrong because we should have followed the symlink. */
+	  if (get_statinfo(pathname, name, pstat) != 0)
+	    return 0;
+	  mode = state.type = pstat->st_mode;
+	  state.have_type = true;
+	}
+      else
+	{
+	  state.have_type = true;
+	  pstat->st_mode = state.type = mode;
+	}
+    }
+  else
+    {
+      /* Mode is not yet known; may have to stat the file unless we 
+       * can deduce that it is not a directory (which is all we need to 
+       * know at this stage)
+       */
+      if (leaf)
+	{
+	  state.have_stat = false;
+	  state.have_type = false;;
+	  state.type = 0;
+	}
+      else
+	{
+	  if (get_statinfo(pathname, name, pstat) != 0)
+	    return 0;
+	  
+	  /* If -L is in effect and we are dealing with a symlink,
+	   * st_mode is the mode of the pointed-to file, while mode is
+	   * the mode of the directory entry (S_IFLNK).  Hence now
+	   * that we have the stat information, override "mode".
+	   */
+	  state.type = pstat->st_mode;
+	  state.have_type = true;
+	}
+    }
+
+  /* success. */
+  return 1;
+}
+
+
+
 /* Recursively descend path PATHNAME, applying the predicates.
    LEAF is true if PATHNAME is known to be in a directory that has no
    more unexamined subdirectories, and therefore it is not a directory.
@@ -1362,51 +1423,8 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   state.have_stat = false;
   state.have_type = false;
 
-  /* If we know the type of the directory entry, and it is not a
-   * symbolic link, we may be able to avoid a stat() or lstat() call.
-   */
-  if (mode)
-    {
-      if (S_ISLNK(mode) && following_links())
-	{
-	  /* mode is wrong because we should have followed the symlink. */
-	  if (get_statinfo(pathname, name, &stat_buf) != 0)
-	    return 0;
-	  mode = state.type = stat_buf.st_mode;
-	  state.have_type = true;
-	}
-      else
-	{
-	  state.have_type = true;
-	  stat_buf.st_mode = state.type = mode;
-	}
-    }
-  else
-    {
-      /* Mode is not yet known; may have to stat the file unless we 
-       * can deduce that it is not a directory (which is all we need to 
-       * know at this stage)
-       */
-      if (leaf)
-	{
-	  state.have_stat = false;
-	  state.have_type = false;;
-	  state.type = 0;
-	}
-      else
-	{
-	  if (get_statinfo(pathname, name, &stat_buf) != 0)
-	    return 0;
-
-	  /* If -L is in effect and we are dealing with a symlink,
-	   * st_mode is the mode of the pointed-to file, while mode is
-	   * the mode of the directory entry (S_IFLNK).  Hence now
-	   * that we have the stat information, override "mode".
-	   */
-	  state.type = stat_buf.st_mode;
-	  state.have_type = true;
-	}
-    }
+  if (!digest_mode(mode, pathname, name, &stat_buf, leaf))
+    return 0;
   
   if (!S_ISDIR (state.type))
     {
@@ -1471,6 +1489,11 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
 
   if (options.do_dir_first == false && state.curdepth >= options.mindepth)
     {
+      /* The fields in 'state' are now out of date.  Correct them.
+       */
+      if (!digest_mode(mode, pathname, name, &stat_buf, leaf))
+	return 0;
+
       state.rel_pathname = name;
       apply_predicate (pathname, &stat_buf, eval_tree);
     }
