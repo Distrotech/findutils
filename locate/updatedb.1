@@ -58,9 +58,15 @@ The database file to build.
 Default is system-dependent.  In Debian GNU/Linux, the default
 is /var/lib/locate/locatedb.
 .TP
+.B \-\-localuser=\fIuser\fP
+The user to search non-network directories as, using \fBsu\fP(1).
+Default is to search the non-network directories as the current user.
+You can also use the environment variable \fBLOCALUSER\fP to set this user.
+.TP
 .B \-\-netuser=\fIuser\fP
 The user to search network directories as, using \fBsu\fP(1).
 Default is \fBdaemon\fP.
+You can also use the environment variable \fBNETUSER\fP to set this user.
 .TP
 .B \-\-old\-format
 Create the database in the old format instead of the new one.

@@ -1,5 +1,5 @@
-This is Info file find.info, produced by Makeinfo-1.64 from the input
-file find.texi.
+This is Info file find.info, produced by Makeinfo version 1.67 from the
+input file find.texi.
 
 START-INFO-DIR-ENTRY
 * Finding Files: (find).        Listing and operating on files
@@ -268,9 +268,16 @@ which directories each database contains entries for:
      The database file to build.  Default is system-dependent, but
      typically `/usr/local/var/locatedb'.
 
+`--localuser=USER'
+     The user to search the non-network directories as, using `su'.
+     Default is to search the non-network directories as the current
+     user.  You can also use the environment variable `LOCALUSER' to
+     set this user.
+
 `--netuser=USER'
      The user to search network directories as, using `su'.  Default is
-     `daemon'.
+     `daemon'.  You can also use the environment variable `NETUSER' to
+     set this user.
 
 
 File: find.info,  Node: Database Formats,  Prev: Database Locations,  Up: Databases
@@ -903,9 +910,16 @@ Invoking `updatedb'
      The database file to build.  Default is system-dependent, but
      typically `/usr/local/var/locatedb'.
 
+`--localuser=USER'
+     The user to search the non-network directories as, using `su'.
+     Default is to search the non-network directories as the current
+     user.  You can also use the environment variable `LOCALUSER' to
+     set this user.
+
 `--netuser=USER'
      The user to search network directories as, using `su'(1).  Default
-     is `daemon'.
+     is `daemon'.  You can also use the environment variable `NETUSER'
+     to set this user.
 
 
 File: find.info,  Node: Invoking xargs,  Prev: Invoking updatedb,  Up: Reference
@@ -1024,58 +1038,58 @@ Expressions::, for more information on expressions.
 
 * Menu:
 
-* -amin:                                Age Ranges.
-* -anewer:                              Comparing Timestamps.
-* -atime:                               Age Ranges.
-* -cmin:                                Age Ranges.
-* -cnewer:                              Comparing Timestamps.
-* -ctime:                               Age Ranges.
-* -daystart:                            Age Ranges.
-* -depth:                               Directories.
-* -empty:                               Size.
-* -exec:                                Single File.
-* -false:                               Combining Primaries With Operators.
-* -fls:                                 Print File Information.
-* -follow:                              Symbolic Links.
-* -fprint:                              Print File Name.
-* -fprint0:                             Safe File Name Handling.
-* -fprintf:                             Print File Information.
-* -fstype:                              Filesystems.
-* -gid:                                 Owner.
-* -group:                               Owner.
-* -ilname:                              Symbolic Links.
-* -iname:                               Base Name Patterns.
-* -inum:                                Hard Links.
-* -ipath:                               Full Name Patterns.
-* -iregex:                              Full Name Patterns.
-* -links:                               Hard Links.
-* -lname:                               Symbolic Links.
-* -ls:                                  Print File Information.
-* -maxdepth:                            Directories.
-* -mindepth:                            Directories.
-* -mmin:                                Age Ranges.
-* -mount:                               Filesystems.
-* -mtime:                               Age Ranges.
-* -name:                                Base Name Patterns.
-* -newer:                               Comparing Timestamps.
-* -nogroup:                             Owner.
-* -noleaf:                              Directories.
-* -nouser:                              Owner.
-* -ok:                                  Querying.
-* -path:                                Full Name Patterns.
-* -perm:                                Permissions.
-* -print:                               Print File Name.
-* -print0:                              Safe File Name Handling.
-* -printf:                              Print File Information.
-* -prune:                               Directories.
-* -regex:                               Full Name Patterns.
-* -size:                                Size.
-* -true:                                Combining Primaries With Operators.
-* -type:                                Type.
-* -uid:                                 Owner.
-* -used:                                Comparing Timestamps.
-* -user:                                Owner.
-* -xdev:                                Filesystems.
-* -xtype:                               Type.
+* -amin:                                 Age Ranges.
+* -anewer:                               Comparing Timestamps.
+* -atime:                                Age Ranges.
+* -cmin:                                 Age Ranges.
+* -cnewer:                               Comparing Timestamps.
+* -ctime:                                Age Ranges.
+* -daystart:                             Age Ranges.
+* -depth:                                Directories.
+* -empty:                                Size.
+* -exec:                                 Single File.
+* -false:                                Combining Primaries With Operators.
+* -fls:                                  Print File Information.
+* -follow:                               Symbolic Links.
+* -fprint:                               Print File Name.
+* -fprint0:                              Safe File Name Handling.
+* -fprintf:                              Print File Information.
+* -fstype:                               Filesystems.
+* -gid:                                  Owner.
+* -group:                                Owner.
+* -ilname:                               Symbolic Links.
+* -iname:                                Base Name Patterns.
+* -inum:                                 Hard Links.
+* -ipath:                                Full Name Patterns.
+* -iregex:                               Full Name Patterns.
+* -links:                                Hard Links.
+* -lname:                                Symbolic Links.
+* -ls:                                   Print File Information.
+* -maxdepth:                             Directories.
+* -mindepth:                             Directories.
+* -mmin:                                 Age Ranges.
+* -mount:                                Filesystems.
+* -mtime:                                Age Ranges.
+* -name:                                 Base Name Patterns.
+* -newer:                                Comparing Timestamps.
+* -nogroup:                              Owner.
+* -noleaf:                               Directories.
+* -nouser:                               Owner.
+* -ok:                                   Querying.
+* -path:                                 Full Name Patterns.
+* -perm:                                 Permissions.
+* -print:                                Print File Name.
+* -print0:                               Safe File Name Handling.
+* -printf:                               Print File Information.
+* -prune:                                Directories.
+* -regex:                                Full Name Patterns.
+* -size:                                 Size.
+* -true:                                 Combining Primaries With Operators.
+* -type:                                 Type.
+* -uid:                                  Owner.
+* -used:                                 Comparing Timestamps.
+* -user:                                 Owner.
+* -xdev:                                 Filesystems.
+* -xtype:                                Type.
 
 
