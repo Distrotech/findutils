@@ -13,7 +13,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     now deprecated.
 **  Bug Fixes
 *** xargs -n NUM now invokes a command as soon as it has NUM arguments.  
-    Previously, it waited until NUM items had been read, and then
+    Previously, it waited until NUM+1 items had been read, and then
     invoked the command with NUM arguments, saving the remaining one
     for next time. 
 *** If "find -L" discovers a symbolic link loop, an error message is issued.
