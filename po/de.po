@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.1.3\n"
-"POT-Creation-Date: 2000-04-12 02:51-0700\n"
-"PO-Revision-Date: 2000-02-19 20:30+01:00\n"
+"Project-Id-Version: findutils 4.1.5\n"
+"POT-Creation-Date: 2000-10-05 13:08-0700\n"
+"PO-Revision-Date: 2000-09-24 21:16+02:00\n"
 "Last-Translator: Nils Naumann <nnau@gmx.net>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,45 +14,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: lib/argmatch.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "invalid argument %s for `%s'"
-msgstr "Ungültiges Argument \"%s\" für \"%s\"."
+msgstr "Ungültiges Argument %s für \"%s\"."
 
 #: lib/argmatch.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "ambiguous argument %s for `%s'"
-msgstr "Ungültiges Argument \"%s\" für \"%s\"."
+msgstr "Mehrdeutiges Argument %s für \"%s\"."
 
 #. We try to put synonyms on the same line.  The assumption is that
 #. synonyms follow each other
 #: lib/argmatch.c:178
-#, fuzzy
 msgid "Valid arguments are:"
-msgstr "Ungültiges Argument \"%s\" für \"%s\"."
+msgstr "Gültige Argumente sind:"
 
 #: lib/error.c:102
 msgid "Unknown system error"
-msgstr ""
+msgstr "Unbekannter Systemfehler."
 
 #: lib/getopt.c:675
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
-msgstr "%s: Option \"%s\" ist mehrdeutig.\n"
+msgstr "%s: Die Option \"%s\" ist mehrdeutig.\n"
 
 #: lib/getopt.c:700
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
-msgstr "%s: Option \"--%s\" erlaubt kein Argument.\n"
+msgstr "%s: Die Option \"--%s\" erlaubt kein Argument.\n"
 
 #: lib/getopt.c:705
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
-msgstr "%s: Option \"%c%s\" erlaubt kein Argument.\n"
+msgstr "%s: Die Option \"%c%s\" erlaubt kein Argument.\n"
 
 #: lib/getopt.c:723 lib/getopt.c:896
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
-msgstr "%s: Option \"%s\" erfordert ein Argument.\n"
+msgstr "%s: Die Option \"%s\" erfordert ein Argument.\n"
 
 #. --option
 #: lib/getopt.c:752
@@ -95,15 +94,15 @@ msgstr "%s: Die Option \"-W %s\" gestattet kein Argument.\n"
 
 #: lib/human.c:321
 msgid "block size"
-msgstr ""
+msgstr "Blockgröße"
 
-#: lib/quotearg.c:215
+#: lib/quotearg.c:221
 msgid "`"
-msgstr ""
+msgstr "\""
 
-#: lib/quotearg.c:218
+#: lib/quotearg.c:224
 msgid "'"
-msgstr ""
+msgstr "\""
 
 #: lib/regex.c:1029
 msgid "Success"
@@ -161,11 +160,11 @@ msgstr "Der virtuelle Arbeitsspeicher ist erschöpft."
 
 #: lib/regex.c:1068
 msgid "Invalid preceding regular expression"
-msgstr "Vorhergehender regulärer Ausdruck ist ungültig."
+msgstr "Der vorhergehende reguläre Ausdruck ist ungültig."
 
 #: lib/regex.c:1071
 msgid "Premature end of regular expression"
-msgstr "Vorzeitiges Ende des regulären Ausdrucks."
+msgstr "Der reguläre Ausdruck ist unfertig."
 
 #: lib/regex.c:1074
 msgid "Regular expression too big"
@@ -177,11 +176,11 @@ msgstr "Nicht korrespondierende ) oder \\)."
 
 #: lib/regex.c:5861
 msgid "No previous regular expression"
-msgstr "Kein vorhergehender regulärer Ausdruck."
+msgstr "Es fehlt ein vorhergehender regulärer Ausdruck."
 
 #: find/util.c:86
 msgid "oops -- invalid default insertion of and!"
-msgstr "Oops -- Automatisches Einfügen von \"-and\" ist ungültig!"
+msgstr "Oops -- Das automatische Einfügen von \"-and\" ist ungültig!"
 
 #: find/parser.c:550 find/util.c:144
 #, c-format
@@ -196,7 +195,7 @@ msgstr "Der Pfad muß vor dem Suchkriterium stehen."
 #: find/find.c:205
 #, c-format
 msgid "invalid predicate `%s'"
-msgstr "ungültiges Prädikat `%s'"
+msgstr "ungültige Option `%s'"
 
 #. Command line option requires an argument
 #: find/find.c:211
@@ -211,7 +210,7 @@ msgstr "Ungültiges Argument \"%s\" für \"%s\"."
 
 #: find/find.c:242
 msgid "Predicate List:\n"
-msgstr "Prädikat Liste:\n"
+msgstr "Optionsliste:\n"
 
 #: find/find.c:250
 msgid "Eval Tree:\n"
@@ -223,19 +222,19 @@ msgstr "Optimierter Auswertbaum:\n"
 
 #: find/find.c:268
 msgid "cannot get current directory"
-msgstr "Kann nicht ins aktuelle Verzeichnis wechseln."
+msgstr "Kann nicht in das aktuelle Verzeichnis wechseln."
 
 #: find/find.c:272
 msgid "cannot open current directory"
 msgstr "Kann das aktuelle Verzeichnis nicht öffnen."
 
-#: find/find.c:312 find/pred.c:1274
+#: find/find.c:312 find/pred.c:1278
 msgid "cannot return to starting directory"
-msgstr "Kann nicht ins Startverzeichnis zurückkehren."
+msgstr "Kann nicht in das Startverzeichnis zurückkehren."
 
 #: find/find.c:461 find/parser.c:932
 msgid "virtual memory exhausted"
-msgstr "Virtueller Arbeitsspeicher erschöpft."
+msgstr "Der virtuelle Arbeitsspeicher ist erschöpft."
 
 #: find/fstype.c:274
 #, c-format
@@ -254,9 +253,10 @@ msgid ""
 "given):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 msgstr ""
-"Standardpfad ist das aktuelle Verzeichnis und Standardaustruck ist \"-print\n"
-"Ein Ausdruck kann bestehen aus:\n"
-"Operatoren (In abnehmendem Vorrang. Kein Operator bedeutet \"-and\".):\n"
+"Wenn nicht anders angegeben wird das aktuelle Verzeichnis und \"-print\"\n"
+"automatisch ergänzt.\n"
+"Der Syntax des Ausdruckes ist:\n"
+"Operatoren (In abnehmendem Vorrang.  Kein Operator bedeutet \"-and\".):\n"
 " ( AUSDR ) ! AUSDR -not AUSDR AUSDR1 -a AUSDR2 AUSDR1 -and AUSDR2\n"
 
 #: find/parser.c:557
@@ -298,43 +298,44 @@ msgid ""
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
 msgstr ""
 "Aktionen: -exec KOMMANDO ; -fprint DATEI -fprint0 DATEI -fprintf DATEI "
-"FORMAT\"      -ok KOMMANDO ; -print -print0 -printf FORMAT -prune -ls\n"
+"FORMAT\n"
+"          -ok KOMMANDO ; -print -print0 -printf FORMAT -prune -ls\n"
 
 #: find/parser.c:930
 #, c-format
 msgid "invalid mode `%s'"
-msgstr "Ungültiger Modus `%s'."
+msgstr "Ungültiger Modus \"%s\"."
 
-#: find/parser.c:1058
+#: find/parser.c:1061
 msgid "invalid null argument to -size"
 msgstr "\"-size\" erfordert ein Argument."
 
-#: find/parser.c:1094
+#: find/parser.c:1097
 #, c-format
 msgid "invalid -size type `%c'"
-msgstr "Ungültige Einheit `%c' für \"-size\"."
+msgstr "Ungültige Einheit \"%c\" für \"-size\"."
 
-#: find/parser.c:1182
+#: find/parser.c:1185
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find Version %s\n"
 
-#: find/parser.c:1317
+#: find/parser.c:1320
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
-msgstr "Warnung: Unerkanntes Sonderzeichen `\\%c'."
+msgstr "Warnung: Unerkanntes Fluchtsymbol \"\\%c\"."
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1363
+#: find/parser.c:1366
 msgid "warning: unrecognized format directive `%%%c'"
-msgstr "Warnung: Unerkannte Formatanweisung `%%%c'."
+msgstr "Warnung: Unerkannte Formatanweisung \"%%%c\"."
 
-#: find/parser.c:1570 find/parser.c:1652
+#: find/parser.c:1573 find/parser.c:1655
 #, c-format
 msgid "inserting %s\n"
-msgstr "Einfügen von %s.\n"
+msgstr "Füge %s ein.\n"
 
-#: find/parser.c:1571 find/parser.c:1653
+#: find/parser.c:1574 find/parser.c:1656
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "     Typ: %s    %s  "
@@ -347,27 +348,27 @@ msgstr "     Typ: %s    %s  "
 #: find/pred.c:982
 #, c-format
 msgid "< %s ... %s > ? "
-msgstr ""
+msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1261 xargs/xargs.c:777
+#: find/pred.c:1265 xargs/xargs.c:777
 msgid "cannot fork"
 msgstr "Kann keinen neuen Prozeß starten."
 
-#: find/pred.c:1287
+#: find/pred.c:1291
 #, c-format
 msgid "error waiting for %s"
 msgstr "Fehler beim Warten auf das Prozeßende von %s."
 
-#: find/pred.c:1293
+#: find/pred.c:1297
 #, c-format
 msgid "%s terminated by signal %d"
-msgstr "Prozeß %s abgebrochen durch das Signal %d."
+msgstr "Der Prozeß %s wurde durch das Signal %d abgebrochen."
 
-#: find/pred.c:1408
+#: find/pred.c:1412
 msgid "left:\n"
 msgstr "links:\n"
 
-#: find/pred.c:1412
+#: find/pred.c:1416
 msgid "right:\n"
 msgstr "rechts:\n"
 
@@ -376,49 +377,51 @@ msgstr "rechts:\n"
 msgid "invalid expression"
 msgstr "Ungültiger Ausdruck."
 
-#: find/tree.c:93 find/tree.c:158 find/tree.c:305 find/tree.c:434
+#: find/tree.c:93 find/tree.c:158 find/tree.c:309 find/tree.c:438
 msgid "oops -- invalid expression type!"
 msgstr "Oops -- ungültige Ausdrucksart!"
 
 #. Normalized tree.
-#: find/tree.c:226
+#: find/tree.c:229
 msgid "Normalized Eval Tree:\n"
 msgstr "Normalisierter Auswertbaum:\n"
 
 #: locate/code.c:136
 #, c-format
 msgid "Usage: %s most_common_bigrams < list > coded_list\n"
-msgstr "Syntax: %s häufigste_Buchstabenpaare < Liste > komprimierte_Liste\n"
+msgstr ""
+"Syntax: %s häufigste_gemeinsame_Buchstabenpaare < Liste > "
+"komprimierte_Liste\n"
 
 #. Printable name of units used in WARN_SECONDS
-#: locate/locate.c:105
+#: locate/locate.c:115
 msgid "days"
 msgstr "Tage"
 
 #. For example:
 #. warning: database `fred' is more than 8 days old
-#: locate/locate.c:239
+#: locate/locate.c:250
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
-msgstr "Warnung: Die Datenbank `%s' ist mehr als %d %s alt."
+msgstr "Warnung: Die Datenbank `%s' ist älter als %d %s."
 
-#: locate/locate.c:372
-#, c-format
+#: locate/locate.c:426
+#, fuzzy, c-format
 msgid ""
-"Usage: %s [-d path | --database=path] [--version] [--help]\n"
-"      [-e | --existing] pattern...\n"
+"Usage: %s [-d path | --database=path] [-e | --existing]\n"
+"      [-i | --ignore-case] [--version] [--help] pattern...\n"
 msgstr ""
 "Syntax: %s [-d Pfad | --database=Pfad] [--version] [--help]\n"
 "       [-e | --existing] Suchmuster...\n"
 
-#: locate/locate.c:425
+#: locate/locate.c:487
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate Version %s\n"
 
 #: xargs/xargs.c:298
 msgid "environment is too large for exec"
-msgstr "Umgebungsspeicher unzureichend für \"exec\"."
+msgstr "Der Umgebungsspeicher ist für \"exec\" nicht ausreichend."
 
 #: xargs/xargs.c:372
 #, c-format
@@ -428,7 +431,7 @@ msgstr "GNU xargs Version %s\n"
 #: xargs/xargs.c:546
 #, c-format
 msgid "unmatched %s quote"
-msgstr "Nicht korrespondierende %s Zeichen."
+msgstr "Nicht korrespondierende %s Anführungszeichen."
 
 #: xargs/xargs.c:547
 msgid "double"
@@ -509,7 +512,7 @@ msgstr ""
 "[Anfangsargumente]]\n"
 
 #~ msgid "wait got pid %d, expected pid %d"
-#~ msgstr "Ende von Prozeß %d erkannt und %d erwartet."
+#~ msgstr "Das Prozeßende von %d wurde erkannt, aber %d erwartet."
 
 #~ msgid "%s stopped by signal %d"
-#~ msgstr "Prozeß %s angehalten durch das Signal %d."
+#~ msgstr "Der Prozeß %s wurde durch das Signal %d angehalten."

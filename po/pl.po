@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1\n"
-"POT-Creation-Date: 2000-04-12 02:51-0700\n"
+"POT-Creation-Date: 2000-10-05 13:08-0700\n"
 "PO-Revision-Date: 1996-08-23 10:50\n"
 "Last-Translator: Pawe³ Krawczyk <kravietz@pipeta.chemia.pk.edu.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -19,9 +19,9 @@ msgid "invalid argument %s for `%s'"
 msgstr "b³êdny zerowy argument dla -size"
 
 #: lib/argmatch.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "ambiguous argument %s for `%s'"
-msgstr "b³êdny zerowy argument dla -size"
+msgstr ""
 
 #. We try to put synonyms on the same line.  The assumption is that
 #. synonyms follow each other
@@ -97,11 +97,11 @@ msgstr ""
 msgid "block size"
 msgstr ""
 
-#: lib/quotearg.c:215
+#: lib/quotearg.c:221
 msgid "`"
 msgstr ""
 
-#: lib/quotearg.c:218
+#: lib/quotearg.c:224
 msgid "'"
 msgstr ""
 
@@ -240,7 +240,7 @@ msgstr "nie mogê powróciæ do katalogu starowego"
 msgid "cannot open current directory"
 msgstr "nie mogê powróciæ do katalogu starowego"
 
-#: find/find.c:312 find/pred.c:1274
+#: find/find.c:312 find/pred.c:1278
 msgid "cannot return to starting directory"
 msgstr "nie mogê powróciæ do katalogu starowego"
 
@@ -317,36 +317,36 @@ msgstr ""
 msgid "invalid mode `%s'"
 msgstr "niew³a¶ciwy tryb `%s'"
 
-#: find/parser.c:1058
+#: find/parser.c:1061
 msgid "invalid null argument to -size"
 msgstr "b³êdny zerowy argument dla -size"
 
-#: find/parser.c:1094
+#: find/parser.c:1097
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "b³êdny typ -size `%c'"
 
-#: find/parser.c:1182
+#: find/parser.c:1185
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find wersja %s\n"
 
-#: find/parser.c:1317
+#: find/parser.c:1320
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uwaga: nierozpoznany znak steruj±cy `\\%c'"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1363
+#: find/parser.c:1366
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uwaga: nierozpoznana dyrektywa formatuj±ca `%%%c'"
 
-#: find/parser.c:1570 find/parser.c:1652
+#: find/parser.c:1573 find/parser.c:1655
 #, c-format
 msgid "inserting %s\n"
 msgstr "wstawiam %s\n"
 
-#: find/parser.c:1571 find/parser.c:1653
+#: find/parser.c:1574 find/parser.c:1656
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "     typ: %s    %s  "
@@ -361,25 +361,25 @@ msgstr "     typ: %s    %s  "
 msgid "< %s ... %s > ? "
 msgstr ""
 
-#: find/pred.c:1261 xargs/xargs.c:777
+#: find/pred.c:1265 xargs/xargs.c:777
 msgid "cannot fork"
 msgstr "nie mogê siê rozwidliæ"
 
-#: find/pred.c:1287
+#: find/pred.c:1291
 #, c-format
 msgid "error waiting for %s"
 msgstr "b³±d podczas czekania na %s"
 
-#: find/pred.c:1293
+#: find/pred.c:1297
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s zakoñczony sygna³em %d"
 
-#: find/pred.c:1408
+#: find/pred.c:1412
 msgid "left:\n"
 msgstr "lewy:\n"
 
-#: find/pred.c:1412
+#: find/pred.c:1416
 msgid "right:\n"
 msgstr "prawy:\n"
 
@@ -388,12 +388,12 @@ msgstr "prawy:\n"
 msgid "invalid expression"
 msgstr "b³êdne wyra¿enie"
 
-#: find/tree.c:93 find/tree.c:158 find/tree.c:305 find/tree.c:434
+#: find/tree.c:93 find/tree.c:158 find/tree.c:309 find/tree.c:438
 msgid "oops -- invalid expression type!"
 msgstr "ojej -- b³êdny typ wyra¿enia!"
 
 #. Normalized tree.
-#: find/tree.c:226
+#: find/tree.c:229
 msgid "Normalized Eval Tree:\n"
 msgstr "Znormalizowane Drzewo Szacunkowe:\n"
 
@@ -403,27 +403,27 @@ msgid "Usage: %s most_common_bigrams < list > coded_list\n"
 msgstr "U¿ycie: %s najpopularniejsze_bigramy < lista > zakodowana_lista\n"
 
 #. Printable name of units used in WARN_SECONDS
-#: locate/locate.c:105
+#: locate/locate.c:115
 msgid "days"
 msgstr ""
 
 #. For example:
 #. warning: database `fred' is more than 8 days old
-#: locate/locate.c:239
+#: locate/locate.c:250
 #, fuzzy, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "uwaga: baza danych `%s' ma ju¿ ponad %s"
 
-#: locate/locate.c:372
+#: locate/locate.c:426
 #, fuzzy, c-format
 msgid ""
-"Usage: %s [-d path | --database=path] [--version] [--help]\n"
-"      [-e | --existing] pattern...\n"
+"Usage: %s [-d path | --database=path] [-e | --existing]\n"
+"      [-i | --ignore-case] [--version] [--help] pattern...\n"
 msgstr ""
 "U¿ycie: %s [-d ¶cie¿ka] [--database=¶cie¿ka] [--version] [--help] "
 "wzorzec...\n"
 
-#: locate/locate.c:425
+#: locate/locate.c:487
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate wersja %s\n"
