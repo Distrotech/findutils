@@ -3,7 +3,7 @@
 find \- search for files in a directory hierarchy
 .SH SYNOPSIS
 .B find 
-[-H] [-L] [-P] [path...] [expression]
+[\-H] [\-L] [\-P] [path...] [expression]
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -18,7 +18,7 @@ known (the left hand side is false for \fIand\fR operations, true for
 .B find
 moves on to the next file name.
 .PP
-The `-H', `-L' and `-P' options control the treatment of symbolic
+The `\-H', `\-L' and `\-P' options control the treatment of symbolic
 links.  Command-line arguments following these are taken to be names
 of files or directories to be examined, up to the first argument that
 begins with `\-', `(', `)', `,', or `!'.  That argument and any
@@ -31,8 +31,8 @@ This manual page talks about `options' within the expression list.
 These options control the behaviour of 
 .B find
 but are specified immediately after the last path name.  The two
-`real' options `-H', `-L' and `-P' must appear before the first path
-name, if at all.
+`real' options `\-H', `\-L' and `\-P' must appear before the first
+path name, if at all.
 .SH OPTIONS
 .IP \-P
 Never follow symbolic links.  This is the default behaviour.  When 
@@ -71,10 +71,10 @@ rather than the link itself (unless the symbolic link is broken).
 Using \-H causes the \-lname and \-ilname predicates always to return
 false.
 .P
-If more than one of \-H, \-L and -P are both specified, each overrides
-the others; the last one appearing on the command line takes effect.
-Since it is the default, the \-P option should be considered to be in
-effect unless either \-H or \-L is specified.
+If more than one of \-H, \-L and \-P are both specified, each
+overrides the others; the last one appearing on the command line takes
+effect.  Since it is the default, the \-P option should be considered
+to be in effect unless either \-H or \-L is specified.
 
 GNU 
 .B find
@@ -195,7 +195,7 @@ Turn warning messages on or off.  These warnings apply only to the
 command line usage, not to any conditions that 
 .B find 
 might encounter when it searches directories.  The default behaviour
-corresponds to \-warn if standard input is a tty, and to -nowarn
+corresponds to \-warn if standard input is a tty, and to \-nowarn
 otherwise.
 .IP \-xdev
 Don't descend directories on other filesystems.
@@ -265,7 +265,7 @@ Like \-name, but the match is case insensitive.  For example, the
 patterns `fo*' and `F??' match the file names `Foo', `FOO', `foo',
 `fOo', etc.   In these patterns, unlike filename expansion by the
 shell, an initial '.' can be matched by '*'.  That is, 
-.B find -name *bar 
+.B find \-name *bar 
 will match the file `.foobar'.
 
 .IP "\-inum \fIn\fR"
@@ -402,7 +402,7 @@ directory `src/emacs' and all files and directories under it, and
 print the names of the other files found, do something like this:
 .br
 .in +1i
-find . \-wholename './src/emacs' -prune -o -print
+find . \-wholename './src/emacs' \-prune \-o \-print
 .br
 .in -1i
 .IP "\-xtype \fIc\fR"
@@ -430,7 +430,7 @@ of
 Both of these constructions might need to be escaped (with a `\e') or
 quoted to protect them from expansion by the shell.  See the
 .B EXAMPLES
-section for examples of the use of the `-exec' option.
+section for examples of the use of the `\-exec' option.
 The command is executed in the starting directory.
 
 .IP "\-exec \fIcommand\fR +"
@@ -466,7 +466,7 @@ seriously consider using the `\-print0' option instead of `\-print'.
 
 .IP \-print0
 True; print the full file name on the standard output, followed by a
-null character (instead of the newline character that `-print' uses).
+null character (instead of the newline character that `\-print' uses).
 This allows file names that contain newlines or other types of white
 space to be correctly interpreted by programs that process the
 \fBfind\fR output.  This option corresponds to the `\-0' option of
@@ -540,7 +540,7 @@ second (00..61)
 .IP T
 time, 24-hour (hh:mm:ss)
 .IP +
-Date and time, separated by '+', for example `2004-04-28+22:22:05'.
+Date and time, separated by '+', for example `2004\-04\-28+22:22:05'.
 The time is given in the current timezone (which may be affected by
 setting the TZ environment variable).  This is a GNU extension.
 .IP X
@@ -645,7 +645,7 @@ File's user name, or numeric user ID if the user has no name.
 .IP %U
 File's numeric user ID.
 .IP %y
-File's type (like in ls -l), U=unknown type (shouldn't happen)
+File's type (like in ls \-l), U=unknown type (shouldn't happen)
 .IP %Y
 File's type (like %y), plus follow symlinks: L=loop, N=nonexistent
 .PP
@@ -682,7 +682,7 @@ If \-depth is given, false; no effect.
 Exit immediately with return value zero.  No child proceses will be
 left running, but no more paths specified on the command line will be 
 processed.   For example,
-.B find /tmp/foo /tmp/bar -print -quit
+.B find /tmp/foo /tmp/bar \-print \-quit
 will print only
 .BR /tmp/foo .
 
@@ -757,25 +757,25 @@ below.
 
 .IP "Other predicates"
 The predicates
-`-atime',
-`-ctime',
-`-depth',
-`-group',
-`-links',
-`-mtime',
-`-nogroup',
-`-nouser',
-`-perm',
-`-print',
-`-prune',
-`-size',
-`-user' and 
-`-xdev',
+`\-atime',
+`\-ctime',
+`\-depth',
+`\-group',
+`\-links',
+`\-mtime',
+`\-nogroup',
+`\-nouser',
+`\-perm',
+`\-print',
+`\-prune',
+`\-size',
+`\-user' and 
+`\-xdev',
 are all supported.
 
 .P
 The POSIX standard specifies parentheses `(', `)', negation `!' and the
-`and' and `or' operators (`-a', `-o').   
+`and' and `or' operators (`\-a', `\-o').   
 .P
 All other options, predicates, expressions and so forth are extensions 
 beyond the POSIX standard.  Many of these extensions are not unique to 
@@ -829,30 +829,30 @@ If set to a non-empty string value, override the values of all the
 other internationalization variables.
 .IP LC_COLLATE
 The POSIX standard specifies that this variable affects the pattern
-matching to be used for the `-name' option.   GNU find uses the 
+matching to be used for the `\-name' option.   GNU find uses the 
 .BR fnmatch (3) 
 library function, and so support for `LC_COLLATE' depends on the
 system library.    
 .IP
 POSIX also specifies that the `LC_COLLATE' environment 
 variable affects the interpretation of the user's response to the 
-query issued by `-ok', but this is not the case for GNU find.
+query issued by `\-ok', but this is not the case for GNU find.
 .IP LC_CTYPE 
 This variable affects the treatment of character classes used with 
-the `-name' option, if the system's 
+the `\-name' option, if the system's 
 .BR fnmatch (3) 
 library function supports this.   It has no effect on the behaviour 
-of the `-ok' expression.
+of the `\-ok' expression.
 .IP LC_MESSAGES
 Determines the locale to be used for internationalised messages.
 .IP NLSPATH
 Determines the location of the internationalisation message catalogues.
 .IP PATH
 Affects the directores which are searched to find the executables 
-invoked by `-exec' and `-ok'.
+invoked by `\-exec' and `\-ok'.
 .SH "EXAMPLES"
 .nf
-.B find /tmp -name core -type f -print | xargs /bin/rm -f
+.B find /tmp \-name core \-type f \-print | xargs /bin/rm -f
 
 .fi
 Find files named 
@@ -862,7 +862,7 @@ in or below the directory
 and delete them.  Note that this will work incorrectly if there are 
 any filenames containing newlines, single or double quotes, or spaces.
 .P
-.B find /tmp -name core -type f -print0 | xargs -0 /bin/rm -f
+.B find /tmp \-name core \-type f \-print0 | xargs \-0 /bin/rm -f
 
 .fi
 Find files named 
@@ -874,14 +874,14 @@ directory names containing single or double quotes, spaces or newlines
 are correctly handled.  The
 .B \-name 
 test comes before the 
-.B -type
+.B \-type
 test in order to avoid having to call 
 .B stat(2) 
 on every file.
 
 .P
 .nf
-.B find . -type f -exec file '{}' \e\;
+.B find . \-type f \-exec file '{}' \e\;
 
 .fi
 Runs `file' on every file in or below the current directory.  Notice
@@ -892,8 +892,8 @@ been used in that case also.
 
 .P
 .nf
-.B find /  \t( -perm +4000 -fprintf /root/suid.txt '%#m %u %p\en' ) , \e
-.B         \t\t( -size +100M -fprintf /root/big.txt  '%-10s %p\en'  )
+.B find /  \t( \-perm +4000 \-fprintf /root/suid.txt '%#m %u %p\en' ) , \e
+.B         \t\t( \-size +100M \-fprintf /root/big.txt  '%\-10s %p\en'  )
 
 .fi
 Traverse the filesystem just once, listing setuid files and
@@ -941,6 +941,6 @@ http://savannah.gnu.org/bugs/?group=findutils.
 The reason for this is that you will then be able to track progress in
 fixing the problem.   Other comments about \fBfind\fP(1) and about
 the findutils package in general can be sent to the 
-.I bug-findutils
+.I bug\-findutils
 mailing list.  To join the list, send email to 
-.IR bug-findutils-request@gnu.org .
+.IR bug\-findutils\-request@gnu.org .
