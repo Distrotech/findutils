@@ -1,4 +1,31 @@
+2004-12-06  James Youngman  <jay@gnu.org>
+
+	* import-gnulib.sh, find/fstype.c:
+	Use gnulib's mountlist module instead of grokking it ourselves.
+
+	* configure.in:
+	Removed all the out-of-date cruft for grokking getmntent().
+
+	* xargs/xargs.c:
+	Added the -I and -L options; also -E takes an argument which is not optional.
+
 2004-12-05  James Youngman  <jay@gnu.org>
+
+	* README, configure.in, find/defs.h, find/find.c, find/parser.c, find/pred.c, find/tree.c:
+	Allow debug output to be turned on or off by saying --enable-debug on the configure command line
+
+	* README:
+	Removed disparaging (it is now, it probably wasn't then) comment about
+	the production-readiness of Automake.
+
+	* README: Qualifyt remarks about POSIX compliance.
+
+	* NEWS, configure.in: Preparation for release 4.2.9
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po:
+	distcheck
+
+	* ChangeLog: Brought up to date.
 
 	* find/find.c:
 	Avoid duplicate error message when we cannot chdir() into a subdirectory.
@@ -10,23 +37,6 @@
 
 	* NEWS, xargs/xargs.1, xargs/xargs.c:
 	Implemented POSIX options -L, -I and -E
-
-2004-12-04  James Youngman  <jay@gnu.org>
-
-	* xargs/xargs.c, xargs/testsuite/xargs.sysv/eof.exp:
-	Implement POSIX option -E (and make the default behaviour that there
-	is no logical EOF string - POSIX now allows this).
-
-	* locate/updatedb.sh:
-	Fixed Savannah bug #3919: use mktemp instead of tempfile
-
-	* find/find.c:
-	Handle stat failures in line with the recommendation in Savannah bug 11148.
-
-	* find/find.c, find/testsuite/Makefile.am, find/testsuite/find.posix/sv-bug-11175.exp, find/testsuite/find.posix/sv-bug-11175.xo:
-	Fixed savannah bug 11175, wrongly chdir()ing into directories specified on the command line even if they are pruned
-
-	* xargs/xargs.c: Fixed typo
 
 2004-12-03  James Youngman  <jay@gnu.org>
 
