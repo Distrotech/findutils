@@ -37,8 +37,6 @@ libfind_a_SOURCES = regex.h \
 			xstrtoul.c \
 			xstrtoul.h \
 			xstrtoumax.c \
-			getline.c \
-			getline.h \
 			basename.c \
 			yesno.c
 
@@ -53,6 +51,7 @@ EXTRA_DIST = \
 		regex.c \
 		wait.h \
 		alloca.c \
+		getline.c \
 		getline.h \
 		xstat.in
 
