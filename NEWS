@@ -1,6 +1,9 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.2.0
 ** locate 'pa*d' will now find /etc/passwd (if it exists, of course)
+** If the command invoked by xargs reads from its standard input, 
+   it now gets nothing, as opposed to stealing data from the 
+   list of files that xargs is trying to read.
 ** The environment variable FIND_BLOCK_SIZE is now ignored.
 ** The find manual page also now includes a section 
    which describes the relationship between the features of GNU 
@@ -12,6 +15,8 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 ** Bug-fixes, notably better support for 64-bit systems.
 ** The command "xargs -i -n1" now works as one might expect, even though
    it's a strange thing to want to do...
+** Arguments to find -mtime that are too large are now diagnosed (as 
+   opposed to silently doing the wrong thing).
 ** New option "-ignore_readdir_race" (opposite -noignore_readdir_race)
    silences an error messages which would otherwise occur if a file is removed
    after find has read it from the directory using readdir(), but before 
