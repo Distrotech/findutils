@@ -1,22 +1,28 @@
-#serial 5
+#serial 8
 
 dnl This macro is intended to be used solely in this file.
 dnl These are the prerequisite macros for GNU's strftime.c replacement.
-dnl FIXME: the list is far from complete
 AC_DEFUN(_jm_STRFTIME_PREREQS,
 [
  dnl strftime.c uses localtime_r if it exists.  Check for it.
  AC_CHECK_FUNCS(localtime_r)
- dnl FIXME: add tests for everything in strftime.c: e.g., HAVE_BCOPY,
- dnl HAVE_TZNAME, HAVE_TZSET, HAVE_TM_ZONE, etc.
+
+ AC_CHECK_HEADERS(limits.h)
+ AC_CHECK_FUNCS(bcopy tzset mempcpy memcpy memset)
+
+ # This defines (or not) HAVE_TZNAME and HAVE_TM_ZONE.
+ AC_STRUCT_TIMEZONE
+
+ AC_CHECK_FUNCS(mblen mbrlen)
+
+ AC_CHECK_MEMBER(struct tm.tm_gmtoff,
+                 [AC_DEFINE(HAVE_TM_GMTOFF, 1,
+                            [Define if struct tm has the tm_gmtoff member.])],
+                 ,
+                 [#include <time.h>])
 ])
 
 dnl Determine if the strftime function has all the features of the GNU one.
-dnl
-dnl If you use this macro in a package, you should
-dnl add the following two lines to acconfig.h:
-dnl   /* Define to gnu_strftime if the replacement function should be used.  */
-dnl   #undef strftime
 dnl
 dnl From Jim Meyering.
 dnl
@@ -109,7 +115,6 @@ main ()
   CMP ("%^c", "FRI JAN  9 13:06:07 1970");
   CMP ("%d", "09");
   CMP ("%e", " 9");		/* POSIX.2 */
-  CMP ("%f", "5");		/* POSIX.2 */
   CMP ("%g", "70");		/* GNU */
   CMP ("%h", "Jan");		/* POSIX.2 */
   CMP ("%^h", "JAN");
@@ -138,8 +143,10 @@ changequote([, ])dnl
 	     jm_cv_func_working_gnu_strftime=no)
   ])
   if test $jm_cv_func_working_gnu_strftime = no; then
-    LIBOBJS="$LIBOBJS strftime.o"
-    AC_DEFINE_UNQUOTED(strftime, gnu_strftime)
+    AC_SUBST(LIBOBJS)
+    LIBOBJS="$LIBOBJS strftime.$ac_objext"
+    AC_DEFINE_UNQUOTED(strftime, gnu_strftime,
+      [Define to gnu_strftime if the replacement function should be used.])
   fi
 ])
 
