@@ -1,11 +1,12 @@
 ## Process this file with automake to produce Makefile.in.
 
-AUTOMAKE_OPTIONS = 1.5 gnits no-dependencies
+AUTOMAKE_OPTIONS = 1.5 gnits 
+# no-dependencies
 
 noinst_LIBRARIES = libfind.a
 
 libfind_a_SOURCES =
-EXTRA_DIST = modetype.h wait.h extendbuf.h
+EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h
 BUILT_SOURCES =
 SUFFIXES =
 MOSTLYCLEANFILES =
@@ -15,8 +16,7 @@ MAINTAINERCLEANFILES =
 INCLUDES = -I$(top_srcdir)/gnulib/lib
 
 libfind_a_SOURCES += modetype.h nextelem.h
-libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c
-# savedirtypes.c
+libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c
 
 EXTRA_DIST += waitpid.c forcefindlib.c
 
