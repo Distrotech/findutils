@@ -627,6 +627,7 @@ do_insert (arg, arglen, lblen)
       strncpy (p, arg, len);
       p += len;
       arg += len;
+      arglen -= len;
 
       if (s)
 	{
@@ -635,6 +636,7 @@ do_insert (arg, arglen, lblen)
 	    break;
 	  strcpy (p, linebuf);
 	  arg += rplen;
+	  arglen -= rplen;
 	  p += lblen;
 	}
     }
