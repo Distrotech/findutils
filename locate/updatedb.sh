@@ -20,7 +20,8 @@
 # csh original by James Woods; sh conversion by David MacKenzie.
 
 usage="\
-Usage: updatedb [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
+Usage: updatedb [--findoptions='-option1 -option2...']
+       [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
        [--prunepaths='dir1 dir2...'] [--prunefs='fs1 fs2...']
        [--output=dbfile] [--netuser=user] [--localuser=user] 
        [--old-format] [--version] [--help]
@@ -38,6 +39,7 @@ do
   opt=`echo $arg|sed 's/^\([^=]*\).*/\1/'`  || exit 71
   val=`echo $arg|sed 's/^[^=]*=\(.*\)/\1/'` || exit 71
   case "$opt" in
+    --findoptions) FINDOPTIONS="$val" ;;
     --localpaths) SEARCHPATHS="$val" ;;
     --netpaths) NETPATHS="$val" ;;
     --prunepaths) PRUNEPATHS="$val" ;;
@@ -83,6 +85,9 @@ getuid() {
 
 # You can set these in the environment, or use command-line options,
 # to override their defaults:
+
+# Any global options for find?
+: ${FINDOPTIONS=}
 
 # What shell shoud we use?  We should use a POSIX-ish sh.
 : ${SHELL="/bin/sh"}
@@ -163,12 +168,12 @@ if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A1
     su $LOCALUSER -s $SHELL -c \
-    "$find $SEARCHPATHS \
+    "$find $SEARCHPATHS $FINDOPTIONS \
      \\( $prunefs_exp \
      -type d -regex '$PRUNEREGEX' \\) -prune -o $print_option"
   else
     # : A2
-    $find $SEARCHPATHS \
+    $find $SEARCHPATHS $FINDOPTIONS \
      \( $prunefs_exp \
      -type d -regex "$PRUNEREGEX" \) -prune -o $print_option
   fi
@@ -179,11 +184,11 @@ myuid=`getuid`
 if [ "$myuid" = 0 ]; then
     # : A3
     su $NETUSER -s $SHELL -c \
-     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o $print_option" ||
+     "$find $NETPATHS $FINDOPTIONS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o $print_option" ||
     exit $?
   else
     # : A4
-    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o $print_option ||
+    $find $NETPATHS $FINDOPTIONS \( -type d -regex "$PRUNEREGEX" -prune \) -o $print_option ||
     exit $?
   fi
 fi
@@ -233,12 +238,12 @@ if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A5
     su $LOCALUSER -s $SHELL -c \
-    "$find $SEARCHPATHS \
+    "$find $SEARCHPATHS $FINDOPTIONS \
      \( $prunefs_exp \
      -type d -regex '$PRUNEREGEX' \) -prune -o $print_option" || exit $?
   else
     # : A6
-    $find $SEARCHPATHS \
+    $find $SEARCHPATHS $FINDOPTIONS \
      \( $prunefs_exp \
      -type d -regex "$PRUNEREGEX" \) -prune -o $print_option || exit $?
   fi
@@ -249,11 +254,11 @@ if test -n "$NETPATHS"; then
   if [ "$myuid" = 0 ]; then
     # : A7
     su $NETUSER -s $SHELL -c \
-     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o $print_option" ||
+     "$find $NETPATHS $FINDOPTIONS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o $print_option" ||
     exit $?
   else
     # : A8
-    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o $print_option ||
+    $find $NETPATHS $FINDOPTIONS \( -type d -regex "$PRUNEREGEX" -prune \) -o $print_option ||
     exit $?
   fi
 fi

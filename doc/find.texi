@@ -2019,6 +2019,11 @@ Here are the options to @code{updatedb} to select which directories each
 database contains entries for:
 
 @table @code
+@item --findoptions='@var{OPTION}@dots{}'
+Global options to pass on to @code{find}.
+The environment variable @code{FINDOPTIONS} also sets this value.
+Default is none.
+
 @item --localpaths='@var{path}@dots{}'
 Non-network directories to put in the database.
 Default is @file{/}.
@@ -2325,6 +2330,11 @@ updatedb @r{[}@var{option}@dots{}@r{]}
 @end example
 
 @table @code
+@item --findoptions='@var{OPTION}@dots{}'
+Global options to pass on to @code{find}.
+The environment variable @code{FINDOPTIONS} also sets this value.
+Default is none.
+
 @item --localpaths='@var{path}@dots{}'
 Non-network directories to put in the database.
 Default is @file{/}.
