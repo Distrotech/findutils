@@ -34,7 +34,8 @@
    headers. */
 #undef D_TYPE_IN_DIRENT
 
-/* Define to 1 if NLS is requested. */
+/* Define to 1 if translation of program messages to the user's native
+   language is requested. */
 #undef ENABLE_NLS
 
 /* Define to use AIX3 statfs to get filesystem type. */
@@ -88,9 +89,6 @@
 
 /* Define if you have the `bzero' function. */
 #undef HAVE_BZERO
-
-/* Define as 1 if you have catgets and don't want to use GNU gettext. */
-#undef HAVE_CATGETS
 
 /* Define if backslash-a works in C strings. */
 #undef HAVE_C_BACKSLASH_A
@@ -259,6 +257,12 @@
 /* Define if you have the <fenv.h> header file. */
 #undef HAVE_FENV_H
 
+/* Define if you have the `feof_unlocked' function. */
+#undef HAVE_FEOF_UNLOCKED
+
+/* Define if you have the `fgets_unlocked' function. */
+#undef HAVE_FGETS_UNLOCKED
+
 /* Define if you have the <float.h> header file. */
 #undef HAVE_FLOAT_H
 
@@ -284,6 +288,15 @@
 /* Define if you have the `getdelim' function. */
 #undef HAVE_GETDELIM
 
+/* Define if you have the `getegid' function. */
+#undef HAVE_GETEGID
+
+/* Define if you have the `geteuid' function. */
+#undef HAVE_GETEUID
+
+/* Define if you have the `getgid' function. */
+#undef HAVE_GETGID
+
 /* Define if you have the `gethostbyaddr' function. */
 #undef HAVE_GETHOSTBYADDR
 
@@ -302,8 +315,11 @@
 /* Define if you have the `getpagesize' function. */
 #undef HAVE_GETPAGESIZE
 
-/* Define to 1 if you have gettext and don't want to use GNU gettext. */
+/* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
+
+/* Define if you have the `getuid' function. */
+#undef HAVE_GETUID
 
 /* Define if you have the `hasmntopt' function. */
 #undef HAVE_HASMNTOPT
@@ -324,14 +340,11 @@
 /* Define if you have the `iswprint' function. */
 #undef HAVE_ISWPRINT
 
-/* Define if your locale.h file contains LC_MESSAGES. */
+/* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
+#undef HAVE_LANGINFO_CODESET
+
+/* Define if your <locale.h> file defines LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
-
-/* Define if you have the `i' library (-li). */
-#undef HAVE_LIBI
-
-/* Define if you have the `intl' library (-lintl). */
-#undef HAVE_LIBINTL
 
 /* Define if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
@@ -460,7 +473,7 @@
 /* Define if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
-/* Define to 1 if you have the stpcpy function. */
+/* Define if you have the `stpcpy' function. */
 #undef HAVE_STPCPY
 
 /* Define if you have the `strcasecmp' function. */
@@ -618,6 +631,9 @@
    `HAVE_STRUCT_TM_TM_ZONE' instead. */
 #undef HAVE_TM_ZONE
 
+/* Define if you have the `tsearch' function. */
+#undef HAVE_TSEARCH
+
 /* Define if you don't have `tm_zone' but do have the external array `tzname'.
    */
 #undef HAVE_TZNAME
@@ -669,6 +685,9 @@
 
 /* Define if you have the `__argz_stringify' function. */
 #undef HAVE___ARGZ_STRINGIFY
+
+/* Define as const if the declaration of iconv() needs const. */
+#undef ICONV_CONST
 
 /* Define if `link(2)' dereferences symbolic links. */
 #undef LINK_FOLLOWS_SYMLINKS

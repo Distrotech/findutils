@@ -59,6 +59,7 @@ host_alias = @host_alias@
 host_triplet = @host@
 AMTAR = @AMTAR@
 AWK = @AWK@
+BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -71,15 +72,13 @@ GLIBC21 = @GLIBC21@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNU_PACKAGE = @GNU_PACKAGE@
-GT_NO = @GT_NO@
-GT_YES = @GT_YES@
 INCLUDES = @INCLUDES@
-INCLUDE_LOCALE_H = @INCLUDE_LOCALE_H@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTOBJEXT = @INSTOBJEXT@
-INTLDEPS = @INTLDEPS@
+INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
 LIBICONV = @LIBICONV@
 LIBOBJS = @LIBOBJS@
 MAN = @MAN@
@@ -98,7 +97,6 @@ VERSION = @VERSION@
 _am_include = @_am_include@
 _am_quote = @_am_quote@
 install_sh = @install_sh@
-l = @l@
 
 AUTOMAKE_OPTIONS = gnits readme-alpha
 
@@ -145,7 +143,7 @@ config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure:  $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-$(ACLOCAL_M4):  configure.in m4/afs.m4 m4/assert.m4 m4/c-bs-a.m4 m4/check-decl.m4 m4/d-ino.m4 m4/d-type.m4 m4/error.m4 m4/fnmatch.m4 m4/fnmatchcase.m4 m4/fstypename.m4 m4/getline.m4 m4/gettext.m4 m4/glibc.m4 m4/glibc21.m4 m4/iconv.m4 m4/inttypes_h.m4 m4/isc-posix.m4 m4/jm-glibc-io.m4 m4/jm-macros.m4 m4/jm-mktime.m4 m4/lcmessage.m4 m4/libintl.m4 m4/link-follow.m4 m4/ls-mntd-fs.m4 m4/lstat-slash.m4 m4/lstat.m4 m4/malloc.m4 m4/mbstate_t.m4 m4/memcmp.m4 m4/prereq.m4 m4/progtest.m4 m4/readdir.m4 m4/realloc.m4 m4/regex.m4 m4/st_dm_mode.m4 m4/st_mtim.m4 m4/stat.m4 m4/strerror_r.m4 m4/strftime.m4 m4/timespec.m4 m4/uintmax_t.m4 m4/ulonglong.m4 m4/xstrtoumax.m4
+$(ACLOCAL_M4):  configure.in m4/afs.m4 m4/assert.m4 m4/c-bs-a.m4 m4/check-decl.m4 m4/codeset.m4 m4/d-ino.m4 m4/d-type.m4 m4/error.m4 m4/fnmatch.m4 m4/fnmatchcase.m4 m4/fstypename.m4 m4/getline.m4 m4/gettext.m4 m4/glibc.m4 m4/glibc21.m4 m4/iconv.m4 m4/inttypes_h.m4 m4/isc-posix.m4 m4/jm-glibc-io.m4 m4/jm-macros.m4 m4/jm-mktime.m4 m4/lcmessage.m4 m4/libintl.m4 m4/link-follow.m4 m4/ls-mntd-fs.m4 m4/lstat-slash.m4 m4/lstat.m4 m4/malloc.m4 m4/mbstate_t.m4 m4/memcmp.m4 m4/prereq.m4 m4/progtest.m4 m4/readdir.m4 m4/realloc.m4 m4/regex.m4 m4/st_dm_mode.m4 m4/st_mtim.m4 m4/stat.m4 m4/strerror_r.m4 m4/strftime.m4 m4/timespec.m4 m4/uintmax_t.m4 m4/ulonglong.m4 m4/xstrtoumax.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 config.h: stamp-h
 	@if test ! -f $@; then \
