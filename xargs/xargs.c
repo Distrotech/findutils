@@ -992,7 +992,7 @@ push_arg (char *arg, size_t len)
       
       /* If we have now collected enough arguments,
        * do the exec immediately.  This must be 
-       * conditional on arg!=NULL, sinc do_exec() 
+       * conditional on arg!=NULL, since do_exec() 
        * actually calls push_arg(NULL, 0).
        */
       if (!initial_args
