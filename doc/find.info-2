@@ -252,17 +252,20 @@ which directories each database contains entries for:
 
 `--netpaths='PATH...''
      Network (NFS, AFS, RFS, etc.) directories to put in the database.
-     Default is none.
+     The environment variable `NETPATHS' also sets this value.  Default
+     is none.
 
 `--prunepaths='PATH...''
      Directories to not put in the database, which would otherwise be.
+     The environment variable `PRUNEPATHS' also sets this value.
      Default is `/tmp /usr/tmp /var/tmp /afs'.
 
 `--prunefs='PATH...''
      File systems to not put in the database, which would otherwise be.
      Note that files are pruned when a file system is reached; Any file
      system mounted under an undesired file system will be ignored.
-     Default is `nfs NFS proc'.
+     The environment variable `PRUNEFS' also sets this value.  Default
+     is `nfs NFS proc'.
 
 `--output=DBFILE'
      The database file to build.  Default is system-dependent, but
@@ -901,17 +904,20 @@ Invoking `updatedb'
 
 `--netpaths='PATH...''
      Network (NFS, AFS, RFS, etc.) directories to put in the database.
-     Default is none.
+     The environment variable `NETPATHS' also sets this value.  Default
+     is none.
 
 `--prunepaths='PATH...''
      Directories to not put in the database, which would otherwise be.
+     The environment variable `PRUNEPATHS' also sets this value.
      Default is `/tmp /usr/tmp /var/tmp /afs'.
 
 `--prunefs='PATH...''
      File systems to not put in the database, which would otherwise be.
      Note that files are pruned when a file system is reached; Any file
      system mounted under an undesired file system will be ignored.
-     Default is `nfs NFS proc'.
+     The environment variable `PRUNEFS' also sets this value.  Default
+     is `nfs NFS proc'.
 
 `--output=DBFILE'
      The database file to build.  Default is system-dependent, but

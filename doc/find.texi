@@ -1861,10 +1861,13 @@ Default is @file{/}.
 
 @item --netpaths='@var{path}@dots{}'
 Network (NFS, AFS, RFS, etc.) directories to put in the database.
+The environment variable @code{NETPATHS} also sets this value.
 Default is none.
+
 
 @item --prunepaths='@var{path}@dots{}'
 Directories to not put in the database, which would otherwise be.
+The environment variable @code{PRUNEPATHS} also sets this value.
 Default is @file{/tmp /usr/tmp /var/tmp /afs}.
 
 @item --prunefs='@var{path}@dots{}'
@@ -1872,6 +1875,7 @@ File systems to not put in the database, which would otherwise be.
 Note that files are pruned when a file system is reached;
 Any file system mounted under an undesired file system will be
 ignored.
+The environment variable @code{PRUNEFS} also sets this value.
 Default is @file{nfs NFS proc}.
 
 @item --output=@var{dbfile}
@@ -2097,10 +2101,12 @@ Default is @file{/}.
 
 @item --netpaths='@var{path}@dots{}'
 Network (NFS, AFS, RFS, etc.) directories to put in the database.
+The environment variable @code{NETPATHS} also sets this value.
 Default is none.
 
 @item --prunepaths='@var{path}@dots{}'
 Directories to not put in the database, which would otherwise be.
+The environment variable @code{PRUNEPATHS} also sets this value.
 Default is @file{/tmp /usr/tmp /var/tmp /afs}.
 
 @item --prunefs='@var{path}@dots{}'
@@ -2108,6 +2114,7 @@ File systems to not put in the database, which would otherwise be.
 Note that files are pruned when a file system is reached;
 Any file system mounted under an undesired file system will be
 ignored.
+The environment variable @code{PRUNEFS} also sets this value.
 Default is @file{nfs NFS proc}.
 
 @item --output=@var{dbfile}

@@ -47,11 +47,22 @@ Default is /.
 .TP
 .B \-\-netpaths='\fIpath1 path2...\fP'
 Network (NFS, AFS, RFS, etc.) directories to put in the database.
+The environment variable \fBNETPATHS\fP also sets this value.
 Default is none.
 .TP
 .B \-\-prunepaths='\fIpath1 path2...\fP'
 Directories to not put in the database, which would otherwise be.
+The environment variable \fBPRUNEPATHS\fP also sets this value.
 Default is /tmp /usr/tmp /var/tmp /afs.
+.TP
+.B \-\-prunefs='\fIpath...\fP'
+File systems to not put in the database, which would otherwise be.
+Note that files are pruned when a file system is reached;
+Any file system mounted under an undesired file system will be
+ignored.
+The environment variable
+\fBPRUNEFS\fP also sets this value.
+Default is \fInfs NFS proc\fP.
 .TP
 .B \-\-output=\fIdbfile\fP
 The database file to build.
