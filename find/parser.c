@@ -281,7 +281,7 @@ find_parser (char *search_name)
 	   * subsequent tests but not previous ones.  That
 	   * might be intentional on the part of the user.
 	   */
-	  if (parser_name[i].type != ARG_POSITIONAL_OPTION)
+	  if (parse_table[i].type != ARG_POSITIONAL_OPTION)
 	    {
 	      /* Something other than -follow/-daystart.
 	       * If this is an option, check if it followed
@@ -696,11 +696,12 @@ Usage: %s [path...] [expression]\n"), program_name);
 default path is the current directory; default expression is -print\n\
 expression may consist of:\n\
 operators (decreasing precedence; -and is implicit where no others are given):\n\
-      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"));
-  puts (_("\
-      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n\
-options (always true): -daystart -delete -depth -follow --help\n\
-      -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n\
+      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"));
+  puts (_("      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n\
+positional options (always true): -daystart -follow\n\
+normal options (always true, specified before other expressions): -depth\n\
+      --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n\
+      -ignore_readdir_race -noignore_readdir_race\n\
 tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"));
   puts (_("\
       -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n\
@@ -709,10 +710,11 @@ tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"));
   puts (_("\
       -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n\
       -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n\
-      -used N -user NAME -xtype [bcdpfls]\n"));
+      -used N -user NAME -xtype [bcdpfls]"));
   puts (_("\
 actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n\
-      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"));
+      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -delete\n\
+      -quit\n"));
   puts (_("Report (and track progress on fixing) bugs via the findutils bug-reporting\n\
 page at http://savannah.gnu.org/ or, if you have no web access, by sending\n\
 email to <bug-findutils@gnu.org>."));
