@@ -9,7 +9,7 @@ EXTRA_DIST = config/unix.exp \
 	inputs/files.xi \
 	inputs/files0.xi \
 	inputs/quotes.xi \
-	inputs/lines	.xi \
+	inputs/lines.xi \
 	xargs.gnu/0n3.exp \
 	xargs.gnu/0n3.xo \
 	xargs.gnu/nothing.exp \
