@@ -933,6 +933,6 @@ Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
        [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n\
        [command [initial-arguments]]\n"),
 	   program_name);
-  fputs (_("\nReport bugs to <bug-findutils@gnu.org>."), stream);
+  fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
   exit (status);
 }
