@@ -60,6 +60,7 @@ binary-arch:	checkroot build
 		INSTALL_PROGRAM='install -c' \
 		install
 	gzip -9v debian/tmp/usr/info/*
+	gzip -9v debian/tmp/usr/man/man[15]/*
 	install -m 0444 debian/copyright debian/tmp/usr/doc/$(package)/.
 	install -m 0444 debian/changelog \
 		debian/tmp/usr/doc/$(package)/changelog.Debian
