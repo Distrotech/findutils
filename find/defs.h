@@ -44,6 +44,13 @@ extern int errno;
 
 #include "regex.h"
 
+#ifndef S_IFLNK
+#define lstat stat
+#endif
+
+int lstat ();
+int stat ();
+
 #if __STDC__
 # define P_(s) s
 #else
@@ -301,7 +308,9 @@ boolean opt_expr P_((struct predicate **eval_treep));
 boolean mark_stat P_((struct predicate *tree));
 
 /* util.c */
-char *basename P_((const char *fname));
+#ifndef HAVE_BASENAME
+const char *basename P_((const char *fname));
+#endif
 struct predicate *get_new_pred P_((void));
 struct predicate *get_new_pred_chk_op P_((void));
 struct predicate *insert_primary P_((boolean (*pred_func )()));
