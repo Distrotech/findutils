@@ -1070,7 +1070,10 @@ process_top_path (char *pathname, mode_t mode)
       if (SafeChdirOK != safely_chdir(parent_dir, direction, &st))
 	{
 	  error (0, errno, "%s", parent_dir);
+
+	  /* We can't process this command-line argument. */
 	  state.exit_status = 1;
+	  return;
 	}
     }
   
