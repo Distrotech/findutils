@@ -132,9 +132,12 @@ patterns `fo*' and `F??' match the file names `Foo', `FOO', `foo',
 .IP "\-inum \fIn\fR"
 File has inode number \fIn\fR.
 .IP "\-ipath \fIpattern\fR"
-Like \-path, but the match is case insensitive.
+Behaves in the same way as \-iwholename.  This option is deprecated,
+so please do not use it.
 .IP "\-iregex \fIpattern\fR"
 Like \-regex, but the match is case insensitive.
+.IP "\-iwholename \fIpattern\fR"
+Like \-wholename, but the match is case insensitive.
 .IP "\-links \fIn\fR"
 File has \fIn\fR links.
 .IP "\-lname \fIpattern\fR"
@@ -149,7 +152,7 @@ Base of file name (the path with the leading directories removed)
 matches shell pattern \fIpattern\fR.  The metacharacters (`*', `?',
 and `[]') do not match a `.' at the start of the base name.  To ignore
 a directory and the files under it, use \-prune; see an example in the
-description of \-path.  Braces are not recognised as being special,
+description of \-wholename.  Braces are not recognised as being special,
 despite the fact that some shells including Bash ibmue braces with 
 a special meaning in shell patterns.   The filename matching is
 performed with the use of the 
@@ -164,23 +167,8 @@ No user corresponds to file's numeric user ID.
 .IP \-nogroup
 No group corresponds to file's numeric group ID.
 .IP "\-path \fIpattern\fR"
-File name matches shell pattern \fIpattern\fR.  The metacharacters do
-not treat `/' or `.' specially; so, for example,
-.br
-.in +1i
-find . \-path './sr*sc'
-.br
-.in -1i
-will print an entry for a directory called './src/misc' (if one
-exists).  To ignore a whole directory tree, use \-prune rather than
-checking every file in the tree.  For example, to skip the
-directory `src/emacs' and all files and directories under it, and
-print the names of the other files found, do something like this:
-.br
-.in +1i
-find . \-path './src/emacs' -prune -o -print
-.br
-.in -1i
+See \-wholename.   The predicate \-path is also supported by HP-UX 
+.BR find .
 .IP "\-perm \fImode\fR"
 File's permission bits are exactly \fImode\fR (octal or symbolic).
 Symbolic modes use mode 0 as a point of departure.
@@ -252,6 +240,24 @@ File's numeric user ID is \fIn\fR.
 File was last accessed \fIn\fR days after its status was last changed.
 .IP "\-user \fIuname\fR"
 File is owned by user \fIuname\fR (numeric user ID allowed).
+.IP "\-wholename \fIpattern\fR"
+File name matches shell pattern \fIpattern\fR.  The metacharacters do
+not treat `/' or `.' specially; so, for example,
+.br
+.in +1i
+find . \-wholename './sr*sc'
+.br
+.in -1i
+will print an entry for a directory called './src/misc' (if one
+exists).  To ignore a whole directory tree, use \-prune rather than
+checking every file in the tree.  For example, to skip the
+directory `src/emacs' and all files and directories under it, and
+print the names of the other files found, do something like this:
+.br
+.in +1i
+find . \-wholename './src/emacs' -prune -o -print
+.br
+.in -1i
 .IP "\-xtype \fIc\fR"
 The same as \-type unless the file is a symbolic link.  For symbolic
 links: if \-follow has not been given, true if the file is a link to a

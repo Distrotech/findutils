@@ -355,13 +355,20 @@ find /usr/local/doc -name '*.texi'
 @node Full Name Patterns
 @subsection Full Name Patterns
 
-@deffn Test -path pattern
-@deffnx Test -ipath pattern
+@deffn Test -wholename pattern
+@deffnx Test -iwholename pattern
 True if the entire file name, starting with the command line argument
 under which the file was found, matches shell pattern @var{pattern}.
-For @samp{-ipath}, the match is case-insensitive.  To ignore a whole
+For @samp{-iwholename}, the match is case-insensitive.  To ignore a whole
 directory tree, use @samp{-prune} rather than checking every file in the
 tree (@pxref{Directories}).
+@end deffn
+
+@deffn Test -path pattern
+@deffnx Test -ipath pattern
+These tests are deprecated, but work as for @samp{-wholename} and @samp{-iwholename},
+respectively.  The @samp{-ipath} test is a GNU extension, but @samp{-path} is also 
+provided by HP-UX @code{find}.
 @end deffn
 
 @deffn Test -regex expr
@@ -464,7 +471,7 @@ works even in character classes.
 @end table
 
 In the @code{find} tests that do shell pattern matching (@samp{-name},
-@samp{-path}, etc.), wildcards in the pattern do not match a @samp{.}
+@samp{-wholename}, etc.), wildcards in the pattern do not match a @samp{.}
 at the beginning of a file name.  This is not the case for
 @code{locate}.  Thus, @samp{find -name '*macs'} does not match a file
 named @file{.emacs}, but @samp{locate '*macs'} does.
@@ -846,7 +853,7 @@ For example, to skip the directory @file{src/emacs} and all files and
 directories under it, and print the names of the other files found:
 
 @example
-find . -path './src/emacs' -prune -o -print
+find . -wholename './src/emacs' -prune -o -print
 @end example
 @end deffn
 
