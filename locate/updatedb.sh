@@ -53,7 +53,7 @@ done
 : ${NETPATHS=}
 
 # Directories to not put in the database, which would otherwise be.
-: ${PRUNEPATHS="/proc /tmp /usr/tmp /var/tmp /afs /amd /net"}
+: ${PRUNEPATHS="/tmp /usr/tmp /var/tmp /afs /amd /net"}
 
 # The same, in the form of a regex that find can use.
 test -z "$PRUNEREGEX" &&
@@ -95,7 +95,7 @@ if test $old = no; then
 {
 if test -n "$SEARCHPATHS"; then
   $find $SEARCHPATHS \
-  \( -fstype nfs -o -fstype NFS -o -type d -regex "$PRUNEREGEX" \) -prune -o -print
+  \( -fstype nfs -o -fstype NFS -o -fstype proc -o -type d -regex "$PRUNEREGEX" \) -prune -o -print
 fi
 
 if test -n "$NETPATHS"; then
