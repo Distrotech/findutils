@@ -73,6 +73,7 @@ static boolean parse_d PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_depth PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_empty PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_exec PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_execdir PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_false PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_fls PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_fprintf PARAMS((char *argv[], int *arg_ptr));
@@ -104,6 +105,7 @@ static boolean parse_nogroup PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_nouser PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_nowarn PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_ok PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_okdir PARAMS((char *argv[], int *arg_ptr));
 boolean parse_open PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_or PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_path PARAMS((char *argv[], int *arg_ptr));
@@ -194,6 +196,7 @@ static struct parser_table const parse_table[] =
   {ARG_OPTION,             "depth",                 parse_depth},
   {ARG_TEST,               "empty",                 parse_empty},	/* GNU */
   {ARG_ACTION,             "exec",                  parse_exec},
+  {ARG_ACTION,             "execdir",               parse_execdir},     /* *BSD, GNU */
   {ARG_TEST,               "false",                 parse_false},	/* GNU */
   {ARG_ACTION,             "fls",                   parse_fls},		/* GNU */
   {ARG_POSITIONAL_OPTION,  "follow",                parse_follow},	/* GNU, Unix */
@@ -233,6 +236,7 @@ static struct parser_table const parse_table[] =
   {ARG_PUNCTUATION,        "o",                     parse_or},
   {ARG_PUNCTUATION,        "or",                    parse_or},		 /* GNU */
   {ARG_ACTION,             "ok",                    parse_ok},
+  {ARG_ACTION,             "okdir",                 parse_okdir},        /* GNU (-execdir is BSD) */
   {ARG_TEST,               "path",                  parse_path},	 /* GNU, HP-UX, GNU prefers wholename */
   {ARG_TEST,               "perm",                  parse_perm},
   {ARG_ACTION,             "print",                 parse_print},
@@ -561,6 +565,12 @@ static boolean
 parse_exec (char **argv, int *arg_ptr)
 {
   return (insert_exec_ok (pred_exec, argv, arg_ptr));
+}
+
+static boolean
+parse_execdir (char **argv, int *arg_ptr)
+{
+  return (insert_exec_ok (pred_execdir, argv, arg_ptr));
 }
 
 static boolean
@@ -1099,6 +1109,12 @@ static boolean
 parse_ok (char **argv, int *arg_ptr)
 {
   return (insert_exec_ok (pred_ok, argv, arg_ptr));
+}
+
+static boolean
+parse_okdir (char **argv, int *arg_ptr)
+{
+  return (insert_exec_ok (pred_okdir, argv, arg_ptr));
 }
 
 boolean
@@ -1823,26 +1839,48 @@ insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   int num_paths;		/* Number of args with path replacements. */
   int path_pos;			/* Index in array of path replacements. */
   int vec_pos;			/* Index in array of args. */
+  int saw_braces;		/* True if previous arg was '{}'. */
+  int plusflag;			/* Saw '+' */
+  
   struct predicate *our_pred;
   struct exec_val *execp;	/* Pointer for efficiency. */
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
 
+  plusflag = 0;
+  
   /* Count the number of args with path replacements, up until the ';'. */
   start = *arg_ptr;
-  for (end = start, num_paths = 0;
+  for (end = start, num_paths = 0, saw_braces=0;
        (argv[end] != NULL)
        && ((argv[end][0] != ';') || (argv[end][1] != '\0'));
        end++)
-    if (strstr (argv[end], "{}"))
-      num_paths++;
+    {
+      if (argv[end][0] == '+' && argv[end][1] == 0 && saw_braces)
+	{
+	  /* A '+' following '{}' is also a terminator. */
+	  plusflag = 1;
+	  break;
+	}
+      
+      saw_braces = 0;
+      if (strstr (argv[end], "{}"))
+	{
+	  saw_braces = 1;
+	  num_paths++;
+	}
+    }
   /* Fail if no command given or no semicolon found. */
   if ((end == start) || (argv[end] == NULL))
     {
       *arg_ptr = end;
       return (false);
     }
+
+  if (plusflag)
+    error(1,0, "The \"-exec ...{} +\" action is not yet supported.");
+
 
   our_pred = insert_primary (func);
   our_pred->side_effects = true;
@@ -1851,21 +1889,43 @@ insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   execp->paths =
     (struct path_arg *) xmalloc (sizeof (struct path_arg) * (num_paths + 1));
   execp->vec = (char **) xmalloc (sizeof (char *) * (end - start + 1));
+  execp->multiple = plusflag ? true : false;
+  
   /* Record the positions of all args, and the args with path replacements. */
-  for (end = start, path_pos = vec_pos = 0;
+  for (end = start, path_pos = vec_pos = 0, saw_braces=0;
        (argv[end] != NULL)
        && ((argv[end][0] != ';') || (argv[end][1] != '\0'));
        end++)
     {
       register char *p;
+
+      if ('+' == argv[end][0] && 0 == argv[end][1])
+	{
+	  if (saw_braces)
+	    {
+	      /* last arg was "{}" and this one is "+".
+	       * this signals the end of the argument list.
+	       */
+	      break;
+	    }
+	  else
+	    {
+	      /* This is just an "ordinary" "+".  Pass it through. */
+	    }
+	}
       
       execp->paths[path_pos].count = 0;
+      saw_braces = 0;
       for (p = argv[end]; *p; ++p)
-	if (p[0] == '{' && p[1] == '}')
-	  {
-	    execp->paths[path_pos].count++;
-	    ++p;
-	  }
+	{
+	  if (p[0] == '{' && p[1] == '}')
+	    {
+	      saw_braces = 1;
+	      execp->paths[path_pos].count++;
+	      ++p;
+	    }
+	}
+      
       if (execp->paths[path_pos].count)
 	{
 	  execp->paths[path_pos].offset = vec_pos;

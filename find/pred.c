@@ -164,6 +164,7 @@ struct pred_assoc pred_table[] =
   {pred_delete, "delete  "},
   {pred_empty, "empty   "},
   {pred_exec, "exec    "},
+  {pred_execdir, "execdir "},
   {pred_false, "false   "},
   {pred_fprint, "fprint  "},
   {pred_fprint0, "fprint0 "},
@@ -186,6 +187,7 @@ struct pred_assoc pred_table[] =
   {pred_nogroup, "nogroup "},
   {pred_nouser, "nouser  "},
   {pred_ok, "ok      "},
+  {pred_okdir, "okdir   "},
   {pred_open, "(       "},
   {pred_or, "or      "},
   {pred_path, "path    "},
@@ -450,8 +452,8 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     return (false);
 }
 
-boolean
-pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+static boolean
+old_impl_pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   int i;
   int path_pos;
@@ -489,6 +491,19 @@ pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     free (execp->vec[execp->paths[path_pos].offset]);
 
   return (i);
+}
+
+boolean
+pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  return old_impl_pred_exec(pathname, stat_buf, pred_ptr);
+}
+
+boolean
+pred_execdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  error(1, 0, "-execdir is not yet implemented.");
+  /* return old_impl_pred_exec(pathname, stat_buf, pred_ptr); */
 }
 
 boolean
@@ -1083,6 +1098,14 @@ pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     return pred_exec (pathname, stat_buf, pred_ptr);
   else
     return (false);
+}
+
+
+boolean
+pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  error(1, 0, "-okdir is not yet implemented.");
+  return false;
 }
 
 boolean

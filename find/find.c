@@ -280,7 +280,7 @@ main (int argc, char **argv)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit(close_stdout);
+  atexit (close_stdout);
   
   if (isatty(0))
     {
@@ -1115,6 +1115,33 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
   return 1;
 }
 
+/* Examine the predicate list for instances of -execdir or -okdir
+ * which have been terminated with '+' (build argument list) rather
+ * than ';' (singles only).  If there are any, run them (this will
+ * have no effect if there are no arguments waiting.
+ */
+static void
+complete_pending_execdirs(void)
+{
+  struct predicate *p;
+  for (p=eval_tree; p; p=p->pred_next)
+    {
+      if (p->pred_func == pred_execdir
+	  || p->pred_func == pred_okdir)
+	{
+	  /* It's an exec-family predicate.  p->args.exec_val is valid. */
+	  if (p->args.exec_vec.multiple)
+	    {
+	      /* This one was terminated by '+' 
+	       * and so might have some left... Run it.
+	       * Set state.exit_status if there are any problems.
+	       */
+	    }
+	}
+    }
+}
+
+
 /* Scan directory PATHNAME and recurse through process_path for each entry.
 
    PATHLEN is the length of PATHNAME.
@@ -1256,6 +1283,14 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	    process_path (cur_path, cur_name, false, pathname);
 	  state.curdepth--;
 	}
+
+
+      /* We're about to leave the directory.   If there are any -execdir argument lists
+       * which have been built but have not yet been processed, do them now
+       * because they must be done in the same directory.
+       */
+      complete_pending_execdirs();
+
 #if USE_SAFE_CHDIR
       if (strcmp (name, "."))
 	{
