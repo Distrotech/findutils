@@ -68,8 +68,6 @@ binary-arch:	checkroot build
 	gzip -9v debian/tmp/usr/doc/$(package)/changelog{,.Debian}
 	dpkg-shlibdeps find/find
 	dpkg-gencontrol
-	chown -R root.root debian/tmp
-	chmod -R g-ws debian/tmp
 	dpkg --build debian/tmp ..
 
 define checkdir
