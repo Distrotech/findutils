@@ -150,6 +150,7 @@ proc locate_start { passfail updatedb_options locate_options
 	}
     }
     pass "$testname"
+    catch "exec rm -rf tmp"
 }
 
 # Called by runtest.
