@@ -80,7 +80,7 @@ binary-arch:	checkroot build
 	install -m 0644 debian/README.debian \
 		debian/tmp/usr/share/doc/$(package)
 	dpkg-shlibdeps -dPre-Depends debian/tmp/usr/bin/{find,locate,xargs}
-	dpkg-gencontrol
+	dpkg-gencontrol -isp
 	dpkg --build debian/tmp ..
 
 define checkdir
