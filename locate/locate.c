@@ -222,6 +222,7 @@ lc_strcpy(char *dest, const char *src)
       *dest++ = TOLOWER(*src);
       ++src;
     }
+  *dest = 0;
 }
 
 enum visit_result
@@ -302,6 +303,7 @@ add_visitor(visitfunc fn, void *context)
   else
     {
       lastinspector->next = p;
+      lastinspector = p;
     }
 }
 
@@ -353,9 +355,9 @@ visit_substring_match_casefold(const char *testname, const char *printname, void
   size_t len = strlen(testname);
 
   (void) printname;
-  if (len > p->buffersize)
+  if (len+1 > p->buffersize)
     {
-      p->buffer = xrealloc(p->buffer, len+1);
+      p->buffer = xrealloc(p->buffer, len+1); /* XXX: consider using extendbuf(). */
       p->buffersize = len+1;
     }
   lc_strcpy(p->buffer, testname);
@@ -477,9 +479,6 @@ new_locate (char *pathpart,
     }
   else
     {
-      if (check_existence)
-	add_visitor(visit_exists, NULL);
-
       if (contains_metacharacter(pathpart))
 	{
 	  if (ignore_case)
@@ -508,7 +507,13 @@ new_locate (char *pathpart,
 	      add_visitor(visit_substring_match_nocasefold, pathpart);
 	    }
 	}
-      
+
+      /* We add visit_exists() as late as possible to reduce the
+       * number of stat() calls.  (Idea by Bas van Gompel).
+       */
+      if (check_existence)
+	add_visitor(visit_exists, NULL);
+
       if (enable_print)
 	add_visitor(visit_justprint, NULL);
     }
@@ -556,7 +561,7 @@ new_locate (char *pathpart,
   /* If we ignore case, convert it to lower first so we don't have to
    * do it every time
    */
-  if (ignore_case)
+  if (!stats && ignore_case)
     {
       lc_strcpy(pathpart, pathpart);
     }
