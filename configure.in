@@ -23,9 +23,16 @@ AC_ARG_ENABLE(debug,
 	AS_HELP_STRING(--enable-debug,Enable debugging output which is likely to be interesting to people debugging findutils),
 	[ac_cv_debug=$enableval],[ac_cv_debug=no])
 
-AC_ARG_ENABLE(d_type-optimisation,
-	AS_HELP_STRING(--enable-d_type-optimisation,Make use of the file type data returned in struct dirent.d_type by readdir()),
+AC_ARG_ENABLE(d_type-optimization,
+	AS_HELP_STRING(--enable-d_type-optimization,Make use of the file type data returned in struct dirent.d_type by readdir()),
 	[ac_cv_d_type=$enableval],[ac_cv_d_type=yes])
+
+dnl This one has no default, because otherwise we would have to say 
+dnl both --enable-d_type-optimisation=no and --enable-d_type-optimization=no
+dnl to turn it off.
+AC_ARG_ENABLE(d_type-optimisation,
+	AS_HELP_STRING(--enable-d_type-optimisation,Synonym for --enable-d_type-optimization),
+	[ac_cv_d_type=$enableval],[])
 
 
 AC_MSG_CHECKING([whether debug output should be produced])
