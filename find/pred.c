@@ -785,7 +785,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 		  fprintf (fp, segment->text, "L");
 		  break;
 		};
-		error (0, errno, "", pathname);
+		error (0, errno, "%s", pathname);
 		/* exit_status = 1;
 		return (false); */
 	      }
