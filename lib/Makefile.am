@@ -15,7 +15,7 @@ MAINTAINERCLEANFILES =
 INCLUDES = -I$(top_srcdir)/gnulib/lib
 
 libfind_a_SOURCES += modetype.h
-libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c 
+libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c
 # savedirtypes.c
 
 EXTRA_DIST += waitpid.c forcefindlib.c
