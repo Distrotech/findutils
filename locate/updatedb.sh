@@ -129,7 +129,7 @@ fi
 # Sort case insensitively for users' convenience.
 
 rm -f $LOCATE_DB.n
-trap 'rm -f $LOCATE_DB.n; exit' 1 15
+trap 'rm -f $LOCATE_DB.n; exit' HUP TERM
 
 if test $old = no; then
 
@@ -199,7 +199,7 @@ if ! filelist=`tempfile -p updatedb`; then
 fi
 
 rm -f $LOCATE_DB.n
-trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' 1 15
+trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' HUP TERM
 
 # Alphabetize subdirectories before file entries using tr.  James says:
 # "to get everything in monotonic collating sequence, to avoid some
