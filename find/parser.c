@@ -17,6 +17,7 @@
    USA.
 */
 
+
 #include "defs.h"
 #include <ctype.h>
 #include <pwd.h>
@@ -1850,6 +1851,11 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
 
+  our_pred = insert_primary (func);
+  our_pred->side_effects = true;
+  our_pred->no_default_print = true;
+  execp = &our_pred->args.exec_vec;
+
   if ((func != pred_okdir) && (func != pred_ok))
     allow_plus = true;
   else
@@ -1901,6 +1907,7 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   if ((end == start) || (argv[end] == NULL))
     {
       *arg_ptr = end;
+      free(our_pred);
       return false;
     }
 
@@ -1918,13 +1925,8 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 	    suffix);
     }
 
-  our_pred = insert_primary (func);
-  our_pred->side_effects = true;
-  our_pred->no_default_print = true;
-  execp = &our_pred->args.exec_vec;
-
-  execp->ctl   = xmalloc(sizeof(*(execp->ctl)));
-  bc_init_controlinfo(execp->ctl);
+  /* execp->ctl   = xmalloc(sizeof struct buildcmd_control); */
+  bc_init_controlinfo(&execp->ctl);
 
   if (our_pred->args.exec_vec.multiple)
     {
@@ -1932,19 +1934,22 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
        * command and initial arguments.
        */
       execp->replace_vec = NULL;
-      execp->ctl->replace_pat = NULL;
-      execp->ctl->rplen = 0;
-      execp->ctl->lines_per_exec = 0; /* no limit */
-      execp->ctl->args_per_exec = 0; /* no limit */
+      execp->ctl.replace_pat = NULL;
+      execp->ctl.rplen = 0;
+      execp->ctl.lines_per_exec = 0; /* no limit */
+      execp->ctl.args_per_exec = 0; /* no limit */
       
       /* remember how many arguments there are */
-      execp->ctl->initial_argc = end;
+      execp->ctl.initial_argc = (end-start) - 1;
 
-      /* Gather the initial arguments. */
-      for (i=start; i<end; ++i)
+      /* execp->state = xmalloc(sizeof struct buildcmd_state); */
+      bc_init_state(&execp->ctl, &execp->state);
+  
+      /* Gather the initial arguments.  Skip the {}. */
+      for (i=start; i<end-1; ++i)
 	{
-	  bc_push_arg(execp->ctl, execp->state,
-		      argv[i], strlen(argv[i]), 1);
+	  bc_push_arg(&execp->ctl, &execp->state,
+		      argv[i], strlen(argv[i])+1, 1);
 	}
     }
   else
@@ -1954,20 +1959,22 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
        */
       execp->num_args = end - start;
       
-      execp->ctl->replace_pat = "{}";
-      execp->ctl->rplen = strlen(execp->ctl->replace_pat);
-      execp->ctl->lines_per_exec = 0; /* no limit */
-      execp->ctl->args_per_exec = 1;
+      execp->ctl.replace_pat = "{}";
+      execp->ctl.rplen = strlen(execp->ctl.replace_pat);
+      execp->ctl.lines_per_exec = 0; /* no limit */
+      execp->ctl.args_per_exec = 0; /* no limit */
       execp->replace_vec = xmalloc(sizeof(char*)*execp->num_args);
+
+
+      /* execp->state = xmalloc(sizeof(*(execp->state))); */
+      bc_init_state(&execp->ctl, &execp->state);
+
       /* Remember the (pre-replacement) arguments for later. */
       for (i=0; i<execp->num_args; ++i)
 	{
 	  execp->replace_vec[i] = argv[i+start];
 	}
     }
-  
-  execp->state = xmalloc(sizeof(*(execp->state)));
-  bc_init_state(execp->ctl, execp->state);
   
   if (argv[end] == NULL)
     *arg_ptr = end;
@@ -2010,6 +2017,7 @@ old_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   our_pred->side_effects = true;
   our_pred->no_default_print = true;
   execp = &our_pred->args.exec_vec;
+  execp->usercontext = our_pred;
   execp->paths =
     (struct path_arg *) xmalloc (sizeof (struct path_arg) * (num_paths + 1));
   execp->vec = (char **) xmalloc (sizeof (char *) * (end - start + 1));

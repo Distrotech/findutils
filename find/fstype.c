@@ -24,6 +24,7 @@
  * of manual hacking of configure.in).
  */
 
+
 #include <config.h>
 #include <errno.h>
 #include <assert.h>

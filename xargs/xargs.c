@@ -241,7 +241,7 @@ static int initial_argc = 0;
 #endif
 
 /* Number of chars in the initial args.  */
-static int initial_argv_chars = 0;
+/* static int initial_argv_chars = 0; */
 
 /* true when building up initial arguments in `cmd_argv'.  */
 static boolean initial_args = true;
@@ -578,7 +578,7 @@ main (int argc, char **argv)
 		     argv[optind], strlen (argv[optind]) + 1, initial_args);
       initial_args = false;
       bc_ctl.initial_argc = bc_state.cmd_argc;
-      initial_argv_chars = bc_state.cmd_argv_chars;
+      bc_state.cmd_initial_argv_chars = bc_state.cmd_argv_chars;
 
       while ((*read_args) () != -1)
 	if (bc_ctl.lines_per_exec && lineno >= bc_ctl.lines_per_exec)
@@ -693,7 +693,7 @@ read_line (void)
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
-  char *endbuf = linebuf + bc_ctl.arg_max - initial_argv_chars - 1;
+  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
 
   if (eof)
     return -1;
@@ -813,7 +813,7 @@ read_string (void)
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
-  char *endbuf = linebuf + bc_ctl.arg_max - initial_argv_chars - 1;
+  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
 
   if (eof)
     return -1;
@@ -943,7 +943,7 @@ xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
       add_proc (child);
     }
 
-  bc_clear_args(&bc_ctl, &bc_state, initial_argv_chars);
+  bc_clear_args(&bc_ctl, &bc_state);
 }
 
 /* Add the process with id PID to the list of processes that have

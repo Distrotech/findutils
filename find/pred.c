@@ -23,6 +23,9 @@
 #include <signal.h>
 #include <pwd.h>
 #include <grp.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/dirname.h"
 #include "../gnulib/lib/human.h"
@@ -140,7 +143,7 @@ extern int yesno ();
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 static boolean insert_lname PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case));
-static boolean launch PARAMS((struct predicate *pred_ptr));
+
 static char *format_date PARAMS((time_t when, int kind));
 static char *ctime_format PARAMS((time_t when));
 
@@ -459,32 +462,39 @@ new_impl_pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pre
 {
   struct exec_val *execp = &pred_ptr->args.exec_vec;
   
+  execp->ctl.exec_callback = launch;
+  
   if (execp->multiple)
     {
       /* Push the argument onto the current list. 
        * The command may or may not be run at this point, 
        * depending on the command line length limits.
        */
-      bc_push_arg(execp->ctl,
-		  execp->state,
-		  pathname, strlen(pathname), 0);
+      bc_push_arg(&execp->ctl,
+		  &execp->state,
+		  pathname, strlen(pathname)+1, 0);
+      
+      /* POSIX: If the primary expression is punctuated by a plus
+       * sign, the primary shall always evaluate as true
+       */
+      return 0;
     }
   else
     {
-      int i;
+      int i, retval;
       for (i=0; i<execp->num_args; ++i)
 	{
-	  bc_do_insert(execp->ctl,
-		       execp->state,
+	  bc_do_insert(&execp->ctl,
+		       &execp->state,
 		       execp->replace_vec[i],
 		       strlen(execp->replace_vec[i]),
 		       pathname, strlen(pathname), 0);
 	}
 
       /* Actually invoke the command. */
-      execp->ctl->exec_callback(
-				execp->ctl,
-				execp->state);
+      retval = execp->ctl.exec_callback(&execp->ctl,
+					&execp->state);
+      return retval;
     }
 }
 #else
@@ -1455,7 +1465,6 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   return (pred_type (pathname, &sbuf, pred_ptr));
 }
 
-#if !defined(NEW_EXEC)
 /*  1) fork to get a child; parent remembers the child pid
     2) child execs the command requested
     3) parent waits for child; checks for proper pid of child
@@ -1474,6 +1483,104 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     zero, and the exit arg (status high) is 0.
     Otherwise return false, possibly printing an error message. */
 
+#if defined(NEW_EXEC)
+static void
+prep_child_for_exec (void)
+{
+  const char inputfile[] = "/dev/null";
+  /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
+  
+  close(0);
+  if (open(inputfile, O_RDONLY) < 0)
+    {
+      /* This is not entirely fatal, since 
+       * executing the child with a closed
+       * stdin is almost as good as executing it
+       * with its stdin attached to /dev/null.
+       */
+      error (0, errno, "%s", inputfile);
+    }
+}
+
+
+
+int
+launch (const struct buildcmd_control *ctl,
+	struct buildcmd_state *buildstate)
+{
+  int wait_status;
+  pid_t child_pid;
+  static int first_time = 1;
+
+  /* Null terminate the arg list.  */
+  bc_push_arg (ctl, buildstate, (char *) NULL, 0, false); 
+  
+  /* Make sure output of command doesn't get mixed with find output. */
+  fflush (stdout);
+  fflush (stderr);
+  
+  /* Make sure to listen for the kids.  */
+  if (first_time)
+    {
+      first_time = 0;
+      signal (SIGCHLD, SIG_DFL);
+    }
+
+  child_pid = fork ();
+  if (child_pid == -1)
+    error (1, errno, _("cannot fork"));
+  if (child_pid == 0)
+    {
+      /* We be the child. */
+      prep_child_for_exec();
+      if (starting_desc < 0
+	  ? chdir (starting_dir) != 0
+	  : fchdir (starting_desc) != 0)
+	{
+	  error (0, errno, "%s", starting_dir);
+	  _exit (1);
+	}
+      execvp (buildstate->cmd_argv[0], buildstate->cmd_argv);
+      error (0, errno, "%s", buildstate->cmd_argv[0]);
+      _exit (1);
+    }
+
+
+  /* In parent; set up for next time. */
+  bc_clear_args(ctl, buildstate);
+
+  
+  while (waitpid (child_pid, &wait_status, 0) == (pid_t) -1)
+    {
+      if (errno != EINTR)
+	{
+	  error (0, errno, _("error waiting for %s"), buildstate->cmd_argv[0]);
+	  state.exit_status = 1;
+	  return 0;		/* FAIL */
+	}
+    }
+  
+  if (WIFSIGNALED (wait_status))
+    {
+      error (0, 0, _("%s terminated by signal %d"),
+	     buildstate->cmd_argv[0], WTERMSIG (wait_status));
+      state.exit_status = 1;
+      return 1;			/* OK */
+    }
+
+  if (0 == WEXITSTATUS (wait_status))
+    {
+      return 1;			/* OK */
+    }
+  else
+    {
+      
+      state.exit_status = 1;
+      return 0;			/* FAIL */
+    }
+  
+}
+#else
 static boolean
 launch (struct predicate *pred_ptr)
 {

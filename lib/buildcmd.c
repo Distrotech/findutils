@@ -175,6 +175,7 @@ bc_push_arg (const struct buildcmd_control *ctl,
 	     size_t len,
 	     int initial_args)
 {
+  state->todo = 1;
   if (arg)
     {
       if (state->cmd_argv_chars + len > ctl->arg_max)
@@ -225,6 +226,12 @@ bc_push_arg (const struct buildcmd_control *ctl,
 	  && ctl->args_per_exec
 	  && (state->cmd_argc - ctl->initial_argc) == ctl->args_per_exec)
 	do_exec (ctl, state);
+    }
+
+  /* If this is an initial argument, set the high-water mark. */
+  if (initial_args)
+    {
+      state->cmd_initial_argv_chars = state->cmd_argv_chars;
     }
 }
 
@@ -294,12 +301,14 @@ bc_get_arg_max(void)
 }
 
 
-static void cb_exec_noop(const struct buildcmd_control *ctl,
+static int cb_exec_noop(const struct buildcmd_control *ctl,
 			 struct buildcmd_state *state)
 {
   /* does nothing. */
   (void) ctl;
   (void) state;
+
+  return 0;
 }
 
 void
@@ -325,14 +334,16 @@ bc_init_state(const struct buildcmd_control *ctl,
   state->cmd_argv_alloc = 0;
   state->argbuf = (char *) xmalloc (ctl->arg_max + 1);
   state->cmd_argv_chars = 0;
+  state->todo = 0;
+  state->usercontext = NULL;
 }
 
 void 
 bc_clear_args(const struct buildcmd_control *ctl,
-	      struct buildcmd_state *state,
-	      int initial_argv_chars)
+	      struct buildcmd_state *state)
 {
   state->cmd_argc = ctl->initial_argc;
-  state->cmd_argv_chars = initial_argv_chars;
+  state->cmd_argv_chars = state->cmd_initial_argv_chars;
+  state->todo = 0;
 }
 

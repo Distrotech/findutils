@@ -23,6 +23,7 @@
    The idea for -print0 and xargs -0 came from
    Dan Bernstein <brnstnd@kramden.acf.nyu.edu>.  */
 
+
 #include "defs.h"
 
 #define USE_SAFE_CHDIR 1
@@ -36,12 +37,14 @@
 #else
 #include <sys/file.h>
 #endif
+
 #include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/human.h"
 #include "../gnulib/lib/canonicalize.h"
 #include "closeout.h"
 #include <modetype.h>
 #include "../gnulib/lib/savedir.h"
+#include "buildcmd.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -70,6 +73,9 @@ static void init_mounted_dev_list(void);
 static void process_top_path PARAMS((char *pathname));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
+
+static void complete_pending_execdirs(struct predicate *p);
+static void complete_pending_execs   (struct predicate *p);
 
 
 
@@ -493,6 +499,12 @@ main (int argc, char **argv)
       process_top_path (defaultpath);
     }
 
+  /* If "-exec ... {} +" has been used, there may be some 
+   * partially-full command lines which have been built, 
+   * but which are not yet complete.   Execute those now.
+   */
+  complete_pending_execs(predicates);
+  
   return state.exit_status;
 }
 
@@ -1121,25 +1133,72 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
  * have no effect if there are no arguments waiting).
  */
 static void
-complete_pending_execdirs(void)
+complete_pending_execdirs(struct predicate *p)
 {
 #if defined(NEW_EXEC)
-  struct predicate *p;
-  for (p=eval_tree; p; p=p->pred_next)
+  if (NULL == p)
+    return;
+  
+  complete_pending_execdirs(p->pred_left);
+  
+  if (p->pred_func == pred_execdir || p->pred_func == pred_okdir)
     {
-      if (p->pred_func == pred_execdir
-	  || p->pred_func == pred_okdir)
+      /* It's an exec-family predicate.  p->args.exec_val is valid. */
+      if (p->args.exec_vec.multiple)
 	{
-	  /* It's an exec-family predicate.  p->args.exec_val is valid. */
-	  if (p->args.exec_vec.multiple)
+	  struct exec_val *execp = &p->args.exec_vec;
+	  
+	  /* This one was terminated by '+' and so might have some
+	   * left... Run it if neccessary.  
+	   */
+	  if (execp->state.todo)
 	    {
-	      /* This one was terminated by '+' 
-	       * and so might have some left... Run it.
-	       * Set state.exit_status if there are any problems.
-	       */
+	      /* There are not-yet-executed arguments. */
+	      launch (&execp->ctl, &execp->state);
 	    }
 	}
     }
+
+  complete_pending_execdirs(p->pred_right);
+#else
+  /* nothing to do. */
+  return;
+#endif
+}
+
+/* Examine the predicate list for instances of -exec which have been
+ * terminated with '+' (build argument list) rather than ';' (singles
+ * only).  If there are any, run them (this will have no effect if
+ * there are no arguments waiting).
+ */
+static void
+complete_pending_execs(struct predicate *p)
+{
+#if defined(NEW_EXEC)
+  if (NULL == p)
+    return;
+  
+  complete_pending_execs(p->pred_left);
+  
+  /* It's an exec-family predicate then p->args.exec_val is valid
+   * and we can check it. 
+   */
+  if (p->pred_func == pred_exec && p->args.exec_vec.multiple)
+    {
+      struct exec_val *execp = &p->args.exec_vec;
+      
+      /* This one was terminated by '+' and so might have some
+       * left... Run it if neccessary.  Set state.exit_status if
+       * there are any problems.
+       */
+      if (execp->state.todo)
+	{
+	  /* There are not-yet-executed arguments. */
+	  launch (&execp->ctl, &execp->state);
+	}
+    }
+
+  complete_pending_execs(p->pred_right);
 #else
   /* nothing to do. */
   return;
@@ -1294,7 +1353,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
        * which have been built but have not yet been processed, do them now
        * because they must be done in the same directory.
        */
-      complete_pending_execdirs();
+      complete_pending_execdirs(predicates);
 
 #if USE_SAFE_CHDIR
       if (strcmp (name, "."))

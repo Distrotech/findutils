@@ -208,8 +208,8 @@ struct size_val
 };
 
 #define NEW_EXEC 1
-#undef NEW_EXEC 
 /*
+#undef NEW_EXEC 
 */
 
 #if !defined(NEW_EXEC)
@@ -221,13 +221,15 @@ struct path_arg
 };
 #endif
 
+#include "buildcmd.h"
+
 struct exec_val
 {
 #if defined(NEW_EXEC)
   /* new-style */
   boolean multiple;		/* -exec {} \+ denotes multiple argument. */
-  struct buildcmd_control *ctl;
-  struct buildcmd_state   *state;
+  struct buildcmd_control ctl;
+  struct buildcmd_state   state;
   char **replace_vec;		/* Command arguments (for ";" style) */
   int num_args;
 #else
@@ -430,7 +432,15 @@ boolean pred_uid PARAMS((char *pathname, struct stat *stat_buf, struct predicate
 boolean pred_used PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_user PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_xtype PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+
+int launch PARAMS((const struct buildcmd_control *ctl,
+		   struct buildcmd_state *buildstate));
+
+
 char *find_pred_name PARAMS((PFB pred_func));
+
+
+
 #ifdef DEBUG
 void print_tree PARAMS((FILE*, struct predicate *node, int indent));
 void print_list PARAMS((FILE*, struct predicate *node));

@@ -39,6 +39,14 @@ struct buildcmd_state
   /* Number of chars being used in `cmd_argv'.  */
   int cmd_argv_chars;
 
+  /* Number of chars being used in `cmd_argv' for the initial args..  */
+  int cmd_initial_argv_chars;
+
+  /* User context information. */
+  void *usercontext;
+
+  /* to-do flag. */
+  int todo;
 };
 
 
@@ -63,7 +71,7 @@ struct buildcmd_control
   int initial_argc;		/* 0 */
   
   /* exec callback. */
-  void (*exec_callback)(const struct buildcmd_control *, struct buildcmd_state *);
+  int (*exec_callback)(const struct buildcmd_control *, struct buildcmd_state *);
   
   /* If nonzero, the maximum number of nonblank lines from stdin to use
      per command line.  */
@@ -87,12 +95,11 @@ extern void bc_push_arg (const struct buildcmd_control *ctl,
 		      char *arg, size_t len, int initial_args);
 
 extern void bc_init_state(const struct buildcmd_control *ctl,
-			 struct buildcmd_state *state);
+			  struct buildcmd_state *state);
 extern void bc_init_controlinfo(struct buildcmd_control *ctl);
 extern long bc_get_arg_max(void);
 extern void bc_clear_args(const struct buildcmd_control *ctl,
-			  struct buildcmd_state *state,
-			  int initial_argv_chars);
+			  struct buildcmd_state *state);
 
 
 #endif
