@@ -264,19 +264,7 @@ main (int argc, char **argv)
    */
   if (cur_pred != NULL)
     {
-      /* This happens for example if the user gave 
-       * the command 'find x -print \)'
-       */
-      const char *predname = find_pred_name (cur_pred->pred_func);
-
-      /* Remove trainling whitespace.  We need to use an int */
-      size_t len = strlen(predname);
-      while (len > 0 && isblank(predname[len-1]))
-	{
-	  --len;
-	}
-      error (1, 0, _("unexpected extra predicate `%.*s'"), 
-	     (int)len, predname);
+      error (1, 0, _("unexpected extra predicate"));
     }
   
 #ifdef	DEBUG
