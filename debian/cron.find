@@ -9,4 +9,4 @@ if [ -f /etc/updatedb.conf ]; then
   . /etc/updatedb.conf
 fi
 
-su nobody -c "cd / && updatedb" 2>/dev/null
+cd / && updatedb --localuser=nobody 2>/dev/null
