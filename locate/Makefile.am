@@ -1,8 +1,9 @@
 # The default database to build and search.
-AUTOMAKE_OPTIONS = ../lib/ansi2knr
+AUTOMAKE_OPTIONS = std-options
 LOCATE_DB = $(localstatedir)/locatedb
 localedir = $(datadir)/locale
 
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = frcode code bigram
 bin_PROGRAMS = locate 
 libexec_PROGRAMS = frcode code bigram
 bin_SCRIPTS = updatedb
