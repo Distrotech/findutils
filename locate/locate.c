@@ -226,7 +226,7 @@ locate_read_str(char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
     {
       assert(p != NULL);
       
-      needed = offs + nread;
+      needed = offs + nread + 1;
       if (needed > (*siz))
 	{
 	  char *pnew = realloc(*buf, needed);
@@ -271,6 +271,9 @@ locate (pathpart, dbfile, ignore_case)
   char *path;
   /* Amount allocated for it.  */
   size_t pathsize;
+
+  /* The length of the last path.  */
+  size_t last_pathlen;
 
   /* The length of the prefix shared with the previous database entry.  */
   int count = 0;
@@ -374,6 +377,8 @@ locate (pathpart, dbfile, ignore_case)
 	  else
 	    count += c;
 
+	  assert(count >= 0 && count <= last_pathlen);
+	  
 	  if (count > strlen(path))
 	    {
 	      /* This should not happen generally , but since we're
@@ -388,7 +393,7 @@ locate (pathpart, dbfile, ignore_case)
 	  if (nread < 0)
 	    break;
 	  c = getc (fp);
-	  s = path + count + nread - 2; /* Move to the last char in path.  */
+	  s = path + count + nread - 1; /* Move to the last char in path.  */
 	  assert (s[0] != '\0');
 	  assert (s[1] == '\0'); /* Our terminator.  */
 	  assert (s[2] == '\0'); /* Added by locate_read_str.  */
