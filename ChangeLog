@@ -1,4 +1,37 @@
-2004-10-22  jay  <jay@orbital>
+2004-10-24  James Youngman  <jay@gnu.org>
+
+	* Released findutils-4.2.2
+
+	* ChangeLog, NEWS, po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po, po/tr.po:
+	Updates prior to release of 4.2.2
+
+	* NEWS: Updated with news for findutils-4.2.2.
+
+	* find/testsuite/config/unix.exp, lib/forcefindlib.c, lib/listfile.c, lib/modetype.h, lib/nextelem.c, locate/bigram.c, locate/code.c, locate/frcode.c, locate/locate.c, locate/locatedb.h, locate/testsuite/config/unix.exp, locate/updatedb.sh, xargs/testsuite/config/unix.exp, xargs/xargs.c, NEWS, find/defs.h, find/find.c, find/fstype.c, find/parser.c, find/pred.c, find/tree.c, find/util.c, import-gnulib.sh:
+	Corrected typo in the address of the FSF office
+
+	* lib/strspn.c: Updated FSF address.
+
+	* m4/.cvsignore: 'cvs status' should ignore Makefile.in
+
+	* m4/Makefile.am, Makefile.am, NEWS, README-CVS, configure.in, doc/texinfo.tex, find/defs.h, find/fstype.c, find/parser.c, find/pred.c, import-gnulib.sh, intl/bindtextdom.c, intl/dcgettext.c, intl/dcigettext.c, intl/dcngettext.c, intl/dgettext.c, intl/dngettext.c, intl/explodename.c, intl/finddomain.c, intl/gettext.c, intl/intl-compat.c, intl/l10nflist.c, intl/loadmsgcat.c, intl/localcharset.c, intl/localealias.c, intl/ngettext.c, intl/plural.y, intl/textdomain.c, lib/Makefile.am, lib/forcefindlib.c, lib/listfile.c, lib/nextelem.c, lib/strspn.c, lib/waitpid.c, locate/bigram.c, locate/code.c, locate/frcode.c, locate/locate.c, m4/findlib.m4, po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po, po/tr.po, xargs/xargs.c:
+	Use gnulib-tool --import to import the gnulib code, rather than the odd way we were doing it before
+
+	* find/find.c, find/fstype.c, find/parser.c, find/pred.c, find/tree.c, find/util.c, locate/code.c, locate/locate.c, xargs/xargs.c:
+	Work round an apparent compiler bug in HP-UX 11.23 for
+	ia64
+
+	* locate/locate.c:
+	Work around what appears to be a C compiler bug in HP-UX 11.23 for
+	ia64.
+
+	* INSTALL, depcomp, install-sh, missing, mkinstalldirs:
+	Updated from automake
+
+	* locate/bigram.c, locate/code.c, locate/frcode.c, locate/locate.c, xargs/xargs.c, find/find.c:
+	Avoid use of exit() within main, to silence warnings about unreachable code
+
+2004-10-22  James Youngman  <jay@gnu.org>
 
 	* doc/find.texi: Syntax corrections.
 
@@ -20,7 +53,7 @@
 	Changed the erorr message issued when there is an unmatched quote to
 	point out that the user might have wanted to use the -0 option instead.
 
-2004-10-17  jay  <jay@orbital>
+2004-10-17  James Youngman  <jay@gnu.org>
 
 	* configure.in:
 	Define intmax_t if it is not already defined - allows parser.c to compile on AIX 4.3
