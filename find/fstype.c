@@ -76,6 +76,7 @@ static char *filesystem_type_uncached PARAMS((char *path, char *relpath, struct 
 #include <sys/param.h>		/* NetBSD needs this.  */
 #include <sys/mount.h>
 
+#ifndef HAVE_F_FSTYPENAME_IN_STATFS
 #ifndef MFSNAMELEN		/* NetBSD defines this.  */
 static char *
 fstype_to_string (t)
@@ -128,6 +129,7 @@ fstype_to_string (t)
 #endif /* !INITMOUNTNAMES */
 }
 #endif /* !MFSNAMELEN */
+#endif /* !HAVE_F_FSTYPENAME_IN_STATFS */
 #endif /* FSTYPE_STATFS */
 
 #ifdef FSTYPE_AIX_STATFS	/* AIX.  */
