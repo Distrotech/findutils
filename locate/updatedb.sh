@@ -128,7 +128,7 @@ if test -n "$SEARCHPATHS"; then
 fi
 
 if test -n "$NETPATHS"; then
-  if [ "`whoami`" = root ]; then
+if [ "`id -u`" = 0 ]; then
     su $NETUSER -c \
      "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print"
   else
@@ -181,7 +181,7 @@ if test -n "$SEARCHPATHS"; then
 fi
 
 if test -n "$NETPATHS"; then
-  if [ "`whoami`" = root ]; then
+  if [ "`id -u`" = 0 ]; then
     su $NETUSER -c \
      "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print"
   else
