@@ -1,4 +1,89 @@
+2005-01-17  James Youngman  <jay@gnu.org>
+
+	* NEWS: Documented the changes so far.
+
+	* find/testsuite/find.gnu/exec-many-rtn-success.xo:
+	Expected output for exec-many-rtn-success.exp
+
+	* find/find.1:
+	Indicate that -quit still ensures that pending commands are invoked
+
+	* doc/find.texi:
+	Indicate that -quit still causes partial command lines to be invoked,
+	but there are some types of fatal error which leave such commands
+	uninvoked.
+
+	* find/defs.h, find/find.c, find/pred.c, find/testsuite/Makefile.am, find/testsuite/config/unix.exp:
+	Fixed savannah bug  #11625 Wrong return status for -exec ... \; when command fails; also execute any pending commands when doing -quit
+
+	* find/testsuite/find.gnu/exec-many-rtn-failure.exp, find/testsuite/find.gnu/exec-many-rtn-failure.xo, find/testsuite/find.gnu/exec-many-rtn-success.exp, find/testsuite/find.gnu/exec-one-rtn-fail.exp, find/testsuite/find.gnu/exec-one-rtn-fail.xo, find/testsuite/find.gnu/exec-one-rtn-success.exp, find/testsuite/find.gnu/exec-one-rtn-success.xo:
+	Various test cases for succeeding and failing forms of -exec \; and -exec {} +
+
+	* find/pred.c: "-exec ... {} +" always returns "true".
+
+	* configure.in, find/defs.h, find/find.c, find/parser.c, find/pred.c, find/tree.c, find/util.c:
+	Implemented d_type optimisation but not working correctly, so currently disabled
+
+	* lib/savedirinfo.h, lib/savedirinfo.c:
+	Initial implementation (temporarily disabled).
+
+	* lib/Makefile.am: Resolved merge conflict.
+
+	* lib/Makefile.am:
+	Make sure nextelem.h is included in the list of sources.
+
+	* find/parser.c, lib/nextelem.c, lib/nextelem.h, locate/locate.c:
+	Use prototypes for next_element() to make sure it is called correctly.
+
+2005-01-16  James Youngman  <jay@gnu.org>
+
+	* find/find.c, find/pred.c:
+	When completing incomplete multiple execs, use 'eval_tree' not 'predicates'
+
+	* lib/buildcmd.c:
+	Oops, initialise state->cmd_initial_argv_chars to zero.
+
+	* find/find.1:
+	Document the way that -execdir and -okdir will refuse to wqork if ">"
+	is on $PATH.  Also document -okdir in the manpage.
+
+	* find/parser.c:
+	-execdir and -okdir are insecure if $PATH includes the current
+	 directory, and so they refuse to work if the user has done that.
+
+	* find/pred.c:
+	Oops; for -exec ... {} +, pass arguments to bc_push_arg() in the right
+	order.   Problem spotted by Geoff Clare.
+
+	* TODO: Removed items which have now been done.
+
+	* lib/buildcmd.c: Tidied up formatting of arg list for bc_do_insert
+
 2005-01-15  James Youngman  <jay@gnu.org>
+
+	* find/testsuite/find.gnu/printf.exp, find/testsuite/find.gnu/printf.xo:
+	Added extra tests for more printf formats; patch by Andreas Metzler
+
+	* locate/locate.c:
+	Ensure that the new long options have a relevang short option too.
+	Also bring usage message into line with the options actually
+	supported.  Thanks to Bas van Gompel for noticing this defect.
+
+	* locate/locate.1:
+	Escape "-" in SYNOPSIS.  Thanks to Bas van Gompel for noticing this
+	defect.
+
+	* ChangeLog: Fixed typos.
+
+	* doc/find.texi:
+	Documented -execdir, and the "+" variants of -exec and -execdir.
+
+	* find/find.1: Documented -execdir.
+
+	* xargs/xargs.c:
+	Updated to bring into line with bc_*() interface changes
+
+	* ChangeLog: Updated with recent changes.
 
 	* find/defs.h, find/parser.c, find/pred.c, lib/buildcmd.c, lib/buildcmd.h:
 	Implemented -execdir and -okdir
