@@ -646,7 +646,7 @@ read_line (void)
 
 	case QUOTE:
 	  if (c == '\n')
-	    error (1, 0, _("unmatched %s quote"),
+	    error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
 		   quotc == '"' ? _("double") : _("single"));
 	  if (c == quotc)
 	    {
