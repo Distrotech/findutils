@@ -1928,6 +1928,7 @@ new_insert_exec_ok (const char *action,
   
   if ((func == pred_execdir) || (func == pred_okdir))
     {
+      options.ignore_readdir_race = false;
       check_path_safety(action);
       execp->use_current_dir = true;
     }

@@ -498,8 +498,10 @@ pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_execdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  const char *s = base_name(pathname);
-  return new_impl_pred_exec(s, stat_buf, pred_ptr, "./", 2);
+   const char *prefix = (state.rel_pathname[0] == '/') ? NULL : "./";
+   (void) &pathname;
+   return new_impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr,
+			      prefix, (prefix ? 2 : 0));
 }
 
 boolean
@@ -1100,9 +1102,10 @@ pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  const char *s = base_name(pathname);
+  const char *prefix = (state.rel_pathname[0] == '/') ? NULL : "./";
   if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
-    return new_impl_pred_exec (s, stat_buf, pred_ptr, "./", 2);
+    return new_impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr, 
+			       prefix, (prefix ? 2 : 0));
   else
     return false;
 }
