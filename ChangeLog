@@ -1,6 +1,47 @@
-2004-11-21  James Youngman <jay@gnu.org>
+2004-11-24  James Youngman  <jay@gnu.org>
 
-	* configure.in: Preparing to release 4.2.7.
+	* configure.in, NEWS: Prepare to release 4.2.8.
+
+	* NEWS: Updates for 4.2.8.
+
+	* configure.in: check for  sys/types.h
+
+	* find/find.c:
+	If wd_sanity_check() discovers that the mount table has changed, remember the updated device number and inode so that we also consider these to be valid on the way back up.
+
+	* find/defs.h:
+	Declarations of xmalloc() and friends belong in xalloc.h, not in defs.h
+
+	* find/parser.c: avoid signed/unsigned warning, and #include xalloc.h
+
+	* find/fstype.c:
+	Changed to alloc get_mounted_devices() to compile on Solaris
+
+	* README-CVS:
+	Automake requires GNU m4, so point out that the reader needs that.
+
+	* find/defs.h, find/find.c, find/fstype.c:
+	When wd_sanity_check() fails, enumerate the mounted devices, rather than the mounted filesystem names
+
+	* NEWS: prepare for 4.2.8
+
+	* configure.in:
+	Look for some Solaris headers which are used by get_mounted_devices()
+
+	* lib/Makefile.am: don't build savedirtypes yet
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po:
+	updated po files
+
+	* m4/nullsort.m4:
+	Avoid suprious output of the test data when the tests fail.
+
+2004-11-21  James Youngman  <jay@gnu.org>
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po:
+	Messages changed again
+
+	* ChangeLog, configure.in: Preparing to release 4.2.7.
 
 	* NEWS: Updated for release of 4.2.7.
 
@@ -837,7 +878,7 @@
 	* Makefile.am, Makefile.in, README-CVS, aclocal.m4:
 	Updated to work with current version of gnulib
 
-2001-06-09  kevin  <kevin@excession.spiral-arm.org>
+2001-06-09  Kevin Dalley  <kevin@seti.org>
 
 	* intl/plural.c:
 	Changes the location of bison.simple after running bison on local
