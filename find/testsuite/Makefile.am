@@ -10,8 +10,18 @@ EXTRA_DIST = config/unix.exp \
 		find.gnu/comma.exp \
 		find.gnu/comma.xo \
 		find.gnu/name-opt.exp \
+		find.gnu/name-opt.xo \
+		find.gnu/name-period.exp \
+		find.gnu/name-period.xo \
 		find.gnu/perm.exp \
 		find.gnu/perm.xo \
+		find.gnu/ \
+		find.gnu/posix-dflt.exp \
+		find.gnu/posix-dflt.xo \
+		find.gnu/posix-h.exp \
+		find.gnu/posix-h.xo \
+		find.gnu/posix-l.exp \
+		find.gnu/posix-l.xo \
 		find.gnu/printf.exp \
 		find.gnu/printf.xo \
 		find.gnu/prune-default-print.exp \
