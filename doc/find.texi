@@ -1366,6 +1366,12 @@ However, if the command needs to have its standard input be a terminal
 (@code{less}, for example), you have to use the shell command
 substitution method.
 
+The @code{xargs} command will process all its input, building command
+lines and executing them, unless one of the commands exits with a
+status of 255 (this will cause xargs to issue an error message and
+stop) or it reads a line contains the end of file string specified
+with the @samp{--eof} option. 
+
 @menu
 * Unsafe File Name Handling::
 * Safe File Name Handling::
