@@ -2703,6 +2703,18 @@ the locate database.  If the pattern contains metacharacters, it must
 match exactly.  If not, it must match part of the whole file name.
 This is the default behaviour.
 
+@item --regex
+@itemx -r
+Instead of using substring or shell glob matching, the pattern
+specified on the command line is understood to be a POSIX extended
+regular expression.  Filenames from the locate database which match
+the specified regular expression are printed (or counted).  If the
+@samp{-i} flag is also given, matching is case-insensitive.  Matches
+are performed against the whole path name, and so by default a
+pathname will be matched if any part of it matches the specified
+regular expression.  The regular expression may use @samp{^} or
+@samp{$} to anchor a match at the beginning or end of a pathname.
+
 @item --stdio
 @itemx -s
 Accepted but does nothing.  The option is supported only to provide
