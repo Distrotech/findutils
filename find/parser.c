@@ -437,6 +437,7 @@ parse_fls (char **argv, int *arg_ptr)
   our_pred = insert_primary (pred_fls);
   our_pred->args.stream = open_output_file (argv[*arg_ptr]);
   our_pred->side_effects = true;
+  our_pred->no_default_print = true;
   (*arg_ptr)++;
   return (true);
 }
@@ -478,6 +479,7 @@ parse_fprint (char **argv, int *arg_ptr)
   our_pred = insert_primary (pred_fprint);
   our_pred->args.stream = open_output_file (argv[*arg_ptr]);
   our_pred->side_effects = true;
+  our_pred->no_default_print = true;
   our_pred->need_stat = false;
   (*arg_ptr)++;
   return (true);
@@ -493,6 +495,7 @@ parse_fprint0 (char **argv, int *arg_ptr)
   our_pred = insert_primary (pred_fprint0);
   our_pred->args.stream = open_output_file (argv[*arg_ptr]);
   our_pred->side_effects = true;
+  our_pred->no_default_print = true;
   our_pred->need_stat = false;
   (*arg_ptr)++;
   return (true);
@@ -653,6 +656,7 @@ parse_ls (char **argv, int *arg_ptr)
 
   our_pred = insert_primary (pred_ls);
   our_pred->side_effects = true;
+  our_pred->no_default_print = true;
   return (true);
 }
 
@@ -963,6 +967,7 @@ parse_print (char **argv, int *arg_ptr)
      from doing undesired multiple printing when the user has
      already specified -print. */
   our_pred->side_effects = true;
+  our_pred->no_default_print = true;
   our_pred->need_stat = false;
   return (true);
 }
@@ -977,6 +982,7 @@ parse_print0 (char **argv, int *arg_ptr)
      from doing undesired multiple printing when the user has
      already specified -print0. */
   our_pred->side_effects = true;
+  our_pred->no_default_print = true;
   our_pred->need_stat = false;
   return (true);
 }
@@ -1265,6 +1271,7 @@ insert_fprintf (FILE *fp, boolean (*func) (/* ??? */), char **argv, int *arg_ptr
   fprintf_stat_needed = false;	/* Might be overridden later. */
   our_pred = insert_primary (func);
   our_pred->side_effects = true;
+  our_pred->no_default_print = true;
   our_pred->args.printf_vec.stream = fp;
   segmentp = &our_pred->args.printf_vec.segment;
   *segmentp = NULL;
@@ -1446,6 +1453,7 @@ make_segment (struct segment **segment, char *format, int len, int kind)
   return (&(*segment)->next);
 }
 
+/* handles both exec and ok predicate */
 static boolean
 insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 {
@@ -1476,6 +1484,7 @@ insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 
   our_pred = insert_primary (func);
   our_pred->side_effects = true;
+  our_pred->no_default_print = true;
   execp = &our_pred->args.exec_vec;
   execp->paths =
     (struct path_arg *) xmalloc (sizeof (struct path_arg) * (num_paths + 1));

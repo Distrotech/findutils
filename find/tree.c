@@ -372,6 +372,7 @@ set_new_parent (struct predicate *curr, enum predicate_precedence high_prec, str
     }
   
   new_parent->side_effects = false;
+  new_parent->no_default_print = false;
   new_parent->args.str = NULL;
   new_parent->pred_next = NULL;
 

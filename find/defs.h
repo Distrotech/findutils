@@ -238,8 +238,13 @@ struct predicate
   /* The precedence of this node.  Only has meaning for operators. */
   enum predicate_precedence p_prec;
 
-  /* True if this predicate node produces side effects. */
+  /* True if this predicate node produces side effects.
+     If side_effects are produced
+     then optimization will not be performed */
   boolean side_effects;
+
+  /* True if this predicate node requires default print be turned off. */
+  boolean no_default_print;
 
   /* True if this predicate node requires a stat system call to execute. */
   boolean need_stat;

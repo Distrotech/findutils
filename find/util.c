@@ -62,6 +62,7 @@ get_new_pred (void)
   last_pred->p_type = NO_TYPE;
   last_pred->p_prec = NO_PREC;
   last_pred->side_effects = false;
+  last_pred->no_default_print = false;
   last_pred->need_stat = true;
   last_pred->args.str = NULL;
   last_pred->pred_next = NULL;

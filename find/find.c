@@ -58,6 +58,7 @@ static void process_top_path PARAMS((char *pathname));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
 static boolean no_side_effects PARAMS((struct predicate *pred));
+static boolean default_prints PARAMS((struct predicate *pred));
 
 /* Name this program was run with. */
 char *program_name;
@@ -150,7 +151,7 @@ int
 main (int argc, char **argv)
 {
   int i;
-  PFB parse_function;		/* Pointer to who is to do the parsing. */
+  PFB parse_function;		/* Pointer to the function which parses. */
   struct predicate *cur_pred;
   char *predicate_name;		/* Name of predicate being parsed. */
 
@@ -222,7 +223,7 @@ main (int argc, char **argv)
       free ((char *) cur_pred);
       parse_print (argv, &argc);
     }
-  else if (!no_side_effects (predicates->pred_next))
+  else if (!default_prints (predicates->pred_next))
     {
       /* One or more predicates that produce output were given;
 	 remove the unneeded initial `('. */
@@ -554,6 +555,22 @@ no_side_effects (struct predicate *pred)
   while (pred != NULL)
     {
       if (pred->side_effects)
+	return (false);
+      pred = pred->pred_next;
+    }
+  return (true);
+}
+
+/* Return true if there are no predicates with no_default_print in
+   predicate list PRED, false if there are any.
+   Returns true if default print should be performed */
+
+static boolean
+default_prints (struct predicate *pred)
+{
+  while (pred != NULL)
+    {
+      if (pred->no_default_print)
 	return (false);
       pred = pred->pred_next;
     }
