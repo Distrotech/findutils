@@ -324,9 +324,14 @@ visit_exists(const char *testname, const char *printname, void *context)
 {
   struct stat st;
   (void) context;
-  (void) printname;
-  
-  if (stat(testname, &st) != 0)
+  (void) testname;
+
+  /* testname has been converted in some way (to lower case,
+   * or is just the basename of the file), and printname has not.  
+   * Hence only printname is still actually the name of the file 
+   * whose existence we would need to check.
+   */
+  if (stat(printname, &st) != 0)
     {
       return VISIT_REJECTED;
     }
