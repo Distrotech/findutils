@@ -1,3 +1,4 @@
+AUTOMAKE_OPTIONS = ../lib/ansi2knr
 localedir = $(datadir)/locale
 bin_PROGRAMS = xargs
 man_MANS = xargs.1
