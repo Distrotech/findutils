@@ -23,7 +23,7 @@ AC_ARG_ENABLE(debug,
 	[ac_cv_debug=$withval],[ac_cv_debug=no])
 
 AC_MSG_CHECKING([whether debug output should be produced])
-if test x$ac_cv_debug = x; then
+if test x$ac_cv_debug = xno; then
    AC_MSG_RESULT([no])
 else
    AC_MSG_RESULT([yes])
@@ -75,30 +75,6 @@ AC_HEADER_DIRENT
 AC_HEADER_STAT
 AC_HEADER_SYS_WAIT
 
-AC_MSG_CHECKING(how to get filesystem type)
-fstype=no
-# The order of these tests is important.
-AC_TRY_CPP([#include <sys/statvfs.h>
-#include <sys/fstyp.h>], AC_DEFINE(FSTYPE_STATVFS, 1, [Define to use SVR4 statvfs to get filesystem type.]) fstype=SVR4)
-if test $fstype = no; then
-AC_TRY_CPP([#include <sys/statfs.h>
-#include <sys/fstyp.h>], AC_DEFINE(FSTYPE_USG_STATFS, 1, [Define to use SVR3.2 statfs to get filesystem type.]) fstype=SVR3)
-fi
-if test $fstype = no; then
-AC_TRY_CPP([#include <sys/statfs.h>
-#include <sys/vmount.h>], AC_DEFINE(FSTYPE_AIX_STATFS, 1, [Define to use AIX3 statfs to get filesystem type.]) fstype=AIX)
-fi
-if test $fstype = no; then  
-AC_EGREP_HEADER(f_type;, sys/mount.h, AC_DEFINE(FSTYPE_STATFS, 1, [Define to use 4.4BSD and OSF1 statfs to get filesystem type.]) fstype=4.4BSD/OSF1)
-fi
-if test $fstype = no; then  
-AC_TRY_CPP([#include <mntent.h>], AC_DEFINE(FSTYPE_MNTENT, 1, [Define to use 4.3BSD getmntent to get filesystem type.]) fstype=4.3BSD)
-fi
-if test $fstype = no; then  
-AC_TRY_CPP([#include <sys/mount.h>
-#include <sys/fs_types.h>], AC_DEFINE(FSTYPE_GETMNT, 1, [Define to use Ultrix getmnt to get filesystem type.]) fstype=Ultrix)
-fi
-AC_MSG_RESULT($fstype)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
@@ -129,72 +105,6 @@ AC_CHECK_FUNC(getmntent, [], [AC_FUNC_GETMNTENT])
 AC_CHECK_FUNCS(getmntent)
 AC_CHECK_FUNCS(setmntent endmntent)
 
-dnl Linux, 4.3BSD, etc.
-AC_CHECK_TYPE([struct mntent],
-[AC_DEFINE([HAVE_STRUCT_MNTENT],1,[Set if you have struct mntent])
-AC_CHECK_MEMBERS([struct mntent.mnt_type, struct mntent.mnt_dir],,,[#include <mntent.h>])],,
-[#include <mntent.h>])
-
-dnl Solaris
-AC_CHECK_TYPE([struct mnttab],
-[AC_DEFINE([HAVE_STRUCT_MNTTAB],1,[Set if you have struct mnttab])
-AC_CHECK_MEMBERS([struct mnttab.mnt_fstype,struct mnttab.mnt_mountp],,,
-[
-#include <stdio.h>
-#include <sys/mnttab.h>])],,
-[
-#include <stdio.h>
-#include <sys/mnttab.h>])
-
-AC_DEFUN([jy_FUNC_GETMNTENT_ARGTYPES],
-AC_MSG_CHECKING([how to call getmntent()])
-AC_COMPILE_IFELSE(
-	[AC_LANG_PROGRAM(
-[AC_INCLUDES_DEFAULT
-#if HAVE_MNTENT_H
-# include <mntent.h>
-#endif
-
-#if HAVE_SYS_MNTTAB_H
-# include <stdio.h>
-# include <sys/mnttab.h>
-#endif
-#if HAVE_STRUCT_MNTTAB
-  typedef struct mnttab MMM;
-#elif HAVE_STRUCT_MNTENT
-  typedef struct mntent MMM;
-#endif
-],
-[extern int getmntent(FILE*,MMM *);])],
-AC_DEFINE([GETMNTENT_RETURNS_INT],1,[Set if getmntent() returns int])
-AC_DEFINE([GETMNTENT_REQUIRES_STRUCT_PTR],1,[Set if the second argument to getmntent() is a pointer to struct])
-AC_MSG_RESULT([takes two arguments and returns int])
-,
-dnl First try failed.
-AC_COMPILE_IFELSE(
-	[AC_LANG_PROGRAM(
-[AC_INCLUDES_DEFAULT
-#if HAVE_MNTENT_H
-# include <mntent.h>
-#endif
-
-#if HAVE_SYS_MNTTAB_H
-# include <stdio.h>
-# include <sys/mnttab.h>
-#endif
-#if HAVE_STRUCT_MNTTAB
-  typedef struct mnttab MMM;
-#elif HAVE_STRUCT_MNTENT
-  typedef struct mntent MMM;
-#endif
-],
-[extern MMM* getmntent(FILE *);])],
-AC_DEFINE([GETMNTENT_RETURNS_STRUCT],1,[Set if getmntent() returns a struct pointer])
-AC_MSG_RESULT([takes just one argument and returns a struct pointer]),
-AC_MSG_ERROR([I can't figure out how to use your getmntent() function.]))))
-
-
-jy_FUNC_GETMNTENT_ARGTYPES
 
 dnl Checks for library functions that are provided by findlib.
 FINDLIB_REPLACE_FUNCS(waitpid strspn)
