@@ -62,7 +62,7 @@
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
 
 
-static void init_mount_point_list(void);
+static void init_mounted_dev_list(void);
 static void process_top_path PARAMS((char *pathname));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
@@ -168,6 +168,21 @@ enum TraversalDirection
     TraversingUp,
     TraversingDown
   };
+
+
+static int
+following_links(void)
+{
+  switch (symlink_handling)
+    {
+    case SYMLINK_ALWAYS_DEREF:
+      return 1;
+    case SYMLINK_DEREF_ARGSONLY:
+      return (curdepth == 0);
+    case SYMLINK_NEVER_DEREF:
+      return 0;
+    }
+}
 
 
 /* optionh_stat() implements the stat operation when the -H option is
@@ -339,7 +354,7 @@ main (int argc, char **argv)
 
   set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
 
-  init_mount_point_list();
+  init_mounted_dev_list();
 
 #endif
 
@@ -538,25 +553,10 @@ specific_dirname(const char *dir)
     }
 }
 
-enum MountPointStateChange
-  {
-    MountPointRecentlyMounted,
-    MountPointRecentlyUnmounted,
-    MountPointStateUnchanged
-  };
 
-static char *mount_points = NULL;
 
-/* Initialise our idea of what the list of mount points is. 
- * this function is called exactly once.
- */
-static void
-init_mount_point_list(void)
-{
-  assert(NULL == mount_points);
-  mount_points = get_mounted_filesystems();
-}
 
+#if 0
 /* list_item_present: Search for NEEDLE in HAYSTACK.
  *
  * NEEDLE is a normal C string.  HAYSTACK is a list of concatenated C strings, 
@@ -589,6 +589,29 @@ list_item_present(const char *needle, const char *haystack)
   return 0;
 }
 
+static char *mount_points = NULL;
+
+
+/* Initialise our idea of what the list of mount points is. 
+ * this function is called exactly once.
+ */
+static void
+init_mount_point_list(void)
+{
+  assert(NULL == mount_points);
+  mount_points = get_mounted_filesystems();
+}
+
+static void
+refresh_mount_point_list(void)
+{
+  if (mount_points)
+    {
+      free(mount_points);
+      mount_points = NULL;
+    }
+  init_mount_point_list();
+}
 
 /* Determine if a directory has recently had a filesystem 
  * mounted on it or unmounted from it.
@@ -599,13 +622,7 @@ get_mount_point_state(const char *dir)
   int was_mounted, is_mounted;
 
   was_mounted = list_item_present(dir, mount_points);
-  
-  if (mount_points)
-    {
-      free(mount_points);
-    }
-  mount_points = get_mounted_filesystems();
-  
+  refresh_mount_point_list();
   is_mounted = list_item_present(dir, mount_points);
 
   if (was_mounted == is_mounted)
@@ -615,6 +632,76 @@ get_mount_point_state(const char *dir)
   else 
     return MountPointRecentlyUnmounted;
 }
+#endif
+
+
+
+static dev_t *mounted_devices = NULL;
+static size_t num_mounted_devices = 0u;
+
+
+static void
+init_mounted_dev_list()
+{
+  assert(NULL == mounted_devices);
+  assert(0 == num_mounted_devices);
+  mounted_devices = get_mounted_devices(&num_mounted_devices);
+}
+
+static void
+refresh_mounted_dev_list(void)
+{
+  if (mounted_devices)
+    {
+      free(mounted_devices);
+      mounted_devices = 0;
+    }
+  num_mounted_devices = 0u;
+  init_mounted_dev_list();
+}
+
+
+/* Search for device DEV in the array LIST, which is of size N. */
+static int
+dev_present(dev_t dev, const dev_t *list, size_t n)
+{
+  if (list)
+    {
+      while (n-- > 0u)
+	{
+	  if ( (*list++) == dev )
+	    return 1;
+	}
+    }
+  return 0;
+}
+
+enum MountPointStateChange
+  {
+    MountPointRecentlyMounted,
+    MountPointRecentlyUnmounted,
+    MountPointStateUnchanged
+  };
+
+
+
+static enum MountPointStateChange
+get_mount_state(dev_t newdev)
+{
+  int new_is_present, new_was_present;
+  
+  new_was_present = dev_present(newdev, mounted_devices, num_mounted_devices);
+  refresh_mounted_dev_list();
+  new_is_present  = dev_present(newdev, mounted_devices, num_mounted_devices);
+  
+  if (new_was_present == new_is_present)
+    return MountPointStateUnchanged;
+  else if (new_is_present)
+    return MountPointRecentlyMounted;
+  else
+    return MountPointRecentlyUnmounted;
+}
+
 
 
 /* Examine the results of the stat() of a directory from before we
@@ -671,7 +758,7 @@ wd_sanity_check(const char *thing_to_stat,
        * reasonable to perform an expensive computation to 
        * determine if we should continue or fail. 
        */
-      if (TraversingDown == direction)
+      if (1 || TraversingDown == direction)
 	{
 	  /* We stat()ed a directory, chdir()ed into it (we know this 
 	   * since direction is TraversingDown), stat()ed it again,
@@ -688,7 +775,7 @@ wd_sanity_check(const char *thing_to_stat,
 	   * is much rarer, as it relies on an automounter timeout
 	   * occurring at exactly the wrong moment.
 	   */
-	  enum MountPointStateChange transition = get_mount_point_state(specific_what);
+	  enum MountPointStateChange transition = get_mount_state(newinfo->st_dev);
 	  switch (transition)
 	    {
 	    case MountPointRecentlyUnmounted:
@@ -753,6 +840,68 @@ wd_sanity_check(const char *thing_to_stat,
 	     line_no);
       free(specific_what);
     }
+}
+
+enum SafeChdirStatus
+  {
+    SafeChdirOK,
+    SafeChdirFailSymlink,
+    SafeChdirFailStat,
+    SafeChdirFailDefect
+  };
+
+/* Safely perform a change in directory. */
+static int 
+safely_chdir(const char *dest, enum TraversalDirection direction)
+{
+  struct stat statbuf_dest, statbuf_arrived;
+  int rv=SafeChdirFailDefect, dotfd=-1;
+  char *name = NULL;
+
+  errno = 0;
+  dotfd = open(".", O_RDONLY);
+  if (dotfd >= 0)
+    {
+      /* Stat the directory we're going to. */
+      if (0 == (following_links() ? stat : lstat)(dest, &statbuf_dest))
+	{
+#ifdef S_ISLNK
+	  if (!following_links() && S_ISLNK(statbuf_dest.st_mode))
+	    {
+	      rv = SafeChdirFailSymlink;
+	      goto fail;
+	    }
+#endif	  
+	  chdir(dest);
+	}
+      else
+	{
+	  rv = SafeChdirFailStat;
+	  name = specific_dirname(dest);
+	  goto fail;
+	}
+    }
+  else
+    {
+    }
+  
+ fail:
+  if (errno)
+    {
+      if (NULL == name)
+	name = specific_dirname(".");
+      error(0, errno, "%s", name);
+    }
+  
+  free(name);
+  name = NULL;
+  
+  if (dotfd >= 0)
+    {
+      close(dotfd);
+      dotfd = -1;
+    }
+  return rv;
 }
 
 

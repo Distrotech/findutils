@@ -19,17 +19,31 @@
 
 /* Written by David MacKenzie <djm@gnu.ai.mit.edu>. */
 
-#include "defs.h"
-
-#include "../gnulib/lib/dirname.h"
-#include "modetype.h"
+#include <config.h>
 #include <errno.h>
+#include <assert.h>
+
+#ifdef HAVE_SYS_MNTIO_H
+#include <sys/mntio.h>
+#endif
+#ifdef HAVE_SYS_MKDEV_H
+#include <sys/mkdev.h>
+#endif
+
+#if defined(MNTIOC_NMNTS) && defined(MNTIOC_GETDEVLIST)
+#define USE_MNTIOC_GETDEVLIST 1
+#endif
+
+
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #else
 extern int errno;
 #endif
-#include <assert.h>
+
+#include "defs.h"
+#include "../gnulib/lib/dirname.h"
+#include "modetype.h"
 
 /* Need declaration of function `xstrtoumax' */
 #include "../gnulib/lib/xstrtol.h"
@@ -541,3 +555,89 @@ get_mounted_filesystems (void)
   return NULL; /* No getmntent(). */
 }
 #endif
+
+#ifdef USE_MNTIOC_GETDEVLIST
+
+dev_t*
+get_mounted_devices (size_t *n)
+{
+  dev_t *result = NULL;
+  int i, fd;
+
+  /* Yes, we really are issuing an ioctl() against a vanilla file in order to 
+   * find out what's in it. 
+   */
+  if ( (fd = open(MOUNTED, O_RDONLY)) >= 0)
+    {
+      int nmnts = -1;
+      if (0 == ioctl(fd, MNTIOC_NMNTS, &nmnts))
+	{
+	  uint32_t * devlist = (uint32_t*) xcalloc(2 * nmnts, sizeof(uint32_t));
+	  result = xcalloc(nmnts, sizeof(dev_t));
+	  
+	  if (0 == ioctl(fd, MNTIOC_GETDEVLIST, devlist))
+	    {
+	      printf("fd=%d nmnts=%d\n", fd, nmnts);
+	      for (i = 0; i < nmnts; ++i)
+		{
+		  result[i] = makedev(devlist[2*i], devlist[2*i+1]);
+		}
+	      free(devlist);
+	      *n = nmnts;
+	      return result;
+	    }
+	}
+    }
+  error (1, errno, "%s", MOUNTED);
+  /*NOTREAHED*/
+  return 0;
+}
+
+#else
+dev_t *
+get_mounted_devices (size_t *n)
+{
+  char *mountpoints = get_mounted_filesystems();
+  dev_t *result;
+  size_t alloc_size = 0u;
+  size_t used;
+  
+  used = 0u;
+  result = NULL;
+  if (mountpoints)
+    {
+      const char *mountpoint = mountpoints;
+      while (*mountpoint)
+	{
+	  struct stat st;
+	  if (0 == lstat(mountpoint, &st))
+	    {
+	      result = extendbuf(result, sizeof(dev_t)*(used+1), &alloc_size);
+	      result[used] = st.st_dev;
+	      ++used;
+	    }
+	  else
+	    {
+	      if (errno == ENOENT || errno == EACCES)
+		{
+		  /* ignore, carry on with the next. */
+		}
+	      else
+		{
+		  error (1, errno, "%s", mountpoint);
+		}
+	    }
+	  mountpoint += strlen(mountpoint);
+	  ++mountpoint;		/* skip the terminating NUL to find next entry. */
+	}
+      
+      if (NULL != result)
+	result = xrealloc(result, sizeof(dev_t)*used);
+    }
+  
+  *n = used;
+  return result;
+}
+#endif
+
+

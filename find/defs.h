@@ -345,6 +345,7 @@ void set_follow_state PARAMS((enum SymlinkOption opt));
 /* fstype.c */
 char *filesystem_type PARAMS((const char *path, const char *relpath, const struct stat *statp));
 char * get_mounted_filesystems (void);
+dev_t * get_mounted_devices PARAMS((size_t *));
 
 /* parser.c */
 PFB find_parser PARAMS((char *search_name));
