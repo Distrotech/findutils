@@ -1,5 +1,78 @@
 2004-11-21  James Youngman <jay@gnu.org>
 
+	* configure.in: Preparing to release 4.2.7.
+
+	* NEWS: Updated for release of 4.2.7.
+
+	* import-gnulib.sh: Also need canonicalize module.
+
+	* find/find.c:
+	When checking to see if a filesystem has changed state, use an
+	absolute pathname.
+
+	* configure.in:
+	No need to pause to allow James to view his handiwork, it (allegedly)
+	works now.
+
+	* configure.in:
+	Oops.  Check for setlocale() to re-enable the i18n support which was
+	accidentally disabled in 4.2.5.
+
+	* find/find.c:
+	Check to see if the new directory is a transitioned mount point by
+	using its ABSOLUTE name, if we can figure it out.
+
+	* doc/find.texi:
+	Added guidance on some of the error messages.  Not the most common
+	ones, but the ones where the user might most benefit from some handy
+	hints or an explanation of what is going on.
+
+	* find/pred.c:
+	Actually emit an error message if we fail to stat a symlink (for
+	reasons other than nonexistence of the link and infinite loop).
+
+	* doc/texinfo.tex: Updated texinfo.tex
+
+	* NEWS, configure.in, find/find.c, find/fstype.c:
+	Enable the 'Warning: filesystem XXX has recently been mounted' check on Solaris, which prevents it exiting fatally when traversing an automount mount point
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po:
+	messages changed again
+
+	* NEWS: Implemented xargs --arg-file.
+
+	* doc/find.texi, xargs/xargs.1, xargs/xargs.c, NEWS:
+	Implemented xargs --arg-file
+
+	* find/find.c:
+	Where a filesystem was recently (un)mounted, try togive its full name
+
+	* configure.in:
+	Try to avoid requesting -lsun if we don't seem to need it (e.g. on
+	UNICOS where it is not present and trying to link against it produces
+	a warning).
+
+	* find/defs.h, lib/modetype.h: Guard against multiple inclusion
+
+	* find/fstype.c:
+	We now need <mntent.h> even if we are not using getmntent() to figure
+	out the type of a filesystem, because wd_sanity_check() needs to
+	enumerate the system mount points.
+
+	* configure.in: Next release will be 4.2.7.
+
+	* find/fstype.c:
+	get_mounted_filesystems() should use getmntent() if that function is
+	present, rather than just if configure didn't find anything better for
+	filesystem_type_uncached() to use than that.
+
+	* find/parser.c:
+	If -delete is the only action on a file, don't assume the default
+	-print action too.
+
+	* ChangeLog, configure.in, po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po:
+	Preparation to release findutils-4.2.6.
+
 	* find/Makefile.am, xargs/Makefile.am:
 	Enable checking of support for --version and --help
 
