@@ -146,6 +146,6 @@ usage (char *msg)
   if (msg)
     fprintf (stderr, "%s: %s\n", program_name, msg);
   fprintf (stderr, _("\
-Usage: %s [path...] [expression]\n"), program_name);
+Usage: %s [-H] [-L] [path...] [expression]\n"), program_name);
   exit (1);
 }
