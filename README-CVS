@@ -12,13 +12,10 @@ checked out of CVS, rather than from a released source distribution.
  To obtain a copy of the gnulib library, check it out via anonymous CVS
  from the GNU CVS server.   Make sure you check it out into a separate 
  directory, away from the findutils sources.
- 
-    cvs -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnulib login
- (when asked for a password, just press return)
 
-    cvs -z3 -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnulib co gnulib
-
-
+    CVS_RSH=ssh
+    export CVS_RSH
+    cvs -z3 -d:ext:anoncvs@savannah.gnu.org:/cvsroot/gnulib co gnulib
 
 3. Generate a gnulib installation within the fileutils source tree
 
@@ -29,8 +26,8 @@ checked out of CVS, rather than from a released source distribution.
     sh import-gnulib.sh   <name of the directory containing gnulib>
 
 The above command may result in some errors from autoconf and
-automake.  These are benign unless they occur again in the following
-step - so don;t worry about them unless you see them both times.
+automake.  These are benign unless they occur again in step 5
+so don't worry about them unless you see them both times.
 
 4. Remove the "@FNMATCH_H@" from gnulib/lib/Makefile.am (it appears as
    a dependency of "all-local").  With recent versions of Gnulib, this 
