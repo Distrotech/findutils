@@ -383,8 +383,6 @@ main (int argc, char **argv)
 
   init_mounted_dev_list();
 
-#endif
-
 #ifdef DEBUG
   fprintf (stderr, "cur_day_start = %s", ctime (&cur_day_start));
 #endif /* DEBUG */
