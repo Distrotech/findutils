@@ -1,9 +1,26 @@
-findutils (4.1-38) unstable; urgency=low
+findutils (4.1-40) frozen unstable; urgency=low
+
+  * corrected problems with creation of updatedb (closes: #60373).  Note
+    that automake-1.4 is not compatible with these Makefile.ams.
+
+ -- Kevin Dalley <kevind@rahul.net>  Wed, 15 Mar 2000 00:22:24 -0800
+
+findutils (4.1-39) frozen unstable; urgency=medium
+
+  * (configure.in) add AC_CHECK_FUNCS for basename, and replace check for
+    __linux__ with check for HAVE_BASENAME which is neccessary for
+    compilation on Hurd (closes: #57503).
+
+ -- Kevin Dalley <kevind@rahul.net>  Sat, 11 Mar 2000 02:05:57 -0800
+
+findutils (4.1-38) frozen unstable; urgency=low
 
   * debian/updatedb.conf:  removed second occurrence of smbfs, added
     coda (closes: #56612, #28453).
+  * fixed problem with xargs sysconf(_SC_ARG_MAX) returning -1 (closes:
+    #31325).
 
- -- Kevin Dalley <kevind@rahul.net>  Wed, 23 Feb 2000 10:46:53 -0800
+ -- Kevin Dalley <kevind@rahul.net>  Thu, 24 Feb 2000 15:25:57 +0000
 
 findutils (4.1-37) frozen unstable; urgency=low
 
