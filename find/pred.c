@@ -1263,19 +1263,13 @@ launch (struct predicate *pred_ptr)
   if (child_pid == 0)
     {
       /* We be the child. */
-#ifndef HAVE_FCHDIR
-      if (chdir (starting_dir) < 0)
+      if (starting_desc < 0
+	  ? chdir (starting_dir) != 0
+	  : fchdir (starting_desc) != 0)
 	{
 	  error (0, errno, "%s", starting_dir);
 	  _exit (1);
 	}
-#else
-      if (fchdir (starting_desc) < 0)
-	{
-	  error (0, errno, _("cannot return to starting directory"));
-	  _exit (1);
-	}
-#endif
       execvp (execp->vec[0], execp->vec);
       error (0, errno, "%s", execp->vec[0]);
       _exit (1);

@@ -403,10 +403,10 @@ extern boolean stay_on_filesystem;
 extern boolean stop_at_current_level;
 extern boolean have_stat;
 extern char *rel_pathname;
-#ifndef HAVE_FCHDIR
-extern char *starting_dir;
-#else
+extern char const *starting_dir;
 extern int starting_desc;
+#if ! defined HAVE_FCHDIR && ! defined fchdir
+# define fchdir(fd) (-1)
 #endif
 extern int exit_status;
 extern int path_length;

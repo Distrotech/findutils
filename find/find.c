@@ -107,15 +107,14 @@ boolean stay_on_filesystem;
    Can be set by -prune, -maxdepth, and -xdev/-mount. */
 boolean stop_at_current_level;
 
-#ifndef HAVE_FCHDIR
-/* The full path of the initial working directory.  */
-char *starting_dir;
-#else
+/* The full path of the initial working directory, or "." if
+   STARTING_DESC is nonnegative.  */
+char const *starting_dir = ".";
+
 /* A file descriptor open to the initial working directory.
    Doing it this way allows us to work when the i.w.d. has
    unreadable parents.  */
 int starting_desc;
-#endif
 
 /* If true, we have called stat on the current path. */
 boolean have_stat;
@@ -262,15 +261,18 @@ main (int argc, char **argv)
   print_tree (eval_tree, 0);
 #endif /* DEBUG */
 
-#ifndef HAVE_FCHDIR
-  starting_dir = xgetcwd ();
-  if (starting_dir == NULL)
-    error (1, errno, _("cannot get current directory"));
-#else
   starting_desc = open (".", O_RDONLY);
+  if (0 <= starting_desc && fchdir (starting_desc) != 0)
+    {
+      close (starting_desc);
+      starting_desc = -1;
+    }
   if (starting_desc < 0)
-    error (1, errno, _("cannot open current directory"));
-#endif
+    {
+      starting_dir = xgetcwd ();
+      if (! starting_dir)
+	error (1, errno, _("cannot get current directory"));
+    }
 
   /* If no paths are given, default to ".".  */
   for (i = 1; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
@@ -304,13 +306,10 @@ process_top_path (char *pathname)
 	  return;
 	}
       process_path (pathname, ".", false, ".");
-#ifndef HAVE_FCHDIR
-      if (chdir (starting_dir) < 0)
+      if (starting_desc < 0
+	  ? chdir (starting_dir) != 0
+	  : fchdir (starting_desc) != 0)
 	error (1, errno, "%s", starting_dir);
-#else
-      if (fchdir (starting_desc))
-	error (1, errno, _("cannot return to starting directory"));
-#endif
     }
   else
     process_path (pathname, pathname, false, ".");
@@ -521,23 +520,23 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 
       if (strcmp (name, "."))
 	{
+	  /* We could go back and do the next command-line arg
+	     instead, maybe using longjmp.  */
+	  char const *dir;
+
 	  if (!dereference)
-	    {
-	      if (chdir ("..") < 0)
-		/* We could go back and do the next command-line arg instead,
-		   maybe using longjmp.  */
-		error (1, errno, "%s", parent);
-	    }
+	    dir = "..";
 	  else
 	    {
-#ifndef HAVE_FCHDIR
-	      if (chdir (starting_dir) || chdir (parent))
-		error (1, errno, "%s", parent);
-#else
-	      if (fchdir (starting_desc) || chdir (parent))
-		error (1, errno, "%s", parent);
-#endif
+	      if (starting_desc < 0
+		  ? chdir (starting_dir) != 0
+		  : fchdir (starting_desc) != 0)
+		error (1, errno, "%s", starting_dir);
+	      dir = parent;
 	    }
+
+	  if (chdir (dir) != 0)
+	    error (1, errno, "%s", parent);
 	}
 
       if (cur_path)
