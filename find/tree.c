@@ -230,8 +230,8 @@ opt_expr (struct predicate **eval_treep)
   
 #ifdef DEBUG
   /* Normalized tree. */
-  printf (_("Normalized Eval Tree:\n"));
-  print_tree (*eval_treep, 0);
+  fprintf (stderr, _("Normalized Eval Tree:\n"));
+  print_tree (stderr, *eval_treep, 0);
 #endif
 
   /* Rearrange the predicates. */

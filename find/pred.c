@@ -1520,27 +1520,25 @@ prec_name (prec)
    INDENT is the number of levels to indent the left margin. */
 
 void
-print_tree (node, indent)
-     struct predicate *node;
-     int indent;
+print_tree (FILE *fp, struct predicate *node, int indent)
 {
   int i;
 
   if (node == NULL)
     return;
   for (i = 0; i < indent; i++)
-    printf ("    ");
-  printf ("pred = %s type = %s prec = %s addr = %x\n",
+    fprintf (fp, "    ");
+  fprintf (fp, "pred = %s type = %s prec = %s addr = %x\n",
 	  find_pred_name (node->pred_func),
 	  type_name (node->p_type), prec_name (node->p_prec), node);
   for (i = 0; i < indent; i++)
-    printf ("    ");
-  printf (_("left:\n"));
-  print_tree (node->pred_left, indent + 1);
+    fprintf (fp, "    ");
+  fprintf (fp, _("left:\n"));
+  print_tree (fp, node->pred_left, indent + 1);
   for (i = 0; i < indent; i++)
-    printf ("    ");
-  printf (_("right:\n"));
-  print_tree (node->pred_right, indent + 1);
+    fprintf (fp, "    ");
+  fprintf (fp, _("right:\n"));
+  print_tree (fp, node->pred_right, indent + 1);
 }
 
 /* Copy STR into BUF and trim blanks from the end of BUF.
@@ -1566,8 +1564,7 @@ blank_rtrim (str, buf)
 /* Print out the predicate list starting at NODE. */
 
 void
-print_list (node)
-     struct predicate *node;
+print_list (FILE *fp, struct predicate *node)
 {
   struct predicate *cur;
   char name[256];
@@ -1575,9 +1572,60 @@ print_list (node)
   cur = node;
   while (cur != NULL)
     {
-      printf ("%s ", blank_rtrim (find_pred_name (cur->pred_func), name));
+      fprintf (fp, "%s ", blank_rtrim (find_pred_name (cur->pred_func), name));
       cur = cur->pred_next;
     }
-  printf ("\n");
+  fprintf (fp, "\n");
 }
+
+
+/* Print out the predicate list starting at NODE. */
+
+
+static void
+print_parenthesised(FILE *fp, struct predicate *node)
+{
+  int parens = 0;
+
+  if (node)
+    {
+      if ( ( (node->pred_func == pred_or)
+	     || (node->pred_func == pred_and) )
+	  && node->pred_left == NULL)
+	{
+	  /* We print "<nothing> or  X" as just "X"
+	   * We print "<nothing> and X" as just "X"
+	   */
+	  print_parenthesised(fp, node->pred_right);
+	}
+      else
+	{
+	  if (node->pred_left || node->pred_right)
+	    parens = 1;
+
+	  if (parens)
+	    fprintf(fp, "%s", " ( ");
+	  print_optlist(fp, node);
+	  if (parens)
+	    fprintf(fp, "%s", " ) ");
+	}
+    }
+}
+
+void
+print_optlist (FILE *fp, struct predicate *p)
+{
+  char name[256];
+
+  if (p)
+    {
+      print_parenthesised(fp, p->pred_left);
+      fprintf (fp,
+	       "%s%s ",
+	       p->need_stat ? _("[stat called here] ") : "",
+	       blank_rtrim (find_pred_name (p->pred_func), name));
+      print_parenthesised(fp, p->pred_right);
+    }
+}
+
 #endif	/* DEBUG */

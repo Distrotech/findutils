@@ -7,7 +7,7 @@ AC_CONFIG_MACRO_DIR(gnulib/m4)
 dnl Set of available languages.
 ALL_LINGUAS="da de es et fr gl id it ko nl pl pt_BR ru sv tr sk"
 
-AM_INIT_AUTOMAKE(findutils, 4.2.9)
+AM_INIT_AUTOMAKE(findutils, 4.2.10-CVS)
 
 AC_SUBST(INCLUDES)dnl
 AC_ARG_ENABLE(id-cache,
@@ -17,6 +17,21 @@ AC_ARG_ENABLE(id-cache,
    getgrgid when needed.  Speeds up -nouser and -nogroup unless you
    are running NIS or Hesiod, which make password and group calls
    very expensive.]))
+
+AC_ARG_ENABLE(debug,
+	AC_HELP_STRING([--enable-debug],[Enable debugging output which is likely to be interesting to people debugging findutils]),
+	[ac_cv_debug=$withval],[ac_cv_debug=no])
+
+AC_MSG_CHECKING([whether debug output should be produced])
+if test x$ac_cv_debug = x; then
+   AC_MSG_RESULT([no])
+else
+   AC_MSG_RESULT([yes])
+   AC_DEFINE(DEBUG, 1, [Define if you want to see find's innards])
+   AC_DEFINE(DEBUG_STAT, 1, [Define if you want to see a message every time find calls the stat() system call])
+fi
+
+
 
 dnl Checks for programs.
 AC_PROG_CC

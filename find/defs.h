@@ -401,8 +401,9 @@ boolean pred_user PARAMS((char *pathname, struct stat *stat_buf, struct predicat
 boolean pred_xtype PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 char *find_pred_name PARAMS((PFB pred_func));
 #ifdef DEBUG
-void print_tree PARAMS((struct predicate *node, int indent));
-void print_list PARAMS((struct predicate *node));
+void print_tree PARAMS((FILE*, struct predicate *node, int indent));
+void print_list PARAMS((FILE*, struct predicate *node));
+void print_optlist PARAMS((FILE *fp, struct predicate *node));
 #endif /* DEBUG */
 
 /* tree.c */

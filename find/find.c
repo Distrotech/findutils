@@ -200,6 +200,9 @@ fallback_stat(const char *name, struct stat *p, int prev_rv)
     {
     case ENOENT:
     case ENOTDIR:
+#ifdef DEBUG_STAT
+      fprintf(stderr, "fallback_stat(): stat(%s) failed; falling back on lstat()\n", name);
+#endif
       return lstat(name, p);
 
     case EACCES:
@@ -270,9 +273,12 @@ optionp_stat(const char *name, struct stat *p)
 }
 
 #ifdef DEBUG_STAT
+static uintmax_t stat_count = 0u;
+
 static int
 debug_stat (const char *file, struct stat *bufp)
 {
+  ++stat_count;
   fprintf (stderr, "debug_stat (%s)\n", file);
   switch (symlink_handling)
     {
@@ -381,7 +387,7 @@ main (int argc, char **argv)
 #endif
 
 #ifdef DEBUG
-  printf ("cur_day_start = %s", ctime (&cur_day_start));
+  fprintf (stderr, "cur_day_start = %s", ctime (&cur_day_start));
 #endif /* DEBUG */
 
   /* Check for -P, -H or -L options. */
@@ -481,8 +487,8 @@ main (int argc, char **argv)
     }
 
 #ifdef	DEBUG
-  printf (_("Predicate List:\n"));
-  print_list (predicates);
+  fprintf (stderr, _("Predicate List:\n"));
+  print_list (stderr, predicates);
 #endif /* DEBUG */
 
   /* Done parsing the predicates.  Build the evaluation tree. */
@@ -498,8 +504,8 @@ main (int argc, char **argv)
     }
   
 #ifdef	DEBUG
-  printf (_("Eval Tree:\n"));
-  print_tree (eval_tree, 0);
+  fprintf (stderr, _("Eval Tree:\n"));
+  print_tree (stderr, eval_tree, 0);
 #endif /* DEBUG */
 
   /* Rearrange the eval tree in optimal-predicate order. */
@@ -509,8 +515,11 @@ main (int argc, char **argv)
   mark_stat (eval_tree);
 
 #ifdef DEBUG
-  printf (_("Optimized Eval Tree:\n"));
-  print_tree (eval_tree, 0);
+  fprintf (stderr, _("Optimized Eval Tree:\n"));
+  print_tree (stderr, eval_tree, 0);
+  fprintf (stderr, _("Optimized command line:\n"));
+  print_optlist(stderr, eval_tree);
+  fprintf(stderr, "\n");
 #endif /* DEBUG */
 
   starting_desc = open (".", O_RDONLY);
