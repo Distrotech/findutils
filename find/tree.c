@@ -169,9 +169,12 @@ scan_rest (struct predicate **input,
      predicates (if any) which have "side effects", such as printing.
      The grouping implements the partial ordering on predicates which
      those with side effects impose.
-   * Place -name, -path, and -regex at the front of a group, with
-     -name and -path ahead of -regex.  Predicates that are moved to the
-     front of a group by definition do not have side effects.
+
+   * Place -name, -iname, -path, -ipath, -regex and -iregex at the front
+     of a group, with -name, -iname, -path and -ipath ahead of
+     -regex and -iregex.  Predicates which are moved to the front
+     of a group by definition do not have side effects.  Both
+     -regex and -iregex both use pred_regex.
 
      This routine "normalizes" the predicate tree by ensuring that
      all expression predicates have AND (or OR or COMMA) parent nodes
@@ -260,7 +263,8 @@ opt_expr (struct predicate **eval_treep)
 
 	  /* If it's one of our special primaries, move it to the
 	     front of the list for that primary. */
-	  if (pred_func == pred_name || pred_func == pred_path)
+	  if (pred_func == pred_name || pred_func == pred_path ||
+	      pred_func == pred_iname || pred_func == pred_ipath)
 	    {
 	      *prevp = curr->pred_left;
 	      curr->pred_left = name_list;
