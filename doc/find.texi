@@ -1066,10 +1066,10 @@ and returns false.
 
 
 @deffn Action -quit
-Exit immediately with return value zero.  No child processes will be
-left running, but no more paths specified on the command line will be 
-processed.   For example, @code{find /tmp/foo /tmp/bar -print -quit}
-will print only @samp{/tmp/foo}.
+Exit immediately (with return value zero if no errors have occurred).
+No child processes will be left running, but no more paths specified
+on the command line will be processed.  For example, @code{find
+/tmp/foo /tmp/bar -print -quit} will print only @samp{/tmp/foo}.
 @end deffn 
 
 @deffn Option -noleaf
