@@ -43,7 +43,8 @@
 #endif
 #include <sys/types.h>
 
-char *xmalloc ();
+#include <getline.h>
+#include <xalloc.h>
 
 /* The name this program was run with.  */
 char *program_name;
