@@ -50,7 +50,7 @@ m4_define([jy_FINDLIBOBJ],
 # Adapted from autoconf's general.m4.
 # Clean up FINDLIBOBJS abd LTFINDLIBOBJS 
 # Used with AC_CONFIG_COMMANDS_PRE.
-AC_DEFUN([_jy_FIND LIBOBJS_NORMALIZE],
+AC_DEFUN([_jy_FINDLIBOBJS_NORMALIZE],
 [ac_findlibobjs=
 ac_ltfindlibobjs=
 for ac_i in : $FINDLIB@&t@OBJS; do test "x$ac_i" = x: && continue
