@@ -240,8 +240,12 @@ command, not just in arguments where it is alone, as in some versions
 of
 .BR find .
 Both of these constructions might need to be escaped (with a `\e') or
-quoted to protect them from expansion by the shell.  The command is
+quoted to protect them from expansion by the shell.  See the
+.B EXAMPLES
+section for examples of the use of the `-exec' option.
+The command is
 executed in the starting directory.
+
 .IP "\-fls \fIfile\fR"
 True; like \-ls but write to \fIfile\fR like \-fprint.
 The output file is always created, even if the predicate is never matched.
@@ -492,6 +496,18 @@ directory names containing spaces or newlines are correctly handled.
 
 .fi
 Generates a compact listing of all the users on the system.
+
+.P
+.nf
+.B find . -type f -exec file '{}' \e\;
+
+.fi
+Runs `file' on every file in or below the current directory.  Notice
+that the braces are enclosed in single quote marks to protect them
+from interpretation as shell script punctuation.   The semicolon is
+similarly protected by the use of a backslash, though ';' could have
+been used in that case also.
+
 .SH EXIT STATUS
 .PP
 .B find
