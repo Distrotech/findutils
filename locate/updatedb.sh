@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 # updatedb -- build a locate pathname database
 # Copyright (C) 1994 Free Software Foundation, Inc.
 
