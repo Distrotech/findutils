@@ -25,6 +25,7 @@
 #include "../gnulib/lib/modechange.h"
 #include "modetype.h"
 #include "../gnulib/lib/xstrtol.h"
+#include "../gnulib/lib/xalloc.h"
 
 
 #if ENABLE_NLS
@@ -47,8 +48,8 @@
 #define isascii(c) 1
 #endif
 
-#define ISDIGIT(c) (isascii (c) && isdigit (c))
-#define ISUPPER(c) (isascii (c) && isupper (c))
+#define ISDIGIT(c) (isascii ((unsigned char)c) && isdigit ((unsigned char)c))
+#define ISUPPER(c) (isascii ((unsigned char)c) && isupper ((unsigned char)c))
 
 #ifndef HAVE_ENDGRENT
 #define endgrent()
