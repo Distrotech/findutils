@@ -12,6 +12,10 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 ** Bug-fixes, notably better support for 64-bit systems.
 ** The command "xargs -i -n1" now works as one might expect, even though
    it's a strange thing to want to do...
+** New option "-ignore_readdir_race" (opposite -noignore_readdir_race)
+   silences an error messages which would otherwise occur if a file is removed
+   after find has read it from the directory using readdir(), but before 
+   find stats the file.
 
 * Major changes in release 4.1.20:
 ** New maintainer, James Youngman <jay@gnu.org>
