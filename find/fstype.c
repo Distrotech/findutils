@@ -389,7 +389,7 @@ filesystem_type_uncached (const char *path, const char *relpath, const struct st
 char *
 get_mounted_filesystems (void)
 {
-#ifdef FSTYPE_MNTENT		/* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
+#ifdef HAVE_GETMNTENT
   char *table = MOUNTED;
   FILE *mfp;
   struct mntent *mnt;
