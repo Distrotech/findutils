@@ -6,6 +6,7 @@ afs.m4 \
 assert.m4 \
 c-bs-a.m4 \
 check-decl.m4 \
+codeset.m4 \
 d-ino.m4 \
 d-type.m4 \
 error.m4 \
