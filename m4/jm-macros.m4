@@ -89,7 +89,7 @@ AC_DEFUN(jm_MACROS,
 
   AC_REPLACE_FUNCS(strncasecmp)
   AC_REPLACE_FUNCS(stpcpy strstr strtol strtoul)
-  AC_REPLACE_FUNCS(memcmp)
+  AC_REPLACE_FUNCS(memcmp rpmatch)
 
   dnl used by e.g. intl/*domain.c and lib/canon-host.c
   AC_REPLACE_FUNCS(strdup)
