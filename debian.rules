@@ -12,7 +12,7 @@
 #
 # The `binary' target must be run as root, as it needs to install files with
 # specific ownerships.  The `diff' target assumes that you have the original
-# source package available, unpacked, in ../$(p)-$(v).orig, or that you have
+# source package available, unpacked, in ../$(package)-$(version).orig, or that you have
 # the previous revision of the ``Debianized'' source package and context diff
 # in the parent directory.
 
@@ -25,7 +25,7 @@ package = findutils
 # The version of the package (for example, `19.28').
 version = 4.1
 # The Debian revision of the package (for example, `2').
-debian = 7
+debian = 8
 
 build:
 # Builds the binary package.
@@ -86,8 +86,9 @@ binary:
 	  debian-tmp/usr/doc/copyright/$(package)
 	rm -f debian-tmp/usr/info/find.info*.gz
 	gzip -9f debian-tmp/usr/info/find.info*
-	sed -e 's/=V-D/$(version)-$(debian)/' debian.control \
-	  > debian-tmp/DEBIAN/control
+	sed -e '2s/=/$(version)-$(debian)/; \
+		3s/=/$(shell dpkg --print-architecture)/;' \
+	    debian.control > debian-tmp/DEBIAN/control
 	chmod 644 debian-tmp/DEBIAN/control
 	install -g root -m 644 -o root debian.conffiles \
 	  debian-tmp/DEBIAN/conffiles
@@ -100,23 +101,22 @@ binary:
 	dpkg --build debian-tmp
 	mv debian-tmp.deb ../$(package)-$(version)-$(debian).deb
 
-source:
+source:	clean
 # Makes a source package.
-	-test -f stamp-build && make -f debian.rules clean
 	( cd .. && tar cf - $(package)-$(version) | \
 		gzip -9f > $(package)-$(version)-$(debian).tar.gz )
 
-diff:
+diff:	clean
 # Makes a context diff.
-	-test -f stamp-build && make -f debian.rules clean
 	-test -d ../$(package)-$(version).orig -o \
 		-f ../$(package)-$(version)-`expr $(debian) - 1`.diff.gz \
 	  || ( echo "Original source package is not available." ; false )
 	-test -d ../$(package)-$(version).orig || make -f debian.rules orig
 	#cp -a ../$(package)-$(version).orig/doc/find.info* doc
-	( cd .. && diff -cNr $(package)-$(version).orig $(package)-$(version) \
-		| gzip -9f \
-	  > $(package)-$(version)-$(debian).diff.gz )
+	cd .. && \
+	(diff -ruN $(package)-$(version).orig $(package)-$(version) \
+	 >$(package)-$(version)-$(debian).diff; [ $$? = 1 ]) && \
+	gzip -9vf $(package)-$(version)-$(debian).diff
 	-test -f stamp-orig \
 	  && rm -rf ../$(package)-$(version).orig && rm -f stamp-orig
 
