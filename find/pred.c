@@ -544,7 +544,7 @@ pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_execdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  const char *s = basename(pathname);
+  const char *s = base_name(pathname);
   return new_impl_pred_exec(s, stat_buf, pred_ptr, "./", 2);
 }
 
@@ -652,7 +652,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 		   human_readable ((uintmax_t) stat_buf->st_dev, hbuf,
 				   human_ceiling, 1, 1));
 	  break;
-	case 'f':		/* basename of path */
+	case 'f':		/* base name of path */
 	  fprintf (fp, segment->text, base_name (pathname));
 	  break;
 	case 'F':		/* filesystem type */
@@ -1147,7 +1147,7 @@ pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  const char *s = basename(pathname);
+  const char *s = base_name(pathname);
   
   if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
     return new_impl_pred_exec (s, stat_buf, pred_ptr, "./", 2);
