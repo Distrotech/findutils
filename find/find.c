@@ -1,5 +1,5 @@
 /* find -- search for files in a directory hierarchy
-   Copyright (C) 1990, 91, 92, 93, 94 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,17 +22,16 @@
    The idea for -print0 and xargs -0 came from
    Dan Bernstein <brnstnd@kramden.acf.nyu.edu>.  */
 
-#include <config.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
+#include "defs.h"
+
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #else
 #include <sys/file.h>
 #endif
-#include "defs.h"
+#include <human.h>
 #include <modetype.h>
+#include <savedir.h>
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -83,6 +82,12 @@ int mindepth;
 
 /* Current depth; 0 means current path is a command line arg. */
 int curdepth;
+
+/* Output block size.  */
+int output_block_size;
+
+/* Time at start of execution.  */
+time_t start_time;
 
 /* Seconds between 00:00 1/1/70 and either one day before now
    (the default), or the start of today (if -daystart is given). */
@@ -162,7 +167,8 @@ main (int argc, char **argv)
   last_pred = NULL;
   do_dir_first = true;
   maxdepth = mindepth = -1;
-  cur_day_start = time ((time_t *) 0) - DAYSECS;
+  start_time = time (NULL);
+  cur_day_start = start_time - DAYSECS;
   full_days = false;
   no_leaf_check = false;
   stay_on_filesystem = false;
@@ -173,6 +179,8 @@ main (int argc, char **argv)
 #else /* !DEBUG_STAT */
   xstat = lstat;
 #endif /* !DEBUG_STAT */
+
+  human_block_size (getenv ("FIND_BLOCK_SIZE"), 0, &output_block_size);
 
 #ifdef DEBUG
   printf ("cur_day_start = %s", ctime (&cur_day_start));
@@ -441,8 +449,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
   subdirs_left = statp->st_nlink - 2; /* Account for name and ".". */
 
   errno = 0;
-  /* On some systems (VAX 4.3BSD+NFS), NFS mount points have st_size < 0.  */
-  name_space = savedir (name, statp->st_size > 0 ? statp->st_size : 512);
+  name_space = savedir (name, statp->st_size);
   if (name_space == NULL)
     {
       if (errno)

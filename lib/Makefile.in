@@ -1,6 +1,6 @@
 # Makefile.in generated automatically by automake 1.4a from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-9, 2000 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -31,8 +31,6 @@ mandir = @mandir@
 includedir = @includedir@
 oldincludedir = /usr/include
 
-DESTDIR =
-
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -59,6 +57,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 
 @SET_MAKE@
+host_alias = @host_alias@
+host_triplet = @host@
 AMDEP = @AMDEP@
 AMTAR = @AMTAR@
 AWK = @AWK@
@@ -70,7 +70,9 @@ CXX = @CXX@
 CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
+DF_PROG = @DF_PROG@
 GENCAT = @GENCAT@
+GETCONF = @GETCONF@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNU_PACKAGE = @GNU_PACKAGE@
@@ -83,8 +85,11 @@ INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
 LIBOBJS = @LIBOBJS@
 MAKEINFO = @MAKEINFO@
+MAN = @MAN@
 MKINSTALLDIRS = @MKINSTALLDIRS@
 MSGFMT = @MSGFMT@
+OPTIONAL_BIN_PROGS = @OPTIONAL_BIN_PROGS@
+OPTIONAL_BIN_ZCRIPTS = @OPTIONAL_BIN_ZCRIPTS@
 PACKAGE = @PACKAGE@
 POFILES = @POFILES@
 POSUB = @POSUB@
@@ -98,25 +103,32 @@ l = @l@
 
 
 AUTOMAKE_OPTIONS = ansi2knr
+SUBDIRS = posix
 noinst_LIBRARIES = libfind.a
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -DLOCALEDIR=\"$(localedir)\"
 libfind_a_SOURCES = regex.h \
+			argmatch.h \
+			argmatch.c \
+			basename.h \
+			basename.c \
 			dirname.c \
 			dirname.h \
-			error.c \
-			error.h \
 			filemode.c \
 			filemode.h \
 			getopt.c \
 			getopt.h \
 			getopt1.c \
+			human.c \
+			human.h \
 			idcache.c \
 			listfile.c \
 			modechange.c \
 			modechange.h \
-			pathmax.h \
 			nextelem.c \
+			pathmax.h \
+			quotearg.c \
+			quotearg.h \
 			savedir.c \
 			savedir.h \
 			xmalloc.c \
@@ -128,6 +140,7 @@ libfind_a_SOURCES = regex.h \
 			xstrtol.h \
 			xstrtoul.c \
 			xstrtoul.h \
+			xstrtoumax.c \
 			getline.c \
 			getline.h \
 			basename.c
@@ -138,7 +151,10 @@ libfind_a_LIBADD = @LIBOBJS@ \
 
 
 # Are these really needed?
-EXTRA_DIST = modetype.h \
+EXTRA_DIST = \
+		modetype.h \
+		mktime.c \
+		regex.c \
 		wait.h \
 		alloca.c \
 		getline.h \
@@ -161,10 +177,11 @@ LIBS = @LIBS@
 ANSI2KNR = @ANSI2KNR@
 libfind_a_AR = $(AR) cru
 libfind_a_DEPENDENCIES =  @LIBOBJS@ @ALLOCA@
-am_libfind_a_OBJECTS =  dirname$U.o error$U.o filemode$U.o getopt$U.o \
-getopt1$U.o idcache$U.o listfile$U.o modechange$U.o nextelem$U.o \
-savedir$U.o xmalloc$U.o xstrdup$U.o xgetcwd$U.o xstrtol$U.o \
-xstrtoul$U.o getline$U.o basename$U.o
+am_libfind_a_OBJECTS =  argmatch$U.o basename$U.o dirname$U.o \
+filemode$U.o getopt$U.o getopt1$U.o human$U.o idcache$U.o listfile$U.o \
+modechange$U.o nextelem$U.o quotearg$U.o savedir$U.o xmalloc$U.o \
+xstrdup$U.o xgetcwd$U.o xstrtol$U.o xstrtoul$U.o xstrtoumax$U.o \
+getline$U.o basename$U.o
 libfind_a_OBJECTS =  $(am_libfind_a_OBJECTS)
 AR = ar
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -172,29 +189,33 @@ CFLAGS = @CFLAGS@
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES =  $(libfind_a_SOURCES)
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+DEP_FILES =  @AMDEP@ $(DEPDIR)/alloca.Po $(DEPDIR)/argmatch$U.Po \
+$(DEPDIR)/basename$U.Po $(DEPDIR)/dirname$U.Po $(DEPDIR)/error.Po \
+$(DEPDIR)/fileblocks.Po $(DEPDIR)/filemode$U.Po $(DEPDIR)/fnmatch.Po \
+$(DEPDIR)/getline$U.Po $(DEPDIR)/getopt$U.Po $(DEPDIR)/getopt1$U.Po \
+$(DEPDIR)/human$U.Po $(DEPDIR)/idcache$U.Po $(DEPDIR)/listfile$U.Po \
+$(DEPDIR)/lstat.Po $(DEPDIR)/malloc.Po $(DEPDIR)/memcmp.Po \
+$(DEPDIR)/memcpy.Po $(DEPDIR)/memset.Po $(DEPDIR)/mktime.Po \
+$(DEPDIR)/modechange$U.Po $(DEPDIR)/nextelem$U.Po \
+$(DEPDIR)/quotearg$U.Po $(DEPDIR)/realloc.Po $(DEPDIR)/regex.Po \
+$(DEPDIR)/savedir$U.Po $(DEPDIR)/stat.Po $(DEPDIR)/stpcpy.Po \
+$(DEPDIR)/strdup.Po $(DEPDIR)/strftime.Po $(DEPDIR)/strncasecmp.Po \
+$(DEPDIR)/strspn.Po $(DEPDIR)/strstr.Po $(DEPDIR)/strtol.Po \
+$(DEPDIR)/strtoul.Po $(DEPDIR)/strtoull.Po $(DEPDIR)/strtoumax.Po \
+$(DEPDIR)/waitpid.Po $(DEPDIR)/xgetcwd$U.Po $(DEPDIR)/xmalloc$U.Po \
+$(DEPDIR)/xstrdup$U.Po $(DEPDIR)/xstrtol$U.Po $(DEPDIR)/xstrtoul$U.Po \
+$(DEPDIR)/xstrtoumax$U.Po
 DIST_COMMON =  Makefile.am Makefile.in alloca.c ansi2knr.1 ansi2knr.c \
-fileblocks.c fnmatch.c getline.c malloc.c memcmp.c memset.c mktime.c \
-realloc.c regex.c stpcpy.c strcasecmp.c strdup.c strftime.c \
-strncasecmp.c strspn.c strstr.c strtol.c strtoul.c
+depcomp error.c error.h fileblocks.c fnmatch.c malloc.c memcmp.c \
+memcpy.c memset.c mktime.c realloc.c regex.c stpcpy.c strdup.c \
+strftime.c strncasecmp.c strspn.c strstr.c strtol.c strtoul.c \
+strtoull.c strtoumax.c waitpid.c
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-DEP_FILES =  @AMDEP@ $(DEPDIR)/alloca.Po $(DEPDIR)/basename$U.Po \
-$(DEPDIR)/dirname$U.Po $(DEPDIR)/error$U.Po $(DEPDIR)/fileblocks.Po \
-$(DEPDIR)/filemode$U.Po $(DEPDIR)/fnmatch.Po $(DEPDIR)/getline$U.Po \
-$(DEPDIR)/getline.Po $(DEPDIR)/getopt$U.Po $(DEPDIR)/getopt1$U.Po \
-$(DEPDIR)/idcache$U.Po $(DEPDIR)/listfile$U.Po $(DEPDIR)/lstat.Po \
-$(DEPDIR)/malloc.Po $(DEPDIR)/memcmp.Po $(DEPDIR)/memset.Po \
-$(DEPDIR)/mktime.Po $(DEPDIR)/modechange$U.Po $(DEPDIR)/nextelem$U.Po \
-$(DEPDIR)/realloc.Po $(DEPDIR)/regex.Po $(DEPDIR)/savedir$U.Po \
-$(DEPDIR)/stat.Po $(DEPDIR)/stpcpy.Po $(DEPDIR)/strcasecmp.Po \
-$(DEPDIR)/strdup.Po $(DEPDIR)/strftime.Po $(DEPDIR)/strncasecmp.Po \
-$(DEPDIR)/strspn.Po $(DEPDIR)/strstr.Po $(DEPDIR)/strtol.Po \
-$(DEPDIR)/strtoul.Po $(DEPDIR)/xgetcwd$U.Po $(DEPDIR)/xmalloc$U.Po \
-$(DEPDIR)/xstrdup$U.Po $(DEPDIR)/xstrtol$U.Po $(DEPDIR)/xstrtoul$U.Po
 SOURCES = $(libfind_a_SOURCES)
 OBJECTS = $(am_libfind_a_OBJECTS)
 
@@ -204,7 +225,7 @@ all: all-redirect
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu lib/Makefile
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
@@ -256,6 +277,8 @@ libfind.a: $(libfind_a_OBJECTS) $(libfind_a_DEPENDENCIES)
 	$(RANLIB) libfind.a
 alloca_.c: alloca.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/alloca.c; then echo $(srcdir)/alloca.c; else echo alloca.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > alloca_.c
+argmatch_.c: argmatch.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/argmatch.c; then echo $(srcdir)/argmatch.c; else echo argmatch.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > argmatch_.c
 basename_.c: basename.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/basename.c; then echo $(srcdir)/basename.c; else echo basename.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > basename_.c
 dirname_.c: dirname.c $(ANSI2KNR)
@@ -274,6 +297,8 @@ getopt_.c: getopt.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/getopt.c; then echo $(srcdir)/getopt.c; else echo getopt.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > getopt_.c
 getopt1_.c: getopt1.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/getopt1.c; then echo $(srcdir)/getopt1.c; else echo getopt1.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > getopt1_.c
+human_.c: human.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/human.c; then echo $(srcdir)/human.c; else echo human.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > human_.c
 idcache_.c: idcache.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/idcache.c; then echo $(srcdir)/idcache.c; else echo idcache.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > idcache_.c
 listfile_.c: listfile.c $(ANSI2KNR)
@@ -284,6 +309,8 @@ malloc_.c: malloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/malloc.c; then echo $(srcdir)/malloc.c; else echo malloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > malloc_.c
 memcmp_.c: memcmp.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/memcmp.c; then echo $(srcdir)/memcmp.c; else echo memcmp.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > memcmp_.c
+memcpy_.c: memcpy.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/memcpy.c; then echo $(srcdir)/memcpy.c; else echo memcpy.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > memcpy_.c
 memset_.c: memset.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/memset.c; then echo $(srcdir)/memset.c; else echo memset.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > memset_.c
 mktime_.c: mktime.c $(ANSI2KNR)
@@ -292,6 +319,8 @@ modechange_.c: modechange.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/modechange.c; then echo $(srcdir)/modechange.c; else echo modechange.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > modechange_.c
 nextelem_.c: nextelem.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/nextelem.c; then echo $(srcdir)/nextelem.c; else echo nextelem.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > nextelem_.c
+quotearg_.c: quotearg.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/quotearg.c; then echo $(srcdir)/quotearg.c; else echo quotearg.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > quotearg_.c
 realloc_.c: realloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/realloc.c; then echo $(srcdir)/realloc.c; else echo realloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > realloc_.c
 regex_.c: regex.c $(ANSI2KNR)
@@ -302,8 +331,6 @@ stat_.c: stat.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/stat.c; then echo $(srcdir)/stat.c; else echo stat.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > stat_.c
 stpcpy_.c: stpcpy.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/stpcpy.c; then echo $(srcdir)/stpcpy.c; else echo stpcpy.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > stpcpy_.c
-strcasecmp_.c: strcasecmp.c $(ANSI2KNR)
-	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strcasecmp.c; then echo $(srcdir)/strcasecmp.c; else echo strcasecmp.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strcasecmp_.c
 strdup_.c: strdup.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strdup.c; then echo $(srcdir)/strdup.c; else echo strdup.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strdup_.c
 strftime_.c: strftime.c $(ANSI2KNR)
@@ -318,6 +345,12 @@ strtol_.c: strtol.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strtol.c; then echo $(srcdir)/strtol.c; else echo strtol.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strtol_.c
 strtoul_.c: strtoul.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strtoul.c; then echo $(srcdir)/strtoul.c; else echo strtoul.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strtoul_.c
+strtoull_.c: strtoull.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strtoull.c; then echo $(srcdir)/strtoull.c; else echo strtoull.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strtoull_.c
+strtoumax_.c: strtoumax.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/strtoumax.c; then echo $(srcdir)/strtoumax.c; else echo strtoumax.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > strtoumax_.c
+waitpid_.c: waitpid.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/waitpid.c; then echo $(srcdir)/waitpid.c; else echo waitpid.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > waitpid_.c
 xgetcwd_.c: xgetcwd.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xgetcwd.c; then echo $(srcdir)/xgetcwd.c; else echo xgetcwd.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xgetcwd_.c
 xmalloc_.c: xmalloc.c $(ANSI2KNR)
@@ -328,13 +361,69 @@ xstrtol_.c: xstrtol.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xstrtol.c; then echo $(srcdir)/xstrtol.c; else echo xstrtol.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xstrtol_.c
 xstrtoul_.c: xstrtoul.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xstrtoul.c; then echo $(srcdir)/xstrtoul.c; else echo xstrtoul.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xstrtoul_.c
-alloca_.o basename_.o dirname_.o error_.o fileblocks_.o filemode_.o \
-fnmatch_.o getline_.o getopt_.o getopt1_.o idcache_.o listfile_.o \
-lstat_.o malloc_.o memcmp_.o memset_.o mktime_.o modechange_.o \
-nextelem_.o realloc_.o regex_.o savedir_.o stat_.o stpcpy_.o \
-strcasecmp_.o strdup_.o strftime_.o strncasecmp_.o strspn_.o strstr_.o \
-strtol_.o strtoul_.o xgetcwd_.o xmalloc_.o xstrdup_.o xstrtol_.o \
-xstrtoul_.o : $(ANSI2KNR)
+xstrtoumax_.c: xstrtoumax.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xstrtoumax.c; then echo $(srcdir)/xstrtoumax.c; else echo xstrtoumax.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xstrtoumax_.c
+alloca_.o argmatch_.o basename_.o dirname_.o error_.o fileblocks_.o \
+filemode_.o fnmatch_.o getline_.o getopt_.o getopt1_.o human_.o \
+idcache_.o listfile_.o lstat_.o malloc_.o memcmp_.o memcpy_.o memset_.o \
+mktime_.o modechange_.o nextelem_.o quotearg_.o realloc_.o regex_.o \
+savedir_.o stat_.o stpcpy_.o strdup_.o strftime_.o strncasecmp_.o \
+strspn_.o strstr_.o strtol_.o strtoul_.o strtoull_.o strtoumax_.o \
+waitpid_.o xgetcwd_.o xmalloc_.o xstrdup_.o xstrtol_.o xstrtoul_.o \
+xstrtoumax_.o : $(ANSI2KNR)
+
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run `make' without going through this Makefile.
+# To change the values of `make' variables: instead of editing Makefiles,
+# (1) if the variable is set in `config.status', edit `config.status'
+#     (which will cause the Makefiles to be regenerated when you run `make');
+# (2) otherwise, pass the desired values on the `make' command line.
+
+all-recursive install-data-recursive install-exec-recursive \
+installdirs-recursive install-recursive uninstall-recursive  \
+check-recursive installcheck-recursive info-recursive dvi-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
+mostlyclean-recursive clean-recursive distclean-recursive \
+maintainer-clean-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	  rev="$$subdir $$rev"; \
+	  if test "$$subdir" = "."; then dot_seen=yes; else :; fi; \
+	done; \
+	test "$$dot_seen" = "no" && rev=". $$rev"; \
+	target=`echo $@ | sed s/-recursive//`; \
+	for subdir in $$rev; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+tags-recursive:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+	done
 
 tags: TAGS
 
@@ -345,12 +434,17 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	  done | \
 	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
-	mkid -f$$here/ID $$unique $(LISP)
+	mkid -fID $$unique $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+   if test "$$subdir" = .; then :; else \
+	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+   fi; \
+	done; \
 	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
@@ -369,46 +463,34 @@ distclean-tags:
 
 maintainer-clean-tags:
 
-distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
-
-distdir: $(DISTFILES)
-	@for file in $(DISTFILES); do \
-	  d=$(srcdir); \
-	  if test -d $$d/$$file; then \
-	    cp -pR $$d/$$file $(distdir); \
-	  else \
-	    test -f $(distdir)/$$file \
-	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
-	    || cp -p $$d/$$file $(distdir)/$$file || :; \
-	  fi; \
-	done
-
 @AMDEP@include $(DEPDIR)/alloca.Po
+@AMDEP@include $(DEPDIR)/argmatch$U.Po
 @AMDEP@include $(DEPDIR)/basename$U.Po
 @AMDEP@include $(DEPDIR)/dirname$U.Po
-@AMDEP@include $(DEPDIR)/error$U.Po
+@AMDEP@include $(DEPDIR)/error.Po
 @AMDEP@include $(DEPDIR)/fileblocks.Po
 @AMDEP@include $(DEPDIR)/filemode$U.Po
 @AMDEP@include $(DEPDIR)/fnmatch.Po
 @AMDEP@include $(DEPDIR)/getline$U.Po
-@AMDEP@include $(DEPDIR)/getline.Po
 @AMDEP@include $(DEPDIR)/getopt$U.Po
 @AMDEP@include $(DEPDIR)/getopt1$U.Po
+@AMDEP@include $(DEPDIR)/human$U.Po
 @AMDEP@include $(DEPDIR)/idcache$U.Po
 @AMDEP@include $(DEPDIR)/listfile$U.Po
 @AMDEP@include $(DEPDIR)/lstat.Po
 @AMDEP@include $(DEPDIR)/malloc.Po
 @AMDEP@include $(DEPDIR)/memcmp.Po
+@AMDEP@include $(DEPDIR)/memcpy.Po
 @AMDEP@include $(DEPDIR)/memset.Po
 @AMDEP@include $(DEPDIR)/mktime.Po
 @AMDEP@include $(DEPDIR)/modechange$U.Po
 @AMDEP@include $(DEPDIR)/nextelem$U.Po
+@AMDEP@include $(DEPDIR)/quotearg$U.Po
 @AMDEP@include $(DEPDIR)/realloc.Po
 @AMDEP@include $(DEPDIR)/regex.Po
 @AMDEP@include $(DEPDIR)/savedir$U.Po
 @AMDEP@include $(DEPDIR)/stat.Po
 @AMDEP@include $(DEPDIR)/stpcpy.Po
-@AMDEP@include $(DEPDIR)/strcasecmp.Po
 @AMDEP@include $(DEPDIR)/strdup.Po
 @AMDEP@include $(DEPDIR)/strftime.Po
 @AMDEP@include $(DEPDIR)/strncasecmp.Po
@@ -416,11 +498,15 @@ distdir: $(DISTFILES)
 @AMDEP@include $(DEPDIR)/strstr.Po
 @AMDEP@include $(DEPDIR)/strtol.Po
 @AMDEP@include $(DEPDIR)/strtoul.Po
+@AMDEP@include $(DEPDIR)/strtoull.Po
+@AMDEP@include $(DEPDIR)/strtoumax.Po
+@AMDEP@include $(DEPDIR)/waitpid.Po
 @AMDEP@include $(DEPDIR)/xgetcwd$U.Po
 @AMDEP@include $(DEPDIR)/xmalloc$U.Po
 @AMDEP@include $(DEPDIR)/xstrdup$U.Po
 @AMDEP@include $(DEPDIR)/xstrtol$U.Po
 @AMDEP@include $(DEPDIR)/xstrtoul$U.Po
+@AMDEP@include $(DEPDIR)/xstrtoumax$U.Po
 
 mostlyclean-depend:
 
@@ -437,32 +523,57 @@ maintainer-clean-depend:
 @AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
 @AMDEP@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(COMPILE) -c -o $@ $<
+	$(COMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
 
+
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pR $$d/$$file $(distdir) \
+	    || exit 1; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || cp -p $$d/$$file $(distdir)/$$file \
+	    || exit 1; \
+	  fi; \
+	done
+	for subdir in $(SUBDIRS); do \
+	  if test "$$subdir" = .; then :; else \
+	    test -d $(distdir)/$$subdir \
+	    || mkdir $(distdir)/$$subdir \
+	    || exit 1; \
+	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	      || exit 1; \
+	  fi; \
+	done
 info-am:
-info: info-am
+info: info-recursive
 dvi-am:
-dvi: dvi-am
+dvi: dvi-recursive
 check-am: all-am
-check: check-am
+check: check-recursive
 installcheck-am:
-installcheck: installcheck-am
+installcheck: installcheck-recursive
 install-exec-am:
-install-exec: install-exec-am
+install-exec: install-exec-recursive
 
 install-data-am:
-install-data: install-data-am
+install-data: install-data-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
-install: install-am
+install: install-recursive
 uninstall-am:
-uninstall: uninstall-am
+uninstall: uninstall-recursive
 all-am: Makefile $(ANSI2KNR) $(LIBRARIES)
-all-redirect: all-am
+all-redirect: all-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
-installdirs:
+installdirs: installdirs-recursive
+installdirs-am:
 
 
 mostlyclean-generic:
@@ -481,18 +592,18 @@ mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
 		mostlyclean-krextra mostlyclean-kr mostlyclean-tags \
 		mostlyclean-depend mostlyclean-generic
 
-mostlyclean: mostlyclean-am
+mostlyclean: mostlyclean-recursive
 
 clean-am:  clean-noinstLIBRARIES clean-compile clean-krextra clean-kr \
 		clean-tags clean-depend clean-generic mostlyclean-am
 
-clean: clean-am
+clean: clean-recursive
 
 distclean-am:  distclean-noinstLIBRARIES distclean-compile \
 		distclean-krextra distclean-kr distclean-tags \
 		distclean-depend distclean-generic clean-am
 
-distclean: distclean-am
+distclean: distclean-recursive
 
 maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
 		maintainer-clean-compile maintainer-clean-krextra \
@@ -502,21 +613,27 @@ maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
-maintainer-clean: maintainer-clean-am
+maintainer-clean: maintainer-clean-recursive
 
 .PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
 clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
 mostlyclean-compile distclean-compile clean-compile \
 maintainer-clean-compile mostlyclean-krextra distclean-krextra \
 clean-krextra maintainer-clean-krextra mostlyclean-kr distclean-kr \
-clean-kr maintainer-clean-kr tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir mostlyclean-depend \
-distclean-depend clean-depend maintainer-clean-depend info-am info \
-dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
-install-exec install-data-am install-data install-am install \
-uninstall-am uninstall all-redirect all-am all install-strip \
-installdirs mostlyclean-generic distclean-generic clean-generic \
-maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+clean-kr maintainer-clean-kr install-recursive uninstall-recursive \
+install-data-recursive uninstall-data-recursive install-exec-recursive \
+uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
+all-recursive check-recursive installcheck-recursive info-recursive \
+dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
+maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags mostlyclean-depend \
+distclean-depend clean-depend maintainer-clean-depend distdir info-am \
+info dvi-am dvi check check-am installcheck-am installcheck \
+install-exec-am install-exec install-data-am install-data install-am \
+install uninstall-am uninstall all-redirect all-am all install-strip \
+installdirs-am installdirs mostlyclean-generic distclean-generic \
+clean-generic maintainer-clean-generic clean mostlyclean distclean \
+maintainer-clean
 
 
 lstat.c: xstat.in

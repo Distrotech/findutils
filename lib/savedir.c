@@ -83,13 +83,14 @@ savedir (const char *dir, off_t name_size)
   char *name_space;
   char *namep;
 
-  /* Be sure name_size is at least `1' so there's room for
-     the final NUL byte.  */
-  name_size += !name_size;
-
   dirp = opendir (dir);
   if (dirp == NULL)
     return NULL;
+
+  /* Be sure name_size is at least `1' so there's room for
+     the final NUL byte.  */
+  if (name_size <= 0)
+    name_size = 1;
 
   name_space = (char *) malloc (name_size);
   if (name_space == NULL)

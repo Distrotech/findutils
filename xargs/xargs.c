@@ -1,5 +1,5 @@
 /* xargs -- build and execute command lines from standard input
-   Copyright (C) 1990, 91, 92, 93, 94 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -834,9 +834,9 @@ wait_for_proc (boolean all)
 	{
 	  pid_t pid;
 
-	  pid = wait (&status);
-	  if (pid < 0)
-	    error (1, errno, _("error waiting for child process"));
+	  while ((pid = wait (&status)) == (pid_t) -1)
+	    if (errno != EINTR)
+	      error (1, errno, _("error waiting for child process"));
 
 	  /* Find the entry in `pids' for the child process
 	     that exited.  */

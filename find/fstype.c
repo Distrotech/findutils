@@ -1,5 +1,5 @@
 /* fstype.c -- determine type of filesystems that files are on
-   Copyright (C) 1990, 91, 92, 93, 94 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,11 +17,9 @@
 
 /* Written by David MacKenzie <djm@gnu.ai.mit.edu>. */
 
-#include <config.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include "defs.h"
+
+#include "dirname.h"
 #include "modetype.h"
 #include <errno.h>
 #ifdef STDC_HEADERS
@@ -43,7 +41,6 @@ extern int errno;
 #endif
 
 static char *filesystem_type_uncached PARAMS((char *path, char *relpath, struct stat *statp));
-static int xatoi PARAMS((char *cp));
 
 #ifdef FSTYPE_MNTENT		/* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
 #include <mntent.h>
@@ -260,10 +257,12 @@ filesystem_type_uncached (char *path, char *relpath, struct stat *statp)
       devopt = strstr (mnt->mnt_opts, "dev=");
       if (devopt)
 	{
-	  if (devopt[4] == '0' && (devopt[5] == 'x' || devopt[5] == 'X'))
-	    dev = xatoi (devopt + 6);
-	  else
-	    dev = xatoi (devopt + 4);
+	  uintmax_t u = 0;
+	  devopt += 4;
+	  if (devopt[0] == '0' && (devopt[1] == 'x' || devopt[1] == 'X'))
+	    devopt += 2;
+	  xstrtoumax (devopt, NULL, 16, &u, NULL);
+	  dev = u;
 	}
       else
 #endif /* not hpux */
@@ -363,30 +362,3 @@ filesystem_type_uncached (char *path, char *relpath, struct stat *statp)
 
   return xstrdup (type ? type : _("unknown"));
 }
-
-#ifdef FSTYPE_MNTENT		/* 4.3BSD etc.  */
-/* Return the value of the hexadecimal number represented by CP.
-   No prefix (like '0x') or suffix (like 'h') is expected to be
-   part of CP. */
-
-static int
-xatoi (char *cp)
-{
-  int val;
-  
-  val = 0;
-  while (*cp)
-    {
-      if (*cp >= 'a' && *cp <= 'f')
-	val = val * 16 + *cp - 'a' + 10;
-      else if (*cp >= 'A' && *cp <= 'F')
-	val = val * 16 + *cp - 'A' + 10;
-      else if (*cp >= '0' && *cp <= '9')
-	val = val * 16 + *cp - '0';
-      else
-	break;
-      cp++;
-    }
-  return val;
-}
-#endif

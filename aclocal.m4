@@ -1,6 +1,6 @@
-dnl aclocal.m4 generated automatically by aclocal 1.4
+dnl aclocal.m4 generated automatically by aclocal 1.4a
 
-dnl Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+dnl Copyright (C) 1994, 1995-9, 2000 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -44,12 +44,15 @@ dnl AM_INIT_AUTOMAKE(package,version, [no-define])
 
 AC_DEFUN(AM_INIT_AUTOMAKE,
 [AC_REQUIRE([AC_PROG_INSTALL])
+dnl We require 2.13 because we rely on SHELL being computed by configure.
+AC_PREREQ([2.13])
 PACKAGE=[$1]
 AC_SUBST(PACKAGE)
 VERSION=[$2]
 AC_SUBST(VERSION)
 dnl test to see if srcdir already configured
-if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
+if test "`CDPATH=: && cd $srcdir && pwd`" != "`pwd`" &&
+   test -f $srcdir/config.status; then
   AC_MSG_ERROR([source directory already configured; run "make distclean" there first])
 fi
 ifelse([$3],,
@@ -57,14 +60,24 @@ AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [Name of package])
 AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [Version number of package]))
 AC_REQUIRE([AM_SANITY_CHECK])
 AC_REQUIRE([AC_ARG_PROGRAM])
-dnl FIXME This is truly gross.
-missing_dir=`cd $ac_aux_dir && pwd`
-AM_MISSING_PROG(ACLOCAL, aclocal, $missing_dir)
-AM_MISSING_PROG(AUTOCONF, autoconf, $missing_dir)
-AM_MISSING_PROG(AUTOMAKE, automake, $missing_dir)
-AM_MISSING_PROG(AUTOHEADER, autoheader, $missing_dir)
-AM_MISSING_PROG(MAKEINFO, makeinfo, $missing_dir)
-AC_REQUIRE([AC_PROG_MAKE_SET])])
+AM_MISSING_PROG(ACLOCAL, aclocal)
+AM_MISSING_PROG(AUTOCONF, autoconf)
+AM_MISSING_PROG(AUTOMAKE, automake)
+AM_MISSING_PROG(AUTOHEADER, autoheader)
+AM_MISSING_PROG(MAKEINFO, makeinfo)
+AM_MISSING_PROG(AMTAR, tar)
+AM_MISSING_INSTALL_SH
+dnl We need awk for the "check" target.  The system "awk" is bad on
+dnl some platforms.
+AC_REQUIRE([AC_PROG_AWK])
+AC_REQUIRE([AC_PROG_MAKE_SET])
+AC_REQUIRE([AM_DEP_TRACK])
+AC_REQUIRE([AM_SET_DEPDIR])
+ifdef([AC_PROVIDE_AC_PROG_CC], [AM_DEPENDENCIES(CC)], [
+   define([AC_PROG_CC], defn([AC_PROG_CC])[AM_DEPENDENCIES(CC)])])
+ifdef([AC_PROVIDE_AC_PROG_CXX], [AM_DEPENDENCIES(CXX)], [
+   define([AC_PROG_CXX], defn([AC_PROG_CXX])[AM_DEPENDENCIES(CXX)])])
+])
 
 #
 # Check to make sure that the build environment is sane.
@@ -109,21 +122,192 @@ fi
 rm -f conftest*
 AC_MSG_RESULT(yes)])
 
-dnl AM_MISSING_PROG(NAME, PROGRAM, DIRECTORY)
-dnl The program must properly implement --version.
-AC_DEFUN(AM_MISSING_PROG,
-[AC_MSG_CHECKING(for working $2)
-# Run test in a subshell; some versions of sh will print an error if
-# an executable is not found, even if stderr is redirected.
-# Redirect stdin to placate older versions of autoconf.  Sigh.
-if ($2 --version) < /dev/null > /dev/null 2>&1; then
-   $1=$2
-   AC_MSG_RESULT(found)
-else
-   $1="$3/missing $2"
-   AC_MSG_RESULT(missing)
-fi
+dnl AM_MISSING_PROG(NAME, PROGRAM)
+AC_DEFUN(AM_MISSING_PROG, [
+AC_REQUIRE([AM_MISSING_HAS_RUN])
+$1=${$1-"${am_missing_run}$2"}
 AC_SUBST($1)])
+
+dnl Like AM_MISSING_PROG, but only looks for install-sh.
+dnl AM_MISSING_INSTALL_SH()
+AC_DEFUN(AM_MISSING_INSTALL_SH, [
+AC_REQUIRE([AM_MISSING_HAS_RUN])
+if test -z "$install_sh"; then
+   install_sh="$ac_aux_dir/install-sh"
+   test -f "$install_sh" || install_sh="$ac_aux_dir/install.sh"
+   test -f "$install_sh" || install_sh="${am_missing_run}${ac_auxdir}/install-sh"
+   dnl FIXME: an evil hack: we remove the SHELL invocation from
+   dnl install_sh because automake adds it back in.  Sigh.
+   install_sh="`echo $install_sh | sed -e 's/\${SHELL}//'`"
+fi
+AC_SUBST(install_sh)])
+
+dnl AM_MISSING_HAS_RUN.
+dnl Define MISSING if not defined so far and test if it supports --run.
+dnl If it does, set am_missing_run to use it, otherwise, to nothing.
+AC_DEFUN([AM_MISSING_HAS_RUN], [
+test x"${MISSING+set}" = xset || \
+  MISSING="\${SHELL} `CDPATH=: && cd $ac_aux_dir && pwd`/missing"
+dnl Use eval to expand $SHELL
+if eval "$MISSING --run :"; then
+  am_missing_run="$MISSING --run "
+else
+  am_missing_run=
+  am_backtick='`'
+  AC_MSG_WARN([${am_backtick}missing' script is too old or missing])
+fi
+])
+
+dnl See how the compiler implements dependency checking.
+dnl Usage:
+dnl AM_DEPENDENCIES(NAME)
+dnl NAME is "CC", "CXX" or "OBJC".
+
+dnl We try a few techniques and use that to set a single cache variable.
+
+AC_DEFUN(AM_DEPENDENCIES,[
+AC_REQUIRE([AM_SET_DEPDIR])
+AC_REQUIRE([AM_OUTPUT_DEPENDENCY_COMMANDS])
+ifelse([$1],CC,[
+AC_REQUIRE([AC_PROG_CC])
+AC_REQUIRE([AC_PROG_CPP])
+depcc="$CC"
+depcpp="$CPP"],[$1],CXX,[
+AC_REQUIRE([AC_PROG_CXX])
+AC_REQUIRE([AC_PROG_CXXCPP])
+depcc="$CXX"
+depcpp="$CXXCPP"],[$1],OBJC,[
+am_cv_OBJC_dependencies_compiler_type=gcc],[
+AC_REQUIRE([AC_PROG_][$1])
+depcc="$[$1]"
+depcpp=""])
+AC_MSG_CHECKING([dependency style of $depcc])
+AC_CACHE_VAL(am_cv_[$1]_dependencies_compiler_type,[
+if test -z "$AMDEP"; then
+  echo '#include "conftest.h"' > conftest.c
+  echo 'int i;' > conftest.h
+
+  am_cv_[$1]_dependencies_compiler_type=none
+  for depmode in `sed -n 's/^#*\([a-zA-Z0-9]*\))$/\1/p' < "$am_depcomp"`; do
+    case "$depmode" in
+    nosideeffect)
+      # after this tag, mechanisms are not by side-effect, so they'll
+      # only be used when explicitly requested
+      if test "x$enable_dependency_tracking" = xyes; then
+	continue
+      else
+	break
+      fi
+      ;;
+    none) break ;;
+    esac
+    if depmode="$depmode" \
+       source=conftest.c object=conftest.o \
+       depfile=conftest.Po tmpdepfile=conftest.TPo \
+       $SHELL $am_depcomp $depcc -c conftest.c 2>/dev/null &&
+       grep conftest.h conftest.Po > /dev/null 2>&1; then
+      am_cv_[$1]_dependencies_compiler_type="$depmode"
+      break
+    fi
+  done
+
+  rm -f conftest.*
+else
+  am_cv_[$1]_dependencies_compiler_type=none
+fi
+])
+AC_MSG_RESULT($am_cv_[$1]_dependencies_compiler_type)
+[$1]DEPMODE="depmode=$am_cv_[$1]_dependencies_compiler_type"
+AC_SUBST([$1]DEPMODE)
+])
+
+dnl Choose a directory name for dependency files.
+dnl This macro is AC_REQUIREd in AM_DEPENDENCIES
+
+AC_DEFUN(AM_SET_DEPDIR,[
+if test -d .deps || mkdir .deps 2> /dev/null || test -d .deps; then
+  DEPDIR=.deps
+else
+  DEPDIR=_deps
+fi
+AC_SUBST(DEPDIR)
+])
+
+AC_DEFUN(AM_DEP_TRACK,[
+AC_ARG_ENABLE(dependency-tracking,
+[  --disable-dependency-tracking Speeds up one-time builds
+  --enable-dependency-tracking  Do not reject slow dependency extractors])
+if test "x$enable_dependency_tracking" = xno; then
+  AMDEP="#"
+else
+  am_depcomp="$ac_aux_dir/depcomp"
+  if test ! -f "$am_depcomp"; then
+    AMDEP="#"
+  else
+    AMDEP=
+  fi
+fi
+AC_SUBST(AMDEP)
+if test -z "$AMDEP"; then
+  AMDEPBACKSLASH='\'
+else
+  AMDEPBACKSLASH=
+fi
+pushdef([subst], defn([AC_SUBST]))
+subst(AMDEPBACKSLASH)
+popdef([subst])
+])
+
+dnl Generate code to set up dependency tracking.
+dnl This macro should only be invoked once -- use via AC_REQUIRE.
+dnl Usage:
+dnl AM_OUTPUT_DEPENDENCY_COMMANDS
+
+dnl
+dnl This code is only required when automatic dependency tracking
+dnl is enabled.  FIXME.  This creates each `.P' file that we will
+dnl need in order to bootstrap the dependency handling code.
+AC_DEFUN(AM_OUTPUT_DEPENDENCY_COMMANDS,[
+AC_OUTPUT_COMMANDS([
+test x"$AMDEP" != x"" ||
+for mf in $CONFIG_FILES; do
+  case "$mf" in
+  Makefile) dirpart=.;;
+  */Makefile) dirpart=`echo "$mf" | sed -e 's|/[^/]*$||'`;;
+  *) continue;;
+  esac
+  grep '^DEP_FILES *= *[^ #]' < "$mf" > /dev/null || continue
+  # Extract the definition of DEP_FILES from the Makefile without
+  # running `make'.
+  DEPDIR=`sed -n -e '/^DEPDIR = / s///p' < "$mf"`
+  test -z "$DEPDIR" && continue
+  # When using ansi2knr, U may be empty or an underscore; expand it
+  U=`sed -n -e '/^U = / s///p' < "$mf"`
+  test -d "$dirpart/$DEPDIR" || mkdir "$dirpart/$DEPDIR"
+  # We invoke sed twice because it is the simplest approach to
+  # changing $(DEPDIR) to its actual value in the expansion.
+  for file in `sed -n -e '
+    /^DEP_FILES = .*\\\\$/ {
+      s/^DEP_FILES = //
+      :loop
+	s/\\\\$//
+	p
+	n
+	/\\\\$/ b loop
+      p
+    }
+    /^DEP_FILES = / s/^DEP_FILES = //p' < "$mf" | \
+       sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g' -e 's/\$U/'"$U"'/g'`; do
+    # Make sure the directory exists.
+    test -f "$dirpart/$file" && continue
+    fdir=`echo "$file" | sed -e 's|/[^/]*$||'`
+    $ac_aux_dir/mkinstalldirs "$dirpart/$fdir" > /dev/null 2>&1
+    # echo "creating $dirpart/$file"
+    echo '# dummy' > "$dirpart/$file"
+  done
+done
+], [AMDEP="$AMDEP"
+ac_aux_dir="$ac_aux_dir"])])
 
 #serial 1
 dnl This test replaces the one in autoconf.
@@ -200,9 +384,10 @@ ac_save_CC="$CC"
 # breaks some systems' header files.
 # AIX			-qlanglvl=ansi
 # Ultrix and OSF/1	-std1
-# HP-UX			-Aa -D_HPUX_SOURCE
+# HP-UX 10.20 and later	-Ae
+# HP-UX older versions	-Aa -D_HPUX_SOURCE
 # SVR4			-Xc -D__EXTENSIONS__
-for ac_arg in "" -qlanglvl=ansi -std1 "-Aa -D_HPUX_SOURCE" "-Xc -D__EXTENSIONS__"
+for ac_arg in "" -qlanglvl=ansi -std1 -Ae "-Aa -D_HPUX_SOURCE" "-Xc -D__EXTENSIONS__"
 do
   CC="$ac_save_CC $ac_arg"
   AC_TRY_COMPILE(
@@ -252,171 +437,419 @@ case "x$am_cv_prog_cc_stdc" in
 esac
 ])
 
-#serial 1
+#serial 8
 
-dnl Just like AC_C_CONST from autoconf-2.12, but with an initializer
-dnl for `charset x' and with
-dnl   AC_DEFINE(const, )
-dnl changed to
-dnl   AC_DEFINE_UNQUOTED(const, [/* empty */])
-dnl to avoid this warning:
-dnl   [...]/m4: Warning: Excess arguments to built-in `define' ignored
+dnl By default, many hosts won't let programs access large files;
+dnl one must use special compiler options to get large-file access to work.
+dnl For more details about this brain damage please see:
+dnl http://www.sas.com/standards/large.file/x_open.20Mar96.html
 
-undefine([AC_C_CONST])
-AC_DEFUN(AC_C_CONST,
-[dnl This message is consistent in form with the other checking messages,
-dnl and with the result message.
-AC_CACHE_CHECK([for working const], ac_cv_c_const,
-[AC_TRY_COMPILE(,
-changequote(<<, >>)dnl
-<<
-/* Ultrix mips cc rejects this.  */
-typedef int charset[2]; const charset x = {0, 0};
-/* SunOS 4.1.1 cc rejects this.  */
-char const *const *ccp;
-char **p;
-/* NEC SVR4.0.2 mips cc rejects this.  */
-struct point {int x, y;};
-static struct point const zero = {0,0};
-/* AIX XL C 1.02.0.0 rejects this.
-   It does not let you subtract one const X* pointer from another in an arm
-   of an if-expression whose if-part is not a constant expression */
-const char *g = "string";
-ccp = &g + (g ? g-g : 0);
-/* HPUX 7.0 cc rejects these. */
-++ccp;
-p = (char**) ccp;
-ccp = (char const *const *) p;
-{ /* SCO 3.2v4 cc rejects this.  */
-  char *t;
-  char const *s = 0 ? (char *) 0 : (char const *) 0;
+dnl Written by Paul Eggert <eggert@twinsun.com>.
 
-  *t++ = 0;
-}
-{ /* Someone thinks the Sun supposedly-ANSI compiler will reject this.  */
-  int x[] = {25, 17};
-  const int *foo = &x[0];
-  ++foo;
-}
-{ /* Sun SC1.0 ANSI compiler rejects this -- but not the above. */
-  typedef const int *iptr;
-  iptr p = 0;
-  ++p;
-}
-{ /* AIX XL C 1.02.0.0 rejects this saying
-     "k.c", line 2.27: 1506-025 (S) Operand must be a modifiable lvalue. */
-  struct s { int j; const int *ap[3]; };
-  struct s *b; b->j = 5;
-}
-{ /* ULTRIX-32 V3.1 (Rev 9) vcc rejects this */
-  const int foo = 10;
-}
->>,
-changequote([, ])dnl
-ac_cv_c_const=yes, ac_cv_c_const=no)])
-if test $ac_cv_c_const = no; then
-  AC_DEFINE_UNQUOTED(const, [/* empty */])
-fi
-])
+dnl Internal subroutine of AC_SYS_LARGEFILE.
+dnl AC_SYS_LARGEFILE_FLAGS(FLAGSNAME)
+AC_DEFUN(AC_SYS_LARGEFILE_FLAGS,
+  [AC_CACHE_CHECK([for $1 value to request large file support],
+     ac_cv_sys_largefile_$1,
+     [if ($GETCONF LFS_$1) >conftest.1 2>conftest.2 && test ! -s conftest.2
+      then
+        ac_cv_sys_largefile_$1=`cat conftest.1`
+      else
+	ac_cv_sys_largefile_$1=no
+	ifelse($1, CFLAGS,
+	  [case "$host_os" in
+	   # HP-UX 10.20 requires -D__STDC_EXT__ with gcc 2.95.1.
+[	   hpux10.[2-9][0-9]* | hpux1[1-9]* | hpux[2-9][0-9]*)]
+	     if test "$GCC" = yes; then
+	       ac_cv_sys_largefile_CFLAGS=-D__STDC_EXT__
+	     fi
+	     ;;
+	   # IRIX 6.2 and later require cc -n32.
+[	   irix6.[2-9]* | irix6.1[0-9]* | irix[7-9].* | irix[1-9][0-9]*)]
+	     if test "$GCC" != yes; then
+	       ac_cv_sys_largefile_CFLAGS=-n32
+	     fi
+	   esac
+	   if test "$ac_cv_sys_largefile_CFLAGS" != no; then
+	     ac_save_CC="$CC"
+	     CC="$CC $ac_cv_sys_largefile_CFLAGS"
+	     AC_TRY_LINK(, , , ac_cv_sys_largefile_CFLAGS=no)
+	     CC="$ac_save_CC"
+	   fi])
+      fi
+      rm -f conftest*])])
 
-#serial 1
+dnl Internal subroutine of AC_SYS_LARGEFILE.
+dnl AC_SYS_LARGEFILE_SPACE_APPEND(VAR, VAL)
+AC_DEFUN(AC_SYS_LARGEFILE_SPACE_APPEND,
+  [case $2 in
+   no) ;;
+   ?*)
+     case "[$]$1" in
+     '') $1=$2 ;;
+     *) $1=[$]$1' '$2 ;;
+     esac ;;
+   esac])
 
-dnl Just like AC_CHECK_TYPE from autoconf-2.12, but also checks in unistd.h
-dnl on systems that have it.  Fujitsu UXP/V needs this for ssize_t.
+dnl Internal subroutine of AC_SYS_LARGEFILE.
+dnl AC_SYS_LARGEFILE_MACRO_VALUE(C-MACRO, CACHE-VAR, COMMENT, CODE-TO-SET-DEFAULT)
+AC_DEFUN(AC_SYS_LARGEFILE_MACRO_VALUE,
+  [AC_CACHE_CHECK([for $1], $2,
+     [$2=no
+      $4
+      for ac_flag in $ac_cv_sys_largefile_CFLAGS no; do
+	case "$ac_flag" in
+	-D$1)
+	  $2=1 ;;
+	-D$1=*)
+	  $2=`expr " $ac_flag" : '[[^=]]*=\(.*\)'` ;;
+	esac
+      done
+      ])
+   if test "[$]$2" != no; then
+     AC_DEFINE_UNQUOTED([$1], [$]$2, [$3])
+   fi])
 
-undefine([AC_CHECK_TYPE])
-dnl AC_CHECK_TYPE(TYPE, DEFAULT)
-AC_DEFUN(AC_CHECK_TYPE,
-[AC_REQUIRE([AC_HEADER_STDC])dnl
-AC_CHECK_HEADERS(unistd.h)
-AC_MSG_CHECKING(for $1)
-AC_CACHE_VAL(ac_cv_type_$1,
-[AC_EGREP_CPP(dnl
-changequote(<<,>>)dnl
-<<$1[^a-zA-Z_0-9]>>dnl
-changequote([,]), [#include <sys/types.h>
-#if STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#endif
-#if HAVE_UNISTD_H
-# include <unistd.h>
-#endif], ac_cv_type_$1=yes, ac_cv_type_$1=no)])dnl
-AC_MSG_RESULT($ac_cv_type_$1)
-if test $ac_cv_type_$1 = no; then
-  AC_DEFINE($1, $2)
-fi
-])
+AC_DEFUN(AC_SYS_LARGEFILE,
+  [AC_REQUIRE([AC_CANONICAL_HOST])
+   AC_ARG_ENABLE(largefile,
+     [  --disable-largefile     omit support for large files])
+   if test "$enable_largefile" != no; then
+     AC_CHECK_TOOL(GETCONF, getconf)
+     AC_SYS_LARGEFILE_FLAGS(CFLAGS)
+     AC_SYS_LARGEFILE_FLAGS(LDFLAGS)
+     AC_SYS_LARGEFILE_FLAGS(LIBS)
 
-#serial 2
+     for ac_flag in $ac_cv_sys_largefile_CFLAGS no; do
+       case "$ac_flag" in
+       no) ;;
+       -D_FILE_OFFSET_BITS=*) ;;
+       -D_LARGEFILE_SOURCE | -D_LARGEFILE_SOURCE=*) ;;
+       -D_LARGE_FILES | -D_LARGE_FILES=*) ;;
+       -D?* | -I?*)
+	 AC_SYS_LARGEFILE_SPACE_APPEND(CPPFLAGS, "$ac_flag") ;;
+       *)
+	 AC_SYS_LARGEFILE_SPACE_APPEND(CFLAGS, "$ac_flag") ;;
+       esac
+     done
+     AC_SYS_LARGEFILE_SPACE_APPEND(LDFLAGS, "$ac_cv_sys_largefile_LDFLAGS")
+     AC_SYS_LARGEFILE_SPACE_APPEND(LIBS, "$ac_cv_sys_largefile_LIBS")
+     AC_SYS_LARGEFILE_MACRO_VALUE(_FILE_OFFSET_BITS,
+       ac_cv_sys_file_offset_bits,
+       [Number of bits in a file offset, on hosts where this is settable.],
+       [case "$host_os" in
+	# HP-UX 10.20 and later
+[	hpux10.[2-9][0-9]* | hpux1[1-9]* | hpux[2-9][0-9]*)]
+	  ac_cv_sys_file_offset_bits=64 ;;
+	esac])
+     AC_SYS_LARGEFILE_MACRO_VALUE(_LARGEFILE_SOURCE,
+       ac_cv_sys_largefile_source,
+       [Define to make fseeko etc. visible, on some hosts.],
+       [case "$host_os" in
+	# HP-UX 10.20 and later
+[	hpux10.[2-9][0-9]* | hpux1[1-9]* | hpux[2-9][0-9]*)]
+	  ac_cv_sys_largefile_source=1 ;;
+	esac])
+     AC_SYS_LARGEFILE_MACRO_VALUE(_LARGE_FILES,
+       ac_cv_sys_large_files,
+       [Define for large files, on AIX-style hosts.],
+       [case "$host_os" in
+	# AIX 4.2 and later
+[	aix4.[2-9]* | aix4.1[0-9]* | aix[5-9].* | aix[1-9][0-9]*)]
+	  ac_cv_sys_large_files=1 ;;
+	esac])
+   fi
+  ])
+
+#serial 13, with several lines deleted for fileutils.
 
 dnl Misc type-related macros for fileutils, sh-utils, textutils.
 
 AC_DEFUN(jm_MACROS,
 [
+  AC_PREREQ(2.14a)
+
+  GNU_PACKAGE="GNU $PACKAGE"
+  AC_DEFINE_UNQUOTED(GNU_PACKAGE, "$GNU_PACKAGE",
+    [The concatenation of the strings `GNU ', and PACKAGE.])
+  AC_SUBST(GNU_PACKAGE)
+
+  AC_SUBST(OPTIONAL_BIN_PROGS)
+  AC_SUBST(OPTIONAL_BIN_ZCRIPTS)
+  AC_SUBST(MAN)
+  AC_SUBST(DF_PROG)
+
   dnl This macro actually runs replacement code.  See isc-posix.m4.
   AC_REQUIRE([AC_ISC_POSIX])dnl
 
-  AC_REQUIRE([jm_WITH_REGEX])
+  AC_CHECK_HEADERS( \
+    errno.h  \
+    fcntl.h \
+    fenv.h \
+    float.h \
+    limits.h \
+    memory.h \
+    mntent.h \
+    mnttab.h \
+    netdb.h \
+    paths.h \
+    stdlib.h \
+    stddef.h \
+    string.h \
+    sys/acl.h \
+    sys/filsys.h \
+    sys/fs/s5param.h \
+    sys/fs_types.h \
+    sys/fstyp.h \
+    sys/ioctl.h \
+    sys/mntent.h \
+    sys/mount.h \
+    sys/param.h \
+    sys/socket.h \
+    sys/statfs.h \
+    sys/statvfs.h \
+    sys/systeminfo.h \
+    sys/time.h \
+    sys/timeb.h \
+    sys/vfs.h \
+    sys/wait.h \
+    syslog.h \
+    termios.h \
+    unistd.h \
+    values.h \
+  )
+
+  jm_INCLUDED_REGEX([lib/regex.c])
+
   AC_REQUIRE([jm_ASSERT])
   AC_REQUIRE([jm_AC_HEADER_INTTYPES_H])
-  AC_REQUIRE([jm_AC_TYPE_UINTMAX_T])
-  AC_CHECK_TYPE(ssize_t, int)
-  AC_REQUIRE([jm_STRUCT_UTIMBUF])
+  AC_REQUIRE([jm_CHECK_TYPE_STRUCT_DIRENT_D_TYPE])
+  AC_REQUIRE([jm_CHECK_TYPE_STRUCT_DIRENT_D_INO])
   AC_REQUIRE([jm_CHECK_DECLS])
 
   AC_REQUIRE([jm_PREREQ])
 
   AC_REQUIRE([jm_FUNC_MKTIME])
   AC_REQUIRE([jm_FUNC_LSTAT])
+  AC_REQUIRE([jm_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK])
   AC_REQUIRE([jm_FUNC_STAT])
   AC_REQUIRE([jm_FUNC_REALLOC])
   AC_REQUIRE([jm_FUNC_MALLOC])
+  AC_REQUIRE([jm_FUNC_STRERROR_R])
   AC_REQUIRE([jm_FUNC_READDIR])
   AC_REQUIRE([jm_FUNC_MEMCMP])
   AC_REQUIRE([jm_FUNC_GLIBC_UNLOCKED_IO])
   AC_REQUIRE([jm_FUNC_FNMATCH])
+  AC_REQUIRE([jm_AFS])
+  AC_REQUIRE([jm_AC_PREREQ_XSTRTOUMAX])
+  AC_REQUIRE([jm_AC_FUNC_LINK_FOLLOWS_SYMLINK])
+  AC_REQUIRE([AM_FUNC_ERROR_AT_LINE])
+  AC_REQUIRE([jm_FUNC_GNU_STRFTIME])
+  AC_REQUIRE([jm_FUNC_MKTIME])
+
+  AC_REQUIRE([AC_FUNC_VPRINTF])
+  AC_REQUIRE([AC_FUNC_ALLOCA])
+
+  AC_REPLACE_FUNCS(strncasecmp)
+  AC_REPLACE_FUNCS(stpcpy strstr strtol strtoul)
+  AC_REPLACE_FUNCS(memcmp)
+
+  dnl used by e.g. intl/*domain.c and lib/canon-host.c
+  AC_REPLACE_FUNCS(strdup)
+
+  AC_REPLACE_FUNCS(memcpy memset)
+  AC_CHECK_FUNCS(getpagesize)
+
+  # By default, argmatch should fail calling usage (1).
+  AC_DEFINE(ARGMATCH_DIE, [usage (1)],
+	    [Define to the function xargmatch calls on failures.])
+  AC_DEFINE(ARGMATCH_DIE_DECL, [extern void usage ()],
+	    [Define to the declaration of the xargmatch failure function.])
+
+  dnl Used to define SETVBUF in sys2.h.
+  dnl This evokes the following warning from autoconf:
+  dnl ...: warning: AC_TRY_RUN called without default to allow cross compiling
+  AC_FUNC_SETVBUF_REVERSED
+
+  # used by sleep and shred
+  # Solaris 2.5.1 needs -lposix4 to get the clock_gettime function.
+  # Solaris 7 prefers the library name -lrt to the obsolescent name -lposix4.
+  AC_SEARCH_LIBS(clock_gettime, [rt posix4])
+  AC_CHECK_FUNCS(clock_gettime)
+  AC_CHECK_FUNCS(gettimeofday)
+
+  AC_CHECK_FUNCS(getdelim)
+
+  AC_REQUIRE([AC_FUNC_CLOSEDIR_VOID])
+
+  AC_CHECK_FUNCS( \
+    acl \
+    bcopy \
+    endgrent \
+    endpwent \
+    fchdir \
+    fdatasync \
+    fseeko \
+    ftime \
+    ftruncate \
+    getcwd \
+    gethrtime \
+    getmntinfo \
+    hasmntopt \
+    isascii \
+    listmntent \
+    localeconv \
+    memcpy \
+    mempcpy \
+    mkfifo \
+    realpath \
+    resolvepath \
+    sethostname \
+    strchr \
+    strerror \
+    strrchr \
+    sysinfo \
+    tzset \
+  )
+
+  AM_FUNC_GETLINE
+  if test $am_cv_func_working_getline != yes; then
+    AC_CHECK_FUNCS(getdelim)
+  fi
 ])
 
-#serial 2
+AC_DEFUN(jm_CHECK_ALL_TYPES,
+[
+  dnl Checks for typedefs, structures, and compiler characteristics.
+  AC_REQUIRE([AC_C_BIGENDIAN])
+  AC_REQUIRE([AC_PROG_CC_STDC])
+  AC_REQUIRE([AC_C_CONST])
+  AC_REQUIRE([AC_C_VOLATILE])
+  AC_REQUIRE([AC_C_INLINE])
+  AC_REQUIRE([AC_C_LONG_DOUBLE])
 
-dnl Derived from code in GNU grep.
+  AC_REQUIRE([AC_HEADER_DIRENT])
+  AC_REQUIRE([AC_HEADER_STDC])
+  AC_CHECK_MEMBERS((struct stat.st_blksize),,,[$ac_includes_default
+#include <sys/stat.h>
+  ])
+  AC_REQUIRE([AC_STRUCT_ST_BLOCKS])
 
-AC_DEFUN(jm_WITH_REGEX,
+  AC_REQUIRE([AC_STRUCT_TM])
+  AC_REQUIRE([AC_STRUCT_TIMEZONE])
+  AC_REQUIRE([AC_HEADER_STAT])
+  AC_REQUIRE([AC_STRUCT_ST_MTIM_NSEC])
+  AC_REQUIRE([AC_STRUCT_ST_DM_MODE])
+  AC_REQUIRE([jm_CHECK_TYPE_STRUCT_TIMESPEC])
+
+  AC_REQUIRE([AC_TYPE_GETGROUPS])
+  AC_REQUIRE([AC_TYPE_MODE_T])
+  AC_REQUIRE([AC_TYPE_OFF_T])
+  AC_REQUIRE([AC_TYPE_PID_T])
+  AC_REQUIRE([AC_TYPE_SIGNAL])
+  AC_REQUIRE([AC_TYPE_SIZE_T])
+  AC_REQUIRE([AC_TYPE_UID_T])
+  AC_CHECK_TYPE(ino_t, unsigned long)
+
+  dnl This relies on the fact that autoconf 2.14a's implementation of
+  dnl AC_CHECK_TYPE checks includes unistd.h.
+  AC_CHECK_TYPE(ssize_t, int)
+
+  AC_REQUIRE([jm_AC_TYPE_UINTMAX_T])
+  AC_REQUIRE([jm_AC_TYPE_UNSIGNED_LONG_LONG])
+
+  AC_REQUIRE([AC_HEADER_MAJOR])
+  AC_REQUIRE([AC_HEADER_DIRENT])
+
+])
+
+#serial 7
+
+dnl Initially derived from code in GNU grep.
+dnl Mostly written by Jim Meyering.
+
+dnl Usage: jm_INCLUDED_REGEX([lib/regex.c])
+dnl
+AC_DEFUN(jm_INCLUDED_REGEX,
   [
     dnl Even packages that don't use regex.c can use this macro.
     dnl Of course, for them it doesn't do anything.
 
-    syscmd([test -f lib/regex.c])
+    # Assume we'll default to using the included regex.c.
+    ac_use_included_regex=yes
+
+    # However, if the system regex support is good enough that it passes the
+    # the following run test, then default to *not* using the included regex.c.
+    # If cross compiling, assume the test would fail and use the included
+    # regex.c.  The first failing regular expression is from `Spencer ere
+    # test #75' in grep-2.3.
+    AC_CACHE_CHECK([for working re_compile_pattern],
+		   jm_cv_func_working_re_compile_pattern,
+      AC_TRY_RUN(
+[#include <stdio.h>
+#include <regex.h>
+	  int
+	  main ()
+	  {
+	    static struct re_pattern_buffer regex;
+	    const char *s;
+	    re_set_syntax (RE_SYNTAX_POSIX_EGREP);
+	    /* Add this third left square bracket, [, to balance the
+	       three right ones below.  Otherwise autoconf-2.14 chokes.  */
+	    s = re_compile_pattern ("a[[:]:]]b\n", 9, &regex);
+	    /* This should fail with _Invalid character class name_ error.  */
+	    if (!s)
+	      exit (1);
+
+	    /* This should succeed, but doesn't for e.g. glibc-2.1.3.  */
+	    s = re_compile_pattern ("{1", 2, &regex);
+
+	    exit (s ? 1 : 0);
+	  }
+	],
+	       jm_cv_func_working_re_compile_pattern=yes,
+	       jm_cv_func_working_re_compile_pattern=no,
+	       dnl When crosscompiling, assume it's broken.
+	       jm_cv_func_working_re_compile_pattern=no))
+    if test $jm_cv_func_working_re_compile_pattern = yes; then
+      ac_use_included_regex=no
+    fi
+
+    test -n "$1" || AC_MSG_ERROR([missing argument])
+    syscmd([test -f $1])
     ifelse(sysval, 0,
       [
+
 	AC_ARG_WITH(included-regex,
-	    [  --without-included-regex don't compile regex (use with caution)],
+	[  --without-included-regex don't compile regex; this is the default on
+                          systems with version 2 of the GNU C library
+                          (use with caution on other system)],
 		    jm_with_regex=$withval,
-		    jm_with_regex=yes)
+		    jm_with_regex=$ac_use_included_regex)
 	if test "$jm_with_regex" = yes; then
-	  LIBOBJS="$LIBOBJS regex.o"
+	  AC_SUBST(LIBOBJS)
+	  LIBOBJS="$LIBOBJS regex.$ac_objext"
 	fi
       ],
     )
   ]
 )
 
-#serial 1
+#serial 2
 dnl based on code from Eleftherios Gkioulekas
 
 AC_DEFUN(jm_ASSERT,
 [
   AC_MSG_CHECKING(whether to enable assertions)
   AC_ARG_ENABLE(assert,
-                [  --disable-assert        turn off assertions],
-                [ AC_MSG_RESULT(no)
-		  AC_DEFINE(NDEBUG) ],
-                [ AC_MSG_RESULT(yes) ]
+	[  --disable-assert        turn off assertions],
+	[ AC_MSG_RESULT(no)
+	  AC_DEFINE(NDEBUG,1,[Define to 1 if assertions should be disabled.]) ],
+	[ AC_MSG_RESULT(yes) ]
                )
 ])
 
-#serial 2
+#serial 3
 
 dnl From Paul Eggert.
 
@@ -425,12 +858,6 @@ dnl From Paul Eggert.
 
 AC_DEFUN(jm_AC_HEADER_INTTYPES_H,
 [
-  if test x = y; then
-    dnl This code is deliberately never run via ./configure.
-    dnl FIXME: this is a gross hack to make autoheader put an entry
-    dnl for `HAVE_INTTYPES_H' in config.h.in.
-    AC_CHECK_FUNCS(INTTYPES_H)
-  fi
   AC_CACHE_CHECK([for inttypes.h], jm_ac_cv_header_inttypes_h,
   [AC_TRY_COMPILE(
     [#include <sys/types.h>
@@ -439,180 +866,231 @@ AC_DEFUN(jm_AC_HEADER_INTTYPES_H,
     jm_ac_cv_header_inttypes_h=yes,
     jm_ac_cv_header_inttypes_h=no)])
   if test $jm_ac_cv_header_inttypes_h = yes; then
-    ac_kludge=HAVE_INTTYPES_H
-    AC_DEFINE_UNQUOTED($ac_kludge)
+    AC_DEFINE_UNQUOTED(HAVE_INTTYPES_H, 1,
+[Define if <inttypes.h> exists, doesn't clash with <sys/types.h>,
+   and declares uintmax_t. ])
   fi
 ])
 
-#serial 1
+#serial 3
 
-dnl From Paul Eggert.
+dnl From Jim Meyering.
+dnl
+dnl Check whether struct dirent has a member named d_type.
+dnl
 
-# Define uintmax_t to `unsigned long' or `unsigned long long'
-# if <inttypes.h> does not exist.
+AC_DEFUN(jm_CHECK_TYPE_STRUCT_DIRENT_D_TYPE,
+  [AC_REQUIRE([AC_HEADER_DIRENT])dnl
+   AC_CACHE_CHECK([for d_type member in directory struct],
+		  jm_cv_struct_dirent_d_type,
+     [AC_TRY_LINK(dnl
+       [
+#include <sys/types.h>
+#ifdef HAVE_DIRENT_H
+# include <dirent.h>
+#else /* not HAVE_DIRENT_H */
+# define dirent direct
+# ifdef HAVE_SYS_NDIR_H
+#  include <sys/ndir.h>
+# endif /* HAVE_SYS_NDIR_H */
+# ifdef HAVE_SYS_DIR_H
+#  include <sys/dir.h>
+# endif /* HAVE_SYS_DIR_H */
+# ifdef HAVE_NDIR_H
+#  include <ndir.h>
+# endif /* HAVE_NDIR_H */
+#endif /* HAVE_DIRENT_H */
+       ],
+       [struct dirent dp; dp.d_type = 0;],
 
-AC_DEFUN(jm_AC_TYPE_UINTMAX_T,
-[
-  AC_REQUIRE([jm_AC_HEADER_INTTYPES_H])
-  if test $jm_ac_cv_header_inttypes_h = no; then
-    AC_CACHE_CHECK([for unsigned long long], ac_cv_type_unsigned_long_long,
-    [AC_TRY_COMPILE([],
-      [unsigned long long i = (unsigned long long) -1;],
-      ac_cv_type_unsigned_long_long=yes,
-      ac_cv_type_unsigned_long_long=no)])
-    if test $ac_cv_type_unsigned_long_long = yes; then
-      AC_DEFINE(uintmax_t, unsigned long long)
-    else
-      AC_DEFINE(uintmax_t, unsigned long)
-    fi
-  fi
-])
+       jm_cv_struct_dirent_d_type=yes,
+       jm_cv_struct_dirent_d_type=no)
+     ]
+   )
+   if test $jm_cv_struct_dirent_d_type = yes; then
+     AC_DEFINE(D_TYPE_IN_DIRENT, 1,
+  [Define if there is a member named d_type in the struct describing
+   directory headers.])
+   fi
+  ]
+)
 
-#serial 1
+#serial 3
 
-dnl From Jim Meyering
+dnl From Jim Meyering.
+dnl
+dnl Check whether struct dirent has a member named d_ino.
+dnl
 
-dnl Define HAVE_STRUCT_UTIMBUF if `struct utimbuf' is declared --
-dnl usually in <utime.h>.
-dnl Some systems have utime.h but don't declare the struct anywhere.
+AC_DEFUN(jm_CHECK_TYPE_STRUCT_DIRENT_D_INO,
+  [AC_REQUIRE([AC_HEADER_DIRENT])dnl
+   AC_CACHE_CHECK([for d_ino member in directory struct],
+		  jm_cv_struct_dirent_d_ino,
+     [AC_TRY_LINK(dnl
+       [
+#include <sys/types.h>
+#ifdef HAVE_DIRENT_H
+# include <dirent.h>
+#else /* not HAVE_DIRENT_H */
+# define dirent direct
+# ifdef HAVE_SYS_NDIR_H
+#  include <sys/ndir.h>
+# endif /* HAVE_SYS_NDIR_H */
+# ifdef HAVE_SYS_DIR_H
+#  include <sys/dir.h>
+# endif /* HAVE_SYS_DIR_H */
+# ifdef HAVE_NDIR_H
+#  include <ndir.h>
+# endif /* HAVE_NDIR_H */
+#endif /* HAVE_DIRENT_H */
+       ],
+       [struct dirent dp; dp.d_ino = 0;],
 
-AC_DEFUN(jm_STRUCT_UTIMBUF,
-[
-  AC_CHECK_HEADERS(utime.h)
-  AC_REQUIRE([AC_HEADER_TIME])
-  AC_CACHE_CHECK([for struct utimbuf], fu_cv_sys_struct_utimbuf,
-    [AC_TRY_COMPILE(
-      [
-#ifdef TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# ifdef HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
-#ifdef HAVE_UTIME_H
-# include <utime.h>
-#endif
-      ],
-      [static struct utimbuf x; x.actime = x.modtime;],
-      fu_cv_sys_struct_utimbuf=yes,
-      fu_cv_sys_struct_utimbuf=no)
-    ])
+       jm_cv_struct_dirent_d_ino=yes,
+       jm_cv_struct_dirent_d_ino=no)
+     ]
+   )
+   if test $jm_cv_struct_dirent_d_ino = yes; then
+     AC_DEFINE(D_INO_IN_DIRENT, 1,
+  [Define if there is a member named d_ino in the struct describing
+   directory headers.])
+   fi
+  ]
+)
 
-  if test $fu_cv_sys_struct_utimbuf = yes; then
-    if test x = y; then
-      # This code is deliberately never run via ./configure.
-      # FIXME: this is a hack to make autoheader put the corresponding
-      # HAVE_* undef for this symbol in config.h.in.  This saves me the
-      # trouble of having to maintain the #undef in acconfig.h manually.
-      AC_CHECK_FUNCS(STRUCT_UTIMBUF)
-    fi
-    # Defining it this way (rather than via AC_DEFINE) short-circuits the
-    # autoheader check -- autoheader doesn't know it's already been taken
-    # care of by the hack above.
-    ac_kludge=HAVE_STRUCT_UTIMBUF
-    AC_DEFINE_UNQUOTED($ac_kludge)
-  fi
-])
-
-#serial 4
+#serial 9, except remove memchr and nanosleep as findutils doesn't need them
 
 dnl This is just a wrapper function to encapsulate this kludge.
 dnl Putting it in a separate file like this helps share it between
 dnl different packages.
 AC_DEFUN(jm_CHECK_DECLS,
 [
+  AC_REQUIRE([_jm_DECL_HEADERS])
+  AC_REQUIRE([AC_HEADER_TIME])
   headers='
 #include <stdio.h>
-#ifdef HAVE_STRING_H
+#if HAVE_STRING_H
 # if !STDC_HEADERS && HAVE_MEMORY_H
 #  include <memory.h>
 # endif
 # include <string.h>
 #else
-# ifdef HAVE_STRINGS_H
+# if HAVE_STRINGS_H
 #  include <strings.h>
 # endif
 #endif
-#ifdef HAVE_STDLIB_H
+#if HAVE_STDLIB_H
 # include <stdlib.h>
 #endif
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 # include <unistd.h>
 #endif
-'
-  if test x = y; then
-    dnl This code is deliberately never run via ./configure.
-    dnl FIXME: this is a gross hack to make autoheader put entries
-    dnl for each of these symbols in the config.h.in.
-    dnl Otherwise, I'd have to update acconfig.h every time I change
-    dnl this list of functions.
-    AC_CHECK_FUNCS(DECL_FREE DECL_LSEEK DECL_MALLOC DECL_MEMCHR DECL_REALLOC \
-		   DECL_STPCPY DECL_STRSTR)
-  fi
-  jm_CHECK_DECLARATIONS($headers, free lseek malloc \
-                        memchr realloc stpcpy strstr)
-])
 
-#serial 3
-
-AC_DEFUN(jm_CHECK_DECLARATION,
-[
-  AC_REQUIRE([AC_HEADER_STDC])dnl
-  test -z "$ac_cv_header_memory_h" && AC_CHECK_HEADERS(memory.h)
-  test -z "$ac_cv_header_string_h" && AC_CHECK_HEADERS(string.h)
-  test -z "$ac_cv_header_strings_h" && AC_CHECK_HEADERS(strings.h)
-  test -z "$ac_cv_header_stdlib_h" && AC_CHECK_HEADERS(stdlib.h)
-  test -z "$ac_cv_header_unistd_h" && AC_CHECK_HEADERS(unistd.h)
-  AC_MSG_CHECKING([whether $1 is declared])
-  AC_CACHE_VAL(jm_cv_func_decl_$1,
-    [AC_TRY_COMPILE($2,
-      [
-#ifndef $1
-char *(*pfn) = (char *(*)) $1
+#include <sys/types.h>
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
 #endif
-      ],
-      eval "jm_cv_func_decl_$1=yes",
-      eval "jm_cv_func_decl_$1=no")])
+'
 
-  if eval "test \"`echo '$jm_cv_func_decl_'$1`\" = yes"; then
-    AC_MSG_RESULT(yes)
-    ifelse([$3], , :, [$3])
-  else
-    AC_MSG_RESULT(no)
-    ifelse([$4], , , [$4
-])dnl
-  fi
-])dnl
-
-dnl jm_CHECK_DECLARATIONS(INCLUDES, FUNCTION... [, ACTION-IF-DECLARED
-dnl                       [, ACTION-IF-NOT-DECLARED]])
-AC_DEFUN(jm_CHECK_DECLARATIONS,
-[
-  for jm_func in $2
-  do
-    jm_CHECK_DECLARATION($jm_func, $1,
-    [
-      jm_tr_func=HAVE_DECL_`echo $jm_func | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ`
-      AC_DEFINE_UNQUOTED($jm_tr_func) $3], $4)dnl
-  done
+  AC_CHECK_DECLS((
+    free,
+    getenv,
+    geteuid,
+    getlogin,
+    lseek,
+    malloc,
+    realloc,
+    stpcpy,
+    strstr,
+    strtoul,
+    strtoull,
+    ttyname), , , $headers)
 ])
 
-#serial 2
+dnl FIXME: when autoconf has support for it.
+dnl This is a little helper so we can require these header checks.
+AC_DEFUN(_jm_DECL_HEADERS,
+[
+  AC_REQUIRE([AC_HEADER_STDC])
+  AC_CHECK_HEADERS(memory.h string.h strings.h stdlib.h unistd.h sys/time.h)
+])
+
+#serial 5
 
 dnl These are the prerequisite macros for files in the lib/
 dnl directories of the fileutils, sh-utils, and textutils packages.
 
 AC_DEFUN(jm_PREREQ,
 [
+  jm_PREREQ_ADDEXT
+  jm_PREREQ_CANON_HOST
   jm_PREREQ_ERROR
+  jm_PREREQ_QUOTEARG
+  jm_PREREQ_READUTMP
   jm_PREREQ_REGEX
 ])
 
-dnl FIXME: maybe put this in a separate file
+AC_DEFUN(jm_PREREQ_ADDEXT,
+[
+  dnl For addext.c.
+  AC_SYS_LONG_FILE_NAMES
+  AC_CHECK_FUNCS(pathconf)
+  AC_CHECK_HEADERS(limits.h string.h unistd.h)
+])
+
+AC_DEFUN(jm_PREREQ_CANON_HOST,
+[
+  dnl Add any libraries as early as possible.
+  dnl In particular, inet_ntoa needs -lnsl at least on Solaris5.5.1,
+  dnl so we have to add -lnsl to LIBS before checking for that function.
+  AC_SEARCH_LIBS(gethostbyname, [inet nsl])
+
+  dnl These come from -lnsl on Solaris5.5.1.
+  AC_CHECK_FUNCS(gethostbyname gethostbyaddr inet_ntoa)
+
+  AC_CHECK_FUNCS(gethostbyname gethostbyaddr inet_ntoa)
+  AC_CHECK_HEADERS(unistd.h string.h netdb.h sys/socket.h \
+                   netinet/in.h arpa/inet.h)
+])
+
+AC_DEFUN(jm_PREREQ_QUOTEARG,
+[
+  AC_CHECK_FUNCS(isascii mbrtowc)
+  AC_CHECK_HEADERS(limits.h stdlib.h string.h wchar.h wctype.h)
+  AC_HEADER_STDC
+  AC_C_BACKSLASH_A
+  AM_C_PROTOTYPES
+])
+
+AC_DEFUN(jm_PREREQ_READUTMP,
+[
+  AC_HEADER_STDC
+  AC_CHECK_HEADERS(string.h utmpx.h sys/param.h)
+  AC_CHECK_FUNCS(utmpname)
+  AC_CHECK_FUNCS(utmpxname)
+  AM_C_PROTOTYPES
+
+  utmp_includes="\
+$ac_includes_default
+#ifdef HAVE_UTMPX_H
+# include <utmpx.h>
+#else
+# include <utmp.h>
+#endif
+"
+  AC_CHECK_MEMBERS((struct utmpx.ut_user),,,[$utmp_includes])
+  AC_CHECK_MEMBERS((struct utmp.ut_user),,,[$utmp_includes])
+  AC_CHECK_MEMBERS((struct utmpx.ut_name),,,[$utmp_includes])
+  AC_CHECK_MEMBERS((struct utmp.ut_name),,,[$utmp_includes])
+])
+
 AC_DEFUN(jm_PREREQ_REGEX,
 [
   dnl FIXME: Maybe provide a btowc replacement someday: solaris-2.5.1 lacks it.
@@ -638,191 +1116,46 @@ AC_DEFUN(jm_PREREQ_ERROR,
 
 #serial 3
 
+dnl From Paul Eggert.
+
+AC_DEFUN(AC_C_BACKSLASH_A,
+[
+  AC_CACHE_CHECK([whether backslash-a works in strings], ac_cv_c_backslash_a,
+   [AC_TRY_COMPILE([],
+     [
+#if '\a' == 'a'
+      syntax error;
+#endif
+      char buf['\a' == 'a' ? -1 : 1];
+      buf[0] = '\a';
+      return buf[0] != "\a"[0];
+     ],
+     ac_cv_c_backslash_a=yes,
+     ac_cv_c_backslash_a=no)])
+  if test $ac_cv_c_backslash_a = yes; then
+    AC_DEFINE(HAVE_C_BACKSLASH_A, 1,
+      [Define if backslash-a works in C strings.])
+  fi
+])
+
+#serial 7
+
 dnl From Jim Meyering.
-dnl If you use this macro in a package, you should
-dnl add the following two lines to acconfig.h:
-dnl   /* Define to rpl_mktime if the replacement function should be used.  */
-dnl   #undef mktime
-dnl
+dnl A wrapper around AC_FUNC_MKTIME.
+
 AC_DEFUN(jm_FUNC_MKTIME,
-[AC_REQUIRE([jm_AM_FUNC_MKTIME])dnl
+[AC_REQUIRE([AC_FUNC_MKTIME])dnl
 
  dnl mktime.c uses localtime_r if it exists.  Check for it.
  AC_CHECK_FUNCS(localtime_r)
 
- if test $jm_am_cv_func_working_mktime = no; then
-   AC_DEFINE_UNQUOTED(mktime, rpl_mktime)
+ if test $ac_cv_func_working_mktime = no; then
+   AC_DEFINE_UNQUOTED(mktime, rpl_mktime,
+    [Define to rpl_mktime if the replacement function should be used.])
  fi
 ])
 
-#serial 1001
-
-dnl Just like mktime.m4 from automake-1.3b, but with an additional test.
-dnl Renamed to have jm_ prefix and to use jm_ prefix on cache variable names.
-
-AC_DEFUN(jm_AM_FUNC_MKTIME,
-[AC_REQUIRE([AC_HEADER_TIME])dnl
- AC_CHECK_HEADERS(sys/time.h unistd.h)
- AC_CHECK_FUNCS(alarm)
- AC_CACHE_CHECK([for working mktime], jm_am_cv_func_working_mktime,
-  [AC_TRY_RUN(
-changequote(<<, >>)dnl
-<</* Test program from Paul Eggert (eggert@twinsun.com)
-   and Tony Leneis (tony@plaza.ds.adp.com).  */
-#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
-
-#if HAVE_UNISTD_H
-# include <unistd.h>
-#endif
-
-#if !HAVE_ALARM
-# define alarm(X) /* empty */
-#endif
-
-/* Work around redefinition to rpl_putenv by other config tests.  */
-#undef putenv
-
-static time_t time_t_max;
-
-/* Values we'll use to set the TZ environment variable.  */
-static const char *const tz_strings[] = {
-  (const char *) 0, "TZ=GMT0", "TZ=JST-9",
-  "TZ=EST+3EDT+2,M10.1.0/00:00:00,M2.3.0/00:00:00"
-};
-#define N_STRINGS (sizeof (tz_strings) / sizeof (tz_strings[0]))
-
-/* Fail if mktime fails to convert a date in the spring-forward gap.
-   Based on a problem report from Andreas Jaeger.  */
-static void
-spring_forward_gap ()
-{
-  /* glibc (up to about 1998-10-07) failed this test) */
-  struct tm tm;
-
-  /* Use the portable POSIX.1 specification "TZ=PST8PDT,M4.1.0,M10.5.0"
-     instead of "TZ=America/Vancouver" in order to detect the bug even
-     on systems that don't support the Olson extension, or don't have the
-     full zoneinfo tables installed.  */
-  putenv ("TZ=PST8PDT,M4.1.0,M10.5.0");
-  tm.tm_year = 98;
-  tm.tm_mon = 3;
-  tm.tm_mday = 5;
-  tm.tm_hour = 2;
-  tm.tm_min = 0;
-  tm.tm_sec = 0;
-  tm.tm_isdst = -1;
-  if (mktime (&tm) == (time_t)-1)
-    exit (1);
-}
-
-static void
-mktime_test (now)
-     time_t now;
-{
-  struct tm *lt;
-  if ((lt = localtime (&now)) && mktime (lt) != now)
-    exit (1);
-  now = time_t_max - now;
-  if ((lt = localtime (&now)) && mktime (lt) != now)
-    exit (1);
-}
-
-static void
-irix_6_4_bug ()
-{
-  /* Based on code from Ariel Faigon.  */
-  struct tm tm;
-  tm.tm_year = 96;
-  tm.tm_mon = 3;
-  tm.tm_mday = 0;
-  tm.tm_hour = 0;
-  tm.tm_min = 0;
-  tm.tm_sec = 0;
-  tm.tm_isdst = -1;
-  mktime (&tm);
-  if (tm.tm_mon != 2 || tm.tm_mday != 31)
-    exit (1);
-}
-
-static void
-bigtime_test (j)
-     int j;
-{
-  struct tm tm;
-  time_t now;
-  tm.tm_year = tm.tm_mon = tm.tm_mday = tm.tm_hour = tm.tm_min = tm.tm_sec = j;
-  /* This test makes some buggy mktime implementations loop.
-     Give up after 10 seconds.  */
-  alarm (10);
-  now = mktime (&tm);
-  alarm (0);
-  if (now != (time_t) -1)
-    {
-      struct tm *lt = localtime (&now);
-      if (! (lt
-	     && lt->tm_year == tm.tm_year
-	     && lt->tm_mon == tm.tm_mon
-	     && lt->tm_mday == tm.tm_mday
-	     && lt->tm_hour == tm.tm_hour
-	     && lt->tm_min == tm.tm_min
-	     && lt->tm_sec == tm.tm_sec
-	     && lt->tm_yday == tm.tm_yday
-	     && lt->tm_wday == tm.tm_wday
-	     && ((lt->tm_isdst < 0 ? -1 : 0 < lt->tm_isdst)
-		  == (tm.tm_isdst < 0 ? -1 : 0 < tm.tm_isdst))))
-	exit (1);
-    }
-}
-
-int
-main ()
-{
-  time_t t, delta;
-  int i, j;
-
-  spring_forward_gap ();
-  for (time_t_max = 1; 0 < time_t_max; time_t_max *= 2)
-    continue;
-  time_t_max--;
-  delta = time_t_max / 997; /* a suitable prime number */
-  for (i = 0; i < N_STRINGS; i++)
-    {
-      if (tz_strings[i])
-	putenv (tz_strings[i]);
-
-      for (t = 0; t <= time_t_max - delta; t += delta)
-	mktime_test (t);
-      mktime_test ((time_t) 60 * 60);
-      mktime_test ((time_t) 60 * 60 * 24);
-
-      for (j = 1; 0 < j; j *= 2)
-        bigtime_test (j);
-      bigtime_test (j - 1);
-    }
-  irix_6_4_bug ();
-  exit (0);
-}
-	      >>,
-changequote([, ])dnl
-	     jm_am_cv_func_working_mktime=yes, jm_am_cv_func_working_mktime=no,
-	     dnl When crosscompiling, assume mktime is missing or broken.
-	     jm_am_cv_func_working_mktime=no)
-  ])
-  if test $jm_am_cv_func_working_mktime = no; then
-    LIBOBJS="$LIBOBJS mktime.o"
-  fi
-])
-
-#serial 2
+#serial 3
 
 dnl From Jim Meyering.
 dnl Determine whether lstat has the bug that it succeeds when given the
@@ -854,27 +1187,74 @@ AC_DEFUN(jm_FUNC_LSTAT,
 	 jm_cv_func_lstat_empty_string_bug=yes)
   ])
   if test $jm_cv_func_lstat_empty_string_bug = yes; then
-
-    LIBOBJS="$LIBOBJS lstat.o"
-
-    if test $jm_cv_func_lstat_empty_string_bug = yes; then
-      if test x = y; then
-	# This code is deliberately never run via ./configure.
-	# FIXME: this is a hack to make autoheader put the corresponding
-	# HAVE_* undef for this symbol in config.h.in.  This saves me the
-	# trouble of having to maintain the #undef in acconfig.h manually.
-	AC_CHECK_FUNCS(LSTAT_EMPTY_STRING_BUG)
-      fi
-      # Defining it this way (rather than via AC_DEFINE) short-circuits the
-      # autoheader check -- autoheader doesn't know it's already been taken
-      # care of by the hack above.
-      ac_kludge=HAVE_LSTAT_EMPTY_STRING_BUG
-      AC_DEFINE_UNQUOTED($ac_kludge)
-    fi
+    AC_SUBST(LIBOBJS)
+    LIBOBJS="$LIBOBJS lstat.$ac_objext"
+    AC_DEFINE_UNQUOTED(HAVE_LSTAT_EMPTY_STRING_BUG, 1,
+[Define if lstat has the bug that it succeeds when given the zero-length
+   file name argument.  The lstat from SunOS4.1.4 and the Hurd as of 1998-11-01)
+   do this. ])
   fi
 ])
 
-#serial 2
+#serial 1
+
+dnl From Jim Meyering.
+dnl FIXME: describe
+
+AC_DEFUN(jm_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK,
+[
+ AC_CACHE_CHECK(
+  [whether lstat dereferences a symlink specified with a trailing slash],
+  jm_cv_func_lstat_dereferences_slashed_symlink,
+  [
+   rm -f conftest.sym conftest.file
+   : > conftest.file
+   if ln -s conftest.file conftest.sym; then
+     AC_TRY_RUN([
+#     include <sys/types.h>
+#     include <sys/stat.h>
+
+      int
+      main ()
+      {
+        struct stat sbuf;
+        /* Linux will dereference the symlink and fail.
+           That is better in the sense that it means we will not
+           have to compile and use the lstat wrapper.  */
+        exit (lstat ("conftest.sym/", &sbuf) ? 0 : 1);
+      }
+      ],
+      jm_cv_func_lstat_dereferences_slashed_symlink=yes,
+      jm_cv_func_lstat_dereferences_slashed_symlink=no,
+      dnl When crosscompiling, be pessimistic so we will end up using the
+      dnl replacement version of lstat that checkes for trailing slashes
+      dnl and calls lstat a second time when necessary.
+      jm_cv_func_lstat_dereferences_slashed_symlink=no
+     )
+   else
+     # If the `ln -s' command failed, then we probably don't even
+     # have an lstat function.
+     jm_cv_func_lstat_dereferences_slashed_symlink=no
+   fi
+  ])
+
+  test $jm_cv_func_lstat_dereferences_slashed_symlink = yes \
+    && zero_one=1 \
+    || zero_one=0
+  AC_DEFINE_UNQUOTED(LSTAT_FOLLOWS_SLASHED_SYMLINK, $zero_one,
+    [Define if lstat dereferences a symlink specified with a trailing slash])
+
+  if test $jm_cv_func_lstat_dereferences_slashed_symlink = no; then
+    AC_SUBST(LIBOBJS)
+    # Append lstat.o if it's not already in $LIBOBJS.
+    case "$LIBOBJS" in
+      *lstat.$ac_objext*) ;;
+      *) LIBOBJS="$LIBOBJS lstat.$ac_objext" ;;
+    esac
+  fi
+])
+
+#serial 3
 
 dnl From Jim Meyering.
 dnl Determine whether stat has the bug that it succeeds when given the
@@ -906,50 +1286,28 @@ AC_DEFUN(jm_FUNC_STAT,
 	 jm_cv_func_stat_empty_string_bug=yes)
   ])
   if test $jm_cv_func_stat_empty_string_bug = yes; then
-
-    LIBOBJS="$LIBOBJS stat.o"
-
-    if test $jm_cv_func_stat_empty_string_bug = yes; then
-      if test x = y; then
-	# This code is deliberately never run via ./configure.
-	# FIXME: this is a hack to make autoheader put the corresponding
-	# HAVE_* undef for this symbol in config.h.in.  This saves me the
-	# trouble of having to maintain the #undef in acconfig.h manually.
-	AC_CHECK_FUNCS(STAT_EMPTY_STRING_BUG)
-      fi
-      # Defining it this way (rather than via AC_DEFINE) short-circuits the
-      # autoheader check -- autoheader doesn't know it's already been taken
-      # care of by the hack above.
-      ac_kludge=HAVE_STAT_EMPTY_STRING_BUG
-      AC_DEFINE_UNQUOTED($ac_kludge)
-    fi
+    AC_SUBST(LIBOBJS)
+    LIBOBJS="$LIBOBJS stat.$ac_objext"
+    AC_DEFINE_UNQUOTED(HAVE_STAT_EMPTY_STRING_BUG, 1,
+[Define if stat has the bug that it succeeds when given the zero-length
+   file name argument.  The stat from SunOS4.1.4 and the Hurd as of 1998-11-01)
+   do this. ])
   fi
 ])
 
-#serial 1
+#serial 3
 
 dnl From Jim Meyering.
 dnl Determine whether realloc works when both arguments are 0.
 dnl If it doesn't, arrange to use the replacement function.
 dnl
-dnl If you use this macro in a package, you should
-dnl add the following two lines to acconfig.h:
-dnl  /* Define to rpl_realloc if the replacement function should be used.  */
-dnl  #undef realloc
-dnl
 
 AC_DEFUN(jm_FUNC_REALLOC,
 [
- if test x = y; then
-   dnl This code is deliberately never run via ./configure.
-   dnl FIXME: this is a gross hack to make autoheader put an entry
-   dnl for this symbol in config.h.in.
-   AC_CHECK_FUNCS(DONE_WORKING_REALLOC_CHECK)
- fi
  dnl xmalloc.c requires that this symbol be defined so it doesn't
  dnl mistakenly use a broken realloc -- as it might if this test were omitted.
- ac_kludge=HAVE_DONE_WORKING_REALLOC_CHECK
- AC_DEFINE_UNQUOTED($ac_kludge)
+ AC_DEFINE_UNQUOTED(HAVE_DONE_WORKING_REALLOC_CHECK, 1,
+                    [Define if the realloc check has been performed. ])
 
  AC_CACHE_CHECK([for working realloc], jm_cv_func_working_realloc,
   [AC_TRY_RUN([
@@ -966,35 +1324,26 @@ AC_DEFUN(jm_FUNC_REALLOC,
 	 jm_cv_func_working_realloc=no)
   ])
   if test $jm_cv_func_working_realloc = no; then
-    LIBOBJS="$LIBOBJS realloc.o"
-    AC_DEFINE_UNQUOTED(realloc, rpl_realloc)
+    AC_SUBST(LIBOBJS)
+    LIBOBJS="$LIBOBJS realloc.$ac_objext"
+    AC_DEFINE_UNQUOTED(realloc, rpl_realloc,
+      [Define to rpl_realloc if the replacement function should be used.])
   fi
 ])
 
-#serial 1
+#serial 3
 
 dnl From Jim Meyering.
 dnl Determine whether malloc accepts 0 as its argument.
 dnl If it doesn't, arrange to use the replacement function.
 dnl
-dnl If you use this macro in a package, you should
-dnl add the following two lines to acconfig.h:
-dnl  /* Define to rpl_malloc if the replacement function should be used.  */
-dnl  #undef malloc
-dnl
 
 AC_DEFUN(jm_FUNC_MALLOC,
 [
- if test x = y; then
-   dnl This code is deliberately never run via ./configure.
-   dnl FIXME: this is a gross hack to make autoheader put an entry
-   dnl for this symbol in config.h.in.
-   AC_CHECK_FUNCS(DONE_WORKING_MALLOC_CHECK)
- fi
  dnl xmalloc.c requires that this symbol be defined so it doesn't
  dnl mistakenly use a broken malloc -- as it might if this test were omitted.
- ac_kludge=HAVE_DONE_WORKING_MALLOC_CHECK
- AC_DEFINE_UNQUOTED($ac_kludge)
+ AC_DEFINE_UNQUOTED(HAVE_DONE_WORKING_MALLOC_CHECK, 1,
+                    [Define if the malloc check has been performed. ])
 
  AC_CACHE_CHECK([for working malloc], jm_cv_func_working_malloc,
   [AC_TRY_RUN([
@@ -1011,12 +1360,55 @@ AC_DEFUN(jm_FUNC_MALLOC,
 	 jm_cv_func_working_malloc=no)
   ])
   if test $jm_cv_func_working_malloc = no; then
-    LIBOBJS="$LIBOBJS malloc.o"
-    AC_DEFINE_UNQUOTED(malloc, rpl_malloc)
+    AC_SUBST(LIBOBJS)
+    LIBOBJS="$LIBOBJS malloc.$ac_objext"
+    AC_DEFINE_UNQUOTED(malloc, rpl_malloc,
+      [Define to rpl_malloc if the replacement function should be used.])
   fi
 ])
 
-#serial 1
+#serial 2
+
+dnl From Jim Meyering.
+dnl Determine whether the strerror_r implementation is one of
+dnl the broken ones that returns `int' rather than `char*'.
+dnl Actually, this tests only whether it returns a scalar
+dnl or an array, but that should be enough.
+dnl On at least DEC UNIX 4.0[A-D] and HP-UX B.10.20, strerror_r
+dnl returns `int'.  This is used by lib/error.c.
+
+AC_DEFUN(jm_FUNC_STRERROR_R,
+[
+  # Check strerror_r
+  AC_CHECK_FUNCS([strerror_r])
+  if test $ac_cv_func_strerror_r = yes; then
+    AC_CHECK_HEADERS(string.h)
+    AC_CACHE_CHECK([for working strerror_r],
+                   jm_cv_func_working_strerror_r,
+     [
+      AC_TRY_COMPILE(
+       [
+#       include <stdio.h>
+#       if HAVE_STRING_H
+#        include <string.h>
+#       endif
+       ],
+       [
+	 int buf; /* avoiding square brackets makes this easier */
+	 char x = *strerror_r (0, buf, sizeof buf);
+       ],
+       jm_cv_func_working_strerror_r=yes,
+       jm_cv_func_working_strerror_r=no
+      )
+      if test $jm_cv_func_working_strerror_r = yes; then
+	AC_DEFINE_UNQUOTED(HAVE_WORKING_STRERROR_R, 1,
+	  [Define to 1 if strerror_r returns a string.])
+      fi
+    ])
+  fi
+])
+
+#serial 3
 
 dnl SunOS's readdir is broken in such a way that rm.c has to add extra code
 dnl to test whether a NULL return value really means there are no more files
@@ -1041,9 +1433,7 @@ AC_CACHE_CHECK([for working readdir], jm_cv_func_working_readdir,
   ac_clean_files="$ac_clean_files conf-dir"
 
   AC_TRY_RUN(
-  changequote(<<, >>)dnl
-  <<
-#   include <stdio.h>
+[#   include <stdio.h>
 #   include <sys/types.h>
 #   if HAVE_STRING_H
 #    include <string.h>
@@ -1137,37 +1527,26 @@ AC_CACHE_CHECK([for working readdir], jm_cv_func_working_readdir,
       create_300_file_dir (dir);
       remove_dir (dir);
       exit (0);
-    }
-  >>,
-  changequote([, ])dnl
+    }],
   jm_cv_func_working_readdir=yes,
   jm_cv_func_working_readdir=no,
   jm_cv_func_working_readdir=no)])
 
-  if test x = y; then
-    dnl This code is deliberately never run via ./configure.
-    dnl FIXME: this is a gross hack to make autoheader put an entry
-    dnl for this HAVE_-prefixed symbol in config.h.in.
-    AC_CHECK_FUNCS(WORKING_READDIR)
-  fi
-
-
   if test $jm_cv_func_working_readdir = yes; then
-    ac_kludge=HAVE_WORKING_READDIR
-    AC_DEFINE_UNQUOTED($ac_kludge)
+    AC_DEFINE_UNQUOTED(HAVE_WORKING_READDIR, 1,
+[Define if readdir is found to work properly in some unusual cases. ])
   fi
 ])
 
-#serial 2
+#serial 4
 
 dnl A replacement for autoconf's AC_FUNC_MEMCMP that detects
 dnl the losing memcmp on some x86 Next systems.
 AC_DEFUN(jm_AC_FUNC_MEMCMP,
 [AC_CACHE_CHECK([for working memcmp], jm_cv_func_memcmp_working,
 [AC_TRY_RUN(
-changequote(<<, >>)dnl
-<<
-main()
+[int
+main ()
 {
   /* Some versions of memcmp are not 8-bit clean.  */
   char c0 = 0x40, c1 = 0x80, c2 = 0x81;
@@ -1192,61 +1571,56 @@ main()
       }
     exit (0);
   }
-}
->>,
-changequote([, ])dnl
+}],
    jm_cv_func_memcmp_working=yes,
    jm_cv_func_memcmp_working=no,
    jm_cv_func_memcmp_working=no)])
-test $jm_cv_func_memcmp_working = no && LIBOBJS="$LIBOBJS memcmp.o"
+test $jm_cv_func_memcmp_working = no \
+  && LIBOBJS="$LIBOBJS memcmp.$ac_objext"
 AC_SUBST(LIBOBJS)dnl
 ])
 
-dnl If you use this macro in a package, you should
-dnl add the following two lines to acconfig.h:
-dnl   /* Define to rpl_memcmp if the replacement function should be used.  */
-dnl   #undef memcmp
-dnl
 AC_DEFUN(jm_FUNC_MEMCMP,
 [AC_REQUIRE([jm_AC_FUNC_MEMCMP])dnl
  if test $jm_cv_func_memcmp_working = no; then
-   AC_DEFINE_UNQUOTED(memcmp, rpl_memcmp)
+   AC_DEFINE_UNQUOTED(memcmp, rpl_memcmp,
+     [Define to rpl_memcmp if the replacement function should be used.])
  fi
 ])
 
-#serial 1
+#serial 3
 
 dnl From Jim Meyering.
 dnl
 dnl See if the glibc *_unlocked I/O macros are available.
+dnl Use only those *_unlocked macros that are declared.
 dnl
 
 AC_DEFUN(jm_FUNC_GLIBC_UNLOCKED_IO,
-  [AC_CHECK_FUNCS(				\
-    clearerr_unlocked				\
-    feof_unlocked				\
-    ferror_unlocked				\
-    fflush_unlocked				\
-    fputc_unlocked				\
-    fread_unlocked				\
-    fwrite_unlocked				\
-    getc_unlocked				\
-    getchar_unlocked				\
-    putc_unlocked				\
-    putchar_unlocked				\
-   )
+  [
+    io_functions='clearerr_unlocked feof_unlocked ferror_unlocked
+    fflush_unlocked fputc_unlocked fread_unlocked fwrite_unlocked
+    getc_unlocked getchar_unlocked putc_unlocked putchar_unlocked'
+    for jm_io_func in $io_functions; do
+      # Check for the existence of each function only if its declared.
+      # Otherwise, we'd get the Solaris5.5.1 functions that are not
+      # declared, and that have been removed from Solaris5.6.  The resulting
+      # 5.5.1 binaries would not run on 5.6 due to shared library differences.
+      AC_CHECK_DECLS(($jm_io_func),
+		     jm_declared=yes,
+		     jm_declared=no,
+		     [#include <stdio.h>])
+      if test $jm_declared = yes; then
+        AC_CHECK_FUNCS($jm_io_func)
+      fi
+    done
   ]
 )
 
-#serial 1
+#serial 2
 
 dnl Determine whether to add fnmatch.o to LIBOBJS and to
 dnl define fnmatch to rpl_fnmatch.
-dnl
-dnl If you use this macro in a package, you should
-dnl add the following two lines to acconfig.h:
-dnl  /* Define to rpl_fnmatch if the replacement function should be used.  */
-dnl  #undef fnmatch
 dnl
 
 AC_DEFUN(jm_FUNC_FNMATCH,
@@ -1255,8 +1629,10 @@ AC_DEFUN(jm_FUNC_FNMATCH,
   AC_FUNC_FNMATCH
   if test $ac_cv_func_fnmatch_works = no \
       && test $ac_cv_gnu_library = no; then
-    LIBOBJS="$LIBOBJS fnmatch.o"
-    AC_DEFINE_UNQUOTED(fnmatch, rpl_fnmatch)
+    AC_SUBST(LIBOBJS)
+    LIBOBJS="$LIBOBJS fnmatch.$ac_objext"
+    AC_DEFINE_UNQUOTED(fnmatch, rpl_fnmatch,
+      [Define to rpl_fnmatch if the replacement function should be used.])
   fi
 ])
 
@@ -1296,6 +1672,458 @@ AC_DEFUN(AM_GLIBC,
   ]
 )
 
+#serial 1
+
+AC_DEFUN(jm_AFS,
+  AC_CHECKING(for AFS)
+  test -d /afs \
+    && AC_DEFINE(AFS, 1, [Define if you have the Andrew File System.])
+)
+
+#serial 2
+
+# autoconf tests required for use of xstrtoumax.c
+
+AC_DEFUN(jm_AC_PREREQ_XSTRTOUMAX,
+[
+  AC_REQUIRE([jm_AC_HEADER_INTTYPES_H])
+  AC_REQUIRE([jm_AC_TYPE_UNSIGNED_LONG_LONG])
+  AC_CHECK_HEADERS(stdlib.h)
+
+  AC_CACHE_CHECK([whether <inttypes.h> defines strtoumax as a macro],
+    jm_cv_func_strtoumax_macro,
+    AC_EGREP_CPP([inttypes_h_defines_strtoumax], [#include <inttypes.h>
+#ifdef strtoumax
+ inttypes_h_defines_strtoumax
+#endif],
+      jm_cv_func_strtoumax_macro=yes,
+      jm_cv_func_strtoumax_macro=no))
+
+  if test "$jm_cv_func_strtoumax_macro" != yes; then
+    AC_REPLACE_FUNCS(strtoumax)
+  fi
+
+  dnl We don't need (and can't compile) the replacement strtoull
+  dnl unless the type `unsigned long long' exists.
+  dnl Also, only the replacement strtoumax invokes strtoull,
+  dnl so we need the replacement strtoull only if strtoumax does not exist.
+  case "$ac_cv_type_unsigned_long_long,$jm_cv_func_strtoumax_macro,$ac_cv_func_strtoumax" in
+    yes,no,no)
+      AC_REPLACE_FUNCS(strtoull)
+      ;;
+  esac
+
+])
+
+#serial 2
+
+dnl From Paul Eggert.
+
+AC_DEFUN(jm_AC_TYPE_UNSIGNED_LONG_LONG,
+[
+  AC_CACHE_CHECK([for unsigned long long], ac_cv_type_unsigned_long_long,
+  [AC_TRY_LINK([unsigned long long ull = 1; int i = 63;],
+    [unsigned long long ullmax = (unsigned long long) -1;
+     return ull << i | ull >> i | ullmax / ull | ullmax % ull;],
+    ac_cv_type_unsigned_long_long=yes,
+    ac_cv_type_unsigned_long_long=no)])
+  if test $ac_cv_type_unsigned_long_long = yes; then
+    AC_DEFINE(HAVE_UNSIGNED_LONG_LONG, 1,
+      [Define if you have the unsigned long long type.])
+  fi
+])
+
+#serial 1
+dnl Run a program to determine whether whether link(2) follows symlinks.
+dnl Set LINK_FOLLOWS_SYMLINKS accordingly.
+
+AC_DEFUN(jm_AC_FUNC_LINK_FOLLOWS_SYMLINK,
+[dnl
+  AC_CACHE_CHECK([whether link(2) follows symlinks],
+		 jm_ac_cv_func_link_follows_symlink,
+  [
+    dnl poor-man's AC_REQUIRE: FIXME: repair this once autoconf-3 provides
+    dnl the appropriate framework.
+    test -z "$ac_cv_header_unistd_h" \
+      && AC_CHECK_HEADERS(unistd.h)
+
+    # Create a regular file.
+    echo > conftest.file
+    AC_TRY_RUN(
+      [
+#       include <sys/types.h>
+#       include <sys/stat.h>
+#       ifdef HAVE_UNISTD_H
+#        include <unistd.h>
+#       endif
+
+#       define SAME_INODE(Stat_buf_1, Stat_buf_2) \
+	  ((Stat_buf_1).st_ino == (Stat_buf_2).st_ino \
+	   && (Stat_buf_1).st_dev == (Stat_buf_2).st_dev)
+
+	int
+	main ()
+	{
+	  const char *file = "conftest.file";
+	  const char *sym = "conftest.sym";
+	  const char *hard = "conftest.hard";
+	  struct stat sb_file, sb_hard;
+
+	  /* Create a symlink to the regular file. */
+	  if (symlink (file, sym))
+	    abort ();
+
+	  /* Create a hard link to that symlink.  */
+	  if (link (sym, hard))
+	    abort ();
+
+	  if (lstat (hard, &sb_hard))
+	    abort ();
+	  if (lstat (file, &sb_file))
+	    abort ();
+
+	  /* If the dev/inode of hard and file are the same, then
+	     the link call followed the symlink.  */
+	  return SAME_INODE (sb_hard, sb_file) ? 0 : 1;
+	}
+      ],
+      jm_ac_cv_func_link_follows_symlink=yes,
+      jm_ac_cv_func_link_follows_symlink=no,
+      jm_ac_cv_func_link_follows_symlink=yes dnl We're cross compiling.
+    )
+  ])
+  if test $jm_ac_cv_func_link_follows_symlink = yes; then
+    AC_DEFINE(LINK_FOLLOWS_SYMLINKS, 1,
+      [Define if `link(2)' dereferences symbolic links.])
+  fi
+])
+
+dnl From Jim Meyering.  Use this if you use the GNU error.[ch].
+dnl FIXME: Migrate into libit
+
+AC_DEFUN(AM_FUNC_ERROR_AT_LINE,
+[AC_CACHE_CHECK([for error_at_line], am_cv_lib_error_at_line,
+ [AC_TRY_LINK([],[error_at_line(0, 0, "", 0, "");],
+              am_cv_lib_error_at_line=yes,
+	      am_cv_lib_error_at_line=no)])
+ if test $am_cv_lib_error_at_line = no; then
+   LIBOBJS="$LIBOBJS error.$ac_objext"
+ fi
+ AC_SUBST(LIBOBJS)dnl
+])
+
+#serial 9
+
+dnl This macro is intended to be used solely in this file.
+dnl These are the prerequisite macros for GNU's strftime.c replacement.
+AC_DEFUN(_jm_STRFTIME_PREREQS,
+[
+ dnl strftime.c uses localtime_r if it exists.  Check for it.
+ AC_CHECK_FUNCS(localtime_r)
+
+ AC_CHECK_HEADERS(limits.h)
+ AC_CHECK_FUNCS(bcopy tzset mempcpy memcpy memset)
+
+ # This defines (or not) HAVE_TZNAME and HAVE_TM_ZONE.
+ AC_STRUCT_TIMEZONE
+
+ AC_CHECK_FUNCS(mblen mbrlen)
+
+ AC_CHECK_MEMBER(struct tm.tm_gmtoff,
+                 [AC_DEFINE(HAVE_TM_GMTOFF, 1,
+                            [Define if struct tm has the tm_gmtoff member.])],
+                 ,
+                 [#include <time.h>])
+])
+
+dnl Determine if the strftime function has all the features of the GNU one.
+dnl
+dnl From Jim Meyering.
+dnl
+AC_DEFUN(jm_FUNC_GNU_STRFTIME,
+[AC_REQUIRE([AC_HEADER_TIME])dnl
+
+ _jm_STRFTIME_PREREQS
+
+ AC_REQUIRE([AC_C_CONST])dnl
+ AC_REQUIRE([AC_HEADER_STDC])dnl
+ AC_CHECK_HEADERS(sys/time.h)
+ AC_CACHE_CHECK([for working GNU strftime], jm_cv_func_working_gnu_strftime,
+  [# Set TZ to GMT0 to make strftime give consistent results during the test.
+   ac_save_TZ="${TZ-GMT0}"
+   TZ=GMT0
+   export TZ
+   AC_TRY_RUN(
+[ /* Ulrich Drepper provided parts of the test program.  */
+#if STDC_HEADERS
+# include <stdlib.h>
+#endif
+
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
+#endif
+
+static int
+compare (const char *fmt, const struct tm *tm, const char *expected)
+{
+  char buf[99];
+  strftime (buf, 99, fmt, tm);
+  if (strcmp (buf, expected))
+    {
+#ifdef SHOW_FAILURES
+      printf ("fmt: \"%s\", expected \"%s\", got \"%s\"\n",
+	      fmt, expected, buf);
+#endif
+      return 1;
+    }
+  return 0;
+}
+
+int
+main ()
+{
+  int n_fail = 0;
+  struct tm *tm;
+  time_t t = 738367; /* Fri Jan  9 13:06:07 1970 */
+  tm = gmtime (&t);
+
+#undef CMP
+#define CMP(Fmt, Expected) n_fail += compare ((Fmt), tm, (Expected))
+
+  CMP ("%-m", "1");		/* GNU */
+  CMP ("%A", "Friday");
+  CMP ("%^A", "FRIDAY");	/* The ^ is a GNU extension.  */
+  CMP ("%B", "January");
+  CMP ("%^B", "JANUARY");
+  CMP ("%C", "19");		/* POSIX.2 */
+  CMP ("%D", "01/09/70");	/* POSIX.2 */
+  CMP ("%F", "1970-01-09");
+  CMP ("%G", "1970");		/* GNU */
+  CMP ("%H", "13");
+  CMP ("%I", "01");
+  CMP ("%M", "06");
+  CMP ("%M", "06");
+  CMP ("%R", "13:06");		/* POSIX.2 */
+  CMP ("%S", "07");
+  CMP ("%T", "13:06:07");	/* POSIX.2 */
+  CMP ("%U", "01");
+  CMP ("%V", "02");
+  CMP ("%W", "01");
+  CMP ("%X", "13:06:07");
+  CMP ("%Y", "1970");
+  CMP ("%Z", "GMT");
+  CMP ("%_m", " 1");		/* GNU */
+  CMP ("%a", "Fri");
+  CMP ("%^a", "FRI");
+  CMP ("%b", "Jan");
+  CMP ("%^b", "JAN");
+  CMP ("%c", "Fri Jan  9 13:06:07 1970");
+  CMP ("%^c", "FRI JAN  9 13:06:07 1970");
+  CMP ("%d", "09");
+  CMP ("%e", " 9");		/* POSIX.2 */
+  CMP ("%g", "70");		/* GNU */
+  CMP ("%h", "Jan");		/* POSIX.2 */
+  CMP ("%^h", "JAN");
+  CMP ("%j", "009");
+  CMP ("%k", "13");		/* GNU */
+  CMP ("%l", " 1");		/* GNU */
+  CMP ("%m", "01");
+  CMP ("%n", "\n");		/* POSIX.2 */
+  CMP ("%p", "PM");
+  CMP ("%r", "01:06:07 PM");	/* POSIX.2 */
+  CMP ("%s", "738367");		/* GNU */
+  CMP ("%t", "\t");		/* POSIX.2 */
+  CMP ("%u", "5");		/* POSIX.2 */
+  CMP ("%w", "5");
+  CMP ("%x", "01/09/70");
+  CMP ("%y", "70");
+  CMP ("%z", "+0000");		/* GNU */
+
+  exit (n_fail ? 1 : 0);
+}],
+	     jm_cv_func_working_gnu_strftime=yes,
+             jm_cv_func_working_gnu_strftime=no,
+	     dnl When crosscompiling, assume strftime is missing or broken.
+	     jm_cv_func_working_gnu_strftime=no)
+   dnl If TZ wasn't set before, this sets it to GMT0.  No real harm done.
+   TZ="$ac_save_TZ"
+  ])
+  if test $jm_cv_func_working_gnu_strftime = no; then
+    AC_SUBST(LIBOBJS)
+    LIBOBJS="$LIBOBJS strftime.$ac_objext"
+    AC_DEFINE_UNQUOTED(strftime, gnu_strftime,
+      [Define to gnu_strftime if the replacement function should be used.])
+  fi
+])
+
+AC_DEFUN(jm_FUNC_STRFTIME,
+[
+  _jm_STRFTIME_PREREQS
+  AC_REPLACE_FUNCS(strftime)
+])
+
+#serial 3
+
+dnl See if there's a working, system-supplied version of the getline function.
+dnl We can't just do AC_REPLACE_FUNCS(getline) because some systems
+dnl have a function by that name in -linet that doesn't have anything
+dnl to do with the function we need.
+AC_DEFUN(AM_FUNC_GETLINE,
+[dnl
+  am_getline_needs_run_time_check=no
+  AC_CHECK_FUNC(getline,
+		dnl Found it in some library.  Verify that it works.
+		am_getline_needs_run_time_check=yes,
+		am_cv_func_working_getline=no)
+  if test $am_getline_needs_run_time_check = yes; then
+    AC_CHECK_HEADERS(string.h)
+    AC_CACHE_CHECK([for working getline function], am_cv_func_working_getline,
+    [echo fooN |tr -d '\012'|tr N '\012' > conftest.data
+    AC_TRY_RUN([
+#    include <stdio.h>
+#    include <sys/types.h>
+#    if HAVE_STRING_H
+#     include <string.h>
+#    endif
+    int main ()
+    { /* Based on a test program from Karl Heuer.  */
+      char *line = NULL;
+      size_t siz = 0;
+      int len;
+      FILE *in = fopen ("./conftest.data", "r");
+      if (!in)
+	return 1;
+      len = getline (&line, &siz, in);
+      exit ((len == 4 && line && strcmp (line, "foo\n") == 0) ? 0 : 1);
+    }
+    ], am_cv_func_working_getline=yes dnl The library version works.
+    , am_cv_func_working_getline=no dnl The library version does NOT work.
+    , am_cv_func_working_getline=no dnl We're cross compiling.
+    )])
+  fi
+
+  if test $am_cv_func_working_getline = yes; then
+    AC_DEFINE(HAVE_GETLINE, 1,
+      [Define if you have the GETLINE function.])dnl
+  fi
+])
+
+#serial 4
+
+dnl From Paul Eggert.
+
+# Define ST_MTIM_NSEC to be the nanoseconds member of struct stat's st_mtim,
+# if it exists.
+
+AC_DEFUN(AC_STRUCT_ST_MTIM_NSEC,
+ [AC_CACHE_CHECK([for nanoseconds member of struct stat.st_mtim],
+   ac_cv_struct_st_mtim_nsec,
+   [ac_save_CPPFLAGS="$CPPFLAGS"
+    ac_cv_struct_st_mtim_nsec=no
+    # tv_nsec -- the usual case
+    # _tv_nsec -- Solaris 2.6, if
+    #	(defined _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED == 1
+    #	 && !defined __EXTENSIONS__)
+    # st__tim.tv_nsec -- UnixWare 2.1.2
+    for ac_val in tv_nsec _tv_nsec st__tim.tv_nsec; do
+      CPPFLAGS="$ac_save_CPPFLAGS -DST_MTIM_NSEC=$ac_val"
+      AC_TRY_COMPILE([#include <sys/types.h>
+#include <sys/stat.h>], [struct stat s; s.st_mtim.ST_MTIM_NSEC;],
+        [ac_cv_struct_st_mtim_nsec=$ac_val; break])
+    done
+    CPPFLAGS="$ac_save_CPPFLAGS"])
+
+  if test $ac_cv_struct_st_mtim_nsec != no; then
+    AC_DEFINE_UNQUOTED(ST_MTIM_NSEC, $ac_cv_struct_st_mtim_nsec,
+      [Define to be the nanoseconds member of struct stat's st_mtim,
+   if it exists.])
+  fi
+ ]
+)
+
+#serial 2
+
+# Define HAVE_ST_DM_MODE if struct stat has an st_dm_mode member.
+
+AC_DEFUN(AC_STRUCT_ST_DM_MODE,
+ [AC_CACHE_CHECK([for st_dm_mode in struct stat], ac_cv_struct_st_dm_mode,
+   [AC_TRY_COMPILE([#include <sys/types.h>
+#include <sys/stat.h>], [struct stat s; s.st_dm_mode;],
+     ac_cv_struct_st_dm_mode=yes,
+     ac_cv_struct_st_dm_mode=no)])
+
+  if test $ac_cv_struct_st_dm_mode = yes; then
+    AC_DEFINE_UNQUOTED(HAVE_ST_DM_MODE, 1,
+		       [Define if struct stat has an st_dm_mode member. ])
+  fi
+ ]
+)
+
+#serial 4
+
+dnl From Jim Meyering
+
+dnl Define HAVE_STRUCT_TIMESPEC if `struct timespec' is declared
+dnl in time.h or sys/time.h.
+
+AC_DEFUN(jm_CHECK_TYPE_STRUCT_TIMESPEC,
+[
+  AC_REQUIRE([AC_HEADER_TIME])
+  AC_CACHE_CHECK([for struct timespec], fu_cv_sys_struct_timespec,
+    [AC_TRY_COMPILE(
+      [
+#      if TIME_WITH_SYS_TIME
+#       include <sys/time.h>
+#       include <time.h>
+#      else
+#       if HAVE_SYS_TIME_H
+#        include <sys/time.h>
+#       else
+#        include <time.h>
+#       endif
+#      endif
+      ],
+      [static struct timespec x; x.tv_sec = x.tv_nsec;],
+      fu_cv_sys_struct_timespec=yes,
+      fu_cv_sys_struct_timespec=no)
+    ])
+
+  if test $fu_cv_sys_struct_timespec = yes; then
+    AC_DEFINE_UNQUOTED(HAVE_STRUCT_TIMESPEC, 1,
+		       [Define if struct timespec is declared in <time.h>. ])
+  fi
+])
+
+#serial 5
+
+dnl From Paul Eggert.
+
+AC_PREREQ(2.13)
+
+# Define uintmax_t to `unsigned long' or `unsigned long long'
+# if <inttypes.h> does not exist.
+
+AC_DEFUN(jm_AC_TYPE_UINTMAX_T,
+[
+  AC_REQUIRE([jm_AC_HEADER_INTTYPES_H])
+  if test $jm_ac_cv_header_inttypes_h = no; then
+    AC_REQUIRE([jm_AC_TYPE_UNSIGNED_LONG_LONG])
+    test $ac_cv_type_unsigned_long_long = yes \
+      && ac_type='unsigned long long' \
+      || ac_type='unsigned long'
+    AC_DEFINE_UNQUOTED(uintmax_t, $ac_type,
+[  Define to unsigned long or unsigned long long
+   if <inttypes.h> doesn't define.])
+  fi
+])
+
 # Macro to add for using GNU gettext.
 # Ulrich Drepper <drepper@cygnus.com>, 1995.
 #
@@ -1304,7 +2132,9 @@ AC_DEFUN(AM_GLIBC,
 # but which still want to provide support for the GNU gettext functionality.
 # Please note that the actual code is *not* freely available.
 
-# serial 5
+# serial 108
+
+AC_PREREQ(2.13)               dnl Minimum Autoconf version required.
 
 AC_DEFUN(AM_WITH_NLS,
   [AC_MSG_CHECKING([whether NLS is requested])
@@ -1319,7 +2149,7 @@ AC_DEFUN(AM_WITH_NLS,
 
     dnl If we use NLS figure out what method
     if test "$USE_NLS" = "yes"; then
-      AC_DEFINE(ENABLE_NLS)
+      AC_DEFINE(ENABLE_NLS, 1, [Define to 1 if NLS is requested.])
       AC_MSG_CHECKING([whether included gettext is requested])
       AC_ARG_WITH(included-gettext,
         [  --with-included-gettext use the GNU gettext library included here],
@@ -1344,17 +2174,13 @@ AC_DEFUN(AM_WITH_NLS,
 
 	   if test "$gt_cv_func_gettext_libc" != "yes"; then
 	     AC_CHECK_LIB(intl, bindtextdomain,
-	       [AC_CACHE_CHECK([for gettext in libintl],
-		 gt_cv_func_gettext_libintl,
-		 [AC_CHECK_LIB(intl, gettext,
-		  gt_cv_func_gettext_libintl=yes,
-		  gt_cv_func_gettext_libintl=no)],
-		 gt_cv_func_gettext_libintl=no)])
+	       [AC_CHECK_LIB(intl, gettext)])
 	   fi
 
 	   if test "$gt_cv_func_gettext_libc" = "yes" \
-	      || test "$gt_cv_func_gettext_libintl" = "yes"; then
-	      AC_DEFINE(HAVE_GETTEXT)
+	      || test "$ac_cv_lib_intl_gettext" = "yes"; then
+	      AC_DEFINE(HAVE_GETTEXT, 1,
+	  [Define to 1 if you have gettext and don't want to use GNU gettext.])
 	      AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
 		[test -z "`$ac_dir/$ac_word -h 2>&1 | grep 'dv '`"], no)dnl
 	      if test "$MSGFMT" != "no"; then
@@ -1384,7 +2210,8 @@ AC_DEFUN(AM_WITH_NLS,
 	    dnl No gettext in C library.  Try catgets next.
 	    AC_CHECK_LIB(i, main)
 	    AC_CHECK_FUNC(catgets,
-	      [AC_DEFINE(HAVE_CATGETS)
+	      [AC_DEFINE(HAVE_CATGETS, 1,
+			 [Define as 1 if you have catgets and don't want to use GNU gettext.])
 	       INTLOBJS="\$(CATOBJS)"
 	       AC_PATH_PROG(GENCAT, gencat, no)dnl
 	       if test "$GENCAT" != "no"; then
@@ -1455,7 +2282,11 @@ AC_DEFUN(AM_WITH_NLS,
       nls_cv_header_intl=intl/libintl.h
       nls_cv_header_libgt=intl/libgettext.h
     fi
-    AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
+    if test -z "$nls_cv_header_intl"; then
+      # Clean out junk possibly left behind by a previous configuration.
+      rm -f intl/libintl.h
+    fi
+    AC_CONFIG_LINKS($nls_cv_header_intl:$nls_cv_header_libgt)
     AC_OUTPUT_COMMANDS(
      [case "$CONFIG_FILES" in *po/Makefile.in*)
         sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile
@@ -1513,7 +2344,7 @@ strdup __argz_count __argz_stringify __argz_next])
      AC_CHECK_FUNCS(stpcpy)
    fi
    if test "${ac_cv_func_stpcpy}" = "yes"; then
-     AC_DEFINE(HAVE_STPCPY)
+     AC_DEFINE(HAVE_STPCPY, 1, [Define to 1 if you have the stpcpy function.])
    fi
 
    AM_LC_MESSAGES
@@ -1598,15 +2429,14 @@ strdup __argz_count __argz_stringify __argz_next])
    dnl Generate list of files to be processed by xgettext which will
    dnl be included in po/Makefile.
    test -d po || mkdir po
-   if test "x$srcdir" != "x."; then
-     if test "x`echo $srcdir | sed 's@/.*@@'`" = "x"; then
-       posrcprefix="$srcdir/"
-     else
-       posrcprefix="../$srcdir/"
-     fi
-   else
-     posrcprefix="../"
-   fi
+   case "$srcdir" in
+   .)
+     posrcprefix="../" ;;
+   /* | [[A-Za-z]]:*)
+     posrcprefix="$srcdir/" ;;
+   *)
+     posrcprefix="../$srcdir/" ;;
+   esac
    rm -f po/POTFILES
    sed -e "/^#/d" -e "/^\$/d" -e "s,.*,	$posrcprefix& \\\\," -e "\$s/\(.*\) \\\\/\1/" \
 	< $srcdir/po/POTFILES.in > po/POTFILES
@@ -1668,7 +2498,9 @@ AC_SUBST($1)dnl
 # but which still want to provide support for the GNU gettext functionality.
 # Please note that the actual code is *not* freely available.
 
-# serial 1
+# serial 2
+
+AC_PREREQ(2.13)               dnl Minimum Autoconf version required.
 
 AC_DEFUN(AM_LC_MESSAGES,
   [if test $ac_cv_header_locale_h = yes; then
@@ -1676,7 +2508,8 @@ AC_DEFUN(AM_LC_MESSAGES,
       [AC_TRY_LINK([#include <locale.h>], [return LC_MESSAGES],
        am_cv_val_LC_MESSAGES=yes, am_cv_val_LC_MESSAGES=no)])
     if test $am_cv_val_LC_MESSAGES = yes; then
-      AC_DEFINE(HAVE_LC_MESSAGES)
+      AC_DEFINE(HAVE_LC_MESSAGES, 1,
+		[Define if your locale.h file contains LC_MESSAGES.])
     fi
   fi])
 

@@ -126,7 +126,7 @@ struct option
    arguments to the option '\0'.  This behavior is specific to the GNU
    `getopt'.  */
 
-#if defined __STDC__ && __STDC__
+#if (defined __STDC__ && __STDC__) || defined PROTOTYPES
 # ifdef __GNU_LIBRARY__
 /* Many other libraries have conflicting prototypes for getopt, with
    differences in the consts, in stdlib.h.  To avoid compilation
@@ -149,7 +149,7 @@ extern int _getopt_internal (int __argc, char *const *__argv,
 		             const struct option *__longopts, int *__longind,
 			     int __long_only);
 # endif
-#else /* not __STDC__ */
+#else /* not ((defined __STDC__ && __STDC__) || defined PROTOTYPES) */
 extern int getopt ();
 # ifndef __need_getopt
 extern int getopt_long ();
@@ -157,7 +157,7 @@ extern int getopt_long_only ();
 
 extern int _getopt_internal ();
 # endif
-#endif /* __STDC__ */
+#endif /* (defined __STDC__ && __STDC__) || defined PROTOTYPES */
 
 #ifdef	__cplusplus
 }

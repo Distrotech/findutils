@@ -157,7 +157,7 @@ mode_compile (const char *mode_string, unsigned int masked_ops)
 {
   struct mode_change *head;	/* First element of the linked list. */
   struct mode_change *tail;	/* An element of the linked list. */
-  unsigned long mode_value;	/* The mode value, if octal.  */
+  uintmax_t mode_value;		/* The mode value, if octal.  */
   char *string_end;		/* Pointer to end of parsed value.  */
   mode_t umask_value;		/* The umask value (surprise). */
 
@@ -166,10 +166,10 @@ mode_compile (const char *mode_string, unsigned int masked_ops)
   tail = NULL;
 #endif
 
-  if (xstrtoul (mode_string, &string_end, 8, &mode_value, "") == LONGINT_OK)
+  if (xstrtoumax (mode_string, &string_end, 8, &mode_value, "") == LONGINT_OK)
     {
       struct mode_change *p;
-      if (mode_value > CHMOD_MODE_BITS)
+      if (mode_value != (mode_value & CHMOD_MODE_BITS))
 	return MODE_INVALID;
       p = make_node_op_equals ((mode_t) mode_value);
       if (p == NULL)

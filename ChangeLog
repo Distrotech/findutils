@@ -1,3 +1,281 @@
+2000-04-12  Kevin Dalley  <kevind@rahul.net>
+
+	* doc/find.texi, doc/permi.texi: fix spellings, add LocalWords.
+
+	* lib/Makefile.am: put getline.c back into libfind_a_SOURCES,
+	since getstr is needed.
+
+	* Version 4.1.5
+	
+	* po/POTFILES.in: updated list of files, updated po files.
+
+
+2000-04-02  Paul Eggert  <eggert@twinsun.com>
+
+	Add support for large files, and port to Solaris 8 and earlier
+	versions.
+
+	* lib/human.c (getenv): Depend on NEED_GETENV_DECL, not
+	HAVE_DECL_GETENV.
+
+	* lib/strftime.c (my_strftime): Make sure we call the system
+	strftime, not ourselves, when invoking the underlying strftime.
+	
+	* m4/check-decl.m4 (jm_CHECK_DECLS): Remove memchr, nanosleep.
+
+	* m4/jm-macros.m4 (jm_MACROS): Don't check for utime.h.  Do not
+	require jm_BISON, jm_CHECK_TYPE_STRUCT_UTIMBUF, jm_FUNC_LCHOWN,
+	jm_FUNC_CHOWN, jm_FUNC_NANOSLEEP, jm_FUNC_GROUP_MEMBER,
+	jm_FUNC_PUTENV, jm_FUNC_GETGROUPS, AM_FUNC_GETLOADAVG,
+	jm_SYS_PROC_UPTIME, jm_FUNC_FTRUNCATE, jm_FUNC_UTIME.  Do not
+	replace strcasecmp, dup2, gethostname, getusershell, stime,
+	strcspn, strpbrk, euidaccess, mkdir, rmdir, rpmatch, strndup,
+	strverscmp, memchr, memmove.  Do not check for declaration of
+	lchown.  Remove invocations of AM_FUNC_OBSTACK, AM_FUNC_STRTOD,
+	POW_LIBM, jm_LANGINFO_CODESET, jm_ICONV.  Remove df tests.
+	(jm_CHECK_ALL_TYPES): Include <sys/stat.h> when checking for
+	struct stat.st_blksize.
+
+	* m4/strftime.m4 (jm_FUNC_GNU_STRFTIME): Set environment variable
+	in shell rather than using putenv, which isn't portable.
+	
+	* COPYING, lib/alloca.c, lib/dirname.c, lib/error.c,
+	lib/savedir.c, lib/strstr.c, m4/check-decl.m4, m4/d-ino.m4,
+	m4/d-type.m4, m4/getline.m4, m4/jm-glibc-io.m4, m4/jm-macros.m4,
+	m4/jm-mktime.m4, m4/ls-mntd-fs.m4, m4/memcmp.m4, m4/prereq.m4,
+	m4/readdir.m4, m4/regex.m4, m4/strftime.m4, m4/uintmax_t.m4: Sync
+	to latest version from sh-utils-2.0g.
+
+	* config.guess, config.sub, lib/argmatch.c, lib/argmatch.h,
+	lib/human.c, lib/human.h, lib/memcpy.c, lib/quotearg.c,
+	lib/quotearg.h, lib/strtoull.c, lib/strtoumax.c,
+	lib/xstrtoumax.c, m4/c-bs-a.m4, m4/gettext.m4,
+	m4/largefile.m4, m4/lcmessage.m4, m4/link-follow.m4,
+	m4/progtest.m4, m4/strerror_r.m4, m4/timespec.m4,
+	m4/xstrtoumax.m4: New files, taken from sh-utils-2.0g.
+
+	* lib/ansi2knr.1, lib/ansi2knr.c, lib/basename.c, lib/getopt.h,
+	lib/fnmatch.c, lib/fnmatch.h, lib/modechange.c: Sync to latest
+	unreleased version of GNU tar (between 1.13.17 and 1.13.18).
+
+	* lib/basename.h, lib/waitpid.c: New files, taken from same
+	version of GNU tar.
+	
+	* lib/regex.c, lib/regex.h: Sync to GNU grep 2.4.2.
+
+	* lib/posix/Makefile.am, lib/posix/regex.h: New files, taken from
+	GNU grep 2.4.2.
+
+	* lib/strftime.c: Sync to textutils 2.0e.
+	
+	* acconfig.h, depcomp, lib/strcasecmp.c, m4/check-type.m4,
+	m4/const.m4, m4/decl.m4, m4/lfs.m4, m4/mktime.m4, m4/perl.m4,
+	m4/putenv.m4, m4/uptime.m4, m4/utimbuf.m4, m4/utime.m4,
+	m4/utimes.m4: Remove these files; no longer needed.
+
+	* configure.in (AC_CANONICAL_HOST, AC_SYS_LARGEFILE,
+	jm_AC_TYPE_UINTMAX_T): Add.
+	(CACHE_IDS, FSTYPE_STATVFS, FSTYPE_USG_STATFS, FSTYPE_AIX_STATFS,
+	FSTYPE_MNTENT, FSTYPE_STATFS, FSTYPE_GETMNT): Add comment, so that
+	we don't need acconfig.h.
+	(AC_CHECK_TYPE): Add ssize_t.
+	(AC_REPLACE_FUNCS): Add waitpid.
+	(AC_CHECK_FUNCS): Remove basename.
+	(AC_FUNC_MKTIME): Remove.
+	(LIBOBJS): Add no-ops to work around automake 1.4 bug.
+	(AC_OUTPUT): Add lib/posix/Makefile.
+
+	* find/defs.h: Include <config.h>, <sys/types.h>, <sys/stat.h>,
+	<stdio.h>, <limits.h>, <inttypes.h>.  All includers changed to not
+	include these files, and to include "defs.h" first (since config.h
+	must be included first).
+	(CHAR_BIT, S_ISUID, S_ISGID, S_ISVTX, S_IRUSR, S_IWUSR, S_IXUSR,
+	S_IRGRP, S_IWGRP, S_IXGRP, S_IROTH, S_IWOTH, S_IXOTH, MOD_WXUSR,
+	MODE_R, MODE_RW, MODE_RWX, MODE_ALL): New macros.
+	(enum permissions_type): New enum.
+	(struct long_val.negative): New member.
+	(struct long_val.l_val): Now uintmax_t, not unsigned long.
+	(struct size_val.size): Likewise.
+	(struct perm_val): New type.
+	(struct predicate.perm): Now struct perm_val, not unsigned long.
+	(struct predicate.type): Now mode_t, not unsigned long.
+	(list_file): New parameters current_time, output_block_size.
+	All callers changed.
+	(savedir, basename): Remove decls.
+	(output_block_size, start_time): New extern vars.
+
+	* find/find.c: Include <human.h>, <savedir.h>.
+	(output_block_size, start_time): New vars.
+	(main): Initialize them.  No need to check for negative st_size,
+	since savedir now does it for us.
+
+	* find/fstype.c: Include "dirname.h".
+	(xatoi): Remove.
+	(filesystem_type_uncached): Use xstrtoumax instead of xatoi.
+	
+	* find/parser.c: Include "xstrtol.h".
+	(get_num_days, get_num, parse_amin, parse_cmin, parse_mmin,
+	parse_size, parse_used, insert_time, insert_num): Compute using
+	uintmax_t, not unsigned long.
+	(parse_amin, parse_cmin, parse_mmin, parse_used, insert_time):
+	Keep track of whether time was negative before converting it to an
+	unsigned type.
+	(parse_daystart): Don't assume that localtime succeeds; e.g. it
+	can fail with 64-bit time_t and 32-bit tm_year.
+	(parse_perm, insert_type): Compute using mode_t, not unsigned
+	long.
+	(insert_type): Use symbolic constants like MODE_ALL instead of
+	traditional ones like 07777.  Set new kind member to indicate
+	permissions type, instead of using unportable magic numbers.
+	(make_segment): We will use human_readable to convert most numeric
+	values, so simplify the cases.
+	(get_num_days): Write in terms of get_num, to avoid duplicated
+	code.
+	(insert_time, insert_num): When debugging, convert large values to
+	uintmax_t and output with %ju.
+	(get_num): Use xstrtoumax to do the real work.
+
+	* find/pred.c: Include "basename.h", "human.h".
+	(DEV_BSIZE, ST_BLKSIZE, ST_NBLOCKSIZE): New macros, taken from
+	fileutils.
+	(ST_NBLOCKS): Replace with fileutils defn.
+	(MAX): New macro.
+	(ctime_format): New function.
+	(pred_fprintf, format_date): Use human_readable to output large
+	numbers portably.
+	(pred_fprintf): Use ctime_format to output ctime-style dates.  Use
+	base_name to compute the base name of a path.  With %m, output the
+	mode portably using traditional numbers, even if the host uses
+	some other numbering scheme.
+	(pred_iname, pred_name): basename -> base_name.
+	(pred_perm): Use new kind member to deduce permissions type,
+	instead of relying on magic numbers.
+	(pred_size): Compute using uintmax_t, not unsigned long.  Avoid
+	overflow if file size is near the maximum.
+	(pred_type): Compute using mode_t, not unsigned long.
+	(launch): Use waitpid, not wait.  Check for EINTR.
+	(format_date): Don't assume that localtime succeeds.
+
+	* find/util.c (basename): Remove; we now use base_name.
+
+	* lib/Makefile.am (SUBDIRS): New macro.
+	(libfind_a_SOURCES): Add argmatch.h, argmatch.c, basename.h,
+	basename.c, human.c, human.h, quotearg.c, quotearg.h, xstrtoumax.c.
+	Remove error.h, error.c, getline.c.
+	(EXTRA_DIST): Add mktime.c, regex.c.
+
+	* lib/listfile.c: Include "human.h".
+	(alloca): Declare, or include appropriate files to declare.
+	(DEV_BSIZE, ST_NBLKSIZE, ST_NBLOCKS, ST_NBLOCKSIZE): New macros.
+	(convert_blocks): Remove.
+	(list_file): New current_time and output_block_size args.
+	Revamp quite a bit, to handle large numbers correctly
+	and to match GNU ls behavior more closely.
+
+	* m4/Makefile.am (EXTRA_DIST): Add c-bs-a.m4, gettext.m4,
+	largefile.m4, lcmessage.m4, link-follow.m4, progtest.m4,
+	strerror_r.m4, xstrtoumax.m4.  Remove check-type.m4, const.m4,
+	decl.m4, lfs.m4, mktime.m4, perl.m4, putenv.m4, timespec.m4,
+	uptime.m4, utimbuf.m4, utime.m4, utimes.m4.
+
+	* xargs/xargs.c (wait_for_proc): Retry wait if it fails with
+	errno == EINTR.
+
+2000-04-05  Kevin Dalley  <kevind@rahul.net>
+
+	* xargs/Makefile.am:  add ansi2knr
+
+	* xargs/xargs.c: add macros PARAMS rather than P_.  Add
+	prototypes.
+
+	* po/POTFILES: new file listing all POFILES.
+
+	* m4/gl.po, m4/et.po: new files
+
+	* m4/Makefile.am.in:  updated file
+
+	* m4: update directory
+
+	* locate/Makefile.am: create updatedb from updatedb.sh
+
+	* locate/updatedb.sh, locate/updatedb.in: removed file.  Replaced
+	by updatedb.sh
+
+	* locate/frcode.c, locate/code.c, locate/bigram.c: add macros
+	PARAMS rather than P_.  Add prototypes.
+
+	* lib/xstat.in: new file
+
+	* lib/Makefile.am: update to latest versions of library files.
+
+	* find/testsuite/Makefile.am: add CLEANFILES
+
+	* find/util.c: remove definition of basename
+	
+	* find/util.c, find/tree.c, find/pred.c, find/parser.c,
+	find/fstype.c, find/find.c, find/defs.h: add macros PARAMS rather
+	than P_, for consistency, change to prototypes
+
+	* find/Makefile.am: Add prototypes and ansi2knr
+
+	* configure.in: add Galition and Estonian languages.
+	Miscellaneous other fixes.
+	
+
+2000-03-11  Kevin Dalley  <kevind@rahul.net>
+
+	* lib/basename.c: Add file from libit.
+	* lib/Makefile.am (libfind_a_SOURCES): add basename.c since it is
+	no longer replaceable.
+
+	* find/util.c: Remove definition of basename, which is now in
+	lib/basename.c (as base_name).
+	* find/pred.c: Use base_name, not basename.
+	* find/defs.h: Likewise.
+
+	* configure.in : Don't replace basename.  Now we use only
+	base_name.
+
+2000-02-26  Kevin Dalley  <kevind@rahul.net>
+
+	* Version 4.1.4
+	
+	* lib/strtoul.c: added to distribution
+	
+	* configure.in: added strtoul to AC_REPLACE_FUNCS
+
+	* configure.in: added jm_CHECK_ALL_TYPE
+
+2000-02-23  Kevin Dalley  <kevind@rahul.net>
+
+	* po/ChangeLog: removed, merged with top-level ChangeLog.
+	
+	* po/de.po: new version of German file.
+	
+	* po/gl.po, po/et.po: new languages, Estonian and Galician.
+
+	* locate/updatedb.sh (PRUNEFS): enclose paths in quotes
+
+2000-02-17  Kevin Dalley  <kevind@rahul.net>
+
+	* po/it.po: new version of Italian file.
+	
+	* locate/updatedb.sh (prunefs_exp): have sed statement use '*'
+	rather than the often unsupported '+'.
+
+2000-02-13  Kevin Dalley  <kevind@rahul.net>
+
+	* configure.in: removed AC_ARG_PROGRAM, which is already in
+	AM_INIT_AUTOMAKE. 
+
+	* locate/Makefile.am (updatedb), locate/updatedb.sh: add
+	transforms of find, frcode, bigram, and code back into
+	updatedb.sh, which were accidentally removed.
+
+2000-02-12  Kevin Dalley  <kevind@rahul.net>
+
+	* lib/wait.h: updated address.
+
 2000-01-26  Kevin Dalley  <kevind@rahul.net>
 
 	* Version 4.1.3
@@ -13,6 +291,17 @@
 	directory.
 
 	* xargs/Makefile.am, xargs/xargs.c: internationalized directory.
+
+2000-01-26  Kevin Dalley  <kevind@rahul.net>
+
+	* POTFILES.in: added list of files with translatable strings.
+
+	* de.po, es.po, fr.po, it.po, ko.po, nl.po, pl.po, pt_BR.po,
+	ru.po, sv.po: New, slightly out of date, files imported from the
+	Translation Project: http://www.iro.umontreal.ca/contrib/po/HTML/,
+	German, Spanish, French, Italian, Korean, Dutch, Polish, Brazilian
+	Portuguese.
+
 
 2000-01-24  Kevin Dalley  <kevind@rahul.net>
 
@@ -41,7 +330,7 @@
 
 2000-01-22  Kevin Dalley  <kevind@rahul.net>
 
-	* added po and intl directories.
+	* added intl directory.
 
 	* Added internationalization, only with slightly out of date po
 	files for many locales.

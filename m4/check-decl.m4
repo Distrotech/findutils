@@ -1,45 +1,63 @@
-#serial 5
+#serial 9, except remove memchr and nanosleep as findutils doesn't need them
 
 dnl This is just a wrapper function to encapsulate this kludge.
 dnl Putting it in a separate file like this helps share it between
 dnl different packages.
 AC_DEFUN(jm_CHECK_DECLS,
 [
+  AC_REQUIRE([_jm_DECL_HEADERS])
+  AC_REQUIRE([AC_HEADER_TIME])
   headers='
 #include <stdio.h>
-#ifdef HAVE_STRING_H
+#if HAVE_STRING_H
 # if !STDC_HEADERS && HAVE_MEMORY_H
 #  include <memory.h>
 # endif
 # include <string.h>
 #else
-# ifdef HAVE_STRINGS_H
+# if HAVE_STRINGS_H
 #  include <strings.h>
 # endif
 #endif
-#ifdef HAVE_STDLIB_H
+#if HAVE_STDLIB_H
 # include <stdlib.h>
 #endif
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 # include <unistd.h>
+#endif
+
+#include <sys/types.h>
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
 #endif
 '
 
-  if test x = y; then
-    dnl This code is deliberately never run via ./configure.
-    dnl FIXME: this is a gross hack to make autoheader put entries
-    dnl for each of these symbols in the config.h.in.
-    dnl Otherwise, I'd have to update acconfig.h every time I change
-    dnl this list of functions.
-    AC_DEFINE(HAVE_DECL_FREE, 1, [Define if this function is declared.])
-    AC_DEFINE(HAVE_DECL_LSEEK, 1, [Define if this function is declared.])
-    AC_DEFINE(HAVE_DECL_MALLOC, 1, [Define if this function is declared.])
-    AC_DEFINE(HAVE_DECL_MEMCHR, 1, [Define if this function is declared.])
-    AC_DEFINE(HAVE_DECL_REALLOC, 1, [Define if this function is declared.])
-    AC_DEFINE(HAVE_DECL_STPCPY, 1, [Define if this function is declared.])
-    AC_DEFINE(HAVE_DECL_STRSTR, 1, [Define if this function is declared.])
-  fi
+  AC_CHECK_DECLS((
+    free,
+    getenv,
+    geteuid,
+    getlogin,
+    lseek,
+    malloc,
+    realloc,
+    stpcpy,
+    strstr,
+    strtoul,
+    strtoull,
+    ttyname), , , $headers)
+])
 
-  jm_CHECK_DECLARATIONS($headers, free lseek malloc \
-                        memchr realloc stpcpy strstr)
+dnl FIXME: when autoconf has support for it.
+dnl This is a little helper so we can require these header checks.
+AC_DEFUN(_jm_DECL_HEADERS,
+[
+  AC_REQUIRE([AC_HEADER_STDC])
+  AC_CHECK_HEADERS(memory.h string.h strings.h stdlib.h unistd.h sys/time.h)
 ])

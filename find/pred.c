@@ -1,5 +1,5 @@
 /* pred.c -- execute the expression tree.
-   Copyright (C) 1990, 91, 92, 93, 94 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,15 +16,14 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
 #define _GNU_SOURCE
-#include <config.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
+#include "defs.h"
+
 #include <fnmatch.h>
 #include <signal.h>
 #include <pwd.h>
 #include <grp.h>
-#include "defs.h"
+#include "basename.h"
+#include "human.h"
 #include "modetype.h"
 #include "wait.h"
 
@@ -68,28 +67,75 @@
 #define CLOSEDIR(d) closedir (d)
 #endif
 
+
+/* Get or fake the disk device blocksize.
+   Usually defined by sys/param.h (if at all).  */
+#ifndef DEV_BSIZE
+# ifdef BSIZE
+#  define DEV_BSIZE BSIZE
+# else /* !BSIZE */
+#  define DEV_BSIZE 4096
+# endif /* !BSIZE */
+#endif /* !DEV_BSIZE */
+
 /* Extract or fake data from a `struct stat'.
-   ST_NBLOCKS: Number of 512-byte blocks in the file
-   (including indirect blocks).
-   HP-UX, perhaps uniquely, counts st_blocks in 1024-byte units.
-   This workaround loses when mixing HP-UX and 4BSD filesystems, though.  */
-#ifdef _POSIX_SOURCE
-# define ST_NBLOCKS(statp) (((statp)->st_size + 512 - 1) / 512)
-#else
-# ifndef HAVE_ST_BLOCKS
-#  define ST_NBLOCKS(statp) (st_blocks ((statp)->st_size))
-# else
-#  if defined(hpux) || defined(__hpux__)
-#   define ST_NBLOCKS(statp) ((statp)->st_blocks * 2)
-#  else
-#   define ST_NBLOCKS(statp) ((statp)->st_blocks)
-#  endif
-# endif
+   ST_BLKSIZE: Preferred I/O blocksize for the file, in bytes.
+   ST_NBLOCKS: Number of blocks in the file, including indirect blocks.
+   ST_NBLOCKSIZE: Size of blocks used when calculating ST_NBLOCKS.  */
+#ifndef HAVE_STRUCT_STAT_ST_BLOCKS
+# define ST_BLKSIZE(statbuf) DEV_BSIZE
+# if defined(_POSIX_SOURCE) || !defined(BSIZE) /* fileblocks.c uses BSIZE.  */
+#  define ST_NBLOCKS(statbuf) \
+  (S_ISREG ((statbuf).st_mode) \
+   || S_ISDIR ((statbuf).st_mode) \
+   ? (statbuf).st_size / ST_NBLOCKSIZE + ((statbuf).st_size % ST_NBLOCKSIZE != 0) : 0)
+# else /* !_POSIX_SOURCE && BSIZE */
+#  define ST_NBLOCKS(statbuf) \
+  (S_ISREG ((statbuf).st_mode) \
+   || S_ISDIR ((statbuf).st_mode) \
+   ? st_blocks ((statbuf).st_size) : 0)
+# endif /* !_POSIX_SOURCE && BSIZE */
+#else /* HAVE_STRUCT_STAT_ST_BLOCKS */
+/* Some systems, like Sequents, return st_blksize of 0 on pipes. */
+# define ST_BLKSIZE(statbuf) ((statbuf).st_blksize > 0 \
+			       ? (statbuf).st_blksize : DEV_BSIZE)
+# if defined(hpux) || defined(__hpux__) || defined(__hpux)
+/* HP-UX counts st_blocks in 1024-byte units.
+   This loses when mixing HP-UX and BSD filesystems with NFS.  */
+#  define ST_NBLOCKSIZE 1024
+# else /* !hpux */
+#  if defined(_AIX) && defined(_I386)
+/* AIX PS/2 counts st_blocks in 4K units.  */
+#   define ST_NBLOCKSIZE (4 * 1024)
+#  else /* not AIX PS/2 */
+#   if defined(_CRAY)
+#    define ST_NBLOCKS(statbuf) \
+  (S_ISREG ((statbuf).st_mode) \
+   || S_ISDIR ((statbuf).st_mode) \
+   ? (statbuf).st_blocks * ST_BLKSIZE(statbuf)/ST_NBLOCKSIZE : 0)
+#   endif /* _CRAY */
+#  endif /* not AIX PS/2 */
+# endif /* !hpux */
+#endif /* HAVE_STRUCT_STAT_ST_BLOCKS */
+
+#ifndef ST_NBLOCKS
+# define ST_NBLOCKS(statbuf) \
+  (S_ISREG ((statbuf).st_mode) \
+   || S_ISDIR ((statbuf).st_mode) \
+   ? (statbuf).st_blocks : 0)
 #endif
+
+#ifndef ST_NBLOCKSIZE
+# define ST_NBLOCKSIZE 512
+#endif
+
+#undef MAX
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 static boolean insert_lname PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case));
 static boolean launch PARAMS((struct predicate *pred_ptr));
 static char *format_date PARAMS((time_t when, int kind));
+static char *ctime_format PARAMS((time_t when));
 
 #ifdef	DEBUG
 struct pred_assoc
@@ -440,7 +486,8 @@ pred_false (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_fls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  list_file (pathname, rel_pathname, stat_buf, pred_ptr->args.stream);
+  list_file (pathname, rel_pathname, stat_buf, start_time,
+	     output_block_size, pred_ptr->args.stream);
   return (true);
 }
 
@@ -466,6 +513,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   FILE *fp = pred_ptr->args.printf_vec.stream;
   struct segment *segment;
   char *cp;
+  char hbuf[LONGEST_HUMAN_READABLE + 1];
 
   for (segment = pred_ptr->args.printf_vec.segment; segment;
        segment = segment->next)
@@ -503,28 +551,21 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  fflush (fp);
 	  return (true);
 	case 'a':		/* atime in `ctime' format. */
-	  cp = ctime (&stat_buf->st_atime);
-	  cp[24] = '\0';
-	  fprintf (fp, segment->text, cp);
+	  fprintf (fp, segment->text, ctime_format (stat_buf->st_atime));
 	  break;
 	case 'b':		/* size in 512-byte blocks */
-	  fprintf (fp, segment->text, ST_NBLOCKS (stat_buf));
+	  fprintf (fp, segment->text,
+		   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
+				   hbuf, ST_NBLOCKSIZE, 512));
 	  break;
 	case 'c':		/* ctime in `ctime' format */
-	  cp = ctime (&stat_buf->st_ctime);
-	  cp[24] = '\0';
-	  fprintf (fp, segment->text, cp);
+	  fprintf (fp, segment->text, ctime_format (stat_buf->st_ctime));
 	  break;
 	case 'd':		/* depth in search tree */
 	  fprintf (fp, segment->text, curdepth);
 	  break;
 	case 'f':		/* basename of path */
-	  cp = strrchr (pathname, '/');
-	  if (cp)
-	    cp++;
-	  else
-	    cp = pathname;
-	  fprintf (fp, segment->text, cp);
+	  fprintf (fp, segment->text, base_name (pathname));
 	  break;
 	case 'F':		/* filesystem type */
 	  fprintf (fp, segment->text,
@@ -544,8 +585,8 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	    /* else fallthru */
 	  }
 	case 'G':		/* GID number */
-	  segment->text[segment->text_len] = 'u';
-	  fprintf (fp, segment->text, stat_buf->st_gid);
+	  fprintf (fp, segment->text,
+		   human_readable ((uintmax_t) stat_buf->st_gid, hbuf, 1, 1));
 	  break;
 	case 'h':		/* leading directories part of path */
 	  {
@@ -570,10 +611,13 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	    break;
 	  }
 	case 'i':		/* inode number */
-	  fprintf (fp, segment->text, stat_buf->st_ino);
+	  fprintf (fp, segment->text,
+		   human_readable ((uintmax_t) stat_buf->st_ino, hbuf, 1, 1));
 	  break;
 	case 'k':		/* size in 1K blocks */
-	  fprintf (fp, segment->text, (ST_NBLOCKS (stat_buf) + 1) / 2);
+	  fprintf (fp, segment->text,
+		   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
+				   hbuf, ST_NBLOCKSIZE, 1024));
 	  break;
 	case 'l':		/* object of symlink */
 #ifdef S_ISLNK
@@ -597,10 +641,38 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 #endif				/* S_ISLNK */
 	  break;
 	case 'm':		/* mode as octal number (perms only) */
-	  fprintf (fp, segment->text, stat_buf->st_mode & 07777);
+	  {
+	    /* Output the mode portably using the traditional numbers,
+	       even if the host unwisely uses some other numbering
+	       scheme.  But help the compiler in the common case where
+	       the host uses the traditional numbering scheme.  */
+	    mode_t m = stat_buf->st_mode;
+	    boolean traditional_numbering_scheme =
+	      (S_ISUID == 04000 && S_ISGID == 02000 && S_ISVTX == 01000
+	       && S_IRUSR == 00400 && S_IWUSR == 00200 && S_IXUSR == 00100
+	       && S_IRGRP == 00040 && S_IWGRP == 00020 && S_IXGRP == 00010
+	       && S_IROTH == 00004 && S_IWOTH == 00002 && S_IXOTH == 00001);
+	    fprintf (fp, segment->text,
+		     (traditional_numbering_scheme
+		      ? m & MODE_ALL
+		      : ((m & S_ISUID ? 04000 : 0)
+			 | (m & S_ISGID ? 02000 : 0)
+			 | (m & S_ISVTX ? 01000 : 0)
+			 | (m & S_IRUSR ? 00400 : 0)
+			 | (m & S_IWUSR ? 00200 : 0)
+			 | (m & S_IXUSR ? 00100 : 0)
+			 | (m & S_IRGRP ? 00040 : 0)
+			 | (m & S_IWGRP ? 00020 : 0)
+			 | (m & S_IXGRP ? 00010 : 0)
+			 | (m & S_IROTH ? 00004 : 0)
+			 | (m & S_IWOTH ? 00002 : 0)
+			 | (m & S_IXOTH ? 00001 : 0))));
+	  }
 	  break;
 	case 'n':		/* number of links */
-	  fprintf (fp, segment->text, stat_buf->st_nlink);
+	  fprintf (fp, segment->text,
+		   human_readable ((uintmax_t) stat_buf->st_nlink,
+				   hbuf, 1, 1));
 	  break;
 	case 'p':		/* pathname */
 	  fprintf (fp, segment->text, pathname);
@@ -621,12 +693,12 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  fprintf (fp, segment->text, cp);
 	  break;
 	case 's':		/* size in bytes */
-	  fprintf (fp, segment->text, stat_buf->st_size);
+	  fprintf (fp, segment->text,
+		   human_readable ((uintmax_t) stat_buf->st_size,
+				   hbuf, 1, 1));
 	  break;
 	case 't':		/* mtime in `ctime' format */
-	  cp = ctime (&stat_buf->st_mtime);
-	  cp[24] = '\0';
-	  fprintf (fp, segment->text, cp);
+	  fprintf (fp, segment->text, ctime_format (stat_buf->st_mtime));
 	  break;
 	case 'u':		/* user name */
 	  {
@@ -642,8 +714,8 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	    /* else fallthru */
 	  }
 	case 'U':		/* UID number */
-	  segment->text[segment->text_len] = 'u';
-	  fprintf (fp, segment->text, stat_buf->st_uid);
+	  fprintf (fp, segment->text,
+		   human_readable ((uintmax_t) stat_buf->st_uid, hbuf, 1, 1));
 	  break;
 	}
     }
@@ -785,7 +857,8 @@ insert_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr,
 boolean
 pred_ls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  list_file (pathname, rel_pathname, stat_buf, stdout);
+  list_file (pathname, rel_pathname, stat_buf, start_time,
+	     output_block_size, stdout);
   return (true);
 }
 
@@ -960,28 +1033,20 @@ pred_path (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_perm (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  if (pred_ptr->args.perm & 010000)
+  switch (pred_ptr->args.perm.kind)
     {
-      /* Magic flag set in parse_perm:
-	 true if at least the given bits are set. */
-      if ((stat_buf->st_mode & 07777 & pred_ptr->args.perm)
-	  == (pred_ptr->args.perm & 07777))
-	return (true);
+    case PERM_AT_LEAST:
+      return (~stat_buf->st_mode & pred_ptr->args.perm.val) != 0;
+
+    case PERM_ANY:
+      return (stat_buf->st_mode & pred_ptr->args.perm.val) != 0;
+
+    case PERM_EXACT:
+      return (stat_buf->st_mode & MODE_ALL) == pred_ptr->args.perm.val;
+
+    default:
+      abort ();
     }
-  else if (pred_ptr->args.perm & 020000)
-    {
-      /* Magic flag set in parse_perm:
-	 true if any of the given bits are set. */
-      if ((stat_buf->st_mode & 07777) & pred_ptr->args.perm)
-	return (true);
-    }
-  else
-    {
-      /* True if exactly the given bits are set. */
-      if ((stat_buf->st_mode & 07777) == pred_ptr->args.perm)
-	return (true);
-    }
-  return (false);
 }
 
 boolean
@@ -1019,10 +1084,10 @@ pred_regex (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_size (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  unsigned long f_val;
+  uintmax_t f_val;
 
-  f_val = (stat_buf->st_size + pred_ptr->args.size.blocksize - 1)
-    / pred_ptr->args.size.blocksize;
+  f_val = ((stat_buf->st_size / pred_ptr->args.size.blocksize)
+	   + (stat_buf->st_size % pred_ptr->args.size.blocksize != 0));
   switch (pred_ptr->args.size.kind)
     {
     case COMP_GT:
@@ -1050,8 +1115,8 @@ pred_true (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_type (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  unsigned long mode = stat_buf->st_mode;
-  unsigned long type = pred_ptr->args.type;
+  mode_t mode = stat_buf->st_mode;
+  mode_t type = pred_ptr->args.type;
 
 #ifndef S_IFMT
   /* POSIX system; check `mode' the slow way. */
@@ -1174,7 +1239,7 @@ static boolean
 launch (struct predicate *pred_ptr)
 {
   int status;
-  pid_t wait_ret, child_pid;
+  pid_t child_pid;
   struct exec_val *execp;	/* Pointer for efficiency. */
   static int first_time = 1;
 
@@ -1215,26 +1280,14 @@ launch (struct predicate *pred_ptr)
       _exit (1);
     }
 
-  wait_ret = wait (&status);
-  if (wait_ret == -1)
-    {
-      error (0, errno, _("error waiting for %s"), execp->vec[0]);
-      exit_status = 1;
-      return (false);
-    }
-  if (wait_ret != child_pid)
-    {
-      error (0, 0, _("wait got pid %d, expected pid %d"), wait_ret, child_pid);
-      exit_status = 1;
-      return (false);
-    }
-  if (WIFSTOPPED (status))
-    {
-      error (0, 0, _("%s stopped by signal %d"), 
-	     execp->vec[0], WSTOPSIG (status));
-      exit_status = 1;
-      return (false);
-    }
+  
+  while (waitpid (child_pid, &status, 0) == (pid_t) -1)
+    if (errno != EINTR)
+      {
+	error (0, errno, _("error waiting for %s"), execp->vec[0]);
+	exit_status = 1;
+	return false;
+      }
   if (WIFSIGNALED (status))
     {
       error (0, 0, _("%s terminated by signal %d"),
@@ -1251,23 +1304,46 @@ launch (struct predicate *pred_ptr)
 static char *
 format_date (time_t when, int kind)
 {
-  static char fmt[3];
-  static char buf[64];		/* More than enough space. */
+  static char buf[MAX (LONGEST_HUMAN_READABLE + 2, 64)];
+  struct tm *tm;
+  char fmt[3];
 
-  if (kind == '@')
+  fmt[0] = '%';
+  fmt[1] = kind;
+  fmt[2] = '\0';
+
+  if (kind != '@'
+      && (tm = localtime (&when))
+      && strftime (buf, sizeof buf, fmt, tm))
+    return buf;
+  else
     {
-      sprintf (buf, "%ld", when);
-      return (buf);
+      uintmax_t w = when;
+      char *p = human_readable (when < 0 ? -w : w, buf + 1, 1, 1);
+      if (when < 0)
+	*--p = '-';
+      return p;
+    }
+}
+
+static char *
+ctime_format (when)
+     time_t when;
+{
+  char *r = ctime (&when);
+  if (!r)
+    {
+      /* The time cannot be represented as a struct tm.
+	 Output it as an integer.  */
+      return format_date (when, '@');
     }
   else
     {
-      fmt[0] = '%';
-      fmt[1] = kind;
-      fmt[2] = '\0';
-      if (strftime (buf, sizeof (buf), fmt, localtime (&when)))
-	return (buf);
+      /* Remove the trailing newline from the ctime output,
+	 being careful not to assume that the output is fixed-width.  */
+      *strchr (r, '\n') = '\0';
+      return r;
     }
-  return "";
 }
 
 #ifdef	DEBUG

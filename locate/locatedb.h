@@ -39,4 +39,12 @@
 /* Offset added to differential counts to encode them as positive numbers.  */
 #define	LOCATEDB_OLD_OFFSET	14
 
+# ifndef PARAMS
+#  if defined PROTOTYPES || (defined __STDC__ && __STDC__)
+#   define PARAMS(Args) Args
+#  else
+#   define PARAMS(Args) ()
+#  endif
+# endif
+
 #endif /* !_LOCATEDB_H */

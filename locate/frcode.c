@@ -78,7 +78,7 @@
 #include "locatedb.h"
 #include <getline.h>
 
-char *xmalloc (size_t);
+char *xmalloc PARAMS((size_t));
 
 /* The name this program was run with.  */
 char *program_name;

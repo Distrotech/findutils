@@ -4,45 +4,43 @@
 EXTRA_DIST = README Makefile.am.in \
 afs.m4 \
 assert.m4 \
+c-bs-a.m4 \
 check-decl.m4 \
-check-type.m4 \
-const.m4 \
 d-ino.m4 \
 d-type.m4 \
-decl.m4 \
 error.m4 \
 fnmatch.m4 \
 fstypename.m4 \
 getline.m4 \
+gettext.m4 \
 glibc.m4 \
 inttypes_h.m4 \
 isc-posix.m4 \
 jm-glibc-io.m4 \
 jm-macros.m4 \
 jm-mktime.m4 \
-lfs.m4 \
+largefile.m4 \
+lcmessage.m4 \
+link-follow.m4 \
 ls-mntd-fs.m4 \
 lstat-slash.m4 \
 lstat.m4 \
 malloc.m4 \
 memcmp.m4 \
-mktime.m4 \
-perl.m4 \
 prereq.m4 \
-putenv.m4 \
+progtest.m4 \
 readdir.m4 \
 realloc.m4 \
 regex.m4 \
 st_dm_mode.m4 \
 st_mtim.m4 \
 stat.m4 \
+strerror_r.m4 \
 strftime.m4 \
+timespec.m4 \
 uintmax_t.m4 \
 ulonglong.m4 \
-uptime.m4 \
-utimbuf.m4 \
-utime.m4 \
-utimes.m4
+xstrtoumax.m4
 ##m4-files-end
 
 Makefile.am: Makefile.am.in

@@ -1,5 +1,5 @@
 /* parser.c -- convert the command line args into an expression tree.
-   Copyright (C) 1990, 91, 92, 93, 94 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,16 +15,13 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
-#include <config.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include "defs.h"
 #include <ctype.h>
-#include <stdio.h>
 #include <pwd.h>
 #include <grp.h>
 #include "modechange.h"
-#include "defs.h"
 #include "modetype.h"
+#include "xstrtol.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -122,9 +119,9 @@ static boolean insert_type PARAMS((char *argv[], int *arg_ptr, boolean (*which_p
 static boolean insert_fprintf PARAMS((FILE *fp, boolean (*func )(), char *argv[], int *arg_ptr));
 static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len, int kind));
 static boolean insert_exec_ok PARAMS((boolean (*func )(), char *argv[], int *arg_ptr));
-static boolean get_num_days PARAMS((char *str, unsigned long *num_days, enum comparison_type *comp_type));
+static boolean get_num_days PARAMS((char *str, uintmax_t *num_days, enum comparison_type *comp_type));
 static boolean insert_time PARAMS((char *argv[], int *arg_ptr, PFB pred));
-static boolean get_num PARAMS((char *str, unsigned long *num, enum comparison_type *comp_type));
+static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
 static boolean insert_num PARAMS((char *argv[], int *arg_ptr, PFB pred));
 static FILE *open_output_file PARAMS((char *path));
 
@@ -252,16 +249,19 @@ static boolean
 parse_amin (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
-  unsigned long num;
+  uintmax_t num;
   enum comparison_type c_type;
+  time_t t;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   if (!get_num_days (argv[*arg_ptr], &num, &c_type))
     return (false);
+  t = cur_day_start + DAYSECS - num * 60;
   our_pred = insert_primary (pred_amin);
   our_pred->args.info.kind = c_type;
-  our_pred->args.info.l_val = cur_day_start + DAYSECS - num * 60;
+  our_pred->args.info.negative = t < 0;
+  our_pred->args.info.l_val = t;
   (*arg_ptr)++;
   return (true);
 }
@@ -324,16 +324,19 @@ static boolean
 parse_cmin (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
-  unsigned long num;
+  uintmax_t num;
   enum comparison_type c_type;
+  time_t t;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   if (!get_num_days (argv[*arg_ptr], &num, &c_type))
     return (false);
+  t = cur_day_start + DAYSECS - num * 60;
   our_pred = insert_primary (pred_cmin);
   our_pred->args.info.kind = c_type;
-  our_pred->args.info.l_val = cur_day_start + DAYSECS - num * 60;
+  our_pred->args.info.negative = t < 0;
+  our_pred->args.info.l_val = t;
   (*arg_ptr)++;
   return (true);
 }
@@ -385,8 +388,10 @@ parse_daystart (char **argv, int *arg_ptr)
     {
       cur_day_start += DAYSECS;
       local = localtime (&cur_day_start);
-      cur_day_start -= local->tm_sec + local->tm_min * 60
-	+ local->tm_hour * 3600;
+      cur_day_start -= (local
+			? (local->tm_sec + local->tm_min * 60
+			   + local->tm_hour * 3600)
+			: cur_day_start % DAYSECS);
       full_days = true;
     }
   return (true);
@@ -688,16 +693,19 @@ static boolean
 parse_mmin (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
-  unsigned long num;
+  uintmax_t num;
   enum comparison_type c_type;
+  time_t t;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   if (!get_num_days (argv[*arg_ptr], &num, &c_type))
     return (false);
+  t = cur_day_start + DAYSECS - num * 60;
   our_pred = insert_primary (pred_mmin);
   our_pred->args.info.kind = c_type;
-  our_pred->args.info.l_val = cur_day_start + DAYSECS - num * 60;
+  our_pred->args.info.negative = t < 0;
+  our_pred->args.info.l_val = t;
   (*arg_ptr)++;
   return (true);
 }
@@ -898,7 +906,7 @@ parse_path (char **argv, int *arg_ptr)
 static boolean
 parse_perm (char **argv, int *arg_ptr)
 {
-  unsigned long perm_val;
+  mode_t perm_val;
   int mode_start = 0;
   struct mode_change *change;
   struct predicate *our_pred;
@@ -930,18 +938,16 @@ parse_perm (char **argv, int *arg_ptr)
   switch (argv[*arg_ptr][0])
     {
     case '-':
-      /* Set magic flag to indicate true if at least the given bits are set. */
-      our_pred->args.perm = (perm_val & 07777) | 010000;
+      our_pred->args.perm.kind = PERM_AT_LEAST;
       break;
     case '+':
-      /* Set magic flag to indicate true if any of the given bits are set. */
-      our_pred->args.perm = (perm_val & 07777) | 020000;
+      our_pred->args.perm.kind = PERM_ANY;
       break;
     default:
-      /* True if exactly the given bits are set. */
-      our_pred->args.perm = (perm_val & 07777);
+      our_pred->args.perm.kind = PERM_EXACT;
       break;
     }
+  our_pred->args.perm.val = perm_val & MODE_ALL;
   (*arg_ptr)++;
   return (true);
 }
@@ -1040,7 +1046,7 @@ static boolean
 parse_size (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
-  unsigned long num;
+  uintmax_t num;
   enum comparison_type c_type;
   int blksize = 512;
   int len;
@@ -1123,16 +1129,19 @@ static boolean
 parse_used (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
-  unsigned long num_days;
+  uintmax_t num_days;
   enum comparison_type c_type;
+  time_t t;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   if (!get_num (argv[*arg_ptr], &num_days, &c_type))
     return (false);
+  t = num_days * DAYSECS;
   our_pred = insert_primary (pred_used);
   our_pred->args.info.kind = c_type;
-  our_pred->args.info.l_val = num_days * DAYSECS;
+  our_pred->args.info.negative = t < 0;
+  our_pred->args.info.l_val = t;
   (*arg_ptr)++;
   return (true);
 }
@@ -1190,7 +1199,7 @@ parse_xtype (char **argv, int *arg_ptr)
 static boolean
 insert_type (char **argv, int *arg_ptr, boolean (*which_pred) (/* ??? */))
 {
-  unsigned long type_cell;
+  mode_t type_cell;
   struct predicate *our_pred;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL)
@@ -1382,7 +1391,7 @@ make_segment (struct segment **segment, char *format, int len, int kind)
   (*segment)->next = NULL;
   (*segment)->text_len = len;
 
-  fmt = (*segment)->text = xmalloc (len + 3);	/* room for "ld\0" */
+  fmt = (*segment)->text = xmalloc (len + sizeof "d");
   strncpy (fmt, format, len);
   fmt += len;
 
@@ -1393,15 +1402,22 @@ make_segment (struct segment **segment, char *format, int len, int kind)
       break;
 
     case 'a':			/* atime in `ctime' format */
-    case 'c':			/* ctime in `ctime' format */
-    case 'F':			/* filesystem type */
-    case 'g':			/* group name */
-    case 'l':			/* object of symlink */
-    case 't':			/* mtime in `ctime' format */
-    case 'u':			/* user name */
     case 'A':			/* atime in user-specified strftime format */
+    case 'b':			/* size in 512-byte blocks */
+    case 'c':			/* ctime in `ctime' format */
     case 'C':			/* ctime in user-specified strftime format */
+    case 'F':			/* filesystem type */
+    case 'G':			/* GID number */
+    case 'g':			/* group name */
+    case 'i':			/* inode number */
+    case 'k':			/* size in 1K blocks */
+    case 'l':			/* object of symlink */
+    case 'n':			/* number of links */
+    case 's':			/* size in bytes */
+    case 't':			/* mtime in `ctime' format */
     case 'T':			/* mtime in user-specified strftime format */
+    case 'U':			/* UID number */
+    case 'u':			/* user name */
       fprintf_stat_needed = true;
       /* FALLTHROUGH */
     case 'f':			/* basename of path */
@@ -1412,25 +1428,8 @@ make_segment (struct segment **segment, char *format, int len, int kind)
       *fmt++ = 's';
       break;
 
-    case 'b':			/* size in 512-byte blocks */
-    case 'k':			/* size in 1K blocks */
-    case 's':			/* size in bytes */
-      *fmt++ = 'l';
-      /*FALLTHROUGH*/
-    case 'n':			/* number of links */
-      fprintf_stat_needed = true;
-      /* FALLTHROUGH */
     case 'd':			/* depth in search tree (0 = ARGV element) */
       *fmt++ = 'd';
-      break;
-
-    case 'i':			/* inode number */
-      *fmt++ = 'l';
-      /*FALLTHROUGH*/
-    case 'G':			/* GID number */
-    case 'U':			/* UID number */
-      *fmt++ = 'u';
-      fprintf_stat_needed = true;
       break;
 
     case 'm':			/* mode as octal number (perms only) */
@@ -1523,45 +1522,17 @@ insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
    get the appropriate information for a time predicate processor. */
 
 static boolean
-get_num_days (char *str, long unsigned int *num_days, enum comparison_type *comp_type)
+get_num_days (char *str, uintmax_t *num_days, enum comparison_type *comp_type)
 {
-  int len_days;			/* length of field */
-
-  if (str == NULL)
-    return (false);
-  switch (str[0])
-    {
-    case '+':
-      *comp_type = COMP_LT;
-      str++;
-      break;
-    case '-':
-      *comp_type = COMP_GT;
-      str++;
-      break;
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-      *comp_type = COMP_EQ;
-      break;
-    default:
-      return (false);
-    }
-
-  /* We know the first char has been reasonable.  Find the
-     number of days to play with. */
-  len_days = strspn (str, "0123456789");
-  if ((len_days == 0) || (str[len_days] != '\0'))
-    return (false);
-  *num_days = (unsigned long) atol (str);
-  return (true);
+  boolean r = get_num (str, num_days, comp_type);
+  if (r)
+    switch (*comp_type)
+      {
+      case COMP_LT: *comp_type = COMP_GT; break;
+      case COMP_GT: *comp_type = COMP_LT; break;
+      default: break;
+      }
+  return r;
 }
 
 /* Insert a time predicate PRED.
@@ -1580,17 +1551,20 @@ static boolean
 insert_time (char **argv, int *arg_ptr, PFB pred)
 {
   struct predicate *our_pred;
-  unsigned long num_days;
+  uintmax_t num_days;
   enum comparison_type c_type;
+  time_t t;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   if (!get_num_days (argv[*arg_ptr], &num_days, &c_type))
     return (false);
+  t = (cur_day_start - num_days * DAYSECS
+       + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
   our_pred = insert_primary (pred);
   our_pred->args.info.kind = c_type;
-  our_pred->args.info.l_val = cur_day_start - num_days * DAYSECS
-    + ((c_type == COMP_GT) ? DAYSECS - 1 : 0);
+  our_pred->args.info.negative = t < 0;
+  our_pred->args.info.l_val = t;
   (*arg_ptr)++;
 #ifdef	DEBUG
   printf (_("inserting %s\n"), our_pred->p_name);
@@ -1599,13 +1573,13 @@ insert_time (char **argv, int *arg_ptr, PFB pred)
 	  ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
 	  (c_type == COMP_GT) ? " >" :
 	  ((c_type == COMP_LT) ? " <" : ((c_type == COMP_EQ) ? ">=" : " ?")));
-  printf ("%ld %s", our_pred->args.info.l_val,
-	  ctime (&our_pred->args.info.l_val));
+  t = our_pred->args.info.l_val;
+  printf ("%ju %s", (uintmax_t) our_pred->args.info.l_val, ctime (&t));
   if (c_type == COMP_EQ)
     {
-      our_pred->args.info.l_val += DAYSECS;
-      printf ("                 <  %ld %s", our_pred->args.info.l_val,
-	      ctime (&our_pred->args.info.l_val));
+      t = our_pred->args.info.l_val += DAYSECS;
+      printf ("                 <  %ju %s",
+	      (uintmax_t) our_pred->args.info.l_val, ctime (&t));
       our_pred->args.info.l_val -= DAYSECS;
     }
 #endif	/* DEBUG */
@@ -1614,18 +1588,16 @@ insert_time (char **argv, int *arg_ptr, PFB pred)
 
 /* Get a number with comparision information.
    The sense of the comparision information is 'normal'; that is,
-   '+' looks for inums or links > than the number and '-' less than.
+   '+' looks for a count > than the number and '-' less than.
    
    STR is the ASCII representation of the number.
    Set *NUM to the number.
    Set *COMP_TYPE to the kind of comparison that is requested.
  
-   Return true if all okay, false if input error.
-
-   Used by the -inum and -links predicate parsers. */
+   Return true if all okay, false if input error.  */
 
 static boolean
-get_num (char *str, long unsigned int *num, enum comparison_type *comp_type)
+get_num (char *str, uintmax_t *num, enum comparison_type *comp_type)
 {
   int len_num;			/* Length of field. */
 
@@ -1641,29 +1613,12 @@ get_num (char *str, long unsigned int *num, enum comparison_type *comp_type)
       *comp_type = COMP_LT;
       str++;
       break;
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
+    default:
       *comp_type = COMP_EQ;
       break;
-    default:
-      return (false);
     }
 
-  /* We know the first char has been reasonable.  Find the number of
-     days to play with. */
-  len_num = strspn (str, "0123456789");
-  if ((len_num == 0) || (str[len_num] != '\0'))
-    return (false);
-  *num = (unsigned long) atol (str);
-  return (true);
+  return xstrtoumax (str, NULL, 10, num, "") == LONGINT_OK;
 }
 
 /* Insert a number predicate.
@@ -1682,7 +1637,7 @@ static boolean
 insert_num (char **argv, int *arg_ptr, PFB pred)
 {
   struct predicate *our_pred;
-  unsigned long num;
+  uintmax_t num;
   enum comparison_type c_type;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
@@ -1700,7 +1655,7 @@ insert_num (char **argv, int *arg_ptr, PFB pred)
 	  ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
 	  (c_type == COMP_GT) ? " >" :
 	  ((c_type == COMP_LT) ? " <" : ((c_type == COMP_EQ) ? " =" : " ?")));
-  printf ("%ld\n", our_pred->args.info.l_val);
+  printf ("%ju\n", our_pred->args.info.l_val);
 #endif	/* DEBUG */
   return (true);
 }

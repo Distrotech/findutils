@@ -1,5 +1,5 @@
 /* tree.c -- helper functions to build and evaluate the expression tree.
-   Copyright (C) 1990, 91, 92, 93, 94 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,10 +15,6 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
-#include <config.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
 #include "defs.h"
 
 #if ENABLE_NLS

@@ -1,28 +1,59 @@
-There are many bugs to be fixed and features to be added to
-findutils.  The current distribution is a snapshot which fixes many
+-*-outline-*-
+* There are many bugs to be fixed and features to be added to findutils.
+The current distribution is a snapshot which fixes many
 problems, but leaves others unsolved.  Many of the known problems are
 not listed below.  Over the next few releases, I hope to fix more
 items, and add the unfixed problems below.
 
-Is ansi2knr internationalized?  Does it need to be?
-Should these files be internationalized?
+* Internationalization
+** Is ansi2knr internationalized?  Does it need to be?
+
+** Should these files be internationalized?
 	strftime.c
-Should translated long options be offered in locate and xargs?
-updatedb.sh should be internationalized as well
 
-Add case insensitive locate option.  Patch is available.
+** Should translated long options be offered in locate and xargs?
+** updatedb.sh should be internationalized as well
 
-Should fnmatch.h be a link to fnmatch.hin.  See tar distribution for
-an example. 
+* new standards with Austin group
+** "-H" and "-L" options to find were added by Austin group standards.
+They need to be implemented.
 
-Eliminate unnecessary strcpy calls in xargs.
+**Austin added the following options to xargs:
+-I perhaps replaces -i
 
-lib/getline.c contains a function getstr which is needed in locate,
+-L perhaps replaces -l
+
+-E slightly different from -e
+
+
+* Add case insensitive locate option.  Patch is available.
+
+* Should fnmatch.h be a link to fnmatch.hin?
+See tar distribution for an example. 
+
+* Eliminate unnecessary strcpy calls in xargs.
+
+* lib/getline.c
+getline.c contains a function getstr which is needed in locate,
 but is not in the standard library.  In fact getstr is in curses.
 This problem needs to be fixed.  Can getstr be removed?  Can getline.c
-be optionally included?
+be optionally included, or is it mandatory?
 
-Files which were modified in findutils/lib:
-changed in findutils:
-getline.c (skipped for now)
-nextelem.c (twice)
+* man pages for frcode, bigram, and code
+Perhaps a better description in texi pages as well.
+
+* large file problems
+depcomp gets added by automake
+strncasecmp is needed
+which requires strcasecmp
+getline.c temporarily removed from Makefile.am
+remove getline.o from LIBOBJS
+remove extra AM_FUNC_GETLINE
+
+
+                        --//--
+This is used by Emacs' spell checker ispell.el:
+
+LocalWords: ansi knr strftime xargs updatedb sh fnmatch hin strcpy
+LocalWords: lib getstr getline frcode bigram texi depcomp automake
+LocalWords: strncasecmp strcasecmp LIBOBJS FUNC

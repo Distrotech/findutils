@@ -1,5 +1,5 @@
 /* defs.h -- data types and declarations.
-   Copyright (C) 1990, 91, 92, 93, 94 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,6 +14,11 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+
+#include <config.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
 
 #if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
 #include <string.h>
@@ -42,6 +47,17 @@ extern int errno;
 
 #include <time.h>
 
+#if HAVE_LIMITS_H
+# include <limits.h>
+#endif
+#ifndef CHAR_BIT
+# define CHAR_BIT 8
+#endif
+
+#if HAVE_INTTYPES_H
+# include <inttypes.h>
+#endif
+
 #include "regex.h"
 
 #ifndef S_IFLNK
@@ -58,6 +74,49 @@ extern int errno;
 
 int lstat PARAMS((const char *__path, struct stat *__statbuf));
 int stat PARAMS((const char *__path, struct stat *__statbuf));
+
+#ifndef S_ISUID
+# define S_ISUID 0004000
+#endif
+#ifndef S_ISGID
+# define S_ISGID 0002000
+#endif
+#ifndef S_ISVTX
+# define S_ISVTX 0001000
+#endif
+#ifndef S_IRUSR
+# define S_IRUSR 0000400
+#endif
+#ifndef S_IWUSR
+# define S_IWUSR 0000200
+#endif
+#ifndef S_IXUSR
+# define S_IXUSR 0000100
+#endif
+#ifndef S_IRGRP
+# define S_IRGRP 0000040
+#endif
+#ifndef S_IWGRP
+# define S_IWGRP 0000020
+#endif
+#ifndef S_IXGRP
+# define S_IXGRP 0000010
+#endif
+#ifndef S_IROTH
+# define S_IROTH 0000004
+#endif
+#ifndef S_IWOTH
+# define S_IWOTH 0000002
+#endif
+#ifndef S_IXOTH
+# define S_IXOTH 0000001
+#endif
+
+#define MODE_WXUSR	(S_IWUSR | S_IXUSR)
+#define MODE_R		(S_IRUSR | S_IRGRP | S_IROTH)
+#define MODE_RW		(S_IWUSR | S_IWGRP | S_IWOTH | MODE_R)
+#define MODE_RWX	(S_IXUSR | S_IXGRP | S_IXOTH | MODE_RW)
+#define MODE_ALL	(S_ISUID | S_ISGID | S_ISVTX | MODE_RWX)
 
 /* Not char because of type promotion; NeXT gcc can't handle it.  */
 typedef int boolean;
@@ -77,6 +136,13 @@ enum comparison_type
   COMP_GT,
   COMP_LT,
   COMP_EQ
+};
+
+enum permissions_type
+{
+  PERM_AT_LEAST,
+  PERM_ANY,
+  PERM_EXACT
 };
 
 enum predicate_type
@@ -102,14 +168,21 @@ enum predicate_precedence
 struct long_val
 {
   enum comparison_type kind;
-  unsigned long l_val;
+  boolean negative;		/* Defined only when representing time_t.  */
+  uintmax_t l_val;
+};
+
+struct perm_val
+{
+  enum permissions_type kind;
+  mode_t val;
 };
 
 struct size_val
 {
   enum comparison_type kind;
   int blocksize;
-  unsigned long size;
+  uintmax_t size;
 };
 
 struct path_arg
@@ -178,13 +251,14 @@ struct predicate
     char *str;			/* fstype [i]lname [i]name [i]path */
     struct re_pattern_buffer *regex; /* regex */
     struct exec_val exec_vec;	/* exec ok */
-    struct long_val info;	/* atime ctime mtime inum links */
+    struct long_val info;	/* atime ctime gid inum links mtime
+                                   size uid */
     struct size_val size;	/* size */
     uid_t uid;			/* user */
     gid_t gid;			/* group */
     time_t time;		/* newer */
-    unsigned long perm;		/* perm */
-    unsigned long type;		/* type */
+    struct perm_val perm;	/* perm */
+    mode_t type;		/* type */
     FILE *stream;		/* fprint fprint0 */
     struct format_val printf_vec; /* printf fprintf */
   } args;
@@ -210,11 +284,8 @@ char *dirname PARAMS((char *path));
 void error PARAMS((int status, int errnum, char *message, ...));
 
 /* listfile.c */
-void list_file PARAMS((char *name, char *relname, struct stat *statp, FILE *stream));
+void list_file PARAMS((char *name, char *relname, struct stat *statp, time_t current_time, int output_block_size, FILE *stream));
 char *get_link_name PARAMS((char *name, char *relname));
-
-/* savedir.c */
-char *savedir PARAMS((char *dir, unsigned name_size));
 
 /* stpcpy.c */
 #if !HAVE_STPCPY
@@ -306,12 +377,11 @@ void print_list PARAMS((struct predicate *node));
 
 /* tree.c */
 struct predicate *
-get_expr (struct predicate **input, short int prev_prec);
+get_expr PARAMS((struct predicate **input, short int prev_prec));
 boolean opt_expr PARAMS((struct predicate **eval_treep));
 boolean mark_stat PARAMS((struct predicate *tree));
 
 /* util.c */
-char *base_name PARAMS((const char *fname));
 struct predicate *get_new_pred PARAMS((void));
 struct predicate *get_new_pred_chk_op PARAMS((void));
 struct predicate *insert_primary PARAMS((boolean (*pred_func )()));
@@ -324,6 +394,8 @@ extern boolean do_dir_first;
 extern int maxdepth;
 extern int mindepth;
 extern int curdepth;
+extern int output_block_size;
+extern time_t start_time;
 extern time_t cur_day_start;
 extern boolean full_days;
 extern boolean no_leaf_check;
