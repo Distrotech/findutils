@@ -1,4 +1,18 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.12-CVS
+**  Functionality Changes
+*** find is now POSIX-compliant, as far as I know.
+*** -exec ... {} + now works.
+*** New actions -execdir and -okdir which are like -exec and -ok but more secure.
+*** "locate -w" is now a synonym for "locate --wholepath".
+*** An empty path entry in the locate database path (for example "::" in 
+    $LOCATE_PATH or in the argument to "locate -d") is taken to mean
+    the default database, whose name is hard-coded in locate.
+**  Bug Fixes
+*** If find or xargs cannot write to stdout, for example because 
+    output is redirected to a file and the disk is full, the 
+    relevant program will return a non-zero exit status.
+
 * Major changes in release 4.2.11
 **  Bug Fixes
 *** Compilation fix for systems without EOVERFLOW.
