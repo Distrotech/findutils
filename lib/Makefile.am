@@ -6,7 +6,7 @@ AUTOMAKE_OPTIONS = 1.5 gnits
 noinst_LIBRARIES = libfind.a
 
 libfind_a_SOURCES =
-EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h
+EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h
 BUILT_SOURCES =
 SUFFIXES =
 MOSTLYCLEANFILES =
