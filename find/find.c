@@ -117,7 +117,7 @@ enum TraversalDirection
   };
 
 
-static int
+int
 following_links(void)
 {
   switch (options.symlink_handling)

@@ -833,9 +833,11 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  if (S_ISLNK (stat_buf->st_mode))
 	    {
 	      struct stat sbuf;
-	      int (*ystat) ();
-	      ystat = options.xstat == lstat ? stat : lstat;
-	      if ((*ystat) (state.rel_pathname, &sbuf) != 0)
+	      /* If we would normally follow links, do not do so.
+	       * If we would normally not follow links, do so.
+	       */
+	      if ((following_links() ? lstat : stat)
+		  (state.rel_pathname, &sbuf) != 0)
 	      {
 		if ( errno == ENOENT ) {
 		  fprintf (fp, segment->text, "N");
@@ -1445,18 +1447,17 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   struct stat sbuf;		/* local copy, not stat_buf because we're using a different stat method */
   int (*ystat) (const char*, struct stat *p);
 
-  switch (options.symlink_handling)
-    {
-    case SYMLINK_ALWAYS_DEREF:
-      ystat = optionl_stat;
-    case SYMLINK_DEREF_ARGSONLY:
-    case SYMLINK_NEVER_DEREF:
-      ystat = optionp_stat;
-    }
+  /* If we would normally stat the link itself, stat the target instead.
+   * If we would normally follow the link, stat the link itself instead. 
+   */
+  if (following_links())
+    ystat = optionp_stat;
+  else
+    ystat = optionl_stat;
   
   if ((*ystat) (state.rel_pathname, &sbuf) != 0)
     {
-      if (ystat == optionl_stat && errno == ENOENT)
+      if (following_links() && errno == ENOENT)
 	{
 	  /* If we failed to follow the symlink,
 	   * fall back on looking at the symlink itself. 

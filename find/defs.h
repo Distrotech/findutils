@@ -331,6 +331,7 @@ struct predicate
 
 /* find.c. */
 int get_info PARAMS((const char *pathname, const char *name, struct stat *p, struct predicate *pred_ptr));
+int following_links(void);
 
 
 /* find library function declarations.  */
