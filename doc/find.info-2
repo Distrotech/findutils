@@ -256,7 +256,13 @@ which directories each database contains entries for:
 
 `--prunepaths='PATH...''
      Directories to not put in the database, which would otherwise be.
-     Default is `/tmp /usr/tmp /var/tmp /afs /amd /net /alex'.
+     Default is `/tmp /usr/tmp /var/tmp /afs'.
+
+`--prunefs='PATH...''
+     File systems to not put in the database, which would otherwise be.
+     Note that files are pruned when a file system is reached; Any file
+     system mounted under an undesired file system will be ignored.
+     Default is `nfs NFS proc'.
 
 `--output=DBFILE'
      The database file to build.  Default is system-dependent, but
@@ -886,6 +892,12 @@ Invoking `updatedb'
 `--prunepaths='PATH...''
      Directories to not put in the database, which would otherwise be.
      Default is `/tmp /usr/tmp /var/tmp /afs'.
+
+`--prunefs='PATH...''
+     File systems to not put in the database, which would otherwise be.
+     Note that files are pruned when a file system is reached; Any file
+     system mounted under an undesired file system will be ignored.
+     Default is `nfs NFS proc'.
 
 `--output=DBFILE'
      The database file to build.  Default is system-dependent, but

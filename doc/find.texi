@@ -1865,7 +1865,14 @@ Default is none.
 
 @item --prunepaths='@var{path}@dots{}'
 Directories to not put in the database, which would otherwise be.
-Default is @file{/tmp /usr/tmp /var/tmp /afs /amd /net /alex}.
+Default is @file{/tmp /usr/tmp /var/tmp /afs}.
+
+@item --prunefs='@var{path}@dots{}'
+File systems to not put in the database, which would otherwise be.
+Note that files are pruned when a file system is reached;
+Any file system mounted under an undesired file system will be
+ignored.
+Default is @file{nfs NFS proc}.
 
 @item --output=@var{dbfile}
 The database file to build.
@@ -2082,6 +2089,13 @@ Default is none.
 @item --prunepaths='@var{path}@dots{}'
 Directories to not put in the database, which would otherwise be.
 Default is @file{/tmp /usr/tmp /var/tmp /afs}.
+
+@item --prunefs='@var{path}@dots{}'
+File systems to not put in the database, which would otherwise be.
+Note that files are pruned when a file system is reached;
+Any file system mounted under an undesired file system will be
+ignored.
+Default is @file{nfs NFS proc}.
 
 @item --output=@var{dbfile}
 The database file to build.
