@@ -359,7 +359,7 @@ bc_init_state(const struct buildcmd_control *ctl,
   state->cmd_argv = NULL;
   state->cmd_argv_alloc = 0;
   state->argbuf = (char *) xmalloc (ctl->arg_max + 1);
-  state->cmd_argv_chars = 0;
+  state->cmd_argv_chars = state->cmd_initial_argv_chars = 0;
   state->todo = 0;
   state->usercontext = context;
 }
