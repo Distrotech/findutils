@@ -670,6 +670,9 @@ parse_iwholename (char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
+
+  fnmatch_sanitycheck();
+  
   our_pred = insert_primary (pred_ipath);
   our_pred->need_stat = false;
   our_pred->args.str = argv[*arg_ptr];
@@ -696,6 +699,9 @@ parse_lname (char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
+
+  fnmatch_sanitycheck();
+  
   our_pred = insert_primary (pred_lname);
   our_pred->args.str = argv[*arg_ptr];
   (*arg_ptr)++;
