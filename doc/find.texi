@@ -519,12 +519,12 @@ number on the disk.
 Symbolic links are names that reference other files.  GNU @code{find}
 will handle symbolic links in one of two ways; firstly, it can
 dereference the links for you - this means that if it comes across a
-symblic link, it examines the file that the link points to, in order
+symbolic link, it examines the file that the link points to, in order
 to see if it matches the criteria you have specified.  Secondly, it
-can check the link itself in case you might be looking for
-the actual link.  If the file that the symbolic link points to is also
-within the directory hierarchy you are searching with the @code{find}
-command, you may not see a great deal of difference between these two
+can check the link itself in case you might be looking for the actual
+link.  If the file that the symbolic link points to is also within the
+directory hierarchy you are searching with the @code{find} command,
+you may not see a great deal of difference between these two
 alternatives.
 
 By default, @code{find} examines symbolic links themselves when it
@@ -965,7 +965,7 @@ find . -wholename './src/emacs' -prune -o -print
 @end deffn
 
 @deffn Action -quit
-Exit immediately with return value zero.  No child proceses will be
+Exit immediately with return value zero.  No child processes will be
 left running, but no more paths specified on the command line will be 
 processed.   For example, @code{find /tmp/foo /tmp/bar -print -quit}
 will print only @samp{/tmp/foo}.
@@ -1189,7 +1189,7 @@ True; like @samp{-ls} but write to @var{file} like @samp{-fprint}
 True; print @var{format} on the standard output, interpreting @samp{\}
 escapes and @samp{%} directives.  Field widths and precisions can be
 specified as with the @code{printf} C function.  Format flags (like
-@samp{#} for example) mnay not work as you expect because many of the
+@samp{#} for example) may not work as you expect because many of the
 fields, even numeric ones, are printed with %s.  This means though
 that the format flag @samp{-} will work; it forces left-alignment of
 the field.  Unlike @samp{-print}, @samp{-printf} does not add a
@@ -1248,7 +1248,7 @@ directives to print information about the file being processed.  The C
 @code{printf} function, field width and precision specifiers are
 supported, as applied to string (%s) types. That is, you can specify
 "minimum field width"."maximum field width" for each directive.
-Format flags (like @samp{#} for example) mnay not work as you expect
+Format flags (like @samp{#} for example) may not work as you expect
 because many of the fields, even numeric ones, are printed with %s.
 The format flag @samp{-} does work; it forces left-alignment of the
 field.
@@ -2401,7 +2401,7 @@ directories that should be searched.
 
 This list of files to search is followed by a list of expressions
 describing the files we wish to search for.  The first part of the
-expression is recgnised by the fact that it begins with @samp{-},
+expression is recognised by the fact that it begins with @samp{-},
 @samp{(}, @samp{)}, @samp{,}, or @samp{!}.  Any arguments after it are
 the rest of the expression.  If no paths are given, the current
 directory is used.  If no expression is given, the expression
@@ -2735,11 +2735,11 @@ This manual is written in English.  The GNU findutils software
 features translated error messages for many languages.  For this
 reason where possible we try to make the error messages produced by
 the programs self-explanatory.  This approach avoids asking people to
-figure out which Engligh-language error message the test they actually
+figure out which English-language error message the test they actually
 saw might correspond to. Error messages which are self-explanatory
 will not normally be described or discussed in this document.  For
 those messages which are discussed in this document, only the
-Engligh-language version of the message will be listed.
+English-language version of the message will be listed.
 
 @menu
 * Error Messages From find::
@@ -2766,50 +2766,42 @@ consider using @samp{./*} or just @samp{.} instead.
 This usually happens if you have an extra bracket on the command line
 (for example @samp{find . -print \)}).
 
-@item Warning: filesystem /path/foo has recently been unmounted
-This message normally appears when @code{find} traverses a mount point
-which is controlled by ``automount''.  This can cause a filesystem to
-be automatically mounted at that point, which means that the
-before-and-after checks that @code{find} does to check that it has
-ended up in the right place after a call to the @code{chdir()} library
-function notice that something has changed.  If the filesystem
-mentioned is a mount point controlled by ``automount'', then this
-warning is probably harmless.  If not, consider the possibility that
-someone who is able to mount or unmount filesystems has done this by
-hand.  Some people might do this in order to mislead @code{find} or
-persuade it to look at one set of files when it thought it was looking
-at another set.  
-
-@item Warning: filesystem /path/foo has recently been unmounted
-This message is very similar in meaning to the previous one, but is
-issued when a filesystem appears to have been unmounted.  The
-``automount'' program unmounts filesystems if they have not been used
-for a certain period of time, which can produce this message.
-However, this message should be much rarer than the previous one.  If
-the directory mentioned in the message is not normally a mount point,
-conside the possibility that someone is trying to mislead @code{find}
-in a similar way to the possibility mentioned above.
+@item Warning: filesystem /path/foo has recently been mounted
+@itemx Warning: filesystem /path/foo has recently been unmounted
+These messages might appear when @code{find} moves into a directory
+and finds that the device number and inode are different to what it
+expected them to be.  If the directory @code{find} has moved into is
+on an NFS filesystem, it will not issue this message, because
+@code{automount} frequently mounts new filesystems on directories as
+you move into them (that is how it knows you want to use the
+filesystem).  So, if you do see this message, be wary --
+@code{automount} may not have been responsible.  Consider the
+possibility that someone else is manipulating the filesystem while
+@code{find} is running.  Some people might do this in order to mislead
+@code{find} or persuade it to look at one set of files when it thought
+it was looking at another set.
 
 @item /path/foo changed during execution of find (old device number 12345, new device number 6789, filesystem type is <whatever>) [ref XXX]
 This message is issued when @code{find} changes directory and ends up
-somewhere it didn;t expect to be.  This happens in one of two
+somewhere it didn't expect to be.  This happens in one of two
 circumstances.  Firstly this happens when ``automount'' does its thing
 on a system where @code{find} doesn't know how to determine what the
-current set of mounted filesystems is (to do this, @code{find}
-requires to be able to use @code{getmntent() - check the
+current set of mounted filesystems is@footnote{To do this, @code{find}
+requires to be able to use @code{getmntent()} - check the
 @file{config.h} file for HAVE_GETMNTENT, which should be #defined to
-1}.  If this is what has happened, consider submitting a problem
-report to @email{bug-findutils@@gnu.org}. 
+1.  If HAVE_GETMNTENT is not set, consider submitting a problem report
+to @email{bug-findutils@@gnu.org}, because @code{find} needs to be
+able to figure out how to enumerate the mounted devices on your
+system}.
 
 Secondly, this can happen when the device number of a directory
-appears to change during a change of current directory, and either the
-directory is not itself a mount point, or it is a mount point, but
+appears to change during a change of current directory, but
 @code{find} is moving up the filesystem hierarchy rather than down it.
 In order to prevent @code{find} wandering off into some unexpected
 part of the filesystem, we stop it at this point.
 
 @item Don't know how to use getmntent() to read `/etc/mtab'.  This is a bug.
-This message is issued when a problem similar to tbe above occurs on a
+This message is issued when a problem similar to the above occurs on a
 system where @code{find} doesn't know how to figure out the current
 list of mount points.  Ask for help on @email{bug-findutils@@gnu.org}.
 
@@ -2823,8 +2815,8 @@ time consuming, somebody has moved the one of the parent directories
 to another location in the same filesystem.  This may have been done
 maliciously, or may not.  In any case, @code{find} stops at this point
 in order to avoid traversing parts of the filesystem that it wasn't
-intended to.  You can use @code{ls -li} or @code{find /path -inum 12345
--o -inum 67893} to find out more about what has happened.
+intended to.  You can use @code{ls -li} or @code{find /path -inum
+12345 -o -inum 67893} to find out more about what has happened.
 
 @item sanity check of the fnmatch() library function failed.
 Please submit a bug report.  You may well be asked questions about
@@ -2855,7 +2847,7 @@ with a fatal signal.  This is just an advisory message.
 
 @table @samp
 @item environment is too large for exec
-This message means that you have som many environment variables set
+This message means that you have so many environment variables set
 (or such large values for them) that there is no room within the
 system-imposed limits on program command-line argument length to
 invoke any program.  I'm sure you did this deliberately.  Please try
@@ -2889,7 +2881,7 @@ See the description of the similar message for @code{find}.
 The @code{locate} program relies on a database which is periodically
 built by the @code{updatedb} program.  That hasn't happened in a long
 time.  To fix this problem, run @code{updatedb} manually.  This can
-often happen on systems that are generally nt left on, so the periodic
+often happen on systems that are generally not left on, so the periodic
 ``cron'' task which normally does this doesn't get a chance to run.
 
 @item locate database `/usr/local/var/locatedb' is corrupt or invalid
