@@ -38,7 +38,7 @@ do
     --netuser) NETUSER="$val" ;;
     --localuser) LOCALUSER="$val" ;;
     --old-format) old=yes ;;
-    --version) echo "GNU updatedb version @version@"; exit 0 ;;
+    --version) echo "GNU updatedb version @VERSION@"; exit 0 ;;
     --help) echo "$usage"; exit 0 ;;
     *) echo "updatedb: invalid option $opt
 $usage" >&2
@@ -84,17 +84,17 @@ fi
 : ${BINDIR=@bindir@}
 
 # The names of the utilities to run to build the database.
-: ${find=@find@}
-: ${frcode=@frcode@}
-: ${bigram=@bigram@}
-: ${code=@code@}
+: ${find=${BINDIR}/@find@}
+: ${frcode=${LIBEXECDIR}/@frcode@}
+: ${bigram=${LIBEXECDIR}/@bigram@}
+: ${code=${LIBEXECDIR}/@code@}
 
-PATH=$LIBEXECDIR:/bin:/usr/bin:$PATH export PATH
+PATH=/bin:/usr/bin:${BINDIR}; export PATH
 
-: ${PRUNEFS=nfs NFS proc}
+: ${PRUNEFS="nfs NFS proc"}
 
 if test -n "$PRUNEFS"; then
-prunefs_exp=`echo $PRUNEFS |sed -e 's/\([^ ]\+\)/-o -fstype \1/g' \
+prunefs_exp=`echo $PRUNEFS |sed -e 's/\([^ ][^ ]*\)/-o -fstype \1/g' \
  -e 's/-o //' -e 's/$/ -o/'`
 else
   prunefs_exp=''
