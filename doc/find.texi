@@ -3043,7 +3043,16 @@ might be intended to persuade @code{find} to search part of the
 filesystem which would not normally be included in the search
 (defeating the @code{-prune} action for example).  
 
+@menu
+* Changing the Current Working Directory::
+* Race Conditions with -exec::
+* Race Conditions with -print and -print0::
+@end menu
+
+
+@node Changing the Current Working Directory
 @subsection Changing the Current Working Directory
+
 As find searches the file system, it finds subdirectories and then
 searches within them by changing its working directory.  First,
 @code{find} notices a subdirectory.  It then decides if that
@@ -3070,6 +3079,14 @@ GNU @code{find} has specific safeguards to prevent this general class
 of problem.  The exact form of these safeguards depends on the
 properties of your system.  
 
+@menu 
+* O_FOLLOW::                       Safely changing directory using fchdir().
+* Systems without O_NOFOLLOW::     Checking for symbolic links after chdir().
+* Working with automounters::      These can look like race condition exploits
+* Problems with dead NFS servers:: If you don't have O_FOLLOW, this ia a problem.
+@end menu
+
+@node O_FOLLOW
 @subsubsection O_FOLLOW 
 
 If your system supports the O_NOFOLLOW flag @footnote{GNU/Linux
@@ -3109,6 +3126,7 @@ flag.  We try to detect such cases at startup by checking the
 operating system and version number; when this happens you will see
 ``O_NOFOLLOW(disabled)'' instead.
 
+@node Systems without O_NOFOLLOW
 @subsubsection Systems without O_NOFOLLOW
 
 The strategy for preventing this type of problem on systems that lack
@@ -3123,6 +3141,7 @@ However, we heve to take special steps in order not to be
 unneccessarily concluding that there is a problem aut ``automount''
 mount points.
 
+@node Working with automounters
 @subsubsection Working with automounters
 
 Where an automounter is in use on systems that do not support
@@ -3141,7 +3160,8 @@ filesystems at startup, and again when the sanity check fails.  It
 compares the two lists to find out if the directory it has moved into
 has just been mounted.
 
-@subsubsection Problems with Dead NFS servers.
+@node Problems with dead NFS servers
+@subsubsection Problems with dead NFS servers
 
 Examining every mount point on the system has a downside too.  In
 general, @code{find} will be used to search just part of the
@@ -3159,6 +3179,7 @@ startup if there is a dead NFS server) at once.  If you have some
 ideas about how @code{find} could do this better, please send email to
 the @email{bug-findutils@@gnu.org} mailing list.
 
+@node Race Conditions with -exec
 @subsection Race Conditions with -exec
 
 The @samp{-exec} action causes another program to be run.  It is
@@ -3212,6 +3233,7 @@ might be writable by untrusted users.  For similar reasons,
 @samp{-execdir} does not allow @samp{@{@}} to appear in the name of
 the command to be run.
 
+@node Race Conditions with -print and -print0
 @subsection Race Conditions with -print and -print0
 
 The @samp{-print} and @samp{-print0} actions can be used to produce a
@@ -3373,13 +3395,7 @@ This message is issued when @code{find} changes directory and ends up
 somewhere it didn't expect to be.  This happens in one of two
 circumstances.  Firstly this happens when ``automount'' does its thing
 on a system where @code{find} doesn't know how to determine what the
-current set of mounted filesystems is@footnote{To do this, @code{find}
-requires to be able to use @code{getmntent()} - check the
-@file{config.h} file for HAVE_GETMNTENT, which should be #defined to
-1.  If HAVE_GETMNTENT is not set, consider submitting a problem report
-to @email{bug-findutils@@gnu.org}, because @code{find} needs to be
-able to figure out how to enumerate the mounted devices on your
-system}.
+current set of mounted filesystems is
 
 Secondly, this can happen when the device number of a directory
 appears to change during a change of current directory, but
