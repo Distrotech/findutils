@@ -281,10 +281,10 @@ seriously consider using the `\-print0' option instead of `\-print'.
 
 .IP \-print0
 True; print the full file name on the standard output, followed by a
-null character (instead of the newline character that `-print' uses).  
-This allows file names that contain newlines to be
-correctly interpreted by programs that process the \fBfind\fR output.
-This option corresponds to the `\-0' option of
+null character (instead of the newline character that `-print' uses).
+This allows file names that contain newlines or other types of white
+space to be correctly interpreted by programs that process the
+\fBfind\fR output.  This option corresponds to the `\-0' option of
 .BR xargs .
 .IP "\-printf \fIformat\fR"
 True; print \fIformat\fR on the standard output, interpreting `\e'
