@@ -102,6 +102,7 @@ l = @l@
 
 info_TEXINFOS = find.texi
 find_TEXINFOS = perm.texi
+MOSTLYCLEANFILES = find.cps
 EXEEXT =
 OBJEXT = o
 subdir = doc
@@ -259,6 +260,7 @@ install-strip:
 	  `test -z '$(STRIP)' || \
 	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
 mostlyclean-generic:
+	-test -z "$(MOSTLYCLEANFILES)" || rm -f $(MOSTLYCLEANFILES)
 
 clean-generic:
 
