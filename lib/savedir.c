@@ -1,5 +1,5 @@
 /* savedir.c -- save the list of files in a directory in a string
-   Copyright (C) 1990 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1997, 1998 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -12,19 +12,19 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 /* Written by David MacKenzie <djm@gnu.ai.mit.edu>. */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+#if HAVE_CONFIG_H
+# include <config.h>
 #endif
 
 #include <sys/types.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#if HAVE_UNISTD_H
+# include <unistd.h>
 #endif
 
 #if HAVE_DIRENT_H
@@ -46,20 +46,27 @@
 
 #ifdef CLOSEDIR_VOID
 /* Fake a return value. */
-#define CLOSEDIR(d) (closedir (d), 0)
+# define CLOSEDIR(d) (closedir (d), 0)
 #else
-#define CLOSEDIR(d) closedir (d)
+# define CLOSEDIR(d) closedir (d)
 #endif
 
 #ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <string.h>
+# include <stdlib.h>
+# include <string.h>
+#else
+char *malloc ();
+char *realloc ();
 #endif
 #ifndef NULL
-#define NULL 0
+# define NULL 0
 #endif
 
+#ifndef stpcpy
 char *stpcpy ();
+#endif
+
+#include "savedir.h"
 
 /* Return a freshly allocated string containing the filenames
    in directory DIR, separated by '\0' characters;
@@ -70,8 +77,8 @@ char *stpcpy ();
 
 char *
 savedir (dir, name_size)
-     char *dir;
-     unsigned name_size;
+     const char *dir;
+     unsigned int name_size;
 {
   DIR *dirp;
   struct dirent *dp;

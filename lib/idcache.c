@@ -1,5 +1,5 @@
 /* idcache.c -- map user and group IDs, cached for speed
-   Copyright (C) 1985, 1988, 1989, 1990 Free Software Foundation, Inc.
+   Copyright (C) 1985, 1988, 1989, 1990, 1997, 1998 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -12,11 +12,11 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+#if HAVE_CONFIG_H
+# include <config.h>
 #endif
 
 #include <stdio.h>
@@ -24,18 +24,29 @@
 #include <pwd.h>
 #include <grp.h>
 
-#if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
-#include <string.h>
+#if STDC_HEADERS || HAVE_STRING_H
+# include <string.h>
 #else
-#include <strings.h>
+# include <strings.h>
 #endif
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#if HAVE_UNISTD_H
+# include <unistd.h>
+#endif
+
+#ifndef _POSIX_VERSION
+struct passwd *getpwuid ();
+struct passwd *getpwnam ();
+struct group *getgrgid ();
+struct group *getgrnam ();
 #endif
 
 char *xmalloc ();
 char *xstrdup ();
+
+#ifdef __DJGPP__
+static char digits[] = "0123456789";
+#endif
 
 struct userid
 {
@@ -53,16 +64,13 @@ static struct userid *user_alist;
 /* The members of this list have names not in the local passwd file.  */
 static struct userid *nouser_alist;
 
-/* Translate UID to a login name or a stringified number,
-   with cache.  */
+/* Translate UID to a login name, with cache, or NULL if unresolved.  */
 
 char *
-getuser (uid)
-     uid_t uid;
+getuser (uid_t uid)
 {
   register struct userid *tail;
   struct passwd *pwent;
-  char usernum_string[20];
 
   for (tail = user_alist; tail; tail = tail->next)
     if (tail->id.u == uid)
@@ -71,13 +79,7 @@ getuser (uid)
   pwent = getpwuid (uid);
   tail = (struct userid *) xmalloc (sizeof (struct userid));
   tail->id.u = uid;
-  if (pwent == 0)
-    {
-      sprintf (usernum_string, "%u", (unsigned) uid);
-      tail->name = xstrdup (usernum_string);
-    }
-  else
-    tail->name = xstrdup (pwent->pw_name);
+  tail->name = pwent ? xstrdup (pwent->pw_name) : NULL;
 
   /* Add to the head of the list, so most recently used is first.  */
   tail->next = user_alist;
@@ -91,8 +93,7 @@ getuser (uid)
    so we don't keep looking them up.)  */
 
 uid_t *
-getuidbyname (user)
-     char *user;
+getuidbyname (const char *user)
 {
   register struct userid *tail;
   struct passwd *pwent;
@@ -108,6 +109,15 @@ getuidbyname (user)
       return 0;
 
   pwent = getpwnam (user);
+#ifdef __DJGPP__
+  /* We need to pretend to be the user USER, to make
+     pwd functions know about an arbitrary user name.  */
+  if (!pwent && strspn (user, digits) < strlen (user))
+    {
+      setenv ("USER", user, 1);
+      pwent = getpwnam (user);	/* now it will succeed */
+    }
+#endif
 
   tail = (struct userid *) xmalloc (sizeof (struct userid));
   tail->name = xstrdup (user);
@@ -130,16 +140,13 @@ getuidbyname (user)
 static struct userid *group_alist;
 static struct userid *nogroup_alist;
 
-/* Translate GID to a group name or a stringified number,
-   with cache.  */
+/* Translate GID to a group name, with cache, or NULL if unresolved.  */
 
 char *
-getgroup (gid)
-     gid_t gid;
+getgroup (gid_t gid)
 {
   register struct userid *tail;
   struct group *grent;
-  char groupnum_string[20];
 
   for (tail = group_alist; tail; tail = tail->next)
     if (tail->id.g == gid)
@@ -148,13 +155,7 @@ getgroup (gid)
   grent = getgrgid (gid);
   tail = (struct userid *) xmalloc (sizeof (struct userid));
   tail->id.g = gid;
-  if (grent == 0)
-    {
-      sprintf (groupnum_string, "%u", (unsigned int) gid);
-      tail->name = xstrdup (groupnum_string);
-    }
-  else
-    tail->name = xstrdup (grent->gr_name);
+  tail->name = grent ? xstrdup (grent->gr_name) : NULL;
 
   /* Add to the head of the list, so most recently used is first.  */
   tail->next = group_alist;
@@ -162,14 +163,13 @@ getgroup (gid)
   return tail->name;
 }
 
-/* Translate GROUP to a UID, with cache.
+/* Translate GROUP to a GID, with cache.
    Return NULL if there is no such group.
    (We also cache which group names have no group entry,
    so we don't keep looking them up.)  */
 
 gid_t *
-getgidbyname (group)
-     char *group;
+getgidbyname (const char *group)
 {
   register struct userid *tail;
   struct group *grent;
@@ -185,6 +185,15 @@ getgidbyname (group)
       return 0;
 
   grent = getgrnam (group);
+#ifdef __DJGPP__
+  /* We need to pretend to belong to group GROUP, to make
+     grp functions know about any arbitrary group name.  */
+  if (!grent && strspn (group, digits) < strlen (group))
+    {
+      setenv ("GROUP", group, 1);
+      grent = getgrnam (group);	/* now it will succeed */
+    }
+#endif
 
   tail = (struct userid *) xmalloc (sizeof (struct userid));
   tail->name = xstrdup (group);

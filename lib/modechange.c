@@ -1,5 +1,5 @@
 /* modechange.c -- file mode manipulation
-   Copyright (C) 1989, 1990 Free Software Foundation, Inc.
+   Copyright (C) 1989, 1990, 1997, 1998 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -12,8 +12,8 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   along with this program; if not, write to the Free Software Foundation,
+   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 /* Written by David MacKenzie <djm@ai.mit.edu> */
 
@@ -24,28 +24,30 @@
    changing the mode of many files, this probably results in a
    performance gain. */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+#if HAVE_CONFIG_H
+# include <config.h>
 #endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "modechange.h"
 
-#ifdef STDC_HEADERS
-#include <stdlib.h>
+#if STDC_HEADERS
+# include <stdlib.h>
+#else
+char *malloc ();
 #endif
 
 #ifndef NULL
-#define NULL 0
+# define NULL 0
 #endif
 
-#ifdef STAT_MACROS_BROKEN
-#undef S_ISDIR
-#endif /* STAT_MACROS_BROKEN.  */
+#if STAT_MACROS_BROKEN
+# undef S_ISDIR
+#endif
 
 #if !defined(S_ISDIR) && defined(S_IFDIR)
-#define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
+# define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
 #endif
 
 /* Return newly allocated memory to hold one element of type TYPE. */
@@ -53,7 +55,22 @@
 
 #define isodigit(c) ((c) >= '0' && (c) <= '7')
 
-static int oatoi ();
+/* Return a positive integer containing the value of the ASCII
+   octal number S.  If S is not an octal number, return -1.  */
+
+static int
+oatoi (const char *s)
+{
+  register int i;
+
+  if (*s == 0)
+    return -1;
+  for (i = 0; isodigit (*s); ++s)
+    i = i * 8 + *s - '0';
+  if (*s)
+    return -1;
+  return i;
+}
 
 /* Return a linked list of file mode change operations created from
    MODE_STRING, an ASCII string that contains either an octal number
@@ -69,14 +86,12 @@ static int oatoi ();
    return MODE_MEMORY_EXHAUSTED if there is insufficient memory. */
 
 struct mode_change *
-mode_compile (mode_string, masked_ops)
-     register char *mode_string;
-     unsigned masked_ops;
+mode_compile (const char *mode_string, unsigned int masked_ops)
 {
   struct mode_change *head;	/* First element of the linked list. */
   struct mode_change *change;	/* An element of the linked list. */
   int i;			/* General purpose temporary. */
-  unsigned short umask_value;	/* The umask value (surprise). */
+  int umask_value;		/* The umask value (surprise). */
   unsigned short affected_bits;	/* Which bits in the mode are operated on. */
   unsigned short affected_masked; /* `affected_bits' modified by umask. */
   unsigned ops_to_mask;		/* Operators to actually use umask on. */
@@ -234,15 +249,39 @@ invalid:
   return MODE_INVALID;
 }
 
+/* Return a file mode change operation that sets permissions to match those
+   of REF_FILE.  Return MODE_BAD_REFERENCE if REF_FILE can't be accessed.  */
+
+struct mode_change *
+mode_create_from_ref (const char *ref_file)
+{
+  struct mode_change *change;	/* the only change element */
+  struct stat ref_stats;
+
+  if (stat (ref_file, &ref_stats))
+    return MODE_BAD_REFERENCE;
+
+  change = talloc (struct mode_change);
+
+  if (change == NULL)
+    return MODE_MEMORY_EXHAUSTED;
+
+  change->op = '=';
+  change->flags = 0;
+  change->affected = 07777;
+  change->value = ref_stats.st_mode;
+  change->next = NULL;
+
+  return change;
+}
+
 /* Return file mode OLDMODE, adjusted as indicated by the list of change
    operations CHANGES.  If OLDMODE is a directory, the type `X'
    change affects it even if no execute bits were set in OLDMODE.
    The returned value has the S_IFMT bits cleared. */
 
 unsigned short
-mode_adjust (oldmode, changes)
-     unsigned oldmode;
-     register struct mode_change *changes;
+mode_adjust (unsigned int oldmode, const struct mode_change *changes)
 {
   unsigned short newmode;	/* The adjusted mode and one operand. */
   unsigned short value;		/* The other operand. */
@@ -307,8 +346,7 @@ mode_adjust (oldmode, changes)
    CHANGES. */
 
 void
-mode_free (changes)
-     register struct mode_change *changes;
+mode_free (register struct mode_change *changes)
 {
   register struct mode_change *next;
 
@@ -318,22 +356,4 @@ mode_free (changes)
       free (changes);
       changes = next;
     }
-}
-
-/* Return a positive integer containing the value of the ASCII
-   octal number S.  If S is not an octal number, return -1.  */
-
-static int
-oatoi (s)
-     char *s;
-{
-  register int i;
-
-  if (*s == 0)
-    return -1;
-  for (i = 0; isodigit (*s); ++s)
-    i = i * 8 + *s - '0';
-  if (*s)
-    return -1;
-  return i;
 }
