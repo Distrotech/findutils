@@ -3,13 +3,15 @@ findutils (4.1-16) unstable; urgency=low
   * add --localuser option to updatedb, which allows find to be run as
     nobody, while allowing database file to be created as root, change
     suggested by <Bernd_Eckenfels@Wittumstrasse13.76646Bruchsal.de>
+  * install /var/lib/locate as root:root
   * doc/find.texi, locate/updatedb.sh: add --localuser documention.
   * debian/postinst: change /var/lib/locate directory to be owned by root
   * debian/cron.find: use --localuser option so to updatedb is run as
     root, but find is run as nobody
-  * correct warning message in preinst
+  * correct warning message in preinst, fixes bug #6498: findutils.preinst
+    mentions /etc/find.conf instead of /etc/updatedb.conf
 
- -- Kevin Dalley <kevin@aimnet.com>  Thu, 9 Jan 1997 23:04:05 -0800
+ -- Kevin Dalley <kevin@aimnet.com>  Sat, 11 Jan 1997 19:16:39 -0800
 
 findutils (4.1-15) unstable; urgency=low
 
