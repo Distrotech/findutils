@@ -7,7 +7,7 @@ AC_CONFIG_MACRO_DIR(gnulib/m4)
 dnl Set of available languages.
 ALL_LINGUAS="da de es et fr gl id it ko nl pl pt_BR ru sv tr sk"
 
-AM_INIT_AUTOMAKE(findutils, 4.2.7)
+AM_INIT_AUTOMAKE(findutils, 4.2.8-CVS)
 
 AC_SUBST(INCLUDES)dnl
 AC_ARG_ENABLE(id-cache,
@@ -54,7 +54,7 @@ dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h string.h limits.h unistd.h errno.h stdlib.h stddef.h)
 AC_CHECK_HEADERS(unistd.h inttypes.h fcntl.h locale.h stdint.h)
-AC_CHECK_HEADERS(sys/param.h mntent.h sys/mnttab.h)
+AC_CHECK_HEADERS(sys/param.h mntent.h sys/mnttab.h sys/mntio.h sys/mkdev.h)
 AC_HEADER_MAJOR
 AC_HEADER_DIRENT
 AC_HEADER_STAT
@@ -213,6 +213,12 @@ AC_DEFUN([jy_AC_TYPE_INTMAX_T],
 jy_AC_TYPE_INTMAX_T
 jy_SORTZ
 
+
+AC_CHECK_MEMBER(struct dirent.d_type,,,[		   
+#include <sys/types.h>
+#include <dirent.h>])
+
+
 dnl internationalization macros
 AM_GNU_GETTEXT([external])
 
@@ -227,6 +233,7 @@ AC_OUTPUT(
 	find/Makefile find/testsuite/Makefile
 	xargs/Makefile xargs/testsuite/Makefile
 	locate/Makefile locate/testsuite/Makefile
-	intl/Makefile po/Makefile.in po/Makefile
+	 po/Makefile.in po/Makefile
 	doc/Makefile lib/Makefile
 	)
+dnl intl/Makefile
