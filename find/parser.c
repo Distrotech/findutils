@@ -28,6 +28,7 @@
 #include "../gnulib/lib/xstrtol.h"
 #include "../gnulib/lib/xalloc.h"
 #include "buildcmd.h"
+#include "nextelem.h"
 
 
 #if ENABLE_NLS
@@ -1838,7 +1839,7 @@ check_path_safety(const char *action)
 {
   const char *path = getenv("PATH");
   char *s;
-  s = next_element(path);
+  s = next_element(path, 1);
   while ((s = next_element ((char *) NULL, 1)) != NULL)
     {
       if (0 == strcmp(s, "."))

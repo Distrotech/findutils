@@ -45,7 +45,7 @@
    return NULL if there are no more elements.  */
 
 char *
-next_element (char *new_path, int curdir_ok)
+next_element (const char *new_path, int curdir_ok)
 {
   static char *path = NULL;	/* Freshly allocated copy of NEW_PATH.  */
   static char *end;		/* Start of next element to return.  */

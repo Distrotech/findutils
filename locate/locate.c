@@ -111,6 +111,7 @@ extern int errno;
 #include "../gnulib/lib/human.h"
 #include "dirname.h"
 #include "closeout.h"
+#include "nextelem.h"
 
 /* Note that this evaluates C many times.  */
 #ifdef _LIBC
@@ -138,7 +139,7 @@ int check_existence = 0;
 /* What to separate the results with. */
 static int separator = '\n';
 
-char *next_element (char *path, int curdir_ok);
+
 
 
 /* Read in a 16-bit int, high byte first (network byte order).  */
