@@ -88,11 +88,20 @@ Bruno Haible reported many problems with findutils and multibyte.
 * BeOS problems with multibyte
 Bruno Haible reported problems with BeOS.
 
+* What should be the default value of PRUNEFS in updatedb?
+Currently, it is:
+: ${PRUNEFS="nfs NFS proc"}
+Perhaps it should default to nothing.
+
+* Include example of use of updatedb in documentation.
+Use something close to the Debian daily cron job.
+
                         --//--
 This is used by Emacs' spell checker ispell.el:
 
 LocalWords: ansi knr strftime xargs updatedb sh fnmatch hin strcpy
 LocalWords: lib getstr getline frcode bigram texi depcomp automake
 LocalWords: strncasecmp strcasecmp LIBOBJS FUNC findutils Solaris
-LocalWords: Crackerjack LIBC TOLOWER TOUPPER tolower isupper
-LocalWords: Haible BeOS
+LocalWords: LIBC TOLOWER TOUPPER tolower isupper PRUNEFS
+LocalWords: nfs proc Debian cron
+LocalWords: Haible BeOS Crackerjack
