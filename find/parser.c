@@ -138,7 +138,7 @@ static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, boolean ignore_c
 static boolean insert_type PARAMS((char *argv[], int *arg_ptr, boolean (*which_pred )()));
 static boolean insert_fprintf PARAMS((FILE *fp, boolean (*func )(), char *argv[], int *arg_ptr));
 static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len, int kind));
-static boolean insert_exec_ok PARAMS((boolean (*func )(), char *argv[], int *arg_ptr));
+static boolean insert_exec_ok PARAMS((const char *action, boolean (*func )(), char *argv[], int *arg_ptr));
 static boolean get_num_days PARAMS((char *str, uintmax_t *num_days, enum comparison_type *comp_type));
 static boolean insert_time PARAMS((char *argv[], int *arg_ptr, PFB pred));
 static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
@@ -566,13 +566,13 @@ parse_empty (char **argv, int *arg_ptr)
 static boolean
 parse_exec (char **argv, int *arg_ptr)
 {
-  return (insert_exec_ok (pred_exec, argv, arg_ptr));
+  return (insert_exec_ok ("-exec", pred_exec, argv, arg_ptr));
 }
 
 static boolean
 parse_execdir (char **argv, int *arg_ptr)
 {
-  return (insert_exec_ok (pred_execdir, argv, arg_ptr));
+  return (insert_exec_ok ("-execdir", pred_execdir, argv, arg_ptr));
 }
 
 static boolean
@@ -1110,13 +1110,13 @@ parse_nowarn (char **argv, int *arg_ptr)
 static boolean
 parse_ok (char **argv, int *arg_ptr)
 {
-  return (insert_exec_ok (pred_ok, argv, arg_ptr));
+  return (insert_exec_ok ("-ok", pred_ok, argv, arg_ptr));
 }
 
 static boolean
 parse_okdir (char **argv, int *arg_ptr)
 {
-  return (insert_exec_ok (pred_okdir, argv, arg_ptr));
+  return (insert_exec_ok ("-okdir", pred_okdir, argv, arg_ptr));
 }
 
 boolean
@@ -1832,12 +1832,31 @@ make_segment (struct segment **segment, char *format, int len, int kind)
 
   return (&(*segment)->next);
 }
+
+static void 
+check_path_safety(const char *action)
+{
+  const char *path = getenv("PATH");
+  char *s;
+  s = next_element(path);
+  while ((s = next_element ((char *) NULL, 1)) != NULL)
+    {
+      if (0 == strcmp(s, "."))
+	{
+	  error(1, 0, _("The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\" or leading or trailing colons)"),
+		action);
+	}
+    }
+}
 
+
 /* handles both exec and ok predicate */
 #if defined(NEW_EXEC)
 /* handles both exec and ok predicate */
 static boolean
-new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
+new_insert_exec_ok (const char *action,
+		    boolean (*func) (/* ??? */),
+		    char **argv, int *arg_ptr)
 {
   int start, end;		/* Indexes in ARGV of start & end of cmd. */
   int i;			/* Index into cmd args */
@@ -1864,9 +1883,14 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
     allow_plus = false;
   
   if ((func == pred_execdir) || (func == pred_okdir))
-    execp->use_current_dir = true;
+    {
+      check_path_safety(action);
+      execp->use_current_dir = true;
+    }
   else
-    execp->use_current_dir = false;
+    {
+      execp->use_current_dir = false;
+    }
   
   our_pred->args.exec_vec.multiple = 0;
 
@@ -2069,10 +2093,11 @@ old_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 
 
 static boolean
-insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
+insert_exec_ok (const char *action,
+		boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 {
 #if defined(NEW_EXEC)
-  return new_insert_exec_ok(func, argv, arg_ptr);
+  return new_insert_exec_ok(action, func, argv, arg_ptr);
 #else
   return old_insert_exec_ok(func, argv, arg_ptr);
 #endif
