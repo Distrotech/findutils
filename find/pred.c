@@ -784,8 +784,11 @@ pred_iname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   const char *base;
 
+  /* FNM_PERIOD is not used here because POSIX requires that it not be.
+   * See http://standards.ieee.org/reading/ieee/interp/1003-2-92_int/pasc-1003.2-126.html
+   */
   base = base_name (pathname);
-  if (fnmatch (pred_ptr->args.str, base, FNM_PERIOD | FNM_CASEFOLD) == 0)
+  if (fnmatch (pred_ptr->args.str, base, FNM_CASEFOLD) == 0)
     return (true);
   return (false);
 }
@@ -925,7 +928,11 @@ pred_name (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   const char *base;
 
   base = base_name (pathname);
-  if (fnmatch (pred_ptr->args.str, base, FNM_PERIOD) == 0)
+
+  /* FNM_PERIOD is not used here because POSIX requires that it not be.
+   * See http://standards.ieee.org/reading/ieee/interp/1003-2-92_int/pasc-1003.2-126.html
+   */
+  if (fnmatch (pred_ptr->args.str, base, 0) == 0)
     return (true);
   return (false);
 }
