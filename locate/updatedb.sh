@@ -216,12 +216,12 @@ fi
 
 else # old
 
-if ! bigrams=`tempfile -p updatedb`; then
+if ! bigrams=`mktemp -t updatedbXXXXXXXXX`; then
     echo tempfile failed
     exit 1
 fi
 
-if ! filelist=`tempfile -p updatedb`; then
+if ! filelist=`mktemp -t updatedbXXXXXXXXX`; then
     echo tempfile failed
     exit 1
 fi
