@@ -197,7 +197,7 @@ last_literal_end (name)
   return subp;
 }
 
-/* getstr()
+/* locate_read_str()
  *
  * Read bytes from FP into the buffer at offset OFFSET in (*BUF),
  * until we reach DELIMITER or end-of-file.   We reallocate the buffer 
@@ -211,7 +211,8 @@ last_literal_end (name)
  * We call the function locate_read_str() to avoid a name clash with the curses
  * function getstr().
  */
-static int locate_read_str(char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
+static int
+locate_read_str(char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
 {
   char * p = NULL;
   size_t sz = 0;

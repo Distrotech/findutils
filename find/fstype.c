@@ -80,6 +80,10 @@ static char *filesystem_type_uncached PARAMS((char *path, char *relpath, struct 
 #include <sys/param.h>		/* NetBSD needs this.  */
 #include <sys/mount.h>
 
+
+#include "xstrtol.h"		/* for xstrtoumax(). */
+
+
 #ifndef HAVE_F_FSTYPENAME_IN_STATFS
 #ifndef MFSNAMELEN		/* NetBSD defines this.  */
 static char *
@@ -236,6 +240,9 @@ filesystem_type_uncached (char *path, char *relpath, struct stat *statp)
   FILE *mfp;
   struct mntent *mnt;
 
+  (void) &path;
+  (void) &relpath;
+  
   mfp = setmntent (table, "r");
   if (mfp == NULL)
     error (1, errno, "%s", table);
