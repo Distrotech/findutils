@@ -114,6 +114,8 @@ static boolean parse_used PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_user PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_version PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_xdev PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_ignore_race PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_noignore_race PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_xtype PARAMS((char *argv[], int *arg_ptr));
 
 static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, boolean ignore_case));
@@ -176,6 +178,7 @@ static struct parser_table const parse_table[] =
   {"group", parse_group},
   {"help", parse_help},		/* GNU */
   {"-help", parse_help},	/* GNU */
+  {"ignore_readdir_race", parse_ignore_race},	/* GNU */
   {"ilname", parse_ilname},	/* GNU */
   {"iname", parse_iname},	/* GNU */
   {"inum", parse_inum},		/* GNU, Unix */
@@ -197,6 +200,7 @@ static struct parser_table const parse_table[] =
   {"noleaf", parse_noleaf},	/* GNU */
   {"nogroup", parse_nogroup},
   {"nouser", parse_nouser},
+  {"noignore_readdir_race", parse_noignore_race},	/* GNU */
   {"o", parse_or},
   {"or", parse_or},		/* GNU */
   {"ok", parse_ok},
@@ -1085,6 +1089,16 @@ parse_size (char **argv, int *arg_ptr)
       argv[*arg_ptr][len - 1] = '\0';
       break;
 
+    case 'M':			/* Megabytes */
+      blksize = 1024*1024;
+      argv[*arg_ptr][len - 1] = '\0';
+      break;
+
+    case 'G':			/* Gigabytes */
+      blksize = 1024*1024*1024;
+      argv[*arg_ptr][len - 1] = '\0';
+      break;
+
     case 'w':
       blksize = 2;
       argv[*arg_ptr][len - 1] = '\0';
@@ -1199,6 +1213,20 @@ static boolean
 parse_xdev (char **argv, int *arg_ptr)
 {
   stay_on_filesystem = true;
+  return true;
+}
+
+static boolean
+parse_ignore_race (char **argv, int *arg_ptr)
+{
+  ignore_readdir_race = true;
+  return true;
+}
+
+static boolean
+parse_noignore_race (char **argv, int *arg_ptr)
+{
+  ignore_readdir_race = false;
   return true;
 }
 

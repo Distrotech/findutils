@@ -140,6 +140,12 @@ int (*xstat) ();
 /* Status value to return to system. */
 int exit_status;
 
+/* If true, we ignore the problem where we find that a directory entry 
+ * no longer exists by the time we get around to processing it.
+ */
+boolean ignore_readdir_race;
+
+
 #ifdef DEBUG_STAT
 static int
 debug_stat (file, bufp)
@@ -176,6 +182,7 @@ main (int argc, char **argv)
   full_days = false;
   no_leaf_check = false;
   stay_on_filesystem = false;
+  ignore_readdir_race = false;
   exit_status = 0;
   dereference = false;
 #ifdef DEBUG_STAT
@@ -187,9 +194,14 @@ main (int argc, char **argv)
 #if 0  
   human_block_size (getenv ("FIND_BLOCK_SIZE"), 0, &output_block_size);
 #else
+  if (getenv("POSIXLY_CORRECT"))
+    output_block_size = 512;
+  else
+    output_block_size = 1024;
+  
   if (getenv("FIND_BLOCK_SIZE"))
     {
-      error (1, errno, _("The environment variable FIND_BLOCK_SIZE is not supported"));
+      error (1, errno, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
     }
   
 #endif
@@ -348,8 +360,11 @@ process_top_path (char *pathname)
     {
       if (chdir (pathname) < 0)
 	{
-	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
+	  if (!ignore_readdir_race)
+	    {
+	      error (0, errno, "%s", pathname);
+	      exit_status = 1;
+	    }
 	  return;
 	}
 
@@ -417,8 +432,11 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
     {
       if ((*xstat) (name, &stat_buf) != 0)
 	{
-	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
+	  if (!ignore_readdir_race)
+	    {
+	      error (0, errno, "%s", pathname);
+	      exit_status = 1;
+	    }
 	  return 0;
 	}
       have_stat = true;

@@ -419,6 +419,7 @@ extern time_t cur_day_start;
 extern boolean full_days;
 extern boolean no_leaf_check;
 extern boolean stay_on_filesystem;
+extern boolean ignore_readdir_race;
 extern boolean stop_at_current_level;
 extern boolean have_stat;
 extern char *rel_pathname;
