@@ -1518,11 +1518,39 @@ static boolean
 parse_version (char **argv, int *arg_ptr)
 {
   extern char *version_string;
+  int features = 0;
+  
   (void) argv;
   (void) arg_ptr;
   
   fflush (stderr);
   printf (_("GNU find version %s\n"), version_string);
+  printf (_("Features enabled: "));
+  
+#if CACHE_IDS
+  printf("CACHE_IDS ");
+  ++features;
+#endif
+#if DEBUG
+  printf("DEBUG ");
+  ++features;
+#endif
+#if DEBUG_STAT
+  printf("DEBUG_STAT ");
+  ++features;
+#endif
+#if defined(USE_STRUCT_DIRENT_D_TYPE) && defined(HAVE_STRUCT_DIRENT_D_TYPE)
+  printf("D_TYPE ");
+  ++features;
+#endif
+  if (0 == features)
+    {
+      /* For the moment, leave this as English in case someone wants
+	 to parse these strings. */
+      printf("none");
+    }
+  printf("\n");
+  
   exit (0);
 }
 
