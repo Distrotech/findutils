@@ -8,7 +8,7 @@ AC_CONFIG_MACRO_DIR(gnulib/m4)
 dnl Set of available languages.
 ALL_LINGUAS="da de es et fr gl id it ko nl pl pt_BR ru sv tr sk"
 
-AM_INIT_AUTOMAKE(findutils, 4.2.13)
+AM_INIT_AUTOMAKE(findutils, 4.2.14-CVS)
 
 AC_SUBST(INCLUDES)dnl
 AC_ARG_ENABLE(id-cache,
@@ -136,6 +136,10 @@ FINDLIB_REPLACE_FUNCS(forcefindlib)
 dnl gl_XALLOC
 gl_FUNC_ALLOCA
 
+dnl Use gl_INCLUDED_REGEX so that findutils will build on systems like
+dnl Solaris, which lacks those functions in libc (see GNU Savannah bug
+dnl #11710)
+gl_INCLUDED_REGEX([gnulib/lib/regex.c]) 
 
 AC_PREREQ(2.59)
 
