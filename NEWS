@@ -1,4 +1,14 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.17
+** Bug Fixes
+*** bug #11861 	undefined symbol "basename" on IRIX 5.3 
+*** bug #11865 	xargs -i regression  (as compared to findutils-4.2.12)
+*** bug #11866 	Typo in pred_okdir reders it useless (affecting 4.2.16 only)
+*** patch #3723 fix recent process_top_path change (for -execdir on /)
+*** Fixing bug #11866 and applying patch #3723 made -execdir work much better.
+*** find bar/baz/ugh now works again if baz is a symbolic link (broken 
+    in 4.2.15).
+
 * Major changes in release 4.2.16
 **  Functionality Changes
 *** Updated the message catalogues for the translated messages.
@@ -368,3 +378,4 @@ LocalWords: lib getstr getline frcode bigram texi depcomp automake
 LocalWords: strncasecmp strcasecmp LIBOBJS FUNC prunefs allout libexec
 LocalWords: testsuite Texinfo chdir inode fstype afs fls ls EOF lname
 LocalWords: regex ilname iname ipath iregex printf fprintf
+
