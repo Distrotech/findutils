@@ -154,6 +154,7 @@ get_short (fp)
 
 const char * const metacharacters = "*?[]\\";
 
+#if 0
 /* Return nonzero if CH is a shell glob character.
  */
 static int 
@@ -164,6 +165,7 @@ is_metacharacter(char ch)
   else
     return 1;
 }
+#endif
 
 /* Return nonzero if S contains any shell glob characters.
  */
@@ -652,7 +654,7 @@ sanity_check_dbpath(const char *path)
   
   if (':' == path[0])
     {
-      error(0, 0, _("warning: locate database path `%s' contains a leading colon, which is not a valid database name"));
+      error(0, 0, _("warning: locate database path `%s' contains a leading colon, which is not a valid database name"), path);
     }
 
   len = strlen(path);
@@ -660,7 +662,7 @@ sanity_check_dbpath(const char *path)
     {
       if (':' == path[len-1u])
 	{
-	  error(0, 0, _("warning: locate database path `%s' contains a trailing colon, which is not a valid database name"));
+	  error(0, 0, _("warning: locate database path `%s' contains a trailing colon, which is not a valid database name"), path);
 	}
     }
 }

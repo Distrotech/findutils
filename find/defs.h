@@ -77,6 +77,10 @@ extern int errno;
 int lstat PARAMS((const char *__path, struct stat *__statbuf));
 int stat PARAMS((const char *__path, struct stat *__statbuf));
 
+int optionl_stat PARAMS((const char *name, struct stat *p));
+int optionp_stat PARAMS((const char *name, struct stat *p));
+int optionh_stat PARAMS((const char *name, struct stat *p));
+
 #ifndef S_ISUID
 # define S_ISUID 0004000
 #endif
@@ -332,6 +336,7 @@ enum SymlinkOption
     SYMLINK_NEVER_DEREF,	/* Option -P */
     SYMLINK_DEREF_ARGSONLY	/* Option -H */
   };
+extern enum SymlinkOption symlink_handling; /* defined in find.c. */
 
 void set_follow_state PARAMS((enum SymlinkOption opt));
 

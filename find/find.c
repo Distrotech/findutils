@@ -160,24 +160,6 @@ boolean ignore_readdir_race;
 boolean warnings;
 
 
-#ifdef DEBUG_STAT
-static int
-debug_stat (const char *file, struct stat *bufp)
-{
-  fprintf (stderr, "debug_stat (%s)\n", file);
-  switch (symlink_handling)
-    {
-    case SYMLINK_ALWAYS_DEREF:
-      return optionl_stat(file, bufp);
-    case SYMLINK_DEREF_ARGSONLY:
-      return optionh_stat(file, bufp);
-    case SYMLINK_NEVER_DEREF:
-      return optionp_stat(file, bufp);
-    }
-}
-#endif /* DEBUG_STAT */
-
-
 
 /* optionh_stat() implements the stat operation when the -H option is
  * in effect.
@@ -189,7 +171,7 @@ debug_stat (const char *file, struct stat *bufp)
  * If the item to be examined is not a command-line argument, we
  * examine the link itself.
  */
-static int 
+int 
 optionh_stat(const char *name, struct stat *p)
 {
   if (0 == curdepth) 
@@ -220,7 +202,7 @@ optionh_stat(const char *name, struct stat *p)
  * in effect.  That option makes us examine the thing the symbolic
  * link points to, not the symbolic link itself.
  */
-static int 
+int 
 optionl_stat(const char *name, struct stat *p)
 {
   if (0 == stat(name, p))
@@ -237,11 +219,28 @@ optionl_stat(const char *name, struct stat *p)
  * in effect (this is also the default).  That option makes us examine
  * the symbolic link itself, not the thing it points to.
  */
-static int 
+int 
 optionp_stat(const char *name, struct stat *p)
 {
   return lstat(name, p);
 }
+
+#ifdef DEBUG_STAT
+static int
+debug_stat (const char *file, struct stat *bufp)
+{
+  fprintf (stderr, "debug_stat (%s)\n", file);
+  switch (symlink_handling)
+    {
+    case SYMLINK_ALWAYS_DEREF:
+      return optionl_stat(file, bufp);
+    case SYMLINK_DEREF_ARGSONLY:
+      return optionh_stat(file, bufp);
+    case SYMLINK_NEVER_DEREF:
+      return optionp_stat(file, bufp);
+    }
+}
+#endif /* DEBUG_STAT */
 
 void 
 set_follow_state(enum SymlinkOption opt)

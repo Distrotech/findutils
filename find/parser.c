@@ -251,7 +251,7 @@ static struct parser_table const parse_table[] =
   {ARG_TEST,               "wholename",             parse_wholename},   /* GNU, replaces -path */
   {ARG_TEST,               "xdev",                  parse_xdev},
   {ARG_TEST,               "xtype",                 parse_xtype},	/* GNU */
-  {0, 0}
+  {0, 0, 0}
 };
 
 
@@ -509,7 +509,9 @@ parse_delete (argv, arg_ptr)
   int *arg_ptr;
 {
   struct predicate *our_pred;
-
+  (void) argv;
+  (void) arg_ptr;
+  
   our_pred = insert_primary (pred_delete);
   our_pred->side_effects = true;
   /* -delete implies -depth */
@@ -1080,6 +1082,9 @@ parse_nouser (char **argv, int *arg_ptr)
 static boolean
 parse_nowarn (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
+  
   warnings = false;
   return true;;
 }
@@ -1210,6 +1215,9 @@ parse_print (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
+  (void) argv;
+  (void) arg_ptr;
+  
   our_pred = insert_primary (pred_print);
   /* -print has the side effect of printing.  This prevents us
      from doing undesired multiple printing when the user has
@@ -1225,6 +1233,9 @@ parse_print0 (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
+  (void) argv;
+  (void) arg_ptr;
+  
   our_pred = insert_primary (pred_print0);
   /* -print0 has the side effect of printing.  This prevents us
      from doing undesired multiple printing when the user has
@@ -1248,6 +1259,9 @@ parse_prune (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
+  (void) argv;
+  (void) arg_ptr;
+  
   our_pred = insert_primary (pred_prune);
   our_pred->need_stat = false;
   /* -prune has a side effect that it does not descend into
@@ -1260,7 +1274,9 @@ static boolean
 parse_quit  (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred = insert_primary (pred_quit);
-  (*arg_ptr)++;
+  (void) argv;
+  (void) arg_ptr;
+  our_pred->need_stat = false;
   return true;
 }
 
@@ -1383,6 +1399,9 @@ parse_true (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
+  (void) argv;
+  (void) arg_ptr;
+  
   our_pred = insert_primary (pred_true);
   our_pred->need_stat = false;
   return (true);
@@ -1452,7 +1471,9 @@ static boolean
 parse_version (char **argv, int *arg_ptr)
 {
   extern char *version_string;
-
+  (void) argv;
+  (void) arg_ptr;
+  
   fflush (stderr);
   printf (_("GNU find version %s\n"), version_string);
   exit (0);
@@ -1461,6 +1482,8 @@ parse_version (char **argv, int *arg_ptr)
 static boolean
 parse_xdev (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
   stay_on_filesystem = true;
   return true;
 }
@@ -1468,6 +1491,8 @@ parse_xdev (char **argv, int *arg_ptr)
 static boolean
 parse_ignore_race (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
   ignore_readdir_race = true;
   return true;
 }
@@ -1475,6 +1500,8 @@ parse_ignore_race (char **argv, int *arg_ptr)
 static boolean
 parse_noignore_race (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
   ignore_readdir_race = false;
   return true;
 }
@@ -1482,6 +1509,8 @@ parse_noignore_race (char **argv, int *arg_ptr)
 static boolean
 parse_warn (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
   warnings = true;
   return true;
 }
@@ -1489,6 +1518,8 @@ parse_warn (char **argv, int *arg_ptr)
 static boolean
 parse_xtype (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
   return insert_type (argv, arg_ptr, pred_xtype);
 }
 

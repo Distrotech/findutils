@@ -72,7 +72,8 @@ main (int argc, char **argv)
   int line_len;			/* Length of input line.  */
 
   program_name = argv[0];
-
+  (void) argc;
+  
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
   path = xmalloc (pathsize);
   oldpath = xmalloc (oldpathsize);
