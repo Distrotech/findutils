@@ -463,6 +463,41 @@ visit_stats(const char *munged_filename, const char *original_filename, void *co
 }
 
 
+/* Emit the statistics.
+ */
+static void
+print_stats(size_t database_file_size)
+{
+  char hbuf[LONGEST_HUMAN_READABLE + 1];
+  
+  printf(_("Locate database size: %s bytes\n"),
+	 human_readable ((uintmax_t) database_file_size,
+			 hbuf, human_ceiling, 1, 1));
+  
+  printf(_("Filenames: %s "),
+	 human_readable (statistics.total_filename_count,
+			 hbuf, human_ceiling, 1, 1));
+  printf(_("with a cumulative length of %s bytes"),
+	 human_readable (statistics.total_filename_length,
+			 hbuf, human_ceiling, 1, 1));
+  
+  printf(_("\n\tof which %s contain whitespace, "),
+	 human_readable (statistics.whitespace_count,
+			 hbuf, human_ceiling, 1, 1));
+  printf(_("\n\t%s contain newline characters, "),
+	 human_readable (statistics.newline_count,
+			 hbuf, human_ceiling, 1, 1));
+  printf(_("\n\tand %s contain characters with the high bit set.\n"),
+	 human_readable (statistics.highbit_filename_count,
+			 hbuf, human_ceiling, 1, 1));
+  
+  printf(_("Compression ratio %4.2f%%\n"),
+	 100.0 * ((double)statistics.total_filename_length
+		  - (double) database_file_size)
+	 / (double) statistics.total_filename_length);
+  printf("\n");
+}
+
 
 /* Print the entries in DBFILE that match shell globbing pattern PATHPART.
    Return the number of entries printed.  */
@@ -477,7 +512,6 @@ new_locate (char *pathpart,
 	    uintmax_t limit,
 	    int stats)
 {
-  char hbuf[LONGEST_HUMAN_READABLE + 1];
   FILE *fp;			/* The pathname database.  */
   int c;			/* An input byte.  */
   int nread;		     /* number of bytes read from an entry. */
@@ -676,32 +710,7 @@ new_locate (char *pathpart,
       
   if (stats)
     {
-      printf(_("Locate database size: %s bytes\n"),
-	     human_readable ((uintmax_t) st.st_size,
-			     hbuf, human_ceiling, 1, 1));
-      
-      printf(_("Filenames: %s "),
-	     human_readable (statistics.total_filename_count,
-			     hbuf, human_ceiling, 1, 1));
-      printf(_("with a cumulative length of %s bytes"),
-	     human_readable (statistics.total_filename_length,
-			     hbuf, human_ceiling, 1, 1));
-      
-      printf(_("\n\tof which %s contain whitespace, "),
-	     human_readable (statistics.whitespace_count,
-			     hbuf, human_ceiling, 1, 1));
-      printf(_("\n\t%s contain newline characters, "),
-	     human_readable (statistics.newline_count,
-			     hbuf, human_ceiling, 1, 1));
-      printf(_("\n\tand %s contain characters with the high bit set.\n"),
-	     human_readable (statistics.highbit_filename_count,
-			     hbuf, human_ceiling, 1, 1));
-      
-      printf(_("Compression ratio %4.2f%%\n"),
-	     100.0 * ((double)statistics.total_filename_length
-		      - (double) st.st_size)
-	     / (double) statistics.total_filename_length);
-      printf("\n");
+      print_stats(st.st_size);
     }
   
   if (ferror (fp))
