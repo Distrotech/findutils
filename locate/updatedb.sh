@@ -55,6 +55,11 @@ $usage" >&2
   esac
 done
 
+if test "$old" = yes; then
+    echo "Warning: future versions of findutils will shortly discontinue support for the old locate database format." >&2
+fi
+
+exit 0
 getuid() {
     # format of "id" output is ...
     # uid=1(daemon) gid=1(other)
@@ -64,6 +69,9 @@ getuid() {
 
 # You can set these in the environment, or use command-line options,
 # to override their defaults:
+
+# What shell shoud we use?  We should use a POSIX-ish sh.
+: ${SHELL="/bin/sh"}
 
 # Non-network directories to put in the database.
 : ${SEARCHPATHS="/"}
@@ -139,7 +147,7 @@ cd "$changeto"
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A1
-    su $LOCALUSER -c \
+    su $LOCALUSER -s $SHELL -c \
     "$find $SEARCHPATHS \
      \\( $prunefs_exp \
      -type d -regex '$PRUNEREGEX' \\) -prune -o -print"
@@ -155,7 +163,7 @@ if test -n "$NETPATHS"; then
 myuid=`getuid` 
 if [ "$myuid" = 0 ]; then
     # : A3
-    su $NETUSER -c \
+    su $NETUSER -s $SHELL -c \
      "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print" ||
     exit $?
   else
@@ -209,7 +217,7 @@ cd "$changeto"
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A5
-    su $LOCALUSER -c \
+    su $LOCALUSER -s $SHELL -c \
     "$find $SEARCHPATHS \
      \( $prunefs_exp \
      -type d -regex '$PRUNEREGEX' \) -prune -o -print" || exit $?
@@ -225,7 +233,7 @@ if test -n "$NETPATHS"; then
   myuid=`getuid`
   if [ "$myuid" = 0 ]; then
     # : A7
-    su $NETUSER -c \
+    su $NETUSER -s $SHELL -c \
      "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print" ||
     exit $?
   else
