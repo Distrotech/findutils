@@ -1679,14 +1679,21 @@ insert_time (char **argv, int *arg_ptr, PFB pred)
   t = ( cur_day_start - num_days * DAYSECS
 		   + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
 #if 1
-  intmax_t val = ( (intmax_t)cur_day_start - num_days * DAYSECS
-		   + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
-  t = val;
-  
-  /* Check for possibility of an overflow */
-  if ( (intmax_t)t != val ) 
+  if (1)
     {
-      error (1, 0, "arithmetic overflow while converting %s days to a number of seconds", argv[*arg_ptr]);
+      /* We introduce a scope in which 'val' can be declared, for the 
+       * benefit of compilers that are really C89 compilers
+       * which support intmax_t because config.h #defines it
+       */
+      intmax_t val = ( (intmax_t)cur_day_start - num_days * DAYSECS
+		       + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
+      t = val;
+      
+      /* Check for possibility of an overflow */
+      if ( (intmax_t)t != val ) 
+	{
+	  error (1, 0, "arithmetic overflow while converting %s days to a number of seconds", argv[*arg_ptr]);
+	}
     }
 #endif
   
