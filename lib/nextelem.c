@@ -17,7 +17,7 @@
    USA.
 */
 
-/* Written by David MacKenzie <djm@gnu.ai.mit.edu>,
+/* Written by David MacKenzie <djm@gnu.org>,
    inspired by John P. Rouillard <rouilj@cs.umb.edu>.  */
 
 #ifdef HAVE_CONFIG_H

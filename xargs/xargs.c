@@ -18,7 +18,7 @@
 */
 
 /* Written by Mike Rendell <michael@cs.mun.ca>
-   and David MacKenzie <djm@gnu.ai.mit.edu>.  */
+   and David MacKenzie <djm@gnu.org>.  */
 
 #include <config.h>
 

@@ -17,7 +17,7 @@
    USA.*/
 
 /* GNU find was written by Eric Decker <cire@cisco.com>,
-   with enhancements by David MacKenzie <djm@gnu.ai.mit.edu>,
+   with enhancements by David MacKenzie <djm@gnu.org>,
    Jay Plett <jay@silence.princeton.nj.us>,
    and Tim Wood <axolotl!tim@toad.com>.
    The idea for -print0 and xargs -0 came from

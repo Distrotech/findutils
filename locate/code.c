@@ -43,7 +43,7 @@
    32-127  	single character (printable) ASCII remainder
 
    Written by James A. Woods <jwoods@adobe.com>.
-   Modified by David MacKenzie <djm@gnu.ai.mit.edu>.  */
+   Modified by David MacKenzie <djm@gnu.org>.  */
 
 #include <config.h>
 #include <stdio.h>

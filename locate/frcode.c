@@ -61,7 +61,7 @@
    (6 = 14 - 8, and -9 = 5 - 14)
 
    Written by James A. Woods <jwoods@adobe.com>.
-   Modified by David MacKenzie <djm@gnu.ai.mit.edu>.  */
+   Modified by David MacKenzie <djm@gnu.org>.  */
 
 #include <config.h>
 #include <stdio.h>
