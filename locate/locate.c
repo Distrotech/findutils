@@ -110,6 +110,7 @@ extern int errno;
 #include "../gnulib/lib/error.h"
 #include "../gnulib/lib/human.h"
 #include "dirname.h"
+#include "closeout.h"
 
 /* Note that this evaluates C many times.  */
 #ifdef _LIBC
@@ -765,6 +766,7 @@ main (argc, argv)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
+  atexit(close_stdout);
 
   dbpath = getenv ("LOCATE_PATH");
   if (dbpath == NULL)

@@ -76,6 +76,7 @@
 
 #include "locatedb.h"
 #include <getline.h>
+#include "closeout.h"
 
 char *xmalloc PARAMS((size_t));
 
@@ -145,6 +146,7 @@ main (int argc, char **argv)
   int line_len;			/* Length of input line.  */
 
   program_name = argv[0];
+  atexit(close_stdout);
 
   bigram[2] = '\0';
 

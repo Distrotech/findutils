@@ -40,7 +40,7 @@ getline getopt human idcache  lstat malloc memcmp memset mktime	  \
 modechange   pathmax quotearg realloc regex rpmatch savedir stat  \
 stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
 xalloc xalloc-die xgetcwd  xstrtol  xstrtoumax yesno human filemode \
-getline stpcpy canonicalize mountlist"
+getline stpcpy canonicalize mountlist closeout"
 
 # Modules needed for the "intl" subdirectory.
 #intl_modules="regex"

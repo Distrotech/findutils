@@ -1187,7 +1187,11 @@ pred_quit (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   (void) pathname;
   (void) stat_buf;
   (void) pred_ptr;
-  exit(0);
+
+  /* Since -exec and friends don't leave child processes running in the 
+   * background, there is no need to wait for them here.
+   */
+  exit(state.exit_status);	/* 0 for success, etc. */
 }
 
 boolean

@@ -47,6 +47,7 @@
 
 #include <getline.h>
 #include <xalloc.h>
+#include "closeout.h"
 
 /* The name this program was run with.  */
 char *program_name;
@@ -73,6 +74,7 @@ main (int argc, char **argv)
 
   program_name = argv[0];
   (void) argc;
+  atexit(close_stdout);
   
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
   path = xmalloc (pathsize);
