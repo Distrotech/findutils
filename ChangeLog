@@ -1,4 +1,57 @@
+2003-08-08  James Youngman  <jay@gnu.org>
+
+	* find/find.1:
+	Documented the fact that -printf also supports the '\0' escape code.
+	Added "STANDARDS CONFORMANCE" section.
+
+2003-08-02  James Youngman  <jay@gnu.org>
+
+	* find/find.1:
+	Explain that braces are not special when performing filename matching
+	with -name.
+
+	* find/find.1:
+	added example of the use of -exec to the EXAMPLES section
+
+	* find/fstype.c, locate/locate.c:
+	Savannah bug #4295 - implicit declarations of ctype.h functions
+
+	* locate/locate.c:
+	Savannah bug #4279 - missing newline on locate help message
+
+	* find/find.1, xargs/xargs.1:
+	Improved discussion of the -print0 option of find and the -0 option of xargs
+
+2003-06-26  James Youngman  <jay@gnu.org>
+
+	* import-gnulib.sh:
+	Remove reference to nonexistent module "basename" ("dirname" exists
+	and we already use that).
+
+2003-06-21  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi:
+	Indicate that xargs stops immediately if a command exits with status 255
+
+	* xargs/xargs.1:
+	Document the fact that xargs exits immediately with an error message
+	if the command it executes exits with a status of 255.
+
+2003-06-18  James Youngman  <jay@gnu.org>
+
+	* find/find.1:
+	Indicate that -fls and friends always create their output file
+
 2003-06-16  James Youngman  <jay@gnu.org>
+
+	* ChangeLog, find/find.1, locate/locate.1, locate/locatedb.5, locate/updatedb.1, xargs/xargs.1:
+	Added BUGS section to manual pages.   This section includes information about known bugs and how to report new bugs.
+
+	* AUTHORS: Identify the current maintainer.
+
+	* TODO: Removed the TODO items which have now been done.
+
+	* THANKS: Added Bruno Haible and Bob Prolux.
 
 	* xargs/xargs.c: xargs/xargs.c (DO_MULTIBYTE): New macro.
 	(mbstrstr): New function.
