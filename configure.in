@@ -4,7 +4,7 @@ AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_HOST
 
 dnl Set of available languages.
-ALL_LINGUAS=" de es fr it ko nl pl pt_BR ru sv gl et"
+ALL_LINGUAS="da de es et fr gl it ko nl pl pt_BR ru sv"
 
 AM_INIT_AUTOMAKE(findutils, 4.1.6)
 
@@ -81,7 +81,7 @@ AC_CHECK_TYPE(dev_t, unsigned long)
 AC_TYPE_MODE_T
 jm_AC_TYPE_UINTMAX_T
 AC_STRUCT_ST_BLOCKS
-AC_CHECK_MEMBERS((struct stat.st_rdev))
+AC_CHECK_MEMBERS([struct stat.st_rdev])
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
 
