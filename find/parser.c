@@ -514,6 +514,7 @@ parse_delete (argv, arg_ptr)
   
   our_pred = insert_primary (pred_delete);
   our_pred->side_effects = true;
+  our_pred->no_default_print = true;
   /* -delete implies -depth */
   do_dir_first = false;
   return (true);
