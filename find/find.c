@@ -1092,10 +1092,11 @@ safely_chdir_nofollow(const char *dest,
 		      struct stat *statbuf_dest,
 		      enum ChdirSymlinkHandling symlink_handling)
 {
-  int extraflags = following_links() ? O_NOFOLLOW : 0;
-
+  int extraflags, fd;
+  
+  extraflags = following_links() ? O_NOFOLLOW : 0;
   errno = 0;
-  int fd = open(dest, O_RDONLY|extraflags);
+  fd = open(dest, O_RDONLY|extraflags);
   if (fd < 0)
     {
       switch (errno)
