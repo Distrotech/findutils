@@ -1306,17 +1306,18 @@ chdir_back (void)
     }
 }
 
-/* Descend PATHNAME, which is a command-line argument.  
-   Actions like -execdir assume that we are in the 
-   parent directory of the file we're examining, 
-   and on entry to this function our working directory
-   is whetever it was when find was invoked.  Therefore
-   If PATHNAME is "." we just leave things as they are. 
-   Otherwise, we figure out what the parent directory is, 
-   and move to that.
-*/
+/* Move to the parent of a given directory and then call a function,
+ * restoring the cwd.  Don't bother changing directory if the
+ * specified directory is a child of "." or is the root directory.
+ */
 static void
-process_top_path (char *pathname, mode_t mode)
+at_top (char *pathname,
+	mode_t mode,
+	struct stat *pstat,
+	void (*action)(char *pathname,
+		       char *basename,
+		       int mode,
+		       struct stat *pstat))
 {
   int dirchange;
   char *parent_dir = dir_name(pathname);
@@ -1372,13 +1373,50 @@ process_top_path (char *pathname, mode_t mode)
   free (parent_dir);
   parent_dir = NULL;
   
-  process_path (pathname, base, false, ".", mode);
-  complete_pending_execdirs(eval_tree);
+  action(pathname, base, mode, pstat);
   
   if (dirchange)
     {
       chdir_back();
     }
+}
+
+
+static void do_process_top_dir(char *pathname,
+			       char *base,
+			       int mode,
+			       struct stat *pstat)
+{
+  process_path (pathname, base, false, ".", mode);
+  complete_pending_execdirs(eval_tree);
+}
+
+static void do_process_predicate(char *pathname,
+				 char *basename,
+				 int mode,
+				 struct stat *pstat)
+{
+  state.rel_pathname = basename;
+  apply_predicate (pathname, pstat, eval_tree);
+}
+
+
+
+
+/* Descend PATHNAME, which is a command-line argument.  
+
+   Actions like -execdir assume that we are in the 
+   parent directory of the file we're examining, 
+   and on entry to this function our working directory
+   is whetever it was when find was invoked.  Therefore
+   If PATHNAME is "." we just leave things as they are. 
+   Otherwise, we figure out what the parent directory is, 
+   and move to that.
+*/
+static void
+process_top_path (char *pathname, mode_t mode)
+{
+  at_top(pathname, mode, NULL, do_process_top_dir);
 }
 
 
@@ -1601,8 +1639,14 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
       if (!digest_mode(mode, pathname, name, &stat_buf, leaf))
 	return 0;
 
-      state.rel_pathname = name;
-      apply_predicate (pathname, &stat_buf, eval_tree);
+      if (0 == dir_curr)
+	{
+	  at_top(pathname, mode, &stat_buf, do_process_predicate);
+	}
+      else
+	{
+	  do_process_predicate(pathname, name, mode, &stat_buf);
+	}
     }
 
   dir_curr--;
