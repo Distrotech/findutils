@@ -452,11 +452,35 @@ of
 Both of these constructions might need to be escaped (with a `\e') or
 quoted to protect them from expansion by the shell.  See the
 .B EXAMPLES
-section for examples of the use of the `\-exec' option.
-The command is executed in the starting directory.
+section for examples of the use of the `\-exec' option.  The specified
+command is run once for each matched file.
+The command is executed in the starting directory.   There are
+unavoidable security problems surrpounding use of the -exec option;
+you should use the -execdir option instead.  
 
-.IP "\-exec \fIcommand\fR +"
-This variant of \-exec is not yet supported, but is required by POSIX.
+.IP "\-exec \fIcommand\fR {} +"
+This variant of the -exec option runs the specified command on the
+selected files, but the command line is built by appending each
+selected file name at the end; the total number of invocations of the
+command will be much less than the number of matched files.  The
+command line is built in much the same way that
+.B xargs
+builds its command lines.  Only one instance of '{}' is allowed within
+the command.  The command is executed in the starting directory.
+
+.IP "\-execdir \fIcommand\fR ;"
+.IP "\-execdir \fIcommand\fR {} +"
+Like -exec, but the specified command is run from the subdirectory
+containing the matched file, which is not normally the directory in
+which you started 
+.BR find .
+This a much more secure method for invoking commands, as it avoids
+race conditions during resolution of the paths to the matched files.
+As with the -exec option, the '+' form of -execdir will build a
+command line to process more than one matched file, but any given
+invocation of
+.I command 
+will only list files that exist in the same subdirectory.
 
 .IP "\-fls \fIfile\fR"
 True; like \-ls but write to \fIfile\fR like \-fprint.
@@ -768,9 +792,6 @@ GNU find also supports `D', representing a Door, where the OS provides these.
 .IP "\-ok"
 Supported.   Interpretation of the response is not locale-dependent
 (see ENVIRONMENT VARIABLES).
-
-.IP "\-exec"
-Supported for the `{} ;' case, but the '{} +' variant is not supported yet.
 
 .IP "\-newer"
 Supported.  If the file specified is a symbolic link, it is always
