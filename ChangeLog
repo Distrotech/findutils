@@ -1,3 +1,81 @@
+2005-01-31  James Youngman  <jay@gnu.org>
+
+	* find/find.c, lib/nextelem.c, lib/nextelem.h, locate/code.c,
+	locate/frcode.c, locate/testsuite/config/unix.exp,
+	xargs/testsuite/config/unix.exp, xargs/xargs.c: Updated/corrected
+	the email address for David MacKenzie, one of the original authors
+	of findutils
+
+	* doc/Makefile.am: The HTML version of the manual generated for
+	the GNU project website has each node in a separate file, not each
+	chapter in a separate file; adjust filenames accordingly
+
+	* find/parser.c, find/pred.c, lib/savedirinfo.c:
+	Removed some unused variables (patch from Dmitry V. Levin)
+
+	* find/find.c:
+	Patch from Dmitry V. Levin <ldv@altlinux.org>: Add subfs to the list
+	of filesystems which are likely to be automounted.
+
+	* m4/findlib.m4: Corrected typo (pointed out by Dmitry V. Levin).
+
+	* po/ca.po: Updated from Translation Project
+
+	* po/ChangeLog: Updated from CVS logs.
+
+	* po/de.po, po/es.po, po/et.po, po/fr.po, po/gl.po, po/id.po,
+	po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po,
+	po/sk.po, po/sv.po, po/tr.po, po/da.po: Ran update-po
+
+	* po/be.po, po/ca.po, po/el.po, po/eo.po, po/fi.po, po/hr.po,
+	po/hu.po, po/ja.po, po/lg.po, po/ms.po, po/ro.po, po/sl.po,
+	po/sr.po, po/zh_CN.po: Added new translation files from the
+	Translation Project web site
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/fr.po, po/ga.po,
+	po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po: Updated .po
+	files from the Translation Project site
+
+	* find/testsuite/config/unix.exp,
+	find/testsuite/find.gnu/name-period.xo,
+	find/testsuite/find.gnu/posix-dflt.xo,
+	find/testsuite/find.gnu/posix-h.xo,
+	find/testsuite/find.gnu/posix-l.xo,
+	find/testsuite/find.gnu/printf.exp,
+	find/testsuite/find.gnu/printf.xo: Systems differ in the order in
+	which filenames are returned by readdir.  Hence sort the output of
+	'find' before comparing against the expected-output file.  We
+	therefore also have the lines in the .xo files ready-sorted.
+
+2005-01-30  James Youngman  <jay@gnu.org>
+
+	* doc/Makefile.am:
+	Added rules for extra targets that we buld to update the web site.
+
+2005-01-29  James Youngman  <jay@gnu.org>
+
+	* configure.in: No longer version 4.2.15 - we've changed the manual.
+
+	* doc/find.texi:
+	Clarified the txt about adding extra tests with post-processing via
+	xargs, and recommend -execdir instead for security reasons.
+
+	* doc/find.texi: Patch from Karl Berry:
+	- more entries for the dir file
+	- use @copying so the copyright ends up in the HTML etc. output.
+	  (This is the only really important change.)
+	- put @contents after the title page, for conventional toc location.
+	- use @ifnottex to wrap the Top node instead of @ifinfo, for the sake of
+	  HTML output, etc.
+
+	* NEWS, configure.in, po/da.po, po/de.po, po/es.po, po/et.po,
+	po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po,
+	po/sv.po, po/tr.po: Prepared to release findutils-4.2.15
+
+	* ChangeLog: Updated from CVS log.
+
 2005-01-28  James Youngman  <jay@gnu.org>
 
 	* configure.in:
