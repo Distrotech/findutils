@@ -1979,6 +1979,10 @@ builtin tests to pare down the list, so the program run by @code{xargs}
 has less work to do.  The tests builtin to @code{find} will likely run
 faster than tests that other programs perform.
 
+For reasons of efficiency it is often useful to limit the number of
+times an external program has to be run.  For this reason, it is often
+a good idea to implement ``extended'' tests by using @code{xargs}.
+
 For example, here is a way to print the names of all of the unstripped
 binaries in the @file{/usr/local} directory tree.  Builtin tests avoid
 running @code{file} on files that are not regular files or are not
@@ -1993,37 +1997,43 @@ find /usr/local -type f -perm +a=x | xargs file |
 The @code{cut} program removes everything after the file name from the
 output of @code{file}.
 
+However, using @code{xargs} can present important security problems
+(@pxref{Security Considerations}).  These can be avoided by using
+@samp{-execdir}.  The @samp{-execdir} action is also a useful way of
+putting your own test in the middle of a set of other tests or actions
+for @code{find} (for example, you might want to use @samp{-prune}).
+
 @c Idea from Martin Weitzel.
-If you want to place a special test somewhere in the middle of a
-@code{find} expression, you can use @samp{-exec} to run a program that
-performs the test.  Because @samp{-exec} evaluates to the exit status of
-the executed program, you can write a program (which can be a shell
-script) that tests for a special attribute and make it exit with a true
-(zero) or false (non-zero) status.  It is a good idea to place such a
-special test @emph{after} the builtin tests, because it starts a new
-process which could be avoided if a builtin test evaluates to false.
-Use this method only when @code{xargs} is not flexible enough, because
-starting one or more new processes to test each file is slower than
-using @code{xargs} to start one process that tests many files.
+To place a special test somewhere in the middle of a @code{find}
+expression, you can use @samp{-execdir} (or, less securely,
+@samp{-exec}) to run a program that performs the test.  Because
+@samp{-execdir} evaluates to the exit status of the executed program,
+you can use a program (which can be a shell script) that tests for a
+special attribute and make it exit with a true (zero) or false
+(non-zero) status.  It is a good idea to place such a special test
+@emph{after} the builtin tests, because it starts a new process which
+could be avoided if a builtin test evaluates to false.  
 
 Here is a shell script called @code{unstripped} that checks whether its
 argument is an unstripped binary file:
 
 @example
 #! /bin/sh
-file $1 | grep 'not stripped' > /dev/null
+file "$1" | grep -q "not stripped"
 @end example
 
+
 This script relies on the fact that the shell exits with the status of
-the last program it executed, in this case @code{grep}.  @code{grep}
-exits with a true status if it found any matches, false if not.  Here is
-an example of using the script (assuming it is in your search path).  It
-lists the stripped executables in the file @file{sbins} and the
-unstripped ones in @file{ubins}.
+the last command in the pipeline, in this case @code{grep}.  The
+@code{grep} command exits with a true status if it found any matches,
+false if not.  Here is an example of using the script (assuming it is
+in your search path).  It lists the stripped executables (and shell
+scripts) in the file @file{sbins} and the unstripped ones in
+@file{ubins}.
 
 @example
 find /usr/local -type f -perm +a=x \
-  \( -exec unstripped '@{@}' \; -fprint ubins -o -fprint sbins \)
+  \( -execdir unstripped '@{@}' \; -fprint ubins -o -fprint sbins \)
 @end example
 
 @node Common Tasks, Databases, Actions, Top
