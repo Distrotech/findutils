@@ -149,7 +149,12 @@ Base of file name (the path with the leading directories removed)
 matches shell pattern \fIpattern\fR.  The metacharacters (`*', `?',
 and `[]') do not match a `.' at the start of the base name.  To ignore
 a directory and the files under it, use \-prune; see an example in the
-description of \-path.
+description of \-path.  Braces are not recognised as being special,
+despite the fact that some shells including Bash ibmue braces with 
+a special meaning in shell patterns.   The filename matching is
+performed with the use of the 
+.BR fnmatch (3) 
+library function.
 .IP "\-newer \fIfile\fR"
 File was modified more recently than \fIfile\fR.
 \-newer is affected by \-follow only if \-follow comes before
