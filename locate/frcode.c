@@ -106,7 +106,7 @@ prefix_length (s1, s2)
   return s1 - start;
 }
 
-void
+int
 main (argc, argv)
      int argc;
      char **argv;
@@ -119,7 +119,7 @@ main (argc, argv)
 
   program_name = argv[0];
 
-  pathsize = oldpathsize = 1026; /* Increased as necessary by getstr.  */
+  pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
   path = xmalloc (pathsize);
   oldpath = xmalloc (oldpathsize);
 
@@ -132,7 +132,7 @@ main (argc, argv)
 
   /* FIXME temporary: change the \n to \0 when we figure out how to sort
      null-terminated strings.  */
-  while ((line_len = getstr (&path, &pathsize, stdin, '\n', 0)) > 0)
+  while ((line_len = getline (&path, &pathsize, stdin)) > 0)
     {
       path[line_len - 1] = '\0'; /* FIXME temporary: nuke the newline.  */
 
