@@ -183,7 +183,7 @@ static struct parser_table const parse_table[] =
   {ARG_UNIMPLEMENTED,      "cpio",                  parse_cpio},        /* Unix */
 #endif						    
   {ARG_TEST,               "ctime",                 parse_ctime},
-  {ARG_OPTION,             "daystart",              parse_daystart},	/* GNU */
+  {ARG_POSITIONAL_OPTION,  "daystart",              parse_daystart},	/* GNU */
   {ARG_ACTION,             "delete",                parse_delete},	/* GNU, Mac OS, FreeBSD */
   {ARG_OPTION,             "d",                     parse_d},		/* Mac OS X, FreeBSD, OpenBSD, but deprecated  in favour of -depth */
   {ARG_OPTION,             "depth",                 parse_depth},
