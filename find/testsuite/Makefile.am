@@ -17,4 +17,4 @@ EXTRA_DIST = config/unix.exp \
 
 CLEANFILES = *.log *.sum site.exp site.bak
 
-DIST_SUBDIRS = config
+#DIST_SUBDIRS = config

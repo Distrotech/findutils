@@ -13,6 +13,6 @@ EXTRA_DIST = config/unix.exp \
 	locate.gnu/ignore_case3.exp \
 	locate.gnu/ignore_case3.xo
 
-DIST_SUBDIRS = config locate.gnu
+# DIST_SUBDIRS = config locate.gnu
 
 CLEANFILES = *.log *.sum site.exp site.bak

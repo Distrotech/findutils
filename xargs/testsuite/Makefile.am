@@ -40,7 +40,7 @@ EXTRA_DIST = config/unix.exp \
 	xargs.sysv/l2.exp \
 	xargs.sysv/l2.xo
 
-DIST_SUBDIRS = config inputs xargs.gnu xargs.posix xargs.sysv
+# DIST_SUBDIRS = config inputs xargs.gnu xargs.posix xargs.sysv
 
 CLEANFILES = *.log *.sum site.exp site.bak
 
