@@ -480,7 +480,13 @@ As with the -exec option, the '+' form of -execdir will build a
 command line to process more than one matched file, but any given
 invocation of
 .I command 
-will only list files that exist in the same subdirectory.
+will only list files that exist in the same subdirectory.  If you use
+this option, you must ensure that your 
+.B $PATH
+environment variable does not reference the current directory;
+otherwise, an attacker can run any commands they like by leaving an
+appropriately-named file in a directory in which you will run
+\-execdir.
 
 .IP "\-fls \fIfile\fR"
 True; like \-ls but write to \fIfile\fR like \-fprint.
@@ -509,7 +515,10 @@ newline.   If you are piping the output of
 into another program and there is the faintest possibility that the files 
 which you are searching for might contain a newline, then you should 
 seriously consider using the `\-print0' option instead of `\-print'.
-
+.IP "\-okdir \fIcommand\fR ;"
+Like \-execdir but ask the user first (on the standard input); if the
+response does not start with `y' or `Y', do not run the command, and
+return false.
 .IP \-print0
 True; print the full file name on the standard output, followed by a
 null character (instead of the newline character that `\-print' uses).
