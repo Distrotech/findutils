@@ -6,7 +6,7 @@ SUBDIRS = gnulib lib find xargs locate doc po m4
 
 ACLOCAL_AMFLAGS = -I gnulib/m4 -I m4
 
-CONFIG_CLEAN_FILES = gnulib/lib/regex.c
+# CONFIG_CLEAN_FILES = gnulib/lib/regex.c
 
 
 # DISTCLEANFILES = intl/libintl.h
