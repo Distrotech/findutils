@@ -170,8 +170,7 @@ main (int argc, char **argv)
       /* Squelch unprintable chars in path so as not to botch decoding.  */
       for (pp = path; *pp != '\0'; pp++)
 	{
-	  *pp &= 0177;
-	  if (*pp < 040 || *pp == 0177)
+	  if (!(*pp >= 040 && *pp < 0177))
 	    *pp = '?';
 	}
 
