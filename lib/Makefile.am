@@ -53,7 +53,8 @@ EXTRA_DIST = \
 		alloca.c \
 		getline.c \
 		getline.h \
-		xstat.in
+		xstat.in \
+		strcasecmp.c
 
 BUILT_SOURCES = lstat.c stat.c
 DISTCLEANFILES = lstat.c stat.c
