@@ -482,7 +482,7 @@ usage (stream, status)
 Usage: %s [-d path | --database=path] [-e | --existing]\n\
       [-i | --ignore-case] [--version] [--help] pattern...\n"),
 	   program_name);
-  fputs (_("\nReport bugs to <bug-findutils@gnu.org>."), stream);
+  fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
   exit (status);
 }
 
