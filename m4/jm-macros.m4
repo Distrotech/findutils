@@ -153,6 +153,10 @@ AC_DEFUN(jm_MACROS,
   if test $am_cv_func_working_getline != yes; then
     AC_CHECK_FUNCS(getdelim)
   fi
+
+  # These tests are for df.
+  jm_FSTYPENAME
+
 ])
 
 AC_DEFUN(jm_CHECK_ALL_TYPES,
