@@ -1,0 +1,518 @@
+# Japanese Messages for findutils.
+# Copyright (C) 2001 Free Software Foundation, Inc.
+# GOTO Masanori <gotom@debian.or.jp>, 2001.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: findutils 4.1.7\n"
+"POT-Creation-Date: 2001-05-20 12:12-0700\n"
+"PO-Revision-Date: 2001-11-05 00:45+0900\n"
+"Last-Translator: GOTO Masanori <gotom@debian.or.jp>\n"
+"Language-Team: Japanese <ja@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=EUC-JP\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: lib/argmatch.c:159
+#, c-format
+msgid "invalid argument %s for `%s'"
+msgstr "`%2$s' に対する無効な引数 %1$s です"
+
+#: lib/argmatch.c:160
+#, c-format
+msgid "ambiguous argument %s for `%s'"
+msgstr "`%2$s' に対する不明瞭な引数 %1$s"
+
+#. We try to put synonyms on the same line.  The assumption is that
+#. synonyms follow each other
+#: lib/argmatch.c:178
+msgid "Valid arguments are:"
+msgstr "有効な引数は:"
+
+#: lib/error.c:102
+msgid "Unknown system error"
+msgstr "未知のシステムエラー"
+
+#: lib/getopt.c:675
+#, c-format
+msgid "%s: option `%s' is ambiguous\n"
+msgstr "%s: オプション`%s'は曖昧です\n"
+
+#: lib/getopt.c:700
+#, c-format
+msgid "%s: option `--%s' doesn't allow an argument\n"
+msgstr "%s: オプション`--%s'は引数をとりません\n"
+
+#: lib/getopt.c:705
+#, c-format
+msgid "%s: option `%c%s' doesn't allow an argument\n"
+msgstr "%s: オプション`%c%s'は引数をとりません\n"
+
+#: lib/getopt.c:723 lib/getopt.c:896
+#, c-format
+msgid "%s: option `%s' requires an argument\n"
+msgstr "%s: オプション`%s'には引数が必要です\n"
+
+#. --option
+#: lib/getopt.c:752
+#, c-format
+msgid "%s: unrecognized option `--%s'\n"
+msgstr "%s: 認識できないオプション`--%s'です\n"
+
+#. +option or -option
+#: lib/getopt.c:756
+#, c-format
+msgid "%s: unrecognized option `%c%s'\n"
+msgstr "%s: 認識できないオプション`%c%s'です\n"
+
+#. 1003.2 specifies the format of this message.
+#: lib/getopt.c:782
+#, c-format
+msgid "%s: illegal option -- %c\n"
+msgstr "%s: 不正なオプションです -- %c\n"
+
+#: lib/getopt.c:785
+#, c-format
+msgid "%s: invalid option -- %c\n"
+msgstr "%s: オプションが違います -- %c\n"
+
+#. 1003.2 specifies the format of this message.
+#: lib/getopt.c:815 lib/getopt.c:945
+#, c-format
+msgid "%s: option requires an argument -- %c\n"
+msgstr "%s: オプションには引数が必要です -- %c\n"
+
+#: lib/getopt.c:862
+#, c-format
+msgid "%s: option `-W %s' is ambiguous\n"
+msgstr "%s: オプション `-W %s' が曖昧です\n"
+
+#: lib/getopt.c:880
+#, c-format
+msgid "%s: option `-W %s' doesn't allow an argument\n"
+msgstr "%s: オプション`-W %s'は引数をとりません\n"
+
+#: lib/human.c:321
+msgid "block size"
+msgstr "ブロックサイズ"
+
+#: lib/quotearg.c:221
+msgid "`"
+msgstr "`"
+
+#: lib/quotearg.c:224
+msgid "'"
+msgstr "'"
+
+#: lib/regex.c:1029
+msgid "Success"
+msgstr "成功です"
+
+#: lib/regex.c:1032
+msgid "No match"
+msgstr "一致しません"
+
+#: lib/regex.c:1035
+msgid "Invalid regular expression"
+msgstr "無効な正規表現です"
+
+#: lib/regex.c:1038
+msgid "Invalid collation character"
+msgstr "無効な照合文字です"
+
+#: lib/regex.c:1041
+msgid "Invalid character class name"
+msgstr "無効なキャラクタクラス名です"
+
+#: lib/regex.c:1044
+msgid "Trailing backslash"
+msgstr "バックスラッシュが残っています"
+
+#: lib/regex.c:1047
+msgid "Invalid back reference"
+msgstr "無効な後方参照です"
+
+#: lib/regex.c:1050
+msgid "Unmatched [ or [^"
+msgstr "[ もしくは [^ が一致しません"
+
+#: lib/regex.c:1053
+msgid "Unmatched ( or \\("
+msgstr "( もしくは \\( が一致しません"
+
+#: lib/regex.c:1056
+msgid "Unmatched \\{"
+msgstr "\\{ が一致しません"
+
+#: lib/regex.c:1059
+msgid "Invalid content of \\{\\}"
+msgstr "無効な \\{\\} の内容です"
+
+#: lib/regex.c:1062
+msgid "Invalid range end"
+msgstr "無効な終端範囲です"
+
+#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
+#. before exiting when memory is exhausted.  Goes through gettext.
+#: lib/regex.c:1065 lib/xmalloc.c:66
+msgid "Memory exhausted"
+msgstr "メモリを使い尽しました"
+
+#: lib/regex.c:1068
+msgid "Invalid preceding regular expression"
+msgstr "無効な前述の正規表現です"
+
+#: lib/regex.c:1071
+msgid "Premature end of regular expression"
+msgstr "正規表現の終端が早すぎます"
+
+#: lib/regex.c:1074
+msgid "Regular expression too big"
+msgstr "正規表現が長すぎます"
+
+#: lib/regex.c:1077
+msgid "Unmatched ) or \\)"
+msgstr ") もしくは \\) が一致しません"
+
+#: lib/regex.c:5861
+msgid "No previous regular expression"
+msgstr "以前に正規表現が定義されていません"
+
+#: lib/rpmatch.c:78
+msgid "^[yY]"
+msgstr "^[yY]"
+
+#: lib/rpmatch.c:81
+msgid "^[nN]"
+msgstr "^[nN]"
+
+#: find/util.c:87
+msgid "oops -- invalid default insertion of and!"
+msgstr "しまった -- 不正に AND をデフォルト挿入してしまった!"
+
+#: find/parser.c:553 find/util.c:145
+#, c-format
+msgid "Usage: %s [path...] [expression]\n"
+msgstr "使用法: %s [パス...] [評価式]\n"
+
+#: find/find.c:203
+msgid "paths must precede expression"
+msgstr "パスは評価式の前におかなければならない"
+
+#. Command line option not recognized
+#: find/find.c:208
+#, c-format
+msgid "invalid predicate `%s'"
+msgstr "不正な述語 `%s'"
+
+#. Command line option requires an argument
+#: find/find.c:214
+#, c-format
+msgid "missing argument to `%s'"
+msgstr "`%s' に引数が見つかりません"
+
+#: find/find.c:216
+#, c-format
+msgid "invalid argument `%s' to `%s'"
+msgstr "不正な引数 `%s' から `%s'"
+
+#: find/find.c:245
+msgid "Predicate List:\n"
+msgstr "述語リスト:\n"
+
+#: find/find.c:253
+msgid "Eval Tree:\n"
+msgstr "評価木:\n"
+
+#: find/find.c:264
+msgid "Optimized Eval Tree:\n"
+msgstr "最適化評価木:\n"
+
+#: find/find.c:278 find/find.c:281
+msgid "cannot get current directory"
+msgstr "カレントディレクトリが取得できません"
+
+#: find/find.c:306 find/find.c:343 find/find.c:527 find/find.c:591
+#, c-format
+msgid "%s changed during execution of %s"
+msgstr "%s は %s の実行中に変更されました"
+
+#: find/find.c:497 find/parser.c:937
+msgid "virtual memory exhausted"
+msgstr "メモリを使い果たしました"
+
+#: find/find.c:593
+#, c-format
+msgid "%s/.. changed during execution of %s"
+msgstr "%s/.. は %s の実行中に変更されました"
+
+#: find/fstype.c:274
+#, c-format
+msgid "error in %s: %s"
+msgstr "%s 中でエラー: %s"
+
+#: find/fstype.c:363
+msgid "unknown"
+msgstr "不明"
+
+#: find/parser.c:555
+msgid ""
+"default path is the current directory; default expression is -print\n"
+"expression may consist of:\n"
+"operators (decreasing precedence; -and is implicit where no others are given):\n"
+"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
+msgstr ""
+"デフォルトパスはカレントディレクトリになります; デフォルトの評価式は -print です\n"
+"評価式は以下から成るでしょう:\n"
+"演算子 (優先順位; 他に何も与えられていないとき -and を意味する):\n"
+"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
+
+#: find/parser.c:560
+msgid ""
+"      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
+"options (always true): -daystart -depth -follow --help\n"
+"      -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n"
+"tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
+msgstr ""
+"      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
+"オプション (いつも真): -daystart -depth -follow --help\n"
+"      -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n"
+"判別式 (N は +N または -N または N とできる): -amin N -anewer FILE -atime N -cmin N\n"
+
+#: find/parser.c:565
+msgid ""
+"      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
+"      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
+"      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n"
+msgstr ""
+"      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
+"      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
+"      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n"
+
+#: find/parser.c:569
+msgid ""
+"      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
+"      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
+"      -xtype [bcdpfls]\n"
+msgstr ""
+"      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
+"      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
+"      -xtype [bcdpfls]\n"
+
+#: find/parser.c:573
+msgid ""
+"actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
+"      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
+msgstr ""
+"アクション: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
+"      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
+
+#: find/parser.c:576 locate/locate.c:430 xargs/xargs.c:925
+msgid "\nReport bugs to <bug-findutils@gnu.org>."
+msgstr "\nバグは<bug-findutils@gnu.org>まで報告してください."
+
+#: find/parser.c:935
+#, c-format
+msgid "invalid mode `%s'"
+msgstr "不正なモード `%s' です"
+
+#: find/parser.c:1068
+msgid "invalid null argument to -size"
+msgstr "-size に対する不正な空の引数です"
+
+#: find/parser.c:1104
+#, c-format
+msgid "invalid -size type `%c'"
+msgstr "不正な -size タイプ `%c' です"
+
+#: find/parser.c:1192
+#, c-format
+msgid "GNU find version %s\n"
+msgstr "GNU find version %s\n"
+
+#: find/parser.c:1333
+#, c-format
+msgid "warning: unrecognized escape `\\%c'"
+msgstr "警告: 認識できないエスケープ `\\%c' です"
+
+#. An unrecognized % escape.  Print the char after the %.
+#: find/parser.c:1379
+#, c-format
+msgid "warning: unrecognized format directive `%%%c'"
+msgstr "警告: 認識できないフォーマットの指示 `%%%c' です"
+
+#: find/parser.c:1588 find/parser.c:1670
+#, c-format
+msgid "inserting %s\n"
+msgstr "%s を挿入\n"
+
+#: find/parser.c:1589 find/parser.c:1671
+#, c-format
+msgid "    type: %s    %s  "
+msgstr "    タイプ: %s    %s  "
+
+#. The draft open standard requires that, in the POSIX locale,
+#. the last non-blank character of this prompt be '?'.
+#. The exact format is not specified.
+#. This standard does not have requirements for locales other than POSIX
+#.
+#: find/pred.c:982
+#, c-format
+msgid "< %s ... %s > ? "
+msgstr "< %s ... %s > ? "
+
+#: find/pred.c:1265 xargs/xargs.c:777
+msgid "cannot fork"
+msgstr "fork できません"
+
+#: find/pred.c:1285
+#, c-format
+msgid "error waiting for %s"
+msgstr "%s への待ちでエラー"
+
+#: find/pred.c:1291
+#, c-format
+msgid "%s terminated by signal %d"
+msgstr "%s はシグナル %d で終了"
+
+#: find/pred.c:1406
+msgid "left:\n"
+msgstr "左:\n"
+
+#: find/pred.c:1410
+msgid "right:\n"
+msgstr "右:\n"
+
+#: find/tree.c:63 find/tree.c:69 find/tree.c:88 find/tree.c:108
+#: find/tree.c:144
+msgid "invalid expression"
+msgstr "不正な評価式です"
+
+#: find/tree.c:93 find/tree.c:158 find/tree.c:309 find/tree.c:439
+msgid "oops -- invalid expression type!"
+msgstr "しまった -- 不正な評価式タイプだ!"
+
+#. Normalized tree.
+#: find/tree.c:229
+msgid "Normalized Eval Tree:\n"
+msgstr "正規化評価木:\n"
+
+#: locate/code.c:136
+#, c-format
+msgid "Usage: %s most_common_bigrams < list > coded_list\n"
+msgstr "使用法: %s most_common_bigrams < list > coded_list\n"
+
+#. Printable name of units used in WARN_SECONDS
+#: locate/locate.c:115
+msgid "days"
+msgstr "日"
+
+#. For example:
+#. warning: database `fred' is more than 8 days old
+#: locate/locate.c:250
+#, c-format
+msgid "warning: database `%s' is more than %d %s old"
+msgstr "警告: データベース`%s'は %d %s以上古い"
+
+#: locate/locate.c:426
+#, c-format
+msgid ""
+"Usage: %s [-d path | --database=path] [-e | --existing]\n"
+"      [-i | --ignore-case] [--version] [--help] pattern...\n"
+msgstr ""
+"使用法: %s [-d パス | --database=パス] [-e | --existing]\n"
+"      [-i | --ignore-case] [--version] [--help] pattern...\n"
+
+#: locate/locate.c:488
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate version %s\n"
+
+#: xargs/xargs.c:298
+msgid "environment is too large for exec"
+msgstr "実行するには環境が大きすぎます"
+
+#: xargs/xargs.c:372
+#, c-format
+msgid "GNU xargs version %s\n"
+msgstr "GNU xargs version %s\n"
+
+#: xargs/xargs.c:546
+#, c-format
+msgid "unmatched %s quote"
+msgstr "%sクオーテーションが一致しません"
+
+#: xargs/xargs.c:547
+msgid "double"
+msgstr "ダブル"
+
+#: xargs/xargs.c:547
+msgid "single"
+msgstr "シングル"
+
+#: xargs/xargs.c:560 xargs/xargs.c:605
+msgid "argument line too long"
+msgstr "引数行が長すぎます"
+
+#: xargs/xargs.c:663
+msgid "command too long"
+msgstr "コマンドが長すぎます"
+
+#: xargs/xargs.c:681
+msgid "can not fit single argument within argument list size limit"
+msgstr "引数リストのサイズ制限内で単一引数として収まりません"
+
+#: xargs/xargs.c:685
+msgid "argument list too long"
+msgstr "引数リストが長すぎます"
+
+#: xargs/xargs.c:839
+msgid "error waiting for child process"
+msgstr "子プロセスへの待ちでエラー"
+
+#: xargs/xargs.c:855
+#, c-format
+msgid "%s: exited with status 255; aborting"
+msgstr "%s: ステータス255で終了; 中断"
+
+#: xargs/xargs.c:857
+#, c-format
+msgid "%s: stopped by signal %d"
+msgstr "%s: シグナル %d によって停止しました"
+
+#: xargs/xargs.c:859
+#, c-format
+msgid "%s: terminated by signal %d"
+msgstr "%s: シグナル %d によって終了しました"
+
+#: xargs/xargs.c:882
+#, c-format
+msgid "%s: invalid number for -%c option\n"
+msgstr "%s: -%c オプションに対する不正な番号\n"
+
+#: xargs/xargs.c:888
+#, c-format
+msgid "%s: value for -%c option must be >= %ld\n"
+msgstr "%s: -%c オプションに対する値は >= %ld でなければなりません\n"
+
+#: xargs/xargs.c:894
+#, c-format
+msgid "%s: value for -%c option must be < %ld\n"
+msgstr "%s: -%c オプションに対する値は < %ld でなければなりません\n"
+
+#: xargs/xargs.c:917
+#, c-format
+msgid ""
+"Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-str]]\n"
+"       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
+"       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
+"       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
+"       [command [initial-arguments]]\n"
+msgstr ""
+"使用法: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-str]]\n"
+"       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
+"       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
+"       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
+"       [command [initial-arguments]]\n"
