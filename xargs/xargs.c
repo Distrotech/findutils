@@ -1,5 +1,5 @@
 /* xargs -- build and execute command lines from standard input
-   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000,2003 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -140,6 +140,28 @@ extern int errno;
 
 extern char **environ;
 
+/* Do multibyte processing if multibyte characters are supported,
+   unless multibyte sequences are search safe.  Multibyte sequences
+   are search safe if searching for a substring using the byte
+   comparison function 'strstr' gives no false positives.  All 8-bit
+   encodings and the UTF-8 multibyte encoding are search safe, but
+   the EUC encodings are not.
+   BeOS uses the UTF-8 encoding exclusively, so it is search safe. */
+#if defined __BEOS__
+# define MULTIBYTE_IS_SEARCH_SAFE 1
+#endif
+#define DO_MULTIBYTE (HAVE_MBLEN && ! MULTIBYTE_IS_SEARCH_SAFE)
+
+#if DO_MULTIBYTE
+# if HAVE_MBRLEN
+#  include <wchar.h>
+# else
+   /* Simulate mbrlen with mblen as best we can.  */
+#  define mbstate_t int
+#  define mbrlen(s, n, ps) mblen (s, n)
+# endif
+#endif
+
 /* Not char because of type promotion; NeXT gcc can't handle it.  */
 typedef int boolean;
 #define		true    1
@@ -263,6 +285,7 @@ static struct option const longopts[] =
 
 static int read_line PARAMS ((void));
 static int read_string PARAMS ((void));
+static char *mbstrstr PARAMS ((const char *haystack, const char *needle));
 static void do_insert PARAMS ((char *arg, size_t arglen, size_t lblen));
 static void push_arg PARAMS ((char *arg, size_t len));
 static boolean print_args PARAMS ((boolean ask));
@@ -618,6 +641,37 @@ read_string (void)
     }
 }
 
+/* Finds the first occurrence of the substring NEEDLE in the string
+   HAYSTACK.  Both strings can be multibyte strings.  */
+
+static char *
+mbstrstr (const char *haystack, const char *needle)
+{
+#if DO_MULTIBYTE
+  if (MB_CUR_MAX > 1)
+    {
+      size_t hlen = strlen (haystack);
+      size_t nlen = strlen (needle);
+      mbstate_t mbstate;
+      size_t step;
+
+      memset (&mbstate, 0, sizeof (mbstate_t));
+      while (hlen >= nlen)
+	{
+	  if (memcmp (haystack, needle, nlen) == 0)
+	    return (char *) haystack;
+	  step = mbrlen (haystack, hlen, &mbstate);
+	  if (step <= 0)
+	    break;
+	  haystack += step;
+	  hlen -= step;
+	}
+      return NULL;
+    }
+#endif
+  return strstr (haystack, needle);
+}
+
 /* Replace all instances of `replace_pat' in ARG with `linebuf',
    and add the resulting string to the list of arguments for the command
    to execute.
@@ -644,7 +698,7 @@ do_insert (char *arg, size_t arglen, size_t lblen)
   do
     {
       size_t len;		/* Length in ARG before `replace_pat'.  */
-      char *s = strstr (arg, replace_pat);
+      char *s = mbstrstr (arg, replace_pat);
       if (s)
 	len = s - arg;
       else
