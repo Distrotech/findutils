@@ -82,12 +82,14 @@ getstr (lineptr, n, stream, terminator, offset)
 	   *   2.  always make *n a multiple of MIN_CHUNK just larger
 	   *       than condition 1 requires
 	   */
-	  *n = ((read_pos - *lineptr + 1) + 1)/MIN_CHUNK * MIN_CHUNK;
-	  nchars_avail = *n + *lineptr - read_pos;
+	  int nchars_read;
+	  nchars_read = read_pos - *lineptr;
+	  *n = ((*n)/MIN_CHUNK + 1) * MIN_CHUNK;
 	  *lineptr = realloc (*lineptr, *n);
 	  if (!*lineptr)
 	    return -1;
-	  read_pos = *n - nchars_avail + *lineptr;
+	  read_pos = *lineptr + nchars_read;
+	  nchars_avail = *n + *lineptr - read_pos;
 	  assert(*n - nchars_avail == read_pos - *lineptr);
 	}
 
