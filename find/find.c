@@ -27,6 +27,8 @@
 #include "defs.h"
 
 #define USE_SAFE_CHDIR 1
+#undef  STAT_MOUNTPOINTS
+
 
 #include <errno.h>
 #include <assert.h>
@@ -73,8 +75,10 @@
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
 
-
+#ifdef STAT_MOUNTPOINTS
 static void init_mounted_dev_list(void);
+#endif
+
 static void process_top_path PARAMS((char *pathname, mode_t mode));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent, mode_t type));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
@@ -125,6 +129,13 @@ enum TraversalDirection
   {
     TraversingUp,
     TraversingDown
+  };
+
+enum WdSanityCheckFatality
+  {
+    FATAL_IF_SANITY_CHECK_FAILS,
+    RETRY_IF_SANITY_CHECK_FAILS,
+    NON_FATAL_IF_SANITY_CHECK_FAILS
   };
 
 
@@ -590,7 +601,9 @@ main (int argc, char **argv)
    */
   if (!options.open_nofollow_available)
     {
+#ifdef STAT_MOUNTPOINTS
       init_mounted_dev_list();
+#endif
     }
   
 
@@ -664,6 +677,20 @@ specific_dirname(const char *dir)
     }
 }
 
+
+
+/* Return non-zero if FS is the name of a filesystem that is likely to
+ * be automounted
+ */
+static int
+fs_likely_to_be_automounted(const char *fs)
+{
+  return ( (0==strcmp(fs, "nfs")) || (0==strcmp(fs, "autofs")) || (0==strcmp(fs, "subfs")));
+}
+
+
+
+#ifdef STAT_MOUNTPOINTS
 static dev_t *mounted_devices = NULL;
 static size_t num_mounted_devices = 0u;
 
@@ -730,21 +757,63 @@ get_mount_state(dev_t newdev)
     return MountPointRecentlyUnmounted;
 }
 
-
-/* Return non-zero if FS is the name of a filesystem that is likely to
- * be automounted
+
+
+/* We stat()ed a directory, chdir()ed into it (we know this 
+ * since direction is TraversingDown), stat()ed it again,
+ * and noticed that the device numbers are different.  Check
+ * if the filesystem was recently mounted. 
+ * 
+ * If it was, it looks like chdir()ing into the directory
+ * caused a filesystem to be mounted.  Maybe automount is
+ * running.  Anyway, that's probably OK - but it happens
+ * only when we are moving downward.
+ *
+ * We also allow for the possibility that a similar thing
+ * has happened with the unmounting of a filesystem.  This
+ * is much rarer, as it relies on an automounter timeout
+ * occurring at exactly the wrong moment.
  */
-static int
-fs_likely_to_be_automounted(const char *fs)
+static enum WdSanityCheckFatality
+dirchange_is_fatal(const char *specific_what,
+		   enum WdSanityCheckFatality isfatal,
+		   int silent,
+		   struct stat *newinfo)
 {
-  return ( (0==strcmp(fs, "nfs")) || (0==strcmp(fs, "autofs")) || (0==strcmp(fs, "subfs")));
+  enum MountPointStateChange transition = get_mount_state(newinfo->st_dev);
+  switch (transition)
+    {
+    case MountPointRecentlyUnmounted:
+      isfatal = NON_FATAL_IF_SANITY_CHECK_FAILS;
+      if (!silent)
+	{
+	  error (0, 0,
+		 _("Warning: filesystem %s has recently been unmounted."),
+		 specific_what);
+	}
+      break;
+	      
+    case MountPointRecentlyMounted:
+      isfatal = NON_FATAL_IF_SANITY_CHECK_FAILS;
+      if (!silent)
+	{
+	  error (0, 0,
+		 _("Warning: filesystem %s has recently been mounted."),
+		 specific_what);
+	}
+      break;
+
+    case MountPointStateUnchanged:
+      /* leave isfatal as it is */
+      break;
+    }
+  
+  return isfatal;
 }
 
-enum WdSanityCheckFatality
-  {
-    FATAL_IF_SANITY_CHECK_FAILS,
-    NON_FATAL_IF_SANITY_CHECK_FAILS
-  };
+
+#endif
+
 
 
 /* Examine the results of the stat() of a directory from before we
@@ -803,81 +872,51 @@ wd_sanity_check(const char *thing_to_stat,
       specific_what = specific_dirname(what);
       fstype = filesystem_type(newinfo);
       silent = fs_likely_to_be_automounted(fstype);
-      
+
       /* This condition is rare, so once we are here it is 
        * reasonable to perform an expensive computation to 
        * determine if we should continue or fail. 
        */
       if (TraversingDown == direction)
 	{
-	  /* We stat()ed a directory, chdir()ed into it (we know this 
-	   * since direction is TraversingDown), stat()ed it again,
-	   * and noticed that the device numbers are different.  Check
-	   * if the filesystem was recently mounted. 
-	   * 
-	   * If it was, it looks like chdir()ing into the directory
-	   * caused a filesystem to be mounted.  Maybe automount is
-	   * running.  Anyway, that's probably OK - but it happens
-	   * only when we are moving downward.
-	   *
-	   * We also allow for the possibility that a similar thing
-	   * has happened with the unmounting of a filesystem.  This
-	   * is much rarer, as it relies on an automounter timeout
-	   * occurring at exactly the wrong moment.
-	   */
-	  enum MountPointStateChange transition = get_mount_state(newinfo->st_dev);
-	  switch (transition)
-	    {
-	    case MountPointRecentlyUnmounted:
-	      isfatal = NON_FATAL_IF_SANITY_CHECK_FAILS;
-	      if (!silent)
-		{
-		  error (0, 0,
-			 _("Warning: filesystem %s has recently been unmounted."),
-			 specific_what);
-		}
-	      break;
-	      
-	    case MountPointRecentlyMounted:
-	      isfatal = NON_FATAL_IF_SANITY_CHECK_FAILS;
-	      if (!silent)
-		{
-		  error (0, 0,
-			 _("Warning: filesystem %s has recently been mounted."),
-			 specific_what);
-		}
-	      break;
-
-	    case MountPointStateUnchanged:
-	      /* leave isfatal as it is */
-	      break;
-	    }
+#ifdef STAT_MOUNTPOINTS
+	  isfatal = dirchange_is_fatal(specific_what,isfatal,silent,newinfo);
+#else
+	  isfatal = RETRY_IF_SANITY_CHECK_FAILS;
+#endif
 	}
 
-      if (FATAL_IF_SANITY_CHECK_FAILS == isfatal)
+      switch (isfatal)
 	{
-	  fstype = filesystem_type(newinfo);
-	  error (1, 0,
-		 _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
-		 specific_what,
-		 parent ? "/.." : "",
-		 program_name,
-		 (long) old_dev,
-		 (long) newinfo->st_dev,
-		 fstype,
-		 line_no);
-	  /*NOTREACHED*/
+	case FATAL_IF_SANITY_CHECK_FAILS:
+	  {
+	    fstype = filesystem_type(newinfo);
+	    error (1, 0,
+		   _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
+		   specific_what,
+		   parent ? "/.." : "",
+		   program_name,
+		   (long) old_dev,
+		   (long) newinfo->st_dev,
+		   fstype,
+		   line_no);
+	    /*NOTREACHED*/
+	    return false;
+	  }
+	  
+	case NON_FATAL_IF_SANITY_CHECK_FAILS:
+	  {
+	    /* Since the device has changed under us, the inode number 
+	     * will almost certainly also be different. However, we have 
+	     * already decided that this is not a problem.  Hence we return
+	     * without checking the inode number.
+	     */
+	    free(specific_what);
+	    return true;
+	  }
+
+	case RETRY_IF_SANITY_CHECK_FAILS:
 	  return false;
-	}
-      else
-	{
-	  /* Since the device has changed under us, the inode number 
-	   * will almost certainly also be different. However, we have 
-	   * already decided that this is not a problem.  Hence we return
-	   * without checking the inode number.
-	   */
-	  free(specific_what);
-	  return true;
 	}
     }
 
@@ -933,10 +972,19 @@ safely_chdir_lstat(const char *dest,
   int rv, dotfd=-1;
   int saved_errno;		/* specific_dirname() changes errno. */
   boolean rv_set = false;
+  int tries = 0;
+  enum WdSanityCheckFatality isfatal = RETRY_IF_SANITY_CHECK_FAILS;
   
   saved_errno = errno = 0;
 
   dotfd = open(".", O_RDONLY);
+
+  /* We jump back to here if wd_sanity_check()
+   * recoverably triggers an alert.
+   */
+ retry:
+  ++tries;
+  
   if (dotfd >= 0)
     {
       /* Stat the directory we're going to. */
@@ -1006,13 +1054,31 @@ safely_chdir_lstat(const char *dest,
 	    {
 	      /* check we ended up where we wanted to go */
 	      boolean changed = false;
-	      wd_sanity_check(".", program_name, ".",
-			      statbuf_dest->st_dev,
-			      statbuf_dest->st_ino,
-			      &statbuf_arrived, 
-			      0, __LINE__, direction,
-			      FATAL_IF_SANITY_CHECK_FAILS,
-			      &changed);
+	      if (!wd_sanity_check(".", program_name, ".",
+				   statbuf_dest->st_dev,
+				   statbuf_dest->st_ino,
+				   &statbuf_arrived, 
+				   0, __LINE__, direction,
+				   isfatal,
+				   &changed))
+		{
+		  /* Only allow one failure. */
+		  if ((RETRY_IF_SANITY_CHECK_FAILS == isfatal)
+		      && (0 == fchdir(dotfd)))
+		    {
+		      isfatal = FATAL_IF_SANITY_CHECK_FAILS;
+		      goto retry;
+		    }
+		  else
+		    {
+		      /* XXX: not sure what to use as an excuse here. */
+		      rv = SafeChdirFailNonexistent;
+		      rv_set = true;
+		      saved_errno = 0;
+		      goto fail;
+		    }
+		}
+	      
 	      close(dotfd);
 	      return SafeChdirOK;
 	    }
@@ -1088,10 +1154,11 @@ safely_chdir_lstat(const char *dest,
 }
 
 #if defined(O_NOFOLLOW)
-/* Safely change working directory to the specified subdirectory.
- * We use open() with O_NOFOLLOW, followed by fchdir().  This ensures
- * that we don't follow symbolic links (of course, we do follow them
- * if the -L option is in effect).
+/* Safely change working directory to the specified subdirectory.  If
+ * we are not allowed to follow symbolic links, we use open() with
+ * O_NOFOLLOW, followed by fchdir().  This ensures that we don't
+ * follow symbolic links (of course, we do follow them if the -L
+ * option is in effect).
  */
 static enum SafeChdirStatus
 safely_chdir_nofollow(const char *dest,
@@ -1100,8 +1167,22 @@ safely_chdir_nofollow(const char *dest,
 		      enum ChdirSymlinkHandling symlink_handling)
 {
   int extraflags, fd;
+  extraflags = 0;
   
-  extraflags = following_links() ? O_NOFOLLOW : 0;
+  switch (symlink_handling)
+    {
+    case SymlinkFollowOk:
+      extraflags = 0;
+      break;
+      
+    case SymlinkHandleDefault:
+      if (following_links())
+	extraflags = 0;
+      else
+	extraflags = O_NOFOLLOW;
+      break;
+    }
+  
   errno = 0;
   fd = open(dest, O_RDONLY|extraflags);
   if (fd < 0)
@@ -1180,11 +1261,13 @@ chdir_back (void)
       fprintf(stderr, "chdir_back(): chdir(\"%s\")\n", starting_dir);
 #endif
       
+#ifdef STAT_MOUNTPOINTS
       /* We will need the mounted device list.  Get it now if we don't
        * already have it.
        */
       if (NULL == mounted_devices)
 	init_mounted_dev_list();
+#endif
       
       if (chdir (starting_dir) != 0)
 	error (1, errno, "%s", starting_dir);
@@ -1228,7 +1311,8 @@ process_top_path (char *pathname, mode_t mode)
   state.curdepth = 0;
   state.path_length = strlen (pathname);
 
-  if (0 == strcmp(pathname, parent_dir))
+  if (0 == strcmp(pathname, parent_dir)
+      || 0 == strcmp(parent_dir, "."))
     {
       dirchange = 0;
       base = pathname;
@@ -1445,7 +1529,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   /* From here on, we're working on a directory.  */
 
   
-  /* Now we really need to stat the directory, even if we knoe the
+  /* Now we really need to stat the directory, even if we know the
    * type, because we need information like struct stat.st_rdev.
    */
   if (get_statinfo(pathname, name, &stat_buf) != 0)
