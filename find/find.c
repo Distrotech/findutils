@@ -1118,7 +1118,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
 /* Examine the predicate list for instances of -execdir or -okdir
  * which have been terminated with '+' (build argument list) rather
  * than ';' (singles only).  If there are any, run them (this will
- * have no effect if there are no arguments waiting.
+ * have no effect if there are no arguments waiting).
  */
 static void
 complete_pending_execdirs(void)
