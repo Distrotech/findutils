@@ -1,7 +1,14 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.9
+**  Functionality Changes
+*** xargs no longer treats a line containing only an underscore as a logical end-of-file.   To obtain the behaviour that was previously the default, use "-E_". 
+*** xargs now supports the POSIX options -E, -I and -L.   These are synonyms 
+    for the existing options -e, -i and -l, but the latter three are
+    now deprecated.
+
 * Major changes in release 4.2.8
 *** Bugfix to the findutils 4.2.7 automount handling on Solaris.  This 
-    worked to some extent in findutils-4.2.7, but is much improved in 
+    worked to some extent in findutils-4.2.7, but is much improved in
     findutils-4.2.8.
 
 * Major changes in release 4.2.7

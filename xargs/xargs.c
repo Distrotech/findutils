@@ -267,7 +267,7 @@ static struct option const longopts[] =
   {"null", no_argument, NULL, '0'},
   {"arg-file", required_argument, NULL, 'a'},
   {"eof", optional_argument, NULL, 'e'},
-  {"replace", optional_argument, NULL, 'i'},
+  {"replace", optional_argument, NULL, 'I'},
   {"max-lines", optional_argument, NULL, 'l'},
   {"max-args", required_argument, NULL, 'n'},
   {"interactive", no_argument, NULL, 'p'},
@@ -433,7 +433,8 @@ main (int argc, char **argv)
 	  usage (stdout);
 	  return 0;
 
-	case 'i':
+	case 'I':		/* POSIX */
+	case 'i':		/* deprecated */
 	  if (optarg)
 	    replace_pat = optarg;
 	  else
@@ -443,7 +444,8 @@ main (int argc, char **argv)
 	  lines_per_exec = 0;
 	  break;
 
-	case 'l':
+	case 'L':		/* POSIX */
+	case 'l':		/* deprecated */
 	  if (optarg)
 	    lines_per_exec = parse_num (optarg, 'l', 1L, -1L, 1);
 	  else

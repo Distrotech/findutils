@@ -3,12 +3,12 @@
 xargs \- build and execute command lines from standard input
 .SH SYNOPSIS
 .B xargs
-[\-0prtx] [\-e[eof-str]] [\-i[replace-str]] [\-l[max-lines]]
-[\-n max-args] [\-s max-chars] [\-P max-procs] [\-\-null] [\-\-eof[=eof-str]]
-[\-\-replace[=replace-str]] [\-\-max\-lines[=max-lines]] [\-\-interactive]
-[\-\-max\-chars=max-chars] [\-\-verbose] [\-\-exit] [\-\-max\-procs=max-procs]
-[\-\-max\-args=max-args] [\-\-no\-run\-if\-empty] [\-\-arg\-file=file]
-[\-\-version] [\-\-help]
+[\-0prtx] [\-E[eof-str]] [\-e[eof-str]] [\-\-eof[=eof-str]] [\-\-null] 
+[\-I[replace-str]] [\-i[replace-str]] [\-\-replace[=replace-str]] 
+[\-l[max-lines]] [\-L[max-lines]] [\-\-max\-lines[=max-lines]] [\-n max-args] [\-\-max\-args=max-args] 
+[\-s max-chars] [\-\-max\-chars=max-chars] [\-P max-procs] [\-\-max\-procs=max-procs]
+[\-\-interactive] [\-\-verbose] [\-\-exit] 
+[\-\-no\-run\-if\-empty] [\-\-arg\-file=file] [\-\-version] [\-\-help]
 [command [initial-arguments]]
 .SH DESCRIPTION
 This manual page
@@ -60,11 +60,15 @@ is treated like any other argument.  Useful when input items might
 contain white space, quote marks, or backslashes.  The GNU find
 \-print0 option produces input suitable for this mode.
 .TP
-.I "\-\-eof[=eof-str], \-e[eof-str]"
+.I "\-\-eof[=eof-str], \-E[eof-str]"
 Set the end of file string to \fIeof-str\fR.  If the end of file
 string occurs as a line of input, the rest of the input is ignored.
 If \fIeof-str\fR is omitted, there is no end of file string.  If this
-option is not given, the end of file string defaults to "_".
+option is not given, no end of file string is used.
+.TP 
+.I "\-e[eof-str]"
+This option is a synonym for the `\-E' option.   Use `\-E' instead,
+because it is POSIX compliant while this option is not. 
 .TP
 .I "\-\-help"
 Print a summary of the options to
@@ -80,11 +84,16 @@ If \fIreplace-str\fR is omitted, it
 defaults to "{}" (like for `find \-exec').  Implies \fI\-x\fP and
 \fI\-l 1\fP.
 .TP
-.I "\-\-max\-lines[=max-lines], -l[max-lines]"
+.I "\-\-max\-lines[=max-lines], \-L[max-lines]"
 Use at most \fImax-lines\fR nonblank input lines per command line;
 \fImax-lines\fR defaults to 1 if omitted.  Trailing blanks cause an
 input line to be logically continued on the next input line.  Implies
 \fI\-x\fR.
+.TP
+.I "\-l[max-lines]"
+Deprecated; non-POSIX-compliant synonym for the 
+.I "\-L"
+option.
 .TP
 .I "\-\-max\-args=max-args, \-n max-args"
 Use at most \fImax-args\fR arguments per command line.  Fewer than
@@ -171,12 +180,16 @@ exits with the following status:
 .P
 Exit codes greater than 128 are used by the shell to indicate that 
 a program died due to a fatal signal.
+.SH "STANDARDS CONFORMANCE"
+As of GNU xargs version 4.2.9, the default behaviour of
+.B xargs
+is not to have a logical end-of-file marker.  POSIX (IEEE Std 1003.1,
+2004 Edition) allows this.
+
 .SH "SEE ALSO"
 \fBfind\fP(1), \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1),
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
-.P
-Some options exist in POSIX but are not yet implemented.
 .P 
 When you use the \-i option, each line read from the input is buffered 
 internally.   This means that there is an upper limit on the length 
@@ -191,7 +204,7 @@ uses, and you can also use an extra invocation of
 to ensure that very long lines do not occur.  
 For example: 
 .P
-.B echo ./* | xargs \-s 50000 echo | xargs \-i \-s 100000 rm '{}'
+.B somecommand | xargs \-s 50000 echo | xargs \-i \-s 100000 rm '{}'
 .P
 Here, the first invocation of 
 .B xargs 
@@ -201,7 +214,7 @@ because it doesn't use the \-i option.  The second invocation of
 does have such a limit, but we have ensured that the it never encounters 
 a line which is longer than it can handle.   This is not an ideal 
 solution.  Instead, the \-i option should not impose a line length
-limit, which is why this discussion is listed in the BUGS section.
+limit, which is why this discussion appears in the BUGS section.
 The problem doesn't occur with the output of 
 .BR find (1) 
 because it emits just one filename per line.
