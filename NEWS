@@ -16,6 +16,10 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** Locate supports the option -c (long form --count) which suppresses normal
     output but prints on stdout the number of results produced (like
     grep -c).
+*** Locate supports the option -l (long form --limit) which limits the 
+    number of results.  This is useful if you only want to find out if
+    there are copies of a certain file on the system, but don't want
+    to wait for the entire locate database to be searched.
 *** Locate now has an option --basename which forces the specified pattern to 
     be matched against the basename of the entries in the locate
     database, rather than the whole name.  The default behaviour
@@ -28,8 +32,9 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     systems that have non-writable string constants.
 *** Better POSIX compliance for the -s option to xargs (out of range 
     values should just result in bounding to the correct range, not an
-    error, so now we jsut print a warning message and adjust the
+    error, so now we just print a warning message and adjust the
     value).
+*** Corrected section numbers of manual page cross-references
 
 * Major changes in release 4.2.3
 **  Functionality Changes
