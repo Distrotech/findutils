@@ -18,8 +18,9 @@
 /* Define if the `closedir' function returns void instead of `int'. */
 #undef CLOSEDIR_VOID
 
-/* Define to one of _getb67, GETB67, getb67 for Cray-2 and Cray-YMP systems.
-   This function is required for alloca.c support on those systems. */
+/* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
+   systems. This function is required for `alloca.c' support on those systems.
+   */
 #undef CRAY_STACKSEG_END
 
 /* Define if using `alloca.c'. */
@@ -91,18 +92,51 @@
 /* Define as 1 if you have catgets and don't want to use GNU gettext. */
 #undef HAVE_CATGETS
 
-/* Define if you have the `clock_gettime' function. */
-#undef HAVE_CLOCK_GETTIME
-
 /* Define if backslash-a works in C strings. */
 #undef HAVE_C_BACKSLASH_A
 
 /* Define if you have the `dcgettext' function. */
 #undef HAVE_DCGETTEXT
 
+/* Define to 1 if you have the declaration of `clearerr_unlocked', and to 0 if
+   you don't. */
+#undef HAVE_DECL_CLEARERR_UNLOCKED
+
+/* Define to 1 if you have the declaration of `feof_unlocked', and to 0 if you
+   don't. */
+#undef HAVE_DECL_FEOF_UNLOCKED
+
+/* Define to 1 if you have the declaration of `ferror_unlocked', and to 0 if
+   you don't. */
+#undef HAVE_DECL_FERROR_UNLOCKED
+
+/* Define to 1 if you have the declaration of `fflush_unlocked', and to 0 if
+   you don't. */
+#undef HAVE_DECL_FFLUSH_UNLOCKED
+
+/* Define to 1 if you have the declaration of `fputc_unlocked', and to 0 if
+   you don't. */
+#undef HAVE_DECL_FPUTC_UNLOCKED
+
+/* Define to 1 if you have the declaration of `fread_unlocked', and to 0 if
+   you don't. */
+#undef HAVE_DECL_FREAD_UNLOCKED
+
 /* Define to 1 if you have the declaration of `free', and to 0 if you don't.
    */
 #undef HAVE_DECL_FREE
+
+/* Define to 1 if you have the declaration of `fwrite_unlocked', and to 0 if
+   you don't. */
+#undef HAVE_DECL_FWRITE_UNLOCKED
+
+/* Define to 1 if you have the declaration of `getchar_unlocked', and to 0 if
+   you don't. */
+#undef HAVE_DECL_GETCHAR_UNLOCKED
+
+/* Define to 1 if you have the declaration of `getc_unlocked', and to 0 if you
+   don't. */
+#undef HAVE_DECL_GETC_UNLOCKED
 
 /* Define to 1 if you have the declaration of `getenv', and to 0 if you don't.
    */
@@ -112,9 +146,25 @@
    don't. */
 #undef HAVE_DECL_GETEUID
 
+/* Define to 1 if you have the declaration of `getgrgid', and to 0 if you
+   don't. */
+#undef HAVE_DECL_GETGRGID
+
 /* Define to 1 if you have the declaration of `getlogin', and to 0 if you
    don't. */
 #undef HAVE_DECL_GETLOGIN
+
+/* Define to 1 if you have the declaration of `getpwuid', and to 0 if you
+   don't. */
+#undef HAVE_DECL_GETPWUID
+
+/* Define to 1 if you have the declaration of `getuid', and to 0 if you don't.
+   */
+#undef HAVE_DECL_GETUID
+
+/* Define to 1 if you have the declaration of `getutent', and to 0 if you
+   don't. */
+#undef HAVE_DECL_GETUTENT
 
 /* Define to 1 if you have the declaration of `lseek', and to 0 if you don't.
    */
@@ -124,6 +174,22 @@
    */
 #undef HAVE_DECL_MALLOC
 
+/* Define to 1 if you have the declaration of `memchr', and to 0 if you don't.
+   */
+#undef HAVE_DECL_MEMCHR
+
+/* Define to 1 if you have the declaration of `memrchr', and to 0 if you
+   don't. */
+#undef HAVE_DECL_MEMRCHR
+
+/* Define to 1 if you have the declaration of `putchar_unlocked', and to 0 if
+   you don't. */
+#undef HAVE_DECL_PUTCHAR_UNLOCKED
+
+/* Define to 1 if you have the declaration of `putc_unlocked', and to 0 if you
+   don't. */
+#undef HAVE_DECL_PUTC_UNLOCKED
+
 /* Define to 1 if you have the declaration of `realloc', and to 0 if you
    don't. */
 #undef HAVE_DECL_REALLOC
@@ -131,6 +197,18 @@
 /* Define to 1 if you have the declaration of `stpcpy', and to 0 if you don't.
    */
 #undef HAVE_DECL_STPCPY
+
+/* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
+   don't. */
+#undef HAVE_DECL_STRERROR_R
+
+/* Define to 1 if you have the declaration of `strndup', and to 0 if you
+   don't. */
+#undef HAVE_DECL_STRNDUP
+
+/* Define to 1 if you have the declaration of `strnlen', and to 0 if you
+   don't. */
+#undef HAVE_DECL_STRNLEN
 
 /* Define to 1 if you have the declaration of `strstr', and to 0 if you don't.
    */
@@ -148,7 +226,7 @@
    don't. */
 #undef HAVE_DECL_TTYNAME
 
-/* Define if you have the <dirent.h> header file. */
+/* Define if you have the <dirent.h> header file, and it defines `DIR'. */
 #undef HAVE_DIRENT_H
 
 /* Define if the malloc check has been performed. */
@@ -197,9 +275,6 @@
 /* Define if you have the `ftime' function. */
 #undef HAVE_FTIME
 
-/* Define if you have the `ftruncate' function. */
-#undef HAVE_FTRUNCATE
-
 /* Define if struct statfs has the f_fstypename member. */
 #undef HAVE_F_FSTYPENAME_IN_STATFS
 
@@ -218,9 +293,6 @@
 /* Define if you have the `gethrtime' function. */
 #undef HAVE_GETHRTIME
 
-/* Define if you have the GETLINE function. */
-#undef HAVE_GETLINE
-
 /* Define if you have the `getmntent' function. */
 #undef HAVE_GETMNTENT
 
@@ -233,11 +305,11 @@
 /* Define to 1 if you have gettext and don't want to use GNU gettext. */
 #undef HAVE_GETTEXT
 
-/* Define if you have the `gettimeofday' function. */
-#undef HAVE_GETTIMEOFDAY
-
 /* Define if you have the `hasmntopt' function. */
 #undef HAVE_HASMNTOPT
+
+/* Define if you have the iconv() function. */
+#undef HAVE_ICONV
 
 /* Define if you have the `inet_ntoa' function. */
 #undef HAVE_INET_NTOA
@@ -255,15 +327,6 @@
 /* Define if your locale.h file contains LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
 
-/* Define if you have the `cposix' library (-lcposix). */
-#undef HAVE_LIBCPOSIX
-
-/* Define if you have the `dir' library (-ldir). */
-#undef HAVE_LIBDIR
-
-/* Define if you have the `gen' library (-lgen). */
-#undef HAVE_LIBGEN
-
 /* Define if you have the `i' library (-li). */
 #undef HAVE_LIBI
 
@@ -273,14 +336,8 @@
 /* Define if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
 
-/* Define if you have the `seq' library (-lseq). */
-#undef HAVE_LIBSEQ
-
 /* Define if you have the `sun' library (-lsun). */
 #undef HAVE_LIBSUN
-
-/* Define if you have the `x' library (-lx). */
-#undef HAVE_LIBX
 
 /* Define if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
@@ -353,7 +410,7 @@
 /* Define if you have the `munmap' function. */
 #undef HAVE_MUNMAP
 
-/* Define if you have the <ndir.h> header file. */
+/* Define if you have the <ndir.h> header file, and it defines `DIR'. */
 #undef HAVE_NDIR_H
 
 /* Define if you have the <netdb.h> header file. */
@@ -497,7 +554,7 @@
 /* Define if you have the <sys/acl.h> header file. */
 #undef HAVE_SYS_ACL_H
 
-/* Define if you have the <sys/dir.h> header file. */
+/* Define if you have the <sys/dir.h> header file, and it defines `DIR'. */
 #undef HAVE_SYS_DIR_H
 
 /* Define if you have the <sys/filsys.h> header file. */
@@ -521,7 +578,7 @@
 /* Define if you have the <sys/mount.h> header file. */
 #undef HAVE_SYS_MOUNT_H
 
-/* Define if you have the <sys/ndir.h> header file. */
+/* Define if you have the <sys/ndir.h> header file, and it defines `DIR'. */
 #undef HAVE_SYS_NDIR_H
 
 /* Define if you have the <sys/param.h> header file. */
@@ -535,9 +592,6 @@
 
 /* Define if you have the <sys/statvfs.h> header file. */
 #undef HAVE_SYS_STATVFS_H
-
-/* Define if you have the <sys/stat.h> header file. */
-#undef HAVE_SYS_STAT_H
 
 /* Define if you have the <sys/systeminfo.h> header file. */
 #undef HAVE_SYS_SYSTEMINFO_H
@@ -586,6 +640,9 @@
 /* Define if you have the <utmpx.h> header file. */
 #undef HAVE_UTMPX_H
 
+/* Define if you have the <utmp.h> header file. */
+#undef HAVE_UTMP_H
+
 /* Define if you have the <values.h> header file. */
 #undef HAVE_VALUES_H
 
@@ -604,7 +661,7 @@
 /* Define if readdir is found to work properly in some unusual cases. */
 #undef HAVE_WORKING_READDIR
 
-/* Define to 1 if strerror_r returns a string. */
+/* Define to 1 if `strerror_r' returns a string. */
 #undef HAVE_WORKING_STRERROR_R
 
 /* Define if you have the `__argz_count' function. */
@@ -685,9 +742,6 @@
 
 /* Number of bits in a file offset, on hosts where this is settable. */
 #undef _FILE_OFFSET_BITS
-
-/* Define to make fseeko etc. visible, on some hosts. */
-#undef _LARGEFILE_SOURCE
 
 /* Define for large files, on AIX-style hosts. */
 #undef _LARGE_FILES

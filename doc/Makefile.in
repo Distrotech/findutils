@@ -1,6 +1,7 @@
-# Makefile.in generated automatically by automake 1.4a from Makefile.am
+# Makefile.in generated automatically by automake 1.4d from Makefile.am
 
-# Copyright (C) 1994, 1995-9, 2000 Free Software Foundation, Inc.
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+# Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -47,6 +48,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_FLAG =
+INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -66,13 +68,11 @@ CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CPP = @CPP@
-CXX = @CXX@
-CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
 DF_PROG = @DF_PROG@
 GENCAT = @GENCAT@
-GETCONF = @GETCONF@
+GLIBC21 = @GLIBC21@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNU_PACKAGE = @GNU_PACKAGE@
@@ -84,6 +84,7 @@ INSTOBJEXT = @INSTOBJEXT@
 INTLDEPS = @INTLDEPS@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+LIBICONV = @LIBICONV@
 LIBOBJS = @LIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAN = @MAN@
@@ -99,6 +100,7 @@ U = @U@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+_am_include = @_am_include@
 install_sh = @install_sh@
 l = @l@
 
@@ -121,7 +123,7 @@ stamp-vti texinfo.tex version.texi
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
-all: all-redirect
+all: all-am
 .SUFFIXES:
 .SUFFIXES: .dvi .info .ps .texi .texinfo .txi
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
@@ -129,10 +131,10 @@ $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
-	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 
 
-$(srcdir)/version.texi: stamp-vti
+$(srcdir)/version.texi: $(srcdir)/stamp-vti
 	@:
 
 $(srcdir)/stamp-vti: find.texi $(top_srcdir)/configure.in
@@ -150,15 +152,11 @@ $(srcdir)/stamp-vti: find.texi $(top_srcdir)/configure.in
 mostlyclean-vti:
 	-rm -f vti.tmp
 
-clean-vti:
-
-distclean-vti:
-
 maintainer-clean-vti:
 	-rm -f $(srcdir)/stamp-vti $(srcdir)/version.texi
 
-find.info: find.texi version.texi $(find_TEXINFOS)
-find.dvi: find.texi version.texi $(find_TEXINFOS)
+find.info: find.texi $(srcdir)/version.texi $(find_TEXINFOS)
+find.dvi: find.texi $(srcdir)/version.texi $(find_TEXINFOS)
 
 
 DVIPS = dvips
@@ -263,12 +261,9 @@ mostlyclean-aminfo:
 	  find.tps find.vr find.vrs find.op find.tr find.cv find.cn \
 	  find.cm find.ov
 
-clean-aminfo:
-
-distclean-aminfo:
-
 maintainer-clean-aminfo:
-	cd $(srcdir) && for i in $(INFO_DEPS); do \
+	cd $(srcdir) && \
+	for i in $(INFO_DEPS); do \
 	  rm -f $$i; \
 	  if test "`echo $$i-[0-9]*`" != "$$i-[0-9]*"; then \
 	    rm -f $$i-[0-9]*; \
@@ -279,6 +274,7 @@ TAGS:
 
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -313,7 +309,6 @@ install: install-am
 uninstall-am: uninstall-info
 uninstall: uninstall-am
 all-am: Makefile $(INFO_DEPS)
-all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs:
@@ -329,34 +324,34 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f Makefile.in
-mostlyclean-am:  mostlyclean-vti mostlyclean-aminfo mostlyclean-generic
-
-mostlyclean: mostlyclean-am
-
-clean-am:  clean-vti clean-aminfo clean-generic mostlyclean-am
-
 clean: clean-am
 
-distclean-am:  distclean-vti distclean-aminfo distclean-generic clean-am
+clean-am: clean-generic mostlyclean-am
 
 distclean: distclean-am
 
-maintainer-clean-am:  maintainer-clean-vti maintainer-clean-aminfo \
-		maintainer-clean-generic distclean-am
-	@echo "This command is intended for maintainers to use;"
-	@echo "it deletes files that may require special tools to rebuild."
+distclean-am: clean-am distclean-generic
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: mostlyclean-vti distclean-vti clean-vti maintainer-clean-vti \
-install-info-am uninstall-info mostlyclean-aminfo distclean-aminfo \
-clean-aminfo maintainer-clean-aminfo tags distdir info-am info dvi-am \
-dvi check check-am installcheck-am installcheck install-exec-am \
-install-exec install-data-am install-data install-am install \
-uninstall-am uninstall all-redirect all-am all install-strip \
-installdirs mostlyclean-generic distclean-generic clean-generic \
-maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+maintainer-clean-am: distclean-am maintainer-clean-aminfo \
+	maintainer-clean-generic maintainer-clean-vti
+
+mostlyclean: mostlyclean-am
+
+mostlyclean-am: mostlyclean-aminfo mostlyclean-generic mostlyclean-vti
+
+.PHONY: check check-am clean clean-generic distclean distclean-generic \
+	distdir dvi dvi-am info info-am install install-am install-data \
+	install-data-am install-exec install-exec-am install-info-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-aminfo \
+	maintainer-clean-generic maintainer-clean-vti mostlyclean \
+	mostlyclean-aminfo mostlyclean-generic mostlyclean-vti \
+	uninstall uninstall-am uninstall-info
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -1,4 +1,4 @@
-# aclocal.m4 generated automatically by aclocal 1.4a
+# aclocal.m4 generated automatically by aclocal 1.4d
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000
 # Free Software Foundation, Inc.
@@ -44,8 +44,16 @@ AC_DEFUN([AM_CONFIG_HEADER],
 # some checks are only needed if your package does certain things.
 # But this isn't really a big deal.
 
-# serial 3
+# serial 5
 
+# There are a few dirty hacks below to avoid letting `AC_PROG_CC' be
+# written in clear, in which case automake, when reading aclocal.m4,
+# will think it sees a *use*, and therefore will trigger all it's
+# C support machinery.  Also note that it means that autoscan, seeing
+# CC etc. in the Makefile, will ask for an AC_PROG_CC use...
+
+
+# We require 2.13 because we rely on SHELL being computed by configure.
 AC_PREREQ([2.13])
 
 # AC_PROVIDE_IFELSE(MACRO-NAME, IF-PROVIDED, IF-NOT-PROVIDED)
@@ -65,12 +73,11 @@ ifdef([AC_PROVIDE_IFELSE],
 # AM_INIT_AUTOMAKE(PACKAGE,VERSION, [NO-DEFINE])
 # ----------------------------------------------
 AC_DEFUN([AM_INIT_AUTOMAKE],
-[dnl We require 2.13 because we rely on SHELL being computed by configure.
-AC_REQUIRE([AC_PROG_INSTALL])dnl
+[AC_REQUIRE([AC_PROG_INSTALL])dnl
 # test to see if srcdir already configured
 if test "`CDPATH=:; cd $srcdir && pwd`" != "`pwd`" &&
    test -f $srcdir/config.status; then
-  AC_MSG_ERROR([source directory already configured; run "make distclean" there first])
+  AC_MSG_ERROR([source directory already configured; run \"make distclean\" there first])
 fi
 
 # Define the identity of the package.
@@ -81,6 +88,16 @@ AC_SUBST(VERSION)dnl
 ifelse([$3],,
 [AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [Name of package])
 AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [Version number of package])])
+
+# Autoconf 2.50 wants to disallow AM_ names.  We explicitly allow
+# the ones we care about.
+ifdef([m4_pattern_allow], [m4_pattern_allow([AM_CFLAGS])])
+ifdef([m4_pattern_allow], [m4_pattern_allow([AM_CPPFLAGS])])
+ifdef([m4_pattern_allow], [m4_pattern_allow([AM_CXXFLAGS])])
+ifdef([m4_pattern_allow], [m4_pattern_allow([AM_OBJCFLAGS])])
+ifdef([m4_pattern_allow], [m4_pattern_allow([AM_FFLAGS])])
+ifdef([m4_pattern_allow], [m4_pattern_allow([AM_RFLAGS])])
+ifdef([m4_pattern_allow], [m4_pattern_allow([AM_GCJFLAGS])])
 
 # Some tools Automake needs.
 AC_REQUIRE([AM_SANITY_CHECK])dnl
@@ -98,38 +115,42 @@ AC_REQUIRE([AC_PROG_AWK])dnl
 AC_REQUIRE([AC_PROG_MAKE_SET])dnl
 AC_REQUIRE([AM_DEP_TRACK])dnl
 AC_REQUIRE([AM_SET_DEPDIR])dnl
-AC_PROVIDE_IFELSE([AC_PROG_CC],
+AC_PROVIDE_IFELSE([AC_PROG_][CC],
                   [AM_DEPENDENCIES(CC)],
-                  [define([AC_PROG_CC],
-                          defn([AC_PROG_CC])[AM_DEPENDENCIES(CC)])])dnl
-AC_PROVIDE_IFELSE([AC_PROG_CXX],
+                  [define([AC_PROG_][CC],
+                          defn([AC_PROG_][CC])[AM_DEPENDENCIES(CC)])])dnl
+AC_PROVIDE_IFELSE([AC_PROG_][CXX],
                   [AM_DEPENDENCIES(CXX)],
-                  [define([AC_PROG_CXX],
-                          defn([AC_PROG_CXX])[AM_DEPENDENCIES(CXX)])])dnl
+                  [define([AC_PROG_][CXX],
+                          defn([AC_PROG_][CXX])[AM_DEPENDENCIES(CXX)])])dnl
 ])
 
 #
 # Check to make sure that the build environment is sane.
 #
 
+# serial 3
+
+# AM_SANITY_CHECK
+# ---------------
 AC_DEFUN([AM_SANITY_CHECK],
 [AC_MSG_CHECKING([whether build environment is sane])
 # Just in case
 sleep 1
-echo timestamp > conftestfile
+echo timestamp > conftest.file
 # Do `set' in a subshell so we don't clobber the current shell's
 # arguments.  Must try -L first in case configure is actually a
 # symlink; some systems play weird games with the mod time of symlinks
 # (eg FreeBSD returns the mod time of the symlink's containing
 # directory).
 if (
-   set X `ls -Lt $srcdir/configure conftestfile 2> /dev/null`
-   if test "[$]*" = "X"; then
+   set X `ls -Lt $srcdir/configure conftest.file 2> /dev/null`
+   if test "$[*]" = "X"; then
       # -L didn't work.
-      set X `ls -t $srcdir/configure conftestfile`
+      set X `ls -t $srcdir/configure conftest.file`
    fi
-   if test "[$]*" != "X $srcdir/configure conftestfile" \
-      && test "[$]*" != "X conftestfile $srcdir/configure"; then
+   if test "$[*]" != "X $srcdir/configure conftest.file" \
+      && test "$[*]" != "X conftest.file $srcdir/configure"; then
 
       # If neither matched, then we have a broken ls.  This can happen
       # if, for instance, CONFIG_SHELL is bash and it inherits a
@@ -139,7 +160,7 @@ if (
 alias in your environment])
    fi
 
-   test "[$]2" = conftestfile
+   test "$[2]" = conftest.file
    )
 then
    # Ok.
@@ -151,31 +172,42 @@ fi
 rm -f conftest*
 AC_MSG_RESULT(yes)])
 
+
+# serial 2
+
 # AM_MISSING_PROG(NAME, PROGRAM)
-AC_DEFUN([AM_MISSING_PROG], [
-AC_REQUIRE([AM_MISSING_HAS_RUN])
+# ------------------------------
+AC_DEFUN([AM_MISSING_PROG],
+[AC_REQUIRE([AM_MISSING_HAS_RUN])
 $1=${$1-"${am_missing_run}$2"}
 AC_SUBST($1)])
 
+
+# AM_MISSING_INSTALL_SH
+# ---------------------
 # Like AM_MISSING_PROG, but only looks for install-sh.
-# AM_MISSING_INSTALL_SH()
-AC_DEFUN([AM_MISSING_INSTALL_SH], [
-AC_REQUIRE([AM_MISSING_HAS_RUN])
+AC_DEFUN([AM_MISSING_INSTALL_SH],
+[AC_REQUIRE([AM_MISSING_HAS_RUN])
 if test -z "$install_sh"; then
-   install_sh="$ac_aux_dir/install-sh"
-   test -f "$install_sh" || install_sh="$ac_aux_dir/install.sh"
-   test -f "$install_sh" || install_sh="${am_missing_run}${ac_auxdir}/install-sh"
-   dnl FIXME: an evil hack: we remove the SHELL invocation from
-   dnl install_sh because automake adds it back in.  Sigh.
-   install_sh="`echo $install_sh | sed -e 's/\${SHELL}//'`"
+   for install_sh in "$ac_aux_dir/install-sh" \
+                     "$ac_aux_dir/install.sh" \
+                     "${am_missing_run}${ac_auxdir}/install-sh";
+   do
+     test -f "$install_sh" && break
+   done
+   # FIXME: an evil hack: we remove the SHELL invocation from
+   # install_sh because automake adds it back in.  Sigh.
+   install_sh=`echo $install_sh | sed -e 's/\${SHELL}//'`
 fi
 AC_SUBST(install_sh)])
 
-# AM_MISSING_HAS_RUN.
+
+# AM_MISSING_HAS_RUN
+# ------------------
 # Define MISSING if not defined so far and test if it supports --run.
 # If it does, set am_missing_run to use it, otherwise, to nothing.
-AC_DEFUN([AM_MISSING_HAS_RUN], [
-test x"${MISSING+set}" = xset || \
+AC_DEFUN([AM_MISSING_HAS_RUN],
+[test x"${MISSING+set}" = xset ||
   MISSING="\${SHELL} `CDPATH=:; cd $ac_aux_dir && pwd`/missing"
 # Use eval to expand $SHELL
 if eval "$MISSING --run :"; then
@@ -187,37 +219,60 @@ else
 fi
 ])
 
-# See how the compiler implements dependency checking.
-# Usage:
+# serial 3
+
+# There are a few dirty hacks below to avoid letting `AC_PROG_CC' be
+# written in clear, in which case automake, when reading aclocal.m4,
+# will think it sees a *use*, and therefore will trigger all it's
+# C support machinery.  Also note that it means that autoscan, seeing
+# CC etc. in the Makefile, will ask for an AC_PROG_CC use...
+
 # AM_DEPENDENCIES(NAME)
+# ---------------------
+# See how the compiler implements dependency checking.
 # NAME is "CC", "CXX" or "OBJC".
-
 # We try a few techniques and use that to set a single cache variable.
-
-AC_DEFUN([AM_DEPENDENCIES],[
-AC_REQUIRE([AM_SET_DEPDIR])
-AC_REQUIRE([AM_OUTPUT_DEPENDENCY_COMMANDS])
-ifelse([$1],CC,[
-AC_REQUIRE([AC_PROG_CC])
-AC_REQUIRE([AC_PROG_CPP])
+AC_DEFUN([AM_DEPENDENCIES],
+[AC_REQUIRE([AM_SET_DEPDIR])dnl
+AC_REQUIRE([AM_OUTPUT_DEPENDENCY_COMMANDS])dnl
+ifelse([$1], CC,
+       [AC_REQUIRE([AC_PROG_][CC])dnl
+AC_REQUIRE([AC_PROG_][CPP])
 depcc="$CC"
-depcpp="$CPP"],[$1],CXX,[
-AC_REQUIRE([AC_PROG_CXX])
-AC_REQUIRE([AC_PROG_CXXCPP])
+depcpp="$CPP"],
+       [$1], CXX, [AC_REQUIRE([AC_PROG_][CXX])dnl
+AC_REQUIRE([AC_PROG_][CXXCPP])
 depcc="$CXX"
-depcpp="$CXXCPP"],[$1],OBJC,[
-am_cv_OBJC_dependencies_compiler_type=gcc],[
-AC_REQUIRE([AC_PROG_][$1])
-depcc="$[$1]"
+depcpp="$CXXCPP"],
+       [$1], OBJC, [am_cv_OBJC_dependencies_compiler_type=gcc],
+       [AC_REQUIRE([AC_PROG_][$1])dnl
+depcc="$$1"
 depcpp=""])
-AC_MSG_CHECKING([dependency style of $depcc])
-AC_CACHE_VAL(am_cv_[$1]_dependencies_compiler_type,[
-if test -z "$AMDEP"; then
-  echo '#include "conftest.h"' > conftest.c
-  echo 'int i;' > conftest.h
 
-  am_cv_[$1]_dependencies_compiler_type=none
-  for depmode in `sed -n 's/^#*\([a-zA-Z0-9]*\))$/\1/p' < "$am_depcomp"`; do
+AC_REQUIRE([AM_MAKE_INCLUDE])
+
+AC_CACHE_CHECK([dependency style of $depcc],
+               [am_cv_$1_dependencies_compiler_type],
+[if test -z "$AMDEP"; then
+  # We make a subdir and do the tests there.  Otherwise we can end up
+  # making bogus files that we don't know about and never remove.  For
+  # instance it was reported that on HP-UX the gcc test will end up
+  # making a dummy file named `D' -- because `-MD' means `put the output
+  # in D'.
+  mkdir confdir
+  # Copy depcomp to subdir because otherwise we won't find it if we're
+  # using a relative directory.
+  cp "$am_depcomp" confdir
+  cd confdir
+
+  am_cv_$1_dependencies_compiler_type=none
+  for depmode in `sed -n ['s/^#*\([a-zA-Z0-9]*\))$/\1/p'] < "./depcomp"`; do
+    # We need to recreate these files for each test, as the compiler may
+    # overwrite some of them when testing with obscure command lines.
+    # This happens at least with the AIX C compiler.
+    echo '#include "conftest.h"' > conftest.c
+    echo 'int i;' > conftest.h
+
     case "$depmode" in
     nosideeffect)
       # after this tag, mechanisms are not by side-effect, so they'll
@@ -236,37 +291,45 @@ if test -z "$AMDEP"; then
     if depmode="$depmode" \
        source=conftest.c object=conftest.o \
        depfile=conftest.Po tmpdepfile=conftest.TPo \
-       $SHELL $am_depcomp $depcc -c conftest.c -o conftest.o 2>/dev/null &&
+       $SHELL ./depcomp $depcc -c conftest.c -o conftest.o >/dev/null 2>&1 &&
        grep conftest.h conftest.Po > /dev/null 2>&1; then
-      am_cv_[$1]_dependencies_compiler_type="$depmode"
+      am_cv_$1_dependencies_compiler_type="$depmode"
       break
     fi
   done
 
-  rm -f conftest.*
+  cd ..
+  rm -rf confdir
 else
-  am_cv_[$1]_dependencies_compiler_type=none
+  am_cv_$1_dependencies_compiler_type=none
 fi
 ])
-AC_MSG_RESULT($am_cv_[$1]_dependencies_compiler_type)
-[$1]DEPMODE="depmode=$am_cv_[$1]_dependencies_compiler_type"
-AC_SUBST([$1]DEPMODE)
+$1DEPMODE="depmode=$am_cv_$1_dependencies_compiler_type"
+AC_SUBST([$1DEPMODE])
 ])
 
+
+# AM_SET_DEPDIR
+# -------------
 # Choose a directory name for dependency files.
 # This macro is AC_REQUIREd in AM_DEPENDENCIES
-
-AC_DEFUN([AM_SET_DEPDIR],[
-if test -d .deps || mkdir .deps 2> /dev/null || test -d .deps; then
+AC_DEFUN([AM_SET_DEPDIR],
+[if test -d .deps || mkdir .deps 2> /dev/null || test -d .deps; then
   DEPDIR=.deps
+  # We redirect because .deps might already exist and be populated.
+  # In this situation we don't want to see an error.
+  rmdir .deps > /dev/null 2>&1
 else
   DEPDIR=_deps
 fi
 AC_SUBST(DEPDIR)
 ])
 
-AC_DEFUN([AM_DEP_TRACK],[
-AC_ARG_ENABLE(dependency-tracking,
+
+# AM_DEP_TRACK
+# ------------
+AC_DEFUN([AM_DEP_TRACK],
+[AC_ARG_ENABLE(dependency-tracking,
 [  --disable-dependency-tracking Speeds up one-time builds
   --enable-dependency-tracking  Do not reject slow dependency extractors])
 if test "x$enable_dependency_tracking" = xno; then
@@ -341,6 +404,31 @@ done
 ], [AMDEP="$AMDEP"
 ac_aux_dir="$ac_aux_dir"])])
 
+# AM_MAKE_INCLUDE()
+# -----------------
+# Check to see how make treats includes.
+AC_DEFUN([AM_MAKE_INCLUDE],
+[am_make=${MAKE-make}
+# BSD make uses .include
+cat > confinc << 'END'
+doit:
+	@echo done
+END
+# If we don't find an include directive, just comment out the code.
+AC_MSG_CHECKING([for style of include used by $am_make])
+_am_include='#'
+for am_inc in include .include; do
+   echo "$am_inc confinc" > confmf
+   if test "`$am_make -f confmf 2> /dev/null`" = "done"; then
+      _am_include=$am_inc
+      break
+   fi
+done
+AC_SUBST(_am_include)
+AC_MSG_RESULT($_am_include)
+rm -f confinc confmf
+])
+
 #serial 1
 dnl This test replaces the one in autoconf.
 dnl Currently this macro should have the same name as the autoconf macro
@@ -372,10 +460,10 @@ if test "$am_cv_prog_cc_stdc" != no; then
 else
   AC_MSG_RESULT(no)
   U=_ ANSI2KNR=./ansi2knr
-  # Ensure some checks needed by ansi2knr itself.
-  AC_HEADER_STDC
-  AC_CHECK_HEADERS(string.h)
 fi
+# Ensure some checks needed by ansi2knr itself.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(string.h)
 AC_SUBST(U)dnl
 AC_SUBST(ANSI2KNR)dnl
 ])
@@ -408,7 +496,7 @@ dnl like #elif.
 dnl FIXME: can't do this because then AC_AIX won't work due to a
 dnl circular dependency.
 dnl AC_BEFORE([$0], [AC_PROG_CPP])
-AC_MSG_CHECKING(for ${CC-cc} option to accept ANSI C)
+AC_MSG_CHECKING([for ${CC-cc} option to accept ANSI C])
 AC_CACHE_VAL(am_cv_prog_cc_stdc,
 [am_cv_prog_cc_stdc=no
 ac_save_CC="$CC"
@@ -461,137 +549,13 @@ CC="$ac_save_CC"
 if test -z "$am_cv_prog_cc_stdc"; then
   AC_MSG_RESULT([none needed])
 else
-  AC_MSG_RESULT($am_cv_prog_cc_stdc)
+  AC_MSG_RESULT([$am_cv_prog_cc_stdc])
 fi
 case "x$am_cv_prog_cc_stdc" in
   x|xno) ;;
   *) CC="$CC $am_cv_prog_cc_stdc" ;;
 esac
 ])
-
-#serial 8
-
-dnl By default, many hosts won't let programs access large files;
-dnl one must use special compiler options to get large-file access to work.
-dnl For more details about this brain damage please see:
-dnl http://www.sas.com/standards/large.file/x_open.20Mar96.html
-
-dnl Written by Paul Eggert <eggert@twinsun.com>.
-
-dnl Internal subroutine of AC_SYS_LARGEFILE.
-dnl AC_SYS_LARGEFILE_FLAGS(FLAGSNAME)
-AC_DEFUN(AC_SYS_LARGEFILE_FLAGS,
-  [AC_CACHE_CHECK([for $1 value to request large file support],
-     ac_cv_sys_largefile_$1,
-     [if ($GETCONF LFS_$1) >conftest.1 2>conftest.2 && test ! -s conftest.2
-      then
-        ac_cv_sys_largefile_$1=`cat conftest.1`
-      else
-	ac_cv_sys_largefile_$1=no
-	ifelse($1, CFLAGS,
-	  [case "$host_os" in
-	   # HP-UX 10.20 requires -D__STDC_EXT__ with gcc 2.95.1.
-[	   hpux10.[2-9][0-9]* | hpux1[1-9]* | hpux[2-9][0-9]*)]
-	     if test "$GCC" = yes; then
-	       ac_cv_sys_largefile_CFLAGS=-D__STDC_EXT__
-	     fi
-	     ;;
-	   # IRIX 6.2 and later require cc -n32.
-[	   irix6.[2-9]* | irix6.1[0-9]* | irix[7-9].* | irix[1-9][0-9]*)]
-	     if test "$GCC" != yes; then
-	       ac_cv_sys_largefile_CFLAGS=-n32
-	     fi
-	   esac
-	   if test "$ac_cv_sys_largefile_CFLAGS" != no; then
-	     ac_save_CC="$CC"
-	     CC="$CC $ac_cv_sys_largefile_CFLAGS"
-	     AC_TRY_LINK(, , , ac_cv_sys_largefile_CFLAGS=no)
-	     CC="$ac_save_CC"
-	   fi])
-      fi
-      rm -f conftest*])])
-
-dnl Internal subroutine of AC_SYS_LARGEFILE.
-dnl AC_SYS_LARGEFILE_SPACE_APPEND(VAR, VAL)
-AC_DEFUN(AC_SYS_LARGEFILE_SPACE_APPEND,
-  [case $2 in
-   no) ;;
-   ?*)
-     case "[$]$1" in
-     '') $1=$2 ;;
-     *) $1=[$]$1' '$2 ;;
-     esac ;;
-   esac])
-
-dnl Internal subroutine of AC_SYS_LARGEFILE.
-dnl AC_SYS_LARGEFILE_MACRO_VALUE(C-MACRO, CACHE-VAR, COMMENT, CODE-TO-SET-DEFAULT)
-AC_DEFUN(AC_SYS_LARGEFILE_MACRO_VALUE,
-  [AC_CACHE_CHECK([for $1], $2,
-     [$2=no
-      $4
-      for ac_flag in $ac_cv_sys_largefile_CFLAGS no; do
-	case "$ac_flag" in
-	-D$1)
-	  $2=1 ;;
-	-D$1=*)
-	  $2=`expr " $ac_flag" : '[[^=]]*=\(.*\)'` ;;
-	esac
-      done
-      ])
-   if test "[$]$2" != no; then
-     AC_DEFINE_UNQUOTED([$1], [$]$2, [$3])
-   fi])
-
-AC_DEFUN(AC_SYS_LARGEFILE,
-  [AC_REQUIRE([AC_CANONICAL_HOST])
-   AC_ARG_ENABLE(largefile,
-     [  --disable-largefile     omit support for large files])
-   if test "$enable_largefile" != no; then
-     AC_CHECK_TOOL(GETCONF, getconf)
-     AC_SYS_LARGEFILE_FLAGS(CFLAGS)
-     AC_SYS_LARGEFILE_FLAGS(LDFLAGS)
-     AC_SYS_LARGEFILE_FLAGS(LIBS)
-
-     for ac_flag in $ac_cv_sys_largefile_CFLAGS no; do
-       case "$ac_flag" in
-       no) ;;
-       -D_FILE_OFFSET_BITS=*) ;;
-       -D_LARGEFILE_SOURCE | -D_LARGEFILE_SOURCE=*) ;;
-       -D_LARGE_FILES | -D_LARGE_FILES=*) ;;
-       -D?* | -I?*)
-	 AC_SYS_LARGEFILE_SPACE_APPEND(CPPFLAGS, "$ac_flag") ;;
-       *)
-	 AC_SYS_LARGEFILE_SPACE_APPEND(CFLAGS, "$ac_flag") ;;
-       esac
-     done
-     AC_SYS_LARGEFILE_SPACE_APPEND(LDFLAGS, "$ac_cv_sys_largefile_LDFLAGS")
-     AC_SYS_LARGEFILE_SPACE_APPEND(LIBS, "$ac_cv_sys_largefile_LIBS")
-     AC_SYS_LARGEFILE_MACRO_VALUE(_FILE_OFFSET_BITS,
-       ac_cv_sys_file_offset_bits,
-       [Number of bits in a file offset, on hosts where this is settable.],
-       [case "$host_os" in
-	# HP-UX 10.20 and later
-[	hpux10.[2-9][0-9]* | hpux1[1-9]* | hpux[2-9][0-9]*)]
-	  ac_cv_sys_file_offset_bits=64 ;;
-	esac])
-     AC_SYS_LARGEFILE_MACRO_VALUE(_LARGEFILE_SOURCE,
-       ac_cv_sys_largefile_source,
-       [Define to make fseeko etc. visible, on some hosts.],
-       [case "$host_os" in
-	# HP-UX 10.20 and later
-[	hpux10.[2-9][0-9]* | hpux1[1-9]* | hpux[2-9][0-9]*)]
-	  ac_cv_sys_largefile_source=1 ;;
-	esac])
-     AC_SYS_LARGEFILE_MACRO_VALUE(_LARGE_FILES,
-       ac_cv_sys_large_files,
-       [Define for large files, on AIX-style hosts.],
-       [case "$host_os" in
-	# AIX 4.2 and later
-[	aix4.[2-9]* | aix4.1[0-9]* | aix[5-9].* | aix[1-9][0-9]*)]
-	  ac_cv_sys_large_files=1 ;;
-	esac])
-   fi
-  ])
 
 #serial 13, with several lines deleted for fileutils.
 
@@ -667,7 +631,7 @@ AC_DEFUN(jm_MACROS,
   AC_REQUIRE([jm_FUNC_STAT])
   AC_REQUIRE([jm_FUNC_REALLOC])
   AC_REQUIRE([jm_FUNC_MALLOC])
-  AC_REQUIRE([jm_FUNC_STRERROR_R])
+  AC_REQUIRE([AC_FUNC_STRERROR_R])
   AC_REQUIRE([jm_FUNC_READDIR])
   AC_REQUIRE([jm_FUNC_MEMCMP])
   AC_REQUIRE([jm_FUNC_GLIBC_UNLOCKED_IO])
@@ -703,13 +667,6 @@ AC_DEFUN(jm_MACROS,
   dnl ...: warning: AC_TRY_RUN called without default to allow cross compiling
   AC_FUNC_SETVBUF_REVERSED
 
-  # used by sleep and shred
-  # Solaris 2.5.1 needs -lposix4 to get the clock_gettime function.
-  # Solaris 7 prefers the library name -lrt to the obsolescent name -lposix4.
-  AC_SEARCH_LIBS(clock_gettime, [rt posix4])
-  AC_CHECK_FUNCS(clock_gettime)
-  AC_CHECK_FUNCS(gettimeofday)
-
   AC_CHECK_FUNCS(getdelim)
 
   AC_REQUIRE([AC_FUNC_CLOSEDIR_VOID])
@@ -723,7 +680,6 @@ AC_DEFUN(jm_MACROS,
     fdatasync \
     fseeko \
     ftime \
-    ftruncate \
     getcwd \
     gethrtime \
     getmntinfo \
@@ -749,6 +705,9 @@ AC_DEFUN(jm_MACROS,
     AC_CHECK_FUNCS(getdelim)
   fi
 
+  jm_GLIBC21
+  jm_ICONV
+
   # These tests are for df.
   jm_FSTYPENAME
 
@@ -766,7 +725,7 @@ AC_DEFUN(jm_CHECK_ALL_TYPES,
 
   AC_REQUIRE([AC_HEADER_DIRENT])
   AC_REQUIRE([AC_HEADER_STDC])
-  AC_CHECK_MEMBERS((struct stat.st_blksize),,,[$ac_includes_default
+  AC_CHECK_MEMBERS([struct stat.st_blksize],,,[$ac_includes_default
 #include <sys/stat.h>
   ])
   AC_REQUIRE([AC_STRUCT_ST_BLOCKS])
@@ -994,7 +953,7 @@ AC_DEFUN(jm_CHECK_TYPE_STRUCT_DIRENT_D_INO,
   ]
 )
 
-#serial 9, except remove memchr and nanosleep as findutils doesn't need them
+#serial 16
 
 dnl This is just a wrapper function to encapsulate this kludge.
 dnl Putting it in a separate file like this helps share it between
@@ -1033,21 +992,33 @@ AC_DEFUN(jm_CHECK_DECLS,
 #  include <time.h>
 # endif
 #endif
+
+#if HAVE_UTMP_H
+# include <utmp.h>
+#endif
 '
 
-  AC_CHECK_DECLS((
+  AC_CHECK_DECLS([
     free,
     getenv,
     geteuid,
+    getgrgid,
     getlogin,
+    getpwuid,
+    getuid,
+    getutent,
     lseek,
     malloc,
+    memchr,
+    memrchr,
     realloc,
     stpcpy,
+    strndup,
+    strnlen,
     strstr,
     strtoul,
     strtoull,
-    ttyname), , , $headers)
+    ttyname], , , $headers)
 ])
 
 dnl FIXME: when autoconf has support for it.
@@ -1055,7 +1026,8 @@ dnl This is a little helper so we can require these header checks.
 AC_DEFUN(_jm_DECL_HEADERS,
 [
   AC_REQUIRE([AC_HEADER_STDC])
-  AC_CHECK_HEADERS(memory.h string.h strings.h stdlib.h unistd.h sys/time.h)
+  AC_CHECK_HEADERS(memory.h string.h strings.h stdlib.h unistd.h sys/time.h \
+                   utmp.h utmpx.h)
 ])
 
 #serial 5
@@ -1122,10 +1094,10 @@ $ac_includes_default
 # include <utmp.h>
 #endif
 "
-  AC_CHECK_MEMBERS((struct utmpx.ut_user),,,[$utmp_includes])
-  AC_CHECK_MEMBERS((struct utmp.ut_user),,,[$utmp_includes])
-  AC_CHECK_MEMBERS((struct utmpx.ut_name),,,[$utmp_includes])
-  AC_CHECK_MEMBERS((struct utmp.ut_name),,,[$utmp_includes])
+  AC_CHECK_MEMBERS([struct utmpx.ut_user],,,[$utmp_includes])
+  AC_CHECK_MEMBERS([struct utmp.ut_user],,,[$utmp_includes])
+  AC_CHECK_MEMBERS([struct utmpx.ut_name],,,[$utmp_includes])
+  AC_CHECK_MEMBERS([struct utmp.ut_name],,,[$utmp_includes])
 ])
 
 AC_DEFUN(jm_PREREQ_REGEX,
@@ -1423,47 +1395,6 @@ AC_DEFUN(jm_FUNC_MALLOC,
   fi
 ])
 
-#serial 2
-
-dnl From Jim Meyering.
-dnl Determine whether the strerror_r implementation is one of
-dnl the broken ones that returns `int' rather than `char*'.
-dnl Actually, this tests only whether it returns a scalar
-dnl or an array, but that should be enough.
-dnl On at least DEC UNIX 4.0[A-D] and HP-UX B.10.20, strerror_r
-dnl returns `int'.  This is used by lib/error.c.
-
-AC_DEFUN(jm_FUNC_STRERROR_R,
-[
-  # Check strerror_r
-  AC_CHECK_FUNCS([strerror_r])
-  if test $ac_cv_func_strerror_r = yes; then
-    AC_CHECK_HEADERS(string.h)
-    AC_CACHE_CHECK([for working strerror_r],
-                   jm_cv_func_working_strerror_r,
-     [
-      AC_TRY_COMPILE(
-       [
-#       include <stdio.h>
-#       if HAVE_STRING_H
-#        include <string.h>
-#       endif
-       ],
-       [
-	 int buf; /* avoiding square brackets makes this easier */
-	 char x = *strerror_r (0, buf, sizeof buf);
-       ],
-       jm_cv_func_working_strerror_r=yes,
-       jm_cv_func_working_strerror_r=no
-      )
-      if test $jm_cv_func_working_strerror_r = yes; then
-	AC_DEFINE_UNQUOTED(HAVE_WORKING_STRERROR_R, 1,
-	  [Define to 1 if strerror_r returns a string.])
-      fi
-    ])
-  fi
-])
-
 #serial 3
 
 dnl SunOS's readdir is broken in such a way that rm.c has to add extra code
@@ -1644,7 +1575,7 @@ AC_DEFUN(jm_FUNC_MEMCMP,
  fi
 ])
 
-#serial 3
+#serial 4
 
 dnl From Jim Meyering.
 dnl
@@ -1654,6 +1585,13 @@ dnl
 
 AC_DEFUN(jm_FUNC_GLIBC_UNLOCKED_IO,
   [
+    # Kludge (not executed) to make autoheader do the right thing.
+    if test a = b; then
+      AC_CHECK_DECLS([clearerr_unlocked, feof_unlocked, ferror_unlocked,
+	fflush_unlocked, fputc_unlocked, fread_unlocked, fwrite_unlocked,
+	getc_unlocked, getchar_unlocked, putc_unlocked, putchar_unlocked])
+    fi
+
     io_functions='clearerr_unlocked feof_unlocked ferror_unlocked
     fflush_unlocked fputc_unlocked fread_unlocked fwrite_unlocked
     getc_unlocked getchar_unlocked putc_unlocked putchar_unlocked'
@@ -1662,7 +1600,7 @@ AC_DEFUN(jm_FUNC_GLIBC_UNLOCKED_IO,
       # Otherwise, we'd get the Solaris5.5.1 functions that are not
       # declared, and that have been removed from Solaris5.6.  The resulting
       # 5.5.1 binaries would not run on 5.6 due to shared library differences.
-      AC_CHECK_DECLS(($jm_io_func),
+      AC_CHECK_DECLS([$jm_io_func],
 		     jm_declared=yes,
 		     jm_declared=no,
 		     [#include <stdio.h>])
@@ -1759,12 +1697,17 @@ AC_DEFUN(AM_GLIBC,
   ]
 )
 
-#serial 1
+#serial 3
 
 AC_DEFUN(jm_AFS,
-  AC_CHECKING(for AFS)
-  test -d /afs \
-    && AC_DEFINE(AFS, 1, [Define if you have the Andrew File System.])
+  AC_MSG_CHECKING(for AFS)
+  if test -d /afs; then
+    AC_DEFINE(AFS, 1, [Define if you have the Andrew File System.])
+    ac_result=yes
+  else
+    ac_result=no
+  fi
+  AC_MSG_RESULT($ac_result)
 )
 
 #serial 2
@@ -2056,7 +1999,7 @@ AC_DEFUN(jm_FUNC_STRFTIME,
   AC_REPLACE_FUNCS(strftime)
 ])
 
-#serial 3
+#serial 4
 
 dnl See if there's a working, system-supplied version of the getline function.
 dnl We can't just do AC_REPLACE_FUNCS(getline) because some systems
@@ -2079,6 +2022,16 @@ AC_DEFUN(AM_FUNC_GETLINE,
 #    if HAVE_STRING_H
 #     include <string.h>
 #    endif
+    int foo()
+    {
+       char *path;
+       size_t n;
+       FILE *stream;
+       char terminator;
+       size_t offset;
+       getstr(&path, &n, stream, terminator, offset);
+     }
+
     int main ()
     { /* Based on a test program from Karl Heuer.  */
       char *line = NULL;
@@ -2088,6 +2041,8 @@ AC_DEFUN(AM_FUNC_GETLINE,
       if (!in)
 	return 1;
       len = getline (&line, &siz, in);
+      nread = getstr (&path, &pathsize, fp, '\0', count);
+
       exit ((len == 4 && line && strcmp (line, "foo\n") == 0) ? 0 : 1);
     }
     ], am_cv_func_working_getline=yes dnl The library version works.
@@ -2096,10 +2051,76 @@ AC_DEFUN(AM_FUNC_GETLINE,
     )])
   fi
 
-  if test $am_cv_func_working_getline = yes; then
-    AC_DEFINE(HAVE_GETLINE, 1,
-      [Define if you have the GETLINE function.])dnl
+  if test $am_cv_func_working_getline = no; then
+    AC_LIBOBJ(getline)
   fi
+])
+
+#serial 2
+
+# Test for the GNU C Library, version 2.1 or newer.
+# From Bruno Haible.
+
+AC_DEFUN(jm_GLIBC21,
+  [
+    AC_CACHE_CHECK(whether we are using the GNU C Library 2.1 or newer,
+      ac_cv_gnu_library_2_1,
+      [AC_EGREP_CPP([Lucky GNU user],
+	[
+#include <features.h>
+#ifdef __GNU_LIBRARY__
+ #if (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 1) || (__GLIBC__ > 2)
+  Lucky GNU user
+ #endif
+#endif
+	],
+	ac_cv_gnu_library_2_1=yes,
+	ac_cv_gnu_library_2_1=no)
+      ]
+    )
+    AC_SUBST(GLIBC21)
+    GLIBC21="$ac_cv_gnu_library_2_1"
+  ]
+)
+
+#serial 1
+
+dnl From Bruno Haible.
+
+AC_DEFUN(jm_ICONV,
+[
+  dnl Some systems have iconv in libc, some have it in libiconv (OSF/1 and
+  dnl those with the standalone portable libiconv installed).
+  AC_CACHE_CHECK(for iconv, jm_cv_func_iconv, [
+    jm_cv_func_iconv="no, consider installing libiconv"
+    jm_cv_lib_iconv=no
+    AC_TRY_LINK([#include <stdlib.h>
+#include <iconv.h>],
+      [iconv_t cd = iconv_open("","");
+       iconv(cd,NULL,NULL,NULL,NULL);
+       iconv_close(cd);],
+      jm_cv_func_iconv=yes)
+    if test "$jm_cv_func_iconv" != yes; then
+      jm_save_LIBS="$LIBS"
+      LIBS="$LIBS -liconv"
+      AC_TRY_LINK([#include <stdlib.h>
+#include <iconv.h>],
+        [iconv_t cd = iconv_open("","");
+         iconv(cd,NULL,NULL,NULL,NULL);
+         iconv_close(cd);],
+        jm_cv_lib_iconv=yes
+        jm_cv_func_iconv=yes)
+      LIBS="$jm_save_LIBS"
+    fi
+  ])
+  if test "$jm_cv_func_iconv" = yes; then
+    AC_DEFINE(HAVE_ICONV, 1, [Define if you have the iconv() function.])
+  fi
+  LIBICONV=
+  if test "$jm_cv_lib_iconv" = yes; then
+    LIBICONV="-liconv"
+  fi
+  AC_SUBST(LIBICONV)
 ])
 
 #serial 2
