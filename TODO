@@ -1,5 +1,53 @@
-To do:
+There are many bugs to be fixed and features to be added to
+findutils.  The current distribution is a snapshot which fixes many
+problems, but leaves others unsolved.  Many of the known problems are
+not listed below.  Over the next few releases, I hope to fix more
+items, and add the unfixed problems below.
+
+internationalization
+
+case insensitive locate option
 
 Eliminate unnecessary strcpy calls in xargs.
 
-Use mode_t and AC_TYPE_MODE_T.
+Need to transfer appropriate parts of m4 directory
+
+Files which were modified in findutils/lib
+changed in findutils:
+getline.c (skipped for now)
+nextelem.c (twice)
+
+
+alloca.c
+dirname.c
+error.c
+fileblocks.c
+filemode.c
+fnmatch.c
+fnmatch.h
+getline.c
+getopt.c
+getopt.h
+getopt1.c
+idcache.c
+memcmp.c
+memset.c
+mktime.c
+modechange.c
+modechange.h
+pathmax.h
+regex.c
+regex.h
+savedir.c
+stpcpy.c
+strdup.c
+strftime.c
+strstr.c
+strtol.c
+xgetcwd.c
+xmalloc.c
+xstrdup.c
+
+compare new getline.c with modified Debian getline.c
+can getstr in locate.c be replaced with something more standard?
+

@@ -1,5 +1,4 @@
-This is Info file find.info, produced by Makeinfo version 1.68 from the
-input file find.texi.
+This is find.info, produced by makeinfo version 4.0 from find.texi.
 
 START-INFO-DIR-ENTRY
 * Finding Files: (find).        Listing and operating on files
@@ -118,8 +117,7 @@ David J. MacKenzie<1>#'.
      find /tmp /var/tmp -not -type d -mtime +3 -print0 |
        xargs --null --no-run-if-empty rm -f
      
-     find /tmp /var/tmp -depth -mindepth 1 -type d -empty -print0 |
-       xargs --null --no-run-if-empty rmdir
+     find /tmp /var/tmp -depth -mindepth 1 -type d -empty -exec rmdir {} \;
 
    The second `find' command above uses `-depth' so it cleans out empty
 directories depth-first, hoping that the parents become empty and can
@@ -183,7 +181,7 @@ and fix their permissions:
      find . -type d -not -perm -ug=w | xargs chmod ug+w
 
 You could also reverse the operations, if you want to make sure that
-directories do *not* have world write permission.
+directories do _not_ have world write permission.
 
 
 File: find.info,  Node: Classifying Files,  Prev: Fixing Permissions,  Up: Common Tasks
@@ -480,7 +478,7 @@ Symbolic Modes
 operations on single-character symbols.  They allow you to modify either
 all or selected parts of files' permissions, optionally based on their
 previous values, and perhaps on the current `umask' as well (*note
-Umask and Protection::.).
+Umask and Protection::).
 
    The format of symbolic modes is:
 
@@ -516,7 +514,7 @@ symbolic modes can not contain spaces.
 
    The USERS part tells which users' access to the file is changed.  It
 consists of one or more of the following letters (or it can be empty;
-*note Umask and Protection::., for a description of what happens then).
+*note Umask and Protection::, for a description of what happens then).
 When more than one of these letters is given, the order that they are
 in does not matter.
 
@@ -645,13 +643,13 @@ mode:
 
    Remember that the special permissions only affect files that are
 executable, plus, on some systems, directories (on which they have
-different meanings; *note Mode Structure::.).  Using `a' in the USERS
+different meanings; *note Mode Structure::).  Using `a' in the USERS
 part of a symbolic mode does not cause the special permissions to be
 affected; thus,
 
      a+s
 
-has *no effect*.  You must use `u', `g', and `o' explicitly to affect
+has _no effect_.  You must use `u', `g', and `o' explicitly to affect
 the special permissions.  Also, the combinations `u+t', `g+t', and
 `o+s' have no effect.
 
@@ -690,7 +688,7 @@ Making Multiple Changes
 -----------------------
 
    The format of symbolic modes is actually more complex than described
-above (*note Setting Permissions::.).  It provides two ways to make
+above (*note Setting Permissions::).  It provides two ways to make
 multiple changes to files' permissions.
 
    The first way is to specify multiple OPERATION and PERMISSIONS parts
@@ -741,8 +739,8 @@ The Umask and Protection
 ------------------------
 
    If the USERS part of a symbolic mode is omitted, it defaults to `a'
-(affect all users), except that any permissions that are *set* in the
-system variable `umask' are *not affected*.  The value of `umask' can
+(affect all users), except that any permissions that are _set_ in the
+system variable `umask' are _not affected_.  The value of `umask' can
 be set using the `umask' command.  Its default value varies from system
 to system.
 
@@ -757,12 +755,12 @@ permission for users who are not in the file's group, then the mode:
      +w
 
 adds permission to write to the file to its owner and to other users who
-are in the file's group, but *not* to other users.  In contrast, the
+are in the file's group, but _not_ to other users.  In contrast, the
 mode:
 
      a+w
 
-ignores `umask', and *does* give write permission for the file to all
+ignores `umask', and _does_ give write permission for the file to all
 users.
 
 
@@ -1051,7 +1049,12 @@ Expressions::, for more information on expressions.
 
 * Menu:
 
+* !:                                     Combining Primaries With Operators.
+* ():                                    Combining Primaries With Operators.
+* ,:                                     Combining Primaries With Operators.
+* -a:                                    Combining Primaries With Operators.
 * -amin:                                 Age Ranges.
+* -and:                                  Combining Primaries With Operators.
 * -anewer:                               Comparing Timestamps.
 * -atime:                                Age Ranges.
 * -cmin:                                 Age Ranges.
@@ -1087,8 +1090,11 @@ Expressions::, for more information on expressions.
 * -newer:                                Comparing Timestamps.
 * -nogroup:                              Owner.
 * -noleaf:                               Directories.
+* -not:                                  Combining Primaries With Operators.
 * -nouser:                               Owner.
+* -o:                                    Combining Primaries With Operators.
 * -ok:                                   Querying.
+* -or:                                   Combining Primaries With Operators.
 * -path:                                 Full Name Patterns.
 * -perm:                                 Permissions.
 * -print:                                Print File Name.

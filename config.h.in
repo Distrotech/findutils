@@ -32,6 +32,9 @@
 /* Define if you don't have vprintf but do have _doprnt.  */
 #undef HAVE_DOPRNT
 
+/* Define if your system has a working fnmatch function.  */
+#undef HAVE_FNMATCH
+
 /* Define if you have the getmntent function.  */
 #undef HAVE_GETMNTENT
 
@@ -67,6 +70,9 @@
 #undef _MINIX
 
 /* Define to `int' if <sys/types.h> doesn't define.  */
+#undef mode_t
+
+/* Define to `int' if <sys/types.h> doesn't define.  */
 #undef pid_t
 
 /* Define if the system does not provide POSIX.1 features except
@@ -93,6 +99,9 @@
 
 /* Define if you have the ANSI C header files.  */
 #undef STDC_HEADERS
+
+/* Define if you can safely include both <sys/time.h> and <time.h>.  */
+#undef TIME_WITH_SYS_TIME
 
 /* Define if your <sys/time.h> declares struct tm.  */
 #undef TM_IN_SYS_TIME
@@ -134,8 +143,93 @@
 /* Define to `unsigned long' if <sys/types.h> doesn't define.  */
 #undef ino_t
 
+/* Define to rpl_fnmatch if the replacement function should be used.  */
+#undef fnmatch
+
+/* Define to 1 if assertions should be disabled.  */
+#undef NDEBUG
+
+/* Define to rpl_malloc if the replacement function should be used.  */
+#undef malloc
+
+/* Define to rpl_memcmp if the replacement function should be used.  */
+#undef memcmp
+
+/* Define to gnu_mktime if the replacement function should be used.  */
+#undef mktime
+
+/* Define to rpl_realloc if the replacement function should be used.  */
+#undef realloc
+
+/* Define to `int' if <sys/types.h> doesn't define.  */
+#undef ssize_t
+
+/* Define to `unsigned long' or `unsigned long long'
+   if <inttypes.h> doesn't define.  */
+#undef uintmax_t
+
+/* Define if you have the DECL_FREE function.  */
+#undef HAVE_DECL_FREE
+
+/* Define if you have the DECL_LSEEK function.  */
+#undef HAVE_DECL_LSEEK
+
+/* Define if you have the DECL_MALLOC function.  */
+#undef HAVE_DECL_MALLOC
+
+/* Define if you have the DECL_MEMCHR function.  */
+#undef HAVE_DECL_MEMCHR
+
+/* Define if you have the DECL_REALLOC function.  */
+#undef HAVE_DECL_REALLOC
+
+/* Define if you have the DECL_STPCPY function.  */
+#undef HAVE_DECL_STPCPY
+
+/* Define if you have the DECL_STRSTR function.  */
+#undef HAVE_DECL_STRSTR
+
+/* Define if you have the DONE_WORKING_MALLOC_CHECK function.  */
+#undef HAVE_DONE_WORKING_MALLOC_CHECK
+
+/* Define if you have the DONE_WORKING_REALLOC_CHECK function.  */
+#undef HAVE_DONE_WORKING_REALLOC_CHECK
+
+/* Define if you have the INTTYPES_H function.  */
+#undef HAVE_INTTYPES_H
+
+/* Define if you have the LSTAT_EMPTY_STRING_BUG function.  */
+#undef HAVE_LSTAT_EMPTY_STRING_BUG
+
+/* Define if you have the STAT_EMPTY_STRING_BUG function.  */
+#undef HAVE_STAT_EMPTY_STRING_BUG
+
+/* Define if you have the STRUCT_UTIMBUF function.  */
+#undef HAVE_STRUCT_UTIMBUF
+
+/* Define if you have the WORKING_READDIR function.  */
+#undef HAVE_WORKING_READDIR
+
+/* Define if you have the alarm function.  */
+#undef HAVE_ALARM
+
 /* Define if you have the basename function.  */
 #undef HAVE_BASENAME
+
+/* Define if you have the bcopy function.  */
+#undef HAVE_BCOPY
+
+/* Define if you have the btowc function.  */
+#undef HAVE_BTOWC
+
+/* Define if you have the bzero function.  */
+#undef HAVE_BZERO
+
+/* Define if you have the clearerr_unlocked function.  */
+#undef HAVE_CLEARERR_UNLOCKED
+
+/* Define if you have the doprnt function.  */
+#undef HAVE_DOPRNT
 
 /* Define if you have the endgrent function.  */
 #undef HAVE_ENDGRENT
@@ -146,8 +240,38 @@
 /* Define if you have the fchdir function.  */
 #undef HAVE_FCHDIR
 
+/* Define if you have the feof_unlocked function.  */
+#undef HAVE_FEOF_UNLOCKED
+
+/* Define if you have the ferror_unlocked function.  */
+#undef HAVE_FERROR_UNLOCKED
+
+/* Define if you have the fflush_unlocked function.  */
+#undef HAVE_FFLUSH_UNLOCKED
+
+/* Define if you have the fputc_unlocked function.  */
+#undef HAVE_FPUTC_UNLOCKED
+
+/* Define if you have the fread_unlocked function.  */
+#undef HAVE_FREAD_UNLOCKED
+
+/* Define if you have the fwrite_unlocked function.  */
+#undef HAVE_FWRITE_UNLOCKED
+
+/* Define if you have the getc_unlocked function.  */
+#undef HAVE_GETC_UNLOCKED
+
+/* Define if you have the getchar_unlocked function.  */
+#undef HAVE_GETCHAR_UNLOCKED
+
 /* Define if you have the getcwd function.  */
 #undef HAVE_GETCWD
+
+/* Define if you have the isascii function.  */
+#undef HAVE_ISASCII
+
+/* Define if you have the localtime_r function.  */
+#undef HAVE_LOCALTIME_R
 
 /* Define if you have the memcmp function.  */
 #undef HAVE_MEMCMP
@@ -158,6 +282,12 @@
 /* Define if you have the mktime function.  */
 #undef HAVE_MKTIME
 
+/* Define if you have the putc_unlocked function.  */
+#undef HAVE_PUTC_UNLOCKED
+
+/* Define if you have the putchar_unlocked function.  */
+#undef HAVE_PUTCHAR_UNLOCKED
+
 /* Define if you have the stpcpy function.  */
 #undef HAVE_STPCPY
 
@@ -166,6 +296,9 @@
 
 /* Define if you have the strerror function.  */
 #undef HAVE_STRERROR
+
+/* Define if you have the strerror_r function.  */
+#undef HAVE_STRERROR_R
 
 /* Define if you have the strftime function.  */
 #undef HAVE_STRFTIME
@@ -179,6 +312,12 @@
 /* Define if you have the strtol function.  */
 #undef HAVE_STRTOL
 
+/* Define if you have the vprintf function.  */
+#undef HAVE_VPRINTF
+
+/* Define if you have the <alloca.h> header file.  */
+#undef HAVE_ALLOCA_H
+
 /* Define if you have the <dirent.h> header file.  */
 #undef HAVE_DIRENT_H
 
@@ -188,14 +327,26 @@
 /* Define if you have the <fcntl.h> header file.  */
 #undef HAVE_FCNTL_H
 
+/* Define if you have the <libintl.h> header file.  */
+#undef HAVE_LIBINTL_H
+
 /* Define if you have the <limits.h> header file.  */
 #undef HAVE_LIMITS_H
+
+/* Define if you have the <memory.h> header file.  */
+#undef HAVE_MEMORY_H
 
 /* Define if you have the <ndir.h> header file.  */
 #undef HAVE_NDIR_H
 
+/* Define if you have the <stdlib.h> header file.  */
+#undef HAVE_STDLIB_H
+
 /* Define if you have the <string.h> header file.  */
 #undef HAVE_STRING_H
+
+/* Define if you have the <strings.h> header file.  */
+#undef HAVE_STRINGS_H
 
 /* Define if you have the <sys/dir.h> header file.  */
 #undef HAVE_SYS_DIR_H
@@ -203,8 +354,20 @@
 /* Define if you have the <sys/ndir.h> header file.  */
 #undef HAVE_SYS_NDIR_H
 
+/* Define if you have the <sys/time.h> header file.  */
+#undef HAVE_SYS_TIME_H
+
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
+
+/* Define if you have the <utime.h> header file.  */
+#undef HAVE_UTIME_H
+
+/* Define if you have the <wchar.h> header file.  */
+#undef HAVE_WCHAR_H
+
+/* Define if you have the <wctype.h> header file.  */
+#undef HAVE_WCTYPE_H
 
 /* Define if you have the sun library (-lsun).  */
 #undef HAVE_LIBSUN
@@ -214,4 +377,7 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* Define if compiler has function prototypes */
+#undef PROTOTYPES
 
