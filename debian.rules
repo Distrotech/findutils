@@ -1,6 +1,6 @@
 #! /usr/bin/make -f
 #
-# Last updated: 1996/04/27 20:04:45 by Kevin Dalley <kevin@aimnet.com>
+# Last updated: 1996/05/27 08:10:50 by Kevin Dalley <kevin@aimnet.com>
 #
 # To make the binary distribution package, the ``Debianized'' source package
 # and the context diff to the original package, type `./debian.rules dist'.
@@ -25,7 +25,7 @@ package = findutils
 # The version of the package (for example, `19.28').
 version = 4.1
 # The Debian revision of the package (for example, `2').
-debian = 10
+debian = 11
 
 build:
 # Builds the binary package.
@@ -99,7 +99,8 @@ binary:
 	install -g root -m 755 -o root debian.preinst \
 	  debian-tmp/DEBIAN/preinst
 	dpkg --build debian-tmp
-	mv debian-tmp.deb ../$(package)-$(version)-$(debian).deb
+	mv debian-tmp.deb \
+	../$(package)-$(version)-$(debian).$(shell dpkg --print-architecture).deb
 
 source:	clean
 # Makes a source package.
