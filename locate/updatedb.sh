@@ -99,8 +99,12 @@ if test -n "$SEARCHPATHS"; then
 fi
 
 if test -n "$NETPATHS"; then
-  su $NETUSER -c \
-  "$find $NETPATHS \\( -type d -regex \"$PRUNEREGEX\" -prune \\) -o -print"
+  if [ "`whoami`" = root ]; then
+    su $NETUSER -c \
+     "$find $NETPATHS \\( -type d -regex \"$PRUNEREGEX\" -prune \\) -o -print"
+  else
+    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print
+  fi
 fi
 } | sort -f | $frcode > $LOCATE_DB.n
 
@@ -130,8 +134,12 @@ if test -n "$SEARCHPATHS"; then
   \( -fstype nfs -o -fstype NFS -o -type d -regex "$PRUNEREGEX" \) -prune -o -print
 fi
 if test -n "$NETPATHS"; then
-  su $NETUSER -c \
-  "$find $NETPATHS \\( -type d -regex \"$PRUNEREGEX\" -prune \\) -o -print"
+  if [ "`whoami`" = root ]; then
+    su $NETUSER -c \
+     "$find $NETPATHS \\( -type d -regex \"$PRUNEREGEX\" -prune \\) -o -print"
+  else
+    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print
+  fi
 fi
 } | tr / '\001' | sort -f | tr '\001' / > $filelist
 
