@@ -614,7 +614,7 @@ read_string (void)
    LBLEN is the length of `linebuf', not including the null.
 
    COMPAT: insertions on the SYSV version are limited to 255 chars per line,
-   and a max of 5 occurences of replace_pat in the initial-arguments.
+   and a max of 5 occurrences of replace_pat in the initial-arguments.
    Those restrictions do not exist here.  */
 
 static void
