@@ -1,4 +1,13 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.4
+**  Functionality Changes
+*** If you specify an option after non-option, a warning message is now issued. 
+    Options should be specified immediately after the list of paths to
+    search.
+**  Bug Fixes
+*** "find -printf '%H\n'" now works (rather than segfaulting) on
+    systems that have non-writable string constants.
+
 * Major changes in release 4.2.3
 **  Functionality Changes
 *** Added new action -delete which deletes things that find matches.
@@ -14,7 +23,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** If a parent directory changes during the execution of find, 
     the error message we issue identifies the nature of the change
     (for example the previous and current inode numbers of the 
-    directoru we've just returned out of).
+    directory we've just returned out of).
 ** Other Changes
 *** Non-functional code changes to silence compiler warnings.
 
