@@ -2,7 +2,7 @@ AC_DEFUN([jy_SORTZ],
   [AC_PATH_PROG([SORT], [sort], [sort])
   AC_MSG_CHECKING([if $SORT supports the -z option])
 # find out if the sort command has a working -z option.
-if $SORT -z -c < "${srcdir:-.}/m4/order-good.bin" 2>/dev/null
+if $SORT -z -c < "${srcdir:-.}/m4/order-good.bin" 2>/dev/null  >/dev/null
 then
 	# sort has a -z option, but we have not yet established that 
 	# sort thinks there is more than one input line there.   We have 
@@ -10,7 +10,7 @@ then
 	# order to determine that (we can't do it in one shot because 
 	# if sort returns nonzero we cant tell that it wasn't just 
 	# complaining about this unknown -z option.
-	if $SORT -z -c < "${srcdir:-.}/m4/order-bad.bin" 2>/dev/null
+	if $SORT -z -c < "${srcdir:-.}/m4/order-bad.bin" 2>/dev/null >/dev/null
 	then
 		# sort likes -z but it doesn't seem to make \0 
 		# a delimiter.
