@@ -47,7 +47,7 @@
    February/March, 1983, p. 8.
 
    Written by James A. Woods <jwoods@adobe.com>.
-   Modified by David MacKenzie <djm@gnu.ai.mit.edu>.  */
+   Modified by David MacKenzie <djm@gnu.org>.  */
 
 #include <config.h>
 #include <stdio.h>
@@ -108,6 +108,7 @@ extern int errno;
 #include <getline.h>
 #include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/error.h"
+#include "../gnulib/lib/human.h"
 #include "dirname.h"
 
 /* Note that this evaluates C many times.  */
@@ -155,19 +156,6 @@ get_short (fp)
 
 const char * const metacharacters = "*?[]\\";
 
-#if 0
-/* Return nonzero if CH is a shell glob character.
- */
-static int 
-is_metacharacter(char ch)
-{
-  if (NULL == strchr (metacharacters, ch))
-    return 0;
-  else
-    return 1;
-}
-#endif
-
 /* Return nonzero if S contains any shell glob characters.
  */
 static int 
@@ -178,63 +166,6 @@ contains_metacharacter(const char *s)
   else
     return 1;
 }
-
-  
-
-#if 0
-/* Return a pointer to the last character in a static copy of the last
-   glob-free subpattern in NAME,
-   with '\0' prepended for a fast backwards pre-match.  */
-
-static char *
-last_literal_end (name)
-     char *name;
-{
-  static char *globfree = NULL;	/* A copy of the subpattern in NAME.  */
-  static size_t gfalloc = 0;	/* Bytes allocated for `globfree'.  */
-  register char *subp;		/* Return value.  */
-  register char *p;		/* Search location in NAME.  */
-
-  /* Find the end of the subpattern.
-     Skip trailing metacharacters and [] ranges. */
-  for (p = name + strlen (name) - 1; p >= name && is_metacharacter(*p);
-       p--)
-    {
-      if (*p == ']')
-	while (p >= name && *p != '[')
-	  p--;
-    }
-  if (p < name)
-    p = name;
-
-  if (p - name + 3 > gfalloc)
-    {
-      gfalloc = p - name + 3 + 64; /* Room to grow.  */
-      globfree = xrealloc (globfree, gfalloc);
-    }
-  subp = globfree;
-  *subp++ = '\0';
-
-  /* If the pattern has only metacharacters, make every path match the
-     subpattern, so it gets checked the slow way.  */
-  if (p == name && is_metacharacter(*p))
-    *subp++ = '/';
-  else
-    {
-      char *endmark;
-      /* Find the start of the metacharacter-free subpattern.  */
-      for (endmark = p; p >= name && !is_metacharacter(*p); p--)
-	;
-      /* Copy the subpattern into globfree.  */
-      for (++p; p <= endmark; )
-	*subp++ = *p++;
-    }
-  *subp-- = '\0';		/* Null terminate, though it's not needed.  */
-
-  return subp;
-}
-#endif 
-
 
 /* locate_read_str()
  *
@@ -301,6 +232,17 @@ enum visit_result
     VISIT_ABORT    = 8   /* rejected, process no more files. */
   };
 
+
+struct locate_stats
+{
+  uintmax_t compressed_bytes;
+  uintmax_t total_filename_count;
+  uintmax_t total_filename_length;
+  uintmax_t whitespace_count;
+  uintmax_t newline_count;
+  uintmax_t highbit_filename_count;
+};
+static struct locate_stats statistics;
 
 
 struct casefolder
@@ -449,13 +391,58 @@ visit_globmatch_casefold(const char *testname, const char *printname, void *cont
     return VISIT_CONTINUE;
 }
 
+static int
+visit_stats(const char *testname, const char *printname, void *context)
+{
+  struct locate_stats *p = context;
+  size_t len = strlen(printname);
+  const char *s;
+  int highbit, whitespace, newline;
+
+  ++(p->total_filename_count);
+  p->total_filename_length += len;
+  
+  highbit = whitespace = newline = 0;
+  for (s=printname; *s; ++s)
+    {
+      if ( (int)(*s) & 128 )
+	highbit = 1;
+      if ('\n' == *s)
+	{
+	  newline = whitespace = 1;
+	}
+      else if (isspace((unsigned char)*s))
+	{
+	  whitespace = 1;
+	}
+    }
+
+  if (highbit)
+    ++(p->highbit_filename_count);
+  if (whitespace)
+    ++(p->whitespace_count);
+  if (newline)
+    ++(p->newline_count);
+
+  return VISIT_CONTINUE;
+}
+
+
+
 /* Print the entries in DBFILE that match shell globbing pattern PATHPART.
    Return the number of entries printed.  */
 
 static unsigned long
-new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int basename_only, int use_limit, uintmax_t limit)
+new_locate (char *pathpart,
+	    char *dbfile,
+	    int ignore_case,
+	    int enable_print,
+	    int basename_only,
+	    int use_limit,
+	    uintmax_t limit,
+	    int stats)
 {
-  
+  char hbuf[LONGEST_HUMAN_READABLE + 1];
   FILE *fp;			/* The pathname database.  */
   int c;			/* An input byte.  */
   int nread;		     /* number of bytes read from an entry. */
@@ -483,41 +470,50 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
   inspectors = NULL;
   lastinspector = NULL;
 
-  if (check_existence)
-    add_visitor(visit_exists, NULL);
-
-  if (contains_metacharacter(pathpart))
+  if (stats)
     {
-      if (ignore_case)
-	add_visitor(visit_globmatch_casefold, pathpart);
-      else
-	add_visitor(visit_globmatch_nofold, pathpart);
+      assert(!use_limit);
+      add_visitor(visit_stats, &statistics);
     }
   else
     {
-      /* No glob characters reuired.  Hence we match on 
-       * _any part_ of the filename, not just the 
-       * basename.  This seems odd to me, but it is the 
-       * traditional behaviour.
-       * James Youngman <jay@gnu.org> 
-       */
-      if (ignore_case)
+      if (check_existence)
+	add_visitor(visit_exists, NULL);
+
+      if (contains_metacharacter(pathpart))
 	{
-	  struct casefolder * cf = xmalloc(sizeof(*cf));
-	  cf->pattern = pathpart;
-	  cf->buffer = NULL;
-	  cf->buffersize = 0;
-	  add_visitor(visit_substring_match_casefold, cf);
+	  if (ignore_case)
+	    add_visitor(visit_globmatch_casefold, pathpart);
+	  else
+	    add_visitor(visit_globmatch_nofold, pathpart);
 	}
       else
 	{
-	  add_visitor(visit_substring_match_nocasefold, pathpart);
+	  /* No glob characters used.  Hence we match on 
+	   * _any part_ of the filename, not just the 
+	   * basename.  This seems odd to me, but it is the 
+	   * traditional behaviour.
+	   * James Youngman <jay@gnu.org> 
+	   */
+	  if (ignore_case)
+	    {
+	      struct casefolder * cf = xmalloc(sizeof(*cf));
+	      cf->pattern = pathpart;
+	      cf->buffer = NULL;
+	      cf->buffersize = 0;
+	      add_visitor(visit_substring_match_casefold, cf);
+	    }
+	  else
+	    {
+	      add_visitor(visit_substring_match_nocasefold, pathpart);
+	    }
 	}
+      
+      if (enable_print)
+	add_visitor(visit_justprint, NULL);
     }
-
-  if (enable_print)
-    add_visitor(visit_justprint, NULL);
   
+
   if (stat (dbfile, &st) || (fp = fopen (dbfile, "r")) == NULL)
     {
       error (0, errno, "%s", dbfile);
@@ -550,6 +546,13 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
       old_format = 1;
     }
 
+  if (stats)
+    {
+	printf(_("Database %s is in the %s format.\n"),
+	       dbfile,
+	       old_format ? _("old") : "LOCATE02");
+    }
+  
   /* If we ignore case, convert it to lower first so we don't have to
    * do it every time
    */
@@ -624,6 +627,36 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
 	    }
 	}
     }
+
+      
+  if (stats)
+    {
+      printf(_("Locate database size: %s bytes\n"),
+	     human_readable ((uintmax_t) st.st_size,
+			     hbuf, human_ceiling, 1, 1));
+      
+      printf(_("Filenames: %s "),
+	     human_readable (statistics.total_filename_count,
+			     hbuf, human_ceiling, 1, 1));
+      printf(_("with a cumulative length of %s bytes"),
+	     human_readable (statistics.total_filename_length,
+			     hbuf, human_ceiling, 1, 1));
+      
+      printf(_("\n\tof which %s contain whitespace, "),
+	     human_readable (statistics.whitespace_count,
+			     hbuf, human_ceiling, 1, 1));
+      printf(_("\n\t%s contain newline characters, "),
+	     human_readable (statistics.newline_count,
+			     hbuf, human_ceiling, 1, 1));
+      printf(_("\n\tand %s contain characters with the high bit set.\n"),
+	     human_readable (statistics.highbit_filename_count,
+			     hbuf, human_ceiling, 1, 1));
+      
+      printf(_("Compression ratio %4.2f%%\n"),
+	     100.0 * (double)(statistics.total_filename_length - st.st_size)
+	     / (double) statistics.total_filename_length);
+      printf("\n");
+    }
   
   if (ferror (fp))
     {
@@ -694,6 +727,7 @@ static struct option const longopts[] =
   {"stdio", no_argument, NULL, 's'},
   {"mmap",  no_argument, NULL, 'm'},
   {"limit",  required_argument, NULL, 'l'},
+  {"statistics",  no_argument, NULL, 'S'},
   {NULL, no_argument, NULL, 0}
 };
 
@@ -711,6 +745,7 @@ main (argc, argv)
   int basename_only = 0;
   uintmax_t limit = 0;
   int use_limit = 0;
+  int stats = 0;
   
   program_name = argv[0];
 
@@ -726,7 +761,7 @@ main (argc, argv)
 
   check_existence = 0;
 
-  while ((optc = getopt_long (argc, argv, "cd:eil:sm0", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "cd:eil:sm0S", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
@@ -766,6 +801,10 @@ main (argc, argv)
 	basename_only = 0;
 	break;
 
+      case 'S':
+	stats = 1;
+	break;
+
       case 'l':
 	{
 	  char *end = optarg;
@@ -790,22 +829,41 @@ main (argc, argv)
 	return 1;
       }
 
-  if (optind == argc)
+  if (stats)
     {
-      usage (stderr);
-      return 1;
+      use_limit = 0;
+      print = 0;
     }
-
+  else
+    {
+      if (optind == argc)
+	{
+	  usage (stderr);
+	  return 1;
+	}
+    }
+  
   sanity_check_dbpath(dbpath);
 
-  for (; optind < argc; optind++)
+  for (; stats || optind < argc; optind++)
     {
       char *e;
+      const char *needle;
       next_element (dbpath);	/* Initialize.  */
+      needle = stats ? NULL : argv[optind];
       while ((e = next_element ((char *) NULL)) != NULL)
 	{
-	  found += new_locate (argv[optind], e, ignore_case, print, basename_only, use_limit, limit);
+	  statistics.compressed_bytes = 
+	    statistics.total_filename_count = 
+	    statistics.total_filename_length = 
+	    statistics.whitespace_count = 
+	    statistics.newline_count = 
+	    statistics.highbit_filename_count = 0u;
+	  
+	  found += new_locate (needle, e, ignore_case, print, basename_only, use_limit, limit, stats);
 	}
+      if (stats)
+	break;
     }
 
   if (just_count)
@@ -813,7 +871,7 @@ main (argc, argv)
       printf("%ld\n", found);
     }
   
-  if (found || (use_limit && (limit==0)) )
+  if (found || (use_limit && (limit==0)) || stats )
     return 0;
   else
     return 1;
