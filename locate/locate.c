@@ -658,7 +658,8 @@ new_locate (char *pathpart,
 			     hbuf, human_ceiling, 1, 1));
       
       printf(_("Compression ratio %4.2f%%\n"),
-	     100.0 * (double)(statistics.total_filename_length - st.st_size)
+	     100.0 * ((double)statistics.total_filename_length
+		      - (double) st.st_size)
 	     / (double) statistics.total_filename_length);
       printf("\n");
     }
