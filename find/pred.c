@@ -28,6 +28,18 @@
 #include "modetype.h"
 #include "wait.h"
 
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
+
 #if !defined(SIGCHLD) && defined(SIGCLD)
 #define SIGCHLD SIGCLD
 #endif
@@ -1328,7 +1340,7 @@ launch (pred_ptr)
 
   child_pid = fork ();
   if (child_pid == -1)
-    error (1, errno, "cannot fork");
+    error (1, errno, _("cannot fork"));
   if (child_pid == 0)
     {
       /* We be the child. */
@@ -1341,7 +1353,7 @@ launch (pred_ptr)
 #else
       if (fchdir (starting_desc) < 0)
 	{
-	  error (0, errno, "cannot return to starting directory");
+	  error (0, errno, _("cannot return to starting directory"));
 	  _exit (1);
 	}
 #endif
@@ -1353,26 +1365,26 @@ launch (pred_ptr)
   wait_ret = wait (&status);
   if (wait_ret == -1)
     {
-      error (0, errno, "error waiting for %s", execp->vec[0]);
+      error (0, errno, _("error waiting for %s"), execp->vec[0]);
       exit_status = 1;
       return (false);
     }
   if (wait_ret != child_pid)
     {
-      error (0, 0, "wait got pid %d, expected pid %d", wait_ret, child_pid);
+      error (0, 0, _("wait got pid %d, expected pid %d"), wait_ret, child_pid);
       exit_status = 1;
       return (false);
     }
   if (WIFSTOPPED (status))
     {
-      error (0, 0, "%s stopped by signal %d", 
+      error (0, 0, _("%s stopped by signal %d"), 
 	     execp->vec[0], WSTOPSIG (status));
       exit_status = 1;
       return (false);
     }
   if (WIFSIGNALED (status))
     {
-      error (0, 0, "%s terminated by signal %d",
+      error (0, 0, _("%s terminated by signal %d"),
 	     execp->vec[0], WTERMSIG (status));
       exit_status = 1;
       return (false);
@@ -1466,11 +1478,11 @@ print_tree (node, indent)
 	  type_name (node->p_type), prec_name (node->p_prec), node);
   for (i = 0; i < indent; i++)
     printf ("    ");
-  printf ("left:\n");
+  printf (_("left:\n"));
   print_tree (node->pred_left, indent + 1);
   for (i = 0; i < indent; i++)
     printf ("    ");
-  printf ("right:\n");
+  printf (_("right:\n"));
   print_tree (node->pred_right, indent + 1);
 }
 

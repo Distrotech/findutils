@@ -30,6 +30,18 @@
 extern int errno;
 #endif
 
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
+
 static char *filesystem_type_uncached P_((char *path, char *relpath, struct stat *statp));
 static int xatoi P_((char *cp));
 
@@ -266,7 +278,7 @@ filesystem_type_uncached (path, relpath, statp)
 	    if (errno == EACCES)
 	      continue;
 	    else
-	      error (1, errno, "error in %s: %s", table, mnt->mnt_dir);
+	      error (1, errno, _("error in %s: %s"), table, mnt->mnt_dir);
 	  }
 	  dev = disk_stats.st_dev;
 	}
@@ -355,7 +367,7 @@ filesystem_type_uncached (path, relpath, statp)
      Don't cache those values.  */
   fstype_known = (type != NULL);
 
-  return xstrdup (type ? type : "unknown");
+  return xstrdup (type ? type : _("unknown"));
 }
 
 #ifdef FSTYPE_MNTENT		/* 4.3BSD etc.  */

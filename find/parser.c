@@ -26,6 +26,18 @@
 #include "defs.h"
 #include "modetype.h"
 
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
+
 #if !defined (isascii) || defined (STDC_HEADERS)
 #ifdef isascii
 #undef isascii
@@ -117,7 +129,7 @@ static boolean insert_num P_((char *argv[], int *arg_ptr, PFB pred));
 static FILE *open_output_file P_((char *path));
 
 #ifdef DEBUG
-char *find_pred_name _P((PFB pred_func));
+char *find_pred_name P_((PFB pred_func));
 #endif /* DEBUG */
 
 struct parser_table
@@ -577,29 +589,29 @@ parse_help (argv, arg_ptr)
      char *argv[];
      int *arg_ptr;
 {
-  printf ("\
-Usage: %s [path...] [expression]\n", program_name);
-  printf ("\
+  printf (_("\
+Usage: %s [path...] [expression]\n"), program_name);
+  printf (_("\
 default path is the current directory; default expression is -print\n\
 expression may consist of:\n\
 operators (decreasing precedence; -and is implicit where no others are given):\n\
-      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n");
-  printf ("\
+      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"));
+  printf (_("\
       EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n\
 options (always true): -daystart -depth -follow --help\n\
       -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n\
-tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n");
-  printf ("\
+tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"));
+  printf (_("\
       -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n\
       -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n\
-      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n");
-  printf ("\
+      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n"));
+  printf (_("\
       -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n\
       -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n\
-      -xtype [bcdpfls]\n");
-  printf ("\
+      -xtype [bcdpfls]\n"));
+  printf (_("\
 actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n\
-      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n");
+      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"));
   exit (0);
 }
 
@@ -1000,9 +1012,9 @@ parse_perm (argv, arg_ptr)
 
   change = mode_compile (argv[*arg_ptr] + mode_start, MODE_MASK_PLUS);
   if (change == MODE_INVALID)
-    error (1, 0, "invalid mode `%s'", argv[*arg_ptr]);
+    error (1, 0, _("invalid mode `%s'"), argv[*arg_ptr]);
   else if (change == MODE_MEMORY_EXHAUSTED)
-    error (1, 0, "virtual memory exhausted");
+    error (1, 0, _("virtual memory exhausted"));
   perm_val = mode_adjust (0, change);
   mode_free (change);
 
@@ -1145,7 +1157,7 @@ parse_size (argv, arg_ptr)
     return (false);
   len = strlen (argv[*arg_ptr]);
   if (len == 0)
-    error (1, 0, "invalid null argument to -size");
+    error (1, 0, _("invalid null argument to -size"));
   switch (argv[*arg_ptr][len - 1])
     {
     case 'b':
@@ -1181,7 +1193,7 @@ parse_size (argv, arg_ptr)
       break;
 
     default:
-      error (1, 0, "invalid -size type `%c'", argv[*arg_ptr][len - 1]);
+      error (1, 0, _("invalid -size type `%c'"), argv[*arg_ptr][len - 1]);
     }
   if (!get_num (argv[*arg_ptr], &num, &c_type))
     return (false);
@@ -1279,7 +1291,7 @@ parse_version (argv, arg_ptr)
   extern char *version_string;
 
   fflush (stderr);
-  printf ("GNU find version %s\n", version_string);
+  printf (_("GNU find version %s\n"), version_string);
   exit (0);
 }
 
@@ -1424,7 +1436,8 @@ insert_fprintf (fp, func, argv, arg_ptr)
 		  /* *scan = '\\'; * it already is */
 		  break;
 		default:
-		  error (0, 0, "warning: unrecognized escape `\\%c'", *scan2);
+		  error (0, 0,
+			 _("warning: unrecognized escape `\\%c'"), *scan2);
 		  scan++;
 		  continue;
 		}
@@ -1470,7 +1483,7 @@ insert_fprintf (fp, func, argv, arg_ptr)
 	  else
 	    {
 	      /* An unrecognized % escape.  Print the char after the %. */
-	      error (0, 0, "warning: unrecognized format directive `%%%c'",
+	      error (0, 0, _("warning: unrecognized format directive `%%%c'"),
 		     *scan2);
 	      segmentp = make_segment (segmentp, format, scan - format,
 				       KIND_PLAIN);
@@ -1724,8 +1737,8 @@ insert_time (argv, arg_ptr, pred)
     + ((c_type == COMP_GT) ? DAYSECS - 1 : 0);
   (*arg_ptr)++;
 #ifdef	DEBUG
-  printf ("inserting %s\n", our_pred->p_name);
-  printf ("    type: %s    %s  ",
+  printf (_("inserting %s\n"), our_pred->p_name);
+  printf (_("    type: %s    %s  "),
 	  (c_type == COMP_GT) ? "gt" :
 	  ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
 	  (c_type == COMP_GT) ? " >" :
@@ -1831,8 +1844,8 @@ insert_num (argv, arg_ptr, pred)
   our_pred->args.info.l_val = num;
   (*arg_ptr)++;
 #ifdef	DEBUG
-  printf ("inserting %s\n", our_pred->p_name);
-  printf ("    type: %s    %s  ",
+  printf (_("inserting %s\n"), our_pred->p_name);
+  printf (_("    type: %s    %s  "),
 	  (c_type == COMP_GT) ? "gt" :
 	  ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
 	  (c_type == COMP_GT) ? " >" :

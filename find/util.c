@@ -20,6 +20,19 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include "defs.h"
+
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
+
 
 /* Return the last component of pathname FNAME, with leading slashes
    compressed into one slash. */
@@ -94,7 +107,7 @@ get_new_pred_chk_op ()
     switch (last_pred->p_type)
       {
       case NO_TYPE:
-	error (1, 0, "oops -- invalid default insertion of and!");
+	error (1, 0, _("oops -- invalid default insertion of and!"));
 	break;
 
       case PRIMARY_TYPE:
@@ -154,7 +167,7 @@ usage (msg)
 {
   if (msg)
     fprintf (stderr, "%s: %s\n", program_name, msg);
-  fprintf (stderr, "\
-Usage: %s [path...] [expression]\n", program_name);
+  fprintf (stderr, _("\
+Usage: %s [path...] [expression]\n"), program_name);
   exit (1);
 }

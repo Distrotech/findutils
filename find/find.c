@@ -32,7 +32,25 @@
 #include <sys/file.h>
 #endif
 #include "defs.h"
-#include "modetype.h"
+#include <modetype.h>
+
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#define textdomain(Domain)
+#define bindtextdomain(Package, Directory)
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
 
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
@@ -136,6 +154,12 @@ main (argc, argv)
 
   program_name = argv[0];
 
+#ifdef HAVE_SETLOCALE
+  setlocale (LC_ALL, "");
+#endif
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain (PACKAGE);
+
   predicates = NULL;
   last_pred = NULL;
   do_dir_first = true;
@@ -167,18 +191,20 @@ main (argc, argv)
   while (i < argc)
     {
       if (strchr ("-!(),", argv[i][0]) == NULL)
-	usage ("paths must precede expression");
+	usage (_("paths must precede expression"));
       predicate_name = argv[i];
       parse_function = find_parser (predicate_name);
       if (parse_function == NULL)
-	error (1, 0, "invalid predicate `%s'", predicate_name);
+	/* Command line option not recognized */
+	error (1, 0, _("invalid predicate `%s'"), predicate_name);
       i++;
       if (!(*parse_function) (argv, &i))
 	{
 	  if (argv[i] == NULL)
-	    error (1, 0, "missing argument to `%s'", predicate_name);
+	    /* Command line option requires an argument */
+	    error (1, 0, _("missing argument to `%s'"), predicate_name);
 	  else
-	    error (1, 0, "invalid argument `%s' to `%s'",
+	    error (1, 0, _("invalid argument `%s' to `%s'"),
 		   argv[i], predicate_name);
 	}
     }
@@ -207,7 +233,7 @@ main (argc, argv)
     }
 
 #ifdef	DEBUG
-  printf ("Predicate List:\n");
+  printf (_("Predicate List:\n"));
   print_list (predicates);
 #endif /* DEBUG */
 
@@ -215,7 +241,7 @@ main (argc, argv)
   cur_pred = predicates;
   eval_tree = get_expr (&cur_pred, NO_PREC);
 #ifdef	DEBUG
-  printf ("Eval Tree:\n");
+  printf (_("Eval Tree:\n"));
   print_tree (eval_tree, 0);
 #endif /* DEBUG */
 
@@ -226,18 +252,18 @@ main (argc, argv)
   mark_stat (eval_tree);
 
 #ifdef DEBUG
-  printf ("Optimized Eval Tree:\n");
+  printf (_("Optimized Eval Tree:\n"));
   print_tree (eval_tree, 0);
 #endif /* DEBUG */
 
 #ifndef HAVE_FCHDIR
   starting_dir = xgetcwd ();
   if (starting_dir == NULL)
-    error (1, errno, "cannot get current directory");
+    error (1, errno, _("cannot get current directory"));
 #else
   starting_desc = open (".", O_RDONLY);
   if (starting_desc < 0)
-    error (1, errno, "cannot open current directory");
+    error (1, errno, _("cannot open current directory"));
 #endif
 
   /* If no paths are given, default to ".".  */
@@ -278,7 +304,7 @@ process_top_path (pathname)
 	error (1, errno, "%s", starting_dir);
 #else
       if (fchdir (starting_desc))
-	error (1, errno, "cannot return to starting directory");
+	error (1, errno, _("cannot return to starting directory"));
 #endif
     }
   else
@@ -432,7 +458,7 @@ process_dir (pathname, name, pathlen, statp, parent)
 	  exit_status = 1;
 	}
       else
-	error (1, 0, "virtual memory exhausted");
+	error (1, 0, _("virtual memory exhausted"));
     }
   else
     {

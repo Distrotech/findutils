@@ -21,6 +21,18 @@
 #include <stdio.h>
 #include "defs.h"
 
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
+
 static struct predicate *scan_rest P_((struct predicate **input, struct predicate *head, int prev_prec));
 static void merge_pred P_((struct predicate *beg_list, struct predicate *end_list, struct predicate **last_p));
 static struct predicate *set_new_parent P_((struct predicate *curr, enum predicate_precedence high_prec, struct predicate **prevp));
@@ -52,13 +64,13 @@ get_expr (input, prev_prec)
   struct predicate *next;
 
   if (*input == NULL)
-    error (1, 0, "invalid expression");
+    error (1, 0, _("invalid expression"));
   switch ((*input)->p_type)
     {
     case NO_TYPE:
     case BI_OP:
     case CLOSE_PAREN:
-      error (1, 0, "invalid expression");
+      error (1, 0, _("invalid expression"));
       break;
 
     case PRIMARY_TYPE:
@@ -77,12 +89,12 @@ get_expr (input, prev_prec)
       next = get_expr (input, NO_PREC);
       if ((*input == NULL)
 	  || ((*input)->p_type != CLOSE_PAREN))
-	error (1, 0, "invalid expression");
+	error (1, 0, _("invalid expression"));
       *input = (*input)->pred_next;	/* move over close */
       break;
 
     default:
-      error (1, 0, "oops -- invalid expression type!");
+      error (1, 0, _("oops -- invalid expression type!"));
       break;
     }
 
@@ -97,7 +109,7 @@ get_expr (input, prev_prec)
     {
       next = scan_rest (input, next, prev_prec);
       if (next == NULL)
-	error (1, 0, "invalid expression");
+	error (1, 0, _("invalid expression"));
     }
   return (next);
 }
@@ -134,7 +146,7 @@ scan_rest (input, head, prev_prec)
 	case PRIMARY_TYPE:
 	case UNI_OP:
 	case OPEN_PAREN:
-	  error (1, 0, "invalid expression");
+	  error (1, 0, _("invalid expression"));
 	  break;
 
 	case BI_OP:
@@ -148,7 +160,7 @@ scan_rest (input, head, prev_prec)
 	  return (tree);
 
 	default:
-	  error (1, 0, "oops -- invalid expression type!");
+	  error (1, 0, _("oops -- invalid expression type!"));
 	  break;
 	}
     }
@@ -217,7 +229,7 @@ opt_expr (eval_treep)
   
 #ifdef DEBUG
   /* Normalized tree. */
-  printf ("Normalized Eval Tree:\n");
+  printf (_("Normalized Eval Tree:\n"));
   print_tree (*eval_treep, 0);
 #endif
 
@@ -296,7 +308,7 @@ opt_expr (eval_treep)
 	     all of the user's parentheses. */
 
 	default:
-	  error (1, 0, "oops -- invalid expression type!");
+	  error (1, 0, _("oops -- invalid expression type!"));
 	  break;
 	}
 
@@ -430,7 +442,7 @@ mark_stat (tree)
       return (false);
 
     default:
-      error (1, 0, "oops -- invalid expression type!");
+      error (1, 0, _("oops -- invalid expression type!"));
       return (false);
     }
 }

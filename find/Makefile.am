@@ -1,8 +1,9 @@
+localedir = $(datadir)/locale
 bin_PROGRAMS = find
 find_SOURCES = find.c fstype.c parser.c pred.c tree.c util.c version.c
 EXTRA_DIST = defs.h $(man_MANS)
-INCLUDES = -I.. -I$(top_srcdir)/lib
-LDADD = ../lib/libfind.a
+INCLUDES = -I$(top_srcdir)/lib -I../intl -DLOCALEDIR=\"$(localedir)\"
+LDADD = ../lib/libfind.a @INTLLIBS@
 man_MANS = find.1
 SUBDIRS = testsuite
 
