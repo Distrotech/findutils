@@ -374,7 +374,11 @@ main (int argc, char **argv)
 	  args_per_exec = parse_num (optarg, 'n', 1L, -1L);
 	  /* -n excludes -i -l.  */
 	  lines_per_exec = 0;
-	  replace_pat = NULL;
+	  if (args_per_exec == 1 && replace_pat)
+	    /* ignore -n1 in '-i -n1' */
+	    args_per_exec = 0;
+	  else
+	    replace_pat = NULL;
 	  break;
 
 	case 's':
