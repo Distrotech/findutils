@@ -100,10 +100,12 @@ static int
 get_short (fp)
      FILE *fp;
 {
+
   register short x;
 
-  x = fgetc (fp);
-  return (x << 8) | (fgetc (fp) & 0xff);
+  x = fgetc (fp) << 8;
+  x |= (fgetc (fp) & 0xff);
+  return x;
 }
 
 /* Return a pointer to the last character in a static copy of the last
