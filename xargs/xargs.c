@@ -434,12 +434,7 @@ main (int argc, char **argv)
     {
       arg_max = arg_size;
     }
-  if (size_of_environment > arg_max)
-    {
-      error (1, 0, _("environment is too large for max-chars size, try using the -s option"));
-    }
   
-
   linebuf = (char *) xmalloc (arg_max + 1);
   argbuf = (char *) xmalloc (arg_max + 1);
 
