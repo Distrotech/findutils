@@ -1,5 +1,21 @@
 2005-03-07  James Youngman  <jay@gnu.org>
 
+	* Released findutils-4.2.19.
+
+	* find/testsuite/find.posix/sizes.exp:
+	Use 2>/dev/null instead of 2>&1, because Tcl understands the former
+	but not the latter.
+
+	* find/testsuite/Makefile.am: Also distribute sv-bug-12181.xo.
+
+	* find/testsuite/Makefile.am: Distribute sv-bug-12181.
+
+	* find/testsuite/Makefile.am: Distribute sv-bug-12230.
+
+	* NEWS: Updated with new news.
+
+	* ChangeLog: Brought up to date.
+
 	* lib/buildcmd.c, find/testsuite/find.gnu/sv-bug-12230.exp: Fixed
 	Savannah bug #12230, in which '-exec echo == {} +' is always run,
 	even if there were no matched files.
