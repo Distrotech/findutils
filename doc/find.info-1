@@ -1,5 +1,4 @@
-This is Info file find.info, produced by Makeinfo version 1.68 from the
-input file find.texi.
+This is find.info, produced by makeinfo version 4.0 from find.texi.
 
 START-INFO-DIR-ENTRY
 * Finding Files: (find).        Listing and operating on files
@@ -213,8 +212,7 @@ An expression can contain any of the following types of primaries:
 `-and'.  *Note Combining Primaries With Operators::, for ways to
 connect primaries into more complex expressions.  If the expression
 contains no actions other than `-prune', `-print' is performed on all
-files for which the entire expression is true (*note Print File
-Name::.).
+files for which the entire expression is true (*note Print File Name::).
 
    Options take effect immediately, rather than being evaluated for each
 file when their place in the expression is reached.  Therefore, for
@@ -286,13 +284,13 @@ File: find.info,  Node: Base Name Patterns,  Next: Full Name Patterns,  Up: Name
 Base Name Patterns
 ------------------
 
- - Test: -name PATTERN
- - Test: -iname PATTERN
+ - Test: -name pattern
+ - Test: -iname pattern
      True if the base of the file name (the path with the leading
      directories removed) matches shell pattern PATTERN.  For `-iname',
      the match is case-insensitive.  To ignore a whole directory tree,
-     use `-prune' (*note Directories::.).  As an example, to find
-     Texinfo source files in `/usr/local/doc':
+     use `-prune' (*note Directories::).  As an example, to find Texinfo
+     source files in `/usr/local/doc':
 
           find /usr/local/doc -name '*.texi'
 
@@ -302,16 +300,16 @@ File: find.info,  Node: Full Name Patterns,  Next: Fast Full Name Search,  Prev:
 Full Name Patterns
 ------------------
 
- - Test: -path PATTERN
- - Test: -ipath PATTERN
+ - Test: -path pattern
+ - Test: -ipath pattern
      True if the entire file name, starting with the command line
      argument under which the file was found, matches shell pattern
      PATTERN.  For `-ipath', the match is case-insensitive.  To ignore
      a whole directory tree, use `-prune' rather than checking every
-     file in the tree (*note Directories::.).
+     file in the tree (*note Directories::).
 
- - Test: -regex EXPR
- - Test: -iregex EXPR
+ - Test: -regex expr
+ - Test: -iregex expr
      True if the entire file name matches regular expression EXPR.
      This is a match on the whole path, not a search.  For example, to
      match a file named `./fubar3', you can use the regular expression
@@ -351,7 +349,7 @@ name.
 databases contain information.  The differences are that the `locate'
 information might be out of date, and that `locate' handles wildcards
 in the pattern slightly differently than `find' (*note Shell Pattern
-Matching::.).
+Matching::).
 
    The file name databases contain lists of files that were on the
 system when the databases were last updated.  The system administrator
@@ -406,7 +404,7 @@ so does escaping with a backslash.
      works even in character classes.
 
    In the `find' tests that do shell pattern matching (`-name',
-`-path', etc.), wildcards in the pattern do not match a `.'  at the
+`-path', etc.), wildcards in the pattern do not match a `.' at the
 beginning of a file name.  This is not the case for `locate'.  Thus,
 `find -name '*macs'' does not match a file named `.emacs', but `locate
 '*macs'' does.
@@ -440,8 +438,8 @@ File: find.info,  Node: Symbolic Links,  Next: Hard Links,  Up: Links
 Symbolic Links
 --------------
 
- - Test: -lname PATTERN
- - Test: -ilname PATTERN
+ - Test: -lname pattern
+ - Test: -ilname pattern
      True if the file is a symbolic link whose contents match shell
      pattern PATTERN.  For `-ilname', the match is case-insensitive.
      *Note Shell Pattern Matching::, for details about the PATTERN
@@ -462,7 +460,7 @@ Symbolic Links
         * `-type' reports the types of the files that symbolic links
           point to.
 
-        * Implies `-noleaf' (*note Directories::.).
+        * Implies `-noleaf' (*note Directories::).
 
 
 File: find.info,  Node: Hard Links,  Prev: Symbolic Links,  Up: Links
@@ -480,7 +478,7 @@ such as `/usr' on many systems.  Doing this saves needless searching,
 since hard links to a file must be on the same filesystem.  *Note
 Filesystems::.
 
- - Test: -inum N
+ - Test: -inum n
      File has inode number N.
 
    You can also search for files that have a certain number of links,
@@ -488,7 +486,7 @@ with `-links'.  Directories normally have at least two hard links; their
 `.' entry is the second one.  If they have subdirectories, each of
 those also has a hard link called `..' to its parent directory.
 
- - Test: -links N
+ - Test: -links n
      File has N hard links.
 
 
@@ -522,15 +520,15 @@ Age Ranges
 
    These tests are mainly useful with ranges (`+N' and `-N').
 
- - Test: -atime N
- - Test: -ctime N
- - Test: -mtime N
+ - Test: -atime n
+ - Test: -ctime n
+ - Test: -mtime n
      True if the file was last accessed (or its status changed, or it
      was modified) N*24 hours ago.
 
- - Test: -amin N
- - Test: -cmin N
- - Test: -mmin N
+ - Test: -amin n
+ - Test: -cmin n
+ - Test: -mmin n
      True if the file was last accessed (or its status changed, or it
      was modified) N minutes ago.  These tests provide finer
      granularity of measurement than `-atime' et al.  For example, to
@@ -563,9 +561,9 @@ current year:
      find /usr -newer /tmp/stamp$$
      rm -f /tmp/stamp$$
 
- - Test: -anewer FILE
- - Test: -cnewer FILE
- - Test: -newer FILE
+ - Test: -anewer file
+ - Test: -cnewer file
+ - Test: -newer file
      True if the file was last accessed (or its status changed, or it
      was modified) more recently than FILE was modified.  These tests
      are affected by `-follow' only if `-follow' comes before them on
@@ -575,7 +573,7 @@ current year:
 
           find . -newer /bin/sh
 
- - Test: -used N
+ - Test: -used n
      True if the file was last accessed N days after its status was
      last changed.  Useful for finding files that are not being used,
      and could perhaps be archived or removed to save disk space.
@@ -586,7 +584,7 @@ File: find.info,  Node: Size,  Next: Type,  Prev: Time,  Up: Finding Files
 Size
 ====
 
- - Test: -size N[BCKW]
+ - Test: -size n[bckw]
      True if the file uses N units of space, rounding up.  The units
      are 512-byte blocks by default, but they can be changed by adding a
      one-character suffix to N:
@@ -609,8 +607,8 @@ Size
  - Test: -empty
      True if the file is empty and is either a regular file or a
      directory.  This might make it a good candidate for deletion.
-     This test is useful with `-depth' (*note Directories::.) and
-     `-exec rm -rf '{}' ';'' (*note Single File::.).
+     This test is useful with `-depth' (*note Directories::) and `-exec
+     rm -rf '{}' ';'' (*note Single File::).
 
 
 File: find.info,  Node: Type,  Next: Owner,  Prev: Size,  Up: Finding Files
@@ -618,7 +616,7 @@ File: find.info,  Node: Type,  Next: Owner,  Prev: Size,  Up: Finding Files
 Type
 ====
 
- - Test: -type C
+ - Test: -type c
      True if the file is of type C:
 
     `b'
@@ -642,7 +640,7 @@ Type
     `s'
           socket
 
- - Test: -xtype C
+ - Test: -xtype c
      The same as `-type' unless the file is a symbolic link.  For
      symbolic links: if `-follow' has not been given, true if the file
      is a link to a file of type C; if `-follow' has been given, true
@@ -656,13 +654,13 @@ File: find.info,  Node: Owner,  Next: Permissions,  Prev: Type,  Up: Finding Fil
 Owner
 =====
 
- - Test: -user UNAME
- - Test: -group GNAME
+ - Test: -user uname
+ - Test: -group gname
      True if the file is owned by user UNAME (belongs to group GNAME).
      A numeric ID is allowed.
 
- - Test: -uid N
- - Test: -gid N
+ - Test: -uid n
+ - Test: -gid n
      True if the file's numeric user ID (group ID) is N.  These tests
      support ranges (`+N' and `-N'), unlike `-user' and `-group'.
 
@@ -684,12 +682,12 @@ Permissions
    *Note File Permissions::, for information on how file permissions are
 structured and how to specify them.
 
- - Test: -perm MODE
+ - Test: -perm mode
      True if the file's permissions are exactly MODE (which can be
      numeric or symbolic).  Symbolic modes use mode 0 as a point of
-     departure.  If MODE starts with `-', true if *all* of the
+     departure.  If MODE starts with `-', true if _all_ of the
      permissions set in MODE are set for the file; permissions not set
-     in MODE are ignored.  If MODE starts with `+', true if *any* of
+     in MODE are ignored.  If MODE starts with `+', true if _any_ of
      the permissions set in MODE are set for the file; permissions not
      set in MODE are ignored.
 
@@ -733,12 +731,12 @@ Directories
 searches them.  These two options allow you to process a horizontal
 slice of a directory tree.
 
- - Option: -maxdepth LEVELS
+ - Option: -maxdepth levels
      Descend at most LEVELS (a non-negative integer) levels of
      directories below the command line arguments.  `-maxdepth 0' means
      only apply the tests and actions to the command line arguments.
 
- - Option: -mindepth LEVELS
+ - Option: -mindepth levels
      Do not apply any tests or actions at levels less than LEVELS (a
      non-negative integer).  `-mindepth 1' means process all files
      except the command line arguments.
@@ -798,7 +796,7 @@ is to tell `find' to only search one filesystem:
    The other way is to check the type of filesystem each file is on, and
 not descend directories that are on undesirable filesystem types:
 
- - Test: -fstype TYPE
+ - Test: -fstype type
      True if the file is on a filesystem of type TYPE.  The valid
      filesystem types vary among different versions of Unix; an
      incomplete list of filesystem types that are accepted on some
@@ -807,7 +805,7 @@ not descend directories that are on undesirable filesystem types:
      You can use `-printf' with the `%F' directive to see the types of
      your filesystems.  *Note Print File Information::.  `-fstype' is
      usually used with `-prune' to avoid searching remote filesystems
-     (*note Directories::.).
+     (*note Directories::).
 
 
 File: find.info,  Node: Combining Primaries With Operators,  Prev: Filesystems,  Up: Finding Files
@@ -884,7 +882,7 @@ Print File Name
      True; print the full file name on the standard output, followed by
      a newline.
 
- - Action: -fprint FILE
+ - Action: -fprint file
      True; print the full file name into file FILE, followed by a
      newline.  If FILE does not exist when `find' is run, it is
      created; if it does exist, it is truncated to 0 bytes.  The file
@@ -916,7 +914,7 @@ Print File Information
 
        3. The file's type and permissions.  The type is shown as a dash
           for a regular file; for other file types, a letter like for
-          `-type' is used (*note Type::.).  The permissions are read,
+          `-type' is used (*note Type::).  The permissions are read,
           write, and execute for the file's owner, its group, and other
           users, respectively; a dash means the permission is not
           granted.  *Note File Permissions::, for more details about
@@ -936,19 +934,19 @@ Print File Information
        9. The file's name.  `-ls' quotes non-printable characters in
           the file names using C-like backslash escapes.
 
- - Action: -fls FILE
+ - Action: -fls file
      True; like `-ls' but write to FILE like `-fprint' (*note Print
-     File Name::.).
+     File Name::).
 
- - Action: -printf FORMAT
+ - Action: -printf format
      True; print FORMAT on the standard output, interpreting `\'
      escapes and `%' directives.  Field widths and precisions can be
      specified as with the `printf' C function.  Unlike `-print',
      `-printf' does not add a newline at the end of the string.
 
- - Action: -fprintf FILE FORMAT
+ - Action: -fprintf file format
      True; like `-printf' but write to FILE like `-fprint' (*note Print
-     File Name::.).
+     File Name::).
 
 * Menu:
 
@@ -1090,7 +1088,7 @@ Location Directives
 
 `%F'
      Type of the filesystem the file is on; this value can be used for
-     `-fstype' (*note Directories::.).
+     `-fstype' (*note Directories::).
 
 `%l'
      Object of symbolic link (empty string if file is not a symbolic
@@ -1119,7 +1117,7 @@ depends on the current locale, but it typically looks like
 
 `%AK'
      File's last access time in the format specified by K (*note Time
-     Formats::.).
+     Formats::).
 
 `%c'
      File's last status change time in the format returned by the C
@@ -1127,7 +1125,7 @@ depends on the current locale, but it typically looks like
 
 `%CK'
      File's last status change time in the format specified by K (*note
-     Time Formats::.).
+     Time Formats::).
 
 `%t'
      File's last modification time in the format returned by the C
@@ -1135,7 +1133,7 @@ depends on the current locale, but it typically looks like
 
 `%TK'
      File's last modification time in the format specified by K (*note
-     Time Formats::.).
+     Time Formats::).
 
 
 File: find.info,  Node: Time Formats,  Prev: Format Directives,  Up: Print File Information
@@ -1285,7 +1283,7 @@ Single File
 
    Here is how to run a command on one file at a time.
 
- - Action: -exec COMMAND ;
+ - Action: -exec command ;
      Execute COMMAND; true if 0 status is returned.  `find' takes all
      arguments after `-exec' to be part of the command until an
      argument consisting of `;' is reached.  It replaces the string
@@ -1409,9 +1407,9 @@ option to GNU `xargs', GNU `tar', GNU `cpio', or `perl'.
      True; print the full file name on the standard output, followed by
      a null character.
 
- - Action: -fprint0 FILE
+ - Action: -fprint0 file
      True; like `-print0' but write to FILE like `-fprint' (*note Print
-     File Name::.).
+     File Name::).
 
 
 File: find.info,  Node: Limiting Command Size,  Next: Interspersing File Names,  Prev: Safe File Name Handling,  Up: Multiple Files
@@ -1466,8 +1464,8 @@ Interspersing File Names
 
    `xargs' can insert the name of the file it is processing between
 arguments you give for the command.  Unless you also give options to
-limit the command size (*note Limiting Command Size::.), this mode of
-operation is equivalent to `find -exec' (*note Single File::.).
+limit the command size (*note Limiting Command Size::), this mode of
+operation is equivalent to `find -exec' (*note Single File::).
 
 `--replace[=REPLACE-STR]'
 `-i[REPLACE-STR]'
@@ -1493,15 +1491,15 @@ Querying
    To ask the user whether to execute a command on a single file, you
 can use the `find' primary `-ok' instead of `-exec':
 
- - Action: -ok COMMAND ;
-     Like `-exec' (*note Single File::.), but ask the user first (on
-     the standard input); if the response does not start with `y' or
-     `Y', do not run the command, and return false.
+ - Action: -ok command ;
+     Like `-exec' (*note Single File::), but ask the user first (on the
+     standard input); if the response does not start with `y' or `Y',
+     do not run the command, and return false.
 
    When processing multiple files with a single command, to query the
 user you give `xargs' the following option.  When using this option, you
 might find it useful to control the number of files processed per
-invocation of the command (*note Limiting Command Size::.).
+invocation of the command (*note Limiting Command Size::).
 
 `--interactive'
 `-p'
@@ -1539,7 +1537,7 @@ the test.  Because `-exec' evaluates to the exit status of the executed
 program, you can write a program (which can be a shell script) that
 tests for a special attribute and make it exit with a true (zero) or
 false (non-zero) status.  It is a good idea to place such a special
-test *after* the builtin tests, because it starts a new process which
+test _after_ the builtin tests, because it starts a new process which
 could be avoided if a builtin test evaluates to false.  Use this method
 only when `xargs' is not flexible enough, because starting one or more
 new processes to test each file is slower than using `xargs' to start
