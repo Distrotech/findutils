@@ -49,5 +49,7 @@ findutils-check-testfiles:
 	distcount=`ls $(distdir)/*/testsuite/*/*.exp | wc -l` && srccount=`ls $(srcdir)/*/testsuite/*/*.exp | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
 	@echo ; echo Checking to see if we distributed the full set of .xo files
 	distcount=`ls $(distdir)/*/testsuite/*/*.xo | wc -l` && srccount=`ls $(srcdir)/*/testsuite/*/*.xo | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
+	@echo ; echo Checking to see if we distributed the full set of .xe files
+	distcount=`ls $(distdir)/*/testsuite/*/*.xe | wc -l` && srccount=`ls $(srcdir)/*/testsuite/*/*.xe | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
 	@echo ; echo Checking to see if we distributed the full set of .xi files
 	distcount=`ls $(distdir)/*/testsuite/inputs/*.xi | wc -l` && srccount=`ls $(srcdir)/*/testsuite/inputs/*.xi | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
