@@ -1,7 +1,7 @@
 info_TEXINFOS = find.texi
 find_TEXINFOS = perm.texi
 MOSTLYCLEANFILES = find.cps 
-CLEANFILES = find.txt find_mono.html findutils.texi_html_chapter.tar.gz
+CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz
 
 MAKEINFOTXT = $(MAKEINFO) --plaintext
 
@@ -43,10 +43,10 @@ find_mono.html: find.texi
 	fi
 
 
-# findutils.texi_html_chapter.tar.gz is a file which we need to know
+# findutils.texi_html_node.tar.gz is a file which we need to know
 # how to build because it gets put on the www.gnu.org website.
 # This rule depends on GNU tar, but it's principally used 
 # by the maintainer, and we don't need to build the file 
 # for "make all" or "make install" (or even "make check").
-findutils.texi_html_chapter.tar.gz: find.html
+findutils.texi_html_node.tar.gz: find.html
 	tar zcf $@ $<
