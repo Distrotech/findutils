@@ -74,10 +74,10 @@ points to (that is, the link is followed).  The information about the
 link itself is used as a fallback if the file pointed to by the
 symbolic link cannot be examined.
 
-When the \-H option is in effect, the \-type predicate will always
+When the \-L option is in effect, the \-type predicate will always
 match against the type of the file that a symbolic link points to
 rather than the link itself (unless the symbolic link is broken).
-Using \-H causes the \-lname and \-ilname predicates always to return
+Using \-L causes the \-lname and \-ilname predicates always to return
 false.
 .P
 If more than one of \-H, \-L and \-P are both specified, each
@@ -107,13 +107,6 @@ When the \-H or \-L options are in effect, any symbolic links listed
 as the argument of \-newer will be dereferenced, and the timestamp
 will be taken from the file to which the symbolic link points.  The
 same consideration applies to \-anewer and \-cnewer.
-
-Similarly, when \-H or \-L is in effect, the \-type predicate will
-always match against the type of the file that a symbolic link points
-to rather than the link itself (unless the link is broken or cannot be
-dereferenced).  Using \-H or \-L causes the \-lname and \-ilname
-predicates always to return false (again, except in the case of broken
-links).
 
 The \-follow option has a similar effect to \-L, though it takes
 effect at the point where it appears (that is, if \-L is not used but
@@ -162,7 +155,7 @@ and exit.
 Normally, \fBfind\fR will emit an error message when it fails to stat a file.
 If you give this option and a file is deleted between the time \fBfind\fR 
 reads the name of the file from the directory and the time it tries to stat 
-the file, nno error message will be issued.    This also applies to files
+the file, no error message will be issued.    This also applies to files
 or directories whose names are given on the command line.  This option takes
 effect at the time the command line is read, which means that you cannot search
 one part of the filesystem with this option on and part of it with this option
@@ -310,7 +303,7 @@ and `[]') match a `.' at the start of the base name (this is a change
 in findutils-4.2.2; see section STANDARDS CONFORMANCE below).  To ignore a
 directory and the files under it, use \-prune; see an example in the
 description of \-wholename.  Braces are not recognised as being
-special, despite the fact that some shells including Bash ibmue braces
+special, despite the fact that some shells including Bash imbue braces
 with a special meaning in shell patterns.  The filename matching is
 performed with the use of the
 .BR fnmatch (3) 
@@ -464,7 +457,7 @@ quoted to protect them from expansion by the shell.  See the
 section for examples of the use of the `\-exec' option.  The specified
 command is run once for each matched file.
 The command is executed in the starting directory.   There are
-unavoidable security problems surrpounding use of the -exec option;
+unavoidable security problems surrounding use of the -exec option;
 you should use the -execdir option instead.  
 
 .IP "\-exec \fIcommand\fR {} +"
