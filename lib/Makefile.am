@@ -7,14 +7,13 @@ noinst_LIBRARIES = libfind.a
 libfind_a_SOURCES =
 #libfind_a_LIBADD = @LIBOBJS@
 #libfind_la_LIBADD = @LTLIBOBJS@
-EXTRA_DIST =
+EXTRA_DIST = modetype.h wait.h
 BUILT_SOURCES =
 SUFFIXES =
 MOSTLYCLEANFILES =
 CLEANFILES =
 DISTCLEANFILES =
 MAINTAINERCLEANFILES =
-EXTRA_DIST += modetype.h
 INCLUDES = -I$(top_srcdir)/gnulib/lib
 
 libfind_a_SOURCES += modetype.h

@@ -36,8 +36,10 @@ dnl Checks for libraries.
 AC_CHECK_LIB(sun, getpwnam)
 
 dnl Checks for header files.
-AC_CHECK_HEADERS(fcntl.h string.h limits.h unistd.h errno.h)
 AC_HEADER_STDC
+AC_CHECK_HEADERS(fcntl.h string.h limits.h unistd.h errno.h stdlib.h stddef.h)
+AC_CHECK_HEADERS(unistd.h inttypes.h fcntl.h locale.h)
+AC_CHECK_HEADERS(sys/param.h)
 AC_HEADER_MAJOR
 AC_HEADER_DIRENT
 AC_HEADER_STAT
