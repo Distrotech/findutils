@@ -393,66 +393,47 @@ locate (pathpart, dbfile, ignore_case)
       /* Search backward starting at the end of the path we just read in,
 	 for the character at the end of the last glob-free subpattern
 	 in PATHPART.  */
-      if (ignore_case)
-	{
-          for (prev_fast_match = false; s >= cutoff; s--)
-	    /* Fast first char check. */
-	    if (TOLOWER(*s) == *patend)
-	      {
-	        char *s2;		/* Scan the path we read in. */
-	        register char *p2;	/* Scan `patend'.  */
+      for(prev_fast_match=false; s>=cutoff; s--)
+        {
+          char *s2;   /* Scan the path we read in. */
+          register char *p2;  /* Scan `patend'.  */
 
-	        for (s2 = s - 1, p2 = patend - 1; *p2 != '\0' && TOLOWER(*s2) == *p2;
-		     s2--, p2--)
-	          ;
-		if (*p2 == '\0')
-		  {
-		    /* Success on the fast match.  Compare the whole pattern
-		       if it contains globbing characters.  */
-		    prev_fast_match = true;
-		    if (globflag == false || fnmatch (pathpart, path, FNM_CASEFOLD) == 0)
-		      {
-			if (!check_existence || stat(path, &st) == 0)
-			  {
-			    puts (path);
-			    ++printed;
-			  }
-		      }
-		    break;
-		  }
-	      }
-	}
-      else {
-	
-      for (prev_fast_match = false; s >= cutoff; s--)
-	/* Fast first char check. */
-	if (*s == *patend)
-	  {
-	    char *s2;		/* Scan the path we read in. */
-	    register char *p2;	/* Scan `patend'.  */
+          /* Fast first char check. */
+          if(ignore_case)
+            {
+              if(TOLOWER(*s)!=*patend)
+                continue;
+            }
+          else if(*s!=*patend)
+            continue;
 
-	    for (s2 = s - 1, p2 = patend - 1; *p2 != '\0' && *s2 == *p2;
-					       s2--, p2--)
-	      ;
-	    if (*p2 == '\0')
-	      {
-		/* Success on the fast match.  Compare the whole pattern
-		   if it contains globbing characters.  */
-		prev_fast_match = true;
-		if (globflag == false || fnmatch (pathpart, path,
-						  0) == 0)
-		  {
-		    if (!check_existence || stat(path, &st) == 0)
-		      {
-			puts (path);
-			++printed;
-		      }
-		  }
-		break;
-	      }
-	  }
-      }
-      
+          if(ignore_case)
+            for(s2=s-1, p2=patend-1; *p2!='\0' && TOLOWER(*s2)==*p2; s2--, p2--);
+          else
+            for(s2=s-1, p2=patend-1; *p2!='\0' && *s2==*p2; s2--, p2--);
+
+          if(*p2!='\0')
+            continue;
+          /*  Success on the fast match.  Compare the whole pattern
+              if it contains globbing characters.  */
+          prev_fast_match = true;
+          if(globflag)
+            {
+              if(ignore_case)
+                {
+                  if(fnmatch(pathpart,basename(path),FNM_CASEFOLD)!=0)
+                    break;
+                }
+              else
+                if(fnmatch(pathpart,basename(path),0)!=0)
+                  break;
+            }
+          if(check_existence && stat(path,&st)!=0)
+            break;
+          puts(path);
+          ++printed;
+          break;
+        }
     }
   
   if (ferror (fp))

@@ -1,13 +1,17 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.2.0
+** locate 'pa*d' will now find /etc/passwd (if it exists, of course)
 ** The environment variable FIND_BLOCK_SIZE is now ignored.
 ** The find manual page also now includes a section 
    which describes the relationship between the features of GNU 
    find and the POSIX standard.  Some other small improvements 
    to the find and xargs manual pages have been made.
 ** The escape code '\0' for the `-printf' predicate of find is now
-   documented.   
+   documented, and the documentation for the %k and %b specifiers
+   has been improved.
 ** Bug-fixes, notably better support for 64-bit systems.
+** The command "xargs -i -n1" now works as one might expect, even though
+   it's a strange thing to want to do...
 
 * Major changes in release 4.1.20:
 ** New maintainer, James Youngman <jay@gnu.org>
