@@ -2,12 +2,13 @@
 .SH NAME
 find \- search for files in a directory hierarchy
 .SH SYNOPSIS
-.B find
-[path...] [expression]
+.B find 
+[-H] [-L] [path...] [expression]
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
 .BR find .
+GNU
 .B find
 searches the directory tree rooted at each given file name by
 evaluating the given expression from left to right, according to the
@@ -17,15 +18,58 @@ known (the left hand side is false for \fIand\fR operations, true for
 .B find
 moves on to the next file name.
 .PP
-The first argument that begins with `\-', `(', `)', `,', or `!' is taken
-to be the beginning of the expression; any arguments before it are
-paths to search, and any arguments after it are the rest of the
-expression.  If no paths are given, the current directory is used.  If
-no expression is given, the expression `\-print' is used (but you
+The `-H' or `-L' options control the treatment of symbolic links.
+Command-line arguments following these are taken to be names of files
+or directories to be examined, up to the first argument that begins
+with `\-', `(', `)', `,', or `!'.  That argument and any following
+arguments are taken to be the expression describing what is to be
+searched for.  If no paths are given, the current directory is used.
+If no expression is given, the expression `\-print' is used (but you
 should probably consider using `\-print0' instead, anyway).
-.
-.SH EXPRESSIONS
+.PP
+This manual page talks about `options' within the expression list.
+These options control the behaviour of 
+.B find
+but are specified immediately after the last path name.  The two
+`real' options `-H' and `-L' must appear before the first path name,
+if at all.
+.SH OPTIONS
+.IP \-L
+Follow symbolic links.  When 
+.B find
+examines or prints information about files, the information used 
+shall be taken from the properties of the file to which the link
+points, not from the link itself.  Use of this option implies
+\-noleaf. 
+
+.IP \-H
+Do not follow symbolic links.  This is the default behaviour.  When
+.B find
+examines or prints information about files, the information used 
+shall be taken from the properties of the symbolic link itself.   The
+only exception to this behaviour is when a file specified on the
+command line is a symbolic link, and the link can be resolved.  For
+that situation, the information used is taken from whatever the link
+points to (that is, the link is followed).  The information about the
+link itself is used as a fallback if the file pointed to by the
+symbolic link cannot be examined.
+
+.\" THE FOLLOWING USED TO BE TRUE OF -follow, BUT IS NO LONGER TRUE.
+.\" When \-H is used, this affects the behaviour of several of the \-newer
+.\" predicate; any files listed as the argument of \-newer will be
+.\" dereferenced if they are symbolic links.  The same consideration
+.\" applies to \-anewer and \-cnewer.  Similarly, 
+
+When the \-H option is in effect, the \-type predicate will always
+match against the type of the file that a symbolic link points to
+rather than the link itself (unless the symbolic link is broken).
+Using \-H causes the \-lname and \-ilname predicates always to return
+false.
 .P
+If \-H and \-L are both specified, each overrides the other; the last
+one appearing on the command line takes effect.
+.P
+.SH EXPRESSIONS
 The expression is made up of options (which affect overall operation
 rather than the processing of a specific file, and always return true),
 tests (which return a true or false value), and actions (which have side
@@ -49,16 +93,18 @@ Process each directory's contents before the directory itself.
 .IP \-d
 A synonym for \-depth, for compatibility with FreeBSD, NetBSD, MacOS X and OpenBSD.
 .IP \-follow
-Dereference symbolic links.  Implies \-noleaf.  The position of the \-follow
-option changes the behaviour of the \-newer predicate; any files
-listed as the argument of \-newer will be dereferenced if they are
-symbolic links.  The same consideration applies to \-anewer 
-and \-cnewer.
-Similarly, the \-type 
-predicate will always match against the type of the file that a
-symbolic link points to rather than the link itself.  Using 
-\-follow causes the \-lname and \-ilname 
-predicates always to return false.
+Deprecated; use the \-L option instead.  Dereference symbolic links.
+Implies \-noleaf.  
+.\" Since the introduction of the -H option, arguments specified on
+.\" the command line are always followed if they are symbolic links;
+.\" this is a POSIX requirement as I understand things.
+.\" The position of the \-follow option changes the
+.\" behaviour of the \-newer predicate; any files listed as the argument
+.\" of \-newer will be dereferenced if they are symbolic links.  The same
+.\" consideration applies to \-anewer and \-cnewer.  Similarly, the \-type
+.\" predicate will always match against the type of the file that a
+.\" symbolic link points to rather than the link itself.  Using \-follow
+.\" causes the \-lname and \-ilname predicates always to return false.
 .IP "\-help, \-\-help"
 Print a summary of the command-line usage of
 .B find
@@ -130,16 +176,16 @@ for exactly
 File was last accessed \fIn\fR minutes ago.
 .IP "\-anewer \fIfile\fR"
 File was last accessed more recently than \fIfile\fR was modified.
-\-anewer is affected by \-follow only if \-follow comes before
-\-anewer on the command line.
+If \fIfile\fR is a symbolic link, the modification time
+of the file it points to is always used.
 .IP "\-atime \fIn\fR"
 File was last accessed \fIn\fR*24 hours ago.
 .IP "\-cmin \fIn\fR"
 File's status was last changed \fIn\fR minutes ago.
 .IP "\-cnewer \fIfile\fR"
 File's status was last changed more recently than \fIfile\fR was modified.
-\-cnewer is affected by \-follow only if \-follow comes before
-\-cnewer on the command line.
+If \fIfile\fR is a symbolic link, the modification time
+of the file it points to is always used.
 .IP "\-ctime \fIn\fR"
 File's status was last changed \fIn\fR*24 hours ago.
 .IP \-empty
@@ -198,8 +244,8 @@ performed with the use of the
 library function.
 .IP "\-newer \fIfile\fR"
 File was modified more recently than \fIfile\fR.
-\-newer is affected by \-follow only if \-follow comes before
-\-newer on the command line.
+If \fIfile\fR is a symbolic link, the modification time
+of the file it points to is always used.
 .IP \-nouser
 No user corresponds to file's numeric user ID.
 .IP \-nogroup
@@ -266,7 +312,8 @@ named pipe (FIFO)
 .IP f
 regular file
 .IP l
-symbolic link
+symbolic link (never true if the \-L option is in 
+effect, unless the symbolic link is broken).
 .IP s
 socket
 .IP D
@@ -298,10 +345,10 @@ find . \-wholename './src/emacs' -prune -o -print
 .in -1i
 .IP "\-xtype \fIc\fR"
 The same as \-type unless the file is a symbolic link.  For symbolic
-links: if \-follow has not been given, true if the file is a link to a
-file of type \fIc\fR; if \-follow has been given, true if \fIc\fR is
-`l'.  In other words, for symbolic links, \-xtype checks the type of
-the file that \-type does not check.
+links: if the \-H option is specified (or \-X has not been specified),
+true if the file is a link to a file of type \fIc\fR; if the \-X has
+been given, true if \fIc\fR is `l'.  In other words, for symbolic
+links, \-xtype checks the type of the file that \-type does not check.
 .SS ACTIONS
 
 .IP "\-delete\fR"
@@ -604,6 +651,10 @@ value of \fIexpr2\fR.
 .SH "STANDARDS CONFORMANCE"
 The following options are specified in the POSIX standard 
 (IEEE Std 1003.1, 2003 Edition):
+.IP "\-H"
+This option is supported.
+.IP "\-L"
+This option is supported.
 .IP "\-name"
 This option is supported, but POSIX conformance depends on the 
 POSIX conformance of the system's 
@@ -623,6 +674,12 @@ Supported.   Interpretation of the response is not locale-dependent
 .IP "\-exec"
 Supported for the `{} ;' case, but the '{} +' variant is not supported yet.
 
+.IP "\-newer"
+Supported.  If the file specified is a symbolic link, it is always
+dereferenced.  This is a change from previous behaviour, which used to 
+take the relevant time from the symbolic link; see the HISTORY section
+below.
+
 .IP "Other predicates"
 The predicates
 `-atime',
@@ -631,7 +688,6 @@ The predicates
 `-group',
 `-links',
 `-mtime',
-`-newer',
 `-nogroup',
 `-nouser',
 `-perm',
@@ -731,6 +787,16 @@ than 0 if errors occur.
 .SH "SEE ALSO"
 \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1)
 \fBFinding Files\fP (on-line in Info, or printed)
+.SH "HISTORY"
+As of findutils-4.2.2, shell metacharacters ('*'. '?' or '[]' for
+example) will match a leading '.', because IEEE interpretation 126
+requires this.
+
+As of findutils-4.2.5, the \-follow option no longer affects whether
+or not symbolic links specified on the command line are followed for
+tests like \-newer.  This change coincides with the introduction of
+the POSIX options \-H and \-L.
+
 .SH "BUGS"
 .P 
 The best way to report a bug is to use the form at

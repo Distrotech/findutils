@@ -609,10 +609,8 @@ parse_follow (char **argv, int *arg_ptr)
   (void) argv;
   (void) arg_ptr;
 
-  dereference = true;
-  xstat = stat;
-  no_leaf_check = true;
-  return (true);
+  set_follow_state(true);
+  return true;
 }
 
 static boolean

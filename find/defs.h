@@ -322,6 +322,9 @@ char *xstrdup PARAMS((char *string));
 
 /* find global function declarations.  */
 
+/* find.c */
+void set_follow_state PARAMS((boolean follow));
+
 /* fstype.c */
 char *filesystem_type PARAMS((const char *path, const char *relpath, const struct stat *statp));
 

@@ -25,6 +25,9 @@
 
 #include "defs.h"
 
+#include <errno.h>
+
+
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #else
@@ -156,14 +159,89 @@ boolean warnings;
 
 #ifdef DEBUG_STAT
 static int
-debug_stat (file, bufp)
-     char *file;
-     struct stat *bufp;
+debug_stat (const char *file, struct stat *bufp)
 {
   fprintf (stderr, "debug_stat (%s)\n", file);
-  return lstat (file, bufp);
+  if (dereference)
+    return optionh_stat(file, bufp);
+  else
+    return optionl_stat(file, bufp);
 }
 #endif /* DEBUG_STAT */
+
+/* optionh_stat() implements the stat operation when the -H option is in effect.
+ * 
+ * If the item to be examined is a command-line argument, we follow symbolic links.
+ * If the stat() call fails on the command-line item, we fall back on the properties
+ * of the symbolic link.
+ *
+ * If the item to be examined is not a command-line argument, we
+ * examine the link itself.
+ */
+static int 
+optionh_stat(const char *name, struct stat *p)
+{
+  if (0 == curdepth) 
+    {
+      /* This file is from the command line; deference the link (if it
+       * is a link).  
+       */
+      if (0 == stat(name, p))
+	{
+	  /* success */
+	  return 0;
+	}
+      else
+	{
+	  /* fallback - return the information for the link itself. */
+	  return lstat(name, p);
+	}
+    }
+  else
+    {
+      /* Not a file on the command line; do not derefernce the link.
+       */
+      return lstat(name, p);
+    }
+}
+
+/* optionl_stat() implements the stat operation when the -L option is
+ * in effect.  That option makes us examine the symbolic link itself,
+ * not the thing it points to.
+ */
+static int 
+optionl_stat(const char *name, struct stat *p)
+{
+  return stat(name, p);
+}
+
+void 
+set_follow_state(boolean follow)
+{
+  if (follow)
+    {
+      /* -L option (or -follow) */
+      dereference = false;
+      xstat = optionl_stat;
+      no_leaf_check = false;
+    }
+  else
+    {
+      /* -H option (or default behaviour) */
+      dereference = true;
+      xstat = optionh_stat;
+      no_leaf_check = true;
+    }
+
+  /* For DBEUG_STAT, the choice between optionh_stat() and
+   * optionl_stat() is made at runtime within debug_stat() by checking
+   * the contents of the DEREFERENCE variable.
+   */
+#if defined(DEBUG_STAT)
+  xstat = debug_stat;
+#endif /* !DEBUG_STAT */
+}
+
 
 int
 main (int argc, char **argv)
@@ -172,7 +250,7 @@ main (int argc, char **argv)
   PFB parse_function;		/* Pointer to the function which parses. */
   struct predicate *cur_pred;
   char *predicate_name;		/* Name of predicate being parsed. */
-
+  int end_of_leading_options = 0; /* First arg after any -H/-L etc. */
   program_name = argv[0];
 
 #ifdef HAVE_SETLOCALE
@@ -202,11 +280,9 @@ main (int argc, char **argv)
   stay_on_filesystem = false;
   ignore_readdir_race = false;
   exit_status = 0;
-  dereference = false;
-#ifdef DEBUG_STAT
+
+#if defined(DEBUG_STAT)
   xstat = debug_stat;
-#else /* !DEBUG_STAT */
-  xstat = lstat;
 #endif /* !DEBUG_STAT */
 
 #if 0  
@@ -221,6 +297,8 @@ main (int argc, char **argv)
     {
       error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
     }
+
+  set_follow_state(false);
   
 #endif
 
@@ -228,10 +306,57 @@ main (int argc, char **argv)
   printf ("cur_day_start = %s", ctime (&cur_day_start));
 #endif /* DEBUG */
 
-  /* Find where in ARGV the predicates begin. */
-  for (i = 1; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
-    /* Do nothing. */ ;
+  /* Check for -H or -L options. */
+  for (i=1; (end_of_leading_options = i) < argc; ++i)
+    {
+      if (0 == strcmp("-H", argv[i]))
+	{
+	  /* Meaning: dereference symbolic links on command line, but nowhere else. */
+	  set_follow_state(false);
+#if 0
+	  fprintf(stderr,
+		  _("Warning: option -H is not yet supported.  Sorry.\n"));
+#endif
+	}
+      else if (0 == strcmp("-L", argv[i]))
+	{
+	  /* Meaning: dereference all symbolic links. */
+	  set_follow_state(true);
+#if 0
+	  fprintf(stderr,
+		  _("Warning: option -L is not yet supported.  Sorry.  Try using the -follow option instead.\n"));
+#endif
+	}
+      else if (0 == strcmp("--", argv[i]))
+	{
+	  /* -- signifies the end of options. */
+	  end_of_leading_options = i+1;	/* Next time start with the next option */
+	  break;
+	}
+      else
+	{
+	  /* Hmm, must be one of 
+	   * (a) A path name
+	   * (b) A predicate
+	   */
+	  end_of_leading_options = i; /* Next time start with this option */
+	  break;
+	}
+    }
 
+  /* We are now processing the part of the "find" command line 
+   * after the -H/-L options (if any).
+   */
+
+  /* fprintf(stderr, "rest: optind=%ld\n", (long)optind); */
+  
+  /* Find where in ARGV the predicates begin. */
+  for (i = end_of_leading_options; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
+    {
+      /* fprintf(stderr, "Looks like %s is not a predicate\n", argv[i]); */
+      /* Do nothing. */ ;
+    }
+  
   /* Enclose the expression in `( ... )' so a default -print will
      apply to the whole expression. */
   parse_open (argv, &argc);
@@ -329,9 +454,13 @@ main (int argc, char **argv)
     error (1, errno, _("cannot get current directory"));
 
   /* If no paths are given, default to ".".  */
-  for (i = 1; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
-    process_top_path (argv[i]);
-  if (i == 1)
+  for (i = end_of_leading_options; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
+    {
+      process_top_path (argv[i]);
+    }
+
+  /* If there were no path arguments, default to ".". */
+  if (i == end_of_leading_options)
     {
       /* 
        * We use a temporary variable here because some actions modify 
