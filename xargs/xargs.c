@@ -62,6 +62,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <getopt.h>
+#include <fcntl.h>
 
 #if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
 #include <string.h>
@@ -821,6 +822,29 @@ print_args (boolean ask)
   return false;
 }
 
+
+/* Close stdin and attach /dev/null to it.
+ * If 
+ */
+static void
+prep_child_for_exec (void)
+{
+  const char inputfile[] = "/dev/null";
+  /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
+  
+  close(0);
+  if (open(inputfile, O_RDONLY) < 0)
+    {
+      /* This is not entirely fatal, since 
+       * executing the child with a closed
+       * stdin is almost as good as executing it
+       * with its stdin attached to /dev/null.
+       */
+      error (0, errno, "%s", inputfile);
+    }
+}
+
+
 /* Execute the command that has been built in `cmd_argv'.  This may involve
    waiting for processes that were previously executed.  */
 
@@ -846,6 +870,7 @@ do_exec (void)
 	  error (1, errno, _("cannot fork"));
 
 	case 0:		/* Child.  */
+	  prep_child_for_exec();
 	  execvp (cmd_argv[0], cmd_argv);
 	  error (0, errno, "%s", cmd_argv[0]);
 	  _exit (errno == ENOENT ? 127 : 126);
