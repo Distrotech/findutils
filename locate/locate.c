@@ -47,6 +47,7 @@
    Written by James A. Woods <jwoods@adobe.com>.
    Modified by David MacKenzie <djm@gnu.ai.mit.edu>.  */
 
+#define _GNU_SOURCE
 #include <config.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -95,6 +96,15 @@ extern int errno;
 
 #include "locatedb.h"
 #include <getline.h>
+
+/* Note that this evaluates C many times.  */
+#ifdef _LIBC
+# define TOUPPER(Ch) toupper (Ch)
+# define TOLOWER(Ch) tolower (Ch)
+#else
+# define TOUPPER(Ch) (islower (Ch) ? toupper (Ch) : (Ch))
+# define TOLOWER(Ch) (isupper (Ch) ? tolower (Ch) : (Ch))
+#endif
 
 typedef enum {false, true} boolean;
 
@@ -185,8 +195,9 @@ last_literal_end (name)
    Return the number of entries printed.  */
 
 static int
-locate (pathpart, dbfile)
+locate (pathpart, dbfile, ignore_case)
      char *pathpart, *dbfile;
+     int ignore_case;
 {
   /* The pathname database.  */
   FILE *fp;
@@ -258,6 +269,15 @@ locate (pathpart, dbfile)
       old_format = true;
     }
 
+  /* If we ignore case,
+     convert it to lower first so we don't have to do it every time */
+  if (ignore_case){
+    for (patend=pathpart;*patend;++patend){
+     *patend=TOLOWER(*patend);
+    }
+  }
+  
+  
   globflag = strchr (pathpart, '*') || strchr (pathpart, '?')
     || strchr (pathpart, '[');
 
@@ -317,6 +337,37 @@ locate (pathpart, dbfile)
       /* Search backward starting at the end of the path we just read in,
 	 for the character at the end of the last glob-free subpattern
 	 in PATHPART.  */
+      if (ignore_case)
+	{
+          for (prev_fast_match = false; s >= cutoff; s--)
+	    /* Fast first char check. */
+	    if (TOLOWER(*s) == *patend)
+	      {
+	        char *s2;		/* Scan the path we read in. */
+	        register char *p2;	/* Scan `patend'.  */
+
+	        for (s2 = s - 1, p2 = patend - 1; *p2 != '\0' && TOLOWER(*s2) == *p2;
+		     s2--, p2--)
+	          ;
+		if (*p2 == '\0')
+		  {
+		    /* Success on the fast match.  Compare the whole pattern
+		       if it contains globbing characters.  */
+		    prev_fast_match = true;
+		    if (globflag == false || fnmatch (pathpart, path, FNM_CASEFOLD) == 0)
+		      {
+			if (!check_existence || stat(path, &st) == 0)
+			  {
+			    puts (path);
+			    ++printed;
+			  }
+		      }
+		    break;
+		  }
+	      }
+	}
+      else {
+	
       for (prev_fast_match = false; s >= cutoff; s--)
 	/* Fast first char check. */
 	if (*s == *patend)
@@ -332,7 +383,8 @@ locate (pathpart, dbfile)
 		/* Success on the fast match.  Compare the whole pattern
 		   if it contains globbing characters.  */
 		prev_fast_match = true;
-		if (globflag == false || fnmatch (pathpart, path, 0) == 0)
+		if (globflag == false || fnmatch (pathpart, path,
+						  0) == 0)
 		  {
 		    if (!check_existence || stat(path, &st) == 0)
 		      {
@@ -343,8 +395,10 @@ locate (pathpart, dbfile)
 		break;
 	      }
 	  }
+      }
+      
     }
-
+  
   if (ferror (fp))
     {
       error (0, errno, "%s", dbfile);
@@ -370,8 +424,8 @@ usage (stream, status)
      int status;
 {
   fprintf (stream, _("\
-Usage: %s [-d path | --database=path] [--version] [--help]\n\
-      [-e | --existing] pattern...\n"),
+Usage: %s [-d path | --database=path] [-e | --existing]\n\
+      [-i | --ignore-case] [--version] [--help] pattern...\n"),
 	   program_name);
   exit (status);
 }
@@ -380,6 +434,7 @@ static struct option const longopts[] =
 {
   {"database", required_argument, NULL, 'd'},
   {"existing", no_argument, NULL, 'e'},
+  {"ignore-case", no_argument, NULL, 'i'},
   {"help", no_argument, NULL, 'h'},
   {"version", no_argument, NULL, 'v'},
   {NULL, no_argument, NULL, 0}
@@ -391,7 +446,9 @@ main (argc, argv)
      char **argv;
 {
   char *dbpath;
+  int fnmatch_flags = 0;
   int found = 0, optc;
+  int ignore_case = 0;
 
   program_name = argv[0];
 
@@ -407,7 +464,7 @@ main (argc, argv)
 
   check_existence = 0;
 
-  while ((optc = getopt_long (argc, argv, "d:e", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "d:ei", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case 'd':
@@ -418,6 +475,11 @@ main (argc, argv)
 	check_existence = 1;
 	break;
 
+      case 'i':
+	ignore_case = 1;
+	fnmatch_flags |= FNM_CASEFOLD;
+	break;
+	
       case 'h':
 	usage (stdout, 0);
 
@@ -437,7 +499,7 @@ main (argc, argv)
       char *e;
       next_element (dbpath);	/* Initialize.  */
       while ((e = next_element ((char *) NULL)) != NULL)
-	found |= locate (argv[optind], e);
+	found |= locate (argv[optind], e, ignore_case);
     }
 
   exit (!found);
