@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.1\n"
-"POT-Creation-Date: 2000-10-12 02:40-0700\n"
+"POT-Creation-Date: 2001-01-20 22:45-0800\n"
 "PO-Revision-Date: 1996-12-01 20:48+0100\n"
 "Last-Translator: Iñaky Pérez González <inaky@peloncho.fis.ucm.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -225,7 +225,7 @@ msgstr ""
 msgid "^[nN]"
 msgstr ""
 
-#: find/util.c:86
+#: find/util.c:87
 msgid "oops -- invalid default insertion of and!"
 msgstr "oh, oh -- ¡inserción por defecto de `and' no válida!"
 
@@ -235,7 +235,7 @@ msgstr "oh, oh -- ¡inserción por defecto de `and' no válida!"
 #  ¡Olé! Gracias a tos los de es@li.org que me habeis dado "ruta de acceso".
 #  No se qué significado tendría mi vida sin vuestra ayuda ;), snif ... :~)
 #  IPG
-#: find/parser.c:550 find/util.c:144
+#: find/parser.c:553 find/util.c:145
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Modo de empleo: %s [ruta-de-acceso...] [expresión]\n"
@@ -295,42 +295,9 @@ msgstr "Árbol de Evaluación Normalizado:\n"
 #
 # Pondré un anuncio en es@li.org para que ocurra eso... ;-) sv
 #
-#: find/find.c:268
+#: find/find.c:275
 #, fuzzy
 msgid "cannot get current directory"
-msgstr "no se pudo volver al directorio de partida"
-
-# Sugerencia: no se puede volver. sv
-# En consonancia con el de arriba (for exampol), debería poner
-# `no se pudo volver', ¿no?. ipg
-#
-# mmm, déjame que piense, creo que la regla es:
-# couldn't -> no se pudo. cannot -> no se puede.
-# Ahora ninguno de los dos sigue la regla. sv
-# Creo que lo dejaré así ... y si se me llena el buzón de quejas,
-# lo cambio :) ipg
-#
-# Pondré un anuncio en es@li.org para que ocurra eso... ;-) sv
-#
-#: find/find.c:272
-#, fuzzy
-msgid "cannot open current directory"
-msgstr "no se pudo volver al directorio de partida"
-
-# Sugerencia: no se puede volver. sv
-# En consonancia con el de arriba (for exampol), debería poner
-# `no se pudo volver', ¿no?. ipg
-#
-# mmm, déjame que piense, creo que la regla es:
-# couldn't -> no se pudo. cannot -> no se puede.
-# Ahora ninguno de los dos sigue la regla. sv
-# Creo que lo dejaré así ... y si se me llena el buzón de quejas,
-# lo cambio :) ipg
-#
-# Pondré un anuncio en es@li.org para que ocurra eso... ;-) sv
-#
-#: find/find.c:312 find/pred.c:1275
-msgid "cannot return to starting directory"
 msgstr "no se pudo volver al directorio de partida"
 
 # Propongo eliminar la palabra virtual. En un sistema GNU, la memoria virtual
@@ -354,7 +321,7 @@ msgstr "no se pudo volver al directorio de partida"
 #
 # FIXME: Preguntar a Richard Stallman por qué se empeña en usar la
 # palabra virtual. sv
-#: find/find.c:461 find/parser.c:932
+#: find/find.c:461 find/parser.c:937
 msgid "virtual memory exhausted"
 msgstr "memoria agotada"
 
@@ -394,7 +361,7 @@ msgstr "desconocido"
 # o mejor "si no se da ninguno". sv
 #
 # Lo dejo así. ipg
-#: find/parser.c:552
+#: find/parser.c:555
 msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of:\n"
@@ -408,7 +375,7 @@ msgstr ""
 "operadores (prioridad decreciente; se supone -and si no se dan):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:557
+#: find/parser.c:560
 msgid ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
 "options (always true): -daystart -depth -follow --help\n"
@@ -433,7 +400,7 @@ msgstr ""
 #
 #        También me han sugerido `patrón', pero prefiero EXPR-REG. IPG
 #
-#: find/parser.c:562
+#: find/parser.c:565
 msgid ""
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
 "      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
@@ -444,7 +411,7 @@ msgstr ""
 "      -ipath EXPR-REG -iregex EXPR-REG -links N -lname EXPR-REG\n"
 "      -mmin N -mtime N -name EXPR-REG -newer ARCHIVO\n"
 
-#: find/parser.c:566
+#: find/parser.c:569
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
@@ -454,7 +421,7 @@ msgstr ""
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NOMBRE\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:570
+#: find/parser.c:573
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
@@ -463,7 +430,13 @@ msgstr ""
 "      -fprintf ARCHIVO FORMATO -ok COMANDO ; -print -print0\n"
 "      -printf FORMATO -prune -ls\n"
 
-#: find/parser.c:930
+#: find/parser.c:576 locate/locate.c:430 xargs/xargs.c:925
+msgid ""
+"\n"
+"Report bugs to <bug-findutils@gnu.org>."
+msgstr ""
+
+#: find/parser.c:935
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "modo no válido `%s'"
@@ -472,36 +445,36 @@ msgstr "modo no válido `%s'"
 # un rato rara. (msgstr "el argumento nulo para la opción -size no es válido"). IPG
 # ¿No es demasiado libre? sv
 # Sí, pero lo justo para que explique bien qué coño ha ocurrido :) ipg
-#: find/parser.c:1061
+#: find/parser.c:1068
 msgid "invalid null argument to -size"
 msgstr "no se ha dado el argumento requerido a la opción -size"
 
-#: find/parser.c:1097
+#: find/parser.c:1104
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "tipo dado a -size no válido `%c'"
 
-#: find/parser.c:1185
+#: find/parser.c:1192
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versión %s\n"
 
-#: find/parser.c:1320
+#: find/parser.c:1328
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "atención: secuencia de escape `\\%c' no reconocida"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1366
+#: find/parser.c:1374
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "atención: directiva de formato `%%%c' no reconocida"
 
-#: find/parser.c:1573 find/parser.c:1655
+#: find/parser.c:1583 find/parser.c:1665
 #, c-format
 msgid "inserting %s\n"
 msgstr "insertando %s\n"
 
-#: find/parser.c:1574 find/parser.c:1656
+#: find/parser.c:1584 find/parser.c:1666
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    tipo: %s    %s  "
@@ -560,21 +533,21 @@ msgstr ""
 msgid "cannot fork"
 msgstr "falló la llamada al sistema `fork()'"
 
-#: find/pred.c:1288
+#: find/pred.c:1282
 #, c-format
 msgid "error waiting for %s"
 msgstr "error esperando al proceso %s"
 
-#: find/pred.c:1294
+#: find/pred.c:1288
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s terminado por la señal %d"
 
-#: find/pred.c:1409
+#: find/pred.c:1403
 msgid "left:\n"
 msgstr "izquierda:\n"
 
-#: find/pred.c:1413
+#: find/pred.c:1407
 msgid "right:\n"
 msgstr "derecha:\n"
 
@@ -617,7 +590,7 @@ msgstr "expresión nó válida"
 # (Donde menos me pegan es en el "oh, oh", parece cosa de Papá Noel...). sv
 #
 # Será por las fechas ... ;) ok, claudico. ipg
-#: find/tree.c:93 find/tree.c:158 find/tree.c:309 find/tree.c:438
+#: find/tree.c:93 find/tree.c:158 find/tree.c:309 find/tree.c:439
 msgid "oops -- invalid expression type!"
 msgstr "oh, oh -- ¡tipo de expresión no válido!"
 
@@ -652,7 +625,7 @@ msgstr ""
 "Modo de empleo: %s [-d ruta-de-acceso] [--database=ruta-de-acceso]\n"
 "                [--version] [--help] expr-reg...\n"
 
-#: locate/locate.c:487
+#: locate/locate.c:488
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate versión %s\n"
@@ -755,8 +728,8 @@ msgstr "%s: el valor para la opción -%c debe ser menor que %ld\n"
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] "
-"[--eof[=eof-str]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
+"str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.5\n"
-"POT-Creation-Date: 2000-10-12 02:40-0700\n"
+"POT-Creation-Date: 2001-01-20 22:45-0800\n"
 "PO-Revision-Date: 2000-05-28 18:28\n"
 "Last-Translator: Denis Perchine <dyp@perchine.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -186,11 +186,11 @@ msgstr ""
 msgid "^[nN]"
 msgstr ""
 
-#: find/util.c:86
+#: find/util.c:87
 msgid "oops -- invalid default insertion of and!"
 msgstr "оопс -- неверная вставка по умолчанию оператора 'И' (and)"
 
-#: find/parser.c:550 find/util.c:144
+#: find/parser.c:553 find/util.c:145
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Использование: %s [путь...] [выражение]\n"
@@ -228,19 +228,11 @@ msgstr "Дерево вычислений:\n"
 msgid "Optimized Eval Tree:\n"
 msgstr "Оптимизированное дерево вычислений:\n"
 
-#: find/find.c:268
+#: find/find.c:275
 msgid "cannot get current directory"
 msgstr "не могу получить текущий каталог"
 
-#: find/find.c:272
-msgid "cannot open current directory"
-msgstr "не могу открыть текущий каталог"
-
-#: find/find.c:312 find/pred.c:1275
-msgid "cannot return to starting directory"
-msgstr "не могу вернуться в стартовый подкаталог"
-
-#: find/find.c:461 find/parser.c:932
+#: find/find.c:461 find/parser.c:937
 msgid "virtual memory exhausted"
 msgstr "не хватает виртуальной памяти"
 
@@ -253,7 +245,7 @@ msgstr "ошибка в %s: %s"
 msgid "unknown"
 msgstr "неизвестный"
 
-#: find/parser.c:552
+#: find/parser.c:555
 msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of:\n"
@@ -267,7 +259,7 @@ msgstr ""
 "других):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:557
+#: find/parser.c:560
 msgid ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
 "options (always true): -daystart -depth -follow --help\n"
@@ -279,7 +271,7 @@ msgstr ""
 "      -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n"
 "tests (N может быть +N или -N или N): -amin N -anewer FILE -atime N -cmin N\n"
 
-#: find/parser.c:562
+#: find/parser.c:565
 msgid ""
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
 "      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
@@ -289,7 +281,7 @@ msgstr ""
 "      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n"
 
-#: find/parser.c:566
+#: find/parser.c:569
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
@@ -299,7 +291,7 @@ msgstr ""
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:570
+#: find/parser.c:573
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
@@ -307,41 +299,47 @@ msgstr ""
 "действия: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
 
-#: find/parser.c:930
+#: find/parser.c:576 locate/locate.c:430 xargs/xargs.c:925
+msgid ""
+"\n"
+"Report bugs to <bug-findutils@gnu.org>."
+msgstr ""
+
+#: find/parser.c:935
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "неверный режим '%s'"
 
-#: find/parser.c:1061
+#: find/parser.c:1068
 msgid "invalid null argument to -size"
 msgstr "отсутствует аргумент у -size"
 
-#: find/parser.c:1097
+#: find/parser.c:1104
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "неверный тип '%c' для -size"
 
-#: find/parser.c:1185
+#: find/parser.c:1192
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find версии %s\n"
 
-#: find/parser.c:1320
+#: find/parser.c:1328
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "предупреждение: нераспознаваемая последовательность '\\%c'"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1366
+#: find/parser.c:1374
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "предyпреждение: нераспознаваемый формат директивы '%%%c'"
 
-#: find/parser.c:1573 find/parser.c:1655
+#: find/parser.c:1583 find/parser.c:1665
 #, c-format
 msgid "inserting %s\n"
 msgstr "вставляю %s\n"
 
-#: find/parser.c:1574 find/parser.c:1656
+#: find/parser.c:1584 find/parser.c:1666
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "     тип: %s    %s  "
@@ -360,21 +358,21 @@ msgstr "< %s ... %s > ? "
 msgid "cannot fork"
 msgstr "не могу создать процесс"
 
-#: find/pred.c:1288
+#: find/pred.c:1282
 #, c-format
 msgid "error waiting for %s"
 msgstr "ошибка ожидания %s"
 
-#: find/pred.c:1294
+#: find/pred.c:1288
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s прерван по сигналу %d"
 
-#: find/pred.c:1409
+#: find/pred.c:1403
 msgid "left:\n"
 msgstr "слева:\n"
 
-#: find/pred.c:1413
+#: find/pred.c:1407
 msgid "right:\n"
 msgstr "справа:\n"
 
@@ -383,7 +381,7 @@ msgstr "справа:\n"
 msgid "invalid expression"
 msgstr "неверное выражение"
 
-#: find/tree.c:93 find/tree.c:158 find/tree.c:309 find/tree.c:438
+#: find/tree.c:93 find/tree.c:158 find/tree.c:309 find/tree.c:439
 msgid "oops -- invalid expression type!"
 msgstr "оопс -- неверный тип выражения!"
 
@@ -419,7 +417,7 @@ msgstr ""
 "Использование: %s [-d путь] [--database=путь] [--version] [--help]\n"
 "      [-e | --existing] маска...\n"
 
-#: locate/locate.c:487
+#: locate/locate.c:488
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate версии %s\n"
@@ -500,20 +498,26 @@ msgstr "%s: значение для опции -%c должно быть < %ld\n"
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] "
-"[--eof[=eof-str]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
+"str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
 "       [command [initial-arguments]]\n"
 msgstr ""
 "Использование: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] "
-"[--eof[=eof-str]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
+"str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
 "       [команда [начальные-аргументы]]\n"
+
+#~ msgid "cannot open current directory"
+#~ msgstr "не могу открыть текущий каталог"
+
+#~ msgid "cannot return to starting directory"
+#~ msgstr "не могу вернуться в стартовый подкаталог"
 
 #~ msgid "wait got pid %d, expected pid %d"
 #~ msgstr "получен pid %d, ожидался pid %d"
