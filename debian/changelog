@@ -1,3 +1,15 @@
+findutils (4.1-16) unstable; urgency=low
+
+  * add --localuser option to updatedb, which allows find to be run as
+    nobody, while allowing database file to be created as root, change
+    suggested by <Bernd_Eckenfels@Wittumstrasse13.76646Bruchsal.de>
+  * doc/find.texi, locate/updatedb.sh: add --localuser documention.
+  * debian/postinst: change /var/lib/locate directory to be owned by root
+  * debian/cron.find: use --localuser option so to updatedb is run as
+    root, but find is run as nobody
+
+ --
+
 findutils (4.1-15) unstable; urgency=low
 
   * added PRUNEREGEX as variable in updatedb and --prunefs as option to
