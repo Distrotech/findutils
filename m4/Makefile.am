@@ -3,10 +3,9 @@
 ##m4-files-begin
 EXTRA_DIST = README Makefile.am.in assert.m4 check-decl.m4 check-type.m4 \
 const.m4 decl.m4 error.m4 fnmatch.m4 fstypename.m4 getline.m4 glibc.m4 \
-hide/gettext.m4 hide/lcmessage.m4 hide/progtest.m4 inttypes_h.m4 \
-isc-posix.m4 jm-glibc-io.m4 jm-macros.m4 jm-mktime.m4 lfs.m4 ls-mntd-fs.m4 \
-lstat.m4 malloc.m4 memcmp.m4 mktime.m4 perl.m4 prereq.m4 putenv.m4 \
-readdir.m4 realloc.m4 regex.m4 st_dm_mode.m4 st_mtim.m4 stat.m4 \
+inttypes_h.m4 isc-posix.m4 jm-glibc-io.m4 jm-macros.m4 jm-mktime.m4 lfs.m4 \
+ls-mntd-fs.m4 lstat.m4 malloc.m4 memcmp.m4 mktime.m4 perl.m4 prereq.m4 \
+putenv.m4 readdir.m4 realloc.m4 regex.m4 st_dm_mode.m4 st_mtim.m4 stat.m4 \
 strftime.m4 uintmax_t.m4 uptime.m4 utimbuf.m4 utime.m4 utimes.m4
 
 ##m4-files-end
