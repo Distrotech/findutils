@@ -380,6 +380,19 @@ main (int argc, char **argv)
   int end_of_leading_options = 0; /* First arg after any -H/-L etc. */
   program_name = argv[0];
 
+  /* We call check_nofollow() before setlocale() because the numbers 
+   * for which we check (in the results of uname) definitiely have "."
+   * as the decimal point indicator even under locales for which that 
+   * is not normally true.   Hence atof() would do the wrong thing 
+   * if we call it after setlocale().
+   */
+#ifdef O_NOFOLLOW
+  options.open_nofollow_available = check_nofollow();
+#else
+  options.open_nofollow_available = false;
+#endif
+
+  
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
 #endif
@@ -419,12 +432,6 @@ main (int argc, char **argv)
   else
     options.output_block_size = 1024;
 
-#ifdef O_NOFOLLOW
-  options.open_nofollow_available = check_nofollow();
-#else
-  options.open_nofollow_available = false;
-#endif
-  
   if (getenv("FIND_BLOCK_SIZE"))
     {
       error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
