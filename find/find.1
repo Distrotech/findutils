@@ -128,7 +128,11 @@ Like \-lname, but the match is case insensitive.
 .IP "\-iname \fIpattern\fR"
 Like \-name, but the match is case insensitive.  For example, the
 patterns `fo*' and `F??' match the file names `Foo', `FOO', `foo',
-`fOo', etc.
+`fOo', etc.   In these patterns, unlike filename expansion by the
+shell, an initial '.' can be matched by '*'.  That is, 
+.B find -name *bar 
+will match the file `.foobar'.
+
 .IP "\-inum \fIn\fR"
 File has inode number \fIn\fR.
 .IP "\-ipath \fIpattern\fR"
@@ -150,12 +154,13 @@ File's data was last modified \fIn\fR*24 hours ago.
 .IP "\-name \fIpattern\fR"
 Base of file name (the path with the leading directories removed)
 matches shell pattern \fIpattern\fR.  The metacharacters (`*', `?',
-and `[]') do not match a `.' at the start of the base name.  To ignore
-a directory and the files under it, use \-prune; see an example in the
-description of \-wholename.  Braces are not recognised as being special,
-despite the fact that some shells including Bash ibmue braces with 
-a special meaning in shell patterns.   The filename matching is
-performed with the use of the 
+and `[]') match a `.' at the start of the base name (this is a change
+in findutils-4.2.2; see section STANDARDS CONFORMANCE below).  To ignore a
+directory and the files under it, use \-prune; see an example in the
+description of \-wholename.  Braces are not recognised as being
+special, despite the fact that some shells including Bash ibmue braces
+with a special meaning in shell patterns.  The filename matching is
+performed with the use of the
 .BR fnmatch (3) 
 library function.
 .IP "\-newer \fIfile\fR"
@@ -528,8 +533,10 @@ The following options are specified in the POSIX standard
 This option is supported, but POSIX conformance depends on the 
 POSIX conformance of the system's 
 .BR fnmatch (3) 
-library function.
-
+library function.  As of findutils-4.2.2, shell metacharacters
+('*'. '?' or '[]' for example) will match a leading '.', because 
+IEEE interpretation 126 requires this.   This is a change from
+previous versions of findutils.
 .IP "\-type"
 Supported.   POSIX specifies `b', `c', `d', `l', `p', `f' and `s'.
 GNU find also supports `D', representing a Door, where the OS provides these.
