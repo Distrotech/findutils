@@ -1,4 +1,120 @@
+2005-01-15  James Youngman  <jay@gnu.org>
+
+	* find/defs.h, find/parser.c, find/pred.c, lib/buildcmd.c, lib/buildcmd.h:
+	Implemented -execdir and -okdir
+
+	* find/defs.h, find/find.c, find/fstype.c, find/parser.c, find/pred.c, lib/buildcmd.c, lib/buildcmd.h, xargs/xargs.c:
+	First working version of -exec ...+
+
+2005-01-09  James Youngman  <jay@gnu.org>
+
+	* find/defs.h, find/find.c, find/parser.c, find/pred.c, lib/buildcmd.c, lib/buildcmd.h, xargs/xargs.c:
+	Initial implementation of -exec ..{} +, but currently disabled since not yet working
+
+2005-01-08  James Youngman  <jay@gnu.org>
+
+	* find/find.c: Fixed typo in comment.
+
+	* find/defs.h, find/find.c, find/parser.c, find/pred.c:
+	We now understand but do not implement -execdir (a *BSD invention, and a very useful security enhancement) and -okdir (the obvious companion to it)
+
+	* locate/bigram.c, locate/code.c, locate/frcode.c, locate/locate.c, xargs/xargs.c:
+	The GNU coding standard requires a space between the function name and
+	its parenthesised argument list.
+
+	* find/defs.h:
+	Understand the -exec ... {} \+ construction (for multiple
+	replacement).  No support yet.
+
+	* locate/locate.1:
+	Indicate that empty elements in the dbpath are treated as synonyms for
+	the default database.
+
+	* locate/locate.c:
+	Support empty elements in the dbpath as synonyms for the default
+	database.  These colons can be leading, trailing or in the middle of
+	the string.  We no longer com,plain if the user does this.
+
+	* lib/nextelem.c:
+	If curdir_ok is 0 and an element is empty, return "" instead of NULL
+	so that the caller knows to keep calling us.
+
+	* find/find.c, find/pred.c, import-gnulib.sh, locate/bigram.c, locate/code.c, locate/frcode.c, locate/locate.c, xargs/xargs.c:
+	Savannah bug 11517: find, xargs, locate, etc. should not hide write failures; patch from Jim Meyering
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po:
+	changed .pot creation date
+
+	* THANKS, AUTHORS: Take into account the FSF copyright-assignments list
+
+	* doc/find.texi:
+	If -quit is used, the exit value can be nonzero if errors have occurred.
+
+	* find/find.1:
+	Removed incorrect comment about -H, -P and -follow in HISTORY.
+
+2005-01-07  James Youngman  <jay@gnu.org>
+
+	* lib/Makefile.am, lib/buildcmd.c, lib/buildcmd.h, xargs/xargs.c:
+	Refactored xargs to use an external library function from the new file buildcmd.c
+
+	* configure.in: no longer the same as the released 4.2.11 version
+
+2005-01-06  James Youngman  <jay@gnu.org>
+
+	* xargs/testsuite/inputs/lines.xi, xargs/testsuite/xargs.posix/l2.exp, xargs/testsuite/Makefile.am:
+	Tests for the -L option
+
+	* xargs/testsuite/config/unix.exp: When a test fails, show the diffs
+
+	* xargs/testsuite/xargs.posix/l2.exp, xargs/testsuite/xargs.posix/l2.xo:
+	tests for the -l option
+
+	* xargs/testsuite/Makefile.am: Added extra test files
+
+	* xargs/testsuite/xargs.sysv/trace.exp, xargs/testsuite/xargs.sysv/trace.xe, xargs/testsuite/xargs.sysv/trace.xo:
+	Added tests for the -t option
+
+	* xargs/testsuite/config/unix.exp, xargs/testsuite/inputs/foobar.xi, xargs/testsuite/xargs.gnu/r.exp, xargs/testsuite/xargs.gnu/r.xo, xargs/xargs.1:
+	Use a blanks-only input file for cases where there is supposed to be no output
+
+	* xargs/testsuite/inputs/blank.xi: Initial version.
+
+	* xargs/xargs.1:
+	Corrected a typo; also indicate that it's impossible to use xargs
+	securely due to the race condition.
+
+2005-01-05  James Youngman  <jay@gnu.org>
+
+	* find/parser.c:
+	Fixed Savannah bug 11495: fallthrough from -printf format processing
+	from 'n' case to 'd' case.
+
+2005-01-03  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi:
+	Oops.  Had duplicated an entire section.  Fortunately this was after
+	@bye, so there was no adverse effect.
+
+	* NEWS: locate -b.
+
+	* doc/find.texi, locate/locate.1: document locate -S
+
+	* configure.in, doc/find.texi, locate/locate.1, locate/locate.c:
+	Support locate -b as a synonym for locate --basename
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po:
+	distcheck
+
+	* find/testsuite/config/unix.exp:
+	Clean up (delete) find.out at at the end of the test.
+
+	* NEWS, doc/find.texi, find/defs.h, find/find.1, find/find.c, find/parser.c, find/pred.c:
+	Implemented the -samefile test for find
+
 2005-01-02  James Youngman  <jay@gnu.org>
+
+	* ChangeLog: Updated with recent changes.
 
 	* NEWS:
 	Bas van Gompel: two-line patch to locate.c to make locate's -i and -w
