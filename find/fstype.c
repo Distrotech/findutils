@@ -52,11 +52,21 @@ extern int errno;
 
 static char *filesystem_type_uncached PARAMS((const char *path, const char *relpath, const struct stat *statp));
 
-#if defined(FSTYPE_MNTENT) || defined(HAVE_GETMNTENT) /* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
+#if defined(FSTYPE_MNTENT) || defined(HAVE_GETMNTENT) || defined(HAVE_SYS_MNTTAB_H) /* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
 
 #if HAVE_MNTENT_H
 # include <mntent.h>
 #endif
+
+#if HAVE_SYS_MNTTAB_H
+# include <stdio.h>
+# include <sys/mnttab.h>
+#endif
+
+#if HAVE_STRUCT_MNTTAB_MNT_MOUNTP
+#define mnt_dir mnt_mountp
+#endif
+
 
 #if !defined(MOUNTED)
 # if defined(MNT_MNTTAB)	/* HP-UX.  */
@@ -65,12 +75,27 @@ static char *filesystem_type_uncached PARAMS((const char *path, const char *relp
 # if defined(MNTTABNAME)	/* Dynix.  */
 #  define MOUNTED MNTTABNAME
 # endif
+# if defined(MNTTAB)		/* Solaris.  */
+#  define MOUNTED MNTTAB
+# endif
 #endif
 
 #if !defined(MOUNTED)		/* last resort. */
 # define MOUNTED "/etc/mtab"
 #endif
 
+
+#if HAVE_SETMNTENT
+#define SETMNTENT(name,mode) setmntent(name,mode)
+#else
+#define SETMNTENT(name,mode) fopen(name,mode)
+#endif
+
+#if HAVE_ENDMNTENT
+#define ENDMNTENT(fp) (0 != endmntent(fp))
+#else
+#define ENDMNTENT(fp) (0 == fclose(fp))
+#endif
 #endif
 
 #ifdef FSTYPE_GETMNT		/* Ultrix.  */
@@ -256,7 +281,7 @@ filesystem_type_uncached (const char *path, const char *relpath, const struct st
   (void) &path;
   (void) &relpath;
   
-  mfp = setmntent (table, "r");
+  mfp = SETMNTENT (table, "r");
   if (mfp == NULL)
     error (1, errno, "%s", table);
 
@@ -295,11 +320,11 @@ filesystem_type_uncached (const char *path, const char *relpath, const struct st
       else
 #endif /* not hpux */
 	{
-	  if (stat (mnt->mnt_dir, &disk_stats) == -1) {
+	  if (stat (mnt-> mnt_dir, &disk_stats) == -1) {
 	    if (errno == EACCES)
 	      continue;
 	    else
-	      error (1, errno, _("error in %s: %s"), table, mnt->mnt_dir);
+	      error (1, errno, _("error in %s: %s"), table, mnt-> mnt_dir);
 	  }
 	  dev = disk_stats.st_dev;
 	}
@@ -308,7 +333,7 @@ filesystem_type_uncached (const char *path, const char *relpath, const struct st
 	type = mnt->mnt_type;
     }
 
-  if (endmntent (mfp) == 0)
+  if (ENDMNTENT (mfp) == 0)
     error (0, errno, "%s", table);
 #endif
 
@@ -395,23 +420,92 @@ filesystem_type_uncached (const char *path, const char *relpath, const struct st
 
 
 
+#ifdef HAVE_GETMNTENT
+
+#if HAVE_STRUCT_MNTTAB
+  typedef struct mnttab MountPointEntry;
+#elif HAVE_STRUCT_MNTENT
+  typedef struct mntent MountPointEntry;
+#endif
+
+#if GETMNTENT_RETURNS_STRUCT
+static MountPointEntry*
+next_mount_point(FILE *fp)
+{
+  return getmntent(fp);
+  
+}
+#elif GETMNTENT_RETURNS_INT && GETMNTENT_REQUIRES_STRUCT_PTR
+static MountPointEntry current_mount_point;
+
+static MountPointEntry*
+next_mount_point(FILE *fp)
+{
+  int rv = getmntent(fp, &current_mount_point);
+  
+  switch (rv)
+    {
+    case 0:
+      return &current_mount_point; /* success */
+      
+    case -1: /* EOF - this is normal.*/
+      return NULL;
+      
+    case MNT_TOOLONG:
+      error(0, 0, _("Line too long in `%s'"), MOUNTED);
+      return NULL;
+      
+    case MNT_TOOMANY:
+      error(0, 0,
+	    _("One of the lines in `%s' has too many fields"),
+	    MOUNTED);
+      return NULL;
+      
+    case MNT_TOOFEW:
+      error(0, 0,
+	    _("One of the lines in `%s' has too few fields"),
+	    MOUNTED);
+      return NULL;
+      
+    default:
+      error(0, 0,
+	    _("Failed to parse an entry in `%s'"),
+	    MOUNTED);
+      return NULL;
+    }
+}
+#else
+static MountPointEntry*
+next_mount_point(FILE *fp)
+{
+  if (warnings)
+    {
+      error(0, 0, _("Don't know how to use getmntent() to read `%s'.  This is a bug."));
+    }
+  return NULL;
+}
+
+#endif
+
 char *
 get_mounted_filesystems (void)
 {
-#ifdef HAVE_GETMNTENT
   char *table = MOUNTED;
   FILE *mfp;
+#if HAVE_STRUCT_MNTTAB
+  struct mnttab *mnt;
+#elif HAVE_STRUCT_MNTENT
   struct mntent *mnt;
+#endif
   char *result = NULL;
   size_t alloc_size = 0u;
   size_t used = 0u;
   
-
-  mfp = setmntent (table, "r");
+  mfp = SETMNTENT(table, "r");
   if (mfp == NULL)
     error (1, errno, "%s", table);
 
-  while (NULL != (mnt = getmntent (mfp)))
+  while (NULL != (mnt = next_mount_point (mfp)))
     {
       size_t len;
       
@@ -420,12 +514,12 @@ get_mounted_filesystems (void)
 	continue;
 #endif
 
-      len = strlen(mnt->mnt_dir) + 1;
+      len = strlen(mnt-> mnt_dir) + 1;
       result = extendbuf(result, used+len, &alloc_size);
       strcpy(&result[used], mnt->mnt_dir);
       used += len;		/* len already includes one for the \0 */
     }
-  if (endmntent (mfp) == 0)
+  if (ENDMNTENT(mfp) == 0)
     error (0, errno, "%s", table);
 
   if (used)
@@ -439,10 +533,11 @@ get_mounted_filesystems (void)
       assert(NULL == result);	/* Postcondition. */
     }
   return result;
-
-#else
-  /* No getmntent(). */
-  return NULL;
-#endif
 }
-
+#else
+char *
+get_mounted_filesystems (void)
+{
+  return NULL; /* No getmntent(). */
+}
+#endif

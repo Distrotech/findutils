@@ -54,7 +54,7 @@ dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h string.h limits.h unistd.h errno.h stdlib.h stddef.h)
 AC_CHECK_HEADERS(unistd.h inttypes.h fcntl.h locale.h stdint.h)
-AC_CHECK_HEADERS(sys/param.h mntent.h)
+AC_CHECK_HEADERS(sys/param.h mntent.h sys/mnttab.h)
 AC_HEADER_MAJOR
 AC_HEADER_DIRENT
 AC_HEADER_STAT
@@ -112,6 +112,76 @@ dnl will try to use -lsun on platforms which have getmntent() in the
 dnl C library, for example UNICOS.
 AC_CHECK_FUNC(getmntent, [], [AC_FUNC_GETMNTENT])
 AC_CHECK_FUNCS(getmntent)
+AC_CHECK_FUNCS(setmntent endmntent)
+
+dnl Linux, 4.3BSD, etc.
+AC_CHECK_TYPE([struct mntent],
+[AC_DEFINE([HAVE_STRUCT_MNTENT],1,[Set if you have struct mntent])
+AC_CHECK_MEMBERS([struct mntent.mnt_type, struct mntent.mnt_dir],,,[#include <mntent.h>])],,
+[#include <mntent.h>])
+
+dnl Solaris
+AC_CHECK_TYPE([struct mnttab],
+[AC_DEFINE([HAVE_STRUCT_MNTTAB],1,[Set if you have struct mnttab])
+AC_CHECK_MEMBERS([struct mnttab.mnt_fstype,struct mnttab.mnt_mountp],,,
+[
+#include <stdio.h>
+#include <sys/mnttab.h>])],,
+[
+#include <stdio.h>
+#include <sys/mnttab.h>])
+
+AC_DEFUN([jy_FUNC_GETMNTENT_ARGTYPES],
+AC_MSG_CHECKING([how to call getmntent()])
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+[AC_INCLUDES_DEFAULT
+#if HAVE_MNTENT_H
+# include <mntent.h>
+#endif
+
+#if HAVE_SYS_MNTTAB_H
+# include <stdio.h>
+# include <sys/mnttab.h>
+#endif
+#if HAVE_STRUCT_MNTTAB
+  typedef struct mnttab MMM;
+#elif HAVE_STRUCT_MNTENT
+  typedef struct mntent MMM;
+#endif
+],
+[extern int getmntent(FILE*,MMM *);])],
+AC_DEFINE([GETMNTENT_RETURNS_INT],1,[Set if getmntent() returns int])
+AC_DEFINE([GETMNTENT_REQUIRES_STRUCT_PTR],1,[Set if the second argument to getmntent() is a pointer to struct])
+AC_MSG_RESULT([takes two arguments and returns int])
+,
+dnl First try failed.
+AC_COMPILE_IFELSE(
+	[AC_LANG_PROGRAM(
+[AC_INCLUDES_DEFAULT
+#if HAVE_MNTENT_H
+# include <mntent.h>
+#endif
+
+#if HAVE_SYS_MNTTAB_H
+# include <stdio.h>
+# include <sys/mnttab.h>
+#endif
+#if HAVE_STRUCT_MNTTAB
+  typedef struct mnttab MMM;
+#elif HAVE_STRUCT_MNTENT
+  typedef struct mntent MMM;
+#endif
+],
+[extern MMM* getmntent(FILE *);])],
+AC_DEFINE([GETMNTENT_RETURNS_STRUCT],1,[Set if getmntent() returns a struct pointer])
+AC_MSG_RESULT([takes just one argument and returns a struct pointer]),
+AC_MSG_ERROR([I can't figure out how to use your getmntent() function.]))))
+
+
+jy_FUNC_GETMNTENT_ARGTYPES
+
+sleep 2
 
 dnl Checks for library functions that are provided by findlib.
 FINDLIB_REPLACE_FUNCS(waitpid strspn)
