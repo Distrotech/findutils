@@ -1107,19 +1107,17 @@ insert_regex (char **argv, int *arg_ptr, boolean ignore_case)
   re->allocated = 100;
   re->buffer = (unsigned char *) xmalloc (re->allocated);
   re->fastmap = NULL;
-
+  
   if (ignore_case)
     {
-      unsigned i;
-      
-      re->translate = xmalloc (256);
-      /* Map uppercase characters to corresponding lowercase ones.  */
-      for (i = 0; i < 256; i++)
-        re->translate[i] = ISUPPER (i) ? tolower (i) : i;
+      re_syntax_options |= RE_ICASE;
     }
   else
-    re->translate = NULL;
-
+    {
+      re_syntax_options &= ~RE_ICASE;
+    }
+  re->translate = NULL;
+  
   error_message = re_compile_pattern (argv[*arg_ptr], strlen (argv[*arg_ptr]),
 				      re);
   if (error_message)
