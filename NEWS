@@ -1,10 +1,41 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
-* Major changes in release 4.2.19-CVS
-**  Functionality Changes
-*** "find -printf "%h\n" will now print "." for files in the current directory.
-    Previously it printed nothing (but there was a bug in the %h
-    implementation anyway).  This fixes Savannah bug #12085.
 
+* Major changes in release 4.2.19
+** Bug Fixes
+
+find should now no longer hang on systems which lack the O_NOFOLLOW
+flag to open(2) and which are clients of an unresponsive NFS server
+(Savannah bug #12044).
+
+We now avoid inappropriately failing for "find -L foo" or "find -H
+foo" if foo is a symbolic link (Savannah bug #12181).  Previously we
+used to fail with the error message "Too many levels of symbolic
+links".
+
+"find . -false -exec foo {} +" no longer runs an extra instance of foo
+when find exits (Savannah bug #12230).
+
+If the chdir() safety check fails but we can no longer get back to 
+where we started, exit with an explanatory (fatal) error message.
+This does not happen on GNU/Linux and FreeBSD because the safety check
+is not needed (the security problem the safety check protects against
+is prevented in a cleaner way on those systems).
+
+"make distclean" no longer deletes regex.c (which "make all" needs).
+
+**  Functionality Changes
+"find -printf "%h\n" will now print "." for files in the current directory.
+Previously it printed nothing (but there was a bug in the %h
+implementation anyway).  This fixes Savannah bug #12085.
+
+Should now build (again) on non-C99-compliant systems.
+
+** Documentation enhancements
+Fixed some typos and clarified wording in "Working with automounters".
+
+** Internationalization and Localization
+New Vietnamese message translation.
+
 * Major changes in release 4.2.18
 ** Bug Fixes
 *** "find -depth" was missing out non-leaf directories when they contain 
@@ -14,7 +45,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     NFS servers.
 **  Documentation improvements
 *** Improvements and corrections to the find.1 manpage, including corrections to the descriptions of -H and -L.
-
+
 * Major changes in release 4.2.17
 ** Bug Fixes
 *** bug #11861 	undefined symbol "basename" on IRIX 5.3 
@@ -24,7 +55,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** Fixing bug #11866 and applying patch #3723 made -execdir work much better.
 *** find bar/baz/ugh now works again if baz is a symbolic link (broken 
     in 4.2.15).
-
+
 * Major changes in release 4.2.16
 **  Functionality Changes
 *** Updated the message catalogues for the translated messages.
@@ -37,13 +68,12 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 **  Bug Fixes
 *** The -execdir action now works correctly for files named on the 
     command line.
-
+
 * Major changes in release 4.2.15
 **  Functionality Changes
 *** locate now supports matching regular expression (--regex).
 *** --enable-d_type-optimization (introduced in findutils 4.2.13) is now turned on by default.
-
-**  Functionality Changes
+
 * Major changes in release 4.2.14
 **  Functionality Changes
 *** New options -L, -P, -H for locate.  The work in the same was as the same options for find.
@@ -54,7 +84,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** -xtype and -printf %Y now work correctly for symbolic links once again
 **  Documentation improvements
 *** All options for "locate" are now documented
-
+
 * Major changes in release 4.2.13
 **  Performance Enhancements
 *** On Linux and some other systems, a large performance improvement, 
@@ -62,7 +92,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     cases, 99% of them).  Limited testing shows a 2x speedup on NFS
     filesystems.  Other systems which can make use of this enhancement
     include Mac OS X and *BSD.
-
+
 * Major changes in release 4.2.12
 **  Functionality Changes
 *** find is now POSIX-compliant, as far as I know.
@@ -76,7 +106,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** If find or xargs cannot write to stdout, for example because 
     output is redirected to a file and the disk is full, the 
     relevant program will return a non-zero exit status.
-
+
 * Major changes in release 4.2.11
 **  Bug Fixes
 *** Compilation fix for systems without EOVERFLOW.
@@ -95,13 +125,13 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 **  Bug Fixes
 *** locate's options -i and -w now work with the -e option (previously a bug 
     prevented this).
-
+
 * Major changes in release 4.2.10
 **  Bug Fixes
 *** Portability fix for fstype.c: should now compile on UNICOS, and possibly 
     also produce useful results on BeOS and Dolphin, perhaps other
     systems too.   
-
+
 * Major changes in release 4.2.9
 **  Functionality Changes
 *** xargs no longer treats a line containing only an underscore as a logical end-of-file.   To obtain the behaviour that was previously the default, use "-E_". 
@@ -119,12 +149,12 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 **  Documentation improvements
 *** The precise interpretation of the arguments to the -atime, -ctime 
     and similar tests in find has been documented more clearly.
-
+
 * Major changes in release 4.2.8
 *** Bugfix to the findutils 4.2.7 automount handling on Solaris.  This 
     worked to some extent in findutils-4.2.7, but is much improved in
     findutils-4.2.8.
-
+
 * Major changes in release 4.2.7
 **  Functionality Changes
 *** xargs can now read a list of arguments from a named file, allowing 
@@ -141,7 +171,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     on Solaris).
 *** Reenabled internationalisation support (which had been accidentally 
     disabled in findutils-4.2.5).
-
+
 * Major changes in release 4.2.6
 **  Bug Fixes
 *** find now copes rather better when a directory appears to change just as
@@ -149,7 +179,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     This is because automount mounts filesystems as you change
     directory into them.  This should resolve Savannah bugs #3998,
     #9043.
-
+
 * Major changes in release 4.2.5
 **  Functionality Changes
 *** The POSIX options -H and -L are supported.  These control whether or not
@@ -166,7 +196,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** Build problems on UNICOS now fixed, though the linker will still generate 
     warnings because we try to link with the nonexistent library
     "-lsun".  Edit $(LIBS) to work around this problem.
-
+
 * Major changes in release 4.2.4
 **  Functionality Changes
 *** If your system sort command has a working "-z" option, updatedb will
@@ -203,7 +233,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     error, so now we just print a warning message and adjust the
     value).
 *** Corrected section numbers of manual page cross-references
-
+
 * Major changes in release 4.2.3
 **  Functionality Changes
 *** Added new action -delete which deletes things that find matches.
@@ -222,7 +252,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     directory we've just returned out of).
 ** Other Changes
 *** Non-functional code changes to silence compiler warnings.
-
+
 * Major changes in release 4.2.2
 **  Documentation improvements
 *** "find ... -exec {}+" is not yet supported.
@@ -238,13 +268,13 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     gnulib are now defined in "libfind.a".  This is in the lib
     directory, while gnulib is in the gnulib subdirectory.
 *** Fixed a typo in the address of the FSF in many of the file headers.
-
+
 * Major changes in release 4.2.1
 ** Bug Fixes
 *** 'find -name \*bar now matches .foobar, because the POSIX standard 
      requires it, as explained at
      http://standards.ieee.org/reading/ieee/interp/1003-2-92_int/pasc-1003.2-126.html
-
+
 * Major changes in release 4.2.1
 ** Bug Fixes
 *** find -iname now works correctly on systems that have an fnmatch() function 
@@ -254,7 +284,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** Better support for systems lacking intmax_t
 ** Other Changes
 **** findutils now uses a newer version of gnulib (dated 2004-10-17).
-
+
 * Major changes in release 4.2.0
 ** Functionality Changes
 *** xargs now works better when the environment variables are very extensive.
@@ -301,7 +331,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
     locate database.
 *** The %k format specifier for -fprintf now works
     This was broken in 4.1.20.
-
+
 * Major changes in release 4.1.20:
 ** New maintainer, James Youngman <jay@gnu.org>
 ** As far as I know, this is the first release after 4.1.7, but I've left 
@@ -312,11 +342,11 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
    building directly from CVS, in which case please read the file
    README-CVS).
 ** There are no (deliberate) functional changes in version 4.1.20.
-
+
 * Major changes in release 4.1.7:
 fix problem so that default "-print" is added when "-prune" is used.
 security fixes related to directories changing while find is executing.
-
+
 * Major changes in release 4.1.6:
 correct bug in prune.
 added --ignore-case option for locate
