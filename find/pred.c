@@ -449,6 +449,8 @@ new_impl_pred_exec (const char *pathname, struct stat *stat_buf,
 {
   struct exec_val *execp = &pred_ptr->args.exec_vec;
   size_t len = strlen(pathname);
+
+  (void) stat_buf;
   
   if (execp->multiple)
     {
@@ -1272,6 +1274,8 @@ pred_samefile (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr
    * predicate cannot return true.  Hence there would be no need to
    * stat the file we're lookingn at.
    */
+  (void) pathname;
+  
   return stat_buf->st_ino == pred_ptr->args.fileid.ino
     &&   stat_buf->st_dev == pred_ptr->args.fileid.dev;
 }

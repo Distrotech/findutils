@@ -438,7 +438,8 @@ static int
 visit_regex(const char *munged_filename, const char *original_filename, void *context)
 {
   struct regular_expression *p = context;
-
+  (void) original_filename;
+  
   if (0 == regexec(&p->re, munged_filename, 0u, NULL, 0))
     return VISIT_CONTINUE;	/* match */
   else
@@ -453,7 +454,8 @@ visit_stats(const char *munged_filename, const char *original_filename, void *co
   size_t len = strlen(original_filename);
   const char *s;
   int highbit, whitespace, newline;
-
+  (void) munged_filename;
+  
   ++(p->total_filename_count);
   p->total_filename_length += len;
   

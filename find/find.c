@@ -1854,7 +1854,6 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	{
 	  enum SafeChdirStatus status;
 	  struct dir_id did;
-	  boolean changed = false;
 	  
 	  /* We could go back and do the next command-line arg
 	     instead, maybe using longjmp.  */
