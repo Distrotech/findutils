@@ -1652,9 +1652,9 @@ find . -name '*.h' -execdir diff -u '@{@}' /tmp/master ';'
 @end deffn
 
 
-Another similar option, @samp{-exec} is supported, but is less
-secure.  @xref{Security Considerations} for a discussion of the
-security problems surrounding @samp{-exec}.
+Another similar option, @samp{-exec} is supported, but is less secure.
+@xref{Security Considerations}, for a discussion of the security
+problems surrounding @samp{-exec}.
 
 
 @deffn Action -exec command ;
@@ -1699,6 +1699,13 @@ starting directories, rather than just the basename of the matched
 file.
 @end deffn
 
+Before @code{find} exits, any partially-built command lines are
+executed.  This happens even if the exit was caused by the
+@samp{-quit} action.  However, some types of error (for example not
+being able to invoke @code{stat()} on the current directory) can cause
+an immediate fatal exit.  In this situation, any partially-built
+command lines will not be invoked (this prevents possible infinite
+loops).
 
 Another, but less secure, way to run a command on more than one file
 at once, is to use the @code{xargs} command, which is invoked like this:
