@@ -877,8 +877,6 @@ on the symbolic link, so this diagnostic is frequently not necessary.
 The \-d option is supported for comatibility with various BSD systems,
 but you should use the POSIX-compliant predicate \-depth instead.
 .SH "ENVIRONMENT VARIABLES"
-.IP POSIXLY_CORRECT
-Determines the block size used by `-ls'.
 .IP LANG
 Provides a default value for the internationalization variables that
 are unset or null.
@@ -908,6 +906,11 @@ Determines the location of the internationalisation message catalogues.
 .IP PATH
 Affects the directores which are searched to find the executables 
 invoked by `\-exec' and `\-ok'.
+.IP POSIXLY_CORRECT
+Determines the block size used by `-ls'.
+.IP TZ
+Affects the time zone used for some of the time-related format
+directives of -printf and -fprintf.
 .SH "EXAMPLES"
 .nf
 .B find /tmp \-name core \-type f \-print | xargs /bin/rm -f
@@ -1039,8 +1042,10 @@ on the correctness of the results of
 .BR find .
 
 .SH "SEE ALSO"
-\fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1)
-\fBFinding Files\fP (on-line in Info, or printed)
+\fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1),
+\fBfnmatch\fP(3), \fBregex\fP(7), \fBstat\fP(2), \fBlstat\fP(2),
+\fBls\fP(1), \fBprintf\fP(3), \fBstrftime\fP(3), \fBctime\fP(3),
+\fBFinding Files\fP (on-line in Info, or printed), 
 .SH "HISTORY"
 As of findutils-4.2.2, shell metacharacters ('*'. '?' or '[]' for
 example) used in filename patterns will match a leading '.', because
