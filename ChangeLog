@@ -1,7 +1,31 @@
+2005-02-16  James Youngman  <jay@gnu.org>
+
+	* find/testsuite/Makefile.am:
+	Distribute the test cases for the recent "find -depth" bug.
+
+	* find/testsuite/find.posix/depth1.exp,
+	find/testsuite/find.posix/depth1.xo: Added test case for find
+	-depth bug reported by Joseph S. Myers
+
+	* find/find.c (process_path): If -depth is in effect, processing
+	of the subdirectories invalidates the information in 'state'.
+	Therefore once we get around to processing the predicates, restore
+	the information that we keep in 'state' and in 'stat_buf'.
+
 2005-02-15  James Youngman  <jay@gnu.org>
 
-	* find/find.1: Emphasise that -L causes find to recurse into
-	subdirectories pointed to by symbolic links.
+	* ChangeLog: Updated with recent changes
+
+	* find/find.1:
+	Emphasise that -L causes find to recurse into subdirectories pointed
+	to by symbolic links.
+
+	* find/find.1:
+	Patch to find.1 from Aaron Hawley <Aaron.Hawley@uvm.edu>:
+
+	* Notes about -H actually apply to -L.
+	* Said paragraph is duplicated two paragraphs later.
+	* Typos: nno, ibmue, surrpounding
 
 2005-02-15  Aaron Hawley  <Aaron.Hawley@uvm.edu>
 
@@ -64,7 +88,7 @@
 
 	* find/testsuite/config/unix.exp: Re-sort the .xo file using the
 	calling user's locale, because our 'pre-sorted' .so output file
-	may not be sorted with the same collting order as 'sort' used to
+	may not be sorted with the same collating order as 'sort' used to
 	order the output of "find.  Bug spotted by Vin Shelton and Dimitry
 	V. Levin.
 
