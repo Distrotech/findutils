@@ -2,8 +2,16 @@
 
 set -e
 
-install-info --quiet --section "General commands" "General commands" \
- /usr/info/find.info.gz
+if [ "$1" = "configure" ]; then
+    install-info --quiet --section "General commands" "General commands" \
+	/usr/share/info/find.info.gz
+    if [ -d /usr/doc -a ! -e /usr/doc/findutils -a -d /usr/share/doc/findutils ]; then
+	ln -sf ../share/doc/findutils /usr/doc
+    fi
+    if command -v install-docs > /dev/null 2>&1; then
+	install-docs -i /usr/share/doc-base/findutils
+    fi
+fi
 
 # In older releases, /var/lib/locate was owned by nobody
 # findutils_4.1-12 installed /var/lib/locate as root:root

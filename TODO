@@ -13,6 +13,7 @@ items, and add the unfixed problems below.
 
 ** Should translated long options be offered in locate and xargs?
 ** updatedb.sh should be internationalized as well
+** the Solaris door files are partially supported (e.g. not by -type)
 
 * new standards with Austin group
 ** "-H" and "-L" options to find were added by Austin group standards.
@@ -42,6 +43,20 @@ be optionally included, or is it mandatory?
 * man pages for frcode, bigram, and code
 Perhaps a better description in texi pages as well.
 
+* Add option for find to sort output in lexical order for use for updatedb
+olarsac@airfrance.fr (Olivier) made the following suggestion:
+
+As I was running thru the code looking for the bug I wondered why the updatedb
+has to use sort...
+why not add an option to find that sorts the output in lexical order?
+my point is:
+- sort on a big list is costly (here we do locate on big big file system)
+- find may (in theory) sort incrementally very easily by sorting only the current
+directory entries before recursion
+- it would also solve the lack of \0 sort that prevents you to use the -print0
+to handle \n in file names properly
+
+
 * large file problems
 depcomp gets added by automake
 strncasecmp is needed
@@ -51,9 +66,26 @@ remove getline.o from LIBOBJS
 remove extra AM_FUNC_GETLINE
 
 
+* xargs: allow newline or arbitrary character to separate arguments
+Tyler 'Crackerjack' MacDonald <yi@yi.org> suggested that it would be
+nice if newlines could separate arguments to xargs.  This would allow
+a single line to be used as an argument, regardless of white space,
+quotes, and backslash.  A function similar to read_string in xargs.c
+can be written which replaces the line:
+
+      if (c == '\0')
+
+with the appropriate character.
+
+* investigate _LIBC when used with TOLOWER and TOUPPER
+_LIBC is used to determine whether TOLOWER should check isupper first.
+Is there something better to check?  Alternatively, can tolower be
+checked at run time to determine whether isupper should be called first.
+
                         --//--
 This is used by Emacs' spell checker ispell.el:
 
 LocalWords: ansi knr strftime xargs updatedb sh fnmatch hin strcpy
 LocalWords: lib getstr getline frcode bigram texi depcomp automake
-LocalWords: strncasecmp strcasecmp LIBOBJS FUNC
+LocalWords: strncasecmp strcasecmp LIBOBJS FUNC findutils Solaris
+LocalWords: Crackerjack LIBC TOLOWER TOUPPER tolower isupper

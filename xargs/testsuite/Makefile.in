@@ -177,14 +177,16 @@ TAGS:
 
 RUNTESTFLAGS =
 
-RUNTESTDEFAULTFLAGS = --tool $(DEJATOOL) --srcdir $$srcdir
+RUNTESTDEFAULTFLAGS = --tool $$tool --srcdir $$srcdir
 
 check-DEJAGNU: site.exp
 	srcdir=`CDPATH=: && cd $(srcdir) && pwd`; export srcdir; \
 	EXPECT=$(EXPECT); export EXPECT; \
 	runtest=$(RUNTEST); \
 	if $(SHELL) -c "$$runtest --version" > /dev/null 2>&1; then \
-	  $$runtest $(RUNTESTDEFAULTFLAGS) $(RUNTESTFLAGS); \
+	  l='$(DEJATOOL)'; for tool in $$l; do \
+	    $$runtest $(RUNTESTDEFAULTFLAGS) $(RUNTESTFLAGS); \
+	  done; \
 	else echo "WARNING: could not find \`runtest'" 1>&2; :;\
 	fi
 site.exp: Makefile

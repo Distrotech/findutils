@@ -1,4 +1,76 @@
+2000-10-09  Kevin Dalley  <kevin@seti.org>
+
+	* locate/testsuite/config/unix.exp: dejagnu unix.exp
+
+	* xargs/testsuite/config/unix.exp: remove temporary file
+
+	* xargs/xargs.c: spelling correction
+
+	* m4/prereq.m4: updated and changed some macros
+
+	* m4/jm-macros.m4: replaced jm_FUNC_FNMATCH with
+	kd_FUNC_FNMATCH_CASE_REPL 
+
+	* m4/timespec.m4, m4/strerror_r.m4, m4/mbstate_t.m4,
+	m4/largefile.m4, m4/gettext.m4, m4/fnmatchcase.m4, m4/d-type.m4,
+	m4/d-ino.m4, m4/c-bs-a.m4: new m4 macros.
+
+	* m4/Makefile.am: add fnmatchcase.m4 and mbstate_t.m4
+
+	* locate/testsuite/locate.gnu/ignore_case3.xo,
+	locate/testsuite/locate.gnu/ignore_case3.exp,
+	locate/testsuite/locate.gnu/ignore_case2.xo,
+	locate/testsuite/locate.gnu/ignore_case2.exp,
+	locate/testsuite/locate.gnu/ignore_case1.xo,
+	locate/testsuite/locate.gnu/ignore_case1.exp,
+	locate/testsuite/config/unix.exp: tests related to "--ignore-case"
+	option.
+
+	* locate/testsuite/locate.gnu: testsuite directory
+
+	* locate/testsuite/Makefile.am (Repository): 
+
+	* locate/testsuite: add directory for locate testsuite
+
+	* po/findutils.pot: updated file
+
+	* po/sv.po, po/ru.po, po/pt_BR.po, po/pl.po, po/nl.po, po/ko.po,
+	po/it.po, po/gl.po, po/fr.po, po/et.po, po/es.po, po/de.po:
+	updated various po files.
+
+	* locate/updatedb.sh: export TMPDIR, which is used by child
+	processes.
+
+	* locate/locate.1, locate/locate.c:  add "--ignore-case" option.
+
+	* locate/Makefile.am: add testsuite subdirectory
+
+	* find/testsuite/find.gnu/perm.xo,
+	find/testsuite/find.gnu/perm.exp,
+	find/testsuite/find.gnu/name-opt.xo,
+	find/testsuite/find.gnu/name-opt.exp: added test suites
+
+	* configure.in: add locate/testsuite/Makefile
+
+	* doc/find.info*: removed from repository
+
+	* doc/find.texi: add documentation for "-i" option.
+
+	* aclocal.m4: removed from repository, as it is generated.
+
+	* find/pred.c: fixes problem with "find -perm -0100".
+
+	* lib/lstat.c, lib/stat.c: removed from repository.  These files
+	are generated from lib/xstat.in.
+
+2000-08-24  Kevin Dalley  <kevin@seti.org>
+
+	* doc/find.texi (Invoking xargs): changed @var{-s} to @samp{-s}.
+
 2000-05-13  Kevin Dalley  <kevind@rahul.net>
+
+	* find/tree.c (opt_expr): move iname and ipath to the front of the
+	list of arguments.
 
 	* doc/find.texi (Directories): changed wording for "-prune".
 
@@ -379,7 +451,7 @@
 	* find/fstype.c (filesystem_type_uncached): fixes bug described as
 	follows:  When 'find' looks for a fstype, it parses the /etc/mtab
 	until it finds the good line. But, if there is, before the good
-	line, a line whose the mountpoint is unreachable, it fails.
+	line, a line whose mountpoint is unreachable, it fails.
 
 	* doc/texinfo.tex: updated to newer version
 
