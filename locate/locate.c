@@ -75,16 +75,37 @@
 extern int errno;
 #endif
 
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#define textdomain(Domain)
+#define bindtextdomain(Package, Directory)
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
+
 #include "locatedb.h"
+#include <getline.h>
 
 typedef enum {false, true} boolean;
 
 /* Warn if a database is older than this.  8 days allows for a weekly
    update that takes up to a day to perform.  */
-#define WARN_SECONDS (60 * 60 * 24 * 8)
+#define WARN_NUMBER_UNITS (8)
+/* Printable name of units used in WARN_SECONDS */
+static const char warn_name_units[] = N_("days");
+#define SECONDS_PER_UNIT (60 * 60 * 24)
 
-/* Printable version of WARN_SECONDS.  */
-#define WARN_MESSAGE "8 days"
+#define WARN_SECONDS ((SECONDS_PER_UNIT) * (WARN_NUMBER_UNITS))
 
 /* Check for existence of files before printing them out? */
 int check_existence = 0;
@@ -213,8 +234,10 @@ locate (pathpart, dbfile)
   time(&now);
   if (now - st.st_mtime > WARN_SECONDS)
     {
-      error (0, 0, "warning: database `%s' is more than %s old",
-	     dbfile, WARN_MESSAGE);
+      /* For example:
+	 warning: database `fred' is more than 8 days old */
+      error (0, 0, _("warning: database `%s' is more than %d %s old"),
+	     dbfile, WARN_NUMBER_UNITS, _(warn_name_units));
     }
 
   pathsize = 1026;		/* Increased as necessary by getstr.  */
@@ -346,9 +369,9 @@ usage (stream, status)
      FILE *stream;
      int status;
 {
-  fprintf (stream, "\
+  fprintf (stream, _("\
 Usage: %s [-d path | --database=path] [--version] [--help]\n\
-      [-e | --existing] pattern...\n",
+      [-e | --existing] pattern...\n"),
 	   program_name);
   exit (status);
 }
@@ -372,6 +395,12 @@ main (argc, argv)
 
   program_name = argv[0];
 
+#ifdef HAVE_SETLOCALE
+  setlocale (LC_ALL, "");
+#endif
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain (PACKAGE);
+
   dbpath = getenv ("LOCATE_PATH");
   if (dbpath == NULL)
     dbpath = LOCATE_DB;
@@ -393,7 +422,7 @@ main (argc, argv)
 	usage (stdout, 0);
 
       case 'v':
-	printf ("GNU locate version %s\n", version_string);
+	printf (_("GNU locate version %s\n"), version_string);
 	exit (0);
 
       default:

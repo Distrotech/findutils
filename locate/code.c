@@ -57,7 +57,22 @@
 #include <stdlib.h>
 #endif
 
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#define textdomain(Domain)
+#define bindtextdomain(Package, Directory)
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
+
 #include "locatedb.h"
+#include <getline.h>
 
 char *xmalloc ();
 
@@ -122,7 +137,7 @@ main (argc, argv)
 
   if (argc != 2)
     {
-      fprintf (stderr, "Usage: %s most_common_bigrams < list > coded_list\n",
+      fprintf (stderr, _("Usage: %s most_common_bigrams < list > coded_list\n"),
 	       argv[0]);
       exit (2);
     }
