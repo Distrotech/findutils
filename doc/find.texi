@@ -1564,12 +1564,12 @@ command, which is invoked like this:
 xargs @r{[}@var{option}@dots{}@r{]} @r{[}@var{command} @r{[}@var{initial-arguments}@r{]}@r{]}
 @end example
 
-@code{xargs} reads arguments from the standard input, delimited by
-blanks (which can be protected with double or single quotes or a
-backslash) or newlines.  It executes the @var{command} (default is
-@file{/bin/echo}) one or more times with any @var{initial-arguments}
-followed by arguments read from standard input.  Blank lines on the
-standard input are ignored.
+@code{xargs} normally reads arguments from the standard input.  These
+arguments are delimited by blanks (which can be protected with double
+or single quotes or a backslash) or newlines.  It executes the
+@var{command} (default is @file{/bin/echo}) one or more times with any
+@var{initial-arguments} followed by arguments read from standard
+input.  Blank lines on the standard input are ignored.
 
 Instead of blank-delimited names, it is safer to use @samp{find -print0}
 or @samp{find -fprint0} and process the output by giving the @samp{-0}
@@ -1595,7 +1595,8 @@ find $HOME -name '*.c' -print | xargs grep -l sprintf
 
 However, if the command needs to have its standard input be a terminal
 (@code{less}, for example), you have to use the shell command
-substitution method.
+substitution method or use the @samp{--arg-file} option of
+@code{xargs}.
 
 The @code{xargs} command will process all its input, building command
 lines and executing them, unless one of the commands exits with a
@@ -1689,6 +1690,25 @@ As of findutils version 4.2.4, the @code{locate} program also has a
 @samp{--null} option which does the same thing.  For similarity with
 @code{xargs}, the short form of the option @samp{-0} can also be used.
 
+If you want to be able to handle file names safely but need to run
+commands which want to be connected to a terminal on their input, you
+can use the @samp{--arg-file} option to @code{xargs} like this:
+
+@example
+find / -name xyzzy -print0 > list
+xargs --null --arg-file=list munge
+@end example
+
+The example above runs the @code{munge} program on all the files named
+@file{xyzzy} that we can find, but @code{munge}'s input will still be
+the terminal (or whatever the shell was using as standard input).  If
+your shell has the ``process substitution'' feature @samp{<(...)}, you
+can do this in just one step:
+
+@example
+xargs --null --arg-file=<(find / -name xyzzy -print0) munge
+@end example
+
 @node Limiting Command Size
 @subsubsection Limiting Command Size
 
@@ -1747,7 +1767,7 @@ operation is equivalent to @samp{find -exec} (@pxref{Single File}).
 @item --replace@r{[}=@var{replace-str}@r{]}
 @itemx -i@r{[}@var{replace-str}@r{]}
 Replace occurrences of @var{replace-str} in the initial arguments with
-names read from standard input.  Also, unquoted blanks do not
+names read from the input.  Also, unquoted blanks do not
 terminate arguments; instead, the input is split at newlines only.  If
 @var{replace-str} is omitted, it defaults to @samp{@{@}} (like for
 @samp{find -exec}).  Implies @samp{-x} and @samp{-l 1}.  As an
@@ -1889,7 +1909,23 @@ less `find /usr/include -name '*.h' | xargs grep -l mode_t`
 
 @noindent
 You can edit those files by giving an editor name instead of a file
-viewing program.
+viewing program:
+
+@example
+emacs `find /usr/include -name '*.h' | xargs grep -l mode_t`
+@end example
+
+Because there is a limit to the length of any individual command line,
+there is a limit to the number of files that can be handled in this
+way.  We can get around this difficulty by using xargs like this:
+
+@example
+find /usr/include -name '*.h' | xargs grep -l mode_t > todo
+xargs --arg-file=todo emacs
+@end example
+
+Here, @code{xargs} will run @code{emacs} as many times as necessary to
+visit all of the files listed in the file @file{todo}.
 
 @node Archiving
 @section Archiving
@@ -2601,6 +2637,10 @@ if some other error occurred.
 @end table
 
 @table @code
+@item --arg-file@r{=@var{inputfile}}
+@itemx -a @r{=@var{inputfile}}
+Read names from the file @var{inputfile} instead of standard input.
+
 @item --null
 @itemx -0
 Input filenames are terminated by a null character instead of by

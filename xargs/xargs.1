@@ -7,7 +7,8 @@ xargs \- build and execute command lines from standard input
 [\-n max-args] [\-s max-chars] [\-P max-procs] [\-\-null] [\-\-eof[=eof-str]]
 [\-\-replace[=replace-str]] [\-\-max-lines[=max-lines]] [\-\-interactive]
 [\-\-max-chars=max-chars] [\-\-verbose] [\-\-exit] [\-\-max-procs=max-procs]
-[\-\-max-args=max-args] [\-\-no-run-if-empty] [\-\-version] [\-\-help]
+[\-\-max-args=max-args] [\-\-no-run-if-empty] [\-\-arg-file=file]
+[\-\-version] [\-\-help]
 [command [initial-arguments]]
 .SH DESCRIPTION
 This manual page
@@ -41,6 +42,15 @@ If any invocation of the command exits with a status of 255,
 will stop immediately without reading any firther input.  An error
 message is issued on stderr when this happens.
 .SS OPTIONS
+.TP
+.I "\-\-arg-file=file, \-a file"
+Read items from 
+.I file
+instead of standard input.  If you use this option, stdin remains
+unchanged when commands are run.  Otherwise, stdin is redirected 
+from 
+.IR /dev/null .
+
 .TP
 .I "\-\-null, \-0"
 Input items are terminated by a null character instead of by

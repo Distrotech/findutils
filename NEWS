@@ -1,10 +1,18 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.7
+**  Bug Fixes
+*** Avoid trying to link against -lsun on UNICOS, which doesn't need it or 
+    have it.
+*** Bugfix to the findutils 4.2.6 automount handling (which hadn't been enabled
+    on Solaris).
+
 * Major changes in release 4.2.6
 **  Bug Fixes
 *** find now copes rather better when a directory appears to change just as
     it is about to start examining it, which happens with automount.
     This is because automount mounts filesystems as you change
-    directory into them.  This should resolve Savannah bugs #3998, #9043.
+    directory into them.  This should resolve Savannah bugs #3998,
+    #9043.
 
 * Major changes in release 4.2.5
 **  Functionality Changes

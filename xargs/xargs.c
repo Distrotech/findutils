@@ -173,8 +173,11 @@ extern char *version_string;
 /* The name this program was run with.  */
 char *program_name;
 
-/* Buffer for reading arguments from stdin.  */
+static FILE *input_stream;
+
+/* Buffer for reading arguments from input.  */
 static char *linebuf;
+static int keep_stdin = 0;
 
 /* Line number in stdin since the last command was executed.  */
 static int lineno = 0;
@@ -260,6 +263,7 @@ static boolean query_before_executing = false;
 static struct option const longopts[] =
 {
   {"null", no_argument, NULL, '0'},
+  {"arg-file", required_argument, NULL, 'a'},
   {"eof", optional_argument, NULL, 'e'},
   {"replace", optional_argument, NULL, 'i'},
   {"max-lines", optional_argument, NULL, 'l'},
@@ -357,6 +361,7 @@ main (int argc, char **argv)
   int optc;
   int show_limits = 0;			/* --show-limits */
   int always_run_command = 1;
+  char *input_file = "-"; /* "-" is stdin */
   long posix_arg_size_max;
   long posix_arg_size_min;
   long arg_size;
@@ -405,7 +410,7 @@ main (int argc, char **argv)
   
 
   
-  while ((optc = getopt_long (argc, argv, "+0e::i::l::n:prs:txP:",
+  while ((optc = getopt_long (argc, argv, "+0a:e::i::l::n:prs:txP:",
 			      longopts, (int *) 0)) != -1)
     {
       switch (optc)
@@ -494,6 +499,10 @@ main (int argc, char **argv)
 	  proc_max = parse_num (optarg, 'P', 0L, -1L, 1);
 	  break;
 
+        case 'a':
+          input_file = optarg;
+          break;
+
 	case 'v':
 	  printf (_("GNU xargs version %s\n"), version_string);
 	  return 0;
@@ -501,6 +510,22 @@ main (int argc, char **argv)
 	default:
 	  usage (stderr);
 	  return 1;
+	}
+    }
+
+  if (0 == strcmp (input_file, "-"))
+    {
+      input_stream = stdin;
+    }
+  else
+    {
+      keep_stdin = 1;		/* see prep_child_for_exec() */
+      input_stream = fopen (input_file, "r");
+      if (NULL == input_stream)
+	{
+	  error (1, errno,
+		 _("Cannot open input file `%s'"),
+		 input_file);
 	}
     }
 
@@ -654,7 +679,7 @@ append_char_to_buf(char **pbuf, char **pend, char **pp, int c)
 #endif
 
 
-/* Read a line of arguments from stdin and add them to the list of
+/* Read a line of arguments from the input and add them to the list of
    arguments to pass to the command.  Ignore blank lines and initial blanks.
    Single and double quotes and backslashes quote metacharacters and blanks
    as they do in the shell.
@@ -681,7 +706,7 @@ read_line (void)
   while (1)
     {
       prevc = c;
-      c = getc (stdin);
+      c = getc (input_stream);
       if (c == EOF)
 	{
 	  /* COMPAT: SYSV seems to ignore stuff on a line that
@@ -782,7 +807,7 @@ read_line (void)
     }
 }
 
-/* Read a null-terminated string from stdin and add it to the list of
+/* Read a null-terminated string from the input and add it to the list of
    arguments to pass to the command.
    Return -1 if eof (either physical or logical) is reached,
    otherwise the length of the string read (including the null).  */
@@ -800,7 +825,7 @@ read_string (void)
     return -1;
   while (1)
     {
-      int c = getc (stdin);
+      int c = getc (input_stream);
       if (c == EOF)
 	{
 	  eof = true;
@@ -1011,18 +1036,21 @@ print_args (boolean ask)
 static void
 prep_child_for_exec (void)
 {
-  const char inputfile[] = "/dev/null";
-  /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
-  
-  close(0);
-  if (open(inputfile, O_RDONLY) < 0)
+  if (!keep_stdin)
     {
-      /* This is not entirely fatal, since 
-       * executing the child with a closed
-       * stdin is almost as good as executing it
-       * with its stdin attached to /dev/null.
-       */
-      error (0, errno, "%s", inputfile);
+      const char inputfile[] = "/dev/null";
+      /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
+      
+      close(0);
+      if (open(inputfile, O_RDONLY) < 0)
+	{
+	  /* This is not entirely fatal, since 
+	   * executing the child with a closed
+	   * stdin is almost as good as executing it
+	   * with its stdin attached to /dev/null.
+	   */
+	  error (0, errno, "%s", inputfile);
+	}
     }
 }
 
@@ -1214,8 +1242,8 @@ Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
        [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-str]]\n\
        [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n\
        [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n\
-       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n\
-       [command [initial-arguments]]\n"),
+       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n\
+       [--version] [--help] [command [initial-arguments]]\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
