@@ -569,6 +569,11 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	case 'd':		/* depth in search tree */
 	  fprintf (fp, segment->text, curdepth);
 	  break;
+	case 'D':		/* Device on which file exists (stat.st_dev) */
+	  fprintf (fp, segment->text, 
+		   human_readable ((uintmax_t) stat_buf->st_dev, hbuf,
+				   human_ceiling, 1, 1));
+	  break;
 	case 'f':		/* basename of path */
 	  fprintf (fp, segment->text, base_name (pathname));
 	  break;

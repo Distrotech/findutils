@@ -109,7 +109,8 @@ originally written by Mike Rendell, with enhancements by David
 MacKenzie.  GNU @code{locate} and its associated utilities were
 originally written by James Woods, with enhancements by David MacKenzie.
 The idea for @samp{find -print0} and @samp{xargs -0} came from Dan
-Bernstein.  Many other people have contributed bug fixes, small
+Bernstein.  The current maintainer of GNU findutils (and this manual) is
+James Youngman.  Many other people have contributed bug fixes, small
 improvements, and helpful suggestions.  Thanks!
 
 Mail suggestions and bug reports for these programs to
@@ -924,7 +925,8 @@ another is:
 ufs 4.2 4.3 nfs tmp mfs S51K S52K
 @end example
 You can use @samp{-printf} with the @samp{%F} directive to see the types
-of your filesystems.  @xref{Print File Information}.  @samp{-fstype} is
+of your filesystems.  The @samp{%D} directive shows the device number.
+@xref{Print File Information}.  @samp{-fstype} is
 usually used with @samp{-prune} to avoid searching remote filesystems
 (@pxref{Directories}). 
 @end deffn
@@ -1201,8 +1203,13 @@ File's size in bytes.
 
 @table @code
 @item %d
-File's depth in the directory tree; files named on the command line
-have a depth of 0.
+File's depth in the directory tree (depth below a file named on the
+command line, not depth below the root directory).  Files named on the
+command line have a depth of 0.  Subdirectories immediately below them
+have a depth of 1, and so on.
+@item %D
+The device number on which the file exists (the @code{st_dev} field of
+@code{struct stat}), in decimal.
 @item %F
 Type of the filesystem the file is on; this value can be used for
 @samp{-fstype} (@pxref{Directories}).

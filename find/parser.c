@@ -1456,7 +1456,7 @@ insert_fprintf (FILE *fp, boolean (*func) (/* ??? */), char **argv, int *arg_ptr
 	  if (*scan2 == '.')
 	    for (scan2++; ISDIGIT (*scan2); scan2++)
 	      /* Do nothing. */ ;
-	  if (strchr ("abcdfFgGhHiklmnpPstuU", *scan2))
+	  if (strchr ("abcdDfFgGhHiklmnpPstuU", *scan2))
 	    {
 	      segmentp = make_segment (segmentp, format, scan2 - format,
 				       (int) *scan2);
@@ -1520,6 +1520,7 @@ make_segment (struct segment **segment, char *format, int len, int kind)
     case 'b':			/* size in 512-byte blocks */
     case 'c':			/* ctime in `ctime' format */
     case 'C':			/* ctime in user-specified strftime format */
+    case 'D':                   /* Filesystem device on which the file exits */
     case 'F':			/* filesystem type */
     case 'G':			/* GID number */
     case 'g':			/* group name */
