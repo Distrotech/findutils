@@ -302,7 +302,7 @@ static void push_arg PARAMS ((char *arg, size_t len));
 #endif
 static boolean print_args PARAMS ((boolean ask));
 /* static void do_exec PARAMS ((void)); */
-static void xargs_do_exec (const struct buildcmd_control *cl, struct buildcmd_state *state);
+static int xargs_do_exec (const struct buildcmd_control *cl, struct buildcmd_state *state);
 static void add_proc PARAMS ((pid_t pid));
 static void wait_for_proc PARAMS ((boolean all));
 static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
@@ -575,7 +575,9 @@ main (int argc, char **argv)
     {
       for (; optind < argc; optind++)
 	bc_push_arg (&bc_ctl, &bc_state,
-		     argv[optind], strlen (argv[optind]) + 1, initial_args);
+		     argv[optind], strlen (argv[optind]) + 1,
+		     NULL, 0,
+		     initial_args);
       initial_args = false;
       bc_ctl.initial_argc = bc_state.cmd_argc;
       bc_state.cmd_initial_argv_chars = bc_state.cmd_argv_chars;
@@ -606,10 +608,17 @@ main (int argc, char **argv)
       while ((len = (*read_args) ()) != -1)
 	{
 	  /* Don't do insert on the command name.  */
-	  bc_push_arg (&bc_ctl, &bc_state, argv[optind], arglen[optind] + 1, initial_args);
+	  bc_push_arg (&bc_ctl, &bc_state,
+		       argv[optind], arglen[optind] + 1,
+		       NULL, 0,
+		       initial_args);
 	  len--;
 	  for (i = optind + 1; i < argc; i++)
-	    bc_do_insert (&bc_ctl, &bc_state, argv[i], arglen[i], linebuf, len, initial_args);
+	    bc_do_insert (&bc_ctl, &bc_state,
+			  argv[i], arglen[i],
+			  NULL, 0,
+			  linebuf, len,
+			  initial_args);
 	  xargs_do_exec (&bc_ctl, &bc_state);
 	}
     }
@@ -714,7 +723,10 @@ read_line (void)
 	  if (first && EOF_STR (linebuf))
 	    return -1;
 	  if (!bc_ctl.replace_pat)
-	    bc_push_arg (&bc_ctl, &bc_state, linebuf, len, initial_args);
+	    bc_push_arg (&bc_ctl, &bc_state,
+			 linebuf, len,
+			 NULL, 0,
+			 initial_args);
 	  return len;
 	}
       switch (state)
@@ -744,7 +756,10 @@ read_line (void)
 		  return first ? -1 : len;
 		}
 	      if (!bc_ctl.replace_pat)
-		bc_push_arg (&bc_ctl, &bc_state, linebuf, len, initial_args);
+		bc_push_arg (&bc_ctl, &bc_state,
+			     linebuf, len,
+			     NULL, 0,
+			     initial_args);
 	      return len;
 	    }
 	  if (!bc_ctl.replace_pat && ISSPACE (c))
@@ -756,7 +771,10 @@ read_line (void)
 		  eof = true;
 		  return first ? -1 : len;
 		}
-	      bc_push_arg (&bc_ctl, &bc_state, linebuf, len, initial_args);
+	      bc_push_arg (&bc_ctl, &bc_state,
+			   linebuf, len,
+			   NULL, 0,
+			   initial_args);
 	      p = linebuf;
 	      state = SPACE;
 	      first = false;
@@ -828,7 +846,10 @@ read_string (void)
 	  *p++ = '\0';
 	  len = p - linebuf;
 	  if (!bc_ctl.replace_pat)
-	    bc_push_arg (&bc_ctl, &bc_state, linebuf, len, initial_args);
+	    bc_push_arg (&bc_ctl, &bc_state,
+			 linebuf, len,
+			 NULL, 0,
+			 initial_args);
 	  return len;
 	}
       if (c == '\0')
@@ -837,7 +858,10 @@ read_string (void)
 	  *p++ = '\0';
 	  len = p - linebuf;
 	  if (!bc_ctl.replace_pat)
-	    bc_push_arg (&bc_ctl, &bc_state, linebuf, len, initial_args);
+	    bc_push_arg (&bc_ctl, &bc_state,
+			 linebuf, len,
+			 NULL, 0,
+			 initial_args);
 	  return len;
 	}
       if (p >= endbuf)
@@ -912,12 +936,16 @@ prep_child_for_exec (void)
 /* Execute the command that has been built in `cmd_argv'.  This may involve
    waiting for processes that were previously executed.  */
 
-static void
+static int
 xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
 {
   pid_t child;
 
-  bc_push_arg (&bc_ctl, &bc_state, (char *) NULL, 0, false); /* Null terminate the arg list.  */
+  bc_push_arg (&bc_ctl, &bc_state,
+	       (char *) NULL, 0,
+	       NULL, 0,
+	       false); /* Null terminate the arg list.  */
+  
   if (!query_before_executing || print_args (true))
     {
       if (proc_max && procs_executing >= proc_max)
@@ -944,6 +972,7 @@ xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
     }
 
   bc_clear_args(&bc_ctl, &bc_state);
+  return 1;			/* Success */
 }
 
 /* Add the process with id PID to the list of processes that have
