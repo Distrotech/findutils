@@ -635,14 +635,23 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	case 'h':		/* leading directories part of path */
 	  {
 	    char cc;
-
+	    
 	    cp = strrchr (pathname, '/');
 	    if (cp == NULL)	/* No leading directories. */
-	      break;
-	    cc = *cp;
-	    *cp = '\0';
-	    fprintf (fp, segment->text, pathname);
-	    *cp = cc;
+	      {
+		/* If there is no slash in the pathname, we still
+		 * print the string because it contains characters
+		 * other than just '%s'.
+		 */
+		fprintf (fp, segment->text, "");
+	      }
+	    else
+	      {
+		cc = *cp;
+		*cp = '\0';
+		fprintf (fp, segment->text, pathname);
+		*cp = cc;
+	      }
 	    break;
 	  }
 	case 'H':		/* ARGV element file was found under */
