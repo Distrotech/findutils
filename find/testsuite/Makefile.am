@@ -15,7 +15,6 @@ EXTRA_DIST = config/unix.exp \
 		find.gnu/name-period.xo \
 		find.gnu/perm.exp \
 		find.gnu/perm.xo \
-		find.gnu/ \
 		find.gnu/posix-dflt.exp \
 		find.gnu/posix-dflt.xo \
 		find.gnu/posix-h.exp \
