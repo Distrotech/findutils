@@ -1,3 +1,12 @@
+findutils (4.1-30) unstable; urgency=low
+
+  * reduced PATH in update.sh to increase security (fixes bug #21704)
+  * removed more function declarations to meet GNU coding standards
+  * removed "-s /bin/sh" from updatedb change quoting around PRUNEFS
+    (fixes bug #20812, again, and #26857)
+
+ -- Kevin Dalley <kevind@rahul.net>  Sun, 20 Sep 1998 19:06:19 -0700
+
 findutils (4.1-29) unstable; urgency=low
 
   * removed declaration of strdup and free from lib/nextelem.c, which
