@@ -110,6 +110,12 @@ int starting_desc;
 /* The stat buffer of the initial working directory. */
 struct stat starting_stat_buf;
 
+enum ChdirSymlinkHandling
+  {
+    SymlinkHandleDefault,	/* Normally the right choice */
+    SymlinkFollowOk		/* see comment in process_top_path() */
+  };
+
 
 enum TraversalDirection
   {
@@ -851,10 +857,11 @@ enum SafeChdirStatus
 /* Safely perform a change in directory.
  *
  */
-static int 
+static enum SafeChdirStatus
 safely_chdir(const char *dest,
 	     enum TraversalDirection direction,
-	     struct stat *statbuf_dest)
+	     struct stat *statbuf_dest,
+	     enum ChdirSymlinkHandling symlink_handling)
 {
   struct stat statbuf_arrived;
   int rv, dotfd=-1;
@@ -878,12 +885,45 @@ safely_chdir(const char *dest,
       if (0 == options.xstat(dest, statbuf_dest))
 	{
 #ifdef S_ISLNK
+	  /* symlink_handling might be set to SymlinkFollowOk, which
+	   * would allow us to chdir() into a symbolic link.  This is
+	   * only useful for the case where the directory we're
+	   * chdir()ing into is the basename of a command line
+	   * argument, for example where "foo/bar/baz" is specified on
+	   * the command line.  When -P is in effect (the default),
+	   * baz will not be followed if it is a symlink, but if bar
+	   * is a symlink, it _should_ be followed.  Hence we need the
+	   * ability to override the policy set by following_links().
+	   */
 	  if (!following_links() && S_ISLNK(statbuf_dest->st_mode))
 	    {
-	      rv = SafeChdirFailSymlink;
-	      rv_set = true;
-	      saved_errno = 0;	/* silence the error message */
-	      goto fail;
+	      /* We're not supposed to be following links, but this is 
+	       * a link.  Check symlink_handling to see if we should 
+	       * make a special exception.
+	       */
+	      if (symlink_handling == SymlinkFollowOk)
+		{
+		  /* We need to re-stat() the file so that the 
+		   * sanity check can pass. 
+		   */
+		  if (0 != stat(dest, statbuf_dest))
+		    {
+		      rv = SafeChdirFailNonexistent;
+		      rv_set = true;
+		      saved_errno = errno;
+		      goto fail;
+		    }
+		}
+	      else
+		{
+		  /* Not following symlinks, so the attempt to
+		   * chdir() into a symlink should be prevented.
+		   */
+		  rv = SafeChdirFailSymlink;
+		  rv_set = true;
+		  saved_errno = 0;	/* silence the error message */
+		  goto fail;
+		}
 	    }
 #endif	  
 #ifdef S_ISDIR
@@ -1058,6 +1098,7 @@ process_top_path (char *pathname, mode_t mode)
   else
     {
       enum TraversalDirection direction;
+      enum SafeChdirStatus chdir_status;
       struct stat st;
 
       dirchange = 1;
@@ -1065,10 +1106,26 @@ process_top_path (char *pathname, mode_t mode)
 	direction = TraversingUp;
       else
 	direction = TraversingDown;
-      if (SafeChdirOK != safely_chdir(parent_dir, direction, &st))
-	{
-	  error (0, errno, "%s", parent_dir);
 
+      /* We pass SymlinkFollowOk to safely_chdir(), which allows it to
+       * chdir() into a symbolic link.  This is only useful for the
+       * case where the directory we're chdir()ing into is the
+       * basename of a command line argument, for example where
+       * "foo/bar/baz" is specified on the command line.  When -P is
+       * in effect (the default), baz will not be followed if it is a
+       * symlink, but if bar is a symlink, it _should_ be followed.
+       * Hence we need the ability to override the policy set by
+       * following_links().
+       */
+      chdir_status = safely_chdir(parent_dir, direction, &st, SymlinkFollowOk);
+      if (SafeChdirOK != chdir_status)
+	{
+	  if (errno)
+	    error (0, errno, "%s", parent_dir);
+	  else
+	    error (0, 0, "Failed to safely change directory into `%s'",
+		   parent_dir);
+	    
 	  /* We can't process this command-line argument. */
 	  state.exit_status = 1;
 	  return;
@@ -1429,7 +1486,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 #if USE_SAFE_CHDIR
       if (strcmp (name, "."))
 	{
-	  enum SafeChdirStatus status = safely_chdir (name, TraversingDown, &stat_buf);
+	  enum SafeChdirStatus status = safely_chdir (name, TraversingDown, &stat_buf, SymlinkHandleDefault);
 	  switch (status)
 	    {
 	    case SafeChdirOK:
@@ -1588,7 +1645,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      dir = parent;
 	    }
 	  
-	  status = safely_chdir (dir, TraversingUp, &stat_buf);
+	  status = safely_chdir (dir, TraversingUp, &stat_buf, SymlinkHandleDefault);
 	  switch (status)
 	    {
 	    case SafeChdirOK:
