@@ -90,6 +90,7 @@ This is edition @value{EDITION}, for @code{find} version @value{VERSION}.
 * Databases::                   Maintaining file name databases.
 * File Permissions::            How to control access to files.
 * Reference::                   Summary of how to invoke the programs.
+* Error Messages::              Explanations of some messages you might see.
 * Primary Index::               The components of @code{find} expressions.
 @end menu
 
@@ -2363,7 +2364,7 @@ at all times.  Otherwise, newlines may not be correctly handled.
 
 @include perm.texi
 
-@node Reference, Primary Index, File Permissions, Top
+@node Reference, Error Messages, File Permissions, Top
 @chapter Reference
 
 Below are summaries of the command line syntax for the programs
@@ -2717,7 +2718,195 @@ Run up to @var{max-procs} processes at a time; the default is 1.  If
 possible at a time.
 @end table
 
-@node Primary Index, , Reference, Top
+@node Error Messages, Primary Index, Reference, Top
+@chapter Error Messages
+
+This section describes some of the error messages you might get from
+@code{find}, @code{xargs}, or @code{locate}, explains them and in some
+cases provides advice as to what you should do about this.
+
+This manual is written in English.  The GNU findutils software
+features translated error messages for many languages.  For this
+reason where possible we try to make the error messages produced by
+the programs self-explanatory.  This approach avoids asking people to
+figure out which Engligh-language error message the test they actually
+saw might correspond to. Error messages which are self-explanatory
+will not normally be described or discussed in this document.  For
+those messages which are discussed in this document, only the
+Engligh-language version of the message will be listed.
+
+@menu
+* Error Messages From find::
+* Error Messages From xargs::
+* Error Messages From locate::
+* Error Messages From updatedb::
+@end menu
+
+@node Error Messages From find, Error Messages From xargs, , Error Messages
+@section Error Messages From find
+
+@table @samp
+@item invalid predicate `-foo'
+This means that the @code{find} command line included something that
+started with a dash or other special character.  The @code{find}
+program tried to interpret this as a test, action or option, but
+didn't recognise it.  If you intended it to be a test, check what you
+specified against the documentation.  If, on the other hand, the
+string is the name of a file which has been expanded from a wildcard
+(for example because you have a @samp{*} on the command line),
+consider using @samp{./*} or just @samp{.} instead.
+
+@item unexpected extra predicate
+This usually happens if you have an extra bracket on the command line
+(for example @samp{find . -print \)}).
+
+@item Warning: filesystem /path/foo has recently been unmounted
+This message normally appears when @code{find} traverses a mount point
+which is controlled by ``automount''.  This can cause a filesystem to
+be automatically mounted at that point, which means that the
+before-and-after checks that @code{find} does to check that it has
+ended up in the right place after a call to the @code{chdir()} library
+function notice that something has changed.  If the filesystem
+mentioned is a mount point controlled by ``automount'', then this
+warning is probably harmless.  If not, consider the possibility that
+someone who is able to mount or unmount filesystems has done this by
+hand.  Some people might do this in order to mislead @code{find} or
+persuade it to look at one set of files when it thought it was looking
+at another set.  
+
+@item Warning: filesystem /path/foo has recently been unmounted
+This message is very similar in meaning to the previous one, but is
+issued when a filesystem appears to have been unmounted.  The
+``automount'' program unmounts filesystems if they have not been used
+for a certain period of time, which can produce this message.
+However, this message should be much rarer than the previous one.  If
+the directory mentioned in the message is not normally a mount point,
+conside the possibility that someone is trying to mislead @code{find}
+in a similar way to the possibility mentioned above.
+
+@item /path/foo changed during execution of find (old device number 12345, new device number 6789, filesystem type is <whatever>) [ref XXX]
+This message is issued when @code{find} changes directory and ends up
+somewhere it didn;t expect to be.  This happens in one of two
+circumstances.  Firstly this happens when ``automount'' does its thing
+on a system where @code{find} doesn't know how to determine what the
+current set of mounted filesystems is (to do this, @code{find}
+requires to be able to use @code{getmntent() - check the
+@file{config.h} file for HAVE_GETMNTENT, which should be #defined to
+1}.  If this is what has happened, consider submitting a problem
+report to @email{bug-findutils@@gnu.org}. 
+
+Secondly, this can happen when the device number of a directory
+appears to change during a change of current directory, and either the
+directory is not itself a mount point, or it is a mount point, but
+@code{find} is moving up the filesystem hierarchy rather than down it.
+In order to prevent @code{find} wandering off into some unexpected
+part of the filesystem, we stop it at this point.
+
+@item Don't know how to use getmntent() to read `/etc/mtab'.  This is a bug.
+This message is issued when a problem similar to tbe above occurs on a
+system where @code{find} doesn't know how to figure out the current
+list of mount points.  Ask for help on @email{bug-findutils@@gnu.org}.
+
+@item /path/foo/bar changed during execution of find (old inode number 12345, new inode number 67893, filesystem type is <whatever>) [ref XXX]"),
+This message is issued when @code{find} changes directory and
+discovers that the inode number of that directory once it's got there
+is different to the inode number that it obtained when it examined the
+directory some time previously.  This normally means that while
+@code{find} has been deep in a directory hierarchy doing something
+time consuming, somebody has moved the one of the parent directories
+to another location in the same filesystem.  This may have been done
+maliciously, or may not.  In any case, @code{find} stops at this point
+in order to avoid traversing parts of the filesystem that it wasn't
+intended to.  You can use @code{ls -li} or @code{find /path -inum 12345
+-o -inum 67893} to find out more about what has happened.
+
+@item sanity check of the fnmatch() library function failed.
+Please submit a bug report.  You may well be asked questions about
+your system, and if you compiled the @code{findutils} code yourself,
+you should keep your copy of the build tree around.  The likely
+explanation is that your system has a buggy implementation of
+@code{fnmatch} that looks enough like the GNU version to fool
+@code{configure}, but which doesn't work properly.
+
+@item cannot fork
+This normally happens if you use the @code{-exec} action or a
+something similar (@code{-ok} and so forth) but the system has run out
+of free process slots.  This is either because the system is very busy
+and the system has reached its maximum process limit, or because you
+have a resource limit in place and you've reached it.  Check the
+system for runaway processes (if @code{ps} still works).  Some process
+slots are normally reserved for use by @samp{root}.
+
+@item some-program terminated by signal 99
+Some program which was launched via @code{-exec} or similar was killed
+with a fatal signal.  This is just an advisory message.
+@end table
+
+
+
+@node Error Messages From xargs, Error Messages From locate, Error Messages From find, Error Messages
+@section Error Messages From xargs
+
+@table @samp
+@item environment is too large for exec
+This message means that you have som many environment variables set
+(or such large values for them) that there is no room within the
+system-imposed limits on program command-line argument length to
+invoke any program.  I'm sure you did this deliberately.  Please try
+unsetting some environment variables, or exiting the current shell.
+
+@item can not fit single argument within argument list size limit
+You are using the @samp{-i} option and @code{xargs} doesn't have
+enough space to build a command line because it has read in a really
+large item and it doesn't fit.  You can probably work around this
+problem with the @samp{-s} option, but the default size is pretty
+large.  You must be trying pretty hard to break @code{xargs}.
+
+@item cannot fork
+See the description of the similar message for @code{find}.
+
+@item <program>: exited with status 255; aborting
+When a command run by @code{xargs} exits with status 255, @code{xargs}
+is supposed to stop.  If this is not what you intended, wrap the
+program you are trying to invoke in a shell script which doesn't
+return status 255.
+
+@item <program>: terminated by signal 99
+See the description of the similar message for @code{find}.
+@end table
+
+@node Error Messages From locate, Error Messages From updatedb, Error Messages From xargs, Error Messages
+@section Error Messages From locate
+
+@table @samp
+@item warning: database `/usr/local/var/locatedb' is more than 8 days old
+The @code{locate} program relies on a database which is periodically
+built by the @code{updatedb} program.  That hasn't happened in a long
+time.  To fix this problem, run @code{updatedb} manually.  This can
+often happen on systems that are generally nt left on, so the periodic
+``cron'' task which normally does this doesn't get a chance to run.
+
+@item locate database `/usr/local/var/locatedb' is corrupt or invalid
+This should not happen.  Re-run @code{updatedb}.  If that works, but
+@code{locate} still produces this error, run @code{locate --version}
+and @code{updatedb --version}.  These should produce the same output.
+If not, you are using a mixed toolset; check your @samp{$PATH}
+environment variable and your shell aliases (if you have any).  If
+both programs claim to be GNU versions, this is a bug; all versions of
+these programs should interoperate without problem.  Ask for help on
+@email{bug-findutils@@gnu.org}.
+@end table
+
+
+@node Error Messages From updatedb, , Error Messages From locate, Error Messages
+@section Error Messages From updatedb
+
+The @code{updatedb} program (and the programs it invokes) do issue
+error messages, but none of them seem to me to be candidates for
+guidance.  If you are having a problem understanding one of these, ask
+for help on @email{bug-findutils@@gnu.org}.
+
+@node Primary Index, , Error Messages, Top
 @unnumbered @code{find} Primary Index
 
 This is a list of all of the primaries (tests, actions, and options)
