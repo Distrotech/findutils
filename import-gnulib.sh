@@ -39,7 +39,7 @@ getline getopt human idcache  lstat malloc memcmp memset mktime	  \
 modechange   pathmax quotearg realloc regex rpmatch savedir stat  \
 stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
 xalloc xgetcwd  xstrtol  xstrtoumax yesno human basename filemode \
-getline"
+getline stpcpy"
 
 if test $# -lt 1
 then
