@@ -1,4 +1,12 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.1
+** Bug Fixes
+*** find -iname now works correctly on systems that have an fnmatch() function 
+    that does not support FNM_CASEFOLD
+*** Better support for systems lacking intmax_t
+** Other Changes
+**** findutils now uses a newer version of gnulib (dated 2004-10-17).
+
 * Major changes in release 4.2.0
 ** Functionality Changes
 *** xargs now works better when the environment variables are very extensive.
