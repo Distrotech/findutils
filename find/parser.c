@@ -250,7 +250,7 @@ static struct parser_table const parse_table[] =
   {ARG_TEST,               "-version",              parse_version},	/* GNU */
   {ARG_OPTION,             "warn",                  parse_warn},        /* GNU */
   {ARG_TEST,               "wholename",             parse_wholename},   /* GNU, replaces -path */
-  {ARG_TEST,               "xdev",                  parse_xdev},
+  {ARG_OPTION,             "xdev",                  parse_xdev},
   {ARG_TEST,               "xtype",                 parse_xtype},	/* GNU */
   {0, 0, 0}
 };
