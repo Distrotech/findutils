@@ -1634,7 +1634,7 @@ perform arbitrary actions on the files.
 
 Here is how to run a command on one file at a time.
 
-@deffn Action -exec command ;
+@deffn Action -execdir command ;
 Execute @var{command}; true if 0 status is returned.  @code{find} takes
 all arguments after @samp{-exec} to be part of the command until an
 argument consisting of @samp{;} is reached.  It replaces the string
@@ -1647,30 +1647,61 @@ For example, to compare each C header file in the current directory with
 the file @file{/tmp/master}:
 
 @example
-find . -name '*.h' -exec diff -u '@{@}' /tmp/master ';'
+find . -name '*.h' -execdir diff -u '@{@}' /tmp/master ';'
 @end example
 @end deffn
 
 
-@deffn Action -exec command +
-This variant of @samp{-exec} not yet supported.   Once it has been
-implemented as specified in the POSIX standard, a @samp{@{@}} will expand to
-a list of names of matching files.  This expansion is done in such a
-way as to avoid exceeding the maximum command line length available on 
-the system.
+Another similar option, @samp{-exec} is supported, but is less
+secure.  @xref{Security Considerations} for a discussion of the
+security problems surrounding @samp{-exec}.
+
+
+@deffn Action -exec command ;
+This insecure variant of the @samp{-execdir} action is specified by
+POSIX.  The main difference is that the command is executed in the
+directory from which @code{find} was invoked, meaning that @samp{@{@}}
+is expanded to a relative path starting with the name of one of the
+starting directories, rather than just the basename of the matched
+file.
 @end deffn
 
 
 @node Multiple Files
 @subsection Multiple Files
 
-Sometimes you need to process files alone.  But when you
-don't, it is faster to run a command on as many files as possible at a
-time, rather than once per file.  Doing this saves on the time it takes
-to start up the command each time.
+Sometimes you need to process files one of the time.  But usually this
+is not necessary, and, it is faster to run a command on as many files
+as possible at a time, rather than once per file.  Doing this saves on
+the time it takes to start up the command each time.
 
-To run a command on more than one file at once, use the @code{xargs}
-command, which is invoked like this:
+The @samp{-execdir} and @samp{-exec} actions have variants that build
+command lines containing as many matched files as possible.  
+
+@deffn Action -execdir command @{@} +
+This works as for @samp{-execdir command ;}, except that the
+@samp{@{@}} at the end of the command is expanded to a list of names
+of matching files.  This expansion is done in such a way as to avoid
+exceeding the maximum command line length available on the system.
+Only one @samp{@{@}} is allowed within the command, and it must appear
+at the end, immediately before the @samp{+}.  A @samp{+} appearing in
+any position other than immediately after @samp{@{@}} is not
+considered to be special (that is, it does not terminate the command).
+@end deffn
+
+
+@deffn Action -exec command @{@} +
+This insecure variant of the @samp{-execdir} action is specified by
+POSIX.  The main difference is that the command is executed in the
+directory from which @code{find} was invoked, meaning that @samp{@{@}}
+is expanded to a relative path starting with the name of one of the
+starting directories, rather than just the basename of the matched
+file.
+@end deffn
+
+
+Another, but less secure, way to run a command on more than one file
+at once, is to use the @code{xargs} command, which is invoked like this:
 
 @example
 xargs @r{[}@var{option}@dots{}@r{]} @r{[}@var{command} @r{[}@var{initial-arguments}@r{]}@r{]}
@@ -3036,8 +3067,7 @@ was invoked.   This means that the @samp{-exec} action is inherently
 insecure and can't be fixed.   
 
 GNU @code{find} implements a more secure variant of the @samp{-exec}
-action, @samp{-execdir}@footnote{at the time of writing -execdir is
-not yet implemented, but is planned}.  The @samp{-execdir} action
+action, @samp{-execdir}.  The @samp{-execdir} action
 ensures that it is not necessary to dereference subdirectories to
 process target files.  The current directory used to invoke programs
 is the same as the directory in which the file to be processed exists
@@ -3143,9 +3173,6 @@ Use of the @samp{-execdir} action where the @env{PATH}
 environment variable contains directories which contain only trusted
 programs. 
 @end table
-
-Please note that the @samp{-execdir} option is not yet implemented.
-
 
 @comment  node-name,  next,  previous,  up
 @node Error Messages, Primary Index, Security Considerations, Top
