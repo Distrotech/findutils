@@ -18,6 +18,16 @@ known (the left hand side is false for \fIand\fR operations, true for
 .B find
 moves on to the next file name.
 .PP
+If you are using 
+.B find 
+in an environment where security is important (for example if you are
+using it to seach directories that are writable by other users), you
+should read the "Security Considerations" chapter of the findutils
+documentation, which is called \fBFinding Files\fP and comes with
+findutils.   That document also includes a lot more detail 
+and discussion than this manual page, so you may find it a more useful 
+source of information.
+.SH OPTIONS
 The `\-H', `\-L' and `\-P' options control the treatment of symbolic
 links.  Command-line arguments following these are taken to be names
 of files or directories to be examined, up to the first argument that
@@ -30,10 +40,9 @@ used.  If no expression is given, the expression `\-print' is used
 This manual page talks about `options' within the expression list.
 These options control the behaviour of 
 .B find
-but are specified immediately after the last path name.  The two
+but are specified immediately after the last path name.  The three
 `real' options `\-H', `\-L' and `\-P' must appear before the first
 path name, if at all.
-.SH OPTIONS
 .IP \-P
 Never follow symbolic links.  This is the default behaviour.  When 
 .B find
@@ -53,8 +62,8 @@ option implies \-noleaf.  If you later use the \-P option, \-noleaf
 will still be in effect.
 
 .IP \-H
-Do not follow symbolic links, except those appearing on the command
-line.  When
+Do not follow symbolic links, except while processing the command
+line arguments.  When
 .B find
 examines or prints information about files, the information used 
 shall be taken from the properties of the symbolic link itself.   The
@@ -740,9 +749,8 @@ paths specified on the command line will be processed.  For example,
 .B find /tmp/foo /tmp/bar \-print \-quit
 will print only
 .BR /tmp/foo .
-Any command lines which have been built up with `
+Any command lines which have been built up with
 .B \-execdir ... {} +
-.R \' 
 will be invoked before 
 .B find
 exits.   The exit status may or may not be zero, depending on whether
@@ -761,17 +769,18 @@ Force precedence.
 .IP "! \fIexpr\fR"
 True if \fIexpr\fR is false.
 .IP "\-not \fIexpr\fR"
-Same as ! \fIexpr\fR.
+Same as ! \fIexpr\fR, but not POSIX compliant.
 .IP "\fIexpr1 expr2\fR"
-And (implied); \fIexpr2\fR is not evaluated if \fIexpr1\fR is false.
+Two expressions in a row are taken to be joined with an 
+implied "and"; \fIexpr2\fR is not evaluated if \fIexpr1\fR is false.
 .IP "\fIexpr1\fR \-a \fIexpr2\fR"
 Same as \fIexpr1 expr2\fR.
 .IP "\fIexpr1\fR \-and \fIexpr2\fR"
-Same as \fIexpr1 expr2\fR.
+Same as \fIexpr1 expr2\fR, but not POSIX compliant.
 .IP "\fIexpr1\fR \-o \fIexpr2\fR"
 Or; \fIexpr2\fR is not evaluated if \fIexpr1\fR is true.
 .IP "\fIexpr1\fR \-or \fIexpr2\fR"
-Same as \fIexpr1\fR \-o \fIexpr2\fR.
+Same as \fIexpr1\fR \-o \fIexpr2\fR, but not POSIX compliant.
 .IP "\fIexpr1\fR , \fIexpr2\fR"
 List; both \fIexpr1\fR and \fIexpr2\fR are always evaluated.
 The value of \fIexpr1\fR is discarded; the value of the list is the
@@ -1052,6 +1061,13 @@ example) used in filename patterns will match a leading '.', because
 IEEE POSIX interpretation 126 requires this.
 
 .SH "BUGS"
+.P
+There are security problems inherent in the behaviour that the POSIX
+standard specifies for
+.BR find ,
+which therefore cannot be fixed.  For example, the -exec action is
+inherently insecure, and -execdir should be used instead.  
+Please see \fBFinding Files\fP for more information. 
 .P 
 The best way to report a bug is to use the form at
 http://savannah.gnu.org/bugs/?group=findutils.  
