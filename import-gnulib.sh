@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # import-gnulib.sh -- imports a copy of gnulib into findutils
-# Copyright (C) 2003 Free Software Foundation, Inc.
+# Copyright (C) 2003,2004 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,7 +43,9 @@ xalloc xalloc-die xgetcwd  xstrtol  xstrtoumax yesno human filemode \
 getline stpcpy"
 
 # Modules needed for the "intl" subdirectory.
-intl_modules="regex"
+#intl_modules="regex"
+# We currently don't use the intl subdirectory.
+intl_modules=""
 
 modules="$findutils_modules $intl_modules"
 export modules
@@ -62,7 +64,7 @@ else
     exit 1
 fi
 
-if test -e "$1"/gnulib-tool
+if test -f "$1"/gnulib-tool
 then
     true
 else
@@ -89,7 +91,13 @@ else
 fi
 
 
-"$1"/gnulib-tool --import --dir=. --lib=libgnulib --source-base=gnulib/lib --m4-base=gnulib/m4  $modules
+if "$1"/gnulib-tool --import --dir=. --lib=libgnulib --source-base=gnulib/lib --m4-base=gnulib/m4  $modules
+then
+    : OK
+else
+    echo "gnulib-tool failed, exiting." >&2
+    exit 1
+fi
 
 
 
