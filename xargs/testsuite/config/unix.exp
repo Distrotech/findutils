@@ -77,6 +77,8 @@ proc xargs_start { passfail options {infile ""}} {
 	set infile /dev/null
     }
 
+    catch "exec rm -f xargs.out"
+
     set cmd "$XARGS $XARGSFLAGS $options < $infile > xargs.out"
     send_log "$cmd\n"
     if $verbose>1 then {
