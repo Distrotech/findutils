@@ -204,7 +204,7 @@ main (int argc, char **argv)
   
   if (getenv("FIND_BLOCK_SIZE"))
     {
-      error (1, errno, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
+      error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
     }
   
 #endif
