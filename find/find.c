@@ -692,14 +692,14 @@ wd_sanity_check(const char *thing_to_stat,
 	      isfatal = 0;
 	      error (0, 0,
 		     _("Filesystem %s has recently been unmounted."),
-		     what);
+		     specific_what);
 	      break;
 	      
 	    case MountPointRecentlyMounted:
 	      isfatal = 0;
 	      error (0, 0,
 		     _("Filesystem %s has recently been mounted."),
-		     what);
+		     specific_what);
 	      break;
 
 	    case MountPointStateUnchanged:
