@@ -649,26 +649,44 @@ could perhaps be archived or removed to save disk space.
 @node Size
 @section Size
 
-@deffn Test -size n@r{[}bckw@r{]}
+@deffn Test -size n@r{[}bckwMG@r{]}
 True if the file uses @var{n} units of space, rounding up.  The units
 are 512-byte blocks by default, but they can be changed by adding a
 one-character suffix to @var{n}:
 
 @table @code
 @item b
-512-byte blocks
+512-byte blocks (never 1024)
 @item c
 bytes
 @item k
 kilobytes (1024 bytes)
 @item w
 2-byte words
+@item M
+Megabytes
+@item G
+Gigabytes
 @end table
+
+The `b' suffix always considers blocks to be 512 bytes.  This is not
+affected by the setting (or non-setting) of the POSIXLY_CORRECT
+environment variable.  This behaviour is different to the behaviour of
+the @samp{-ls} action).  If you want to use 1024-byte units, use the
+`k' suffix instead.
+
+The number can be prefixed with a `+' or a `-'.  A plus sign indicates
+that the test should succeed if the file uses at least @var{n} units
+of storage (this is the way I normally use this test) and a minus sign
+indicates that the test should succeed if the file uses less than
+@var{n} units of storage.   There is no `=' prefix, because that's the 
+default anyway.  
 
 The size does not count indirect blocks, but it does count blocks in
 sparse files that are not actually allocated.  This handling of sparse
 files differs from the output of the @samp{%k} and @samp{%b} format
 specifiers for the @samp{-printf} predicate.
+
 @end deffn
 
 @deffn Test -empty
@@ -847,6 +865,25 @@ that the rest of the entries in the directory are non-directories
 to be examined, there is no need to stat them; this gives a significant
 increase in search speed.
 @end deffn
+
+@deffn Option -ignore_readdir_race
+If a file disappears after its name has been read from a directory but
+before @code{find} gets around to examining the file with @code{stat},
+don't issue an error message.  If you don't specify this option, an
+error message will be issued.  This option can be useful in system
+scripts (cron scripts, for example) that examine areas of the
+filesystem that change frequently (mail queues, temporary directories,
+and so forth), because this scenario is common for those sorts of
+directories.  Completely silencing error messages from @code{find} is
+undesirable, so this option neatly solves the problem.  There is no
+way to search one part of the filesystem with this option on and part
+of it with this option off, though.
+@end deffn
+
+@deffn Option -noignore_readdir_race
+This option reverses the effect of the @samp{-ignore_readdir_race} option.
+@end deffn
+
 
 @node Filesystems
 @section Filesystems
