@@ -32,6 +32,8 @@ updatedb: updatedb.sh
 	-e "s,@""frcode""@,$${frcode}," \
 	-e "s,@""bigram""@,$${bigram}," \
 	-e "s,@""code""@,$${code}," \
+	-e "s,@""SORT""@,$(SORT)," \
+	-e "s,@""SORT_SUPPORTS_Z""@,$(SORT_SUPPORTS_Z)," \
 	$(srcdir)/updatedb.sh > $@
 	chmod +x $@
 
