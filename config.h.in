@@ -38,6 +38,9 @@
 /* Define if you have the getmntent function.  */
 #undef HAVE_GETMNTENT
 
+/* Define if you have a working `mmap' system call.  */
+#undef HAVE_MMAP
+
 /* Define if your struct stat has st_blocks.  */
 #undef HAVE_ST_BLOCKS
 
@@ -60,6 +63,9 @@
 /* Define if you have the vprintf function.  */
 #undef HAVE_VPRINTF
 
+/* Define as __inline if that's what the C compiler calls it.  */
+#undef inline
+
 /* Define if major, minor, and makedev are declared in <mkdev.h>.  */
 #undef MAJOR_IN_MKDEV
 
@@ -71,6 +77,9 @@
 
 /* Define to `int' if <sys/types.h> doesn't define.  */
 #undef mode_t
+
+/* Define to `long' if <sys/types.h> doesn't define.  */
+#undef off_t
 
 /* Define to `int' if <sys/types.h> doesn't define.  */
 #undef pid_t
@@ -168,6 +177,21 @@
    if <inttypes.h> doesn't define.  */
 #undef uintmax_t
 
+/* Define if your locale.h file contains LC_MESSAGES.  */
+#undef HAVE_LC_MESSAGES
+
+/* Define to 1 if NLS is requested.  */
+#undef ENABLE_NLS
+
+/* Define as 1 if you have catgets and don't want to use GNU gettext.  */
+#undef HAVE_CATGETS
+
+/* Define as 1 if you have gettext and don't want to use GNU gettext.  */
+#undef HAVE_GETTEXT
+
+/* Define as 1 if you have the stpcpy function.  */
+#undef HAVE_STPCPY
+
 /* Define if you have the DECL_FREE function.  */
 #undef HAVE_DECL_FREE
 
@@ -210,6 +234,15 @@
 /* Define if you have the WORKING_READDIR function.  */
 #undef HAVE_WORKING_READDIR
 
+/* Define if you have the __argz_count function.  */
+#undef HAVE___ARGZ_COUNT
+
+/* Define if you have the __argz_next function.  */
+#undef HAVE___ARGZ_NEXT
+
+/* Define if you have the __argz_stringify function.  */
+#undef HAVE___ARGZ_STRINGIFY
+
 /* Define if you have the alarm function.  */
 #undef HAVE_ALARM
 
@@ -227,6 +260,9 @@
 
 /* Define if you have the clearerr_unlocked function.  */
 #undef HAVE_CLEARERR_UNLOCKED
+
+/* Define if you have the dcgettext function.  */
+#undef HAVE_DCGETTEXT
 
 /* Define if you have the doprnt function.  */
 #undef HAVE_DOPRNT
@@ -267,6 +303,9 @@
 /* Define if you have the getcwd function.  */
 #undef HAVE_GETCWD
 
+/* Define if you have the getpagesize function.  */
+#undef HAVE_GETPAGESIZE
+
 /* Define if you have the isascii function.  */
 #undef HAVE_ISASCII
 
@@ -282,14 +321,32 @@
 /* Define if you have the mktime function.  */
 #undef HAVE_MKTIME
 
+/* Define if you have the munmap function.  */
+#undef HAVE_MUNMAP
+
 /* Define if you have the putc_unlocked function.  */
 #undef HAVE_PUTC_UNLOCKED
 
 /* Define if you have the putchar_unlocked function.  */
 #undef HAVE_PUTCHAR_UNLOCKED
 
+/* Define if you have the putenv function.  */
+#undef HAVE_PUTENV
+
+/* Define if you have the setenv function.  */
+#undef HAVE_SETENV
+
+/* Define if you have the setlocale function.  */
+#undef HAVE_SETLOCALE
+
 /* Define if you have the stpcpy function.  */
 #undef HAVE_STPCPY
+
+/* Define if you have the strcasecmp function.  */
+#undef HAVE_STRCASECMP
+
+/* Define if you have the strchr function.  */
+#undef HAVE_STRCHR
 
 /* Define if you have the strdup function.  */
 #undef HAVE_STRDUP
@@ -318,6 +375,9 @@
 /* Define if you have the <alloca.h> header file.  */
 #undef HAVE_ALLOCA_H
 
+/* Define if you have the <argz.h> header file.  */
+#undef HAVE_ARGZ_H
+
 /* Define if you have the <dirent.h> header file.  */
 #undef HAVE_DIRENT_H
 
@@ -333,11 +393,20 @@
 /* Define if you have the <limits.h> header file.  */
 #undef HAVE_LIMITS_H
 
+/* Define if you have the <locale.h> header file.  */
+#undef HAVE_LOCALE_H
+
+/* Define if you have the <malloc.h> header file.  */
+#undef HAVE_MALLOC_H
+
 /* Define if you have the <memory.h> header file.  */
 #undef HAVE_MEMORY_H
 
 /* Define if you have the <ndir.h> header file.  */
 #undef HAVE_NDIR_H
+
+/* Define if you have the <nl_types.h> header file.  */
+#undef HAVE_NL_TYPES_H
 
 /* Define if you have the <stdlib.h> header file.  */
 #undef HAVE_STDLIB_H
@@ -354,6 +423,9 @@
 /* Define if you have the <sys/ndir.h> header file.  */
 #undef HAVE_SYS_NDIR_H
 
+/* Define if you have the <sys/param.h> header file.  */
+#undef HAVE_SYS_PARAM_H
+
 /* Define if you have the <sys/time.h> header file.  */
 #undef HAVE_SYS_TIME_H
 
@@ -368,6 +440,9 @@
 
 /* Define if you have the <wctype.h> header file.  */
 #undef HAVE_WCTYPE_H
+
+/* Define if you have the i library (-li).  */
+#undef HAVE_LIBI
 
 /* Define if you have the sun library (-lsun).  */
 #undef HAVE_LIBSUN
