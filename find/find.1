@@ -326,13 +326,13 @@ Any of the permission bits \fImode\fR are set for the file.
 File name matches regular expression \fIpattern\fR.  This is a match
 on the whole path, not a search.  For example, to match a file named
 `./fubar3', you can use the regular expression `.*bar.' or `.*b.*3',
-but not `b.*r3'.  The regular expressions understood by 
+but not `f.*r3'.  The regular expressions understood by 
 .B find 
 follow the conventions for the 
 .B re_match 
 system library function where this is present (i.e. on systems using
 the GNU C Library).  On other systems, the implementation within
-Gnulib is used; by default, Gnulib provides "basic" regular
+Gnulib is used; by default, Gnulib provides ``basic'' regular
 expressions.
 .IP "\-size \fIn\fR[cwbkMG]"
 File uses \fIn\fP units of space.  The following suffixes 
@@ -674,7 +674,8 @@ from right-justified (which is the default) to left-justified.
 
 .RE
 .IP \-prune
-If \-depth is not given, true; do not descend the current directory.
+If \-depth is not given, true; if the file is a directory, do not descend
+into it.
 .br
 If \-depth is given, false; no effect.
 
