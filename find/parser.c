@@ -26,6 +26,7 @@
 #include "modetype.h"
 #include "../gnulib/lib/xstrtol.h"
 #include "../gnulib/lib/xalloc.h"
+#include "buildcmd.h"
 
 
 #if ENABLE_NLS
@@ -1832,15 +1833,16 @@ make_segment (struct segment **segment, char *format, int len, int kind)
 }
 
 /* handles both exec and ok predicate */
+#if defined(NEW_EXEC)
+/* handles both exec and ok predicate */
 static boolean
-insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
+new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 {
   int start, end;		/* Indexes in ARGV of start & end of cmd. */
-  int num_paths;		/* Number of args with path replacements. */
-  int path_pos;			/* Index in array of path replacements. */
-  int vec_pos;			/* Index in array of args. */
+  int i;			/* Index into cmd args */
   int saw_braces;		/* True if previous arg was '{}'. */
-  int plusflag;			/* Saw '+' */
+  boolean allow_plus;		/* True if + is a valid terminator */
+  int brace_count;		/* Number of instances of {}. */
   
   struct predicate *our_pred;
   struct exec_val *execp;	/* Pointer for efficiency. */
@@ -1848,19 +1850,28 @@ insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
 
-  plusflag = 0;
+  if ((func != pred_okdir) && (func != pred_ok))
+    allow_plus = true;
+  else
+    allow_plus = false;
   
-  /* Count the number of args with path replacements, up until the ';'. */
+  our_pred->args.exec_vec.multiple = 0;
+  
+  /* Count the number of args with path replacements, up until the ';'. 
+   * Also figure out if the command is terminated by ";" or by "+".
+   */
   start = *arg_ptr;
-  for (end = start, num_paths = 0, saw_braces=0;
+  for (end = start, saw_braces=0, brace_count=0;
        (argv[end] != NULL)
        && ((argv[end][0] != ';') || (argv[end][1] != '\0'));
        end++)
     {
-      if (argv[end][0] == '+' && argv[end][1] == 0 && saw_braces)
+      /* For -exec and -execdir, "{} +" can terminate the command. */
+      if ( allow_plus
+	   && argv[end][0] == '+' && argv[end][1] == 0
+	   && saw_braces)
 	{
-	  /* A '+' following '{}' is also a terminator. */
-	  plusflag = 1;
+	  our_pred->args.exec_vec.multiple = 1;
 	  break;
 	}
       
@@ -1868,19 +1879,132 @@ insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
       if (strstr (argv[end], "{}"))
 	{
 	  saw_braces = 1;
-	  num_paths++;
+	  ++brace_count;
+	  
+	  if (0 == end && (func == pred_execdir || func == pred_okdir))
+	    {
+	      /* The POSIX standard says that {} replacement should
+	       * occur even in the utility name.  This is insecure
+	       * since it means we will be executing a command whose
+	       * name is chosen according to whatever find finds in
+	       * the filesystem.  That can be influenced by an
+	       * attacker.  Hence for -execdir and -okdir this is not
+	       * allowed.  We can specify this as those options are 
+	       * not defined by POSIX.
+	       */
+	      error(1, 0, _("You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."));
+	    }
 	}
     }
+  
+  /* Fail if no command given or no semicolon found. */
+  if ((end == start) || (argv[end] == NULL))
+    {
+      *arg_ptr = end;
+      return false;
+    }
+
+  if (our_pred->args.exec_vec.multiple && brace_count > 1)
+    {
+	
+      const char *suffix;
+      if (func == pred_execdir)
+	suffix = "dir";
+      else
+	suffix = "";
+
+      error(1, 0,
+	    _("Only one instance of {} is supported with -exec%s ... +"),
+	    suffix);
+    }
+
+  our_pred = insert_primary (func);
+  our_pred->side_effects = true;
+  our_pred->no_default_print = true;
+  execp = &our_pred->args.exec_vec;
+
+  execp->ctl   = xmalloc(sizeof(*(execp->ctl)));
+  bc_init_controlinfo(execp->ctl);
+
+  if (our_pred->args.exec_vec.multiple)
+    {
+      /* "+" terminator, so we can just append our arguments after the
+       * command and initial arguments.
+       */
+      execp->replace_vec = NULL;
+      execp->ctl->replace_pat = NULL;
+      execp->ctl->rplen = 0;
+      execp->ctl->lines_per_exec = 0; /* no limit */
+      execp->ctl->args_per_exec = 0; /* no limit */
+      
+      /* remember how many arguments there are */
+      execp->ctl->initial_argc = end;
+
+      /* Gather the initial arguments. */
+      for (i=start; i<end; ++i)
+	{
+	  bc_push_arg(execp->ctl, execp->state,
+		      argv[i], strlen(argv[i]), 1);
+	}
+    }
+  else
+    {
+      /* Semicolon terminator - more than one {} is supported, so we
+       * have to do brace-replacement.
+       */
+      execp->num_args = end - start;
+      
+      execp->ctl->replace_pat = "{}";
+      execp->ctl->rplen = strlen(execp->ctl->replace_pat);
+      execp->ctl->lines_per_exec = 0; /* no limit */
+      execp->ctl->args_per_exec = 1;
+      execp->replace_vec = xmalloc(sizeof(char*)*execp->num_args);
+      /* Remember the (pre-replacement) arguments for later. */
+      for (i=0; i<execp->num_args; ++i)
+	{
+	  execp->replace_vec[i] = argv[i+start];
+	}
+    }
+  
+  execp->state = xmalloc(sizeof(*(execp->state)));
+  bc_init_state(execp->ctl, execp->state);
+  
+  if (argv[end] == NULL)
+    *arg_ptr = end;
+  else
+    *arg_ptr = end + 1;
+  
+  return true;
+}
+#else
+/* handles both exec and ok predicate */
+static boolean
+old_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
+{
+  int start, end;		/* Indexes in ARGV of start & end of cmd. */
+  int num_paths;		/* Number of args with path replacements. */
+  int path_pos;			/* Index in array of path replacements. */
+  int vec_pos;			/* Index in array of args. */
+  struct predicate *our_pred;
+  struct exec_val *execp;	/* Pointer for efficiency. */
+
+  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
+    return (false);
+
+  /* Count the number of args with path replacements, up until the ';'. */
+  start = *arg_ptr;
+  for (end = start, num_paths = 0;
+       (argv[end] != NULL)
+       && ((argv[end][0] != ';') || (argv[end][1] != '\0'));
+       end++)
+    if (strstr (argv[end], "{}"))
+      num_paths++;
   /* Fail if no command given or no semicolon found. */
   if ((end == start) || (argv[end] == NULL))
     {
       *arg_ptr = end;
       return (false);
     }
-
-  if (plusflag)
-    error(1,0, "The \"-exec ...{} +\" action is not yet supported.");
-
 
   our_pred = insert_primary (func);
   our_pred->side_effects = true;
@@ -1889,43 +2013,21 @@ insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   execp->paths =
     (struct path_arg *) xmalloc (sizeof (struct path_arg) * (num_paths + 1));
   execp->vec = (char **) xmalloc (sizeof (char *) * (end - start + 1));
-  execp->multiple = plusflag ? true : false;
-  
   /* Record the positions of all args, and the args with path replacements. */
-  for (end = start, path_pos = vec_pos = 0, saw_braces=0;
+  for (end = start, path_pos = vec_pos = 0;
        (argv[end] != NULL)
        && ((argv[end][0] != ';') || (argv[end][1] != '\0'));
        end++)
     {
       register char *p;
-
-      if ('+' == argv[end][0] && 0 == argv[end][1])
-	{
-	  if (saw_braces)
-	    {
-	      /* last arg was "{}" and this one is "+".
-	       * this signals the end of the argument list.
-	       */
-	      break;
-	    }
-	  else
-	    {
-	      /* This is just an "ordinary" "+".  Pass it through. */
-	    }
-	}
       
       execp->paths[path_pos].count = 0;
-      saw_braces = 0;
       for (p = argv[end]; *p; ++p)
-	{
-	  if (p[0] == '{' && p[1] == '}')
-	    {
-	      saw_braces = 1;
-	      execp->paths[path_pos].count++;
-	      ++p;
-	    }
-	}
-      
+	if (p[0] == '{' && p[1] == '}')
+	  {
+	    execp->paths[path_pos].count++;
+	    ++p;
+	  }
       if (execp->paths[path_pos].count)
 	{
 	  execp->paths[path_pos].offset = vec_pos;
@@ -1943,6 +2045,21 @@ insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
     *arg_ptr = end + 1;
   return (true);
 }
+#endif
+
+
+
+static boolean
+insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
+{
+#if defined(NEW_EXEC)
+  return new_insert_exec_ok(func, argv, arg_ptr);
+#else
+  return old_insert_exec_ok(func, argv, arg_ptr);
+#endif
+}
+
+
 
 /* Get a number of days and comparison type.
    STR is the ASCII representation.

@@ -29,6 +29,7 @@
 #include "modetype.h"
 #include "filemode.h"
 #include "wait.h"
+#include "buildcmd.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -452,6 +453,41 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     return (false);
 }
 
+#if defined(NEW_EXEC)
+static boolean
+new_impl_pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  struct exec_val *execp = &pred_ptr->args.exec_vec;
+  
+  if (execp->multiple)
+    {
+      /* Push the argument onto the current list. 
+       * The command may or may not be run at this point, 
+       * depending on the command line length limits.
+       */
+      bc_push_arg(execp->ctl,
+		  execp->state,
+		  pathname, strlen(pathname), 0);
+    }
+  else
+    {
+      int i;
+      for (i=0; i<execp->num_args; ++i)
+	{
+	  bc_do_insert(execp->ctl,
+		       execp->state,
+		       execp->replace_vec[i],
+		       strlen(execp->replace_vec[i]),
+		       pathname, strlen(pathname), 0);
+	}
+
+      /* Actually invoke the command. */
+      execp->ctl->exec_callback(
+				execp->ctl,
+				execp->state);
+    }
+}
+#else
 static boolean
 old_impl_pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
@@ -492,11 +528,16 @@ old_impl_pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pre
 
   return (i);
 }
+#endif
 
 boolean
 pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+#if defined(NEW_EXEC)
+  return new_impl_pred_exec(pathname, stat_buf, pred_ptr);
+#else
   return old_impl_pred_exec(pathname, stat_buf, pred_ptr);
+#endif
 }
 
 boolean
@@ -1082,6 +1123,25 @@ pred_nouser (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 #endif
 }
 
+#if defined(NEW_EXEC)
+boolean
+pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  fflush (stdout);
+  /* The draft open standard requires that, in the POSIX locale,
+     the last non-blank character of this prompt be '?'.
+     The exact format is not specified.
+     This standard does not have requirements for locales other than POSIX
+  */
+  fprintf (stderr, _("< %s ... %s > ? "),
+	   pred_ptr->args.exec_vec.replace_vec[0], pathname);
+  fflush (stderr);
+  if (yesno ())
+    return pred_exec (pathname, stat_buf, pred_ptr);
+  else
+    return false;
+}
+#else
 boolean
 pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
@@ -1099,6 +1159,7 @@ pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   else
     return (false);
 }
+#endif
 
 
 boolean
@@ -1394,6 +1455,7 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   return (pred_type (pathname, &sbuf, pred_ptr));
 }
 
+#if !defined(NEW_EXEC)
 /*  1) fork to get a child; parent remembers the child pid
     2) child execs the command requested
     3) parent waits for child; checks for proper pid of child
@@ -1468,6 +1530,8 @@ launch (struct predicate *pred_ptr)
     }
   return (!WEXITSTATUS (status));
 }
+#endif
+
 
 /* Return a static string formatting the time WHEN according to the
    strftime format character KIND.  */

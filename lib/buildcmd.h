@@ -77,9 +77,11 @@ struct buildcmd_control
 
 
 extern void bc_do_insert (const struct buildcmd_control *ctl,
-		       struct buildcmd_state *state,
-		       char *arg, size_t arglen, size_t lblen, int initial_args,
-		       const char *linebuf);
+			  struct buildcmd_state *state,
+			  char *arg, size_t arglen,
+			  const char *linebuf, size_t lblen,
+			  int initial_args);
+
 extern void bc_push_arg (const struct buildcmd_control *ctl,
 		      struct buildcmd_state *state,
 		      char *arg, size_t len, int initial_args);

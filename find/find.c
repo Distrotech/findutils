@@ -1123,6 +1123,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
 static void
 complete_pending_execdirs(void)
 {
+#if defined(NEW_EXEC)
   struct predicate *p;
   for (p=eval_tree; p; p=p->pred_next)
     {
@@ -1139,6 +1140,10 @@ complete_pending_execdirs(void)
 	    }
 	}
     }
+#else
+  /* nothing to do. */
+  return;
+#endif
 }
 
 

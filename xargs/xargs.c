@@ -609,7 +609,7 @@ main (int argc, char **argv)
 	  bc_push_arg (&bc_ctl, &bc_state, argv[optind], arglen[optind] + 1, initial_args);
 	  len--;
 	  for (i = optind + 1; i < argc; i++)
-	    bc_do_insert (&bc_ctl, &bc_state, argv[i], arglen[i], len, initial_args, linebuf);
+	    bc_do_insert (&bc_ctl, &bc_state, argv[i], arglen[i], linebuf, len, initial_args);
 	  xargs_do_exec (&bc_ctl, &bc_state);
 	}
     }

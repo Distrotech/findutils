@@ -106,9 +106,9 @@ bc_do_insert (const struct buildcmd_control *ctl,
 	      struct buildcmd_state *state,
 	      char *arg,
 	      size_t arglen,
+	      const char *linebuf,
 	      size_t lblen,
-	      int initial_args,
-	      const char *linebuf)
+	      int initial_args)
 {
   /* Temporary copy of each arg with the replace pattern replaced by the
      real arg.  */
