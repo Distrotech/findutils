@@ -48,14 +48,16 @@ extern int errno;
 #define lstat stat
 #endif
 
-int lstat ();
-int stat ();
+# ifndef PARAMS
+#  if defined PROTOTYPES || (defined __STDC__ && __STDC__)
+#   define PARAMS(Args) Args
+#  else
+#   define PARAMS(Args) ()
+#  endif
+# endif
 
-#if __STDC__
-# define P_(s) s
-#else
-# define P_(s) ()
-#endif
+int lstat PARAMS((const char *__path, struct stat *__statbuf));
+int stat PARAMS((const char *__path, struct stat *__statbuf));
 
 /* Not char because of type promotion; NeXT gcc can't handle it.  */
 typedef int boolean;
@@ -202,25 +204,25 @@ struct predicate
 /* find library function declarations.  */
 
 /* dirname.c */
-char *dirname P_((char *path));
+char *dirname PARAMS((char *path));
 
 /* error.c */
-void error P_((int status, int errnum, char *message, ...));
+void error PARAMS((int status, int errnum, char *message, ...));
 
 /* listfile.c */
-void list_file P_((char *name, char *relname, struct stat *statp, FILE *stream));
-char *get_link_name P_((char *name, char *relname));
+void list_file PARAMS((char *name, char *relname, struct stat *statp, FILE *stream));
+char *get_link_name PARAMS((char *name, char *relname));
 
 /* savedir.c */
-char *savedir P_((char *dir, unsigned name_size));
+char *savedir PARAMS((char *dir, unsigned name_size));
 
 /* stpcpy.c */
 #if !HAVE_STPCPY
-char *stpcpy P_((char *dest, const char *src));
+char *stpcpy PARAMS((char *dest, const char *src));
 #endif
 
 /* xgetcwd.c */
-char *xgetcwd P_((void));
+char *xgetcwd PARAMS((void));
 
 /* xmalloc.c */
 #if __STDC__
@@ -229,92 +231,91 @@ char *xgetcwd P_((void));
 #define VOID char
 #endif
 
-VOID *xmalloc P_((size_t n));
-VOID *xrealloc P_((VOID *p, size_t n));
+VOID *xmalloc PARAMS((size_t n));
+VOID *xrealloc PARAMS((VOID *p, size_t n));
 
 /* xstrdup.c */
-char *xstrdup P_((char *string));
+char *xstrdup PARAMS((char *string));
 
 /* find global function declarations.  */
 
 /* fstype.c */
-char *filesystem_type P_((char *path, char *relpath, struct stat *statp));
+char *filesystem_type PARAMS((char *path, char *relpath, struct stat *statp));
 
 /* parser.c */
-PFB find_parser P_((char *search_name));
-boolean parse_close P_((char *argv[], int *arg_ptr));
-boolean parse_open P_((char *argv[], int *arg_ptr));
-boolean parse_print P_((char *argv[], int *arg_ptr));
+PFB find_parser PARAMS((char *search_name));
+boolean parse_close PARAMS((char *argv[], int *arg_ptr));
+boolean parse_open PARAMS((char *argv[], int *arg_ptr));
+boolean parse_print PARAMS((char *argv[], int *arg_ptr));
 
 /* pred.c */
-boolean pred_amin P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_and P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_anewer P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_atime P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_close P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_cmin P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_cnewer P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_comma P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_ctime P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_empty P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_exec P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_false P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_fls P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_fprint P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_fprint0 P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_fprintf P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_fstype P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_gid P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_group P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_ilname P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_iname P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_inum P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_ipath P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_links P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_lname P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_ls P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_mmin P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_mtime P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_name P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_negate P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_newer P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_nogroup P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_nouser P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_ok P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_open P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_or P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_path P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_perm P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_print P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_print0 P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_prune P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_regex P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_size P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_true P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_type P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_uid P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_used P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_user P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_xtype P_((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-char *find_pred_name P_((PFB pred_func));
+boolean pred_amin PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_and PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_anewer PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_atime PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_close PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_cmin PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_cnewer PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_comma PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_ctime PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_empty PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_exec PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_false PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_fls PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_fprint PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_fprint0 PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_fprintf PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_fstype PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_gid PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_group PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_ilname PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_iname PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_inum PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_ipath PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_links PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_lname PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_ls PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_mmin PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_mtime PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_name PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_negate PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_newer PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_nogroup PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_nouser PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_ok PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_open PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_or PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_path PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_perm PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_print PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_print0 PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_prune PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_regex PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_size PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_true PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_type PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_uid PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_used PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_user PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_xtype PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+char *find_pred_name PARAMS((PFB pred_func));
 #ifdef DEBUG
-void print_tree P_((struct predicate *node, int indent));
-void print_list P_((struct predicate *node));
+void print_tree PARAMS((struct predicate *node, int indent));
+void print_list PARAMS((struct predicate *node));
 #endif /* DEBUG */
 
 /* tree.c */
-struct predicate *get_expr P_((struct predicate **input, int prev_prec));
-boolean opt_expr P_((struct predicate **eval_treep));
-boolean mark_stat P_((struct predicate *tree));
+struct predicate *
+get_expr (struct predicate **input, short int prev_prec);
+boolean opt_expr PARAMS((struct predicate **eval_treep));
+boolean mark_stat PARAMS((struct predicate *tree));
 
 /* util.c */
-#ifndef HAVE_BASENAME
-const char *basename P_((const char *fname));
-#endif
-struct predicate *get_new_pred P_((void));
-struct predicate *get_new_pred_chk_op P_((void));
-struct predicate *insert_primary P_((boolean (*pred_func )()));
-void usage P_((char *msg));
+char *base_name PARAMS((const char *fname));
+struct predicate *get_new_pred PARAMS((void));
+struct predicate *get_new_pred_chk_op PARAMS((void));
+struct predicate *insert_primary PARAMS((boolean (*pred_func )()));
+void usage PARAMS((char *msg));
 
 extern char *program_name;
 extern struct predicate *predicates;
