@@ -1,4 +1,104 @@
+2005-01-02  James Youngman  <jay@gnu.org>
+
+	* NEWS:
+	Bas van Gompel: two-line patch to locate.c to make locate's -i and -w
+	options work if -e is in use.
+
+	* THANKS: Added Bas van Gompel.
+
+	* locate/locate.c:
+	Bas van Gompel: (visit_exists) when testing for the existence of the
+	file, check the real filename [printname], not the case-converted
+	filename [testname].  Really these argument names are badly chosen.
+
+	* find/find.1, doc/find.texi:
+	Improved the documentation for -perm, with plenty of examples,
+	following a comment by Dan Jacobson that the comment "Symbolic modes
+	use mode 0 as a point of departure" is baffling and unhelpful.
+
+	* locate/locate.c:
+	Suggestion and patch from Bas van Gompel: (new_locate): Fix display of
+	negative compression ratios.
+
+2004-12-31  James Youngman  <jay@gnu.org>
+
+	* NEWS: Brought up to date with recent changes
+
+	* doc/find.texi:
+	Don't need to nest the "race conditions with..." sections so deeply.
+
+	* doc/find.texi: Corrected some spelling errors.
+
+	* doc/find.texi: Added new "Security Considerations" chapter.
+
+2004-12-23  James Youngman  <jay@gnu.org>
+
+	* locate/locate.c:
+	Applied bugfixes from Bas van Gompel <patch-findutils.buzz@bavag.tmfweb.nl>.
+	(lc_strcpy): Zero-terminate result.
+	(add_visitor): Update lastinspector.
+	(visit_substring_match_casefold): fix off-by-one error.
+	(new_locate): Move visit_exists down to improve performance.
+	(new_locate): Don't fold case when getting stats.
+
+2004-12-19  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi:
+	Indicate that "cd /; find tmp -wholename /tmp" will never match anything.
+
+	* doc/find.texi: Documented locate --statistics.
+
+	* locate/locate.1: Documented the --statistics option.
+
+	* locate/locate.c: Added support for the -S option.
+
+2004-12-12  James Youngman  <jay@gnu.org>
+
+	* NEWS: Added a summary of the changes so far.
+
+	* find/tree.c: Made some of the error messages more self-explanatory
+
+	* find/pred.c: Print pointers with %p, not %x.
+
+	* find/find.c: Moved option data into struct options.
+
+	* find/find.1: clarifications
+
+	* find/testsuite/find.gnu/comma.exp:
+	Limit the amount of searching with maxdepth.
+
+	* doc/find.texi: clearer description of how -prune works
+
+	* ChangeLog: Removed duplicate entry.
+
+	* configure.in, find/defs.h, find/find.c, find/fstype.c, find/parser.c, find/pred.c, find/tree.c, find/util.c:
+	Separated ariables representing current state from variable representing option information
+
+2004-12-11  James Youngman  <jay@gnu.org>
+
+	* find/parser.c: Readability improvement to the usage message.
+
+	* find/find.c: Oops.  Fixed unmatched #endif.
+
+	* find/testsuite/find.gnu/printf.exp, find/testsuite/find.gnu/printf.xo, THANKS, configure.in, find/testsuite/Makefile.am, find/testsuite/config/unix.exp:
+	Fixed Savannah bug #11280
+
+	* find/find.c:
+	Remember to set path_length and curdepth in process_top_path().
+
+2004-12-07  James Youngman  <jay@gnu.org>
+
+	* find/fstype.c: Use xstat() not stat() to examine things.
+
+	* find/find.c: Explain why #ifdef EOVERFLOW.
+
+	* find/find.c: EOVERFLOW is not defined on UNICOS.
+
+	* NEWS: Corrected typo.
+
 2004-12-06  James Youngman  <jay@gnu.org>
+
+	* ChangeLog: Brought up to date.
 
 	* NEWS, configure.in: releasing 4.2.10
 
@@ -15,6 +115,7 @@
 
 	* xargs/xargs.c:
 	Added the -I and -L options; also -E takes an argument which is not optional.
+
 
 2004-12-05  James Youngman  <jay@gnu.org>
 
