@@ -22,7 +22,10 @@ usage="\
 Usage: updatedb [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
        [--prunepaths='dir1 dir2...'] [--prunefs='fs1 fs2...']
        [--output=dbfile] [--netuser=user] [--localuser=user] 
-       [--old-format] [--version] [--help]"
+       [--old-format] [--version] [--help]
+
+  Report bugs to <bug-findutils@gnu.org>.
+       "
 
 old=no
 for arg

@@ -549,27 +549,28 @@ parse_help (char **argv, int *arg_ptr)
 {
   printf (_("\
 Usage: %s [path...] [expression]\n"), program_name);
-  printf (_("\
+  puts (_("\
 default path is the current directory; default expression is -print\n\
 expression may consist of:\n\
 operators (decreasing precedence; -and is implicit where no others are given):\n\
       ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"));
-  printf (_("\
+  puts (_("\
       EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n\
 options (always true): -daystart -depth -follow --help\n\
       -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n\
 tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"));
-  printf (_("\
+  puts (_("\
       -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n\
       -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n\
       -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n"));
-  printf (_("\
+  puts (_("\
       -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n\
       -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n\
       -xtype [bcdpfls]\n"));
-  printf (_("\
+  puts (_("\
 actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n\
       -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"));
+  puts (_("\nReport bugs to <bug-findutils@gnu.org>."));
   exit (0);
 }
 
