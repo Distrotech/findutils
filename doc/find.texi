@@ -1634,9 +1634,10 @@ operation is equivalent to @samp{find -exec} (@pxref{Single File}).
 @item --replace@r{[}=@var{replace-str}@r{]}
 @itemx -i@r{[}@var{replace-str}@r{]}
 Replace occurrences of @var{replace-str} in the initial arguments with
-names read from standard input.  Also, unquoted blanks do not terminate
-arguments.  If @var{replace-str} is omitted, it defaults to @samp{@{@}}
-(like for @samp{find -exec}).  Implies @samp{-x} and @samp{-l 1}.  As an
+names read from standard input.  Also, unquoted blanks do not
+terminate arguments; instead, the input is split at newlines only.  If
+@var{replace-str} is omitted, it defaults to @samp{@{@}} (like for
+@samp{find -exec}).  Implies @samp{-x} and @samp{-l 1}.  As an
 example, to sort each file the @file{bills} directory, leaving the
 output in that file name with @file{.sorted} appended, you could do:
 
@@ -2477,8 +2478,9 @@ Print a summary of the options to @code{xargs} and exit.
 @item --replace@r{[}=@var{replace-str}@r{]}
 @itemx -i@r{[}@var{replace-str}@r{]}
 Replace occurrences of @var{replace-str} in the initial arguments with
-names read from standard input.  Also, unquoted blanks do not terminate
-arguments.  If @var{replace-str} is omitted, it defaults to @samp{@{@}}
+names read from standard input.  Also, unquoted blanks do not
+terminate arguments; instead, the input is split at newlines only.
+If @var{replace-str} is omitted, it defaults to @samp{@{@}}
 (like for @samp{find -exec}).  Implies @samp{-x} and @samp{-l 1}.
 
 @item --max-lines@r{[}=@var{max-lines}@r{]}
