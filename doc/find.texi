@@ -2628,34 +2628,56 @@ locate @r{[}@var{option}@dots{}@r{]} @var{pattern}@dots{}
 @end example
 
 @table @code
+@item --basename
+@itemx -b
+The specified pattern is matched against just the last component of
+the name of the file in the locate database.  This last component is
+also called the ``base name''.  For example, the base name of
+@file{/tmp/mystuff/foo.old.c} is @file{foo.old.c}.  If the pattern
+contains metacharacters, it must match the base name exactly.  If not,
+it must match part of the base name.
+
+@item --count
+@itemx -c
+Instead of printing the matched filenames, just print the total 
+number of matches we found.
+
+
 @item --database=@var{path}
 @itemx -d @var{path}
 Instead of searching the default file name database, search the file
 name databases in @var{path}, which is a colon-separated list of
 database file names.  You can also use the environment variable
 @code{LOCATE_PATH} to set the list of database files to search.  The
-option overrides the environment variable if both are used.
+option overrides the environment variable if both are used.  Empty
+elements in @var{path} (that is, a leading or trailing colon, or two
+colons in a row) are taken to stand for the default database.
 
 @item --existing
 @itemx -e
 Only print out such names which currently exist (instead of such names
-which existed when the database was created).
-Note that this may slow down the program a lot, if there are many matches
-in the database.
+which existed when the database was created).  Note that this may slow
+down the program a lot, if there are many matches in the database.
+The way in which broken symbolic links are treated is affected by the
+@samp{-L}, @samp{-P} and @samp{-H} options.
+
+@item --follow
+@itemx -L
+If testing for the existence of files (with the @samp{-e} option),
+omit broken symbolic links.  This is the default.
+
+
+@item --nofollow
+@itemx -P
+@itemx -H
+If testing for the existence of files (with the @samp{-e} option),
+treat broken symbolic links count as if they were exiting files.  The
+@samp{-H} form of this option is provided purely for similarity with
+@code{find}; the use of @samp{-P} is recommended over @samp{-H}.
 
 @item --ignore-case
 @itemx -i
 Ignore case distinctions in both the pattern and the file names.
-
-@item --null
-@itemx -0
-Results are separated with the ASCII NUL character rather than the
-newline character.  To get the full benefit of the use of this option,
-use the new locate database format (that is the default anyway).
-
-@item --count
-@itemx -c
-Just print the number of results, not the results themselves.
 
 @item --limit=N
 @itemx -l N
@@ -2663,20 +2685,18 @@ Limit the number of results printed to N.  If you use the
 @samp{--count} option, the value printed will never be larger than
 this limit.
 
+@item --null
+@itemx -0
+Results are separated with the ASCII NUL character rather than the
+newline character.  To get the full benefit of the use of this option,
+use the new locate database format (that is the default anyway).
+
 @item --wholename
+@itemx -w
 The specified pattern is matched against the whole name of the file in
 the locate database.  If the pattern contains metacharacters, it must
 match exactly.  If not, it must match part of the whole file name.
 This is the default behaviour.
-
-@item --basename
-@itemx -b
-The specified pattern is matched against just the last component of
-the name of the file in the locate database.  This last component is
-also called the ``base name''.  For example, the base name of
-@file{/tmp/mystuff/foo.old.c} is @file{foo.old.c}.  If the pattern
-contains metacharacters, it must match exactly.  If not, it must match
-part of the whole file name.
 
 @item --statistics
 @itemx -S
