@@ -1,5 +1,7 @@
 AUTOMAKE_OPTIONS = ansi2knr
 noinst_LIBRARIES = libfind.a
+localedir = $(datadir)/locale
+INCLUDES = -I../intl -DLOCALEDIR=\"$(localedir)\"
 libfind_a_SOURCES = regex.h \
 			dirname.c \
 			error.c \
@@ -21,7 +23,9 @@ libfind_a_SOURCES = regex.h \
 			xalloc.h \
 			xstrdup.c \
 			xgetcwd.c \
-			fnmatch.h
+			fnmatch.h \
+			getline.c \
+			getline.h
 
 libfind_a_LIBADD = @LIBOBJS@ \
 		@ALLOCA@
@@ -31,6 +35,5 @@ libfind_a_LIBADD = @LIBOBJS@ \
 EXTRA_DIST = modetype.h \
 		wait.h \
 		alloca.c \
-		lstat.c
-
-INCLUDES = -I.. -I$(srcdir)
+		lstat.c \
+		getline.h
