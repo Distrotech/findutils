@@ -1,21 +1,21 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(find/pred.c)
 AM_CONFIG_HEADER(config.h)
+AC_CANONICAL_HOST
 
 dnl Set of available languages.
 ALL_LINGUAS=" de es fr it ko nl pl pt_BR ru sv gl et"
 
-AM_INIT_AUTOMAKE(findutils, 4.1.4)
+AM_INIT_AUTOMAKE(findutils, 4.1.5)
 
 AC_SUBST(INCLUDES)dnl
 AC_ARG_ENABLE(id-cache,
 [  --enable-id-cache       cache all UIDs & GIDs; avoid if using NIS or Hesiod],
-  AC_DEFINE(CACHE_IDS))
-AC_ARG_WITH(afs,
-[  --with-afs              support -fstype afs],
-[  AC_DEFINE(AFS)
-  CPPFLAGS="$CPPFLAGS -I/usr/afsws/include"
-  LIBS="$LIBS -L/usr/afsws/lib -L/usr/afsws/lib/afs -lsys -lrx -llwp"])
+  AC_DEFINE(CACHE_IDS, 1, [Define if you want find -nouser and -nogroup to make tables of
+   used UIDs and GIDs at startup instead of using getpwuid or
+   getgrgid when needed.  Speeds up -nouser and -nogroup unless you
+   are running NIS or Hesiod, which make password and group calls
+   very expensive.]))
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -28,6 +28,7 @@ AM_C_PROTOTYPES
 AC_PROG_INSTALL
 AC_PROG_RANLIB
 AC_PROG_MAKE_SET
+AC_SYS_LARGEFILE
 
 jm_CHECK_ALL_TYPES
 
@@ -48,24 +49,24 @@ AC_MSG_CHECKING(how to get filesystem type)
 fstype=no
 # The order of these tests is important.
 AC_TRY_CPP([#include <sys/statvfs.h>
-#include <sys/fstyp.h>], AC_DEFINE(FSTYPE_STATVFS) fstype=SVR4)
+#include <sys/fstyp.h>], AC_DEFINE(FSTYPE_STATVFS, 1, [Define to use SVR4 statvfs to get filesystem type.]) fstype=SVR4)
 if test $fstype = no; then
 AC_TRY_CPP([#include <sys/statfs.h>
-#include <sys/fstyp.h>], AC_DEFINE(FSTYPE_USG_STATFS) fstype=SVR3)
+#include <sys/fstyp.h>], AC_DEFINE(FSTYPE_USG_STATFS, 1, [Define to use SVR3.2 statfs to get filesystem type.]) fstype=SVR3)
 fi
 if test $fstype = no; then
 AC_TRY_CPP([#include <sys/statfs.h>
-#include <sys/vmount.h>], AC_DEFINE(FSTYPE_AIX_STATFS) fstype=AIX)
+#include <sys/vmount.h>], AC_DEFINE(FSTYPE_AIX_STATFS, 1, [Define to use AIX3 statfs to get filesystem type.]) fstype=AIX)
 fi
 if test $fstype = no; then  
-AC_TRY_CPP([#include <mntent.h>], AC_DEFINE(FSTYPE_MNTENT) fstype=4.3BSD)
+AC_TRY_CPP([#include <mntent.h>], AC_DEFINE(FSTYPE_MNTENT, 1, [Define to use 4.3BSD getmntent to get filesystem type.]) fstype=4.3BSD)
 fi
 if test $fstype = no; then  
-AC_EGREP_HEADER(f_type;, sys/mount.h, AC_DEFINE(FSTYPE_STATFS) fstype=4.4BSD/OSF1)
+AC_EGREP_HEADER(f_type;, sys/mount.h, AC_DEFINE(FSTYPE_STATFS, 1, [Define to use 4.4BSD and OSF1 statfs to get filesystem type.]) fstype=4.4BSD/OSF1)
 fi
 if test $fstype = no; then  
 AC_TRY_CPP([#include <sys/mount.h>
-#include <sys/fs_types.h>], AC_DEFINE(FSTYPE_GETMNT) fstype=Ultrix)
+#include <sys/fs_types.h>], AC_DEFINE(FSTYPE_GETMNT, 1, [Define to use Ultrix getmnt to get filesystem type.]) fstype=Ultrix)
 fi
 AC_MSG_RESULT($fstype)
 
@@ -73,10 +74,12 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 
 AC_TYPE_UID_T
 AC_TYPE_SIZE_T
+AC_CHECK_TYPE(ssize_t, int)
 AC_TYPE_PID_T
 AC_CHECK_TYPE(ino_t, unsigned long)
 AC_CHECK_TYPE(dev_t, unsigned long)
 AC_TYPE_MODE_T
+jm_AC_TYPE_UINTMAX_T
 AC_STRUCT_ST_BLOCKS
 AC_CHECK_MEMBERS((struct stat.st_rdev))
 AC_STRUCT_TM
@@ -86,17 +89,11 @@ dnl Checks for library functions.
 
 AC_FUNC_STRFTIME
 AC_REPLACE_FUNCS(memcmp memset stpcpy strdup strftime strspn strstr \
-     strtol strtoul)
+     strtol strtoul waitpid)
 
 jm_MACROS
-dnl AM_FUNC_GETLINE
-dnl AC_CHECK_FUNC(getstr, ,
-dnl	LIBOBJS="$LIBOBJS getline.o"
-dnl	AC_SUBST(LIBOBJS)dnl
-dnl )
 
-AC_CHECK_FUNCS(fchdir getcwd strerror basename endgrent endpwent)
-AC_FUNC_MKTIME
+AC_CHECK_FUNCS(fchdir getcwd strerror endgrent endpwent)
 AC_FUNC_VPRINTF
 AC_FUNC_ALLOCA
 AC_FUNC_GETMNTENT
@@ -105,11 +102,18 @@ AC_FUNC_CLOSEDIR_VOID
 dnl internationalization macros
 AM_GNU_GETTEXT
 
+# These no-op lines work around a bug in automake 1.4:
+# it doesn't recognize the assignments to LIBOBJS in m4/*.m4.
+: LIBOBJS="$LIBOBJS fnmatch.o lstat.o"
+: LIBOBJS="$LIBOBJS malloc.o memcmp.o mktime.o"
+: LIBOBJS="$LIBOBJS realloc.o regex.o stat.o strftime.o"
+
 # This is necessary so that .o files in LIBOBJS are also built via
 # the ANSI2KNR-filtering rules.
 LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
 AC_OUTPUT(
-	Makefile lib/Makefile find/Makefile find/testsuite/Makefile
+	Makefile lib/Makefile lib/posix/Makefile
+	find/Makefile find/testsuite/Makefile
 	xargs/Makefile xargs/testsuite/Makefile locate/Makefile
 	intl/Makefile po/Makefile.in
 	doc/Makefile m4/Makefile
