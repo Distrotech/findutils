@@ -608,11 +608,16 @@ main (int argc, char **argv)
       while ((len = (*read_args) ()) != -1)
 	{
 	  /* Don't do insert on the command name.  */
+	  bc_clear_args(&bc_ctl, &bc_state);
+	  bc_state.cmd_argv_chars = 0; /* begin at start of buffer */
+	  
 	  bc_push_arg (&bc_ctl, &bc_state,
 		       argv[optind], arglen[optind] + 1,
 		       NULL, 0,
 		       initial_args);
 	  len--;
+	  initial_args = false;
+	  
 	  for (i = optind + 1; i < argc; i++)
 	    bc_do_insert (&bc_ctl, &bc_state,
 			  argv[i], arglen[i],
