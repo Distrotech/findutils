@@ -59,7 +59,6 @@ if test "$old" = yes; then
     echo "Warning: future versions of findutils will shortly discontinue support for the old locate database format." >&2
 fi
 
-exit 0
 getuid() {
     # format of "id" output is ...
     # uid=1(daemon) gid=1(other)
