@@ -1,14 +1,20 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
-* Major changes in release 4.2.7-CVS
+* Major changes in release 4.2.7
 **  Functionality Changes
 *** xargs can now read a list of arguments from a named file, allowing 
     the invoked program to use the same stdin as xargs started with
     (for example ``xargs --arg-file=todo emacs'').
+**  Documentation improvements
+*** The Texinfo manual now has an extra chapter, "Error Messages".  Most 
+    error messages are self-explanatory, but some of the ones which
+    are not are explained in this chapter.
 **  Bug Fixes
 *** Avoid trying to link against -lsun on UNICOS, which doesn't need it or 
     have it.
 *** Bugfix to the findutils 4.2.6 automount handling (which hadn't been enabled
     on Solaris).
+*** Reenabled internationalisation support (which had been accidentally 
+    disabled in findutils-4.2.5).
 
 * Major changes in release 4.2.6
 **  Bug Fixes
