@@ -1094,6 +1094,8 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   stat_buf.st_mode = 0;
   state.rel_pathname = name;
   state.type = 0;
+  state.have_stat = false;
+  state.have_type = false;
 
   /* If we know the type of the directory entry, and it is not a
    * symbolic link, we may be able to avoid a stat() or lstat() call.
@@ -1111,8 +1113,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
       else
 	{
 	  state.have_type = true;
-	  state.have_stat = false;
-	  stat_buf.st_mode = mode;
+	  stat_buf.st_mode = state.type = mode;
 	}
     }
   else
@@ -1129,7 +1130,6 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
 	}
       else
 	{
-	  state.have_stat = false;
 	  if (get_statinfo(pathname, name, &stat_buf) != 0)
 	    return 0;
 
