@@ -52,7 +52,7 @@ binary-arch:	checkroot build
 	install -d debian/tmp/var/lib/locate
 	install debian/{postinst,postrm,preinst,conffiles} debian/tmp/DEBIAN/.
 	install debian/cron.find debian/tmp/etc/cron.daily/find
-	install debian/updatedb.conf debian/tmp/etc/updatedb.conf
+	install -m 0644 debian/updatedb.conf debian/tmp/etc/updatedb.conf
 	$(MAKE) prefix=`pwd`/debian/tmp/usr \
 		localstatedir=`pwd`/debian/tmp/var/lib/locate \
 		libexecdir=`pwd`/debian/tmp/usr/lib/locate \
@@ -60,12 +60,14 @@ binary-arch:	checkroot build
 		INSTALL_PROGRAM='install -c' \
 		install
 	gzip -9v debian/tmp/usr/info/*
-	gzip -9v debian/tmp/usr/man/*/*
-	cp debian/copyright debian/tmp/usr/doc/$(package)/.
-	cp debian/changelog debian/tmp/usr/doc/$(package)/changelog.Debian
-	cp ChangeLog debian/tmp/usr/doc/$(package)/changelog
+	install -m 0444 debian/copyright debian/tmp/usr/doc/$(package)/.
+	install -m 0444 debian/changelog \
+		debian/tmp/usr/doc/$(package)/changelog.Debian
+	install -m 0444 ChangeLog debian/tmp/usr/doc/$(package)/changelog
+	install -m 0444 debian/README.debian \
+		debian/tmp/usr/doc/$(package)
 	gzip -9v debian/tmp/usr/doc/$(package)/changelog{,.Debian}
-	dpkg-shlibdeps find/find
+	dpkg-shlibdeps debian/tmp/usr/bin/{find,locate,xargs}
 	dpkg-gencontrol
 	dpkg --build debian/tmp ..
 
