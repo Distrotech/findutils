@@ -1,23 +1,30 @@
 AUTOMAKE_OPTIONS = ansi2knr
+SUBDIRS = posix
 noinst_LIBRARIES = libfind.a
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -DLOCALEDIR=\"$(localedir)\"
 libfind_a_SOURCES = regex.h \
+			argmatch.h \
+			argmatch.c \
+			basename.h \
+			basename.c \
 			dirname.c \
 			dirname.h \
-			error.c \
-			error.h \
 			filemode.c \
 			filemode.h \
 			getopt.c \
 			getopt.h \
 			getopt1.c \
+			human.c \
+			human.h \
 			idcache.c \
 			listfile.c \
 			modechange.c \
 			modechange.h \
-			pathmax.h \
 			nextelem.c \
+			pathmax.h \
+			quotearg.c \
+			quotearg.h \
 			savedir.c \
 			savedir.h \
 			xmalloc.c \
@@ -29,6 +36,7 @@ libfind_a_SOURCES = regex.h \
 			xstrtol.h \
 			xstrtoul.c \
 			xstrtoul.h \
+			xstrtoumax.c \
 			getline.c \
 			getline.h \
 			basename.c
@@ -38,7 +46,10 @@ libfind_a_LIBADD = @LIBOBJS@ \
 
 
 # Are these really needed?
-EXTRA_DIST = modetype.h \
+EXTRA_DIST = \
+		modetype.h \
+		mktime.c \
+		regex.c \
 		wait.h \
 		alloca.c \
 		getline.h \
