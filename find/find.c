@@ -704,6 +704,15 @@ get_mount_state(dev_t newdev)
     return MountPointRecentlyUnmounted;
 }
 
+
+/* Return non-zero if FS is the name of a filesystem that is likely to
+ * be automounted
+ */
+static int
+fs_likely_to_be_automounted(const char *fs)
+{
+  return ( (0==strcmp(fs, "nfs")) || (0==strcmp(fs, "autofs")));
+}
 
 
 /* Examine the results of the stat() of a directory from before we
@@ -747,7 +756,7 @@ wd_sanity_check(const char *thing_to_stat,
 {
   const char *fstype;
   char *specific_what = NULL;
-  int isfatal = 1;
+  int isfatal = 1, silent = 0;
   
   *changed = false;
   
@@ -758,6 +767,8 @@ wd_sanity_check(const char *thing_to_stat,
     {
       *changed = true;
       specific_what = specific_dirname(what);
+      fstype = filesystem_type(thing_to_stat, ".", newinfo);
+      silent = fs_likely_to_be_automounted(fstype);
       
       /* This condition is rare, so once we are here it is 
        * reasonable to perform an expensive computation to 
@@ -785,16 +796,22 @@ wd_sanity_check(const char *thing_to_stat,
 	    {
 	    case MountPointRecentlyUnmounted:
 	      isfatal = 0;
-	      error (0, 0,
-		     _("Warning: filesystem %s has recently been unmounted."),
-		     specific_what);
+	      if (!silent)
+		{
+		  error (0, 0,
+			 _("Warning: filesystem %s has recently been unmounted."),
+			 specific_what);
+		}
 	      break;
 	      
 	    case MountPointRecentlyMounted:
 	      isfatal = 0;
-	      error (0, 0,
-		     _("Warning: filesystem %s has recently been mounted."),
-		     specific_what);
+	      if (!silent)
+		{
+		  error (0, 0,
+			 _("Warning: filesystem %s has recently been mounted."),
+			 specific_what);
+		}
 	      break;
 
 	    case MountPointStateUnchanged:
