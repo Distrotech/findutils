@@ -72,7 +72,7 @@ AC_DEFUN(jm_MACROS,
   AC_REQUIRE([jm_FUNC_STAT])
   AC_REQUIRE([jm_FUNC_REALLOC])
   AC_REQUIRE([jm_FUNC_MALLOC])
-  AC_REQUIRE([jm_FUNC_STRERROR_R])
+  AC_REQUIRE([AC_FUNC_STRERROR_R])
   AC_REQUIRE([jm_FUNC_READDIR])
   AC_REQUIRE([jm_FUNC_MEMCMP])
   AC_REQUIRE([jm_FUNC_GLIBC_UNLOCKED_IO])
@@ -108,13 +108,6 @@ AC_DEFUN(jm_MACROS,
   dnl ...: warning: AC_TRY_RUN called without default to allow cross compiling
   AC_FUNC_SETVBUF_REVERSED
 
-  # used by sleep and shred
-  # Solaris 2.5.1 needs -lposix4 to get the clock_gettime function.
-  # Solaris 7 prefers the library name -lrt to the obsolescent name -lposix4.
-  AC_SEARCH_LIBS(clock_gettime, [rt posix4])
-  AC_CHECK_FUNCS(clock_gettime)
-  AC_CHECK_FUNCS(gettimeofday)
-
   AC_CHECK_FUNCS(getdelim)
 
   AC_REQUIRE([AC_FUNC_CLOSEDIR_VOID])
@@ -128,7 +121,6 @@ AC_DEFUN(jm_MACROS,
     fdatasync \
     fseeko \
     ftime \
-    ftruncate \
     getcwd \
     gethrtime \
     getmntinfo \
@@ -154,6 +146,9 @@ AC_DEFUN(jm_MACROS,
     AC_CHECK_FUNCS(getdelim)
   fi
 
+  jm_GLIBC21
+  jm_ICONV
+
   # These tests are for df.
   jm_FSTYPENAME
 
@@ -171,7 +166,7 @@ AC_DEFUN(jm_CHECK_ALL_TYPES,
 
   AC_REQUIRE([AC_HEADER_DIRENT])
   AC_REQUIRE([AC_HEADER_STDC])
-  AC_CHECK_MEMBERS((struct stat.st_blksize),,,[$ac_includes_default
+  AC_CHECK_MEMBERS([struct stat.st_blksize],,,[$ac_includes_default
 #include <sys/stat.h>
   ])
   AC_REQUIRE([AC_STRUCT_ST_BLOCKS])

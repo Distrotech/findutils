@@ -1,4 +1,4 @@
-#serial 3
+#serial 4
 
 dnl See if there's a working, system-supplied version of the getline function.
 dnl We can't just do AC_REPLACE_FUNCS(getline) because some systems
@@ -21,6 +21,16 @@ AC_DEFUN(AM_FUNC_GETLINE,
 #    if HAVE_STRING_H
 #     include <string.h>
 #    endif
+    int foo()
+    {
+       char *path;
+       size_t n;
+       FILE *stream;
+       char terminator;
+       size_t offset;
+       getstr(&path, &n, stream, terminator, offset);
+     }
+
     int main ()
     { /* Based on a test program from Karl Heuer.  */
       char *line = NULL;
@@ -30,6 +40,8 @@ AC_DEFUN(AM_FUNC_GETLINE,
       if (!in)
 	return 1;
       len = getline (&line, &siz, in);
+      nread = getstr (&path, &pathsize, fp, '\0', count);
+
       exit ((len == 4 && line && strcmp (line, "foo\n") == 0) ? 0 : 1);
     }
     ], am_cv_func_working_getline=yes dnl The library version works.
@@ -38,8 +50,7 @@ AC_DEFUN(AM_FUNC_GETLINE,
     )])
   fi
 
-  if test $am_cv_func_working_getline = yes; then
-    AC_DEFINE(HAVE_GETLINE, 1,
-      [Define if you have the GETLINE function.])dnl
+  if test $am_cv_func_working_getline = no; then
+    AC_LIBOBJ(getline)
   fi
 ])

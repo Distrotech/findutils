@@ -1,4 +1,4 @@
-#serial 9, except remove memchr and nanosleep as findutils doesn't need them
+#serial 16
 
 dnl This is just a wrapper function to encapsulate this kludge.
 dnl Putting it in a separate file like this helps share it between
@@ -37,21 +37,33 @@ AC_DEFUN(jm_CHECK_DECLS,
 #  include <time.h>
 # endif
 #endif
+
+#if HAVE_UTMP_H
+# include <utmp.h>
+#endif
 '
 
-  AC_CHECK_DECLS((
+  AC_CHECK_DECLS([
     free,
     getenv,
     geteuid,
+    getgrgid,
     getlogin,
+    getpwuid,
+    getuid,
+    getutent,
     lseek,
     malloc,
+    memchr,
+    memrchr,
     realloc,
     stpcpy,
+    strndup,
+    strnlen,
     strstr,
     strtoul,
     strtoull,
-    ttyname), , , $headers)
+    ttyname], , , $headers)
 ])
 
 dnl FIXME: when autoconf has support for it.
@@ -59,5 +71,6 @@ dnl This is a little helper so we can require these header checks.
 AC_DEFUN(_jm_DECL_HEADERS,
 [
   AC_REQUIRE([AC_HEADER_STDC])
-  AC_CHECK_HEADERS(memory.h string.h strings.h stdlib.h unistd.h sys/time.h)
+  AC_CHECK_HEADERS(memory.h string.h strings.h stdlib.h unistd.h sys/time.h \
+                   utmp.h utmpx.h)
 ])

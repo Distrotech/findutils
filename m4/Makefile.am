@@ -15,13 +15,15 @@ fstypename.m4 \
 getline.m4 \
 gettext.m4 \
 glibc.m4 \
+glibc21.m4 \
+iconv.m4 \
 inttypes_h.m4 \
 isc-posix.m4 \
 jm-glibc-io.m4 \
 jm-macros.m4 \
 jm-mktime.m4 \
-largefile.m4 \
 lcmessage.m4 \
+libintl.m4 \
 link-follow.m4 \
 ls-mntd-fs.m4 \
 lstat-slash.m4 \
