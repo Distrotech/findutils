@@ -93,8 +93,10 @@ command.  Normally, the command is run once even if there is no input.
 .I "\-\-max-chars=max-chars, \-s max-chars"
 Use at most \fImax-chars\fR characters per command line, including the
 command and initial arguments and the terminating nulls at the ends of
-the argument strings.  The default is as large as possible, up to 20k
-characters.
+the argument strings.  The default is 20480 characters, not including
+the size of the environment variables (which are provided for
+separately so that it doesn't matter if your environment variables
+take up more than 20480 bytes).
 .TP
 .I "\-\-verbose, \-t"
 Print the command line on the standard error output before executing
