@@ -1,4 +1,13 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+
+* Major changes in release 4.2.13-CVS
+**  Performance Enhancements
+*** On Linux and some other systems, a large performance improvement, 
+    because we can eliminate many of the calls to lstat() (in extreme
+    cases, 99% of them).  Limited testing shows a 2x speedup on NFS
+    filesystems.  Other systems which can make use of this enhancement
+    include Mac OS X and *BSD.
+
 * Major changes in release 4.2.12
 **  Functionality Changes
 *** find is now POSIX-compliant, as far as I know.
