@@ -1579,8 +1579,22 @@ insert_time (char **argv, int *arg_ptr, PFB pred)
     return (false);
   if (!get_num_days (argv[*arg_ptr], &num_days, &c_type))
     return (false);
-  t = (cur_day_start - num_days * DAYSECS
-       + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
+
+  /* Figure out the timestamp value we are looking for. */
+  t = ( cur_day_start - num_days * DAYSECS
+		   + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
+#if 1
+  intmax_t val = ( (intmax_t)cur_day_start - num_days * DAYSECS
+		   + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
+  t = val;
+  
+  /* Check for possibility of an overflow */
+  if ( (intmax_t)t != val ) 
+    {
+      error (1, 0, "arithmetic overflow while converting %s days to a number of seconds", argv[*arg_ptr]);
+    }
+#endif
+  
   our_pred = insert_primary (pred);
   our_pred->args.info.kind = c_type;
   our_pred->args.info.negative = t < 0;
