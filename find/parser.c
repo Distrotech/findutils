@@ -385,7 +385,7 @@ parse_and (char **argv, int *arg_ptr)
 #endif	/* DEBUG */
   our_pred->p_type = BI_OP;
   our_pred->p_prec = AND_PREC;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -426,7 +426,7 @@ parse_close (char **argv, int *arg_ptr)
 #endif	/* DEBUG */
   our_pred->p_type = CLOSE_PAREN;
   our_pred->p_prec = NO_PREC;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -482,7 +482,7 @@ parse_comma (char **argv, int *arg_ptr)
 #endif /* DEBUG */
   our_pred->p_type = BI_OP;
   our_pred->p_prec = COMMA_PREC;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -585,7 +585,7 @@ parse_false (char **argv, int *arg_ptr)
   (void) arg_ptr;
 
   our_pred = insert_primary (pred_false);
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -643,9 +643,9 @@ parse_fprint (char **argv, int *arg_ptr)
   our_pred->args.stream = open_output_file (argv[*arg_ptr]);
   our_pred->side_effects = true;
   our_pred->no_default_print = true;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   (*arg_ptr)++;
-  return (true);
+  return true;
 }
 
 static boolean
@@ -659,7 +659,7 @@ parse_fprint0 (char **argv, int *arg_ptr)
   our_pred->args.stream = open_output_file (argv[*arg_ptr]);
   our_pred->side_effects = true;
   our_pred->no_default_print = true;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   (*arg_ptr)++;
   return (true);
 }
@@ -796,7 +796,7 @@ parse_iname (char **argv, int *arg_ptr)
   fnmatch_sanitycheck();
   
   our_pred = insert_primary (pred_iname);
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   our_pred->args.str = argv[*arg_ptr];
   (*arg_ptr)++;
   return (true);
@@ -833,7 +833,7 @@ parse_iwholename (char **argv, int *arg_ptr)
   fnmatch_sanitycheck();
   
   our_pred = insert_primary (pred_ipath);
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   our_pred->args.str = argv[*arg_ptr];
   (*arg_ptr)++;
   return (true);
@@ -956,7 +956,7 @@ parse_name (char **argv, int *arg_ptr)
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   our_pred = insert_primary (pred_name);
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   our_pred->args.str = argv[*arg_ptr];
   (*arg_ptr)++;
   return (true);
@@ -977,7 +977,7 @@ parse_negate (char **argv, int *arg_ptr)
 #endif	/* DEBUG */
   our_pred->p_type = UNI_OP;
   our_pred->p_prec = NEGATE_PREC;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -1135,7 +1135,7 @@ parse_open (char **argv, int *arg_ptr)
 #endif	/* DEBUG */
   our_pred->p_type = OPEN_PAREN;
   our_pred->p_prec = NO_PREC;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -1154,7 +1154,7 @@ parse_or (char **argv, int *arg_ptr)
 #endif	/* DEBUG */
   our_pred->p_type = BI_OP;
   our_pred->p_prec = OR_PREC;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -1180,7 +1180,7 @@ parse_wholename (char **argv, int *arg_ptr)
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   our_pred = insert_primary (pred_path);
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   our_pred->args.str = argv[*arg_ptr];
   (*arg_ptr)++;
   return (true);
@@ -1249,7 +1249,7 @@ parse_print (char **argv, int *arg_ptr)
      already specified -print. */
   our_pred->side_effects = true;
   our_pred->no_default_print = true;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -1267,7 +1267,7 @@ parse_print0 (char **argv, int *arg_ptr)
      already specified -print0. */
   our_pred->side_effects = true;
   our_pred->no_default_print = true;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -1288,7 +1288,7 @@ parse_prune (char **argv, int *arg_ptr)
   (void) arg_ptr;
   
   our_pred = insert_primary (pred_prune);
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   /* -prune has a side effect that it does not descend into
      the current directory. */
   our_pred->side_effects = true;
@@ -1301,7 +1301,7 @@ parse_quit  (char **argv, int *arg_ptr)
   struct predicate *our_pred = insert_primary (pred_quit);
   (void) argv;
   (void) arg_ptr;
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return true;
 }
 
@@ -1322,7 +1322,7 @@ insert_regex (char **argv, int *arg_ptr, boolean ignore_case)
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   our_pred = insert_primary (pred_regex);
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   re = (struct re_pattern_buffer *)
     xmalloc (sizeof (struct re_pattern_buffer));
   our_pred->args.regex = re;
@@ -1434,6 +1434,7 @@ parse_samefile (char **argv, int *arg_ptr)
   our_pred = insert_primary (pred_samefile);
   our_pred->args.fileid.ino = st.st_ino;
   our_pred->args.fileid.dev = st.st_dev;
+  our_pred->need_type = false;
   our_pred->need_stat = true;
   (*arg_ptr)++;
   return (true);
@@ -1449,7 +1450,7 @@ parse_true (char **argv, int *arg_ptr)
   (void) arg_ptr;
   
   our_pred = insert_primary (pred_true);
-  our_pred->need_stat = false;
+  our_pred->need_stat = our_pred->need_type = false;
   return (true);
 }
 
@@ -1616,6 +1617,21 @@ insert_type (char **argv, int *arg_ptr, boolean (*which_pred) (/* ??? */))
       return (false);
     }
   our_pred = insert_primary (which_pred);
+
+  /* Figure out if we will need to stat the file, because if we don't
+   * need to follow symlinks, we can avoid a stat call by using 
+   * struct dirent.d_type.
+   */
+  if (which_pred == pred_xtype)
+    {
+      our_pred->need_stat = true;
+      our_pred->need_type = false;
+    }
+  else
+    {
+      our_pred->need_stat = false; /* struct dirent is enough */
+      our_pred->need_type = true;
+    }
   our_pred->args.type = type_cell;
   (*arg_ptr)++;			/* Move on to next argument. */
   return (true);
@@ -1751,6 +1767,7 @@ insert_fprintf (FILE *fp, boolean (*func) (/* ??? */), char **argv, int *arg_ptr
 
   if (scan > format)
     make_segment (segmentp, format, scan - format, KIND_PLAIN);
+  our_pred->need_type = false;
   our_pred->need_stat = fprintf_stat_needed;
   return (true);
 }

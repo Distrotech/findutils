@@ -1,6 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(find/pred.c)
-AM_CONFIG_HEADER(config.h)
+AC_INIT
+AC_CONFIG_SRCDIR([find/pred.c])
+AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_HOST
 AC_CONFIG_MACRO_DIR(gnulib/m4)
 
@@ -19,7 +20,7 @@ AC_ARG_ENABLE(id-cache,
    very expensive.]))
 
 AC_ARG_ENABLE(debug,
-	AC_HELP_STRING([--enable-debug],[Enable debugging output which is likely to be interesting to people debugging findutils]),
+	AS_HELP_STRING(--enable-debug,Enable debugging output which is likely to be interesting to people debugging findutils),
 	[ac_cv_debug=$enableval],[ac_cv_debug=no])
 
 AC_MSG_CHECKING([whether debug output should be produced])
@@ -38,7 +39,7 @@ AC_PROG_CC
 AC_PROG_CPP
 
 AC_AIX
-AC_PROG_CC_STDC
+
 
 dnl AC_MINIX
 dnl for gnulib
@@ -87,6 +88,14 @@ AC_CHECK_TYPE(dev_t, unsigned long)
 AC_TYPE_MODE_T
 AC_STRUCT_ST_BLOCKS
 AC_CHECK_MEMBERS([struct stat.st_rdev])
+
+AC_CHECK_MEMBERS([struct dirent.d_type],[
+AC_DEFINE(HAVE_STRUCT_DIRENT_D_TYPE, 1,
+[Define to 1 if your 'struct dirent' has a d_type member])],
+[],[
+#include <sys/types.h>
+#include <dirent.h>])
+
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
 
@@ -114,7 +123,7 @@ dnl gl_XALLOC
 gl_FUNC_ALLOCA
 
 
-AC_PREREQ(2.13)
+AC_PREREQ(2.59)
 
 # Define intmax_t to 'signed long' or 'signed long long'
 # if it is not already defined in <stdint.h> or <inttypes.h>.
@@ -153,12 +162,12 @@ AM_GNU_GETTEXT([external])
 ##AC_CONFIG_SUBDIRS(gnulib)
 AC_CONFIG_FILES(gnulib/Makefile gnulib/lib/Makefile gnulib/m4/Makefile)
 AC_CONFIG_FILES(m4/Makefile)
-AC_OUTPUT(
-	Makefile 
+AC_CONFIG_FILES([Makefile 
 	find/Makefile find/testsuite/Makefile
 	xargs/Makefile xargs/testsuite/Makefile
 	locate/Makefile locate/testsuite/Makefile
 	 po/Makefile.in po/Makefile
 	doc/Makefile lib/Makefile
-	)
+	])
+AC_OUTPUT
 dnl intl/Makefile
