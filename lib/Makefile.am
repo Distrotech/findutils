@@ -4,6 +4,7 @@ localedir = $(datadir)/locale
 INCLUDES = -I../intl -DLOCALEDIR=\"$(localedir)\"
 libfind_a_SOURCES = regex.h \
 			dirname.c \
+			dirname.h \
 			error.c \
 			error.h \
 			filemode.c \
@@ -13,9 +14,9 @@ libfind_a_SOURCES = regex.h \
 			getopt1.c \
 			idcache.c \
 			listfile.c \
-			pathmax.h \
 			modechange.c \
 			modechange.h \
+			pathmax.h \
 			nextelem.c \
 			savedir.c \
 			savedir.h \
@@ -24,8 +25,13 @@ libfind_a_SOURCES = regex.h \
 			xstrdup.c \
 			xgetcwd.c \
 			fnmatch.h \
+			xstrtol.c \
+			xstrtol.h \
+			xstrtoul.c \
+			xstrtoul.h \
 			getline.c \
-			getline.h
+			getline.h \
+			basename.c
 
 libfind_a_LIBADD = @LIBOBJS@ \
 		@ALLOCA@
@@ -35,5 +41,26 @@ libfind_a_LIBADD = @LIBOBJS@ \
 EXTRA_DIST = modetype.h \
 		wait.h \
 		alloca.c \
-		lstat.c \
-		getline.h
+		getline.h \
+		xstat.in
+
+BUILT_SOURCES = lstat.c stat.c
+DISTCLEANFILES = lstat.c stat.c
+
+lstat.c: xstat.in
+	sed \
+	  -e '/@IGNORE@/d' \
+	  -e 's/@xstat@/lstat/g' \
+	  -e '/_LSTAT_ONLY@/d' \
+	  -e '/@BEGIN_STAT_ONLY@/,/@END_STAT_ONLY@/d' \
+	  $(srcdir)/xstat.in > $@-t
+	mv $@-t $@
+
+stat.c: xstat.in
+	sed \
+	  -e '/@IGNORE@/d' \
+	  -e 's/@xstat@/stat/g' \
+	  -e '/_STAT_ONLY@/d' \
+	  -e '/@BEGIN_LSTAT_ONLY@/,/@END_LSTAT_ONLY@/d' \
+	  $(srcdir)/xstat.in > $@-t
+	mv $@-t $@
