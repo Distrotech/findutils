@@ -4,7 +4,7 @@ locate \- list files in databases that match a pattern
 .SH SYNOPSIS
 .B locate
 [\-d path | \-\-database=path] [-e | --existing] [-i | --ignore-case ]
-[\-\-version] [\-\-help] pattern...
+[ \-0 | \-\-null ] [ \-c | \-\-count ] [\-\-version] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -45,7 +45,7 @@ database file names.  You can also use the environment variable
 .B LOCATE_PATH
 to set the list of database files to search.
 The option overrides the environment variable if both are used.
-.P
+.IP
 The file name database format changed starting with GNU
 .B find
 and
@@ -60,15 +60,27 @@ or Unix versions of
 .B locate
 or
 .BR find .
+Support for the old locate database format will be discontinued in a
+future release.
 .TP
 .I "\-e, \-\-existing"
 Only print out such names that currently exist (instead of such names
 that existed when the database was created).
 Note that this may slow down the program a lot, if there are many matches
-in the database.
+in the database.  If you are using this option within a program,
+please note that it is possible for the file to be deleted after 
+.B locate 
+has checked that it exists, but before you use it.
 .TP
 .I "\-i, \-\-ignore-case"
 Ignore case distinctions in both the pattern and the file names.
+.TP
+.I "\-c, \-\-count"
+Instead of printing the matched filenames, just print the total 
+number of matches we found.
+.TP
+.I "\-0, \-\-null"
+Use ASCII NUL as a separator, instead of newline.   
 .TP
 .I "\-\-help"
 Print a summary of the options to
@@ -88,8 +100,14 @@ Colon-separated list of databases to search.
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
 .P
-The \fBlocate\fP(1) command should be able to handle filenames
-containing newlines, but doesn't.
+The locate database correctly handles filenames containing newlines,
+but only if the system's sort command has a working
+.I \-z
+option.  If you suspect that 
+.B locate
+may need to return filenames containing newlines, consider using its
+.I \-\-null 
+option.
 .P
 The best way to report a bug is to use the form at
 http://savannah.gnu.org/bugs/?group=findutils.  
