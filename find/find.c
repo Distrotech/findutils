@@ -67,9 +67,9 @@ static void init_mounted_dev_list(void);
 static void process_top_path PARAMS((char *pathname));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
-#if 0
-static boolean no_side_effects PARAMS((struct predicate *pred));
-#endif
+
+
+
 static boolean default_prints PARAMS((struct predicate *pred));
 
 /* Name this program was run with. */
@@ -560,89 +560,6 @@ specific_dirname(const char *dir)
 	return result;
     }
 }
-
-
-
-
-#if 0
-/* list_item_present: Search for NEEDLE in HAYSTACK.
- *
- * NEEDLE is a normal C string.  HAYSTACK is a list of concatenated C strings, 
- * each with a terminating NUL.   The last item in the list is identified by 
- * the fact that its terminating NUL is itself followed by a second NUL.
- *
- * This data structure does not lend itself to fast searching, but we only
- * do this when wd_sanity_check() thinks that a filesystem might have been 
- * mounted or unmounted.   That doesn't happen very often.
- */
-static int
-list_item_present(const char *needle, const char *haystack)
-{
-  if (NULL != haystack)
-    {
-      const char *s = haystack;
-      while (*s)
-	{
-	  if (0 == strcmp(s, needle))
-	    {
-	      return 1;
-	    }
-	  else
-	    {
-	      s += strlen(s);
-	      ++s;			/* skip the first NUL. */
-	    }
-	}
-    }
-  return 0;
-}
-
-static char *mount_points = NULL;
-
-
-/* Initialise our idea of what the list of mount points is. 
- * this function is called exactly once.
- */
-static void
-init_mount_point_list(void)
-{
-  assert(NULL == mount_points);
-  mount_points = get_mounted_filesystems();
-}
-
-static void
-refresh_mount_point_list(void)
-{
-  if (mount_points)
-    {
-      free(mount_points);
-      mount_points = NULL;
-    }
-  init_mount_point_list();
-}
-
-/* Determine if a directory has recently had a filesystem 
- * mounted on it or unmounted from it.
- */
-static enum MountPointStateChange
-get_mount_point_state(const char *dir)
-{
-  int was_mounted, is_mounted;
-
-  was_mounted = list_item_present(dir, mount_points);
-  refresh_mount_point_list();
-  is_mounted = list_item_present(dir, mount_points);
-
-  if (was_mounted == is_mounted)
-    return MountPointStateUnchanged;
-  else if (is_mounted)
-    return MountPointRecentlyMounted;
-  else 
-    return MountPointRecentlyUnmounted;
-}
-#endif
-
-
 
 static dev_t *mounted_devices = NULL;
 static size_t num_mounted_devices = 0u;
@@ -1465,23 +1382,6 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
       free (name_space);
     }
 }
-
-#if 0
-/* Return true if there are no side effects in any of the predicates in
-   predicate list PRED, false if there are any. */
-
-static boolean
-no_side_effects (struct predicate *pred)
-{
-  while (pred != NULL)
-    {
-      if (pred->side_effects)
-	return (false);
-      pred = pred->pred_next;
-    }
-  return (true);
-}
-#endif
 
 /* Return true if there are no predicates with no_default_print in
    predicate list PRED, false if there are any.
