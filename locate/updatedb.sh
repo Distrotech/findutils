@@ -112,8 +112,8 @@ if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     su $LOCALUSER -c \
     "$find $SEARCHPATHS \
-     \( $prunefs_exp \
-     -type d -regex "$PRUNEREGEX" \) -prune -o -print"
+     \\( $prunefs_exp \
+     -type d -regex \"$PRUNEREGEX\" \\) -prune -o -print"
   else
     $find $SEARCHPATHS \
      \( $prunefs_exp \
