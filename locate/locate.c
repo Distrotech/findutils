@@ -138,7 +138,7 @@ int check_existence = 0;
 /* What to separate the results with. */
 static int separator = '\n';
 
-char *next_element ();
+char *next_element (char *path, int curdir_ok);
 
 
 /* Read in a 16-bit int, high byte first (network byte order).  */
@@ -704,27 +704,6 @@ Usage: %s [-d path | --database=path] [-e | --existing]\n\
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
 
-static void
-sanity_check_dbpath(const char *path)
-{
-  size_t len;
-  
-  if (':' == path[0])
-    {
-      error(0, 0, _("warning: locate database path `%s' contains a leading colon, which is not a valid database name"), path);
-    }
-
-  len = strlen(path);
-  if (len > 0u)
-    {
-      if (':' == path[len-1u])
-	{
-	  error(0, 0, _("warning: locate database path `%s' contains a trailing colon, which is not a valid database name"), path);
-	}
-    }
-}
-
-
 static struct option const longopts[] =
 {
   {"database", required_argument, NULL, 'd'},
@@ -856,15 +835,13 @@ main (argc, argv)
 	}
     }
   
-  sanity_check_dbpath(dbpath);
-
   for (; stats || optind < argc; optind++)
     {
       char *e;
       const char *needle;
-      next_element (dbpath);	/* Initialize.  */
+      next_element (dbpath, 0);	/* Initialize.  */
       needle = stats ? NULL : argv[optind];
-      while ((e = next_element ((char *) NULL)) != NULL)
+      while ((e = next_element ((char *) NULL, 0)) != NULL)
 	{
 	  statistics.compressed_bytes = 
 	    statistics.total_filename_count = 
@@ -872,6 +849,15 @@ main (argc, argv)
 	    statistics.whitespace_count = 
 	    statistics.newline_count = 
 	    statistics.highbit_filename_count = 0u;
+
+	  if (0 == strlen(e) || 0 == strcmp(e, "."))
+	    {
+	      /* Use the default database name instead (note: we
+	       * don't use 'dbpath' since that might itself contain a 
+	       * colon-separated list.
+	       */
+	      e = LOCATE_DB;
+	    }
 	  
 	  found += new_locate (needle, e, ignore_case, print, basename_only, use_limit, limit, stats);
 	}
