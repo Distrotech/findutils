@@ -72,7 +72,7 @@ getuid() {
 : ${NETPATHS=}
 
 # Directories to not put in the database, which would otherwise be.
-: ${PRUNEPATHS="/tmp /usr/tmp /var/tmp /afs"}
+: ${PRUNEPATHS="/tmp /usr/tmp /var/tmp /afs /amd /sfs"}
 
 # The same, in the form of a regex that find can use.
 test -z "$PRUNEREGEX" &&
@@ -116,7 +116,7 @@ fi
 
 PATH=/bin:/usr/bin:${BINDIR}; export PATH
 
-: ${PRUNEFS="nfs NFS proc"}
+: ${PRUNEFS="nfs NFS proc afs proc smbfs autofs iso9660 ncpfs coda devpts ftpfs devfs mfs sysfs shfs"}
 
 if test -n "$PRUNEFS"; then
 prunefs_exp=`echo $PRUNEFS |sed -e 's/\([^ ][^ ]*\)/-o -fstype \1/g' \
