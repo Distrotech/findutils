@@ -559,9 +559,10 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  break;
 	case 'b':		/* size in 512-byte blocks */
 	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
-				   hbuf, human_ceiling,
-				   ST_NBLOCKSIZE, 512));
+		   human_readable_inexact ((uintmax_t) ST_NBLOCKS (*stat_buf),
+					   hbuf,
+					   ST_NBLOCKSIZE, 512,
+					   human_ceiling));
 	  break;
 	case 'c':		/* ctime in `ctime' format */
 	  fprintf (fp, segment->text, ctime_format (stat_buf->st_ctime));
@@ -591,8 +592,8 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  }
 	case 'G':		/* GID number */
 	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) stat_buf->st_gid, hbuf,
-				   human_ceiling, 1, 1));
+		   human_readable_inexact ((uintmax_t) stat_buf->st_gid, hbuf,
+					   1, 1, human_ceiling));
 	  break;
 	case 'h':		/* leading directories part of path */
 	  {
@@ -618,13 +619,16 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  }
 	case 'i':		/* inode number */
 	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) stat_buf->st_ino, hbuf,
-				   human_ceiling, 1, 1));
+		   human_readable_inexact ((uintmax_t) stat_buf->st_ino, hbuf,
+					   1, 1,
+					   human_ceiling));
 	  break;
 	case 'k':		/* size in 1K blocks */
 	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
-				   hbuf, human_ceiling, ST_NBLOCKSIZE, 1024));
+		   human_readable_inexact ((uintmax_t) ST_NBLOCKS (*stat_buf),
+					   hbuf,
+					   ST_NBLOCKSIZE, 1024,
+					   human_ceiling));
 	  break;
 	case 'l':		/* object of symlink */
 #ifdef S_ISLNK
@@ -678,8 +682,10 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  break;
 	case 'n':		/* number of links */
 	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) stat_buf->st_nlink,
-				   hbuf, human_ceiling, 1, 1));
+		   human_readable_inexact ((uintmax_t) stat_buf->st_nlink,
+					   hbuf,
+					   1, 1,
+					   human_ceiling));
 	  break;
 	case 'p':		/* pathname */
 	  fprintf (fp, segment->text, pathname);
@@ -701,8 +707,8 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  break;
 	case 's':		/* size in bytes */
 	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) stat_buf->st_size,
-				   hbuf, human_ceiling, 1, 1));
+		   human_readable_inexact ((uintmax_t) stat_buf->st_size,
+					   hbuf, 1, 1, human_ceiling));
 	  break;
 	case 't':		/* mtime in `ctime' format */
 	  fprintf (fp, segment->text, ctime_format (stat_buf->st_mtime));
@@ -722,8 +728,8 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  }
 	case 'U':		/* UID number */
 	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) stat_buf->st_uid, hbuf,
-				   human_ceiling, 1, 1));
+		   human_readable_inexact ((uintmax_t) stat_buf->st_uid, hbuf,
+					   1, 1, human_ceiling));
 	  break;
 	}
     }
@@ -1323,8 +1329,8 @@ format_date (time_t when, int kind)
   else
     {
       uintmax_t w = when;
-      char *p = human_readable (when < 0 ? -w : w, buf + 1,
-				human_ceiling, 1, 1);
+      char *p = human_readable_inexact (when < 0 ? -w : w, buf + 1,
+				1, 1, human_ceiling);
       if (when < 0)
 	*--p = '-';
       return p;
