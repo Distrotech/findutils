@@ -73,6 +73,7 @@ elif test -d /usr/tmp; then
 else
   : ${TMPDIR=/tmp}
 fi
+export TMPDIR
 
 # The user to search network directories as.
 : ${NETUSER=daemon}
