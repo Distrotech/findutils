@@ -87,15 +87,16 @@ USA.  */
 #define getpid() GetCurrentProcessId()
 #endif
 
-#ifndef _
-/* This is for other GNU distributions with internationalized messages.
-   When compiling libc, the _ macro is predefined.  */
-#ifdef HAVE_LIBINTL_H
+#if ENABLE_NLS
 # include <libintl.h>
-# define _(msgid)	gettext (msgid)
+# define _(Text) gettext (Text)
 #else
-# define _(msgid)	(msgid)
+# define _(Text) Text
 #endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
 #endif
 
 /* This version of `getopt' appears to the caller like standard Unix `getopt'
