@@ -194,7 +194,9 @@ bc_push_arg (const struct buildcmd_control *ctl,
 	     const char *prefix, size_t pfxlen,
 	     int initial_args)
 {
-  state->todo = 1;
+  if (!initial_args)
+    state->todo = 1;
+  
   if (arg)
     {
       if (state->cmd_argv_chars + len > ctl->arg_max)
