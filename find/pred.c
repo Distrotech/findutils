@@ -473,8 +473,8 @@ new_impl_pred_exec (const char *pathname, struct stat *stat_buf,
        */
       bc_push_arg(&execp->ctl,
 		  &execp->state,
-		  prefix, pfxlen,
 		  pathname, len+1,
+		  prefix, pfxlen,
 		  0);
       
       /* POSIX: If the primary expression is punctuated by a plus
