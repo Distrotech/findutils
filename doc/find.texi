@@ -90,6 +90,7 @@ This is edition @value{EDITION}, for @code{find} version @value{VERSION}.
 * Databases::                   Maintaining file name databases.
 * File Permissions::            How to control access to files.
 * Reference::                   Summary of how to invoke the programs.
+* Security Considerations::     Security issues relating to findutils.
 * Error Messages::              Explanations of some messages you might see.
 * Primary Index::               The components of @code{find} expressions.
 @end menu
@@ -2372,7 +2373,7 @@ at all times.  Otherwise, newlines may not be correctly handled.
 
 @include perm.texi
 
-@node Reference, Error Messages, File Permissions, Top
+@node Reference, Security Considerations, File Permissions, Top
 @chapter Reference
 
 Below are summaries of the command line syntax for the programs
@@ -2743,7 +2744,335 @@ Run up to @var{max-procs} processes at a time; the default is 1.  If
 possible at a time.
 @end table
 
-@node Error Messages, Primary Index, Reference, Top
+@node Security Considerations, Error Messages, Reference, Top
+@chapter Security Considerations
+
+Security considerations are important if you are using @code{find} or
+@code{xargs} to search for or process files that don't belong to you
+or over which other people have control.  Security considerations
+relating to @code{locate} may also apply if you have files which you
+may not want others to see.   
+
+In general, the most severe forms of security problems affecting
+@code{find} and related programs are where third parties can bring
+about a situation where those programs allow them to do somemthing
+they would normally not be able to do.  This is called @emph{privilege
+elevation}.  This might include deleting files they would not normally
+be able to delete.  It is also common for the system to periodically
+invoke @code{find} for housekeeping purposes.  These invocations of
+@code{find} are particularly problematic from a security point of view
+as these are often invoked by the superuser and search the whole file
+system hierarchy.  The severity of any associated problem depends on
+what the system is going to do with the output of @code{find}.
+
+@menu
+* Levels of Risk::      What is your level of exposure to security problems?
+* Security Considerations for find::  Security problems with find
+* Security Considerations for xargs:: Security problems with xargs
+* Security Considerations for locate:: Security problems with locate
+* Security Summary:: That was all very complex, what does it boil down to?
+@end menu
+
+
+@node Levels of Risk
+@section Levels of Risk
+
+There are some security risks in herent in the use of @code{find},
+@code{xargs} and (to a lesser extent) @code{locate}.  The severity of
+these risks depends on what sort of system you are using:
+
+@table @strong
+@item High risk
+Multi-user systems where you do not control (or trust) the other
+users, and on which you execute @code{find}, including areas where
+those other users can manipulate the filesystem (for example beneath
+@file{/home} or @file{/tmp}).
+
+@item Medium Risk
+Systems where the actions of other users can create filenames chosen
+by them, but to which they don't have access while @code{find} is
+being run.  This access might include leaving programs running (shell
+background jobs, @code{at} or @code{cron} tasks, for example).  On
+these sorts of systems, carefully written commands (avoiding use of
+@samp{-print} for example) should not expose you to a high degree of
+risk.  Most systems fall into this category.
+
+@item Low Risk
+Systems to which untrusted parties do not have access, cannot create
+filenames of their own choice (even remotely) and which contain no
+security flaws which might enable an untrusted third party to gain
+access.  Most systems do not fall into this category because there are
+many ways in which external parties can affect the names of files that
+are created on your system.  The system on which I am writing this for
+example automatically downloads software updates from the Internet;
+the names of the files in which these updates exist are chosen by
+third parties@footnote{Of course, I trust these parties to a large
+extent anyway, because I install software provided by them; I choose
+to trust them in this way, and that's a deliberate choice}.
+@end table
+
+In the discussion above, ``risk'' denotes the likelihood that someone
+can cause @code{find}, @code{xargs}, @code{locate} or some other
+program which is controlled by them to do something you did not
+intend.  The levels of risk suggested do not take any account of the
+consequences of this sort of event.  That is, if you operate a ``low
+risk'' type system, but the consequences of a security problem are
+disastrous, then you should still give serious thought to all the
+possible security problems, many of which of course will not be
+discussed here -- this section of the manual is intended to be
+informative but not comprehensive or exhaustive.   
+
+If you are responsible for the operation of a system where the
+consequences of a security problem could be very important, you should
+do two things:-
+
+@enumerate
+@item Define a security policy which defines who is allowed to do what
+on your system
+@item Seek competent advice on how to enforce your policy, detect
+breaches of that policy, and take account of any potential problems
+that might fall outside the scope of your policy
+@end enumerate
+
+
+@node Security Considerations for find
+@section Security Considerations for find
+
+
+Some of the actions @code{find} might take have a direct ecffect;
+these include @code{-exec} and @code{-delete}.  However, it is also
+common to use @code{-print} explicitly or implicitly, and so if
+@code{find} produces the wrong list of filenames, that can also be a
+secutiry problem; consider the case for example where @code{find} is
+producing a list of files to be deleted.
+
+We normally assume that the @code{find} command line expresses the
+file selection criteria and actions that the user had in mind -- that
+is, the command line is ``trusted'' data.  
+
+From a security analysis point of view, the output of @code{find}
+should be correct; that is, the output should contain only the names
+of those files which meet the user's criteria specified on the command
+line.  This applies for the @code{-exec} and @code{-delete} actions;
+one can consider these to be part of the output.
+
+On the other hand, the contents of the filesystem can be manipulated
+by other people, and hence we regard this as ``untrusted'' data.  This
+implies that the @code{find} command line is a filter which converts
+the untrusted contents of the filesystem into a correct list of output
+files.   
+
+The filesystem will in general change while @code{find} is searching
+it; in fact, most of the potential security problems with @code{find}
+relate to this issue in some way.
+
+@subsection Race Conditions
+Race conditions are a general class of security problem where the
+relative ordering of actions taken by @code{find} (for example) and
+something else are important@footnote{This is more or less the
+defintion of the term ``race condition''} .  
+
+Typically, an attacker might move or rename files or directories in
+the hope that an action might be taken against a a file which was not
+normally intended to be affected.  Alternatively, this sort of attack
+might be intended to persuade @code{find} to search part of the
+filesystsem which would not normally be included in the search
+(defeating the @code{-prune} action for example).  
+
+@subsubsection Changing the Current Working Directory
+As find searches the file system, it finds subdirectories and then
+searchies within them by changing its working directory.    First,
+@code{find} notices a subdirectory.  It then decides if that
+subdirectory meets the criteria for being searched; that is, any
+@samp{-xdev} or @samp{-prune} expressions are taken into account.  The
+@code{find} program will then change working directory using the
+@code{chdir()} system call and proceed to search the directory.  
+
+A race condition attack might take the form that once the checks
+relevant to @samp{-xdev} and @samp{-prune} have been done, an attacker
+might rename the directory that was being considered, and put in its
+place a symbolic link that actually points somewhere else.  The
+@code{find} command would then issue the @code{chdir()} system call,
+changind its working directory to the destination of the symbolic link
+(@code{chdir()} will always dereference symbolic links).  This
+manipulation leaves @code{find} with a working directory chosen by an
+attacker, bypassing any protection apparently provided by @samp{-xdev}
+and @samp{-prune}, and any protection provided by being able to
+@emph{not} list particular directories on the @code{find} command
+line.  This form of attack is particularly problematic if the attacker
+can predict when the @code{find} command will be run, as is the case
+with @code{cron} tasks for example.  
+
+GNU @code{find} has specific safeguards to prevent this general class
+of problem.  Each time @code{find} changes directory, it examines the
+directory it is about to move to, issues the @code{chdir()} system
+call, and then checks that it has ended up in the subdirectory it
+expected.  If not, an error message is issued and @code{find} exits
+immediately.  This prevents filesystem manipulation attacks from
+persuading @code{find} to search parts of the filesystem it did not
+intend.
+
+Where an automounter is in use, it can be the case that the use of the
+@code{chdir()} system call can itself cause a new filesystem to be
+mounted at that point.  This will cause @code{find}'s security check
+to fail.  However, this does not normally represent a security problem
+(since the automounter configugration is normally set up by the system
+administrator).  Therefore, if the @code{chdir()} sanity check fails,
+@code{find} will check to see if a new filesystem has been mounted at
+the current directory; if so, @code{find} will issue a warning message
+and continue.  
+
+
+@subsubsection Race Conditions with -exec
+
+The @samp{-exec} action causes another program to be run.  It is
+passed the name of the file which is being considered at the time.
+The invoked program will then - normally - perform some action on that
+file.  Once again, there is a race condition which can be exploited
+here.  We shall take as a specific example the command
+
+@example 
+find /tmp -path /tmp/umsp/passwd -exec /bin/rm
+@end example
+
+In this simple example, we are identifying just one file to be deleted
+and invoking @code{/bin/rm} to delete it.  A problem exists because
+there is a time gap between the point where @code{find} decides that
+it needs to process the @samp{-exec} action and the point where the
+@code{/bin/rm} command actually issues the @code{unlink()} system
+call.  Within this time period, an attacker can rename the
+@file{/tmp/umsp} directory, replacing it with a symbolic link to
+@file{/etc}.   There is no way for @code{/bin/rm} to determine that it
+is working on the same file that @code{find} had in mind.   Once the
+symbolic link is in place, the attacker has persuaded @code{find} to
+cause the deletion of the @file{/etc/passwd} file, which is not the
+effect intended by the command which was actually invoked.  
+
+One possible defence against this type of attack is to modify the
+bahaviour of @samp{-exec} so that the @code{/bin/rm} command is run
+with the argument @file{./passwd} and a suitable choice of working
+directory.  This would allow the normal sanity check that @code{find}
+performs to protect against this form of attack too.  Unfortunately,
+this strategy cannot be used as the POSIX standard specifies that the
+current working directory for commands invoked via @samp{-exec} must
+be the same as the current working directory from which @code{find}
+was invoked.   This means that the @samp{-exec} action is inherently
+insecure and can't be fixed.   
+
+GNU @code{find} implements a more secure variant of the @samp{-exec}
+action, @samp{-execdir}@footnote{at the time of writing -execdir is
+not yet implemented, but is planned}.  The @samp{-execdir} action
+ensures that it is not neccesary to dereference subdirectories to
+process target files.  The current directory used to invoke programs
+is the same as the directory in which the file to be processed exists
+(@file{/tmp/umsp} in our example, and only the basename of the file to
+be processed is passed to the invoked command, with a @samp{./}
+prepended (giving @file{./passwd} in our example).
+
+
+@subsubsection Race Conditions with -print and -print0
+
+The @samp{-print} and @samp{-print0} actions can be used to produce a
+list of files matching some criteria, which can then be used with some
+other command, perhaps with @code{xargs}.   Unfortunately, this means
+that there is an unavoidable time gap between @code{find} deciding
+that one or more files meet its criteria and the relevant command
+being executed.  For this reason, the @samp{-print} and @samp{-print0}
+actions are just as insecure as @samp{-exec}.
+
+In fact, since the construction 
+
+@example
+find ....   -print | xargs ....
+@end example
+
+does not cope correctly with newlines or other ``white space'' in
+filenames, and copes poorly with filenames containing quotes, the
+@samp{-print} action is less secure even than @samp{-print0}.
+
+
+@comment  node-name,  next,  previous,  up
+@comment @node Security Considerations for xargs
+@node Security Considerations for xargs
+@section Security Considerations for @code{xargs}
+
+The description of the race conditions affecting the @samp{-print}
+action of @code{find} shows that @code{xargs} cannot be secure if it
+is possible for an attacker to modify a filesystem after @code{find}
+has started but before @code{xargs} has completed all its actions.
+
+However, there are other security issues that exist even if it is not
+possible for an attacker to have access to the filesystem in real
+time.  Firstly, if it is possible for an attacker to create files with
+names of their own choice on the filesystem, then @code{xargs} is
+insecure unless the @samp{-0} option is used.  If a file with the name
+@file{/home/someuser/foo/bar\n/etc/passwd} exists (assume that
+@samp{\n} stands for a newline character), then @code{find ... -print}
+can be persuaded to print three separate lines:
+
+@example
+/home/someuser/foo/bar
+
+/etc/passwd
+@end example
+
+If it finds a blank line in the input, @code{xargs} will ignore it.
+Therefore, if some action is to be taken on the basis of this list of
+files, the @file{/etc/passwd} file would be included even if this was
+not the intent of the person running find.  There are circumstances in
+which an attaker can use this to their advantage.  The same
+consideration applies to filenames containing ordinary spaces rather
+than newlines, except that of course the list of filenames will no
+longer contain an ``extra'' newline.
+
+This problem is an unavoidable consequence of the default behaviour of
+the @code{xargs} command, which is specified by the POSIX standard.
+The only ways to avoid this problem are either to avoid all use of
+@code{xargs} in favour for example of @samp{find -exec} or (where
+available) @samp{find -execdir}, or to use the @samp{-0} option, which
+ensures that @code{xargs} considers filenames to be separated by ASCII
+NUL characters rather than whitespace.   However, useful though this
+option is, the POSIX standard does not make it mandatory.
+
+@comment  node-name,  next,  previous,  up
+@node Security Considerations for locate
+@section Security Considerations for @code{locate}
+
+It is fairly unusual for the output of @code{locate} to be fed into
+another command.  However, if this were to be done, this would raise
+the same set of security issues as the use of @samp{find ... -print}.
+Although the problems relating to whitespace in filenames can be
+resolved by using @code{locate}'s @samp{-0} option, this still leaves
+the race condition problems associated with @samp{find ... -print0}.
+There is no way to avoid these problems in the case of @code{locate}.
+
+@node Security Summary
+@section Summary
+
+Where untrusted parties can create files on the system, or affect the
+names of files that are created, all uses for @code{find},
+@code{locate} and @code{xargs} have known security problems except the
+following:
+
+@table @asis
+@item Informational use only
+Uses where the programs are used to prepare lists of filenames upon which no further action will ever be taken.
+
+@item -delete 
+Use of the @samp{-delete} action to delete files which meet
+specified criteria
+
+@item -execdir 
+Use of the @samp{-execdir} action where the @env{PATH}
+environment variable contains directories which contain only trusted
+programs. 
+@end table
+
+Please note that the @samp{-execdir} option is not yet implemented.
+
+
+@comment  node-name,  next,  previous,  up
+@node Error Messages, Primary Index, Security Considerations, Top
 @chapter Error Messages
 
 This section describes some of the error messages you might get from
