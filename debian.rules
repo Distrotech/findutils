@@ -23,9 +23,9 @@ LDFLAGS = -s
 # The name of the package (for example, `emacs').
 p = findutils
 # The version of the package (for example, `19.28').
-v = 4.1
+version = 4.1
 # The Debian revision of the package (for example, `2').
-d = 6
+debian = 6
 
 build:
 # Builds the binary package.
@@ -86,7 +86,7 @@ binary:
 	  debian-tmp/usr/doc/copyright/$(p)
 	rm -f debian-tmp/usr/info/find.info*.gz
 	gzip -9f debian-tmp/usr/info/find.info*
-	sed -e '4s/=V/$(v)/' -e '5s/=D/$(d)/' debian.control \
+	sed -e 's/=V-D/$(version)-$(debian)/' debian.control \
 	  > debian-tmp/DEBIAN/control
 	chmod 644 debian-tmp/DEBIAN/control
 	install -g root -m 644 -o root debian.conffiles \
