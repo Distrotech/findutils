@@ -3,7 +3,7 @@ AUTOMAKE_OPTIONS = ../lib/ansi2knr
 LOCATE_DB = $(localstatedir)/locatedb
 localedir = $(datadir)/locale
 
-bin_PROGRAMS = locate multilocate
+bin_PROGRAMS = locate 
 libexec_PROGRAMS = frcode code bigram
 bin_SCRIPTS = updatedb
 man_MANS = locate.1 updatedb.1 locatedb.5
