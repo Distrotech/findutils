@@ -1,14 +1,45 @@
-2004-10-02  jay  <jay@orbital>
+2004-10-17  James Youngman <jay@gnu.org>
+
+	* NEWS: Brought up to date.
+
+	* import-gnulib.sh:
+	Use xalloc-die module from gnulib, since that has now been split out
+
+	* find/parser.c:
+	Check fnmatch() when other predicates that rely on fnmatch() are used.
+
+	* find/parser.c: bug #10701: find needs fnmatch sanitycheck on startup
+
+2004-10-16  James Youngman <jay@gnu.org>
+
+	* import-gnulib.sh:
+	Switch to requirement for GNU fnmatch because it supports FNM_CASEFOLD.
+
+	* locate/updatedb.sh:
+	Bug #9465: use of signal numbers for 'trap' is deprecated.  Should use
+	names instead.  See
+	http://www.opengroup.org/onlinepubs/009695399/utilities/trap.html,
+	which indicates that support for signal numbers is optional, while
+	support for signal names is mandatory.
+
+	* configure.in:
+	Indicate that this is the CVS version (once again) now that findutils
+	4.2.0 has been released.
+
+	* ChangeLog, configure.in, po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po, po/tr.po:
+	findutils 4.1.20 check-in for tagging
+
+2004-10-02  James Youngman <jay@gnu.org>
+
+	* po/Makefile.in.in:
+	Search in $(top_srcdir) for mkinstalldirs, since that's where we keep it.
+
+	* NEWS: Brought up to date, organised more clearly, and tidied up.
 
 	* NEWS: brought up to date with recent changes
 
-	* locate/testsuite/config/unix.exp,
-	locate/testsuite/locate.gnu/ignore_case1.exp,
-	locate/testsuite/locate.gnu/ignore_case3.exp, locate/updatedb.sh:
-	Added new option --changecwd to updatedb so that the 'cd /' which
-	it does can be compatible with the requirements of the test suite.
-	Specifically, the test suite relies on being able to use relative
-	pathnames
+	* locate/testsuite/config/unix.exp, locate/testsuite/locate.gnu/ignore_case1.exp, locate/testsuite/locate.gnu/ignore_case3.exp, locate/updatedb.sh:
+	Added new option --changecwd to updatedb so that the 'cd /' which it does can be compatible with the requirements of the test suite.  Specifically, the test suite relies on being able to use relative pathnames
 
 	* find/pred.c:
 	Fixed usage of human_readable() in '%k' format specifier to fix a bug
@@ -16,7 +47,7 @@
 	specified in the wrong order, which resulted in a floating-point
 	error).
 
-2004-08-08  jay  <jay@orbital>
+2004-08-08  James Youngman <jay@gnu.org>
 
 	* locate/updatedb.sh:
 	cd to / to avoid inability to examine the current directory if we're
@@ -43,7 +74,7 @@
 
 	* xargs/xargs.1, xargs/xargs.c: Better documentation for the -i option
 
-2004-05-03  jay  <jay@orbital>
+2004-05-03  James Youngman <jay@gnu.org>
 
 	* find/find.1:
 	document the various suffixes for -size and also the new 
@@ -70,17 +101,17 @@
 	Fixed Savannah bug 4391 (readdir race condition leading to 
 	spurious error messages)
 
-2004-04-24  jay  <jay@orbital>
+2004-04-24  James Youngman <jay@gnu.org>
 
 	* README-CVS: Corrected the instructions for getting gnulib via CVS.
 
-2004-04-13  jay  <jay@orbital>
+2004-04-13  James Youngman <jay@gnu.org>
 
 	* doc/find.texi:
 	Actioned Savannah bug #8558 (find complains when it tries to recurse
 	into directories that it had removed).
 
-2004-03-13  jay  <jay@orbital>
+2004-03-13  James Youngman <jay@gnu.org>
 
 	* ChangeLog: Updated from checkin comments.
 
