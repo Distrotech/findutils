@@ -1,13 +1,13 @@
 # Turkish translations for findutils messages.
-# Copyright (C) 2004 Free Software Foundation, Inc.
-# Nilgün Belma Bugüner <nilgun@superonline.com>, 2001,.., 2004
+# Copyright (C) 2005 Free Software Foundation, Inc.
+# Nilgün Belma Bugüner <nilgun@superonline.com>, 2001,...,2005
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.6\n"
+"Project-Id-Version: findutils 4.2.15\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-01-29 00:13+0000\n"
-"PO-Revision-Date: 2004-11-24 00:33+0300\n"
+"POT-Creation-Date: 2005-02-01 00:16+0000\n"
+"PO-Revision-Date: 2005-02-01 03:25+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@superonline.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -239,23 +239,23 @@ msgid "Optimized Eval Tree:\n"
 msgstr "Eniyilenmiş Değer Ağacı:\n"
 
 #: find/find.c:522
-#, fuzzy, c-format
+#, c-format
 msgid "Optimized command line:\n"
-msgstr "Eniyilenmiş Değer Ağacı:\n"
+msgstr "Eniyilenmiş komut satırı:\n"
 
 #: find/find.c:537 find/find.c:540
 msgid "cannot get current directory"
 msgstr "çalışılan dizin alınamadı"
 
 #: find/find.c:766
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
-msgstr "%s dosya sistemi az önce ayrıldı."
+msgstr "Uyarı: %s dosya sistemi zaten ayrılmıştı."
 
 #: find/find.c:776
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: filesystem %s has recently been mounted."
-msgstr "%s dosya sistemi az önce bağlandı."
+msgstr "Uyarı: %s dosya sistemi zaten bağlanmıştı."
 
 #: find/find.c:791
 #, c-format
@@ -281,6 +281,8 @@ msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
+"`%s' sembolik bağı dizin hiyerarşisinde bir döngünün parçası ve gösterdiği "
+"dizini zaten ziyaret etmiştik."
 
 #: find/find.c:1083
 #, c-format
@@ -288,14 +290,16 @@ msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
+"Dosya sisteminde döngü saptandı; `%s', %d %s deki bir dizin gibi aynı aygıt "
+"ve düğüm numarasına sahip."
 
 #: find/find.c:1087
 msgid "level higher in the filesystem hierarchy"
-msgstr ""
+msgstr "seviye, dosya sistemi hiyerarşisinde daha yüksek"
 
 #: find/find.c:1088
 msgid "levels higher in the filesystem hierarchy"
-msgstr ""
+msgstr "seviyeler, dosya sistemi hiyerarşisinde daha yüksek"
 
 #: find/find.c:1469
 #, c-format
@@ -305,6 +309,10 @@ msgid ""
 "results may have failed to include directories that should have been "
 "searched."
 msgstr ""
+"UYARI: Sabit bağ sayısı %s için hatalı: bu dosya sistemi sürücünüzle ilgili "
+"bir yazılım hatası olabilir. Find'in -noleaf seçeneği etkinleştiriliyor. "
+"Önceki sonuçlar evvelce araştırılan dizinleri de içererek başarısız olmuş "
+"olabilir."
 
 #: find/fstype.c:231
 msgid "unknown"
@@ -337,51 +345,42 @@ msgid "Usage: %s [path...] [expression]\n"
 msgstr "Kullanımı: %s [dosyaYolu...] [ifade]\n"
 
 #: find/parser.c:721
-#, fuzzy
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
 "expression may consist of: operators, options, tests, and actions:\n"
 msgstr ""
+"\n"
 "öntanımlı dosya yolu çalışılan dizindir; öntanımlı ifade ise -print\n"
 "ifade şundan ibaret olabilir:\n"
-"operatörler (önceliği azaltan; -and başka bir şey verilmediğinden "
-"örtüktür):\n"
-"      ( İFADE ) ! İFADE -not İFADE İFADE1 -a İFADE2 İFADE1 -and İFADE2"
+"operatörler, seçenekler, sınamalar ve eylemler:\n"
 
 #: find/parser.c:724
-#, fuzzy
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
-"öntanımlı dosya yolu çalışılan dizindir; öntanımlı ifade ise -print\n"
-"ifade şundan ibaret olabilir:\n"
 "operatörler (önceliği azaltan; -and başka bir şey verilmediğinden "
 "örtüktür):\n"
-"      ( İFADE ) ! İFADE -not İFADE İFADE1 -a İFADE2 İFADE1 -and İFADE2"
+"      ( İFADE )     ! İFADE     -not İFADE      İFADE1 -a İFADE2\n"
+"      İFADE1 -and İFADE2     İFADE1 -o İFADE2     İFADE1 -or İFADE2\n"
+"      İFADE1 , İFADE2\n"
 
 #: find/parser.c:728
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow\n"
 "normal options (always true, specified before other expressions):\n"
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"      İFADE1 -o İFADE2 İFADE1 -or İFADE2 İFADE1 , İFADE2\n"
-"konumsal seçenekler (daima `true'):\n"
-"      -daystart -follow \n"
+"konumsal seçenekler (daima `true'):  -daystart -follow \n"
 "normal  seçenekler (daima `true', diğer ifadelerden önce belirtilirler):\n"
 "      -depth --help -maxdepth DÜZEYLER -mindepth DÜZEYLER -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
-"sınamalar (N, +N veya -N ya da N olabilir):\n"
-"      -amin N -anewer DOSYA -atime N -cmin N"
 
 #: find/parser.c:733
-#, fuzzy
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -389,12 +388,14 @@ msgid ""
 "PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
-"      -cnewer DOSYA -ctime N -empty -false -fstype TÜR -gid N -group İSİM\n"
-"      -ilname KALIP -iname KALIP -inum N --iwholename KALIP -iregex KALIP\n"
-"      -links N -lname KALIP -mmin N -mtime N -name KALIP -newer DOSYA"
+"sınamalar (N, +N veya -N ya da N olabilir):       -amin N -anewer DOSYA -"
+"atime N -cmin N -cnewer DOSYA -ctime N -empty\n"
+"      -false -fstype TÜR -gid N -group İSİM -ilname KALIP -iname KALIP\n"
+"      -inum N --iwholename KALIP -iregex KALIP -links N -lname KALIP -mmin "
+"N\n"
+"      -mtime N -name KALIP -newer DOSYA"
 
 #: find/parser.c:738
-#, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
@@ -402,7 +403,7 @@ msgid ""
 msgstr ""
 "      -nouser -nogroup -path KALIP -perm [+-]KİP -regex KALIP\n"
 "      -wholename KALIP -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
-"      -used N -user İSİM -xtype [bcdpfls]"
+"      -used N -user İSİM -xtype [bcdpfls]\n"
 
 #: find/parser.c:742
 msgid ""
@@ -464,7 +465,7 @@ msgstr "GNU find sürüm %s\n"
 #: find/parser.c:1528
 #, c-format
 msgid "Features enabled: "
-msgstr ""
+msgstr "Etkin özellikler:"
 
 #: find/parser.c:1740
 #, c-format
@@ -484,64 +485,70 @@ msgid ""
 "current directory from your $PATH (that is, remove \".\" or leading or "
 "trailing colons)"
 msgstr ""
+"Çalışma dizini PATH ortam değişkeninde bulunuyor ve find'in %s eylemi ile "
+"birlikte güvensiz oluyor. Lütfen bu dizini PATH ortam değişkeninizden "
+"kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
+"işaretlerini kaldırın)"
 
-#: find/parser.c:1978
+#: find/parser.c:1976
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
+"-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, "
+"çünkü bu potensiyel bir güvenlik açığıdır."
 
-#: find/parser.c:2001
+#: find/parser.c:1999
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
-msgstr ""
+msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
 
-#: find/parser.c:2232 find/parser.c:2313
+#: find/parser.c:2230 find/parser.c:2311
 #, c-format
 msgid "inserting %s\n"
 msgstr "%s yerleştiriliyor\n"
 
-#: find/parser.c:2233 find/parser.c:2314
+#: find/parser.c:2231 find/parser.c:2312
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    tür: %s    %s  "
 
-#: find/pred.c:1135 find/pred.c:1172
+#: find/pred.c:1133 find/pred.c:1170
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1545 find/pred.c:1650 xargs/xargs.c:962
+#: find/pred.c:1543 find/pred.c:1648 xargs/xargs.c:962
 msgid "cannot fork"
 msgstr "ayrılamaz"
 
-#: find/pred.c:1585 find/pred.c:1670
+#: find/pred.c:1583 find/pred.c:1668
 #, c-format
 msgid "error waiting for %s"
 msgstr "%s beklenirken hata oluştu"
 
-#: find/pred.c:1593 find/pred.c:1676
+#: find/pred.c:1591 find/pred.c:1674
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s, %d sinyali ile sonlandırıldı"
 
-#: find/pred.c:1814
+#: find/pred.c:1812
 #, c-format
 msgid "left:\n"
 msgstr "yanlış:\n"
 
-#: find/pred.c:1818
+#: find/pred.c:1816
 #, c-format
 msgid "right:\n"
 msgstr "doğru:\n"
 
-#: find/pred.c:1903
+#: find/pred.c:1901
 msgid "[stat called here] "
-msgstr ""
+msgstr "[stat burada çağrıldı] "
 
-#: find/pred.c:1904
+#: find/pred.c:1902
 msgid "[type needed here] "
-msgstr ""
+msgstr "[type burada gerekti] "
 
 #: find/tree.c:67 find/tree.c:72 find/tree.c:119 find/tree.c:158
 msgid "invalid expression"
@@ -550,27 +557,26 @@ msgstr "ifade geçersiz"
 #: find/tree.c:76
 msgid ""
 "invalid expression; you have used a binary operator with nothing before it."
-msgstr ""
+msgstr "geçersiz ifade; bir iki terimli işleci sol terimsiz kullanmışsınız."
 
 #: find/tree.c:80
-#, fuzzy
 msgid "invalid expression; you have too many ')'"
-msgstr "ifade geçersiz"
+msgstr "geçersiz ifade; çok fazla ')' var"
 
 #: find/tree.c:99
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
 "one."
-msgstr ""
+msgstr "geçersiz ifade; bir ')' olmalıydı ama hiç yok."
 
 #: find/tree.c:104 find/tree.c:326
 msgid "oops -- invalid expression type!"
 msgstr "hooop -- geçersiz ifade türü!"
 
 #: find/tree.c:173
-#, fuzzy, c-format
+#, c-format
 msgid "oops -- invalid expression type (%d)!"
-msgstr "hooop -- geçersiz ifade türü!"
+msgstr "hooop -- geçersiz ifade türü (%d)!"
 
 #: find/tree.c:245
 #, c-format
@@ -578,14 +584,12 @@ msgid "Normalized Eval Tree:\n"
 msgstr "Normalleştirilen Değer Ağacı:\n"
 
 #: find/tree.c:457
-#, fuzzy
 msgid "oops -- invalid expression type in mark_stat!"
-msgstr "hooop -- geçersiz ifade türü!"
+msgstr "hooop -- mark_stat'ta geçersiz ifade türü!"
 
 #: find/tree.c:493
-#, fuzzy
 msgid "oops -- invalid expression type in mark_type!"
-msgstr "hooop -- geçersiz ifade türü!"
+msgstr "hooop -- mark_type'ta geçersiz ifade türü!"
 
 #: locate/code.c:128
 #, c-format
@@ -618,17 +622,17 @@ msgstr "gün"
 #: locate/locate.c:493
 #, c-format
 msgid "Locate database size: %s bytes\n"
-msgstr ""
+msgstr "Locate veritabanı boyu: %s bayt\n"
 
 #: locate/locate.c:497
 #, c-format
 msgid "Filenames: %s "
-msgstr ""
+msgstr "Dosya isimleri: %s"
 
 #: locate/locate.c:500
 #, c-format
 msgid "with a cumulative length of %s bytes"
-msgstr ""
+msgstr "%s baytlık bir birikimli uzunluk ile"
 
 #: locate/locate.c:504
 #, c-format
@@ -654,7 +658,7 @@ msgstr ""
 #: locate/locate.c:514
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
-msgstr ""
+msgstr "Sıkıştırma oranı %%%4.2f\n"
 
 #: locate/locate.c:642
 #, c-format
@@ -664,11 +668,11 @@ msgstr "uyarı: `%s' veritabanı %d den %s daha eski"
 #: locate/locate.c:666
 #, c-format
 msgid "Database %s is in the %s format.\n"
-msgstr ""
+msgstr "%s veritabanı %s biçiminde.\n"
 
 #: locate/locate.c:668
 msgid "old"
-msgstr ""
+msgstr "eski"
 
 #: locate/locate.c:722
 #, c-format
@@ -676,7 +680,7 @@ msgid "locate database `%s' is corrupt or invalid"
 msgstr "`%s' veritabanı ya bozuk ya da geçersiz"
 
 #: locate/locate.c:778
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | --existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -686,8 +690,11 @@ msgid ""
 "      [-r | --regex ] [--version] [--help] pattern...\n"
 msgstr ""
 "Kullanımı: %s [-d DosyaYolu | --database=DosyaYolu] [-e | --existing]\n"
-"      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n"
-"      [--version] [--help] KALIP...\n"
+"      [-i | --ignore-case] [-w | --wholepath] [-b | --basename]\n"
+"      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
+"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
+"stdio ]\n"
+"      [-r | --regex ] [--version] [--help] KALIP...\n"
 
 #: locate/locate.c:875
 #, c-format
@@ -710,7 +717,7 @@ msgstr "GNU xargs sürüm %s\n"
 #: xargs/xargs.c:519
 #, c-format
 msgid "Cannot open input file `%s'"
-msgstr ""
+msgstr "Girdi dosyası `%s' açılamıyor"
 
 #: xargs/xargs.c:545
 #, c-format
@@ -793,7 +800,7 @@ msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c seçeneği için değer < %ld olmalı\n"
 
 #: xargs/xargs.c:1122
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
 "       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
@@ -803,13 +810,15 @@ msgid ""
 "       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
-"Kullanımı: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
-"str]]\n"
-"       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
-"       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
-"       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
-"       [command [initial-arguments]]\n"
+"Kullanımı: %s [-0prtx] [-e[eof-dizgesi]] [-i[değiştirme-dizgesi]]\n"
+"       [-l[azami-satır-sayısı]] [-n azami-arg-sayısı]\n"
+"       [-s azami-karakter-sayısı] [-P azami-işlem-sayısı] [--null]\n"
+"       [--eof[=eof-dizgesi]] [--replace[=değiştirme-dizgesi]]\n"
+"       [--max-lines[=azami-satır-sayısı]] [--interactive]\n"
+"       [--max-chars=azami-karakter-sayısı] [--verbose] [--exit]\n"
+"       [--max-procs=azami-işlem-sayısı] [--max-args=azami-arg-sayısı]\n"
+"       [--no-run-if-empty] [--arg-file=dosya] [--version] [--help]\n"
+"       [komut [ilk-argümanlar]]\n"
 
 #~ msgid "error in %s: %s"
 #~ msgstr "%s de hata: %s"
