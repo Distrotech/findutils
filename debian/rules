@@ -12,12 +12,12 @@
 
 CC = gcc
 CFLAGS = -O2
-INSTALL_STRIP_FLAG =
+INSTALL_TARGET=install
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 CFLAGS += -g
 endif
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
-INSTALL_STRIP_FLAG = -s
+INSTALL_TARGET = install-strip
 endif
 
 package = findutils
@@ -29,7 +29,7 @@ build:
 		--mandir='$${prefix}/share/man' \
 		--infodir='$${prefix}/share/info'
 	$(MAKE) \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
+		CC="$(CC)" CFLAGS="$(CFLAGS)"
 	cd doc ; makeinfo find.texi
 	touch build
 
@@ -63,10 +63,9 @@ binary-arch:	checkroot build
 	install debian/cron.find debian/tmp/etc/cron.daily/find
 	install -m 0644 debian/updatedb.conf debian/tmp/etc/updatedb.conf
 	$(MAKE) DESTDIR=`pwd`/debian/tmp \
-		CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-		INSTALL_PROGRAM='install -c' \
-		INSTALL_STRIP_FLAG="$(INSTALL_STRIP_FLAG)" \
-		install
+		CC="$(CC)" CFLAGS="$(CFLAGS)" \
+		INSTALL_STRIP_PROGRAM="/usr/bin/install -s" \
+		$(INSTALL_TARGET)
 	install -d debian/tmp/usr/share/doc-base
 	install -m 0644 debian/doc-base \
 		debian/tmp/usr/share/doc-base/findutils
@@ -102,6 +101,6 @@ source diff:
 
 checkroot:
 	$(checkdir)
-	test root = "`whoami`"
+	test 0 = "`id -u`"
 
 .PHONY: binary binary-arch binary-indep clean checkroot
