@@ -1,4 +1,5 @@
 # The default database to build and search.
+AUTOMAKE_OPTIONS = ../lib/ansi2knr
 LOCATE_DB = $(localstatedir)/locatedb
 localedir = $(datadir)/locale
 
@@ -15,6 +16,24 @@ INCLUDES = -I$(top_srcdir)/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDI
 LDADD = ../find/version.o ../lib/libfind.a @INTLLIBS@
 
 $(PROGRAMS) $(LIBPROGRAMS): ../find/version.o ../lib/libfind.a
+
+updatedb: updatedb.sh
+	rm -f $@
+	find=`echo find|sed '$(transform)'`; \
+	frcode=`echo frcode|sed '$(transform)'`; \
+	bigram=`echo bigram|sed '$(transform)'`; \
+	code=`echo code|sed '$(transform)'`; \
+	sed \
+	-e "s,@""bindir""@,$(bindir)," \
+	-e "s,@""libexecdir""@,$(libexecdir)," \
+	-e "s,@""LOCATE_DB""@,$(LOCATE_DB)," \
+	-e "s,@""VERSION""@,@VERSION@," \
+	-e "s,@""find""@,$${find}," \
+	-e "s,@""frcode""@,$${frcode}," \
+	-e "s,@""bigram""@,$${bigram}," \
+	-e "s,@""code""@,$${code}," \
+	$(srcdir)/updatedb.sh > $@
+	chmod +x $@
 
 install:
 	$(top_srcdir)/mkinstalldirs $(localstatedir)
