@@ -67,7 +67,9 @@
 #include "extendbuf.h"
 #include "savedirinfo.h"
 
+/* 
 #undef HAVE_STRUCT_DIRENT_D_TYPE
+*/
 
 
 #if defined HAVE_STRUCT_DIRENT_D_TYPE
@@ -156,6 +158,7 @@ savedirinfo (const char *dir, struct savedir_dirinfo **extra)
 			       (extra_used+1) * sizeof(struct savedir_dirinfo),
 			       &extra_allocated);
 	      info[extra_used].type_info = type_to_mode(dp->d_type);
+	      ++extra_used;
 	    }
 #endif
 	}
