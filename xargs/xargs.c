@@ -20,11 +20,13 @@
 
 #include <config.h>
 
-#if __STDC__
-#define P_(s) s
-#else
-#define P_(s) ()
-#endif
+# ifndef PARAMS
+#  if defined PROTOTYPES || (defined __STDC__ && __STDC__)
+#   define PARAMS(Args) Args
+#  else
+#   define PARAMS(Args) ()
+#  endif
+# endif
 
 #define _GNU_SOURCE
 #include <ctype.h>
@@ -139,7 +141,7 @@ typedef int boolean;
 #endif
 
 #include <xalloc.h>
-void error P_ ((int status, int errnum, char *message,...));
+void error PARAMS ((int status, int errnum, char *message,...));
 
 extern char *version_string;
 
@@ -248,28 +250,26 @@ static struct option const longopts[] =
   {NULL, no_argument, NULL, 0}
 };
 
-static int read_line P_ ((void));
-static int read_string P_ ((void));
-static void do_insert P_ ((char *arg, size_t arglen, size_t lblen));
-static void push_arg P_ ((char *arg, size_t len));
-static boolean print_args P_ ((boolean ask));
-static void do_exec P_ ((void));
-static void add_proc P_ ((pid_t pid));
-static void wait_for_proc P_ ((boolean all));
-static long parse_num P_ ((char *str, int option, long min, long max));
-static long env_size P_ ((char **envp));
-static void usage P_ ((FILE * stream, int status));
+static int read_line PARAMS ((void));
+static int read_string PARAMS ((void));
+static void do_insert PARAMS ((char *arg, size_t arglen, size_t lblen));
+static void push_arg PARAMS ((char *arg, size_t len));
+static boolean print_args PARAMS ((boolean ask));
+static void do_exec PARAMS ((void));
+static void add_proc PARAMS ((pid_t pid));
+static void wait_for_proc PARAMS ((boolean all));
+static long parse_num PARAMS ((char *str, int option, long min, long max));
+static long env_size PARAMS ((char **envp));
+static void usage PARAMS ((FILE * stream, int status));
 
 int
-main (argc, argv)
-     int argc;
-     char **argv;
+main (int argc, char **argv)
 {
   int optc;
   int always_run_command = 1;
   long orig_arg_max;
   char *default_cmd = "/bin/echo";
-  int (*read_args) P_ ((void)) = read_line;
+  int (*read_args) PARAMS ((void)) = read_line;
 
   program_name = argv[0];
 
@@ -446,7 +446,7 @@ main (argc, argv)
    otherwise the length of the last string read (including the null).  */
 
 static int
-read_line ()
+read_line (void)
 {
   static boolean eof = false;
   /* Start out in mode SPACE to always strip leading spaces (even with -i).  */
@@ -568,7 +568,7 @@ read_line ()
    otherwise the length of the string read (including the null).  */
 
 static int
-read_string ()
+read_string (void)
 {
   static boolean eof = false;
   int len;
@@ -618,10 +618,7 @@ read_string ()
    Those restrictions do not exist here.  */
 
 static void
-do_insert (arg, arglen, lblen)
-     char *arg;
-     size_t arglen;
-     size_t lblen;
+do_insert (char *arg, size_t arglen, size_t lblen)
 {
   /* Temporary copy of each arg with the replace pattern replaced by the
      real arg.  */
@@ -674,9 +671,7 @@ do_insert (arg, arglen, lblen)
    If this brings the list up to its maximum size, execute the command.  */
 
 static void
-push_arg (arg, len)
-     char *arg;
-     size_t len;
+push_arg (char *arg, size_t len)
 {
   if (arg)
     {
@@ -726,8 +721,7 @@ push_arg (arg, len)
    otherwise, return false.  */
 
 static boolean
-print_args (ask)
-     boolean ask;
+print_args (boolean ask)
 {
   int i;
 
@@ -762,7 +756,7 @@ print_args (ask)
    waiting for processes that were previously executed.  */
 
 static void
-do_exec ()
+do_exec (void)
 {
   pid_t child;
 
@@ -798,8 +792,7 @@ do_exec ()
    been executed.  */
 
 static void
-add_proc (pid)
-     pid_t pid;
+add_proc (pid_t pid)
 {
   int i;
 
@@ -831,8 +824,7 @@ add_proc (pid)
    Remove the processes that finish from the list of executing processes.  */
 
 static void
-wait_for_proc (all)
-     boolean all;
+wait_for_proc (boolean all)
 {
   while (procs_executing)
     {
@@ -879,11 +871,7 @@ wait_for_proc (all)
    Print an error message mentioning OPTION and exit.  */
 
 static long
-parse_num (str, option, min, max)
-     char *str;
-     int option;
-     long min;
-     long max;
+parse_num (char *str, int option, long int min, long int max)
 {
   char *eptr;
   long val;
@@ -913,8 +901,7 @@ parse_num (str, option, min, max)
 /* Return how much of ARG_MAX is used by the environment.  */
 
 static long
-env_size (envp)
-     char **envp;
+env_size (char **envp)
 {
   long len = 0;
 
@@ -925,9 +912,7 @@ env_size (envp)
 }
 
 static void
-usage (stream, status)
-     FILE *stream;
-     int status;
+usage (FILE *stream, int status)
 {
   fprintf (stream, _("\
 Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
