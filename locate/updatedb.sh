@@ -68,8 +68,10 @@ test -z "$PRUNEREGEX" &&
 # Directory to hold intermediate files.
 if test -d /var/tmp; then
   : ${TMPDIR=/var/tmp}
-else
+elif test -d /usr/tmp; then
   : ${TMPDIR=/usr/tmp}
+else
+  : ${TMPDIR=/tmp}
 fi
 
 # The user to search network directories as.
@@ -144,9 +146,9 @@ fi
 
 else # old
 
-bigrams=$TMPDIR/f.bigrams$$
-filelist=$TMPDIR/f.list$$
-rm -f $bigrams $filelist $LOCATE_DB.n
+bigrams=`tempfile -p updatedb`
+filelist=`tempfile -p updatedb`
+rm -f $LOCATE_DB.n
 trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' 1 15
 
 # Alphabetize subdirectories before file entries using tr.  James says:
