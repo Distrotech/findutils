@@ -103,7 +103,18 @@ proc find_start { passfail options {infile ""}} {
     }
 
     if [file exists $outfile] then {
-	set cmp_cmd "$compareprog find.out $outfile"
+	# We use the 'sort' above to sort the output of find to ensure
+	# that the directory entries appear in a predictable order.
+	# Because in the general case the person compiling and running
+	# "make check" will have a different collating order to the
+	# maintainer, we can't guarantee that our "correct" answer
+	# is already sorted in the correct order.  To avoid trying 
+	# to figure out how to select a POSIX environment on a 
+	# random system, we just sort the data again here, using 
+	# the local user's environment.
+	exec sort < $outfile > cmp.out
+	set cmp_cmd "$compareprog find.out cmp.out"
+
 	send_log "$cmp_cmd\n"
 	catch "exec $cmp_cmd" cmpout
 	if {$cmpout != ""} then {
@@ -122,6 +133,5 @@ proc find_start { passfail options {infile ""}} {
 # Called by runtest.
 # Clean up (remove temporary files) before runtest exits.
 proc find_exit {} {
-    catch "exec rm -f find.out"
-    exec echo hello
+    catch "exec rm -f find.out cmp.out"
 }
