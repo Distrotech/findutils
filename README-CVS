@@ -29,16 +29,11 @@ The above command may result in some errors from autoconf and
 automake.  These are benign unless they occur again in step 5
 so don't worry about them unless you see them both times.
 
-4. Remove the "@FNMATCH_H@" from gnulib/lib/Makefile.am (it appears as
-   a dependency of "all-local").  With recent versions of Gnulib, this 
-   may no longer be necessary, so don't worry if you can't see
-   "@FNMATCH_H@".
+4. Generate the configure scripts and Makefile.in files.
 
-5. Generate the configure scripts and Makefile.in files.
-
-    aclocal -I gnulib/m4 
+    aclocal 
     autoheader
     autoconf
     automake --add-missing --copy
 
-6. Run "configure" and "make" in the normal way.
+5. Run "configure" and "make" in the normal way.
