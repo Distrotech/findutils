@@ -1,0 +1,179 @@
+# -*- TCL -*-
+# Test-specific TCL procedures required by DejaGNU.
+# Copyright (C) 1994 Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+# Modified by David MacKenzie <djm@gnu.ai.mit.edu> from the gcc files
+# written by Rob Savoye <rob@cygnus.com>.
+
+
+# use the local version of find for updatedb
+set env(find) ../../find/find
+# use the local help commands for updatedb
+set env(LIBEXECDIR) ..
+global UPDATEDB
+# look for UPDATEDB
+if ![info exists UPDATEDB] {
+    set UPDATEDB [findfile $base_dir/../updatedb $base_dir/../updatedb [transform updatedb]]
+    verbose "UPDATEDB defaulting to $UPDATEDB" 2
+}
+
+global UPDATEDBFLAGS
+if ![info exists UPDATEDBFLAGS] then {
+    set UPDATEDBFLAGS ""
+}
+
+global LOCATE
+# look for LOCATE
+if ![info exists LOCATE] {
+    set LOCATE [findfile $base_dir/../locate $base_dir/../locate [transform locate]]
+    verbose "LOCATE defaulting to $LOCATE" 2
+}
+
+global LOCATEFLAGS
+if ![info exists LOCATEFLAGS] then {
+    set LOCATEFLAGS ""
+}
+
+# Called by runtest.
+# Extract and print the version number of locate.
+proc locate_version {} {
+    global UPDATEDB
+    global UPDATEDBFLAGS
+    global LOCATE
+    global LOCATEFLAGS
+
+    if {[which $LOCATE] != 0} then {
+	set tmp [ eval exec $LOCATE $LOCATEFLAGS --version </dev/null ]
+	regexp "version.*$" $tmp version
+	if [info exists version] then {
+	    clone_output "[which $LOCATE] $version\n"
+	} else {
+	    warning "cannot get version from $tmp."
+	}
+    } else {
+	warning "$LOCATE, program does not exist"
+    }
+}
+
+# Run locate and leave the output in $comp_output.
+# Called by individual test scripts.
+proc locate_start { passfail updatedb_options locate_options
+		    {updatedb_infile ""} {locate_infile ""}} {
+    global verbose
+    global LOCATE
+    global LOCATEFLAGS
+    global UPDATEDB
+    global UPDATEDBFLAGS
+    global comp_output
+
+    if {[which $UPDATEDB] == 0} then {
+	error "$UPDATEDB, program does not exist"
+	exit 1
+    }
+    if {[which $LOCATE] == 0} then {
+	error "$LOCATE, program does not exist"
+	exit 1
+    }
+
+    set fail_good [string match "f*" $passfail]
+
+    set scriptname [uplevel {info script}]
+    set testbase [file rootname $scriptname]
+    set testname [file tail $testbase]
+
+    set outfile "$testbase.xo"
+    if {"$updatedb_infile" != ""} then {
+	set updatedb_infile "[file dirname [file dirname $testbase]]/inputs/$updatedb_infile"
+    } else {
+	set updatedb_infile /dev/null
+    }
+    if {"$locate_infile" != ""} then {
+	set locate_infile "[file dirname [file dirname $testbase]]/inputs/$locate_infile"
+    } else {
+	set locate_infile /dev/null
+    }
+
+    catch "exec rm -f locate.out"
+
+    set updatedb_cmd "$UPDATEDB $UPDATEDBFLAGS $updatedb_options < $updatedb_infile"
+    send_log "$updatedb_cmd\n"
+    if $verbose>1 then {
+	send_user "Spawning \"$updatedb_cmd\"\n"
+    }
+    set locate_cmd "$LOCATE $LOCATEFLAGS $locate_options < $locate_infile > locate.out"
+    send_log "$locate_cmd\n"
+    if $verbose>1 then {
+	send_user "Spawning \"$locate_cmd\"\n"
+    }
+
+    catch "exec $updatedb_cmd" comp_output
+    catch "exec $locate_cmd" comp_output
+    if {$comp_output != ""} then {
+	send_log "$comp_output\n"
+	if $verbose>1 then {
+	    send_user "$comp_output\n"
+	}
+	if $fail_good then {
+	    pass "$testname"
+	} else {
+	    fail "$testname, $comp_output"
+	}
+	return
+    }
+
+    if [file exists $outfile] then {
+	set cmp_cmd "cmp locate.out $outfile"
+	send_log "$cmp_cmd\n"
+	catch "exec $cmp_cmd" cmpout
+	if {$cmpout != ""} then {
+	    fail "$testname, $cmpout"
+	    return
+	}
+    } else {
+	if {[file size locate.out] != 0} then {
+	    fail "$testname, output should be empty"
+	    return
+	}
+    }
+    pass "$testname"
+}
+
+# Called by runtest.
+# Clean up (remove temporary files) before runtest exits.
+proc locate_exit {} {
+    catch "exec rm -f locate.out"
+}
+
+# Called by runtest.
+# Extract and print the version number of updatedb.
+proc updatedb_version {} {
+    global UPDATEDB
+    global UPDATEDBFLAGS
+
+    if {[which $UPDATEDB] != 0} then {
+	set tmp [ eval exec $UPDATEDB $UPDATEDBFLAGS --version </dev/null ]
+	regexp "version.*$" $tmp version
+	if [info exists version] then {
+	    clone_output "[which $UPDATEDB] $version\n"
+	} else {
+	    warning "cannot get version from $tmp."
+	}
+    } else {
+	warning "$UPDATEDB, program does not exist"
+    }
+}
+
