@@ -916,6 +916,7 @@ safely_chdir(const char *dest,
 		{
 		  rv = SafeChdirFailChdirFailed;
 		  rv_set = true;
+		  name = specific_dirname(dest);
 		}
 	      goto fail;
 	    }
@@ -947,9 +948,16 @@ safely_chdir(const char *dest,
  fail:
   if (saved_errno)
     {
+      errno = saved_errno;
+      
+      /* do not call error() as this would result in a duplicate error message 
+       * when the caller does the same thing. 
+       */
+#if 0
       if (NULL == name)
 	name = specific_dirname(".");
       error(0, saved_errno, "%s", name);
+#endif
     }
   
   free(name);
