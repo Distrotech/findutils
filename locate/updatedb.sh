@@ -126,6 +126,7 @@ if test $old = no; then
 
 # FIXME figure out how to sort null-terminated strings, and use -print0.
 if {
+cd /
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A1
@@ -195,6 +196,7 @@ trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' 1 15
 # "to get everything in monotonic collating sequence, to avoid some
 # breakage i'll have to think about."
 {
+cd /
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A5
