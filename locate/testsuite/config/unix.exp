@@ -23,9 +23,15 @@
 
 
 # use the local version of find for updatedb
-set env(find) ../../find/find
+#
+# We normalise (normalize for those over the water) pathnames 
+# because the updatedb shell script uses "cd", which means that 
+# any relative paths no longer point where we thought they did.
+set env(find) [file normalize "../../find/find"]
+
 # use the local help commands for updatedb
-set env(LIBEXECDIR) ..
+set env(LIBEXECDIR) [file normalize .. ]
+
 # do not ignore any file systems for this test
 set env(PRUNEFS) ""
 global UPDATEDB
@@ -144,6 +150,8 @@ proc locate_start { passfail updatedb_options locate_options
 	send_log "$cmp_cmd\n"
 	catch "exec $cmp_cmd" cmpout
 	if {$cmpout != ""} then {
+	    #catch "exec diff locate.out $outfile" diffout
+	    #puts $diffout
 	    fail "$testname, $cmpout"
 	    return
 	}

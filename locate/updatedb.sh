@@ -27,7 +27,7 @@ Usage: updatedb [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
 
   Report bugs to <bug-findutils@gnu.org>.
        "
-
+changeto=/
 old=no
 for arg
 do
@@ -46,6 +46,7 @@ do
     --netuser) NETUSER="$val" ;;
     --localuser) LOCALUSER="$val" ;;
     --old-format) old=yes ;;
+    --changecwd)  changeto="$val" ;;
     --version) echo "GNU updatedb version @VERSION@"; exit 0 ;;
     --help) echo "$usage"; exit 0 ;;
     *) echo "updatedb: invalid option $opt
@@ -94,10 +95,18 @@ export TMPDIR
 : ${NETUSER=daemon}
 
 # The directory containing the subprograms.
-: ${LIBEXECDIR=@libexecdir@}
+if test -n "$LIBEXECDIR" ; then
+    : LIBEXECDIR already set, do nothing
+else
+    : ${LIBEXECDIR=@libexecdir@}
+fi
 
 # The directory containing find.
-: ${BINDIR=@bindir@}
+if test -n "$BINDIR" ; then
+    : BINDIR already set, do nothing
+else
+    : ${BINDIR=@bindir@}
+fi
 
 # The names of the utilities to run to build the database.
 : ${find:=${BINDIR}/@find@}
@@ -126,7 +135,7 @@ if test $old = no; then
 
 # FIXME figure out how to sort null-terminated strings, and use -print0.
 if {
-cd /
+cd "$changeto"
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A1
@@ -196,7 +205,7 @@ trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' 1 15
 # "to get everything in monotonic collating sequence, to avoid some
 # breakage i'll have to think about."
 {
-cd /
+cd "$changeto"
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A5
