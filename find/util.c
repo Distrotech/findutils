@@ -24,12 +24,12 @@
 /* Return the last component of pathname FNAME, with leading slashes
    compressed into one slash. */
 
-#ifndef __linux__
-char *
+#ifndef HAVE_BASENAME
+const char *
 basename (fname)
-     char *fname;
+     const char *fname;
 {
-  char *p;
+  const char *p;
 
   /* For "/", "//", etc., return "/". */
   for (p = fname; *p == '/'; ++p)
@@ -39,7 +39,7 @@ basename (fname)
   p = strrchr (fname, '/');
   return (p == NULL ? fname : p + 1);
 }
-#endif /* not __linux__ */
+#endif /* not HAVE_BASENAME */
 
 /* Return a pointer to a new predicate structure, which has been
    linked in as the last one in the predicates list.
