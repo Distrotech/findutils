@@ -53,7 +53,6 @@ AC_DEFUN(jm_MACROS,
     syslog.h \
     termios.h \
     unistd.h \
-    values.h \
   )
 
   jm_INCLUDED_REGEX([lib/regex.c])
