@@ -282,6 +282,9 @@ of
 .BR find .
 Both of these constructions might need to be escaped (with a `\e') or
 quoted to protect them from expansion by the shell.  See the
+.IP "\-exec \fIcommand\fR +"
+This variant of \-exec is not yet supported, but is required by POSIX.
+
 .B EXAMPLES
 section for examples of the use of the `-exec' option.
 The command is
@@ -545,12 +548,14 @@ GNU find also supports `D', representing a Door, where the OS provides these.
 Supported.   Interpretation of the response is not locale-dependent
 (see ENVIRONMENT VARIABLES).
 
+.IP "\-exec"
+Supported for the `{} ;' case, but the '{} +' variant is not supported yet.
+
 .IP "Other predicates"
 The predicates
 `-atime',
 `-ctime',
 `-depth',
-`-exec',
 `-group',
 `-links',
 `-mtime',
