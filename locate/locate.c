@@ -339,7 +339,7 @@ visit_exists_follow(const char *munged_filename,
   (void) munged_filename;
 
   /* munged_filename has been converted in some way (to lower case,
-   * or is just the basename of the file), and original_filename has not.  
+   * or is just the base name of the file), and original_filename has not.  
    * Hence only original_filename is still actually the name of the file 
    * whose existence we would need to check.
    */
@@ -362,7 +362,7 @@ visit_exists_nofollow(const char *munged_filename,
   (void) munged_filename;
 
   /* munged_filename has been converted in some way (to lower case,
-   * or is just the basename of the file), and original_filename has not.  
+   * or is just the base name of the file), and original_filename has not.  
    * Hence only original_filename is still actually the name of the file 
    * whose existence we would need to check.
    */
