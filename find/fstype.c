@@ -328,7 +328,7 @@ filesystem_type_uncached (char *path, char *relpath, struct stat *statp)
   char *p;
 
   if (S_ISLNK (statp->st_mode))
-    p = dirname (relpath);
+    p = dir_name (relpath);
   else
     p = relpath;
 
