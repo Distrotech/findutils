@@ -9,6 +9,7 @@ EXTRA_DIST = config/unix.exp \
 	inputs/files.xi \
 	inputs/files0.xi \
 	inputs/quotes.xi \
+	inputs/lines	.xi \
 	xargs.gnu/0n3.exp \
 	xargs.gnu/0n3.xo \
 	xargs.gnu/nothing.exp \
@@ -27,6 +28,8 @@ EXTRA_DIST = config/unix.exp \
 	xargs.posix/s48.exp \
 	xargs.posix/s48.xo \
 	xargs.posix/s6.exp \
+	xargs.posix/l2.exp \
+	xargs.posix/l2.xo \
 	xargs.sysv/eEOF.exp \
 	xargs.sysv/eEOF.xo \
 	xargs.sysv/eof.exp \
