@@ -209,7 +209,9 @@ fallback_stat(const char *name, struct stat *p, int prev_rv)
     case EIO:
     case ELOOP:
     case ENAMETOOLONG:
+#ifdef EOVERFLOW
     case EOVERFLOW:
+#endif
     default:
       return prev_rv;	       
     }
