@@ -1,19 +1,19 @@
 /* locatedb.h -- declarations for the locate database
    Copyright (C) 1994 Free Software Foundation, Inc.
 
-   This program is free software: you can redistribute it and/or modify
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-   
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
 #ifndef _LOCATEDB_H
 #define _LOCATEDB_H 1
@@ -30,19 +30,6 @@
    This value (which is -128) indicates that the difference is
    too large to fit into one byte, and a two-byte integer follows.  */
 #define	LOCATEDB_ESCAPE 0x80
-#define LOCATEDB_ONEBYTE_MAX (127)
-#define LOCATEDB_ONEBYTE_MIN (-127)
-
-
-/* If it is ever possible to try to encode LOCATEDB_MAGIC as a
- * single-byte offset, then an unfortunate length of common prefix
- * will produce a spurious escape character, desynchronising the data
- * stream.  We use a compile-time check in the preprocessor to prevent
- * this.
- */
-#if LOCATEDB_ESCAPE <= LOCATEDB_ONEBYTE_MAX
-#error "You have a bad combination of LOCATEDB_ESCAPE and LOCATEDB_ONEBYTE_MAX, see above"
-#endif
 
 /* These are used for old, bigram-encoded databases:  */
 
@@ -51,30 +38,5 @@
 
 /* Offset added to differential counts to encode them as positive numbers.  */
 #define	LOCATEDB_OLD_OFFSET	14
-
-# ifndef PARAMS
-#  if defined PROTOTYPES || (defined __STDC__ && __STDC__)
-#   define PARAMS(Args) Args
-#  else
-#   define PARAMS(Args) ()
-#  endif
-# endif
-
-typedef enum 
-  { 
-    GetwordEndianStateInitial = 0,
-    GetwordEndianStateNative  = 1,
-    GetwordEndianStateSwab    = 2
-  } GetwordEndianState;
-
-int getword (FILE *fp, const char *filename,
-	     size_t minvalue, size_t maxvalue,
-	     GetwordEndianState *endian_state_flag);
-
-bool putword (FILE *fp, int word,
-	      GetwordEndianState endian_state_flag);
-
-
-#define SLOCATE_DB_MAGIC_LEN 2
 
 #endif /* !_LOCATEDB_H */

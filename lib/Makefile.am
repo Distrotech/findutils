@@ -1,44 +1,19 @@
-## Process this file with automake to produce Makefile.in.
+LIBRARIES = find
+find_SOURCES = regex.c dirname.c error.c filemode.c getopt.c getopt1.c \
+idcache.c listfile.c modechange.c nextelem.c savedir.c xmalloc.c getline.c \
+xstrdup.c xgetcwd.c fnmatch.c $(find_OPT_SOURCES)
 
-AUTOMAKE_OPTIONS = 1.5 gnits 
-# no-dependencies
+find_OPT_SOURCES = fileblocks.c memcmp.c memset.c mktime.c stpcpy.c strdup.c \
+strftime.c strspn.c strstr.c strtol.c alloca.c
 
-noinst_LIBRARIES = libfind.a
+DIST_OTHER = fnmatch.h getopt.h modechange.h modetype.h pathmax.h \
+regex.h wait.h
 
-if CROSS_COMPILING
-# The regexprops program needs to be a native executable, so we 
-# can't build it with a cross-compiler.
-else
-noinst_PROGRAMS = regexprops
-regexprops_SOURCES = regexprops.c regextype.c
-endif
+CONFIG_HEADER = ../config.h
+INCLUDES = -I.. -I$(srcdir)
 
-libfind_a_SOURCES = gnulib-version.c findutils-version.c
-EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h \
-	gnulib-version.h gnulib-version.c findutils-version.h
-BUILT_SOURCES = gnulib-version.c
-SUFFIXES =
-MOSTLYCLEANFILES = 
-CLEANFILES = 
-DISTCLEANFILES =
-MAINTAINERCLEANFILES =
-
-
-INCLUDES = -I../gnulib/lib -I$(top_srcdir)/gnulib/lib 
-LDADD = ../gnulib/lib/libgnulib.a @LIBINTL@
-
-libfind_a_SOURCES += modetype.h nextelem.h printquoted.h listfile.h \
-	regextype.h dircallback.h
-libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c \
-	forcefindlib.c qmark.c printquoted.c regextype.c dircallback.c
-
-EXTRA_DIST += waitpid.c forcefindlib.c
-
-
-libfind_a_LIBADD = @FINDLIBOBJS@
-libfind_a_DEPENDENCIES = @FINDLIBOBJS@
-# libfind_la_LIBADD = @LTFINDLIBOBJS@
-
-# libfind_a_OBJECTS  += @FINDLIBOBJS@
-# libfind_la_OBJECTS += @LTFINDLIBOBJS@
-
+fnmatch.o: fnmatch.h
+getopt1.o: getopt.h
+listfile.o xgetcwd.o: pathmax.h
+modechange.o: modechange.h
+regex.o: regex.h

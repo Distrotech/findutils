@@ -1,38 +1,32 @@
 /* xargs -- build and execute command lines from standard input
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005, 2006,
-   2007, 2008 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94 Free Software Foundation, Inc.
 
-   This program is free software: you can redistribute it and/or modify
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-   
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
 /* Written by Mike Rendell <michael@cs.mun.ca>
-   and David MacKenzie <djm@gnu.org>.  
-   Modifications by 
-        James Youngman
-	Dmitry V. Levin
-*/
+   and David MacKenzie <djm@gnu.ai.mit.edu>.  */
 
 #include <config.h>
 
-# ifndef PARAMS
-#  if defined PROTOTYPES || (defined __STDC__ && __STDC__)
-#   define PARAMS(Args) Args
-#  else
-#   define PARAMS(Args) ()
-#  endif
-# endif
+#if __STDC__
+#define P_(s) s
+#else
+#define P_(s) ()
+#endif
 
+#define _GNU_SOURCE
 #include <ctype.h>
 
 #if !defined (isascii) || defined (STDC_HEADERS)
@@ -55,21 +49,19 @@
 #include <stdio.h>
 #include <errno.h>
 #include <getopt.h>
-#include <fcntl.h>
 
-#if defined STDC_HEADERS
-#include <assert.h>
-#endif
-
-#if defined HAVE_STRING_H || defined STDC_HEADERS
+#if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
 #include <string.h>
-#if !defined STDC_HEADERS
+#if !defined(STDC_HEADERS)
 #include <memory.h>
 #endif
 #else
 #include <strings.h>
 #define memcpy(dest, source, count) (bcopy((source), (dest), (count)))
 #endif
+
+char *strstr ();
+char *strdup ();
 
 #ifndef _POSIX_SOURCE
 #include <sys/param.h>
@@ -79,14 +71,9 @@
 #include <limits.h>
 #endif
 
-#ifndef LONG_MAX
-#define LONG_MAX (~(1 << (sizeof (long) * 8 - 1)))
-#endif
-
-/* The presence of unistd.h is assumed by gnulib these days, so we 
- * might as well assume it too. 
- */
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include <signal.h>
 
@@ -94,63 +81,38 @@
 #define SIGCHLD SIGCLD
 #endif
 
-#include "verify.h"
-#include "wait.h"
-#include "quotearg.h"
-#include "findutils-version.h"
+/* COMPAT:  SYSV version defaults size (and has a max value of) to 470.
+   We try to make it as large as possible. */
+#if !defined(ARG_MAX) && defined(_SC_ARG_MAX)
+#define ARG_MAX sysconf (_SC_ARG_MAX)
+#endif
+#ifndef ARG_MAX
+#define ARG_MAX NCARGS
+#endif
 
+#include "wait.h"
+
+/* States for read_line. */
+#define NORM 0
+#define SPACE 1
+#define QUOTE 2
+#define BACKSLASH 3
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #else
+char *malloc ();
+void exit ();
+void free ();
+long strtol ();
+
 extern int errno;
 #endif
-
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
-#if ENABLE_NLS
-# include <libintl.h>
-# define _(Text) gettext (Text)
-#else
-# define _(Text) Text
-#define textdomain(Domain)
-#define bindtextdomain(Package, Directory)
-#endif
-#ifdef gettext_noop
-# define N_(String) gettext_noop (String)
-#else
-/* See locate.c for explanation as to why not use (String) */
-# define N_(String) String
-#endif
-
-#include "buildcmd.h"
-
 
 /* Return nonzero if S is the EOF string.  */
 #define EOF_STR(s) (eof_str && *eof_str == *s && !strcmp (eof_str, s))
 
-/* Do multibyte processing if multibyte characters are supported,
-   unless multibyte sequences are search safe.  Multibyte sequences
-   are search safe if searching for a substring using the byte
-   comparison function 'strstr' gives no false positives.  All 8-bit
-   encodings and the UTF-8 multibyte encoding are search safe, but
-   the EUC encodings are not.
-   BeOS uses the UTF-8 encoding exclusively, so it is search safe. */
-#if defined __BEOS__
-# define MULTIBYTE_IS_SEARCH_SAFE 1
-#endif
-#define DO_MULTIBYTE (HAVE_MBLEN && ! MULTIBYTE_IS_SEARCH_SAFE)
-
-#if DO_MULTIBYTE
-# if HAVE_MBRLEN
-#  include <wchar.h>
-# else
-   /* Simulate mbrlen with mblen as best we can.  */
-#  define mbstate_t int
-#  define mbrlen(s, n, ps) mblen (s, n)
-# endif
-#endif
+extern char **environ;
 
 /* Not char because of type promotion; NeXT gcc can't handle it.  */
 typedef int boolean;
@@ -163,96 +125,110 @@ typedef int boolean;
 #define VOID char
 #endif
 
-#include <xalloc.h>
-#include "closein.h"
-#include "gnulib-version.h"
-
-void error PARAMS ((int status, int errnum, char *message,...));
+VOID *xmalloc P_ ((size_t n));
+VOID *xrealloc P_ ((VOID * p, size_t n));
+void error P_ ((int status, int errnum, char *message,...));
 
 extern char *version_string;
 
 /* The name this program was run with.  */
 char *program_name;
 
-static FILE *input_stream;
-
-/* Buffer for reading arguments from input.  */
+/* Buffer for reading arguments from stdin.  */
 static char *linebuf;
-
-static int keep_stdin = 0;
 
 /* Line number in stdin since the last command was executed.  */
 static int lineno = 0;
 
-static struct buildcmd_state bc_state;
-static struct buildcmd_control bc_ctl;
+/* If nonzero, then instead of putting the args from stdin at
+   the end of the command argument list, they are each stuck into the
+   initial args, replacing each occurrence of the `replace_pat' in the
+   initial args.  */
+static char *replace_pat = NULL;
 
-/* Did we already complain about NUL characters in the input? */
-static int nullwarning_given = 0;
-
+/* The length of `replace_pat'.  */
+static size_t rplen = 0;
 
 /* If nonzero, when this string is read on stdin it is treated as
    end of file.
-   IEEE Std 1003.1, 2004 Edition allows this to be NULL.
-   In findutils releases up to and including 4.2.8, this was "_".
-*/
-static char *eof_str = NULL;
+   I don't like this - it should default to NULL.  */
+static char *eof_str = "_";
+
+/* If nonzero, the maximum number of nonblank lines from stdin to use
+   per command line.  */
+static long lines_per_exec = 0;
+
+/* The maximum number of arguments to use per command line.  */
+static long args_per_exec = 1024;
+
+/* If true, exit if lines_per_exec or args_per_exec is exceeded.  */
+static boolean exit_if_size_exceeded = false;
+
+/* The maximum number of characters that can be used per command line.  */
+static long arg_max;
+
+/* Storage for elements of `cmd_argv'.  */
+static char *argbuf;
+
+/* The list of args being built.  */
+static char **cmd_argv = NULL;
+
+/* Number of elements allocated for `cmd_argv'.  */
+static int cmd_argv_alloc = 0;
+
+/* Number of valid elements in `cmd_argv'.  */
+static int cmd_argc = 0;
+
+/* Number of chars being used in `cmd_argv'.  */
+static int cmd_argv_chars = 0;
+
+/* Number of initial arguments given on the command line.  */
+static int initial_argc = 0;
 
 /* Number of chars in the initial args.  */
-/* static int initial_argv_chars = 0; */
+static int initial_argv_chars = 0;
 
 /* true when building up initial arguments in `cmd_argv'.  */
 static boolean initial_args = true;
 
 /* If nonzero, the maximum number of child processes that can be running
    at once.  */
-static unsigned long int proc_max = 1uL;
+static int proc_max = 1;
 
-/* Did we fork a child yet? */
-static boolean procs_executed = false;
+/* Total number of child processes that have been executed.  */
+static int procs_executed = 0;
 
 /* The number of elements in `pids'.  */
-static unsigned long int procs_executing = 0uL;
+static int procs_executing = 0;
 
 /* List of child processes currently executing.  */
 static pid_t *pids = NULL;
 
 /* The number of allocated elements in `pids'. */
-static size_t pids_alloc = 0u;
+static int pids_alloc = 0;
 
 /* Exit status; nonzero if any child process exited with a
    status of 1-125.  */
-static volatile int child_error = 0;
-
-static volatile int original_exit_value;
+static int child_error = 0;
 
 /* If true, print each command on stderr before executing it.  */
-static boolean print_command = false; /* Option -t */
+static boolean print_command = false;
 
 /* If true, query the user before executing each command, and only
    execute the command if the user responds affirmatively.  */
 static boolean query_before_executing = false;
 
-/* The delimiter for input arguments.   This is only consulted if the 
- * -0 or -d option had been given.
- */
-static char input_delimiter = '\0';
-
-
 static struct option const longopts[] =
 {
   {"null", no_argument, NULL, '0'},
-  {"arg-file", required_argument, NULL, 'a'},
-  {"delimiter", required_argument, NULL, 'd'},
   {"eof", optional_argument, NULL, 'e'},
-  {"replace", optional_argument, NULL, 'I'},
+  {"replace", optional_argument, NULL, 'i'},
   {"max-lines", optional_argument, NULL, 'l'},
   {"max-args", required_argument, NULL, 'n'},
   {"interactive", no_argument, NULL, 'p'},
   {"no-run-if-empty", no_argument, NULL, 'r'},
   {"max-chars", required_argument, NULL, 's'},
   {"verbose", no_argument, NULL, 't'},
-  {"show-limits", no_argument, NULL, 'S'},
   {"exit", no_argument, NULL, 'x'},
   {"max-procs", required_argument, NULL, 'P'},
   {"version", no_argument, NULL, 'v'},
@@ -260,337 +236,94 @@ static struct option const longopts[] =
   {NULL, no_argument, NULL, 0}
 };
 
-static int read_line PARAMS ((void));
-static int read_string PARAMS ((void));
-static boolean print_args PARAMS ((boolean ask));
-/* static void do_exec PARAMS ((void)); */
-static int xargs_do_exec (const struct buildcmd_control *cl, struct buildcmd_state *state);
-static void exec_if_possible PARAMS ((void));
-static void add_proc PARAMS ((pid_t pid));
-static void wait_for_proc PARAMS ((boolean all, unsigned int minreap));
-static void wait_for_proc_all PARAMS ((void));
-static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
-static void usage PARAMS ((FILE * stream));
+static int read_line P_ ((void));
+static int read_string P_ ((void));
+static void do_insert P_ ((char *arg, size_t arglen, size_t lblen));
+static void push_arg P_ ((char *arg, size_t len));
+static boolean print_args P_ ((boolean ask));
+static void do_exec P_ ((void));
+static void add_proc P_ ((pid_t pid));
+static void wait_for_proc P_ ((boolean all));
+static long parse_num P_ ((char *str, int option, long min, long max));
+static long env_size P_ ((char **envp));
+static void usage P_ ((FILE * stream, int status));
 
-
-
-static char 
-get_char_oct_or_hex_escape(const char *s)
-{
-  const char * p;
-  int base = 8;
-  unsigned long val;
-  char *endp;
-
-  assert ('\\' == s[0]);
-  
-  if ('x' == s[1])
-    {
-      /* hex */
-      p = s+2;
-      base = 16;
-    }
-  else if (isdigit(s[1]))
-    {
-      /* octal */
-      p = s+1;
-      base = 8;
-    }
-  else
-    {
-      p = NULL;			/* Silence compiler warning. */
-      error(1, 0,
-	    _("Invalid escape sequence %s in input delimiter specification."),
-	    s);
-    }
-  errno = 0;
-  endp = (char*)p;
-  val = strtoul(p, &endp, base);
-  
-  /* This if condition is carefully constructed to do 
-   * the right thing if UCHAR_MAX has the same 
-   * value as ULONG_MAX.   IF UCHAR_MAX==ULONG_MAX,
-   * then val can never be greater than UCHAR_MAX.
-   */
-  if ((ULONG_MAX == val && ERANGE == errno)
-      || (val > UCHAR_MAX))
-    {
-      if (16 == base)
-	{
-	  error(1, 0,
-		_("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."),
-		s, (unsigned long)UCHAR_MAX);
-	}
-      else
-	{
-	  error(1, 0,
-		_("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."),
-		s, (unsigned long)UCHAR_MAX);
-	}
-    }
-  
-  /* check for trailing garbage */
-  if (0 != *endp)
-    {
-      error(1, 0,
-	    _("Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."),
-	    s, endp);
-    }
-  
-  return (char) val;
-}
-
-
-static char 
-get_input_delimiter(const char *s)
-{
-  if (1 == strlen(s))
-    {
-      return s[0];
-    }
-  else
-    {
-      if ('\\' == s[0])
-	{
-	  /* an escape code */
-	  switch (s[1])
-	    {
-	    case 'a':
-	      return '\a';
-	    case 'b':
-	      return '\b';
-	    case 'f':
-	      return '\f';
-	    case 'n':
-	      return '\n';
-	    case 'r':
-	      return '\r';
-	    case 't':
-	      return'\t';
-	    case 'v':
-	      return '\v';
-	    case '\\':
-	      return '\\';
-	    default:
-	      return get_char_oct_or_hex_escape(s);
-	    }
-	}
-      else
-	{
-	  error(1, 0,
-		_("Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."),
-		s);
-	  /*NOTREACHED*/
-	  return 0;
-	}
-    }
-}
-
-static void 
-noop (void)
-{
-  /* does nothing. */
-}
-
-static void 
-fail_due_to_env_size (void)
-{
-  error (1, 0, _("environment is too large for exec"));
-}
-
-
-int
-main (int argc, char **argv)
+void
+main (argc, argv)
+     int argc;
+     char **argv;
 {
   int optc;
-  int show_limits = 0;			/* --show-limits */
   int always_run_command = 1;
-  char *input_file = "-"; /* "-" is stdin */
+  long orig_arg_max;
   char *default_cmd = "/bin/echo";
-  int (*read_args) PARAMS ((void)) = read_line;
-  void (*act_on_init_result)(void) = noop;
-  enum BC_INIT_STATUS bcstatus;
-  enum { XARGS_POSIX_HEADROOM = 2048u };
-  
+  int (*read_args) P_ ((void)) = read_line;
+
   program_name = argv[0];
-  original_exit_value = 0;
-  
-#ifdef HAVE_SETLOCALE
-  setlocale (LC_ALL, "");
-#endif
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain (PACKAGE);
-  atexit (close_stdin);
-  atexit (wait_for_proc_all);
 
-  /* xargs is required by POSIX to allow 2048 bytes of headroom 
-   * for extra environment variables (that perhaps the utliity might 
-   * want to set before execing something else).
-   */
-  bcstatus = bc_init_controlinfo(&bc_ctl, XARGS_POSIX_HEADROOM);
-  
-  /* The bc_init_controlinfo call may have determined that the 
-   * environment is too big.  In that case, we will fail with 
-   * an error message after processing the command-line options,
-   * as "xargs --help" should still work even if the environment is 
-   * too big.
-   *
-   * Some of the argument processing depends on the contents of 
-   * bc_ctl, which will be in an undefined state if bc_init_controlinfo()
-   * failed.
-   */
-  if (BC_INIT_ENV_TOO_BIG == bcstatus)
-    {
-      act_on_init_result = fail_due_to_env_size;
-    }
-  else if (BC_INIT_CANNOT_ACCOMODATE_HEADROOM == bcstatus)
-    {
-      /* All POSIX systems are required to support ARG_MAX of at least
-       * 4096.  For everything to work the total of (command line +
-       * headroom + environment) must fit into this.  POSIX requires
-       * that we use a headroom of 2048 bytes.  The user is in control
-       * of the size of the environment.  
-       *
-       * In general if bc_init_controlinfo() returns
-       * BC_INIT_CANNOT_ACCOMODATE_HEADROOM, its caller can try again
-       * with a smaller headroom.  However, in the case of xargs, this
-       * would not be POSIX-compliant.
-       */
-      act_on_init_result = fail_due_to_env_size;
-    }
-  else
-    {
-      /* IEEE Std 1003.1, 2003 specifies that the combined argument and 
-       * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 
-       * specifies that it shall be at least LINE_MAX.
-       */
-#ifdef _SC_ARG_MAX  
-      long val = sysconf(_SC_ARG_MAX);
-      if (val > 0)
-	{
-	  /* Note that val can in fact be greater than ARG_MAX
-	   * and bc_ctl.arg_max can also be greater than ARG_MAX.
-	   */
-	  assert (bc_ctl.arg_max <= (val-XARGS_POSIX_HEADROOM));
-	}
-      else
-	{
-# if defined ARG_MAX
-	  assert (bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
-# endif
-	}
-#else
-      /* No _SC_ARG_MAX */
-      assert (bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
-#endif
+  orig_arg_max = ARG_MAX - 2048; /* POSIX.2 requires subtracting 2048.  */
+  arg_max = orig_arg_max;
 
+  /* Sanity check for systems with huge ARG_MAX defines (e.g., Suns which
+     have it at 1 meg).  Things will work fine with a large ARG_MAX but it
+     will probably hurt the system more than it needs to; an array of this
+     size is allocated.  */
+  if (arg_max > 20 * 1024)
+    arg_max = 20 * 1024;
 
-#ifdef LINE_MAX
-      /* This assertion ensures that this xargs implementation
-       * conforms to the POSIX requirement that the default command
-       * line length shall be at least LINE_MAX.
-       */
-      assert (bc_ctl.arg_max >= LINE_MAX);
-#endif
-      
-      bc_ctl.exec_callback = xargs_do_exec;
-      
-      /* Start with a reasonable default size, though this can be
-       * adjusted via the -s option.
-       */
-      bc_use_sensible_arg_max(&bc_ctl);
-    }
-  
-  while ((optc = getopt_long (argc, argv, "+0a:E:e::i::I:l::L:n:prs:txP:d:",
+  /* Take the size of the environment into account.  */
+  arg_max -= env_size (environ);
+  if (arg_max <= 0)
+    error (1, 0, "environment is too large for exec");
+
+  while ((optc = getopt_long (argc, argv, "+0e::i::l::n:prs:txP:",
 			      longopts, (int *) 0)) != -1)
     {
       switch (optc)
 	{
 	case '0':
 	  read_args = read_string;
-	  input_delimiter = '\0';
 	  break;
 
-	case 'd':
-	  read_args = read_string;
-	  input_delimiter = get_input_delimiter(optarg);
-	  break;
-
-	case 'E':		/* POSIX */
-	case 'e':		/* deprecated */
-	  if (optarg && (strlen(optarg) > 0))
+	case 'e':
+	  if (optarg)
 	    eof_str = optarg;
 	  else
 	    eof_str = 0;
 	  break;
 
 	case 'h':
-	  usage (stdout);
-	  return 0;
+	  usage (stdout, 0);
 
-	case 'I':		/* POSIX */
-	case 'i':		/* deprecated */
+	case 'i':
 	  if (optarg)
-	    bc_ctl.replace_pat = optarg;
+	    replace_pat = optarg;
 	  else
-	    bc_ctl.replace_pat = "{}";
+	    replace_pat = "{}";
 	  /* -i excludes -n -l.  */
-	  bc_ctl.args_per_exec = 0;
-	  bc_ctl.lines_per_exec = 0;
+	  args_per_exec = 0;
+	  lines_per_exec = 0;
 	  break;
 
-	case 'L':		/* POSIX */
-	  bc_ctl.lines_per_exec = parse_num (optarg, 'L', 1L, -1L, 1);
-	  /* -L excludes -i -n.  */
-	  bc_ctl.args_per_exec = 0;
-	  bc_ctl.replace_pat = NULL;
-	  break;
-
-	case 'l':		/* deprecated */
+	case 'l':
 	  if (optarg)
-	    bc_ctl.lines_per_exec = parse_num (optarg, 'l', 1L, -1L, 1);
+	    lines_per_exec = parse_num (optarg, 'l', 1L, -1L);
 	  else
-	    bc_ctl.lines_per_exec = 1;
+	    lines_per_exec = 1;
 	  /* -l excludes -i -n.  */
-	  bc_ctl.args_per_exec = 0;
-	  bc_ctl.replace_pat = NULL;
+	  args_per_exec = 0;
+	  replace_pat = NULL;
 	  break;
 
 	case 'n':
-	  bc_ctl.args_per_exec = parse_num (optarg, 'n', 1L, -1L, 1);
+	  args_per_exec = parse_num (optarg, 'n', 1L, -1L);
 	  /* -n excludes -i -l.  */
-	  bc_ctl.lines_per_exec = 0;
-	  if (bc_ctl.args_per_exec == 1 && bc_ctl.replace_pat)
-	    /* ignore -n1 in '-i -n1' */
-	    bc_ctl.args_per_exec = 0;
-	  else
-	    bc_ctl.replace_pat = NULL;
+	  lines_per_exec = 0;
+	  replace_pat = NULL;
 	  break;
 
-	  /* The POSIX standard specifies that it is not an error 
-	   * for the -s option to specify a size that the implementation 
-	   * cannot support - in that case, the relevant limit is used.
-	   */
 	case 's':
-	  {
-	    size_t arg_size;
-	    act_on_init_result();
-	    arg_size = parse_num (optarg, 's', 1L,
-				  bc_ctl.posix_arg_size_max, 0);
-	    if (arg_size > bc_ctl.posix_arg_size_max)
-	      {
-		error (0, 0,
-		       _("Warning: value %ld for -s option is too large, "
-			 "using %ld instead"),
-		       arg_size, bc_ctl.posix_arg_size_max);
-		arg_size = bc_ctl.posix_arg_size_max;
-	      }
-	    bc_ctl.arg_max = arg_size;
-	  }
-	  break;
-
-	case 'S':
-	  show_limits = true;
+	  arg_max = parse_num (optarg, 's', 1L, orig_arg_max);
 	  break;
 
 	case 't':
@@ -598,7 +331,7 @@ main (int argc, char **argv)
 	  break;
 
 	case 'x':
-	  bc_ctl.exit_if_size_exceeded = true;
+	  exit_if_size_exceeded = true;
 	  break;
 
 	case 'p':
@@ -611,52 +344,20 @@ main (int argc, char **argv)
 	  break;
 
 	case 'P':
-	  /* Allow only up to LONG_MAX child processes. */
-	  proc_max = parse_num (optarg, 'P', 0L, LONG_MAX, 1);
+	  proc_max = parse_num (optarg, 'P', 0L, -1L);
 	  break;
 
-        case 'a':
-          input_file = optarg;
-          break;
-
 	case 'v':
-	  display_findutils_version("xargs");
-	  return 0;
+	  printf ("GNU xargs version %s\n", version_string);
+	  exit (0);
 
 	default:
-	  usage (stderr);
-	  return 1;
+	  usage (stderr, 1);
 	}
     }
 
-  /* If we had deferred failing due to problems in bc_init_controlinfo(),
-   * do it now.
-   *
-   * We issue this error message after processing command line 
-   * arguments so that it is possible to use "xargs --help" even if
-   * the environment is too large. 
-   */
-  act_on_init_result();
-  assert (BC_INIT_OK == bcstatus);
-
-  if (0 == strcmp (input_file, "-"))
-    {
-      input_stream = stdin;
-    }
-  else
-    {
-      keep_stdin = 1;		/* see prep_child_for_exec() */
-      input_stream = fopen (input_file, "r");
-      if (NULL == input_stream)
-	{
-	  error (1, errno,
-		 _("Cannot open input file %s"),
-		 quotearg_n_style(0, locale_quoting_style, input_file));
-	}
-    }
-
-  if (bc_ctl.replace_pat || bc_ctl.lines_per_exec)
-    bc_ctl.exit_if_size_exceeded = true;
+  if (replace_pat || lines_per_exec)
+    exit_if_size_exceeded = true;
 
   if (optind == argc)
     {
@@ -665,131 +366,58 @@ main (int argc, char **argv)
       argv = &default_cmd;
     }
 
-  /* We want to be able to print size_t values as unsigned long, so if
-   * the cast isn't value-preserving, we have a problem.  This isn't a
-   * problem in C89, because size_t was known to be no wider than
-   * unsigned long.  In C99 this is no longer the case, but there are
-   * special C99 ways to print such values.  Unfortunately this
-   * program tries to work on both C89 and C99 systems.
-   */
-#if defined SIZE_MAX
-# if SIZE_MAX > ULONG_MAX
-# error "I'm not sure how to print size_t values on your system"
-# endif
-#else
-  /* Without SIZE_MAX (i.e. limits.h) this is probably 
-   * close to the best we can do.
-   */
-  verify_true (sizeof(size_t) <= sizeof(unsigned long));
-#endif
-  
-  if (show_limits)
-    {
-      fprintf(stderr,
-	      _("Your environment variables take up %lu bytes\n"),
-	      (unsigned long)bc_size_of_environment());
-      fprintf(stderr,
-	      _("POSIX upper limit on argument length (this system): %lu\n"),
-	      (unsigned long)bc_ctl.posix_arg_size_max);
-      fprintf(stderr,
-	      _("POSIX smallest allowable upper limit on argument length (all systems): %lu\n"),
-	      (unsigned long)bc_ctl.posix_arg_size_min);
-      fprintf(stderr,
-	      _("Maximum length of command we could actually use: %ld\n"),
-	      (unsigned long)(bc_ctl.posix_arg_size_max -
-			      bc_size_of_environment()));
-      fprintf(stderr,
-	      _("Size of command buffer we are actually using: %lu\n"),
-	      (unsigned long)bc_ctl.arg_max);
-      
-      if (isatty(STDIN_FILENO))
-	{
-	  fprintf(stderr,
-		  _("\n"
-		    "Execution of xargs will continue now, and it will "
-		    "try to read its input and run commands; if this is "
-		    "not what you wanted to happen, please type the "
-		    "end-of-file keystroke.\n"));
-	  if (always_run_command)
-	    {
-	      fprintf(stderr,
-		      _("Warning: %s will be run at least once.  "
-			"If you do not want that to happen, then press "
-			"the interrupt keystroke.\n"),
-		      argv[optind]);
-	    }
-	}
-    }
-  
-  linebuf = xmalloc (bc_ctl.arg_max + 1);
-  bc_state.argbuf = xmalloc (bc_ctl.arg_max + 1);
+  linebuf = (char *) xmalloc (arg_max + 1);
+  argbuf = (char *) xmalloc (arg_max + 1);
 
   /* Make sure to listen for the kids.  */
   signal (SIGCHLD, SIG_DFL);
 
-  if (!bc_ctl.replace_pat)
+  if (!replace_pat)
     {
       for (; optind < argc; optind++)
-	bc_push_arg (&bc_ctl, &bc_state,
-		     argv[optind], strlen (argv[optind]) + 1,
-		     NULL, 0,
-		     initial_args);
+	push_arg (argv[optind], strlen (argv[optind]) + 1);
       initial_args = false;
-      bc_ctl.initial_argc = bc_state.cmd_argc;
-      bc_state.cmd_initial_argv_chars = bc_state.cmd_argv_chars;
+      initial_argc = cmd_argc;
+      initial_argv_chars = cmd_argv_chars;
 
       while ((*read_args) () != -1)
-	if (bc_ctl.lines_per_exec && lineno >= bc_ctl.lines_per_exec)
+	if (lines_per_exec && lineno >= lines_per_exec)
 	  {
-	    xargs_do_exec (&bc_ctl, &bc_state);
+	    do_exec ();
 	    lineno = 0;
 	  }
 
       /* SYSV xargs seems to do at least one exec, even if the
          input is empty.  */
-      if (bc_state.cmd_argc != bc_ctl.initial_argc
-	  || (always_run_command && !procs_executed))
-	xargs_do_exec (&bc_ctl, &bc_state);
-
+      if (cmd_argc != initial_argc
+	  || (always_run_command && procs_executed == 0))
+	do_exec ();
     }
   else
     {
       int i;
       size_t len;
-      size_t *arglen = xmalloc (sizeof (size_t) * argc);
+      size_t *arglen = (size_t *) xmalloc (sizeof (size_t) * argc);
 
       for (i = optind; i < argc; i++)
 	arglen[i] = strlen(argv[i]);
-      bc_ctl.rplen = strlen (bc_ctl.replace_pat);
+      rplen = strlen (replace_pat);
       while ((len = (*read_args) ()) != -1)
 	{
 	  /* Don't do insert on the command name.  */
-	  bc_clear_args(&bc_ctl, &bc_state);
-	  bc_state.cmd_argv_chars = 0; /* begin at start of buffer */
-	  
-	  bc_push_arg (&bc_ctl, &bc_state,
-		       argv[optind], arglen[optind] + 1,
-		       NULL, 0,
-		       initial_args);
+	  push_arg (argv[optind], arglen[optind] + 1);
 	  len--;
-	  initial_args = false;
-	  
 	  for (i = optind + 1; i < argc; i++)
-	    bc_do_insert (&bc_ctl, &bc_state,
-			  argv[i], arglen[i],
-			  NULL, 0,
-			  linebuf, len,
-			  initial_args);
-	  xargs_do_exec (&bc_ctl, &bc_state);
+	    do_insert (argv[i], arglen[i], len);
+	  do_exec ();
 	}
     }
 
-  original_exit_value = child_error;
-  return child_error;
+  wait_for_proc (true);
+  exit (child_error);
 }
 
-
-/* Read a line of arguments from the input and add them to the list of
+/* Read a line of arguments from stdin and add them to the list of
    arguments to pass to the command.  Ignore blank lines and initial blanks.
    Single and double quotes and backslashes quote metacharacters and blanks
    as they do in the shell.
@@ -797,36 +425,26 @@ main (int argc, char **argv)
    otherwise the length of the last string read (including the null).  */
 
 static int
-read_line (void)
+read_line ()
 {
-/* States for read_line. */
-  enum read_line_state 
-    {
-      NORM = 0,
-      SPACE = 1,
-      QUOTE = 2,
-      BACKSLASH = 3
-    };
   static boolean eof = false;
   /* Start out in mode SPACE to always strip leading spaces (even with -i).  */
-  enum read_line_state state = SPACE; /* The type of character we last read.  */
+  int state = SPACE;		/* The type of character we last read.  */
   int prevc;			/* The previous value of c.  */
   int quotc = 0;		/* The last quote character read.  */
   int c = EOF;
   boolean first = true;		/* true if reading first arg on line.  */
-  boolean seen_arg = false;      /* true if we have seen any arg (or part of one) yet */
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
-  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
-  
+  char *endbuf = linebuf + arg_max - initial_argv_chars - 1;
+
   if (eof)
     return -1;
   while (1)
     {
       prevc = c;
-      c = getc (input_stream);
-      
+      c = getc (stdin);
       if (c == EOF)
 	{
 	  /* COMPAT: SYSV seems to ignore stuff on a line that
@@ -836,19 +454,11 @@ read_line (void)
 	    return -1;
 	  *p++ = '\0';
 	  len = p - linebuf;
-	  if (state == QUOTE)
-	    {
-	      exec_if_possible ();
-	      error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
-		     quotc == '"' ? _("double") : _("single"));
-	    }
+	  /* FIXME we don't check for unterminated quotes here.  */
 	  if (first && EOF_STR (linebuf))
 	    return -1;
-	  if (!bc_ctl.replace_pat)
-	    bc_push_arg (&bc_ctl, &bc_state,
-			 linebuf, len,
-			 NULL, 0,
-			 initial_args);
+	  if (!replace_pat)
+	    push_arg (linebuf, len);
 	  return len;
 	}
       switch (state)
@@ -866,16 +476,9 @@ read_line (void)
 		lineno++;	/* For -l.  */
 	      if (p == linebuf)
 		{
-		  if (seen_arg)
-		    {
-		      /* An empty argument, add it to the list as normal. */
-		    }
-		  else
-		    {
-		      /* Blank line.  */
-		      state = SPACE;
-		      continue;
-		    }
+		  /* Blank line.  */
+		  state = SPACE;
+		  continue;
 		}
 	      *p++ = '\0';
 	      len = p - linebuf;
@@ -884,19 +487,11 @@ read_line (void)
 		  eof = true;
 		  return first ? -1 : len;
 		}
-	      if (!bc_ctl.replace_pat)
-		bc_push_arg (&bc_ctl, &bc_state,
-			     linebuf, len,
-			     NULL, 0,
-			     initial_args);
+	      if (!replace_pat)
+		push_arg (linebuf, len);
 	      return len;
 	    }
-	  seen_arg = true;
-
-	  /* POSIX: In the POSIX locale, the separators are <SPC> and
-	   * <TAB>, but not <FF> or <VT>. 
-	   */
-	  if (!bc_ctl.replace_pat && ISBLANK (c))
+	  if (!replace_pat && ISSPACE (c))
 	    {
 	      *p++ = '\0';
 	      len = p - linebuf;
@@ -905,10 +500,7 @@ read_line (void)
 		  eof = true;
 		  return first ? -1 : len;
 		}
-	      bc_push_arg (&bc_ctl, &bc_state,
-			   linebuf, len,
-			   NULL, 0,
-			   initial_args);
+	      push_arg (linebuf, len);
 	      p = linebuf;
 	      state = SPACE;
 	      first = false;
@@ -930,15 +522,11 @@ read_line (void)
 
 	case QUOTE:
 	  if (c == '\n')
-	    {
-	      exec_if_possible ();
-	      error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
-		     quotc == '"' ? _("double") : _("single"));
-	    }
+	    error (1, 0, "unmatched %s quote",
+		   quotc == '"' ? "double" : "single");
 	  if (c == quotc)
 	    {
 	      state = NORM;
-	      seen_arg = true; /* Makes a difference for e.g. just '' or "" as the first arg on a line */
 	      continue;
 	    }
 	  break;
@@ -947,49 +535,31 @@ read_line (void)
 	  state = NORM;
 	  break;
 	}
-      
-      if ( (0 == c) && !nullwarning_given )
-	{
-	  /* This is just a warning message.  We only issue it once. */
-	  error (0, 0,
-		 _("Warning: a NUL character occurred in the input.  "
-		   "It cannot be passed through in the argument list.  "
-		   "Did you mean to use the --null option?"));
-	  nullwarning_given = 1;
-	}
-
-#if 1
       if (p >= endbuf)
-        {
-	  exec_if_possible ();
-	  error (1, 0, _("argument line too long"));
-	}
+	error (1, 0, "argument line too long");
       *p++ = c;
-#else
-      append_char_to_buf(&linebuf, &endbuf, &p, c);
-#endif
     }
 }
 
-/* Read a null-terminated string from the input and add it to the list of
+/* Read a null-terminated string from stdin and add it to the list of
    arguments to pass to the command.
    Return -1 if eof (either physical or logical) is reached,
    otherwise the length of the string read (including the null).  */
 
 static int
-read_string (void)
+read_string ()
 {
   static boolean eof = false;
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
-  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
+  char *endbuf = linebuf + arg_max - initial_argv_chars - 1;
 
   if (eof)
     return -1;
   while (1)
     {
-      int c = getc (input_stream);
+      int c = getc (stdin);
       if (c == EOF)
 	{
 	  eof = true;
@@ -997,31 +567,133 @@ read_string (void)
 	    return -1;
 	  *p++ = '\0';
 	  len = p - linebuf;
-	  if (!bc_ctl.replace_pat)
-	    bc_push_arg (&bc_ctl, &bc_state,
-			 linebuf, len,
-			 NULL, 0,
-			 initial_args);
+	  if (!replace_pat)
+	    push_arg (linebuf, len);
 	  return len;
 	}
-      if (c == input_delimiter)
+      if (c == '\0')
 	{
 	  lineno++;		/* For -l.  */
 	  *p++ = '\0';
 	  len = p - linebuf;
-	  if (!bc_ctl.replace_pat)
-	    bc_push_arg (&bc_ctl, &bc_state,
-			 linebuf, len,
-			 NULL, 0,
-			 initial_args);
+	  if (!replace_pat)
+	    push_arg (linebuf, len);
 	  return len;
 	}
       if (p >= endbuf)
-        {
-	  exec_if_possible ();
-	  error (1, 0, _("argument line too long"));
-	}
+	error (1, 0, "argument line too long");
       *p++ = c;
+    }
+}
+
+/* Replace all instances of `replace_pat' in ARG with `linebuf',
+   and add the resulting string to the list of arguments for the command
+   to execute.
+   ARGLEN is the length of ARG, not including the null.
+   LBLEN is the length of `linebuf', not including the null.
+
+   COMPAT: insertions on the SYSV version are limited to 255 chars per line,
+   and a max of 5 occurences of replace_pat in the initial-arguments.
+   Those restrictions do not exist here.  */
+
+static void
+do_insert (arg, arglen, lblen)
+     char *arg;
+     size_t arglen;
+     size_t lblen;
+{
+  /* Temporary copy of each arg with the replace pattern replaced by the
+     real arg.  */
+  static char *insertbuf;
+  char *p;
+  int bytes_left = arg_max - 1;	/* Bytes left on the command line.  */
+
+  if (!insertbuf)
+    insertbuf = (char *) xmalloc (arg_max + 1);
+  p = insertbuf;
+
+  do
+    {
+      size_t len;		/* Length in ARG before `replace_pat'.  */
+      char *s = strstr (arg, replace_pat);
+      if (s)
+	len = s - arg;
+      else
+	len = arglen;
+      bytes_left -= len;
+      if (bytes_left <= 0)
+	break;
+
+      strncpy (p, arg, len);
+      p += len;
+      arg += len;
+
+      if (s)
+	{
+	  bytes_left -= lblen;
+	  if (bytes_left <= 0)
+	    break;
+	  strcpy (p, linebuf);
+	  arg += rplen;
+	  p += lblen;
+	}
+    }
+  while (*arg);
+  if (*arg)
+    error (1, 0, "command too long");
+  *p++ = '\0';
+  push_arg (insertbuf, p - insertbuf);
+}
+
+/* Add ARG to the end of the list of arguments `cmd_argv' to pass
+   to the command.
+   LEN is the length of ARG, including the terminating null.
+   If this brings the list up to its maximum size, execute the command.  */
+
+static void
+push_arg (arg, len)
+     char *arg;
+     size_t len;
+{
+  if (arg)
+    {
+      if (cmd_argv_chars + len > arg_max)
+	{
+	  if (initial_args || cmd_argc == initial_argc)
+	    error (1, 0, "can not fit single argument within argument list size limit");
+	  if (replace_pat
+	      || (exit_if_size_exceeded &&
+		  (lines_per_exec || args_per_exec)))
+	    error (1, 0, "argument list too long");
+	  do_exec ();
+	}
+      if (!initial_args && args_per_exec &&
+	  cmd_argc - initial_argc == args_per_exec)
+	do_exec ();
+    }
+
+  if (cmd_argc >= cmd_argv_alloc)
+    {
+      if (!cmd_argv)
+	{
+	  cmd_argv_alloc = 64;
+	  cmd_argv = (char **) xmalloc (sizeof (char *) * cmd_argv_alloc);
+	}
+      else
+	{
+	  cmd_argv_alloc *= 2;
+	  cmd_argv = (char **) xrealloc (cmd_argv,
+					 sizeof (char *) * cmd_argv_alloc);
+	}
+    }
+
+  if (!arg)
+    cmd_argv[cmd_argc++] = NULL;
+  else
+    {
+      cmd_argv[cmd_argc++] = argbuf + cmd_argv_chars;
+      strcpy (argbuf + cmd_argv_chars, arg);
+      cmd_argv_chars += len;
     }
 }
 
@@ -1031,12 +703,13 @@ read_string (void)
    otherwise, return false.  */
 
 static boolean
-print_args (boolean ask)
+print_args (ask)
+     boolean ask;
 {
   int i;
 
-  for (i = 0; i < bc_state.cmd_argc - 1; i++)
-    fprintf (stderr, "%s ", bc_state.cmd_argv[i]);
+  for (i = 0; i < cmd_argc - 1; i++)
+    fprintf (stderr, "%s ", cmd_argv[i]);
   if (ask)
     {
       static FILE *tty_stream;
@@ -1062,263 +735,132 @@ print_args (boolean ask)
   return false;
 }
 
-
-/* Close stdin and attach /dev/null to it.
- * This resolves Savannah bug #3992.
- */
-static void
-prep_child_for_exec (void)
-{
-  if (!keep_stdin)
-    {
-      const char inputfile[] = "/dev/null";
-      /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
-      
-      close(0);
-      if (open(inputfile, O_RDONLY) < 0)
-	{
-	  /* This is not entirely fatal, since 
-	   * executing the child with a closed
-	   * stdin is almost as good as executing it
-	   * with its stdin attached to /dev/null.
-	   */
-	  error (0, errno, "%s", quotearg_n_style(0, locale_quoting_style, inputfile));
-	}
-    }
-}
-
-
 /* Execute the command that has been built in `cmd_argv'.  This may involve
    waiting for processes that were previously executed.  */
 
-static int
-xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
+static void
+do_exec ()
 {
   pid_t child;
 
-  (void) ctl;
-  (void) state;
-  
-  bc_push_arg (&bc_ctl, &bc_state,
-	       (char *) NULL, 0,
-	       NULL, 0,
-	       false); /* Null terminate the arg list.  */
-  
+  push_arg ((char *) NULL, 0);	/* Null terminate the arg list.  */
   if (!query_before_executing || print_args (true))
     {
-      if (proc_max)
-	{
-	  if (procs_executing >= proc_max)
-	    wait_for_proc (false, proc_max - procs_executing + 1);
-	  assert (procs_executing < proc_max);
-	}
+      if (proc_max && procs_executing >= proc_max)
+	wait_for_proc (false);
       if (!query_before_executing && print_command)
 	print_args (false);
-
-      /* Before forking, reap any already-exited child. We do this so
-	 that we don't leave unreaped children around while we build a
-	 new command line.  For example this command will spend most
-	 of its time waiting for sufficient arguments to launch
-	 another command line:
-
-	 seq 1 1000 | fmt | while read x ; do echo $x; sleep 1 ; done | 
-	 ./xargs -P 200 -n 20  sh -c 'echo "$@"; sleep $((1 + $RANDOM % 5))' sleeper
-      */
-      wait_for_proc (false, 0u);
-
       /* If we run out of processes, wait for a child to return and
          try again.  */
       while ((child = fork ()) < 0 && errno == EAGAIN && procs_executing)
-	wait_for_proc (false, 1u);
-
+	wait_for_proc (false);
       switch (child)
 	{
 	case -1:
-	  error (1, errno, _("cannot fork"));
+	  error (1, errno, "cannot fork");
 
 	case 0:		/* Child.  */
-	  prep_child_for_exec();
-	  execvp (bc_state.cmd_argv[0], bc_state.cmd_argv);
-	  error (0, errno, "%s", bc_state.cmd_argv[0]);
+	  execvp (cmd_argv[0], cmd_argv);
+	  error (0, errno, "%s", cmd_argv[0]);
 	  _exit (errno == ENOENT ? 127 : 126);
-	  /*NOTREACHED*/
 	}
       add_proc (child);
     }
 
-  bc_clear_args(&bc_ctl, &bc_state);
-  return 1;			/* Success */
-}
-
-/* Execute the command if possible.  */
-
-static void
-exec_if_possible (void)
-{
-  if (bc_ctl.replace_pat || initial_args ||
-      bc_state.cmd_argc == bc_ctl.initial_argc || bc_ctl.exit_if_size_exceeded)
-    return;
-  xargs_do_exec (&bc_ctl, &bc_state);
+  cmd_argc = initial_argc;
+  cmd_argv_chars = initial_argv_chars;
 }
 
 /* Add the process with id PID to the list of processes that have
    been executed.  */
 
 static void
-add_proc (pid_t pid)
+add_proc (pid)
+     pid_t pid;
 {
-  unsigned int i, j;
+  int i;
 
   /* Find an empty slot.  */
   for (i = 0; i < pids_alloc && pids[i]; i++)
     ;
-
-  /* Extend the array if we failed. */
   if (i == pids_alloc)
     {
-      pids = x2nrealloc (pids, &pids_alloc, sizeof *pids);
-
-      /* Zero out the new slots. */
-      for (j=i; j<pids_alloc; ++j)
-	pids[j] = (pid_t)0;
+      if (pids_alloc == 0)
+	{
+	  pids_alloc = proc_max ? proc_max : 64;
+	  pids = (pid_t *) xmalloc (sizeof (pid_t) * pids_alloc);
+	}
+      else
+	{
+	  pids_alloc *= 2;
+	  pids = (pid_t *) xrealloc (pids,
+				     sizeof (pid_t) * pids_alloc);
+	}
+      memset (&pids[i], '\0', sizeof (pid_t) * (pids_alloc - i));
     }
-  /* Verify that we are not destroying the record of some existing child. */
-  assert (0 == pids[i]);
-
-  /* Remember the child. */
   pids[i] = pid;
   procs_executing++;
-  procs_executed = true;
+  procs_executed++;
 }
 
-
 /* If ALL is true, wait for all child processes to finish;
-   otherwise, wait for at least MINREAP child processes to finish.
+   otherwise, wait for one child process to finish.
    Remove the processes that finish from the list of executing processes.  */
 
 static void
-wait_for_proc (boolean all, unsigned int minreap)
+wait_for_proc (all)
+     boolean all;
 {
-  unsigned int reaped = 0;
-
   while (procs_executing)
     {
-      unsigned int i;
-      int status;
-      pid_t pid;
-      int wflags = 0;
-
-      if (!all)
-	{
-	  if (reaped >= minreap)
-	    {
-	      /* We already reaped enough children.  To save system
-	       * resources, reap any dead children anyway, but do not
-	       * wait for any currently executing children to exit.
-	       
-	       */
-	      wflags = WNOHANG;
-	    }
-	}
+      int i, status;
 
       do
 	{
-	  /* Wait for any child.   We used to use wait() here, but it's 
-	   * unlikely that that offers any portability advantage over 
-	   * wait these days.
-	   */
-	  while ((pid = waitpid (-1, &status, wflags)) == (pid_t) -1)
-	    {
-	      if (errno != EINTR)
-		error (1, errno, _("error waiting for child process"));
-	    }
-	  
+	  pid_t pid;
+
+	  pid = wait (&status);
+	  if (pid < 0)
+	    error (1, errno, "error waiting for child process");
+
 	  /* Find the entry in `pids' for the child process
 	     that exited.  */
-	  if (pid)
-	    {
-	      for (i = 0; i < pids_alloc && pid != pids[i]; i++)
-		;
-	    }
+	  for (i = 0; i < pids_alloc && pid != pids[i]; i++)
+	    ;
 	}
-      while (pid && i == pids_alloc);	/* A child died that we didn't start? */
+      while (i == pids_alloc);	/* A child died that we didn't start? */
 
-      if (!pid)
-	{
-	  if (!(wflags & WNOHANG))
-	    {
-	      /* Nothing remained to be reaped.  This should not
-	       * happen, because procs_executing should contain the
-	       * number of child processes still executing, so the
-	       * loop should have terminated.
-	       */
-	      error (0, 0, _("Warning: Lost track of %d child processes"),
-		     procs_executing);
-	    }
-	  else
-	    {
-	      /* Children are (probably) executing but are not ready
-	       * to be reaped at the moment.
-	       */
-	    }
-	  break;
-	}
-      
       /* Remove the child from the list.  */
       pids[i] = 0;
       procs_executing--;
-      reaped++;
 
       if (WEXITSTATUS (status) == 126 || WEXITSTATUS (status) == 127)
 	exit (WEXITSTATUS (status));	/* Can't find or run the command.  */
       if (WEXITSTATUS (status) == 255)
-	error (124, 0, _("%s: exited with status 255; aborting"), bc_state.cmd_argv[0]);
+	error (124, 0, "%s: exited with status 255; aborting", cmd_argv[0]);
       if (WIFSTOPPED (status))
-	error (125, 0, _("%s: stopped by signal %d"), bc_state.cmd_argv[0], WSTOPSIG (status));
+	error (125, 0, "%s: stopped by signal %d", cmd_argv[0], WSTOPSIG (status));
       if (WIFSIGNALED (status))
-	error (125, 0, _("%s: terminated by signal %d"), bc_state.cmd_argv[0], WTERMSIG (status));
+	error (125, 0, "%s: terminated by signal %d", cmd_argv[0], WTERMSIG (status));
       if (WEXITSTATUS (status) != 0)
 	child_error = 123;
+
+      if (!all)
+	break;
     }
-}
-
-/* Wait for all child processes to finish.  */
-
-static void
-wait_for_proc_all (void)
-{
-  static boolean waiting = false;
-  
-  if (waiting)
-    return;
-
-  waiting = true;
-  wait_for_proc (true, 0u);
-  waiting = false;
-  
-  if (original_exit_value != child_error)
-    {
-      /* wait_for_proc() changed the value of child_error().  This
-       * function is registered via atexit(), and so may have been
-       * called from exit().  We now know that the original value
-       * passed to exit() is no longer the exit status we require.
-       * The POSIX standard states that the behaviour if exit() is
-       * called more than once is undefined.  Therefore we now have to
-       * exit with _exit() instead of exit().
-       */
-      _exit(child_error);
-    }
-  
 }
 
 /* Return the value of the number represented in STR.
    OPTION is the command line option to which STR is the argument.
    If the value does not fall within the boundaries MIN and MAX,
-   Print an error message mentioning OPTION.  If FATAL is true, 
-   we also exit. */
+   Print an error message mentioning OPTION and exit.  */
 
 static long
-parse_num (char *str, int option, long int min, long int max, int fatal)
+parse_num (str, option, min, max)
+     char *str;
+     int option;
+     long min;
+     long max;
 {
   char *eptr;
   long val;
@@ -1326,55 +868,51 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
   val = strtol (str, &eptr, 10);
   if (eptr == str || *eptr)
     {
-      fprintf (stderr, _("%s: invalid number for -%c option\n"),
+      fprintf (stderr, "%s: invalid number for -%c option\n",
 	       program_name, option);
-      usage (stderr);
-      exit(1);
+      usage (stderr, 1);
     }
   else if (val < min)
     {
-      fprintf (stderr, _("%s: value for -%c option should be >= %ld\n"),
+      fprintf (stderr, "%s: value for -%c option must be >= %ld\n",
 	       program_name, option, min);
-      if (fatal)
-	{
-	  usage (stderr);
-	  exit(1);
-	}
-      else
-	{
-	  val = min;
-	}
+      usage (stderr, 1);
     }
   else if (max >= 0 && val > max)
     {
-      fprintf (stderr, _("%s: value for -%c option should be < %ld\n"),
+      fprintf (stderr, "%s: value for -%c option must be < %ld\n",
 	       program_name, option, max);
-      if (fatal)
-	{
-	  usage (stderr);
-	  exit(1);
-	}
-      else
-	{
-	  val = max;
-	}
+      usage (stderr, 1);
     }
   return val;
 }
 
-static void
-usage (FILE *stream)
+/* Return how much of ARG_MAX is used by the environment.  */
+
+static long
+env_size (envp)
+     char **envp;
 {
-  fprintf (stream, _("\
-Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n\
-       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n\
-       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n\
-       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n\
-       [-n max-args] [--max-args=max-args]\n\
-       [-s max-chars] [--max-chars=max-chars]\n\
-       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n\
-       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n\
-       [--version] [--help] [command [initial-arguments]]\n"),
+  long len = 0;
+
+  while (*envp)
+    len += strlen (*envp++) + 1;
+
+  return len;
+}
+
+static void
+usage (stream, status)
+     FILE *stream;
+     int status;
+{
+  fprintf (stream, "\
+Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
+       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-str]]\n\
+       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n\
+       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n\
+       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n\
+       [command [initial-arguments]]\n",
 	   program_name);
-  fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
+  exit (status);
 }
