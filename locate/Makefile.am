@@ -1,13 +1,12 @@
 # The default database to build and search.
 LOCATE_DB = $(localstatedir)/locatedb
 
-PROGRAMS = locate
+bin_PROGRAMS = locate
 LIBPROGRAMS = frcode code bigram
-SCRIPTS = updatedb
-MANS = locate.1 updatedb.1 locatedb.5
-CONFIG_HEADER = ../config.h
+bin_SCRIPTS = updatedb
+man_MANS = locate.1 updatedb.1 locatedb.5
 
-DIST_OTHER = locatedb.h updatedb.sh
+EXTRA_DIST = locatedb.h updatedb.sh $(man_MANS)
 CLEANFILES = updatedb
 
 INCLUDES = -I.. -I$(top_srcdir)/lib -DLOCATE_DB=\"$(LOCATE_DB)\"
@@ -35,8 +34,5 @@ updatedb: updatedb.sh
 	$(srcdir)/updatedb.sh > $@
 	chmod +x $@
 
-install::
+install:
 	$(top_srcdir)/mkinstalldirs $(localstatedir)
-
-frcode.o code.o locate.o: locatedb.h
-locate.o: ../lib/fnmatch.h ../lib/getopt.h
