@@ -1045,7 +1045,7 @@ process_top_path (char *pathname, mode_t mode)
 {
   int dirchange;
   const char *parent_dir;
-  const char *base = base_name(pathname);
+  char *base = base_name(pathname);
   
   state.curdepth = 0;
   state.path_length = strlen (pathname);
