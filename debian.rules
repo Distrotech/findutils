@@ -25,7 +25,7 @@ package = findutils
 # The version of the package (for example, `19.28').
 version = 4.1
 # The Debian revision of the package (for example, `2').
-debian = 6
+debian = 7
 
 build:
 # Builds the binary package.
@@ -95,6 +95,8 @@ binary:
 	  debian-tmp/DEBIAN/postinst
 	install -g root -m 755 -o root debian.postrm \
 	  debian-tmp/DEBIAN/postrm
+	install -g root -m 755 -o root debian.preinst \
+	  debian-tmp/DEBIAN/preinst
 	dpkg --build debian-tmp
 	mv debian-tmp.deb ../$(package)-$(version)-$(debian).deb
 
