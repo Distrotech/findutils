@@ -458,11 +458,12 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 
 #if defined(NEW_EXEC)
 static boolean
-new_impl_pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+new_impl_pred_exec (const char *pathname, struct stat *stat_buf,
+		    struct predicate *pred_ptr,
+		    const char *prefix, size_t pfxlen)
 {
   struct exec_val *execp = &pred_ptr->args.exec_vec;
-  
-  execp->ctl.exec_callback = launch;
+  size_t len = strlen(pathname);
   
   if (execp->multiple)
     {
@@ -472,7 +473,9 @@ new_impl_pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pre
        */
       bc_push_arg(&execp->ctl,
 		  &execp->state,
-		  pathname, strlen(pathname)+1, 0);
+		  prefix, pfxlen,
+		  pathname, len+1,
+		  0);
       
       /* POSIX: If the primary expression is punctuated by a plus
        * sign, the primary shall always evaluate as true
@@ -481,20 +484,21 @@ new_impl_pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pre
     }
   else
     {
-      int i, retval;
+      int i;
       for (i=0; i<execp->num_args; ++i)
 	{
 	  bc_do_insert(&execp->ctl,
 		       &execp->state,
 		       execp->replace_vec[i],
 		       strlen(execp->replace_vec[i]),
-		       pathname, strlen(pathname), 0);
+		       prefix, pfxlen,
+		       pathname, len,
+		       0);
 	}
 
       /* Actually invoke the command. */
-      retval = execp->ctl.exec_callback(&execp->ctl,
+      return  execp->ctl.exec_callback(&execp->ctl,
 					&execp->state);
-      return retval;
     }
 }
 #else
@@ -544,7 +548,7 @@ boolean
 pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
 #if defined(NEW_EXEC)
-  return new_impl_pred_exec(pathname, stat_buf, pred_ptr);
+  return new_impl_pred_exec(pathname, stat_buf, pred_ptr, NULL, 0);
 #else
   return old_impl_pred_exec(pathname, stat_buf, pred_ptr);
 #endif
@@ -553,8 +557,8 @@ pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_execdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  error(1, 0, "-execdir is not yet implemented.");
-  /* return old_impl_pred_exec(pathname, stat_buf, pred_ptr); */
+  const char *s = basename(pathname);
+  return new_impl_pred_exec(s, stat_buf, pred_ptr, "./", 2);
 }
 
 boolean
@@ -1134,8 +1138,9 @@ pred_nouser (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 }
 
 #if defined(NEW_EXEC)
-boolean
-pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+
+static boolean
+is_ok(const char *program, const char *arg)
 {
   fflush (stdout);
   /* The draft open standard requires that, in the POSIX locale,
@@ -1143,14 +1148,33 @@ pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
      The exact format is not specified.
      This standard does not have requirements for locales other than POSIX
   */
-  fprintf (stderr, _("< %s ... %s > ? "),
-	   pred_ptr->args.exec_vec.replace_vec[0], pathname);
+  fprintf (stderr, _("< %s ... %s > ? "), program, arg);
   fflush (stderr);
-  if (yesno ())
-    return pred_exec (pathname, stat_buf, pred_ptr);
+  return yesno();
+}
+
+boolean
+pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
+    return new_impl_pred_exec (pathname, stat_buf, pred_ptr, NULL, 0);
   else
     return false;
 }
+
+boolean
+pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  const char *s = basename(pathname);
+  
+  if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
+    return new_impl_pred_exec (s, stat_buf, pred_ptr, "./", 2);
+  else
+    return false;
+}
+
+
+
 #else
 boolean
 pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
@@ -1169,8 +1193,6 @@ pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   else
     return (false);
 }
-#endif
-
 
 boolean
 pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
@@ -1178,6 +1200,10 @@ pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   error(1, 0, "-okdir is not yet implemented.");
   return false;
 }
+
+
+#endif
+
 
 boolean
 pred_open (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
@@ -1511,9 +1537,10 @@ launch (const struct buildcmd_control *ctl,
   int wait_status;
   pid_t child_pid;
   static int first_time = 1;
-
+  const struct exec_val *execp = buildstate->usercontext;
+  
   /* Null terminate the arg list.  */
-  bc_push_arg (ctl, buildstate, (char *) NULL, 0, false); 
+  bc_push_arg (ctl, buildstate, (char *) NULL, 0, NULL, 0, false); 
   
   /* Make sure output of command doesn't get mixed with find output. */
   fflush (stdout);
@@ -1533,13 +1560,22 @@ launch (const struct buildcmd_control *ctl,
     {
       /* We be the child. */
       prep_child_for_exec();
-      if (starting_desc < 0
-	  ? chdir (starting_dir) != 0
-	  : fchdir (starting_desc) != 0)
+
+      /* For -exec and -ok, change directory back to the starting directory.
+       * for -execdir and -okdir, stay in the directory we are searching
+       * (the latter is more secure).
+       */
+      if (!execp->use_current_dir)
 	{
-	  error (0, errno, "%s", starting_dir);
-	  _exit (1);
+	  if (starting_desc < 0
+	      ? chdir (starting_dir) != 0
+	      : fchdir (starting_desc) != 0)
+	    {
+	      error (0, errno, "%s", starting_dir);
+	      _exit (1);
+	    }
 	}
+      
       execvp (buildstate->cmd_argv[0], buildstate->cmd_argv);
       error (0, errno, "%s", buildstate->cmd_argv[0]);
       _exit (1);

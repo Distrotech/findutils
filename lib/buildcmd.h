@@ -87,15 +87,19 @@ struct buildcmd_control
 extern void bc_do_insert (const struct buildcmd_control *ctl,
 			  struct buildcmd_state *state,
 			  char *arg, size_t arglen,
+			  const char *prefix, size_t pfxlen,
 			  const char *linebuf, size_t lblen,
 			  int initial_args);
 
 extern void bc_push_arg (const struct buildcmd_control *ctl,
-		      struct buildcmd_state *state,
-		      char *arg, size_t len, int initial_args);
+			 struct buildcmd_state *state,
+			 const char *arg,    size_t len,
+			 const char *prefix, size_t pfxlen,
+			 int initial_args);
 
 extern void bc_init_state(const struct buildcmd_control *ctl,
-			  struct buildcmd_state *state);
+			  struct buildcmd_state *state,
+			  void *usercontext);
 extern void bc_init_controlinfo(struct buildcmd_control *ctl);
 extern long bc_get_arg_max(void);
 extern void bc_clear_args(const struct buildcmd_control *ctl,

@@ -232,6 +232,7 @@ struct exec_val
   struct buildcmd_state   state;
   char **replace_vec;		/* Command arguments (for ";" style) */
   int num_args;
+  boolean use_current_dir;      /* If nonzero, don't chdir to start dir */
 #else
   struct path_arg *paths;	/* Array of args with path replacements. */
   char **vec;			/* Array of args to pass to program. */

@@ -1844,6 +1844,8 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   int saw_braces;		/* True if previous arg was '{}'. */
   boolean allow_plus;		/* True if + is a valid terminator */
   int brace_count;		/* Number of instances of {}. */
+  const char *prefix;
+  size_t pfxlen;
   
   struct predicate *our_pred;
   struct exec_val *execp;	/* Pointer for efficiency. */
@@ -1861,8 +1863,13 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   else
     allow_plus = false;
   
-  our_pred->args.exec_vec.multiple = 0;
+  if ((func == pred_execdir) || (func == pred_okdir))
+    execp->use_current_dir = true;
+  else
+    execp->use_current_dir = false;
   
+  our_pred->args.exec_vec.multiple = 0;
+
   /* Count the number of args with path replacements, up until the ';'. 
    * Also figure out if the command is terminated by ";" or by "+".
    */
@@ -1927,6 +1934,7 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 
   /* execp->ctl   = xmalloc(sizeof struct buildcmd_control); */
   bc_init_controlinfo(&execp->ctl);
+  execp->ctl.exec_callback = launch;
 
   if (our_pred->args.exec_vec.multiple)
     {
@@ -1943,13 +1951,15 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
       execp->ctl.initial_argc = (end-start) - 1;
 
       /* execp->state = xmalloc(sizeof struct buildcmd_state); */
-      bc_init_state(&execp->ctl, &execp->state);
+      bc_init_state(&execp->ctl, &execp->state, execp);
   
       /* Gather the initial arguments.  Skip the {}. */
       for (i=start; i<end-1; ++i)
 	{
 	  bc_push_arg(&execp->ctl, &execp->state,
-		      argv[i], strlen(argv[i])+1, 1);
+		      argv[i], strlen(argv[i])+1,
+		      NULL, 0,
+		      1);
 	}
     }
   else
@@ -1967,7 +1977,7 @@ new_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 
 
       /* execp->state = xmalloc(sizeof(*(execp->state))); */
-      bc_init_state(&execp->ctl, &execp->state);
+      bc_init_state(&execp->ctl, &execp->state, execp);
 
       /* Remember the (pre-replacement) arguments for later. */
       for (i=0; i<execp->num_args; ++i)
@@ -2018,6 +2028,7 @@ old_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
   our_pred->no_default_print = true;
   execp = &our_pred->args.exec_vec;
   execp->usercontext = our_pred;
+  execp->use_current_dir = false;
   execp->paths =
     (struct path_arg *) xmalloc (sizeof (struct path_arg) * (num_paths + 1));
   execp->vec = (char **) xmalloc (sizeof (char *) * (end - start + 1));

@@ -96,6 +96,8 @@ static char *mbstrstr PARAMS ((const char *haystack, const char *needle));
    to execute.
    ARGLEN is the length of ARG, not including the null.
    LBLEN is the length of LINEBUF, not including the null.
+   PFXLEN is the length of PREFIX.  Substitution is not performed on
+   the prefix.   The prefix is used if the argument contains replace_pat.
 
    COMPAT: insertions on the SYSV version are limited to 255 chars per line,
    and a max of 5 occurrences of replace_pat in the initial-arguments.
@@ -104,8 +106,8 @@ static char *mbstrstr PARAMS ((const char *haystack, const char *needle));
 void
 bc_do_insert (const struct buildcmd_control *ctl,
 	      struct buildcmd_state *state,
-	      char *arg,
-	      size_t arglen,
+	      char *arg, size_t arglen,
+	      const char *prefix, size_t pfxlen,
 	      const char *linebuf,
 	      size_t lblen,
 	      int initial_args)
@@ -115,19 +117,27 @@ bc_do_insert (const struct buildcmd_control *ctl,
   static char *insertbuf;
   char *p;
   int bytes_left = ctl->arg_max - 1;	/* Bytes left on the command line.  */
-
+  int need_prefix;
+  
   if (!insertbuf)
     insertbuf = (char *) xmalloc (ctl->arg_max + 1);
   p = insertbuf;
 
+  need_prefix = 0;
   do
     {
       size_t len;		/* Length in ARG before `replace_pat'.  */
       char *s = mbstrstr (arg, ctl->replace_pat);
       if (s)
-	len = s - arg;
+	{
+	  need_prefix = 1;
+	  len = s - arg;
+	}
       else
-	len = arglen;
+	{
+	  len = arglen;
+	}
+      
       bytes_left -= len;
       if (bytes_left <= 0)
 	break;
@@ -152,7 +162,17 @@ bc_do_insert (const struct buildcmd_control *ctl,
   if (*arg)
     error (1, 0, _("command too long"));
   *p++ = '\0';
-  bc_push_arg (ctl, state, insertbuf, p - insertbuf, initial_args);
+
+  if (!need_prefix)
+    {
+      prefix = NULL;
+      pfxlen = 0;
+    }
+  
+  bc_push_arg (ctl, state,
+	       insertbuf, p - insertbuf,
+	       prefix, pfxlen,
+	       initial_args);
 }
 
 static
@@ -171,8 +191,8 @@ void do_exec(const struct buildcmd_control *ctl,
 void
 bc_push_arg (const struct buildcmd_control *ctl,
 	     struct buildcmd_state *state,
-	     char *arg,
-	     size_t len,
+	     const char *arg, size_t len,
+	     const char *prefix, size_t pfxlen,
 	     int initial_args)
 {
   state->todo = 1;
@@ -214,6 +234,12 @@ bc_push_arg (const struct buildcmd_control *ctl,
   else
     {
       state->cmd_argv[state->cmd_argc++] = state->argbuf + state->cmd_argv_chars;
+      if (prefix)
+	{
+	  strcpy (state->argbuf + state->cmd_argv_chars, prefix);
+	  state->cmd_argv_chars += pfxlen;
+	}
+      
       strcpy (state->argbuf + state->cmd_argv_chars, arg);
       state->cmd_argv_chars += len;
       
@@ -326,7 +352,8 @@ bc_init_controlinfo(struct buildcmd_control *ctl)
 
 void
 bc_init_state(const struct buildcmd_control *ctl,
-		  struct buildcmd_state *state)
+	      struct buildcmd_state *state,
+	      void *context)
 {
   state->cmd_argc = 0;
   state->cmd_argv_chars = 0;
@@ -335,7 +362,7 @@ bc_init_state(const struct buildcmd_control *ctl,
   state->argbuf = (char *) xmalloc (ctl->arg_max + 1);
   state->cmd_argv_chars = 0;
   state->todo = 0;
-  state->usercontext = NULL;
+  state->usercontext = context;
 }
 
 void 
