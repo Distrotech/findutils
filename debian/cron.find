@@ -5,8 +5,8 @@
 # Written by Ian A. Murdock <imurdock@debian.org> and 
 #            Kevin Dalley <kevin@aimnet.com>
 
-if [ -f /etc/update.conf ]; then
-  . /etc/find.conf
+if [ -f /etc/updatedb.conf ]; then
+  . /etc/updatedb.conf
 fi
 
 su nobody -c "cd / && updatedb" 2>/dev/null
