@@ -374,6 +374,15 @@ locate (pathpart, dbfile, ignore_case)
 	  else
 	    count += c;
 
+	  if (count > strlen(path))
+	    {
+	      /* This should not happen generally , but since we're
+	       * reading in data which is outside our control, we
+	       * cannot prevent it.
+	       */
+	      error(1, 0, _("locate database `%s' is corrupt or invalid"), dbfile);
+	    }
+	  
 	  /* Overlay the old path with the remainder of the new.  */
 	  nread = locate_read_str (&path, &pathsize, fp, 0, count); 
 	  if (nread < 0)
