@@ -30,6 +30,11 @@
 #include "buildcmd.h"
 #include "nextelem.h"
 
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#else
+#include <sys/file.h>
+#endif
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -1543,6 +1548,12 @@ parse_version (char **argv, int *arg_ptr)
   printf("D_TYPE ");
   ++features;
 #endif
+#if defined(O_NOFOLLOW)
+  printf("O_NOFOLLOW(%s) ",
+	 (options.open_nofollow_available ? "enabled" : "disabled"));
+  ++features;
+#endif
+  
   if (0 == features)
     {
       /* For the moment, leave this as English in case someone wants

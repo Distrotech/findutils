@@ -38,6 +38,10 @@
 #include <sys/file.h>
 #endif
 
+#ifdef HAVE_SYS_UTSNAME_H
+#include <sys/utsname.h>
+#endif
+
 #include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/human.h"
 #include "../gnulib/lib/canonicalize.h"
@@ -335,6 +339,37 @@ get_info (const char *pathname,
   return 0;
 }
 
+/* Determine if we can use O_NOFOLLOW.
+ */
+#if defined(O_NOFOLLOW)
+static boolean 
+check_nofollow(void)
+{
+  struct utsname uts;
+  float  release;
+
+  if (0 == uname(&uts))
+    {
+      /* POSIX requires that atof() ignore "unrecognised suffixes". */
+      release = atof(uts.release);
+      
+      if (0 == strcmp("Linux", uts.sysname))
+	{
+	  /* Linux kernels 2.1.126 and earlier ignore the O_NOFOLLOW flag. */
+	  return release >= 2.2; /* close enough */
+	}
+      else if (0 == strcmp("FreeBSD", uts.sysname)) 
+	{
+	  /* FreeBSD 3.0-CURRENT and later support it */
+	  return release >= 3.1;
+	}
+    }
+
+  /* Well, O_NOFOLLOW was defined, so we'll try to use it. */
+  return true;
+}
+#endif
+
 int
 main (int argc, char **argv)
 {
@@ -383,6 +418,12 @@ main (int argc, char **argv)
     options.output_block_size = 512;
   else
     options.output_block_size = 1024;
+
+#ifdef O_NOFOLLOW
+  options.open_nofollow_available = check_nofollow();
+#else
+  options.open_nofollow_available = false;
+#endif
   
   if (getenv("FIND_BLOCK_SIZE"))
     {
@@ -392,8 +433,21 @@ main (int argc, char **argv)
   options.no_leaf_check = false;
   set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
 
-  init_mounted_dev_list();
-
+  /* safely_chdir() needs to check that it has ended up in the right place. 
+   * To avoid bailing out when something gets automounted, it checks if 
+   * the target directory appears to have had a directory mounted on it as
+   * we chdir()ed.  The problem with this is that in order to notice that 
+   * a filesystem was mounted, we would need to lstat() all the mount points.
+   * That strategy loses if our machine is a client of a dead NFS server.
+   *
+   * Hence if safely_chdir() and wd_sanity_check() can manage without needing 
+   * to know the mounted device list, we do that.  
+   */
+  if (!options.open_nofollow_available)
+    {
+      init_mounted_dev_list();
+    }
+  
 #ifdef DEBUG
   fprintf (stderr, "cur_day_start = %s", ctime (&options.cur_day_start));
 #endif /* DEBUG */
@@ -858,10 +912,10 @@ enum SafeChdirStatus
  *
  */
 static enum SafeChdirStatus
-safely_chdir(const char *dest,
-	     enum TraversalDirection direction,
-	     struct stat *statbuf_dest,
-	     enum ChdirSymlinkHandling symlink_handling)
+safely_chdir_lstat(const char *dest,
+		   enum TraversalDirection direction,
+		   struct stat *statbuf_dest,
+		   enum ChdirSymlinkHandling symlink_handling)
 {
   struct stat statbuf_arrived;
   int rv, dotfd=-1;
@@ -878,6 +932,10 @@ safely_chdir(const char *dest,
   
 
   saved_errno = errno = 0;
+  time(NULL);
+  opendir(".");
+  time(NULL);
+
   dotfd = open(".", O_RDONLY);
   if (dotfd >= 0)
     {
@@ -1035,6 +1093,63 @@ safely_chdir(const char *dest,
   return rv;
 }
 
+
+static enum SafeChdirStatus
+safely_chdir_nofollow(const char *dest,
+		      enum TraversalDirection direction,
+		      struct stat *statbuf_dest,
+		      enum ChdirSymlinkHandling symlink_handling)
+{
+#ifdef O_NOFOLLOW
+  int extraflags = following_links() ? 0 : O_NOFOLLOW;
+#else
+  int extraflags = 0;
+#endif
+
+  int fd = open(dest, O_RDONLY|extraflags);
+  if (fd < 0)
+    {
+      /* POSIX normally requires this to fail with EISDIR, but
+       * it's worth a try.
+       */
+      fd = open(dest, O_WRONLY|extraflags);
+      if (fd < 0)
+	goto fallback;
+    }
+
+  if (0 == fchdir(fd))
+    {
+      close(fd);
+      return SafeChdirOK;
+    }
+  else
+    {
+      close(fd);
+      goto fallback;
+    }
+  
+ fallback:  
+  if (NULL == mounted_devices)
+    init_mounted_dev_list();
+  
+  return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_handling);
+}
+
+static enum SafeChdirStatus
+safely_chdir(const char *dest,
+	     enum TraversalDirection direction,
+	     struct stat *statbuf_dest,
+	     enum ChdirSymlinkHandling symlink_handling)
+{
+#if defined O_NOFOLLOW  
+  if (options.open_nofollow_available)
+    return safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_handling);
+#endif
+  
+  return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_handling);
+}
+
+
 
 /* Safely go back to the starting directory. */
 static void
@@ -1048,6 +1163,13 @@ chdir_back (void)
 #ifdef DEBUG_STAT
       fprintf(stderr, "chdir_back(): chdir(\"%s\")\n", starting_dir);
 #endif
+      
+      /* We will need the mounted device list.  Get it now if we don't
+       * already have it.
+       */
+      if (NULL == mounted_devices)
+	init_mounted_dev_list();
+      
       if (chdir (starting_dir) != 0)
 	error (1, errno, "%s", starting_dir);
 
@@ -1120,8 +1242,9 @@ process_top_path (char *pathname, mode_t mode)
       chdir_status = safely_chdir(parent_dir, direction, &st, SymlinkFollowOk);
       if (SafeChdirOK != chdir_status)
 	{
+	  const char *what = (SafeChdirFailWouldBeUnableToReturn == chdir_status) ? "." : parent_dir;
 	  if (errno)
-	    error (0, errno, "%s", parent_dir);
+	    error (0, errno, "%s", what);
 	  else
 	    error (0, 0, "Failed to safely change directory into `%s'",
 		   parent_dir);
@@ -1483,7 +1606,6 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
        */
       complete_pending_execdirs(eval_tree);
       
-#if USE_SAFE_CHDIR
       if (strcmp (name, "."))
 	{
 	  enum SafeChdirStatus status = safely_chdir (name, TraversingDown, &stat_buf, SymlinkHandleDefault);
@@ -1500,9 +1622,13 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      dir_ids[dir_curr].ino = stat_buf.st_ino;
 	      break;
       
+	    case SafeChdirFailWouldBeUnableToReturn:
+	      error (0, errno, ".");
+	      state.exit_status = 1;
+	      break;
+	      
 	    case SafeChdirFailNonexistent:
 	    case SafeChdirFailStat:
-	    case SafeChdirFailWouldBeUnableToReturn:
 	    case SafeChdirFailSymlink:
 	    case SafeChdirFailNotDir:
 	    case SafeChdirFailChdirFailed:
@@ -1511,46 +1637,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      return;
 	    }
 	}
-#else
-      if (0 != strcmp (name, "."))
-	{
-#ifdef DEBUG_STAT
-	  fprintf(stderr, "process_dir(): chdir(\"%s\")\n", name);
-#endif
-	  if (chdir (name) < 0)
-	    {
-	      error (0, errno, "%s", pathname);
-	      exit_status = 1;
-	      return;
-	    }
-	}
-      
 
-      /* Check that we are where we should be. */
-      if (1)
-	{
-	  boolean changed = false;
-	  wd_sanity_check(pathname,
-			  program_name,
-			  ".",
-			  dir_ids[dir_curr].dev,
-			  dir_ids[dir_curr].ino,
-			  &stat_buf, 0, __LINE__, 
-			  TraversingDown,
-			  FATAL_IF_SANITY_CHECK_FAILS,
-			  &changed);
-	  if (changed)
-	    {
-	      /* If there had been a change but wd_sanity_check()
-	       * accepted it, we need to accept that on the 
-	       * way back up as well, so modify our record 
-	       * of what we think we should see later. 
-	       */
-	      dir_ids[dir_curr].dev = stat_buf.st_dev;
-	      dir_ids[dir_curr].ino = stat_buf.st_ino;
-	    }
-	}
-#endif
 
       for (idx=0, namep = name_space; *namep; namep += file_len - pathname_len + 1, ++idx)
 	{
@@ -1625,7 +1712,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
        */
       complete_pending_execdirs(eval_tree); 
 
-#if USE_SAFE_CHDIR
+
       if (strcmp (name, "."))
 	{
 	  enum SafeChdirStatus status;
@@ -1651,9 +1738,12 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	    case SafeChdirOK:
 	      break;
       
+	    case SafeChdirFailWouldBeUnableToReturn:
+	      error (1, errno, ".");
+	      return;
+	      
 	    case SafeChdirFailNonexistent:
 	    case SafeChdirFailStat:
-	    case SafeChdirFailWouldBeUnableToReturn:
 	    case SafeChdirFailSymlink:
 	    case SafeChdirFailNotDir:
 	    case SafeChdirFailChdirFailed:
@@ -1671,74 +1761,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      did.dev = starting_stat_buf.st_dev;
 	      did.ino = starting_stat_buf.st_ino;
 	    }
-
-	  wd_sanity_check(pathname,
-			  program_name,
-			  parent,
-			  did.dev,
-			  did.ino,
-			  &stat_buf,
-			  deref ? 1 : 0,
-			  __LINE__, 
-			  TraversingUp,
-			  FATAL_IF_SANITY_CHECK_FAILS,
-			  &changed);
 	}
-#else
-      if (strcmp (name, "."))
-	{
-	  /* We could go back and do the next command-line arg
-	     instead, maybe using longjmp.  */
-	  char const *dir;
-	  boolean deref = following_links() ? true : false;
-	  
-	  if (!deref)
-	    dir = "..";
-	  else
-	    {
-	      chdir_back ();
-	      dir = parent;
-	    }
-
-#ifdef DEBUG_STAT
-	  fprintf(stderr, "process_dir(): chdir(\"%s\")\n", dir);
-#endif
-	  if (chdir (dir) != 0)
-	    error (1, errno, "%s", parent);
-
-	  /* Check that we are where we should be. */
-	  if (1)
-	    {
-	      boolean changed = false;
-	      struct stat tmp;
-	      int problem_is_with_parent;
-	      
-	      memset(&tmp, 0, sizeof(tmp));
-	      if (dir_curr > 0)
-		{
-		  tmp.st_dev = dir_ids[dir_curr-1].dev;
-		  tmp.st_ino = dir_ids[dir_curr-1].ino;
-		}
-	      else
-		{
-		  tmp.st_dev = starting_stat_buf.st_dev;
-		  tmp.st_ino = starting_stat_buf.st_ino;
-		}
-
-	      problem_is_with_parent = deref ? 1 : 0;
-	      wd_sanity_check(pathname,
-			      program_name,
-			      parent,
-			      tmp.st_dev,
-			      tmp.st_ino,
-			      &stat_buf,
-			      problem_is_with_parent, __LINE__, 
-			      TraversingUp,
-			      FATAL_IF_SANITY_CHECK_FAILS,
-			      &changed);
-	    }
-	}
-#endif
 
       if (cur_path)
 	free (cur_path);

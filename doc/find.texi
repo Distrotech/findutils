@@ -3045,48 +3045,96 @@ filesystem which would not normally be included in the search
 
 @subsection Changing the Current Working Directory
 As find searches the file system, it finds subdirectories and then
-searches within them by changing its working directory.    First,
+searches within them by changing its working directory.  First,
 @code{find} notices a subdirectory.  It then decides if that
 subdirectory meets the criteria for being searched; that is, any
 @samp{-xdev} or @samp{-prune} expressions are taken into account.  The
-@code{find} program will then change working directory using the
-@code{chdir()} system call and proceed to search the directory.  
+@code{find} program will then change working directory and proceed to
+search the directory.
 
 A race condition attack might take the form that once the checks
 relevant to @samp{-xdev} and @samp{-prune} have been done, an attacker
 might rename the directory that was being considered, and put in its
-place a symbolic link that actually points somewhere else.  The
-@code{find} command would then issue the @code{chdir()} system call,
-changing its working directory to the destination of the symbolic link
-(@code{chdir()} will always dereference symbolic links).  This
-manipulation leaves @code{find} with a working directory chosen by an
-attacker, bypassing any protection apparently provided by @samp{-xdev}
-and @samp{-prune}, and any protection provided by being able to
-@emph{not} list particular directories on the @code{find} command
-line.  This form of attack is particularly problematic if the attacker
-can predict when the @code{find} command will be run, as is the case
-with @code{cron} tasks for example.  
+place a symbolic link that actually points somewhere else.  
+
+The idea behind this attack is to fool @code{find} into going into the
+wrong directory.  This would leave @code{find} with a working
+directory chosen by an attacker, bypassing any protection apparently
+provided by @samp{-xdev} and @samp{-prune}, and any protection
+provided by being able to @emph{not} list particular directories on
+the @code{find} command line.  This form of attack is particularly
+problematic if the attacker can predict when the @code{find} command
+will be run, as is the case with @code{cron} tasks for example.
 
 GNU @code{find} has specific safeguards to prevent this general class
-of problem.  Each time @code{find} changes directory, it examines the
-directory it is about to move to, issues the @code{chdir()} system
-call, and then checks that it has ended up in the subdirectory it
-expected.  If not, an error message is issued and @code{find} exits
-immediately.  This prevents filesystem manipulation attacks from
-persuading @code{find} to search parts of the filesystem it did not
-intend.
+of problem.  The exact form of these safeguards depends on the
+properties of your system.  
+
+@subsubsection O_FOLLOW 
+
+If your system supports the O_NOFOLLOW flag @footnote{GNU/Linux
+(kernel version 2.1.126 and later) and FreeBSD (3.0-CURRENT and later)
+support this} to the @code{open(2)} system call, @code{find} uses it
+when safely changing directory.  The target directory is first opened
+and then @code{find} changes working directory with the
+@code{fchdir()} system call.  This ensures that symbolic links are not
+followed, preventing the sort of race condition attack in which use
+is made of symbolic links.
+
+If for any reason this approach does not work, @code{find} will fall
+back on the method which is normally used if O_NOFOLLOW is not
+supported.
+
+You can tell if your system supports O_NOFOLLOW by running 
+
+@example
+find --version
+@end example
+
+This will tell you the version number and which features are enabled.
+For example, if I run this on my system now, this gives:
+@example
+GNU find version 4.2.18-CVS
+Features enabled: D_TYPE O_NOFOLLOW(enabled)
+@end example
+
+Here, you can see that I am running a version of find which was built
+from the development (CVS) code prior to the release of
+findutils-4.2.18, and that the D_TYPE and O_NOFOLLOW features are
+present.  O_NOFOLLOW is qualified with ``enabled''.  This simply means
+that the current system seems to support O_NOFOLLOW.  This check is
+needed because it is possible to build find on a system that defines
+O_NOFOLLOW and then run it on a system that ignores the O_NOFOLLOW
+flag.  We try to detect such cases at startup by checking the
+operating system and version number; when this happens you will see
+``O_NOFOLLOW(disabled)'' instead.
+
+@subsubsection Systems without O_NOFOLLOW
+
+The strategy for preventing this type of problem on systems that lack
+support for the O_NOFOLLOW flag is more complex.  Each time
+@code{find} changes directory, it examines the directory it is about
+to move to, issues the @code{chdir()} system call, and then checks
+that it has ended up in the subdirectory it expected.  If not, an
+error message is issued and @code{find} exits immediately.  This
+method also prevents filesystem manipulation attacks from persuading
+@code{find} to search parts of the filesystem it did not intend.
+However, we heve to take special steps in order not to be
+unneccessarily concluding that there is a problem aut ``automount''
+mount points.
 
 @subsubsection Working with automounters
 
-Where an automounter is in use, it can be the case that the use of the
-@code{chdir()} system call can itself cause a new filesystem to be
-mounted at that point.  This will cause @code{find}'s security check
-to fail.  However, this does not normally represent a security problem
-(since the automounter configuration is normally set up by the system
-administrator).  Therefore, if the @code{chdir()} sanity check fails,
-@code{find} will check to see if a new filesystem has been mounted at
-the current directory; if so, @code{find} will issue a warning message
-and continue.  
+Where an automounter is in use on systems that do not support
+O_FOLLOW, it can be the case that the use of the @code{chdir()} system
+call can itself cause a new filesystem to be mounted at that point.
+This will cause @code{find}'s security check to fail.  However, this
+does not normally represent a security problem (since the automounter
+configuration is normally set up by the system administrator).
+Therefore, if the @code{chdir()} sanity check fails, @code{find} will
+check to see if a new filesystem has been mounted at the current
+directory; if so, @code{find} will issue a warning message and
+continue.
 
 To make this solution work, @code{find} reads the list of mounted
 filesystems at startup, and again when the sanity check fails.  It
@@ -3103,24 +3151,13 @@ system has a filesystem mounted on an unresponsive NFS server,
 it does this even if the affected mount point is not within the
 directory tree that find would have searched anyway.
 
-This is very unfortunate.  However, as far as I can see the
-alternatives are also nasty:
-
-@itemize @bullet
-@item
-leave @code{find} vulnerable to race conditions (i.e. not detect a
-change in a directory as we @code{chdir()} into it)
-@item
-use the sanity check, but don't take account of automounters - this
-results in find not being able to search large parts of the system if
-an automounter is in place. 
-@end itemize
-
-So, the residual problem you are left with is that your system will
-not work well if it is a client of a dead NFS server.  As far as I can
-tell, it is not possible to fix all three problems at once.  If you
-have some ideas about how @code{find} could do this better, please
-send email to the @email{bug-findutils@@gnu.org} mailing list.
+This is very unfortunate.  However, this problem only affects systems
+that have no support for O_FOLLOW.  As far as I can tell, it is not
+possible on such systems to fix all three problems (the race
+condition, the false-alarm at automount mount points, and the hang at
+startup if there is a dead NFS server) at once.  If you have some
+ideas about how @code{find} could do this better, please send email to
+the @email{bug-findutils@@gnu.org} mailing list.
 
 @subsection Race Conditions with -exec
 
@@ -3166,6 +3203,14 @@ is the same as the directory in which the file to be processed exists
 (@file{/tmp/umsp} in our example, and only the basename of the file to
 be processed is passed to the invoked command, with a @samp{./}
 prepended (giving @file{./passwd} in our example).
+
+The @samp{-execdir} action refuses to do anything if the current
+directory is included in the @var{$PATH} environment variable.  This
+is necessary because @samp{-execdir} runs programs in the same
+directory in which it finds files -- in general, such a directory
+might be writable by untrusted users.  For similar reasons,
+@samp{-execdir} does not allow @samp{@{@}} to appear in the name of
+the command to be run.
 
 @subsection Race Conditions with -print and -print0
 

@@ -518,6 +518,12 @@ struct options
   
   /* Pointer to the function used to stat files. */
   int (*xstat) (const char *name, struct stat *statbuf);
+
+
+  /* Indicate if we can implement safely_chdir() using the O_NOFOLLOW 
+   * flag to open(2). 
+   */
+  boolean open_nofollow_available;
 };
 extern struct options options;
 
