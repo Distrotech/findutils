@@ -38,7 +38,10 @@ EXTRA_DIST = config/unix.exp \
 	xargs.sysv/l1n4.exp \
 	xargs.sysv/l1n4.xo \
 	xargs.sysv/l2.exp \
-	xargs.sysv/l2.xo
+	xargs.sysv/l2.xo \
+	xargs.sysv/trace.exp \
+	xargs.sysv/trace.xe \
+	xargs.sysv/trace.xo
 
 # DIST_SUBDIRS = config inputs xargs.gnu xargs.posix xargs.sysv
 
