@@ -1134,6 +1134,9 @@ pred_type (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 #ifdef S_IFSOCK
       || (S_ISSOCK (mode) && type == S_IFSOCK)
 #endif
+#ifdef S_IFDOOR
+      || (S_ISDOOR (mode) && type == S_IFDOOR)
+#endif
       )
 #else /* S_IFMT */
   /* Unix system; check `mode' the fast way. */
