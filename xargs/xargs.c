@@ -359,7 +359,7 @@ main (int argc, char **argv)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit(close_stdout);
+  atexit (close_stdout);
 
   /* IEE Std 1003.1, 2003 specifies that the combined argument and 
    * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 

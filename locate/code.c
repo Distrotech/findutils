@@ -146,7 +146,7 @@ main (int argc, char **argv)
   int line_len;			/* Length of input line.  */
 
   program_name = argv[0];
-  atexit(close_stdout);
+  atexit (close_stdout);
 
   bigram[2] = '\0';
 

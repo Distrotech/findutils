@@ -166,7 +166,7 @@ main (int argc, char **argv)
   int optc;
   
   program_name = argv[0];
-  atexit(close_stdout);
+  atexit (close_stdout);
 
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
   path = xmalloc (pathsize);

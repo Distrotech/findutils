@@ -745,7 +745,7 @@ main (argc, argv)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit(close_stdout);
+  atexit (close_stdout);
 
   dbpath = getenv ("LOCATE_PATH");
   if (dbpath == NULL)

@@ -74,7 +74,7 @@ main (int argc, char **argv)
 
   program_name = argv[0];
   (void) argc;
-  atexit(close_stdout);
+  atexit (close_stdout);
   
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
   path = xmalloc (pathsize);
