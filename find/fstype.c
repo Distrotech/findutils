@@ -46,7 +46,7 @@ extern int errno;
 # define N_(String) String
 #endif
 
-static char *filesystem_type_uncached PARAMS((char *path, char *relpath, struct stat *statp));
+static char *filesystem_type_uncached PARAMS((const char *path, const char *relpath, const struct stat *statp));
 
 #ifdef FSTYPE_MNTENT		/* 4.3BSD, SunOS, HP-UX, Dynix, Irix.  */
 #include <mntent.h>
@@ -209,7 +209,7 @@ static int fstype_known = 0;
    Return "unknown" if its filesystem type is unknown.  */
 
 char *
-filesystem_type (char *path, char *relpath, struct stat *statp)
+filesystem_type (const char *path, const char *relpath, const struct stat *statp)
 {
   static char *current_fstype = NULL;
   static dev_t current_dev;
@@ -231,7 +231,7 @@ filesystem_type (char *path, char *relpath, struct stat *statp)
    Return "unknown" if its filesystem type is unknown.  */
 
 static char *
-filesystem_type_uncached (char *path, char *relpath, struct stat *statp)
+filesystem_type_uncached (const char *path, const char *relpath, const struct stat *statp)
 {
   char *type = NULL;
 

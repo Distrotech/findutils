@@ -323,7 +323,7 @@ char *xstrdup PARAMS((char *string));
 /* find global function declarations.  */
 
 /* fstype.c */
-char *filesystem_type PARAMS((char *path, char *relpath, struct stat *statp));
+char *filesystem_type PARAMS((const char *path, const char *relpath, const struct stat *statp));
 
 /* parser.c */
 PFB find_parser PARAMS((char *search_name));
