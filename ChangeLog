@@ -1,3 +1,75 @@
+2004-03-13  James Youngman  <jay@gnu.org>
+
+	* find/find.c:
+	Oops, there is no access to the predicate name table if DEBUG is 
+	not #defined.
+
+	* find/parser.c:
+	Detect arithmetic overflow (poorly) in insert_time(), which diagnoses
+	the failure to handle large arguments to -mtime.  The existing code
+	does careful computation and then bungs the value into a time_t, which
+	ruins all our careful effort.  The new code is not a great
+	improvement.  We just check the result to detect overflow, rather than
+	actually avoiding the overflow.
+
+	* find/find.c:
+	Fixed Debian bug #185202 by checking for any trailing predicates after
+	the top-level invocation of get_expr() has done its work.
+
+	* locate/locate.1, xargs/xargs.1:
+	Fixed Debian bug 175372, inappropriate 'L' suffixes on manual 
+	page section indicators
+
+	* find/find.1:
+	Removed "L" suffixes from manual page section indicators, to fix
+	Debian bug 175372.
+
+	* debian/updatedb.conf:
+	Updated with list of filesystems from current Debian release.  This
+	includes devfs, for example.
+
+	* xargs/xargs.1:
+	Modified documentation of "-s" option to take into account the fix for
+	Debian bug #176201.
+
+	* xargs/xargs.c:
+	Fixed Debian bug #176201, "xargs enviroment size limited to 20k", by
+	reading a patch offered by Bob Prolux and implementing something
+	substantially similar myself.
+
+2004-01-03  James Youngman  <jay@gnu.org>
+
+	* xargs/xargs.c:
+	Indicate that prep_child_for_exec() fixes Savannah bug #3992.
+
+	* xargs/xargs.c:
+	Attach the stdin of xargs' child process to /dev/null so that if it
+	tries to read from its stdin it doesn't consume any of the list of
+	files that xargs is trying to use.
+
+	* find/find.1:
+	Documented that the -regex option follows Gnulib's re_match() 
+	implementation.
+
+	* NEWS, locate/locate.c: Applied Savannah patch 2108
+
+	* xargs/xargs.c: Applied Savannah patch 1500
+
+	* find/find.1, doc/find.texi:
+	Improved the documentation for the %k and %b format specifiers to
+	-printf (Savannah bug #5034).  Also pointed out that this handling is
+	different to that used by the "b" and "k" suffixes with "-size".
+
+	* find/find.1: Improved the documentation for %k (Savannah bug #5034).
+
+	* find/find.1:
+	Improved the documentation for -print0 in the manpage, fixing Debian
+	bug 111143.
+
+	* README-CVS, find/pred.c, lib/listfile.c:
+	Brought up-to-date with change in gnulib's human.c - we no longer 
+	use human_readable_inexact(), because it is no longer provided.
+
 2003-08-08  James Youngman  <jay@gnu.org>
 
 	* find/find.1:
