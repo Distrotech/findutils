@@ -1,6 +1,79 @@
-2004-10-24  James Youngman  <jay@gnu.org>
+2004-10-31  jay  <jay@orbital>
 
-	* Released findutils-4.2.2
+	* NEWS: Added new news.
+
+	* find/find.c:
+	Extra diagnositcs for the case where we have the error "%s changed
+	during execution of %s" - that is when we chdir back to the parent
+	directory only to find that it has changed.
+
+2004-10-30  jay  <jay@orbital>
+
+	* .cvsignore, NEWS, doc/find.texi, find/defs.h, find/find.1, find/parser.c, find/pred.c:
+	Implemented the -quit action
+
+	* NEWS, doc/find.texi, find/find.1, find/parser.c, find/pred.c:
+	Refactored time handling routines in preparation for support of absolute timestamp comparison predicates
+
+	* locate/locate.c:
+	Applied Savannah patch #2952 ("getline off-by-one bugfix").
+
+	* NEWS, doc/find.texi, find/defs.h, find/find.1, find/parser.c, find/pred.c:
+	Added -delete action (Savannah patch #3454 with additions)
+
+	* locate/locate.c:
+	Applied Savannah patch #2692 (allowing get_short to process negative integers).
+
+	* find/find.c:
+	If we are iossuing an error message because $FIND_BLOCK_SIZE is set,
+	ignore the setting of errno.
+
+	* find/parser.c: More fixes for pedantic compiler warnings
+
+	* NEWS, find/parser.c, find/tree.c: Eliminated some compiler warnings
+
+	* find/find.c, find/parser.c, find/pred.c:
+	Various fixes for compiler warninga sbout unreachable code or unused function arguments
+
+	* intl/plural.y: Silence compiler warning about unused argument.
+
+	* locate/testsuite/Makefile.am:
+	Subdirectory "inputs" does not exist, so remove it from DIST_SUBDIRS.
+
+	* locate/locate.c:
+	Corrected the explanation of why we have to use no parentheses around
+	the String argument to the N_ macro in its expansion.
+
+	* configure.in: Nextr release is 4.2.3.
+
+	* configure.in: IOndicate this is no longer the pristine release.
+
+	* NEWS:
+	Oops, comments for release 4.2.0 should have said 20480 bytes, not 2480.
+
+	* lib/listfile.c:
+	The -ls predicate should not truncate usernames.  Fixes Savannah bug #10800.
+
+	* find/fstype.c, locate/locate.c:
+	Fixes for Savannah bug #3727 (Intel icc compilation errors).
+
+2004-10-25  jay  <jay@orbital>
+
+	* doc/find.texi, find/find.1, find/parser.c, find/pred.c:
+	Support -printf %D, which prints the device number of the containing filesystem
+
+	* locate/updatedb.sh:
+	Avoid confusion between James Woods and James Youngman, by using the
+	disambiguating surname.
+
+	* find/parser.c: Use RE_ICASE instead of re->translate.
+
+	* configure.in, find/parser.c, find/pred.c, xargs/xargs.c:
+	No need to #define _GNU_SOURCE if we use gl_INIT.
+
+2004-10-24  jay  <jay@orbital>
+
+	* ChangeLog: Prepared to release findutils-4.2.2.
 
 	* ChangeLog, NEWS, po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po, po/tr.po:
 	Updates prior to release of 4.2.2
