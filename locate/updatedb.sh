@@ -20,8 +20,9 @@
 
 usage="\
 Usage: updatedb [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
-       [--prunepaths='dir1 dir2...'] [--output=dbfile] [--netuser=user]
-       [--prunefs='fs1 fs2...'] [--old-format] [--version] [--help]"
+       [--prunepaths='dir1 dir2...'] [--prunefs='fs1 fs2...']
+       [--output=dbfile] [--netuser=user] [--localuser=user] 
+       [--old-format] [--version] [--help]"
 
 old=no
 for arg
@@ -35,6 +36,7 @@ do
     --prunefs) PRUNEFS="$val" ;;
     --output) LOCATE_DB="$val" ;;
     --netuser) NETUSER="$val" ;;
+    --localuser) LOCALUSER="$val" ;;
     --old-format) old=yes ;;
     --version) echo "GNU updatedb version @version@"; exit 0 ;;
     --help) echo "$usage"; exit 0 ;;
@@ -99,14 +101,24 @@ fi
 # Make and code the file list.
 # Sort case insensitively for users' convenience.
 
+rm -f $LOCATE_DB.n
+trap 'rm -f $LOCATE_DB.n; exit' 1 15
+
 if test $old = no; then
 
 # FIXME figure out how to sort null-terminated strings, and use -print0.
 {
 if test -n "$SEARCHPATHS"; then
-  $find $SEARCHPATHS \
-   \( $prunefs_exp \
-   -type d -regex "$PRUNEREGEX" \) -prune -o -print
+  if [ "$LOCALUSER" != "" ]; then
+    su $LOCALUSER -c \
+    "$find $SEARCHPATHS \
+     \( $prunefs_exp \
+     -type d -regex "$PRUNEREGEX" \) -prune -o -print"
+  else
+    $find $SEARCHPATHS \
+     \( $prunefs_exp \
+     -type d -regex "$PRUNEREGEX" \) -prune -o -print
+  fi
 fi
 
 if test -n "$NETPATHS"; then
@@ -134,16 +146,24 @@ else # old
 
 bigrams=$TMPDIR/f.bigrams$$
 filelist=$TMPDIR/f.list$$
-trap 'rm -f $bigrams $filelist; exit' 1 15
+rm -f $bigrams $filelist $LOCATE_DB.n
+trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' 1 15
 
 # Alphabetize subdirectories before file entries using tr.  James says:
 # "to get everything in monotonic collating sequence, to avoid some
 # breakage i'll have to think about."
 {
 if test -n "$SEARCHPATHS"; then
-  $find $SEARCHPATHS \
-   \( $prunefs_exp \
-   -type d -regex "$PRUNEREGEX" \) -prune -o -print
+  if [ "$LOCALUSER" != "" ]; then
+    su $LOCALUSER -c \
+    "$find $SEARCHPATHS \
+     \( $prunefs_exp \
+     -type d -regex "$PRUNEREGEX" \) -prune -o -print"
+  else
+    $find $SEARCHPATHS \
+     \( $prunefs_exp \
+     -type d -regex "$PRUNEREGEX" \) -prune -o -print
+  fi
 fi
 
 if test -n "$NETPATHS"; then
@@ -161,9 +181,21 @@ $bigram < $filelist | sort | uniq -c | sort -nr |
   awk '{ if (NR <= 128) print $2 }' | tr -d '\012' > $bigrams
 
 # Code the file list.
-$code $bigrams < $filelist > $LOCATE_DB
-chmod 644 $LOCATE_DB
+$code $bigrams < $filelist > $LOCATE_DB.n
 
-rm -f $bigrams $filelist $errs
+rm -f $bigrams $filelist
+
+# To reduce the chances of breaking locate while this script is running,
+# put the results in a temp file, then rename it atomically.
+if test -s $LOCATE_DB.n; then
+  rm -f $LOCATE_DB
+  mv $LOCATE_DB.n $LOCATE_DB
+  chmod 644 $LOCATE_DB
+else
+  echo "updatedb: new database would be empty" >&2
+  rm -f $LOCATE_DB.n
+fi
 
 fi
+
+exit 0
