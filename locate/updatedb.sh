@@ -57,6 +57,21 @@ done
 
 if test "$old" = yes; then
     echo "Warning: future versions of findutils will shortly discontinue support for the old locate database format." >&2
+
+    sort="@SORT@"
+    print_option="-print"
+    frcode_options=""
+else
+    if @SORT_SUPPORTS_Z@
+    then
+        sort="@SORT@ -z"
+        print_option="-print0"
+        frcode_options="-0"
+    else
+        sort="@SORT@"
+        print_option="-print"
+        frcode_options=""
+    fi
 fi
 
 getuid() {
@@ -121,6 +136,7 @@ fi
 : ${bigram:=${LIBEXECDIR}/@bigram@}
 : ${code:=${LIBEXECDIR}/@code@}
 
+
 PATH=/bin:/usr/bin:${BINDIR}; export PATH
 
 : ${PRUNEFS="nfs NFS proc afs proc smbfs autofs iso9660 ncpfs coda devpts ftpfs devfs mfs sysfs shfs"}
@@ -149,12 +165,12 @@ if test -n "$SEARCHPATHS"; then
     su $LOCALUSER -s $SHELL -c \
     "$find $SEARCHPATHS \
      \\( $prunefs_exp \
-     -type d -regex '$PRUNEREGEX' \\) -prune -o -print"
+     -type d -regex '$PRUNEREGEX' \\) -prune -o $print_option"
   else
     # : A2
     $find $SEARCHPATHS \
      \( $prunefs_exp \
-     -type d -regex "$PRUNEREGEX" \) -prune -o -print
+     -type d -regex "$PRUNEREGEX" \) -prune -o $print_option
   fi
 fi
 
@@ -163,15 +179,15 @@ myuid=`getuid`
 if [ "$myuid" = 0 ]; then
     # : A3
     su $NETUSER -s $SHELL -c \
-     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print" ||
+     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o $print_option" ||
     exit $?
   else
     # : A4
-    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print ||
+    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o $print_option ||
     exit $?
   fi
 fi
-} | sort -f | $frcode > $LOCATE_DB.n
+} | $sort -f | $frcode $frcode_options > $LOCATE_DB.n
 then
     # OK so far
     true
@@ -219,12 +235,12 @@ if test -n "$SEARCHPATHS"; then
     su $LOCALUSER -s $SHELL -c \
     "$find $SEARCHPATHS \
      \( $prunefs_exp \
-     -type d -regex '$PRUNEREGEX' \) -prune -o -print" || exit $?
+     -type d -regex '$PRUNEREGEX' \) -prune -o $print_option" || exit $?
   else
     # : A6
     $find $SEARCHPATHS \
      \( $prunefs_exp \
-     -type d -regex "$PRUNEREGEX" \) -prune -o -print || exit $?
+     -type d -regex "$PRUNEREGEX" \) -prune -o $print_option || exit $?
   fi
 fi
 
@@ -233,18 +249,18 @@ if test -n "$NETPATHS"; then
   if [ "$myuid" = 0 ]; then
     # : A7
     su $NETUSER -s $SHELL -c \
-     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o -print" ||
+     "$find $NETPATHS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o $print_option" ||
     exit $?
   else
     # : A8
-    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print ||
+    $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o $print_option ||
     exit $?
   fi
 fi
-} | tr / '\001' | sort -f | tr '\001' / > $filelist
+} | tr / '\001' | $sort -f | tr '\001' / > $filelist
 
 # Compute the (at most 128) most common bigrams in the file list.
-$bigram < $filelist | sort | uniq -c | sort -nr |
+$bigram $bigram_opts < $filelist | sort | uniq -c | sort -nr |
   awk '{ if (NR <= 128) print $2 }' | tr -d '\012' > $bigrams
 
 # Code the file list.

@@ -96,6 +96,17 @@ and exit.
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
 .P
+The 
+.B updatedb
+program correctly handles filenames containing newlines,
+but only if the system's sort command has a working
+.I \-z
+option.  If you suspect that 
+.B locate
+may need to return filenames containing newlines, consider using its
+.I \-\-null 
+option.
+.P
 The best way to report a bug is to use the form at
 http://savannah.gnu.org/bugs/?group=findutils.  
 The reason for this is that you will then be able to track progress in

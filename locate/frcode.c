@@ -77,8 +77,31 @@
 #include <stdlib.h>
 #endif
 
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#define textdomain(Domain)
+#define bindtextdomain(Package, Directory)
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+/* We used to use (String) instead of just String, but apparentl;y ISO C
+ * doesn't allow this (at least, that's what HP said when someone reported
+ * this as a compiler bug).  This is HP case number 1205608192.  See
+ * also http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11250 (which references 
+ * ANSI 3.5.7p14-15).  The Intel icc compiler also rejects constructs
+ * like: static const char buf[] = ("string");
+ */
+# define N_(String) String
+#endif
+
+
 #include "locatedb.h"
 #include <getline.h>
+#include <getopt.h>
 
 char *xmalloc PARAMS((size_t));
 
@@ -106,6 +129,30 @@ prefix_length (char *s1, char *s2)
   return s1 - start;
 }
 
+static struct option const longopts[] =
+{
+  {"help", no_argument, NULL, 'h'},
+  {"version", no_argument, NULL, 'v'},
+  {"null", no_argument, NULL, '0'},
+  {NULL, no_argument, NULL, 0}
+};
+
+extern char *version_string;
+
+/* The name this program was run with. */
+char *program_name;
+
+
+static void
+usage (FILE *stream)
+{
+  fprintf (stream,
+	   _("Usage: %s [-0 | --null] [--version] [--help]\n"),
+	   program_name);
+  fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
+}
+
+
 int
 main (int argc, char **argv)
 {
@@ -114,7 +161,9 @@ main (int argc, char **argv)
   size_t pathsize, oldpathsize;	/* Amounts allocated for them.  */
   int count, oldcount, diffcount; /* Their prefix lengths & the difference. */
   int line_len;			/* Length of input line.  */
-
+  int delimiter = '\n';
+  int optc;
+  
   program_name = argv[0];
 
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
@@ -126,11 +175,39 @@ main (int argc, char **argv)
   strcpy (oldpath, " ");
   oldcount = 0;
 
+
+  while ((optc = getopt_long (argc, argv, "hv0", longopts, (int *) 0)) != -1)
+    switch (optc)
+      {
+      case '0':
+	delimiter = 0;
+	break;
+
+      case 'h':
+	usage (stdout);
+	return 0;
+
+      case 'v':
+	printf (_("GNU locate version %s\n"), version_string);
+	return 0;
+
+      default:
+	usage (stderr);
+	return 1;
+      }
+
+  /* We expect to have no arguments. */
+  if (optind != argc)
+    {
+      usage (stderr);
+      return 1;
+    }
+
+
+
   fwrite (LOCATEDB_MAGIC, sizeof (LOCATEDB_MAGIC), 1, stdout);
 
-  /* FIXME temporary: change the \n to \0 when we figure out how to sort
-     null-terminated strings.  */
-  while ((line_len = getline (&path, &pathsize, stdin)) > 0)
+  while ((line_len = getdelim (&path, &pathsize, delimiter, stdin)) > 0)
     {
       path[line_len - 1] = '\0'; /* FIXME temporary: nuke the newline.  */
 
