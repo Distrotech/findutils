@@ -78,6 +78,7 @@
 # undef S_ISNWK
 # undef S_ISREG
 # undef S_ISSOCK
+# undef S_ISDOOR
 #endif /* STAT_MACROS_BROKEN.  */
 
 #if !defined(S_ISBLK) && defined(S_IFBLK)
