@@ -1,13 +1,14 @@
-Package: =
-Version: =
-Architecture: =
-Maintainer: Kevin Dalley <kevin@aimnet.com>
-Pre-Depends: libc5 (>=5.2.18-1)
-Essential: yes
+Source: findutils
 Section: base
 Priority: required
+Maintainer: Kevin Dalley <kevin@aimnet.com>
+Standards-Version: 2.1.1.0
+
+Package: findutils
+Architecture: any
+Essential: yes
+Pre-Depends: ${shlibs:Depends}
 Description: utilities for finding files--find, xargs, and locate
- .
  These utilities find files meeting specified criteria and perform
  various actions on the files which are found.
 
