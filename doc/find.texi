@@ -661,8 +661,10 @@ change the status (modify the file or its attributes)
 modify (change the file's contents)
 @end enumerate
 
+There is no timestamp that indicates when a file was @emph{created}.
+
 You can search for files whose time stamps are within a certain age
-range, or compare them to other time stamps.
+range, or compare them to other time stamps.  
 
 @menu
 * Age Ranges::
@@ -679,7 +681,10 @@ These tests are mainly useful with ranges (@samp{+@var{n}} and
 @deffnx Test -ctime n
 @deffnx Test -mtime n
 True if the file was last accessed (or its status changed, or it was
-modified) @var{n}*24 hours ago.
+modified) @var{n}*24 hours ago.  The number of 24-hour periods since
+the file's timestamp is always rounded down; therefore 0 means ``less
+than 24 hours ago'', 1 means ``between 24 and 48 hours ago'', and so
+forth.
 @end deffn
 
 @deffn Test -amin n
@@ -687,7 +692,8 @@ modified) @var{n}*24 hours ago.
 @deffnx Test -mmin n
 True if the file was last accessed (or its status changed, or it was
 modified) @var{n} minutes ago.  These tests provide finer granularity of
-measurement than @samp{-atime} et al.  For example, to list files in
+measurement than @samp{-atime} et al., but rounding is done in a 
+similar way.  For example, to list files in
 @file{/u/bill} that were last read from 2 to 6 minutes ago:
 
 @example

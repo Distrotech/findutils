@@ -220,7 +220,14 @@ File was last accessed more recently than \fIfile\fR was modified.  If
 in effect, the access time of the file it points to is always
 used.
 .IP "\-atime \fIn\fR"
-File was last accessed \fIn\fR*24 hours ago.
+File was last accessed \fIn\fR*24 hours ago.  
+When find figures out how many 24-hour preiods ago the file 
+was last accessed, any fractional part is ignored, so to match 
+.B \-atime 
+.BR +1 ,
+a file has to have been modified at least 
+.I two
+days ago.
 .IP "\-cmin \fIn\fR"
 File's status was last changed \fIn\fR minutes ago.
 .IP "\-cnewer \fIfile\fR"
@@ -231,6 +238,10 @@ to is always used.
 
 .IP "\-ctime \fIn\fR"
 File's status was last changed \fIn\fR*24 hours ago.
+See the comments for 
+.B \-atime 
+to understand how rounding affects the interpretation of file status
+change times.
 .IP \-empty
 File is empty and is either a regular file or a directory.
 .IP \-false
@@ -277,6 +288,10 @@ returns false unless the symbolic link is broken.
 File's data was last modified \fIn\fR minutes ago.
 .IP "\-mtime \fIn\fR"
 File's data was last modified \fIn\fR*24 hours ago.
+See the comments for 
+.B \-atime 
+to understand how rounding affects the interpretation of file
+modification times.
 .IP "\-name \fIpattern\fR"
 Base of file name (the path with the leading directories removed)
 matches shell pattern \fIpattern\fR.  The metacharacters (`*', `?',
@@ -721,7 +736,7 @@ POSIX conformance of the system's
 .BR fnmatch (3) 
 library function.  As of findutils-4.2.2, shell metacharacters
 ('*'. '?' or '[]' for example) will match a leading '.', because 
-IEEE interpretation 126 requires this.   This is a change from
+IEEE PASC interpretation 126 requires this.   This is a change from
 previous versions of findutils.
 .IP "\-type"
 Supported.   POSIX specifies `b', `c', `d', `l', `p', `f' and `s'.
@@ -842,8 +857,8 @@ been used in that case also.
 
 .P
 .nf
-.B find / \( -perm +4000 -fprintf /root/suid.txt '%#m %u %p\en' \) , \e
-.B        \( -size +100M -fprintf /root/big.txt  '%-10s %p\en' \)
+.B find /  \t( -perm +4000 -fprintf /root/suid.txt '%#m %u %p\en' ) , \e
+.B         \t\t( -size +100M -fprintf /root/big.txt  '%-10s %p\en'  )
 
 .fi
 Traverse the filesystem just once, listing setuid files and
@@ -852,6 +867,19 @@ directories into
 and large files into 
 .BR /root/big/txt .
 
+.P
+.nf
+.B find $HOME  -mtime 0
+
+.fi
+Search for files in your home directory which have been modified in
+the last twenty-four hours.  This command works this way because the
+time since each file was last accessed is divided by 24 hours and any 
+remainder is discarded.  That means that to match 
+.B -atime 
+.BR 0 ,
+a file will have to have a modification in the past which is less than
+24 hours ago.
 
 .SH EXIT STATUS
 .PP
@@ -863,8 +891,8 @@ than 0 if errors occur.
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "HISTORY"
 As of findutils-4.2.2, shell metacharacters ('*'. '?' or '[]' for
-example) will match a leading '.', because IEEE interpretation 126
-requires this.
+example) used in filename patterns will match a leading '.', because
+IEEE POSIX interpretation 126 requires this.
 
 As of findutils-4.2.5, the \-follow option no longer affects whether
 or not symbolic links specified on the command line are followed for
