@@ -1,6 +1,28 @@
+2004-11-21  James Youngman <jay@gnu.org>
+
+	* find/defs.h, find/find.c, find/fstype.c, lib/Makefile.am, lib/extendbuf.c, lib/extendbuf.h, NEWS:
+	Avoid fatal error if automount mounts a filesystem on a directory because we chdir()ed into it
+
+	* configure.in: Next release will be 4.2.6.
+
+	* find/find.1:
+	Indicate that the '-' flag does work for most fields.   Also provide
+	an example of using the comma operator to traverse the filesystem just
+	once but search for more than one thing.
+
+	* doc/find.texi: Indicate that the '-' flag does work for most fields.
+
 2004-11-19  James Youngman <jay@gnu.org>
 
-	* NEWS: Updated for release 4.2.5.
+	* configure.in: releasing findutils-4.2.5
+
+	* find/testsuite/Makefile.am, locate/testsuite/Makefile.am, xargs/testsuite/Makefile.am:
+	If a directory has no Makefile.am, omit it from the parent's DIST_SUBDIRS - automake-1.9 requires this
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po:
+	updated by make distcheck
+
+	* ChangeLog, NEWS: Updated for release 4.2.5.
 
 	* find/find.1, doc/find.texi:
 	Tell the reader that format flags may not work as they expect.
