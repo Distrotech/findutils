@@ -384,7 +384,7 @@ main (int argc, char **argv)
   /* Start with a reasonable default size, though this can be
    * adjusted via the -s option.
    */
-  arg_size = (128 * 1048) + size_of_environment;
+  arg_size = (128 * 1024) + size_of_environment;
 
   /* Take the size of the environment into account.  */
   if (size_of_environment > posix_arg_size_max)
