@@ -5,8 +5,8 @@ locate \- list files in databases that match a pattern
 .B locate
 [\-d path | \-\-database=path] [\-e | \-\-existing] [\-i | \-\-ignore-case]
 [\-0 | \-\-null] [\-c | \-\-count] [\-w | \-\-wholename] [\-b | \-\-basename] 
-[\-l N | \-\-limit=N] [\-S | \-\-statistics] [\-\-version] 
-[\-P | \-H | \-\-nofollow] [\-L | \-\-follow] [\-\-help] pattern...
+[\-l N | \-\-limit=N] [\-S | \-\-statistics] [\-r | \-\-regex ]
+[\-P | \-H | \-\-nofollow] [\-L | \-\-follow] [\-\-version] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -115,6 +115,15 @@ Results are considered to match if the pattern specified matches the
 final component of the name of a file as listed in the database.
 This final component is usually referred to as the `base name'.
 .TP
+.I "\-r, \-\-regex "
+The pattern specified on the command line is understood to be a POSIX
+exteded regular expression, as opposed to a glob pattern.  Filenames
+whose full paths match the specified regular expression are printed
+(or, in the case of the -c option, counted).  If you wish to anchor
+your regular expression at the ends of the full path name, then as is
+usual with regular expressions, you should use the characters ^ and $
+to signify this.   Newline is not considered to be special.
+.TP
 .I "\-s, \-\-stdio"
 Accepted but does nothing, for compatibility with BSD 
 .BR locate .
@@ -143,7 +152,8 @@ results that vary between different versions of
 .BR locate .
 
 .SH "SEE ALSO"
-\fBfind\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1)
+\fBfind\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1),
+\fBglob\fP(3),\fregex\fP(7),
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
 .P

@@ -41,6 +41,13 @@ if ![info exists UPDATEDB] {
     verbose "UPDATEDB defaulting to $UPDATEDB" 2
 }
 
+global FRCODE
+# look for FRCODE
+if ![info exists FRCODE] {
+    set FRCODE [findfile $base_dir/../frcode $base_dir/../frcode [transform frcode]]
+    verbose "FRCODE defaulting to $FRCODE" 2
+}
+
 global UPDATEDBFLAGS
 if ![info exists UPDATEDBFLAGS] then {
     set UPDATEDBFLAGS ""
@@ -78,6 +85,71 @@ proc locate_version {} {
 	warning "$LOCATE, program does not exist"
     }
 }
+
+# Run locate and leave the output in $comp_output.
+# Called by individual test scripts.
+proc locate_textonly { passfail id intext locateoptions outtext } {
+    global LOCATE
+    global FRCODE
+
+    if {[which $LOCATE] == 0} then {
+	error "$LOCATE, program does not exist"
+	exit 1
+    }
+
+    if {[which $FRCODE] == 0} then {
+	error "$FRCODE, program does not exist"
+	exit 1
+    }
+
+    set fail_good [string match "f*" $passfail]
+
+    set scriptname [uplevel {info script}]
+    set testbase [file rootname $scriptname]
+    set testname [file tail $testbase]
+    set listfile "updatedb-paths.txt"
+    set dbfile   "locate.db"
+    set outfile  "locate.out"
+
+    # Generate the "frcode" input.
+    catch { file delete -force $listfle }
+    set f [open $listfile w]
+    puts $f "$intext"
+    close $f
+
+    # Run frcode
+    exec $FRCODE < $listfile > $dbfile
+
+    # Now run locate.
+    set locatecmd "$LOCATE -d $dbfile $locateoptions"
+    send_log "Running $locatecmd \n"
+    catch "exec $locatecmd > $outfile"
+
+    set result ""
+    set f [open "$outfile" r]
+    while { [ gets $f line ]  >= 0 } {
+	# send_log "Output fragment is $line\n"
+	append result "$line\n"
+    }
+    close $f
+
+    # send_log "Output is $result\n"
+
+    if {[string equal $result $outtext]} {
+	if $fail_good then {
+	    fail "$testname-$id"
+	} else {
+	    pass "$testname-$id"
+	}
+    } else {
+	send_log "Output mismatch.\n"
+	send_log "Expected: $outtext\n"
+	send_log "Got     : $result\n"
+	fail "$testname-$id"
+    }
+}
+
+
 
 # Run locate and leave the output in $comp_output.
 # Called by individual test scripts.

@@ -112,6 +112,8 @@ extern int errno;
 #include "dirname.h"
 #include "closeout.h"
 #include "nextelem.h"
+#include "regex.h"
+
 
 /* Note that this evaluates C many times.  */
 #ifdef _LIBC
@@ -255,6 +257,11 @@ struct casefolder
   const char *pattern;
   char *buffer;
   size_t buffersize;
+};
+
+struct regular_expression
+{
+  regex_t re;
 };
 
 
@@ -426,6 +433,19 @@ visit_globmatch_casefold(const char *munged_filename, const char *original_filen
     return VISIT_CONTINUE;
 }
 
+
+static int
+visit_regex(const char *munged_filename, const char *original_filename, void *context)
+{
+  struct regular_expression *p = context;
+
+  if (0 == regexec(&p->re, munged_filename, 0u, NULL, 0))
+    return VISIT_CONTINUE;	/* match */
+  else
+    return VISIT_REJECTED;	/* no match */
+}
+
+
 static int
 visit_stats(const char *munged_filename, const char *original_filename, void *context)
 {
@@ -510,7 +530,8 @@ new_locate (char *pathpart,
 	    int basename_only,
 	    int use_limit,
 	    uintmax_t limit,
-	    int stats)
+	    int stats,
+	    int regex)
 {
   FILE *fp;			/* The pathname database.  */
   int c;			/* An input byte.  */
@@ -544,7 +565,22 @@ new_locate (char *pathpart,
     }
   else
     {
-      if (contains_metacharacter(pathpart))
+      if (regex)
+	{
+	  struct regular_expression *p = xmalloc(sizeof(*p));
+	  int cflags = REG_EXTENDED | REG_NOSUB 
+	    | (ignore_case ? REG_ICASE : 0);
+	  errno = 0;
+	  if (0 == regcomp(&p->re, pathpart, cflags))
+	    {
+	      add_visitor(visit_regex, p);
+	    }
+	  else 
+	    {
+	      error (1, errno, "Invalid regular expression; %s", pathpart);
+	    }
+	}
+      else if (contains_metacharacter(pathpart))
 	{
 	  if (ignore_case)
 	    add_visitor(visit_globmatch_casefold, pathpart);
@@ -744,7 +780,7 @@ Usage: %s [-d path | --database=path] [-e | --existing]\n\
       [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
       [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n\
-      [--version] [--help] pattern...\n"),
+      [-r | --regex ] [--version] [--help] pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
@@ -764,6 +800,7 @@ static struct option const longopts[] =
   {"stdio", no_argument, NULL, 's'},
   {"mmap",  no_argument, NULL, 'm'},
   {"limit",  required_argument, NULL, 'l'},
+  {"regex",  no_argument, NULL, 'r'},
   {"statistics",  no_argument, NULL, 'S'},
   {"follow",      no_argument, NULL, 'L'},
   {"nofollow",    no_argument, NULL, 'P'},
@@ -784,6 +821,7 @@ main (argc, argv)
   int basename_only = 0;
   uintmax_t limit = 0;
   int use_limit = 0;
+  int regex = 0;
   int stats = 0;
   
   program_name = argv[0];
@@ -801,7 +839,7 @@ main (argc, argv)
 
   check_existence = 0;
 
-  while ((optc = getopt_long (argc, argv, "bcd:eil:sm0SwHPL", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "bcd:eil:rsm0SwHPL", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
@@ -839,6 +877,10 @@ main (argc, argv)
 
       case 'w':
 	basename_only = 0;
+	break;
+
+      case 'r':
+	regex = 1;
 	break;
 
       case 'S':
@@ -921,7 +963,7 @@ main (argc, argv)
 	      e = LOCATE_DB;
 	    }
 	  
-	  found += new_locate (needle, e, ignore_case, print, basename_only, use_limit, limit, stats);
+	  found += new_locate (needle, e, ignore_case, print, basename_only, use_limit, limit, stats, regex);
 	}
       if (stats)
 	break;

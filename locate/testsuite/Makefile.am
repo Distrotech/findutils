@@ -11,7 +11,8 @@ EXTRA_DIST = config/unix.exp \
 	locate.gnu/ignore_case2.exp \
 	locate.gnu/ignore_case2.xo \
 	locate.gnu/ignore_case3.exp \
-	locate.gnu/ignore_case3.xo
+	locate.gnu/ignore_case3.xo \
+	locate.gnu/regex1.exp
 
 # DIST_SUBDIRS = config locate.gnu
 
