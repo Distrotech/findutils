@@ -14,3 +14,8 @@ PRUNEPATHS="$PRUNEPATHS $EXCLUDE_PATH"
 This suggestion is due to Eric Delaunay
 <delaunay@lix.polytechnique.fr>
 
+
+> The problem is NOT
+> updatedb, rather it's actually caused by the "checksecurity" call in
+> /etc/cron.daily/standard.  The easy fix for this is to mount your NFS
+> stuff nosuid and nodev so it ignores them. 

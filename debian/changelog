@@ -1,3 +1,20 @@
+findutils (4.1-29) unstable; urgency=low
+
+  * removed declaration of strdup and free from lib/nextelem.c, which
+    meets GNU coding standards and allow compilation on sparc (and fixes
+    bug #20840)
+  * corrected explanation of -amin option which described hours instead of 
+    minutes (fixes bug #22995)
+  * check status of tempfile commands and exit upon failure (fixes bug
+    #22350) 
+  * added iso9660 to PRUNEFS so that CDs will not be automatically scanned 
+    by updatedb (fixes bug #24548)
+  * added "-s /bin/sh" to all instances of command su, which allows
+    updatedb to be easily used by users which have a different shell.
+    (fixes bug #20812)
+
+ -- Kevin Dalley <kevind@rahul.net>  Sun, 30 Aug 1998 01:40:04 -0700
+
 findutils (4.1-28) frozen unstable; urgency=low
 
   * use tempfile for extra safety (fixes bug #19791)
