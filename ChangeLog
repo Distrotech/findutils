@@ -1,3 +1,22 @@
+2001-01-20  Kevin Dalley  <kevin@seti.org>
+
+	* doc/find.texi (Adding Tests): Place space in "#! /bin/sh".
+
+	* find/testsuite/find.gnu/prune-default-print.xo,
+	find/testsuite/find.gnu/prune-default-print.exp: test for "find
+	. -prune" which passes after changes.  Also see name-opt.exp.
+
+	* find/util.c (get_new_pred):
+	* find/tree.c (set_new_parent):
+	* find/parser.c (various parse functions):
+	* find/find.c (main): 
+	(default_prints): new function 
+	* find/defs.h (struct predicate): added no_default_print
+	side_effects are no separated from no_default_print.  predicates
+	which cause side effects should not be reordered (optimized).
+	predicates which cause printing should have printing turned off.
+	Printing statements also cause side effects.
+
 2000-10-29  Bruno Haible <haible@ilog.fr>
 
 	* locate/code.c (main), doc/find.texi: improve handling of

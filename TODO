@@ -26,10 +26,7 @@ They need to be implemented.
 
 -E slightly different from -e
 
-
-* Add case insensitive locate option.  Patch is available.
-
-* Should fnmatch.h be a link to fnmatch.hin?
+* Should fnmatch.h be a link to fnmatch.h.in?
 See tar distribution for an example. 
 
 * Eliminate unnecessary strcpy calls in xargs.
@@ -95,6 +92,18 @@ Perhaps it should default to nothing.
 
 * Include example of use of updatedb in documentation.
 Use something close to the Debian daily cron job.
+
+* Side effects do not allow the implicit use of -print.
+Specifically, the use of -prune turns off the implicit use of -print.
+Look at this line in find.c:
+  else if (!no_side_effects (predicates->pred_next))
+side_effects really means:
+predicate which produces output, according to find.c, at least it does
+some of the time.
+Two predicates, side_effects, and produce_output
+
+
+* Supply example for time range commands for find.
 
                         --//--
 This is used by Emacs' spell checker ispell.el:
