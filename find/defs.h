@@ -328,8 +328,8 @@ char *xgetcwd PARAMS((void));
  */
 enum SymlinkOption 
   {
-    SYMLINK_ALWAYS_DEREF,	/* Option -L */
     SYMLINK_NEVER_DEREF,	/* Option -P */
+    SYMLINK_ALWAYS_DEREF,	/* Option -L */
     SYMLINK_DEREF_ARGSONLY	/* Option -H */
   };
 extern enum SymlinkOption symlink_handling; /* defined in find.c. */
