@@ -1,3 +1,13 @@
+findutils (4.1-23) unstable; urgency=low
+
+  * This release is built with libc6 release
+  * add "#define _GNU_SOURCE" to pred.c
+  * zip man pages, which fixes bug #10272: findutils manpages are not
+    compressed. 
+
+
+  --
+
 findutils (4.1-22) frozen unstable; urgency=low
 
   * add smbfs to PRUNEFS in updatedb.conf, which is bug #8668, findutils:
@@ -30,7 +40,7 @@ findutils (4.1-19) unstable; urgency=low
 findutils (4.1-18) unstable; urgency=low
 
   * added extra '\' so that localuser, prunefs, and prunepaths can work
-    together, which fixes bug #6640n
+    together, which fixes bug #6640
 
  -- Kevin Dalley <kevin@aimnet.com>  Thu, 23 Jan 1997 02:00:11 -0800
 
