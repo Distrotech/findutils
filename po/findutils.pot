@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-21 12:38+0000\n"
+"POT-Creation-Date: 2004-11-21 20:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -261,12 +261,12 @@ msgstr ""
 
 #: find/find.c:694
 #, c-format
-msgid "Filesystem %s has recently been unmounted."
+msgid "Warning: filesystem %s has recently been unmounted."
 msgstr ""
 
 #: find/find.c:701
 #, c-format
-msgid "Filesystem %s has recently been mounted."
+msgid "Warning: filesystem %s has recently been mounted."
 msgstr ""
 
 #: find/find.c:715
@@ -283,17 +283,42 @@ msgid ""
 "ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:963 find/parser.c:1190
+#: find/find.c:963 find/parser.c:1191
 msgid "virtual memory exhausted"
 msgstr ""
 
-#: find/fstype.c:293
+#: find/fstype.c:327
 #, c-format
 msgid "error in %s: %s"
 msgstr ""
 
-#: find/fstype.c:382
+#: find/fstype.c:416
 msgid "unknown"
+msgstr ""
+
+#: find/fstype.c:455
+#, c-format
+msgid "Line too long in `%s'"
+msgstr ""
+
+#: find/fstype.c:460
+#, c-format
+msgid "One of the lines in `%s' has too many fields"
+msgstr ""
+
+#: find/fstype.c:466
+#, c-format
+msgid "One of the lines in `%s' has too few fields"
+msgstr ""
+
+#: find/fstype.c:472
+#, c-format
+msgid "Failed to parse an entry in `%s'"
+msgstr ""
+
+#: find/fstype.c:483
+#, c-format
+msgid "Don't know how to use getmntent() to read `%s'.  This is a bug."
 msgstr ""
 
 #: find/parser.c:302
@@ -305,18 +330,18 @@ msgid ""
 "arguments.\n"
 msgstr ""
 
-#: find/parser.c:541
+#: find/parser.c:542
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 
-#: find/parser.c:702
+#: find/parser.c:703
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr ""
 
-#: find/parser.c:704
+#: find/parser.c:705
 msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of:\n"
@@ -325,7 +350,7 @@ msgid ""
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
 msgstr ""
 
-#: find/parser.c:709
+#: find/parser.c:710
 msgid ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
 "positional options (always true): -daystart -follow\n"
@@ -336,7 +361,7 @@ msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"
 msgstr ""
 
-#: find/parser.c:715
+#: find/parser.c:716
 msgid ""
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
 "      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
@@ -344,14 +369,14 @@ msgid ""
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 
-#: find/parser.c:719
+#: find/parser.c:720
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]"
 msgstr ""
 
-#: find/parser.c:723
+#: find/parser.c:724
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
@@ -359,58 +384,58 @@ msgid ""
 "      -quit\n"
 msgstr ""
 
-#: find/parser.c:727
+#: find/parser.c:728
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
 
-#: find/parser.c:758
+#: find/parser.c:759
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 
-#: find/parser.c:801
+#: find/parser.c:802
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 
-#: find/parser.c:1188
+#: find/parser.c:1189
 #, c-format
 msgid "invalid mode `%s'"
 msgstr ""
 
-#: find/parser.c:1339
+#: find/parser.c:1340
 msgid "invalid null argument to -size"
 msgstr ""
 
-#: find/parser.c:1385
+#: find/parser.c:1386
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr ""
 
-#: find/parser.c:1478
+#: find/parser.c:1479
 #, c-format
 msgid "GNU find version %s\n"
 msgstr ""
 
-#: find/parser.c:1650
+#: find/parser.c:1651
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr ""
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1696
+#: find/parser.c:1697
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr ""
 
-#: find/parser.c:1938 find/parser.c:2018
+#: find/parser.c:1939 find/parser.c:2019
 #, c-format
 msgid "inserting %s\n"
 msgstr ""
 
-#: find/parser.c:1939 find/parser.c:2019
+#: find/parser.c:1940 find/parser.c:2020
 #, c-format
 msgid "    type: %s    %s  "
 msgstr ""
@@ -425,7 +450,7 @@ msgstr ""
 msgid "< %s ... %s > ? "
 msgstr ""
 
-#: find/pred.c:1393 xargs/xargs.c:1052
+#: find/pred.c:1393 xargs/xargs.c:1080
 msgid "cannot fork"
 msgstr ""
 
@@ -471,7 +496,7 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr ""
 
-#: locate/code.c:131 locate/locate.c:659 xargs/xargs.c:1220
+#: locate/code.c:131 locate/locate.c:659 xargs/xargs.c:1248
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -534,36 +559,41 @@ msgstr ""
 msgid "argument to --limit"
 msgstr ""
 
-#: xargs/xargs.c:392
+#: xargs/xargs.c:397
 msgid "environment is too large for exec"
 msgstr ""
 
-#: xargs/xargs.c:498
+#: xargs/xargs.c:507
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr ""
 
-#: xargs/xargs.c:528
+#: xargs/xargs.c:527
+#, c-format
+msgid "Cannot open input file `%s'"
+msgstr ""
+
+#: xargs/xargs.c:553
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr ""
 
-#: xargs/xargs.c:537
+#: xargs/xargs.c:562
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr ""
 
-#: xargs/xargs.c:540
+#: xargs/xargs.c:565
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr ""
 
-#: xargs/xargs.c:544
+#: xargs/xargs.c:569
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr ""
 
-#: xargs/xargs.c:547
+#: xargs/xargs.c:572
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr ""
@@ -571,72 +601,72 @@ msgstr ""
 #. I suspect that this can never happen now, because append_char_to_buf()
 #. * should only be called wen replace_pat is true.
 #.
-#: xargs/xargs.c:641 xargs/xargs.c:777 xargs/xargs.c:825
+#: xargs/xargs.c:666 xargs/xargs.c:802 xargs/xargs.c:850
 msgid "argument line too long"
 msgstr ""
 
-#: xargs/xargs.c:762
+#: xargs/xargs.c:787
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
 "the -0 option"
 msgstr ""
 
-#: xargs/xargs.c:763
+#: xargs/xargs.c:788
 msgid "double"
 msgstr ""
 
-#: xargs/xargs.c:763
+#: xargs/xargs.c:788
 msgid "single"
 msgstr ""
 
-#: xargs/xargs.c:914
+#: xargs/xargs.c:939
 msgid "command too long"
 msgstr ""
 
-#: xargs/xargs.c:932
+#: xargs/xargs.c:957
 msgid "can not fit single argument within argument list size limit"
 msgstr ""
 
-#: xargs/xargs.c:937
+#: xargs/xargs.c:962
 msgid "argument list too long"
 msgstr ""
 
-#: xargs/xargs.c:1116
+#: xargs/xargs.c:1144
 msgid "error waiting for child process"
-msgstr ""
-
-#: xargs/xargs.c:1132
-#, c-format
-msgid "%s: exited with status 255; aborting"
-msgstr ""
-
-#: xargs/xargs.c:1134
-#, c-format
-msgid "%s: stopped by signal %d"
-msgstr ""
-
-#: xargs/xargs.c:1136
-#, c-format
-msgid "%s: terminated by signal %d"
 msgstr ""
 
 #: xargs/xargs.c:1160
 #, c-format
+msgid "%s: exited with status 255; aborting"
+msgstr ""
+
+#: xargs/xargs.c:1162
+#, c-format
+msgid "%s: stopped by signal %d"
+msgstr ""
+
+#: xargs/xargs.c:1164
+#, c-format
+msgid "%s: terminated by signal %d"
+msgstr ""
+
+#: xargs/xargs.c:1188
+#, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr ""
 
-#: xargs/xargs.c:1167
+#: xargs/xargs.c:1195
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr ""
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1209
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr ""
 
-#: xargs/xargs.c:1212
+#: xargs/xargs.c:1240
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
@@ -644,6 +674,6 @@ msgid ""
 "str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
-"       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
-"       [command [initial-arguments]]\n"
+"       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n"
+"       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
