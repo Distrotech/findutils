@@ -20,7 +20,7 @@ AC_ARG_ENABLE(id-cache,
 
 AC_ARG_ENABLE(debug,
 	AC_HELP_STRING([--enable-debug],[Enable debugging output which is likely to be interesting to people debugging findutils]),
-	[ac_cv_debug=$withval],[ac_cv_debug=no])
+	[ac_cv_debug=$enableval],[ac_cv_debug=no])
 
 AC_MSG_CHECKING([whether debug output should be produced])
 if test x$ac_cv_debug = xno; then

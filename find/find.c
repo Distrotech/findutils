@@ -1,5 +1,5 @@
 /* find -- search for files in a directory hierarchy
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -86,41 +86,9 @@ struct predicate *last_pred;
 /* The root of the evaluation tree. */
 static struct predicate *eval_tree;
 
-/* If true, process directory before contents.  True unless -depth given. */
-boolean do_dir_first;
 
-/* If >=0, don't descend more than this many levels of subdirectories. */
-int maxdepth;
-
-/* If >=0, don't process files above this level. */
-int mindepth;
-
-/* Current depth; 0 means current path is a command line arg. */
-int curdepth;
-
-/* Output block size.  */
-int output_block_size;
-
-/* Time at start of execution.  */
-time_t start_time;
-
-/* Seconds between 00:00 1/1/70 and either one day before now
-   (the default), or the start of today (if -daystart is given). */
-time_t cur_day_start;
-
-/* If true, cur_day_start has been adjusted to the start of the day. */
-boolean full_days;
-
-/* If true, do not assume that files in directories with nlink == 2
-   are non-directories. */
-boolean no_leaf_check;
-
-/* If true, don't cross filesystem boundaries. */
-boolean stay_on_filesystem;
-
-/* If true, don't descend past current directory.
-   Can be set by -prune, -maxdepth, and -xdev/-mount. */
-boolean stop_at_current_level;
+struct options options;
+struct state state;
 
 /* The full path of the initial working directory, or "." if
    STARTING_DESC is nonnegative.  */
@@ -134,37 +102,6 @@ int starting_desc;
 /* The stat buffer of the initial working directory. */
 struct stat starting_stat_buf;
 
-/* If true, we have called stat on the current path. */
-boolean have_stat;
-
-/* The file being operated on, relative to the current directory.
-   Used for stat, readlink, remove, and opendir.  */
-char *rel_pathname;
-
-/* Length of current path. */
-int path_length;
-
-/* true if following symlinks.  Should be consistent with xstat.  */
-/* boolean dereference; */
-enum SymlinkOption symlink_handling;
-
-
-/* Pointer to the function used to stat files. */
-int (*xstat) ();
-
-/* Status value to return to system. */
-int exit_status;
-
-/* If true, we ignore the problem where we find that a directory entry 
- * no longer exists by the time we get around to processing it.
- */
-boolean ignore_readdir_race;
-
-
-/* If true, we issue warning messages
- */
-boolean warnings;
-
 
 enum TraversalDirection
   {
@@ -176,12 +113,12 @@ enum TraversalDirection
 static int
 following_links(void)
 {
-  switch (symlink_handling)
+  switch (options.symlink_handling)
     {
     case SYMLINK_ALWAYS_DEREF:
       return 1;
     case SYMLINK_DEREF_ARGSONLY:
-      return (curdepth == 0);
+      return (state.curdepth == 0);
     case SYMLINK_NEVER_DEREF:
     default:
       return 0;
@@ -231,7 +168,7 @@ fallback_stat(const char *name, struct stat *p, int prev_rv)
 int 
 optionh_stat(const char *name, struct stat *p)
 {
-  if (0 == curdepth) 
+  if (0 == state.curdepth) 
     {
       /* This file is from the command line; deference the link (if it
        * is a link).  
@@ -300,23 +237,23 @@ set_follow_state(enum SymlinkOption opt)
   switch (opt)
     {
     case SYMLINK_ALWAYS_DEREF:  /* -L */
-      xstat = optionl_stat;
-      no_leaf_check = true;
+      options.xstat = optionl_stat;
+      options.no_leaf_check = true;
       break;
       
     case SYMLINK_NEVER_DEREF:	/* -P (default) */
-      xstat = optionp_stat;
+      options.xstat = optionp_stat;
       /* Can't turn no_leaf_check off because the user might have specified 
        * -noleaf anyway
        */
       break;
       
     case SYMLINK_DEREF_ARGSONLY: /* -H */
-      xstat = optionh_stat;
-      no_leaf_check = true;
+      options.xstat = optionh_stat;
+      options.no_leaf_check = true;
     }
 
-  symlink_handling = opt;
+  options.symlink_handling = opt;
   
   /* For DBEUG_STAT, the choice is made at runtime within debug_stat()
    * by checking the contents of the symlink_handling variable.
@@ -345,40 +282,41 @@ main (int argc, char **argv)
 
   if (isatty(0))
     {
-      warnings = true;
+      options.warnings = true;
     }
   else
     {
-      warnings = false;
+      options.warnings = false;
     }
   
   
   predicates = NULL;
   last_pred = NULL;
-  do_dir_first = true;
-  maxdepth = mindepth = -1;
-  start_time = time (NULL);
-  cur_day_start = start_time - DAYSECS;
-  full_days = false;
-  stay_on_filesystem = false;
-  ignore_readdir_race = false;
-  exit_status = 0;
+  options.do_dir_first = true;
+  options.maxdepth = options.mindepth = -1;
+  options.start_time = time (NULL);
+  options.cur_day_start = options.start_time - DAYSECS;
+  options.full_days = false;
+  options.stay_on_filesystem = false;
+  options.ignore_readdir_race = false;
+
+  state.exit_status = 0;
 
 #if defined(DEBUG_STAT)
   xstat = debug_stat;
 #endif /* !DEBUG_STAT */
 
   if (getenv("POSIXLY_CORRECT"))
-    output_block_size = 512;
+    options.output_block_size = 512;
   else
-    output_block_size = 1024;
+    options.output_block_size = 1024;
   
   if (getenv("FIND_BLOCK_SIZE"))
     {
       error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
     }
 
-  no_leaf_check = false;
+  options.no_leaf_check = false;
   set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
 
   init_mounted_dev_list();
@@ -531,7 +469,7 @@ main (int argc, char **argv)
       if (! starting_dir)
 	error (1, errno, _("cannot get current directory"));
     }
-  if ((*xstat) (".", &starting_stat_buf) != 0)
+  if ((*options.xstat) (".", &starting_stat_buf) != 0)
     error (1, errno, _("cannot get current directory"));
 
   /* If no paths are given, default to ".".  */
@@ -552,9 +490,8 @@ main (int argc, char **argv)
       char defaultpath[2] = ".";
       process_top_path (defaultpath);
     }
-  
 
-  return exit_status;
+  return state.exit_status;
 }
 
 
@@ -715,14 +652,14 @@ wd_sanity_check(const char *thing_to_stat,
   
   *changed = false;
   
-  if ((*xstat) (".", newinfo) != 0)
+  if ((*options.xstat) (".", newinfo) != 0)
     error (1, errno, "%s", thing_to_stat);
   
   if (old_dev != newinfo->st_dev)
     {
       *changed = true;
       specific_what = specific_dirname(what);
-      fstype = filesystem_type(thing_to_stat, ".", newinfo);
+      fstype = filesystem_type(newinfo);
       silent = fs_likely_to_be_automounted(fstype);
       
       /* This condition is rare, so once we are here it is 
@@ -777,7 +714,7 @@ wd_sanity_check(const char *thing_to_stat,
 
       if (FATAL_IF_SANITY_CHECK_FAILS == isfatal)
 	{
-	  fstype = filesystem_type(thing_to_stat, ".", newinfo);
+	  fstype = filesystem_type(newinfo);
 	  error (1, 0,
 		 _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
 		 specific_what,
@@ -807,7 +744,7 @@ wd_sanity_check(const char *thing_to_stat,
     {
       *changed = true;
       specific_what = specific_dirname(what);
-      fstype = filesystem_type(thing_to_stat, ".", newinfo);
+      fstype = filesystem_type(newinfo);
       
       error ((isfatal == FATAL_IF_SANITY_CHECK_FAILS) ? 1 : 0,
 	     0,			/* no relevant errno value */
@@ -856,7 +793,7 @@ safely_chdir(const char *dest,
   if (dotfd >= 0)
     {
       /* Stat the directory we're going to. */
-      if (0 == xstat(dest, statbuf_dest))
+      if (0 == options.xstat(dest, statbuf_dest))
 	{
 #ifdef S_ISLNK
 	  if (!following_links() && S_ISLNK(statbuf_dest->st_mode))
@@ -903,7 +840,7 @@ safely_chdir(const char *dest,
 		{
 		  rv = SafeChdirFailNonexistent;
 		  rv_set = true;
-		  if (ignore_readdir_race)
+		  if (options.ignore_readdir_race)
 		    errno = 0;	/* don't issue err msg */
 		  else
 		    name = specific_dirname(dest);
@@ -933,7 +870,7 @@ safely_chdir(const char *dest,
 	  rv = SafeChdirFailStat;
 	  rv_set = true;
 	  name = specific_dirname(dest);
-	  if ( (ENOENT == saved_errno) || (0 == curdepth))
+	  if ( (ENOENT == saved_errno) || (0 == state.curdepth))
 	    saved_errno = 0;	/* don't issue err msg */
 	  goto fail;
 	}
@@ -1007,8 +944,8 @@ chdir_back (void)
 static void
 process_top_path (char *pathname)
 {
-  curdepth = 0;
-  path_length = strlen (pathname);
+  state.curdepth = 0;
+  state.path_length = strlen (pathname);
   process_path (pathname, pathname, false, ".");
 }
 
@@ -1100,34 +1037,36 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
   /* Assume it is a non-directory initially. */
   stat_buf.st_mode = 0;
 
-  rel_pathname = name;
+  state.rel_pathname = name;
 
   if (leaf)
-    have_stat = false;
+    state.have_stat = false;
   else
     {
-      if ((*xstat) (name, &stat_buf) != 0)
+      if ((*options.xstat) (name, &stat_buf) != 0)
 	{
-	  if (!ignore_readdir_race || (errno != ENOENT) )
+	  if (!options.ignore_readdir_race || (errno != ENOENT) )
 	    {
 	      error (0, errno, "%s", pathname);
-	      exit_status = 1;
+	      state.exit_status = 1;
 	    }
 	  return 0;
 	}
-      have_stat = true;
+      state.have_stat = true;
     }
 
   if (!S_ISDIR (stat_buf.st_mode))
     {
-      if (curdepth >= mindepth)
+      if (state.curdepth >= options.mindepth)
 	apply_predicate (pathname, &stat_buf, eval_tree);
       return 0;
     }
 
   /* From here on, we're working on a directory.  */
 
-  stop_at_current_level = maxdepth >= 0 && curdepth >= maxdepth;
+  state.stop_at_current_level =
+    options.maxdepth >= 0
+    && state.curdepth >= options.maxdepth;
 
   /* If we've already seen this directory on this branch,
      don't descend it again.  */
@@ -1135,7 +1074,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
     if (stat_buf.st_ino == dir_ids[i].ino &&
 	stat_buf.st_dev == dir_ids[i].dev)
       {
-	stop_at_current_level = true;
+	state.stop_at_current_level = true;
 	issue_loop_warning(name, pathname, i);
       }
   
@@ -1148,29 +1087,29 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
   dir_ids[dir_curr].ino = stat_buf.st_ino;
   dir_ids[dir_curr].dev = stat_buf.st_dev;
 
-  if (stay_on_filesystem)
+  if (options.stay_on_filesystem)
     {
-      if (curdepth == 0)
+      if (state.curdepth == 0)
 	root_dev = stat_buf.st_dev;
       else if (stat_buf.st_dev != root_dev)
-	stop_at_current_level = true;
+	state.stop_at_current_level = true;
     }
 
-  if (do_dir_first && curdepth >= mindepth)
+  if (options.do_dir_first && state.curdepth >= options.mindepth)
     apply_predicate (pathname, &stat_buf, eval_tree);
 
 #ifdef DEBUG
   fprintf(stderr, "pathname = %s, stop_at_current_level = %d\n",
-	  pathname, stop_at_current_level);
+	  pathname, state.stop_at_current_level);
 #endif /* DEBUG */
   
-  if (stop_at_current_level == false)
+  if (state.stop_at_current_level == false)
     /* Scan directory on disk. */
     process_dir (pathname, name, strlen (pathname), &stat_buf, parent);
 
-  if (do_dir_first == false && curdepth >= mindepth)
+  if (options.do_dir_first == false && state.curdepth >= options.mindepth)
     {
-      rel_pathname = name;
+      state.rel_pathname = name;
       apply_predicate (pathname, &stat_buf, eval_tree);
     }
 
@@ -1185,7 +1124,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
 
    NAME is PATHNAME relative to the current directory.
 
-   STATP is the results of *xstat on it.
+   STATP is the results of *options.xstat on it.
 
    PARENT is the path of the parent of NAME, relative to find's
    starting directory.  */
@@ -1205,7 +1144,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
     {
       assert(errno != 0);
       error (0, errno, "%s", pathname);
-      exit_status = 1;
+      state.exit_status = 1;
     }
   else
     {
@@ -1247,7 +1186,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	    case SafeChdirFailNotDir:
 	    case SafeChdirFailChdirFailed:
 	      error (0, errno, "%s", pathname);
-	      exit_status = 1;
+	      state.exit_status = 1;
 	      return;
 	    }
 	}
@@ -1302,8 +1241,8 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  cur_name = cur_path + pathname_len - 1;
 	  strcpy (cur_name, namep);
 
-	  curdepth++;
-	  if (!no_leaf_check)
+	  state.curdepth++;
+	  if (!options.no_leaf_check)
 	    /* Normal case optimization.
 	       On normal Unix filesystems, a directory that has no
 	       subdirectories has two links: its name, and ".".  Any
@@ -1318,7 +1257,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	    /* There might be weird (e.g., CD-ROM or MS-DOS) filesystems
 	       mounted, which don't have Unix-like directory link counts. */
 	    process_path (cur_path, cur_name, false, pathname);
-	  curdepth--;
+	  state.curdepth--;
 	}
 #if USE_SAFE_CHDIR
       if (strcmp (name, "."))
@@ -1332,7 +1271,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  char const *dir;
 	  boolean deref = following_links() ? true : false;
 	  
-	  if ( (curdepth>0) && !deref)
+	  if ( (state.curdepth>0) && !deref)
 	    dir = "..";
 	  else
 	    {

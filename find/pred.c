@@ -1,5 +1,5 @@
 /* pred.c -- execute the expression tree.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -295,13 +295,13 @@ pred_and (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       /* Check whether we need a stat here. */
       if (pred_ptr->need_stat)
 	{
-	  if (!have_stat && (*xstat) (rel_pathname, stat_buf) != 0)
+	  if (!state.have_stat && (*options.xstat) (state.rel_pathname, stat_buf) != 0)
 	    {
 	      error (0, errno, "%s", pathname);
-	      exit_status = 1;
+	      state.exit_status = 1;
 	      return (false);
 	    }
-	  have_stat = true;
+	  state.have_stat = true;
 	}
       return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 						  pred_ptr->pred_right));
@@ -364,13 +364,13 @@ pred_comma (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   /* Check whether we need a stat here. */
   if (pred_ptr->need_stat)
     {
-      if (!have_stat && (*xstat) (rel_pathname, stat_buf) != 0)
+      if (!state.have_stat && (*options.xstat) (state.rel_pathname, stat_buf) != 0)
 	{
 	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
+	  state.exit_status = 1;
 	  return (false);
 	}
-      have_stat = true;
+      state.have_stat = true;
     }
   return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 					      pred_ptr->pred_right));
@@ -388,9 +388,9 @@ pred_delete (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pred_ptr;
   (void) stat_buf;
-  if (strcmp (rel_pathname, "."))
+  if (strcmp (state.rel_pathname, "."))
     {
-      if (0 != remove (rel_pathname))
+      if (0 != remove (state.rel_pathname))
 	{
 	  error (0, errno, "cannot delete %s", pathname);
 	  return false;
@@ -418,12 +418,12 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       boolean empty = true;
 
       errno = 0;
-      d = opendir (rel_pathname);
+      d = opendir (state.rel_pathname);
       if (d == NULL)
 	{
 	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
-	  return (false);
+	  state.exit_status = 1;
+	  return false;
 	}
       for (dp = readdir (d); dp; dp = readdir (d))
 	{
@@ -438,8 +438,8 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       if (CLOSEDIR (d))
 	{
 	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
-	  return (false);
+	  state.exit_status = 1;
+	  return false;
 	}
       return (empty);
     }
@@ -504,8 +504,8 @@ pred_false (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_fls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  list_file (pathname, rel_pathname, stat_buf, start_time,
-	     output_block_size, pred_ptr->args.stream);
+  list_file (pathname, state.rel_pathname, stat_buf, options.start_time,
+	     options.output_block_size, pred_ptr->args.stream);
   return (true);
 }
 
@@ -587,7 +587,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  fprintf (fp, segment->text, ctime_format (stat_buf->st_ctime));
 	  break;
 	case 'd':		/* depth in search tree */
-	  fprintf (fp, segment->text, curdepth);
+	  fprintf (fp, segment->text, state.curdepth);
 	  break;
 	case 'D':		/* Device on which file exists (stat.st_dev) */
 	  fprintf (fp, segment->text, 
@@ -598,8 +598,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  fprintf (fp, segment->text, base_name (pathname));
 	  break;
 	case 'F':		/* filesystem type */
-	  fprintf (fp, segment->text,
-		   filesystem_type (pathname, rel_pathname, stat_buf));
+	  fprintf (fp, segment->text, filesystem_type (stat_buf));
 	  break;
 	case 'g':		/* group name */
 	  {
@@ -634,11 +633,11 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  }
 	case 'H':		/* ARGV element file was found under */
 	  {
-	    char cc = pathname[path_length];
+	    char cc = pathname[state.path_length];
 
-	    pathname[path_length] = '\0';
+	    pathname[state.path_length] = '\0';
 	    fprintf (fp, segment->text, pathname);
-	    pathname[path_length] = cc;
+	    pathname[state.path_length] = cc;
 	    break;
 	  }
 	case 'i':		/* inode number */
@@ -660,9 +659,9 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 
 	    if (S_ISLNK (stat_buf->st_mode))
 	      {
-		linkname = get_link_name (pathname, rel_pathname);
+		linkname = get_link_name (pathname, state.rel_pathname);
 		if (linkname == 0)
-		  exit_status = 1;
+		  state.exit_status = 1;
 	      }
 	    if (linkname)
 	      {
@@ -725,9 +724,9 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  fprintf (fp, segment->text, pathname);
 	  break;
 	case 'P':		/* pathname with ARGV element stripped */
-	  if (curdepth)
+	  if (state.curdepth > 0)
 	    {
-	      cp = pathname + path_length;
+	      cp = pathname + state.path_length;
 	      if (*cp == '/')
 		/* Move past the slash between the ARGV element
 		   and the rest of the pathname.  But if the ARGV element
@@ -775,8 +774,8 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	    {
 	      struct stat sbuf;
 	      int (*ystat) ();
-	      ystat = xstat == lstat ? stat : lstat;
-	      if ((*ystat) (rel_pathname, &sbuf) != 0)
+	      ystat = options.xstat == lstat ? stat : lstat;
+	      if ((*ystat) (state.rel_pathname, &sbuf) != 0)
 	      {
 		if ( errno == ENOENT ) {
 		  fprintf (fp, segment->text, "N");
@@ -821,10 +820,12 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_fstype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  if (strcmp (filesystem_type (pathname, rel_pathname, stat_buf),
-	      pred_ptr->args.str) == 0)
-    return (true);
-  return (false);
+  (void) pathname;
+  
+  if (strcmp (filesystem_type (stat_buf), pred_ptr->args.str) == 0)
+    return true;
+  else
+    return false;
 }
 
 boolean
@@ -952,7 +953,7 @@ insert_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr,
 #ifdef S_ISLNK
   if (S_ISLNK (stat_buf->st_mode))
     {
-      char *linkname = get_link_name (pathname, rel_pathname);
+      char *linkname = get_link_name (pathname, state.rel_pathname);
       if (linkname)
 	{
 	  if (fnmatch (pred_ptr->args.str, linkname,
@@ -970,8 +971,8 @@ pred_ls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pred_ptr;
   
-  list_file (pathname, rel_pathname, stat_buf, start_time,
-	     output_block_size, stdout);
+  list_file (pathname, state.rel_pathname, stat_buf, options.start_time,
+	     options.output_block_size, stdout);
   return (true);
 }
 
@@ -1011,13 +1012,13 @@ pred_negate (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   /* Check whether we need a stat here. */
   if (pred_ptr->need_stat)
     {
-      if (!have_stat && (*xstat) (rel_pathname, stat_buf) != 0)
+      if (!state.have_stat && (*options.xstat) (state.rel_pathname, stat_buf) != 0)
 	{
 	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
-	  return (false);
+	  state.exit_status = 1;
+	  return false;
 	}
-      have_stat = true;
+      state.have_stat = true;
     }
   return (!(*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 					      pred_ptr->pred_right));
@@ -1102,19 +1103,19 @@ pred_or (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       /* Check whether we need a stat here. */
       if (pred_ptr->need_stat)
 	{
-	  if (!have_stat && (*xstat) (rel_pathname, stat_buf) != 0)
+	  if (!state.have_stat && (*options.xstat) (state.rel_pathname, stat_buf) != 0)
 	    {
 	      error (0, errno, "%s", pathname);
-	      exit_status = 1;
-	      return (false);
+	      state.exit_status = 1;
+	      return false;
 	    }
-	  have_stat = true;
+	  state.have_stat = true;
 	}
       return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 						  pred_ptr->pred_right));
     }
   else
-    return (true);
+    return true;
 }
 
 boolean
@@ -1175,8 +1176,8 @@ pred_prune (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   (void) pathname;
   (void) stat_buf;
   (void) pred_ptr;
-  stop_at_current_level = true;
-  return (do_dir_first);	/* This is what SunOS find seems to do. */
+  state.stop_at_current_level = true;
+  return (options.do_dir_first); /* This is what SunOS find seems to do. */
 }
 
 boolean
@@ -1318,7 +1319,7 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   struct stat sbuf;		/* local copy, not stat_buf because we're using a different stat method */
   int (*ystat) (const char*, struct stat *p);
 
-  switch (symlink_handling)
+  switch (options.symlink_handling)
     {
     case SYMLINK_ALWAYS_DEREF:
       ystat = optionl_stat;
@@ -1327,7 +1328,7 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       ystat = optionp_stat;
     }
   
-  if ((*ystat) (rel_pathname, &sbuf) != 0)
+  if ((*ystat) (state.rel_pathname, &sbuf) != 0)
     {
       if (ystat == optionl_stat && errno == ENOENT)
 	{
@@ -1340,7 +1341,7 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       else
 	{
 	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
+	  state.exit_status = 1;
 	}
       return false;
     }
@@ -1412,14 +1413,14 @@ launch (struct predicate *pred_ptr)
     if (errno != EINTR)
       {
 	error (0, errno, _("error waiting for %s"), execp->vec[0]);
-	exit_status = 1;
+	state.exit_status = 1;
 	return false;
       }
   if (WIFSIGNALED (status))
     {
       error (0, 0, _("%s terminated by signal %d"),
 	     execp->vec[0], WTERMSIG (status));
-      exit_status = 1;
+      state.exit_status = 1;
       return (false);
     }
   return (!WEXITSTATUS (status));

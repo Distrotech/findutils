@@ -79,7 +79,7 @@ extern int errno;
 # define N_(String) String
 #endif
 
-static char *filesystem_type_uncached PARAMS((const char *path, const char *relpath, const struct stat *statp));
+static char *filesystem_type_uncached PARAMS((const struct stat *statp));
 
 
 /* Get MNTTYPE_IGNORE if it is available. */
@@ -155,7 +155,7 @@ static int fstype_known = 0;
    Return "unknown" if its filesystem type is unknown.  */
 
 char *
-filesystem_type (const char *path, const char *relpath, const struct stat *statp)
+filesystem_type (const struct stat *statp)
 {
   static char *current_fstype = NULL;
   static dev_t current_dev;
@@ -167,7 +167,7 @@ filesystem_type (const char *path, const char *relpath, const struct stat *statp
       free (current_fstype);
     }
   current_dev = statp->st_dev;
-  current_fstype = filesystem_type_uncached (path, relpath, statp);
+  current_fstype = filesystem_type_uncached (statp);
   return current_fstype;
 }
 
@@ -178,7 +178,7 @@ set_fstype_devno(struct mount_entry *p)
   
   if (p->me_dev == (dev_t)-1)
     {
-      if (0 == xstat(p->me_mountdir, &stbuf))
+      if (0 == (options.xstat)(p->me_mountdir, &stbuf))
 	{
 	  p->me_dev = stbuf.st_dev;
 	  return 0;
@@ -198,7 +198,7 @@ set_fstype_devno(struct mount_entry *p)
    Return "unknown" if its filesystem type is unknown.  */
 
 static char *
-filesystem_type_uncached (const char *path, const char *relpath, const struct stat *statp)
+filesystem_type_uncached (const struct stat *statp)
 {
   struct mount_entry *entries, *entry;
   char *type;

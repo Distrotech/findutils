@@ -1,5 +1,5 @@
 /* parser.c -- convert the command line args into an expression tree.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2001, 2003, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -296,7 +296,7 @@ find_parser (char *search_name)
 	      if (parse_table[i].type == ARG_OPTION)
 		{
 		  if ((first_nonoption_arg != NULL)
-		      && warnings )
+		      && options.warnings )
 		    {
 		      /* option which folows a non-option */
 		      error (0, 0,
@@ -352,7 +352,7 @@ parse_amin (char **argv, int *arg_ptr)
     return (false);
   if (!get_num_days (argv[*arg_ptr], &num, &c_type))
     return (false);
-  t = cur_day_start + DAYSECS - num * 60;
+  t = options.cur_day_start + DAYSECS - num * 60;
   our_pred = insert_primary (pred_amin);
   our_pred->args.info.kind = c_type;
   our_pred->args.info.negative = t < 0;
@@ -388,7 +388,7 @@ parse_anewer (char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
-  if ((*xstat) (argv[*arg_ptr], &stat_newer))
+  if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (pred_anewer);
   our_pred->args.time = stat_newer.st_mtime;
@@ -433,7 +433,7 @@ parse_cmin (char **argv, int *arg_ptr)
     return (false);
   if (!get_num_days (argv[*arg_ptr], &num, &c_type))
     return (false);
-  t = cur_day_start + DAYSECS - num * 60;
+  t = options.cur_day_start + DAYSECS - num * 60;
   our_pred = insert_primary (pred_cmin);
   our_pred->args.info.kind = c_type;
   our_pred->args.info.negative = t < 0;
@@ -450,7 +450,7 @@ parse_cnewer (char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
-  if ((*xstat) (argv[*arg_ptr], &stat_newer))
+  if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (pred_cnewer);
   our_pred->args.time = stat_newer.st_mtime;
@@ -491,17 +491,17 @@ parse_daystart (char **argv, int *arg_ptr)
   (void) argv;
   (void) arg_ptr;
 
-  if (full_days == false)
+  if (options.full_days == false)
     {
-      cur_day_start += DAYSECS;
-      local = localtime (&cur_day_start);
-      cur_day_start -= (local
+      options.cur_day_start += DAYSECS;
+      local = localtime (&options.cur_day_start);
+      options.cur_day_start -= (local
 			? (local->tm_sec + local->tm_min * 60
 			   + local->tm_hour * 3600)
-			: cur_day_start % DAYSECS);
-      full_days = true;
+			: options.cur_day_start % DAYSECS);
+      options.full_days = true;
     }
-  return (true);
+  return true;
 }
 
 static boolean
@@ -517,7 +517,7 @@ parse_delete (argv, arg_ptr)
   our_pred->side_effects = true;
   our_pred->no_default_print = true;
   /* -delete implies -depth */
-  do_dir_first = false;
+  options.do_dir_first = false;
   return (true);
 }
 
@@ -527,7 +527,7 @@ parse_depth (char **argv, int *arg_ptr)
   (void) argv;
   (void) arg_ptr;
 
-  do_dir_first = false;
+  options.do_dir_first = false;
   return (true);
 }
  
@@ -537,7 +537,7 @@ parse_d (char **argv, int *arg_ptr)
   (void) argv;
   (void) arg_ptr;
   
-  if (warnings)
+  if (options.warnings)
     {
       error (0, 0,
 	     _("warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."));
@@ -875,15 +875,15 @@ parse_maxdepth (char **argv, int *arg_ptr)
   int depth_len;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return (false);
+    return false;
   depth_len = strspn (argv[*arg_ptr], "0123456789");
   if ((depth_len == 0) || (argv[*arg_ptr][depth_len] != '\0'))
-    return (false);
-  maxdepth = atoi (argv[*arg_ptr]);
-  if (maxdepth < 0)
-    return (false);
+    return false;
+  options.maxdepth = atoi (argv[*arg_ptr]);
+  if (options.maxdepth < 0)
+    return false;
   (*arg_ptr)++;
-  return (true);
+  return true;
 }
 
 static boolean
@@ -892,15 +892,15 @@ parse_mindepth (char **argv, int *arg_ptr)
   int depth_len;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return (false);
+    return false;
   depth_len = strspn (argv[*arg_ptr], "0123456789");
   if ((depth_len == 0) || (argv[*arg_ptr][depth_len] != '\0'))
-    return (false);
-  mindepth = atoi (argv[*arg_ptr]);
-  if (mindepth < 0)
-    return (false);
+    return false;
+  options.mindepth = atoi (argv[*arg_ptr]);
+  if (options.mindepth < 0)
+    return false;
   (*arg_ptr)++;
-  return (true);
+  return true;
 }
 
 static boolean
@@ -915,7 +915,7 @@ parse_mmin (char **argv, int *arg_ptr)
     return (false);
   if (!get_num_days (argv[*arg_ptr], &num, &c_type))
     return (false);
-  t = cur_day_start + DAYSECS - num * 60;
+  t = options.cur_day_start + DAYSECS - num * 60;
   our_pred = insert_primary (pred_mmin);
   our_pred->args.info.kind = c_type;
   our_pred->args.info.negative = t < 0;
@@ -977,7 +977,7 @@ parse_newer (char **argv, int *arg_ptr)
   
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
-  if ((*xstat) (argv[*arg_ptr], &stat_newer))
+  if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (pred_newer);
   our_pred->args.time = stat_newer.st_mtime;
@@ -991,7 +991,7 @@ parse_noleaf (char **argv, int *arg_ptr)
   (void) &argv;
   (void) &arg_ptr;
   
-  no_leaf_check = true;
+  options.no_leaf_check = true;
   return true;
 }
 
@@ -1089,7 +1089,7 @@ parse_nowarn (char **argv, int *arg_ptr)
   (void) argv;
   (void) arg_ptr;
   
-  warnings = false;
+  options.warnings = false;
   return true;;
 }
 
@@ -1488,7 +1488,7 @@ parse_xdev (char **argv, int *arg_ptr)
 {
   (void) argv;
   (void) arg_ptr;
-  stay_on_filesystem = true;
+  options.stay_on_filesystem = true;
   return true;
 }
 
@@ -1497,7 +1497,7 @@ parse_ignore_race (char **argv, int *arg_ptr)
 {
   (void) argv;
   (void) arg_ptr;
-  ignore_readdir_race = true;
+  options.ignore_readdir_race = true;
   return true;
 }
 
@@ -1506,7 +1506,7 @@ parse_noignore_race (char **argv, int *arg_ptr)
 {
   (void) argv;
   (void) arg_ptr;
-  ignore_readdir_race = false;
+  options.ignore_readdir_race = false;
   return true;
 }
 
@@ -1515,7 +1515,7 @@ parse_warn (char **argv, int *arg_ptr)
 {
   (void) argv;
   (void) arg_ptr;
-  warnings = true;
+  options.warnings = true;
   return true;
 }
 
@@ -1912,16 +1912,16 @@ insert_time (char **argv, int *arg_ptr, PFB pred)
     return (false);
 
   /* Figure out the timestamp value we are looking for. */
-  t = ( cur_day_start - num_days * DAYSECS
+  t = ( options.cur_day_start - num_days * DAYSECS
 		   + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
-#if 1
+
   if (1)
     {
       /* We introduce a scope in which 'val' can be declared, for the 
        * benefit of compilers that are really C89 compilers
        * which support intmax_t because config.h #defines it
        */
-      intmax_t val = ( (intmax_t)cur_day_start - num_days * DAYSECS
+      intmax_t val = ( (intmax_t)options.cur_day_start - num_days * DAYSECS
 		       + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
       t = val;
       
@@ -1931,7 +1931,6 @@ insert_time (char **argv, int *arg_ptr, PFB pred)
 	  error (1, 0, "arithmetic overflow while converting %s days to a number of seconds", argv[*arg_ptr]);
 	}
     }
-#endif
   
   our_pred = insert_primary (pred);
   our_pred->args.info.kind = c_type;

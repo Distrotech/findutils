@@ -1,5 +1,5 @@
 /* defs.h -- data types and declarations.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -337,7 +337,7 @@ extern enum SymlinkOption symlink_handling; /* defined in find.c. */
 void set_follow_state PARAMS((enum SymlinkOption opt));
 
 /* fstype.c */
-char *filesystem_type PARAMS((const char *path, const char *relpath, const struct stat *statp));
+char *filesystem_type PARAMS((const struct stat *statp));
 char * get_mounted_filesystems (void);
 dev_t * get_mounted_devices PARAMS((size_t *));
 
@@ -421,29 +421,81 @@ void usage PARAMS((char *msg));
 extern char *program_name;
 extern struct predicate *predicates;
 extern struct predicate *last_pred;
-extern boolean do_dir_first;
-extern int maxdepth;
-extern int mindepth;
-extern int curdepth;
-extern int output_block_size;
-extern time_t start_time;
-extern time_t cur_day_start;
-extern boolean full_days;
-extern boolean no_leaf_check;
-extern boolean stay_on_filesystem;
-extern boolean ignore_readdir_race;
-extern boolean stop_at_current_level;
-extern boolean have_stat;
-extern char *rel_pathname;
+
+struct options
+{
+  /* If true, process directory before contents.  True unless -depth given. */
+  boolean do_dir_first;
+  
+  /* If >=0, don't descend more than this many levels of subdirectories. */
+  int maxdepth;
+  
+  /* If >=0, don't process files above this level. */
+  int mindepth;
+  
+  /* If true, do not assume that files in directories with nlink == 2
+     are non-directories. */
+  boolean no_leaf_check;
+  
+  /* If true, don't cross filesystem boundaries. */
+  boolean stay_on_filesystem;
+  
+  /* If true, we ignore the problem where we find that a directory entry 
+   * no longer exists by the time we get around to processing it.
+   */
+  boolean ignore_readdir_race;
+  
+/* If true, we issue warning messages
+ */
+  boolean warnings;
+  time_t start_time;		/* Time at start of execution.  */
+  
+  /* Seconds between 00:00 1/1/70 and either one day before now
+     (the default), or the start of today (if -daystart is given). */
+  time_t cur_day_start;
+  
+  /* If true, cur_day_start has been adjusted to the start of the day. */
+  boolean full_days;
+  
+  int output_block_size;	/* Output block size.  */
+  
+  enum SymlinkOption symlink_handling;
+  
+  
+  /* Pointer to the function used to stat files. */
+  int (*xstat) (const char *name, struct stat *statbuf);
+};
+extern struct options options;
+
+
+struct state
+{
+  /* Current depth; 0 means current path is a command line arg. */
+  int curdepth;
+  
+  /* If true, we have called stat on the current path. */
+  boolean have_stat;
+  
+  /* The file being operated on, relative to the current directory.
+     Used for stat, readlink, remove, and opendir.  */
+  char *rel_pathname;
+
+  /* Length of current path. */
+  int path_length;
+
+  /* If true, don't descend past current directory.
+     Can be set by -prune, -maxdepth, and -xdev/-mount. */
+  boolean stop_at_current_level;
+  
+  /* Status value to return to system. */
+  int exit_status;
+};
+extern struct state state;
+
 extern char const *starting_dir;
 extern int starting_desc;
 #if ! defined HAVE_FCHDIR && ! defined fchdir
 # define fchdir(fd) (-1)
 #endif
-extern int exit_status;
-extern int path_length;
-extern int (*xstat) ();
-extern boolean dereference;
-extern boolean warnings;
 
 #endif
