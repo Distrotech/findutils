@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-31 12:11+0000\n"
+"POT-Creation-Date: 2004-11-08 20:38+0000\n"
 "PO-Revision-Date: 2004-11-03 02:26+0100\n"
 "Last-Translator: Marco d'Itri <md@linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -203,70 +203,83 @@ msgstr "^[nN]"
 msgid "oops -- invalid default insertion of and!"
 msgstr "oops -- inserimento predefinito di and non valido!"
 
-#: find/util.c:148 find/parser.c:625
+#: find/util.c:148 find/parser.c:702
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Uso: %s [percorso...] [espressione]\n"
 
-#: find/find.c:207
-msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr "La variabile di ambiente FIND_BLOCK_SIZE non è gestita, l'unica cosa che influenza la dimensione dei blocchi è la variabile di ambiente POSIXLY_CORRECT"
+#: find/find.c:222
+msgid ""
+"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
+"that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr ""
+"La variabile di ambiente FIND_BLOCK_SIZE non è gestita, l'unica cosa che "
+"influenza la dimensione dei blocchi è la variabile di ambiente "
+"POSIXLY_CORRECT"
 
-#: find/find.c:227
+#: find/find.c:242
 msgid "paths must precede expression"
 msgstr "i percorsi devono precedere l'espressione"
 
 #. Command line option not recognized
-#: find/find.c:232
+#: find/find.c:247
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "il predicato `%s' non è valido"
 
 #. Command line option requires an argument
-#: find/find.c:238
+#: find/find.c:253
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "manca l'argomento di `%s'"
 
-#: find/find.c:240
+#: find/find.c:255
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "l'argomento `%s' di `%s' non è valido"
 
-#: find/find.c:269
+#: find/find.c:284
 #, c-format
 msgid "Predicate List:\n"
 msgstr "Lista dei predicati:\n"
 
-#: find/find.c:282
+#: find/find.c:297
 msgid "unexpected extra predicate"
 msgstr "predicato aggiuntivo inatteso"
 
-#: find/find.c:286
+#: find/find.c:301
 #, c-format
 msgid "Eval Tree:\n"
 msgstr "Albero di valutazione:\n"
 
-#: find/find.c:297
+#: find/find.c:312
 #, c-format
 msgid "Optimized Eval Tree:\n"
 msgstr "Albero di valutazione ottimizzato:\n"
 
-#: find/find.c:311 find/find.c:314
+#: find/find.c:326 find/find.c:329
 msgid "cannot get current directory"
 msgstr "impossibile ottenere la directory corrente"
 
-#: find/find.c:368
+#: find/find.c:393
 #, c-format
-msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"
-msgstr "%s%s è cambiato durante l'esecuzione di %s (vecchio numero di dispositivo %ld, nuovo numero di dispositivo %ld, il filesystem è di tipo %s) [rif. %ld]"
+msgid ""
+"%s%s changed during execution of %s (old device number %ld, new device "
+"number %ld, filesystem type is %s) [ref %ld]"
+msgstr ""
+"%s%s è cambiato durante l'esecuzione di %s (vecchio numero di dispositivo %"
+"ld, nuovo numero di dispositivo %ld, il filesystem è di tipo %s) [rif. %ld]"
 
-#: find/find.c:385
+#: find/find.c:410
 #, c-format
-msgid "%s%s changed during execution of %s (old inode number %ld, new inode number %ld, filesystem type is %s) [ref %ld]"
-msgstr "%s%s è cambiato durante l'esecuzione di %s (vecchio numero di inode %ld, nuovo numero di inode %ld, il filesystem è di tipo %s) [rif. %ld]"
+msgid ""
+"%s%s changed during execution of %s (old inode number %ld, new inode number %"
+"ld, filesystem type is %s) [ref %ld]"
+msgstr ""
+"%s%s è cambiato durante l'esecuzione di %s (vecchio numero di inode %ld, "
+"nuovo numero di inode %ld, il filesystem è di tipo %s) [rif. %ld]"
 
-#: find/find.c:603 find/parser.c:1101
+#: find/find.c:628 find/parser.c:1187
 msgid "virtual memory exhausted"
 msgstr "la memoria virtuale è terminata"
 
@@ -279,28 +292,48 @@ msgstr "errore in %s: %s"
 msgid "unknown"
 msgstr "sconosciuto"
 
-#: find/parser.c:462
-msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
-msgstr "attenzione: l'opzione -d è deprecata; per favore usare l'opzione -depth, che segue POSIX."
+#: find/parser.c:302
+#, c-format
+msgid ""
+"warning: you have specified the %s option after a non-option argument %s, "
+"but options are not positional (%s affects tests specified before it as well "
+"as those specified after it).  Please specify options before other "
+"arguments.\n"
+msgstr ""
 
-#: find/parser.c:627
+#: find/parser.c:539
+msgid ""
+"warning: the -d option is deprecated; please use -depth instead, because the "
+"latter is a POSIX-compliant feature."
+msgstr ""
+"attenzione: l'opzione -d è deprecata; per favore usare l'opzione -depth, che "
+"segue POSIX."
+
+#: find/parser.c:704
+#, fuzzy
 msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of:\n"
-"operators (decreasing precedence; -and is implicit where no others are given):\n"
-"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
+"operators (decreasing precedence; -and is implicit where no others are "
+"given):\n"
+"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
 msgstr ""
-"il percorso predefinito è la directory corrente; l'espressione predefinita è\n"
+"il percorso predefinito è la directory corrente; l'espressione predefinita "
+"è\n"
 "-print. L'espressione può essere formata da:\n"
 "operatori (di precedenza decrescente; -and è implicito quando non ne sono\n"
 "          indicati altri:\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:632
+#: find/parser.c:709
+#, fuzzy
 msgid ""
 "      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
-"options (always true): -daystart -delete -depth -follow --help\n"
-"      -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n"
+"positional options (always true): -daystart -follow\n"
+"normal options (always true, specified before other expressions): -depth\n"
+"      --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -"
+"xdev\n"
+"      -ignore_readdir_race -noignore_readdir_race\n"
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"
 msgstr ""
 "      ESPR1 -o ESPR2 ESPR1 -or ESPR2 ESPR1 , ESPR2\n"
@@ -308,88 +341,99 @@ msgstr ""
 "      -maxdepth LIVELLI -mindepth LIVELLI -mount -noleaf --version -xdev\n"
 "test (N può essere +N o -N o N): -amin N -anewer FILE -atime N -cmin N"
 
-#: find/parser.c:637
+#: find/parser.c:715
 msgid ""
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
+"PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 "      -cnewer FILE -ctime N -empty -false -fstype TIPO -gid N -group NOME\n"
-"      -ilname MODELLO -iname MODELLO -inum N -iwholename MODELLO -iregex MODELLO\n"
+"      -ilname MODELLO -iname MODELLO -inum N -iwholename MODELLO -iregex "
+"MODELLO\n"
 "      -links N -lname MODELLO -mmin N -mtime N -name MODELLO -newer FILE"
 
-#: find/parser.c:641
+#: find/parser.c:719
+#, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
-"      -used N -user NAME -xtype [bcdpfls]\n"
+"      -used N -user NAME -xtype [bcdpfls]"
 msgstr ""
 "      -nouser -nogroup -path MODELLO -perm [+-]MODO -regex MODELLO\n"
 "      -wholename MODELLO -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NOME -xtype [bcdpfls]\n"
 
-#: find/parser.c:645
+#: find/parser.c:723
+#, fuzzy
 msgid ""
 "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-"      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
+"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
+"delete\n"
+"      -quit\n"
 msgstr ""
 "azioni: -exec COMANDO ; -fprint FILE -fprint0 FILE -fprintf FILE FORMATO\n"
 "      -ok COMANDO ; -print -print0 -printf FORMATO -prune -ls\n"
 
-#: find/parser.c:648
+#: find/parser.c:727
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
-"È possibile segnalare i bug (e seguire la loro correzione) tramite la pagina\n"
-"di segnalazione dei bug di findutils presso http://savannah.gnu.org/, o se non\n"
+"È possibile segnalare i bug (e seguire la loro correzione) tramite la "
+"pagina\n"
+"di segnalazione dei bug di findutils presso http://savannah.gnu.org/, o se "
+"non\n"
 "si ha accesso al web inviando un'email a <bug-findutils@gnu.org>."
 
-#: find/parser.c:679
+#: find/parser.c:758
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "il controllo interno della funzione di libreria fnmatch() è fallito."
 
-#: find/parser.c:722
-msgid "warning: the predicate -ipath is deprecated; please use -iwholename instead."
-msgstr "attenzione: il predicato -ipath è deprecato; per favore usare -iwholename al suo posto."
+#: find/parser.c:801
+msgid ""
+"warning: the predicate -ipath is deprecated; please use -iwholename instead."
+msgstr ""
+"attenzione: il predicato -ipath è deprecato; per favore usare -iwholename al "
+"suo posto."
 
-#: find/parser.c:1099
+#: find/parser.c:1185
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "il modo `%s' non è valido"
 
-#: find/parser.c:1239
+#: find/parser.c:1325
 msgid "invalid null argument to -size"
 msgstr "-size non può avere un argomento nullo"
 
-#: find/parser.c:1285
+#: find/parser.c:1371
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "il tipo di -size `%c' non è valido"
 
-#: find/parser.c:1373
+#: find/parser.c:1459
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versione %s\n"
 
-#: find/parser.c:1528
+#: find/parser.c:1621
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "attenzione: sequenza di escape `\\%c' sconosciuta"
 
 #. An unrecognized % escape.  Print the char after the %.
-#: find/parser.c:1574
+#: find/parser.c:1667
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "attenzione: direttiva di formattazione `%%%c' sconosciuta"
 
-#: find/parser.c:1807 find/parser.c:1887
+#: find/parser.c:1900 find/parser.c:1980
 #, c-format
 msgid "inserting %s\n"
 msgstr "inserimento di %s\n"
 
-#: find/parser.c:1808 find/parser.c:1888
+#: find/parser.c:1901 find/parser.c:1981
 #, c-format
 msgid "    type: %s    %s  "
 msgstr "    tipo: %s    %s  "
@@ -404,7 +448,7 @@ msgstr "    tipo: %s    %s  "
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1324 xargs/xargs.c:932
+#: find/pred.c:1324 xargs/xargs.c:1052
 msgid "cannot fork"
 msgstr "impossibile fare fork"
 
@@ -449,13 +493,13 @@ msgid "Usage: %s most_common_bigrams < list > coded_list\n"
 msgstr "Uso: %s bigrammi_più_comuni < lista > lista_codificata\n"
 
 #. Printable name of units used in WARN_SECONDS
-#: locate/locate.c:124
+#: locate/locate.c:127
 msgid "days"
 msgstr "giorni"
 
 #. For example:
 #. warning: database `fred' is more than 8 days old
-#: locate/locate.c:309
+#: locate/locate.c:518
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "attenzione: il database `%s' ha più di %d %s"
@@ -464,21 +508,22 @@ msgstr "attenzione: il database `%s' ha più di %d %s"
 #. * reading in data which is outside our control, we
 #. * cannot prevent it.
 #.
-#: locate/locate.c:388
+#: locate/locate.c:591
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "il database di locate '%s' è corrotto o non valido"
 
-#: locate/locate.c:476
-#, c-format
+#: locate/locate.c:640
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | --existing]\n"
-"      [-i | --ignore-case] [--version] [--help] pattern...\n"
+"      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n"
+"      [--version] [--help] pattern...\n"
 msgstr ""
 "Uso: %s [-d percorso | --database=percorso] [ -e | --existing]\n"
 "    [-i | --ignore-case] [--version] [--help] modello...\n"
 
-#: locate/locate.c:480 xargs/xargs.c:1085
+#: locate/locate.c:645 xargs/xargs.c:1220
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -486,91 +531,140 @@ msgstr ""
 "\n"
 "Segnalare i bug a <bug-findutils@gnu.org>.\n"
 
-#: locate/locate.c:538
+#: locate/locate.c:655
+#, c-format
+msgid ""
+"warning: locate database path `%s' contains a leading colon, which is not a "
+"valid database name"
+msgstr ""
+
+#: locate/locate.c:663
+#, c-format
+msgid ""
+"warning: locate database path `%s' contains a trailing colon, which is not a "
+"valid database name"
+msgstr ""
+
+#: locate/locate.c:748
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate versione %s\n"
 
-#: xargs/xargs.c:322
+#: locate/locate.c:761
+#, fuzzy
+msgid "argument to --limit"
+msgstr "la riga dell'argomento è troppo lunga"
+
+#: xargs/xargs.c:392
 msgid "environment is too large for exec"
 msgstr "l'ambiente è troppo grande per fare exec"
 
-#: xargs/xargs.c:401
+#: xargs/xargs.c:498
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versione %s\n"
 
+#: xargs/xargs.c:528
+#, c-format
+msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
+msgstr ""
+
+#: xargs/xargs.c:537
+#, c-format
+msgid "Your environment variables take up %ld bytes\n"
+msgstr ""
+
+#: xargs/xargs.c:540
+#, c-format
+msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
+msgstr ""
+
+#: xargs/xargs.c:544
+#, c-format
+msgid "Maximum length of command we could actually use: %ld\n"
+msgstr ""
+
+#: xargs/xargs.c:547
+#, c-format
+msgid "Size of command buffer we are actually using: %ld\n"
+msgstr ""
+
 #. I suspect that this can never happen now, because append_char_to_buf()
 #. * should only be called wen replace_pat is true.
 #.
-#: xargs/xargs.c:521 xargs/xargs.c:657 xargs/xargs.c:705
+#: xargs/xargs.c:641 xargs/xargs.c:777 xargs/xargs.c:825
 msgid "argument line too long"
 msgstr "la riga dell'argomento è troppo lunga"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:762
 #, c-format
-msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
-msgstr "carattere %s non accoppiato; le virgolette hanno un significato speciale per xargs, a meno che si usi l'opzione -0"
+msgid ""
+"unmatched %s quote; by default quotes are special to xargs unless you use "
+"the -0 option"
+msgstr ""
+"carattere %s non accoppiato; le virgolette hanno un significato speciale per "
+"xargs, a meno che si usi l'opzione -0"
 
-#: xargs/xargs.c:643
+#: xargs/xargs.c:763
 msgid "double"
 msgstr "doppie"
 
-#: xargs/xargs.c:643
+#: xargs/xargs.c:763
 msgid "single"
 msgstr "singole"
 
-#: xargs/xargs.c:794
+#: xargs/xargs.c:914
 msgid "command too long"
 msgstr "il comando è troppo lungo"
 
-#: xargs/xargs.c:812
+#: xargs/xargs.c:932
 msgid "can not fit single argument within argument list size limit"
 msgstr "un unico argomento eccede le dimensioni della lista di argomenti"
 
-#: xargs/xargs.c:817
+#: xargs/xargs.c:937
 msgid "argument list too long"
 msgstr "la lista degli argomenti è troppo lunga"
 
-#: xargs/xargs.c:996
+#: xargs/xargs.c:1116
 msgid "error waiting for child process"
 msgstr "errore aspettando il processo figlio"
 
-#: xargs/xargs.c:1012
+#: xargs/xargs.c:1132
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: uscito con stato 255; termina"
 
-#: xargs/xargs.c:1014
+#: xargs/xargs.c:1134
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: fermato dal segnale %d"
 
-#: xargs/xargs.c:1016
+#: xargs/xargs.c:1136
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminato dal segnale %d"
 
-#: xargs/xargs.c:1039
+#: xargs/xargs.c:1160
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: il numero per l'opzione -%c non è valido\n"
 
-#: xargs/xargs.c:1046
-#, c-format
-msgid "%s: value for -%c option must be >= %ld\n"
+#: xargs/xargs.c:1167
+#, fuzzy, c-format
+msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: il valore per l'opzione -%c deve essere >= %ld\n"
 
-#: xargs/xargs.c:1053
-#, c-format
-msgid "%s: value for -%c option must be < %ld\n"
+#: xargs/xargs.c:1181
+#, fuzzy, c-format
+msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: il valore per l'opzione -%c deve essere < %ld\n"
 
-#: xargs/xargs.c:1077
+#: xargs/xargs.c:1212
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-str]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
+"str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
