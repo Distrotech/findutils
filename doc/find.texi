@@ -1494,7 +1494,7 @@ and even newlines, it is not safe to process them using @code{xargs} in its
 default mode of operation.  But since most files' names do not contain
 blanks, this problem occurs only infrequently.  If you are only
 searching through files that you know have safe names, then you need not
-be concerned about it.
+be concerned about it.  
 
 @c This example is adapted from:
 @c From: pfalstad@stone.Princeton.EDU (Paul John Falstad)
@@ -1979,7 +1979,9 @@ and with which arguments.
 @menu
 * Database Locations::
 * Database Formats::
+* Newline Handling::
 @end menu
+
 
 @node Database Locations
 @section Database Locations
@@ -2155,6 +2157,35 @@ The old format therefore can not faithfully store entries with non-ASCII
 characters. It therefore should not be used in internationalized
 environments.
 
+@node Newline Handling
+@section Newline Handling
+
+Within the database, filenames are terminated with a null character.
+This is the case for both the old and the new format.  
+
+When the new database format is being used, the compression technique
+used to generate the database though relies on the ability to sort the
+list of files before they are presented to @code{frcode}.
+
+If the system's sort command allows its input list of files to be
+separated with null characters via the @samp{-z} option, this option
+is used and therefore @code{updatedb} and @code{locate} will both
+correctly handle filenames containing newlines.  If the @code{sort}
+command lacks support for this, the list of files is delimited with
+the newline character, meaning that parts of filenames containing
+newlines will be incorrectly sorted.  This can result in both
+incorrect matches and incorrect failures to match.
+
+On the other hand, if you are using the old database format, filenames
+with embedded newlines are not correctly handled.  There is no
+technical limitation which enforces this, it's just that the
+@code{bigram} program has no been updated to support lists of
+filenames separated by nulls.
+
+So, if you are using the new database format (this is the default) and
+your system uses GNU @code{find}, newlines will be correctly handled
+at all times.  Otherwise, newlines may not be correctly handled.
+
 @node File Permissions, Reference, Databases, Top
 @chapter File Permissions
 
@@ -2233,6 +2264,11 @@ in the database.
 @itemx -i
 Ignore case distinctions in both the pattern and the file names.
 
+@item --null
+@itemx -0
+Results are separated with the ASCII NUL character rather than the
+newline character.
+
 @item --help
 Print a summary of the options to @code{locate} and exit.
 
@@ -2263,7 +2299,7 @@ The environment variable @code{PRUNEPATHS} also sets this value.
 Default is @file{/tmp /usr/tmp /var/tmp /afs}.
 
 @item --prunefs='@var{path}@dots{}'
-File systems to not put in the database, which would otherwise be.
+File systems to omit from the database, which would otherwise be included.
 Note that files are pruned when a file system is reached;
 Any file system mounted under an undesired file system will be
 ignored.
