@@ -1909,8 +1909,6 @@ new_insert_exec_ok (const char *action,
   int saw_braces;		/* True if previous arg was '{}'. */
   boolean allow_plus;		/* True if + is a valid terminator */
   int brace_count;		/* Number of instances of {}. */
-  const char *prefix;
-  size_t pfxlen;
   
   struct predicate *our_pred;
   struct exec_val *execp;	/* Pointer for efficiency. */

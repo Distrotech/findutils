@@ -296,8 +296,6 @@ pred_amin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_and (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  int match = 0;
-  
   if (pred_ptr->pred_left == NULL
       || (*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
 					    pred_ptr->pred_left))

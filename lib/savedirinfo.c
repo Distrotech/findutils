@@ -90,8 +90,6 @@
 static mode_t
 type_to_mode(unsigned type)
 {
-  mode_t result = 0;
-  
   switch (type)
     {
 #ifdef DT_FIFO
