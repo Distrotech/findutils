@@ -819,9 +819,10 @@ indicates that the test should succeed if the file uses less than
 default anyway.  
 
 The size does not count indirect blocks, but it does count blocks in
-sparse files that are not actually allocated.  This handling of sparse
-files differs from the output of the @samp{%k} and @samp{%b} format
-specifiers for the @samp{-printf} predicate.
+sparse files that are not actually allocated.  In other words, it's
+consistent with the result you get for @samp{ls -l} or @samp{wc -c}.
+This handling of sparse files differs from the output of the @samp{%k}
+and @samp{%b} format specifiers for the @samp{-printf} predicate.
 
 @end deffn
 
