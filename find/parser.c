@@ -703,25 +703,27 @@ parse_help (char **argv, int *arg_ptr)
   
   printf (_("\
 Usage: %s [path...] [expression]\n"), program_name);
-  puts (_("\
+  puts (_("\n\
 default path is the current directory; default expression is -print\n\
-expression may consist of:\n\
-operators (decreasing precedence; -and is implicit where no others are given):\n\
-      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"));
-  puts (_("      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n\
-positional options (always true): -daystart -follow\n\
-normal options (always true, specified before other expressions): -depth\n\
-      --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n\
-      -ignore_readdir_race -noignore_readdir_race\n\
-tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"));
+expression may consist of: operators, options, tests, and actions:\n"));
   puts (_("\
+operators (decreasing precedence; -and is implicit where no others are given):\n\
+      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n\
+      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"));
+  puts (_("\
+positional options (always true): -daystart -follow\n\
+normal options (always true, specified before other expressions):\n\
+      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n\
+      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"));
+  puts (_("\
+tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n\
       -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n\
       -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n\
       -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"));
   puts (_("\
       -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n\
       -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n\
-      -used N -user NAME -xtype [bcdpfls]"));
+      -used N -user NAME -xtype [bcdpfls]\n"));
   puts (_("\
 actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n\
       -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -delete\n\
