@@ -1,4 +1,78 @@
+2005-01-25  James Youngman  <jay@gnu.org>
+
+	* NEWS, configure.in, po/da.po, po/de.po, po/es.po, po/et.po,
+	po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po,
+	po/sv.po, po/tr.po: Preparing to release findutils-4.2.14
+
+2005-01-24  James Youngman  <jay@gnu.org>
+
+	* Makefile.am: Work around the fact that automake-1.7 actually
+	works, and correctly distributes regex.c; hence dist-hook should
+	only copy gnulib/lib/regex.c if this has not already been done.
+
+	* find/defs.h, find/find.c, find/pred.c,
+	find/testsuite/Makefile.am,
+	find/testsuite/find.gnu/printf-symlink.exp,
+	find/testsuite/find.gnu/printf-symlink.xo,
+	find/testsuite/find.gnu/xtype-symlink.exp,
+	find/testsuite/find.gnu/xtype-symlink.xo: Fixes for -xtype and
+	-printf %Y, which had been the wrong way around.
+
+	* NEWS: Avoid including the find.gnu subdirectory in the
+	distributed file more than once
+
+	* locate/locate.c:
+	Move the printing of the statistics into a new function, print_stats()
+
+	* find/testsuite/Makefile.am: Avoid including the find.gnu
+	subdirectory in the distributed file more than once
+
+	* import-gnulib.sh:
+	We need the regex module anyway, to allow compilation on Solaris
+
+2005-01-23  James Youngman  <jay@gnu.org>
+
+	* configure.in:
+	Invoke gl_INCLUDED_REGEX directly to ensure successful compilation on
+	systems like Solaris, which lacks those functions in libc (fixes GNU
+	Savannah bug #11710).
+
+	* locate/locate.1: -S is a synonym for --statistics
+
+	* doc/find.texi: Documented the new -H, -L and -P options.
+
+	* locate/locate.1, locate/locate.c: Implement options -L
+	(default), -H and -P, which mean the same things as for find,
+	except for the fact that the default is -L rather than -P
+
+	* find/find.1: Corrected definition of the exit status for -quit.
+
+	* find/find.c, find/pred.c: If DEBUG_STAT is set, issue a debug
+	message when we call chdir() so that we can figure out what is
+	actually being stat()ed
+
+	* locate/updatedb.sh:
+	Removed spurious newline from help message (bug report from Karl
+	Berry).
+
+	* po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot,
+	po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po,
+	Makefile.am, NEWS, configure.in, find/defs.h, find/find.c,
+	find/parser.c, find/pred.c, find/tree.c, find/util.c,
+	import-gnulib.sh, lib/savedirinfo.c: Merged the d_type
+	optimisation code; this is disabled by default, and can be enabled
+	with 'configure --enable-d_type-optimisation'
+
+	* NEWS:
+	Updated optimisation NEWS item to indicate the effect on runtime.
+
 2005-01-22  James Youngman  <jay@gnu.org>
+
+	* NEWS, configure.in: Prepare for release of findutils-4.2.12
+
+	* ChangeLog: Brought up to date with recent changes.
 
 	* Makefile.am, import-gnulib.sh, po/Makefile.in.in, po/Makevars,
 	po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot,
