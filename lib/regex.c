@@ -85,8 +85,7 @@
 #define btowc __btowc
 #endif
 
-/* This is for other GNU distributions with internationalized messages.  */
-#if HAVE_LIBINTL_H || defined _LIBC
+#if ENABLE_NLS
 # include <libintl.h>
 #else
 # define gettext(msgid) (msgid)
