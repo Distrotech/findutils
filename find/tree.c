@@ -65,12 +65,19 @@ get_expr (struct predicate **input, short int prev_prec)
 
   if (*input == NULL)
     error (1, 0, _("invalid expression"));
+  
   switch ((*input)->p_type)
     {
     case NO_TYPE:
-    case BI_OP:
-    case CLOSE_PAREN:
       error (1, 0, _("invalid expression"));
+      break;
+
+    case BI_OP:
+      error (1, 0, _("invalid expression; you have used a binary operator with nothing before it."));
+      break;
+
+    case CLOSE_PAREN:
+      error (1, 0, _("invalid expression; you have too many ')'"));
       break;
 
     case PRIMARY_TYPE:
@@ -89,7 +96,7 @@ get_expr (struct predicate **input, short int prev_prec)
       next = get_expr (input, NO_PREC);
       if ((*input == NULL)
 	  || ((*input)->p_type != CLOSE_PAREN))
-	error (1, 0, _("invalid expression"));
+	error (1, 0, _("invalid expression; I was expecting to find a ')' somewhere but did not see one."));
       *input = (*input)->pred_next;	/* move over close */
       break;
 
@@ -145,6 +152,9 @@ scan_rest (struct predicate **input,
 	case PRIMARY_TYPE:
 	case UNI_OP:
 	case OPEN_PAREN:
+	  /* I'm not sure how we get here, so it is not obvious what
+	   * sort of mistakes might give rise to this condition.
+	   */
 	  error (1, 0, _("invalid expression"));
 	  break;
 
@@ -156,14 +166,16 @@ scan_rest (struct predicate **input,
 	  break;
 
 	case CLOSE_PAREN:
-	  return (tree);
+	  return tree;
 
 	default:
-	  error (1, 0, _("oops -- invalid expression type!"));
+	  error (1, 0,
+		 _("oops -- invalid expression type (%d)!"),
+		 (int)(*input)->p_type);
 	  break;
 	}
     }
-  return (tree);
+  return tree;
 }
 
 /* Optimize the ordering of the predicates in the tree.  Rearrange
