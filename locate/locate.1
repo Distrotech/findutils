@@ -49,7 +49,9 @@ name databases in \fIpath\fP, which is a colon-separated list of
 database file names.  You can also use the environment variable
 .B LOCATE_PATH
 to set the list of database files to search.
-The option overrides the environment variable if both are used.
+The option overrides the environment variable if both are used.  Empty
+elements in the path are taken to be synonyms for the file name of the
+default database.
 .IP
 The file name database format changed starting with GNU
 .B find
