@@ -141,8 +141,20 @@ static FILE *open_output_file PARAMS((char *path));
 char *find_pred_name PARAMS((PFB pred_func));
 #endif /* DEBUG */
 
+
+enum arg_type
+  {
+    ARG_OPTION,			/* regular options like -maxdepth */
+    ARG_POSITIONAL_OPTION,	/* options whose position is important (-follow) */
+    ARG_TEST,			/* a like -name */
+    ARG_PUNCTUATION,		/* like -o or ( */
+    ARG_ACTION			/* like -print */
+  };
+
+
 struct parser_table
 {
+  enum arg_type type;
   char *parser_name;
   PFB parser_func;
 };
@@ -152,92 +164,94 @@ struct parser_table
 
 static struct parser_table const parse_table[] =
 {
-  {"!", parse_negate},
-  {"not", parse_negate},	/* GNU */
-  {"(", parse_open},
-  {")", parse_close},
-  {",", parse_comma},		/* GNU */
-  {"a", parse_and},
-  {"amin", parse_amin},		/* GNU */
-  {"and", parse_and},		/* GNU */
-  {"anewer", parse_anewer},	/* GNU */
-  {"atime", parse_atime},
-  {"cmin", parse_cmin},		/* GNU */
-  {"cnewer", parse_cnewer},	/* GNU */
+  {ARG_PUNCTUATION,        "!",                     parse_negate},
+  {ARG_PUNCTUATION,        "not",                   parse_negate},	/* GNU */
+  {ARG_PUNCTUATION,        "(",                     parse_open},
+  {ARG_PUNCTUATION,        ")",                     parse_close},
+  {ARG_PUNCTUATION,        ",",                     parse_comma},	/* GNU */
+  {ARG_PUNCTUATION,        "a",                     parse_and},
+  {ARG_TEST,               "amin",                  parse_amin},	/* GNU */
+  {ARG_PUNCTUATION,        "and",                   parse_and},		/* GNU */
+  {ARG_TEST,               "anewer",                parse_anewer},	/* GNU */
+  {ARG_TEST,               "atime",                 parse_atime},
+  {ARG_TEST,               "cmin",                  parse_cmin},	/* GNU */
+  {ARG_TEST,               "cnewer",                parse_cnewer},	/* GNU */
 #ifdef UNIMPLEMENTED_UNIX
   /* It's pretty ugly for find to know about archive formats.
      Plus what it could do with cpio archives is very limited.
      Better to leave it out.  */
-  {"cpio", parse_cpio},		/* Unix */
-#endif
-  {"ctime", parse_ctime},
-  {"daystart", parse_daystart},	/* GNU */
-  {"delete", parse_delete},	/* GNU, Mac OS, FreeBSD */
-  {"d", parse_d},		/* Mac OS X, FreeBSD, OpenBSD, but deprecated  in favour of -depth */
-  {"depth", parse_depth},
-  {"empty", parse_empty},	/* GNU */
-  {"exec", parse_exec},
-  {"false", parse_false},	/* GNU */
-  {"fls", parse_fls},		/* GNU */
-  {"follow", parse_follow},	/* GNU, Unix */
-  {"fprint", parse_fprint},	/* GNU */
-  {"fprint0", parse_fprint0},	/* GNU */
-  {"fprintf", parse_fprintf},	/* GNU */
-  {"fstype", parse_fstype},	/* GNU, Unix */
-  {"gid", parse_gid},		/* GNU */
-  {"group", parse_group},
-  {"help", parse_help},		/* GNU */
-  {"-help", parse_help},	/* GNU */
-  {"ignore_readdir_race", parse_ignore_race},	/* GNU */
-  {"ilname", parse_ilname},	/* GNU */
-  {"iname", parse_iname},	/* GNU */
-  {"inum", parse_inum},		/* GNU, Unix */
-  {"ipath", parse_ipath},	/* GNU, deprecated in favour of iwholename */
-  {"iregex", parse_iregex},	/* GNU */
-  {"iwholename", parse_iwholename}, /* GNU */
-  {"links", parse_links},
-  {"lname", parse_lname},	/* GNU */
-  {"ls", parse_ls},		/* GNU, Unix */
-  {"maxdepth", parse_maxdepth},	/* GNU */
-  {"mindepth", parse_mindepth},	/* GNU */
-  {"mmin", parse_mmin},		/* GNU */
-  {"mount", parse_xdev},	/* Unix */
-  {"mtime", parse_mtime},
-  {"name", parse_name},
-#ifdef UNIMPLEMENTED_UNIX
-  {"ncpio", parse_ncpio},	/* Unix */
-#endif
-  {"newer", parse_newer},
-  {"noleaf", parse_noleaf},	/* GNU */
-  {"nogroup", parse_nogroup},
-  {"nouser", parse_nouser},
-  {"noignore_readdir_race", parse_noignore_race},	/* GNU */
-  {"o", parse_or},
-  {"or", parse_or},		/* GNU */
-  {"ok", parse_ok},
-  {"path", parse_path},		/* GNU, HP-UX, GNU prefers wholename */
-  {"perm", parse_perm},
-  {"print", parse_print},
-  {"print0", parse_print0},	/* GNU */
-  {"printf", parse_printf},	/* GNU */
-  {"prune", parse_prune},
-  {"quit",  parse_quit},	/* GNU */
-  {"regex", parse_regex},	/* GNU */
-  {"size", parse_size},
-  {"true", parse_true},		/* GNU */
-  {"type", parse_type},
-  {"uid", parse_uid},		/* GNU */
-  {"used", parse_used},		/* GNU */
-  {"user", parse_user},
-  {"version", parse_version},	/* GNU */
-  {"-version", parse_version},	/* GNU */
-  {"wholename", parse_wholename}, /* GNU, replaces -path */
-
-  {"xdev", parse_xdev},
-  {"xtype", parse_xtype},	/* GNU */
+  {ARG_UNIMPLEMENTED,      "cpio",                  parse_cpio},        /* Unix */
+#endif						    
+  {ARG_TEST,               "ctime",                 parse_ctime},
+  {ARG_OPTION,             "daystart",              parse_daystart},	/* GNU */
+  {ARG_ACTION,             "delete",                parse_delete},	/* GNU, Mac OS, FreeBSD */
+  {ARG_OPTION,             "d",                     parse_d},		/* Mac OS X, FreeBSD, OpenBSD, but deprecated  in favour of -depth */
+  {ARG_OPTION,             "depth",                 parse_depth},
+  {ARG_TEST,               "empty",                 parse_empty},	/* GNU */
+  {ARG_ACTION,             "exec",                  parse_exec},
+  {ARG_TEST,               "false",                 parse_false},	/* GNU */
+  {ARG_ACTION,             "fls",                   parse_fls},		/* GNU */
+  {ARG_POSITIONAL_OPTION,  "follow",                parse_follow},	/* GNU, Unix */
+  {ARG_ACTION,             "fprint",                parse_fprint},	/* GNU */
+  {ARG_ACTION,             "fprint0",               parse_fprint0},	/* GNU */
+  {ARG_ACTION,             "fprintf",               parse_fprintf},	/* GNU */
+  {ARG_TEST,               "fstype",                parse_fstype},	/* GNU, Unix */
+  {ARG_TEST,               "gid",                   parse_gid},		/* GNU */
+  {ARG_TEST,               "group",                 parse_group},
+  {ARG_TEST,               "help",                  parse_help},        /* GNU */
+  {ARG_TEST,               "-help",                 parse_help},	/* GNU */
+  {ARG_OPTION,             "ignore_readdir_race",   parse_ignore_race},	/* GNU */
+  {ARG_TEST,               "ilname",                parse_ilname},	/* GNU */
+  {ARG_TEST,               "iname",                 parse_iname},	/* GNU */
+  {ARG_TEST,               "inum",                  parse_inum},	/* GNU, Unix */
+  {ARG_TEST,               "ipath",                 parse_ipath},	/* GNU, deprecated in favour of iwholename */
+  {ARG_TEST,               "iregex",                parse_iregex},	/* GNU */
+  {ARG_TEST,               "iwholename",            parse_iwholename},  /* GNU */
+  {ARG_TEST,               "links",                 parse_links},
+  {ARG_TEST,               "lname",                 parse_lname},	/* GNU */
+  {ARG_ACTION,             "ls",                    parse_ls},		/* GNU, Unix */
+  {ARG_OPTION,             "maxdepth",              parse_maxdepth},	/* GNU */
+  {ARG_OPTION,             "mindepth",              parse_mindepth},	/* GNU */
+  {ARG_TEST,               "mmin",                  parse_mmin},	/* GNU */
+  {ARG_OPTION,             "mount",                 parse_xdev},	/* Unix */
+  {ARG_TEST,               "mtime",                 parse_mtime},
+  {ARG_TEST,               "name",                  parse_name},
+#ifdef UNIMPLEMENTED_UNIX	                    
+  {ARG_UNIMPLEMENTED,      "ncpio",                 parse_ncpio},	/* Unix */
+#endif				                    
+  {ARG_TEST,               "newer",                 parse_newer},
+  {ARG_OPTION,             "noleaf",                parse_noleaf},	/* GNU */
+  {ARG_TEST,               "nogroup",               parse_nogroup},
+  {ARG_TEST,               "nouser",                parse_nouser},
+  {ARG_OPTION,             "noignore_readdir_race", parse_noignore_race},/* GNU */
+  {ARG_PUNCTUATION,        "o",                     parse_or},
+  {ARG_PUNCTUATION,        "or",                    parse_or},		 /* GNU */
+  {ARG_ACTION,             "ok",                    parse_ok},
+  {ARG_TEST,               "path",                  parse_path},	 /* GNU, HP-UX, GNU prefers wholename */
+  {ARG_TEST,               "perm",                  parse_perm},
+  {ARG_ACTION,             "print",                 parse_print},
+  {ARG_ACTION,             "print0",                parse_print0},	/* GNU */
+  {ARG_ACTION,             "printf",                parse_printf},	/* GNU */
+  {ARG_TEST,               "prune",                 parse_prune},
+  {ARG_ACTION,             "quit",                  parse_quit},	/* GNU */
+  {ARG_TEST,               "regex",                 parse_regex},	/* GNU */
+  {ARG_TEST,               "size",                  parse_size},
+  {ARG_TEST,               "true",                  parse_true},	/* GNU */
+  {ARG_TEST,               "type",                  parse_type},
+  {ARG_TEST,               "uid",                   parse_uid},		/* GNU */
+  {ARG_TEST,               "used",                  parse_used},	/* GNU */
+  {ARG_TEST,               "user",                  parse_user},
+  {ARG_TEST,               "version",               parse_version},	/* GNU */
+  {ARG_TEST,               "-version",              parse_version},	/* GNU */
+  {ARG_TEST,               "wholename",             parse_wholename},   /* GNU, replaces -path */
+  {ARG_TEST,               "xdev",                  parse_xdev},
+  {ARG_TEST,               "xtype",                 parse_xtype},	/* GNU */
   {0, 0}
 };
 
+
+static const char *first_nonoption_arg = NULL;
+
 /* Return a pointer to the parser function to invoke for predicate
    SEARCH_NAME.
    Return NULL if SEARCH_NAME is not a valid predicate name. */
@@ -246,13 +260,49 @@ PFB
 find_parser (char *search_name)
 {
   int i;
-
+  const char *original_arg = search_name;
+  
   if (*search_name == '-')
     search_name++;
   for (i = 0; parse_table[i].parser_name != 0; i++)
-    if (strcmp (parse_table[i].parser_name, search_name) == 0)
-      return (parse_table[i].parser_func);
-  return (NULL);
+    {
+      if (strcmp (parse_table[i].parser_name, search_name) == 0)
+	{
+	  /* If this is an option, but we have already had a 
+	   * non-option argument, the user may be under the 
+	   * impression that the behaviour of the option 
+	   * argument is conditional on some preceding 
+	   * tests.  This might typically be the case with,
+	   * for example, -maxdepth.
+	   */
+	  if (parse_table[i].type == ARG_OPTION)
+	    {
+	      if (first_nonoption_arg != NULL)
+		{
+		  /* issue a warning. */
+		  error (0, 0,
+			 _("warning: you have specified the %s "
+			   "option after a non-option argument %s, "
+			   "but options are not positional (%s affects "
+			   "tests specified before it as well as those "
+			   "specified after it).  Please specify options "
+			   "before other arguments.\n"),
+			 original_arg,
+			 first_nonoption_arg,
+			 original_arg);
+		}
+	    }
+	  else
+	    {
+	      if (first_nonoption_arg == NULL)
+		{
+		  first_nonoption_arg = original_arg;
+		}
+	    }
+	  return (parse_table[i].parser_func);
+	}
+    }
+  return NULL;
 }
 
 /* The parsers are responsible to continue scanning ARGV for
