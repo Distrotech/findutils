@@ -122,7 +122,7 @@ dnl Derived from gnulib's uintmax_t which was from Paul Eggert.
 AC_DEFUN([jy_AC_TYPE_INTMAX_T],
 [
   if test $ac_cv_header_inttypes_h = no && test $ac_cv_header_stdint_h = no; then
-    AC_REQUIRE([jm_AC_TYPE_LONG_LONG])
+    AC_REQUIRE([gl_AC_TYPE_LONG_LONG])
     test $ac_cv_type_long_long = yes \
       && ac_type='long long' \
       || ac_type='long'
