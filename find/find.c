@@ -25,6 +25,8 @@
 
 #include "defs.h"
 
+#define USE_SAFE_CHDIR 1
+
 #include <errno.h>
 #include <assert.h>
 
@@ -187,6 +189,27 @@ following_links(void)
 }
 
 
+static int
+fallback_stat(const char *name, struct stat *p, int prev_rv)
+{
+  /* Our original stat() call failed.  Perhaps we can't follow a
+   * symbolic link.  If that might be the problem, lstat() the link. 
+   * Otherwise, admit defeat. 
+   */
+  switch (errno)
+    {
+    case ENOENT:
+    case EACCES:
+    case ELOOP:
+      return lstat(name, p);
+
+    case ENAMETOOLONG:
+    default:
+      return prev_rv;		/* lstat() won't help. */
+    }
+}
+
+
 /* optionh_stat() implements the stat operation when the -H option is
  * in effect.
  * 
@@ -205,16 +228,11 @@ optionh_stat(const char *name, struct stat *p)
       /* This file is from the command line; deference the link (if it
        * is a link).  
        */
-      if (0 == stat(name, p))
-	{
-	  /* success */
-	  return 0;
-	}
+      int rv = stat(name, p);
+      if (0 == rv)
+	return 0;		/* success */
       else
-	{
-	  /* fallback - return the information for the link itself. */
-	  return lstat(name, p);
-	}
+	return fallback_stat(name, p, rv);
     }
   else
     {
@@ -231,14 +249,11 @@ optionh_stat(const char *name, struct stat *p)
 int 
 optionl_stat(const char *name, struct stat *p)
 {
-  if (0 == stat(name, p))
-    {
-      return 0;			/* normal case. */
-    }
+  int rv = stat(name, p);
+  if (0 == rv)
+    return 0;			/* normal case. */
   else
-    {
-      return lstat(name, p);	/* can't follow link, return the link itself. */
-    }
+    return fallback_stat(name, p, rv);
 }
 
 /* optionp_stat() implements the stat operation when the -P option is
@@ -275,12 +290,12 @@ set_follow_state(enum SymlinkOption opt)
     {
     case SYMLINK_ALWAYS_DEREF:  /* -L */
       xstat = optionl_stat;
-      no_leaf_check = false;
+      no_leaf_check = true;
       break;
       
     case SYMLINK_NEVER_DEREF:	/* -P (default) */
       xstat = optionp_stat;
-      /* Can't turn on no_leaf_check because the user might have specified 
+      /* Can't turn no_leaf_check off because the user might have specified 
        * -noleaf anyway
        */
       break;
@@ -334,7 +349,6 @@ main (int argc, char **argv)
   start_time = time (NULL);
   cur_day_start = start_time - DAYSECS;
   full_days = false;
-  no_leaf_check = false;
   stay_on_filesystem = false;
   ignore_readdir_race = false;
   exit_status = 0;
@@ -356,6 +370,7 @@ main (int argc, char **argv)
       error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
     }
 
+  no_leaf_check = false;
   set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
 
   init_mounted_dev_list();
@@ -553,7 +568,7 @@ specific_dirname(const char *dir)
     }
   else
     {
-      const char *result = canonicalize_filename_mode(dir, CAN_EXISTING);
+      char *result = canonicalize_filename_mode(dir, CAN_EXISTING);
       if (NULL == result)
 	return strdup(dir);
       else
@@ -817,9 +832,11 @@ enum SafeChdirStatus
  *
  */
 static int 
-safely_chdir(const char *dest, enum TraversalDirection direction)
+safely_chdir(const char *dest,
+	     enum TraversalDirection direction,
+	     struct stat *statbuf_dest)
 {
-  struct stat statbuf_dest, statbuf_arrived;
+  struct stat statbuf_arrived;
   int rv, dotfd=-1;
   int saved_errno;		/* specific_dirname() changes errno. */
   char *name = NULL;
@@ -830,10 +847,10 @@ safely_chdir(const char *dest, enum TraversalDirection direction)
   if (dotfd >= 0)
     {
       /* Stat the directory we're going to. */
-      if (0 == xstat(dest, &statbuf_dest))
+      if (0 == xstat(dest, statbuf_dest))
 	{
 #ifdef S_ISLNK
-	  if (!following_links() && S_ISLNK(statbuf_dest.st_mode))
+	  if (!following_links() && S_ISLNK(statbuf_dest->st_mode))
 	    {
 	      rv = SafeChdirFailSymlink;
 	      rv_set = true;
@@ -848,7 +865,7 @@ safely_chdir(const char *dest, enum TraversalDirection direction)
 	   * examining the system-call trace should ideally not be
 	   * concerned that something is actually failing.
 	   */
-	  if (!S_ISDIR(statbuf_dest.st_mode))
+	  if (!S_ISDIR(statbuf_dest->st_mode))
 	    {
 	      rv = SafeChdirFailNotDir;
 	      rv_set = true;
@@ -861,8 +878,8 @@ safely_chdir(const char *dest, enum TraversalDirection direction)
 	      /* check we ended up where we wanted to go */
 	      boolean changed = false;
 	      wd_sanity_check(".", program_name, ".",
-			      statbuf_dest.st_dev,
-			      statbuf_dest.st_ino,
+			      statbuf_dest->st_dev,
+			      statbuf_dest->st_ino,
 			      &statbuf_arrived, 
 			      0, __LINE__, direction,
 			      FATAL_IF_SANITY_CHECK_FAILS,
@@ -989,7 +1006,35 @@ process_top_path (char *pathname)
      once here and once in process_path.  It's not too bad, though,
      since the kernel can read the stat information out of its inode
      cache the second time.  */
-#if 0
+#if USE_SAFE_CHDIR
+  enum SafeChdirStatus rv = safely_chdir(pathname, TraversingDown, &stat_buf);
+  
+  switch (rv)
+    {
+    case SafeChdirOK:
+      process_path (pathname, ".", false, ".");
+      chdir_back ();
+      return;
+      
+    case SafeChdirFailNonexistent:
+    case SafeChdirFailStat:
+    case SafeChdirFailWouldBeUnableToReturn:
+    case SafeChdirFailSymlink:
+    case SafeChdirFailNotDir:
+    case SafeChdirFailChdirFailed:
+      if ((SafeChdirFailNonexistent==rv) && !ignore_readdir_race)
+	{
+	  error (0, errno, "%s", pathname);
+	  exit_status = 1;
+	}
+      else
+	{
+	  process_path (pathname, pathname, false, ".");
+	}
+      chdir_back ();
+      return;
+    }
+#else
   if ((*xstat) (pathname, &stat_buf) == 0 && S_ISDIR (stat_buf.st_mode))
     {
       if (chdir (pathname) < 0)
@@ -1018,34 +1063,6 @@ process_top_path (char *pathname)
   else
     {
       process_path (pathname, pathname, false, ".");
-    }
-#else
-  enum SafeChdirStatus rv = safely_chdir(pathname, TraversingDown);
-  
-  switch (rv)
-    {
-    case SafeChdirOK:
-      process_path (pathname, ".", false, ".");
-      chdir_back ();
-      return;
-      
-    case SafeChdirFailNonexistent:
-    case SafeChdirFailStat:
-    case SafeChdirFailWouldBeUnableToReturn:
-    case SafeChdirFailSymlink:
-    case SafeChdirFailNotDir:
-    case SafeChdirFailChdirFailed:
-      if ((SafeChdirFailNonexistent==rv) && !ignore_readdir_race)
-	{
-	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
-	}
-      else
-	{
-	  process_path (pathname, pathname, false, ".");
-	}
-      chdir_back ();
-      return;
     }
 #endif
 }
@@ -1086,7 +1103,13 @@ issue_loop_warning(const char *name, const char *pathname, int level)
   if (lstat(name, &stbuf_link) != 0)
     stbuf_link.st_mode = S_IFREG;
   
-  if (!S_ISLNK(stbuf_link.st_mode))
+  if (S_ISLNK(stbuf_link.st_mode))
+    {
+      error(0, 0,
+	    _("Symbolic link `%s' is part of a loop in the directory hierarchy; we have already visited the directory to which it points."),
+	    pathname);
+    }
+  else
     {
       int distance = 1 + (dir_curr-level);
       /* We have found an infinite loop.  POSIX requires us to
@@ -1234,13 +1257,9 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
   name_space = savedir (name);
   if (name_space == NULL)
     {
-      if (errno)
-	{
-	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
-	}
-      else
-	error (1, 0, _("virtual memory exhausted"));
+      assert(errno != 0);
+      error (0, errno, "%s", pathname);
+      exit_status = 1;
     }
   else
     {
@@ -1258,6 +1277,35 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
       cur_path_size = 0;
       cur_path = NULL;
 
+#if USE_SAFE_CHDIR
+      if (strcmp (name, "."))
+	{
+	  enum SafeChdirStatus status = safely_chdir (name, TraversingDown, &stat_buf);
+	  switch (status)
+	    {
+	    case SafeChdirOK:
+	      /* If there had been a change but wd_sanity_check()
+	       * accepted it, we need to accept that on the 
+	       * way back up as well, so modify our record 
+	       * of what we think we should see later.
+	       * If there was no change, the assignments are a no-op.
+	       */
+	      dir_ids[dir_curr].dev = stat_buf.st_dev;
+	      dir_ids[dir_curr].ino = stat_buf.st_ino;
+	      break;
+      
+	    case SafeChdirFailNonexistent:
+	    case SafeChdirFailStat:
+	    case SafeChdirFailWouldBeUnableToReturn:
+	    case SafeChdirFailSymlink:
+	    case SafeChdirFailNotDir:
+	    case SafeChdirFailChdirFailed:
+	      error (0, errno, "%s", pathname);
+	      exit_status = 1;
+	      return;
+	    }
+	}
+#else
       if (strcmp (name, ".") && chdir (name) < 0)
 	{
 	  error (0, errno, "%s", pathname);
@@ -1289,6 +1337,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      dir_ids[dir_curr].ino = stat_buf.st_ino;
 	    }
 	}
+#endif
 
       for (namep = name_space; *namep; namep += file_len - pathname_len + 1)
 	{
@@ -1325,7 +1374,66 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	    process_path (cur_path, cur_name, false, pathname);
 	  curdepth--;
 	}
+#if USE_SAFE_CHDIR
+      if (strcmp (name, "."))
+	{
+	  enum SafeChdirStatus status;
+	  struct dir_id did;
+	  boolean changed = false;
+	  
+	  /* We could go back and do the next command-line arg
+	     instead, maybe using longjmp.  */
+	  char const *dir;
+	  boolean deref = following_links() ? true : false;
+	  
+	  if (!deref)
+	    dir = "..";
+	  else
+	    {
+	      chdir_back ();
+	      dir = parent;
+	    }
+	  
+	  status = safely_chdir (dir, TraversingUp, &stat_buf);
+	  switch (status)
+	    {
+	    case SafeChdirOK:
+	      break;
+      
+	    case SafeChdirFailNonexistent:
+	    case SafeChdirFailStat:
+	    case SafeChdirFailWouldBeUnableToReturn:
+	    case SafeChdirFailSymlink:
+	    case SafeChdirFailNotDir:
+	    case SafeChdirFailChdirFailed:
+	      error (1, errno, "%s", pathname);
+	      return;
+	    }
 
+	  if (dir_curr > 0)
+	    {
+	      did.dev = dir_ids[dir_curr-1].dev;
+	      did.ino = dir_ids[dir_curr-1].ino;
+	    }
+	  else
+	    {
+	      did.dev = starting_stat_buf.st_dev;
+	      did.ino = starting_stat_buf.st_ino;
+	    }
+
+	  wd_sanity_check(pathname,
+			  program_name,
+			  parent,
+			  did.dev,
+			  did.ino,
+			  &stat_buf,
+			  deref ? 1 : 0,
+			  __LINE__, 
+			  TraversingUp,
+			  FATAL_IF_SANITY_CHECK_FAILS,
+			  &changed);
+	}
+#else
       if (strcmp (name, "."))
 	{
 	  /* We could go back and do the next command-line arg
@@ -1376,6 +1484,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 			      &changed);
 	    }
 	}
+#endif
 
       if (cur_path)
 	free (cur_path);
