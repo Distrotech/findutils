@@ -37,3 +37,5 @@ updatedb: updatedb.sh
 
 install:
 	$(top_srcdir)/mkinstalldirs $(localstatedir)
+
+SUBDIRS = testsuite
