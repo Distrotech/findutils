@@ -366,9 +366,12 @@ a leading @samp{.}.  For example the command @samp{find /tmp -name
 @deffnx Test -iwholename pattern
 True if the entire file name, starting with the command line argument
 under which the file was found, matches shell pattern @var{pattern}.
-For @samp{-iwholename}, the match is case-insensitive.  To ignore a whole
-directory tree, use @samp{-prune} rather than checking every file in the
-tree (@pxref{Directories}).
+For @samp{-iwholename}, the match is case-insensitive.  To ignore a
+whole directory tree, use @samp{-prune} rather than checking every
+file in the tree (@pxref{Directories}).  The ``entire file name'' as
+used by find starts with the starting-point specified on the command
+line, and is not converted to an absolute pathname, so for example
+@code{cd /; find tmp -wholename /tmp} will never match anything.
 @end deffn
 
 @deffn Test -path pattern
