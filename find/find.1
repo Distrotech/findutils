@@ -246,16 +246,20 @@ quoted to protect them from expansion by the shell.  The command is
 executed in the starting directory.
 .IP "\-fls \fIfile\fR"
 True; like \-ls but write to \fIfile\fR like \-fprint.
+The output file is always created, even if the predicate is never matched.
 .IP "\-fprint \fIfile\fR"
 True; print the full file name into file \fIfile\fR.  If \fIfile\fR
 does not exist when \fBfind\fR is run, it is created; if it does
 exist, it is truncated.  The file names ``/dev/stdout'' and
 ``/dev/stderr'' are handled specially; they refer to the standard
 output and standard error output, respectively.
+The output file is always created, even if the predicate is never matched.
 .IP "\-fprint0 \fIfile\fR"
 True; like \-print0 but write to \fIfile\fR like \-fprint.
+The output file is always created, even if the predicate is never matched.
 .IP "\-fprintf \fIfile\fR \fIformat\fR"
 True; like \-printf but write to \fIfile\fR like \-fprint.
+The output file is always created, even if the predicate is never matched.
 .IP "\-ok \fIcommand\fR ;"
 Like \-exec but ask the user first (on the standard input); if the
 response does not start with `y' or `Y', do not run the command, and
