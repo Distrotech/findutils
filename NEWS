@@ -11,6 +11,10 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** Added two new format specifiers to the -printf action; these are 
     %y and %Y.  They indicate the type of the file as a single letter;
     these are the same latters as are used by the "-type" test.
+*** If a parent directory changes during the execution of find, 
+    the error message we issue identifies the nature of the change
+    (for example the previous and current inode numbers of the 
+    directoru we've just returned out of).
 ** Other Changes
 *** Non-functional code changes to silence compiler warnings.
 
