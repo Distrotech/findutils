@@ -1,3 +1,15 @@
+findutils (4.1-26) unstable; urgency=low
+
+  * added auto fs to PRUNEFS variable in updatedb.conf to prune
+    automounted file systems (fixes: bug #13662)
+  * corrected get_short so that it correctly returns negative
+    numbers. (fixes: bug #17774)
+  * remove declarations of various string functions which allows
+    compilation under sparc.  Removing the declarations almost
+    matches the GNU Coding Standards.(fixes: bug #16948)
+	    
+ -- Kevin Dalley <kevind@rahul.net>  Sun,  8 Feb 1998 22:43:13 -0800
+	
 findutils (4.1-25) unstable; urgency=low
 
   * change auto to autofs in PRUNEFS variable in updatedb.conf
