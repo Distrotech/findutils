@@ -67,6 +67,8 @@
 #define CLOSEDIR(d) closedir (d)
 #endif
 
+extern int yesno ();
+
 
 /* Get or fake the disk device blocksize.
    Usually defined by sys/param.h (if at all).  */
@@ -971,8 +973,6 @@ pred_nouser (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  int i, yes;
-  
   fflush (stdout);
   /* The draft open standard requires that, in the POSIX locale,
      the last non-blank character of this prompt be '?'.
@@ -982,13 +982,10 @@ pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   fprintf (stderr, _("< %s ... %s > ? "),
 	   pred_ptr->args.exec_vec.vec[0], pathname);
   fflush (stderr);
-  i = getchar ();
-  yes = (i == 'y' || i == 'Y');
-  while (i != EOF && i != '\n')
-    i = getchar ();
-  if (!yes)
+  if (yesno ())
+    return pred_exec (pathname, stat_buf, pred_ptr);
+  else
     return (false);
-  return pred_exec (pathname, stat_buf, pred_ptr);
 }
 
 boolean
