@@ -283,11 +283,11 @@ parse_amin (char **argv, int *arg_ptr)
 static boolean
 parse_and (char **argv, int *arg_ptr)
 {
+  struct predicate *our_pred;
+
   (void) argv;
   (void) arg_ptr;
   
-  struct predicate *our_pred;
-
   our_pred = get_new_pred ();
   our_pred->pred_func = pred_and;
 #ifdef	DEBUG
@@ -324,11 +324,11 @@ parse_atime (char **argv, int *arg_ptr)
 boolean
 parse_close (char **argv, int *arg_ptr)
 {
+  struct predicate *our_pred;
+
   (void) argv;
   (void) arg_ptr;
   
-  struct predicate *our_pred;
-
   our_pred = get_new_pred ();
   our_pred->pred_func = pred_close;
 #ifdef	DEBUG
@@ -819,11 +819,11 @@ parse_mtime (char **argv, int *arg_ptr)
 static boolean
 parse_name (char **argv, int *arg_ptr)
 {
+  struct predicate *our_pred;
+
   (void) argv;
   (void) arg_ptr;
   
-  struct predicate *our_pred;
-
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   our_pred = insert_primary (pred_name);
@@ -874,7 +874,8 @@ parse_newer (char **argv, int *arg_ptr)
 static boolean
 parse_noleaf (char **argv, int *arg_ptr)
 {
-  (void) &argv, &arg_ptr;
+  (void) &argv;
+  (void) &arg_ptr;
   
   no_leaf_check = true;
   return true;
@@ -901,7 +902,8 @@ parse_nogroup (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
-  (void) &argv, &arg_ptr;
+  (void) &argv;
+  (void) &arg_ptr;
   
   our_pred = insert_primary (pred_nogroup);
 #ifdef CACHE_IDS
@@ -935,7 +937,8 @@ static boolean
 parse_nouser (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
-  (void) argv, arg_ptr;
+  (void) argv;
+  (void) arg_ptr;
   
 
   our_pred = insert_primary (pred_nouser);
@@ -977,7 +980,8 @@ parse_open (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
-  (void) argv, arg_ptr;
+  (void) argv;
+  (void) arg_ptr;
   
   our_pred = get_new_pred_chk_op ();
   our_pred->pred_func = pred_open;
@@ -995,7 +999,8 @@ parse_or (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
-  (void) argv, arg_ptr;
+  (void) argv;
+  (void) arg_ptr;
   
   our_pred = get_new_pred ();
   our_pred->pred_func = pred_or;
