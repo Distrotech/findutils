@@ -480,7 +480,7 @@ new_impl_pred_exec (const char *pathname, struct stat *stat_buf,
       /* POSIX: If the primary expression is punctuated by a plus
        * sign, the primary shall always evaluate as true
        */
-      return 0;
+      return true;
     }
   else
     {
@@ -1309,6 +1309,11 @@ pred_quit (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   (void) stat_buf;
   (void) pred_ptr;
 
+  /* Run any cleanups.  This includes executing any command lines 
+   * we have partly built but not executed.
+   */
+  cleanup();
+  
   /* Since -exec and friends don't leave child processes running in the 
    * background, there is no need to wait for them here.
    */
