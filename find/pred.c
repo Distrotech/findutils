@@ -1264,13 +1264,13 @@ pred_size (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_samefile (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  /* Potential optimisation: because of the loop protection, we 
-   * always know the device of the current directory, hence the 
-   * device number of the current filesystem.  If -L is not in 
-   * effect, and the device number of the file we're looking for 
-   * is not the same as the device number of the current directory,
-   * this predicate cannot return true.   Hence there would be no 
-   * need to stat the file.
+  /* Potential optimisation: because of the loop protection, we always
+   * know the device of the current directory, hence the device number
+   * of the file we're currently considering.  If -L is not in effect,
+   * and the device number of the file we're looking for is not the
+   * same as the device number of the current directory, this
+   * predicate cannot return true.  Hence there would be no need to
+   * stat the file we're lookingn at.
    */
   return stat_buf->st_ino == pred_ptr->args.fileid.ino
     &&   stat_buf->st_dev == pred_ptr->args.fileid.dev;
