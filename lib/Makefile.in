@@ -143,7 +143,8 @@ libfind_a_SOURCES = regex.h \
 			xstrtoumax.c \
 			getline.c \
 			getline.h \
-			basename.c
+			basename.c \
+			yesno.c
 
 
 libfind_a_LIBADD = @LIBOBJS@ \
@@ -181,7 +182,7 @@ am_libfind_a_OBJECTS =  argmatch$U.o basename$U.o dirname$U.o \
 filemode$U.o getopt$U.o getopt1$U.o human$U.o idcache$U.o listfile$U.o \
 modechange$U.o nextelem$U.o quotearg$U.o savedir$U.o xmalloc$U.o \
 xstrdup$U.o xgetcwd$U.o xstrtol$U.o xstrtoul$U.o xstrtoumax$U.o \
-getline$U.o basename$U.o
+getline$U.o basename$U.o yesno$U.o
 libfind_a_OBJECTS =  $(am_libfind_a_OBJECTS)
 AR = ar
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -199,17 +200,17 @@ $(DEPDIR)/lstat.Po $(DEPDIR)/malloc.Po $(DEPDIR)/memcmp.Po \
 $(DEPDIR)/memcpy.Po $(DEPDIR)/memset.Po $(DEPDIR)/mktime.Po \
 $(DEPDIR)/modechange$U.Po $(DEPDIR)/nextelem$U.Po \
 $(DEPDIR)/quotearg$U.Po $(DEPDIR)/realloc.Po $(DEPDIR)/regex.Po \
-$(DEPDIR)/savedir$U.Po $(DEPDIR)/stat.Po $(DEPDIR)/stpcpy.Po \
-$(DEPDIR)/strdup.Po $(DEPDIR)/strftime.Po $(DEPDIR)/strncasecmp.Po \
-$(DEPDIR)/strspn.Po $(DEPDIR)/strstr.Po $(DEPDIR)/strtol.Po \
-$(DEPDIR)/strtoul.Po $(DEPDIR)/strtoull.Po $(DEPDIR)/strtoumax.Po \
-$(DEPDIR)/waitpid.Po $(DEPDIR)/xgetcwd$U.Po $(DEPDIR)/xmalloc$U.Po \
-$(DEPDIR)/xstrdup$U.Po $(DEPDIR)/xstrtol$U.Po $(DEPDIR)/xstrtoul$U.Po \
-$(DEPDIR)/xstrtoumax$U.Po
+$(DEPDIR)/rpmatch.Po $(DEPDIR)/savedir$U.Po $(DEPDIR)/stat.Po \
+$(DEPDIR)/stpcpy.Po $(DEPDIR)/strdup.Po $(DEPDIR)/strftime.Po \
+$(DEPDIR)/strncasecmp.Po $(DEPDIR)/strspn.Po $(DEPDIR)/strstr.Po \
+$(DEPDIR)/strtol.Po $(DEPDIR)/strtoul.Po $(DEPDIR)/strtoull.Po \
+$(DEPDIR)/strtoumax.Po $(DEPDIR)/waitpid.Po $(DEPDIR)/xgetcwd$U.Po \
+$(DEPDIR)/xmalloc$U.Po $(DEPDIR)/xstrdup$U.Po $(DEPDIR)/xstrtol$U.Po \
+$(DEPDIR)/xstrtoul$U.Po $(DEPDIR)/xstrtoumax$U.Po $(DEPDIR)/yesno$U.Po
 DIST_COMMON =  Makefile.am Makefile.in alloca.c ansi2knr.1 ansi2knr.c \
 depcomp error.c error.h fileblocks.c fnmatch.c malloc.c memcmp.c \
-memcpy.c memset.c mktime.c realloc.c regex.c stpcpy.c strdup.c \
-strftime.c strncasecmp.c strspn.c strstr.c strtol.c strtoul.c \
+memcpy.c memset.c mktime.c realloc.c regex.c rpmatch.c stpcpy.c \
+strdup.c strftime.c strncasecmp.c strspn.c strstr.c strtol.c strtoul.c \
 strtoull.c strtoumax.c waitpid.c
 
 
@@ -325,6 +326,8 @@ realloc_.c: realloc.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/realloc.c; then echo $(srcdir)/realloc.c; else echo realloc.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > realloc_.c
 regex_.c: regex.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/regex.c; then echo $(srcdir)/regex.c; else echo regex.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > regex_.c
+rpmatch_.c: rpmatch.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/rpmatch.c; then echo $(srcdir)/rpmatch.c; else echo rpmatch.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > rpmatch_.c
 savedir_.c: savedir.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/savedir.c; then echo $(srcdir)/savedir.c; else echo savedir.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > savedir_.c
 stat_.c: stat.c $(ANSI2KNR)
@@ -363,14 +366,16 @@ xstrtoul_.c: xstrtoul.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xstrtoul.c; then echo $(srcdir)/xstrtoul.c; else echo xstrtoul.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xstrtoul_.c
 xstrtoumax_.c: xstrtoumax.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/xstrtoumax.c; then echo $(srcdir)/xstrtoumax.c; else echo xstrtoumax.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > xstrtoumax_.c
+yesno_.c: yesno.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/yesno.c; then echo $(srcdir)/yesno.c; else echo yesno.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > yesno_.c
 alloca_.o argmatch_.o basename_.o dirname_.o error_.o fileblocks_.o \
 filemode_.o fnmatch_.o getline_.o getopt_.o getopt1_.o human_.o \
 idcache_.o listfile_.o lstat_.o malloc_.o memcmp_.o memcpy_.o memset_.o \
 mktime_.o modechange_.o nextelem_.o quotearg_.o realloc_.o regex_.o \
-savedir_.o stat_.o stpcpy_.o strdup_.o strftime_.o strncasecmp_.o \
-strspn_.o strstr_.o strtol_.o strtoul_.o strtoull_.o strtoumax_.o \
-waitpid_.o xgetcwd_.o xmalloc_.o xstrdup_.o xstrtol_.o xstrtoul_.o \
-xstrtoumax_.o : $(ANSI2KNR)
+rpmatch_.o savedir_.o stat_.o stpcpy_.o strdup_.o strftime_.o \
+strncasecmp_.o strspn_.o strstr_.o strtol_.o strtoul_.o strtoull_.o \
+strtoumax_.o waitpid_.o xgetcwd_.o xmalloc_.o xstrdup_.o xstrtol_.o \
+xstrtoul_.o xstrtoumax_.o yesno_.o : $(ANSI2KNR)
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -489,6 +494,7 @@ maintainer-clean-tags:
 @AMDEP@include $(DEPDIR)/quotearg$U.Po
 @AMDEP@include $(DEPDIR)/realloc.Po
 @AMDEP@include $(DEPDIR)/regex.Po
+@AMDEP@include $(DEPDIR)/rpmatch.Po
 @AMDEP@include $(DEPDIR)/savedir$U.Po
 @AMDEP@include $(DEPDIR)/stat.Po
 @AMDEP@include $(DEPDIR)/stpcpy.Po
@@ -508,6 +514,7 @@ maintainer-clean-tags:
 @AMDEP@include $(DEPDIR)/xstrtol$U.Po
 @AMDEP@include $(DEPDIR)/xstrtoul$U.Po
 @AMDEP@include $(DEPDIR)/xstrtoumax$U.Po
+@AMDEP@include $(DEPDIR)/yesno$U.Po
 
 mostlyclean-depend:
 
