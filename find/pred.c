@@ -1355,6 +1355,7 @@ pred_type (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   mode_t type = pred_ptr->args.type;
 
   assert(state.have_type);
+  assert(state.type != 0);
   
   (void) pathname;
 
