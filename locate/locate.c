@@ -143,7 +143,7 @@ get_short (fp)
 
   register short x;
 
-  x = fgetc (fp) << 8;
+  x = (signed char) fgetc (fp) << 8;
   x |= (fgetc (fp) & 0xff);
   return x;
 }
