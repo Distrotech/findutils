@@ -112,6 +112,8 @@ proc xargs_start { passfail options {infile ""}} {
 	catch "exec $cmp_cmd" cmpout
 	if {$cmpout != ""} then {
 	    # stdout is wrong.
+	    catch "exec diff -u xargs.out $outfile" diffs
+	    send_log "diffs: $diffs\n"
 	    fail "$testname, wrong stdout output: $cmpout"
 	    return
 	}
@@ -129,6 +131,8 @@ proc xargs_start { passfail options {infile ""}} {
 	catch "exec $cmp_cmd" cmperr
 	if {$cmperr != ""} then {
 	    # stderr is wrong.
+	    catch "exec diff -u xargs.err $errfile" diffs
+	    send_log "$diffs\n"
 	    fail "$testname, wrong stderr output: $cmperr"
 	    return
 	}
