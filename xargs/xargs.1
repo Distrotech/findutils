@@ -39,7 +39,7 @@ for example, the `\-print0' option does this for you.
 .P
 If any invocation of the command exits with a status of 255, 
 .B xargs 
-will stop immediately without reading any firther input.  An error
+will stop immediately without reading any further input.  An error
 message is issued on stderr when this happens.
 .SS OPTIONS
 .TP
@@ -191,6 +191,23 @@ is not to have a logical end-of-file marker.  POSIX (IEEE Std 1003.1,
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
 .P 
+It is not possible for 
+.B xargs 
+to be used securely, since there will always be a time gap between the 
+production of the list of input files and their use in the commands
+that 
+.B xargs 
+issues.  If other users have access to the system, they can manipulate
+the filesystem during this time window to force the action of the
+commands 
+.B xargs 
+runs to apply to files that you didn't intend.  For a more detailed
+discussion of this and related problems, please refer to the
+``Security Considerations'' chapter in the findutils Texinfo
+documentation.  The -execdir option of 
+.B find
+can often be used as a more secure alternative.
+
 When you use the \-i option, each line read from the input is buffered 
 internally.   This means that there is an upper limit on the length 
 of input line that 
