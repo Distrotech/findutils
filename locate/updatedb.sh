@@ -112,7 +112,7 @@ if test $old = no; then
 {
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
-    su $LOCALUSER -c \
+    su -s /bin/sh $LOCALUSER -c \
     "$find $SEARCHPATHS \
      \\( $prunefs_exp \
      -type d -regex \"$PRUNEREGEX\" \\) -prune -o -print"
@@ -125,7 +125,7 @@ fi
 
 if test -n "$NETPATHS"; then
   if [ "`whoami`" = root ]; then
-    su $NETUSER -c \
+    su -s /bin/sh $NETUSER -c \
      "$find $NETPATHS \\( -type d -regex \"$PRUNEREGEX\" -prune \\) -o -print"
   else
     $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print
@@ -146,8 +146,16 @@ fi
 
 else # old
 
-bigrams=`tempfile -p updatedb`
-filelist=`tempfile -p updatedb`
+if ! bigrams=`tempfile -p updatedb`; then
+    echo tempfile failed
+    exit 1
+fi
+
+if ! filelist=`tempfile -p updatedb`; then
+    echo tempfile failed
+    exit 1
+fi
+
 rm -f $LOCATE_DB.n
 trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' 1 15
 
@@ -157,7 +165,7 @@ trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' 1 15
 {
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
-    su $LOCALUSER -c \
+    su -s /bin/sh $LOCALUSER -c \
     "$find $SEARCHPATHS \
      \( $prunefs_exp \
      -type d -regex "$PRUNEREGEX" \) -prune -o -print"
@@ -170,7 +178,7 @@ fi
 
 if test -n "$NETPATHS"; then
   if [ "`whoami`" = root ]; then
-    su $NETUSER -c \
+    su -s /bin/sh $NETUSER -c \
      "$find $NETPATHS \\( -type d -regex \"$PRUNEREGEX\" -prune \\) -o -print"
   else
     $find $NETPATHS \( -type d -regex "$PRUNEREGEX" -prune \) -o -print
