@@ -225,13 +225,13 @@ list_file (name, relname, statp, current_time, output_block_size, stream)
 
   user_name = getuser (statp->st_uid);
   if (user_name)
-    fprintf (stream, "%-8.8s ", user_name);
+    fprintf (stream, "%-8s ", user_name);
   else
     fprintf (stream, "%-8lu ", (unsigned long) statp->st_uid);
 
   group_name = getgroup (statp->st_gid);
   if (group_name)
-    fprintf (stream, "%-8.8s ", group_name);
+    fprintf (stream, "%-8s ", group_name);
   else
     fprintf (stream, "%-8lu ", (unsigned long) statp->st_gid);
 
