@@ -69,9 +69,8 @@
 #include <stdlib.h>
 #endif
 
-#ifdef STDC_HEADERS
+#ifdef HAVE_ERRNO_H
 #include <errno.h>
-#include <stdlib.h>
 #else
 extern int errno;
 #endif
@@ -348,8 +347,8 @@ usage (stream, status)
      int status;
 {
   fprintf (stream, "\
-Usage: %s [-d path | --database=path] [--version] [--help]\n"
-	   "      [-e | --existing] pattern...\n",
+Usage: %s [-d path | --database=path] [--version] [--help]\n\
+      [-e | --existing] pattern...\n",
 	   program_name);
   exit (status);
 }
@@ -363,7 +362,7 @@ static struct option const longopts[] =
   {NULL, no_argument, NULL, 0}
 };
 
-void
+int
 main (argc, argv)
      int argc;
      char **argv;

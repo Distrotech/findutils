@@ -240,7 +240,7 @@ static long parse_num P_ ((char *str, int option, long min, long max));
 static long env_size P_ ((char **envp));
 static void usage P_ ((FILE * stream, int status));
 
-void
+int
 main (argc, argv)
      int argc;
      char **argv;

@@ -56,10 +56,6 @@
 #define CLOSEDIR(d) closedir (d)
 #endif
 
-#ifndef S_IFLNK
-#define lstat stat
-#endif
-
 /* Extract or fake data from a `struct stat'.
    ST_NBLOCKS: Number of 512-byte blocks in the file
    (including indirect blocks).
@@ -753,7 +749,7 @@ pred_iname (pathname, stat_buf, pred_ptr)
      struct stat *stat_buf;
      struct predicate *pred_ptr;
 {
-  char *base;
+  const char *base;
 
   base = basename (pathname);
   if (fnmatch (pred_ptr->args.str, base, FNM_PERIOD | FNM_CASEFOLD) == 0)
@@ -920,7 +916,7 @@ pred_name (pathname, stat_buf, pred_ptr)
      struct stat *stat_buf;
      struct predicate *pred_ptr;
 {
-  char *base;
+  const char *base;
 
   base = basename (pathname);
   if (fnmatch (pred_ptr->args.str, base, FNM_PERIOD) == 0)

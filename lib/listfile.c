@@ -151,7 +151,7 @@ list_file (name, relname, statp, stream)
 
   fprintf (stream, "%6lu ", statp->st_ino);
 
-  fprintf (stream, "%4u ", convert_blocks (ST_NBLOCKS (statp), kilobytes));
+  fprintf (stream, "%4lu ", convert_blocks (ST_NBLOCKS (statp), kilobytes));
 
   /* The space between the mode and the number of links is the POSIX
      "optional alternate access method flag". */

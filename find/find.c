@@ -34,10 +34,6 @@
 #include "defs.h"
 #include "modetype.h"
 
-#ifndef S_IFLNK
-#define lstat stat
-#endif
-
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
 
@@ -128,7 +124,7 @@ debug_stat (file, bufp)
 }
 #endif /* DEBUG_STAT */
 
-void
+int
 main (argc, argv)
      int argc;
      char *argv[];

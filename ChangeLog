@@ -1,3 +1,91 @@
+1999-08-08  Kevin Dalley  <Kevin Dalley <kevin@seti.org>>
+
+	* Version 4.1.1
+
+	* README-alpha: added alpha README file
+
+	* find/defs.h: move lstat declarations into defs.h
+
+	* xargs/Makefile.am, testsuite/Makefile.am, locate/Makefile.am,
+ 	lib/Makefile.am, find/Makefile.am, doc/Makefile.am, configure.in,
+ 	Makefile.am: update for automake-1.4
+
+1999-08-02  Kevin Dalley  <kevind@rahul.net>
+
+	* AUTHORS: added file listing AUTHORS
+
+	* lib/Makefile.am: modified code for EXTRA sources
+	
+1999-01-30  Kevin Dalley  <kevind@rahul.net>
+
+	* added const to declaration of basename, which should satisfy
+ 	Linux as well as Hurd (fixes bug #31325).
+	
+1998-12-04  Kevin Dalley  <kevind@rahul.net>
+	
+	* lib/nextelem.c: removed declaration of strdup and free, which
+ 	meets GNU coding standards and allows compilation on more
+ 	platforms.
+	
+  	* find.texi: corrected explanation of -amin option which described
+ 	hours instead of minutes
+	
+1998-09-26  Kevin Dalley  <kevind@rahul.net>
+	
+	* lib/getline.c: fix getstr so that it correctly handles long file
+ 	paths
+	
+1998-09-20  Kevin Dalley  <kevind@rahul.net>
+	
+	* removed more function declarations to meet GNU coding standards
+	
+1998-08-30  Kevin Dalley  <kevind@rahul.net>
+	
+	* lib/nextelem.c: removed declaration of strdup and free, which
+ 	meets GNU coding standards and allow compilation on sparc
+	
+  	* corrected explanation of -amin option which described hours
+ 	instead of minutes
+	
+1998-02-27  Kevin Dalley  <kevind@rahul.net>
+	
+  	* locate/locate.c: add --existing option to locate, which only
+ 	prints the names of files which still exist
+	
+1998-02-08  Kevin Dalley  <kevind@rahul.net>
+	
+  	* locate/locate.c: corrected get_short so that it correctly
+ 	returns negative numbers.
+	
+	* remove declarations of various string functions.  Removing the
+ 	declarations almost matches the GNU Coding Standards.
+	
+1997-03-03  Kevin Dalley  <kevind@rahul.net>
+	
+	* xargs/xargs.c: xargs fixed to prevent occasional core dumping.
+	
+1997-01-11  Kevin Dalley  <kevind@rahul.net>
+	
+	* locate/updatedb.sh: add --localuser option to updatedb, which
+ 	allows find to be run as nobody, while allowing database file to
+ 	be created as root, change suggested by
+ 	<Bernd_Eckenfels@Wittumstrasse13.76646Bruchsal.de>
+	
+1996-12-28  Kevin Dalley  <kevind@rahul.net>
+        * added PRUNEFS as variable in updatedb and --prunefs as option to
+ 	updatedb
+
+1996-05-27  Kevin Dalley  <kevind@rahul.net>
+	
+	* updatedb.sh: when NETPATHS is used, only su to NETUSER if whoami
+	is root
+	
+1996-04-27  Kevin Dalley  <kevind@rahul.net>
+
+	* lib/getline.c (getstr): verify that nchars_avail is *really*
+ 	greater than 0; set *n to a large enough number, stops some core
+ 	dumping
+
 Thu Nov  3 09:23:33 1994  David J. MacKenzie  <djm@duality.gnu.ai.mit.edu>
 
 	* Version 4.1.
@@ -612,6 +700,8 @@ Mon Oct 21 22:30:35 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
 	* defs.h, parser.c, pred.c: Rename some types that conflict
 	with reserved POSIX.1 namespace (ended in _t).
 
+	
+	
 Thu Oct 17 22:39:06 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
 
 	* xargs.c: Don't determine memory.h based on POSIX, which

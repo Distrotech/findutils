@@ -31,6 +31,9 @@
 #define strchr index
 #endif
 #endif
+#if defined(STDC_HEADERS)
+#include <stdlib.h>
+#endif
 
 /* Return the next element of a colon-separated path.
    A null entry in the path is equivalent to "." (the current directory).

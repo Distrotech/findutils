@@ -1,21 +1,19 @@
-# Makefile.in generated automatically by automake from Makefile.am.
-# Copyright (C) 1994 Free Software Foundation, Inc.
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
 
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
 
 # This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+# The default database to build and search.
 
-SHELL = /bin/sh
+
+SHELL = @SHELL@
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -23,176 +21,405 @@ VPATH = @srcdir@
 prefix = @prefix@
 exec_prefix = @exec_prefix@
 
-bindir = $(exec_prefix)/bin
-sbindir = $(exec_prefix)/sbin
-libexecdir = $(exec_prefix)/libexec
-datadir = $(prefix)/share
-sysconfdir = $(prefix)/etc
-sharedstatedir = $(prefix)/com
-localstatedir = $(prefix)/var
-libdir = $(exec_prefix)/lib
-infodir = $(prefix)/info
-mandir = $(prefix)/man
-includedir = $(prefix)/include
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
 oldincludedir = /usr/include
 
+DESTDIR =
+
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+
+top_builddir = ..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
 transform = @program_transform_name@
 
-ALL = ${PROGRAMS} ${LIBPROGRAMS} ${SCRIPTS} ${LIBSCRIPTS} ${LIBFILES}
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
 CC = @CC@
-LEX = @LEX@
-YACC = @YACC@
-ANSI2KNR = ./ansi2knr
+CPP = @CPP@
+MAKEINFO = @MAKEINFO@
+PACKAGE = @PACKAGE@
+RANLIB = @RANLIB@
+VERSION = @VERSION@
 
-DEFS = @DEFS@
-CPPFLAGS = @CPPFLAGS@
-CFLAGS = @CFLAGS@
-LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@
-
-locate_SOURCES = locate.c
-locate_OBJECTS = locate.o
-frcode_SOURCES = frcode.c
-frcode_OBJECTS = frcode.o
-code_SOURCES = code.c
-code_OBJECTS = code.o
-bigram_SOURCES = bigram.c
-bigram_OBJECTS = bigram.o
-NROFF = nroff
-
-SOURCES =  locate.c frcode.c code.c bigram.c
-DIST_CONF = Makefile.am Makefile.in
-DIST_FILES = $(DIST_CONF) $(SOURCES) $(TEXINFOS) $(INFOS) $(MANS) $(DIST_OTHER)
-
-# The default database to build and search.
 LOCATE_DB = $(localstatedir)/locatedb
 
-PROGRAMS = locate
+bin_PROGRAMS = locate
 LIBPROGRAMS = frcode code bigram
-SCRIPTS = updatedb
-MANS = locate.1 updatedb.1 locatedb.5
-CONFIG_HEADER = ../config.h
+bin_SCRIPTS = updatedb
+man_MANS = locate.1 updatedb.1 locatedb.5
 
-DIST_OTHER = locatedb.h updatedb.sh
+EXTRA_DIST = locatedb.h updatedb.sh $(man_MANS)
 CLEANFILES = updatedb
 
 INCLUDES = -I.. -I$(top_srcdir)/lib -DLOCATE_DB=\"$(LOCATE_DB)\"
 
 LDADD = ../find/version.o ../lib/libfind.a
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ../config.h
+CONFIG_CLEAN_FILES = 
+PROGRAMS =  $(bin_PROGRAMS)
 
-all:: ${ALL}
 
-.c.o:
-	$(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $<
+DEFS = @DEFS@ -I. -I$(srcdir) -I..
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+locate_SOURCES = locate.c
+locate_OBJECTS =  locate.o
+locate_LDADD = $(LDADD)
+locate_DEPENDENCIES =  ../find/version.o ../lib/libfind.a
+locate_LDFLAGS = 
+SCRIPTS =  $(bin_SCRIPTS)
 
-$(locate_OBJECTS): ../config.h
-$(frcode_OBJECTS): ../config.h
-$(code_OBJECTS): ../config.h
-$(bigram_OBJECTS): ../config.h
-install:: install-programs
+CFLAGS = @CFLAGS@
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+man1dir = $(mandir)/man1
+man5dir = $(mandir)/man5
+MANS = $(man_MANS)
 
-install-programs: $(PROGRAMS) $(SCRIPTS)
-	$(top_srcdir)/mkinstalldirs $(bindir)
-	for p in $(PROGRAMS) $(SCRIPTS); do \
-	  $(INSTALL_PROGRAM) $$p $(bindir)/`echo $$p|sed '$(transform)'`; \
+NROFF = nroff
+DIST_COMMON =  Makefile.am Makefile.in
+
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
+TAR = tar
+GZIP_ENV = --best
+DEP_FILES =  .deps/locate.P
+SOURCES = locate.c
+OBJECTS = locate.o
+
+all: all-redirect
+.SUFFIXES:
+.SUFFIXES: .S .c .o .s
+$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu locate/Makefile
+
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+
+mostlyclean-binPROGRAMS:
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+
+distclean-binPROGRAMS:
+
+maintainer-clean-binPROGRAMS:
+
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	  else :; fi; \
 	done
 
-uninstall:: uninstall-programs
-
-uninstall-programs:
-	for p in $(PROGRAMS) $(SCRIPTS); do \
-	  rm -f $(bindir)/`echo $$p|sed '$(transform)'`; \
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
 	done
 
-install:: install-libprograms
+.s.o:
+	$(COMPILE) -c $<
 
-install-libprograms: $(LIBPROGRAMS) $(LIBSCRIPTS)
-	$(top_srcdir)/mkinstalldirs $(libexecdir)
-	for p in $(LIBPROGRAMS) $(LIBSCRIPTS); do \
-	  $(INSTALL_PROGRAM) $$p $(libexecdir)/`echo $$p|sed '$(transform)'`; \
+.S.o:
+	$(COMPILE) -c $<
+
+mostlyclean-compile:
+	-rm -f *.o core *.core
+
+clean-compile:
+
+distclean-compile:
+	-rm -f *.tab.c
+
+maintainer-clean-compile:
+
+locate: $(locate_OBJECTS) $(locate_DEPENDENCIES)
+	@rm -f locate
+	$(LINK) $(locate_LDFLAGS) $(locate_OBJECTS) $(locate_LDADD) $(LIBS)
+
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo " $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
+	    $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	  else if test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
+	    $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	  else :; fi; fi; \
 	done
 
-uninstall:: uninstall-libprograms
-
-uninstall-libprograms:
-	for p in $(LIBPROGRAMS) $(LIBSCRIPTS); do \
-	  rm -f $(libexecdir)/`echo $$p|sed '$(transform)'`; \
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
 	done
 
-locate: $(locate_OBJECTS)
-	$(CC) -o $@ $(locate_OBJECTS) $(LDADD) $(LDFLAGS) $(LIBS)
+install-man1:
+	$(mkinstalldirs) $(DESTDIR)$(man1dir)
+	@list='$(man1_MANS)'; \
+	l2='$(man_MANS)'; for i in $$l2; do \
+	  case "$$i" in \
+	    *.1*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  if test -f $(srcdir)/$$i; then file=$(srcdir)/$$i; \
+	  else file=$$i; fi; \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst"; \
+	  $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst; \
+	done
 
-frcode: $(frcode_OBJECTS)
-	$(CC) -o $@ $(frcode_OBJECTS) $(LDADD) $(LDFLAGS) $(LIBS)
+uninstall-man1:
+	@list='$(man1_MANS)'; \
+	l2='$(man_MANS)'; for i in $$l2; do \
+	  case "$$i" in \
+	    *.1*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " rm -f $(DESTDIR)$(man1dir)/$$inst"; \
+	  rm -f $(DESTDIR)$(man1dir)/$$inst; \
+	done
 
-code: $(code_OBJECTS)
-	$(CC) -o $@ $(code_OBJECTS) $(LDADD) $(LDFLAGS) $(LIBS)
+install-man5:
+	$(mkinstalldirs) $(DESTDIR)$(man5dir)
+	@list='$(man5_MANS)'; \
+	l2='$(man_MANS)'; for i in $$l2; do \
+	  case "$$i" in \
+	    *.5*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  if test -f $(srcdir)/$$i; then file=$(srcdir)/$$i; \
+	  else file=$$i; fi; \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$(man5dir)/$$inst"; \
+	  $(INSTALL_DATA) $$file $(DESTDIR)$(man5dir)/$$inst; \
+	done
 
-bigram: $(bigram_OBJECTS)
-	$(CC) -o $@ $(bigram_OBJECTS) $(LDADD) $(LDFLAGS) $(LIBS)
+uninstall-man5:
+	@list='$(man5_MANS)'; \
+	l2='$(man_MANS)'; for i in $$l2; do \
+	  case "$$i" in \
+	    *.5*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " rm -f $(DESTDIR)$(man5dir)/$$inst"; \
+	  rm -f $(DESTDIR)$(man5dir)/$$inst; \
+	done
+install-man: $(MANS)
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-man1 install-man5
+uninstall-man:
+	@$(NORMAL_UNINSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) uninstall-man1 uninstall-man5
 
-install:: install-man
+tags: TAGS
 
-install-man:
-	for man in $(MANS); do \
-	  sect=`echo $$man|sed 's%.*\.\([0-9][a-z]*\)$$%\1%'`; \
-	  inst=`basename $$man $$sect|sed '$(transform)'`$$sect; \
-	  mdir=$(mandir)/man$$sect; \
-	  $(top_srcdir)/mkinstalldirs $$mdir; \
-	  echo installing $$man as $$mdir/$$inst; \
-	  $(INSTALL_DATA) $(srcdir)/$$man $$mdir/$$inst; \
-	  cdir=$(mandir)/cat$$sect; \
-	  if test -d $$cdir; then \
-	    echo formatting $$man as $$cdir/$$inst; \
-	    $(NROFF) -man $(srcdir)/$$man > $$cdir/$$inst; \
+ID: $(HEADERS) $(SOURCES) $(LISP)
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	here=`pwd` && cd $(srcdir) \
+	  && mkid -f$$here/ID $$unique $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+
+mostlyclean-tags:
+
+clean-tags:
+
+distclean-tags:
+	-rm -f TAGS ID
+
+maintainer-clean-tags:
+
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+subdir = locate
+
+distdir: $(DISTFILES)
+	here=`cd $(top_builddir) && pwd`; \
+	top_distdir=`cd $(top_distdir) && pwd`; \
+	distdir=`cd $(distdir) && pwd`; \
+	cd $(top_srcdir) \
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu locate/Makefile
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
 
-uninstall:: uninstall-man
+DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
 
-uninstall-man:
-	for man in $(MANS); do \
-	  sect=`echo $$man|sed 's%.*\(\.[0-9][a-z]*\)$$%\1%'; \
-	  inst=`basename $$man $sect|sed '$(transform)'`.$$sect; \
-	  mdir=$(mandir)/man$$sect; \
-	  cdir=$(mandir)/cat$$sect; \
-	  rm -f $$mdir/$$inst $$cdir/$$inst; \
-	done
+-include $(DEP_FILES)
 
-mostlyclean:
-	rm -f *.o core
+mostlyclean-depend:
 
-clean: mostlyclean
-	rm -f $(PROGRAMS) $(LIBPROGRAMS) $(LIBFILES) $(TEXFILES) $(CLEANFILES)
+clean-depend:
 
-distclean: clean
-	rm -f Makefile *.tab.c $(DISTCLEANFILES)
-	rm -f config.cache config.log config.status ${CONFIG_HEADER} stamp-h
+distclean-depend:
+	-rm -rf .deps
 
-realclean: distclean
-	rm -f TAGS $(INFOS)
+maintainer-clean-depend:
 
-dist: $(DIST_FILES) $(DIST_DIRS)
-	-mkdir ../`cat ../distname`/$(subdir)
-	@for file in $(DIST_FILES); do \
-	  echo linking $$file; \
-	  ln $(srcdir)/$$file ../`cat ../distname`/$(subdir)/$$file || \
-	    { echo copying $$file instead; cp -p $(srcdir)/$$file ../`cat ../distname`/$(subdir)/$$file;}; \
-	done
+%.o: %.c
+	@echo '$(COMPILE) -c $<'; \
+	$(COMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
 
-check dvi info install uninstall::
+%.lo: %.c
+	@echo '$(LTCOMPILE) -c $<'; \
+	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
+	  < .deps/$(*F).pp > .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm -f .deps/$(*F).pp
+info-am:
+info: info-am
+dvi-am:
+dvi: dvi-am
+check-am: all-am
+check: check-am
+installcheck-am:
+installcheck: installcheck-am
+install-exec-am: install-binPROGRAMS install-binSCRIPTS
+install-exec: install-exec-am
 
-tags:: TAGS
+install-data-am: install-man
+install-data: install-data-am
 
-TAGS::
-	cd $(srcdir); etags $(SOURCES)
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+install: install-am
+uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS uninstall-man
+uninstall: uninstall-am
+all-am: Makefile $(PROGRAMS) $(SCRIPTS) $(MANS)
+all-redirect: all-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+installdirs:
+	$(mkinstalldirs)  $(DESTDIR)$(bindir) $(DESTDIR)$(bindir) \
+		$(DESTDIR)$(mandir)/man1 $(DESTDIR)$(mandir)/man5
 
-# Tell versions [3.59,3.63) of GNU make to not export all variables.
-# Otherwise a system limit (for SysV at least) may be exceeded.
-.NOEXPORT:
+
+mostlyclean-generic:
+
+clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+mostlyclean-am:  mostlyclean-binPROGRAMS mostlyclean-compile \
+		mostlyclean-tags mostlyclean-depend mostlyclean-generic
+
+mostlyclean: mostlyclean-am
+
+clean-am:  clean-binPROGRAMS clean-compile clean-tags clean-depend \
+		clean-generic mostlyclean-am
+
+clean: clean-am
+
+distclean-am:  distclean-binPROGRAMS distclean-compile distclean-tags \
+		distclean-depend distclean-generic clean-am
+
+distclean: distclean-am
+
+maintainer-clean-am:  maintainer-clean-binPROGRAMS \
+		maintainer-clean-compile maintainer-clean-tags \
+		maintainer-clean-depend maintainer-clean-generic \
+		distclean-am
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-am
+
+.PHONY: mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
+maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
+mostlyclean-compile distclean-compile clean-compile \
+maintainer-clean-compile uninstall-binSCRIPTS install-binSCRIPTS \
+install-man1 uninstall-man1 install-man5 uninstall-man5 install-man \
+uninstall-man tags mostlyclean-tags distclean-tags clean-tags \
+maintainer-clean-tags distdir mostlyclean-depend distclean-depend \
+clean-depend maintainer-clean-depend info-am info dvi-am dvi check \
+check-am installcheck-am installcheck install-exec-am install-exec \
+install-data-am install-data install-am install uninstall-am uninstall \
+all-redirect all-am all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
+
 
 $(PROGRAMS) $(LIBPROGRAMS): ../find/version.o ../lib/libfind.a
 
@@ -215,8 +442,9 @@ updatedb: updatedb.sh
 	$(srcdir)/updatedb.sh > $@
 	chmod +x $@
 
-install::
+install:
 	$(top_srcdir)/mkinstalldirs $(localstatedir)
 
-frcode.o code.o locate.o: locatedb.h
-locate.o: ../lib/fnmatch.h ../lib/getopt.h
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

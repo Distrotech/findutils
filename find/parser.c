@@ -36,12 +36,10 @@
 #define ISDIGIT(c) (isascii (c) && isdigit (c))
 #define ISUPPER(c) (isascii (c) && isupper (c))
 
-#ifndef S_IFLNK
-#define lstat stat
-#endif
-
-#ifdef _POSIX_SOURCE
+#ifndef HAVE_ENDGRENT
 #define endgrent()
+#endif
+#ifndef HAVE_ENDPWENT
 #define endpwent()
 #endif
 
