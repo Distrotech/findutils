@@ -240,7 +240,7 @@ proc locate_start { passfail updatedb_options locate_options
 # Called by runtest.
 # Clean up (remove temporary files) before runtest exits.
 proc locate_exit {} {
-    catch "exec rm -f locate.out"
+    catch "exec rm -f locate.out updatedb-paths.txt locate.db"
 }
 
 # Called by runtest.
