@@ -48,6 +48,7 @@ find.gnu/printf-symlink.exp \
 find.gnu/printf-h.exp \
 find.gnu/prune-default-print.exp \
 find.gnu/xtype-symlink.exp \
+find.gnu/sv-bug-12230.exp \
 find.posix/sv-bug-11175.exp \
 find.posix/depth1.exp \
 find.posix/sizes.exp \
