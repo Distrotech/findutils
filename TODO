@@ -8,12 +8,6 @@ quickly.  cc works correctly.
 
 * Speed of locate without "-i" option needs to be increased.
 
-* There are many bugs to be fixed and features to be added to findutils.
-The current distribution is a snapshot which fixes many
-problems, but leaves others unsolved.  Many of the known problems are
-not listed below.  Over the next few releases, I hope to fix more
-items, and add the unfixed problems below.
-
 * Internationalization
 ** Is ansi2knr internationalized?  Does it need to be?
 
@@ -39,12 +33,6 @@ See tar distribution for an example.
 
 * Eliminate unnecessary strcpy calls in xargs.
 
-* lib/getline.c
-getline.c contains a function getstr which is needed in locate,
-but is not in the standard library.  In fact getstr is in curses.
-This problem needs to be fixed.  Can getstr be removed?  Can getline.c
-be optionally included, or is it mandatory?
-
 * man pages for frcode, bigram, and code
 Perhaps a better description in texi pages as well.
 
@@ -64,13 +52,6 @@ to handle \n in file names properly
 
 * large file problems
 depcomp gets added by automake
-strncasecmp is needed
-which requires strcasecmp
-getline.c temporarily removed from Makefile.am
-remove getline.o from LIBOBJS
-remove extra AM_FUNC_GETLINE
-
-* Is lib/strcasecmp.c required?
 
 * xargs: allow newline or arbitrary character to separate arguments
 Tyler 'Crackerjack' MacDonald <yi@yi.org> suggested that it would be
@@ -87,9 +68,6 @@ with the appropriate character.
 _LIBC is used to determine whether TOLOWER should check isupper first.
 Is there something better to check?  Alternatively, can tolower be
 checked at run time to determine whether isupper should be called first.
-
-* make findutils multibyte safe
-Bruno Haible reported many problems with findutils and multibyte.
 
 * BeOS problems with multibyte
 Bruno Haible reported problems with BeOS.
