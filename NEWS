@@ -3,6 +3,8 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 ** Bug Fixes
 *** find -iname now works correctly on systems that have an fnmatch() function 
     that does not support FNM_CASEFOLD
+*** updatedb now uses signal names for "trap" instead of numbers, 
+    as per bug #9465 (see http://www.opengroup.org/onlinepubs/009695399/utilities/trap.html)
 *** Better support for systems lacking intmax_t
 ** Other Changes
 **** findutils now uses a newer version of gnulib (dated 2004-10-17).
