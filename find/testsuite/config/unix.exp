@@ -119,6 +119,6 @@ proc find_start { passfail options {infile ""}} {
 # Called by runtest.
 # Clean up (remove temporary files) before runtest exits.
 proc find_exit {} {
-    catch "exec rm -f find.out"
+    #catch "exec rm -f find.out"
     exec echo hello
 }
