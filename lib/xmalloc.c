@@ -34,10 +34,13 @@ void free ();
 # include <libintl.h>
 # define _(Text) gettext (Text)
 #else
-# define textdomain(Domain)
 # define _(Text) Text
 #endif
-#define N_(Text) Text
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+# define N_(String) (String)
+#endif
 
 #include "error.h"
 #include "xalloc.h"
