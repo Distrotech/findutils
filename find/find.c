@@ -387,7 +387,10 @@ process_path (pathname, name, leaf, parent)
     process_dir (pathname, name, strlen (pathname), &stat_buf, parent);
 
   if (do_dir_first == false && curdepth >= mindepth)
-    apply_predicate (pathname, &stat_buf, eval_tree);
+    {
+      rel_pathname = name;
+      apply_predicate (pathname, &stat_buf, eval_tree);
+    }
 
   dir_curr--;
 
