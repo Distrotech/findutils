@@ -218,6 +218,7 @@ struct exec_val
 {
   struct path_arg *paths;	/* Array of args with path replacements. */
   char **vec;			/* Array of args to pass to program. */
+  boolean multiple;		/* -exec {} \+ denotes multiple replacement. */
 };
 
 /* The format string for a -printf or -fprintf is chopped into one or
