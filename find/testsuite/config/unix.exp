@@ -72,6 +72,9 @@ proc find_start { passfail options {infile ""}} {
     set testbase [file rootname $scriptname]
     set testname [file tail $testbase]
 
+    # set compareprog "cmp"
+    set compareprog "diff -u"
+
     set outfile "$testbase.xo"
     if {$infile != ""} then {
 	set infile "[file dirname [file dirname $testbase]]/inputs/$infile"
@@ -79,7 +82,7 @@ proc find_start { passfail options {infile ""}} {
 	set infile /dev/null
     }
 
-    set cmd "$FIND $FINDFLAGS $options < $infile > find.out"
+    set cmd "$FIND $FINDFLAGS $options < $infile | sort > find.out"
     send_log "$cmd\n"
     if $verbose>1 then {
 	send_user "Spawning \"$cmd\"\n"
@@ -100,7 +103,7 @@ proc find_start { passfail options {infile ""}} {
     }
 
     if [file exists $outfile] then {
-	set cmp_cmd "cmp find.out $outfile"
+	set cmp_cmd "$compareprog find.out $outfile"
 	send_log "$cmp_cmd\n"
 	catch "exec $cmp_cmd" cmpout
 	if {$cmpout != ""} then {
