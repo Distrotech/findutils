@@ -1581,7 +1581,7 @@ As of findutils version 4.2.4, the @code{locate} program also has a
 
 @code{xargs} gives you control over how many arguments it passes to the
 command each time it executes it.  By default, it uses up to
-@code{ARG_MAX} - 2k, or 20k, whichever is smaller, characters per
+@code{ARG_MAX} - 2k, or 128k, whichever is smaller, characters per
 command.  It uses as many lines and arguments as fit within that limit.
 The following options modify those values.
 
@@ -1609,7 +1609,9 @@ option) is exceeded, unless the @samp{-x} option is given, in which case
 @itemx -s @var{max-chars}
 Use at most @var{max-chars} characters per command line, including the
 command and initial arguments and the terminating nulls at the ends of
-the argument strings.
+the argument strings.  If you specify a value for this option which is
+too large or small, a warning message is printed and the appropriate
+upper or lower limit is used instead.
 
 @item --max-procs=@var{max-procs}
 @itemx -P @var{max-procs}

@@ -251,7 +251,7 @@ static int pids_alloc = 0;
 static int child_error = 0;
 
 /* If true, print each command on stderr before executing it.  */
-static boolean print_command = false;
+static boolean print_command = false; /* Option -t */
 
 /* If true, query the user before executing each command, and only
    execute the command if the user responds affirmatively.  */
@@ -268,6 +268,7 @@ static struct option const longopts[] =
   {"no-run-if-empty", no_argument, NULL, 'r'},
   {"max-chars", required_argument, NULL, 's'},
   {"verbose", no_argument, NULL, 't'},
+  {"show-limits", no_argument, NULL, 'S'},
   {"exit", no_argument, NULL, 'x'},
   {"max-procs", required_argument, NULL, 'P'},
   {"version", no_argument, NULL, 'v'},
@@ -284,16 +285,80 @@ static boolean print_args PARAMS ((boolean ask));
 static void do_exec PARAMS ((void));
 static void add_proc PARAMS ((pid_t pid));
 static void wait_for_proc PARAMS ((boolean all));
-static long parse_num PARAMS ((char *str, int option, long min, long max));
+static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
 static long env_size PARAMS ((char **envp));
 static void usage PARAMS ((FILE * stream));
+
+
+
+static long
+get_line_max(void)
+{
+  long val;
+#ifdef _SC_LINE_MAX  
+  val = sysconf(_SC_LINE_MAX);
+#else
+  val = -1;
+#endif
+  
+  if (val > 0)
+    return val;
+
+  /* either _SC_LINE_MAX was not available or 
+   * there is no particular limit.
+   */
+#ifdef LINE_MAX
+  val = LINE_MAX;
+#endif
+
+  if (val > 0)
+    return val;
+
+  return 2048L;			/* a reasonable guess. */
+}
+
+
+static long
+get_arg_max(void)
+{
+  long val;
+#ifdef _SC_ARG_MAX  
+  val = sysconf(_SC_ARG_MAX);
+#else
+  val = -1;
+#endif
+  
+  if (val > 0)
+    return val;
+
+  /* either _SC_ARG_MAX was not available or 
+   * there is no particular limit.
+   */
+#ifdef ARG_MAX
+  val = ARG_MAX;
+#endif
+
+  if (val > 0)
+    return val;
+  
+  /* The value returned by this function bounds the
+   * value applied as the ceiling for the -s option.
+   * Hence it the system won't tell us what its limit
+   * is, we allow the user to specify more or less 
+   * whatever value they like.
+   */
+  return LONG_MAX;
+}
+
 
 int
 main (int argc, char **argv)
 {
   int optc;
+  int show_limits = 0;			/* --show-limits */
   int always_run_command = 1;
-  long orig_arg_max;
+  long posix_arg_size_max;
+  long posix_arg_size_min;
   long arg_size;
   long size_of_environment = env_size(environ);
   char *default_cmd = "/bin/echo";
@@ -307,20 +372,39 @@ main (int argc, char **argv)
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  orig_arg_max = ARG_MAX;
-  if (orig_arg_max == -1)
-    orig_arg_max = LONG_MAX;
-  orig_arg_max -= 2048; /* POSIX.2 requires subtracting 2048.  */
-  arg_max = orig_arg_max;
-
-  arg_size = 20 * 1048 + size_of_environment;
+  /* IEE Std 1003.1, 2003 specifies that the combined argument and 
+   * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 
+   * specifies that it shall be at least LINE_MAX.
+   */
+  posix_arg_size_min = get_line_max();
+  posix_arg_size_max = get_arg_max();
+  posix_arg_size_max -= 2048; /* POSIX.2 requires subtracting 2048.  */
+  arg_max = posix_arg_size_max;
   
+  /* Start with a reasonable default size, though this can be
+   * adjusted via the -s option.
+   */
+  arg_size = (128 * 1048) + size_of_environment;
 
   /* Take the size of the environment into account.  */
-  arg_max -= env_size (environ);
-  if (arg_max <= 0)
-    error (1, 0, _("environment is too large for exec"));
+  if (size_of_environment > posix_arg_size_max)
+    {
+      error (1, 0, _("environment is too large for exec"));
+    }
+  else
+    {
+      arg_max = posix_arg_size_max - size_of_environment;
+    }
 
+  /* Check against the upper and lower limits. */  
+  if (arg_size > arg_max)
+    arg_size = arg_max;
+  if (arg_size < posix_arg_size_min)
+    arg_size = posix_arg_size_min;
+  
+  
+
+  
   while ((optc = getopt_long (argc, argv, "+0e::i::l::n:prs:txP:",
 			      longopts, (int *) 0)) != -1)
     {
@@ -353,7 +437,7 @@ main (int argc, char **argv)
 
 	case 'l':
 	  if (optarg)
-	    lines_per_exec = parse_num (optarg, 'l', 1L, -1L);
+	    lines_per_exec = parse_num (optarg, 'l', 1L, -1L, 1);
 	  else
 	    lines_per_exec = 1;
 	  /* -l excludes -i -n.  */
@@ -362,7 +446,7 @@ main (int argc, char **argv)
 	  break;
 
 	case 'n':
-	  args_per_exec = parse_num (optarg, 'n', 1L, -1L);
+	  args_per_exec = parse_num (optarg, 'n', 1L, -1L, 1);
 	  /* -n excludes -i -l.  */
 	  lines_per_exec = 0;
 	  if (args_per_exec == 1 && replace_pat)
@@ -372,8 +456,26 @@ main (int argc, char **argv)
 	    replace_pat = NULL;
 	  break;
 
+	  /* The POSIX standard specifies that it is not an error 
+	   * for the -s option to specify a size that the implementation 
+	   * cannot support - in that case, the relevant limit is used.
+	   */
 	case 's':
-	  arg_size = parse_num (optarg, 's', 1L, orig_arg_max);
+	  arg_size = parse_num (optarg, 's', 1L, posix_arg_size_max, 0);
+	  if (arg_size < posix_arg_size_min)
+	    {
+	      error (0, 0, "warning: value %ld for -s option is too small, using %ld instead", arg_size, posix_arg_size_min);
+	      arg_size = posix_arg_size_min;
+	    }
+	  if (arg_size > posix_arg_size_max)
+	    {
+	      error (0, 0, "warning: value %ld for -s option is too large, using %ld instead", arg_size, posix_arg_size_max);
+	      arg_size = posix_arg_size_max;
+	    }
+	  break;
+
+	case 'S':
+	  show_limits = true;
 	  break;
 
 	case 't':
@@ -394,7 +496,7 @@ main (int argc, char **argv)
 	  break;
 
 	case 'P':
-	  proc_max = parse_num (optarg, 'P', 0L, -1L);
+	  proc_max = parse_num (optarg, 'P', 0L, -1L, 1);
 	  break;
 
 	case 'v':
@@ -417,7 +519,7 @@ main (int argc, char **argv)
       argv = &default_cmd;
     }
 
-  /* Taking into account the sisze of the environment, 
+  /* Taking into account the size of the environment, 
    * figure out how large a buffer we need to
    * hold all the arguments.  We cannot use ARG_MAX 
    * directly since that may be arbitrarily large.
@@ -425,7 +527,30 @@ main (int argc, char **argv)
    */
   if (arg_max > arg_size)
     {
+      if (show_limits)
+	{
+	  fprintf(stderr,
+		  _("Reducing arg_max (%ld) to arg_size (%ld)\n"),
+		  arg_max, arg_size);
+	}
       arg_max = arg_size;
+    }
+
+  if (show_limits)
+    {
+      fprintf(stderr,
+	      _("Your environment variables take up %ld bytes\n"),
+	      size_of_environment);
+      fprintf(stderr,
+	      _("POSIX lower and upper limits on argument length: %ld, %ld\n"),
+	      posix_arg_size_min,
+	      posix_arg_size_max);
+      fprintf(stderr,
+	      _("Maximum length of command we could actually use: %ld\n"),
+	      (posix_arg_size_max - size_of_environment));
+      fprintf(stderr,
+	      _("Size of command buffer we are actually using: %ld\n"),
+	      arg_size);
     }
   
   linebuf = (char *) xmalloc (arg_max + 1);
@@ -1025,10 +1150,11 @@ wait_for_proc (boolean all)
 /* Return the value of the number represented in STR.
    OPTION is the command line option to which STR is the argument.
    If the value does not fall within the boundaries MIN and MAX,
-   Print an error message mentioning OPTION and exit.  */
+   Print an error message mentioning OPTION.  If FATAL is true, 
+   we also exit. */
 
 static long
-parse_num (char *str, int option, long int min, long int max)
+parse_num (char *str, int option, long int min, long int max, int fatal)
 {
   char *eptr;
   long val;
@@ -1043,17 +1169,31 @@ parse_num (char *str, int option, long int min, long int max)
     }
   else if (val < min)
     {
-      fprintf (stderr, _("%s: value for -%c option must be >= %ld\n"),
+      fprintf (stderr, _("%s: value for -%c option should be >= %ld\n"),
 	       program_name, option, min);
-      usage (stderr);
-      exit(1);
+      if (fatal)
+	{
+	  usage (stderr);
+	  exit(1);
+	}
+      else
+	{
+	  val = min;
+	}
     }
   else if (max >= 0 && val > max)
     {
-      fprintf (stderr, _("%s: value for -%c option must be < %ld\n"),
+      fprintf (stderr, _("%s: value for -%c option should be < %ld\n"),
 	       program_name, option, max);
-      usage (stderr);
-      exit(1);
+      if (fatal)
+	{
+	  usage (stderr);
+	  exit(1);
+	}
+      else
+	{
+	  val = max;
+	}
     }
   return val;
 }
