@@ -417,7 +417,8 @@ Command line argument under which file was found.
 .IP %i
 File's inode number (in decimal).
 .IP %k
-File's size in 1K blocks (rounded up).
+The amount of disk space used for this file in 1K blocks (rounded
+up).  This is different from %s/1024 if the file is a sparse file.
 .IP %l
 Object of symbolic link (empty string if file is not a symbolic link).
 .IP %m
