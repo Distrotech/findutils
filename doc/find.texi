@@ -519,8 +519,11 @@ find . -lname '*sysdep.c'
 @end deffn
 
 @deffn Option -follow
-Dereference symbolic links.  The following differences in behavior occur
-when this option is given:
+Dereference symbolic links.  The @samp{-follow} option is unlike most
+other options in that it can be useful to place it after other tests,
+because of its effect on the behaviour of the @samp{-newer},
+@samp{-anewer} and @samp{-cnewer} tests.  The following differences in
+behavior occur when this option is given:
 
 @itemize @bullet
 @item
@@ -537,7 +540,8 @@ Implies @samp{-noleaf} (@pxref{Directories}).
 If the argument to @samp{-newer} is a symbolic link, it is
 dereferenced.  Note that because the timestamp of the file is
 determined when the command line is being parsed, the position of the
-@samp{-follow} option is important.  
+@samp{-follow} option is important.   The @samp{-anewer} and
+@samp{-cnewer} tests are affected similarly. 
 @end itemize
 @end deffn
 
@@ -625,6 +629,11 @@ yesterday, do
 find ~ -daystart -type f -mtime 1
 @end example
 @end deffn
+
+The @samp{-daystart} option is unlike most other options in that it
+has an effect on the way that other tests are performed.  The affected
+tests are @samp{-amin}, @samp{-cmin}, @samp{-mmin}, @samp{-atime},
+@samp{-ctime} and @samp{-mtime}.
 
 @node Comparing Timestamps
 @subsection Comparing Timestamps

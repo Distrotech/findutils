@@ -35,35 +35,29 @@ no actions other than \-prune, \-print is performed on all files
 for which the expression is true.
 .SS OPTIONS
 .P
-All options always return true.  They always take effect, rather than
-being processed only when their place in the expression is reached.
-Therefore, for clarity, it is best to place them at the beginning of
-the expression.
+All options always return true.  Except for \-follow and \-daystart,
+they always take effect, rather than being processed only when their
+place in the expression is reached.  Therefore, for clarity, it is
+best to place them at the beginning of the expression.  A warning is
+issued if you don't do this.
 .IP \-daystart
 Measure times (for \-amin, \-atime, \-cmin, \-ctime, \-mmin, and \-mtime)
-from the beginning of today rather than from 24 hours ago.
+from the beginning of today rather than from 24 hours ago.  This
+option only affects tests which appear later on the command line.
 .IP \-depth
 Process each directory's contents before the directory itself.
 .IP \-d
 A synonym for \-depth, for compatibility with FreeBSD, MacOS X and OpenBSD.
 .IP \-follow
-Dereference symbolic links.  Implies \-noleaf.  The position of the 
-.B \-follow
-option changes the behaviour of the 
-.B \-newer 
-predicate; any files
-listed as the argument of 
-.B \-newer 
-will be dereferenced if they are symbolic links.
-Similarly, the 
-.B \-type 
+Dereference symbolic links.  Implies \-noleaf.  The position of the \-follow
+option changes the behaviour of the \-newer predicate; any files
+listed as the argument of \-newer will be dereferenced if they are
+symbolic links.  The same consideration applies to \-anewer 
+and \-cnewer.
+Similarly, the \-type 
 predicate will always match against the type of the file that a
 symbolic link points to rather than the link itself.  Using 
-.B \-follow 
-causes the 
-.B \-lname
-and 
-.B \-ilname 
+\-follow causes the \-lname and \-ilname 
 predicates always to return false.
 .IP "\-help, \-\-help"
 Print a summary of the command-line usage of
