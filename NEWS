@@ -1,4 +1,8 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.3
+**  Functionality Changes
+*** A new format directive '%D' for "find -printf" prints the device number.
+
 * Major changes in release 4.2.2
 **  Documentation improvements
 *** "find ... -exec {}+" is not yet supported.
@@ -13,8 +17,8 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** Functions which findutils requires but which are not present in 
     gnulib are now defined in "libfind.a".  This is in the lib
     directory, while gnulib is in the gnulib subdirectory.
-
 *** Fixed a typo in the address of the FSF in many of the file headers.
+
 * Major changes in release 4.2.1
 ** Bug Fixes
 *** 'find -name \*bar now matches .foobar, because the POSIX standard 
@@ -35,7 +39,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 ** Functionality Changes
 *** xargs now works better when the environment variables are very extensive.
     The xargs command used to run into difficulties if the environment 
-    data contained more than 2480 bytes.
+    data contained more than 20480 bytes.
 *** New options -wholename and -iwholename 
     As per the GNU Projecvt coding standard, These are preferred over 
     the -path and -ipath options.  Using -ipath now generates a warning,
