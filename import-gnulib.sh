@@ -38,7 +38,7 @@ alloca  argmatch  dirname error fileblocks  fnmatch-gnu  \
 getline getopt human idcache  lstat malloc memcmp memset mktime	  \
 modechange   pathmax quotearg realloc regex rpmatch savedir stat  \
 stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
-xalloc xgetcwd  xstrtol  xstrtoumax yesno human filemode \
+xalloc xalloc-die xgetcwd  xstrtol  xstrtoumax yesno human filemode \
 getline stpcpy"
 
 if test $# -lt 1
