@@ -185,7 +185,7 @@ static struct parser_table const parse_table[] =
   {ARG_TEST,               "ctime",                 parse_ctime},
   {ARG_POSITIONAL_OPTION,  "daystart",              parse_daystart},	/* GNU */
   {ARG_ACTION,             "delete",                parse_delete},	/* GNU, Mac OS, FreeBSD */
-  {ARG_OPTION,             "d",                     parse_d},		/* Mac OS X, FreeBSD, OpenBSD, but deprecated  in favour of -depth */
+  {ARG_OPTION,             "d",                     parse_d},		/* Mac OS X, FreeBSD, NetBSD, OpenBSD, but deprecated  in favour of -depth */
   {ARG_OPTION,             "depth",                 parse_depth},
   {ARG_TEST,               "empty",                 parse_empty},	/* GNU */
   {ARG_ACTION,             "exec",                  parse_exec},
