@@ -4,7 +4,8 @@ locate \- list files in databases that match a pattern
 .SH SYNOPSIS
 .B locate
 [\-d path | \-\-database=path] [-e | --existing] [-i | --ignore-case ]
-[ \-0 | \-\-null ] [ \-c | \-\-count ] [\-\-version] [\-\-help] pattern...
+[ \-0 | \-\-null ] [ \-c | \-\-count ] [ \-\-wholename ] 
+[\-\-basename ] [\-\-version] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -82,6 +83,15 @@ number of matches we found.
 .I "\-0, \-\-null"
 Use ASCII NUL as a separator, instead of newline.   
 .TP
+.I "\-\-wholename"
+Match against the whole name of the file as listed in the database.
+This is the default.
+.TP
+.I "\-\-basename"
+Results are considered to match if the pattern specified matches the
+final component of the name of a file as listed in the database.
+This final component is usually referred to as the `base name'.
+.TP
 .I "\-\-help"
 Print a summary of the options to
 .B locate
@@ -94,7 +104,11 @@ and exit.
 .SH ENVIRONMENT
 .TP
 .B LOCATE_PATH
-Colon-separated list of databases to search.
+Colon-separated list of databases to search.  If the value has a
+leading or trailing colon, or has two colons in a row, you may get
+results that vary between different versions of 
+.BR locate .
+
 .SH "SEE ALSO"
 \fBfind\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1)
 \fBFinding Files\fP (on-line in Info, or printed)

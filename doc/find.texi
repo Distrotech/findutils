@@ -405,7 +405,12 @@ metacharacters, @code{locate} only displays file names that match the
 pattern exactly.  As a result, patterns that contain metacharacters
 should usually begin with a @samp{*}, and will most often end with one
 as well.  The exceptions are patterns that are intended to explicitly
-match the beginning or end of a file name.
+match the beginning or end of a file name.   
+
+If you only want @code{locate} to match against the last component of
+the filenames (the ``base name'' of the files) you can use the
+@samp{--basename} option.  The opposite behaviour is the default, but
+can be selected explicitly by using the option @samp{--wholename}.
 
 The command
 @example
@@ -1451,7 +1456,8 @@ standard input are ignored.
 Instead of blank-delimited names, it is safer to use @samp{find -print0}
 or @samp{find -fprint0} and process the output by giving the @samp{-0}
 or @samp{--null} option to GNU @code{xargs}, GNU @code{tar}, GNU
-@code{cpio}, or @code{perl}.
+@code{cpio}, or @code{perl}.  The @code{locate} command also has a
+@samp{-0} or @samp{--null} option which does the same thing.
 
 You can use shell command substitution (backquotes) to process a list of
 arguments, like this:
@@ -1560,6 +1566,10 @@ null character.
 True; like @samp{-print0} but write to @var{file} like @samp{-fprint}
 (@pxref{Print File Name}).
 @end deffn
+
+As of findutils version 4.2.4, the @code{locate} program also has a
+@samp{--null} option which does the same thing.  For similarity with
+@code{xargs}, the short form of the option @samp{-0} can also be used.
 
 @node Limiting Command Size
 @subsubsection Limiting Command Size
@@ -2268,6 +2278,24 @@ Ignore case distinctions in both the pattern and the file names.
 @itemx -0
 Results are separated with the ASCII NUL character rather than the
 newline character.
+
+@item --count
+@itemx -c
+Just print the number of results, not the results themselves.
+
+@item --wholename
+The specified pattern is matched against the whole name of the file in
+the locate database.  If the pattern contains metacharacters, it must
+match exactly.  If not, it must match part of the whole file name.
+This is the default behaviour.
+
+@item --basename
+The specified pattern is matched against just the last component of
+the name of the file in the locate database.  This last component is
+also called the ``base name''.  For example, the base name of
+@file{/tmp/mystuff/foo.old.c} is @file{foo.old.c}.  If the pattern
+contains metacharacters, it must match exactly.  If not, it must match
+part of the whole file name.
 
 @item --help
 Print a summary of the options to @code{locate} and exit.
