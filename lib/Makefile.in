@@ -1,6 +1,7 @@
-# Makefile.in generated automatically by automake 1.4a from Makefile.am
+# Makefile.in generated automatically by automake 1.4d from Makefile.am
 
-# Copyright (C) 1994, 1995-9, 2000 Free Software Foundation, Inc.
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+# Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -47,6 +48,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_FLAG =
+INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -66,13 +68,11 @@ CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CPP = @CPP@
-CXX = @CXX@
-CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
 DF_PROG = @DF_PROG@
 GENCAT = @GENCAT@
-GETCONF = @GETCONF@
+GLIBC21 = @GLIBC21@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNU_PACKAGE = @GNU_PACKAGE@
@@ -83,6 +83,7 @@ INSTOBJEXT = @INSTOBJEXT@
 INTLDEPS = @INTLDEPS@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+LIBICONV = @LIBICONV@
 LIBOBJS = @LIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAN = @MAN@
@@ -98,6 +99,7 @@ U = @U@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+_am_include = @_am_include@
 install_sh = @install_sh@
 l = @l@
 
@@ -141,8 +143,6 @@ libfind_a_SOURCES = regex.h \
 			xstrtoul.c \
 			xstrtoul.h \
 			xstrtoumax.c \
-			getline.c \
-			getline.h \
 			basename.c \
 			yesno.c
 
@@ -158,6 +158,7 @@ EXTRA_DIST = \
 		regex.c \
 		wait.h \
 		alloca.c \
+		getline.c \
 		getline.h \
 		xstat.in
 
@@ -182,7 +183,7 @@ am_libfind_a_OBJECTS =  argmatch$U.o basename$U.o dirname$U.o \
 filemode$U.o getopt$U.o getopt1$U.o human$U.o idcache$U.o listfile$U.o \
 modechange$U.o nextelem$U.o quotearg$U.o savedir$U.o xmalloc$U.o \
 xstrdup$U.o xgetcwd$U.o xstrtol$U.o xstrtoul$U.o xstrtoumax$U.o \
-getline$U.o basename$U.o yesno$U.o
+basename$U.o yesno$U.o
 libfind_a_OBJECTS =  $(am_libfind_a_OBJECTS)
 AR = ar
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -191,32 +192,37 @@ CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES =  $(libfind_a_SOURCES)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-DEP_FILES =  @AMDEP@ $(DEPDIR)/alloca.Po $(DEPDIR)/argmatch$U.Po \
-$(DEPDIR)/basename$U.Po $(DEPDIR)/dirname$U.Po $(DEPDIR)/error.Po \
-$(DEPDIR)/fileblocks.Po $(DEPDIR)/filemode$U.Po $(DEPDIR)/fnmatch.Po \
-$(DEPDIR)/getline$U.Po $(DEPDIR)/getopt$U.Po $(DEPDIR)/getopt1$U.Po \
-$(DEPDIR)/human$U.Po $(DEPDIR)/idcache$U.Po $(DEPDIR)/listfile$U.Po \
-$(DEPDIR)/lstat.Po $(DEPDIR)/malloc.Po $(DEPDIR)/memcmp.Po \
-$(DEPDIR)/memcpy.Po $(DEPDIR)/memset.Po $(DEPDIR)/mktime.Po \
-$(DEPDIR)/modechange$U.Po $(DEPDIR)/nextelem$U.Po \
-$(DEPDIR)/quotearg$U.Po $(DEPDIR)/realloc.Po $(DEPDIR)/regex.Po \
-$(DEPDIR)/rpmatch.Po $(DEPDIR)/savedir$U.Po $(DEPDIR)/stat.Po \
-$(DEPDIR)/stpcpy.Po $(DEPDIR)/strdup.Po $(DEPDIR)/strftime.Po \
-$(DEPDIR)/strncasecmp.Po $(DEPDIR)/strspn.Po $(DEPDIR)/strstr.Po \
-$(DEPDIR)/strtol.Po $(DEPDIR)/strtoul.Po $(DEPDIR)/strtoull.Po \
-$(DEPDIR)/strtoumax.Po $(DEPDIR)/waitpid.Po $(DEPDIR)/xgetcwd$U.Po \
-$(DEPDIR)/xmalloc$U.Po $(DEPDIR)/xstrdup$U.Po $(DEPDIR)/xstrtol$U.Po \
-$(DEPDIR)/xstrtoul$U.Po $(DEPDIR)/xstrtoumax$U.Po $(DEPDIR)/yesno$U.Po
+@AMDEP@DEP_FILES =  $(DEPDIR)/alloca.Po $(DEPDIR)/argmatch$U.Po \
+@AMDEP@$(DEPDIR)/basename$U.Po $(DEPDIR)/dirname$U.Po \
+@AMDEP@$(DEPDIR)/error.Po $(DEPDIR)/fileblocks.Po \
+@AMDEP@$(DEPDIR)/filemode$U.Po $(DEPDIR)/fnmatch.Po \
+@AMDEP@$(DEPDIR)/getline.Po $(DEPDIR)/getopt$U.Po \
+@AMDEP@$(DEPDIR)/getopt1$U.Po $(DEPDIR)/human$U.Po \
+@AMDEP@$(DEPDIR)/idcache$U.Po $(DEPDIR)/listfile$U.Po \
+@AMDEP@$(DEPDIR)/lstat.Po $(DEPDIR)/malloc.Po $(DEPDIR)/memcmp.Po \
+@AMDEP@$(DEPDIR)/memcpy.Po $(DEPDIR)/memset.Po $(DEPDIR)/mktime.Po \
+@AMDEP@$(DEPDIR)/modechange$U.Po $(DEPDIR)/nextelem$U.Po \
+@AMDEP@$(DEPDIR)/quotearg$U.Po $(DEPDIR)/realloc.Po $(DEPDIR)/regex.Po \
+@AMDEP@$(DEPDIR)/rpmatch.Po $(DEPDIR)/savedir$U.Po $(DEPDIR)/stat.Po \
+@AMDEP@$(DEPDIR)/stpcpy.Po $(DEPDIR)/strdup.Po $(DEPDIR)/strftime.Po \
+@AMDEP@$(DEPDIR)/strncasecmp.Po $(DEPDIR)/strspn.Po $(DEPDIR)/strstr.Po \
+@AMDEP@$(DEPDIR)/strtol.Po $(DEPDIR)/strtoul.Po $(DEPDIR)/strtoull.Po \
+@AMDEP@$(DEPDIR)/strtoumax.Po $(DEPDIR)/waitpid.Po \
+@AMDEP@$(DEPDIR)/xgetcwd$U.Po $(DEPDIR)/xmalloc$U.Po \
+@AMDEP@$(DEPDIR)/xstrdup$U.Po $(DEPDIR)/xstrtol$U.Po \
+@AMDEP@$(DEPDIR)/xstrtoul$U.Po $(DEPDIR)/xstrtoumax$U.Po \
+@AMDEP@$(DEPDIR)/yesno$U.Po
 DIST_COMMON =  Makefile.am Makefile.in alloca.c ansi2knr.1 ansi2knr.c \
-error.c error.h fileblocks.c fnmatch.c malloc.c memcmp.c memcpy.c \
-memset.c mktime.c realloc.c regex.c rpmatch.c stpcpy.c strdup.c \
-strftime.c strncasecmp.c strspn.c strstr.c strtol.c strtoul.c \
+error.c error.h fileblocks.c fnmatch.c getline.c malloc.c memcmp.c \
+memcpy.c memset.c mktime.c realloc.c regex.c rpmatch.c stpcpy.c \
+strdup.c strftime.c strncasecmp.c strspn.c strstr.c strtol.c strtoul.c \
 strtoull.c strtoumax.c waitpid.c
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
+DIST_SUBDIRS =  $(SUBDIRS)
 SOURCES = $(libfind_a_SOURCES)
 OBJECTS = $(am_libfind_a_OBJECTS)
 
@@ -228,7 +234,7 @@ $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
-	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 
 
 mostlyclean-noinstLIBRARIES:
@@ -243,21 +249,11 @@ maintainer-clean-noinstLIBRARIES:
 mostlyclean-compile:
 	-rm -f *.o core *.core
 
-clean-compile:
-
 distclean-compile:
 	-rm -f *.tab.c
 
-maintainer-clean-compile:
-
-mostlyclean-krextra:
-
 clean-krextra:
 	-rm -f ansi2knr
-
-distclean-krextra:
-
-maintainer-clean-krextra:
 ansi2knr: ansi2knr.o
 	$(LINK) ansi2knr.o $(LIBS)
 ansi2knr.o: $(CONFIG_HEADER)
@@ -265,12 +261,6 @@ ansi2knr.o: $(CONFIG_HEADER)
 
 mostlyclean-kr:
 	-rm -f *_.c
-
-clean-kr:
-
-distclean-kr:
-
-maintainer-clean-kr:
 
 libfind.a: $(libfind_a_OBJECTS) $(libfind_a_DEPENDENCIES)
 	-rm -f libfind.a
@@ -383,7 +373,6 @@ xstrtoul_.o xstrtoumax_.o yesno_.o : $(ANSI2KNR)
 # (1) if the variable is set in `config.status', edit `config.status'
 #     (which will cause the Makefiles to be regenerated when you run `make');
 # (2) otherwise, pass the desired values on the `make' command line.
-
 all-recursive install-data-recursive install-exec-recursive \
 installdirs-recursive install-recursive uninstall-recursive  \
 check-recursive installcheck-recursive info-recursive dvi-recursive:
@@ -409,7 +398,11 @@ mostlyclean-recursive clean-recursive distclean-recursive \
 maintainer-clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
-	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	rev=''; for subdir in $$list; do \
 	  if test "$$subdir" = "."; then :; else \
 	    rev="$$subdir $$rev"; \
 	  fi; \
@@ -460,70 +453,63 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
 	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
-mostlyclean-tags:
-
-clean-tags:
+GTAGS:
+	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	  && cd $(top_srcdir) \
+	  && gtags -i $$here
 
 distclean-tags:
 	-rm -f TAGS ID
 
-maintainer-clean-tags:
-
-@AMDEP@include $(DEPDIR)/alloca.Po
-@AMDEP@include $(DEPDIR)/argmatch$U.Po
-@AMDEP@include $(DEPDIR)/basename$U.Po
-@AMDEP@include $(DEPDIR)/dirname$U.Po
-@AMDEP@include $(DEPDIR)/error.Po
-@AMDEP@include $(DEPDIR)/fileblocks.Po
-@AMDEP@include $(DEPDIR)/filemode$U.Po
-@AMDEP@include $(DEPDIR)/fnmatch.Po
-@AMDEP@include $(DEPDIR)/getline$U.Po
-@AMDEP@include $(DEPDIR)/getopt$U.Po
-@AMDEP@include $(DEPDIR)/getopt1$U.Po
-@AMDEP@include $(DEPDIR)/human$U.Po
-@AMDEP@include $(DEPDIR)/idcache$U.Po
-@AMDEP@include $(DEPDIR)/listfile$U.Po
-@AMDEP@include $(DEPDIR)/lstat.Po
-@AMDEP@include $(DEPDIR)/malloc.Po
-@AMDEP@include $(DEPDIR)/memcmp.Po
-@AMDEP@include $(DEPDIR)/memcpy.Po
-@AMDEP@include $(DEPDIR)/memset.Po
-@AMDEP@include $(DEPDIR)/mktime.Po
-@AMDEP@include $(DEPDIR)/modechange$U.Po
-@AMDEP@include $(DEPDIR)/nextelem$U.Po
-@AMDEP@include $(DEPDIR)/quotearg$U.Po
-@AMDEP@include $(DEPDIR)/realloc.Po
-@AMDEP@include $(DEPDIR)/regex.Po
-@AMDEP@include $(DEPDIR)/rpmatch.Po
-@AMDEP@include $(DEPDIR)/savedir$U.Po
-@AMDEP@include $(DEPDIR)/stat.Po
-@AMDEP@include $(DEPDIR)/stpcpy.Po
-@AMDEP@include $(DEPDIR)/strdup.Po
-@AMDEP@include $(DEPDIR)/strftime.Po
-@AMDEP@include $(DEPDIR)/strncasecmp.Po
-@AMDEP@include $(DEPDIR)/strspn.Po
-@AMDEP@include $(DEPDIR)/strstr.Po
-@AMDEP@include $(DEPDIR)/strtol.Po
-@AMDEP@include $(DEPDIR)/strtoul.Po
-@AMDEP@include $(DEPDIR)/strtoull.Po
-@AMDEP@include $(DEPDIR)/strtoumax.Po
-@AMDEP@include $(DEPDIR)/waitpid.Po
-@AMDEP@include $(DEPDIR)/xgetcwd$U.Po
-@AMDEP@include $(DEPDIR)/xmalloc$U.Po
-@AMDEP@include $(DEPDIR)/xstrdup$U.Po
-@AMDEP@include $(DEPDIR)/xstrtol$U.Po
-@AMDEP@include $(DEPDIR)/xstrtoul$U.Po
-@AMDEP@include $(DEPDIR)/xstrtoumax$U.Po
-@AMDEP@include $(DEPDIR)/yesno$U.Po
-
-mostlyclean-depend:
-
-clean-depend:
+@AMDEP@@_am_include@ $(DEPDIR)/alloca.Po
+@AMDEP@@_am_include@ $(DEPDIR)/argmatch$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/basename$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/dirname$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/error.Po
+@AMDEP@@_am_include@ $(DEPDIR)/fileblocks.Po
+@AMDEP@@_am_include@ $(DEPDIR)/filemode$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/fnmatch.Po
+@AMDEP@@_am_include@ $(DEPDIR)/getline.Po
+@AMDEP@@_am_include@ $(DEPDIR)/getopt$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/getopt1$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/human$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/idcache$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/listfile$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/lstat.Po
+@AMDEP@@_am_include@ $(DEPDIR)/malloc.Po
+@AMDEP@@_am_include@ $(DEPDIR)/memcmp.Po
+@AMDEP@@_am_include@ $(DEPDIR)/memcpy.Po
+@AMDEP@@_am_include@ $(DEPDIR)/memset.Po
+@AMDEP@@_am_include@ $(DEPDIR)/mktime.Po
+@AMDEP@@_am_include@ $(DEPDIR)/modechange$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/nextelem$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/quotearg$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/realloc.Po
+@AMDEP@@_am_include@ $(DEPDIR)/regex.Po
+@AMDEP@@_am_include@ $(DEPDIR)/rpmatch.Po
+@AMDEP@@_am_include@ $(DEPDIR)/savedir$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/stat.Po
+@AMDEP@@_am_include@ $(DEPDIR)/stpcpy.Po
+@AMDEP@@_am_include@ $(DEPDIR)/strdup.Po
+@AMDEP@@_am_include@ $(DEPDIR)/strftime.Po
+@AMDEP@@_am_include@ $(DEPDIR)/strncasecmp.Po
+@AMDEP@@_am_include@ $(DEPDIR)/strspn.Po
+@AMDEP@@_am_include@ $(DEPDIR)/strstr.Po
+@AMDEP@@_am_include@ $(DEPDIR)/strtol.Po
+@AMDEP@@_am_include@ $(DEPDIR)/strtoul.Po
+@AMDEP@@_am_include@ $(DEPDIR)/strtoull.Po
+@AMDEP@@_am_include@ $(DEPDIR)/strtoumax.Po
+@AMDEP@@_am_include@ $(DEPDIR)/waitpid.Po
+@AMDEP@@_am_include@ $(DEPDIR)/xgetcwd$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/xmalloc$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/xstrdup$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/xstrtol$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/xstrtoul$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/xstrtoumax$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/yesno$U.Po
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
-
-maintainer-clean-depend:
 
 @AMDEP@CCDEPMODE = @CCDEPMODE@
 
@@ -535,6 +521,7 @@ maintainer-clean-depend:
 
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -553,7 +540,8 @@ distdir: $(DISTFILES)
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
 	    || exit 1; \
-	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	    (cd $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	      || exit 1; \
 	  fi; \
 	done
@@ -565,6 +553,9 @@ check-am: all-am
 check: check-recursive
 installcheck-am:
 installcheck: installcheck-recursive
+all-redirect: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+
 install-exec-am:
 install-exec: install-exec-recursive
 
@@ -577,7 +568,6 @@ install: install-recursive
 uninstall-am:
 uninstall: uninstall-recursive
 all-am: Makefile $(ANSI2KNR) $(LIBRARIES)
-all-redirect: all-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs: installdirs-recursive
@@ -594,54 +584,45 @@ distclean-generic:
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f Makefile.in
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
-		mostlyclean-krextra mostlyclean-kr mostlyclean-tags \
-		mostlyclean-depend mostlyclean-generic
-
-mostlyclean: mostlyclean-recursive
-
-clean-am:  clean-noinstLIBRARIES clean-compile clean-krextra clean-kr \
-		clean-tags clean-depend clean-generic mostlyclean-am
-
 clean: clean-recursive
 
-distclean-am:  distclean-noinstLIBRARIES distclean-compile \
-		distclean-krextra distclean-kr distclean-tags \
-		distclean-depend distclean-generic clean-am
+clean-am: clean-generic clean-krextra clean-noinstLIBRARIES \
+	mostlyclean-am
 
 distclean: distclean-recursive
 
-maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
-		maintainer-clean-compile maintainer-clean-krextra \
-		maintainer-clean-kr maintainer-clean-tags \
-		maintainer-clean-depend maintainer-clean-generic \
-		distclean-am
-	@echo "This command is intended for maintainers to use;"
-	@echo "it deletes files that may require special tools to rebuild."
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-noinstLIBRARIES distclean-tags
 
 maintainer-clean: maintainer-clean-recursive
 
-.PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
-clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile mostlyclean-krextra distclean-krextra \
-clean-krextra maintainer-clean-krextra mostlyclean-kr distclean-kr \
-clean-kr maintainer-clean-kr install-recursive uninstall-recursive \
-install-data-recursive uninstall-data-recursive install-exec-recursive \
-uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
-all-recursive check-recursive installcheck-recursive info-recursive \
-dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
-maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags mostlyclean-depend \
-distclean-depend clean-depend maintainer-clean-depend distdir info-am \
-info dvi-am dvi check check-am installcheck-am installcheck \
-install-exec-am install-exec install-data-am install-data install-am \
-install uninstall-am uninstall all-redirect all-am all install-strip \
-installdirs-am installdirs mostlyclean-generic distclean-generic \
-clean-generic maintainer-clean-generic clean mostlyclean distclean \
-maintainer-clean
+maintainer-clean-am: distclean-am maintainer-clean-generic \
+	maintainer-clean-noinstLIBRARIES
+
+mostlyclean: mostlyclean-recursive
+
+mostlyclean-am: mostlyclean-compile mostlyclean-generic mostlyclean-kr \
+	mostlyclean-noinstLIBRARIES
+
+.PHONY: all-recursive all-redirect check check-am check-recursive clean \
+	clean-generic clean-krextra clean-noinstLIBRARIES \
+	clean-recursive distclean distclean-compile distclean-depend \
+	distclean-generic distclean-noinstLIBRARIES distclean-recursive \
+	distclean-tags distdir dvi dvi-am dvi-recursive info info-am \
+	info-recursive install install-am install-data install-data-am \
+	install-data-recursive install-exec install-exec-am \
+	install-exec-recursive install-recursive install-strip \
+	installcheck installcheck-am installcheck-recursive installdirs \
+	installdirs-am installdirs-recursive maintainer-clean \
+	maintainer-clean-generic maintainer-clean-noinstLIBRARIES \
+	maintainer-clean-recursive mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-kr mostlyclean-noinstLIBRARIES \
+	mostlyclean-recursive tags tags-recursive uninstall \
+	uninstall-am uninstall-recursive
 
 
 lstat.c: xstat.in

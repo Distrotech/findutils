@@ -1,6 +1,7 @@
-# Makefile.in generated automatically by automake 1.4a from Makefile.am
+# Makefile.in generated automatically by automake 1.4d from Makefile.am
 
-# Copyright (C) 1994, 1995-9, 2000 Free Software Foundation, Inc.
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+# Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -47,6 +48,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_FLAG =
+INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -66,13 +68,11 @@ CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CPP = @CPP@
-CXX = @CXX@
-CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
 DF_PROG = @DF_PROG@
 GENCAT = @GENCAT@
-GETCONF = @GETCONF@
+GLIBC21 = @GLIBC21@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNU_PACKAGE = @GNU_PACKAGE@
@@ -83,6 +83,7 @@ INSTOBJEXT = @INSTOBJEXT@
 INTLDEPS = @INTLDEPS@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+LIBICONV = @LIBICONV@
 LIBOBJS = @LIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAN = @MAN@
@@ -98,6 +99,7 @@ U = @U@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+_am_include = @_am_include@
 install_sh = @install_sh@
 l = @l@
 
@@ -166,18 +168,19 @@ MANS = $(man_MANS)
 
 NROFF = nroff
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-DEP_FILES =  @AMDEP@ $(DEPDIR)/bigram$U.Po $(DEPDIR)/code$U.Po \
-$(DEPDIR)/frcode$U.Po $(DEPDIR)/locate$U.Po
+@AMDEP@DEP_FILES =  $(DEPDIR)/bigram$U.Po $(DEPDIR)/code$U.Po \
+@AMDEP@$(DEPDIR)/frcode$U.Po $(DEPDIR)/locate$U.Po
 DIST_COMMON =  Makefile.am Makefile.in
 
 
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
+DIST_SUBDIRS =  $(SUBDIRS)
 SOURCES = bigram.c code.c frcode.c locate.c
 OBJECTS = bigram$U.o code$U.o frcode$U.o locate$U.o
 
-all: all-redirect
+all: all-recursive
 .SUFFIXES:
 .SUFFIXES: .c .o
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
@@ -185,7 +188,7 @@ $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
-	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 
 
 mostlyclean-binPROGRAMS:
@@ -247,12 +250,8 @@ uninstall-libexecPROGRAMS:
 mostlyclean-compile:
 	-rm -f *.o core *.core
 
-clean-compile:
-
 distclean-compile:
 	-rm -f *.tab.c
-
-maintainer-clean-compile:
 ../lib/ansi2knr: ../lib/ansi2knr.o
 	cd ../lib && $(MAKE) $(AM_MAKEFLAGS) ansi2knr
 
@@ -262,12 +261,6 @@ maintainer-clean-compile:
 
 mostlyclean-kr:
 	-rm -f *_.c
-
-clean-kr:
-
-distclean-kr:
-
-maintainer-clean-kr:
 
 bigram: $(bigram_OBJECTS) $(bigram_DEPENDENCIES)
 	@rm -f bigram
@@ -320,6 +313,8 @@ fnmatch_.c: fnmatch.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/fnmatch.c; then echo $(srcdir)/fnmatch.c; else echo fnmatch.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > fnmatch_.c
 frcode_.c: frcode.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/frcode.c; then echo $(srcdir)/frcode.c; else echo frcode.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > frcode_.c
+getline_.c: getline.c $(ANSI2KNR)
+	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/getline.c; then echo $(srcdir)/getline.c; else echo getline.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > getline_.c
 locate_.c: locate.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/locate.c; then echo $(srcdir)/locate.c; else echo locate.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > locate_.c
 lstat_.c: lstat.c $(ANSI2KNR)
@@ -365,10 +360,10 @@ strtoumax_.c: strtoumax.c $(ANSI2KNR)
 waitpid_.c: waitpid.c $(ANSI2KNR)
 	$(CPP) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) `if test -f $(srcdir)/waitpid.c; then echo $(srcdir)/waitpid.c; else echo waitpid.c; fi` | sed 's/^# \([0-9]\)/#line \1/' | $(ANSI2KNR) > waitpid_.c
 alloca_.o bigram_.o code_.o error_.o fileblocks_.o fnmatch_.o frcode_.o \
-locate_.o lstat_.o malloc_.o memcmp_.o memcpy_.o memset_.o mktime_.o \
-realloc_.o regex_.o rpmatch_.o stat_.o stpcpy_.o strdup_.o strftime_.o \
-strncasecmp_.o strspn_.o strstr_.o strtol_.o strtoul_.o strtoull_.o \
-strtoumax_.o waitpid_.o : $(ANSI2KNR)
+getline_.o locate_.o lstat_.o malloc_.o memcmp_.o memcpy_.o memset_.o \
+mktime_.o realloc_.o regex_.o rpmatch_.o stat_.o stpcpy_.o strdup_.o \
+strftime_.o strncasecmp_.o strspn_.o strstr_.o strtol_.o strtoul_.o \
+strtoull_.o strtoumax_.o waitpid_.o : $(ANSI2KNR)
 
 install-man1:
 	$(mkinstalldirs) $(DESTDIR)$(man1dir)
@@ -452,7 +447,6 @@ uninstall-man:
 # (1) if the variable is set in `config.status', edit `config.status'
 #     (which will cause the Makefiles to be regenerated when you run `make');
 # (2) otherwise, pass the desired values on the `make' command line.
-
 all-recursive install-data-recursive install-exec-recursive \
 installdirs-recursive install-recursive uninstall-recursive  \
 check-recursive installcheck-recursive info-recursive dvi-recursive:
@@ -478,7 +472,11 @@ mostlyclean-recursive clean-recursive distclean-recursive \
 maintainer-clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
-	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	rev=''; for subdir in $$list; do \
 	  if test "$$subdir" = "."; then :; else \
 	    rev="$$subdir $$rev"; \
 	  fi; \
@@ -529,28 +527,21 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
 	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
-mostlyclean-tags:
-
-clean-tags:
+GTAGS:
+	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	  && cd $(top_srcdir) \
+	  && gtags -i $$here
 
 distclean-tags:
 	-rm -f TAGS ID
 
-maintainer-clean-tags:
-
-@AMDEP@include $(DEPDIR)/bigram$U.Po
-@AMDEP@include $(DEPDIR)/code$U.Po
-@AMDEP@include $(DEPDIR)/frcode$U.Po
-@AMDEP@include $(DEPDIR)/locate$U.Po
-
-mostlyclean-depend:
-
-clean-depend:
+@AMDEP@@_am_include@ $(DEPDIR)/bigram$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/code$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/frcode$U.Po
+@AMDEP@@_am_include@ $(DEPDIR)/locate$U.Po
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
-
-maintainer-clean-depend:
 
 @AMDEP@CCDEPMODE = @CCDEPMODE@
 
@@ -562,6 +553,7 @@ maintainer-clean-depend:
 
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -580,7 +572,8 @@ distdir: $(DISTFILES)
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
 	    || exit 1; \
-	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	    (cd $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	      || exit 1; \
 	  fi; \
 	done
@@ -606,7 +599,6 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libexecPROGRAMS \
 		uninstall-binSCRIPTS uninstall-man
 uninstall: uninstall-recursive
 all-am: Makefile $(PROGRAMS) $(SCRIPTS) $(MANS)
-all-redirect: all-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs: installdirs-recursive
@@ -626,58 +618,51 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f Makefile.in
-mostlyclean-am:  mostlyclean-binPROGRAMS mostlyclean-libexecPROGRAMS \
-		mostlyclean-compile mostlyclean-kr mostlyclean-tags \
-		mostlyclean-depend mostlyclean-generic
-
-mostlyclean: mostlyclean-recursive
-
-clean-am:  clean-binPROGRAMS clean-libexecPROGRAMS clean-compile \
-		clean-kr clean-tags clean-depend clean-generic \
-		mostlyclean-am
-
 clean: clean-recursive
 
-distclean-am:  distclean-binPROGRAMS distclean-libexecPROGRAMS \
-		distclean-compile distclean-kr distclean-tags \
-		distclean-depend distclean-generic clean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libexecPROGRAMS \
+	mostlyclean-am
 
 distclean: distclean-recursive
 
-maintainer-clean-am:  maintainer-clean-binPROGRAMS \
-		maintainer-clean-libexecPROGRAMS \
-		maintainer-clean-compile maintainer-clean-kr \
-		maintainer-clean-tags maintainer-clean-depend \
-		maintainer-clean-generic distclean-am
-	@echo "This command is intended for maintainers to use;"
-	@echo "it deletes files that may require special tools to rebuild."
+distclean-am: clean-am distclean-binPROGRAMS distclean-compile \
+	distclean-depend distclean-generic distclean-libexecPROGRAMS \
+	distclean-tags
 
 maintainer-clean: maintainer-clean-recursive
 
-.PHONY: mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
-maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
-mostlyclean-libexecPROGRAMS distclean-libexecPROGRAMS \
-clean-libexecPROGRAMS maintainer-clean-libexecPROGRAMS \
-uninstall-libexecPROGRAMS install-libexecPROGRAMS mostlyclean-compile \
-distclean-compile clean-compile maintainer-clean-compile mostlyclean-kr \
-distclean-kr clean-kr maintainer-clean-kr uninstall-binSCRIPTS \
-install-binSCRIPTS install-man1 uninstall-man1 install-man5 \
-uninstall-man5 install-man uninstall-man install-recursive \
-uninstall-recursive install-data-recursive uninstall-data-recursive \
-install-exec-recursive uninstall-exec-recursive installdirs-recursive \
-uninstalldirs-recursive all-recursive check-recursive \
-installcheck-recursive info-recursive dvi-recursive \
-mostlyclean-recursive distclean-recursive clean-recursive \
-maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags mostlyclean-depend \
-distclean-depend clean-depend maintainer-clean-depend distdir info-am \
-info dvi-am dvi check check-am installcheck-am installcheck \
-install-exec-am install-exec install-data-am install-data install-am \
-install uninstall-am uninstall all-redirect all-am all install-strip \
-installdirs-am installdirs mostlyclean-generic distclean-generic \
-clean-generic maintainer-clean-generic clean mostlyclean distclean \
-maintainer-clean
+maintainer-clean-am: distclean-am maintainer-clean-binPROGRAMS \
+	maintainer-clean-generic maintainer-clean-libexecPROGRAMS
+
+mostlyclean: mostlyclean-recursive
+
+mostlyclean-am: mostlyclean-binPROGRAMS mostlyclean-compile \
+	mostlyclean-generic mostlyclean-kr mostlyclean-libexecPROGRAMS
+
+.PHONY: all-recursive check check-am check-recursive clean \
+	clean-binPROGRAMS clean-generic clean-libexecPROGRAMS \
+	clean-recursive distclean distclean-binPROGRAMS \
+	distclean-compile distclean-depend distclean-generic \
+	distclean-libexecPROGRAMS distclean-recursive distclean-tags \
+	distdir dvi dvi-am dvi-recursive info info-am info-recursive \
+	install install-am install-binPROGRAMS install-binSCRIPTS \
+	install-data install-data-am install-data-recursive \
+	install-exec install-exec-am install-exec-recursive \
+	install-libexecPROGRAMS install-man install-man1 install-man5 \
+	install-recursive install-strip installcheck installcheck-am \
+	installcheck-recursive installdirs installdirs-am \
+	installdirs-recursive maintainer-clean \
+	maintainer-clean-binPROGRAMS maintainer-clean-generic \
+	maintainer-clean-libexecPROGRAMS maintainer-clean-recursive \
+	mostlyclean mostlyclean-binPROGRAMS mostlyclean-compile \
+	mostlyclean-generic mostlyclean-kr mostlyclean-libexecPROGRAMS \
+	mostlyclean-recursive tags tags-recursive uninstall \
+	uninstall-am uninstall-binPROGRAMS uninstall-binSCRIPTS \
+	uninstall-libexecPROGRAMS uninstall-man uninstall-man1 \
+	uninstall-man5 uninstall-recursive
 
 
 $(PROGRAMS) $(LIBPROGRAMS): ../find/version.o ../lib/libfind.a

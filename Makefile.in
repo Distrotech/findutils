@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4a from Makefile.am
+# Makefile.in generated automatically by automake 1.4d from Makefile.am
 
-# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
 # Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -48,6 +48,7 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_FLAG =
+INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -67,13 +68,11 @@ CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CPP = @CPP@
-CXX = @CXX@
-CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
 DF_PROG = @DF_PROG@
 GENCAT = @GENCAT@
-GETCONF = @GETCONF@
+GLIBC21 = @GLIBC21@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNU_PACKAGE = @GNU_PACKAGE@
@@ -85,6 +84,7 @@ INSTOBJEXT = @INSTOBJEXT@
 INTLDEPS = @INTLDEPS@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+LIBICONV = @LIBICONV@
 LIBOBJS = @LIBOBJS@
 MAKEINFO = @MAKEINFO@
 MAN = @MAN@
@@ -100,6 +100,7 @@ U = @U@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
+_am_include = @_am_include@
 install_sh = @install_sh@
 l = @l@
 
@@ -118,7 +119,7 @@ subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = 
+CONFIG_CLEAN_FILES =  intl/Makefile
 DIST_SOURCES = 
 DIST_COMMON =  README ./stamp-h.in ABOUT-NLS AUTHORS COPYING ChangeLog \
 INSTALL Makefile.am Makefile.in NEWS README-alpha THANKS TODO \
@@ -129,6 +130,7 @@ depcomp install-sh missing mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 GZIP_ENV = --best
+DIST_SUBDIRS =  $(SUBDIRS)
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
@@ -136,17 +138,17 @@ $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
-	  && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
+	  && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 
 $(ACLOCAL_M4):  configure.in  m4/afs.m4 m4/assert.m4 m4/c-bs-a.m4 \
 		m4/check-decl.m4 m4/d-ino.m4 m4/d-type.m4 m4/error.m4 \
 		m4/fnmatch.m4 m4/fnmatchcase.m4 m4/fstypename.m4 \
-		m4/getline.m4 m4/gettext.m4 m4/glibc.m4 \
-		m4/inttypes_h.m4 m4/isc-posix.m4 m4/jm-glibc-io.m4 \
-		m4/jm-macros.m4 m4/jm-mktime.m4 m4/largefile.m4 \
-		m4/lcmessage.m4 m4/link-follow.m4 m4/ls-mntd-fs.m4 \
-		m4/lstat-slash.m4 m4/lstat.m4 m4/malloc.m4 \
-		m4/mbstate_t.m4 m4/memcmp.m4 m4/prereq.m4 \
+		m4/getline.m4 m4/gettext.m4 m4/glibc.m4 m4/glibc21.m4 \
+		m4/iconv.m4 m4/inttypes_h.m4 m4/isc-posix.m4 \
+		m4/jm-glibc-io.m4 m4/jm-macros.m4 m4/jm-mktime.m4 \
+		m4/lcmessage.m4 m4/libintl.m4 m4/link-follow.m4 \
+		m4/ls-mntd-fs.m4 m4/lstat-slash.m4 m4/lstat.m4 \
+		m4/malloc.m4 m4/mbstate_t.m4 m4/memcmp.m4 m4/prereq.m4 \
 		m4/progtest.m4 m4/readdir.m4 m4/realloc.m4 m4/regex.m4 \
 		m4/st_dm_mode.m4 m4/st_mtim.m4 m4/stat.m4 \
 		m4/strerror_r.m4 m4/strftime.m4 m4/timespec.m4 \
@@ -181,14 +183,10 @@ $(srcdir)/./stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOHEADER)
 	@mv $(srcdir)/./stamp-h.inT $(srcdir)/./stamp-h.in
 
-mostlyclean-hdr:
-
-clean-hdr:
-
 distclean-hdr:
 	-rm -f config.h
-
-maintainer-clean-hdr:
+intl/Makefile: $(top_builddir)/config.status $(top_srcdir)/intl/Makefile.in
+	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -196,7 +194,6 @@ maintainer-clean-hdr:
 # (1) if the variable is set in `config.status', edit `config.status'
 #     (which will cause the Makefiles to be regenerated when you run `make');
 # (2) otherwise, pass the desired values on the `make' command line.
-
 all-recursive install-data-recursive install-exec-recursive \
 installdirs-recursive install-recursive uninstall-recursive  \
 check-recursive installcheck-recursive info-recursive dvi-recursive:
@@ -222,7 +219,11 @@ mostlyclean-recursive clean-recursive distclean-recursive \
 maintainer-clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
-	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	rev=''; for subdir in $$list; do \
 	  if test "$$subdir" = "."; then :; else \
 	    rev="$$subdir $$rev"; \
 	  fi; \
@@ -255,7 +256,7 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique $(LISP)
 
-TAGS: tags-recursive $(HEADERS) $(SOURCES) config.h.in $(TAGS_DEPENDENCIES) \
+TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
@@ -270,17 +271,16 @@ TAGS: tags-recursive $(HEADERS) $(SOURCES) config.h.in $(TAGS_DEPENDENCIES) \
 	  done | \
 	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
-	test -z "$(ETAGS_ARGS)config.h.in$$unique$(LISP)$$tags" \
-	  || etags $(ETAGS_ARGS) $$tags config.h.in $$unique $(LISP)
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
-mostlyclean-tags:
-
-clean-tags:
+GTAGS:
+	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	  && cd $(top_srcdir) \
+	  && gtags -i $$here
 
 distclean-tags:
 	-rm -f TAGS ID
-
-maintainer-clean-tags:
 
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -334,6 +334,7 @@ dist-all: distdir
 	|| chmod -R a+r $(distdir)
 	$(AMTAR) chof - $(distdir) | GZIP=$(GZIP_ENV) gzip -c > $(distdir).tar.gz
 	-chmod -R a+w $(distdir) > /dev/null 2>&1; rm -rf $(distdir)
+
 distdir: $(DISTFILES)
 	@if sed 15q $(srcdir)/NEWS | fgrep -e "$(VERSION)" > /dev/null; then :; else \
 	  echo "NEWS not updated; not releasing" 1>&2; \
@@ -341,6 +342,7 @@ distdir: $(DISTFILES)
 	fi
 	-chmod -R a+w $(distdir) > /dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
+	$(mkinstalldirs) $(distdir)/intl $(distdir)/po intl po
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -357,7 +359,8 @@ distdir: $(DISTFILES)
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
 	    || exit 1; \
-	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(distdir) distdir=../$(distdir)/$$subdir distdir) \
+	    (cd $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(distdir) distdir=../$(distdir)/$$subdir distdir) \
 	      || exit 1; \
 	  fi; \
 	done
@@ -369,7 +372,7 @@ check-am: all-am
 check: check-recursive
 installcheck-am:
 installcheck: installcheck-recursive
-all-recursive-am: config.h
+all-redirect: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 install-exec-am:
@@ -384,7 +387,6 @@ install: install-recursive
 uninstall-am:
 uninstall: uninstall-recursive
 all-am: Makefile config.h
-all-redirect: all-recursive-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
 installdirs: installdirs-recursive
@@ -401,42 +403,39 @@ distclean-generic:
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f Makefile.in
-mostlyclean-am:  mostlyclean-hdr mostlyclean-tags mostlyclean-generic
-
-mostlyclean: mostlyclean-recursive
-
-clean-am:  clean-hdr clean-tags clean-generic mostlyclean-am
-
 clean: clean-recursive
 
-distclean-am:  distclean-hdr distclean-tags distclean-generic clean-am
+clean-am: clean-generic mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f config.status
 
-maintainer-clean-am:  maintainer-clean-hdr maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
-	@echo "This command is intended for maintainers to use;"
-	@echo "it deletes files that may require special tools to rebuild."
+distclean-am: clean-am distclean-generic distclean-hdr distclean-tags
 
 maintainer-clean: maintainer-clean-recursive
 	-rm -f config.status
 
-.PHONY: mostlyclean-hdr distclean-hdr clean-hdr maintainer-clean-hdr \
-install-recursive uninstall-recursive install-data-recursive \
-uninstall-data-recursive install-exec-recursive \
-uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
-all-recursive check-recursive installcheck-recursive info-recursive \
-dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
-maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
-dvi-am dvi check check-am installcheck-am installcheck all-recursive-am \
-install-exec-am install-exec install-data-am install-data install-am \
-install uninstall-am uninstall all-redirect all-am all install-strip \
-installdirs-am installdirs mostlyclean-generic distclean-generic \
-clean-generic maintainer-clean-generic clean mostlyclean distclean \
-maintainer-clean
+maintainer-clean-am: distclean-am maintainer-clean-generic
+
+mostlyclean: mostlyclean-recursive
+
+mostlyclean-am: mostlyclean-generic
+
+.PHONY: all-recursive all-redirect check check-am check-recursive clean \
+	clean-generic clean-recursive distclean distclean-generic \
+	distclean-hdr distclean-recursive distclean-tags distdir dvi \
+	dvi-am dvi-recursive info info-am info-recursive install \
+	install-am install-data install-data-am install-data-recursive \
+	install-exec install-exec-am install-exec-recursive \
+	install-recursive install-strip installcheck installcheck-am \
+	installcheck-recursive installdirs installdirs-am \
+	installdirs-recursive maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-generic \
+	mostlyclean-recursive tags tags-recursive uninstall \
+	uninstall-am uninstall-recursive
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
