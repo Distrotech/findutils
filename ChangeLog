@@ -1,3 +1,22 @@
+2001-06-05  Kevin Dalley  <kevin@seti.org>
+
+	* locate/updatedb.sh: replace "whoami" with "id -u" when testing
+	for root.
+
+2001-06-04  Kevin Dalley  <kevin@seti.org>
+
+	* locate/testsuite/Makefile.am (DIST_SUBDIRS): remove second
+	instance of DIST_SUBDIRS.
+
+	* locate/Makefile.am (install-data-hook): changed install target
+	to install-data-hook, which still installs other files.
+
+	* doc/Makefile.am (MOSTLYCLEANFILES): added find.cps, which should
+	probably be handled by automake.
+
+	* doc/mdate-sh: removed file in doc directory.  It now exists only
+	in top_srcdir, but this changed required a patch to automake.
+
 2001-05-20  Kevin Dalley  <kevin@seti.org>
 
 	* Version 4.1.7
