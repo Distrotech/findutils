@@ -1,9 +1,8 @@
-PROGRAMS = xargs
-MANS = xargs.1
+bin_PROGRAMS = xargs
+man_MANS = xargs.1
 INCLUDES = -I.. -I$(top_srcdir)/lib
 LDADD = ../find/version.o ../lib/libfind.a
-CONFIG_HEADER = ../config.h
+EXTRA_DIST = $(man_MANS)
 
 $(PROGRAMS): ../find/version.o ../lib/libfind.a
 
-xargs.o: ../lib/wait.h
