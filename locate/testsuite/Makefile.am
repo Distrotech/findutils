@@ -16,5 +16,3 @@ EXTRA_DIST = config/unix.exp \
 DIST_SUBDIRS = config inputs locate.gnu
 
 CLEANFILES = *.log *.sum site.exp site.bak
-
-DIST_SUBDIRS = config
