@@ -2,10 +2,13 @@ This file describes how to build findutils starting from a set of code
 checked out of CVS, rather than from a released source distribution.
 
 1. Prerequisites
- * A C compiler
+ * CVS
+ * A C compiler, linker and software development libraries (the standard
+   C library)
  * GNU Autoconf version 2.57 or later (earlier versions *may* work)
  * GNU Automake version 1.7 or later (earlier versions *may* work)
- * CVS
+ * GNU m4 version 1.4 or later
+ * GNU gettext (unless you use configure --disable-nls)
 
 2. Obtain a copy of Gnulib
 
@@ -25,15 +28,18 @@ checked out of CVS, rather than from a released source distribution.
 
     sh import-gnulib.sh   <name of the directory containing gnulib>
 
-The above command may result in some errors from autoconf and
-automake.  These are benign unless they occur again in step 5
-so don't worry about them unless you see them both times.
-
 4. Generate the configure scripts and Makefile.in files.
+
+    autoreconf -i
+
+   ... or use the alternative method ... 
 
     aclocal -I m4 -I gnulib/m4     && \
     autoheader			   && \
     autoconf			   && \
     automake --add-missing --copy
 
-5. Run "configure" and "make" in the normal way.
+
+5. Run "configure" and "make" in the normal way.  If you have GNU
+   libintl installed, you can just run "configure".  Otherwise, run
+   "configure --disable-nls".
