@@ -30,9 +30,6 @@
 #  endif
 # endif
 
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE
-#endif
 #include <ctype.h>
 
 #if !defined (isascii) || defined (STDC_HEADERS)

@@ -17,7 +17,6 @@
    USA.
 */
 
-#define _GNU_SOURCE
 #include "defs.h"
 
 #include <fnmatch.h>
