@@ -360,7 +360,7 @@ process_top_path (char *pathname)
     {
       if (chdir (pathname) < 0)
 	{
-	  if (!ignore_readdir_race)
+	  if (!ignore_readdir_race || (errno != ENOENT) )
 	    {
 	      error (0, errno, "%s", pathname);
 	      exit_status = 1;
@@ -432,7 +432,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
     {
       if ((*xstat) (name, &stat_buf) != 0)
 	{
-	  if (!ignore_readdir_race)
+	  if (!ignore_readdir_race || (errno != ENOENT) )
 	    {
 	      error (0, errno, "%s", pathname);
 	      exit_status = 1;
