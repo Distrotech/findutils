@@ -1,34 +1,35 @@
 findutils (4.1.6-1) unstable; urgency=low
 
-  * new alpha release.  locate --ignore-case is available.
+  * find/find.c (process_path): fix problem with "-depth" which is tested
+    in depth.exp test. (closes: 69782).
+    
+  * new alpha release.  locate --ignore-case is done.
+
+  
+  * some patches for ignoring case have been added. (closes: #19563).
+  
   * fixed problems with brace expansion in debian/rules (closes: #71827)
 
- -- Kevin Dalley <kevind@rahul.net>  Wed, 11 Oct 2000 23:45:07 -0700
-
-findutils (4.1.5-2) unstable; urgency=low
-
- * doc/find.texi (Invoking xargs): changed @var{-s} to @samp{-s} (closes:
+  * doc/find.texi (Invoking xargs): changed @var{-s} to @samp{-s} (closes:
     #69529).
-
- -- Kevin Dalley <kevind@rahul.net>  Thu, 24 Aug 2000 02:56:10 -0700
-
-findutils (4.1.5-1) unstable; urgency=low
 
   * Update to a new alpha release.
 
- -- Kevin Dalley <kevind@rahul.net>  Fri, 12 May 2000 21:19:36 -0700
-
-findutils (4.1.4-1) unstable; urgency=low
-
   * update to new alpha release.
 
- -- Kevin Dalley <kevind@rahul.net>  Sun, 20 Feb 2000 03:48:05 +0000
-
-findutils (4.1.3-1) unstable; urgency=low
-
   * testing out 4.1.3, with internationalization.
+    
+  * added devpts to PRUNEFS in updatedb.conf (closes: #65503).
+    
+  * fixes bug described as follows:  When 'find' looks for a fstype, it
+    parses the /etc/mtab until it finds the good line. But, if there is,
+    before the good line, a line whose mountpoint is unreachable, it
+    fails.  (closes: #40245).
 
- -- Kevin Dalley <kevind@rahul.net>  Sat, 22 Jan 2000 01:09:14 -0800
+  * fixed problem with strange behavior with "-name" and "-iname" (closes:
+    #63270).
+
+ -- Kevin Dalley <kevind@rahul.net>  Mon, 30 Oct 2000 23:48:26 -0800
 
 findutils (4.1-38) frozen unstable; urgency=low
 
