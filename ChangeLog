@@ -1,6 +1,86 @@
+2004-12-05  James Youngman  <jay@gnu.org>
+
+	* find/find.c:
+	Avoid duplicate error message when we cannot chdir() into a subdirectory.
+
+	* THANKS: Added recent thankees.
+
+	* NEWS:
+	Brought up to date with respect to the current set of fixed bugs.
+
+	* NEWS, xargs/xargs.1, xargs/xargs.c:
+	Implemented POSIX options -L, -I and -E
+
+2004-12-04  James Youngman  <jay@gnu.org>
+
+	* xargs/xargs.c, xargs/testsuite/xargs.sysv/eof.exp:
+	Implement POSIX option -E (and make the default behaviour that there
+	is no logical EOF string - POSIX now allows this).
+
+	* locate/updatedb.sh:
+	Fixed Savannah bug #3919: use mktemp instead of tempfile
+
+	* find/find.c:
+	Handle stat failures in line with the recommendation in Savannah bug 11148.
+
+	* find/find.c, find/testsuite/Makefile.am, find/testsuite/find.posix/sv-bug-11175.exp, find/testsuite/find.posix/sv-bug-11175.xo:
+	Fixed savannah bug 11175, wrongly chdir()ing into directories specified on the command line even if they are pruned
+
+	* xargs/xargs.c: Fixed typo
+
+2004-12-03  James Youngman  <jay@gnu.org>
+
+	* find/parser.c:
+	-xdev is an option, not a test.   Fixes Savannah bug 11192.
+
+	* find/find.1, xargs/xargs.1:
+	Escape dashes with a backslash (for fix Savannah bug 11189).
+
+2004-11-27  James Youngman  <jay@gnu.org>
+
+	* find/find.c:
+	More use of safely_chdir(). Also bugfix: -L should imply -noleaf.  Be more careful about when xstat should fall back on lstat() when stat() fails.
+
+	* find/find.1: "necessary" only has one "C".
+
+	* find/find.1:
+	If stat() fails with ELOOP, we issue a diagnostic message.
+
+2004-11-26  James Youngman  <jay@gnu.org>
+
+	* find/find.c: Removed some unused code.
+
+	* Makefile.am: Don't do anything in the 'intl' subdirectory
+
+	* find/find.c:
+	Enhanced safely_chdir() to the point where the test suite passes, and report infinite loops in the directory hierarchy
+
+	* find/defs.h:
+	belt and braces; ensure that SYMLINK_NEVER_DEREF has value zero
+
+	* find/find.1:
+	Describe our strategy for detecting and reporting infinite loops
+
 2004-11-24  James Youngman  <jay@gnu.org>
 
-	* configure.in, NEWS: Prepare to release 4.2.8.
+	* doc/find.texi:
+	Updated the discussion of th error messages for findutils-4.2.8.
+
+	* configure.in: Next version will be 4.2.9...
+
+	* find/find.c:
+	Don't issue a warning if we notice the mounting of a filesystem that's
+	likely just to be an automounter.
+
+	* doc/find.texi, find/find.1:
+	Explain how rounding is performed for -atime and friends.
+
+	* xargs/xargs.c:
+	Once we collect enough arguments (for the value specified by the -n
+	option) to do an exec(), do it immediaely instead of waiting for the
+	next one to arrive.  This fixes Savannah bug #7340.
+
+	* ChangeLog, configure.in, NEWS: Prepare to release 4.2.8.
 
 	* NEWS: Updates for 4.2.8.
 
