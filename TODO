@@ -1,6 +1,11 @@
 -*-outline-*-
 * lib/filemode.c has "# undef S_ISDOOR" added.  This should be moved upstream.
 
+* -fstype core dumps on sparc-sun-sunos4.1.3_U1 with gcc-2.95.2
+This is on foxtrot.rahul.net.  dbx does not work on compiled find.
+Perhaps gcc is installed incorrectly.  "find / -fstype ufs" core dumps
+quickly.  cc works correctly.
+
 * Speed of locate without "-i" option needs to be increased.
 
 * There are many bugs to be fixed and features to be added to findutils.
@@ -17,7 +22,6 @@ items, and add the unfixed problems below.
 
 ** Should translated long options be offered in locate and xargs?
 ** updatedb.sh should be internationalized as well
-** the Solaris door files are partially supported (e.g. not by -type)
 
 * new standards with Austin group
 ** "-H" and "-L" options to find were added by Austin group standards.
