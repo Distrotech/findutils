@@ -247,6 +247,8 @@ struct prec_assoc prec_table[] =
 boolean
 pred_amin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  
   switch (pred_ptr->args.info.kind)
     {
     case COMP_GT:
@@ -294,6 +296,8 @@ pred_and (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_anewer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  
   if (stat_buf->st_atime > pred_ptr->args.time)
     return (true);
   return (false);
@@ -302,6 +306,8 @@ pred_anewer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_atime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  
   switch (pred_ptr->args.info.kind)
     {
     case COMP_GT:
@@ -325,12 +331,20 @@ pred_atime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_close (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  (void) &stat_buf;
+  (void) &pred_ptr;
+  
   return (true);
 }
 
 boolean
 pred_cmin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) pathname;
+
+  (void) stat_buf;
+  
   switch (pred_ptr->args.info.kind)
     {
     case COMP_GT:
@@ -353,6 +367,8 @@ pred_cmin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_cnewer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  
   if (stat_buf->st_ctime > pred_ptr->args.time)
     return (true);
   return (false);
@@ -382,6 +398,8 @@ pred_comma (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_ctime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  
   switch (pred_ptr->args.info.kind)
     {
     case COMP_GT:
@@ -405,6 +423,9 @@ pred_ctime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  (void) &pred_ptr;
+  
   if (S_ISDIR (stat_buf->st_mode))
     {
       DIR *d;
@@ -446,6 +467,9 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  (void) &stat_buf;
+  
   int i;
   int path_pos;
   struct exec_val *execp;	/* Pointer for efficiency. */
@@ -484,6 +508,11 @@ pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_false (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  (void) &stat_buf;
+  (void) &pred_ptr;
+
+  
   return (false);
 }
 
@@ -498,6 +527,9 @@ pred_fls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_fprint (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  (void) &stat_buf;
+  
   fputs (pathname, pred_ptr->args.stream);
   putc ('\n', pred_ptr->args.stream);
   return (true);
@@ -506,6 +538,9 @@ pred_fprint (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_fprint0 (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) &pathname;
+  (void) &stat_buf;
+  
   fputs (pathname, pred_ptr->args.stream);
   putc (0, pred_ptr->args.stream);
   return (true);
@@ -751,6 +786,8 @@ pred_fstype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_gid (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) pathname;
+  
   switch (pred_ptr->args.info.kind)
     {
     case COMP_GT:
@@ -772,6 +809,8 @@ pred_gid (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_group (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) pathname;
+  
   if (pred_ptr->args.gid == stat_buf->st_gid)
     return (true);
   else
@@ -787,6 +826,8 @@ pred_ilname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_iname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) stat_buf;
+
   const char *base;
 
   /* FNM_PERIOD is not used here because POSIX requires that it not be.
@@ -801,6 +842,8 @@ pred_iname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_inum (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) pathname;
+  
   switch (pred_ptr->args.info.kind)
     {
     case COMP_GT:
@@ -822,6 +865,8 @@ pred_inum (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_ipath (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) stat_buf;
+  
   if (fnmatch (pred_ptr->args.str, pathname, FNM_CASEFOLD) == 0)
     return (true);
   return (false);

@@ -59,7 +59,9 @@
 static void process_top_path PARAMS((char *pathname));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
+#if 0
 static boolean no_side_effects PARAMS((struct predicate *pred));
+#endif
 static boolean default_prints PARAMS((struct predicate *pred));
 
 /* Name this program was run with. */
@@ -419,8 +421,6 @@ process_path (char *pathname, char *name, boolean leaf, char *parent)
   struct stat stat_buf;
   static dev_t root_dev;	/* Device ID of current argument pathname. */
   int i;
-  struct stat dir_buf;
-  int parent_desc;
 
   /* Assume it is a non-directory initially. */
   stat_buf.st_mode = 0;
@@ -637,6 +637,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
     }
 }
 
+#if 0
 /* Return true if there are no side effects in any of the predicates in
    predicate list PRED, false if there are any. */
 
@@ -651,6 +652,7 @@ no_side_effects (struct predicate *pred)
     }
   return (true);
 }
+#endif
 
 /* Return true if there are no predicates with no_default_print in
    predicate list PRED, false if there are any.

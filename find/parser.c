@@ -283,6 +283,9 @@ parse_amin (char **argv, int *arg_ptr)
 static boolean
 parse_and (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
+  
   struct predicate *our_pred;
 
   our_pred = get_new_pred ();
@@ -321,6 +324,9 @@ parse_atime (char **argv, int *arg_ptr)
 boolean
 parse_close (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
+  
   struct predicate *our_pred;
 
   our_pred = get_new_pred ();
@@ -376,6 +382,9 @@ parse_comma (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
+  (void) argv;
+  (void) arg_ptr;
+
   our_pred = get_new_pred ();
   our_pred->pred_func = pred_comma;
 #ifdef	DEBUG
@@ -398,6 +407,9 @@ parse_daystart (char **argv, int *arg_ptr)
 {
   struct tm *local;
 
+  (void) argv;
+  (void) arg_ptr;
+
   if (full_days == false)
     {
       cur_day_start += DAYSECS;
@@ -414,6 +426,9 @@ parse_daystart (char **argv, int *arg_ptr)
 static boolean
 parse_depth (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
+
   do_dir_first = false;
   return (true);
 }
@@ -421,6 +436,9 @@ parse_depth (char **argv, int *arg_ptr)
 static boolean
 parse_empty (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
+
   insert_primary (pred_empty);
   return (true);
 }
@@ -435,6 +453,9 @@ static boolean
 parse_false (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
+  
+  (void) argv;
+  (void) arg_ptr;
 
   our_pred = insert_primary (pred_false);
   our_pred->need_stat = false;
@@ -477,6 +498,9 @@ parse_fprintf (char **argv, int *arg_ptr)
 static boolean
 parse_follow (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
+
   dereference = true;
   xstat = stat;
   no_leaf_check = true;
@@ -564,6 +588,9 @@ parse_group (char **argv, int *arg_ptr)
 static boolean
 parse_help (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
+  
   printf (_("\
 Usage: %s [path...] [expression]\n"), program_name);
   puts (_("\
@@ -700,6 +727,9 @@ parse_lname (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
+  (void) argv;
+  (void) arg_ptr;
+  
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
 
@@ -715,6 +745,9 @@ static boolean
 parse_ls (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
+
+  (void) &argv;
+  (void) &arg_ptr;
 
   our_pred = insert_primary (pred_ls);
   our_pred->side_effects = true;
@@ -786,6 +819,9 @@ parse_mtime (char **argv, int *arg_ptr)
 static boolean
 parse_name (char **argv, int *arg_ptr)
 {
+  (void) argv;
+  (void) arg_ptr;
+  
   struct predicate *our_pred;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
@@ -801,6 +837,9 @@ static boolean
 parse_negate (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
+
+  (void) &argv;
+  (void) &arg_ptr;
 
   our_pred = get_new_pred_chk_op ();
   our_pred->pred_func = pred_negate;
@@ -819,6 +858,9 @@ parse_newer (char **argv, int *arg_ptr)
   struct predicate *our_pred;
   struct stat stat_newer;
 
+  (void) argv;
+  (void) arg_ptr;
+  
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
   if ((*xstat) (argv[*arg_ptr], &stat_newer))
@@ -832,6 +874,8 @@ parse_newer (char **argv, int *arg_ptr)
 static boolean
 parse_noleaf (char **argv, int *arg_ptr)
 {
+  (void) &argv, &arg_ptr;
+  
   no_leaf_check = true;
   return true;
 }
@@ -857,6 +901,8 @@ parse_nogroup (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
+  (void) &argv, &arg_ptr;
+  
   our_pred = insert_primary (pred_nogroup);
 #ifdef CACHE_IDS
   if (gid_unused == NULL)
@@ -889,6 +935,8 @@ static boolean
 parse_nouser (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
+  (void) argv, arg_ptr;
+  
 
   our_pred = insert_primary (pred_nouser);
 #ifdef CACHE_IDS
@@ -929,6 +977,8 @@ parse_open (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
+  (void) argv, arg_ptr;
+  
   our_pred = get_new_pred_chk_op ();
   our_pred->pred_func = pred_open;
 #ifdef	DEBUG
@@ -945,6 +995,8 @@ parse_or (char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
+  (void) argv, arg_ptr;
+  
   our_pred = get_new_pred ();
   our_pred->pred_func = pred_or;
 #ifdef	DEBUG
