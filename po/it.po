@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-19 22:54+0000\n"
+"POT-Creation-Date: 2004-11-21 12:38+0000\n"
 "PO-Revision-Date: 2004-11-03 02:26+0100\n"
 "Last-Translator: Marco d'Itri <md@linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -208,7 +208,7 @@ msgstr "oops -- inserimento predefinito di and non valido!"
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Uso: %s [percorso...] [espressione]\n"
 
-#: find/find.c:328
+#: find/find.c:336
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -217,51 +217,61 @@ msgstr ""
 "influenza la dimensione dei blocchi è la variabile di ambiente "
 "POSIXLY_CORRECT"
 
-#: find/find.c:394
+#: find/find.c:404
 msgid "paths must precede expression"
 msgstr "i percorsi devono precedere l'espressione"
 
 #. Command line option not recognized
-#: find/find.c:399
+#: find/find.c:409
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "il predicato `%s' non è valido"
 
 #. Command line option requires an argument
-#: find/find.c:405
+#: find/find.c:415
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "manca l'argomento di `%s'"
 
-#: find/find.c:407
+#: find/find.c:417
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "l'argomento `%s' di `%s' non è valido"
 
-#: find/find.c:436
+#: find/find.c:446
 #, c-format
 msgid "Predicate List:\n"
 msgstr "Lista dei predicati:\n"
 
-#: find/find.c:449
+#: find/find.c:459
 msgid "unexpected extra predicate"
 msgstr "predicato aggiuntivo inatteso"
 
-#: find/find.c:453
+#: find/find.c:463
 #, c-format
 msgid "Eval Tree:\n"
 msgstr "Albero di valutazione:\n"
 
-#: find/find.c:464
+#: find/find.c:474
 #, c-format
 msgid "Optimized Eval Tree:\n"
 msgstr "Albero di valutazione ottimizzato:\n"
 
-#: find/find.c:478 find/find.c:481
+#: find/find.c:488 find/find.c:491
 msgid "cannot get current directory"
 msgstr "impossibile ottenere la directory corrente"
 
-#: find/find.c:549
+#: find/find.c:694
+#, c-format
+msgid "Filesystem %s has recently been unmounted."
+msgstr ""
+
+#: find/find.c:701
+#, c-format
+msgid "Filesystem %s has recently been mounted."
+msgstr ""
+
+#: find/find.c:715
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -270,7 +280,7 @@ msgstr ""
 "%s%s è cambiato durante l'esecuzione di %s (vecchio numero di dispositivo %"
 "ld, nuovo numero di dispositivo %ld, il filesystem è di tipo %s) [rif. %ld]"
 
-#: find/find.c:566
+#: find/find.c:743
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -279,16 +289,16 @@ msgstr ""
 "%s%s è cambiato durante l'esecuzione di %s (vecchio numero di inode %ld, "
 "nuovo numero di inode %ld, il filesystem è di tipo %s) [rif. %ld]"
 
-#: find/find.c:784 find/parser.c:1190
+#: find/find.c:963 find/parser.c:1190
 msgid "virtual memory exhausted"
 msgstr "la memoria virtuale è terminata"
 
-#: find/fstype.c:289
+#: find/fstype.c:293
 #, c-format
 msgid "error in %s: %s"
 msgstr "errore in %s: %s"
 
-#: find/fstype.c:378
+#: find/fstype.c:382
 msgid "unknown"
 msgstr "sconosciuto"
 
@@ -492,10 +502,25 @@ msgstr "oops -- tipo di espressione non valido!"
 msgid "Normalized Eval Tree:\n"
 msgstr "Albero di valutazione normalizzato:\n"
 
-#: locate/code.c:139
-#, c-format
-msgid "Usage: %s most_common_bigrams < list > coded_list\n"
+#: locate/code.c:127
+#, fuzzy, c-format
+msgid ""
+"Usage: %s [--version | --help]\n"
+"or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Uso: %s bigrammi_più_comuni < lista > lista_codificata\n"
+
+#: locate/code.c:131 locate/locate.c:659 xargs/xargs.c:1220
+msgid ""
+"\n"
+"Report bugs to <bug-findutils@gnu.org>.\n"
+msgstr ""
+"\n"
+"Segnalare i bug a <bug-findutils@gnu.org>.\n"
+
+#: locate/code.c:164
+#, fuzzy, c-format
+msgid "GNU findutils version %s\n"
+msgstr "GNU find versione %s\n"
 
 #. Printable name of units used in WARN_SECONDS
 #: locate/locate.c:128
@@ -527,14 +552,6 @@ msgid ""
 msgstr ""
 "Uso: %s [-d percorso | --database=percorso] [ -e | --existing]\n"
 "    [-i | --ignore-case] [--version] [--help] modello...\n"
-
-#: locate/locate.c:659 xargs/xargs.c:1220
-msgid ""
-"\n"
-"Report bugs to <bug-findutils@gnu.org>.\n"
-msgstr ""
-"\n"
-"Segnalare i bug a <bug-findutils@gnu.org>.\n"
 
 #: locate/locate.c:669
 #, c-format

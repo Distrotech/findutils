@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-19 22:54+0000\n"
+"POT-Creation-Date: 2004-11-21 12:38+0000\n"
 "PO-Revision-Date: 2000-11-13 21:51+01:00\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -207,80 +207,90 @@ msgstr "ups - ugyldig automatisk indsættelse af 'and'!"
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Brug: %s [sti...] [udtryk]\n"
 
-#: find/find.c:328
+#: find/find.c:336
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
 
-#: find/find.c:394
+#: find/find.c:404
 msgid "paths must precede expression"
 msgstr "stier skal stå før udtrykket"
 
 #. Command line option not recognized
-#: find/find.c:399
+#: find/find.c:409
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "ugyldigt udsagn '%s'"
 
 #. Command line option requires an argument
-#: find/find.c:405
+#: find/find.c:415
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "manglende parameter til '%s'"
 
-#: find/find.c:407
+#: find/find.c:417
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "ugyldig parameter '%s' til '%s'"
 
-#: find/find.c:436
+#: find/find.c:446
 #, c-format
 msgid "Predicate List:\n"
 msgstr "Liste over udsagn:\n"
 
-#: find/find.c:449
+#: find/find.c:459
 msgid "unexpected extra predicate"
 msgstr ""
 
-#: find/find.c:453
+#: find/find.c:463
 #, c-format
 msgid "Eval Tree:\n"
 msgstr "Evalueringstræ:\n"
 
-#: find/find.c:464
+#: find/find.c:474
 #, c-format
 msgid "Optimized Eval Tree:\n"
 msgstr "Optimeret evalueringstræ:\n"
 
-#: find/find.c:478 find/find.c:481
+#: find/find.c:488 find/find.c:491
 msgid "cannot get current directory"
 msgstr "kan ikke hente det aktuelle katalog"
 
-#: find/find.c:549
+#: find/find.c:694
+#, c-format
+msgid "Filesystem %s has recently been unmounted."
+msgstr ""
+
+#: find/find.c:701
+#, c-format
+msgid "Filesystem %s has recently been mounted."
+msgstr ""
+
+#: find/find.c:715
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:566
+#: find/find.c:743
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
 "ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:784 find/parser.c:1190
+#: find/find.c:963 find/parser.c:1190
 msgid "virtual memory exhausted"
 msgstr "løbet tør for virtuel hukommelse"
 
-#: find/fstype.c:289
+#: find/fstype.c:293
 #, c-format
 msgid "error in %s: %s"
 msgstr "fejl i %s: %s"
 
-#: find/fstype.c:378
+#: find/fstype.c:382
 msgid "unknown"
 msgstr "ukendt"
 
@@ -475,10 +485,23 @@ msgstr "ups - ugyldig udtrykstype"
 msgid "Normalized Eval Tree:\n"
 msgstr "Normaliseret evalueringstræ\n"
 
-#: locate/code.c:139
-#, c-format
-msgid "Usage: %s most_common_bigrams < list > coded_list\n"
+#: locate/code.c:127
+#, fuzzy, c-format
+msgid ""
+"Usage: %s [--version | --help]\n"
+"or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Brug: %s mest_brugte_bigrammer < liste > kodet_liste\n"
+
+#: locate/code.c:131 locate/locate.c:659 xargs/xargs.c:1220
+msgid ""
+"\n"
+"Report bugs to <bug-findutils@gnu.org>.\n"
+msgstr ""
+
+#: locate/code.c:164
+#, fuzzy, c-format
+msgid "GNU findutils version %s\n"
+msgstr "GNU find version %s\n"
 
 #. Printable name of units used in WARN_SECONDS
 #: locate/locate.c:128
@@ -510,12 +533,6 @@ msgid ""
 msgstr ""
 "Brug: %s [-d sti | --database=sti] [--version] [--help]\n"
 "      [-e | --existing] mønster...\n"
-
-#: locate/locate.c:659 xargs/xargs.c:1220
-msgid ""
-"\n"
-"Report bugs to <bug-findutils@gnu.org>.\n"
-msgstr ""
 
 #: locate/locate.c:669
 #, c-format

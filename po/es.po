@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-19 22:54+0000\n"
+"POT-Creation-Date: 2004-11-21 12:38+0000\n"
 "PO-Revision-Date: 2001-06-08 17:02+0200\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -234,64 +234,74 @@ msgstr "oh, oh -- ¡inserción por defecto de `and' inválida!"
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Modo de empleo: %s [ruta-de-acceso...] [expresión]\n"
 
-#: find/find.c:328
+#: find/find.c:336
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
 
-#: find/find.c:394
+#: find/find.c:404
 msgid "paths must precede expression"
 msgstr "Las rutas-de-acceso deben preceder la expresión"
 
 #. Command line option not recognized
-#: find/find.c:399
+#: find/find.c:409
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "predicado inválido `%s'"
 
 #. Command line option requires an argument
-#: find/find.c:405
+#: find/find.c:415
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "no se ha dado el argumento requerido a la opción `%s'"
 
-#: find/find.c:407
+#: find/find.c:417
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "argumento `%s' inválido para la opción `%s'"
 
-#: find/find.c:436
+#: find/find.c:446
 #, c-format
 msgid "Predicate List:\n"
 msgstr "Lista Predicado:\n"
 
-#: find/find.c:449
+#: find/find.c:459
 msgid "unexpected extra predicate"
 msgstr ""
 
-#: find/find.c:453
+#: find/find.c:463
 #, c-format
 msgid "Eval Tree:\n"
 msgstr "Árbol de Evaluación:\n"
 
-#: find/find.c:464
+#: find/find.c:474
 #, c-format
 msgid "Optimized Eval Tree:\n"
 msgstr "Árbol de Evaluación Optimizado:\n"
 
-#: find/find.c:478 find/find.c:481
+#: find/find.c:488 find/find.c:491
 msgid "cannot get current directory"
 msgstr "no se puede obtener el directorio actual"
 
-#: find/find.c:549
+#: find/find.c:694
+#, c-format
+msgid "Filesystem %s has recently been unmounted."
+msgstr ""
+
+#: find/find.c:701
+#, c-format
+msgid "Filesystem %s has recently been mounted."
+msgstr ""
+
+#: find/find.c:715
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:566
+#: find/find.c:743
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -319,16 +329,16 @@ msgstr ""
 #
 # FIXME: Preguntar a Richard Stallman por qué se empeña en usar la
 # palabra virtual. sv
-#: find/find.c:784 find/parser.c:1190
+#: find/find.c:963 find/parser.c:1190
 msgid "virtual memory exhausted"
 msgstr "memoria agotada"
 
-#: find/fstype.c:289
+#: find/fstype.c:293
 #, c-format
 msgid "error in %s: %s"
 msgstr "error en %s: %s"
 
-#: find/fstype.c:378
+#: find/fstype.c:382
 msgid "unknown"
 msgstr "desconocido"
 
@@ -644,10 +654,26 @@ msgstr "oh, oh -- ¡tipo de expresión inválido!"
 msgid "Normalized Eval Tree:\n"
 msgstr "Árbol de Evaluación Normalizado:\n"
 
-#: locate/code.c:139
-#, c-format
-msgid "Usage: %s most_common_bigrams < list > coded_list\n"
+#: locate/code.c:127
+#, fuzzy, c-format
+msgid ""
+"Usage: %s [--version | --help]\n"
+"or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Modo de empleo: %s bigramas_más_comunes < lista > lista_codificada\n"
+
+#: locate/code.c:131 locate/locate.c:659 xargs/xargs.c:1220
+#, fuzzy
+msgid ""
+"\n"
+"Report bugs to <bug-findutils@gnu.org>.\n"
+msgstr ""
+"\n"
+"Comunicar `bugs' a <bug-findutils@gnu.org>."
+
+#: locate/code.c:164
+#, fuzzy, c-format
+msgid "GNU findutils version %s\n"
+msgstr "GNU find versión %s\n"
 
 #. Printable name of units used in WARN_SECONDS
 #: locate/locate.c:128
@@ -679,15 +705,6 @@ msgid ""
 msgstr ""
 "Modo de empleo: %s [-d ruta-de-acceso | --database=ruta-de-acceso]\n"
 "   [-e | --existing] [-i | --ignore-case] [--version] [--help] expr-reg...\n"
-
-#: locate/locate.c:659 xargs/xargs.c:1220
-#, fuzzy
-msgid ""
-"\n"
-"Report bugs to <bug-findutils@gnu.org>.\n"
-msgstr ""
-"\n"
-"Comunicar `bugs' a <bug-findutils@gnu.org>."
 
 #: locate/locate.c:669
 #, c-format
