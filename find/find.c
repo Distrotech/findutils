@@ -1149,7 +1149,7 @@ safely_chdir(const char *dest,
    */
   complete_pending_execdirs(eval_tree);
 
-#if defined O_NOFOLLOW  
+#if defined(O_NOFOLLOW)
   if (options.open_nofollow_available)
     return safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_handling);
 #endif
