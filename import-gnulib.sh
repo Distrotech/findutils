@@ -34,7 +34,7 @@ destdir="gnulib"
 
 
 modules="\
-alloca  argmatch  dirname error fileblocks  fnmatch  \
+alloca  argmatch  dirname error fileblocks  fnmatch-gnu  \
 getline getopt human idcache  lstat malloc memcmp memset mktime	  \
 modechange   pathmax quotearg realloc regex rpmatch savedir stat  \
 stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
