@@ -1102,7 +1102,7 @@ pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   const char *s = base_name(pathname);
   if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
-    return new_impl_pred_exec (s, stat_buf, pred_ptr, "b./", 2);
+    return new_impl_pred_exec (s, stat_buf, pred_ptr, "./", 2);
   else
     return false;
 }
