@@ -57,6 +57,7 @@
 #include <time.h>
 #include <fnmatch.h>
 #include <getopt.h>
+#include <xstrtol.h>
 
 #define NDEBUG
 #include <assert.h>
@@ -151,6 +152,33 @@ get_short (fp)
   return x;
 }
 
+const char * const metacharacters = "*?[]\\";
+
+/* Return nonzero if CH is a shell glob character.
+ */
+static int 
+is_metacharacter(char ch)
+{
+  if (NULL == strchr (metacharacters, ch))
+    return 0;
+  else
+    return 1;
+}
+
+/* Return nonzero if S contains any shell glob characters.
+ */
+static int 
+contains_metacharacter(const char *s)
+{
+  if (NULL == strpbrk(s, metacharacters))
+    return 0;
+  else
+    return 1;
+}
+
+  
+
+#if 0
 /* Return a pointer to the last character in a static copy of the last
    glob-free subpattern in NAME,
    with '\0' prepended for a fast backwards pre-match.  */
@@ -166,7 +194,7 @@ last_literal_end (name)
 
   /* Find the end of the subpattern.
      Skip trailing metacharacters and [] ranges. */
-  for (p = name + strlen (name) - 1; p >= name && strchr ("*?]", *p) != NULL;
+  for (p = name + strlen (name) - 1; p >= name && is_metacharacter(*p);
        p--)
     {
       if (*p == ']')
@@ -186,13 +214,13 @@ last_literal_end (name)
 
   /* If the pattern has only metacharacters, make every path match the
      subpattern, so it gets checked the slow way.  */
-  if (p == name && strchr ("?*[]", *p) != NULL)
+  if (p == name && is_metacharacter(*p))
     *subp++ = '/';
   else
     {
       char *endmark;
       /* Find the start of the metacharacter-free subpattern.  */
-      for (endmark = p; p >= name && strchr ("]*?", *p) == NULL; p--)
+      for (endmark = p; p >= name && !is_metacharacter(*p); p--)
 	;
       /* Copy the subpattern into globfree.  */
       for (++p; p <= endmark; )
@@ -202,6 +230,8 @@ last_literal_end (name)
 
   return subp;
 }
+#endif 
+
 
 /* locate_read_str()
  *
@@ -250,6 +280,16 @@ locate_read_str(char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
 }
 
 
+static void
+lc_strcpy(char *dest, const char *src)
+{
+  while (*src)
+    {
+      *dest++ = TOLOWER(*src);
+      ++src;
+    }
+}
+
 enum visit_result
   {
     VISIT_CONTINUE = 1,  /* please call the next visitor */
@@ -257,6 +297,16 @@ enum visit_result
     VISIT_REJECTED = 4,  /* rejected, process next file. */
     VISIT_ABORT    = 8   /* rejected, process no more files. */
   };
+
+
+
+struct casefolder
+{
+  const char *pattern;
+  char *buffer;
+  size_t buffersize;
+};
+
 
 
 typedef int (*visitfunc)(const char *filename, void *context);
@@ -335,11 +385,31 @@ visit_exists(const char *name, void *context)
 }
 
 static int
-visit_substring_match(const char *name, void *context)
+visit_substring_match_nocasefold(const char *name, void *context)
 {
   const char *pattern = context;
 
   if (NULL != strstr(name, pattern))
+    return VISIT_CONTINUE;
+  else
+    return VISIT_REJECTED;
+}
+
+static int
+visit_substring_match_casefold(const char *name, void *context)
+{
+  struct casefolder * p = context;
+  size_t len = strlen(name);
+
+  if (len > p->buffersize)
+    {
+      p->buffer = xrealloc(p->buffer, len+1);
+      p->buffersize = len+1;
+    }
+  lc_strcpy(p->buffer, name);
+  
+  
+  if (NULL != strstr(p->buffer, p->pattern))
     return VISIT_CONTINUE;
   else
     return VISIT_REJECTED;
@@ -367,265 +437,25 @@ visit_globmatch_casefold(const char *name, void *context)
     return VISIT_CONTINUE;
 }
 
-
-#if OLD_LOCATE
-/* Print the entries in DBFILE that match shell globbing pattern PATHPART.
-   Return the number of entries printed.  */
-
-static int
-old_locate (pathpart, dbfile, ignore_case)
-     char *pathpart, *dbfile;
-     int ignore_case;
-{
-  /* The pathname database.  */
-  FILE *fp;
-  /* An input byte.  */
-  int c;
-  /* Number of bytes read from an entry.  */
-  int nread;
-
-  /* true if PATHPART contains globbing metacharacters.  */
-  boolean globflag;
-  /* The end of the last glob-free subpattern in PATHPART.  */
-  char *patend;
-
-  /* The current input database entry.  */
-  char *path;
-  /* Amount allocated for it.  */
-  size_t pathsize;
-
-  /* The length of the last path.  */
-  size_t last_pathlen;
-
-  /* The length of the prefix shared with the previous database entry.  */
-  int count = 0;
-  /* Where in `path' to stop the backward search for the last character
-     in the subpattern.  Set according to `count'.  */
-  char *cutoff;
-
-  /* true if we found a fast match (of patend) on the previous path.  */
-  boolean prev_fast_match = false;
-  /* The return value.  */
-  int printed = 0;
-
-  /* true if reading a bigram-encoded database.  */
-  boolean old_format = false;
-  /* For the old database format,
-     the first and second characters of the most common bigrams.  */
-  char bigram1[128], bigram2[128];
-
-  /* To check the age of the database.  */
-  struct stat st;
-  time_t now;
-
-  if (stat (dbfile, &st) || (fp = fopen (dbfile, "r")) == NULL)
-    {
-      error (0, errno, "%s", dbfile);
-      return 0;
-    }
-  time(&now);
-  if (now - st.st_mtime > WARN_SECONDS)
-    {
-      /* For example:
-	 warning: database `fred' is more than 8 days old */
-      error (0, 0, _("warning: database `%s' is more than %d %s old"),
-	     dbfile, WARN_NUMBER_UNITS, _(warn_name_units));
-    }
-
-  pathsize = 1026;		/* Increased as necessary by locate_read_str.  */
-  path = xmalloc (pathsize);
-
-  nread = fread (path, 1, sizeof (LOCATEDB_MAGIC), fp);
-  if (nread != sizeof (LOCATEDB_MAGIC)
-      || memcmp (path, LOCATEDB_MAGIC, sizeof (LOCATEDB_MAGIC)))
-    {
-      int i;
-      /* Read the list of the most common bigrams in the database.  */
-      fseek (fp, 0, 0);
-      for (i = 0; i < 128; i++)
-	{
-	  bigram1[i] = getc (fp);
-	  bigram2[i] = getc (fp);
-	}
-      old_format = true;
-    }
-
-  /* If we ignore case,
-     convert it to lower first so we don't have to do it every time */
-  if (ignore_case){
-    for (patend=pathpart;*patend;++patend){
-     *patend=TOLOWER(*patend);
-    }
-  }
-  
-  
-  globflag = strchr (pathpart, '*') || strchr (pathpart, '?')
-    || strchr (pathpart, '[');
-
-  patend = last_literal_end (pathpart);
-
-  c = getc (fp);
-  while (c != EOF)
-    {
-      register char *s;		/* Scan the path we read in.  */
-
-      if (old_format)
-	{
-	  /* Get the offset in the path where this path info starts.  */
-	  if (c == LOCATEDB_OLD_ESCAPE)
-	    count += getw (fp) - LOCATEDB_OLD_OFFSET;
-	  else
-	    count += c - LOCATEDB_OLD_OFFSET;
-
-	  /* Overlay the old path with the remainder of the new.  */
-	  for (s = path + count; (c = getc (fp)) > LOCATEDB_OLD_ESCAPE;)
-	    if (c < 0200)
-	      *s++ = c;		/* An ordinary character.  */
-	    else
-	      {
-		/* Bigram markers have the high bit set. */
-		c &= 0177;
-		*s++ = bigram1[c];
-		*s++ = bigram2[c];
-	      }
-	  *s-- = '\0';
-	}
-      else
-	{
-	  if (c == LOCATEDB_ESCAPE)
-	    count += (short)get_short (fp);
-	  else if (c > 127)
-	    count += c - 256;
-	  else
-	    count += c;
-
-	  assert(count >= 0 && count <= last_pathlen);
-	  
-	  if (count > strlen(path))
-	    {
-	      /* This should not happen generally , but since we're
-	       * reading in data which is outside our control, we
-	       * cannot prevent it.
-	       */
-	      error(1, 0, _("locate database `%s' is corrupt or invalid"), dbfile);
-	    }
-	  
-	  /* Overlay the old path with the remainder of the new.  */
-	  nread = locate_read_str (&path, &pathsize, fp, 0, count); 
-	  if (nread < 0)
-	    break;
-	  c = getc (fp);
-	  s = path + count + nread - 1; /* Move to the last char in path.  */
-	  assert (s[0] != '\0');
-	  assert (s[1] == '\0'); /* Our terminator.  */
-	  assert (s[2] == '\0'); /* Added by locate_read_str.  */
-	}
-
-      /* If the previous path matched, scan the whole path for the last
-	 char in the subpattern.  If not, the shared prefix doesn't match
-	 the pattern, so don't scan it for the last char.  */
-      cutoff = prev_fast_match ? path : path + count;
-
-      /* Search backward starting at the end of the path we just read in,
-	 for the character at the end of the last glob-free subpattern
-	 in PATHPART.  */
-      for(prev_fast_match=false; s>=cutoff; s--)
-        {
-          char *s2;   /* Scan the path we read in. */
-          register char *p2;  /* Scan `patend'.  */
-
-          /* Fast first char check. */
-          if(ignore_case)
-            {
-              if(TOLOWER(*s)!=*patend)
-                continue;
-            }
-          else if(*s!=*patend)
-            continue;
-
-          if(ignore_case)
-            for(s2=s-1, p2=patend-1; *p2!='\0' && TOLOWER(*s2)==*p2; s2--, p2--);
-          else
-            for(s2=s-1, p2=patend-1; *p2!='\0' && *s2==*p2; s2--, p2--);
-
-          if(*p2!='\0')
-            continue;
-          /*  Success on the fast match.  Compare the whole pattern
-              if it contains globbing characters.  */
-          prev_fast_match = true;
-          if(globflag)
-            {
-              if(ignore_case)
-                {
-                  if(fnmatch(pathpart,basename(path),FNM_CASEFOLD)!=0)
-                    break;
-                }
-              else
-                if(fnmatch(pathpart,basename(path),0)!=0)
-                  break;
-            }
-          if(check_existence && stat(path,&st)!=0)
-            break;
-          puts(path);
-          ++printed;
-          break;
-        }
-    }
-  
-  if (ferror (fp))
-    {
-      error (0, errno, "%s", dbfile);
-      return 0;
-    }
-  if (fclose (fp) == EOF)
-    {
-      error (0, errno, "%s", dbfile);
-      return 0;
-    }
-
-  return printed;
-}
-
-#else
-
 /* Print the entries in DBFILE that match shell globbing pattern PATHPART.
    Return the number of entries printed.  */
 
 static unsigned long
-new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int basename_only)
+new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int basename_only, int use_limit, uintmax_t limit)
 {
-  /* The pathname database.  */
-  FILE *fp;
-  /* An input byte.  */
-  int c;
-  /* Number of bytes read from an entry.  */
-  int nread;
+  
+  FILE *fp;			/* The pathname database.  */
+  int c;			/* An input byte.  */
+  int nread;		     /* number of bytes read from an entry. */
+  char *path;		       /* The current input database entry. */
+  size_t pathsize;		/* Amount allocated for it.  */
+  int count = 0; /* The length of the prefix shared with the previous database entry.  */
+  
+  boolean old_format = false; /* true if reading a bigram-encoded database.  */
+  
 
-  /* true if PATHPART contains globbing metacharacters.  */
-  boolean globflag;
-  /* The end of the last glob-free subpattern in PATHPART.  */
-  char *patend;
 
-  /* The current input database entry.  */
-  char *path;
-  /* Amount allocated for it.  */
-  size_t pathsize;
-
-  /* The length of the last path.  */
-  size_t last_pathlen;
-
-  /* The length of the prefix shared with the previous database entry.  */
-  int count = 0;
-  /* Where in `path' to stop the backward search for the last character
-     in the subpattern.  Set according to `count'.  */
-  char *cutoff;
-
-  /* true if we found a fast match (of patend) on the previous path.  */
-  boolean prev_fast_match = false;
-
-  /* true if reading a bigram-encoded database.  */
-  boolean old_format = false;
-  /* For the old database format,
+  /* for the old database format,
      the first and second characters of the most common bigrams.  */
   char bigram1[128], bigram2[128];
 
@@ -636,14 +466,14 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
   struct stat st;
   time_t now;
 
-
   /* Set up the inspection regime */
+  inspectors = NULL;
+  lastinspector = NULL;
+
   if (check_existence)
     add_visitor(visit_exists, NULL);
 
-  if (strchr    (pathpart, '*')
-      || strchr (pathpart, '?')
-      || strchr (pathpart, '['))
+  if (contains_metacharacter(pathpart))
     {
       if (ignore_case)
 	add_visitor(visit_globmatch_casefold, pathpart);
@@ -658,7 +488,18 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
        * the behaviour of the code before I touched it...
        * James Youngman <jay@gnu.org> 
        */
-      add_visitor(visit_substring_match, pathpart);
+      if (ignore_case)
+	{
+	  struct casefolder * cf = xmalloc(sizeof(*cf));
+	  cf->pattern = pathpart;
+	  cf->buffer = NULL;
+	  cf->buffersize = 0;
+	  add_visitor(visit_substring_match_casefold, cf);
+	}
+      else
+	{
+	  add_visitor(visit_substring_match_nocasefold, pathpart);
+	}
     }
 
   if (enable_print)
@@ -696,23 +537,18 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
       old_format = true;
     }
 
-  /* If we ignore case,
-     convert it to lower first so we don't have to do it every time */
-  if (ignore_case){
-    for (patend=pathpart;*patend;++patend){
-     *patend=TOLOWER(*patend);
+  /* If we ignore case, convert it to lower first so we don't have to
+   * do it every time
+   */
+  if (ignore_case)
+    {
+      lc_strcpy(pathpart, pathpart);
     }
-  }
   
   items_accepted = 0;
-  
-  globflag = strchr (pathpart, '*') || strchr (pathpart, '?')
-    || strchr (pathpart, '[');
-
-  patend = last_literal_end (pathpart);
 
   c = getc (fp);
-  while (c != EOF)
+  while ( (c != EOF) && (!use_limit || (limit > 0)) )
     {
       register char *s;		/* Scan the path we read in.  */
 
@@ -746,8 +582,6 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
 	  else
 	    count += c;
 
-	  assert(count >= 0 && count <= last_pathlen);
-	  
 	  if (count > strlen(path))
 	    {
 	      /* This should not happen generally , but since we're
@@ -769,7 +603,12 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
 	}
 
       if (VISIT_ACCEPTED == process_filename(basename_only ? basename(path) : path))
-	++items_accepted;
+	{
+	  if ((++items_accepted >= limit) && use_limit)
+	    {
+	      break;
+	    }
+	}
     }
   
   if (ferror (fp))
@@ -787,7 +626,7 @@ new_locate (char *pathpart, char *dbfile, int ignore_case, int enable_print, int
 }
 
 
-#endif
+
 
 extern char *version_string;
 
@@ -800,7 +639,8 @@ usage (stream)
 {
   fprintf (stream, _("\
 Usage: %s [-d path | --database=path] [-e | --existing]\n\
-      [-i | --ignore-case] [--wholepath] [--basename] [--version] [--help] pattern...\n"),
+      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n\
+      [--version] [--help] pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
@@ -837,6 +677,9 @@ static struct option const longopts[] =
   {"count", no_argument, NULL, 'c'},
   {"wholename", no_argument, NULL, 'w'},
   {"basename", no_argument, NULL, 'b'},
+  {"stdio", no_argument, NULL, 's'},
+  {"mmap",  no_argument, NULL, 'm'},
+  {"limit",  required_argument, NULL, 'l'},
   {NULL, no_argument, NULL, 0}
 };
 
@@ -852,6 +695,8 @@ main (argc, argv)
   int print = 1;
   int just_count = 0;
   int basename_only = 0;
+  uintmax_t limit = 0;
+  int use_limit = 0;
   
   program_name = argv[0];
 
@@ -867,7 +712,7 @@ main (argc, argv)
 
   check_existence = 0;
 
-  while ((optc = getopt_long (argc, argv, "cd:ei0", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "cd:eil:sm0", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
@@ -907,6 +752,25 @@ main (argc, argv)
 	basename_only = 0;
 	break;
 
+      case 'l':
+	{
+	  char *end = optarg;
+	  strtol_error err = xstrtoumax(optarg, &end, 10, &limit, NULL);
+	  if (LONGINT_OK != err)
+	    {
+	      STRTOL_FATAL_ERROR(optarg, _("argument to --limit"), err);
+	    }
+	  use_limit = 1;
+	}
+	break;
+
+      case 's':			/* use stdio */
+      case 'm':			/* use mmap  */
+	/* These options are implemented simply for
+	 * compatibility with FreeBSD
+	 */ 
+	break;
+
       default:
 	usage (stderr);
 	return 1;
@@ -926,7 +790,7 @@ main (argc, argv)
       next_element (dbpath);	/* Initialize.  */
       while ((e = next_element ((char *) NULL)) != NULL)
 	{
-	  found += new_locate (argv[optind], e, ignore_case, print, basename_only);
+	  found += new_locate (argv[optind], e, ignore_case, print, basename_only, use_limit, limit);
 	}
     }
 
@@ -935,7 +799,7 @@ main (argc, argv)
       printf("%ld\n", found);
     }
   
-  if (found)
+  if (found || (use_limit && (limit==0)) )
     return 0;
   else
     return 1;

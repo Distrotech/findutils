@@ -3,9 +3,9 @@
 locate \- list files in databases that match a pattern
 .SH SYNOPSIS
 .B locate
-[\-d path | \-\-database=path] [-e | --existing] [-i | --ignore-case ]
-[ \-0 | \-\-null ] [ \-c | \-\-count ] [ \-\-wholename ] 
-[\-\-basename ] [\-\-version] [\-\-help] pattern...
+[\-d path | \-\-database=path] [-e | --existing] [-i | --ignore-case]
+[\-0 | \-\-null] [\-c | \-\-count] [\-\-wholename] 
+[\-\-basename] [\-l N | \-\-limit=N] [\-\-version] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -38,6 +38,10 @@ choose the file name of the default database, the frequency with which
 the databases are updated, and the directories for which they contain
 entries; see \fBupdatedb\fP(1).
 .SH OPTIONS
+.TP
+.I "\-c, \-\-count"
+Instead of printing the matched filenames, just print the total 
+number of matches we found.
 .TP
 .I "\-d \fIpath\fP, \-\-database=\fIpath\fP"
 Instead of searching the default file name database, search the file
@@ -76,9 +80,10 @@ has checked that it exists, but before you use it.
 .I "\-i, \-\-ignore-case"
 Ignore case distinctions in both the pattern and the file names.
 .TP
-.I "\-c, \-\-count"
-Instead of printing the matched filenames, just print the total 
-number of matches we found.
+.I "\-l N, \-\-limit=N"
+Limit the number of matches to N.  If a limit is set via this option,
+the number of results printed for the \-c option will never be larger
+than this number.
 .TP
 .I "\-0, \-\-null"
 Use ASCII NUL as a separator, instead of newline.   
