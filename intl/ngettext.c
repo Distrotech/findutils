@@ -16,11 +16,6 @@
    Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #ifdef HAVE_CONFIG_H
-# include <gnulib/config.h>
-# undef VERSION
-# undef PACKAGE_VERSION
-# undef PACKAGE_TARNAME
-# undef PACKAGE_STRING
 # include <config.h>
 #endif
 

@@ -21,13 +21,6 @@
    inspired by John P. Rouillard <rouilj@cs.umb.edu>.  */
 
 #ifdef HAVE_CONFIG_H
-#include <gnulib/config.h>
-#undef VERSION
-#undef PACKAGE_VERSION
-#undef PACKAGE_TARNAME
-#undef PACKAGE_STRING
-#undef PACKAGE
-#undef PACKAGE_NAME
 #include <config.h>
 #endif
 

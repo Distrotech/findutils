@@ -23,9 +23,9 @@
 #include <pwd.h>
 #include <grp.h>
 #include <fnmatch.h>
-#include "modechange.h"
+#include "../gnulib/lib/modechange.h"
 #include "modetype.h"
-#include "xstrtol.h"
+#include "../gnulib/lib/xstrtol.h"
 
 
 #if ENABLE_NLS
@@ -614,14 +614,17 @@ parse_ilname (char **argv, int *arg_ptr)
 static boolean 
 fnmatch_sanitycheck()
 {
+  /* fprintf(stderr, "Performing find sanity check..."); */
   if (0 != fnmatch("foo", "foo", 0)
       || 0 == fnmatch("Foo", "foo", 0)
       || 0 != fnmatch("Foo", "foo", FNM_CASEFOLD))
     {
       error (1, 0, _("sanity check of the fnmatch() library function failed."));
+      /* fprintf(stderr, "FAILED\n"); */
       return false;
     }
 
+  /* fprintf(stderr, "OK\n"); */
   return true;
 }
 

@@ -21,7 +21,7 @@
 
 #include "defs.h"
 
-#include "dirname.h"
+#include "../gnulib/lib/dirname.h"
 #include "modetype.h"
 #include <errno.h>
 #ifdef STDC_HEADERS
@@ -31,7 +31,7 @@ extern int errno;
 #endif
 
 /* Need declaration of function `xstrtoumax' */
-#include "xstrtol.h"
+#include "../gnulib/lib/xstrtol.h"
 
 #if ENABLE_NLS
 # include <libintl.h>

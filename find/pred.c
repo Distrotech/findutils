@@ -24,8 +24,8 @@
 #include <signal.h>
 #include <pwd.h>
 #include <grp.h>
-#include "dirname.h"
-#include "human.h"
+#include "../gnulib/lib/dirname.h"
+#include "../gnulib/lib/human.h"
 #include "modetype.h"
 #include "wait.h"
 

@@ -1,4 +1,23 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.2
+** Bug Fixes
+*** Fixed compilation problems on Solaris, RedHat EL AS 2.1, Irix, AIX
+*** Work around possible compiler bug on HP-UX 11.23 for ia64
+*** The built-in internationalisation support now works again.
+** Other Changes
+*** We now import the gnulib source in the way it is intended to be used,
+    which means among other things that we only have one config.h file
+    now.
+*** Functions which findutils requires but which are not present in 
+    gnulib are now defined in "libfind.a".  This is in the lib
+    directory, while gnulib is in the gnulib subdirectory.
+
+* Major changes in release 4.2.1
+** Bug Fixes
+*** 'find -name \*bar now matches .foobar, because the POSIX standard 
+     requires it, as explained at
+     http://standards.ieee.org/reading/ieee/interp/1003-2-92_int/pasc-1003.2-126.html
+
 * Major changes in release 4.2.1
 ** Bug Fixes
 *** find -iname now works correctly on systems that have an fnmatch() function 

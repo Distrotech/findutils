@@ -18,13 +18,6 @@
 */
 
 #if HAVE_CONFIG_H
-# include <gnulib/config.h>
-# undef VERSION
-# undef PACKAGE_VERSION
-# undef PACKAGE_TARNAME
-# undef PACKAGE_STRING
-# undef PACKAGE_NAME
-# undef PACKAGE
 # include <config.h>
 #endif
 
@@ -54,8 +47,8 @@ char *alloca ();
 #include <grp.h>
 #include <time.h>
 #include <errno.h>
-#include "human.h"
-#include "pathmax.h"
+#include "../gnulib/lib/human.h"
+#include "../gnulib/lib/pathmax.h"
 
 #if HAVE_STRING_H || STDC_HEADERS
 #include <string.h>

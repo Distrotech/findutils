@@ -31,7 +31,7 @@ so don't worry about them unless you see them both times.
 
 4. Generate the configure scripts and Makefile.in files.
 
-    aclocal 
+    aclocal -I m4 -I gnulib/m4
     autoheader
     autoconf
     automake --add-missing --copy
