@@ -998,7 +998,11 @@ writeable by both their owner and their group.
 .PP
 .B find
 exits with status 0 if all files are processed successfully, greater
-than 0 if errors occur.
+than 0 if errors occur.   This is deliberately a very broad
+description, but if the return value is non-zero, you should not rely
+on the correctness of the results of 
+.BR find .
+
 .SH "SEE ALSO"
 \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1)
 \fBFinding Files\fP (on-line in Info, or printed)
@@ -1006,11 +1010,6 @@ than 0 if errors occur.
 As of findutils-4.2.2, shell metacharacters ('*'. '?' or '[]' for
 example) used in filename patterns will match a leading '.', because
 IEEE POSIX interpretation 126 requires this.
-
-As of findutils-4.2.5, the \-follow option no longer affects whether
-or not symbolic links specified on the command line are followed for
-tests like \-newer.  This change coincides with the introduction of
-the POSIX options \-H and \-L.
 
 .SH "BUGS"
 .P 
