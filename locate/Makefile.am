@@ -38,6 +38,6 @@ updatedb: updatedb.sh
 	chmod +x $@
 
 install-data-hook:
-	$(top_srcdir)/mkinstalldirs $(localstatedir)
+	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(localstatedir)
 
 SUBDIRS = testsuite
