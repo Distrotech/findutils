@@ -145,9 +145,6 @@ AC_DEFUN(jm_MACROS,
     AC_CHECK_FUNCS(getdelim)
   fi
 
-  jm_GLIBC21
-  jm_ICONV
-
   # These tests are for df.
   jm_FSTYPENAME
 
