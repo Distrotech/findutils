@@ -44,6 +44,8 @@ Measure times (for \-amin, \-atime, \-cmin, \-ctime, \-mmin, and \-mtime)
 from the beginning of today rather than from 24 hours ago.
 .IP \-depth
 Process each directory's contents before the directory itself.
+.IP \-d
+A synonym for \-depth, for compatibility with FreeBSD, MacOS X and OpenBSD.
 .IP \-follow
 Dereference symbolic links.  Implies \-noleaf.
 .IP "\-help, \-\-help"
@@ -270,6 +272,9 @@ file of type \fIc\fR; if \-follow has been given, true if \fIc\fR is
 `l'.  In other words, for symbolic links, \-xtype checks the type of
 the file that \-type does not check.
 .SS ACTIONS
+.IP "\-delete\fR"
+Delete files; true if removal succeeded.  If the removal failed, an
+error message is issued.
 .IP "\-exec \fIcommand\fR ;"
 Execute \fIcommand\fR; true if 0 status is returned.  All following
 arguments to
@@ -580,6 +585,9 @@ The POSIX standard specifies parentheses `(', `)', negation `!' and the
 All other options, predicates, expressions and so forth are extensions 
 beyond the POSIX standard.  Many of these extensions are not unique to 
 GNU find, however.
+.P
+The \-d option is supported for comatibility with various BSD systems,
+but you should use the POSIX-compliant predicate \-depth instead.
 .SH "ENVIRONMENT VARIABLES"
 .IP POSIXLY_CORRECT
 Determines the block size used by `-ls'.

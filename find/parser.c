@@ -67,6 +67,8 @@ static boolean parse_cnewer PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_comma PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_ctime PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_daystart PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_delete PARAMS((char *argv[], int *arg_ptr));
+static boolean parse_d PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_depth PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_empty PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_exec PARAMS((char *argv[], int *arg_ptr));
@@ -169,6 +171,8 @@ static struct parser_table const parse_table[] =
 #endif
   {"ctime", parse_ctime},
   {"daystart", parse_daystart},	/* GNU */
+  {"delete", parse_delete},	/* GNU, Mac OS, FreeBSD */
+  {"d", parse_d},		/* Mac OS X, FreeBSD, OpenBSD, but deprecated  in favour of -depth */
   {"depth", parse_depth},
   {"empty", parse_empty},	/* GNU */
   {"exec", parse_exec},
@@ -424,6 +428,20 @@ parse_daystart (char **argv, int *arg_ptr)
 }
 
 static boolean
+parse_delete (argv, arg_ptr)
+  char *argv[];
+  int *arg_ptr;
+{
+  struct predicate *our_pred;
+
+  our_pred = insert_primary (pred_delete);
+  our_pred->side_effects = true;
+  /* -delete implies -depth */
+  do_dir_first = false;
+  return (true);
+}
+
+static boolean
 parse_depth (char **argv, int *arg_ptr)
 {
   (void) argv;
@@ -431,6 +449,17 @@ parse_depth (char **argv, int *arg_ptr)
 
   do_dir_first = false;
   return (true);
+}
+ 
+static boolean
+parse_d (char **argv, int *arg_ptr)
+{
+  (void) argv;
+  (void) arg_ptr;
+  error (0, 0,
+	 _("warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."));
+  
+  return parse_depth(argv, arg_ptr);
 }
  
 static boolean
@@ -600,7 +629,7 @@ operators (decreasing precedence; -and is implicit where no others are given):\n
       ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"));
   puts (_("\
       EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n\
-options (always true): -daystart -depth -follow --help\n\
+options (always true): -daystart -delete -depth -follow --help\n\
       -maxdepth LEVELS -mindepth LEVELS -mount -noleaf --version -xdev\n\
 tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N"));
   puts (_("\

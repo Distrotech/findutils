@@ -341,6 +341,7 @@ boolean pred_cmin PARAMS((char *pathname, struct stat *stat_buf, struct predicat
 boolean pred_cnewer PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_comma PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_ctime PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_delete PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_empty PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_exec PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_false PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));

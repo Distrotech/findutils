@@ -159,6 +159,7 @@ struct pred_assoc pred_table[] =
   {pred_cnewer, "cnewer  "},
   {pred_comma, ",       "},
   {pred_ctime, "ctime   "},
+  {pred_delete, "delete  "},
   {pred_empty, "empty   "},
   {pred_exec, "exec    "},
   {pred_false, "false   "},
@@ -418,6 +419,29 @@ pred_ctime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       break;
     }
   return (false);
+}
+
+boolean
+pred_delete (pathname, stat_buf, pred_ptr)
+     char *pathname;
+     struct stat *stat_buf;
+     struct predicate *pred_ptr;
+{
+  if (strcmp (rel_pathname, "."))
+    {
+      if (0 != remove (rel_pathname))
+	{
+	  error (0, errno, "cannot delete %s", pathname);
+	  return false;
+	}
+      else
+	{
+	  return true;
+	}
+    }
+  
+  /* nothing to do. */
+  return true;
 }
 
 boolean

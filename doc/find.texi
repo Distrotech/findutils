@@ -23,7 +23,7 @@ END-INFO-DIR-ENTRY
 This file documents the GNU utilities for finding files that match
 certain criteria and performing various operations on them.
 
-Copyright (C) 1994 Free Software Foundation, Inc.
+Copyright (C) 1994,1996,1998,2000,2001,2003,2004 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -55,7 +55,7 @@ by the Foundation.
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1994 Free Software Foundation, Inc.
+Copyright @copyright{} 1994,1996,1998,2000,2001,2003,2004 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -303,6 +303,7 @@ for exactly @var{n}.
 By default, @code{find} prints to the standard output the names of the
 files that match the given criteria.  @xref{Actions}, for how to get more
 information about the matching files.
+
 
 @menu
 * Name::
@@ -705,7 +706,7 @@ specifiers for the @samp{-printf} predicate.
 @deffn Test -empty
 True if the file is empty and is either a regular file or a directory.
 This might make it a good candidate for deletion.  This test is useful
-with @samp{-depth} (@pxref{Directories}) and @samp{-exec rm -rf '@{@}' ';'}
+with @samp{-depth} (@pxref{Directories}) and @samp{-delete}
 (@pxref{Single File}).
 @end deffn
 
@@ -847,6 +848,12 @@ this is a good idea when producing lists of files to archive with
 @code{cpio} or @code{tar}.  If a directory does not have write
 permission for its owner, its contents can still be restored from the
 archive since the directory's permissions are restored after its contents.
+@end deffn
+
+@deffn Option -d
+This is a deprecated synonym for @samp{-depth}, for compatibility with
+Mac OS X, FreeBSD and OpenBSD.   The @samp{-depth} option is a POSIX
+feature, so it is better to use that.
 @end deffn
 
 @deffn Action -prune
@@ -998,6 +1005,7 @@ arguments.  You can use those commands as further filters to select files.
 * Print File Name::
 * Print File Information::
 * Run Commands::
+* Delete Files::
 * Adding Tests::
 @end menu
 
@@ -1624,6 +1632,17 @@ from the terminal.  Only run the command line if the response starts
 with @samp{y} or @samp{Y}.  Implies @samp{-t}.
 @end table
 
+@node Delete Files
+@section Delete Files
+
+@deffn Action -delete
+Delete files or directories; true if removal succeeded.  If the
+removal failed, an error message is issued.
+
+The use of the @samp{-delete} action on the command line automatically
+turns on the @samp{-depth} option (@pxref{find Expressions}).
+@end deffn
+
 @node Adding Tests
 @section Adding Tests
 
@@ -1774,6 +1793,12 @@ requires a merge:
 find . -name '.#*' -print0 | xargs -0r rm -f
 @end example
 
+The command above works, but the following is safer:
+
+@example
+find . -name '.#*' -depth -delete
+@end example
+
 @c Idea from Franc,ois Pinard.
 You can run this command to clean out your clutter in @file{/tmp}.  You
 might place it in the file your shell runs when you log out
@@ -1781,7 +1806,7 @@ might place it in the file your shell runs when you log out
 which shell you use).
 
 @example
-find /tmp -user $LOGNAME -type f -print0 | xargs -0 -r rm -f
+find /tmp -depth -user $LOGNAME -type f -delete 
 @end example
 
 If your @code{find} command removes directories, you may find that 
@@ -1805,10 +1830,8 @@ Removing old files from @file{/tmp} is commonly done from @code{cron}:
 
 @c Idea from Kaveh Ghazi.
 @example
-find /tmp /var/tmp -not -type d -mtime +3 -print0 |
-  xargs --null --no-run-if-empty rm -f
-
-find /tmp /var/tmp -depth -mindepth 1 -type d -empty -exec rmdir @{@} \;
+find /tmp /var/tmp -not -type d -mtime +3 -delete
+find /tmp /var/tmp -depth -mindepth 1 -type d -empty -delete
 @end example
 
 The second @code{find} command above uses @samp{-depth} so it cleans out
