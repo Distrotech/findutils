@@ -485,6 +485,7 @@ new_impl_pred_exec (const char *pathname, struct stat *stat_buf,
   else
     {
       int i;
+
       for (i=0; i<execp->num_args; ++i)
 	{
 	  bc_do_insert(&execp->ctl,

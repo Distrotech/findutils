@@ -503,7 +503,7 @@ main (int argc, char **argv)
    * partially-full command lines which have been built, 
    * but which are not yet complete.   Execute those now.
    */
-  complete_pending_execs(predicates);
+  complete_pending_execs(eval_tree);
   
   return state.exit_status;
 }
@@ -1349,11 +1349,12 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	}
 
 
-      /* We're about to leave the directory.   If there are any -execdir argument lists
-       * which have been built but have not yet been processed, do them now
-       * because they must be done in the same directory.
+      /* We're about to leave the directory.  If there are any
+       * -execdir argument lists which have been built but have not
+       * yet been processed, do them now because they must be done in
+       * the same directory.
        */
-      complete_pending_execdirs(predicates);
+      complete_pending_execdirs(eval_tree);
 
 #if USE_SAFE_CHDIR
       if (strcmp (name, "."))
