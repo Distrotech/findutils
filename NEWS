@@ -5,7 +5,17 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** xargs now supports the POSIX options -E, -I and -L.   These are synonyms 
     for the existing options -e, -i and -l, but the latter three are
     now deprecated.
-
+**  Bug Fixes
+*** xargs -n NUM now invokes a command as soon as it has NUM arguments.  
+    Previously, it waited until NUM items had been read, and then
+    invoked the command with NUM arguments, saving the remaining one
+    for next time. 
+*** If "find -L" discovers a symbolic link loop, an error message is issued.
+*** If you specify a directory on the find command line, but -prune 
+    is applied to it, find will no longer chdir() into it anyway.
+**  Documentation improvements
+*** The precise interpretation of the arguments to the -atime, -ctime 
+    and similar tests in find has been documented more clearly.
 * Major changes in release 4.2.8
 *** Bugfix to the findutils 4.2.7 automount handling on Solaris.  This 
     worked to some extent in findutils-4.2.7, but is much improved in
