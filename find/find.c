@@ -433,21 +433,6 @@ main (int argc, char **argv)
   options.no_leaf_check = false;
   set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
 
-  /* safely_chdir() needs to check that it has ended up in the right place. 
-   * To avoid bailing out when something gets automounted, it checks if 
-   * the target directory appears to have had a directory mounted on it as
-   * we chdir()ed.  The problem with this is that in order to notice that 
-   * a filesystem was mounted, we would need to lstat() all the mount points.
-   * That strategy loses if our machine is a client of a dead NFS server.
-   *
-   * Hence if safely_chdir() and wd_sanity_check() can manage without needing 
-   * to know the mounted device list, we do that.  
-   */
-  if (!options.open_nofollow_available)
-    {
-      init_mounted_dev_list();
-    }
-  
 #ifdef DEBUG
   fprintf (stderr, "cur_day_start = %s", ctime (&options.cur_day_start));
 #endif /* DEBUG */
@@ -585,6 +570,22 @@ main (int argc, char **argv)
   print_optlist(stderr, eval_tree);
   fprintf(stderr, "\n");
 #endif /* DEBUG */
+
+  /* safely_chdir() needs to check that it has ended up in the right place. 
+   * To avoid bailing out when something gets automounted, it checks if 
+   * the target directory appears to have had a directory mounted on it as
+   * we chdir()ed.  The problem with this is that in order to notice that 
+   * a filesystem was mounted, we would need to lstat() all the mount points.
+   * That strategy loses if our machine is a client of a dead NFS server.
+   *
+   * Hence if safely_chdir() and wd_sanity_check() can manage without needing 
+   * to know the mounted device list, we do that.  
+   */
+  if (!options.open_nofollow_available)
+    {
+      init_mounted_dev_list();
+    }
+  
 
   starting_desc = open (".", O_RDONLY);
   if (0 <= starting_desc && fchdir (starting_desc) != 0)
