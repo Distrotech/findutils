@@ -17,13 +17,16 @@
    USA.
 */
 
+#define _GNU_SOURCE
 #include "defs.h"
 #include <ctype.h>
 #include <pwd.h>
 #include <grp.h>
+#include <fnmatch.h>
 #include "modechange.h"
 #include "modetype.h"
 #include "xstrtol.h"
+
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -603,6 +606,26 @@ parse_ilname (char **argv, int *arg_ptr)
   return (true);
 }
 
+
+/* sanity check the fnmatch() function to make sure
+ * it really is the GNU version. 
+ */
+static boolean 
+fnmatch_sanitycheck()
+{
+  if (0 != fnmatch("foo", "foo", 0)
+      || 0 == fnmatch("Foo", "foo", 0)
+      || 0 != fnmatch("Foo", "foo", FNM_CASEFOLD))
+    {
+      error (1, 0, _("sanity check of the fnmatch() library function failed."));
+      return false;
+    }
+
+  return true;
+}
+
+
+
 static boolean
 parse_iname (char **argv, int *arg_ptr)
 {
@@ -610,6 +633,9 @@ parse_iname (char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
+
+  fnmatch_sanitycheck();
+  
   our_pred = insert_primary (pred_iname);
   our_pred->need_stat = false;
   our_pred->args.str = argv[*arg_ptr];
