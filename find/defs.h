@@ -301,7 +301,9 @@ boolean opt_expr P_((struct predicate **eval_treep));
 boolean mark_stat P_((struct predicate *tree));
 
 /* util.c */
+#ifndef __linux__
 char *basename P_((char *fname));
+#endif /* not __linux__ */
 struct predicate *get_new_pred P_((void));
 struct predicate *get_new_pred_chk_op P_((void));
 struct predicate *insert_primary P_((boolean (*pred_func )()));

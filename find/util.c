@@ -24,6 +24,7 @@
 /* Return the last component of pathname FNAME, with leading slashes
    compressed into one slash. */
 
+#ifndef __linux__
 char *
 basename (fname)
      char *fname;
@@ -38,6 +39,7 @@ basename (fname)
   p = strrchr (fname, '/');
   return (p == NULL ? fname : p + 1);
 }
+#endif /* not __linux__ */
 
 /* Return a pointer to a new predicate structure, which has been
    linked in as the last one in the predicates list.
