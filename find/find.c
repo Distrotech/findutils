@@ -685,7 +685,7 @@ wd_sanity_check(const char *thing_to_stat,
 	   * is much rarer, as it relies on an automounter timeout
 	   * occurring at exactly the wrong moment.
 	   */
-	  enum MountPointStateChange transition = get_mount_point_state(what);
+	  enum MountPointStateChange transition = get_mount_point_state(specific_what);
 	  switch (transition)
 	    {
 	    case MountPointRecentlyUnmounted:
