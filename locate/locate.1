@@ -5,7 +5,8 @@ locate \- list files in databases that match a pattern
 .B locate
 [\-d path | \-\-database=path] [\-e | \-\-existing] [\-i | \-\-ignore-case]
 [\-0 | \-\-null] [\-c | \-\-count] [\-w | \-\-wholename] [\-b | \-\-basename] 
-[\-l N | \-\-limit=N] [\-S | \-\-statistics] [\-\-version] [\-\-help] pattern...
+[\-l N | \-\-limit=N] [\-S | \-\-statistics] [\-\-version] 
+[\-P | \-H | \-\-nofollow] [\-L | \-\-follow] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -78,6 +79,17 @@ in the database.  If you are using this option within a program,
 please note that it is possible for the file to be deleted after 
 .B locate 
 has checked that it exists, but before you use it.
+.TP
+.I "\-L, \-\-follow"
+If testing for the existence of files (with the \-e option), omit
+broken symbolic links.   This is the default.
+.TP
+.I "\-P, \-H, \-\-nofollow"
+If testing for the existence of files (with the \-e option), treat
+broken symbolic links count as if they were exiting files.  The \-H
+form of this option is provided purely for similarity with
+.BR find ;
+the use of \-P is recommended over \-H.
 .TP
 .I "\-i, \-\-ignore-case"
 Ignore case distinctions in both the pattern and the file names.

@@ -134,7 +134,9 @@ static const char warn_name_units[] = N_("days");
 #define WARN_SECONDS ((SECONDS_PER_UNIT) * (WARN_NUMBER_UNITS))
 
 /* Check for existence of files before printing them out? */
-int check_existence = 0;
+static int check_existence = 0;
+
+static int follow_symlinks = 1;
 
 /* What to separate the results with. */
 static int separator = '\n';
@@ -322,7 +324,8 @@ visit_justprint(const char *munged_filename, const char *original_filename, void
 }
 
 static int
-visit_exists(const char *munged_filename, const char *original_filename, void *context)
+visit_exists_follow(const char *munged_filename,
+		    const char *original_filename, void *context)
 {
   struct stat st;
   (void) context;
@@ -334,6 +337,29 @@ visit_exists(const char *munged_filename, const char *original_filename, void *c
    * whose existence we would need to check.
    */
   if (stat(original_filename, &st) != 0)
+    {
+      return VISIT_REJECTED;
+    }
+  else
+    {
+      return VISIT_CONTINUE;
+    }
+}
+
+static int
+visit_exists_nofollow(const char *munged_filename,
+		      const char *original_filename, void *context)
+{
+  struct stat st;
+  (void) context;
+  (void) munged_filename;
+
+  /* munged_filename has been converted in some way (to lower case,
+   * or is just the basename of the file), and original_filename has not.  
+   * Hence only original_filename is still actually the name of the file 
+   * whose existence we would need to check.
+   */
+  if (lstat(original_filename, &st) != 0)
     {
       return VISIT_REJECTED;
     }
@@ -462,8 +488,6 @@ new_locate (char *pathpart,
   
   int old_format = 0; /* true if reading a bigram-encoded database.  */
   
-
-
   /* for the old database format,
      the first and second characters of the most common bigrams.  */
   char bigram1[128], bigram2[128];
@@ -515,11 +539,20 @@ new_locate (char *pathpart,
 	    }
 	}
 
-      /* We add visit_exists() as late as possible to reduce the
+      /* We add visit_exists_*() as late as possible to reduce the
        * number of stat() calls.
        */
       if (check_existence)
-	add_visitor(visit_exists, NULL);
+	{
+	  visitfunc f;
+	  if (follow_symlinks)
+	    f = visit_exists_follow;
+	  else
+	    f = visit_exists_nofollow;
+	  
+	  add_visitor(f, NULL);
+	}
+      
 
       if (enable_print)
 	add_visitor(visit_justprint, NULL);
@@ -701,7 +734,8 @@ usage (stream)
 Usage: %s [-d path | --database=path] [-e | --existing]\n\
       [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
-      [--version] [--help] pattern...\n"),
+      [-P | -H | --nofollow] [-L | --follow] [--version]\n\
+      [--help] pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
@@ -722,6 +756,8 @@ static struct option const longopts[] =
   {"mmap",  no_argument, NULL, 'm'},
   {"limit",  required_argument, NULL, 'l'},
   {"statistics",  no_argument, NULL, 'S'},
+  {"follow",      no_argument, NULL, 'L'},
+  {"nofollow",    no_argument, NULL, 'P'},
   {NULL, no_argument, NULL, 0}
 };
 
@@ -756,7 +792,7 @@ main (argc, argv)
 
   check_existence = 0;
 
-  while ((optc = getopt_long (argc, argv, "bcd:eil:sm0Sw", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "bcd:eil:sm0SwHPL", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
@@ -798,6 +834,20 @@ main (argc, argv)
 
       case 'S':
 	stats = 1;
+	break;
+
+      case 'L':
+	follow_symlinks = 1;
+	break;
+
+	/* In find, -P and -H differ in the way they handle paths
+	 * given on the command line.  This is not relevant for
+	 * locate, but the -H option is supported because it is
+	 * probably more intuitive to do so.
+	 */
+      case 'P':
+      case 'H':
+	follow_symlinks = 0;
 	break;
 
       case 'l':
