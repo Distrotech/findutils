@@ -1,0 +1,9 @@
+# tests to determine if "-i" causes the match to ignore the case
+exec rm -rf tmp
+exec mkdir tmp
+exec touch tmp/fred
+locate_start p {--output=locatedb --localpaths=tmp} {--database=locatedb fred} {}
+#updatedb --output=locatedb
+#locate --database=locatedb FRed
+#locate --database=locatedb -i FRed
+
