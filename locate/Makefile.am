@@ -2,7 +2,7 @@
 LOCATE_DB = $(localstatedir)/locatedb
 
 bin_PROGRAMS = locate
-LIBPROGRAMS = frcode code bigram
+libexec_PROGRAMS = frcode code bigram
 bin_SCRIPTS = updatedb
 man_MANS = locate.1 updatedb.1 locatedb.5
 
