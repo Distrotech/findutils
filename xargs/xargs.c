@@ -68,6 +68,10 @@
 #include <limits.h>
 #endif
 
+#ifndef LONG_MAX
+#define LONG_MAX (~(1 << (sizeof (long) * 8 - 1)))
+#endif
+
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -253,7 +257,10 @@ main (argc, argv)
 
   program_name = argv[0];
 
-  orig_arg_max = ARG_MAX - 2048; /* POSIX.2 requires subtracting 2048.  */
+  orig_arg_max = ARG_MAX;
+  if (orig_arg_max == -1)
+    orig_arg_max = LONG_MAX;
+  orig_arg_max -= 2048; /* POSIX.2 requires subtracting 2048.  */
   arg_max = orig_arg_max;
 
   /* Sanity check for systems with huge ARG_MAX defines (e.g., Suns which

@@ -1,9 +1,11 @@
+AUTOMAKE_OPTIONS = ansi2knr
 noinst_LIBRARIES = libfind.a
-libfind_a_SOURCES = regex.c \
-			regex.h \
+libfind_a_SOURCES = regex.h \
 			dirname.c \
 			error.c \
+			error.h \
 			filemode.c \
+			filemode.h \
 			getopt.c \
 			getopt.h \
 			getopt1.c \
@@ -14,11 +16,11 @@ libfind_a_SOURCES = regex.c \
 			modechange.h \
 			nextelem.c \
 			savedir.c \
+			savedir.h \
 			xmalloc.c \
-			getline.c \
+			xalloc.h \
 			xstrdup.c \
 			xgetcwd.c \
-			fnmatch.c \
 			fnmatch.h
 
 libfind_a_LIBADD = @LIBOBJS@ \
@@ -28,6 +30,7 @@ libfind_a_LIBADD = @LIBOBJS@ \
 # Are these really needed?
 EXTRA_DIST = modetype.h \
 		wait.h \
-		alloca.c
+		alloca.c \
+		lstat.c
 
 INCLUDES = -I.. -I$(srcdir)
