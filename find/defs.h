@@ -320,12 +320,6 @@ char *xgetcwd PARAMS((void));
 #define VOID char
 #endif
 
-VOID *xmalloc PARAMS((size_t n));
-VOID *xrealloc PARAMS((VOID *p, size_t n));
-
-/* xstrdup.c */
-char *xstrdup PARAMS((char *string));
-
 /* find global function declarations.  */
 
 /* find.c */
