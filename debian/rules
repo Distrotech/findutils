@@ -50,7 +50,8 @@ binary-arch:	checkroot build
 	install -d debian/tmp/var
 	install -d debian/tmp/var/lib
 	install -d debian/tmp/var/lib/locate
-	install debian/{postinst,postrm,preinst,conffiles} debian/tmp/DEBIAN/.
+	install debian/{postinst,prerm,preinst} debian/tmp/DEBIAN/.
+	install -m 0644 debian/conffiles debian/tmp/DEBIAN/.
 	install debian/cron.find debian/tmp/etc/cron.daily/find
 	install -m 0644 debian/updatedb.conf debian/tmp/etc/updatedb.conf
 	$(MAKE) prefix=`pwd`/debian/tmp/usr \
@@ -61,13 +62,17 @@ binary-arch:	checkroot build
 		install
 	gzip -9v debian/tmp/usr/info/*
 	gzip -9v debian/tmp/usr/man/man[15]/*
-	install -m 0444 debian/copyright debian/tmp/usr/doc/$(package)/.
-	install -m 0444 debian/changelog \
+	install -m 0644 debian/copyright debian/tmp/usr/doc/$(package)/.
+	install -m 0644 debian/changelog \
 		debian/tmp/usr/doc/$(package)/changelog.Debian
-	install -m 0444 ChangeLog debian/tmp/usr/doc/$(package)/changelog
-	install -m 0444 debian/README.debian \
+	gzip -9v debian/tmp/usr/doc/$(package)/changelog.Debian
+	for file in ChangeLog INSTALL NEWS README TODO; do \
+		install -m 0644 $$file \
+			debian/tmp/usr/doc/$(package);\
+		gzip -9v debian/tmp/usr/doc/$(package)/$$file;\
+	done
+	install -m 0644 debian/README.debian \
 		debian/tmp/usr/doc/$(package)
-	gzip -9v debian/tmp/usr/doc/$(package)/changelog{,.Debian}
 	dpkg-shlibdeps debian/tmp/usr/bin/{find,locate,xargs}
 	dpkg-gencontrol
 	dpkg --build debian/tmp ..
