@@ -35,6 +35,7 @@
 #include <sys/file.h>
 #endif
 #include "../gnulib/lib/human.h"
+#include "../gnulib/lib/canonicalize.h"
 #include <modetype.h>
 #include "../gnulib/lib/savedir.h"
 
@@ -518,20 +519,22 @@ static char *
 specific_dirname(const char *dir)
 {
   char dirname[1024];
-  
-  if (0 != strcmp(".", dir))
-    {
-      return strdup(dir);
-    }
 
-  /* OK, what's '.'? */
-  if (NULL != getcwd(dirname, sizeof(dirname)))
+  if (0 == strcmp(".", dir))
     {
-      return strdup(dirname);
+      /* OK, what's '.'? */
+      if (NULL != getcwd(dirname, sizeof(dirname)))
+	{
+	  return strdup(dirname);
+	}
+      else
+	{
+	  return strdup(dir);
+	}
     }
   else
     {
-      return strdup(dir);
+      return canonicalize_filename_mode(dir, CAN_EXISTING);
     }
 }
 
@@ -803,7 +806,8 @@ process_top_path (char *pathname)
 	}
 
       /* Check that we are where we should be. */
-      wd_sanity_check(pathname, program_name, pathname,
+      wd_sanity_check(pathname, program_name,
+		      ".",
 		      &stat_buf, &cur_stat_buf, 0, __LINE__,
 		      TraversingDown);
 
@@ -992,7 +996,8 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  tmp.st_dev = dir_ids[dir_curr].dev;
 	  tmp.st_ino = dir_ids[dir_curr].ino;
 	  wd_sanity_check(pathname,
-			  program_name, starting_dir,
+			  program_name,
+			  ".",
 			  &tmp, &stat_buf, 0, __LINE__, 
 			  TraversingDown);
 	}
