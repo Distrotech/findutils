@@ -1,3 +1,45 @@
+2005-02-05  James Youngman  <jay@gnu.org>
+
+	* po/ChangeLog: Updated from CVS.
+
+	* NEWS, configure.in: Preparing to release 4.2.16
+
+	* po/fetch-po-files: This is the first version we actually used.
+
+	* find/find.c: process_top_path() fixed compilation warning.
+
+	* find/find.c: process_top_path(): avoid processing this item if
+	we can't chdir to the basename of the named file.
+
+	* lib/Makefile.am: Always build forcefindlib.c
+
+	* locate/locate.c: Say 'base name' rather than 'basename' in comments
+
+	* find/pred.c, find/find.c: process_top_path(): Proper bugfix for
+	correct handling of items at depth 0 (i.e. specified on the
+	command line) - do an extra chdir to ensure that we're in the
+	directory containing the item before calling process_path().
+	Hnece also undo the previous 'quick fix' for the same problem
+
+	* doc/find.texi: -execdir no longer has to treat anything as
+	special, even at depth 0.
+
+2005-02-03  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi, find/pred.c: When state.curdepth is 0, our
+	working directory is not the directory containing the file we are
+	processing.
+
+2005-02-02  James Youngman  <jay@gnu.org>
+
+	* find/pred.c:
+	To allow compilation on cygwin, use base_name(), not basename().
+
+
+2005-02-01  James Youngman  <jay@gnu.org>
+
+	* ChangeLog: Updated from CVS log.
+
 2005-01-31  James Youngman  <jay@gnu.org>
 
 	* find/find.c, lib/nextelem.c, lib/nextelem.h, locate/code.c,
@@ -18,24 +60,6 @@
 	of filesystems which are likely to be automounted.
 
 	* m4/findlib.m4: Corrected typo (pointed out by Dmitry V. Levin).
-
-	* po/ca.po: Updated from Translation Project
-
-	* po/ChangeLog: Updated from CVS logs.
-
-	* po/de.po, po/es.po, po/et.po, po/fr.po, po/gl.po, po/id.po,
-	po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po,
-	po/sk.po, po/sv.po, po/tr.po, po/da.po: Ran update-po
-
-	* po/be.po, po/ca.po, po/el.po, po/eo.po, po/fi.po, po/hr.po,
-	po/hu.po, po/ja.po, po/lg.po, po/ms.po, po/ro.po, po/sl.po,
-	po/sr.po, po/zh_CN.po: Added new translation files from the
-	Translation Project web site
-
-	* po/da.po, po/de.po, po/es.po, po/et.po, po/fr.po, po/ga.po,
-	po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
-	po/pt_BR.po, po/ru.po, po/sk.po, po/sv.po, po/tr.po: Updated .po
-	files from the Translation Project site
 
 	* find/testsuite/config/unix.exp,
 	find/testsuite/find.gnu/name-period.xo,
