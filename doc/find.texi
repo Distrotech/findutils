@@ -3131,13 +3131,6 @@ is the same as the directory in which the file to be processed exists
 be processed is passed to the invoked command, with a @samp{./}
 prepended (giving @file{./passwd} in our example).
 
-Any starting points listed on the command line (that is, those with a
-depth of 0) are processed with the current directory the same as it
-was when find was started.  Therefore the @samp{-execdir} and
-@samp{-okdir} actions in this case only will behave in the same way as
-for @samp{-exec} and @samp{ok}.
-
-
 @subsection Race Conditions with -print and -print0
 
 The @samp{-print} and @samp{-print0} actions can be used to produce a
