@@ -1,3 +1,82 @@
+2005-02-15  James Youngman  <jay@gnu.org>
+
+	* find/find.1: Emphasise that -L causes find to recurse into
+	subdirectories pointed to by symbolic links.
+
+2005-02-15  Aaron Hawley  <Aaron.Hawley@uvm.edu>
+
+	* find/find.1: Notes about -H actually apply to -L.  Said
+	paragraph is duplicated two paragraphs later.  Also typos: nno,
+	ibmue, surrpounding
+
+2005-02-13  James Youngman  <jay@gnu.org>
+
+	* find/find.1: Miscellaneous small clarifications and improvements.
+
+	* doc/find.texi: Added Info nodes and menus under "Changing the
+	Current Working Directory" so that it doesn't generate such a huge
+	Info page.
+
+	* find/find.c: Parenthesise #if defined(...).
+
+2005-02-13  Dmitry V. Levin  <ldv@altlinux.org>
+	
+	* find/find.c: remove test code snippet (time(NULL) was used to
+	place a marker for spotting with strace(), but was not actually
+	needed).
+
+	* find/find.c (safely_chdir_nofollow): must not fall back on
+	safely_chdir_lstat() because that will expose it to race condition
+	exploits, making it pointless.
+
+	* find/find.c (safely_chdir_lstat): Move
+        complete_pending_execdirs() up into safely_chdir(), because we
+	need to do that in either case.
+
+2005-02-12  James Youngman  <jay@gnu.org>
+
+	* configure.in, doc/find.texi, find/defs.h, find/find.c,
+	find/parser.c: Fix for Savannah bug #11879, that
+	init_mounted_dev_list() causes find to hang on systems which are
+	clients to dead NFS servers
+
+2005-02-10  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi: Talk about the problem where find will not work
+	if you have a filesystem mounted from an unresponsive NFS server.
+
+2005-02-09  James Youngman  <jay@gnu.org>
+
+	* find/find.1: Indicate that $TZ affects from printf-format
+	results, and add extra cross-references in the SEE ALSO section.
+
+2005-02-08  James Youngman  <jay@gnu.org>
+
+	* xargs/testsuite/Makefile.am: Distribute the .xe files also.
+
+	* Makefile.am: Check that we have the right number of .xe files in
+	the distribution also.
+
+	* ChangeLog, NEWS, configure.in
+	Preparing to release findutils-4.2.17
+
+2005-02-07  James Youngman  <jay@gnu.org>
+
+	* find/testsuite/config/unix.exp: Re-sort the .xo file using the
+	calling user's locale, because our 'pre-sorted' .so output file
+	may not be sorted with the same collting order as 'sort' used to
+	order the output of "find.  Bug spotted by Vin Shelton and Dimitry
+	V. Levin.
+
+	* find/testsuite/Makefile.am:
+	New test, find/testsuite/find.gnu/follow-arg-parent-symlink.exp.
+
+	* find/testsuite/find.gnu/follow-arg-parent-symlink.exp,
+	find/testsuite/find.gnu/follow-arg-parent-symlink.xo, find/find.c:
+	Fix for starting point /foo/bar/baz where bar is a symlink but baz
+	is not - we should chdir into bar there even if it is a symbolic
+	link
+
 2005-02-07  James Youngman  <jay@gnu.org>
 
 	* find/testsuite/Makefile.am:
