@@ -245,28 +245,42 @@ struct prec_assoc prec_table[] =
  
    Return true if the file passes this predicate, false if not. */
 
+
+/* pred_timewindow
+ *
+ * Returns true if THE_TIME is 
+ * COMP_GT: after the specified time
+ * COMP_LT: before the specified time
+ * COMP_EQ: less than WINDOW seconds after the specified time.
+ */
+static boolean
+pred_timewindow(time_t the_time, struct predicate const *pred_ptr, int window)
+{
+  switch (pred_ptr->args.info.kind)
+    {
+    case COMP_GT:
+      if (the_time > (time_t) pred_ptr->args.info.l_val)
+	return true;
+      break;
+    case COMP_LT:
+      if (the_time < (time_t) pred_ptr->args.info.l_val)
+	return true;
+      break;
+    case COMP_EQ:
+      if ((the_time >= (time_t) pred_ptr->args.info.l_val)
+	  && (the_time < (time_t) pred_ptr->args.info.l_val + window))
+	return true;
+      break;
+    }
+  return false;
+}
+
+
 boolean
 pred_amin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
-  
-  switch (pred_ptr->args.info.kind)
-    {
-    case COMP_GT:
-      if (stat_buf->st_atime > (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_LT:
-      if (stat_buf->st_atime < (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_EQ:
-      if ((stat_buf->st_atime >= (time_t) pred_ptr->args.info.l_val)
-	  && (stat_buf->st_atime < (time_t) pred_ptr->args.info.l_val + 60))
-	return (true);
-      break;
-    }
-  return (false);
+  return pred_timewindow(stat_buf->st_atime, pred_ptr, 60);
 }
 
 boolean
@@ -308,25 +322,7 @@ boolean
 pred_atime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
-  
-  switch (pred_ptr->args.info.kind)
-    {
-    case COMP_GT:
-      if (stat_buf->st_atime > (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_LT:
-      if (stat_buf->st_atime < (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_EQ:
-      if ((stat_buf->st_atime >= (time_t) pred_ptr->args.info.l_val)
-	  && (stat_buf->st_atime < (time_t) pred_ptr->args.info.l_val
-	      + DAYSECS))
-	return (true);
-      break;
-    }
-  return (false);
+  return pred_timewindow(stat_buf->st_atime, pred_ptr, DAYSECS);
 }
 
 boolean
@@ -343,26 +339,7 @@ boolean
 pred_cmin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-
-  (void) stat_buf;
-  
-  switch (pred_ptr->args.info.kind)
-    {
-    case COMP_GT:
-      if (stat_buf->st_ctime > (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_LT:
-      if (stat_buf->st_ctime < (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_EQ:
-      if ((stat_buf->st_ctime >= (time_t) pred_ptr->args.info.l_val)
-	  && (stat_buf->st_ctime < (time_t) pred_ptr->args.info.l_val + 60))
-	return (true);
-      break;
-    }
-  return (false);
+  return pred_timewindow(stat_buf->st_ctime, pred_ptr, 60);
 }
 
 boolean
@@ -400,25 +377,7 @@ boolean
 pred_ctime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
-  
-  switch (pred_ptr->args.info.kind)
-    {
-    case COMP_GT:
-      if (stat_buf->st_ctime > (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_LT:
-      if (stat_buf->st_ctime < (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_EQ:
-      if ((stat_buf->st_ctime >= (time_t) pred_ptr->args.info.l_val)
-	  && (stat_buf->st_ctime < (time_t) pred_ptr->args.info.l_val
-	      + DAYSECS))
-	return (true);
-      break;
-    }
-  return (false);
+  return pred_timewindow(stat_buf->st_ctime, pred_ptr, DAYSECS);
 }
 
 boolean
@@ -793,6 +752,53 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 		   human_readable ((uintmax_t) stat_buf->st_uid, hbuf,
 				   human_ceiling, 1, 1));
 	  break;
+
+	/* type of filesystem entry like `ls -l`: (d,-,l,s,p,b,c,n) n=nonexistent(symlink) */
+	case 'Y':		/* in case of symlink */
+	  {
+#ifdef S_ISLNK
+	  if (S_ISLNK (stat_buf->st_mode))
+	    {
+	      struct stat sbuf;
+	      int (*ystat) ();
+	      ystat = xstat == lstat ? stat : lstat;
+	      if ((*ystat) (rel_pathname, &sbuf) != 0)
+	      {
+		if ( errno == ENOENT ) {
+		  fprintf (fp, segment->text, "N");
+		  break;
+		};
+		if ( errno == ELOOP ) {
+		  fprintf (fp, segment->text, "L");
+		  break;
+		};
+		error (0, errno, "", pathname);
+		/* exit_status = 1;
+		return (false); */
+	      }
+	      stat_buf->st_mode = sbuf.st_mode;
+	    }
+#endif /* S_ISLNK */
+	  }
+	  /* FALLTHROUGH */
+	case 'y':
+	  {
+	    mode_t m = stat_buf->st_mode & S_IFMT;
+
+	    fprintf (fp, segment->text,
+		( m == S_IFSOCK ? "s" :
+		  m == S_IFLNK  ? "l" :
+		  m == S_IFREG  ? "f" :
+		  m == S_IFBLK  ? "b" :
+		  m == S_IFDIR  ? "d" :
+		  m == S_IFCHR  ? "c" :
+#ifdef S_IFDOOR
+		  m == S_IFDOOR ? "D" :
+#endif
+		  m == S_IFIFO  ? "p" : "U" ) );
+
+	  }
+	  break;
 	}
     }
   return (true);
@@ -954,46 +960,15 @@ pred_ls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_mmin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  switch (pred_ptr->args.info.kind)
-    {
-    case COMP_GT:
-      if (stat_buf->st_mtime > (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_LT:
-      if (stat_buf->st_mtime < (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_EQ:
-      if ((stat_buf->st_mtime >= (time_t) pred_ptr->args.info.l_val)
-	  && (stat_buf->st_mtime < (time_t) pred_ptr->args.info.l_val + 60))
-	return (true);
-      break;
-    }
-  return (false);
+  (void) &pathname;
+  return pred_timewindow(stat_buf->st_mtime, pred_ptr, 60);
 }
 
 boolean
 pred_mtime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  switch (pred_ptr->args.info.kind)
-    {
-    case COMP_GT:
-      if (stat_buf->st_mtime > (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_LT:
-      if (stat_buf->st_mtime < (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_EQ:
-      if ((stat_buf->st_mtime >= (time_t) pred_ptr->args.info.l_val)
-	  && (stat_buf->st_mtime < (time_t) pred_ptr->args.info.l_val
-	      + DAYSECS))
-	return (true);
-      break;
-    }
-  return (false);
+  (void) pathname;
+  return pred_timewindow(stat_buf->st_mtime, pred_ptr, DAYSECS);
 }
 
 boolean
@@ -1265,23 +1240,7 @@ pred_used (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   time_t delta;
 
   delta = stat_buf->st_atime - stat_buf->st_ctime; /* Use difftime? */
-  switch (pred_ptr->args.info.kind)
-    {
-    case COMP_GT:
-      if (delta > (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_LT:
-      if (delta < (time_t) pred_ptr->args.info.l_val)
-	return (true);
-      break;
-    case COMP_EQ:
-      if ((delta >= (time_t) pred_ptr->args.info.l_val)
-	  && (delta < (time_t) pred_ptr->args.info.l_val + DAYSECS))
-	return (true);
-      break;
-    }
-  return (false);
+  return pred_timewindow(delta, pred_ptr, DAYSECS);
 }
 
 boolean

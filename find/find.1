@@ -469,7 +469,11 @@ up).  This is different from %s/1024 if the file is a sparse file.
 .IP %l
 Object of symbolic link (empty string if file is not a symbolic link).
 .IP %m
-File's permission bits (in octal).
+File's permission bits (in octal).  This option uses the 'traditional'
+numbers which most Unix implementations use, but if your particular 
+implementation uses an unusual ordering of octal permissions bits, you
+will see a difference between the actual value of the file's mode and
+the output of @samp{%m}.
 .IP %n
 Number of hard links to file.
 .IP %p
@@ -489,6 +493,10 @@ which is the same as for %A.
 File's user name, or numeric user ID if the user has no name.
 .IP %U
 File's numeric user ID.
+.IP %y
+File's type (like in ls -l), U=unknown type (shouldn't happen)
+.IP %Y
+File's type (like %y), plus follow symlinks: L=loop, N=nonexistent
 .PP
 A `%' character followed by any other character is discarded (but the
 other character is printed).

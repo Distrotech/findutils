@@ -1542,7 +1542,7 @@ insert_fprintf (FILE *fp, boolean (*func) (/* ??? */), char **argv, int *arg_ptr
 	  if (*scan2 == '.')
 	    for (scan2++; ISDIGIT (*scan2); scan2++)
 	      /* Do nothing. */ ;
-	  if (strchr ("abcdDfFgGhHiklmnpPstuU", *scan2))
+	  if (strchr ("abcdDfFgGhHiklmnpPstuUyY", *scan2))
 	    {
 	      segmentp = make_segment (segmentp, format, scan2 - format,
 				       (int) *scan2);
@@ -1619,6 +1619,8 @@ make_segment (struct segment **segment, char *format, int len, int kind)
     case 'T':			/* mtime in user-specified strftime format */
     case 'U':			/* UID number */
     case 'u':			/* user name */
+    case 'y':			/* file type */
+    case 'Y':			/* symlink pointed file type */
       fprintf_stat_needed = true;
       /* FALLTHROUGH */
     case 'f':			/* basename of path */

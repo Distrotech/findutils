@@ -7,8 +7,12 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 *** Added new option "-d" which is a synonym for "-depth" for compatibility
     with Mac OS, OpenBSD and FreeBSD.  This option is already
     deprecated since the POSIX standard specifies "-depth".   
+*** Added two new format specifiers to the -printf action; these are 
+    %y and %Y.  They indicate the type of the file as a single letter;
+    these are the same latters as are used by the "-type" test.
 ** Other Changes
 *** Non-functional code changes to silence compiler warnings.
+
 * Major changes in release 4.2.2
 **  Documentation improvements
 *** "find ... -exec {}+" is not yet supported.

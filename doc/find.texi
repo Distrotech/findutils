@@ -534,6 +534,11 @@ directory trees.
 to.
 @item
 Implies @samp{-noleaf} (@pxref{Directories}).
+@item 
+If the argument to @samp{-newer} is a symbolic link, it is
+dereferenced.  Note that because the timestamp of the file is
+determined when the command line is being parsed, the position of the
+@samp{-follow} option is important.  
 @end itemize
 @end deffn
 
@@ -1227,6 +1232,14 @@ Object of symbolic link (empty string if file is not a symbolic link).
 File's inode number (in decimal).
 @item %n
 Number of hard links to file.
+@item %y 
+Type of the file as used with @samp{-type}.   If the file is a symbolic
+link, @samp{l} will be printed.
+@item %Y
+Type of the file as used with @samp{-type}.   If the file is a symbolic
+link, it is dereferenced.  If the file is a broken symbolic link,
+@samp{N} is printed.
+
 @end table
 
 @node Time Directives
