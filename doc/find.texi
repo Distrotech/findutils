@@ -2866,7 +2866,6 @@ The filesystem will in general change while @code{find} is searching
 it; in fact, most of the potential security problems with @code{find}
 relate to this issue in some way.
 
-@subsection Race Conditions
 Race conditions are a general class of security problem where the
 relative ordering of actions taken by @code{find} (for example) and
 something else are important@footnote{This is more or less the
@@ -2879,7 +2878,7 @@ might be intended to persuade @code{find} to search part of the
 filesystem which would not normally be included in the search
 (defeating the @code{-prune} action for example).  
 
-@subsubsection Changing the Current Working Directory
+@subsection Changing the Current Working Directory
 As find searches the file system, it finds subdirectories and then
 searches within them by changing its working directory.    First,
 @code{find} notices a subdirectory.  It then decides if that
@@ -2923,7 +2922,7 @@ the current directory; if so, @code{find} will issue a warning message
 and continue.  
 
 
-@subsubsection Race Conditions with -exec
+@subsection Race Conditions with -exec
 
 The @samp{-exec} action causes another program to be run.  It is
 passed the name of the file which is being considered at the time.
@@ -2970,7 +2969,7 @@ be processed is passed to the invoked command, with a @samp{./}
 prepended (giving @file{./passwd} in our example).
 
 
-@subsubsection Race Conditions with -print and -print0
+@subsection Race Conditions with -print and -print0
 
 The @samp{-print} and @samp{-print0} actions can be used to produce a
 list of files matching some criteria, which can then be used with some
