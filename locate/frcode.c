@@ -76,6 +76,7 @@
 #endif
 
 #include "locatedb.h"
+#include <getline.h>
 
 char *xmalloc ();
 
