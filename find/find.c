@@ -992,9 +992,15 @@ chdir_back (void)
 }
 
 /* Descend PATHNAME, which is a command-line argument.  */
-
 static void
 process_top_path (char *pathname)
+{
+  process_path (pathname, pathname, false, ".");
+}
+
+
+static void
+old_process_top_path (char *pathname)
 {
   struct stat stat_buf, cur_stat_buf;
   boolean dummy;
@@ -1007,32 +1013,40 @@ process_top_path (char *pathname)
      since the kernel can read the stat information out of its inode
      cache the second time.  */
 #if USE_SAFE_CHDIR
-  enum SafeChdirStatus rv = safely_chdir(pathname, TraversingDown, &stat_buf);
-  
-  switch (rv)
+  if ((*xstat) (pathname, &stat_buf) == 0 && S_ISDIR (stat_buf.st_mode))
     {
-    case SafeChdirOK:
-      process_path (pathname, ".", false, ".");
-      chdir_back ();
-      return;
+      enum SafeChdirStatus rv = safely_chdir(pathname, TraversingDown, &stat_buf);
       
-    case SafeChdirFailNonexistent:
-    case SafeChdirFailStat:
-    case SafeChdirFailWouldBeUnableToReturn:
-    case SafeChdirFailSymlink:
-    case SafeChdirFailNotDir:
-    case SafeChdirFailChdirFailed:
-      if ((SafeChdirFailNonexistent==rv) && !ignore_readdir_race)
+      switch (rv)
 	{
-	  error (0, errno, "%s", pathname);
-	  exit_status = 1;
+	case SafeChdirOK:
+	  process_path (pathname, ".", false, ".");
+	  chdir_back ();
+	  return;
+	  
+	case SafeChdirFailNonexistent:
+	case SafeChdirFailStat:
+	case SafeChdirFailWouldBeUnableToReturn:
+	case SafeChdirFailSymlink:
+	case SafeChdirFailNotDir:
+	case SafeChdirFailChdirFailed:
+	  if ((SafeChdirFailNonexistent==rv) && !ignore_readdir_race)
+	    {
+	      error (0, errno, "%s", pathname);
+	      exit_status = 1;
+	    }
+	  else
+	    {
+	      process_path (pathname, pathname, false, ".");
+	    }
+	  chdir_back ();
+	  return;
 	}
-      else
-	{
-	  process_path (pathname, pathname, false, ".");
-	}
-      chdir_back ();
-      return;
+    }
+  else
+    {
+      /* Not a directory */
+      process_path (pathname, pathname, false, ".");
     }
 #else
   if ((*xstat) (pathname, &stat_buf) == 0 && S_ISDIR (stat_buf.st_mode))
@@ -1386,7 +1400,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  char const *dir;
 	  boolean deref = following_links() ? true : false;
 	  
-	  if (!deref)
+	  if ( (curdepth>0) && !deref)
 	    dir = "..";
 	  else
 	    {

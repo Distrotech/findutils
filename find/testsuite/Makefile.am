@@ -13,7 +13,9 @@ EXTRA_DIST = config/unix.exp \
 		find.gnu/perm.exp \
 		find.gnu/perm.xo \
 		find.gnu/prune-default-print.exp \
-		find.gnu/prune-default-print.xo
+		find.gnu/prune-default-print.xo  \
+		find.posix/sv-bug-11175.exp \
+		find.posix/sv-bug-11175.xo
 
 CLEANFILES = *.log *.sum site.exp site.bak
 
