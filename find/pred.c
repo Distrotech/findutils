@@ -1606,7 +1606,16 @@ launch (const struct buildcmd_control *ctl,
     {
       error (0, 0, _("%s terminated by signal %d"),
 	     buildstate->cmd_argv[0], WTERMSIG (wait_status));
-      state.exit_status = 1;
+      
+      if (execp->multiple)
+	{
+	  /* -exec   \; just returns false if the invoked command fails. 
+	   * -exec {} + returns true if the invoked command fails, but
+	   *            sets the program exit status.
+	   */
+	  state.exit_status = 1;
+	}
+      
       return 1;			/* OK */
     }
 
@@ -1616,8 +1625,14 @@ launch (const struct buildcmd_control *ctl,
     }
   else
     {
-      
-      state.exit_status = 1;
+      if (execp->multiple)
+	{
+	  /* -exec   \; just returns false if the invoked command fails. 
+	   * -exec {} + returns true if the invoked command fails, but
+	   *            sets the program exit status.
+	   */
+	  state.exit_status = 1;
+	}
       return 0;			/* FAIL */
     }
   

@@ -366,6 +366,7 @@ enum SymlinkOption
 extern enum SymlinkOption symlink_handling; /* defined in find.c. */
 
 void set_follow_state PARAMS((enum SymlinkOption opt));
+void cleanup(void);
 
 /* fstype.c */
 char *filesystem_type PARAMS((const struct stat *statp));

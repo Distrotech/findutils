@@ -91,7 +91,7 @@ struct predicate *predicates;
 struct predicate *last_pred;
 
 /* The root of the evaluation tree. */
-static struct predicate *eval_tree;
+static struct predicate *eval_tree = NULL;
 
 
 struct options options;
@@ -269,6 +269,20 @@ set_follow_state(enum SymlinkOption opt)
   options.xstat = debug_stat;
 #endif /* !DEBUG_STAT */
 }
+
+
+/* Complete any outstanding commands.
+ */
+void 
+cleanup(void)
+{
+  if (eval_tree)
+    {
+      complete_pending_execs(eval_tree);
+      complete_pending_execdirs(eval_tree);
+    }
+}
+
 
 
 int
@@ -287,6 +301,7 @@ main (int argc, char **argv)
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
   atexit (close_stdout);
+
   
   if (isatty(0))
     {
@@ -503,8 +518,7 @@ main (int argc, char **argv)
    * partially-full command lines which have been built, 
    * but which are not yet complete.   Execute those now.
    */
-  complete_pending_execs(eval_tree);
-  
+  cleanup();
   return state.exit_status;
 }
 
