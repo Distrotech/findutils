@@ -66,7 +66,7 @@ next_element (char *new_path, int curdir_ok)
       if (final_colon)
 	{
 	  final_colon = 0;
-	  return curdir_ok ? "." : NULL;
+	  return curdir_ok ? "." : "";
 	}
       return NULL;
     }
@@ -79,7 +79,7 @@ next_element (char *new_path, int curdir_ok)
     {
       /* An empty path element.  */
       *end++ = '\0';
-      return curdir_ok ? "." : NULL;
+      return curdir_ok ? "." : "";
     }
   else if (end == NULL)
     {
