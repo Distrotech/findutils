@@ -383,7 +383,7 @@ provided by HP-UX @code{find}.
 True if the entire file name matches regular expression @var{expr}.
 This is a match on the whole path, not a search.  For example, to match
 a file named @file{./fubar3}, you can use the regular expression
-@samp{.*bar.} or @samp{.*b.*3}, but not @samp{b.*r3}.  @xref{Regexps, ,
+@samp{.*bar.} or @samp{.*b.*3}, but not @samp{f.*r3}.  @xref{Regexps, ,
 Syntax of Regular Expressions, emacs, The GNU Emacs Manual}, for a
 description of the syntax of regular expressions.  For @samp{-iregex},
 the match is case-insensitive.
@@ -951,18 +951,40 @@ feature, so it is better to use that.
 @end deffn
 
 @deffn Action -prune
-If @samp{-depth} is not given, true; do not descend into the current
-directory.  If @samp{-depth} is given, false; no effect.  @samp{-prune}
-only affects tests and actions that come after it in the expression, not
-those that come before.
-
-For example, to skip the directory @file{src/emacs} and all files and
-directories under it, and print the names of the other files found:
+If the file is a directory, do not descend into it.  The result is
+true.  For example, to skip the directory @file{src/emacs} and all
+files and directories under it, and print the names of the other files
+found:
 
 @example
 find . -wholename './src/emacs' -prune -o -print
 @end example
+
+The above command will not print @file{./src/emacs} among its list of
+results.  This however is not due to the effect of the @samp{-prune}
+action (which only prevents further descent, it doesn't make sure we
+ignore that item).  Instead, this effect is due to the use of
+@samp{-o}.  Since the left hand side of the ``or'' condition has
+succeeded for @file{./src/emacs}, it is not neccessary to evaluate the
+right-hand-side (@samp{-print}) at all for this particular file.  If
+you wanted to print that directory name you could use either an extra
+@samp{-print} action:
+
+@example
+find . -wholename './src/emacs' -prune -print -o -print
+@end example
+
+or use the comma operator:
+
+@example
+find . -wholename './src/emacs' -prune , -print
+@end example
+
+If the @samp{-depth} option is in effect, the subdirectories will have
+already been visited in any case.  Hence @samp{-prune} has no effect
+and returns false.
 @end deffn
+
 
 @deffn Action -quit
 Exit immediately with return value zero.  No child processes will be
@@ -1074,7 +1096,11 @@ Or; @var{expr2} is not evaluated if @var{expr1} is true.
 List; both @var{expr1} and @var{expr2} are always evaluated.  True if
 @var{expr2} is true.  The value of @var{expr1} is discarded.  This
 operator lets you do multiple independent operations on one traversal,
-without depending on whether other operations succeeded.
+without depending on whether other operations succeeded.  The two 
+operations @var{expr1} and @var{expr2} are not always filly
+independent, since @var{expr1} might have side effects like touching
+or deleting files, or it might use @samp{-prune} which would also
+affect @var{expr2}.
 @end table
 
 @code{find} searches the directory tree rooted at each file name by
@@ -2172,52 +2198,11 @@ In networked environments, it often makes sense to build a database at
 the root of each filesystem, containing the entries for that filesystem.
 @code{updatedb} is then run for each filesystem on the fileserver where
 that filesystem is on a local disk, to prevent thrashing the network.
-Here are the options to @code{updatedb} to select which directories each
-database contains entries for:
 
-@table @code
-@item --findoptions='@var{OPTION}@dots{}'
-Global options to pass on to @code{find}.
-The environment variable @code{FINDOPTIONS} also sets this value.
-Default is none.
+@xref{Invoking updatedb},
+for the description of the options to @code{updatedb}, which specify
+which directories would each database contain entries for.
 
-@item --localpaths='@var{path}@dots{}'
-Non-network directories to put in the database.
-Default is @file{/}.
-
-@item --netpaths='@var{path}@dots{}'
-Network (NFS, AFS, RFS, etc.) directories to put in the database.
-The environment variable @code{NETPATHS} also sets this value.
-Default is none.
-
-
-@item --prunepaths='@var{path}@dots{}'
-Directories to not put in the database, which would otherwise be.
-The environment variable @code{PRUNEPATHS} also sets this value.
-Default is @file{/tmp /usr/tmp /var/tmp /afs}.
-
-@item --prunefs='@var{path}@dots{}'
-File systems to not put in the database, which would otherwise be.
-Note that files are pruned when a file system is reached;
-Any file system mounted under an undesired file system will be
-ignored.
-The environment variable @code{PRUNEFS} also sets this value.
-Default is @file{nfs NFS proc}.
-
-@item --output=@var{dbfile}
-The database file to build.
-Default is system-dependent, but typically @file{/usr/local/var/locatedb}.
-
-@item --localuser=@var{user}
-The user to search the non-network directories as, using @code{su}.
-Default is to search the non-network directories as the current user.
-You can also use the environment variable @code{LOCALUSER} to set this user.
-
-@item --netuser=@var{user}
-The user to search network directories as, using @code{su}.
-Default is @code{daemon}.
-You can also use the environment variable @code{NETUSER} to set this user.
-@end table
 
 @node Database Formats
 @section Database Formats
@@ -2590,7 +2575,7 @@ The environment variable @code{NETPATHS} also sets this value.
 Default is none.
 
 @item --prunepaths='@var{path}@dots{}'
-Directories to not put in the database, which would otherwise be.
+Directories to omit from the database, which would otherwise be included.
 The environment variable @code{PRUNEPATHS} also sets this value.
 Default is @file{/tmp /usr/tmp /var/tmp /afs}.
 
@@ -2612,7 +2597,7 @@ Default is to search the non-network directories as the current user.
 You can also use the environment variable @code{LOCALUSER} to set this user.
 
 @item --netuser=@var{user}
-The user to search network directories as, using @code{su}(1).
+The user to search network directories as, using @code{su}.
 Default is @code{daemon}.
 You can also use the environment variable @code{NETUSER} to set this user.
 @end table
