@@ -1376,10 +1376,11 @@ find . -name '*.h' -exec diff -u '@{@}' /tmp/master ';'
 
 @deffn Action -exec command +
 This variant of @samp{-exec} not yet supported.   Once it has been
-implemented as specified in the POSIX standard, a `{}' will expand to
+implemented as specified in the POSIX standard, a @samp{@{@}} will expand to
 a list of names of matching files.  This expansion is done in such a
 way as to avoid exceeding the maximum command line length available on 
 the system.
+@end deffn
 
 
 @node Multiple Files
