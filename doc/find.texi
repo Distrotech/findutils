@@ -482,16 +482,21 @@ works even in character classes.
 @end table
 
 In the @code{find} tests that do shell pattern matching (@samp{-name},
-@samp{-wholename}, etc.), wildcards in the pattern do not match a @samp{.}
-at the beginning of a file name.  This is not the case for
-@code{locate}.  Thus, @samp{find -name '*macs'} does not match a file
-named @file{.emacs}, but @samp{locate '*macs'} does.
+@samp{-wholename}, etc.), wildcards in the pattern will match a @samp{.}
+at the beginning of a file name.  This is also the case for
+@code{locate}.  Thus, @samp{find -name '*macs'} will match a file
+named @file{.emacs}, as will @samp{locate '*macs'}.
 
 Slash characters have no special significance in the shell pattern
 matching that @code{find} and @code{locate} do, unlike in the shell, in
 which wildcards do not match them.  Therefore, a pattern @samp{foo*bar}
 can match a file name @samp{foo3/bar}, and a pattern @samp{./sr*sc} can
 match a file name @samp{./src/misc}.
+
+If you want to locate some files with the @samp{locate} command but
+don't need to see the full list you can use the @samp{--limit} option
+to see just a small number of results, or the @samp{--count} option to
+display only the total number of matches.
 
 @node Links
 @section Links
@@ -2282,6 +2287,12 @@ newline character.
 @item --count
 @itemx -c
 Just print the number of results, not the results themselves.
+
+@item --limit=N
+@itemx -l N
+Limit the number of results printed to N.  If you use the
+@samp{--count} option, the value printed will never be larger than
+this limit.
 
 @item --wholename
 The specified pattern is matched against the whole name of the file in
