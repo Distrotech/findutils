@@ -135,8 +135,23 @@ static const char warn_name_units[] = N_("days");
 
 #define WARN_SECONDS ((SECONDS_PER_UNIT) * (WARN_NUMBER_UNITS))
 
+enum visit_result
+  {
+    VISIT_CONTINUE = 1,  /* please call the next visitor */
+    VISIT_ACCEPTED = 2,  /* accepted, call no futher callbacks for this file */
+    VISIT_REJECTED = 4,  /* rejected, process next file. */
+    VISIT_ABORT    = 8   /* rejected, process no more files. */
+  };
+
+enum ExistenceCheckType 
+  {
+    ACCEPT_EITHER,		/* Corresponds to lack of -E/-e option */
+    ACCEPT_EXISTING,		/* Corresponds to option -e */
+    ACCEPT_NON_EXISTING		/* Corresponds to option -E */
+  };
+
 /* Check for existence of files before printing them out? */
-static int check_existence = 0;
+enum ExistenceCheckType check_existence = ACCEPT_EITHER;
 
 static int follow_symlinks = 1;
 
@@ -231,15 +246,6 @@ lc_strcpy(char *dest, const char *src)
   *dest = 0;
 }
 
-enum visit_result
-  {
-    VISIT_CONTINUE = 1,  /* please call the next visitor */
-    VISIT_ACCEPTED = 2,  /* accepted, call no futher callbacks for this file */
-    VISIT_REJECTED = 4,  /* rejected, process next file. */
-    VISIT_ABORT    = 8   /* rejected, process no more files. */
-  };
-
-
 struct locate_stats
 {
   uintmax_t compressed_bytes;
@@ -330,9 +336,11 @@ visit_justprint(const char *munged_filename, const char *original_filename, void
   return VISIT_CONTINUE;
 }
 
+/* visit_existing_follow implements -L -e */
 static int
-visit_exists_follow(const char *munged_filename,
-		    const char *original_filename, void *context)
+visit_existing_follow(const char *munged_filename,
+		      const char *original_filename,
+		      void *context)
 {
   struct stat st;
   (void) context;
@@ -353,9 +361,36 @@ visit_exists_follow(const char *munged_filename,
     }
 }
 
+/* visit_existing_follow implements -L -E */
 static int
-visit_exists_nofollow(const char *munged_filename,
-		      const char *original_filename, void *context)
+visit_non_existing_follow(const char *munged_filename,
+			  const char *original_filename,
+			  void *context)
+{
+  struct stat st;
+  (void) context;
+  (void) munged_filename;
+
+  /* munged_filename has been converted in some way (to lower case,
+   * or is just the base name of the file), and original_filename has not.  
+   * Hence only original_filename is still actually the name of the file 
+   * whose existence we would need to check.
+   */
+  if (stat(original_filename, &st) == 0)
+    {
+      return VISIT_REJECTED;
+    }
+  else
+    {
+      return VISIT_CONTINUE;
+    }
+}
+
+/* visit_existing_nofollow implements -P -e */
+static int
+visit_existing_nofollow(const char *munged_filename,
+			const char *original_filename,
+			void *context)
 {
   struct stat st;
   (void) context;
@@ -376,8 +411,35 @@ visit_exists_nofollow(const char *munged_filename,
     }
 }
 
+/* visit_existing_nofollow implements -P -E */
 static int
-visit_substring_match_nocasefold(const char *munged_filename, const char *original_filename, void *context)
+visit_non_existing_nofollow(const char *munged_filename,
+			    const char *original_filename,
+			    void *context)
+{
+  struct stat st;
+  (void) context;
+  (void) munged_filename;
+
+  /* munged_filename has been converted in some way (to lower case,
+   * or is just the base name of the file), and original_filename has not.  
+   * Hence only original_filename is still actually the name of the file 
+   * whose existence we would need to check.
+   */
+  if (lstat(original_filename, &st) == 0)
+    {
+      return VISIT_REJECTED;
+    }
+  else
+    {
+      return VISIT_CONTINUE;
+    }
+}
+
+static int
+visit_substring_match_nocasefold(const char *munged_filename,
+				 const char *original_filename,
+				 void *context)
 {
   const char *pattern = context;
   (void) original_filename;
@@ -389,7 +451,9 @@ visit_substring_match_nocasefold(const char *munged_filename, const char *origin
 }
 
 static int
-visit_substring_match_casefold(const char *munged_filename, const char *original_filename, void *context)
+visit_substring_match_casefold(const char *munged_filename,
+			       const char *original_filename,
+			       void *context)
 {
   struct casefolder * p = context;
   size_t len = strlen(munged_filename);
@@ -411,7 +475,9 @@ visit_substring_match_casefold(const char *munged_filename, const char *original
 
 
 static int
-visit_globmatch_nofold(const char *munged_filename, const char *original_filename, void *context)
+visit_globmatch_nofold(const char *munged_filename,
+		       const char *original_filename,
+		       void *context)
 {
   const char *glob = context;
   (void) original_filename;
@@ -423,7 +489,9 @@ visit_globmatch_nofold(const char *munged_filename, const char *original_filenam
 
 
 static int
-visit_globmatch_casefold(const char *munged_filename, const char *original_filename, void *context)
+visit_globmatch_casefold(const char *munged_filename,
+			 const char *original_filename,
+			 void *context)
 {
   const char *glob = context;
   (void) original_filename;
@@ -435,7 +503,9 @@ visit_globmatch_casefold(const char *munged_filename, const char *original_filen
 
 
 static int
-visit_regex(const char *munged_filename, const char *original_filename, void *context)
+visit_regex(const char *munged_filename,
+	    const char *original_filename,
+	    void *context)
 {
   struct regular_expression *p = context;
   (void) original_filename;
@@ -448,7 +518,9 @@ visit_regex(const char *munged_filename, const char *original_filename, void *co
 
 
 static int
-visit_stats(const char *munged_filename, const char *original_filename, void *context)
+visit_stats(const char *munged_filename,
+	    const char *original_filename,
+	    void *context)
 {
   struct locate_stats *p = context;
   size_t len = strlen(original_filename);
@@ -611,21 +683,31 @@ new_locate (char *pathpart,
 	    }
 	}
 
-      /* We add visit_exists_*() as late as possible to reduce the
+      /* We add visit_existing_*() as late as possible to reduce the
        * number of stat() calls.
        */
-      if (check_existence)
+      switch (check_existence)
 	{
-	  visitfunc f;
-	  if (follow_symlinks)
-	    f = visit_exists_follow;
-	  else
-	    f = visit_exists_nofollow;
+	case ACCEPT_EXISTING:
+	  if (follow_symlinks)	/* -L, default */
+	    add_visitor(visit_existing_follow, NULL);
+	  else			/* -P */
+	    add_visitor(visit_existing_nofollow, NULL);
+	  break;
 	  
-	  add_visitor(f, NULL);
+	case ACCEPT_NON_EXISTING:
+	  if (follow_symlinks)	/* -L, default */
+	    add_visitor(visit_non_existing_follow, NULL);
+	  else			/* -P */
+	    add_visitor(visit_non_existing_nofollow, NULL);
+	  break;
+
+	case ACCEPT_EITHER:	/* Default, neither -E nor -e */
+	  /* do nothing; no extra processing. */
+	  break;
 	}
       
-
+      
       if (enable_print)
 	add_visitor(visit_justprint, NULL);
     }
@@ -778,7 +860,7 @@ usage (stream)
      FILE *stream;
 {
   fprintf (stream, _("\
-Usage: %s [-d path | --database=path] [-e | --existing]\n\
+Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n\
       [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
       [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n\
@@ -791,6 +873,7 @@ static struct option const longopts[] =
 {
   {"database", required_argument, NULL, 'd'},
   {"existing", no_argument, NULL, 'e'},
+  {"non-existing", no_argument, NULL, 'E'},
   {"ignore-case", no_argument, NULL, 'i'},
   {"help", no_argument, NULL, 'h'},
   {"version", no_argument, NULL, 'v'},
@@ -839,9 +922,9 @@ main (argc, argv)
   if (dbpath == NULL)
     dbpath = LOCATE_DB;
 
-  check_existence = 0;
+  check_existence = ACCEPT_EITHER;
 
-  while ((optc = getopt_long (argc, argv, "bcd:eil:rsm0SwHPL", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "bcd:eEil:rsm0SwHPL", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
@@ -862,7 +945,11 @@ main (argc, argv)
 	break;
 
       case 'e':
-	check_existence = 1;
+	check_existence = ACCEPT_EXISTING;
+	break;
+
+      case 'E':
+	check_existence = ACCEPT_NON_EXISTING;
 	break;
 
       case 'i':

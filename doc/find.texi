@@ -2673,19 +2673,28 @@ down the program a lot, if there are many matches in the database.
 The way in which broken symbolic links are treated is affected by the
 @samp{-L}, @samp{-P} and @samp{-H} options.
 
+@item --non-existing
+@itemx -E
+Only print out such names which currently do not exist (instead of
+such names which existed when the database was created).  Note that
+this may slow down the program a lot, if there are many matches in the
+database.  The way in which broken symbolic links are treated is
+affected by the @samp{-L}, @samp{-P} and @samp{-H} options.
+
 @item --follow
 @itemx -L
-If testing for the existence of files (with the @samp{-e} option),
-omit broken symbolic links.  This is the default.
+If testing for the existence of files (with the @samp{-e} or @samp{-E}
+options), consider broken symbolic links to be non-existing.  This is
+the default.
 
 
 @item --nofollow
 @itemx -P
 @itemx -H
-If testing for the existence of files (with the @samp{-e} option),
-treat broken symbolic links count as if they were exiting files.  The
-@samp{-H} form of this option is provided purely for similarity with
-@code{find}; the use of @samp{-P} is recommended over @samp{-H}.
+If testing for the existence of files (with the @samp{-e} or @samp{-E}
+options), treat broken symbolic links as if they were existing files.
+The @samp{-H} form of this option is provided purely for similarity
+with @code{find}; the use of @samp{-P} is recommended over @samp{-H}.
 
 @item --ignore-case
 @itemx -i

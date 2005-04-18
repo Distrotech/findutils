@@ -154,7 +154,9 @@ proc locate_textonly { passfail id intext locateoptions outtext } {
 # Run locate and leave the output in $comp_output.
 # Called by individual test scripts.
 proc locate_start { passfail updatedb_options locate_options
-		    {updatedb_infile ""} {locate_infile ""}} {
+		    {updatedb_infile ""} {locate_infile ""}
+		    { between_hook "" }
+		} {
     global verbose
     global LOCATE
     global LOCATEFLAGS
@@ -203,6 +205,7 @@ proc locate_start { passfail updatedb_options locate_options
     }
 
     catch "exec $updatedb_cmd" comp_output
+    eval $between_hook
     catch "exec $locate_cmd" comp_output
     if {$comp_output != ""} then {
 	send_log "$comp_output\n"
