@@ -361,7 +361,7 @@ visit_existing_follow(const char *munged_filename,
     }
 }
 
-/* visit_existing_follow implements -L -E */
+/* visit_non_existing_follow implements -L -E */
 static int
 visit_non_existing_follow(const char *munged_filename,
 			  const char *original_filename,
@@ -411,7 +411,7 @@ visit_existing_nofollow(const char *munged_filename,
     }
 }
 
-/* visit_existing_nofollow implements -P -E */
+/* visit_non_existing_nofollow implements -P -E */
 static int
 visit_non_existing_nofollow(const char *munged_filename,
 			    const char *original_filename,
