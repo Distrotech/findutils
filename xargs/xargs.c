@@ -303,8 +303,10 @@ static void push_arg PARAMS ((char *arg, size_t len));
 static boolean print_args PARAMS ((boolean ask));
 /* static void do_exec PARAMS ((void)); */
 static int xargs_do_exec (const struct buildcmd_control *cl, struct buildcmd_state *state);
+static void exec_if_possible PARAMS ((void));
 static void add_proc PARAMS ((pid_t pid));
 static void wait_for_proc PARAMS ((boolean all));
+static void wait_for_proc_all PARAMS ((void));
 static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
 static long env_size PARAMS ((char **envp));
 static void usage PARAMS ((FILE * stream));
@@ -360,6 +362,7 @@ main (int argc, char **argv)
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
   atexit (close_stdout);
+  atexit (wait_for_proc_all);
 
   /* IEE Std 1003.1, 2003 specifies that the combined argument and 
    * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 
@@ -628,7 +631,6 @@ main (int argc, char **argv)
 	}
     }
 
-  wait_for_proc (true);
   return child_error;
 }
 
@@ -724,7 +726,12 @@ read_line (void)
 	    return -1;
 	  *p++ = '\0';
 	  len = p - linebuf;
-	  /* FIXME we don't check for unterminated quotes here.  */
+	  if (state == QUOTE)
+	    {
+	      exec_if_possible ();
+	      error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
+		     quotc == '"' ? _("double") : _("single"));
+	    }
 	  if (first && EOF_STR (linebuf))
 	    return -1;
 	  if (!bc_ctl.replace_pat)
@@ -801,8 +808,11 @@ read_line (void)
 
 	case QUOTE:
 	  if (c == '\n')
-	    error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
-		   quotc == '"' ? _("double") : _("single"));
+	    {
+	      exec_if_possible ();
+	      error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
+		     quotc == '"' ? _("double") : _("single"));
+	    }
 	  if (c == quotc)
 	    {
 	      state = NORM;
@@ -816,7 +826,10 @@ read_line (void)
 	}
 #if 1
       if (p >= endbuf)
-	error (1, 0, _("argument line too long"));
+        {
+	  exec_if_possible ();
+	  error (1, 0, _("argument line too long"));
+	}
       *p++ = c;
 #else
       append_char_to_buf(&linebuf, &endbuf, &p, c);
@@ -870,7 +883,10 @@ read_string (void)
 	  return len;
 	}
       if (p >= endbuf)
-	error (1, 0, _("argument line too long"));
+        {
+	  exec_if_possible ();
+	  error (1, 0, _("argument line too long"));
+	}
       *p++ = c;
     }
 }
@@ -980,6 +996,17 @@ xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
   return 1;			/* Success */
 }
 
+/* Execute the command if possible.  */
+
+static void
+exec_if_possible (void)
+{
+  if (bc_ctl.replace_pat || initial_args ||
+      bc_state.cmd_argc == bc_ctl.initial_argc || bc_ctl.exit_if_size_exceeded)
+    return;
+  xargs_do_exec (&bc_ctl, &bc_state);
+}
+
 /* Add the process with id PID to the list of processes that have
    been executed.  */
 
@@ -1055,6 +1082,21 @@ wait_for_proc (boolean all)
       if (!all)
 	break;
     }
+}
+
+/* Wait for all child processes to finish.  */
+
+static void
+wait_for_proc_all (void)
+{
+  static boolean waiting = false;
+
+  if (waiting)
+    return;
+
+  waiting = true;
+  wait_for_proc (true);
+  waiting = false;
 }
 
 /* Return the value of the number represented in STR.
