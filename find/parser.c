@@ -789,6 +789,18 @@ fnmatch_sanitycheck()
 }
 
 
+static boolean 
+check_name_arg(const char *pred, const char *arg)
+{
+  if (strchr(arg, '/'))
+    {
+      error(0, 0,_("warning: Unix filenames usually don't contain slashes.  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."),
+	    pred, arg, arg);
+    }
+  return true;			/* allow it anyway */
+}
+
+
 
 static boolean
 parse_iname (char **argv, int *arg_ptr)
@@ -797,6 +809,8 @@ parse_iname (char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
+  if (!check_name_arg("-iname", argv[*arg_ptr]))
+    return false;
 
   fnmatch_sanitycheck();
   
@@ -960,6 +974,10 @@ parse_name (char **argv, int *arg_ptr)
   
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
+  if (!check_name_arg("-name", argv[*arg_ptr]))
+    return false;
+  fnmatch_sanitycheck();
+  
   our_pred = insert_primary (pred_name);
   our_pred->need_stat = our_pred->need_type = false;
   our_pred->args.str = argv[*arg_ptr];
