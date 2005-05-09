@@ -794,7 +794,7 @@ check_name_arg(const char *pred, const char *arg)
 {
   if (strchr(arg, '/'))
     {
-      error(0, 0,_("warning: Unix filenames usually don't contain slashes.  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."),
+      error(0, 0,_("warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."),
 	    pred, arg, arg);
     }
   return true;			/* allow it anyway */
@@ -1352,15 +1352,13 @@ insert_regex (char **argv, int *arg_ptr, boolean ignore_case)
   re->allocated = 100;
   re->buffer = (unsigned char *) xmalloc (re->allocated);
   re->fastmap = NULL;
-  
+
+  int options = RE_SYNTAX_POSIX_BASIC;
   if (ignore_case)
-    {
-      re_syntax_options |= RE_ICASE;
-    }
-  else
-    {
-      re_syntax_options &= ~RE_ICASE;
-    }
+    options |= RE_ICASE;
+
+  re_set_syntax(options);
+  re->syntax = options;
   re->translate = NULL;
   
   error_message = re_compile_pattern (argv[*arg_ptr], strlen (argv[*arg_ptr]),
