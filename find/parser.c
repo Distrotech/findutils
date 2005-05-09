@@ -1356,7 +1356,7 @@ insert_regex (char **argv, int *arg_ptr, boolean ignore_case)
   int options = RE_SYNTAX_POSIX_BASIC;
   if (ignore_case)
     options |= RE_ICASE;
-
+ 
   re_set_syntax(options);
   re->syntax = options;
   re->translate = NULL;
