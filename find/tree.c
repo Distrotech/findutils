@@ -242,7 +242,7 @@ opt_expr (struct predicate **eval_treep)
   
 #ifdef DEBUG
   /* Normalized tree. */
-  fprintf (stderr, _("Normalized Eval Tree:\n"));
+  fprintf (stderr, "Normalized Eval Tree:\n");
   print_tree (stderr, *eval_treep, 0);
 #endif
 

@@ -552,7 +552,7 @@ main (int argc, char **argv)
     }
 
 #ifdef	DEBUG
-  fprintf (stderr, _("Predicate List:\n"));
+  fprintf (stderr, "Predicate List:\n");
   print_list (stderr, predicates);
 #endif /* DEBUG */
 
@@ -569,7 +569,7 @@ main (int argc, char **argv)
     }
   
 #ifdef	DEBUG
-  fprintf (stderr, _("Eval Tree:\n"));
+  fprintf (stderr, "Eval Tree:\n");
   print_tree (stderr, eval_tree, 0);
 #endif /* DEBUG */
 
@@ -582,9 +582,9 @@ main (int argc, char **argv)
   mark_type (eval_tree);
 
 #ifdef DEBUG
-  fprintf (stderr, _("Optimized Eval Tree:\n"));
+  fprintf (stderr, "Optimized Eval Tree:\n");
   print_tree (stderr, eval_tree, 0);
-  fprintf (stderr, _("Optimized command line:\n"));
+  fprintf (stderr, "Optimized command line:\n");
   print_optlist(stderr, eval_tree);
   fprintf(stderr, "\n");
 #endif /* DEBUG */

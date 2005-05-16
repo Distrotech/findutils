@@ -1687,11 +1687,11 @@ print_tree (FILE *fp, struct predicate *node, int indent)
   
   for (i = 0; i < indent; i++)
     fprintf (fp, "    ");
-  fprintf (fp, _("left:\n"));
+  fprintf (fp, "left:\n");
   print_tree (fp, node->pred_left, indent + 1);
   for (i = 0; i < indent; i++)
     fprintf (fp, "    ");
-  fprintf (fp, _("right:\n"));
+  fprintf (fp, "right:\n");
   print_tree (fp, node->pred_right, indent + 1);
 }
 
@@ -1776,8 +1776,8 @@ print_optlist (FILE *fp, struct predicate *p)
       print_parenthesised(fp, p->pred_left);
       fprintf (fp,
 	       "%s%s%s ",
-	       p->need_stat ? _("[stat called here] ") : "",
-	       p->need_type ? _("[type needed here] ") : "",
+	       p->need_stat ? "[stat called here] " : "",
+	       p->need_type ? "[type needed here] " : "",
 	       blank_rtrim (find_pred_name (p->pred_func), name));
       print_parenthesised(fp, p->pred_right);
     }

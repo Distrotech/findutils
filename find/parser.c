@@ -2255,8 +2255,8 @@ insert_time (char **argv, int *arg_ptr, PFB pred)
   our_pred->args.info.l_val = t;
   (*arg_ptr)++;
 #ifdef	DEBUG
-  fprintf (stderr, _("inserting %s\n"), our_pred->p_name);
-  fprintf (stderr, _("    type: %s    %s  "),
+  fprintf (stderr, "inserting %s\n", our_pred->p_name);
+  fprintf (stderr, "    type: %s    %s  ",
 	  (c_type == COMP_GT) ? "gt" :
 	  ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
 	  (c_type == COMP_GT) ? " >" :
@@ -2266,8 +2266,7 @@ insert_time (char **argv, int *arg_ptr, PFB pred)
   if (c_type == COMP_EQ)
     {
       t = our_pred->args.info.l_val += DAYSECS;
-      fprintf (stderr,
-	       "                 <  %ju %s",
+      fprintf (stderr, "                 <  %ju %s",
 	      (uintmax_t) our_pred->args.info.l_val, ctime (&t));
       our_pred->args.info.l_val -= DAYSECS;
     }
@@ -2336,8 +2335,8 @@ insert_num (char **argv, int *arg_ptr, PFB pred)
   our_pred->args.info.l_val = num;
   (*arg_ptr)++;
 #ifdef	DEBUG
-  fprintf (stderr, _("inserting %s\n"), our_pred->p_name);
-  fprintf (stderr, _("    type: %s    %s  "),
+  fprintf (stderr, "inserting %s\n", our_pred->p_name);
+  fprintf (stderr, "    type: %s    %s  ",
 	  (c_type == COMP_GT) ? "gt" :
 	  ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
 	  (c_type == COMP_GT) ? " >" :
