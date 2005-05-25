@@ -1,3 +1,32 @@
+2005-05-16  James Youngman  <jay@gnu.org>
+
+	* find/find.c, find/parser.c, find/pred.c, find/tree.c:
+	Trivial change: don't use i18n support for debug-only messages
+
+	* ChangeLog: Added ChangeLog entry crediting Dmitry
+
+2005-05-09  James Youngman  <jay@gnu.org>
+
+	* find/parser.c:
+	The previous change fixed Savannah bug #12999.  This change doesn't do
+	anything, it's only intended to be a place to record the Savannah bug
+	ID we've just fixed.
+
+	* find/parser.c:
+	Oops.  Initialise the variable which indicates which regex syntax to
+	use.  We use POSIX basic regular expressions.
+
+	* find/parser.c:
+	Suggestion by Ed Avis: point out that "-name foo/bar" will almost
+	always evaluate to false.   Suggest to the user what alternatives they
+	might find useful.
+
+2005-05-02  James Youngman  <jay@gnu.org>
+
+	* AUTHORS:
+	Added Dimitry (his new test suite contribution required a copyright
+	assignment).
+
 2005-05-03  Dmitry V. Levin
 
 	* Added xargs test suite tests by Dmitry V. Levin, together with
