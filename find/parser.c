@@ -1,5 +1,5 @@
 /* parser.c -- convert the command line args into an expression tree.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2001, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2001, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1214,7 +1214,8 @@ parse_perm (char **argv, int *arg_ptr)
 {
   mode_t perm_val;
   int mode_start = 0;
-  struct mode_change *change;
+  enum permissions_type kind = PERM_EXACT;
+  struct mode_change *change = NULL;
   struct predicate *our_pred;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
@@ -1223,22 +1224,56 @@ parse_perm (char **argv, int *arg_ptr)
   switch (argv[*arg_ptr][0])
     {
     case '-':
-    case '+':
       mode_start = 1;
+      kind = PERM_AT_LEAST;
       break;
+      
+     case '+':
+       change = mode_compile (argv[*arg_ptr]);
+       if (NULL == change)
+	 {
+	   /* Most likely the caller is an old script that is still
+	    * using the obsolete GNU syntax '-perm +MODE'.  This old
+	    * syntax was withdrawn in favor of '-perm /MODE' because
+	    * it is incompatible with POSIX in some cases, but we
+	    * still support uses of it that are not incompatible with
+	    * POSIX.
+	    */
+	   mode_start = 1;
+	   kind = PERM_ANY;
+	 }
+       else
+	 {
+	   /* This is a POSIX-compatible usage */
+	   mode_start = 0;
+	   kind = PERM_EXACT;
+	 }
+       break;
+      
+    case '/':			/* GNU extension */
+       mode_start = 1;
+       kind = PERM_ANY;
+       break;
+       
     default:
-      /* empty */
+      /* For example, '-perm 0644', which is valid and matches 
+       * only files whose mode is exactly 0644.
+       *
+       * We do nothing here, because mode_start and kind are already
+       * correctly set.
+       */
       break;
     }
 
-  change = mode_compile (argv[*arg_ptr] + mode_start, MODE_MASK_PLUS);
-  if (change == MODE_INVALID)
-    error (1, 0, _("invalid mode `%s'"), argv[*arg_ptr]);
-  else if (change == MODE_MEMORY_EXHAUSTED)
-    error (1, 0, _("virtual memory exhausted"));
-  perm_val = mode_adjust (0, change);
-  mode_free (change);
-
+  if (NULL == change)
+    {
+      change = mode_compile (argv[*arg_ptr] + mode_start);
+      if (NULL == change)
+	error (1, 0, _("invalid mode `%s'"), argv[*arg_ptr]);
+    }
+  perm_val = mode_adjust (0, change, 0);
+  free (change);
+  
   our_pred = insert_primary (pred_perm);
 
   switch (argv[*arg_ptr][0])

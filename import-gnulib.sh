@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # import-gnulib.sh -- imports a copy of gnulib into findutils
-# Copyright (C) 2003,2004 Free Software Foundation, Inc.
+# Copyright (C) 2003,2004,2005 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -144,5 +144,5 @@ EOF
 # some reason, "autoreconf -i" doesn't fetch it.  
 for f in config.rpath
 do
-  (set -x; cp "$1"/config/"$f" . )
+  (set -x; cp "$1"/build-aux/"$f" . )
 done

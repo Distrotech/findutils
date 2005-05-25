@@ -1,3 +1,11 @@
+2005-05-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Adjust to recent gnulib changes.
+	* import-gnulib.sh: Get config.rpath from gnulib/build-aux,
+	not gnulib/config.
+	* find/parser.c (parse_perm): Ignore umask when parsing
+	symbolic permissions.  Adjust to new modechange API.
+
 2005-05-16  James Youngman  <jay@gnu.org>
 
 	* find/find.c, find/parser.c, find/pred.c, find/tree.c:

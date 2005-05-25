@@ -1,5 +1,12 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.2.21-CVS
+** Functional Changes
+
+The GNU extension "find ... -perm +MODE" has been withdrawn because it
+is incompatible with POSIX in obscure cases like "find ... -perm ++r".
+Use the new syntax "find ... -perm /MODE" instead.  Old usages will
+still continue to work, so long as they don't conflict with POSIX.
+
 ** Bug Fixes
 find /blah/blah/blah -depth -empty now works once again.
 

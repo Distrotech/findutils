@@ -907,16 +907,16 @@ numeric or symbolic).
 If @var{mode} starts with @samp{-}, true if
 @emph{all} of the permissions set in @var{mode} are set for the file;
 permissions not set in @var{mode} are ignored.
-If @var{mode} starts with @samp{+}, true if
+If @var{mode} starts with @samp{/}, true if
 @emph{any} of the permissions set in @var{mode} are set for the file;
 permissions not set in @var{mode} are ignored.
+This is a GNU extension.
 
-
-If you don't use the @samp{+} or @samp{-} form with a symbolic mode
+If you don't use the @samp{/} or @samp{-} form with a symbolic mode
 string, you may have to specify a rather complex mode string.  For
 example @samp{-perm g=w} will only match files which have mode 0020
 (that is, ones for which group write permission is the only permission
-set).  It is more likely that you will want to use the @samp{+} or
+set).  It is more likely that you will want to use the @samp{/} or
 @samp{-} forms, for example @samp{-perm -g=w}, which matches any file
 with group write permission.
 
@@ -935,19 +935,19 @@ without regard to the presence of any extra permission bits (for
 example the executable bit).  This will match a file which has mode
 0777, for example.
 
-@item -perm +222
+@item -perm /222
 Match files which are writeable by somebody (their owner, or
 their group, or anybody else).
 
-@item -perm +022
+@item -perm /022
 Match files which are writeable by either their owner or their
 group.  The files don't have to be writeable by both the owner and
 group to be matched; either will do.
 
-@item -perm +g+w,o+w
+@item -perm /g+w,o+w
 As above.
 
-@item -perm +g=w,o=w
+@item -perm /g=w,o=w
 As above
 
 @item -perm -022
@@ -1994,7 +1994,7 @@ running @code{file} on files that are not regular files or are not
 executable.
 
 @example
-find /usr/local -type f -perm +a=x | xargs file | 
+find /usr/local -type f -perm /a=x | xargs file | 
   grep 'not stripped' | cut -d: -f1
 @end example
 
@@ -2037,7 +2037,7 @@ scripts) in the file @file{sbins} and the unstripped ones in
 @file{ubins}.
 
 @example
-find /usr/local -type f -perm +a=x \
+find /usr/local -type f -perm /a=x \
   \( -execdir unstripped '@{@}' \; -fprint ubins -o -fprint sbins \)
 @end example
 
