@@ -643,16 +643,16 @@ print_stats(int argc, size_t database_file_size)
    Return the number of entries printed.  */
 
 static unsigned long
-new_locate (int argc,
-	    char **argv,
-	    char *dbfile,
-	    int ignore_case,
-	    int enable_print,
-	    int basename_only,
-	    int use_limit,
-	    struct locate_limits *plimit,
-	    int stats,
-	    int regex)
+locate (int argc,
+	char **argv,
+	char *dbfile,
+	int ignore_case,
+	int enable_print,
+	int basename_only,
+	int use_limit,
+	struct locate_limits *plimit,
+	int stats,
+	int regex)
 {
   char *pathpart; 		/* A pattern to consider. */
   int argn;			/* Index to current pattern in argv. */
@@ -1112,9 +1112,9 @@ main (argc, argv)
 	  e = LOCATE_DB;
 	}
 	  
-      found = new_locate (argc - optind, &argv[optind], e, ignore_case, print, basename_only, use_limit, &limits, stats, regex);
+      found = locate (argc - optind, &argv[optind], e, ignore_case, print, basename_only, use_limit, &limits, stats, regex);
     }
-
+  
   if (just_count)
     {
       printf("%ld\n", found);
