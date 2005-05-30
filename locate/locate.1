@@ -7,7 +7,7 @@ locate \- list files in databases that match a pattern
 | \-\-ignore-case] [\-0 | \-\-null] [\-c | \-\-count] [\-w | \-\-wholename]
 |\-b | \-\-basename] [\-l N | \-\-limit=N] [\-S | \-\-statistics] [\-r
 | \-\-regex ] [\-P | \-H | \-\-nofollow] [\-L | \-\-follow] [\-\-version]
-[\-\-help] pattern...
+[\-p | \-\-print] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -43,7 +43,7 @@ entries; see \fBupdatedb\fP(1).
 .TP
 .I "\-c, \-\-count"
 Instead of printing the matched filenames, just print the total 
-number of matches we found.
+number of matches we found, unless \-\-\fIprint\fP (\-p) is also present.
 .TP
 .I "\-d \fIpath\fP, \-\-database=\fIpath\fP"
 Instead of searching the default file name database, search the file
@@ -113,6 +113,10 @@ Accepted but does nothing, for compatibility with BSD
 .I "\-0, \-\-null"
 Use ASCII NUL as a separator, instead of newline.   
 .TP
+.I "\-p, \-\-print"
+Print search results when they normally would not, because of the presence
+of \-\-statistics (\-S) or \-\-count (\-c).
+.TP
 .I "\-w, \-\-wholename"
 Match against the whole name of the file as listed in the database.
 This is the default.
@@ -137,8 +141,8 @@ Accepted but does nothing, for compatibility with BSD
 .TP
 .I "\-S, \-\-statistics"
 Print various statistics about each locate database and then exit
-without performing a search.  Any patterns given on the command line
-are ignored.  For compatibility with BSD, \-S is accepted as a synonym
+without performing a search, unless non-option arguments are given.
+For compatibility with BSD, \-S is accepted as a synonym
 for \-\-statistics.
 .TP
 .I "\-\-help"

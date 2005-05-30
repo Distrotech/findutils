@@ -1,17 +1,28 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.2.21-CVS
-** Functional Changes
+** Functional Changes to find
 
 The GNU extension "find ... -perm +MODE" has been withdrawn because it
 is incompatible with POSIX in obscure cases like "find ... -perm ++r".
 Use the new syntax "find ... -perm /MODE" instead.  Old usages will
 still continue to work, so long as they don't conflict with POSIX.
 
+** Functional Changes to locate
+
+The locate command will now read each locate database at most once.
+This means that if you are using multiple databases and are searching
+for more than one name, the results will now be printed in a different
+order (and if you specified a small limit with --limit, you may get a
+different set of results).
+
+A new option '--print' for locate causes it to print the matching
+results even if the '--count' or '--statistics' option is in effect.
+
 ** Bug Fixes
 find /blah/blah/blah -depth -empty now works once again.
 
-The -regex and -iregex tests now correctly accept POSIX Basic Regular
-Expressions.  (Savannah bug #12999)
+The -regex and -iregex tests of find now correctly accept POSIX Basic
+Regular Expressions.  (Savannah bug #12999)
 
 * Major changes in release 4.2.20
 ** Internationalization and Localization

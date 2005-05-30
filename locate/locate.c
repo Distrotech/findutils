@@ -246,6 +246,14 @@ lc_strcpy(char *dest, const char *src)
   *dest = 0;
 }
 
+struct locate_limits
+{
+  uintmax_t limit;
+  uintmax_t items_accepted;
+};
+static struct locate_limits limits;
+
+
 struct locate_stats
 {
   uintmax_t compressed_bytes;
@@ -286,24 +294,61 @@ struct visitor
 
 static struct visitor *inspectors = NULL;
 static struct visitor *lastinspector = NULL;
+static struct visitor *past_pat_inspector = NULL;
 
+/* 0 or 1 pattern(s) */
 static int
-process_filename(const char *munged_filename, const char *original_filename)
+process_simple(const char *munged_filename, const char *original_filename)
 {
   int result = VISIT_CONTINUE;
   const struct visitor *p = inspectors;
   
-  while ( (VISIT_CONTINUE == result) && (NULL != p) )
+  while ( ((VISIT_CONTINUE | VISIT_ACCEPTED) & result) && (NULL != p) )
     {
       result = (p->inspector)(munged_filename, original_filename, p->context);
       p = p->next;
     }
 
+    return result;
+}
+
+/* Accept if any pattern matches. */
+static int
+process_or (const char *munged_filename, const char *original_filename)
+{
+  int result = VISIT_CONTINUE;
+  const struct visitor *p = inspectors;
+  
+  while ( ((VISIT_CONTINUE | VISIT_REJECTED) & result) && (past_pat_inspector != p) )
+    {
+      result = (p->inspector)(munged_filename, original_filename, p->context);
+      p = p->next;
+    }
+
+  if (result == VISIT_CONTINUE)
+    result = VISIT_REJECTED;
+  if (result & (VISIT_ABORT | VISIT_REJECTED))
+    return result;
+
+  p = past_pat_inspector;
+  result = VISIT_CONTINUE;
+
+  while ( (VISIT_CONTINUE == result) && (NULL != p) )
+    {
+      result = (p->inspector)(munged_filename, original_filename, p->context);
+      p = p->next;
+    }
+  
   if (VISIT_CONTINUE == result)
     return VISIT_ACCEPTED;
   else
     return result;
 }
+
+typedef int (*processfunc)(const char *munged_filename,
+			    const char *original_filename);
+
+static processfunc mainprocessor = NULL;
 
 static void
 add_visitor(visitfunc fn, void *context)
@@ -445,7 +490,7 @@ visit_substring_match_nocasefold(const char *munged_filename,
   (void) original_filename;
 
   if (NULL != strstr(munged_filename, pattern))
-    return VISIT_CONTINUE;
+    return VISIT_ACCEPTED;
   else
     return VISIT_REJECTED;
 }
@@ -468,7 +513,7 @@ visit_substring_match_casefold(const char *munged_filename,
   
   
   if (NULL != strstr(p->buffer, p->pattern))
-    return VISIT_CONTINUE;
+    return VISIT_ACCEPTED;
   else
     return VISIT_REJECTED;
 }
@@ -484,7 +529,7 @@ visit_globmatch_nofold(const char *munged_filename,
   if (fnmatch(glob, munged_filename, 0) != 0)
     return VISIT_REJECTED;
   else
-    return VISIT_CONTINUE;
+    return VISIT_ACCEPTED;
 }
 
 
@@ -498,7 +543,7 @@ visit_globmatch_casefold(const char *munged_filename,
   if (fnmatch(glob, munged_filename, FNM_CASEFOLD) != 0)
     return VISIT_REJECTED;
   else
-    return VISIT_CONTINUE;
+    return VISIT_ACCEPTED;
 }
 
 
@@ -511,7 +556,7 @@ visit_regex(const char *munged_filename,
   (void) original_filename;
   
   if (0 == regexec(&p->re, munged_filename, 0u, NULL, 0))
-    return VISIT_CONTINUE;	/* match */
+    return VISIT_ACCEPTED;	/* match */
   else
     return VISIT_REJECTED;	/* no match */
 }
@@ -560,7 +605,7 @@ visit_stats(const char *munged_filename,
 /* Emit the statistics.
  */
 static void
-print_stats(size_t database_file_size)
+print_stats(int argc, size_t database_file_size)
 {
   char hbuf[LONGEST_HUMAN_READABLE + 1];
   
@@ -585,28 +630,32 @@ print_stats(size_t database_file_size)
 	 human_readable (statistics.highbit_filename_count,
 			 hbuf, human_ceiling, 1, 1));
   
-  printf(_("Compression ratio %4.2f%%\n"),
-	 100.0 * ((double)statistics.total_filename_length
-		  - (double) database_file_size)
-	 / (double) statistics.total_filename_length);
+  if (!argc)
+    printf(_("Compression ratio %4.2f%%\n"),
+	   100.0 * ((double)statistics.total_filename_length
+		    - (double) database_file_size)
+	   / (double) statistics.total_filename_length);
   printf("\n");
 }
 
 
-/* Print the entries in DBFILE that match shell globbing pattern PATHPART.
+/* Print the entries in DBFILE that match shell globbing patterns in ARGV.
    Return the number of entries printed.  */
 
 static unsigned long
-new_locate (char *pathpart,
+new_locate (int argc,
+	    char **argv,
 	    char *dbfile,
 	    int ignore_case,
 	    int enable_print,
 	    int basename_only,
 	    int use_limit,
-	    uintmax_t limit,
+	    struct locate_limits *plimit,
 	    int stats,
 	    int regex)
 {
+  char *pathpart; 		/* A pattern to consider. */
+  int argn;			/* Index to current pattern in argv. */
   FILE *fp;			/* The pathname database.  */
   int c;			/* An input byte.  */
   int nread;		     /* number of bytes read from an entry. */
@@ -616,13 +665,11 @@ new_locate (char *pathpart,
   int count = 0; /* The length of the prefix shared with the previous database entry.  */
   
   int old_format = 0; /* true if reading a bigram-encoded database.  */
+  struct visitor* pvis; /* temp for determining past_pat_inspector. */
   
   /* for the old database format,
      the first and second characters of the most common bigrams.  */
   char bigram1[128], bigram2[128];
-
-  /* number of items accepted (i.e. printed) */
-  unsigned long int items_accepted = 0uL;
 
   /* To check the age of the database.  */
   struct stat st;
@@ -631,14 +678,13 @@ new_locate (char *pathpart,
   /* Set up the inspection regime */
   inspectors = NULL;
   lastinspector = NULL;
+  past_pat_inspector = NULL;
 
-  if (stats)
+
+  /* Add an inspector for each pattern we're looking for. */
+  for ( argn = 0; argn < argc; argn++ )
     {
-      assert(!use_limit);
-      add_visitor(visit_stats, &statistics);
-    }
-  else
-    {
+      pathpart = argv[argn];
       if (regex)
 	{
 	  struct regular_expression *p = xmalloc(sizeof(*p));
@@ -676,42 +722,57 @@ new_locate (char *pathpart,
 	      cf->buffer = NULL;
 	      cf->buffersize = 0;
 	      add_visitor(visit_substring_match_casefold, cf);
+	      /* If we ignore case, convert it to lower now so we don't have to
+	       * do it every time
+	       */
+	      lc_strcpy(pathpart, pathpart);
 	    }
 	  else
 	    {
 	      add_visitor(visit_substring_match_nocasefold, pathpart);
 	    }
 	}
-
-      /* We add visit_existing_*() as late as possible to reduce the
-       * number of stat() calls.
-       */
-      switch (check_existence)
-	{
-	case ACCEPT_EXISTING:
-	  if (follow_symlinks)	/* -L, default */
-	    add_visitor(visit_existing_follow, NULL);
-	  else			/* -P */
-	    add_visitor(visit_existing_nofollow, NULL);
-	  break;
-	  
-	case ACCEPT_NON_EXISTING:
-	  if (follow_symlinks)	/* -L, default */
-	    add_visitor(visit_non_existing_follow, NULL);
-	  else			/* -P */
-	    add_visitor(visit_non_existing_nofollow, NULL);
-	  break;
-
-	case ACCEPT_EITHER:	/* Default, neither -E nor -e */
-	  /* do nothing; no extra processing. */
-	  break;
-	}
-      
-      
-      if (enable_print)
-	add_visitor(visit_justprint, NULL);
     }
-  
+
+  pvis = lastinspector;
+
+  /* We add visit_existing_*() as late as possible to reduce the
+   * number of stat() calls.
+   */
+  switch (check_existence)
+    {
+      case ACCEPT_EXISTING:
+	if (follow_symlinks)	/* -L, default */
+	  add_visitor(visit_existing_follow, NULL);
+	else			/* -P */
+	  add_visitor(visit_existing_nofollow, NULL);
+	break;
+	  
+      case ACCEPT_NON_EXISTING:
+	if (follow_symlinks)	/* -L, default */
+	  add_visitor(visit_non_existing_follow, NULL);
+	else			/* -P */
+	  add_visitor(visit_non_existing_nofollow, NULL);
+	break;
+
+      case ACCEPT_EITHER:	/* Default, neither -E nor -e */
+	/* do nothing; no extra processing. */
+	break;
+    }
+      
+  if (stats)
+    add_visitor(visit_stats, &statistics);
+
+  if (enable_print)
+    add_visitor(visit_justprint, NULL);
+
+  if (argc > 1)
+    {
+      past_pat_inspector = pvis->next;
+      mainprocessor = process_or;
+    }
+  else
+    mainprocessor = process_simple;
 
   if (stat (dbfile, &st) || (fp = fopen (dbfile, "r")) == NULL)
     {
@@ -752,18 +813,8 @@ new_locate (char *pathpart,
 	       old_format ? _("old") : "LOCATE02");
     }
   
-  /* If we ignore case, convert it to lower first so we don't have to
-   * do it every time
-   */
-  if (!stats && ignore_case)
-    {
-      lc_strcpy(pathpart, pathpart);
-    }
-  
-  items_accepted = 0;
-
   c = getc (fp);
-  while ( (c != EOF) && (!use_limit || (limit > 0)) )
+  while ( (c != EOF) && (!use_limit || (plimit->limit > 0)) )
     {
       register char *s;		/* Scan the path we read in.  */
 
@@ -818,9 +869,13 @@ new_locate (char *pathpart,
 	}
 
       testpath = basename_only ? base_name(path) : path;
-      if (VISIT_ACCEPTED == process_filename(testpath, path))
+
+      /* If we are searching for filename patterns, the inspector list 
+       * will contain an entry for each pattern for which we are searching.
+       */
+      if ((VISIT_ACCEPTED | VISIT_CONTINUE) & (mainprocessor)(testpath, path))
 	{
-	  if ((++items_accepted >= limit) && use_limit)
+	  if ((++plimit->items_accepted >= plimit->limit) && use_limit)
 	    {
 	      break;
 	    }
@@ -830,7 +885,7 @@ new_locate (char *pathpart,
       
   if (stats)
     {
-      print_stats(st.st_size);
+      print_stats(argc, st.st_size);
     }
   
   if (ferror (fp))
@@ -844,7 +899,7 @@ new_locate (char *pathpart,
       return 0;
     }
 
-  return items_accepted;
+  return plimit->items_accepted;
 }
 
 
@@ -864,7 +919,7 @@ Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n\
       [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
       [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n\
-      [-r | --regex ] [--version] [--help] pattern...\n"),
+      [-p | --print] [-r | --regex ] [--version] [--help] pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
@@ -882,6 +937,7 @@ static struct option const longopts[] =
   {"wholename", no_argument, NULL, 'w'},
   {"wholepath", no_argument, NULL, 'w'}, /* Synonym. */
   {"basename", no_argument, NULL, 'b'},
+  {"print", no_argument, NULL, 'p'},
   {"stdio", no_argument, NULL, 's'},
   {"mmap",  no_argument, NULL, 'm'},
   {"limit",  required_argument, NULL, 'l'},
@@ -901,13 +957,13 @@ main (argc, argv)
   unsigned long int found = 0uL;
   int optc;
   int ignore_case = 0;
-  int print = 1;
+  int print = 0;
   int just_count = 0;
   int basename_only = 0;
-  uintmax_t limit = 0;
   int use_limit = 0;
   int regex = 0;
   int stats = 0;
+  char *e;
   
   program_name = argv[0];
 
@@ -918,13 +974,16 @@ main (argc, argv)
   textdomain (PACKAGE);
   atexit (close_stdout);
 
+  limits.limit = 0;
+  limits.items_accepted = 0;
+
   dbpath = getenv ("LOCATE_PATH");
   if (dbpath == NULL)
     dbpath = LOCATE_DB;
 
   check_existence = ACCEPT_EITHER;
 
-  while ((optc = getopt_long (argc, argv, "bcd:eEil:rsm0SwHPL", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "bcd:eEil:prsm0SwHPL", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
@@ -937,7 +996,6 @@ main (argc, argv)
 
       case 'c':
 	just_count = 1;
-	print = 0;
 	break;
 
       case 'd':
@@ -959,6 +1017,10 @@ main (argc, argv)
       case 'h':
 	usage (stdout);
 	return 0;
+
+      case 'p':
+	print = 1;
+	break;
 
       case 'v':
 	printf (_("GNU locate version %s\n"), version_string);
@@ -993,7 +1055,7 @@ main (argc, argv)
       case 'l':
 	{
 	  char *end = optarg;
-	  strtol_error err = xstrtoumax(optarg, &end, 10, &limit, NULL);
+	  strtol_error err = xstrtoumax(optarg, &end, 10, &limits.limit, NULL);
 	  if (LONGINT_OK != err)
 	    {
 	      STRTOL_FATAL_ERROR(optarg, _("argument to --limit"), err);
@@ -1014,48 +1076,43 @@ main (argc, argv)
 	return 1;
       }
 
+  if (!just_count && !stats)
+    print = 1;
+
   if (stats)
     {
-      use_limit = 0;
-      print = 0;
+      if (optind == argc)
+ 	  use_limit = 0;
     }
   else
     {
-      if (optind == argc)
+      if (!just_count && optind == argc)
 	{
 	  usage (stderr);
 	  return 1;
 	}
     }
   
-  for (; stats || optind < argc; optind++)
+  next_element (dbpath, 0);	/* Initialize.  */
+  while ((e = next_element ((char *) NULL, 0)) != NULL)
     {
-      char *e;
-      const char *needle;
-      next_element (dbpath, 0);	/* Initialize.  */
-      needle = stats ? NULL : argv[optind];
-      while ((e = next_element ((char *) NULL, 0)) != NULL)
-	{
-	  statistics.compressed_bytes = 
-	    statistics.total_filename_count = 
-	    statistics.total_filename_length = 
-	    statistics.whitespace_count = 
-	    statistics.newline_count = 
-	    statistics.highbit_filename_count = 0u;
+      statistics.compressed_bytes = 
+      statistics.total_filename_count = 
+      statistics.total_filename_length = 
+      statistics.whitespace_count = 
+      statistics.newline_count = 
+      statistics.highbit_filename_count = 0u;
 
-	  if (0 == strlen(e) || 0 == strcmp(e, "."))
-	    {
-	      /* Use the default database name instead (note: we
-	       * don't use 'dbpath' since that might itself contain a 
-	       * colon-separated list.
-	       */
-	      e = LOCATE_DB;
-	    }
-	  
-	  found += new_locate (needle, e, ignore_case, print, basename_only, use_limit, limit, stats, regex);
+      if (0 == strlen(e) || 0 == strcmp(e, "."))
+	{
+	  /* Use the default database name instead (note: we
+	   * don't use 'dbpath' since that might itself contain a 
+	   * colon-separated list.
+	   */
+	  e = LOCATE_DB;
 	}
-      if (stats)
-	break;
+	  
+      found = new_locate (argc - optind, &argv[optind], e, ignore_case, print, basename_only, use_limit, &limits, stats, regex);
     }
 
   if (just_count)
@@ -1063,7 +1120,7 @@ main (argc, argv)
       printf("%ld\n", found);
     }
   
-  if (found || (use_limit && (limit==0)) || stats )
+  if (found || (use_limit && (limits.limit==0)) || stats )
     return 0;
   else
     return 1;

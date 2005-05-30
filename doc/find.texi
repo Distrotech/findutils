@@ -2652,7 +2652,8 @@ it must match part of the base name.
 @item --count
 @itemx -c
 Instead of printing the matched filenames, just print the total 
-number of matches we found.
+number of matches we found, unless @samp{--print} (@samp{-p}) is also
+present.
 
 
 @item --database=@var{path}
@@ -2717,6 +2718,11 @@ Results are separated with the ASCII NUL character rather than the
 newline character.  To get the full benefit of the use of this option,
 use the new locate database format (that is the default anyway).
 
+@item --print
+@itemx -p
+Print search results when they normally would not, because of the presence
+of @samp{--statistics} (@samp{-S}) or @samp{--count} (@samp{-c}).
+
 @item --wholename
 @itemx -w
 The specified pattern is matched against the whole name of the file in
@@ -2744,7 +2750,7 @@ compatibility with BSD's @code{locate}.
 @item --statistics
 @itemx -S
 Print some summary information for each locate database.  No search is
-performed. 
+performed unless non-option arguments are given.
 
 @item --help
 Print a summary of the options to @code{locate} and exit.
