@@ -59,6 +59,12 @@
 #include <getopt.h>
 #include <xstrtol.h>
 
+#ifdef HAVE_UNISTD_H
+/* We need <unistd.h> for isatty(). */
+#include <unistd.h>
+#endif
+
+
 #define NDEBUG
 #include <assert.h>
 
@@ -113,6 +119,9 @@ extern int errno;
 #include "closeout.h"
 #include "nextelem.h"
 #include "regex.h"
+#include "quote.h"
+#include "quotearg.h"
+#include "printquoted.h"
 
 
 /* Note that this evaluates C many times.  */
@@ -158,8 +167,9 @@ static int follow_symlinks = 1;
 /* What to separate the results with. */
 static int separator = '\n';
 
-
-
+static struct quoting_options * quote_opts = NULL;
+static bool stdout_is_a_tty;
+static bool print_quoted_filename;
 
 /* Read in a 16-bit int, high byte first (network byte order).  */
 
@@ -372,7 +382,19 @@ add_visitor(visitfunc fn, void *context)
 
 
 static int
-visit_justprint(const char *munged_filename, const char *original_filename, void *context)
+visit_justprint_quoted(const char *munged_filename, const char *original_filename, void *context)
+{
+  (void) context;
+  (void) munged_filename;
+  print_quoted (stdout, quote_opts, stdout_is_a_tty,
+		"%s", 
+		original_filename);
+  putchar(separator);
+  return VISIT_CONTINUE;
+}
+
+static int
+visit_justprint_unquoted(const char *munged_filename, const char *original_filename, void *context)
 {
   (void) context;
   (void) munged_filename;
@@ -764,7 +786,13 @@ locate (int argc,
     add_visitor(visit_stats, &statistics);
 
   if (enable_print)
-    add_visitor(visit_justprint, NULL);
+    {
+      if (print_quoted_filename)
+	add_visitor(visit_justprint_quoted,   NULL);
+      else
+	add_visitor(visit_justprint_unquoted, NULL);
+    }
+  
 
   if (argc > 1)
     {
@@ -977,6 +1005,9 @@ main (argc, argv)
   limits.limit = 0;
   limits.items_accepted = 0;
 
+  quote_opts = clone_quoting_options (NULL);
+  print_quoted_filename = true;
+  
   dbpath = getenv ("LOCATE_PATH");
   if (dbpath == NULL)
     dbpath = LOCATE_DB;
@@ -988,6 +1019,7 @@ main (argc, argv)
       {
       case '0':
 	separator = 0;
+	print_quoted_filename = false; /* print filename 'raw'. */
 	break;
 
       case 'b':
@@ -1093,6 +1125,12 @@ main (argc, argv)
 	}
     }
   
+
+  if (1 == isatty(STDOUT_FILENO))
+    stdout_is_a_tty = true;
+  else
+    stdout_is_a_tty = false;
+
   next_element (dbpath, 0);	/* Initialize.  */
   while ((e = next_element ((char *) NULL, 0)) != NULL)
     {
