@@ -275,11 +275,20 @@ struct locate_stats
 static struct locate_stats statistics;
 
 
+struct stringbuf
+{
+  char *buffer;
+  size_t buffersize;
+  size_t *soffs;
+  size_t *preqlen;
+};
+static struct stringbuf casebuf;
+
+
 struct casefolder
 {
   const char *pattern;
-  char *buffer;
-  size_t buffersize;
+  struct stringbuf *pbuf;
 };
 
 struct regular_expression
@@ -402,6 +411,24 @@ visit_justprint_unquoted(const char *munged_filename, const char *original_filen
   return VISIT_CONTINUE;
 }
 
+static int
+visit_casefold(const char *munged_filename,
+	       const char *original_filename,
+	       void *context)
+{
+  struct stringbuf *b = context;
+  (void) original_filename;
+  
+  if (*b->preqlen+1 > b->buffersize)
+    {
+      b->buffer = xrealloc(b->buffer, *b->preqlen+1); /* XXX: consider using extendbuf(). */
+      b->buffersize = *b->preqlen+1;
+    }
+  lc_strcpy(b->buffer, munged_filename);
+
+  return VISIT_CONTINUE;
+}
+  
 /* visit_existing_follow implements -L -e */
 static int
 visit_existing_follow(const char *munged_filename,
@@ -521,19 +548,12 @@ visit_substring_match_casefold(const char *munged_filename,
 			       const char *original_filename,
 			       void *context)
 {
-  struct casefolder * p = context;
-  size_t len = strlen(munged_filename);
-
+  const struct casefolder * p = context;
+  const struct stringbuf * b = p->pbuf;
+  (void) munged_filename;
   (void) original_filename;
-  if (len+1 > p->buffersize)
-    {
-      p->buffer = xrealloc(p->buffer, len+1); /* XXX: consider using extendbuf(). */
-      p->buffersize = len+1;
-    }
-  lc_strcpy(p->buffer, munged_filename);
-  
-  
-  if (NULL != strstr(p->buffer, p->pattern))
+
+  if (NULL != strstr(b->buffer, p->pattern))
     return VISIT_ACCEPTED;
   else
     return VISIT_REJECTED;
@@ -677,6 +697,7 @@ locate (int argc,
 {
   char *pathpart; 		/* A pattern to consider. */
   int argn;			/* Index to current pattern in argv. */
+  int need_fold;	/* Set when folding and any pattern is non-glob. */
   FILE *fp;			/* The pathname database.  */
   int c;			/* An input byte.  */
   int nread;		     /* number of bytes read from an entry. */
@@ -702,6 +723,25 @@ locate (int argc,
   past_pat_inspector = NULL;
 
 
+  /* See if we need fold. */
+  if (ignore_case && !regex)
+    for ( argn = 0; argn < argc; argn++ )
+      {
+        pathpart = argv[argn];
+        if (!contains_metacharacter(pathpart))
+	  {
+	    need_fold = 1;
+	    break;
+	  }
+      }
+
+  if (need_fold)
+    {
+      add_visitor(visit_casefold, &casebuf);
+      casebuf.preqlen = &pathsize;
+      casebuf.soffs = &count;
+    }
+  
   /* Add an inspector for each pattern we're looking for. */
   for ( argn = 0; argn < argc; argn++ )
     {
@@ -740,8 +780,7 @@ locate (int argc,
 	    {
 	      struct casefolder * cf = xmalloc(sizeof(*cf));
 	      cf->pattern = pathpart;
-	      cf->buffer = NULL;
-	      cf->buffersize = 0;
+	      cf->pbuf = &casebuf;
 	      add_visitor(visit_substring_match_casefold, cf);
 	      /* If we ignore case, convert it to lower now so we don't have to
 	       * do it every time
