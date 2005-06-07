@@ -1394,6 +1394,7 @@ insert_regex (char **argv, int *arg_ptr, boolean ignore_case)
   struct predicate *our_pred;
   struct re_pattern_buffer *re;
   const char *error_message;
+  int options = RE_SYNTAX_POSIX_BASIC;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
@@ -1406,7 +1407,6 @@ insert_regex (char **argv, int *arg_ptr, boolean ignore_case)
   re->buffer = (unsigned char *) xmalloc (re->allocated);
   re->fastmap = NULL;
 
-  int options = RE_SYNTAX_POSIX_BASIC;
   if (ignore_case)
     options |= RE_ICASE;
  
