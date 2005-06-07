@@ -37,6 +37,9 @@
 #include <stdlib.h>
 #endif
 
+#include "nextelem.h"
+
+
 /* Return the next element of a colon-separated path.
    A null entry in the path is equivalent to "." (the current directory).
 

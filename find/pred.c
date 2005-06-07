@@ -1,5 +1,6 @@
 /* pred.c -- execute the expression tree.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2003, 
+                 2004, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,12 +28,13 @@
 #include <sys/stat.h>
 #include <assert.h>
 #include <fcntl.h>
-#include "../gnulib/lib/xalloc.h"
-#include "../gnulib/lib/dirname.h"
-#include "../gnulib/lib/human.h"
+#include "xalloc.h"
+#include "dirname.h"
+#include "human.h"
 #include "modetype.h"
 #include "filemode.h"
 #include "wait.h"
+#include "printquoted.h"
 #include "buildcmd.h"
 
 #if ENABLE_NLS
@@ -51,6 +53,8 @@
 #if !defined(SIGCHLD) && defined(SIGCLD)
 #define SIGCHLD SIGCLD
 #endif
+
+
 
 #if HAVE_DIRENT_H
 # include <dirent.h>
@@ -139,6 +143,7 @@ extern int yesno ();
 #ifndef ST_NBLOCKSIZE
 # define ST_NBLOCKSIZE 512
 #endif
+
 
 #undef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -531,9 +536,12 @@ pred_fprint (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   (void) &pathname;
   (void) &stat_buf;
   
-  fputs (pathname, pred_ptr->args.stream);
-  putc ('\n', pred_ptr->args.stream);
-  return (true);
+  print_quoted(pred_ptr->args.printf_vec.stream,
+	       pred_ptr->args.printf_vec.quote_opts,
+	       pred_ptr->args.printf_vec.dest_is_tty,
+	       "%s\n",
+	       pathname);
+  return true;
 }
 
 boolean
@@ -547,10 +555,16 @@ pred_fprint0 (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   return (true);
 }
 
+
+
+
+
 boolean
 pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   FILE *fp = pred_ptr->args.printf_vec.stream;
+  const struct quoting_options *qopts = pred_ptr->args.printf_vec.quote_opts;
+  boolean ttyflag = pred_ptr->args.printf_vec.dest_is_tty;
   struct segment *segment;
   char *cp;
   char hbuf[LONGEST_HUMAN_READABLE + 1];
@@ -576,6 +590,11 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	    default:
 	      abort ();
 	    }
+	  /* We trust the output of format_date not to contain 
+	   * nasty characters, though the value of the date
+	   * is itself untrusted data.
+	   */
+	  /* trusted */
 	  fprintf (fp, segment->text,
 		   format_date (t, (segment->kind >> 8) & 0xff));
 	  continue;
@@ -584,39 +603,52 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       switch (segment->kind)
 	{
 	case KIND_PLAIN:	/* Plain text string (no % conversion). */
+	  /* trusted */
 	  fwrite (segment->text, 1, segment->text_len, fp);
 	  break;
 	case KIND_STOP:		/* Terminate argument and flush output. */
+	  /* trusted */
 	  fwrite (segment->text, 1, segment->text_len, fp);
 	  fflush (fp);
 	  return (true);
 	case 'a':		/* atime in `ctime' format. */
+	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text, ctime_format (stat_buf->st_atime));
 	  break;
 	case 'b':		/* size in 512-byte blocks */
+	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text,
 		   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
 				   hbuf, human_ceiling,
 				   ST_NBLOCKSIZE, 512));
 	  break;
 	case 'c':		/* ctime in `ctime' format */
+	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text, ctime_format (stat_buf->st_ctime));
 	  break;
 	case 'd':		/* depth in search tree */
+	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text, state.curdepth);
 	  break;
 	case 'D':		/* Device on which file exists (stat.st_dev) */
+	  /* trusted */
 	  fprintf (fp, segment->text, 
 		   human_readable ((uintmax_t) stat_buf->st_dev, hbuf,
 				   human_ceiling, 1, 1));
 	  break;
 	case 'f':		/* base name of path */
-	  fprintf (fp, segment->text, base_name (pathname));
+	  /* sanitised */
+	  print_quoted (fp, qopts, ttyflag, segment->text, base_name (pathname));
 	  break;
 	case 'F':		/* filesystem type */
-	  fprintf (fp, segment->text, filesystem_type (stat_buf));
+	  /* trusted */
+	  print_quoted (fp, qopts, ttyflag, segment->text, filesystem_type (stat_buf));
 	  break;
 	case 'g':		/* group name */
+	  /* trusted */
+	  /* (well, the actual group is selected by the user but
+	   * its name was selected by the system administrator)
+	   */
 	  {
 	    struct group *g;
 
@@ -630,11 +662,13 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	    /* else fallthru */
 	  }
 	case 'G':		/* GID number */
+	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text,
 		   human_readable ((uintmax_t) stat_buf->st_gid, hbuf,
 				   human_ceiling, 1, 1));
 	  break;
 	case 'h':		/* leading directories part of path */
+	  /* sanitised */
 	  {
 	    char cc;
 	    
@@ -645,18 +679,19 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 		 * print the string because it contains characters
 		 * other than just '%s'.  The %h expands to ".".
 		 */
-		fprintf (fp, segment->text, ".");
+		print_quoted (fp, qopts, ttyflag, segment->text, ".");
 	      }
 	    else
 	      {
 		cc = *cp;
 		*cp = '\0';
-		fprintf (fp, segment->text, pathname);
+		print_quoted (fp, qopts, ttyflag, segment->text, pathname);
 		*cp = cc;
 	      }
 	    break;
 	  }
 	case 'H':		/* ARGV element file was found under */
+	  /* trusted */
 	  {
 	    char cc = pathname[state.path_length];
 
@@ -666,18 +701,21 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	    break;
 	  }
 	case 'i':		/* inode number */
+	  /* UNTRUSTED, but not exploitable I think */
 	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) stat_buf->st_ino, hbuf,
-				   human_ceiling,
-				   1, 1));
+			human_readable ((uintmax_t) stat_buf->st_ino, hbuf,
+					human_ceiling,
+					1, 1));
 	  break;
 	case 'k':		/* size in 1K blocks */
+	  /* UNTRUSTED, but not exploitable I think */
 	  fprintf (fp, segment->text,
 		   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
 				   hbuf, human_ceiling,
 				   ST_NBLOCKSIZE, 1024)); 
 	  break;
 	case 'l':		/* object of symlink */
+	  /* sanitised */
 #ifdef S_ISLNK
 	  {
 	    char *linkname = 0;
@@ -690,16 +728,17 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	      }
 	    if (linkname)
 	      {
-		fprintf (fp, segment->text, linkname);
+		print_quoted (fp, qopts, ttyflag, segment->text, linkname);
 		free (linkname);
 	      }
 	    else
-	      fprintf (fp, segment->text, "");
+	      print_quoted (fp, qopts, ttyflag, segment->text, "");
 	  }
 #endif				/* S_ISLNK */
 	  break;
 	  
 	case 'M':		/* mode as 10 chars (eg., "-rwxr-x--x" */
+	  /* UNTRUSTED, probably unexploitable */
 	  {
 	    char modestring[16] ;
 	    mode_string (stat_buf->st_mode, modestring);
@@ -709,6 +748,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  break;
 	  
 	case 'm':		/* mode as octal number (perms only) */
+	  /* UNTRUSTED, probably unexploitable */
 	  {
 	    /* Output the mode portably using the traditional numbers,
 	       even if the host unwisely uses some other numbering
@@ -739,6 +779,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  break;
 	  
 	case 'n':		/* number of links */
+	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text,
 		   human_readable ((uintmax_t) stat_buf->st_nlink,
 				   hbuf,
@@ -746,9 +787,11 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 				   1, 1));
 	  break;
 	case 'p':		/* pathname */
-	  fprintf (fp, segment->text, pathname);
+	  /* sanitised */
+	  print_quoted (fp, qopts, ttyflag, segment->text, pathname);
 	  break;
 	case 'P':		/* pathname with ARGV element stripped */
+	  /* sanitised */
 	  if (state.curdepth > 0)
 	    {
 	      cp = pathname + state.path_length;
@@ -761,17 +804,24 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	    }
 	  else
 	    cp = "";
-	  fprintf (fp, segment->text, cp);
+	  print_quoted (fp, qopts, ttyflag, segment->text, cp);
 	  break;
 	case 's':		/* size in bytes */
+	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text,
 		   human_readable ((uintmax_t) stat_buf->st_size,
 				   hbuf, human_ceiling, 1, 1));
 	  break;
 	case 't':		/* mtime in `ctime' format */
+	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text, ctime_format (stat_buf->st_mtime));
 	  break;
 	case 'u':		/* user name */
+	  /* trusted */
+	  /* (well, the actual user is selected by the user on systems
+	   * where chown is not restricted, but the user name was
+	   * selected by the system administrator)
+	   */
 	  {
 	    struct passwd *p;
 
@@ -786,6 +836,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  }
 	  
 	case 'U':		/* UID number */
+	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text,
 		   human_readable ((uintmax_t) stat_buf->st_uid, hbuf,
 				   human_ceiling, 1, 1));
@@ -793,6 +844,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 
 	/* type of filesystem entry like `ls -l`: (d,-,l,s,p,b,c,n) n=nonexistent(symlink) */
 	case 'Y':		/* in case of symlink */
+	  /* trusted */
 	  {
 #ifdef S_ISLNK
 	  if (S_ISLNK (stat_buf->st_mode))
@@ -822,6 +874,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  }
 	  /* FALLTHROUGH */
 	case 'y':
+	  /* trusted */
 	  {
 	    mode_t m = stat_buf->st_mode & S_IFMT;
 
@@ -1096,6 +1149,7 @@ is_ok(const char *program, const char *arg)
      The exact format is not specified.
      This standard does not have requirements for locales other than POSIX
   */
+  /* XXX: printing UNTRUSTED data here. */
   fprintf (stderr, _("< %s ... %s > ? "), program, arg);
   fflush (stderr);
   return yesno();
@@ -1184,7 +1238,11 @@ pred_print (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) stat_buf;
   (void) pred_ptr;
-  puts (pathname);
+  /* puts (pathname); */
+  print_quoted(pred_ptr->args.printf_vec.stream,
+	       pred_ptr->args.printf_vec.quote_opts,
+	       pred_ptr->args.printf_vec.dest_is_tty,
+	       "%s\n", pathname);
   return true;
 }
 

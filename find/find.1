@@ -498,7 +498,12 @@ appropriately-named file in a directory in which you will run
 
 .IP "\-fls \fIfile\fR"
 True; like \-ls but write to \fIfile\fR like \-fprint.
-The output file is always created, even if the predicate is never matched.
+The output file is always created, even if the predicate is never
+matched.  
+See the
+.B UNUSUAL FILENAMES
+section for information about how unusual characters in filenames are handled.
+
 .IP "\-fprint \fIfile\fR"
 True; print the full file name into file \fIfile\fR.  If \fIfile\fR
 does not exist when \fBfind\fR is run, it is created; if it does
@@ -506,12 +511,21 @@ exist, it is truncated.  The file names ``/dev/stdout'' and
 ``/dev/stderr'' are handled specially; they refer to the standard
 output and standard error output, respectively.
 The output file is always created, even if the predicate is never matched.
+See the
+.B UNUSUAL FILENAMES
+section for information about how unusual characters in filenames are handled.
 .IP "\-fprint0 \fIfile\fR"
 True; like \-print0 but write to \fIfile\fR like \-fprint.
 The output file is always created, even if the predicate is never matched.
+See the
+.B UNUSUAL FILENAMES
+section for information about how unusual characters in filenames are handled.
 .IP "\-fprintf \fIfile\fR \fIformat\fR"
 True; like \-printf but write to \fIfile\fR like \-fprint.
 The output file is always created, even if the predicate is never matched.
+See the
+.B UNUSUAL FILENAMES
+section for information about how unusual characters in filenames are handled.
 .IP "\-ok \fIcommand\fR ;"
 Like \-exec but ask the user first (on the standard input); if the
 response does not start with `y' or `Y', do not run the command, and
@@ -523,6 +537,9 @@ newline.   If you are piping the output of
 into another program and there is the faintest possibility that the files 
 which you are searching for might contain a newline, then you should 
 seriously consider using the `\-print0' option instead of `\-print'.
+See the
+.B UNUSUAL FILENAMES
+section for information about how unusual characters in filenames are handled.
 .IP "\-okdir \fIcommand\fR ;"
 Like \-execdir but ask the user first (on the standard input); if the
 response does not start with `y' or `Y', do not run the command, and
@@ -735,6 +752,10 @@ and
 .BR n .
 The `\-' format flag is supported and changes the alignment of a field
 from right-justified (which is the default) to left-justified.
+.PP
+See the
+.B UNUSUAL FILENAMES
+section for information about how unusual characters in filenames are handled.
 
 
 .RE
@@ -761,7 +782,59 @@ an error has already occurred.
 True; list current file in `ls \-dils' format on standard output.
 The block counts are of 1K blocks, unless the environment variable
 POSIXLY_CORRECT is set, in which case 512-byte blocks are used.
+See the
+.B UNUSUAL FILENAMES
+section for information about how unusual characters in filenames are handled.
 
+
+.SS UNUSUAL FILENAMES
+Many of the actions of 
+.B find
+result in the printing of data which is under the control of other
+users.  This includes file names, sizes, modification times and so
+forth.  File names are a potential problem since they can contain any
+character except '\\0' and '/'.  Unusual characters in file names can
+do unexpected and often undesirable things to your terminal (for
+example, changing the settings of your function keys on some
+terminals).  Unusual characters are handled differently by various
+actions, as described below.
+.IP "\-print0, \-fprint0\"
+Always print the exact filename, unchanged, even if the output is
+going to a terminal.
+.IP "\-ls, \-fls"
+Unusual characters are always escaped.  White space, backslash, and
+double quote characters are printed using C-style escaping (for
+example '\\f', '\\"').  Other unusual characters are printed using an
+octal escape.  Other printable characters (for \-ls and -fls these are
+the characters between octal 041 and 0176) are printed as-is.
+.IP "\-printf, \-fprintf"
+If the output is not going to a terminal, it is printed as-is.
+Otherwise, the result depends on which directive is in use.  The
+directives %D, %F, %g, %G, %H, %Y, and %y expand to values which are
+not under control of files' ownwers, and so are printed as-is.  The
+directives %a, %b, %c, %d, %i, %k, %m, %M, %n, %s, %t, %u and %U have
+values which are under the control of files' ownwers but which cannot
+be used to send arbitrary data to the terminal, and so these are
+printed as-is.  The directives %f, %h, %l, %p and %P are quoted.  This
+quoting is performed in the same way as for GNU
+.BR ls .   
+This is not the same quoting mechanism as the one used for  \-ls and
+\-fls.   If you are able to decide what format to use for the output 
+of 
+.B find
+then it is normally better to use '\\0' as a terminator
+than to use newline, as file names can contain white space and newline
+characters.
+.IP "\-print, \-fprint"
+Quoting is handled in the same way as for \-printf and \-fprintf.
+If you are using 
+.B find
+in a script or in a situation where the matched files might have
+arbitrary names, you should consider using \-print0 instead of
+\-print.
+.P
+The \-ok and \-okdir actions print the current filename as-is.  This
+may change in a future release.
 .SS OPERATORS
 .P
 Listed in order of decreasing precedence:

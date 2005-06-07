@@ -6,7 +6,7 @@ AUTOMAKE_OPTIONS = 1.5 gnits
 noinst_LIBRARIES = libfind.a
 
 libfind_a_SOURCES =
-EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h
+EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h printquoted.h
 BUILT_SOURCES =
 SUFFIXES =
 MOSTLYCLEANFILES =
@@ -15,8 +15,8 @@ DISTCLEANFILES =
 MAINTAINERCLEANFILES =
 INCLUDES = -I$(top_srcdir)/gnulib/lib
 
-libfind_a_SOURCES += modetype.h nextelem.h
-libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c forcefindlib.c
+libfind_a_SOURCES += modetype.h nextelem.h printquoted.h
+libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c forcefindlib.c qmark.c printquoted.c
 
 EXTRA_DIST += waitpid.c forcefindlib.c
 

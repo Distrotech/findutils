@@ -264,6 +264,8 @@ struct format_val
 {
   struct segment *segment;	/* Linked list of segments. */
   FILE *stream;			/* Output stream to print on. */
+  boolean dest_is_tty;		/* True if the destination is a terminal. */
+  struct quoting_options *quote_opts;
 };
 
 struct predicate
@@ -313,8 +315,8 @@ struct predicate
     struct perm_val perm;	/* perm */
     struct dir_id   fileid;	/* samefile */
     mode_t type;		/* type */
-    FILE *stream;		/* fprint fprint0 */
-    struct format_val printf_vec; /* printf fprintf */
+    FILE *stream;		/* ls fls fprint0 */
+    struct format_val printf_vec; /* printf fprintf fprint  */
   } args;
 
   /* The next predicate in the user input sequence,

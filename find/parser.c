@@ -1,5 +1,6 @@
 /* parser.c -- convert the command line args into an expression tree.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2001, 2003, 2004, 2005 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2001, 2003, 
+                 2004, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,10 +24,12 @@
 #include <pwd.h>
 #include <grp.h>
 #include <fnmatch.h>
-#include "../gnulib/lib/modechange.h"
+#include "modechange.h"
 #include "modetype.h"
-#include "../gnulib/lib/xstrtol.h"
-#include "../gnulib/lib/xalloc.h"
+#include "xstrtol.h"
+#include "xalloc.h"
+#include "quote.h"
+#include "quotearg.h"
 #include "buildcmd.h"
 #include "nextelem.h"
 
@@ -35,6 +38,12 @@
 #else
 #include <sys/file.h>
 #endif
+
+#ifdef HAVE_UNISTD_H
+/* We need <unistd.h> for isatty(). */
+#include <unistd.h>
+#endif
+
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -150,6 +159,7 @@ static boolean insert_time PARAMS((char *argv[], int *arg_ptr, PFB pred));
 static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
 static boolean insert_num PARAMS((char *argv[], int *arg_ptr, PFB pred));
 static FILE *open_output_file PARAMS((char *path));
+static boolean stream_is_tty(FILE *fp);
 
 #ifdef DEBUG
 char *find_pred_name PARAMS((PFB pred_func));
@@ -643,9 +653,12 @@ parse_fprint (char **argv, int *arg_ptr)
   struct predicate *our_pred;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return (false);
+    return false;
   our_pred = insert_primary (pred_fprint);
-  our_pred->args.stream = open_output_file (argv[*arg_ptr]);
+  our_pred->args.printf_vec.segment = NULL;
+  our_pred->args.printf_vec.stream = open_output_file (argv[*arg_ptr]);
+  our_pred->args.printf_vec.dest_is_tty = stream_is_tty(our_pred->args.printf_vec.stream);
+  our_pred->args.printf_vec.quote_opts = clone_quoting_options (NULL);
   our_pred->side_effects = true;
   our_pred->no_default_print = true;
   our_pred->need_stat = our_pred->need_type = false;
@@ -1308,6 +1321,11 @@ parse_print (char **argv, int *arg_ptr)
   our_pred->side_effects = true;
   our_pred->no_default_print = true;
   our_pred->need_stat = our_pred->need_type = false;
+  our_pred->args.printf_vec.segment = NULL;
+  our_pred->args.printf_vec.stream = stdout;
+  our_pred->args.printf_vec.dest_is_tty = stream_is_tty(stdout);
+  our_pred->args.printf_vec.quote_opts = clone_quoting_options (NULL);
+  
   return (true);
 }
 
@@ -1727,6 +1745,26 @@ insert_type (char **argv, int *arg_ptr, boolean (*which_pred) (/* ??? */))
   return (true);
 }
 
+
+/* Return true if the file accessed via FP is a terminal.
+ */
+static boolean 
+stream_is_tty(FILE *fp)
+{
+  int fd = fileno(fp);
+  if (-1 == fd)
+    {
+      return false; /* not a valid stream */
+    }
+  else
+    {
+      return isatty(fd) ? true : false;
+    }
+  
+}
+
+
+
 /* If true, we've determined that the current fprintf predicate
    uses stat information. */
 static boolean fprintf_stat_needed;
@@ -1747,6 +1785,8 @@ insert_fprintf (FILE *fp, boolean (*func) (/* ??? */), char **argv, int *arg_ptr
   our_pred->side_effects = true;
   our_pred->no_default_print = true;
   our_pred->args.printf_vec.stream = fp;
+  our_pred->args.printf_vec.dest_is_tty = stream_is_tty(fp);
+  our_pred->args.printf_vec.quote_opts = clone_quoting_options (NULL);
   segmentp = &our_pred->args.printf_vec.segment;
   *segmentp = NULL;
 

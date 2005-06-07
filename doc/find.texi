@@ -1759,6 +1759,7 @@ with the @samp{--eof} option.
 @menu
 * Unsafe File Name Handling::
 * Safe File Name Handling::
+* Unusual Characters in File Names::
 * Limiting Command Size::
 * Interspersing File Names::
 @end menu
@@ -1860,6 +1861,70 @@ can do this in just one step:
 @example
 xargs --null --arg-file=<(find / -name xyzzy -print0) munge
 @end example
+
+@node Unusual Characters in File Names
+@subsubsection Unusual Characters in File Names
+As discussed above, you often need to be careful about how the names
+of files are handled by @code{find} and other programs.  If the output
+of @code{find} is not going to another program but instead is being
+shown on a terminal, this can still be a problem.  For example, some
+character sequences can reprogram the function keys on some terminals.
+@xref{Security Considerations}, for a discussion of other security
+problems relating to @code{find}.
+
+Unusual characters are handled differently by various
+actions, as described below.
+
+@table @samp
+@item -print0
+@itemx -fprint0
+Always print the exact filename, unchanged, even if the output is
+going to a terminal.
+@item -ok
+@itemx -okdir
+Always print the exact filename, unchanged.  This will probably change
+in a future release.
+@item -ls
+@itemx -fls
+Unusual characters are always escaped.  White space, backslash, and
+double quote characters are printed using C-style escaping (for
+example @samp{\f}, @samp{\"}).  Other unusual characters are printed
+using an octal escape.  Other Printable characters (for @samp{-ls} and
+@samp{-fls} these are the characters between octal 041 and 0176) are
+printed as-is.
+@item -printf
+@itemx -fprintf
+If the output is not going to a terminal, it is printed as-is.
+Otherwise, the result depends on which directive is in use:
+
+@table @asis
+@item %D, %F, %H, %Y, %y 
+These expand to values which are not under control of files' ownwers,
+and so are printed as-is.
+@item  %a, %b, %c, %d, %g, %G, %i, %k, %m, %M, %n, %s, %t, %u, %U
+These have values which are under the control of files' ownwers but which
+cannot be used to send arbitrary data to the terminal, and so these
+are printed as-is.  
+@item %f, %h, %l, %p, %P 
+The output of these directives is quoted if the output is going to a
+terminal.
+
+This quoting is performed in the same way as for GNU @code{ls}.   
+This is not the same quoting mechanism as the one used for  @samp{-ls} and
+@samp{fls}.   If you are able to decide what format to use for the output 
+of @code{find} then it is normally better to use @samp{\0} as a terminator
+than to use newline, as file names can contain white space and newline
+characters.
+@end table 
+@item -print
+@itemx -fprint
+Quoting is handled in the same way as for the @samp{%p} directive
+of @samp{-printf} and @samp{-fprintf}.  If you are using @code{find} in
+a script or in a situation where the matched files might have
+arbitrary names, you should consider using @samp{-print0} instead of
+@samp{-print}.
+@end table
+
 
 @node Limiting Command Size
 @subsubsection Limiting Command Size
@@ -2040,6 +2105,8 @@ scripts) in the file @file{sbins} and the unstripped ones in
 find /usr/local -type f -perm /a=x \
   \( -execdir unstripped '@{@}' \; -fprint ubins -o -fprint sbins \)
 @end example
+
+
 
 @node Common Tasks, Databases, Actions, Top
 @chapter Common Tasks

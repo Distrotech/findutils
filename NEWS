@@ -7,6 +7,12 @@ is incompatible with POSIX in obscure cases like "find ... -perm ++r".
 Use the new syntax "find ... -perm /MODE" instead.  Old usages will
 still continue to work, so long as they don't conflict with POSIX.
 
+If the output is going to a terminal, the -print, -fprint, -printf and
+-fprintf actions now quote "unusual" characters to prevent unwanted
+effects on the terminal.  See "Unusual Characters in File Names" for
+further details.  There is no change to the behaviour when the output
+is not going to a terminal.
+
 ** Functional Changes to locate
 
 The locate command will now read each locate database at most once.
