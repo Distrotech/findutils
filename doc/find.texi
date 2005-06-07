@@ -1279,7 +1279,10 @@ The date the file was last modified.
 
 @item
 The file's name.  @samp{-ls} quotes non-printable characters in the file
-names using C-like backslash escapes.
+names using C-like backslash escapes.  
+This may change soon, as the treatment of unprintable characters is
+harmonised for @samp{-ls}, @samp{-fls}, @samp{-print}, @samp{-fprint},
+@samp{-printf} and @samp{-fprintf}.
 @end enumerate
 @end deffn
 
@@ -1925,6 +1928,10 @@ arbitrary names, you should consider using @samp{-print0} instead of
 @samp{-print}.
 @end table
 
+
+The behaviours described above may change soon, as the treatment of
+unprintable characters is harmonised for @samp{-ls}, @samp{-fls},
+@samp{-print}, @samp{-fprint}, @samp{-printf} and @samp{-fprintf}.
 
 @node Limiting Command Size
 @subsubsection Limiting Command Size
