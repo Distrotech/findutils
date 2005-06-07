@@ -1,3 +1,29 @@
+2005-06-07  jay  <jay@orbital>
+
+	* NEWS: Updated with recent changes.
+
+	* mdate-sh: Use the mdate-sh from automake
+
+	* find/parser.c, find/pred.c, find/tree.c, find/util.c,
+	lib/Makefile.am, lib/forcefindlib.c, lib/listfile.c,
+	lib/listfile.h, locate/code.c, locate/locate.c, find/defs.h,
+	find/find.c: Fix Savannah bug #13324: Fix compiler warnings for
+	GCC-3.4
+
+	* locate/locate.c:
+	Fixed Savannah bug #13325: Quoting of output filenames in locate
+	should match find.
+
+	* find/parser.c:
+	Fixed Savannah bug #13319: C9X-ism in parser.c (declaration after
+	statements).
+
+	* find/pred.c, lib/Makefile.am, lib/listfile.c, lib/nextelem.c,
+	lib/printquoted.c, lib/printquoted.h, lib/qmark.c, NEWS,
+	doc/find.texi, find/defs.h, find/find.1, find/parser.c: Fixed
+	Savannah bug #13303, find should filter out non-printable
+	characters if outputting to tty
+
 2005-05-30  James Youngman  <jay@gnu.org>
 
 	* locate/locate.c: rename new_locate() to locate() since

@@ -11,7 +11,9 @@ If the output is going to a terminal, the -print, -fprint, -printf and
 -fprintf actions now quote "unusual" characters to prevent unwanted
 effects on the terminal.  See "Unusual Characters in File Names" for
 further details.  There is no change to the behaviour when the output
-is not going to a terminal.
+is not going to a terminal.   The locate program does the same thing,
+unless the -0 option is in effect (in which case the filenames are 
+printed as-is).
 
 ** Functional Changes to locate
 
@@ -29,6 +31,9 @@ find /blah/blah/blah -depth -empty now works once again.
 
 The -regex and -iregex tests of find now correctly accept POSIX Basic
 Regular Expressions.  (Savannah bug #12999)
+
+The updatedb program now works on systems where "su" does not support
+the "-s" option, for example Solaris.
 
 * Major changes in release 4.2.20
 ** Internationalization and Localization
