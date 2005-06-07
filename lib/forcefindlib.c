@@ -24,6 +24,11 @@
 #include <config.h>
 #endif
 
+
+extern void forcefindlib(void);	/* prevent GCC warning... */
+
+
+
 /* forcefindlib
  *
  * This function exists only to be pulled into libfind.a by the 

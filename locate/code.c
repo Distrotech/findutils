@@ -122,8 +122,7 @@ prefix_length (char *s1, char *s2)
 extern char *version_string;
 
 static void
-usage (stream)
-     FILE *stream;
+usage (FILE *stream)
 {
   fprintf (stream, _("\
 Usage: %s [--version | --help]\n\

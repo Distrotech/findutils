@@ -213,7 +213,7 @@ opt_expr (struct predicate **eval_treep)
   struct predicate *curr;
   struct predicate **prevp;	/* Address of `curr' node. */
   struct predicate **last_sidep; /* Last predicate with side effects. */
-  PFB pred_func;
+  PRED_FUNC pred_func;
   enum predicate_type p_type;
   boolean has_side_effects = false; /* Return value. */
   enum predicate_precedence prev_prec, /* precedence of last BI_OP in branch */

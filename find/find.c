@@ -385,7 +385,7 @@ int
 main (int argc, char **argv)
 {
   int i;
-  PFB parse_function;		/* Pointer to the function which parses. */
+  PARSE_FUNC parse_function; /* Pointer to the function which parses. */
   struct predicate *cur_pred;
   char *predicate_name;		/* Name of predicate being parsed. */
   int end_of_leading_options = 0; /* First arg after any -H/-L etc. */
@@ -653,14 +653,14 @@ main (int argc, char **argv)
 static char *
 specific_dirname(const char *dir)
 {
-  char dirname[1024];
+  char dirbuf[1024];
 
   if (0 == strcmp(".", dir))
     {
       /* OK, what's '.'? */
-      if (NULL != getcwd(dirname, sizeof(dirname)))
+      if (NULL != getcwd(dirbuf, sizeof(dirbuf)))
 	{
-	  return strdup(dirname);
+	  return strdup(dirbuf);
 	}
       else
 	{
@@ -846,7 +846,7 @@ dirchange_is_fatal(const char *specific_what,
  */
 static boolean
 wd_sanity_check(const char *thing_to_stat,
-		const char *program_name,
+		const char *progname,
 		const char *what,
 		dev_t old_dev,
 		ino_t old_ino,
@@ -895,7 +895,7 @@ wd_sanity_check(const char *thing_to_stat,
 		   _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
 		   specific_what,
 		   parent ? "/.." : "",
-		   program_name,
+		   progname,
 		   (long) old_dev,
 		   (long) newinfo->st_dev,
 		   fstype,
@@ -932,7 +932,7 @@ wd_sanity_check(const char *thing_to_stat,
 	     _("%s%s changed during execution of %s (old inode number %ld, new inode number %ld, filesystem type is %s) [ref %ld]"),
 	     specific_what, 
 	     parent ? "/.." : "",
-	     program_name,
+	     progname,
 	     (long) old_ino,
 	     (long) newinfo->st_ino,
 	     fstype,
@@ -966,7 +966,7 @@ static enum SafeChdirStatus
 safely_chdir_lstat(const char *dest,
 		   enum TraversalDirection direction,
 		   struct stat *statbuf_dest,
-		   enum ChdirSymlinkHandling symlink_handling)
+		   enum ChdirSymlinkHandling symlink_follow_option)
 {
   struct stat statbuf_arrived;
   int rv, dotfd=-1;
@@ -991,7 +991,7 @@ safely_chdir_lstat(const char *dest,
       if (0 == options.xstat(dest, statbuf_dest))
 	{
 #ifdef S_ISLNK
-	  /* symlink_handling might be set to SymlinkFollowOk, which
+	  /* symlink_follow_option might be set to SymlinkFollowOk, which
 	   * would allow us to chdir() into a symbolic link.  This is
 	   * only useful for the case where the directory we're
 	   * chdir()ing into is the basename of a command line
@@ -1004,10 +1004,10 @@ safely_chdir_lstat(const char *dest,
 	  if (!following_links() && S_ISLNK(statbuf_dest->st_mode))
 	    {
 	      /* We're not supposed to be following links, but this is 
-	       * a link.  Check symlink_handling to see if we should 
+	       * a link.  Check symlink_follow_option to see if we should 
 	       * make a special exception.
 	       */
-	      if (symlink_handling == SymlinkFollowOk)
+	      if (symlink_follow_option == SymlinkFollowOk)
 		{
 		  /* We need to re-stat() the file so that the 
 		   * sanity check can pass. 
@@ -1178,12 +1178,12 @@ static enum SafeChdirStatus
 safely_chdir_nofollow(const char *dest,
 		      enum TraversalDirection direction,
 		      struct stat *statbuf_dest,
-		      enum ChdirSymlinkHandling symlink_handling)
+		      enum ChdirSymlinkHandling symlink_follow_option)
 {
   int extraflags, fd;
   extraflags = 0;
   
-  switch (symlink_handling)
+  switch (symlink_follow_option)
     {
     case SymlinkFollowOk:
       extraflags = 0;
@@ -1244,7 +1244,7 @@ static enum SafeChdirStatus
 safely_chdir(const char *dest,
 	     enum TraversalDirection direction,
 	     struct stat *statbuf_dest,
-	     enum ChdirSymlinkHandling symlink_handling)
+	     enum ChdirSymlinkHandling symlink_follow_option)
 {
   /* We're about to leave a directory.  If there are any -execdir
    * argument lists which have been built but have not yet been
@@ -1255,9 +1255,9 @@ safely_chdir(const char *dest,
 
 #if defined(O_NOFOLLOW)
   if (options.open_nofollow_available)
-    return safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_handling);
+    return safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_follow_option);
 #endif
-  return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_handling);
+  return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_follow_option);
 }
 
 
@@ -1392,11 +1392,11 @@ static void do_process_top_dir(char *pathname,
 }
 
 static void do_process_predicate(char *pathname,
-				 char *basename,
+				 char *base,
 				 int mode,
 				 struct stat *pstat)
 {
-  state.rel_pathname = basename;
+  state.rel_pathname = base;
   apply_predicate (pathname, pstat, eval_tree);
 }
 

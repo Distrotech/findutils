@@ -150,19 +150,19 @@ static boolean parse_xtype PARAMS((char *argv[], int *arg_ptr));
 static boolean parse_quit PARAMS((char *argv[], int *arg_ptr));
 
 static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, boolean ignore_case));
-static boolean insert_type PARAMS((char *argv[], int *arg_ptr, boolean (*which_pred )()));
-static boolean insert_fprintf PARAMS((FILE *fp, boolean (*func )(), char *argv[], int *arg_ptr));
+static boolean insert_type PARAMS((char *argv[], int *arg_ptr, PRED_FUNC which_pred));
+static boolean insert_fprintf PARAMS((FILE *fp, PRED_FUNC func, char *argv[], int *arg_ptr));
 static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len, int kind));
-static boolean insert_exec_ok PARAMS((const char *action, boolean (*func )(), char *argv[], int *arg_ptr));
+static boolean insert_exec_ok PARAMS((const char *action, PRED_FUNC func, char *argv[], int *arg_ptr));
 static boolean get_num_days PARAMS((char *str, uintmax_t *num_days, enum comparison_type *comp_type));
-static boolean insert_time PARAMS((char *argv[], int *arg_ptr, PFB pred));
+static boolean insert_time PARAMS((char *argv[], int *arg_ptr, PRED_FUNC pred));
 static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
-static boolean insert_num PARAMS((char *argv[], int *arg_ptr, PFB pred));
+static boolean insert_num PARAMS((char *argv[], int *arg_ptr, PRED_FUNC pred));
 static FILE *open_output_file PARAMS((char *path));
 static boolean stream_is_tty(FILE *fp);
 
 #ifdef DEBUG
-char *find_pred_name PARAMS((PFB pred_func));
+char *find_pred_name PARAMS((PRED_FUNC pred_func));
 #endif /* DEBUG */
 
 
@@ -181,7 +181,7 @@ struct parser_table
 {
   enum arg_type type;
   char *parser_name;
-  PFB parser_func;
+  PARSE_FUNC parser_func;
 };
 
 /* GNU find predicates that are not mentioned in POSIX.2 are marked `GNU'.
@@ -286,7 +286,7 @@ static const char *first_nonoption_arg = NULL;
    SEARCH_NAME.
    Return NULL if SEARCH_NAME is not a valid predicate name. */
 
-PFB
+PARSE_FUNC
 find_parser (char *search_name)
 {
   int i;
@@ -529,9 +529,7 @@ parse_daystart (char **argv, int *arg_ptr)
 }
 
 static boolean
-parse_delete (argv, arg_ptr)
-  char *argv[];
-  int *arg_ptr;
+parse_delete (  char *argv[], int *arg_ptr)
 {
   struct predicate *our_pred;
   (void) argv;
@@ -785,7 +783,7 @@ parse_ilname (char **argv, int *arg_ptr)
  * it really is the GNU version. 
  */
 static boolean 
-fnmatch_sanitycheck()
+fnmatch_sanitycheck(void)
 {
   /* fprintf(stderr, "Performing find sanity check..."); */
   if (0 != fnmatch("foo", "foo", 0)
@@ -1394,7 +1392,7 @@ insert_regex (char **argv, int *arg_ptr, boolean ignore_case)
   struct predicate *our_pred;
   struct re_pattern_buffer *re;
   const char *error_message;
-  int options = RE_SYNTAX_POSIX_BASIC;
+  int opt = RE_SYNTAX_POSIX_BASIC;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return (false);
@@ -1408,10 +1406,10 @@ insert_regex (char **argv, int *arg_ptr, boolean ignore_case)
   re->fastmap = NULL;
 
   if (ignore_case)
-    options |= RE_ICASE;
+    opt |= RE_ICASE;
  
-  re_set_syntax(options);
-  re->syntax = options;
+  re_set_syntax(opt);
+  re->syntax = opt;
   re->translate = NULL;
   
   error_message = re_compile_pattern (argv[*arg_ptr], strlen (argv[*arg_ptr]),
@@ -1679,7 +1677,7 @@ parse_xtype (char **argv, int *arg_ptr)
 }
 
 static boolean
-insert_type (char **argv, int *arg_ptr, boolean (*which_pred) (/* ??? */))
+insert_type (char **argv, int *arg_ptr, PRED_FUNC which_pred)
 {
   mode_t type_cell;
   struct predicate *our_pred;
@@ -1770,7 +1768,7 @@ stream_is_tty(FILE *fp)
 static boolean fprintf_stat_needed;
 
 static boolean
-insert_fprintf (FILE *fp, boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
+insert_fprintf (FILE *fp, PRED_FUNC func, char **argv, int *arg_ptr)
 {
   char *format;			/* Beginning of unprocessed format string. */
   register char *scan;		/* Current address in scanning `format'. */
@@ -2003,8 +2001,9 @@ check_path_safety(const char *action)
 /* handles both exec and ok predicate */
 static boolean
 new_insert_exec_ok (const char *action,
-		    boolean (*func) (/* ??? */),
-		    char **argv, int *arg_ptr)
+		    PRED_FUNC func,
+		    char **argv,
+		    int *arg_ptr)
 {
   int start, end;		/* Indexes in ARGV of start & end of cmd. */
   int i;			/* Index into cmd args */
@@ -2240,8 +2239,7 @@ old_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
 
 
 static boolean
-insert_exec_ok (const char *action,
-		boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
+insert_exec_ok (const char *action, PRED_FUNC func, char **argv, int *arg_ptr)
 {
 #if defined(NEW_EXEC)
   return new_insert_exec_ok(action, func, argv, arg_ptr);
@@ -2291,7 +2289,7 @@ get_num_days (char *str, uintmax_t *num_days, enum comparison_type *comp_type)
    Used by -atime, -ctime, and -mtime parsers. */
 
 static boolean
-insert_time (char **argv, int *arg_ptr, PFB pred)
+insert_time (char **argv, int *arg_ptr, PRED_FUNC pred)
 {
   struct predicate *our_pred;
   uintmax_t num_days;
@@ -2395,7 +2393,7 @@ get_num (char *str, uintmax_t *num, enum comparison_type *comp_type)
    Used by -inum and -links parsers. */
 
 static boolean
-insert_num (char **argv, int *arg_ptr, PFB pred)
+insert_num (char **argv, int *arg_ptr, PRED_FUNC pred)
 {
   struct predicate *our_pred;
   uintmax_t num;

@@ -128,7 +128,7 @@ get_new_pred_chk_op (void)
    operator. */
 
 struct predicate *
-insert_primary (boolean (*pred_func) (/* ??? */))
+insert_primary (PRED_FUNC pred_func)
 {
   struct predicate *new_pred;
 

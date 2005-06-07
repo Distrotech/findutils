@@ -174,8 +174,7 @@ static bool print_quoted_filename;
 /* Read in a 16-bit int, high byte first (network byte order).  */
 
 static short
-get_short (fp)
-     FILE *fp;
+get_short (FILE *fp)
 {
 
   register short x;
@@ -939,8 +938,7 @@ extern char *version_string;
 char *program_name;
 
 static void
-usage (stream)
-     FILE *stream;
+usage (FILE *stream)
 {
   fprintf (stream, _("\
 Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n\
@@ -977,9 +975,7 @@ static struct option const longopts[] =
 };
 
 int
-main (argc, argv)
-     int argc;
-     char **argv;
+main (int argc, char **argv)
 {
   char *dbpath;
   unsigned long int found = 0uL;

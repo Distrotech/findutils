@@ -53,6 +53,8 @@ char *alloca ();
 #include "error.h"
 #include "filemode.h"
 
+#include "listfile.h"
+
 #if HAVE_STRING_H || STDC_HEADERS
 #include <string.h>
 #else
@@ -95,10 +97,6 @@ extern int errno;
 #endif
 #if defined(S_IFLNK) && !defined(S_ISLNK)
 #define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
-#endif
-
-#if defined(S_ISLNK)
-int readlink ();
 #endif
 
 /* Get or fake the disk device blocksize.
@@ -180,8 +178,8 @@ struct group *getgrgid ();
 char * get_link_name (char *name, char *relname);
 static void print_name_with_quoting (register char *p, FILE *stream);
 
-char *getgroup ();
-char *getuser ();
+extern char * getgroup (gid_t gid);
+extern char * getuser (uid_t uid);
 
 
 /* NAME is the name to print.

@@ -36,6 +36,7 @@
 #include "wait.h"
 #include "printquoted.h"
 #include "buildcmd.h"
+#include "yesno.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -80,7 +81,7 @@
 #define CLOSEDIR(d) closedir (d)
 #endif
 
-extern int yesno ();
+
 
 
 /* Get or fake the disk device blocksize.
@@ -1649,8 +1650,7 @@ format_date (time_t when, int kind)
 }
 
 static char *
-ctime_format (when)
-     time_t when;
+ctime_format (time_t when)
 {
   char *r = ctime (&when);
   if (!r)
