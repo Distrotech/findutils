@@ -39,6 +39,15 @@ when the databases were last updated.  The system administrator can
 choose the file name of the default database, the frequency with which
 the databases are updated, and the directories for which they contain
 entries; see \fBupdatedb\fP(1).
+.P
+If 
+.BR locate 's 
+output is going to a terminal, unusual characters in the output are 
+escaped in the same way as for the -print action of the 
+.B find
+command.  If the output is not going to a terminal, file names are
+printed exactly as-is.
+
 .SH OPTIONS
 .TP
 .I "\-c, \-\-count"
