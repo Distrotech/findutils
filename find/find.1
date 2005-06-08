@@ -313,7 +313,9 @@ special, despite the fact that some shells including Bash imbue braces
 with a special meaning in shell patterns.  The filename matching is
 performed with the use of the
 .BR fnmatch (3) 
-library function.
+library function.   Don't forget to enclose the pattern in quotes 
+in order to protect it from expansion by the shell.
+
 .IP "\-newer \fIfile\fR"
 File was modified more recently than \fIfile\fR.  If \fIfile\fR is a
 symbolic link and the \-H option or the \-L option is in effect, the
@@ -1133,6 +1135,29 @@ on the correctness of the results of
 As of findutils-4.2.2, shell metacharacters ('*'. '?' or '[]' for
 example) used in filename patterns will match a leading '.', because
 IEEE POSIX interpretation 126 requires this.
+.SH "NON-BUGS"
+.nf
+.B $ find . -name *.c -print
+find: paths must precede expression
+Usage: find [-H] [-L] [-P] [path...] [expression]
+.fi
+.P
+This happens because 
+.I *.c 
+has been expanded by the shell
+resulting in 
+.B find
+actually receiving a command line like this:
+.nf
+
+.B find . -name bigram.c code.c frcode.c locate.c -print
+
+.fi
+That command is of course not going to work.  Instead of doing things
+this way, you should enclose the pattern in quotes:
+.nf
+.B $ find . -name \'*.c\' -print
+.fi
 
 .SH "BUGS"
 .P
