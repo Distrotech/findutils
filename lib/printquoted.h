@@ -25,6 +25,7 @@
 
 
 #include <stdbool.h>
+#include <stdio.h>
 
 
 size_t qmark_chars(char *buf, size_t len);
