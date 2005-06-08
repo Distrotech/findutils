@@ -2742,6 +2742,9 @@ database file names.  You can also use the environment variable
 option overrides the environment variable if both are used.  Empty
 elements in @var{path} (that is, a leading or trailing colon, or two
 colons in a row) are taken to stand for the default database.
+A database can be supplied on stdin, using @samp{-} as an element
+of @samp{path}. If more than one element of @samp{path} is @samp{-},
+later instances are ignored (but a warning message is printed).
 
 @item --existing
 @itemx -e
