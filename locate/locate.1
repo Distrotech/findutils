@@ -63,6 +63,9 @@ to set the list of database files to search.
 The option overrides the environment variable if both are used.  Empty
 elements in the path are taken to be synonyms for the file name of the
 default database.
+A database can be supplied on stdin, using `\-' as an element
+of \fIpath\fP. If more than one element of \fIpath\fP is `\-',
+later instances are ignored (and a warning message is printed).
 .IP
 The file name database format changed starting with GNU
 .B find
