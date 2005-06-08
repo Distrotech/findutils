@@ -1,4 +1,14 @@
-2005-06-07  jay  <jay@orbital>
+2005-06-08  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
+
+	* NEWS, locate/locate.1, doc/find.texi: Document usage of `-'
+	to refer to stdin in database-path for locate.
+	* locate/locate.c: Change prototype for visitors and processors
+	throughout. Move reading the database and generating base_name
+	into visitors. Allow `-' to refer to stdin in database-path.
+
+        * lib/printquoted.h: Include stdio.h.
+
+2005-06-07  James Youngman  <jay@gnu.org>
 
 	* COPYING, debian/copyright, depcomp, doc/texinfo.tex,
 	find/defs.h, find/find.c, find/fstype.c, find/parser.c,
