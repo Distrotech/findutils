@@ -29,11 +29,16 @@
 # any relative paths no longer point where we thought they did.
 # Because "file normalize" requires tcl 8.4, we have a plan B
 # for normalising the name of a directory, but it is slower.
-if [ catch { file normalize "../../find/find" } fulldir ] then {
-    # Plan B...
-    set fulldir [ exec /bin/sh -c "cd ../../find && /bin/pwd" ]
-} else {
+
+proc normalize_dir { dir } {
+    if [ catch { file normalize $dir } result ] then {
+	return [ exec /bin/sh -c "cd $dir && /bin/pwd" ]
+    } else {
+	return $result;
+    }
 }
+
+set fulldir [normalize_dir "../../find"  $fulldir/find"
 set env{find} "$fulldir/find"
 
 
