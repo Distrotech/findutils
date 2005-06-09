@@ -27,10 +27,18 @@
 # We normalise (normalize for those over the water) pathnames 
 # because the updatedb shell script uses "cd", which means that 
 # any relative paths no longer point where we thought they did.
-set env(find) [file normalize "../../find/find"]
+# Because "file normalize" requires tcl 8.4, we have a plan B
+# for normalising the name of a directory, but it is slower.
+if [ catch { file normalize "../../find/find" } fulldir ] then {
+    # Plan B...
+    set fulldir [ exec /bin/sh -c "cd ../../find && /bin/pwd" ]
+} else {
+}
+set env{find} "$fulldir/find"
+
 
 # use the local help commands for updatedb
-set env(LIBEXECDIR) [file normalize .. ]
+set env(LIBEXECDIR) [file normalize .. ] 
 
 # do not ignore any file systems for this test
 set env(PRUNEFS) ""
