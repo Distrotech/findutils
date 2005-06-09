@@ -38,12 +38,11 @@ proc normalize_dir { dir } {
     }
 }
 
-set fulldir [normalize_dir "../../find"  $fulldir/find"
+set fulldir [ normalize_dir "../../find" ]
 set env{find} "$fulldir/find"
 
-
 # use the local help commands for updatedb
-set env(LIBEXECDIR) [file normalize .. ] 
+set env(LIBEXECDIR) [ normalize_dir .. ] 
 
 # do not ignore any file systems for this test
 set env(PRUNEFS) ""
