@@ -1747,18 +1747,34 @@ complete_pending_execs(struct predicate *p)
 static void
 process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *parent)
 {
-  char *name_space;		/* Names of files in PATHNAME. */
   int subdirs_left;		/* Number of unexamined subdirs in PATHNAME. */
   int idx;			/* Which entry are we on? */
   struct stat stat_buf;
-  struct savedir_dirinfo *dirinfo;
+
+#undef USE_OLD_SAVEDIR 
   
+#if USE_OLD_SAVEDIR
+  char *name_space;		/* Names of files in PATHNAME. */
+  struct savedir_extrainfo *extra;
+#else
+  struct savedir_dirinfo *dirinfo;
+#endif  
   subdirs_left = statp->st_nlink - 2; /* Account for name and ".". */
 
   errno = 0;
-  name_space = savedirinfo (name, &dirinfo);
+#if USE_OLD_SAVEDIR
+  name_space = savedirinfo (name, &extra);
+#else
+  dirinfo = xsavedir(name, 0);
+#endif  
   
-  if (name_space == NULL)
+  if (
+#if USE_OLD_SAVEDIR
+      name_space
+#else
+      dirinfo
+#endif
+      == NULL)
     {
       assert(errno != 0);
       error (0, errno, "%s", pathname);
@@ -1819,14 +1835,22 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	    }
 	}
 
-
+#if USE_OLD_SAVEDIR
       for (idx=0, namep = name_space; *namep; namep += file_len - pathname_len + 1, ++idx)
+#else
+      for (idx=0; idx < dirinfo->size; ++idx)
+#endif
 	{
 	  /* savedirinfo() may return dirinfo=NULL if extended information 
 	   * is not available. 
 	   */
-	  mode_t mode = dirinfo ? dirinfo[idx].type_info : 0;
-
+#if USE_OLD_SAVEDIR
+	  mode_t mode = extra ? extra[idx].type_info : 0;
+#else
+	  mode_t mode = (dirinfo->entries[idx].flags & SavedirHaveFileType) ? 
+	    dirinfo->entries[idx].type_info : 0;
+	  namep = dirinfo->entries[idx].name;
+#endif
 	  /* Append this directory entry's name to the path being searched. */
 	  file_len = pathname_len + strlen (namep);
 	  if (file_len > cur_path_size)
@@ -1945,8 +1969,12 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 
       if (cur_path)
 	free (cur_path);
+#ifdef USE_OLD_SAVEDIR
       free (name_space);
-      free (dirinfo);
+      free (extra);
+#else
+      free_dirinfo(dirinfo);
+#endif
     }
 }
 

@@ -23,11 +23,51 @@
 #if !defined SAVEDIRINFO_H_
 # define SAVEDIRINFO_H_
 
+
+typedef enum tagSaveDirControlFlags
+  {
+    SavedirSort = 1
+  } 
+SaveDirControlFlags;
+
+
+typedef enum tagSaveDirDataFlags
+  {
+    SavedirHaveFileType = 1
+  } 
+SaveDirDataFlags;
+
+
+/* We keep the name and the type in a structure together 
+ * to allow us to sort them together.
+ */
+struct savedir_direntry
+{
+  int      flags;		/* from SaveDirDataFlags */
+  char     *name;		/* the name of the directory entry */
+  mode_t   type_info;		/* the type (or zero if unknown) */
+};
+
 struct savedir_dirinfo
+{
+  char *buffer;			/* The names are stored here. */
+  size_t size;			/* The total number of results. */
+  struct savedir_direntry *entries;	/* The results themselves */
+};
+
+
+struct savedir_extrainfo
 {
   mode_t type_info;
 };
 
-char *savedirinfo (const char *dir, struct savedir_dirinfo **extra);
+/* savedirinfo() is the old interface. */
+char *savedirinfo (const char *dir, struct savedir_extrainfo **extra);
+
+/* savedir() is the 'new' interface, but the function has the same name
+ * as the function from findutils 4.1.7 and 4.1.20.
+ */
+struct savedir_dirinfo * xsavedir(const char *dir, int flags);
+void free_dirinfo(struct savedir_dirinfo *p);
 
 #endif
