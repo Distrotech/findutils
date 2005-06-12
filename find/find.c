@@ -966,12 +966,14 @@ static enum SafeChdirStatus
 safely_chdir_lstat(const char *dest,
 		   enum TraversalDirection direction,
 		   struct stat *statbuf_dest,
-		   enum ChdirSymlinkHandling symlink_follow_option)
+		   enum ChdirSymlinkHandling symlink_follow_option,
+		   boolean *did_stat)
 {
   struct stat statbuf_arrived;
   int rv, dotfd=-1;
   int saved_errno;		/* specific_dirname() changes errno. */
   boolean rv_set = false;
+  boolean statflag = false;
   int tries = 0;
   enum WdSanityCheckFatality isfatal = RETRY_IF_SANITY_CHECK_FAILS;
   
@@ -990,6 +992,8 @@ safely_chdir_lstat(const char *dest,
       /* Stat the directory we're going to. */
       if (0 == options.xstat(dest, statbuf_dest))
 	{
+	  statflag = true;
+	  
 #ifdef S_ISLNK
 	  /* symlink_follow_option might be set to SymlinkFollowOk, which
 	   * would allow us to chdir() into a symbolic link.  This is
@@ -1019,6 +1023,7 @@ safely_chdir_lstat(const char *dest,
 		      saved_errno = errno;
 		      goto fail;
 		    }
+		  statflag = true;
 		}
 	      else
 		{
@@ -1163,6 +1168,8 @@ safely_chdir_lstat(const char *dest,
       close(dotfd);
       dotfd = -1;
     }
+  
+  *did_stat = statflag;
   assert(rv_set);
   return rv;
 }
@@ -1178,10 +1185,13 @@ static enum SafeChdirStatus
 safely_chdir_nofollow(const char *dest,
 		      enum TraversalDirection direction,
 		      struct stat *statbuf_dest,
-		      enum ChdirSymlinkHandling symlink_follow_option)
+		      enum ChdirSymlinkHandling symlink_follow_option,
+		      boolean *did_stat)
 {
   int extraflags, fd;
   extraflags = 0;
+
+  *did_stat = false;
   
   switch (symlink_follow_option)
     {
@@ -1244,7 +1254,8 @@ static enum SafeChdirStatus
 safely_chdir(const char *dest,
 	     enum TraversalDirection direction,
 	     struct stat *statbuf_dest,
-	     enum ChdirSymlinkHandling symlink_follow_option)
+	     enum ChdirSymlinkHandling symlink_follow_option,
+	     boolean *did_stat)
 {
   /* We're about to leave a directory.  If there are any -execdir
    * argument lists which have been built but have not yet been
@@ -1255,9 +1266,9 @@ safely_chdir(const char *dest,
 
 #if defined(O_NOFOLLOW)
   if (options.open_nofollow_available)
-    return safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_follow_option);
+    return safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_follow_option, did_stat);
 #endif
-  return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_follow_option);
+  return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_follow_option, did_stat);
 }
 
 
@@ -1337,7 +1348,8 @@ at_top (char *pathname,
       enum TraversalDirection direction;
       enum SafeChdirStatus chdir_status;
       struct stat st;
-
+      boolean did_stat = false;
+      
       dirchange = 1;
       if (0 == strcmp(base, ".."))
 	direction = TraversingUp;
@@ -1354,7 +1366,7 @@ at_top (char *pathname,
        * Hence we need the ability to override the policy set by
        * following_links().
        */
-      chdir_status = safely_chdir(parent_dir, direction, &st, SymlinkFollowOk);
+      chdir_status = safely_chdir(parent_dir, direction, &st, SymlinkFollowOk, &did_stat);
       if (SafeChdirOK != chdir_status)
 	{
 	  const char *what = (SafeChdirFailWouldBeUnableToReturn == chdir_status) ? "." : parent_dir;
@@ -1788,7 +1800,8 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
       unsigned cur_path_size;	/* Bytes allocated for `cur_path'. */
       register unsigned file_len; /* Length of each path to process. */
       register unsigned pathname_len; /* PATHLEN plus trailing '/'. */
-
+      boolean did_stat = false;
+      
       if (pathname[pathlen - 1] == '/')
 	pathname_len = pathlen + 1; /* For '\0'; already have '/'. */
       else
@@ -1805,7 +1818,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
       
       if (strcmp (name, "."))
 	{
-	  enum SafeChdirStatus status = safely_chdir (name, TraversingDown, &stat_buf, SymlinkHandleDefault);
+	  enum SafeChdirStatus status = safely_chdir (name, TraversingDown, &stat_buf, SymlinkHandleDefault, &did_stat);
 	  switch (status)
 	    {
 	    case SafeChdirOK:
@@ -1814,9 +1827,23 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	       * way back up as well, so modify our record 
 	       * of what we think we should see later.
 	       * If there was no change, the assignments are a no-op.
+	       *
+	       * However, before performing the assignment, we need to
+	       * check that we have the stat information.   If O_NOFOLLOW
+	       * is available, safely_chdir() will not have needed to use 
+	       * stat(), and so stat_buf will just contain random data.
 	       */
+	      if (!did_stat)
+		{
+		  /* If there is a link we need to follow it.  Hence 
+		   * the direct call to stat() not through (options.xstat)
+		   */
+		  if (0 != stat(".", &stat_buf))
+		    break;	/* skip the assignment. */
+		}
 	      dir_ids[dir_curr].dev = stat_buf.st_dev;
 	      dir_ids[dir_curr].ino = stat_buf.st_ino;
+	      
 	      break;
       
 	    case SafeChdirFailWouldBeUnableToReturn:
@@ -1922,6 +1949,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	{
 	  enum SafeChdirStatus status;
 	  struct dir_id did;
+	  boolean did_stat = false;
 	  
 	  /* We could go back and do the next command-line arg
 	     instead, maybe using longjmp.  */
@@ -1936,7 +1964,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      dir = parent;
 	    }
 	  
-	  status = safely_chdir (dir, TraversingUp, &stat_buf, SymlinkHandleDefault);
+	  status = safely_chdir (dir, TraversingUp, &stat_buf, SymlinkHandleDefault, &did_stat);
 	  switch (status)
 	    {
 	    case SafeChdirOK:
