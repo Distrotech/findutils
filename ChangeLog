@@ -1,3 +1,89 @@
+2005-06-12  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
+
+        * locate/locate.c: Implement --all (-A).
+	
+        * NEWS, doc/find.texi, locate/locate.1: Document locate --all (-A)
+	
+2005-06-12  James Youngman  <jay@gnu.org>
+
+	* find/find.c, NEWS:
+	Savannah bug #13381 (Debian bug 313081): if we have O_NOFOLLOW,
+	safely_chdir() does not need to call stat().  However, process_dir()
+	used to rely on using that stat information.  To work around this
+	problem, there is now an output parameter in safely_chdir() which
+	indicates if the stat buffer is valid.
+	This bug has possible security implications.
+
+	* find/find.1, doc/find.texi:
+	Applied patch from Andreas Metzler, improving the wording for the
+	documentation of the %k and %b format directives.  This patch does
+	not require a copyright assignment as it consists of several
+	copies of the same small wording change.
+
+2005-06-11  James Youngman  <jay@gnu.org>
+
+	* find/find.1: Corrected spelling error 'writeable' to 'writable'.
+
+	* find/find.1, locate/locate.1:
+	Fixed Savannah bug #13363, typos in manpages (trivial change)
+
+2005-06-10  James Youngman  <jay@gnu.org>
+
+	* find/find.c, lib/savedirinfo.c, lib/savedirinfo.h: Switch to a
+	new scheme for saving directory entry data which is extensible to
+	allow additional data to be saved.
+
+2005-06-09  James Youngman  <jay@gnu.org>
+
+	* locate/testsuite/config/unix.exp:
+	Use the new normalize_dir procedure throughout.
+
+	* locate/testsuite/config/unix.exp: Move the normalisation into a
+	procedure.  Don't rely on the "file normalize" command being
+	available (it's new in Tcl 8.4).
+
+2005-06-08  James Youngman  <jay@gnu.org>
+
+	* ChangeLog, NEWS, configure.in: Updated for recent changes
+
+	* doc/find.texi:
+	Explain that you should put the argument of -name in quotes.
+
+	* find/find.1:
+	Added a new "NON-BUGS" section pointing out things that look like bugs
+	but are caused by mistakes or misunderstandings.
+
+	* doc/find.texi, locate/locate.1: Applied Bas van Gompel's patch
+	which allows the database to be read from stdin.
+
+	* locate/locate.c:
+	Read the database in by using the "visitor" pattern.  Modified file
+	header comment to indicate that we no longer use the efficient
+	algorith described in ;login:.  Emit an error message if the
+	LOCATE_PATH variable implies that we should read stdin twice.
+	Most of this code is from Bas van Gompel.
+
+	* AUTHORS: Credit Bas van Gompel for his work on locate.
+
+	* lib/printquoted.h: Appled patch from Bas - fixing compiler warning.
+
+2005-06-07  James Youngman  <jay@gnu.org>
+
+	* ChangeLog, NEWS, configure.in: Updates prior to release
+
+	* config.rpath: Added file required for 'make dist'
+
+	* po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po,
+	po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po,
+	po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po,
+	po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po,
+	po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po,
+	po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po:
+	updated the po files for release
+
+	* xargs/testsuite/Makefile.am:
+	Added in all the test files from Dmitry V. Levin.
+
 2005-06-08  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
 
 	* NEWS, locate/locate.1, doc/find.texi: Document usage of `-'
