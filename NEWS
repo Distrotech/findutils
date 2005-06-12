@@ -1,12 +1,6 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.2.22-CVS
 
-** Functional Changes to locate
-
-A locate database can now be supplied on stdin, using '-' as a element
-of the database-path. If more than one database-path element is '-',
-later instances are ignored.
-
 ** Security Fixes
 
 If a directory entry searched with "find -L" is a symbolic link to
@@ -18,6 +12,26 @@ file security checks based on find.   However, it should be noted that
 you should not use "find -L" in security-sensitive scenarios.
 
 ** Other Bug Fixes
+
+None in this release.
+
+** Functional Changes to locate
+
+A locate database can now be supplied on stdin, using '-' as a element
+of the database-path. If more than one database-path element is '-',
+later instances are ignored.
+
+A new option to locate, '--all' ('-A') causes matches to be limited to
+entries which match all given patterns, not entries which match
+one or more patterns.
+
+** Documentation Changes
+
+Some typos in the manual pages have been fixed.  Various parts of the
+manual now point out that it is good practice to quote the argument of
+"-name".  The manpage now has a "NON-BUGS" section which explains some
+symptoms that look like bugs but aren't.  The explanations of the "%k"
+and "%b" directives to "find -printf" have been imrpoved.
 
 
 * Major changes in release 4.2.21
