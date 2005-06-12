@@ -7,11 +7,18 @@ A locate database can now be supplied on stdin, using '-' as a element
 of the database-path. If more than one database-path element is '-',
 later instances are ignored.
 
-** Bug Fixes
+** Security Fixes
 
 If a directory entry searched with "find -L" is a symbolic link to
 ".", we no longer loop indefinitely.  This problem affected find
-versions 4.2.19, 4.2.20 and 4.2.21.
+versions 4.2.19, 4.2.20 and 4.2.21.  This problem allows users to make
+"find" loop indefinitely.  This is in effect a denial of service and
+could be used to prevent updates to the locate database or to defeat
+file security checks based on find.   However, it should be noted that
+you should not use "find -L" in security-sensitive scenarios.
+
+** Other Bug Fixes
+
 
 * Major changes in release 4.2.21
 ** Functional Changes to find
