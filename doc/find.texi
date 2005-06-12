@@ -1438,12 +1438,15 @@ zero on the number, use the '#' format flag, for example '%#m'.
 
 @table @code
 @item %k
-Amount of disk space occupied by the file, measured in 1K blocks
-(rounded up).  This can be less than the length of the file if 
-it is a sparse file (that is, it has ``holes'').  
+The amount of disk space used for this file in 1K blocks. Since disk space is
+allocated in multiples of the filesystem block size this is usually greater
+than %s/1024, but it can also be smaller if the file is a sparse file (that is,
+it has ``holes'').
 @item %b
-File's size in 512-byte blocks (rounded up).  This also can be less 
-than the length of the file, if the file is sparse.
+The amount of disk space used for this file in 512-byte blocks. Since disk
+space is allocated in multiples of the filesystem block size this is usually
+greater than %s/1024, but it can also be smaller if the file is a sparse file
+(that is, it has ``holes'').
 @item %s
 File's size in bytes.
 @end table

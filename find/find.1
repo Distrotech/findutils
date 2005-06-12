@@ -665,7 +665,9 @@ last two digits of year (00..99)
 year (1970...)
 .RE
 .IP %b
-File's size in 512-byte blocks (rounded up).
+The amount of disk space used for this file in 512-byte blocks. Since disk
+space is allocated in multiples of the filesystem block size this is usually
+greater than %s/1024, but it can also be smaller if the file is a sparse file.
 .IP %c
 File's last status change time in the format returned by the C `ctime'
 function.
@@ -696,8 +698,9 @@ Command line argument under which file was found.
 .IP %i
 File's inode number (in decimal).
 .IP %k
-The amount of disk space used for this file in 1K blocks (rounded
-up).  This is different from %s/1024 if the file is a sparse file.
+The amount of disk space used for this file in 1K blocks. Since disk space is
+allocated in multiples of the filesystem block size this is usually greater
+than %s/1024, but it can also be smaller if the file is a sparse file.
 .IP %l
 Object of symbolic link (empty string if file is not a symbolic link).
 .IP %m
