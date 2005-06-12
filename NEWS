@@ -7,7 +7,11 @@ A locate database can now be supplied on stdin, using '-' as a element
 of the database-path. If more than one database-path element is '-',
 later instances are ignored.
 
+** Bug Fixes
 
+If a directory entry searched with "find -L" is a symbolic link to
+".", we no longer loop indefinitely.  This problem affected find
+versions 4.2.19, 4.2.20 and 4.2.21.
 
 * Major changes in release 4.2.21
 ** Functional Changes to find
