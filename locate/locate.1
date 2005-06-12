@@ -7,7 +7,7 @@ locate \- list files in databases that match a pattern
 | \-\-ignore-case] [\-0 | \-\-null] [\-c | \-\-count] [\-w | \-\-wholename]
 |\-b | \-\-basename] [\-l N | \-\-limit=N] [\-S | \-\-statistics] [\-r
 | \-\-regex ] [\-P | \-H | \-\-nofollow] [\-L | \-\-follow] [\-\-version]
-[\-p | \-\-print] [\-\-help] pattern...
+[\-A | \-\-all] [\-p | \-\-print] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -49,6 +49,10 @@ command.  If the output is not going to a terminal, file names are
 printed exactly as-is.
 
 .SH OPTIONS
+.TP
+.I "\-A, \-\-all"
+Print only names which match all non-option arguments, not those matching
+one or more non-option arguments.
 .TP
 .I "\-c, \-\-count"
 Instead of printing the matched filenames, just print the total 

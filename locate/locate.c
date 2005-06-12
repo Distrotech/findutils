@@ -389,6 +389,39 @@ process_or (struct process_data *procdata)
     return result;
 }
 
+/* Accept if all pattern match. */
+static int
+process_and (struct process_data *procdata)
+{
+  int result = VISIT_CONTINUE;
+  const struct visitor *p = inspectors;
+  
+  while ( ((VISIT_CONTINUE | VISIT_ACCEPTED) & result) && (past_pat_inspector != p) )
+    {
+      result = (p->inspector)(procdata, p->context);
+      p = p->next;
+    }
+
+  if (result == VISIT_CONTINUE)
+    result = VISIT_REJECTED;
+  if (result & (VISIT_ABORT | VISIT_REJECTED))
+    return result;
+
+  p = past_pat_inspector;
+  result = VISIT_CONTINUE;
+
+  while ( (VISIT_CONTINUE == result) && (NULL != p) )
+    {
+      result = (p->inspector)(procdata, p->context);
+      p = p->next;
+    }
+  
+  if (VISIT_CONTINUE == result)
+    return VISIT_ACCEPTED;
+  else
+    return result;
+}
+
 typedef int (*processfunc)(struct process_data *procdata);
 
 static processfunc mainprocessor = NULL;
@@ -765,6 +798,7 @@ locate (int argc,
 	int use_limit,
 	struct locate_limits *plimit,
 	int stats,
+	int op_and,
 	int regex)
 {
   char *pathpart; 		/* A pattern to consider. */
@@ -960,7 +994,10 @@ locate (int argc,
   if (argc > 1)
     {
       past_pat_inspector = pvis->next;
-      mainprocessor = process_or;
+      if (op_and)
+        mainprocessor = process_and;
+      else
+        mainprocessor = process_or;
     }
   else
     mainprocessor = process_simple;
@@ -1024,7 +1061,8 @@ Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n\
       [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
       [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n\
-      [-p | --print] [-r | --regex ] [--version] [--help] pattern...\n"),
+      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n\
+      pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
@@ -1035,6 +1073,7 @@ static struct option const longopts[] =
   {"existing", no_argument, NULL, 'e'},
   {"non-existing", no_argument, NULL, 'E'},
   {"ignore-case", no_argument, NULL, 'i'},
+  {"all", no_argument, NULL, 'A'},
   {"help", no_argument, NULL, 'h'},
   {"version", no_argument, NULL, 'v'},
   {"null", no_argument, NULL, '0'},
@@ -1066,6 +1105,7 @@ main (int argc, char **argv)
   int use_limit = 0;
   int regex = 0;
   int stats = 0;
+  int op_and = 0;
   char *e;
   
   program_name = argv[0];
@@ -1089,12 +1129,16 @@ main (int argc, char **argv)
 
   check_existence = ACCEPT_EITHER;
 
-  while ((optc = getopt_long (argc, argv, "bcd:eEil:prsm0SwHPL", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "Abcd:eEil:prsm0SwHPL", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
 	separator = 0;
 	print_quoted_filename = false; /* print filename 'raw'. */
+	break;
+
+      case 'A':
+	op_and = 1;
 	break;
 
       case 'b':
@@ -1225,7 +1269,7 @@ main (int argc, char **argv)
 	  e = LOCATE_DB;
 	}
 	  
-      found = locate (argc - optind, &argv[optind], e, ignore_case, print, basename_only, use_limit, &limits, stats, regex);
+      found = locate (argc - optind, &argv[optind], e, ignore_case, print, basename_only, use_limit, &limits, stats, op_and, regex);
     }
   
   if (just_count)
