@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.18\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-07 23:57+0100\n"
+"POT-Creation-Date: 2005-06-12 22:37+0100\n"
 "PO-Revision-Date: 2005-03-09 22:07+0100\n"
 "Last-Translator: Benno Schulenberg <benno@nietvergeten.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -257,7 +257,7 @@ msgstr ""
 "%s%s is gewijzigd tijdens het uitvoeren van %s (oud inode-getal %ld, nieuw "
 "inode-getal %ld, bestandssysteemsoort %s) [ref %ld]"
 
-#: find/find.c:1457
+#: find/find.c:1469
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -266,7 +266,7 @@ msgstr ""
 "Symbolische link '%s' is deel van een oneindige lus in de mappenhiërarchie: "
 "de map waarnaar de link wijst is al bezocht."
 
-#: find/find.c:1472
+#: find/find.c:1484
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -275,15 +275,15 @@ msgstr ""
 "Oneindige lus in bestandssysteem: '%s' heeft hetzelfde apparaatnummer en "
 "dezelfde inode als een map, %d %s."
 
-#: find/find.c:1476
+#: find/find.c:1488
 msgid "level higher in the filesystem hierarchy"
 msgstr "niveau hoger in de bestandshiërarchie"
 
-#: find/find.c:1477
+#: find/find.c:1489
 msgid "levels higher in the filesystem hierarchy"
 msgstr "niveaus hoger in de bestandshiërarchie"
 
-#: find/find.c:1858
+#: find/find.c:1909
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -551,7 +551,7 @@ msgstr ""
 "of       %s meest_gebruikelijke_bigrams <bestandenlijst> locate-"
 "gegevensbestand\n"
 
-#: locate/code.c:131 locate/locate.c:990 xargs/xargs.c:1177
+#: locate/code.c:131 locate/locate.c:1067 xargs/xargs.c:1177
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -565,26 +565,31 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils versie %s\n"
 
-#: locate/locate.c:143
+#: locate/locate.c:153
 msgid "days"
 msgstr "dagen"
 
-#: locate/locate.c:654
+#: locate/locate.c:522
+#, c-format
+msgid "locate database `%s' is corrupt or invalid"
+msgstr "locate-gegevensbank '%s' is beschadigd of ongeldig"
+
+#: locate/locate.c:758
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Grootte van locate-gegevensbank: %s bytes\n"
 
-#: locate/locate.c:658
+#: locate/locate.c:762
 #, c-format
 msgid "Filenames: %s "
 msgstr "Bestandsnamen: %s"
 
-#: locate/locate.c:661
+#: locate/locate.c:765
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "met een totale lengte van %s bytes"
 
-#: locate/locate.c:665
+#: locate/locate.c:769
 #, c-format
 msgid ""
 "\n"
@@ -593,7 +598,7 @@ msgstr ""
 "\n"
 "\twaarvan %s witruimte bevatten, "
 
-#: locate/locate.c:668
+#: locate/locate.c:772
 #, c-format
 msgid ""
 "\n"
@@ -602,7 +607,7 @@ msgstr ""
 "\n"
 "\t%s bevatten LF-tekens, "
 
-#: locate/locate.c:671
+#: locate/locate.c:775
 #, c-format
 msgid ""
 "\n"
@@ -611,31 +616,30 @@ msgstr ""
 "\n"
 "\ten %s bevatten tekens met het hoogste bit gezet.\n"
 
-#: locate/locate.c:676
+#: locate/locate.c:780
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Compressieverhouding %4.2f%%\n"
 
-#: locate/locate.c:854
+#: locate/locate.c:824
+msgid "warning: the locate database can only be read from stdin once."
+msgstr ""
+
+#: locate/locate.c:845
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "waarschuwing: gegevensbank '%s' is meer dan %d %s oud"
 
-#: locate/locate.c:878
+#: locate/locate.c:1007
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Gegevensbank %s is in de %s-indeling.\n"
 
-#: locate/locate.c:880
+#: locate/locate.c:1009
 msgid "old"
 msgstr "oud"
 
-#: locate/locate.c:924
-#, c-format
-msgid "locate database `%s' is corrupt or invalid"
-msgstr "locate-gegevensbank '%s' is beschadigd of ongeldig"
-
-#: locate/locate.c:983
+#: locate/locate.c:1059
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -643,7 +647,8 @@ msgid ""
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-p | --print] [-r | --regex ] [--version] [--help] pattern...\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
+"      pattern...\n"
 msgstr ""
 "Gebruik: %s [-d PAD | --database=PAD]  [-e | --existing]\n"
 "         [-i | --ignore-case]  [-w | --wholename]  [-b | --basename]\n"
@@ -652,12 +657,12 @@ msgstr ""
 "         [-m | --mmap ]  [ -s | --stdio ]  [-r | --regex ]\n"
 "         [--version]  [--help]  PATROON...\n"
 
-#: locate/locate.c:1094
+#: locate/locate.c:1177
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate versie %s\n"
 
-#: locate/locate.c:1129
+#: locate/locate.c:1212
 msgid "argument to --limit"
 msgstr "argument van --limit"
 

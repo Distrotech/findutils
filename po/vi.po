@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.20\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-07 23:57+0100\n"
+"POT-Creation-Date: 2005-06-12 22:37+0100\n"
 "PO-Revision-Date: 2005-03-25 16:10+0950\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net> \n"
@@ -255,7 +255,7 @@ msgstr ""
 "%s%s đã thay đổi trong khi thì hành %s (số inode cũ %ld, số inode mới %ld, "
 "loại hệ thống tập tin là %s) [nhắc %ld]"
 
-#: find/find.c:1457
+#: find/find.c:1469
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -264,7 +264,7 @@ msgstr ""
 "Liên kết tương trưng `%s' là phần vòng lặp trong tôn ti thư mục ấy; đã thăm "
 "thư mục về mà nó hướng rồi."
 
-#: find/find.c:1472
+#: find/find.c:1484
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -273,15 +273,15 @@ msgstr ""
 "Mới phát hiện vòng lặp hệ thống tập tin; `%s' có cùng một số thiết bị và "
 "inode với thư mục %d %s."
 
-#: find/find.c:1476
+#: find/find.c:1488
 msgid "level higher in the filesystem hierarchy"
 msgstr "mức cao hơn trong tôn ti hệ thống tập tin"
 
-#: find/find.c:1477
+#: find/find.c:1489
 msgid "levels higher in the filesystem hierarchy"
 msgstr "mức cao hơn trong tôn ti hệ thống tập tin"
 
-#: find/find.c:1858
+#: find/find.c:1909
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -603,7 +603,7 @@ msgstr ""
 "(chữ đôi thường nhất, danh sach tập tin, cơ sở dữ liệu loại xác định đúng vị "
 "trí)\n"
 
-#: locate/code.c:131 locate/locate.c:990 xargs/xargs.c:1177
+#: locate/code.c:131 locate/locate.c:1067 xargs/xargs.c:1177
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -616,26 +616,31 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "Trình findutils phiên bản %s của GNU\n"
 
-#: locate/locate.c:143
+#: locate/locate.c:153
 msgid "days"
 msgstr "ngày"
 
-#: locate/locate.c:654
+#: locate/locate.c:522
+#, c-format
+msgid "locate database `%s' is corrupt or invalid"
+msgstr "cơ sở dữ liệu xác định đúng vị trí `%s' là hỏng hay không hợp lệ"
+
+#: locate/locate.c:758
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Kích thước cơ sở dữ liệu xác định đúng vị trí: %s bytes\n"
 
-#: locate/locate.c:658
+#: locate/locate.c:762
 #, c-format
 msgid "Filenames: %s "
 msgstr "Tên tập tin: %s"
 
-#: locate/locate.c:661
+#: locate/locate.c:765
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "có độ dài lũy tích là %s byte"
 
-#: locate/locate.c:665
+#: locate/locate.c:769
 #, c-format
 msgid ""
 "\n"
@@ -644,7 +649,7 @@ msgstr ""
 "\n"
 "\tmà  %s có dấu cách của nó"
 
-#: locate/locate.c:668
+#: locate/locate.c:772
 #, c-format
 msgid ""
 "\n"
@@ -653,7 +658,7 @@ msgstr ""
 "\n"
 "\t%s có ký tự dòng mới"
 
-#: locate/locate.c:671
+#: locate/locate.c:775
 #, c-format
 msgid ""
 "\n"
@@ -662,31 +667,30 @@ msgstr ""
 "\n"
 "\tvà %s có ký tự với bộ bit cao.\n"
 
-#: locate/locate.c:676
+#: locate/locate.c:780
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Tỷ lệ nén %4.2f%%\n"
 
-#: locate/locate.c:854
+#: locate/locate.c:824
+msgid "warning: the locate database can only be read from stdin once."
+msgstr ""
+
+#: locate/locate.c:845
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "cảnh báo: cơ sở dữ liệu `%s' cũ hơn %d %s"
 
-#: locate/locate.c:878
+#: locate/locate.c:1007
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Cơ sở dư liệu %s có dạng %s.\n"
 
-#: locate/locate.c:880
+#: locate/locate.c:1009
 msgid "old"
 msgstr "cũ"
 
-#: locate/locate.c:924
-#, c-format
-msgid "locate database `%s' is corrupt or invalid"
-msgstr "cơ sở dữ liệu xác định đúng vị trí `%s' là hỏng hay không hợp lệ"
-
-#: locate/locate.c:983
+#: locate/locate.c:1059
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -694,7 +698,8 @@ msgid ""
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-p | --print] [-r | --regex ] [--version] [--help] pattern...\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
+"      pattern...\n"
 msgstr ""
 "Cách sử dụng: %s [-d path | --database=path] (đường dẫn, cơ sở dữ liệu)\n"
 "[-e | --existing] (tồn tại)\n"
@@ -713,12 +718,12 @@ msgstr ""
 "[--version] (phiên bản)\n"
 "[--help] mẫu... (trợ giúp)\n"
 
-#: locate/locate.c:1094
+#: locate/locate.c:1177
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "Trình locate (xác định đúng vị trí) phiên bản %s cua GNU\n"
 
-#: locate/locate.c:1129
+#: locate/locate.c:1212
 msgid "argument to --limit"
 msgstr "đối số đối với --limit (giới hạn)"
 

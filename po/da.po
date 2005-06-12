@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.15\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-07 23:57+0100\n"
+"POT-Creation-Date: 2005-06-12 22:37+0100\n"
 "PO-Revision-Date: 2005-02-01 14:36+0100\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -259,7 +259,7 @@ msgstr ""
 "%s%s ændrede sig under kørsel af %s (tidligere inode-nummer %ld, nyt inode-"
 "nummer %ld, filsystemtype er %s) [ref %ld]"
 
-#: find/find.c:1457
+#: find/find.c:1469
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -268,7 +268,7 @@ msgstr ""
 "Symbolsk kæde '%s' er del af en løkke i kataloghierarkiet; det katalog som "
 "den peger på, er allerede blevet besøgt."
 
-#: find/find.c:1472
+#: find/find.c:1484
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -277,15 +277,15 @@ msgstr ""
 "Filsystemsløkke fundet; '%s' har det samme enhedsnummer og indekseringsknude "
 "som et katalog hvilket er %d %s."
 
-#: find/find.c:1476
+#: find/find.c:1488
 msgid "level higher in the filesystem hierarchy"
 msgstr "niveau højere i filsystemshierarkiet"
 
-#: find/find.c:1477
+#: find/find.c:1489
 msgid "levels higher in the filesystem hierarchy"
 msgstr "niveauer højere i filsystemshierarkiet"
 
-#: find/find.c:1858
+#: find/find.c:1909
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -552,7 +552,7 @@ msgstr ""
 "Brug: %s [--version | --help]\n"
 "eller %s mest-brugte-bigrammer < liste > locate-database\n"
 
-#: locate/code.c:131 locate/locate.c:990 xargs/xargs.c:1177
+#: locate/code.c:131 locate/locate.c:1067 xargs/xargs.c:1177
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -566,26 +566,31 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils version %s\n"
 
-#: locate/locate.c:143
+#: locate/locate.c:153
 msgid "days"
 msgstr "dage"
 
-#: locate/locate.c:654
+#: locate/locate.c:522
+#, c-format
+msgid "locate database `%s' is corrupt or invalid"
+msgstr "locate-databasen '%s' er ødelagt eller ugyldig"
+
+#: locate/locate.c:758
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Locate-databasestørrelse: %s byte\n"
 
-#: locate/locate.c:658
+#: locate/locate.c:762
 #, c-format
 msgid "Filenames: %s "
 msgstr "Filnavne: %s "
 
-#: locate/locate.c:661
+#: locate/locate.c:765
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "men en kumulativ længde på %s byte"
 
-#: locate/locate.c:665
+#: locate/locate.c:769
 #, c-format
 msgid ""
 "\n"
@@ -594,7 +599,7 @@ msgstr ""
 "\n"
 "\taf hvilke %s indeholder mellemrum, "
 
-#: locate/locate.c:668
+#: locate/locate.c:772
 #, c-format
 msgid ""
 "\n"
@@ -603,7 +608,7 @@ msgstr ""
 "\n"
 "\t%s indeholder linjeskift, "
 
-#: locate/locate.c:671
+#: locate/locate.c:775
 #, c-format
 msgid ""
 "\n"
@@ -612,31 +617,30 @@ msgstr ""
 "\n"
 "\tog %s indeholder tegn med den højeste bit sat.\n"
 
-#: locate/locate.c:676
+#: locate/locate.c:780
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Komprimeringsforhold %4.2f%%\n"
 
-#: locate/locate.c:854
+#: locate/locate.c:824
+msgid "warning: the locate database can only be read from stdin once."
+msgstr ""
+
+#: locate/locate.c:845
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "advarsel: databasen '%s' er mere end %d %s gammel"
 
-#: locate/locate.c:878
+#: locate/locate.c:1007
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Database %s er i formatet %s.\n"
 
-#: locate/locate.c:880
+#: locate/locate.c:1009
 msgid "old"
 msgstr "gammel"
 
-#: locate/locate.c:924
-#, c-format
-msgid "locate database `%s' is corrupt or invalid"
-msgstr "locate-databasen '%s' er ødelagt eller ugyldig"
-
-#: locate/locate.c:983
+#: locate/locate.c:1059
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -644,7 +648,8 @@ msgid ""
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-p | --print] [-r | --regex ] [--version] [--help] pattern...\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
+"      pattern...\n"
 msgstr ""
 "Brug: %s [-d sti | --database=sti] [-e | --existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename]\n"
@@ -654,12 +659,12 @@ msgstr ""
 "\\n\"\n"
 "      [-r | -regex] [--version] [--help] mønster...\n"
 
-#: locate/locate.c:1094
+#: locate/locate.c:1177
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate version %s\n"
 
-#: locate/locate.c:1129
+#: locate/locate.c:1212
 msgid "argument to --limit"
 msgstr "parameter til --limit"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.15\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-07 23:57+0100\n"
+"POT-Creation-Date: 2005-06-12 22:37+0100\n"
 "PO-Revision-Date: 2005-01-31 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -256,7 +256,7 @@ msgstr ""
 "%s%s a été modifié durant l'exécution de %s (ancien no d'inode %ld, nouveau "
 "no d'inode %ld, type du système de fichiers est %s) [ref %ld]"
 
-#: find/find.c:1457
+#: find/find.c:1469
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -265,7 +265,7 @@ msgstr ""
 "Le lien symbolique `%s' fait parti d'une boucle dans la hiérarchie du "
 "répertoire; le répertoire sur lequel il pointe a déjà été visité."
 
-#: find/find.c:1472
+#: find/find.c:1484
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -274,15 +274,15 @@ msgstr ""
 "Boucle détecté dans le système de fichiers; `%s' a le même numéro de "
 "périphérique et d'inode que le répertoie lequel est %d %s"
 
-#: find/find.c:1476
+#: find/find.c:1488
 msgid "level higher in the filesystem hierarchy"
 msgstr "plus haut niveau dans la hiérarchie du système de fichiers"
 
-#: find/find.c:1477
+#: find/find.c:1489
 msgid "levels higher in the filesystem hierarchy"
 msgstr "plus haust niveaux dans la hiérarchie du système de fichiers"
 
-#: find/find.c:1858
+#: find/find.c:1909
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -562,7 +562,7 @@ msgstr ""
 "ou     %s bigrammes_les_plus_communs < liste_de_fichiers > base-de-données-"
 "locate\n"
 
-#: locate/code.c:131 locate/locate.c:990 xargs/xargs.c:1177
+#: locate/code.c:131 locate/locate.c:1067 xargs/xargs.c:1177
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -575,26 +575,31 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils version %s\n"
 
-#: locate/locate.c:143
+#: locate/locate.c:153
 msgid "days"
 msgstr "jours"
 
-#: locate/locate.c:654
+#: locate/locate.c:522
+#, c-format
+msgid "locate database `%s' is corrupt or invalid"
+msgstr "la localisation de la base de données « %s » est corrompu ou invalide"
+
+#: locate/locate.c:758
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Taille de la base de données localisée: %s octets\n"
 
-#: locate/locate.c:658
+#: locate/locate.c:762
 #, c-format
 msgid "Filenames: %s "
 msgstr "Noms de fichiers: %s "
 
-#: locate/locate.c:661
+#: locate/locate.c:765
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "avec une longueur cumulaive de %s octets"
 
-#: locate/locate.c:665
+#: locate/locate.c:769
 #, c-format
 msgid ""
 "\n"
@@ -603,7 +608,7 @@ msgstr ""
 "\n"
 "\tduquel %s contient des espaces blancs, "
 
-#: locate/locate.c:668
+#: locate/locate.c:772
 #, c-format
 msgid ""
 "\n"
@@ -612,7 +617,7 @@ msgstr ""
 "\n"
 "\t%s contient des caractères de chariot (newline), "
 
-#: locate/locate.c:671
+#: locate/locate.c:775
 #, c-format
 msgid ""
 "\n"
@@ -621,31 +626,30 @@ msgstr ""
 "\n"
 "\tet %s contient des caractères avec le bit du haut mis à un.\n"
 
-#: locate/locate.c:676
+#: locate/locate.c:780
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Taux de compression %4.2f%%\n"
 
-#: locate/locate.c:854
+#: locate/locate.c:824
+msgid "warning: the locate database can only be read from stdin once."
+msgstr ""
+
+#: locate/locate.c:845
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "AVERTISSEMENT: la base de données « %s » est plus vieille de %d %s"
 
-#: locate/locate.c:878
+#: locate/locate.c:1007
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "La base de données %s est dans le format %s.\n"
 
-#: locate/locate.c:880
+#: locate/locate.c:1009
 msgid "old"
 msgstr "ancien"
 
-#: locate/locate.c:924
-#, c-format
-msgid "locate database `%s' is corrupt or invalid"
-msgstr "la localisation de la base de données « %s » est corrompu ou invalide"
-
-#: locate/locate.c:983
+#: locate/locate.c:1059
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -653,7 +657,8 @@ msgid ""
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-p | --print] [-r | --regex ] [--version] [--help] pattern...\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
+"      pattern...\n"
 msgstr ""
 "Usage: %s [-d chemin | --database=chemin] [-e | --existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -662,12 +667,12 @@ msgstr ""
 "stdio ]\n"
 "      [-r | --regex ] [--version] [--help] patron...\n"
 
-#: locate/locate.c:1094
+#: locate/locate.c:1177
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate version %s\n"
 
-#: locate/locate.c:1129
+#: locate/locate.c:1212
 msgid "argument to --limit"
 msgstr "argument à --limit"
 
