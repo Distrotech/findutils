@@ -2015,10 +2015,10 @@ find bills -type f | xargs -iXX sort -o XX.sorted XX
 @end example
 
 @noindent
-The equivalent command using @samp{find -exec} is:
+The equivalent command using @samp{find -execdir} is:
 
 @example
-find bills -type f -exec sort -o '@{@}.sorted' '@{@}' ';'
+find bills -type f -execdir sort -o '@{@}.sorted' '@{@}' ';'
 @end example
 @end table
 
@@ -2026,12 +2026,22 @@ find bills -type f -exec sort -o '@{@}.sorted' '@{@}' ';'
 @subsection Querying
 
 To ask the user whether to execute a command on a single file, you can
-use the @code{find} primary @samp{-ok} instead of @samp{-exec}:
+use the @code{find} primary @samp{-okdir} instead of @samp{-execdir},
+and the @code{find} primary @samp{-ok} instead of @samp{-exec}:
 
-@deffn Action -ok command ;
-Like @samp{-exec} (@pxref{Single File}), but ask the user first (on
+@deffn Action -okdir command ;
+Like @samp{-execdir} (@pxref{Single File}), but ask the user first (on
 the standard input); if the response does not start with @samp{y} or
 @samp{Y}, do not run the command, and return false.
+@end deffn
+
+@deffn Action -ok command ;
+This insecure variant of the @samp{-okdir} action is specified by
+POSIX.  The main difference is that the command is executed in the
+directory from which @code{find} was invoked, meaning that @samp{@{@}}
+is expanded to a relative path starting with the name of one of the
+starting directories, rather than just the basename of the matched
+file.
 @end deffn
 
 When processing multiple files with a single command, to query the user
@@ -2306,7 +2316,7 @@ the file name contains a character with the high bit set; the shell may
 strip it off.  A more reliable way is:
 
 @example
-find . -maxdepth 1 @var{tests} -ok rm '@{@}' \;
+find . -maxdepth 1 @var{tests} -okdir rm '@{@}' \;
 @end example
 
 @noindent
@@ -2325,18 +2335,18 @@ have found that its inode number is 12345.  This command prompts you for
 whether to remove it:
 
 @example
-find . -maxdepth 1 -inum 12345 -ok rm -f '@{@}' \;
+find . -maxdepth 1 -inum 12345 -okdir rm -f '@{@}' \;
 @end example
 
 If you don't want to be asked, perhaps because the file name may contain
 a strange character sequence that will mess up your screen when printed,
-then use @samp{-exec} instead of @samp{-ok}.
+then use @samp{-execdir} instead of @samp{-okdir}.
 
 If you want to rename the file instead, you can use @code{mv} instead of
 @code{rm}:
 
 @example
-find . -maxdepth 1 -inum 12345 -ok mv '@{@}' @var{new-file-name} \;
+find . -maxdepth 1 -inum 12345 -okdir mv '@{@}' @var{new-file-name} \;
 @end example
 
 @node Fixing Permissions

@@ -756,9 +756,11 @@ tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n\
       -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n\
       -used N -user NAME -xtype [bcdpfls]\n"));
   puts (_("\
-actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n\
-      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -delete\n\
-      -quit\n"));
+actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n\
+      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n\
+      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n\
+      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n\
+"));
   puts (_("Report (and track progress on fixing) bugs via the findutils bug-reporting\n\
 page at http://savannah.gnu.org/ or, if you have no web access, by sending\n\
 email to <bug-findutils@gnu.org>."));
