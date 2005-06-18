@@ -322,7 +322,7 @@ find_parser (char *search_name)
 		  if ((first_nonoption_arg != NULL)
 		      && options.warnings )
 		    {
-		      /* option which folows a non-option */
+		      /* option which follows a non-option */
 		      error (0, 0,
 			     _("warning: you have specified the %s "
 			       "option after a non-option argument %s, "
@@ -2349,8 +2349,8 @@ insert_time (char **argv, int *arg_ptr, PRED_FUNC pred)
   return (true);
 }
 
-/* Get a number with comparision information.
-   The sense of the comparision information is 'normal'; that is,
+/* Get a number with comparison information.
+   The sense of the comparison information is 'normal'; that is,
    '+' looks for a count > than the number and '-' less than.
    
    STR is the ASCII representation of the number.

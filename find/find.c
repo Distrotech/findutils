@@ -210,7 +210,7 @@ optionh_stat(const char *name, struct stat *p)
     }
   else
     {
-      /* Not a file on the command line; do not derefernce the link.
+      /* Not a file on the command line; do not dereference the link.
        */
       return lstat(name, p);
     }
@@ -284,7 +284,7 @@ set_follow_state(enum SymlinkOption opt)
 
   options.symlink_handling = opt;
   
-  /* For DBEUG_STAT, the choice is made at runtime within debug_stat()
+  /* For DEBUG_STAT, the choice is made at runtime within debug_stat()
    * by checking the contents of the symlink_handling variable.
    */
 #if defined(DEBUG_STAT)
@@ -956,7 +956,7 @@ enum SafeChdirStatus
   };
 
 /* Safely perform a change in directory.  We do this by calling
- * lstat() on the subdirectory, using chdir() tro move into it, and
+ * lstat() on the subdirectory, using chdir() to move into it, and
  * then lstat()ing ".".  We compare the results of the two stat calls
  * to see if they are consistent.  If not, we sound the alarm.
  *
@@ -1153,7 +1153,7 @@ safely_chdir_lstat(const char *dest,
    */
   saved_errno = 0;
   
-  /* We use the same exit path for successs or failure. 
+  /* We use the same exit path for success or failure. 
    * which has occurred is recorded in RV. 
    */
  fail:
@@ -1420,7 +1420,7 @@ static void do_process_predicate(char *pathname,
    Actions like -execdir assume that we are in the 
    parent directory of the file we're examining, 
    and on entry to this function our working directory
-   is whetever it was when find was invoked.  Therefore
+   is whatever it was when find was invoked.  Therefore
    If PATHNAME is "." we just leave things as they are. 
    Otherwise, we figure out what the parent directory is, 
    and move to that.
@@ -1688,7 +1688,7 @@ complete_pending_execdirs(struct predicate *p)
 	  struct exec_val *execp = &p->args.exec_vec;
 	  
 	  /* This one was terminated by '+' and so might have some
-	   * left... Run it if neccessary.  
+	   * left... Run it if necessary.
 	   */
 	  if (execp->state.todo)
 	    {
@@ -1727,7 +1727,7 @@ complete_pending_execs(struct predicate *p)
       struct exec_val *execp = &p->args.exec_vec;
       
       /* This one was terminated by '+' and so might have some
-       * left... Run it if neccessary.  Set state.exit_status if
+       * left... Run it if necessary.  Set state.exit_status if
        * there are any problems.
        */
       if (execp->state.todo)

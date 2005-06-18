@@ -322,7 +322,7 @@ struct predicate
   } args;
 
   /* The next predicate in the user input sequence,
-     which repesents the order in which the user supplied the
+     which represents the order in which the user supplied the
      predicates on the command line. */
   struct predicate *pred_next;
 
