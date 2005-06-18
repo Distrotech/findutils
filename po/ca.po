@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.15\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-12 22:37+0100\n"
+"POT-Creation-Date: 2005-06-18 22:41+0100\n"
 "PO-Revision-Date: 2005-01-31 23:33+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -388,18 +388,13 @@ msgstr ""
 
 #: find/parser.c:758
 msgid ""
-"actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-"delete\n"
-"      -quit\n"
+"actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
+"      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
+"      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
+"      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
-"accions: -exec ORDRE ; -fprint FITXER -fprint0 FITXER -fprintf FITXER "
-"FORMAT\n"
-"      -fls FITXER -ok ORDRE ; -print -print0 -printf FORMAT -prune -ls -"
-"delete\n"
-"      -quit\n"
 
-#: find/parser.c:762
+#: find/parser.c:764
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -410,12 +405,12 @@ msgstr ""
 "pàgina d'informes d'error de findutils en http://savannah.gnu.org/ o, si no\n"
 "teniu accés a la web, enviant correu a <bug-findutils@gnu.org>."
 
-#: find/parser.c:793
+#: find/parser.c:795
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 "la comprovació de sanitat de la funció fnmatch() de la biblioteca ha fallat."
 
-#: find/parser.c:808
+#: find/parser.c:810
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -425,48 +420,48 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:850
+#: find/parser.c:852
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "avís: el predicat -ipath està desaconsellat; utilitzeu -iwholename en el seu "
 "lloc."
 
-#: find/parser.c:1283
+#: find/parser.c:1285
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "el mode «%s» no és vàlid"
 
-#: find/parser.c:1436
+#: find/parser.c:1438
 msgid "invalid null argument to -size"
 msgstr "l'argument nul no és vàlid per a -size"
 
-#: find/parser.c:1482
+#: find/parser.c:1484
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "el tipus de -size «%c» no vàlid"
 
-#: find/parser.c:1599
+#: find/parser.c:1601
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versió %s\n"
 
-#: find/parser.c:1600
+#: find/parser.c:1602
 #, c-format
 msgid "Features enabled: "
 msgstr "Funcionalitats habilitades: "
 
-#: find/parser.c:1840
+#: find/parser.c:1842
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "avís: sequència d'escapament «\\%c» no reconegut"
 
-#: find/parser.c:1886
+#: find/parser.c:1888
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "avís: directiva de format «%%%c» no reconeguda"
 
-#: find/parser.c:1992
+#: find/parser.c:1994
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -479,7 +474,7 @@ msgstr ""
 "del vostre $PATH (és a dir, elimineu «.» o els dos punts del principi o "
 "final)"
 
-#: find/parser.c:2078
+#: find/parser.c:2080
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -487,7 +482,7 @@ msgstr ""
 "No pdeu utilitzar {} dins del nom de la utilitat per a -execdir i -okdir, ja "
 "que això és un problema de seguretat potencial."
 
-#: find/parser.c:2101
+#: find/parser.c:2103
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Només es suporta una instància de {} amb -exec%s ... +"
@@ -790,6 +785,18 @@ msgstr ""
 "       [--verbose] [--exit] [--max-procs=màx-processos]\n"
 "       [--max-args=max-arguments] [--no-run-if-empty] [--arg-file=fitxer]\n"
 "       [--version] [--help] [ordre [arguments-inicials]]\n"
+
+#~ msgid ""
+#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
+#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
+#~ "delete\n"
+#~ "      -quit\n"
+#~ msgstr ""
+#~ "accions: -exec ORDRE ; -fprint FITXER -fprint0 FITXER -fprintf FITXER "
+#~ "FORMAT\n"
+#~ "      -fls FITXER -ok ORDRE ; -print -print0 -printf FORMAT -prune -ls -"
+#~ "delete\n"
+#~ "      -quit\n"
 
 # "Llista de predicats?" jm
 #~ msgid "Predicate List:\n"

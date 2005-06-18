@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.15\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-12 22:37+0100\n"
+"POT-Creation-Date: 2005-06-18 22:41+0100\n"
 "PO-Revision-Date: 2005-02-01 18:51+0200\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -381,17 +381,13 @@ msgstr ""
 
 #: find/parser.c:758
 msgid ""
-"actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-"delete\n"
-"      -quit\n"
+"actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
+"      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
+"      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
+"      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
-"tegevused: -exec KÄSK ; -fprint FAIL -fprint0 FAIL -fprintf FAIL VORMING\n"
-"      -fls FAIL -ok KÄSK ; -print -print0 -printf VORMING -prune -ls -"
-"delete\n"
-"      -quit\n"
 
-#: find/parser.c:762
+#: find/parser.c:764
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -401,11 +397,11 @@ msgstr ""
 "http://savannah.gnu.org/ vï kui teil puudub juurdepääs veebile, saates\n"
 "emaili aadressil <bug-findutils@gnu.org>."
 
-#: find/parser.c:793
+#: find/parser.c:795
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "funktsiooni fnmatch() korrektsuse kontroll ebaõnnestus."
 
-#: find/parser.c:808
+#: find/parser.c:810
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -415,48 +411,48 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:850
+#: find/parser.c:852
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "hoiatus: predikaat -ipath on aegunud; kasutage selle asemel palun -"
 "iwholename."
 
-#: find/parser.c:1283
+#: find/parser.c:1285
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "vigane mood `%s'"
 
-#: find/parser.c:1436
+#: find/parser.c:1438
 msgid "invalid null argument to -size"
 msgstr "vigane tühi argument -size predikaadile"
 
-#: find/parser.c:1482
+#: find/parser.c:1484
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "vigane tüüp `%c' -size predikaadile"
 
-#: find/parser.c:1599
+#: find/parser.c:1601
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versioon %s\n"
 
-#: find/parser.c:1600
+#: find/parser.c:1602
 #, c-format
 msgid "Features enabled: "
 msgstr "Lubatud omadused: "
 
-#: find/parser.c:1840
+#: find/parser.c:1842
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "hoiatus: tundmatu paojada `\\%c'"
 
-#: find/parser.c:1886
+#: find/parser.c:1888
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "hoiatus: tundmatu formaadidirektiiv `%%%c'"
 
-#: find/parser.c:1992
+#: find/parser.c:1994
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -468,7 +464,7 @@ msgstr ""
 "korral ebaturvaline.  Palun eemaldage jooksev kataloog PATH muutujast "
 "(eemaldage \".\" või algavad või lõpetavad koolonid)"
 
-#: find/parser.c:2078
+#: find/parser.c:2080
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -476,7 +472,7 @@ msgstr ""
 "Võtmetega -execdir ja -okdir ei ole lubatud programmi nimes kasutada {}, "
 "kuna see võib olla turvarisk."
 
-#: find/parser.c:2101
+#: find/parser.c:2103
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Predikaadiga -exec%s ... + on lubatud kasutada ainult ühte {} paari"
@@ -774,6 +770,17 @@ msgstr ""
 "       [--verbose] [--exit] [--max-procs=maks-protsesse]\n"
 "       [--max-args=maks-argumente] [--no-run-if-empty] [--arg-file=fail]\n"
 "       [--version] [--help] [käsk [argumendid]]\n"
+
+#~ msgid ""
+#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
+#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
+#~ "delete\n"
+#~ "      -quit\n"
+#~ msgstr ""
+#~ "tegevused: -exec KÄSK ; -fprint FAIL -fprint0 FAIL -fprintf FAIL VORMING\n"
+#~ "      -fls FAIL -ok KÄSK ; -print -print0 -printf VORMING -prune -ls -"
+#~ "delete\n"
+#~ "      -quit\n"
 
 #~ msgid "Predicate List:\n"
 #~ msgstr "Predikaatide loend:\n"

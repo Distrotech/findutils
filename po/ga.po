@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.18\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-12 22:37+0100\n"
+"POT-Creation-Date: 2005-06-18 22:41+0100\n"
 "PO-Revision-Date: 2005-02-22 05:47-0500\n"
 "Last-Translator: Kevin Patrick Scannell <scannell@SLU.EDU>\n"
 "Language-Team: Irish <ga@li.org>\n"
@@ -391,18 +391,13 @@ msgstr ""
 
 #: find/parser.c:758
 msgid ""
-"actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-"delete\n"
-"      -quit\n"
+"actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
+"      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
+"      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
+"      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
-"gníomhartha: -exec ORDÚ; -fprint COMHAD -fprint0 COMHAD -fprintf COMHAD "
-"FORMÁID\n"
-"      -fls COMHAD -ok ORDÚ ; -print -print0 -printf FORMÁID -prune -ls -"
-"delete\n"
-"      -quit\n"
 
-#: find/parser.c:762
+#: find/parser.c:764
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -414,11 +409,11 @@ msgstr ""
 "bhfuil\n"
 " rochtain ar an nGréasán agat, seol r-phost chuig <bug-findutils@gnu.org>."
 
-#: find/parser.c:793
+#: find/parser.c:795
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "theip ar sheiceáil slánchéille don fheidhm leabharlainne fnmatch()."
 
-#: find/parser.c:808
+#: find/parser.c:810
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -428,48 +423,48 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:850
+#: find/parser.c:852
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "rabhadh: tá an phreideacáid -ipath as feidhm; bain úsáid as -iwholename ina "
 "hionad, le do thoil."
 
-#: find/parser.c:1283
+#: find/parser.c:1285
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "mód neamhbhailí `%s'"
 
-#: find/parser.c:1436
+#: find/parser.c:1438
 msgid "invalid null argument to -size"
 msgstr "argóint nialasach neamhbhailí i ndiaidh -size"
 
-#: find/parser.c:1482
+#: find/parser.c:1484
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "argóint neamhbhailí `%c' i ndiaidh -size"
 
-#: find/parser.c:1599
+#: find/parser.c:1601
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find, leagan %s\n"
 
-#: find/parser.c:1600
+#: find/parser.c:1602
 #, c-format
 msgid "Features enabled: "
 msgstr "Gnéithe arna gcumasú: "
 
-#: find/parser.c:1840
+#: find/parser.c:1842
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "rabhadh: seicheamh éalúcháin anaithnid `\\%c'"
 
-#: find/parser.c:1886
+#: find/parser.c:1888
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "rabhadh: treoir fhormáide anaithnid `%%%c'"
 
-#: find/parser.c:1992
+#: find/parser.c:1994
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -481,7 +476,7 @@ msgstr ""
 "neamhdhaingean é seo in éineacht leis an ghníomh %s.  Bain an chomhadlann "
 "reatha as $PATH (.i., bain \".\", nó idirstad ar dtús/i ndeireadh, amach)"
 
-#: find/parser.c:2078
+#: find/parser.c:2080
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -489,7 +484,7 @@ msgstr ""
 "Ní cheadaítear {} mar chuid d'ainm uirlise le -execdir nó -okdir, de bharr "
 "gur neamhdhaingean é seo."
 
-#: find/parser.c:2101
+#: find/parser.c:2103
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Ní thacaítear ach aon phéire amháin {} le -exec%s ... +"
@@ -787,6 +782,18 @@ msgstr ""
 "       [--max-chars=uas-char] [--verbose] [--exit] [--max-procs=uas-próis]\n"
 "       [--max-args=uas-args] [--no-run-if-empty] [--arg-file=comhad]\n"
 "       [--version] [--help] [ordú [argóintí-tosaigh]]\n"
+
+#~ msgid ""
+#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
+#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
+#~ "delete\n"
+#~ "      -quit\n"
+#~ msgstr ""
+#~ "gníomhartha: -exec ORDÚ; -fprint COMHAD -fprint0 COMHAD -fprintf COMHAD "
+#~ "FORMÁID\n"
+#~ "      -fls COMHAD -ok ORDÚ ; -print -print0 -printf FORMÁID -prune -ls -"
+#~ "delete\n"
+#~ "      -quit\n"
 
 #~ msgid "Predicate List:\n"
 #~ msgstr "Liosta Preideacáidí:\n"

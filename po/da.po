@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.15\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-12 22:37+0100\n"
+"POT-Creation-Date: 2005-06-18 22:41+0100\n"
 "PO-Revision-Date: 2005-02-01 14:36+0100\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -386,17 +386,13 @@ msgstr ""
 
 #: find/parser.c:758
 msgid ""
-"actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-"delete\n"
-"      -quit\n"
+"actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
+"      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
+"      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
+"      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
-"handlinger: -exec KOMMANDO ; -fprint FIL -fprint0 FIL -fprintf FIL FORMAT\n"
-"      -fls FIL -ok KOMMANDO ; -print -print0 -printf FORMAT -prune -ls -"
-"delete\n"
-"      -quit\n"
 
-#: find/parser.c:762
+#: find/parser.c:764
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -406,11 +402,11 @@ msgstr ""
 "på http://savannah.gnu.org/ eller, hvis du ikke kan tilgå denne, ved\n"
 "at sende et brev til <bug-findutils@gnu.org>."
 
-#: find/parser.c:793
+#: find/parser.c:795
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "fornuftighedstjek af biblioteksfunktionen fnmatch() mislykkedes."
 
-#: find/parser.c:808
+#: find/parser.c:810
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -420,47 +416,47 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:850
+#: find/parser.c:852
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "advarsel: udsagnet -ipath er forældet; brug venligst -iwholename i stedet."
 
-#: find/parser.c:1283
+#: find/parser.c:1285
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "ugyldig tilstand '%s'"
 
-#: find/parser.c:1436
+#: find/parser.c:1438
 msgid "invalid null argument to -size"
 msgstr "ugyldig tom parameter til -size"
 
-#: find/parser.c:1482
+#: find/parser.c:1484
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "ugyldig -size type '%c'"
 
-#: find/parser.c:1599
+#: find/parser.c:1601
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find version %s\n"
 
-#: find/parser.c:1600
+#: find/parser.c:1602
 #, c-format
 msgid "Features enabled: "
 msgstr "Faciliteter aktiveret: "
 
-#: find/parser.c:1840
+#: find/parser.c:1842
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "advarsel: ukendt undvigetegn '\\%c'"
 
-#: find/parser.c:1886
+#: find/parser.c:1888
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "advarsel: ukendt formatteringsdirektiv '%%%c'"
 
-#: find/parser.c:1992
+#: find/parser.c:1994
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -473,7 +469,7 @@ msgstr ""
 "katalog fra din $PATH (dvs. fjern \".\" eller begyndende og afsluttende "
 "koloner)"
 
-#: find/parser.c:2078
+#: find/parser.c:2080
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -481,7 +477,7 @@ msgstr ""
 "Det kan ikke bruge {} i programnavnet for -execdir og -okdir fordi der er et "
 "potentielt sikkerhedsproblem."
 
-#: find/parser.c:2101
+#: find/parser.c:2103
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Kun en forekomst af {} er understøttet med -exec%s ... +"
@@ -783,6 +779,18 @@ msgstr ""
 "processer]\n"
 "      [--max-args=maks-parametre] [--no-run-if-empty] [--arg-file=fil]\n"
 "      [--version] [--help] [kommando [startparametre]]\n"
+
+#~ msgid ""
+#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
+#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
+#~ "delete\n"
+#~ "      -quit\n"
+#~ msgstr ""
+#~ "handlinger: -exec KOMMANDO ; -fprint FIL -fprint0 FIL -fprintf FIL "
+#~ "FORMAT\n"
+#~ "      -fls FIL -ok KOMMANDO ; -print -print0 -printf FORMAT -prune -ls -"
+#~ "delete\n"
+#~ "      -quit\n"
 
 #~ msgid "Predicate List:\n"
 #~ msgstr "Liste over udsagn:\n"

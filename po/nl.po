@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.18\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-12 22:37+0100\n"
+"POT-Creation-Date: 2005-06-18 22:41+0100\n"
 "PO-Revision-Date: 2005-03-09 22:07+0100\n"
 "Last-Translator: Benno Schulenberg <benno@nietvergeten.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -386,16 +386,13 @@ msgstr ""
 
 #: find/parser.c:758
 msgid ""
-"actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-"      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-"delete\n"
-"      -quit\n"
+"actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
+"      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
+"      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
+"      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
-"acties: -fprint BESTAND  -fprint0 BESTAND  -fprintf BESTAND OPMAAK\n"
-"      -exec COMMANDO ;  -ok COMMANDO ;  -ls  -fls BESTAND -prune\n"
-"       -print  -print0  -printf OPMAAK  -delete  -quit\n"
 
-#: find/parser.c:762
+#: find/parser.c:764
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -406,11 +403,11 @@ msgstr ""
 "een bericht naar <bug-findutils@gnu.org>.\n"
 "Meld fouten in de vertaling bij <vertaling@vrijschrift.org>."
 
-#: find/parser.c:793
+#: find/parser.c:795
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "de zinnigheidscontrole van de fnmatch()-bibliotheekfunctie is mislukt."
 
-#: find/parser.c:808
+#: find/parser.c:810
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -420,48 +417,48 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:850
+#: find/parser.c:852
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "waarschuwing: het predikaat -ipath wordt afgeraden; gebruik liever -"
 "iwholename"
 
-#: find/parser.c:1283
+#: find/parser.c:1285
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "ongeldige modus '%s'"
 
-#: find/parser.c:1436
+#: find/parser.c:1438
 msgid "invalid null argument to -size"
 msgstr "ongeldig leeg argument van -size"
 
-#: find/parser.c:1482
+#: find/parser.c:1484
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "ongeldige aanduiding '%c' bij -size"
 
-#: find/parser.c:1599
+#: find/parser.c:1601
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versie %s\n"
 
-#: find/parser.c:1600
+#: find/parser.c:1602
 #, c-format
 msgid "Features enabled: "
 msgstr "Aangezette mogelijkheden: "
 
-#: find/parser.c:1840
+#: find/parser.c:1842
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "waarschuwing: onbekende stuurcode '\\%c'"
 
-#: find/parser.c:1886
+#: find/parser.c:1888
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "waarschuwing: onbekende opmaakcode '%%%c'"
 
-#: find/parser.c:1992
+#: find/parser.c:1994
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -473,7 +470,7 @@ msgstr ""
 "combinatie met de actie %s van find.  Gelieve de huidige map uit uw PATH te "
 "verwijderen (oftewel: verwijder \".\" of dubbele punten aan begin en eind)."
 
-#: find/parser.c:2078
+#: find/parser.c:2080
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -481,7 +478,7 @@ msgstr ""
 "Om veiligheidsredenen mag {} bij -execdir en -okdir niet gebruikt worden "
 "binnen de naam van het hulpprogramma."
 
-#: find/parser.c:2101
+#: find/parser.c:2103
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Bij -exec%s ... mag {} slechts één keer voorkomen."
@@ -779,6 +776,16 @@ msgstr ""
 "         [-P maxtal-processen]  [--max-procs=maxtal-processen]  [--verbose]\n"
 "         [-s maxtal-tekens]  [--max-chars=maxtal-tekens]  [--exit]\n"
 "         [--version]  [--help]  [COMMANDO [eerste-argumenten]]\n"
+
+#~ msgid ""
+#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
+#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
+#~ "delete\n"
+#~ "      -quit\n"
+#~ msgstr ""
+#~ "acties: -fprint BESTAND  -fprint0 BESTAND  -fprintf BESTAND OPMAAK\n"
+#~ "      -exec COMMANDO ;  -ok COMMANDO ;  -ls  -fls BESTAND -prune\n"
+#~ "       -print  -print0  -printf OPMAAK  -delete  -quit\n"
 
 #~ msgid "Predicate List:\n"
 #~ msgstr "Predikatenlijst:\n"
