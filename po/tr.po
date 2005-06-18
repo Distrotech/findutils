@@ -1,19 +1,21 @@
+# translation of findutils-4.2.22.po to Turkish
 # Turkish translations for findutils messages.
 # Copyright (C) 2005 Free Software Foundation, Inc.
-# Nilgün Belma Bugüner <nilgun@superonline.com>, 2001,...,2005
+# Nilgün Belma Bugüner <nilgun@superonline.com>, 2001,...,2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.15\n"
+"Project-Id-Version: findutils 4.2.22\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2005-06-18 22:41+0100\n"
-"PO-Revision-Date: 2005-02-01 03:25+0300\n"
+"PO-Revision-Date: 2005-06-19 00:53+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@superonline.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 1.9.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: gnulib/lib/argmatch.c:137
 #, c-format
@@ -417,6 +419,11 @@ msgid ""
 "perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
+"Uyarı: Unix dosya isimleri genellikle / içermezler (dosya yolları içerir).  "
+"Bu, '%s %s' ifadesinin bu sistemde her zaman yanlış olarak sonuçlanacağı "
+"anlamına gelir.  '-wholename' veya '-samefile' sınamalarını daha kullanışlı "
+"bulabilirsiniz.  Ayrıca, eğer GNU grep kullanıyorsanız, 'find ... -print0 | "
+"grep -FzZ %s' kullanabilirdiniz."
 
 #: find/parser.c:852
 msgid ""
@@ -616,7 +623,7 @@ msgstr "Sıkıştırma oranı %%%4.2f\n"
 
 #: locate/locate.c:824
 msgid "warning: the locate database can only be read from stdin once."
-msgstr ""
+msgstr "Uyarı: locate veritabanı standart girdiden sadece bir kere okunabilir"
 
 #: locate/locate.c:845
 #, c-format
@@ -633,7 +640,7 @@ msgid "old"
 msgstr "eski"
 
 #: locate/locate.c:1059
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -643,12 +650,14 @@ msgid ""
 "      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
 "      pattern...\n"
 msgstr ""
-"Kullanımı: %s [-d DosyaYolu | --database=DosyaYolu] [-e | --existing]\n"
-"      [-i | --ignore-case] [-w | --wholepath] [-b | --basename]\n"
-"      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
-"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
-"stdio ]\n"
-"      [-r | --regex ] [--version] [--help] KALIP...\n"
+"Kullanımı: %s [-d DosyaYolu | --database=DosyaYolu]\n"
+"       [-e | | -E | --[non-]existing] [-i | --ignore-case] [-w | --"
+"wholename]\n"
+"       [-b | --basename] [--limit=N | -l N] [-S | --statistics] [-0 | --"
+"null]\n"
+"       [-c | --count]  [-P | -H | --nofollow]  [-L | --follow] [-m | --"
+"mmap ]\n"
+"       [ -s | --stdio ] [-r | --regex ] [--version] [--help] KALIP...\n"
 
 #: locate/locate.c:1177
 #, c-format

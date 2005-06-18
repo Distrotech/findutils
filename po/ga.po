@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.18\n"
+"Project-Id-Version: findutils 4.2.22\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2005-06-18 22:41+0100\n"
-"PO-Revision-Date: 2005-02-22 05:47-0500\n"
+"PO-Revision-Date: 2005-06-18 05:47-0500\n"
 "Last-Translator: Kevin Patrick Scannell <scannell@SLU.EDU>\n"
 "Language-Team: Irish <ga@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -422,6 +422,11 @@ msgid ""
 "perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
+"rabhadh: níl slaiseanna in ainmneacha comhaid Unix de ghnáth (cé go bhfuil "
+"slaiseanna i gconairí).  Dá bhrí sin, is dócha go luachálfar '%s %s' mar "
+"`falsa' gan teip ar an gcóras seo.  Is féidir go mbeidh an tástáil '-"
+"wholename' níos áisiúla, nó b'fhéidir '-samefile'.  Nó, má tá GNU grep agat, "
+"is féidir 'find ... -print0 | grep -FzZ %s' a úsáid mar mhalairt."
 
 #: find/parser.c:852
 msgid ""
@@ -626,6 +631,8 @@ msgstr "Cóimheas comhbhrúite %4.2f%%\n"
 #: locate/locate.c:824
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
+"rabhadh: ní féidir an bunachar sonraí `locale' a léamh ó stdin ach aon uair "
+"amháin."
 
 #: locate/locate.c:845
 #, c-format
@@ -642,7 +649,7 @@ msgid "old"
 msgstr "sean"
 
 #: locate/locate.c:1059
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -652,12 +659,13 @@ msgid ""
 "      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
 "      pattern...\n"
 msgstr ""
-"Úsáid: %s [-d conair | --database=conair] [-e | --existing]\n"
+"Úsáid: %s [-d conair | --database=conair] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-r | --regex ] [--version] [--help] patrún...\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
+"      patrún...\n"
 
 #: locate/locate.c:1177
 #, c-format
@@ -735,7 +743,7 @@ msgstr "earráid ag fanacht le próiseas sleachta"
 #: xargs/xargs.c:1074
 #, c-format
 msgid "%s: exited with status 255; aborting"
-msgstr "%s: stádas scortha 255; tobscor!"
+msgstr "%s: stádas scortha 255; á thobscor"
 
 # does "stopped" have the implication of "temporarily"?  
 # might then want to distinguish from following msgid... --KPS
