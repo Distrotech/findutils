@@ -1961,11 +1961,14 @@ If the standard input does not contain any nonblanks, do not run the
 command.  By default, the command is run once even if there is no input.
 
 @item --max-lines@r{[}=@var{max-lines}@r{]}
+@itemx -L@R{[}@var{max-lines}@r{]}
 @itemx -l@r{[}@var{max-lines}@r{]}
 Use at most @var{max-lines} nonblank input lines per command line;
 @var{max-lines} defaults to 1 if omitted.  Trailing blanks cause an
 input line to be logically continued on the next input line, for the
-purpose of counting the lines.  Implies @samp{-x}.
+purpose of counting the lines.  Implies @samp{-x}.   The preferred
+name for this option is @samp{-L} as this is specified by POSIX.  This
+option should be compatible with @samp{-I} but currently it is not.
 
 @item --max-args=@var{max-args}
 @itemx -n @var{max-args}
@@ -1986,7 +1989,7 @@ upper or lower limit is used instead.
 @itemx -P @var{max-procs}
 Run up to @var{max-procs} processes at a time; the default is 1.  If
 @var{max-procs} is 0, @code{xargs} will run as many processes as
-possible at a time.  Use the @samp{-n}, @samp{-s}, or @samp{-l} option
+possible at a time.  Use the @samp{-n}, @samp{-s}, or @samp{-L} option
 with @samp{-P}; otherwise chances are that the command will be run only
 once.
 @end table
@@ -2886,9 +2889,13 @@ The environment variable @code{NETPATHS} also sets this value.
 Default is none.
 
 @item --prunepaths='@var{path}@dots{}'
-Directories to omit from the database, which would otherwise be included.
-The environment variable @code{PRUNEPATHS} also sets this value.
-Default is @file{/tmp /usr/tmp /var/tmp /afs}.
+Directories to omit from the database, which would otherwise be
+included.  The environment variable @code{PRUNEPATHS} also sets this
+value.  Default is @file{/tmp /usr/tmp /var/tmp /afs}.  The paths are
+used as regular expressions (with @code{find ... -regex}, so you need
+to specify these paths in the same way that @code{find} will encounter
+them.  This means for example that the paths must not include trailing
+slashes.
 
 @item --prunefs='@var{path}@dots{}'
 File systems to omit from the database, which would otherwise be included.
