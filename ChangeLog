@@ -1,4 +1,23 @@
+2005-06-19  Dmitry V. Levin <ldv@altlinux.org>
+
+	* lib/savedirinfo.c: Fix two compilation warnings (which would 
+	prevent compilation if "-Wall -Werror" is in effect).
+	
 2005-06-19  James Youngman  <jay@gnu.org>
+
+	* ChangeLog: Indicate that we made (are making) a release.
+
+	* ChangeLog, NEWS, configure.in: Preparing to release 4.2.23
+
+	* doc/find.texi: Fixed Texinfo syntax error in previous change
+
+	* doc/find.texi, xargs/xargs.1:
+	Document the fact that the -i and -L options are currently
+	incompatible (Savannah bug 13041).
+
+	* locate/updatedb.1, locate/updatedb.sh: Fix Savannah bug 13411 -
+	reject trailing slashes in updatedb's --prunepaths, bacsue these
+	will never be matched
 
 	* NEWS: Released findutils-4.2.23.
 
