@@ -118,6 +118,16 @@ select_shell() {
 # Directories to not put in the database, which would otherwise be.
 : ${PRUNEPATHS="/tmp /usr/tmp /var/tmp /afs /amd /sfs"}
 
+# Trailing slashes result in regex items that are never matched, which 
+# is not what the user will expect.   Therefore we now reject such 
+# constructs.
+for p in $PRUNEPATHS; do
+    case "$p" in
+	/*/)   echo "$0: $p: pruned paths should not contain trailing slashes" >&2
+	       exit 1
+    esac
+done
+
 # The same, in the form of a regex that find can use.
 test -z "$PRUNEREGEX" &&
   PRUNEREGEX=`echo $PRUNEPATHS|sed -e 's,^,\\\(^,' -e 's, ,$\\\)\\\|\\\(^,g' -e 's,$,$\\\),'`
