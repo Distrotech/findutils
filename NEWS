@@ -1,4 +1,21 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.23
+
+** Documentation Changes
+
+The -L and -I options of xargs are currently incompatible (but should
+not be).
+
+Improved the documentation for -execdir and -okdir.
+
+** Functional Changes to updatedb
+
+File names ending in "/" which are specified as an argument to
+--prunepaths (or in $PRUNEPATHS) don't work, so we now issue an error
+message if the user tries to do that.  The obvious exception of course
+is "/" which does work and is not rejected.
+
+
 * Major changes in release 4.2.22
 
 ** Security Fixes

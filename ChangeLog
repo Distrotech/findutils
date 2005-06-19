@@ -1,3 +1,13 @@
+2005-06-19  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi, xargs/xargs.1:
+	Document the fact that the -i and -L options are currently
+	incompatible (Savannah bug 13041).
+
+	* locate/updatedb.1, locate/updatedb.sh: Fix Savannah bug 13411 -
+	reject trailing slashes in updatedb's --prunepaths, because these
+	will never be matched.
+
 2005-06-18  Martin Buchholz (trivial patch applied by James Youngman)
 
 	* find/defs.h, find/find.c, find/parser.c, doc/find.texi: Fix
