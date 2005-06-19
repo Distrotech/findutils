@@ -168,7 +168,6 @@ xsavedir(const char *dir, int flags)
   struct dirent *dp;
   struct savedir_dirinfo *result = NULL;
   struct new_savedir_direntry_internal *internal;
-  struct savedir_direntry *external;
   
   size_t namebuf_allocated = 0u, namebuf_used = 0u;
   size_t entrybuf_allocated = 0u;
@@ -296,6 +295,7 @@ new_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 }
 
 
+#if 0
 /* Return a freshly allocated string containing the filenames
    in directory DIR, separated by '\0' characters;
    the end is marked by two '\0' characters in a row.
@@ -371,6 +371,7 @@ old_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
   
   return name_space;
 }
+#endif
 
 
 char *
