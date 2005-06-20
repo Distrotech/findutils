@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.15\n"
+"Project-Id-Version: findutils 4.2.22\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-18 22:41+0100\n"
-"PO-Revision-Date: 2005-02-01 18:51+0200\n"
+"POT-Creation-Date: 2005-06-20 21:42+0100\n"
+"PO-Revision-Date: 2005-06-20 19:20+0300\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -410,6 +410,11 @@ msgid ""
 "perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
+"hoiatus: failinimed Unixis ei sisalda tavaliselt kaldkriipse (kuigi teed "
+"sisaldavad). See tähendab et '%s %s' saab ilmselt selles süsteemis kogu aeg "
+"väärtuse 'false'.  Tõenäoliselt on '-wholename' või siis '-samefile' test "
+"märksa kasulikum.  Alternatiivina, kui te kasutate GNU grep, võiks proovida "
+"'find ... -print0 | grep -FzZ %s'."
 
 #: find/parser.c:852
 msgid ""
@@ -482,7 +487,7 @@ msgstr "Predikaadiga -exec%s ... + on lubatud kasutada ainult ühte {} paari"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1538 xargs/xargs.c:983
+#: find/pred.c:1538 xargs/xargs.c:882
 msgid "cannot fork"
 msgstr "fork ebaõnnestus"
 
@@ -543,7 +548,7 @@ msgstr ""
 "Kasuta: %s [--version | --help]\n"
 "või     %s enamus_bigram_koode < faili-loend > locate-andmebaas\n"
 
-#: locate/code.c:131 locate/locate.c:1067 xargs/xargs.c:1177
+#: locate/code.c:131 locate/locate.c:1067 xargs/xargs.c:1076
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -614,7 +619,7 @@ msgstr "Tihenduse suhe %4.2f%%\n"
 
 #: locate/locate.c:824
 msgid "warning: the locate database can only be read from stdin once."
-msgstr ""
+msgstr "hoiatus: locate andmebaasi saab standardsisendist ainult korra lugeda."
 
 #: locate/locate.c:845
 #, c-format
@@ -631,7 +636,7 @@ msgid "old"
 msgstr "vana"
 
 #: locate/locate.c:1059
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -641,12 +646,13 @@ msgid ""
 "      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
 "      pattern...\n"
 msgstr ""
-"Kasuta: %s [-d tee | --database=tee] [-e | --existing]\n"
+"Kasuta: %s [-d tee | --database=tee] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename]\n"
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-r | --regex ] [--version] [--help] muster...\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
+"      muster...\n"
 
 #: locate/locate.c:1177
 #, c-format
@@ -657,50 +663,46 @@ msgstr "GNU locate versioon %s\n"
 msgid "argument to --limit"
 msgstr "võtme --limit argument"
 
-#: xargs/xargs.c:389
+#: xargs/xargs.c:342
 msgid "environment is too large for exec"
 msgstr "exec funktsioonile antud keskkond on liiga suur"
 
-#: xargs/xargs.c:502
+#: xargs/xargs.c:455
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versioon %s\n"
 
-#: xargs/xargs.c:522
+#: xargs/xargs.c:475
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Ei õnnestu avada sisendfaili `%s'"
 
-#: xargs/xargs.c:548
+#: xargs/xargs.c:501
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr "Kahandan arg_max (%ld) väärtusele arg_size (%ld)\n"
 
-#: xargs/xargs.c:557
+#: xargs/xargs.c:510
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "Teie keskkonnamuutujad kasutavad %ld baiti\n"
 
-#: xargs/xargs.c:560
+#: xargs/xargs.c:513
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr "POSIX alumine ja ülemine piirang argumendi pikkusele on: %ld, %ld\n"
 
-#: xargs/xargs.c:564
+#: xargs/xargs.c:517
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Tegelikult kasutatava käsu maksimum pikkus on: %ld\n"
 
-#: xargs/xargs.c:567
+#: xargs/xargs.c:520
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Tegelikult kasutatava käsupuhvri suurus on: %ld\n"
 
-#: xargs/xargs.c:676 xargs/xargs.c:831 xargs/xargs.c:888
-msgid "argument line too long"
-msgstr "argumendi rida on liiga pikk"
-
-#: xargs/xargs.c:732 xargs/xargs.c:813
+#: xargs/xargs.c:631 xargs/xargs.c:712
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -709,49 +711,53 @@ msgstr ""
 "puudub kvoot %s; vaikimisi kasutatab xargs omi kvoote, kui just pole "
 "kasutatud võtit -O"
 
-#: xargs/xargs.c:733 xargs/xargs.c:814
+#: xargs/xargs.c:632 xargs/xargs.c:713
 msgid "double"
 msgstr "dubleeritud"
 
-#: xargs/xargs.c:733 xargs/xargs.c:814
+#: xargs/xargs.c:632 xargs/xargs.c:713
 msgid "single"
 msgstr "ühekordne"
 
-#: xargs/xargs.c:1058
+#: xargs/xargs.c:730 xargs/xargs.c:787
+msgid "argument line too long"
+msgstr "argumendi rida on liiga pikk"
+
+#: xargs/xargs.c:957
 msgid "error waiting for child process"
 msgstr "viga alamprotsessi ootamisel"
 
-#: xargs/xargs.c:1074
+#: xargs/xargs.c:973
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: lõpetas olekuga 255; katkestan"
 
-#: xargs/xargs.c:1076
+#: xargs/xargs.c:975
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: peatatud signaaliga %d"
 
-#: xargs/xargs.c:1078
+#: xargs/xargs.c:977
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: katkestatud signaaliga %d"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1016
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: vigane number võtmele -%c\n"
 
-#: xargs/xargs.c:1124
+#: xargs/xargs.c:1023
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: võtme -%c väärtus peab olema suurem või võrdne kui %ld\n"
 
-#: xargs/xargs.c:1138
+#: xargs/xargs.c:1037
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: võtme -%c väärtus peab olema väiksem kui %ld\n"
 
-#: xargs/xargs.c:1169
+#: xargs/xargs.c:1068
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
@@ -781,39 +787,3 @@ msgstr ""
 #~ "      -fls FAIL -ok KÄSK ; -print -print0 -printf VORMING -prune -ls -"
 #~ "delete\n"
 #~ "      -quit\n"
-
-#~ msgid "Predicate List:\n"
-#~ msgstr "Predikaatide loend:\n"
-
-#~ msgid "Eval Tree:\n"
-#~ msgstr "Arvutuspuu:\n"
-
-#~ msgid "Optimized Eval Tree:\n"
-#~ msgstr "Optimiseeritud arvutuspuu:\n"
-
-#~ msgid "Optimized command line:\n"
-#~ msgstr "Optimiseeritud käsurida:\n"
-
-#~ msgid "virtual memory exhausted"
-#~ msgstr "mälu on otsas"
-
-#~ msgid "inserting %s\n"
-#~ msgstr "lisan %s\n"
-
-#~ msgid "    type: %s    %s  "
-#~ msgstr "    tüüp: %s    %s  "
-
-#~ msgid "left:\n"
-#~ msgstr "vasak:\n"
-
-#~ msgid "right:\n"
-#~ msgstr "parem:\n"
-
-#~ msgid "[stat called here] "
-#~ msgstr "[siin kasutatakse stat] "
-
-#~ msgid "[type needed here] "
-#~ msgstr "[siin on vaja tüüpi] "
-
-#~ msgid "Normalized Eval Tree:\n"
-#~ msgstr "Normaliseeritud arvutuspuu:\n"

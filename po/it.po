@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.10\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-06-18 22:41+0100\n"
+"POT-Creation-Date: 2005-06-20 21:42+0100\n"
 "PO-Revision-Date: 2004-12-23 12:44+0100\n"
 "Last-Translator: Marco d'Itri <md@linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -491,7 +491,7 @@ msgstr ""
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1538 xargs/xargs.c:983
+#: find/pred.c:1538 xargs/xargs.c:882
 msgid "cannot fork"
 msgstr "impossibile fare fork"
 
@@ -553,7 +553,7 @@ msgstr ""
 "Uso: %s [--version | --help]\n"
 "     %s bigrammi_più_comuni < lista-di-file > database-di-locate\n"
 
-#: locate/code.c:131 locate/locate.c:1067 xargs/xargs.c:1177
+#: locate/code.c:131 locate/locate.c:1067 xargs/xargs.c:1076
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -658,51 +658,47 @@ msgstr "GNU locate versione %s\n"
 msgid "argument to --limit"
 msgstr "argomento di --limit"
 
-#: xargs/xargs.c:389
+#: xargs/xargs.c:342
 msgid "environment is too large for exec"
 msgstr "l'ambiente è troppo grande per fare exec"
 
-#: xargs/xargs.c:502
+#: xargs/xargs.c:455
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versione %s\n"
 
-#: xargs/xargs.c:522
+#: xargs/xargs.c:475
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Impossibile aprire il file di input `%s'"
 
-#: xargs/xargs.c:548
+#: xargs/xargs.c:501
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr "arg_max (%ld) ridotto a arg_size (%ld)\n"
 
-#: xargs/xargs.c:557
+#: xargs/xargs.c:510
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "Il tuo ambiente richiede fino a %ld byte\n"
 
-#: xargs/xargs.c:560
+#: xargs/xargs.c:513
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr ""
 "Limiti di POSIX massimo e minimo della lunghezza degli argomenti: %ld, %ld\n"
 
-#: xargs/xargs.c:564
+#: xargs/xargs.c:517
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Lunghezza massima di un comando effettivamente usabile: %ld\n"
 
-#: xargs/xargs.c:567
+#: xargs/xargs.c:520
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Lunghezza del buffer del comando che effettivamente useremo: %ld\n"
 
-#: xargs/xargs.c:676 xargs/xargs.c:831 xargs/xargs.c:888
-msgid "argument line too long"
-msgstr "la riga dell'argomento è troppo lunga"
-
-#: xargs/xargs.c:732 xargs/xargs.c:813
+#: xargs/xargs.c:631 xargs/xargs.c:712
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -711,49 +707,53 @@ msgstr ""
 "carattere %s non accoppiato; le virgolette hanno un significato speciale per "
 "xargs, a meno che si usi l'opzione -0"
 
-#: xargs/xargs.c:733 xargs/xargs.c:814
+#: xargs/xargs.c:632 xargs/xargs.c:713
 msgid "double"
 msgstr "doppie"
 
-#: xargs/xargs.c:733 xargs/xargs.c:814
+#: xargs/xargs.c:632 xargs/xargs.c:713
 msgid "single"
 msgstr "singole"
 
-#: xargs/xargs.c:1058
+#: xargs/xargs.c:730 xargs/xargs.c:787
+msgid "argument line too long"
+msgstr "la riga dell'argomento è troppo lunga"
+
+#: xargs/xargs.c:957
 msgid "error waiting for child process"
 msgstr "errore aspettando il processo figlio"
 
-#: xargs/xargs.c:1074
+#: xargs/xargs.c:973
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: uscito con stato 255; termina"
 
-#: xargs/xargs.c:1076
+#: xargs/xargs.c:975
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: fermato dal segnale %d"
 
-#: xargs/xargs.c:1078
+#: xargs/xargs.c:977
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminato dal segnale %d"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1016
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: il numero per l'opzione -%c non è valido\n"
 
-#: xargs/xargs.c:1124
+#: xargs/xargs.c:1023
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: il valore per l'opzione -%c dovrebbe essere >= %ld\n"
 
-#: xargs/xargs.c:1138
+#: xargs/xargs.c:1037
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: il valore per l'opzione -%c dovrebbe essere < %ld\n"
 
-#: xargs/xargs.c:1169
+#: xargs/xargs.c:1068
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
