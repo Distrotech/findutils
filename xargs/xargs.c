@@ -18,7 +18,11 @@
 */
 
 /* Written by Mike Rendell <michael@cs.mun.ca>
-   and David MacKenzie <djm@gnu.org>.  */
+   and David MacKenzie <djm@gnu.org>.  
+   Modifications by 
+   	James Youngman
+	Dmitry V. Levin
+*/
 
 #include <config.h>
 
@@ -187,58 +191,12 @@ static struct buildcmd_state bc_state;
 static struct buildcmd_control bc_ctl;
 
 
-#if 0
-/* If nonzero, then instead of putting the args from stdin at
-   the end of the command argument list, they are each stuck into the
-   initial args, replacing each occurrence of the `replace_pat' in the
-   initial args.  */
-static char *replace_pat = NULL;
-
-
-/* The length of `replace_pat'.  */
-static size_t rplen = 0;
-#endif
-
 /* If nonzero, when this string is read on stdin it is treated as
    end of file.
    IEEE Std 1003.1, 2004 Edition allows this to be NULL.
    In findutils releases up to and including 4.2.8, this was "_".
 */
 static char *eof_str = NULL;
-
-#if 0
-/* If nonzero, the maximum number of nonblank lines from stdin to use
-   per command line.  */
-static long lines_per_exec = 0;
-
-/* The maximum number of arguments to use per command line.  */
-static long args_per_exec = 1024;
-
-/* If true, exit if lines_per_exec or args_per_exec is exceeded.  */
-static boolean exit_if_size_exceeded = false;
-/* The maximum number of characters that can be used per command line.  */
-static long arg_max;
-/* Storage for elements of `cmd_argv'.  */
-static char *argbuf;
-#endif
-
-#if 0
-/* The list of args being built.  */
-static char **cmd_argv = NULL;
-
-/* Number of elements allocated for `cmd_argv'.  */
-static int cmd_argv_alloc = 0;
-#endif
-
-#if 0
-/* Number of valid elements in `cmd_argv'.  */
-static int cmd_argc = 0;
-/* Number of chars being used in `cmd_argv'.  */
-static int cmd_argv_chars = 0;
-
-/* Number of initial arguments given on the command line.  */
-static int initial_argc = 0;
-#endif
 
 /* Number of chars in the initial args.  */
 /* static int initial_argv_chars = 0; */
@@ -295,11 +253,6 @@ static struct option const longopts[] =
 
 static int read_line PARAMS ((void));
 static int read_string PARAMS ((void));
-#if 0
-static char *mbstrstr PARAMS ((const char *haystack, const char *needle));
-static void do_insert PARAMS ((char *arg, size_t arglen, size_t lblen));
-static void push_arg PARAMS ((char *arg, size_t len));
-#endif
 static boolean print_args PARAMS ((boolean ask));
 /* static void do_exec PARAMS ((void)); */
 static int xargs_do_exec (const struct buildcmd_control *cl, struct buildcmd_state *state);
@@ -633,60 +586,6 @@ main (int argc, char **argv)
 
   return child_error;
 }
-
-#if 0
-static int
-append_char_to_buf(char **pbuf, char **pend, char **pp, int c)
-{
-  char *end_of_buffer = *pend;
-  char *start_of_buffer = *pbuf;
-  char *p = *pp;
-  if (p >= end_of_buffer)
-    {
-      if (bc_ctl.replace_pat)
-	{
-	  size_t len = end_of_buffer - start_of_buffer;
-	  size_t offset = p - start_of_buffer;
-	  len *= 2;
-	  start_of_buffer = xrealloc(start_of_buffer, len*2);
-	  if (NULL != start_of_buffer)
-	    {
-	      end_of_buffer = start_of_buffer + len;
-	      p = start_of_buffer + offset;
-	      *p++ = c;
-
-	      /* Update the caller's idea of where the buffer is. */
-	      *pbuf = start_of_buffer;
-	      *pend = end_of_buffer;
-	      *pp = p;
-	      
-	      return 0;
-	    }
-	  else
-	    {
-	      /* Failed to reallocate. */
-	      return -1;
-	    }
-	}
-      else
-	{
-	  /* I suspect that this can never happen now, because append_char_to_buf()
-	   * should only be called when replace_pat is true.
-	   */
-	  error (1, 0, _("argument line too long"));
-	  /*NOTREACHED*/
-	  return -1;
-	}
-    }
-  else
-    {
-      /* Enough space remains. */
-      *p++ = c;
-      *pp = p;
-      return 0;
-    }
-}
-#endif
 
 
 /* Read a line of arguments from the input and add them to the list of
