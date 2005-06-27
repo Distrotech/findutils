@@ -1,3 +1,9 @@
+2005-06-24  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
+
+	* locate/locate.c (visit_count, visit_limit): New functions.
+	(locate): Use visit_limit or visit_count. Simplify main loop.
+	(main) Bail out early when limit is reached.
+
 2005-06-19  Dmitry V. Levin <ldv@altlinux.org>
 
 	* lib/savedirinfo.c: Fix two compilation warnings (which would 

@@ -748,6 +748,30 @@ visit_stats(struct process_data *procdata, void *context)
 }
 
 
+static int
+visit_limit(struct process_data *procdata, void *context)
+{
+  struct locate_limits *p = context;
+
+  (void) procdata;
+
+  if (++p->items_accepted >= p->limit)
+    return VISIT_ABORT;
+  else
+    return VISIT_CONTINUE;
+}
+
+static int
+visit_count(struct process_data *procdata, void *context)
+{
+  struct locate_limits *p = context;
+
+  (void) procdata;
+
+  ++p->items_accepted;
+  return VISIT_CONTINUE;
+}
+
 /* Emit the statistics.
  */
 static void
@@ -785,8 +809,8 @@ print_stats(int argc, size_t database_file_size)
 }
 
 
-/* Print the entries in DBFILE that match shell globbing patterns in ARGV.
-   Return the number of entries printed.  */
+/* Print or count the entries in DBFILE that match shell globbing patterns in 
+   ARGV. Return the number of entries matched. */
 
 static unsigned long
 locate (int argc,
@@ -989,7 +1013,13 @@ locate (int argc,
       else
 	add_visitor(visit_justprint_unquoted, NULL);
     }
-  
+
+
+  if (use_limit)
+    add_visitor(visit_limit, plimit);
+  else
+    add_visitor(visit_count, plimit);
+
 
   if (argc > 1)
     {
@@ -1008,24 +1038,18 @@ locate (int argc,
 	       procdata.dbfile,
 	       old_format ? _("old") : "LOCATE02");
     }
-  
+
+
   procdata.c = getc (procdata.fp);
-  while ( (procdata.c != EOF) && (!use_limit || (plimit->limit > 0)) )
+  /* If we are searching for filename patterns, the inspector list 
+   * will contain an entry for each pattern for which we are searching.
+   */
+  while ( (procdata.c != EOF) &&
+          (VISIT_ABORT != (mainprocessor)(&procdata)) )
     {
-
-      /* If we are searching for filename patterns, the inspector list 
-       * will contain an entry for each pattern for which we are searching.
-       */
-      if ((VISIT_ACCEPTED | VISIT_CONTINUE) & (mainprocessor)(&procdata))
-	{
-	  if ((++plimit->items_accepted >= plimit->limit) && use_limit)
-	    {
-	      break;
-	    }
-	}
+      /* Do nothing; all the work is done in the visitor functions. */
     }
-
-      
+  
   if (stats)
     {
       print_stats(argc, st.st_size);
@@ -1251,7 +1275,10 @@ main (int argc, char **argv)
     stdout_is_a_tty = false;
 
   next_element (dbpath, 0);	/* Initialize.  */
-  while ((e = next_element ((char *) NULL, 0)) != NULL)
+
+  /* Bail out early if limit already reached. */
+  while ((e = next_element ((char *) NULL, 0)) != NULL  &&
+	 (!use_limit || limits.limit > limits.items_accepted))
     {
       statistics.compressed_bytes = 
       statistics.total_filename_count = 
