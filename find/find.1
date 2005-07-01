@@ -122,12 +122,14 @@ command line will be dereferenced, and those before it will not).
 .P
 .SH EXPRESSIONS
 The expression is made up of options (which affect overall operation
-rather than the processing of a specific file, and always return true),
-tests (which return a true or false value), and actions (which have side
-effects and return a true or false value), all separated by operators.
-\-and is assumed where the operator is omitted.  If the expression contains
-no actions other than \-prune, \-print is performed on all files
-for which the expression is true.
+rather than the processing of a specific file, and always return
+true), tests (which return a true or false value), and actions (which
+have side effects and return a true or false value), all separated by
+operators.  \-and is assumed where the operator is omitted.  
+
+If the expression contains no actions other than \-prune, \-print is
+performed on all files for which the expression is true.
+
 .SS OPTIONS
 .P
 All options always return true.  Except for \-follow and \-daystart,

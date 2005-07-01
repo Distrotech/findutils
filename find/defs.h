@@ -331,6 +331,8 @@ struct predicate
      processed. */
   struct predicate *pred_left;
   struct predicate *pred_right;
+
+  const struct parser_table* parser_entry;
 };
 
 /* find.c. */
@@ -387,14 +389,37 @@ char *filesystem_type PARAMS((const struct stat *statp));
 char * get_mounted_filesystems (void);
 dev_t * get_mounted_devices PARAMS((size_t *));
 
+
+
+enum arg_type
+  {
+    ARG_OPTION,			/* regular options like -maxdepth */
+    ARG_POSITIONAL_OPTION,	/* options whose position is important (-follow) */
+    ARG_TEST,			/* a like -name */
+    ARG_PUNCTUATION,		/* like -o or ( */
+    ARG_ACTION			/* like -print */
+  };
+
+
+struct parser_table;
 /* Pointer to a parser function. */
-typedef boolean (*PARSE_FUNC)(char *argv[], int *arg_ptr);
+typedef boolean (*PARSE_FUNC)(const struct parser_table *p,
+			      char *argv[], int *arg_ptr);
+struct parser_table
+{
+  enum arg_type type;
+  char *parser_name;
+  PARSE_FUNC parser_func;
+  PRED_FUNC    pred_func;
+};
 
 /* parser.c */
-PARSE_FUNC find_parser PARAMS((char *search_name));
-boolean parse_close PARAMS((char *argv[], int *arg_ptr));
-boolean parse_open PARAMS((char *argv[], int *arg_ptr));
-boolean parse_print PARAMS((char *argv[], int *arg_ptr));
+const struct parser_table* find_parser PARAMS((char *search_name));
+boolean parse_open  PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
+boolean parse_close PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
+boolean parse_print PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+void pred_sanity_check PARAMS((const struct predicate *predicates));
+
 
 /* pred.c */
 boolean pred_amin PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
@@ -452,6 +477,8 @@ boolean pred_used PARAMS((char *pathname, struct stat *stat_buf, struct predicat
 boolean pred_user PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_xtype PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 
+
+
 int launch PARAMS((const struct buildcmd_control *ctl,
 		   struct buildcmd_state *buildstate));
 
@@ -474,9 +501,10 @@ boolean mark_stat PARAMS((struct predicate *tree));
 boolean mark_type PARAMS((struct predicate *tree));
 
 /* util.c */
-struct predicate *get_new_pred PARAMS((void));
-struct predicate *get_new_pred_chk_op PARAMS((void));
-struct predicate *insert_primary PARAMS((PRED_FUNC));
+struct predicate *get_new_pred PARAMS((const struct parser_table *entry));
+struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry));
+struct predicate *insert_primary PARAMS((const struct parser_table *entry));
+struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr));
 void usage PARAMS((char *msg));
 
 extern char *program_name;
@@ -531,6 +559,18 @@ struct options
    * flag to open(2). 
    */
   boolean open_nofollow_available;
+
+
+  /* Which regular expression syntex we currently use.  This can be
+   * changed with the positional option -regextype, which takes the
+   * arguments ...
+   *
+   * posix-basic, posix-extended, posix-grep, posix-egrep, posix-awk
+   * emacs, gnu-awk.
+   *
+   * The default is 
+   */
+  int regex_options;
 };
 extern struct options options;
 

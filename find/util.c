@@ -18,7 +18,7 @@
 */
 
 #include "defs.h"
-#include "../gnulib/lib/xalloc.h"
+#include "xalloc.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -33,6 +33,8 @@
 # define N_(String) String
 #endif
 
+#include <assert.h>
+
 
 /* Return a pointer to a new predicate structure, which has been
    linked in as the last one in the predicates list.
@@ -43,10 +45,15 @@
    Set all cells in the new structure to the default values. */
 
 struct predicate *
-get_new_pred (void)
+get_new_pred (const struct parser_table *entry)
 {
   register struct predicate *new_pred;
+  (void) entry;
 
+  /* Options should not be turned into predicates. */
+  assert(entry->type != ARG_OPTION);
+  assert(entry->type != ARG_POSITIONAL_OPTION);
+  
   if (predicates == NULL)
     {
       predicates = (struct predicate *)
@@ -59,6 +66,7 @@ get_new_pred (void)
       last_pred->pred_next = new_pred;
       last_pred = new_pred;
     }
+  last_pred->parser_entry = entry;
   last_pred->pred_func = NULL;
 #ifdef	DEBUG
   last_pred->p_name = NULL;
@@ -81,9 +89,17 @@ get_new_pred (void)
    predicate is an operator.  If it isn't, the AND operator is inserted. */
 
 struct predicate *
-get_new_pred_chk_op (void)
+get_new_pred_chk_op (const struct parser_table *entry)
 {
   struct predicate *new_pred;
+  static const struct parser_table *entry_and = NULL;
+
+  /* Locate the entry in the parser table for the "and" operator */
+  if (NULL == entry_and)
+    entry_and = find_parser("and");
+
+  /* Check that it's actually there. If not, that is a bug.*/
+  assert(entry_and != NULL);	
 
   if (last_pred)
     switch (last_pred->p_type)
@@ -94,7 +110,8 @@ get_new_pred_chk_op (void)
 
       case PRIMARY_TYPE:
       case CLOSE_PAREN:
-	new_pred = get_new_pred ();
+	/* We need to interpose the and operator. */
+	new_pred = get_new_pred (entry_and);
 	new_pred->pred_func = pred_and;
 #ifdef	DEBUG
 	new_pred->p_name = find_pred_name (pred_and);
@@ -104,14 +121,20 @@ get_new_pred_chk_op (void)
 	new_pred->need_stat = false;
 	new_pred->need_type = false;
 	new_pred->args.str = NULL;
+	new_pred->side_effects = false;
+	new_pred->no_default_print = false;
+	break;
 
       default:
 	break;
       }
-  return (get_new_pred ());
+  
+  new_pred = get_new_pred (entry);
+  new_pred->parser_entry = entry;
+  return new_pred;
 }
 
-/* Add a primary of predicate type PRED_FUNC to the predicate input list.
+/* Add a primary of predicate type PRED_FUNC (described by ENTRY) to the predicate input list.
 
    Return a pointer to the predicate node just inserted.
 
@@ -128,20 +151,44 @@ get_new_pred_chk_op (void)
    operator. */
 
 struct predicate *
-insert_primary (PRED_FUNC pred_func)
+insert_primary_withpred (const struct parser_table *entry, PRED_FUNC pred_func)
 {
   struct predicate *new_pred;
 
-  new_pred = get_new_pred_chk_op ();
+  new_pred = get_new_pred_chk_op (entry);
   new_pred->pred_func = pred_func;
 #ifdef	DEBUG
-  new_pred->p_name = find_pred_name (pred_func);
+  new_pred->p_name = entry->parser_name;
 #endif	/* DEBUG */
   new_pred->args.str = NULL;
   new_pred->p_type = PRIMARY_TYPE;
   new_pred->p_prec = NO_PREC;
-  return (new_pred);
+  return new_pred;
 }
+
+/* Add a primary described by ENTRY to the predicate input list.
+
+   Return a pointer to the predicate node just inserted.
+
+   Fills in the following cells of the new predicate node:
+
+   pred_func	    PRED_FUNC
+   args(.str)	    NULL
+   p_type	    PRIMARY_TYPE
+   p_prec	    NO_PREC
+
+   Other cells that need to be filled in are defaulted by
+   get_new_pred_chk_op, which is used to insure that the prior node is
+   either not there at all (we are the very first node) or is an
+   operator. */
+struct predicate *
+insert_primary (const struct parser_table *entry)
+{
+  assert(entry->pred_func != NULL);
+  return insert_primary_withpred(entry, entry->pred_func);
+}
+
+
 
 void
 usage (char *msg)

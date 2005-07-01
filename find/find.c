@@ -380,16 +380,18 @@ check_nofollow(void)
   return true;
 }
 #endif
+
 
 int
 main (int argc, char **argv)
 {
   int i;
-  PARSE_FUNC parse_function; /* Pointer to the function which parses. */
+  const struct parser_table *parse_entry; /* Pointer to the parsing table entry for this expression. */
   struct predicate *cur_pred;
   char *predicate_name;		/* Name of predicate being parsed. */
   int end_of_leading_options = 0; /* First arg after any -H/-L etc. */
   program_name = argv[0];
+  const struct parser_table *entry_close, *entry_print, *entry_open;
 
   /* We call check_nofollow() before setlocale() because the numbers 
    * for which we check (in the results of uname) definitiely have "."
@@ -403,6 +405,7 @@ main (int argc, char **argv)
   options.open_nofollow_available = false;
 #endif
 
+  options.regex_options = RE_SYNTAX_POSIX_BASIC;
   
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
@@ -505,19 +508,31 @@ main (int argc, char **argv)
   
   /* Enclose the expression in `( ... )' so a default -print will
      apply to the whole expression. */
-  parse_open (argv, &argc);
+  entry_open  = find_parser("(");
+  entry_close = find_parser(")");
+  entry_print = find_parser("print");
+  assert(entry_open  != NULL);
+  assert(entry_close != NULL);
+  assert(entry_print != NULL);
+  
+  parse_open (entry_open, argv, &argc);
+  pred_sanity_check(last_pred);
+  
   /* Build the input order list. */
   while (i < argc)
     {
       if (strchr ("-!(),", argv[i][0]) == NULL)
 	usage (_("paths must precede expression"));
       predicate_name = argv[i];
-      parse_function = find_parser (predicate_name);
-      if (parse_function == NULL)
-	/* Command line option not recognized */
-	error (1, 0, _("invalid predicate `%s'"), predicate_name);
+      parse_entry = find_parser (predicate_name);
+      if (parse_entry == NULL)
+	{
+	  /* Command line option not recognized */
+	  error (1, 0, _("invalid predicate `%s'"), predicate_name);
+	}
+      
       i++;
-      if (!(*parse_function) (argv, &i))
+      if (!(*(parse_entry->parser_func)) (parse_entry, argv, &i))
 	{
 	  if (argv[i] == NULL)
 	    /* Command line option requires an argument */
@@ -526,7 +541,11 @@ main (int argc, char **argv)
 	    error (1, 0, _("invalid argument `%s' to `%s'"),
 		   argv[i], predicate_name);
 	}
+
+      pred_sanity_check(last_pred);
+      pred_sanity_check(predicates); /* XXX: expensive */
     }
+  
   if (predicates->pred_next == NULL)
     {
       /* No predicates that do something other than set a global variable
@@ -534,7 +553,9 @@ main (int argc, char **argv)
       cur_pred = predicates;
       predicates = last_pred = predicates->pred_next;
       free ((char *) cur_pred);
-      parse_print (argv, &argc);
+      parse_print (entry_print, argv, &argc);
+      pred_sanity_check(last_pred); 
+      pred_sanity_check(predicates); /* XXX: expensive */
     }
   else if (!default_prints (predicates->pred_next))
     {
@@ -542,13 +563,17 @@ main (int argc, char **argv)
 	 remove the unneeded initial `('. */
       cur_pred = predicates;
       predicates = predicates->pred_next;
+      pred_sanity_check(predicates); /* XXX: expensive */
       free ((char *) cur_pred);
     }
   else
     {
       /* `( user-supplied-expression ) -print'. */
-      parse_close (argv, &argc);
-      parse_print (argv, &argc);
+      parse_close (entry_close, argv, &argc);
+      pred_sanity_check(last_pred);
+      parse_print (entry_print, argv, &argc);
+      pred_sanity_check(last_pred);
+      pred_sanity_check(predicates); /* XXX: expensive */
     }
 
 #ifdef	DEBUG
@@ -556,6 +581,9 @@ main (int argc, char **argv)
   print_list (stderr, predicates);
 #endif /* DEBUG */
 
+  /* do a sanity check */
+  pred_sanity_check(predicates);
+  
   /* Done parsing the predicates.  Build the evaluation tree. */
   cur_pred = predicates;
   eval_tree = get_expr (&cur_pred, NO_PREC);

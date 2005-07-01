@@ -1842,3 +1842,70 @@ print_optlist (FILE *fp, struct predicate *p)
 }
 
 #endif	/* DEBUG */
+
+
+void
+pred_sanity_check(const struct predicate *predicates)
+{
+  const struct predicate *p;
+  
+  for (p=predicates; p != NULL; p=p->pred_next)
+    {
+      /* All predicates must do something. */
+      assert(p->pred_func != NULL);
+
+      /* All predicates must have a parser table entry. */
+      assert(p->parser_entry != NULL);
+      
+      /* If the parser table tells us that just one predicate function is 
+       * possible, verify that that is still the one that is in effect.
+       * If the parser has NULL for the predicate function, that means that 
+       * the parse_xxx function fills it in, so we can't check it.
+       */
+      if (p->parser_entry->pred_func)
+	{
+	  assert(p->parser_entry->pred_func == p->pred_func);
+	}
+      
+      switch (p->parser_entry->type)
+	{
+	  /* Options all take effect during parsing, so there should
+	   * be no predicate entries corresponding to them.  Hence we
+	   * should not see any ARG_OPTION or ARG_POSITIONAL_OPTION
+	   * items.
+	   *
+	   * This is a silly way of coding this test, but it prevents
+	   * a compiler warning (i.e. otherwise it would think that
+	   * there would be case statements missing).
+	   */
+	case ARG_OPTION:
+	case ARG_POSITIONAL_OPTION:
+	  assert(p->parser_entry->type != ARG_OPTION);
+	  assert(p->parser_entry->type != ARG_POSITIONAL_OPTION);
+	  break;
+	  
+	case ARG_ACTION:
+	  assert(p->side_effects); /* actions have side effects. */
+	  if (p->pred_func != pred_prune && p->pred_func != pred_quit)
+	    {
+	      /* actions other than -prune and -quit should
+	       * inhibit the default -print
+	       */
+	      assert(p->no_default_print);
+	    }
+	  break;
+
+	case ARG_PUNCTUATION:
+	case ARG_TEST:
+	  /* Punctuation and tests should have no side
+	   * effects and not inhibit default print.
+	   */
+	  assert(!p->no_default_print);
+	  assert(!p->side_effects);
+	  break;
+	  
+	}
+    }
+}
+
+
