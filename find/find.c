@@ -52,6 +52,8 @@
 #include "savedirinfo.h"
 #include "buildcmd.h"
 #include "dirname.h"
+#include "quote.h"
+#include "quotearg.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -380,6 +382,45 @@ check_nofollow(void)
   return true;
 }
 #endif
+
+static void
+ensure_std_fds_are_open(void)
+{
+  const char *safe_file = "/dev/null";
+  int fd, saved_errno
+
+  do
+    {
+      fd = open(safe_file, O_RDONLY);
+      if (fd < 0)
+	{
+	  /* /dev/null missing or cannot be opened. Perhaps we are in
+	   * a very restrictive chroot() environment.  Try using /,
+	   * which must be present.
+	   */
+	  saved_errno = errno;
+	  fd = open("/", O_RDONLY);
+	  if (fd < 0)
+	    {
+	      /* report the original error, which is probably 
+	       * more sensible.
+	       */
+	      errno = saved_errno; 
+	    }
+	}
+      
+    } while (fd > 0 && fd <= 2);
+  
+  if (fd < 0)
+    {
+      /* If stderr is closed here, we lose.  Oh, well. */
+      error(1, errno, _("Cannot open %s"), quote(safe_file));
+    }
+  else
+    {
+      close(fd);
+    }
+}
 
 
 int
@@ -393,6 +434,9 @@ main (int argc, char **argv)
   program_name = argv[0];
   const struct parser_table *entry_close, *entry_print, *entry_open;
 
+
+  ensure_std_fds_are_open();
+  
   /* We call check_nofollow() before setlocale() because the numbers 
    * for which we check (in the results of uname) definitiely have "."
    * as the decimal point indicator even under locales for which that 
