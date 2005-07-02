@@ -41,8 +41,8 @@ destdir="gnulib"
 # Modules needed for findutils itself.
 findutils_modules="\
 alloca  argmatch  dirname error fileblocks  fnmatch-gnu  \
-getline getopt human idcache  lstat malloc memcmp memset mktime	  \
-modechange   pathmax quotearg realloc regex rpmatch savedir stat  \
+getline getopt human idcache lstat malloc memcmp memset mktime	\
+modechange pathmax quotearg realloc regex rpmatch savedir stat stdio-safer \
 stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
 xalloc xalloc-die xgetcwd  xstrtol  xstrtoumax yesno human filemode \
 getline stpcpy canonicalize mountlist closeout gettext stat-macros"
@@ -137,12 +137,3 @@ EOF
 ## ls *.m4 | sed -e 's/$/ \\/' | sed -e '$ s/\\$//'
 ## echo 
 ## ) > gnulib/m4/Makefile.am
-
-
-
-# We also need config.rpath, because configure calls it, but for 
-# some reason, "autoreconf -i" doesn't fetch it.  
-for f in config.rpath
-do
-  (set -x; cp "$1"/build-aux/"$f" . )
-done

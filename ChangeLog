@@ -1,3 +1,12 @@
+2005-07-01  Jim Meyering  <jim@meyering.net>
+
+        With `-fprint F' or `-fprintf F', don't write diagnostics
+        to F when stderr is closed.
+
+        * find/parser.c: Include "stdio-safer.h".
+        (open_output_file): Use fopen_safer, not fopen.
+        * import-gnulib.sh (findutils_modules): Add stdio-safer.
+
 2005-06-24  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
 
 	* locate/locate.c (visit_count, visit_limit): New functions.

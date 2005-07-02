@@ -32,6 +32,7 @@
 #include "quotearg.h"
 #include "buildcmd.h"
 #include "nextelem.h"
+#include "stdio-safer.h"
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
@@ -2452,7 +2453,7 @@ open_output_file (char *path)
     return stderr;
   else if (!strcmp (path, "/dev/stdout"))
     return stdout;
-  f = fopen (path, "w");
+  f = fopen_safer (path, "w");
   if (f == NULL)
     error (1, errno, "%s", path);
   return f;

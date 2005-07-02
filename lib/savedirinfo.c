@@ -292,6 +292,10 @@ new_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 	free (pex);
       return buf;
     }
+  else
+    {
+      return NULL;
+    }
 }
 
 
