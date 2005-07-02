@@ -63,9 +63,10 @@ extern int errno;
 # endif
 #endif
 
-#if defined HAVE_UNISTD_H || defined _LIBC
-# include <unistd.h>
-#endif
+/* The presence of unistd.h is assumed by gnulib these days, so we 
+ * might as well assume it too. 
+ */
+#include <unistd.h>
 
 #include <locale.h>
 

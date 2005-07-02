@@ -34,9 +34,10 @@
 #include <sys/types.h>
 #endif
 
-#ifdef HAVE_UNISTD_H
+/* The presence of unistd.h is assumed by gnulib these days, so we 
+ * might as well assume it too. 
+ */
 #include <unistd.h>
-#endif
 
 #ifdef HAVE_SYS_MNTIO_H
 #ifdef HAVE_FCNTL_H

@@ -62,9 +62,11 @@ char *alloca ();
 #endif
 
 
-#ifdef HAVE_UNISTD_H
+/* The presence of unistd.h is assumed by gnulib these days, so we 
+ * might as well assume it too. 
+ */
 #include <unistd.h> /* for readlink() */
-#endif
+
 
 #if STDC_HEADERS
 # include <stdlib.h>

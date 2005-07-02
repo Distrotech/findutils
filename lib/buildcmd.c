@@ -68,10 +68,11 @@
 #include <limits.h>
 #endif
 
-#ifdef HAVE_UNISTD_H
+/* The presence of unistd.h is assumed by gnulib these days, so we 
+ * might as well assume it too. 
+ */
 /* for sysconf() */
 #include <unistd.h>
-#endif
 
 /* COMPAT:  SYSV version defaults size (and has a max value of) to 470.
    We try to make it as large as possible. */

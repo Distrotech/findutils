@@ -40,11 +40,11 @@
 #include <sys/file.h>
 #endif
 
-#ifdef HAVE_UNISTD_H
+/* The presence of unistd.h is assumed by gnulib these days, so we 
+ * might as well assume it too. 
+ */
 /* We need <unistd.h> for isatty(). */
-#include <unistd.h>
-#endif
-
+#include <unistd.h> 
 
 #if ENABLE_NLS
 # include <libintl.h>

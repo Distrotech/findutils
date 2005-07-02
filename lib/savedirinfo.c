@@ -32,9 +32,10 @@
 # include <sys/types.h>
 #endif
 
-#if HAVE_UNISTD_H
-# include <unistd.h>
-#endif
+/* The presence of unistd.h is assumed by gnulib these days, so we 
+ * might as well assume it too. 
+ */
+#include <unistd.h>
 
 #include <errno.h>
 

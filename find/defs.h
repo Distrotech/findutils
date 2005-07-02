@@ -45,9 +45,10 @@ extern int errno;
 #include <stdlib.h>
 #endif
 
-#ifdef HAVE_UNISTD_H
+/* The presence of unistd.h is assumed by gnulib these days, so we 
+ * might as well assume it too. 
+ */
 #include <unistd.h>
-#endif
 
 #include <time.h>
 

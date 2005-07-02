@@ -84,9 +84,10 @@
 #define LONG_MAX (~(1 << (sizeof (long) * 8 - 1)))
 #endif
 
-#ifdef HAVE_UNISTD_H
+/* The presence of unistd.h is assumed by gnulib these days, so we 
+ * might as well assume it too. 
+ */
 #include <unistd.h>
-#endif
 
 #include <signal.h>
 
