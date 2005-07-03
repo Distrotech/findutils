@@ -198,6 +198,15 @@ than the directory's link count, it knows that the rest of the entries
 in the directory are non-directories (`leaf' files in the directory
 tree).  If only the files' names need to be examined, there is no need
 to stat them; this gives a significant increase in search speed.
+.IP "\-regextype \fItype\fR"
+Changes the regular expression syntax understood by 
+.B \-regex
+and 
+.B -iregex
+tests which occur later on the command line.  Currently-implemented
+types are emacs, posix-awk, posix-basic (this is the default),
+posix-egrep and posix-extended.
+
 .IP "\-version, \-\-version"
 Print the \fBfind\fR version number and exit.
 .IP "\-warn, \-nowarn"
@@ -359,12 +368,10 @@ on the whole path, not a search.  For example, to match a file named
 `./fubar3', you can use the regular expression `.*bar.' or `.*b.*3',
 but not `f.*r3'.  The regular expressions understood by 
 .B find 
-follow the conventions for the 
-.B re_match 
-system library function where this is present (i.e. on systems using
-the GNU C Library).  On other systems, the implementation within
-Gnulib is used; by default, Gnulib provides ``basic'' regular
-expressions.
+are by default POSIX Basic Regular Expressions, but this can be
+changed with the 
+.B \-regextype 
+option.
 .IP "\-samefile \fIname\fR"
 File refers to the same inode as \fIname\fR.   When -L is in effect,
 this can include symbolic links.

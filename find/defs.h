@@ -561,15 +561,9 @@ struct options
    */
   boolean open_nofollow_available;
 
-
-  /* Which regular expression syntex we currently use.  This can be
-   * changed with the positional option -regextype, which takes the
-   * arguments ...
-   *
-   * posix-basic, posix-extended, posix-grep, posix-egrep, posix-awk
-   * emacs, gnu-awk.
-   *
-   * The default is 
+  /* The variety of regular expression that we support.
+   * The default is POSIX Basic Regular Expressions, but this 
+   * can be changed with the positional option, -regextype.
    */
   int regex_options;
 };

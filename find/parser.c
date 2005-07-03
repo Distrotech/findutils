@@ -33,6 +33,7 @@
 #include "buildcmd.h"
 #include "nextelem.h"
 #include "stdio-safer.h"
+#include "regextype.h"
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
@@ -130,6 +131,7 @@ static boolean parse_print0        PARAMS((const struct parser_table*, char *arg
 static boolean parse_printf        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_prune         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_regex         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static boolean parse_regextype     PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_samefile      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_size          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_true          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
@@ -157,6 +159,7 @@ boolean parse_close             PARAMS((const struct parser_table* entry, char *
 static boolean insert_type PARAMS((char **argv, int *arg_ptr, const struct parser_table *entry, PRED_FUNC which_pred));
 static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry, int regex_options));
 static boolean insert_fprintf PARAMS((FILE *fp, const struct parser_table *entry, PRED_FUNC func, char *argv[], int *arg_ptr));
+
 static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len, int kind));
 static boolean insert_exec_ok PARAMS((const char *action, const struct parser_table *entry, char *argv[], int *arg_ptr));
 static boolean get_num_days PARAMS((char *str, uintmax_t *num_days, enum comparison_type *comp_type));
@@ -266,6 +269,7 @@ static struct parser_table const parse_table[] =
   PARSE_ACTION     ("prune",                 prune),
   PARSE_ACTION     ("quit",                  quit),	     /* GNU */
   PARSE_TEST       ("regex",                 regex),	     /* GNU */
+  PARSE_OPTION     ("regextype",             regextype),     /* GNU */
   PARSE_TEST       ("samefile",              samefile),	     /* GNU */
   PARSE_TEST       ("size",                  size),
   PARSE_TEST       ("type",                  type),
@@ -761,7 +765,7 @@ operators (decreasing precedence; -and is implicit where no others are given):\n
       ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n\
       EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"));
   puts (_("\
-positional options (always true): -daystart -follow\n\
+positional options (always true): -daystart -follow -regextype\n\n\
 normal options (always true, specified before other expressions):\n\
       -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n\
       --version -xdev -ignore_readdir_race -noignore_readdir_race\n"));
@@ -1401,6 +1405,20 @@ parse_quit  (const struct parser_table* entry, char **argv, int *arg_ptr)
   our_pred->need_stat = our_pred->need_type = false;
   our_pred->side_effects = true; /* Exiting is a side effect... */
   our_pred->no_default_print = false; /* Don't inhibit the default print, though. */
+  return true;
+}
+
+
+static boolean 
+parse_regextype (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
+    return false;
+
+  /* collect the regex type name */
+  options.regex_options = get_regex_type(argv[*arg_ptr]);
+  (*arg_ptr)++;
+
   return true;
 }
 

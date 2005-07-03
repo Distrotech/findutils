@@ -398,7 +398,34 @@ match a file named @file{./fubar3}, you can use the regular expression
 @samp{.*bar.} or @samp{.*b.*3}, but not @samp{f.*r3}.  @xref{Regexps,
 , Syntax of Regular Expressions, emacs, The GNU Emacs Manual}, for a
 description of the syntax of regular expressions.  For @samp{-iregex},
-the match is case-insensitive.
+the match is case-insensitive.  There are several varieties of regular
+expressions; by default this test uses POSIX basic regular
+expressions, but this can be changed with the option
+@samp{-regextype}.
+@end deffn
+
+@deffn Option -regextype name
+This option controls the variety of regular expression syntax
+understood by the @samp{-regex} and @samp{-iregex} tests.  This option
+is positional; that is, it only affects regular expressions which
+occur later in the command line.  If this option is not given, POSIX
+basic regular expressions are assumed.  Currently-implemented types
+are
+
+@table @samp
+@item emacs
+Regular expressions compatible with GNU Emacs
+@item posix-awk
+Regular expressions compatible with the POSIX awk command (not GNU awk)
+@item posix-basic
+POSIX Basic Regular Expressions; this is also the default behaviour if
+this option is not used.
+@item posix-egrep
+Regular expressions compatible with the POSIX egrep command
+@item posix-extended
+POSIX Extended Regular Expressions
+@end table
+
 @end deffn
 
 @node Fast Full Name Search

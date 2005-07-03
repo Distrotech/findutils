@@ -407,7 +407,7 @@ main (int argc, char **argv)
   options.open_nofollow_available = false;
 #endif
 
-  options.regex_options = RE_SYNTAX_POSIX_BASIC;
+  options.regex_options = RE_SYNTAX_EMACS;
   
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
