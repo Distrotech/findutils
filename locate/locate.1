@@ -143,13 +143,18 @@ final component of the name of a file as listed in the database.
 This final component is usually referred to as the `base name'.
 .TP
 .I "\-r, \-\-regex "
-The pattern specified on the command line is understood to be a POSIX
-extended regular expression, as opposed to a glob pattern.  Filenames
-whose full paths match the specified regular expression are printed
-(or, in the case of the -c option, counted).  If you wish to anchor
-your regular expression at the ends of the full path name, then as is
-usual with regular expressions, you should use the characters ^ and $
-to signify this.   Newline is not considered to be special.
+The pattern specified on the command line is understood to be a
+regular expression, as opposed to a glob pattern.  The Regular
+expressions work in the same was as in 
+.B emacs
+and 
+.BR find ,
+except for the fact that "." will match a newline.
+Filenames whose full paths match the specified regular expression are
+printed (or, in the case of the -c option, counted).  If you wish to
+anchor your regular expression at the ends of the full path name, then
+as is usual with regular expressions, you should use the characters ^
+and $ to signify this.  
 .TP
 .I "\-s, \-\-stdio"
 Accepted but does nothing, for compatibility with BSD 
@@ -180,7 +185,7 @@ results that vary between different versions of
 
 .SH "SEE ALSO"
 \fBfind\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1),
-\fBglob\fP(3),\fregex\fP(7),
+\fBglob\fP(3),
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
 .P
