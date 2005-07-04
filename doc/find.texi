@@ -88,6 +88,7 @@ This is edition @value{EDITION}, for @code{find} version @value{VERSION}.
 * Databases::                   Maintaining file name databases.
 * File Permissions::            How to control access to files.
 * Reference::                   Summary of how to invoke the programs.
+* Worked Examples::             Examples demonstrating more complex points.
 * Security Considerations::     Security issues relating to findutils.
 * Error Messages::              Explanations of some messages you might see.
 * Primary Index::               The components of @code{find} expressions.
@@ -2647,7 +2648,7 @@ at all times.  Otherwise, newlines may not be correctly handled.
 
 @include perm.texi
 
-@node Reference, Security Considerations, File Permissions, Top
+@node Reference, Worked Examples, File Permissions, Top
 @chapter Reference
 
 Below are summaries of the command line syntax for the programs
@@ -3090,7 +3091,364 @@ Run up to @var{max-procs} processes at a time; the default is 1.  If
 possible at a time.
 @end table
 
-@node Security Considerations, Error Messages, Reference, Top
+@node Worked Examples, Security Considerations, Reference, Top
+@chapter Worked Examples
+
+The tools in the findutils package, and in particular @code{find},
+have a large number of options.  This means that quite a lot of the
+time, there is more than one way to do things.  Some of the options
+and facilities only exist with for compatibility with other tools, and
+findutils provides improved ways of doing things.
+
+This chapter describes a number of tasks that you might (in theory)
+want to perform, and explains how some ways of achieving them are
+better than others.
+
+@section Deleting Files
+
+One of the most common tasks that @code{find} is used for is locating
+files that can be deleted.  This might include 
+
+@itemize
+@item 
+Files last modified more than 3 years ago which haven't been accessed
+for at least 2 years
+@item
+Files belonging to a certain user
+@item
+Temporary files which are no longer required
+@end itemize
+
+This example concentrates on the actual deletion task rather than on
+sophisticated ways of locatng the files that need to be deleted.
+We'll assume that the files we want to delete are old files underneath
+@file{/var/tmp/stuff}.
+
+@subsection The Traditional Way
+
+@smallexample
+find /var/tmp/stuff -mtime +90 -exec /bin/rm @{@} \;
+@end smallexample
+
+The above command uses @samp{-exec} to run the @code{/bin/rm} command
+to remove each file.  This approach works and in fact would have
+worked in Version 7 Unix in 1979.  However, there are a number of
+problems with this approach, as we will see below.
+
+@subsection Deleting more than one file at a time
+
+The most obvious problem with the approach above is that it causes
+@code{find} to fork every time it finds a file that needs to delete,
+and the child process then has to use the @code{exec} system call to
+launch @code{/bin/rm}.   All this is quite inefficient.  If we are
+going to use @code{/bin/rm} to do this job, it is better to make it
+delete more than one file at a time.  
+
+The most obvious way of doing this is to use the shell's command
+expansion feature:
+
+@smallexample
+/bin/rm `find /var/tmp/stuff -mtime +90 -print`
+@end smallexample
+
+The above example uses the shell's back-tick operator to build a
+command line which deletes all the files at once.   There is also a
+more modern way of doing this:
+
+@smallexample
+/bin/rm $(find /var/tmp/stuff -mtime +90 -print)
+@end smallexample
+
+The advantage of @code{$(...)} over @code{`...`} is that the first
+form nests without needing lots of backslash quoting.  So, the
+commands above are much more efficient than our first attempt.
+However, the first version is actually better than our second. 
+
+The reason for this is that the shell has a maximum command length
+which is imposed by the operating system (the actual limit varies
+between systems).  This means that while our second command will
+usually work, it will suddenly fail when there are lots of files to
+delete.  Since our task is to delete unwanted files, this is precisely
+the time we don't want things to go wrong.
+
+@subsection Making Use of xargs
+
+So, is there a way to be more efficient in our use of @code{fork()}
+and @code{exec()} without running up against this limit?  The answer
+is yes.  In fact, we can be almost optimally efficient by making use
+of the @code{xargs} command.  The @code{xargs} command reads arguments
+from its standard input and builds them into command lines.  We can
+use it like this:
+
+@smallexample
+find /var/tmp/stuff -mtime +90 -print | xargs /bin/rm 
+@end smallexample
+
+For example if the files found by @code{find} are
+@file{/var/tmp/stuff/A}, 
+@file{/var/tmp/stuff/B} and 
+@file{/var/tmp/stuff/C} then @code{xargs} might issue the commands 
+
+@smallexample
+/bin/rm /var/tmp/stuff/A /var/tmp/stuff/B
+/bin/rm /var/tmp/stuff/C
+@end smallexample
+
+The above assumes that @code{xargs} has a very small maximum command
+line length.  The real limit is much larger but the idea is that
+@code{xargs} will run @code{/bin/rm} as many times as necessary to get
+the job done, given the limits on command line length.
+
+This usage of @code{xargs} is pretty efficient, and the @code{xargs}
+command is widely implemented (all modern versions of Unix offer it).
+So far then, the news is all good.  However, there is bad news too.
+
+@subsection Unusual characters in filenames
+
+Unix-like systems allow any characters to appear in file names with
+the exception of the ASCII NUL character and the backslash.
+Backslashes can occur in path names (as the directory separator) but
+not in the names of actusl directory entries.  This means that the
+list of files that xargs reads could in fact contain white space
+characters, tabs and newline characters.  Since by default
+@code{xargs} assumes that the list of files it is reading uses white
+space as an argument separator, it cannot correctly handle the case
+where a filename actually includes white space.  This makes the
+default behaviour of @code{xargs} almost useless for handling
+arbitrary data.
+
+To solve this problem, GNU findutils introduced the @samp{-print0}
+action for @code{find}.  This uses the ASCII NUL character to separate
+the entries in the file list that it produces.  This is the ideal
+choice of separator since it is the only character that cannot appear
+within a path name.  The @samp{-0} option to @code{xargs} makes it
+assume that arguments are separated with ASCII NUL instead of white
+space.  It also turns off another misfeature in the default behaviour
+of @code{xargs}, which is that it pays attention to quote characters
+in its input.  Some versions of @code{xargs} also terminate when they
+see a lone @samp{_} in the input, but GNU @code{find} no longer does
+that (since it has become an optional behaviour in the Unix standard).
+
+So, putting @code{find -print0} together with @code{xargs -0} we get
+this command:
+
+@smallexample
+find /var/tmp/stuff -mtime +90 -print0 | xargs -0 /bin/rm 
+@end smallexample
+
+The result then is that this is an efficient way of proceeding which
+correctly handles all the possible characters that might appear in the
+list of files to delete.  This is good news.  However, there is, as
+I'm sure you're expecting, also more bad news.  The problem is that
+this is not a portable construct; although other versions of Unix
+(notable BSD-derived ones) support @samp{-print0}, it's not
+universal.  So, is there a more universal mechanism?
+
+@subsection Going back to -exec
+
+There is indeed a more universal mechanism, which is a slight
+modification to the @samp{-exec} action.  The normal @samp{-exec}
+action assumes that the command to run is terminated with a semicolon
+(the semicolon normally has to be quoted in order to protect it from
+interpretation as the shell command separator).  The SVR4 edition of
+Unix introduced a slight variation, which involves terminating the
+command with @samp{+} instead:
+
+@smallexample
+find /var/tmp/stuff -mtime +90 -exec /bin/rm @{@} \+
+@end smallexample
+
+The above use of @samp{-exec} causes @code{find} to build up a long
+command line and then issue it.  This can be less efficient than some
+uses of @code{xargs}; for example @code{xargs} allows new command
+lines to be built up whil the previous command is still executing, and
+in fact allows you to specify a number of commands to run in parallel.
+However, the @code{find ... -exec ... +} construct has the advantage
+of wide portability.  GNU findutils did not support @samp{-exec ... +}
+until version 4.2.12; one of the reasons for this is that it already
+had the @samp{-print0} action in any case.
+
+
+@subsection A more secure version of -exec
+
+The command above seems to be efficient and portable.  However, it
+within it lurks a security problem.  The problem is also shared with
+all the commands we've tried in this worked example so far, too.  The
+security problem is a race condition; that is, if it is possible for
+somebody to manipulate the filesystem that you are searching while you
+are searching it, it is possible for them to persuade your @code{find}
+command to cause the deletion of a file that you can delete but they
+normally cannot.  
+
+The problem occurs because the @samp{-exec} action is defined by the
+POSIX standard to invoke its command with the same working directory
+as @code{find} had when it was started.  This means that the arguments
+which replace the @{@} include a relative path from @code{find}'s
+starting point down the file that needs to be deleted.  For example,
+
+@smallexample
+find /var/tmp/stuff -mtime +90 -exec /bin/rm @{@} \+
+@end smallexample
+
+might actually issue the command 
+
+@smallexample
+/bin/rm /var/tmp/stuff/A /var/tmp/stuff/B /var/tmp/stuff/passwd
+@end smallexample
+
+Notice the file @file{/var/tmp/stuff/passwd}.  Likewise, the command
+
+@smallexample
+cd /var/tmp && find stuff -mtime +90 -exec /bin/rm @{@} \+
+@end smallexample
+
+might actually issue the command 
+
+@smallexample
+/bin/rm stuff/A stuff/B stuff/passwd
+@end smallexample
+
+If an attacker can rename @file{stuff} to something else (making use
+of their write permissions in @file{/var/tmp}) they can replace it
+with a symbolic link to @file{/etc}.  That means that the
+@code{/bin/rm} command will be invoked on @file{/etc/passwd}.  If you
+are running your find command as root, the attacker has just managed
+to delete a vital file.  All they needed to do to achieve this was
+replace a subdirectory with a symbolic link at the vital moment.
+
+There is however, a simple solution to the problem.  This is an action
+which works a lot like @code{-exec} but doesn't need to traverse a
+chain of directories to reach the file that it needs to work on.  This
+is the @samp{-execdir} action, which was introduced by the BSD family
+of operating systems.   The command 
+
+@smallexample
+find /var/tmp/stuff -mtime +90 -execdir /bin/rm @{@} \+
+@end smallexample
+
+might delete a set of files by performing these actions
+
+@enumerate
+@item 
+Change directory to /var/tmp/stuff/foo
+@item 
+Invoke @code{/bin/rm ./file1 ./file2 ./file3}
+@item
+Change directory to /var/tmp/stuff/bar
+@item 
+Invoke @code{/bin/rm ./file99 ./file100 ./file101}
+@end enumerate
+
+This is a much more secure method.  We are no longer exposed to a race
+condition.  For many typical uses of @code{find}, this is the best
+strategy.   It's reasonably efficient, but the length of the command
+line is limited not just by the operating system limits, but also by
+how many files we actually need to delete from each directory.
+
+Is it possible to do any better?   In the case of general file
+processing, no.  However, in the specific case of deleting files it is
+indeed possible to do better.  
+
+@subsection Using the -delete action
+
+The most efficient and secure method of solving this problem is to use
+the @samp{-delete} action:
+
+@smallexample
+find /var/tmp/stuff -mtime +90 -delete
+@end smallexample
+
+This alternative is more efficient than any of the @samp{-exec} or
+@samp{-execdir} actions, since it entirely avoids the overhead of
+forking a new process and using @code{exec} to run @code{/bin/rm}.  It
+is also normally more efficient than @code{xargs} for the same
+reason.   The file deletion is performed from the directory containing
+the entry to be deleted, so the @samp{-delete} action has the same
+security advantages as the @samp{-execdir} action has.  
+
+The @samp{-delete} action was introduced by the BSD family of
+operating systems.
+
+@subsection Improving things still further
+
+Is it possible to improve things still further?  Not without either
+modifying the API to the operating system or having more specific
+knowledge of the layout of the filesystem and disk I/O subsystem, or
+both.
+
+The @code{find} command traverses the filesystem, reading
+directories.  It then issues a separate system call for each file to
+be deleted.  If we could modify the operating system API, there are
+potential gains that could be made:
+
+@itemize
+@item
+We could have a system call to which we pass more than one filename
+for deletion
+@item
+Alternatively, we could pass in a list of inode numbers (on GNU/Linux
+systems, @code{readdir()} also returns the inode number of each
+directory entry) to be deleted.
+@end itemize
+
+The above possibilities sound interesting, but from the kernel's point
+of view it is difficult to enforce standard Unix access controls for
+such for processing by inode number.  Such a facility would probably
+need to be restricted to the superuser.
+
+Another way of improving performance would be to increase the
+parallelism of the process.  For example if the directory hierarchy we
+are searching is actually spread actross a number of disks, we might
+somehow be able to arrange for @code{find} to process each disk in
+parallel.  In practice GNU @code{find} doesn't have such an intimate
+understanding of the system's filesystem layout and disk I/O
+subsystem.
+
+However, since the system administrator can have such an understanding
+they can take advantage of it like so:
+
+@smallexample
+find /var/tmp/stuff1 -mtime +90 -delete &
+find /var/tmp/stuff2 -mtime +90 -delete &
+find /var/tmp/stuff3 -mtime +90 -delete &
+find /var/tmp/stuff4 -mtime +90 -delete &
+wait
+@end smallexample
+
+In the example above, four spearate instances of @code{find} are used
+to search four subdirectories in parallel.  The @code{wait} command
+simply waits for all of these to complete.  Whether this approach is
+more or less efficient than a single instance of @code{find} depends
+on a number of things:
+
+@itemize
+@item
+Are the directories being searched in parallel actually on separate
+disks?  If not, this parallel search might just result in a lot of
+disk head movement and so the speed might even be slower.
+@item
+Other activity - are other programs also doing things on those disks?
+@end itemize
+
+
+@subsection Conclusion
+
+The fastest and most secure way to delete files with the help of
+@code{find} is to use @samp{-delete}.
+
+In the case where we're doing things other than deleting files, the
+most secure alternative is @samp{-execdir ... +}, but this is not as
+portable as the insecure action @samp{-exec ... +}.
+
+The @samp{-delete} action is not completely portable, but the only
+other possiblility which is as secure (@samp{-execdir}) is no more
+portable.  The most efficient portable alternative is @samp{-exec
+...+}, but this is insecure and isn't supported by versions of GNU
+findutils prior to 4.2.12.
+
+
+
+@node Security Considerations, Error Messages, Worked Examples, Top
 @chapter Security Considerations
 
 Security considerations are important if you are using @code{find} or
