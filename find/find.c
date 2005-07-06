@@ -518,6 +518,7 @@ main (int argc, char **argv)
   assert(entry_print != NULL);
   
   parse_open (entry_open, argv, &argc);
+  parse_begin_user_args(argv, argc, last_pred, predicates);
   pred_sanity_check(last_pred);
   
   /* Build the input order list. */
@@ -547,6 +548,7 @@ main (int argc, char **argv)
       pred_sanity_check(last_pred);
       pred_sanity_check(predicates); /* XXX: expensive */
     }
+  parse_end_user_args(argv, argc, last_pred, predicates);
   
   if (predicates->pred_next == NULL)
     {

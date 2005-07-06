@@ -240,6 +240,7 @@ struct exec_val
   char **replace_vec;		/* Command arguments (for ";" style) */
   int num_args;
   boolean use_current_dir;      /* If nonzero, don't chdir to start dir */
+  boolean close_stdin;		/* If true, close stdin in the child. */
 #else
   struct path_arg *paths;	/* Array of args with path replacements. */
   char **vec;			/* Array of args to pass to program. */
@@ -420,7 +421,8 @@ boolean parse_open  PARAMS((const struct parser_table* entry, char *argv[], int 
 boolean parse_close PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
 boolean parse_print PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 void pred_sanity_check PARAMS((const struct predicate *predicates));
-
+void parse_begin_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
+void parse_end_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
 
 /* pred.c */
 boolean pred_amin PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));

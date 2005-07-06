@@ -304,6 +304,31 @@ static struct parser_table const parse_table[] =
 
 static const char *first_nonoption_arg = NULL;
 
+
+
+void
+parse_begin_user_args (char **args, int argno, const struct predicate *last, const struct predicate *predicates)
+{
+  (void) args;
+  (void) argno;
+  (void) last;
+  (void) predicates;
+  first_nonoption_arg = NULL;
+}
+
+void 
+parse_end_user_args (char **args, int argno, const struct predicate *last, const struct predicate *predicates)
+{
+  /* does nothing */
+  (void) args;
+  (void) argno;
+  (void) last;
+  (void) predicates;
+}
+
+
+
+
 /* Return a pointer to the parser function to invoke for predicate
    SEARCH_NAME.
    Return NULL if SEARCH_NAME is not a valid predicate name. */
@@ -2067,9 +2092,20 @@ new_insert_exec_ok (const char *action,
   execp = &our_pred->args.exec_vec;
 
   if ((func != pred_okdir) && (func != pred_ok))
-    allow_plus = true;
+    {
+      allow_plus = true;
+      execp->close_stdin = false;
+    }
   else
-    allow_plus = false;
+    {
+      allow_plus = false;
+      /* If find reads stdin (i.e. for -ok and similar), close stdin
+       * in the child to prevent some script from consiming the output
+       * intended for find.
+       */
+      execp->close_stdin = true;
+    }
+  
   
   if ((func == pred_execdir) || (func == pred_okdir))
     {

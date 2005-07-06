@@ -1491,20 +1491,23 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 
 
 static void
-prep_child_for_exec (void)
+prep_child_for_exec (boolean close_stdin)
 {
-  const char inputfile[] = "/dev/null";
-  /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
-  
-  close(0);
-  if (open(inputfile, O_RDONLY) < 0)
+  if (close_stdin)
     {
-      /* This is not entirely fatal, since 
-       * executing the child with a closed
-       * stdin is almost as good as executing it
-       * with its stdin attached to /dev/null.
-       */
-      error (0, errno, "%s", inputfile);
+      const char inputfile[] = "/dev/null";
+      /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
+      
+      close(0);
+      if (open(inputfile, O_RDONLY) < 0)
+	{
+	  /* This is not entirely fatal, since 
+	   * executing the child with a closed
+	   * stdin is almost as good as executing it
+	   * with its stdin attached to /dev/null.
+	   */
+	  error (0, errno, "%s", inputfile);
+	}
     }
 }
 
@@ -1539,7 +1542,7 @@ launch (const struct buildcmd_control *ctl,
   if (child_pid == 0)
     {
       /* We be the child. */
-      prep_child_for_exec();
+      prep_child_for_exec(execp->close_stdin);
 
       /* For -exec and -ok, change directory back to the starting directory.
        * for -execdir and -okdir, stay in the directory we are searching
