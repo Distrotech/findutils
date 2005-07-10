@@ -1,3 +1,49 @@
+2005-07-10  James Youngman  <jay@gnu.org>
+
+	* NEWS: Updated with recent changes.
+
+	* NEWS: Recent gnulib changes have fixed -iregex
+
+	* doc/find.texi, xargs/xargs.1: Tiny patch from Andreas Metzler:
+	xargs -I is like xargs -i, but the latter is deprecated
+
+2005-07-06  James Youngman  <jay@gnu.org>
+
+	* find/defs.h, find/find.c, find/parser.c, find/pred.c:
+	Fixed Savannah bug #13650; programs run by -exec cannot read stdin
+
+2005-07-04  James Youngman  <jay@gnu.org>
+
+	* NEWS: *** empty log message ***
+
+	* doc/find.texi:
+	Added a "Worked Examples" section.   It currently only contains a
+	(long) example about deleting files.
+
+	* .cvsignore: Some extra stuff to ignore.
+
+2005-07-03  James Youngman  <jay@gnu.org>
+
+	* find/Makefile.am: Don't need regexprops.c really...
+
+	* lib/regextype.c, lib/regextype.h:
+	New files for selecting regex type based on a keyword
+
+	* locate/locate.1: Documented the fact that we now use Emacs-style
+	regexps, not POSIX EREs, for compatibility with find -regex.
+
+	* lib/Makefile.am, locate/locate.c, doc/find.texi,
+	find/Makefile.am, find/defs.h, find/find.1, find/find.c,
+	find/parser.c: Fixed Savannah bug #13495: find now uses
+	Emacs-style regexps by default
+
+2005-07-02  James Youngman  <jay@gnu.org>
+
+	* configure.in, find/defs.h, find/fstype.c, find/parser.c,
+	intl/dcigettext.c, lib/buildcmd.c, lib/listfile.c,
+	lib/savedirinfo.c, locate/locate.c, xargs/xargs.c: Assume unistd.h
+	is present - avoid using HAVE_UNISTD_H
+
 2005-07-01  Jim Meyering  <jim@meyering.net>
 
         With `-fprint F' or `-fprintf F', don't write diagnostics
@@ -7,11 +53,38 @@
         (open_output_file): Use fopen_safer, not fopen.
         * import-gnulib.sh (findutils_modules): Add stdio-safer.
 
+2005-07-01  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi:
+	Aaron pointed out a potentially-confusing sentence.  I fixed it.
+
+	* find/defs.h, find/find.1, find/find.c, find/parser.c,
+	find/pred.c, find/util.c: Allow consistency-checking of the
+	predicates, checking for example that actions all have side
+	effects
+
+2005-06-29  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi: Applied patch from Aaron Hawley (Savannah patch
+	#3751: Typos and small suggestions to find.texi)
+
+2005-06-27  James Youngman  <jay@gnu.org>
+
+	* ChangeLog, locate/locate.c: Applied patch from Bas Van Gompel to
+	move match counting into a (new) visitor function
+
+	* NEWS, configure.in: No longer 4.2.23, as we're moving on now
+
 2005-06-24  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
 
 	* locate/locate.c (visit_count, visit_limit): New functions.
 	(locate): Use visit_limit or visit_count. Simplify main loop.
 	(main) Bail out early when limit is reached.
+
+2005-06-20  James Youngman  <jay@gnu.org>
+
+	* xargs/xargs.c:
+	Removed some code which had already been disabled via the preprocessor.
 
 2005-06-19  Dmitry V. Levin <ldv@altlinux.org>
 

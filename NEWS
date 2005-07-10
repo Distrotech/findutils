@@ -7,12 +7,47 @@ The manual now includes a "Worked Examples" section which talks about
 the various ways in which findutils can be used to perform common
 tasks, and why some of these alternatives are better than others.
 
+The -I option of xargs (which is required by the POSIX standard) is
+now documented.
+
+** Functional Changes
+
+*** Functional changes in locate
+
+The "--regex" option of locate now assumes the regular expression to
+be in the same syntax as is used in GNU Emacs, though this can be
+changed with the new option --regextype.  This is a change from the
+existing behaviour (which was to use POSIX Basic Regular Expressions).
+Since this featrue is releatively new anyway, I though it was more
+useful to have compatibility between regular expression handling in
+find and locate than to maintain the short-lived previous behaviour of
+locate.
+
+The locate program now also supports a "--regextype" long option which
+controls which regular expression syntax is understood by locate.
+This is a long option and has no single-letter 'short option'
+equivalent.
+
+*** Functional changes in find
+
+The regular expression syntax understood by "find" can be changed with
+the -regextype option; this option is positional, meaning that you can
+have several tests, each using a diftinct syntax (this is not
+recommended practice however).
+
 ** Bug Fixes
+
+** Bug Fixes for find
 
 The -iregex test now works once again on systems that lack
 re_search() (that is, systems on which findutils needs to use the
 gnulib version of this function).
 
+find -regex now once again uses GNU Emacs-compatible regular
+expressions.
+
+If invoked with stderr closed, the -fprint and -fprintf actions now no
+longer cause error messages to be sent into the output file.
 
 * Major changes in release 4.2.23
 
