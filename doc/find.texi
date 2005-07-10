@@ -2394,8 +2394,8 @@ If you don't want to be asked, perhaps because the file name may
 contain a strange character sequence that will mess up your screen
 when printed, then use @samp{-execdir} instead of @samp{-okdir}.
 
-If you want to rename the file instead, you can use @code{mv} instead of
-@code{rm}:
+If you want to rename the file instead, you can use @code{mv} instead
+of @code{rm}:
 
 @example
 find . -maxdepth 1 -inum 12345 -okdir mv '@{@}' @var{new-file-name} \;
@@ -2687,7 +2687,7 @@ the rest of the expression.  If no files are given, the current
 directory is used.  If no expression is given, the expression
 @samp{-print} is used.
 
-@code{find} exits with status zero if all files are processed
+@code{find} exits with status zero if all files matched are processed
 successfully, greater than 0 if errors occur.
 
 Three options can precede the list of files.  They determine the
@@ -2720,7 +2720,7 @@ missing, @samp{-print} is assumed.
 
 @table @code
 @item --help
-Print a summary of the command line argument format and exit.
+Print a summary of the command line usage and exit.
 @item --version
 Print the version number of @code{find} and exit.
 @end table
@@ -2774,7 +2774,7 @@ existing shell scripts which use such constructs don't generate
 spurious errors, but people will be made aware of the problem.
 
 Some warning messages are issued for less common or more serious
-problems, and so cannot be turned off:
+problems, and consequently cannot be turned off:
 
 @itemize @minus
 @item
@@ -2790,6 +2790,12 @@ Use of an unrecognised formatting directive with @samp{-fprintf}
 locate @r{[}@var{option}@dots{}@r{]} @var{pattern}@dots{}
 @end example
 
+For each @var{pattern} given @code{locate} searches one or more file
+name databases returning each match of @var{pattern}.
+
+For each @var{pattern} given @code{locate} searches one or more file
+name databases returning each match of @var{pattern}.
+
 @table @code
 @item --all
 @itemx -A
@@ -2799,7 +2805,7 @@ matching one or more non-option arguments.
 @item --basename
 @itemx -b
 The specified pattern is matched against just the last component of
-the name of the file in the @code{locate} database.  This last
+the name of a file in the @code{locate} database.  This last
 component is also called the ``base name''.  For example, the base
 name of @file{/tmp/mystuff/foo.old.c} is @file{foo.old.c}.  If the
 pattern contains metacharacters, it must match the base name exactly.
@@ -2808,13 +2814,13 @@ If not, it must match part of the base name.
 @item --count
 @itemx -c
 Instead of printing the matched file names, just print the total
-number of matches we found, unless @samp{--print} (@samp{-p}) is also
+number of matches found, unless @samp{--print} (@samp{-p}) is also
 present.
 
 
 @item --database=@var{path}
 @itemx -d @var{path}
-Instead of searching the default file name database, search the file
+Instead of searching the default @code{locate} database, @code{locate} search the file
 name databases in @var{path}, which is a colon-separated list of
 database file names.  You can also use the environment variable
 @code{LOCATE_PATH} to set the list of database files to search.  The
@@ -2845,7 +2851,7 @@ affected by the @samp{-L}, @samp{-P} and @samp{-H} options.
 @itemx -L
 If testing for the existence of files (with the @samp{-e} or @samp{-E}
 options), consider broken symbolic links to be non-existing.  This is
-the default.
+the default behaviour.
 
 
 @item --nofollow
@@ -2862,7 +2868,7 @@ Ignore case distinctions in both the pattern and the file names.
 
 @item --limit=N
 @itemx -l N
-Limit the number of results printed to N.  If you use the
+Limit the number of results printed to N.  When used with the
 @samp{--count} option, the value printed will never be larger than
 this limit.
 
@@ -2895,8 +2901,8 @@ name.  This is the default behaviour.
 @itemx -r
 Instead of using substring or shell glob matching, the pattern
 specified on the command line is understood to be a POSIX extended
-regular expression.  File names from the @code{locate} database which
-match the specified regular expression are printed (or counted).  If
+regular expression.  File names from the @code{locate} database
+are matched using the specified regular expression.  If
 the @samp{-i} flag is also given, matching is case-insensitive.
 Matches are performed against the whole path name, and so by default a
 pathname will be matched if any part of it matches the specified
@@ -2914,7 +2920,7 @@ Print some summary information for each @code{locate} database.  No
 search is performed unless non-option arguments are given.
 
 @item --help
-Print a summary of the options to @code{locate} and exit.
+Print a summary of the command line usage for @code{locate} and exit.
 
 @item --version
 Print the version number of @code{locate} and exit.
@@ -2926,6 +2932,26 @@ Print the version number of @code{locate} and exit.
 @example
 updatedb @r{[}@var{option}@dots{}@r{]}
 @end example
+
+@code{updatedb} creates and updates the database of file names used by
+@code{locate}.  @code{updatedb} generates a list of files similar to
+the output of @code{find} and then uses utilities for optimizing the
+database for performance.  @code{updatedb} is often run periodically
+as a @code{cron} job and configured with environment variables or
+command options.  Typically, operating systems have a shell script
+that ``exports'' configurations for variable definitions and uses
+another schell script that ``sources'' the configuration file into the
+environment and then executes @code{updatedb} in the environment.
+
+@code{updatedb} creates and updates the database of file names used by
+@code{locate}.  @code{updatedb} generates a list of files similar to
+the output of @code{find} and then uses utilities for optimizing the
+database for performance.  @code{updatedb} is often run periodically
+as a @code{cron} job and configured with environment variables or
+command options.  Typically, operating systems have a shell script
+that ``exports'' configurations for variable definitions and uses
+another schell script that ``sources'' the configuration file into the
+environment and then executes @code{updatedb} in the environment.
 
 @table @code
 @item --findoptions='@var{OPTION}@dots{}'
@@ -2969,7 +2995,7 @@ You can also use the environment variable @code{LOCALUSER} to set this user.
 
 @item --netuser=@var{user}
 The user to search network directories as, using @code{su}.  Default
-is @code{daemon}.  You can also use the environment variable
+@code{user} is @code{daemon}.  You can also use the environment variable
 @code{NETUSER} to set this user.
 
 @item --old-format
@@ -2980,7 +3006,7 @@ handle non-ASCII characters in file names (that is, file names
 containing characters which have the eighth bit set, such as many of
 the characters from the ISO-8859-1 character set).
 @item --help
-Print a summary of the command line argument format and exit.
+Print a summary of the command line usage and exit.
 @item --version
 Print the version number of @code{updatedb} and exit.
 @end table
@@ -3019,7 +3045,7 @@ Read names from the file @var{inputfile} instead of standard input.
 @item --null
 @itemx -0
 Input file names are terminated by a null character instead of by
-whitespace, and the quotes and backslash are not special (every
+whitespace, and any quotes and backslash characters are not considered special (every
 character is taken literally).  Disables the end of file string, which
 is treated like any other argument.
 
@@ -3045,7 +3071,7 @@ depreceated in favour of @samp{-I}.
 
 @item --max-lines@r{[}=@var{max-lines}@r{]}
 @itemx -l@r{[}@var{max-lines}@r{]}
-Use at most @var{max-lines} nonblank input lines per command line;
+Use at most @var{max-lines} non-blank input lines per command line;
 @var{max-lines} defaults to 1 if omitted.  Trailing blanks cause an
 input line to be logically continued on the next input line, for the
 purpose of counting the lines.  Implies @samp{-x}.
@@ -3065,14 +3091,14 @@ with @samp{y} or @samp{Y}.  Implies @samp{-t}.
 
 @item --no-run-if-empty
 @itemx -r
-If the standard input does not contain any nonblanks, do not run the
+If the standard input is completely empty, do not run the
 command.  By default, the command is run once even if there is no
 input.
 
 @item --max-chars=@var{max-chars}
 @itemx -s @var{max-chars}
 Use at most @var{max-chars} characters per command line, including the
-command, initial arguments and the terminating nulls at the ends of
+command, initial arguments and any terminating nulls at the ends of
 the argument strings.
 
 @item --verbose
@@ -3090,28 +3116,27 @@ Exit if the size (see the @samp{-s} option) is exceeded.
 
 @item --max-procs=@var{max-procs}
 @itemx -P @var{max-procs}
-Run up to @var{max-procs} processes at a time; the default is 1.  If
+Run simultaneously up to @var{max-procs} processes at once; the default is 1.  If
 @var{max-procs} is 0, @code{xargs} will run as many processes as
-possible at a time.
+possible simultaneously.
 @end table
 
 @node Worked Examples, Security Considerations, Reference, Top
 @chapter Worked Examples
 
 The tools in the findutils package, and in particular @code{find},
-have a large number of options.  This means that quite a lot of the
-time, there is more than one way to do things.  Some of the options
-and facilities only exist with for compatibility with other tools, and
+have a large number of options.  This means that quite often,
+there is more than one way to do things.  Some of the options
+and facilities only exist for compatibility with other tools, and
 findutils provides improved ways of doing things.
 
-This chapter describes a number of tasks that you might (in theory)
-want to perform, and explains how some ways of achieving them are
-better than others.
+This chapter describes a number of useful tasks that are
+commonly performed, and compares the different ways of achieving them.
 
 @section Deleting Files
 
 One of the most common tasks that @code{find} is used for is locating
-files that can be deleted.  This might include 
+files that can be deleted.  This might include:
 
 @itemize
 @item 
@@ -3130,6 +3155,9 @@ We'll assume that the files we want to delete are old files underneath
 
 @subsection The Traditional Way
 
+The traditional way to delete files in @file{var/tmp/stuff} that have
+not been modified in over 90 days would have been:
+
 @smallexample
 find /var/tmp/stuff -mtime +90 -exec /bin/rm @{@} \;
 @end smallexample
@@ -3137,7 +3165,7 @@ find /var/tmp/stuff -mtime +90 -exec /bin/rm @{@} \;
 The above command uses @samp{-exec} to run the @code{/bin/rm} command
 to remove each file.  This approach works and in fact would have
 worked in Version 7 Unix in 1979.  However, there are a number of
-problems with this approach, as we will see below.
+problems with this approach.
 
 @subsection Deleting more than one file at a time
 
@@ -3163,23 +3191,23 @@ more modern way of doing this:
 /bin/rm $(find /var/tmp/stuff -mtime +90 -print)
 @end smallexample
 
-The advantage of @code{$(...)} over @code{`...`} is that the first
+The advantage of @code{$(@dots{})} over @code{`@dots{}`} is that the first
 form nests without needing lots of backslash quoting.  So, the
-commands above are much more efficient than our first attempt.
-However, the first version is actually better than our second. 
+commands above are much more efficient than the first attempt.
+However, the first version is actually better than the second. 
 
 The reason for this is that the shell has a maximum command length
 which is imposed by the operating system (the actual limit varies
-between systems).  This means that while our second command will
+between systems).  This means that while the second command will
 usually work, it will suddenly fail when there are lots of files to
-delete.  Since our task is to delete unwanted files, this is precisely
+delete.  Since the task is to delete unwanted files, this is precisely
 the time we don't want things to go wrong.
 
 @subsection Making Use of xargs
 
-So, is there a way to be more efficient in our use of @code{fork()}
-and @code{exec()} without running up against this limit?  The answer
-is yes.  In fact, we can be almost optimally efficient by making use
+So, is there a way to be more efficient in the use of @code{fork()}
+and @code{exec()} without running up against this limit?
+Yes, we can be almost optimally efficient by making use
 of the @code{xargs} command.  The @code{xargs} command reads arguments
 from its standard input and builds them into command lines.  We can
 use it like this:
@@ -3212,9 +3240,9 @@ So far then, the news is all good.  However, there is bad news too.
 Unix-like systems allow any characters to appear in file names with
 the exception of the ASCII NUL character and the backslash.
 Backslashes can occur in path names (as the directory separator) but
-not in the names of actusl directory entries.  This means that the
-list of files that xargs reads could in fact contain white space
-characters, tabs and newline characters.  Since by default
+not in the names of actual directory entries.  This means that the
+list of files that @code{xargs} reads could in fact contain white space
+characters --- spaces, tabs and newline characters.  Since by default,
 @code{xargs} assumes that the list of files it is reading uses white
 space as an argument separator, it cannot correctly handle the case
 where a filename actually includes white space.  This makes the
@@ -3240,8 +3268,8 @@ this command:
 find /var/tmp/stuff -mtime +90 -print0 | xargs -0 /bin/rm 
 @end smallexample
 
-The result then is that this is an efficient way of proceeding which
-correctly handles all the possible characters that might appear in the
+The result is an efficient way of proceeding that
+correctly handles all the possible characters that could appear in the
 list of files to delete.  This is good news.  However, there is, as
 I'm sure you're expecting, also more bad news.  The problem is that
 this is not a portable construct; although other versions of Unix
@@ -3265,18 +3293,18 @@ find /var/tmp/stuff -mtime +90 -exec /bin/rm @{@} \+
 The above use of @samp{-exec} causes @code{find} to build up a long
 command line and then issue it.  This can be less efficient than some
 uses of @code{xargs}; for example @code{xargs} allows new command
-lines to be built up whil the previous command is still executing, and
-in fact allows you to specify a number of commands to run in parallel.
-However, the @code{find ... -exec ... +} construct has the advantage
-of wide portability.  GNU findutils did not support @samp{-exec ... +}
+lines to be built up while the previous command is still executing, and
+allows you to specify a number of commands to run in parallel.
+However, the @code{find @dots{} -exec @dots{} +} construct has the advantage
+of wide portability.  GNU findutils did not support @samp{-exec @dots{} +}
 until version 4.2.12; one of the reasons for this is that it already
 had the @samp{-print0} action in any case.
 
 
 @subsection A more secure version of -exec
 
-The command above seems to be efficient and portable.  However, it
-within it lurks a security problem.  The problem is also shared with
+The command above seems to be efficient and portable.  However,
+within it lurks a security problem.  The problem is shared with
 all the commands we've tried in this worked example so far, too.  The
 security problem is a race condition; that is, if it is possible for
 somebody to manipulate the filesystem that you are searching while you
@@ -3285,7 +3313,7 @@ command to cause the deletion of a file that you can delete but they
 normally cannot.  
 
 The problem occurs because the @samp{-exec} action is defined by the
-POSIX standard to invoke its command with the same working directory
+@acronym{POSIX} standard to invoke its command with the same working directory
 as @code{find} had when it was started.  This means that the arguments
 which replace the @{@} include a relative path from @code{find}'s
 starting point down the file that needs to be deleted.  For example,
@@ -3294,19 +3322,19 @@ starting point down the file that needs to be deleted.  For example,
 find /var/tmp/stuff -mtime +90 -exec /bin/rm @{@} \+
 @end smallexample
 
-might actually issue the command 
+might actually issue the command:
 
 @smallexample
 /bin/rm /var/tmp/stuff/A /var/tmp/stuff/B /var/tmp/stuff/passwd
 @end smallexample
 
-Notice the file @file{/var/tmp/stuff/passwd}.  Likewise, the command
+Notice the file @file{/var/tmp/stuff/passwd}.  Likewise, the command:
 
 @smallexample
 cd /var/tmp && find stuff -mtime +90 -exec /bin/rm @{@} \+
 @end smallexample
 
-might actually issue the command 
+might actually issue the command:
 
 @smallexample
 /bin/rm stuff/A stuff/B stuff/passwd
@@ -3316,7 +3344,7 @@ If an attacker can rename @file{stuff} to something else (making use
 of their write permissions in @file{/var/tmp}) they can replace it
 with a symbolic link to @file{/etc}.  That means that the
 @code{/bin/rm} command will be invoked on @file{/etc/passwd}.  If you
-are running your find command as root, the attacker has just managed
+are running your @code{find} command as root, the attacker has just managed
 to delete a vital file.  All they needed to do to achieve this was
 replace a subdirectory with a symbolic link at the vital moment.
 
@@ -3324,13 +3352,13 @@ There is however, a simple solution to the problem.  This is an action
 which works a lot like @code{-exec} but doesn't need to traverse a
 chain of directories to reach the file that it needs to work on.  This
 is the @samp{-execdir} action, which was introduced by the BSD family
-of operating systems.   The command 
+of operating systems.   The command,
 
 @smallexample
 find /var/tmp/stuff -mtime +90 -execdir /bin/rm @{@} \+
 @end smallexample
 
-might delete a set of files by performing these actions
+might delete a set of files by performing these actions:
 
 @enumerate
 @item 
@@ -3376,13 +3404,13 @@ operating systems.
 @subsection Improving things still further
 
 Is it possible to improve things still further?  Not without either
-modifying the API to the operating system or having more specific
+modifying the system library to the operating system or having more specific
 knowledge of the layout of the filesystem and disk I/O subsystem, or
 both.
 
 The @code{find} command traverses the filesystem, reading
 directories.  It then issues a separate system call for each file to
-be deleted.  If we could modify the operating system API, there are
+be deleted.  If we could modify the operating system, there are
 potential gains that could be made:
 
 @itemize
@@ -3397,7 +3425,7 @@ directory entry) to be deleted.
 
 The above possibilities sound interesting, but from the kernel's point
 of view it is difficult to enforce standard Unix access controls for
-such for processing by inode number.  Such a facility would probably
+such processing by inode number.  Such a facility would probably
 need to be restricted to the superuser.
 
 Another way of improving performance would be to increase the
@@ -3441,16 +3469,14 @@ The fastest and most secure way to delete files with the help of
 @code{find} is to use @samp{-delete}.
 
 In the case where we're doing things other than deleting files, the
-most secure alternative is @samp{-execdir ... +}, but this is not as
-portable as the insecure action @samp{-exec ... +}.
+most secure alternative is @samp{-execdir @dots{} +}, but this is not as
+portable as the insecure action @samp{-exec @dots{} +}.
 
 The @samp{-delete} action is not completely portable, but the only
 other possiblility which is as secure (@samp{-execdir}) is no more
 portable.  The most efficient portable alternative is @samp{-exec
-...+}, but this is insecure and isn't supported by versions of GNU
+@dots{}+}, but this is insecure and isn't supported by versions of GNU
 findutils prior to 4.2.12.
-
-
 
 @node Security Considerations, Error Messages, Worked Examples, Top
 @chapter Security Considerations
@@ -3461,17 +3487,17 @@ or which other people have control.  Security considerations
 relating to @code{locate} may also apply if you have files which you
 do not want others to see.
 
-In general, the most severe forms of security problems affecting
-@code{find} and related programs are where third parties can bring
-about a situation where those programs allow them to do something they
-would normally not be able to do.  This is called @emph{privilege
+The most severe forms of security problems affecting
+@code{find} and related programs are when third parties bring
+about a situation allowing them to do something
+they would normally not be able to accomplish.  This is called @emph{privilege
 elevation}.  This might include deleting files they would not normally
-be able to delete.  It is also common for the system to periodically
-invoke @code{find} for housekeeping purposes.  These invocations of
+be able to delete.  It is common for the operating system to periodically
+invoke @code{find} for self-maintenance purposes.  These invocations of
 @code{find} are particularly problematic from a security point of view
-as these are often invoked by the superuser and search the whole
-filesystem hierarchy.  The severity of any associated problem depends
-on what the system is going to do with the output of @code{find}.
+as these are often invoked by the superuser and search the entire
+filesystem hierarchy.  Generally, the severity of any associated problem depends
+on what the system is going to do with the files found by @code{find}.
 
 @menu
 * Levels of Risk::      What is your level of exposure to security problems?
@@ -3574,12 +3600,12 @@ The filesystem will in general change while @code{find} is searching
 it; in fact, most of the potential security problems with @code{find}
 relate to this issue in some way.
 
-Race conditions are a general class of security problem where the
+@dfn{Race conditions} are a general class of security problem where the
 relative ordering of actions taken by @code{find} (for example) and
-something else are important@footnote{This is more or less the
+something else are critically important in getting the correct and expected result@footnote{This is more or less the
 definition of the term ``race condition''} .
 
-Typically, an attacker might move or rename files or directories in
+For @code{find}, an attacker might move or rename files or directories in
 the hope that an action might be taken against a file which was not
 normally intended to be affected.  Alternatively, this sort of attack
 might be intended to persuade @code{find} to search part of the
@@ -3598,7 +3624,7 @@ filesystem which would not normally be included in the search
 
 As @code{find} searches the filesystem, it finds subdirectories and
 then searches within them by changing its working directory.  First,
-@code{find} notices a subdirectory.  It then decides if that
+@code{find} reaches and recognizes a subdirectory.  It then decides if that
 subdirectory meets the criteria for being searched; that is, any
 @samp{-xdev} or @samp{-prune} expressions are taken into account.  The
 @code{find} program will then change working directory and proceed to
@@ -3687,7 +3713,7 @@ points.
 @node Working with automounters
 @subsubsection Working with automounters
 
-Where an automounter is in use it can be the case that the use of the
+Where a filesystem ``automounter'' is in use it can be the case that the use of the
 @code{chdir()} system call can itself cause a new filesystem to be
 mounted at that point.  On systems that do not support O_NOFOLLOW,
 this will cause @code{find}'s security check to fail.
@@ -3728,7 +3754,7 @@ the @email{bug-findutils@@gnu.org} mailing list.
 
 The @samp{-exec} action causes another program to be run.  It passes
 to the program the name of the file which is being considered at the
-time.  The invoked program will then - normally - perform some action
+time.  The invoked program will typically then perform some action
 on that file.  Once again, there is a race condition which can be
 exploited here.  We shall take as a specific example the command
 
@@ -3741,7 +3767,7 @@ and invoking @code{/bin/rm} to delete it.  A problem exists because
 there is a time gap between the point where @code{find} decides that
 it needs to process the @samp{-exec} action and the point where the
 @code{/bin/rm} command actually issues the @code{unlink()} system
-call.  Within this time period, an attacker can rename the
+call to delete the file from the filesystem.  Within this time period, an attacker can rename the
 @file{/tmp/umsp} directory, replacing it with a symbolic link to
 @file{/etc}.  There is no way for @code{/bin/rm} to determine that it
 is working on the same file that @code{find} had in mind.  Once the
@@ -3755,7 +3781,7 @@ with the argument @file{./passwd} and a suitable choice of working
 directory.  This would allow the normal sanity check that @code{find}
 performs to protect against this form of attack too.  Unfortunately,
 this strategy cannot be used as the POSIX standard specifies that the
-current working directory for commands invoked via @samp{-exec} must
+current working directory for commands invoked with @samp{-exec} must
 be the same as the current working directory from which @code{find}
 was invoked.  This means that the @samp{-exec} action is inherently
 insecure and can't be fixed.
@@ -3791,7 +3817,7 @@ actions are just as insecure as @samp{-exec}.
 In fact, since the construction
 
 @example
-find ....  -print | xargs ....
+find @dots{}  -print | xargs @enddots{}
 @end example
 
 does not cope correctly with newlines or other ``white space'' in
@@ -3815,7 +3841,7 @@ time.  Firstly, if it is possible for an attacker to create files with
 names of their choice on the filesystem, then @code{xargs} is
 insecure unless the @samp{-0} option is used.  If a file with the name
 @file{/home/someuser/foo/bar\n/etc/passwd} exists (assume that
-@samp{\n} stands for a newline character), then @code{find ... -print}
+@samp{\n} stands for a newline character), then @code{find @dots{} -print}
 can be persuaded to print three separate lines:
 
 @example
@@ -3848,10 +3874,10 @@ option is, the POSIX standard does not make it mandatory.
 
 It is fairly unusual for the output of @code{locate} to be fed into
 another command.  However, if this were to be done, this would raise
-the same set of security issues as the use of @samp{find ... -print}.
+the same set of security issues as the use of @samp{find @dots{} -print}.
 Although the problems relating to whitespace in file names can be
 resolved by using @code{locate}'s @samp{-0} option, this still leaves
-the race condition problems associated with @samp{find ... -print0}.
+the race condition problems associated with @samp{find @dots{} -print0}.
 There is no way to avoid these problems in the case of @code{locate}.
 
 @node Security Summary
@@ -3872,9 +3898,9 @@ Use of the @samp{-delete} action with @code{find} to delete files
 which meet specified criteria
 
 @item @samp{-execdir}
-Use of the @samp{-execdir} action with @code{find} where the @env{PATH}
-environment variable contains directories which contain only trusted
-programs.
+Use of the @samp{-execdir} action with @code{find} where the
+@env{PATH} environment variable contains directories which contain
+only trusted programs.
 @end table
 
 @comment  node-name,  next,  previous,  up
@@ -3886,13 +3912,13 @@ This section describes some of the error messages sometimes made by
 cases provides advice as to what you should do about this.
 
 This manual is written in English.  The GNU findutils software
-features translated error messages for many languages.  For this
-reason where possible we try to make the error messages produced by
-the programs self-explanatory.  This approach avoids asking people to
-figure out which English-language error message
-corresponds to a test. Error messages which are self-explanatory
-will not normally be described or discussed in this document.  For
-those messages which are discussed in this document, only the
+features translations of error messages for many languages.  For this
+reason the error messages produced by
+the programs are made to be as self-explanatory as possible.  This approach avoids leaving people to
+figure out which test an English-language error message
+corresponds to. Error messages which are self-explanatory
+will not normally be mentioned in this document.  For
+those messages mentioned in this document, only the
 English-language version of the message will be listed.
 
 @menu
@@ -3910,7 +3936,7 @@ English-language version of the message will be listed.
 This means that the @code{find} command line included something that
 started with a dash or other special character.  The @code{find}
 program tried to interpret this as a test, action or option, but
-didn't recognise it.  If you intended it to be a test, check what you
+didn't recognise it.  If it was intended to be a test, check what was
 specified against the documentation.  If, on the other hand, the
 string is the name of a file which has been expanded from a wildcard
 (for example because you have a @samp{*} on the command line),
@@ -3925,10 +3951,10 @@ This usually happens if you have an extra bracket on the command line
 These messages might appear when @code{find} moves into a directory
 and finds that the device number and inode are different to what it
 expected them to be.  If the directory @code{find} has moved into is
-on an NFS filesystem, it will not issue this message, because
+on an network filesystem (NFS), it will not issue this message, because
 @code{automount} frequently mounts new filesystems on directories as
 you move into them (that is how it knows you want to use the
-filesystem).  So, if you do see this message, be wary --
+filesystem).  So, if you do see this message, be wary ---
 @code{automount} may not have been responsible.  Consider the
 possibility that someone else is manipulating the filesystem while
 @code{find} is running.  Some people might do this in order to mislead
@@ -3936,15 +3962,15 @@ possibility that someone else is manipulating the filesystem while
 it was looking at another set.
 
 @item /path/foo changed during execution of find (old device number 12345, new device number 6789, filesystem type is <whatever>) [ref XXX]
-This message is issued when @code{find} changes directory and ends up
+This message is issued when @code{find} moves into a directory and ends up
 somewhere it didn't expect to be.  This happens in one of two
-circumstances.  Firstly, this happens when ``automount'' does its
-thing on a system where @code{find} doesn't know how to determine what
-the current set of mounted filesystems is
+circumstances.  Firstly, this happens when @code{automount} intervenes
+on a system where @code{find} doesn't know how to determine what
+the current set of mounted filesystems is.
 
 Secondly, this can happen when the device number of a directory
 appears to change during a change of current directory, but
-@code{find} is moving up the filesystem hierarchy rather than down it.
+@code{find} is moving up the filesystem hierarchy rather than down into it.
 In order to prevent @code{find} wandering off into some unexpected
 part of the filesystem, we stop it at this point.
 
@@ -3954,16 +3980,16 @@ system where @code{find} doesn't know how to figure out the current
 list of mount points.  Ask for help on @email{bug-findutils@@gnu.org}.
 
 @item /path/foo/bar changed during execution of find (old inode number 12345, new inode number 67893, filesystem type is <whatever>) [ref XXX]"),
-This message is issued when @code{find} changes directory and
-discovers that the inode number of that directory once it's got there
-is different to the inode number that it obtained when it examined the
-directory some time previously.  This normally means that while
-@code{find} has been deep in a directory hierarchy doing something
-time consuming, somebody has moved one of the parent directories to
-another location in the same filesystem.  This may have been done
-maliciously, or may not.  In any case, @code{find} stops at this point
-in order to avoid traversing parts of the filesystem that it wasn't
-intended to.  You can use @code{ls -li} or @code{find /path -inum
+This message is issued when @code{find} moves into a directory and
+discovers that the inode number of that directory
+is different from the inode number that it obtained when it examined the
+directory previously.  This usually means that while
+@code{find} was deep in a directory hierarchy doing a
+time consuming operation, somebody has moved one of the parent directories to
+another location in the same filesystem.  This may or may not have been done
+maliciously.  In any case, @code{find} stops at this point
+to avoid traversing parts of the filesystem that it wasn't
+intended.  You can use @code{ls -li} or @code{find /path -inum
 12345 -o -inum 67893} to find out more about what has happened.
 
 @item sanity check of the fnmatch() library function failed.
@@ -3980,11 +4006,11 @@ something similar (@code{-ok} and so forth) but the system has run out
 of free process slots.  This is either because the system is very busy
 and the system has reached its maximum process limit, or because you
 have a resource limit in place and you've reached it.  Check the
-system for runaway processes (if @code{ps} still works).  Some process
+system for runaway processes (with @code{ps}, if possible).  Some process
 slots are normally reserved for use by @samp{root}.
 
 @item some-program terminated by signal 99
-Some program which was launched via @code{-exec} or similar was killed
+Some program which was launched with @code{-exec} or similar was killed
 with a fatal signal.  This is just an advisory message.
 @end table
 
