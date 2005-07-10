@@ -75,7 +75,7 @@ Print a summary of the options to
 .B xargs
 and exit.
 .TP
-.I "\-\-replace[=replace-str], \-i[replace-str]"
+.I "\-\-replace[=replace-str], \-I[replace-str], \-i[replace-str]"
 Replace occurrences of \fIreplace-str\fR in the initial-arguments with
 names read from standard input.
 Also, unquoted blanks do not terminate input items; instead the
@@ -83,6 +83,7 @@ separator is the newline character.
 If \fIreplace-str\fR is omitted, it
 defaults to "{}" (like for `find \-exec').  Implies \fI\-x\fP and
 \fI\-l 1\fP.
+\-i is depreceated in favour of \-I.
 .TP
 .I "\-\-max\-lines[=max-lines], \-L[max-lines]"
 Use at most \fImax-lines\fR nonblank input lines per command line;
