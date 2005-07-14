@@ -409,18 +409,18 @@ expressions, but this can be changed with the option
 This option controls the variety of regular expression syntax
 understood by the @samp{-regex} and @samp{-iregex} tests.  This option
 is positional; that is, it only affects regular expressions which
-occur later in the command line.  If this option is not given, POSIX
-basic regular expressions are assumed.  Currently-implemented types
+occur later in the command line.  If this option is not given, GNU
+Emacs regular expressions are assumed.  Currently-implemented types
 are
 
 @table @samp
 @item emacs
-Regular expressions compatible with GNU Emacs
+Regular expressions compatible with GNU Emacs; this is also the
+default behaviour if this option is not used.
 @item posix-awk
 Regular expressions compatible with the POSIX awk command (not GNU awk)
 @item posix-basic
-POSIX Basic Regular Expressions; this is also the default behaviour if
-this option is not used.
+POSIX Basic Regular Expressions.
 @item posix-egrep
 Regular expressions compatible with the POSIX egrep command
 @item posix-extended
@@ -2900,14 +2900,21 @@ name.  This is the default behaviour.
 @item --regex
 @itemx -r
 Instead of using substring or shell glob matching, the pattern
-specified on the command line is understood to be a POSIX extended
-regular expression.  File names from the @code{locate} database
-are matched using the specified regular expression.  If
-the @samp{-i} flag is also given, matching is case-insensitive.
-Matches are performed against the whole path name, and so by default a
-pathname will be matched if any part of it matches the specified
-regular expression.  The regular expression may use @samp{^} or
-@samp{$} to anchor a match at the beginning or end of a pathname.
+specified on the command line is understood to be a regular
+expression.  GNU Emacs-style regular expressions are assumed unless
+the @samp{--regextype} option is also given.  File names from the
+@code{locate} database are matched using the specified regular
+expression.  If the @samp{-i} flag is also given, matching is
+case-insensitive.  Matches are performed against the whole path name,
+and so by default a pathname will be matched if any part of it matches
+the specified regular expression.  The regular expression may use
+@samp{^} or @samp{$} to anchor a match at the beginning or end of a
+pathname.
+
+@item --regextype
+This option changes the regular expression dialect used.  Dialects
+understood are described in @ref{Regular Expressions}.
+
 
 @item --stdio
 @itemx -s
