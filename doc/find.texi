@@ -413,6 +413,7 @@ occur later in the command line.  If this option is not given, GNU
 Emacs regular expressions are assumed.  Currently-implemented types
 are
 
+
 @table @samp
 @item emacs
 Regular expressions compatible with GNU Emacs; this is also the
@@ -426,6 +427,10 @@ Regular expressions compatible with the POSIX egrep command
 @item posix-extended
 POSIX Extended Regular Expressions
 @end table
+
+@ref{Regular Expressions} for more information on the regular
+expression dialects understood by GNU findutils.
+
 
 @end deffn
 
@@ -2661,6 +2666,7 @@ discussed in this manual.
 * Invoking locate::
 * Invoking updatedb::
 * Invoking xargs::
+* Regular Expressions::
 @end menu
 
 @node Invoking find, Invoking locate, , Reference
@@ -2916,6 +2922,13 @@ This option changes the regular expression dialect used.  Dialects
 understood are described in @ref{Regular Expressions}.
 
 
+
+@item --regextype
+This option changes the regular expression syntax and behaviour used
+by the @samp{--regex} option.  @ref{Regular Expressions} for more
+information on the regular expression dialects understood by GNU
+findutils.
+
 @item --stdio
 @itemx -s
 Accepted but does nothing.  The option is supported only to provide
@@ -3018,7 +3031,7 @@ Print a summary of the command line usage and exit.
 Print the version number of @code{updatedb} and exit.
 @end table
 
-@node Invoking xargs, ,  Invoking updatedb, Reference
+@node Invoking xargs, Regular Expressions,  Invoking updatedb, Reference
 @section Invoking @code{xargs}
 
 @example
@@ -3127,6 +3140,26 @@ Run simultaneously up to @var{max-procs} processes at once; the default is 1.  I
 @var{max-procs} is 0, @code{xargs} will run as many processes as
 possible simultaneously.
 @end table
+
+
+@node Regular Expressions,, Invoking xargs, Reference
+@section Regular Expressions
+
+The @samp{-regex} and @samp{-iregex} tests of @code{find} allow
+matching by regular expression, as does the @samp{--regex} option of
+@code{locate}.  There are many different types of Regular Expression,
+but the type used by @code{find} and @code{locate} is the same as is
+used in GNU Emacs.  Both programs provide an option which allows you
+to select an alternative regular expression syntax; for @code{find}
+this is the @samp{-regextype} option, and for @code{locate} this is
+the @samp{--regextype} option.
+
+These options take a single argument, which indicates the specific
+regular expression syntax and behaviour that should be used.  This
+should be one of the following:
+
+@include regexprops.texi
+
 
 @node Worked Examples, Security Considerations, Reference, Top
 @chapter Worked Examples

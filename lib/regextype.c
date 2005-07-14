@@ -54,7 +54,7 @@ struct tagRegexTypeMap
   char *name;
   int   option_val;
 };
-static struct tagRegexTypeMap regex_map[] = 
+ struct tagRegexTypeMap regex_map[] = 
   {
    { "emacs", RE_SYNTAX_EMACS },
    { "posix-awk", RE_SYNTAX_POSIX_AWK },
@@ -104,3 +104,21 @@ get_regex_type(const char *s)
 }
 
   
+const char *
+get_regex_type_name(int ix)
+{
+  if (ix < N_REGEX_MAP_ENTRIES)
+    return regex_map[ix].name;
+  else
+    return NULL;
+}
+
+int
+get_regex_type_flags(int ix)
+{
+  if (ix < N_REGEX_MAP_ENTRIES)
+    return regex_map[ix].option_val;
+  else
+    return -1;
+}
+

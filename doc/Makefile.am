@@ -1,7 +1,7 @@
 info_TEXINFOS = find.texi
-find_TEXINFOS = perm.texi
+find_TEXINFOS = perm.texi regexprops.texi
 MOSTLYCLEANFILES = find.cps 
-CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz
+CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz regexprops.texi
 
 MAKEINFOTXT = $(MAKEINFO) --plaintext
 
@@ -50,3 +50,6 @@ find_mono.html: find.texi
 # for "make all" or "make install" (or even "make check").
 findutils.texi_html_node.tar.gz: find.html
 	tar zcf $@ $<
+
+regexprops.texi: 
+	../lib/regexprops "Regular Expressions" > $@

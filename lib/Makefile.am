@@ -4,7 +4,9 @@ AUTOMAKE_OPTIONS = 1.5 gnits
 # no-dependencies
 
 noinst_LIBRARIES = libfind.a
+noinst_PROGRAMS = regexprops
 
+regexprops_SOURCES = regexprops.c regextype.c
 libfind_a_SOURCES =
 EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h
 BUILT_SOURCES =
@@ -13,6 +15,11 @@ MOSTLYCLEANFILES =
 CLEANFILES =
 DISTCLEANFILES =
 MAINTAINERCLEANFILES =
+
+
+INCLUDES = -I../gnulib/lib -I$(top_srcdir)/gnulib/lib 
+LDADD = ../gnulib/lib/libgnulib.a
+
 INCLUDES = -I$(top_srcdir)/gnulib/lib
 
 libfind_a_SOURCES += modetype.h nextelem.h printquoted.h listfile.h regextype.h
