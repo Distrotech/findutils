@@ -3170,9 +3170,15 @@ there is more than one way to do things.  Some of the options
 and facilities only exist for compatibility with other tools, and
 findutils provides improved ways of doing things.
 
-This chapter describes a number of useful tasks that are
-commonly performed, and compares the different ways of achieving them.
+This chapter describes a number of useful tasks that are commonly
+performed, and compares the different ways of achieving them.
 
+@menu
+* Deleting Files::
+* Updating A Timestamp File::
+@end menu
+
+@node Deleting Files
 @section Deleting Files
 
 One of the most common tasks that @code{find} is used for is locating
@@ -3207,7 +3213,6 @@ to remove each file.  This approach works and in fact would have
 worked in Version 7 Unix in 1979.  However, there are a number of
 problems with this approach.
 
-@subsection Deleting more than one file at a time
 
 The most obvious problem with the approach above is that it causes
 @code{find} to fork every time it finds a file that needs to delete,
@@ -3517,6 +3522,173 @@ other possiblility which is as secure (@samp{-execdir}) is no more
 portable.  The most efficient portable alternative is @samp{-exec
 @dots{}+}, but this is insecure and isn't supported by versions of GNU
 findutils prior to 4.2.12.
+
+
+@node Updating A Timestamp File
+@section Updating A Timestamp File
+
+Suppose we have a directory full of files which is maintained with a
+set of automated tools; perhaps one set of tools updates them and
+another set of tools uses the result.  In this situation, it might be
+useful for the second set of tools to know if the files have recently
+been changed.  It might be useful, for example, to have a 'timestamp'
+file which gives the timestamp on the newest file in the collection.
+
+We can use @code{find} to achieve this, but there are several
+different ways to do it.
+
+@subsection Updating the Timestamp The Wrong Way
+
+The obvious but wrong answer is just to use @samp{-newer}:-
+
+@smallexample
+find subdir -newer timestamp -exec touch -r @{@} timestamp \; 
+@end smallexample
+
+This does the right sort of thing but has a bug.  Suppose that two
+files two files in the subdirectory have been updated, and that these
+are called @file{file1} and @file{file2}.  The command above will
+update @file{timestamp} with the modification time of @file{file1} or
+that of @file{file2}, but we don't know which one.  Since the
+timestamps on @file{file1} and @file{file2} will in general be
+different, this could well be the wrong value.
+
+One solution to this problem is to modify @code{find} to recheck the
+modification time of @file{timestamp} every time a file is to be
+compared against it, but that will reduce the performence of
+@code{find}.
+
+@subsection Using the test utlity to compare timestamps
+
+The @code{test} command can be used to compare timestamps:
+
+@smallexample
+find subdir -exec test @{@} -nt timestamp \; -exec touch -r @{@} timestamp \; 
+@end smallexample
+
+This will ensure that any changes made to the modification time of
+@file{timestamp} that take place during the execution of @code{find}
+are taken into account.  This resolves our earlier problem, but
+unfortunately this runs much more slowly.
+
+@subsection A combined approach
+
+We can of course still use @samp{-newer} to cut down on the number of
+calls to @code{test}:
+
+@smallexample
+find subdir -newer timestamp -a \
+     -exec test @{@} -nt timestamp \; -a \
+     -exec touch -r @{@} timestamp \; 
+@end smallexample
+
+Here, the @samp{-newer} test excludes all he files which are
+definitely older than the timestamp, but all the files which are newer
+than the old value of the timestamp are compared against the current
+updated timestamp.
+
+This is indeed faster in general, but the speed difference will depend
+on how many updated files there are.
+
+@subsection Using -printf and sort to compare timestamps
+
+It is possible to use the @samp{-printf} action to abandon the use of
+@code{test} entirely:
+
+@smallexample
+newest=$(find subdir -newer timestamp -printf "%A@:%p\n" | 
+           sort -n | 
+           tail -1 | 
+           cut -d: -f2- ) 
+touch -r "$@{newest:-timestamp@}" timestamp
+@end smallexample
+
+The command above works by generating a list of the timestamps and
+names of all the files which are newer than the timestamp.  The
+@code{sort}, @code{tail} and @code{cut} comands simply pull out the
+name of the file with the largest timestamp value (that is, the latest
+file).  The @code{touch} command is then used to update the timestamp,
+
+The @code{"$@{newest:-timestamp@}"} expression simply expands to the
+value of @code{$newest} if that variable is set, but to
+@file{timestamp} otherwise.  This ensures that an argument is always
+given to the @samp{-r} option of the @code{touch} command.
+
+This approach seems quite efficient, but unfortunately it has a bug.
+Many operating systems now keep file modicifcation time information at
+a granularity which is finer than one second.  Unfortunately the
+@samp{%A@@} format for @samp{-printf} only prints a whole-number value
+currently; that is, these values are at a one-second granularity.
+This means that in our example above, @samp{$newest} wil be the name
+of a file which is no more than one second older than the newest file,
+but may indeed be older.  
+
+It would be possible to solve this problem with some kind of loop:
+
+@smallexample
+while true; do
+        newest=$(find subdir -newer timestamp -printf "%A@@:%p\n" | 
+           sort -n | 
+           tail -1 | 
+           cut -d: -f2- ) 
+        if test -z "$newest" ; then
+                break
+        else
+                touch -r "$newest" timestamp
+        fi
+done
+@end smallexample
+
+A better fix for this problem would be to allow the @samp{%A@@} format
+to produce a result having a fractional part, too.  While this is
+planned for GNU @code{find}, it hasn't been done yet.
+
+
+@subsection Coping with sub-second timestamp resolution and odd filenames
+
+Our previous attempt needed a loop to cope with sub-second timestamps,
+but it also fails to cope with filenames containing newline
+characters.  We can fix both of these problems, and more efficiently
+too.  The following command works with newlines and doesn't need to
+sort the list of filename, either.
+
+@smallexample
+find subdir -newer timestamp -printf "%A@@:%p\0" | 
+   perl -0 newest.pl |
+   xargs --no-run-if-empty --null -i \
+      find @{@} -maxdepth 0 -newer timestamp -exec touch -r @{@} timestamp \;
+@end smallexample
+
+The first @code{find} command generates a list of files which are
+newer than the original timestamp file, and prints a list of them with
+their timestamps.  The @file{newest.pl} script simply filters out all
+the filenames which have timestamps which are older than whatever the
+newest file is:-
+
+@smallexample
+@verbatim
+#! /usr/bin/perl -0
+my @newest = ();
+my $latest_stamp = undef;
+while (<>) {
+    my ($stamp, $name) = split(/:/);
+    if (!defined($latest_stamp) || ($tstamp > $latest_stamp)) {
+        $latest_stamp = $stamp;
+        @newest = ();
+    }
+    if ($tstamp >= $latest_stamp) {
+        push @newest, $name;
+    }
+}
+print join("\0", @newest);
+@end verbatim
+@end smallexample
+
+This prints a list of zero or more files, all of which are newer than
+the original timestamp file, and which have the same timestamp as each
+other, to the nearest second.  The second @code{find} command takes
+each resulting file one at a time, and if that is newer than the
+timestamp file, the timestamp is updated.
 
 @node Security Considerations, Error Messages, Worked Examples, Top
 @chapter Security Considerations
