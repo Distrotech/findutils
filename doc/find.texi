@@ -3227,26 +3227,19 @@ expansion feature:
 @smallexample
 /bin/rm `find /var/tmp/stuff -mtime +90 -print`
 @end smallexample
-
-The above example uses the shell's back-tick operator to build a
-command line which deletes all the files at once.   There is also a
-more modern way of doing this:
-
+or you could use the more modern form
 @smallexample
 /bin/rm $(find /var/tmp/stuff -mtime +90 -print)
 @end smallexample
 
-The advantage of @code{$(@dots{})} over @code{`@dots{}`} is that the first
-form nests without needing lots of backslash quoting.  So, the
-commands above are much more efficient than the first attempt.
-However, the first version is actually better than the second. 
-
-The reason for this is that the shell has a maximum command length
-which is imposed by the operating system (the actual limit varies
-between systems).  This means that while the second command will
-usually work, it will suddenly fail when there are lots of files to
-delete.  Since the task is to delete unwanted files, this is precisely
-the time we don't want things to go wrong.
+The commands above are much more efficient than the first attempt.
+However, there is a problem with them.  The shell has a maximum
+command length which is imposed by the operating system (the actual
+limit varies between systems).  This means that while the command
+expansion technique will usually work, it will suddenly fail when
+there are lots of files to delete.  Since the task is to delete
+unwanted files, this is precisely the time we don't want things to go
+wrong.
 
 @subsection Making Use of xargs
 
@@ -3475,7 +3468,7 @@ need to be restricted to the superuser.
 
 Another way of improving performance would be to increase the
 parallelism of the process.  For example if the directory hierarchy we
-are searching is actually spread actross a number of disks, we might
+are searching is actually spread across a number of disks, we might
 somehow be able to arrange for @code{find} to process each disk in
 parallel.  In practice GNU @code{find} doesn't have such an intimate
 understanding of the system's filesystem layout and disk I/O
@@ -3511,7 +3504,8 @@ Other activity - are other programs also doing things on those disks?
 @subsection Conclusion
 
 The fastest and most secure way to delete files with the help of
-@code{find} is to use @samp{-delete}.
+@code{find} is to use @samp{-delete}.  Using @code{xargs -0 -P N} can
+also make effective use of the disk, but it is not as secure.
 
 In the case where we're doing things other than deleting files, the
 most secure alternative is @samp{-execdir @dots{} +}, but this is not as
@@ -3546,12 +3540,12 @@ find subdir -newer timestamp -exec touch -r @{@} timestamp \;
 @end smallexample
 
 This does the right sort of thing but has a bug.  Suppose that two
-files two files in the subdirectory have been updated, and that these
-are called @file{file1} and @file{file2}.  The command above will
-update @file{timestamp} with the modification time of @file{file1} or
-that of @file{file2}, but we don't know which one.  Since the
-timestamps on @file{file1} and @file{file2} will in general be
-different, this could well be the wrong value.
+files in the subdirectory have been updated, and that these are called
+@file{file1} and @file{file2}.  The command above will update
+@file{timestamp} with the modification time of @file{file1} or that of
+@file{file2}, but we don't know which one.  Since the timestamps on
+@file{file1} and @file{file2} will in general be different, this could
+well be the wrong value.
 
 One solution to this problem is to modify @code{find} to recheck the
 modification time of @file{timestamp} every time a file is to be
@@ -3615,13 +3609,13 @@ value of @code{$newest} if that variable is set, but to
 given to the @samp{-r} option of the @code{touch} command.
 
 This approach seems quite efficient, but unfortunately it has a bug.
-Many operating systems now keep file modicifcation time information at
+Many operating systems now keep file modification time information at
 a granularity which is finer than one second.  Unfortunately the
 @samp{%A@@} format for @samp{-printf} only prints a whole-number value
 currently; that is, these values are at a one-second granularity.
 This means that in our example above, @samp{$newest} wil be the name
 of a file which is no more than one second older than the newest file,
-but may indeed be older.  
+but may indeed be older.
 
 It would be possible to solve this problem with some kind of loop:
 
@@ -3643,14 +3637,32 @@ A better fix for this problem would be to allow the @samp{%A@@} format
 to produce a result having a fractional part, too.  While this is
 planned for GNU @code{find}, it hasn't been done yet.
 
+@subsection Coping with sub-second timestamp resolution
 
-@subsection Coping with sub-second timestamp resolution and odd filenames
+Another tool which often works with timestamps is @code{make}.  We can
+use @code{find} to generate a @file{Makefile} file on the fly and then
+use @code{make} to update the timestamps:
 
-Our previous attempt needed a loop to cope with sub-second timestamps,
-but it also fails to cope with filenames containing newline
-characters.  We can fix both of these problems, and more efficiently
-too.  The following command works with newlines and doesn't need to
-sort the list of filename, either.
+@smallexample
+makefile=$(mktemp)
+find subdir \
+	\( \! -xtype l \) \
+	-newer timestamp \
+	-printf "timestamp:: %p\n\ttouch -r %p timestamp\n\n" > "$makefile"
+make -f "$makefile"
+rm   -f "$makefile"
+@end smallexample
+
+Unfortunately although the solution above is quite elegant, it fails
+to cope with white space within file names, and adjusting it to do so
+would require a rather complex shell script.
+
+
+@subsection Coping with odd filenames too
+
+We can fix both of these problems (looping and problems with white
+space), and do things more efficiently too.  The following command
+works with newlines and doesn't need to sort the list of filenames.
 
 @smallexample
 find subdir -newer timestamp -printf "%A@@:%p\0" | 
