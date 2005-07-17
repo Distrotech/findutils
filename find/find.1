@@ -244,7 +244,7 @@ When find figures out how many 24-hour periods ago the file
 was last accessed, any fractional part is ignored, so to match 
 .B \-atime 
 .BR +1 ,
-a file has to have been modified at least 
+a file has to have been accessed at least 
 .I two
 days ago.
 .IP "\-cmin \fIn\fR"
@@ -1050,15 +1050,15 @@ been used in that case also.
 
 .P
 .nf
-.B find /  \t( \-perm +4000 \-fprintf /root/suid.txt '%#m %u %p\en' ) , \e
-.B         \t\t( \-size +100M \-fprintf /root/big.txt  '%\-10s %p\en'  )
+.B find /  \t\e( \-perm +4000 \-fprintf /root/suid.txt '%#m %u %p\en' \e) , \e
+.B       \t\t\e( \-size +100M \-fprintf /root/big.txt  '%\-10s %p\en' \e)
 
 .fi
 Traverse the filesystem just once, listing setuid files and
 directories into
 .B /root/suid.txt
 and large files into 
-.BR /root/big/txt .
+.BR /root/big.txt .
 
 .P
 .nf
@@ -1067,9 +1067,9 @@ and large files into
 .fi
 Search for files in your home directory which have been modified in
 the last twenty-four hours.  This command works this way because the
-time since each file was last accessed is divided by 24 hours and any 
+time since each file was last modified is divided by 24 hours and any 
 remainder is discarded.  That means that to match 
-.B -atime 
+.B -mtime 
 .BR 0 ,
 a file will have to have a modification in the past which is less than
 24 hours ago.
@@ -1091,7 +1091,7 @@ Files which meet these criteria but have other permissions bits set
 
 .fi
 Search for files which have read and write permission for their owner,
-and group, but which the rest of the world can read but not write to,
+and group, and which the rest of the world can read,
 without regard to the presence of any extra permission bits (for
 example the executable bit).  This will match a file which has mode
 0777, for example.
