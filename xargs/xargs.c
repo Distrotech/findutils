@@ -223,7 +223,9 @@ static int pids_alloc = 0;
 
 /* Exit status; nonzero if any child process exited with a
    status of 1-125.  */
-static int child_error = 0;
+volatile static int child_error = 0;
+
+volatile static int original_exit_value;
 
 /* If true, print each command on stderr before executing it.  */
 static boolean print_command = false; /* Option -t */
@@ -309,7 +311,8 @@ main (int argc, char **argv)
   int (*read_args) PARAMS ((void)) = read_line;
 
   program_name = argv[0];
-
+  original_exit_value = 0;
+  
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
 #endif
@@ -585,6 +588,7 @@ main (int argc, char **argv)
 	}
     }
 
+  original_exit_value = child_error;
   return child_error;
 }
 
@@ -990,13 +994,27 @@ static void
 wait_for_proc_all (void)
 {
   static boolean waiting = false;
-
+  
   if (waiting)
     return;
 
   waiting = true;
   wait_for_proc (true);
   waiting = false;
+  
+  if (original_exit_value != child_error)
+    {
+      /* wait_for_proc() changed the value of child_error().  This
+       * function is registered via atexit(), and so may have been
+       * called from exit().  We now know that the original value
+       * passed to exit() is no longer the exit status we require.
+       * The POSIX standard states that the behaviour if exit() is
+       * called more than once is undefined.  Therefore we now have to
+       * exit with _exit() instead of exit().
+       */
+      _exit(child_error);
+    }
+  
 }
 
 /* Return the value of the number represented in STR.
