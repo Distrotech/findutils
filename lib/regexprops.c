@@ -88,12 +88,14 @@ static void begin_subsection(const char *name,
   
   directive("@node ");
   content(name);
+#if 0
   content(",");
   content(next);
   content(",");
   content(prev);
   content(",");
   content(up);
+#endif
   newline();
   
   directive("@subsection ");
@@ -406,7 +408,7 @@ static int describe_regex_syntax(int options)
       enum_item("@samp{\\<} matches the beginning of a word");
       enum_item("@samp{\\>} matches the end of a word");
       enum_item("@samp{\\b} matches a word boundary");
-      enum_item("@samp{\\B} matches characters which are not a word boundaries");
+      enum_item("@samp{\\B} matches characters which are not a word boundary");
       enum_item("@samp{\\`} matches the beginning of the whole input");
       enum_item("@samp{\\'} matches the end of the whole input");
       endenum();
