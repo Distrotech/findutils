@@ -184,6 +184,14 @@ AC_CHECK_MEMBER(struct dirent.d_type,,,[
 dnl internationalization macros
 AM_GNU_GETTEXT([external])
 
+
+dnl regextype.c and regexprops.c are designed to be usable outside findutils,
+dnl but findutils doesn't want to support all the regex types in gnulib,
+dnl and wants to support an additional one (RE_SYNTAX_EMACS|RE_DOT_NEWLINE).
+dnl Hence they need to know if they are being compiled into findutils or not.
+AC_DEFINE([FINDUTILS], 1, [Define if we are compiling GNU findutils])
+
+
 # This is necessary so that .o files in LIBOBJS are also built via
 # the ANSI2KNR-filtering rules.
 #LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
