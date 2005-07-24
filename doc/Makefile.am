@@ -51,5 +51,5 @@ find_mono.html: find.texi
 findutils.texi_html_node.tar.gz: find.html
 	tar zcf $@ $<
 
-regexprops.texi: 
+regexprops.texi: ../lib/regexprops
 	../lib/regexprops "Regular Expressions" > $@
