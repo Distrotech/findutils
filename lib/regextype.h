@@ -25,5 +25,4 @@ int get_regex_type(const char *s);
 
 const char * get_regex_type_name(int ix);
 int get_regex_type_flags(int ix);
-
-
+int get_regex_type_synonym(int ix);
