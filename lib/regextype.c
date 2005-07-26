@@ -1,3 +1,4 @@
+
 /* regextype.c -- Decode the name of a regular expression syntax into am
                   option name.
 
@@ -55,26 +56,27 @@ struct tagRegexTypeMap
   int   option_val;
 };
 
- struct tagRegexTypeMap regex_map[] = 
+struct tagRegexTypeMap regex_map[] = 
   {
 #ifdef FINDUTILS
    { "findutils-default",      RE_SYNTAX_EMACS|RE_DOT_NEWLINE  },
 #endif
-   { "emacs",                  RE_SYNTAX_EMACS                 },
-   { "posix-basic",            RE_SYNTAX_POSIX_BASIC           },
-   { "posix-extended",         RE_SYNTAX_POSIX_EXTENDED        },
    { "awk",                    RE_SYNTAX_AWK                   },
-   { "gnu-awk",                RE_SYNTAX_GNU_AWK               },
-   { "posix-awk",              RE_SYNTAX_POSIX_AWK             },
-   { "grep",                   RE_SYNTAX_GREP                  },
    { "egrep",                  RE_SYNTAX_EGREP                 },
-   { "posix-egrep",            RE_SYNTAX_POSIX_EGREP           }
 #ifndef FINDUTILS
-   ,
    { "ed",                     RE_SYNTAX_ED                    },
+#endif
+   { "emacs",                  RE_SYNTAX_EMACS                 },
+   { "gnu-awk",                RE_SYNTAX_GNU_AWK               },
+   { "grep",                   RE_SYNTAX_GREP                  },
+   { "posix-awk",              RE_SYNTAX_POSIX_AWK             },
+   { "posix-basic",            RE_SYNTAX_POSIX_BASIC           },
+   { "posix-egrep",            RE_SYNTAX_POSIX_EGREP           },
+   { "posix-extended",         RE_SYNTAX_POSIX_EXTENDED        },
+#ifndef FINDUTILS
+   { "posix-minimal-basic",   RE_SYNTAX_POSIX_MINIMAL_BASIC    },
    { "sed",                    RE_SYNTAX_SED                   },
    /*    ,{ "posix-common",   _RE_SYNTAX_POSIX_COMMON   } */
-   { "posix-minimal-basic",   RE_SYNTAX_POSIX_MINIMAL_BASIC   }
 #endif
   };
 enum { N_REGEX_MAP_ENTRIES = sizeof(regex_map)/sizeof(regex_map[0]) };
