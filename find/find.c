@@ -453,7 +453,14 @@ main (int argc, char **argv)
       error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
     }
 
+#if LEAF_OPTIMISATION
+  /* The leaf optimisation is enabled. */
   options.no_leaf_check = false;
+#else
+  /* The leaf optimisation is disabled. */
+  options.no_leaf_check = true;
+#endif
+
   set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
 
 #ifdef DEBUG
