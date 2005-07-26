@@ -159,7 +159,7 @@ static int describe_regex_syntax(int options)
       content(" the null character");
     }
   content(".  ");
-
+  newpara();
   
   if (!(options & RE_LIMITED_OPS))
     {
@@ -208,13 +208,16 @@ static int describe_regex_syntax(int options)
     literal("Within square brackets, @samp{\\} is taken literally.  ");
 
   if (options & RE_CHAR_CLASSES)
-    content("Character classes are supported.  ");
+    content("Character classes are supported; for example "
+	    "@samp{[[:digit:]]} will match a single decimal digit.  ");
   else
-    literal("Character classes are not not supported, so for example you would need to use @samp{[0-9]} instead of @samp{[[:digit:]]}.  ");
+    literal("Character classes are not supported, so for example "
+	    "you would need to use @samp{[0-9]} "
+	    "instead of @samp{[[:digit:]]}.  ");
 
   if (options & RE_HAT_LISTS_NOT_NEWLINE)
     {
-      literal("Non-matching lists @samp{[^.....]} do not ever match newline.  ");
+      literal("Non-matching lists @samp{[^@dots{}]} do not ever match newline.  ");
     }
   newpara();
   if (options & RE_NO_GNU_OPS)
