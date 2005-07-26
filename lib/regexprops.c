@@ -88,18 +88,14 @@ static void begin_subsection(const char *name,
   
   directive("@node ");
   content(name);
-#if 0
-  content(",");
-  content(next);
-  content(",");
-  content(prev);
-  content(",");
-  content(up);
-#endif
+  content(" regular expression syntax");
   newline();
   
   directive("@subsection ");
+  output("@samp{", 0);
   content(name);
+  output("}", 0);
+  content(" regular expression syntax");
   newline();
 }
 
@@ -147,6 +143,104 @@ static void newpara()
 
 static int describe_regex_syntax(int options)
 {
+  newpara();
+  content("The character @samp{.} matches any single character");
+  if ( (options & RE_DOT_NEWLINE)  == 0 )
+    {
+      content(" except newline");
+    }
+  if (options & RE_DOT_NOT_NULL)
+    {
+      if ( (options & RE_DOT_NEWLINE)  == 0 )
+	content(" and");
+      else
+	content(" except");
+
+      content(" the null character");
+    }
+  content(".  ");
+
+  
+  if (!(options & RE_LIMITED_OPS))
+    {
+      begintable_markup("@samp");
+      if (options & RE_BK_PLUS_QM)
+	{
+	  enum_item("\\+");
+	  content("indicates that the regular expression should match one"
+		  " or more occurrences of the previous atom or regexp.  ");
+	  enum_item("\\?");
+	  content("indicates that the regular expression should match zero"
+		  " or one occurrence of the previous atom or regexp.  ");
+	  enum_item("+ and ? ");
+	  content("match themselves.  ");
+	}
+      else
+	{
+	  enum_item("+");
+	  content("indicates that the regular expression should match one"
+		  " or more occurrences of the previous atom or regexp.  ");
+	  enum_item("?");
+	  content("indicates that the regular expression should match zero"
+		  " or one occurrence of the previous atom or regexp.  ");
+	  enum_item("\\+");
+	  literal("matches a @samp{+}");
+	  enum_item("\\?");
+	  literal("matches a @samp{?}.  ");
+	}
+      endtable();
+    }
+  
+  newpara();
+
+  content("Bracket expressions are used to match ranges of characters.  ");
+  literal("Bracket expressions where the range is backward, for example @samp{[z-a]}, are ");
+  if (options & RE_NO_EMPTY_RANGES)
+    content("invalid");
+  else
+    content("ignored");
+  content(".  ");
+  
+  if (options &  RE_BACKSLASH_ESCAPE_IN_LISTS)
+    literal("Within square brackets, @samp{\\} can be used to quote "
+	    "the following character.  ");
+  else
+    literal("Within square brackets, @samp{\\} is taken literally.  ");
+
+  if (options & RE_CHAR_CLASSES)
+    content("Character classes are supported.  ");
+  else
+    literal("Character classes are not not supported, so for example you would need to use @samp{[0-9]} instead of @samp{[[:digit:]]}.  ");
+
+  if (options & RE_HAT_LISTS_NOT_NEWLINE)
+    {
+      literal("Non-matching lists @samp{[^.....]} do not ever match newline.  ");
+    }
+  newpara();
+  if (options & RE_NO_GNU_OPS)
+    {
+      content("GNU extensions are not supported and so "
+	      "@samp{\\w}, @samp{\\W}, @samp{\\<}, @samp{\\>}, @samp{\\b}, @samp{\\B}, @samp{\\`}, and @samp{\\'} "
+	      "match "
+	      "@samp{w}, @samp{W}, @samp{<}, @samp{>}, @samp{b}, @samp{B}, @samp{`}, and @samp{'} respectively.  ");
+    }
+  else
+    {
+      content("GNU extensions are supported:");
+      beginenum();
+      enum_item("@samp{\\w} matches a character within a word");
+      enum_item("@samp{\\W} matches a character which is not within a word");
+      enum_item("@samp{\\<} matches the beginning of a word");
+      enum_item("@samp{\\>} matches the end of a word");
+      enum_item("@samp{\\b} matches a word boundary");
+      enum_item("@samp{\\B} matches characters which are not a word boundary");
+      enum_item("@samp{\\`} matches the beginning of the whole input");
+      enum_item("@samp{\\'} matches the end of the whole input");
+      endenum();
+    }
+
+  newpara();
+
 
   if (options & RE_NO_BK_PARENS)
     {
@@ -183,60 +277,8 @@ static int describe_regex_syntax(int options)
       else
 	literal("The alternation operator is @samp{\\|}. ");
     }
-
-  content("Bracket expressions are used to match ranges of characters.  ");
-  literal("Bracket expressions where the range is backward, for example @samp{[z-a]}, are ");
-  if (options & RE_NO_EMPTY_RANGES)
-    content("invalid");
-  else
-    content("ignored");
-  content(".  ");
-  
-  if (options &  RE_BACKSLASH_ESCAPE_IN_LISTS)
-    literal("Within square brackets, @samp{\\} can be used to quote "
-	    "the following character.  ");
-  else
-    literal("Within square brackets, @samp{\\} is taken literally.  ");
-
   newpara();
-  if (!(options & RE_LIMITED_OPS))
-    {
-      begintable_markup("@samp");
-      if (options & RE_BK_PLUS_QM)
-	{
-	  enum_item("\\+");
-	  content("indicates that the regular expression should match one"
-		  " or more occurrences of the previous atom or regexp.  ");
-	  enum_item("\\?");
-	  content("indicates that the regular expression should match zero"
-		  " or one occurrence of the previous atom or regexp.  ");
-	  enum_item("+ and ? ");
-	  content("match themselves.  ");
-	}
-      else
-	{
-	  enum_item("+");
-	  content("indicates that the regular expression should match one"
-		  " or more occurrences of the previous atom or regexp.  ");
-	  enum_item("?");
-	  content("indicates that the regular expression should match zero"
-		  " or one occurrence of the previous atom or regexp.  ");
-	  enum_item("\\+");
-	  literal("matches a @samp{+}");
-	  enum_item("\\?");
-	  literal("matches a @samp{?}.  ");
-	}
-      endtable();
-    }
-  
-  newpara();
-  if (options & RE_CHAR_CLASSES)
-    content("Character classes are supported.  ");
-  else
-    literal("Character classes are not not supported, so for example you would need to use @samp{[0-9]} instead of @samp{[[:digit:]]}.  ");
 
-
-  newpara();
   if (options & RE_CONTEXT_INDEP_ANCHORS)
     {
       literal("The characters @samp{^} and @samp{$} always represent the beginning and end of a string respectively, except within square brackets.  Within brackets, @samp{^} can be used to invert the membership of the character class being specified.  ");
@@ -294,7 +336,6 @@ static int describe_regex_syntax(int options)
       endenum();
     }
   newpara();
-
   if (!(options & RE_LIMITED_OPS) )
     {
       if ((options & RE_CONTEXT_INDEP_OPS)
@@ -343,42 +384,35 @@ static int describe_regex_syntax(int options)
 	}
     }
   
+
   newpara();
-  content("The character @samp{.} matches any single character");
-  if ( (options & RE_DOT_NEWLINE)  == 0 )
-    {
-      content(" except newline");
-    }
-  if (options & RE_DOT_NOT_NULL)
-    {
-      if ( (options & RE_DOT_NEWLINE)  == 0 )
-	content(" and");
-      else
-	content(" except");
-
-      content(" the null character");
-    }
-  content(".  ");
-
-  if (options & RE_HAT_LISTS_NOT_NEWLINE)
-    {
-      literal("Non-matching lists @samp{[^.....]} do not ever match newline.  ");
-    }
-  
   if (options & RE_INTERVALS) 
     {
       if (options & RE_NO_BK_BRACES)
-	literal("Intervals are specified by @samp{@{} and @samp{@}}.  ");
+	{
+	  literal("Intervals are specified by @samp{@{} and @samp{@}}.  ");
+	  if (options & RE_INVALID_INTERVAL_ORD)
+	    {
+	      literal("Invalid intervals are treated as literals, for example @samp{a@{1} is treated as @samp{a\\@{1}");
+	    }
+	  else
+	    {
+	      literal("Invalid intervals such as @samp{a@{1z} are not accepted.  ");
+	    }
+	}
       else
-	literal("Intervals are specified by @samp{\\@{} and @samp{\\@}}.  ");
-    }
-  if (options & RE_INVALID_INTERVAL_ORD)
-    {
-      literal("Invalid intervals are treated as literals, for example @samp{a@{1} is treated as @samp{a\\@{1}");
-    }
-  else
-    {
-      literal("Invalid intervals such as @samp{a@{1z} are not accepted.  ");
+	{
+	  literal("Intervals are specified by @samp{\\@{} and @samp{\\@}}.  ");
+	  if (options & RE_INVALID_INTERVAL_ORD)
+	    {
+	      literal("Invalid intervals are treated as literals, for example @samp{a\\@{1} is treated as @samp{a@{1}");
+	    }
+	  else
+	    {
+	      literal("Invalid intervals such as @samp{a\\@{1z} are not accepted.  ");
+	    }
+	}
+      
     }
 
   newpara();
@@ -390,29 +424,7 @@ static int describe_regex_syntax(int options)
     {
       content("The longest possible match is returned; this applies to the regular expression as a whole and (subject to this constraint) to subexpressions within groups.  ");
     }
-
   newpara();
-  if (options & RE_NO_GNU_OPS)
-    {
-      content("GNU extensions are not supported and so "
-	      "@samp{\\w}, @samp{\\W}, @samp{\\<}, @samp{\\>}, @samp{\\b}, @samp{\\B}, @samp{\\`}, and @samp{\\'} "
-	      "match "
-	      "@samp{w}, @samp{W}, @samp{<}, @samp{>}, @samp{b}, @samp{B}, @samp{`}, and @samp{'} respectively.  ");
-    }
-  else
-    {
-      content("GNU extensions are supported:");
-      beginenum();
-      enum_item("@samp{\\w} matches a character within a word");
-      enum_item("@samp{\\W} matches a character which is not within a word");
-      enum_item("@samp{\\<} matches the beginning of a word");
-      enum_item("@samp{\\>} matches the end of a word");
-      enum_item("@samp{\\b} matches a word boundary");
-      enum_item("@samp{\\B} matches characters which are not a word boundary");
-      enum_item("@samp{\\`} matches the beginning of the whole input");
-      enum_item("@samp{\\'} matches the end of the whole input");
-      endenum();
-    }
 }
 
 
@@ -430,6 +442,7 @@ static int menu()
     {
       output("* ", 0);
       output(name, 0);
+      content(" regular expression syntax");
       output("::", 0);
       newline();
     }
