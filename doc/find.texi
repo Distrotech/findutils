@@ -84,10 +84,10 @@ This is edition @value{EDITION}, for @code{find} version @value{VERSION}.
 * Introduction::                Summary of the tasks this manual describes.
 * Finding Files::               Finding files that match certain criteria.
 * Actions::                     Doing things to files you have found.
-* Common Tasks::                Solutions to common real-world problems.
 * Databases::                   Maintaining file name databases.
 * File Permissions::            How to control access to files.
 * Reference::                   Summary of how to invoke the programs.
+* Common Tasks::                Solutions to common real-world problems.
 * Worked Examples::             Examples demonstrating more complex points.
 * Security Considerations::     Security issues relating to findutils.
 * Error Messages::              Explanations of some messages you might see.
@@ -1246,7 +1246,7 @@ Always true.
 Always false.
 @end deffn
 
-@node Actions, Common Tasks, Finding Files, Top
+@node Actions, Databases, Finding Files, Top
 @chapter Actions
 
 There are several ways you can print information about the files that
@@ -2193,262 +2193,7 @@ find /usr/local -type f -perm /a=x \
 @end example
 
 
-@node Common Tasks, Databases, Actions, Top
-@chapter Common Tasks
-
-The sections that follow contain some extended examples that both give
-a good idea of the power of these programs, and show you how to solve
-common real-world problems.
-
-@menu
-* Viewing And Editing::
-* Archiving::
-* Cleaning Up::
-* Strange File Names::
-* Fixing Permissions::
-* Classifying Files::
-@end menu
-
-@node Viewing And Editing
-@section Viewing And Editing
-
-To view a list of files that meet certain criteria, simply run your
-file viewing program with the file names as arguments.  Shells
-substitute a command enclosed in backquotes with its output, so the
-whole command looks like this:
-
-@example
-less `find /usr/include -name '*.h' | xargs grep -l mode_t`
-@end example
-
-@noindent
-You can edit those files by giving an editor name instead of a file
-viewing program:
-
-@example
-emacs `find /usr/include -name '*.h' | xargs grep -l mode_t`
-@end example
-
-Because there is a limit to the length of any individual command line,
-there is a limit to the number of files that can be handled in this
-way.  We can get around this difficulty by using xargs like this:
-
-@example
-find /usr/include -name '*.h' | xargs grep -l mode_t > todo
-xargs --arg-file=todo emacs
-@end example
-
-Here, @code{xargs} will run @code{emacs} as many times as necessary to
-visit all of the files listed in the file @file{todo}.
-
-@node Archiving
-@section Archiving
-
-You can pass a list of files produced by @code{find} to a file
-archiving program.  GNU @code{tar} and @code{cpio} can both read lists
-of file names from the standard input---either delimited by nulls (the
-safe way) or by blanks (the lazy, risky default way).  To use
-null-delimited names, give them the @samp{--null} option.  You can
-store a file archive in a file, write it on a tape, or send it over a
-network to extract on another machine.
-
-One common use of @code{find} to archive files is to send a list of
-the files in a directory tree to @code{cpio}.  Use @samp{-depth} so if
-a directory does not have write permission for its owner, its contents
-can still be restored from the archive since the directory's
-permissions are restored after its contents.  Here is an example of
-doing this using @code{cpio}; you could use a more complex @code{find}
-expression to archive only certain files.
-
-@example
-find . -depth -print0 |
-  cpio --create --null --format=crc --file=/dev/nrst0
-@end example
-
-You could restore that archive using this command:
-
-@example
-cpio --extract --null --make-dir --unconditional \
-  --preserve --file=/dev/nrst0
-@end example
-
-Here are the commands to do the same things using @code{tar}:
-
-@example
-find . -depth -print0 |
-  tar --create --null --files-from=- --file=/dev/nrst0
-
-tar --extract --null --preserve-perm --same-owner \
-  --file=/dev/nrst0
-@end example
-
-@c Idea from Rick Sladkey.
-Here is an example of copying a directory from one machine to another:
-
-@example
-find . -depth -print0 | cpio -0o -Hnewc |
-  rsh @var{other-machine} "cd `pwd` && cpio -i0dum"
-@end example
-
-@node Cleaning Up
-@section Cleaning Up
-
-@c Idea from Jim Meyering.
-This section gives examples of removing unwanted files in various
-situations.  Here is a command to remove the CVS backup files created
-when an update requires a merge:
-
-@example
-find . -name '.#*' -print0 | xargs -0r rm -f
-@end example
-
-The command above works, but the following is safer:
-
-@example
-find . -name '.#*' -depth -delete
-@end example
-
-@c Idea from Franc,ois Pinard.
-You can run this command to clean out your clutter in @file{/tmp}.
-You might place it in the file your shell runs when you log out
-(@file{.bash_logout}, @file{.logout}, or @file{.zlogout}, depending on
-which shell you use).
-
-@example
-find /tmp -depth -user "$LOGNAME" -type f -delete
-@end example
-
-If your @code{find} command removes directories, you may find that
-you get a spurious error message when @code{find} tries to recurse
-into a directory that has now been removed.  Using the @samp{-depth}
-option will normally resolve this problem.
-
-@c Idea from Noah Friedman.
-To remove old Emacs backup and auto-save files, you can use a command
-like the following.  It is especially important in this case to use
-null-terminated file names because Emacs packages like the VM mailer
-often create temporary file names with spaces in them, like
-@file{#reply to David J. MacKenzie<1>#}.
-
-@example
-find ~ \( -name '*~' -o -name '#*#' \) -print0 |
-  xargs --no-run-if-empty --null rm -vf
-@end example
-
-Removing old files from @file{/tmp} is commonly done from @code{cron}:
-
-@c Idea from Kaveh Ghazi.
-@example
-find /tmp /var/tmp -not -type d -mtime +3 -delete
-find /tmp /var/tmp -depth -mindepth 1 -type d -empty -delete
-@end example
-
-The second @code{find} command above uses @samp{-depth} so it cleans
-out empty directories depth-first, hoping that the parents become
-empty and can be removed too.  It uses @samp{-mindepth} to avoid
-removing @file{/tmp} itself if it becomes totally empty.
-
-@node Strange File Names
-@section Strange File Names
-
-@c Idea from:
-@c From: tmatimar@isgtec.com (Ted Timar)
-@c Newsgroups: comp.unix.questions,comp.unix.shell,comp.answers,news.answers
-@c Subject: Unix - Frequently Asked Questions (2/7) [Frequent posting]
-@c Subject: How do I remove a file with funny characters in the filename ?
-@c Date: Thu Mar 18 17:16:55 EST 1993
-@code{find} can help you remove or rename a file with strange
-characters in its name.  People are sometimes stymied by files whose
-names contain characters such as spaces, tabs, control characters, or
-characters with the high bit set.  The simplest way to remove such
-files is:
-
-@example
-rm -i @var{some*pattern*that*matches*the*problem*file}
-@end example
-
-@code{rm} asks you whether to remove each file matching the given
-pattern.  If you are using an old shell, this approach might not work
-if the file name contains a character with the high bit set; the shell
-may strip it off.  A more reliable way is:
-
-@example
-find . -maxdepth 1 @var{tests} -okdir rm '@{@}' \;
-@end example
-
-@noindent
-where @var{tests} uniquely identify the file.  The @samp{-maxdepth 1}
-option prevents @code{find} from wasting time searching for the file
-in any subdirectories; if there are no subdirectories, you may omit
-it.  A good way to uniquely identify the problem file is to figure out
-its inode number; use
-
-@example
-ls -i
-@end example
-
-Suppose you have a file whose name contains control characters, and
-you have found that its inode number is 12345.  This command prompts
-you for whether to remove it:
-
-@example
-find . -maxdepth 1 -inum 12345 -okdir rm -f '@{@}' \;
-@end example
-
-If you don't want to be asked, perhaps because the file name may
-contain a strange character sequence that will mess up your screen
-when printed, then use @samp{-execdir} instead of @samp{-okdir}.
-
-If you want to rename the file instead, you can use @code{mv} instead
-of @code{rm}:
-
-@example
-find . -maxdepth 1 -inum 12345 -okdir mv '@{@}' @var{new-file-name} \;
-@end example
-
-@node Fixing Permissions
-@section Fixing Permissions
-
-Suppose you want to make sure that everyone can write to the
-directories in a certain directory tree.  Here is a way to find
-directories lacking either user or group write permission (or both),
-and fix their permissions:
-
-@example
-find . -type d -not -perm -ug=w | xargs chmod ug+w
-@end example
-
-@noindent
-You could also reverse the operations, if you want to make sure that
-directories do @emph{not} have world write permission.
-
-@node Classifying Files
-@section Classifying Files
-
-@c Idea from:
-@c From: martin@mwtech.UUCP (Martin Weitzel)
-@c Newsgroups: comp.unix.wizards,comp.unix.questions
-@c Subject: Advanced usage of 'find' (Re: Unix security automating script)
-@c Date: 22 Mar 90 15:05:19 GMT
-If you want to classify a set of files into several groups based on
-different criteria, you can use the comma operator to perform multiple
-independent tests on the files.  Here is an example:
-
-@example
-find / -type d \( -perm -o=w -fprint allwrite , \
-  -perm -o=x -fprint allexec \)
-
-echo "Directories that can be written to by everyone:"
-cat allwrite
-echo ""
-echo "Directories with search permissions for everyone:"
-cat allexec
-@end example
-
-@code{find} has only to make one scan through the directory tree
-(which is one of the most time consuming parts of its work).
-
-@node Databases, File Permissions, Common Tasks, Top
+@node Databases, File Permissions, Actions, Top
 @chapter File Name Databases
 
 The file name databases used by @code{locate} contain lists of files
@@ -2655,7 +2400,7 @@ at all times.  Otherwise, newlines may not be correctly handled.
 
 @include perm.texi
 
-@node Reference, Worked Examples, File Permissions, Top
+@node Reference, Common Tasks, File Permissions, Top
 @chapter Reference
 
 Below are summaries of the command line syntax for the programs
@@ -3161,7 +2906,262 @@ should be one of the following:
 @include regexprops.texi
 
 
-@node Worked Examples, Security Considerations, Reference, Top
+@node Common Tasks, Worked Examples, Reference, Top
+@chapter Common Tasks
+
+The sections that follow contain some extended examples that both give
+a good idea of the power of these programs, and show you how to solve
+common real-world problems.
+
+@menu
+* Viewing And Editing::
+* Archiving::
+* Cleaning Up::
+* Strange File Names::
+* Fixing Permissions::
+* Classifying Files::
+@end menu
+
+@node Viewing And Editing
+@section Viewing And Editing
+
+To view a list of files that meet certain criteria, simply run your
+file viewing program with the file names as arguments.  Shells
+substitute a command enclosed in backquotes with its output, so the
+whole command looks like this:
+
+@example
+less `find /usr/include -name '*.h' | xargs grep -l mode_t`
+@end example
+
+@noindent
+You can edit those files by giving an editor name instead of a file
+viewing program:
+
+@example
+emacs `find /usr/include -name '*.h' | xargs grep -l mode_t`
+@end example
+
+Because there is a limit to the length of any individual command line,
+there is a limit to the number of files that can be handled in this
+way.  We can get around this difficulty by using xargs like this:
+
+@example
+find /usr/include -name '*.h' | xargs grep -l mode_t > todo
+xargs --arg-file=todo emacs
+@end example
+
+Here, @code{xargs} will run @code{emacs} as many times as necessary to
+visit all of the files listed in the file @file{todo}.
+
+@node Archiving
+@section Archiving
+
+You can pass a list of files produced by @code{find} to a file
+archiving program.  GNU @code{tar} and @code{cpio} can both read lists
+of file names from the standard input---either delimited by nulls (the
+safe way) or by blanks (the lazy, risky default way).  To use
+null-delimited names, give them the @samp{--null} option.  You can
+store a file archive in a file, write it on a tape, or send it over a
+network to extract on another machine.
+
+One common use of @code{find} to archive files is to send a list of
+the files in a directory tree to @code{cpio}.  Use @samp{-depth} so if
+a directory does not have write permission for its owner, its contents
+can still be restored from the archive since the directory's
+permissions are restored after its contents.  Here is an example of
+doing this using @code{cpio}; you could use a more complex @code{find}
+expression to archive only certain files.
+
+@example
+find . -depth -print0 |
+  cpio --create --null --format=crc --file=/dev/nrst0
+@end example
+
+You could restore that archive using this command:
+
+@example
+cpio --extract --null --make-dir --unconditional \
+  --preserve --file=/dev/nrst0
+@end example
+
+Here are the commands to do the same things using @code{tar}:
+
+@example
+find . -depth -print0 |
+  tar --create --null --files-from=- --file=/dev/nrst0
+
+tar --extract --null --preserve-perm --same-owner \
+  --file=/dev/nrst0
+@end example
+
+@c Idea from Rick Sladkey.
+Here is an example of copying a directory from one machine to another:
+
+@example
+find . -depth -print0 | cpio -0o -Hnewc |
+  rsh @var{other-machine} "cd `pwd` && cpio -i0dum"
+@end example
+
+@node Cleaning Up
+@section Cleaning Up
+
+@c Idea from Jim Meyering.
+This section gives examples of removing unwanted files in various
+situations.  Here is a command to remove the CVS backup files created
+when an update requires a merge:
+
+@example
+find . -name '.#*' -print0 | xargs -0r rm -f
+@end example
+
+The command above works, but the following is safer:
+
+@example
+find . -name '.#*' -depth -delete
+@end example
+
+@c Idea from Franc,ois Pinard.
+You can run this command to clean out your clutter in @file{/tmp}.
+You might place it in the file your shell runs when you log out
+(@file{.bash_logout}, @file{.logout}, or @file{.zlogout}, depending on
+which shell you use).
+
+@example
+find /tmp -depth -user "$LOGNAME" -type f -delete
+@end example
+
+If your @code{find} command removes directories, you may find that
+you get a spurious error message when @code{find} tries to recurse
+into a directory that has now been removed.  Using the @samp{-depth}
+option will normally resolve this problem.
+
+@c Idea from Noah Friedman.
+To remove old Emacs backup and auto-save files, you can use a command
+like the following.  It is especially important in this case to use
+null-terminated file names because Emacs packages like the VM mailer
+often create temporary file names with spaces in them, like
+@file{#reply to David J. MacKenzie<1>#}.
+
+@example
+find ~ \( -name '*~' -o -name '#*#' \) -print0 |
+  xargs --no-run-if-empty --null rm -vf
+@end example
+
+Removing old files from @file{/tmp} is commonly done from @code{cron}:
+
+@c Idea from Kaveh Ghazi.
+@example
+find /tmp /var/tmp -not -type d -mtime +3 -delete
+find /tmp /var/tmp -depth -mindepth 1 -type d -empty -delete
+@end example
+
+The second @code{find} command above uses @samp{-depth} so it cleans
+out empty directories depth-first, hoping that the parents become
+empty and can be removed too.  It uses @samp{-mindepth} to avoid
+removing @file{/tmp} itself if it becomes totally empty.
+
+@node Strange File Names
+@section Strange File Names
+
+@c Idea from:
+@c From: tmatimar@isgtec.com (Ted Timar)
+@c Newsgroups: comp.unix.questions,comp.unix.shell,comp.answers,news.answers
+@c Subject: Unix - Frequently Asked Questions (2/7) [Frequent posting]
+@c Subject: How do I remove a file with funny characters in the filename ?
+@c Date: Thu Mar 18 17:16:55 EST 1993
+@code{find} can help you remove or rename a file with strange
+characters in its name.  People are sometimes stymied by files whose
+names contain characters such as spaces, tabs, control characters, or
+characters with the high bit set.  The simplest way to remove such
+files is:
+
+@example
+rm -i @var{some*pattern*that*matches*the*problem*file}
+@end example
+
+@code{rm} asks you whether to remove each file matching the given
+pattern.  If you are using an old shell, this approach might not work
+if the file name contains a character with the high bit set; the shell
+may strip it off.  A more reliable way is:
+
+@example
+find . -maxdepth 1 @var{tests} -okdir rm '@{@}' \;
+@end example
+
+@noindent
+where @var{tests} uniquely identify the file.  The @samp{-maxdepth 1}
+option prevents @code{find} from wasting time searching for the file
+in any subdirectories; if there are no subdirectories, you may omit
+it.  A good way to uniquely identify the problem file is to figure out
+its inode number; use
+
+@example
+ls -i
+@end example
+
+Suppose you have a file whose name contains control characters, and
+you have found that its inode number is 12345.  This command prompts
+you for whether to remove it:
+
+@example
+find . -maxdepth 1 -inum 12345 -okdir rm -f '@{@}' \;
+@end example
+
+If you don't want to be asked, perhaps because the file name may
+contain a strange character sequence that will mess up your screen
+when printed, then use @samp{-execdir} instead of @samp{-okdir}.
+
+If you want to rename the file instead, you can use @code{mv} instead
+of @code{rm}:
+
+@example
+find . -maxdepth 1 -inum 12345 -okdir mv '@{@}' @var{new-file-name} \;
+@end example
+
+@node Fixing Permissions
+@section Fixing Permissions
+
+Suppose you want to make sure that everyone can write to the
+directories in a certain directory tree.  Here is a way to find
+directories lacking either user or group write permission (or both),
+and fix their permissions:
+
+@example
+find . -type d -not -perm -ug=w | xargs chmod ug+w
+@end example
+
+@noindent
+You could also reverse the operations, if you want to make sure that
+directories do @emph{not} have world write permission.
+
+@node Classifying Files
+@section Classifying Files
+
+@c Idea from:
+@c From: martin@mwtech.UUCP (Martin Weitzel)
+@c Newsgroups: comp.unix.wizards,comp.unix.questions
+@c Subject: Advanced usage of 'find' (Re: Unix security automating script)
+@c Date: 22 Mar 90 15:05:19 GMT
+If you want to classify a set of files into several groups based on
+different criteria, you can use the comma operator to perform multiple
+independent tests on the files.  Here is an example:
+
+@example
+find / -type d \( -perm -o=w -fprint allwrite , \
+  -perm -o=x -fprint allexec \)
+
+echo "Directories that can be written to by everyone:"
+cat allwrite
+echo ""
+echo "Directories with search permissions for everyone:"
+cat allexec
+@end example
+
+@code{find} has only to make one scan through the directory tree
+(which is one of the most time consuming parts of its work).
+
+@node Worked Examples, Security Considerations, Common Tasks, Top
 @chapter Worked Examples
 
 The tools in the findutils package, and in particular @code{find},
