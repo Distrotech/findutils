@@ -1814,7 +1814,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
     }
   else
     {
-      subdirs_unreliable = false; /* not neccesarily right */
+      subdirs_unreliable = false; /* not necessarily right */
       subdirs_left = statp->st_nlink - 2; /* Account for name and ".". */
     }
   
