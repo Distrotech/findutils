@@ -1,5 +1,6 @@
 /* find -- search for files in a directory hierarchy
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 
+                 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,7 +22,9 @@
    Jay Plett <jay@silence.princeton.nj.us>,
    and Tim Wood <axolotl!tim@toad.com>.
    The idea for -print0 and xargs -0 came from
-   Dan Bernstein <brnstnd@kramden.acf.nyu.edu>.  */
+   Dan Bernstein <brnstnd@kramden.acf.nyu.edu>.  
+   Improvements have been made by James Youngman <jay@gnu.org>.
+*/
 
 
 #include "defs.h"
@@ -1799,12 +1802,22 @@ static void
 process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *parent)
 {
   int subdirs_left;		/* Number of unexamined subdirs in PATHNAME. */
+  boolean subdirs_unreliable;	/* if true, cannot use dir link count as subdir limif (if false, it may STILL be unreliable) */
   int idx;			/* Which entry are we on? */
   struct stat stat_buf;
 
   struct savedir_dirinfo *dirinfo;
-  subdirs_left = statp->st_nlink - 2; /* Account for name and ".". */
 
+  if (statp->st_nlink < 2)
+    {
+      subdirs_unreliable = true;
+    }
+  else
+    {
+      subdirs_unreliable = false; /* not neccesarily right */
+      subdirs_left = statp->st_nlink - 2; /* Account for name and ".". */
+    }
+  
   errno = 0;
   dirinfo = xsavedir(name, 0);
 
@@ -1910,7 +1923,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	  strcpy (cur_name, namep);
 
 	  state.curdepth++;
-	  if (!options.no_leaf_check)
+	  if (!options.no_leaf_check && !subdirs_unreliable)
 	    {
 	      if (mode && S_ISDIR(mode) && (subdirs_left == 0))
 		{
