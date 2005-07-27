@@ -3875,8 +3875,6 @@ properties of your system.
 @menu
 * O_NOFOLLOW::                     Safely changing directory using fchdir().
 * Systems without O_NOFOLLOW::     Checking for symbolic links after chdir().
-* Working with automounters::      These can look like race condition exploits
-* Problems with dead NFS servers:: If you don't have O_NOFOLLOW, this is a problem.
 @end menu
 
 @node O_NOFOLLOW
@@ -3926,52 +3924,38 @@ The strategy for preventing this type of problem on systems that lack
 support for the O_NOFOLLOW flag is more complex.  Each time
 @code{find} changes directory, it examines the directory it is about
 to move to, issues the @code{chdir()} system call, and then checks
-that it has ended up in the subdirectory it expected.  If not, an
-error message is issued and @code{find} exits immediately.  This
-method prevents filesystem manipulation attacks from persuading
-@code{find} to search parts of the filesystem it did not intend.
-However, we have to take special steps in order to avoid mistakenly
-concluding that there is a problem with any ``automount'' mount
-points.
+that it has ended up in the subdirectory it expected.  If all is as
+expected, processing continues as normal.  However, there are two main
+reasons why the directory might change: the use of an automounter and
+the someone removing the old directory and replacing it with something
+else while @code{find} is trying to descend into it.
 
-@node Working with automounters
-@subsubsection Working with automounters
-
-Where a filesystem ``automounter'' is in use it can be the case that the use of the
-@code{chdir()} system call can itself cause a new filesystem to be
-mounted at that point.  On systems that do not support O_NOFOLLOW,
-this will cause @code{find}'s security check to fail.
+Where a filesystem ``automounter'' is in use it can be the case that
+the use of the @code{chdir()} system call can itself cause a new
+filesystem to be mounted at that point.  On systems that do not
+support O_NOFOLLOW, this will cause @code{find}'s security check to
+fail.
 
 However, this does not normally represent a security problem, since
 the automounter configuration is normally set up by the system
 administrator.  Therefore, if the @code{chdir()} sanity check fails,
-@code{find} will check to see if a new filesystem has been mounted at
-the current directory; if so, @code{find} will issue a warning message
-and continue.
+@code{find} will make one more attempt.  If that succeeds, execution
+carries on as normal.  This is the usual case for automounters.
 
-To make this solution work, @code{find} reads the list of mounted
-filesystems at startup, and again when the sanity check fails.  It
-compares the two lists to find out if the directory it has moved into
-has just been mounted.
+Where an attacker is trying to exploit a race condition, the problem
+may not have gone away on the second attampt.  If this is the case,
+@code{find} will issue a warning message and then ignore that
+subdirectory.  When this happens, actions such as @samp{-exec} or
+@samp{-print} may already have taken place for the problematic
+subdirectory.  This is because @code{find} applies tests and actions
+to directories before searching within them (unless @samp{-depth} was
+specified).
 
-@node Problems with dead NFS servers
-@subsubsection Problems with dead NFS servers
-
-Examining every mount point on the system has a downside too.  In
-general, @code{find} will be used to search just part of the
-filesystem.  However, @code{find} examines every mount point.  If the
-system has a filesystem mounted on an unresponsive NFS server,
-@code{find} will hang, waiting for the NFS server to respond.  Worse,
-it does this even if the affected mount point is not within the
-directory tree that @code{find} would have searched anyway.
-
-This is very unfortunate.  However, this problem only affects systems
-that have no support for O_NOFOLLOW.  As far as I can tell, it is not
-possible on such systems to fix all three problems (the race
-condition, the false-alarm at automount mount points, and the hang at
-startup if there is a dead NFS server) at once.  If you have some
-ideas about how @code{find} could do this better, please send email to
-the @email{bug-findutils@@gnu.org} mailing list.
+Because of the nature of the directory-change operation and security
+check, in the worst case the only things that @code{find} would have
+done with the directory are to move into it and back out to the
+original parent.  No operations would have been performed within that
+directory.
 
 @node Race Conditions with -exec
 @subsection Race Conditions with -exec
