@@ -1685,7 +1685,10 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
 	 (options.open_nofollow_available ? "enabled" : "disabled"));
   ++features;
 #endif
-  
+#if defined(LEAF_OPTIMISATION)
+  printf("LEAF_OPTIMISATION ");
+  ++features;
+#endif
   if (0 == features)
     {
       /* For the moment, leave this as English in case someone wants

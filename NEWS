@@ -35,8 +35,19 @@ equivalent.
 
 The regular expression syntax understood by "find" can be changed with
 the -regextype option; this option is positional, meaning that you can
-have several tests, each using a diftinct syntax (this is not
+have several tests, each using a distinct syntax (this is not
 recommended practice however).
+
+The default regular expression syntax is substantially the same as
+that recognised by GNU Emacs, except for the fact that "." will match
+a newline.
+
+The leaf optimisation can be disabled with the configure option
+"--disable-leaf-optimisation", which is equivalent to specifying
+"-noleaf" on all find command lines.  This is useful for systems
+having filesystems which do not provide traditional Unix behaviour for
+the link cound on directories (for example Cygwin and the Solaris 9
+HSFS implementation).
 
 ** Bug Fixes
 
@@ -51,6 +62,9 @@ expressions.
 
 If invoked with stderr closed, the -fprint and -fprintf actions now no
 longer cause error messages to be sent into the output file.
+
+If the link count of a directory is less that two, the leaf
+optimisation is now disabled for that directory.
 
 * Major changes in release 4.2.23
 
