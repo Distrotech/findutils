@@ -40,6 +40,7 @@ xargs.posix/EEOFe.exp \
 xargs.posix/EEOF.exp \
 xargs.posix/E_.exp \
 xargs.posix/E_-IARG.exp \
+xargs.posix/childfail.exp \
 xargs.posix/empty_def.exp \
 xargs.posix/empty.exp \
 xargs.posix/hithere.exp \
