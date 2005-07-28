@@ -1081,20 +1081,19 @@ a file will have to have a modification in the past which is less than
 
 .fi
 Search for files which have read and write permission for their owner,
-and group, but which the rest of the world can read but not write to.  
-Files which meet these criteria but have other permissions bits set
-(for example if someone can execute the file) will not be matched.
+and group, but which other users can read but not write to.  Files
+which meet these criteria but have other permissions bits set (for
+example if someone can execute the file) will not be matched.
 
 .P
 .nf
 .B find . -perm -664
 
 .fi
-Search for files which have read and write permission for their owner,
-and group, and which the rest of the world can read,
-without regard to the presence of any extra permission bits (for
-example the executable bit).  This will match a file which has mode
-0777, for example.
+Search for files which have read and write permission for their owner
+and group, and which other users can read, without regard to the
+presence of any extra permission bits (for example the executable
+bit).  This will match a file which has mode 0777, for example.
 
 .P
 .nf
