@@ -51,5 +51,12 @@ find_mono.html: find.texi
 findutils.texi_html_node.tar.gz: find.html
 	tar zcf $@ $<
 
-regexprops.texi: ../lib/regexprops
-	../lib/regexprops "Regular Expressions" > $@
+if CROSS_COMPILING
+regexprops.texi: ../gnulib/lib/regex.h
+	echo "WARNING: $? is newer than $@ but $@ cannot be rebuilt because we are cross-compiling.   Continuing anyway." >&2
+else
+regexprops.texi: ../gnulib/lib/regex.h
+	cd ../lib && $(MAKE) $(AM_MAKEFLAGS) regexprops$(EXEEXT)
+	../lib/regexprops$(EXEEXT) "Regular Expressions" > $@
+	$(RM) ../lib/regexprops$(EXEEXT)
+endif
