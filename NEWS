@@ -10,6 +10,10 @@ tasks, and why some of these alternatives are better than others.
 The -I option of xargs (which is required by the POSIX standard) is
 now documented.
 
+We now document the fact that find ensures that commands run by -ok
+and -okdir don't steal find's input.  Find does this by redirecting
+the command's standard input from stdin.
+
 Many documentation readability enhancements and proofreading fixes
 were contributed by Aaron Hawley.
 

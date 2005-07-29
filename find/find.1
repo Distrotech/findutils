@@ -540,7 +540,10 @@ section for information about how unusual characters in filenames are handled.
 .IP "\-ok \fIcommand\fR ;"
 Like \-exec but ask the user first (on the standard input); if the
 response does not start with `y' or `Y', do not run the command, and
-return false.
+return false.  If the command is run, its standard input is redirected
+from
+.BR /dev/null .
+
 .IP \-print
 True; print the full file name on the standard output, followed by a
 newline.   If you are piping the output of 
@@ -554,7 +557,9 @@ section for information about how unusual characters in filenames are handled.
 .IP "\-okdir \fIcommand\fR ;"
 Like \-execdir but ask the user first (on the standard input); if the
 response does not start with `y' or `Y', do not run the command, and
-return false.
+return false.  If the command is run, its standard input is redirected
+from
+.BR /dev/null .
 .IP \-print0
 True; print the full file name on the standard output, followed by a
 null character (instead of the newline character that `\-print' uses).

@@ -2088,7 +2088,8 @@ and the @code{find} primary @samp{-ok} instead of @samp{-exec}:
 @deffn Action -okdir command ;
 Like @samp{-execdir} (@pxref{Single File}), but ask the user first (on
 the standard input); if the response does not start with @samp{y} or
-@samp{Y}, do not run the command, and return false.
+@samp{Y}, do not run the command, and return false.  If the command is
+run, its standard input is redirected from @file{/dev/null}.
 @end deffn
 
 @deffn Action -ok command ;
@@ -2097,7 +2098,8 @@ POSIX.  The main difference is that the command is executed in the
 directory from which @code{find} was invoked, meaning that @samp{@{@}}
 is expanded to a relative path starting with the name of one of the
 starting directories, rather than just the basename of the matched
-file.
+file.  If the command is run, its standard input is redirected from
+@file{/dev/null}.
 @end deffn
 
 When processing multiple files with a single command, to query the
