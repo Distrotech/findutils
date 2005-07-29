@@ -558,6 +558,21 @@ pred_fprint0 (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 
 
 
+static char*
+mode_to_filetype(mode_t m)
+{
+  return
+    m == S_IFSOCK ? "s" :
+    m == S_IFLNK  ? "l" :
+    m == S_IFREG  ? "f" :
+    m == S_IFBLK  ? "b" :
+    m == S_IFDIR  ? "d" :
+    m == S_IFCHR  ? "c" :
+#ifdef S_IFDOOR
+    m == S_IFDOOR ? "D" :
+#endif
+    m == S_IFIFO  ? "p" : "U";
+}
 
 
 boolean
@@ -869,33 +884,28 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 		/* exit_status = 1;
 		return (false); */
 	      }
-	      stat_buf->st_mode = sbuf.st_mode;
+	      fprintf (fp, segment->text,
+		       mode_to_filetype(sbuf.st_mode & S_IFMT));
 	    }
 #endif /* S_ISLNK */
+	  else
+	    {
+	      fprintf (fp, segment->text,
+		       mode_to_filetype(stat_buf->st_mode & S_IFMT));
+	    }
 	  }
-	  /* FALLTHROUGH */
+	  break;
+
 	case 'y':
 	  /* trusted */
 	  {
-	    mode_t m = stat_buf->st_mode & S_IFMT;
-
 	    fprintf (fp, segment->text,
-		( m == S_IFSOCK ? "s" :
-		  m == S_IFLNK  ? "l" :
-		  m == S_IFREG  ? "f" :
-		  m == S_IFBLK  ? "b" :
-		  m == S_IFDIR  ? "d" :
-		  m == S_IFCHR  ? "c" :
-#ifdef S_IFDOOR
-		  m == S_IFDOOR ? "D" :
-#endif
-		  m == S_IFIFO  ? "p" : "U" ) );
-
+		     mode_to_filetype(stat_buf->st_mode & S_IFMT));
 	  }
 	  break;
 	}
     }
-  return (true);
+  return true;
 }
 
 boolean
