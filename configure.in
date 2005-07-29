@@ -83,6 +83,11 @@ AC_SYS_LARGEFILE
 
 gl_INIT
 
+dnl lib/regexprops needs to be a native program, because we need to 
+dnl run it in order to generate the documentation about the properties
+dnl of regular expressions.  See lib/Makefile.am.
+AM_CONDITIONAL(CROSS_COMPILING, [[test "x$cross_compiling" = xyes]])
+
 dnl Try to get a POSIX.1 environment.
 
 dnl Checks for libraries.  If getpwnam() isn't present in the 
