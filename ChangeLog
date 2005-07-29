@@ -1,11 +1,143 @@
+2005-07-29  James Youngman  <jay@gnu.org>
+
+	* NEWS, find/find.1, doc/find.texi:
+	Indicate that -ok and -okdir redirect stdin from /dev/null.
+
+	* NEWS: Explain the directory link count change more throroughly.
+
+	* NEWS: Fixed bug #13973.
+
+	* find/pred.c: Fix Savannah bug #13973: Modify the handling of
+	-printf %Y so that it no longer modifies stat_buf
+
+	* find/testsuite/find.gnu/printf-symlink.exp,
+	find/testsuite/find.gnu/printf-symlink.xo: Detect Savannah bug
+	#13973: pollution of stat_buf by the %Y directive (trivial change
+	from Andreas Metzler)
+
+	* INSTALL, depcomp, doc/texinfo.tex, install-sh, missing,
+	mkinstalldirs: Updated auxilliary files from the automake-1.9
+	distribution
+
+	* configure.in: Introduce new Automake conditional,
+	CROSS_COMPILING, true when we are corss compiling
+
+	* find/find.c: If we decline to follow a symbolic link due to the
+	safety check, issue a more self-explanatory warning message
+
+	* lib/Makefile.am: Don't build regexprops if we are cross compiling
+
+	* doc/Makefile.am: Depend on the regex.h file rather than the
+	'regexprops' binary, because the header file will always exist
+	even if we are doing "make dist".  Otherwise "make distcheck"
+	fails because it tries to rebuild find.info while the
+	source-directory is read-only.
+
+2005-07-28  James Youngman  <jay@gnu.org>
+
+	* find/find.1:
+	Say "other users" rather than "rest of the world" when talking about
+	Unix permissions.  Fixes Savannah bug #4246.
+
+2005-07-27  James Youngman  <jay@gnu.org>
+
+	* xargs/testsuite/Makefile.am: Added new test case 'childfail.exp'.
+
+	* doc/find.texi:
+	Updated the description of the safe-dir-change operation to reflect
+	what find now does on systems that lack O_NOFOLLOW.
+
+	* NEWS, find/parser.c: Indicate in the output of find --version if
+	the leaf optimisation is enabled or not
+
+	* find/find.c: Fixed typo.
+
+	* find/find.c: If the link count of a directory starts off less
+	than two, disable the leaf optimisation for this directory.
+
+2005-07-26  James Youngman  <jay@gnu.org>
+
+	* lib/regexprops.c: Further small corrections from Karl.
+
+	* doc/find.texi:
+	Reordered the sections in the manual to put the "Common Tasks" and
+	"Worked Examples" chapters together.
+
+	* configure.in, find/find.c: Allow the leaf optimisation to be
+	disabled by default with the configure option
+	--disable-leaf-optimisation
+
+	* find/find.c: Removed old code for antuqie version of savedir().
+
+	* lib/regextype.c: Put the syntaxes in alphabetical order.
+
+	* lib/regexprops.c: Karl made some more readability suggestions.
+
+2005-07-24  James Youngman  <jay@gnu.org>
+
+	* doc/Makefile.am: If the regexprops program has changed we should
+	re-run it, since it will probably now produce different output
+
+	* lib/regextype.h:
+	Allow the caller to detect if one regex type is identical to another.
+
+	* configure.in:
+	Define the preprocessor macro FINDUTILS for that code int he lib/
+	directory can be slightly more reusable.
+
+	* lib/regextype.c:
+	Allow the caller to detect if one regex type is identical to another.
+
+	* lib/regexprops.c:
+	Made Texinfo style corrections suggested by Karl Berry.
+
+2005-07-22  James Youngman  <jay@gnu.org>
+
+	* xargs/testsuite/xargs.posix/childfail.exp, xargs/xargs.c: Fix
+	Savannah bug #13878, in which xargs deals incorrectly with child
+	failure, returning 0 when it should return 123
+
+2005-07-17  James Youngman  <jay@gnu.org>
+
+	* find/find.1: (tiny change) Corrections by Greg Wooledge
+
+2005-07-16  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi: Updates following comments by Dave Gilbert.
+
+	* NEWS: Corrected a typo.
+
+	* doc/find.texi:
+	Added in the example about updating an aggregate timestamp file.
+
+2005-07-15  James Youngman  <jay@gnu.org>
+
+	* po/da.po: Updated Danish translation from translation project
+
+2005-07-14  James Youngman  <jay@gnu.org>
+
+	* NEWS, doc/Makefile.am, doc/find.texi, lib/Makefile.am,
+	lib/regexprops.c, lib/regextype.c, lib/regextype.h: Added
+	--regextype and -regextype options to locate and find
+	respectively, and documented these
+
+	* doc/find.texi: We use GNU Emacs regexps by default now.
+
+	* doc/find.texi:
+	We require GNU sort in order for locate to handle newlines correctly,
+	not just GNU find.
+
 2005-07-10  James Youngman  <jay@gnu.org>
 
-	* NEWS: Updated with recent changes.
+	* doc/find.texi:
+	Applied several documentation improvement patches from Aaron Hawley
 
-	* NEWS: Recent gnulib changes have fixed -iregex
+	* ChangeLog, NEWS: Updated with recent changes.
 
-	* doc/find.texi, xargs/xargs.1: Tiny patch from Andreas Metzler:
-	xargs -I is like xargs -i, but the latter is deprecated
+	* NEWS: Recent gnulib changed have fixed -iregex
+
+	* doc/find.texi, xargs/xargs.1:
+	Tiny patch from Andreas Metzler: xargs -I is like xargs -i, but the latter is deprecated
 
 2005-07-06  James Youngman  <jay@gnu.org>
 
