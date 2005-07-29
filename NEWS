@@ -66,6 +66,10 @@ longer cause error messages to be sent into the output file.
 If the link count of a directory is less that two, the leaf
 optimisation is now disabled for that directory.
 
+The "%Y" directive for the -orintf action now no longer changes find's
+idea of the mode of the file, so this means among other things that
+"-printf %Y %y" now works properly.  This is Savannah bug #13973.
+
 * Major changes in release 4.2.23
 
 ** Documentation Changes
