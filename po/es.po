@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-07-16 11:42+0100\n"
+"POT-Creation-Date: 2005-07-27 16:14+0100\n"
 "PO-Revision-Date: 2004-12-23 16:57+0100\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -127,7 +127,7 @@ msgstr "oh, oh -- ¡inserción por defecto de `and' inválida!"
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Modo de empleo: %s [-H] [-L] [-P] [ruta-de-acceso...] [expresión]\n"
 
-#: find/find.c:453
+#: find/find.c:456
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -135,44 +135,44 @@ msgstr ""
 "La variable de entorno FIND_BLOCK_SIZE no está soportada, lo único que\n"
 "afecta al tamaño del bloque es la variable de entorno POSIXLY_CORRECT"
 
-#: find/find.c:528
+#: find/find.c:538
 msgid "paths must precede expression"
 msgstr "Las rutas-de-acceso deben preceder la expresión"
 
-#: find/find.c:534
+#: find/find.c:544
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "predicado inválido `%s'"
 
-#: find/find.c:542
+#: find/find.c:552
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "falta el argumento de `%s'"
 
-#: find/find.c:544
+#: find/find.c:554
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "argumento `%s' inválido para la opción `%s'"
 
-#: find/find.c:600
+#: find/find.c:610
 msgid "unexpected extra predicate"
 msgstr "predicado extra inesperado"
 
-#: find/find.c:652 find/find.c:655
+#: find/find.c:662 find/find.c:665
 msgid "cannot get current directory"
 msgstr "no se puede obtener el directorio actual"
 
-#: find/find.c:823
+#: find/find.c:833
 #, fuzzy, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "El sistema de ficheros %s ha sido desmontado recientemente."
 
-#: find/find.c:833
+#: find/find.c:843
 #, fuzzy, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "El sistema de ficheros %s ha sido montado recientemente."
 
-#: find/find.c:927
+#: find/find.c:937
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -183,7 +183,7 @@ msgstr ""
 "número de dispositivo nuevo %ld, el tipo de sistema de ficheros es %s [ref %"
 "ld]"
 
-#: find/find.c:964
+#: find/find.c:974
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -192,29 +192,34 @@ msgstr ""
 "%s%s ha cambiado durante la ejecución de %s (número de nodo-i antiguo %ld,\n"
 "número de nodo-i nuevo %ld, tipo de sistema de ficheros %s) [ref %ld]"
 
-#: find/find.c:1501
+#: find/find.c:1511
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1516
+#: find/find.c:1526
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1520
+#: find/find.c:1530
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1521
+#: find/find.c:1531
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1941
+#: find/find.c:1900
+#, c-format
+msgid "warning: not following the symbolic link %s"
+msgstr ""
+
+#: find/find.c:1944
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -461,17 +466,17 @@ msgstr "GNU find versión %s\n"
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:1909
+#: find/parser.c:1912
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "atención: secuencia de escape `\\%c' no reconocida"
 
-#: find/parser.c:1955
+#: find/parser.c:1958
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "atención: directiva de formato `%%%c' no reconocida"
 
-#: find/parser.c:2061
+#: find/parser.c:2064
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -480,13 +485,13 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2158
+#: find/parser.c:2161
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2181
+#: find/parser.c:2184
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
@@ -536,7 +541,7 @@ msgstr "< %s ... %s > ? "
 # Al fin y al cabo es la coletilla que tengo yo al final de mi
 # comentario, ¿no? Me parece lo mismo, má o meno, pero por no meternos
 # en darle caña y acabar ya esto de una vez :) ...
-#: find/pred.c:1541 xargs/xargs.c:883
+#: find/pred.c:1541 xargs/xargs.c:887
 msgid "cannot fork"
 msgstr "falló la llamada al sistema `fork()'"
 
@@ -735,7 +740,7 @@ msgstr ""
 "o bien  %s bigramas_más_comunes < lista-de-ficheros > base-de-datos-de-"
 "locate\n"
 
-#: locate/code.c:131 locate/locate.c:1116 xargs/xargs.c:1077
+#: locate/code.c:131 locate/locate.c:1116 xargs/xargs.c:1095
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -841,47 +846,47 @@ msgstr "GNU locate versión %s\n"
 msgid "argument to --limit"
 msgstr "argumento para --limit"
 
-#: xargs/xargs.c:343
+#: xargs/xargs.c:346
 msgid "environment is too large for exec"
 msgstr "el entorno es demasiado grande para exec"
 
-#: xargs/xargs.c:456
+#: xargs/xargs.c:459
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versión %s\n"
 
-#: xargs/xargs.c:476
+#: xargs/xargs.c:479
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr ""
 
-#: xargs/xargs.c:502
+#: xargs/xargs.c:505
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr "Se reduce arg_max (%ld) a arg_size (%ld)\n"
 
-#: xargs/xargs.c:511
+#: xargs/xargs.c:514
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "Las variables de entorno ocupan %ld bytes\n"
 
-#: xargs/xargs.c:514
+#: xargs/xargs.c:517
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr ""
 "Límites POSIX inferior y superior sobre la longitud del argumento: %ld, %ld\n"
 
-#: xargs/xargs.c:518
+#: xargs/xargs.c:521
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Máxima longitud de orden que se podría usar realmente: %ld\n"
 
-#: xargs/xargs.c:521
+#: xargs/xargs.c:524
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Tamaño del búfer de órdenes que se está usando realmente: %ld\n"
 
-#: xargs/xargs.c:632 xargs/xargs.c:713
+#: xargs/xargs.c:636 xargs/xargs.c:717
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -891,19 +896,19 @@ msgstr ""
 "xargs\n"
 "a menos que utilice la opción -0"
 
-#: xargs/xargs.c:633 xargs/xargs.c:714
+#: xargs/xargs.c:637 xargs/xargs.c:718
 msgid "double"
 msgstr "doble"
 
-#: xargs/xargs.c:633 xargs/xargs.c:714
+#: xargs/xargs.c:637 xargs/xargs.c:718
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:731 xargs/xargs.c:788
+#: xargs/xargs.c:735 xargs/xargs.c:792
 msgid "argument line too long"
 msgstr "línea de argumentos demasiado larga"
 
-#: xargs/xargs.c:958
+#: xargs/xargs.c:962
 msgid "error waiting for child process"
 msgstr "error esperando al proceso hijo"
 
@@ -924,22 +929,22 @@ msgstr "error esperando al proceso hijo"
 # Me quedo con la duda de cómo se llama eso en español.
 # Esperemos que lo vea otro. sv
 #
-#: xargs/xargs.c:974
+#: xargs/xargs.c:978
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: acabó con status 255; abortando"
 
-#: xargs/xargs.c:976
+#: xargs/xargs.c:980
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: interrumpido por la señal %d"
 
-#: xargs/xargs.c:978
+#: xargs/xargs.c:982
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminado por la señal %d"
 
-#: xargs/xargs.c:1017
+#: xargs/xargs.c:1035
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: número inválido para la opción -%c\n"
@@ -948,17 +953,17 @@ msgstr "%s: número inválido para la opción -%c\n"
 # queda mucho mejor. Si a alguien no le gusta, que me lo diga ;). IPG
 # Me parece acertado y lo digo :-) sv
 # falen ... :) ... ipg
-#: xargs/xargs.c:1024
+#: xargs/xargs.c:1042
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: el valor para la opción -%c debería ser mayor o igual que %ld\n"
 
-#: xargs/xargs.c:1038
+#: xargs/xargs.c:1056
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: el valor para la opción -%c debería ser menor que %ld\n"
 
-#: xargs/xargs.c:1069
+#: xargs/xargs.c:1087
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"

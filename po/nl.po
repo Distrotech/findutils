@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.22\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-07-16 11:42+0100\n"
+"POT-Creation-Date: 2005-07-27 16:14+0100\n"
 "PO-Revision-Date: 2005-06-19 12:52+0200\n"
 "Last-Translator: Benno Schulenberg <benno@nietvergeten.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -123,7 +123,7 @@ msgstr "oeps -- ongeldige standaardtussenvoeging van '-and'!"
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Gebruik:  %s [-H] [-L] [-P] [pad...] [expressie]\n"
 
-#: find/find.c:453
+#: find/find.c:456
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -131,44 +131,44 @@ msgstr ""
 "De omgevingsvariabele FIND_BLOCK_SIZE wordt niet ondersteund.  Alleen de "
 "POSIXLY_CORRECT-omgevingsvariabele beïnvloedt de blokgrootte."
 
-#: find/find.c:528
+#: find/find.c:538
 msgid "paths must precede expression"
 msgstr "padnamen moeten aan de expressies voorafgaan"
 
-#: find/find.c:534
+#: find/find.c:544
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "ongeldige optie '%s'"
 
-#: find/find.c:542
+#: find/find.c:552
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "ontbrekend argument van '%s'"
 
-#: find/find.c:544
+#: find/find.c:554
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "ongeldig argument '%s' van '%s'"
 
-#: find/find.c:600
+#: find/find.c:610
 msgid "unexpected extra predicate"
 msgstr "onverwacht extra ding"
 
-#: find/find.c:652 find/find.c:655
+#: find/find.c:662 find/find.c:665
 msgid "cannot get current directory"
 msgstr "kan huidige map niet opvragen"
 
-#: find/find.c:823
+#: find/find.c:833
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "Waarschuwing: bestandssysteem %s is recent ontkoppeld."
 
-#: find/find.c:833
+#: find/find.c:843
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "Waarschuwing: bestandssysteem %s is recent aangekoppeld."
 
-#: find/find.c:927
+#: find/find.c:937
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -177,7 +177,7 @@ msgstr ""
 "%s%s is gewijzigd tijdens het uitvoeren van %s (oud apparaatnummer %ld, "
 "nieuw apparaatnummer %ld, bestandssysteemsoort %s) [ref %ld]"
 
-#: find/find.c:964
+#: find/find.c:974
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -186,7 +186,7 @@ msgstr ""
 "%s%s is gewijzigd tijdens het uitvoeren van %s (oud inode-nummer %ld, nieuw "
 "inode-nummer %ld, bestandssysteemsoort %s) [ref %ld]"
 
-#: find/find.c:1501
+#: find/find.c:1511
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -195,7 +195,7 @@ msgstr ""
 "Symbolische koppeling '%s' is deel van een oneindige lus in de "
 "mappenhiërarchie: de map waarnaar de koppeling wijst is al bezocht."
 
-#: find/find.c:1516
+#: find/find.c:1526
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -204,15 +204,20 @@ msgstr ""
 "Oneindige lus in bestandssysteem: '%s' heeft hetzelfde apparaatnummer en "
 "inode-nummer als een map %d %s."
 
-#: find/find.c:1520
+#: find/find.c:1530
 msgid "level higher in the filesystem hierarchy"
 msgstr "niveau hoger in de bestandshiërarchie"
 
-#: find/find.c:1521
+#: find/find.c:1531
 msgid "levels higher in the filesystem hierarchy"
 msgstr "niveaus hoger in de bestandshiërarchie"
 
-#: find/find.c:1941
+#: find/find.c:1900
+#, c-format
+msgid "warning: not following the symbolic link %s"
+msgstr ""
+
+#: find/find.c:1944
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -382,17 +387,17 @@ msgstr "GNU find versie %s\n"
 msgid "Features enabled: "
 msgstr "Aangezette mogelijkheden: "
 
-#: find/parser.c:1909
+#: find/parser.c:1912
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "waarschuwing: onbekende stuurcode '\\%c'"
 
-#: find/parser.c:1955
+#: find/parser.c:1958
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "waarschuwing: onbekende opmaakcode '%%%c'"
 
-#: find/parser.c:2061
+#: find/parser.c:2064
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -404,7 +409,7 @@ msgstr ""
 "combinatie met de actie %s van find.  Verwijder de huidige map uit uw PATH-"
 "variabele (oftewel: verwijder \".\" of dubbele punten aan begin en eind)."
 
-#: find/parser.c:2158
+#: find/parser.c:2161
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -412,7 +417,7 @@ msgstr ""
 "Om veiligheidsredenen mag {} bij '-execdir' en '-okdir' niet gebruikt worden "
 "binnen de naam van het hulpprogramma."
 
-#: find/parser.c:2181
+#: find/parser.c:2184
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Bij '-exec%s ...' mag {} slechts één keer voorkomen."
@@ -422,7 +427,7 @@ msgstr "Bij '-exec%s ...' mag {} slechts één keer voorkomen."
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1541 xargs/xargs.c:883
+#: find/pred.c:1541 xargs/xargs.c:887
 msgid "cannot fork"
 msgstr "kan geen nieuw proces starten"
 
@@ -481,7 +486,7 @@ msgstr ""
 "Gebruik:  %s [ --version | --help ]\n"
 "     of:  %s meest_gebruikte_bigrams <bestandenlijst> locate-gegevensbank\n"
 
-#: locate/code.c:131 locate/locate.c:1116 xargs/xargs.c:1077
+#: locate/code.c:131 locate/locate.c:1116 xargs/xargs.c:1095
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -599,46 +604,46 @@ msgstr "GNU locate versie %s\n"
 msgid "argument to --limit"
 msgstr "argument van --limit"
 
-#: xargs/xargs.c:343
+#: xargs/xargs.c:346
 msgid "environment is too large for exec"
 msgstr "omgeving is te groot voor exec"
 
-#: xargs/xargs.c:456
+#: xargs/xargs.c:459
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versie %s\n"
 
-#: xargs/xargs.c:476
+#: xargs/xargs.c:479
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Kan invoerbestand '%s' niet openen"
 
-#: xargs/xargs.c:502
+#: xargs/xargs.c:505
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr "arg_max (%ld) teruggebracht tot arg_size (%ld)\n"
 
-#: xargs/xargs.c:511
+#: xargs/xargs.c:514
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "De omgevingsvariabelen nemen %ld bytes in beslag\n"
 
-#: xargs/xargs.c:514
+#: xargs/xargs.c:517
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr "POSIX minimum en maximum grenzen aan argumentlengte: %ld, %ld\n"
 
-#: xargs/xargs.c:518
+#: xargs/xargs.c:521
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Maximum lengte van een verwerkbaar commando: %ld\n"
 
-#: xargs/xargs.c:521
+#: xargs/xargs.c:524
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Grootte van het werkelijk gebruikte commandobuffer: %ld\n"
 
-#: xargs/xargs.c:632 xargs/xargs.c:713
+#: xargs/xargs.c:636 xargs/xargs.c:717
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -647,53 +652,53 @@ msgstr ""
 "ongepaard %s aanhalingsteken; aanhalingstekens worden door xargs speciaal "
 "behandeld tenzij u de optie -0 gebruikt"
 
-#: xargs/xargs.c:633 xargs/xargs.c:714
+#: xargs/xargs.c:637 xargs/xargs.c:718
 msgid "double"
 msgstr "dubbel"
 
-#: xargs/xargs.c:633 xargs/xargs.c:714
+#: xargs/xargs.c:637 xargs/xargs.c:718
 msgid "single"
 msgstr "enkel"
 
-#: xargs/xargs.c:731 xargs/xargs.c:788
+#: xargs/xargs.c:735 xargs/xargs.c:792
 msgid "argument line too long"
 msgstr "argumentregel is te lang"
 
-#: xargs/xargs.c:958
+#: xargs/xargs.c:962
 msgid "error waiting for child process"
 msgstr "fout tijdens wachten op kindproces"
 
-#: xargs/xargs.c:974
+#: xargs/xargs.c:978
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: eindigde met afsluitwaarde 255; xargs breekt af"
 
-#: xargs/xargs.c:976
+#: xargs/xargs.c:980
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: gestopt door signaal %d"
 
-#: xargs/xargs.c:978
+#: xargs/xargs.c:982
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: afgebroken door signaal %d"
 
-#: xargs/xargs.c:1017
+#: xargs/xargs.c:1035
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: ongeldig nummer bij optie -%c\n"
 
-#: xargs/xargs.c:1024
+#: xargs/xargs.c:1042
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: waarde bij optie -%c moet >= %ld zijn\n"
 
-#: xargs/xargs.c:1038
+#: xargs/xargs.c:1056
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: waarde bij optie -%c moet < %ld zijn\n"
 
-#: xargs/xargs.c:1069
+#: xargs/xargs.c:1087
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
