@@ -1889,10 +1889,16 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      
 	    case SafeChdirFailNonexistent:
 	    case SafeChdirFailStat:
-	    case SafeChdirFailSymlink:
 	    case SafeChdirFailNotDir:
 	    case SafeChdirFailChdirFailed:
 	      error (0, errno, "%s", pathname);
+	      state.exit_status = 1;
+	      return;
+	      
+	    case SafeChdirFailSymlink:
+	      error (0, 0,
+		     _("warning: not following the symbolic link %s"),
+		     pathname);
 	      state.exit_status = 1;
 	      return;
 	    }
