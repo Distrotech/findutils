@@ -40,9 +40,9 @@ destdir="gnulib"
 
 # Modules needed for findutils itself.
 findutils_modules="\
-alloca  argmatch  dirname error fileblocks  fnmatch-gnu  \
+alloca  argmatch  dirname error fileblocks  fnmatch-gnu  fts \
 getline getopt human idcache lstat malloc memcmp memset mktime	\
-modechange pathmax quotearg realloc regex rpmatch savedir stat stdio-safer \
+modechange pathmax quotearg realloc regex rpmatch savedir stdio-safer \
 stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
 xalloc xalloc-die xgetcwd  xstrtol  xstrtoumax yesno human filemode \
 getline stpcpy canonicalize mountlist closeout gettext stat-macros"

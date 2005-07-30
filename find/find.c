@@ -43,10 +43,6 @@
 #include <sys/file.h>
 #endif
 
-#ifdef HAVE_SYS_UTSNAME_H
-#include <sys/utsname.h>
-#endif
-
 #include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/human.h"
 #include "../gnulib/lib/canonicalize.h"
@@ -88,9 +84,6 @@ static void process_top_path PARAMS((char *pathname, mode_t mode));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent, mode_t type));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
 
-static void complete_pending_execdirs(struct predicate *p);
-static void complete_pending_execs   (struct predicate *p);
-
 
 
 static boolean default_prints PARAMS((struct predicate *pred));
@@ -104,24 +97,13 @@ struct predicate *predicates;
 /* The last predicate allocated. */
 struct predicate *last_pred;
 
-/* The root of the evaluation tree. */
-static struct predicate *eval_tree = NULL;
-
-
-struct options options;
-struct state state;
-
-/* The full path of the initial working directory, or "." if
-   STARTING_DESC is nonnegative.  */
-char const *starting_dir = ".";
-
 /* A file descriptor open to the initial working directory.
    Doing it this way allows us to work when the i.w.d. has
    unreadable parents.  */
 int starting_desc;
 
 /* The stat buffer of the initial working directory. */
-struct stat starting_stat_buf;
+static struct stat starting_stat_buf;
 
 enum ChdirSymlinkHandling
   {
@@ -143,248 +125,6 @@ enum WdSanityCheckFatality
     NON_FATAL_IF_SANITY_CHECK_FAILS
   };
 
-
-int
-following_links(void)
-{
-  switch (options.symlink_handling)
-    {
-    case SYMLINK_ALWAYS_DEREF:
-      return 1;
-    case SYMLINK_DEREF_ARGSONLY:
-      return (state.curdepth == 0);
-    case SYMLINK_NEVER_DEREF:
-    default:
-      return 0;
-    }
-}
-
-
-static int
-fallback_stat(const char *name, struct stat *p, int prev_rv)
-{
-  /* Our original stat() call failed.  Perhaps we can't follow a
-   * symbolic link.  If that might be the problem, lstat() the link. 
-   * Otherwise, admit defeat. 
-   */
-  switch (errno)
-    {
-    case ENOENT:
-    case ENOTDIR:
-#ifdef DEBUG_STAT
-      fprintf(stderr, "fallback_stat(): stat(%s) failed; falling back on lstat()\n", name);
-#endif
-      return lstat(name, p);
-
-    case EACCES:
-    case EIO:
-    case ELOOP:
-    case ENAMETOOLONG:
-#ifdef EOVERFLOW
-    case EOVERFLOW:	    /* EOVERFLOW is not #defined on UNICOS. */
-#endif
-    default:
-      return prev_rv;	       
-    }
-}
-
-
-/* optionh_stat() implements the stat operation when the -H option is
- * in effect.
- * 
- * If the item to be examined is a command-line argument, we follow
- * symbolic links.  If the stat() call fails on the command-line item,
- * we fall back on the properties of the symbolic link.
- *
- * If the item to be examined is not a command-line argument, we
- * examine the link itself.
- */
-int 
-optionh_stat(const char *name, struct stat *p)
-{
-  if (0 == state.curdepth) 
-    {
-      /* This file is from the command line; deference the link (if it
-       * is a link).  
-       */
-      int rv = stat(name, p);
-      if (0 == rv)
-	return 0;		/* success */
-      else
-	return fallback_stat(name, p, rv);
-    }
-  else
-    {
-      /* Not a file on the command line; do not dereference the link.
-       */
-      return lstat(name, p);
-    }
-}
-
-/* optionl_stat() implements the stat operation when the -L option is
- * in effect.  That option makes us examine the thing the symbolic
- * link points to, not the symbolic link itself.
- */
-int 
-optionl_stat(const char *name, struct stat *p)
-{
-  int rv = stat(name, p);
-  if (0 == rv)
-    return 0;			/* normal case. */
-  else
-    return fallback_stat(name, p, rv);
-}
-
-/* optionp_stat() implements the stat operation when the -P option is
- * in effect (this is also the default).  That option makes us examine
- * the symbolic link itself, not the thing it points to.
- */
-int 
-optionp_stat(const char *name, struct stat *p)
-{
-  return lstat(name, p);
-}
-
-#ifdef DEBUG_STAT
-static uintmax_t stat_count = 0u;
-
-static int
-debug_stat (const char *file, struct stat *bufp)
-{
-  ++stat_count;
-  fprintf (stderr, "debug_stat (%s)\n", file);
-  switch (options.symlink_handling)
-    {
-    case SYMLINK_ALWAYS_DEREF:
-      return optionl_stat(file, bufp);
-    case SYMLINK_DEREF_ARGSONLY:
-      return optionh_stat(file, bufp);
-    case SYMLINK_NEVER_DEREF:
-      return optionp_stat(file, bufp);
-    }
-}
-#endif /* DEBUG_STAT */
-
-void 
-set_follow_state(enum SymlinkOption opt)
-{
-  switch (opt)
-    {
-    case SYMLINK_ALWAYS_DEREF:  /* -L */
-      options.xstat = optionl_stat;
-      options.no_leaf_check = true;
-      break;
-      
-    case SYMLINK_NEVER_DEREF:	/* -P (default) */
-      options.xstat = optionp_stat;
-      /* Can't turn no_leaf_check off because the user might have specified 
-       * -noleaf anyway
-       */
-      break;
-      
-    case SYMLINK_DEREF_ARGSONLY: /* -H */
-      options.xstat = optionh_stat;
-      options.no_leaf_check = true;
-    }
-
-  options.symlink_handling = opt;
-  
-  /* For DEBUG_STAT, the choice is made at runtime within debug_stat()
-   * by checking the contents of the symlink_handling variable.
-   */
-#if defined(DEBUG_STAT)
-  options.xstat = debug_stat;
-#endif /* !DEBUG_STAT */
-}
-
-
-/* Complete any outstanding commands.
- */
-void 
-cleanup(void)
-{
-  if (eval_tree)
-    {
-      complete_pending_execs(eval_tree);
-      complete_pending_execdirs(eval_tree);
-    }
-}
-
-/* Get the stat information for a file, if it is 
- * not already known. 
- */
-int
-get_statinfo (const char *pathname, const char *name, struct stat *p)
-{
-  if (!state.have_stat && (*options.xstat) (name, p) != 0)
-    {
-      if (!options.ignore_readdir_race || (errno != ENOENT) )
-	{
-	  error (0, errno, "%s", pathname);
-	  state.exit_status = 1;
-	}
-      return -1;
-    }
-  state.have_stat = true;
-  state.have_type = true;
-  state.type = p->st_mode;
-  return 0;
-}
-
-/* Get the stat/type information for a file, if it is 
- * not already known. 
- */
-int
-get_info (const char *pathname,
-	  const char *name,
-	  struct stat *p,
-	  struct predicate *pred_ptr)
-{
-  /* If we need the full stat info, or we need the type info but don't 
-   * already have it, stat the file now.
-   */
-  (void) name;
-  if (pred_ptr->need_stat)
-    {
-      return get_statinfo(pathname, state.rel_pathname, p);
-    }
-  if ((pred_ptr->need_type && (0 == state.have_type)))
-    {
-      return get_statinfo(pathname, state.rel_pathname, p);
-    }
-  return 0;
-}
-
-/* Determine if we can use O_NOFOLLOW.
- */
-#if defined(O_NOFOLLOW)
-static boolean 
-check_nofollow(void)
-{
-  struct utsname uts;
-  float  release;
-
-  if (0 == uname(&uts))
-    {
-      /* POSIX requires that atof() ignore "unrecognised suffixes". */
-      release = atof(uts.release);
-      
-      if (0 == strcmp("Linux", uts.sysname))
-	{
-	  /* Linux kernels 2.1.126 and earlier ignore the O_NOFOLLOW flag. */
-	  return release >= 2.2; /* close enough */
-	}
-      else if (0 == strcmp("FreeBSD", uts.sysname)) 
-	{
-	  /* FreeBSD 3.0-CURRENT and later support it */
-	  return release >= 3.1;
-	}
-    }
-
-  /* Well, O_NOFOLLOW was defined, so we'll try to use it. */
-  return true;
-}
-#endif
 
 int
 main (int argc, char **argv)
@@ -690,8 +430,14 @@ main (int argc, char **argv)
   cleanup();
   return state.exit_status;
 }
+
+boolean is_fts_enabled()
+{
+  /* this version of find (i.e. this main()) does not use fts. */
+  return false;
+}
 
-
+
 static char *
 specific_dirname(const char *dir)
 {
@@ -1377,7 +1123,7 @@ at_top (char *pathname,
   char *base = base_name(pathname);
   
   state.curdepth = 0;
-  state.path_length = strlen (pathname);
+  state.starting_path_length = strlen (pathname);
 
   if (0 == strcmp(pathname, parent_dir)
       || 0 == strcmp(parent_dir, "."))
@@ -1532,65 +1278,6 @@ issue_loop_warning(const char *name, const char *pathname, int level)
     }
 }
 
-/* Take a "mode" indicator and fill in the files of 'state'.
- */
-static int
-digest_mode(mode_t mode,
-	    const char *pathname,
-	    const char *name,
-	    struct stat *pstat,
-	    boolean leaf)
-{
-  /* If we know the type of the directory entry, and it is not a
-   * symbolic link, we may be able to avoid a stat() or lstat() call.
-   */
-  if (mode)
-    {
-      if (S_ISLNK(mode) && following_links())
-	{
-	  /* mode is wrong because we should have followed the symlink. */
-	  if (get_statinfo(pathname, name, pstat) != 0)
-	    return 0;
-	  mode = state.type = pstat->st_mode;
-	  state.have_type = true;
-	}
-      else
-	{
-	  state.have_type = true;
-	  pstat->st_mode = state.type = mode;
-	}
-    }
-  else
-    {
-      /* Mode is not yet known; may have to stat the file unless we 
-       * can deduce that it is not a directory (which is all we need to 
-       * know at this stage)
-       */
-      if (leaf)
-	{
-	  state.have_stat = false;
-	  state.have_type = false;;
-	  state.type = 0;
-	}
-      else
-	{
-	  if (get_statinfo(pathname, name, pstat) != 0)
-	    return 0;
-	  
-	  /* If -L is in effect and we are dealing with a symlink,
-	   * st_mode is the mode of the pointed-to file, while mode is
-	   * the mode of the directory entry (S_IFLNK).  Hence now
-	   * that we have the stat information, override "mode".
-	   */
-	  state.type = pstat->st_mode;
-	  state.have_type = true;
-	}
-    }
-
-  /* success. */
-  return 1;
-}
-
 
 
 /* Recursively descend path PATHNAME, applying the predicates.
@@ -1706,84 +1393,6 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   dir_curr--;
 
   return 1;
-}
-
-/* Examine the predicate list for instances of -execdir or -okdir
- * which have been terminated with '+' (build argument list) rather
- * than ';' (singles only).  If there are any, run them (this will
- * have no effect if there are no arguments waiting).
- */
-static void
-complete_pending_execdirs(struct predicate *p)
-{
-#if defined(NEW_EXEC)
-  if (NULL == p)
-    return;
-  
-  complete_pending_execdirs(p->pred_left);
-  
-  if (p->pred_func == pred_execdir || p->pred_func == pred_okdir)
-    {
-      /* It's an exec-family predicate.  p->args.exec_val is valid. */
-      if (p->args.exec_vec.multiple)
-	{
-	  struct exec_val *execp = &p->args.exec_vec;
-	  
-	  /* This one was terminated by '+' and so might have some
-	   * left... Run it if necessary.
-	   */
-	  if (execp->state.todo)
-	    {
-	      /* There are not-yet-executed arguments. */
-	      launch (&execp->ctl, &execp->state);
-	    }
-	}
-    }
-
-  complete_pending_execdirs(p->pred_right);
-#else
-  /* nothing to do. */
-  return;
-#endif
-}
-
-/* Examine the predicate list for instances of -exec which have been
- * terminated with '+' (build argument list) rather than ';' (singles
- * only).  If there are any, run them (this will have no effect if
- * there are no arguments waiting).
- */
-static void
-complete_pending_execs(struct predicate *p)
-{
-#if defined(NEW_EXEC)
-  if (NULL == p)
-    return;
-  
-  complete_pending_execs(p->pred_left);
-  
-  /* It's an exec-family predicate then p->args.exec_val is valid
-   * and we can check it. 
-   */
-  if (p->pred_func == pred_exec && p->args.exec_vec.multiple)
-    {
-      struct exec_val *execp = &p->args.exec_vec;
-      
-      /* This one was terminated by '+' and so might have some
-       * left... Run it if necessary.  Set state.exit_status if
-       * there are any problems.
-       */
-      if (execp->state.todo)
-	{
-	  /* There are not-yet-executed arguments. */
-	  launch (&execp->ctl, &execp->state);
-	}
-    }
-
-  complete_pending_execs(p->pred_right);
-#else
-  /* nothing to do. */
-  return;
-#endif
 }
 
 
@@ -2034,20 +1643,4 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	free (cur_path);
       free_dirinfo(dirinfo);
     }
-}
-
-/* Return true if there are no predicates with no_default_print in
-   predicate list PRED, false if there are any.
-   Returns true if default print should be performed */
-
-static boolean
-default_prints (struct predicate *pred)
-{
-  while (pred != NULL)
-    {
-      if (pred->no_default_print)
-	return (false);
-      pred = pred->pred_next;
-    }
-  return (true);
 }

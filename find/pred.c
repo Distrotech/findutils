@@ -709,11 +709,11 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	case 'H':		/* ARGV element file was found under */
 	  /* trusted */
 	  {
-	    char cc = pathname[state.path_length];
+	    char cc = pathname[state.starting_path_length];
 
-	    pathname[state.path_length] = '\0';
+	    pathname[state.starting_path_length] = '\0';
 	    fprintf (fp, segment->text, pathname);
-	    pathname[state.path_length] = cc;
+	    pathname[state.starting_path_length] = cc;
 	    break;
 	  }
 	case 'i':		/* inode number */
@@ -810,7 +810,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  /* sanitised */
 	  if (state.curdepth > 0)
 	    {
-	      cp = pathname + state.path_length;
+	      cp = pathname + state.starting_path_length;
 	      if (*cp == '/')
 		/* Move past the slash between the ARGV element
 		   and the rest of the pathname.  But if the ARGV element

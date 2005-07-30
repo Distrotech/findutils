@@ -86,6 +86,10 @@ int optionh_stat PARAMS((const char *name, struct stat *p));
 
 int get_statinfo PARAMS((const char *pathname, const char *name, struct stat *p));
 
+#if ! defined HAVE_FCHDIR && ! defined fchdir
+# define fchdir(fd) (-1)
+#endif
+
 
 
 #ifndef S_ISUID
@@ -337,9 +341,9 @@ struct predicate
   const struct parser_table* parser_entry;
 };
 
-/* find.c. */
-int get_info PARAMS((const char *pathname, const char *name, struct stat *p, struct predicate *pred_ptr));
-int following_links(void);
+/* find.c, ftsfind.c */
+boolean is_fts_enabled();
+
 
 
 /* find library function declarations.  */
@@ -509,10 +513,15 @@ struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry))
 struct predicate *insert_primary PARAMS((const struct parser_table *entry));
 struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr));
 void usage PARAMS((char *msg));
+extern boolean check_nofollow(void);
+extern void complete_pending_execs(struct predicate *p);
+extern void complete_pending_execdirs(struct predicate *p);
+/* find.c. */
+int get_info PARAMS((const char *pathname, const char *name, struct stat *p, struct predicate *pred_ptr));
+int following_links(void);
+int digest_mode(mode_t mode, const char *pathname, const char *name, struct stat *pstat, boolean leaf);
+boolean default_prints (struct predicate *pred);
 
-extern char *program_name;
-extern struct predicate *predicates;
-extern struct predicate *last_pred;
 
 struct options
 {
@@ -588,8 +597,8 @@ struct state
      Used for stat, readlink, remove, and opendir.  */
   char *rel_pathname;
 
-  /* Length of current path. */
-  int path_length;
+  /* Length of starting path. */
+  int starting_path_length;
 
   /* If true, don't descend past current directory.
      Can be set by -prune, -maxdepth, and -xdev/-mount. */
@@ -598,12 +607,15 @@ struct state
   /* Status value to return to system. */
   int exit_status;
 };
-extern struct state state;
 
+/* finddata.c */
+extern struct state state;
 extern char const *starting_dir;
 extern int starting_desc;
-#if ! defined HAVE_FCHDIR && ! defined fchdir
-# define fchdir(fd) (-1)
-#endif
+extern struct predicate *eval_tree;
+extern char *program_name;
+extern struct predicate *predicates;
+extern struct predicate *last_pred;
+
 
 #endif
