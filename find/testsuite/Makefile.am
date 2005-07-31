@@ -6,6 +6,7 @@ DEJATOOL = find
 
 EXTRA_DIST_XO = \
 find.gnu/comma.xo \
+find.gnu/delete.xo \
 find.gnu/depth.xo \
 find.gnu/depth-d.xo \
 find.gnu/empty.xo \
@@ -22,6 +23,7 @@ find.gnu/gnunot.xo \
 find.gnu/gnu-or.xo \
 find.gnu/iname.xo \
 find.gnu/ipath.xo \
+find.gnu/iregex1.xo \
 find.gnu/iwholename.xo \
 find.gnu/name-opt.xo \
 find.gnu/name-period.xo \
@@ -35,6 +37,12 @@ find.gnu/printf-h.xo \
 find.gnu/printf.xo \
 find.gnu/print0.xo \
 find.gnu/prune-default-print.xo  \
+find.gnu/regex1.xo \
+find.gnu/regex2.xo \
+find.gnu/samefile-copy.xo \
+find.gnu/samefile-link.xo \
+find.gnu/samefile-same.xo \
+find.gnu/samefile-symlink.xo \
 find.gnu/true.xo \
 find.gnu/wholename.xo \
 find.gnu/xtype-symlink.xo \
@@ -54,6 +62,7 @@ find.gnu/follow-arg-parent-symlink.xo
 EXTRA_DIST_EXP = \
 config/unix.exp \
 find.gnu/comma.exp \
+find.gnu/delete.exp \
 find.gnu/depth.exp \
 find.gnu/depth-d.exp \
 find.gnu/empty.exp \
@@ -70,6 +79,7 @@ find.gnu/gnunot.exp \
 find.gnu/gnu-or.exp \
 find.gnu/iname.exp \
 find.gnu/ipath.exp \
+find.gnu/iregex1.exp \
 find.gnu/iwholename.exp \
 find.gnu/name-opt.exp \
 find.gnu/name-period.exp \
@@ -83,6 +93,12 @@ find.gnu/printf.exp \
 find.gnu/printf-symlink.exp \
 find.gnu/printf-h.exp \
 find.gnu/prune-default-print.exp \
+find.gnu/regex1.exp \
+find.gnu/regex2.exp \
+find.gnu/samefile-copy.exp \
+find.gnu/samefile-link.exp \
+find.gnu/samefile-same.exp \
+find.gnu/samefile-symlink.exp \
 find.gnu/true.exp \
 find.gnu/wholename.exp \
 find.gnu/xtype-symlink.exp \
