@@ -86,8 +86,6 @@ static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct 
 
 
 
-static boolean default_prints PARAMS((struct predicate *pred));
-
 /* Name this program was run with. */
 char *program_name;
 
