@@ -57,6 +57,7 @@ find.posix/sv-bug-12181.xo \
 find.posix/depth1.xo \
 find.posix/sizes.xo \
 find.posix/name.xo \
+find.posix/perm-vanilla.xo \
 find.posix/prune.xo \
 find.posix/posixnot.xo \
 find.posix/grouping.xo \
@@ -119,6 +120,7 @@ find.posix/sv-bug-12181.exp \
 find.posix/depth1.exp \
 find.posix/sizes.exp \
 find.posix/name.exp \
+find.posix/perm-vanilla.exp \
 find.posix/posixnot.exp \
 find.posix/prune.exp \
 find.posix/grouping.exp \
