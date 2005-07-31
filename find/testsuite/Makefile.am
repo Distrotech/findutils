@@ -21,10 +21,13 @@ find.gnu/follow-basic.xo \
 find.gnu/gnuand.xo \
 find.gnu/gnunot.xo \
 find.gnu/gnu-or.xo \
+find.gnu/ilname.xo \
 find.gnu/iname.xo \
+find.gnu/inum.xo \
 find.gnu/ipath.xo \
 find.gnu/iregex1.xo \
 find.gnu/iwholename.xo \
+find.gnu/lname.xo \
 find.gnu/name-opt.xo \
 find.gnu/name-period.xo \
 find.gnu/path.xo \
@@ -47,6 +50,8 @@ find.gnu/true.xo \
 find.gnu/wholename.xo \
 find.gnu/xtype-symlink.xo \
 find.gnu/quit.xo \
+find.gnu/xtype.xo \
+find.posix/links.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
 find.posix/depth1.xo \
@@ -77,10 +82,13 @@ find.gnu/false.exp \
 find.gnu/gnuand.exp \
 find.gnu/gnunot.exp \
 find.gnu/gnu-or.exp \
+find.gnu/ilname.exp \
 find.gnu/iname.exp \
+find.gnu/inum.exp \
 find.gnu/ipath.exp \
 find.gnu/iregex1.exp \
 find.gnu/iwholename.exp \
+find.gnu/lname.exp \
 find.gnu/name-opt.exp \
 find.gnu/name-period.exp \
 find.gnu/path.exp \
@@ -104,6 +112,8 @@ find.gnu/wholename.exp \
 find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
 find.gnu/quit.exp \
+find.gnu/xtype.exp \
+find.posix/links.exp \
 find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \
 find.posix/depth1.exp \
