@@ -1,4 +1,16 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.2.25-CVS
+
+** Bug Fixes
+
+   find -perm /440 (which should succeed if a file is readable by its
+   owner or group) now works.  Previously there was a bug which
+   caused this to be treated as "find -perm 440".
+
+** Other Changes
+
+   The test suite for find is now much more extensive.
+
 * Major changes in release 4.2.24
 
 ** Documentation Changes
