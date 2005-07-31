@@ -1,0 +1,48 @@
+g
+## things that are hard to test because they are time-dependent.
+"amin",                  amin),	     /* GNU */
+"anewer",                anewer),	     /* GNU */
+"atime",                 atime),
+"cmin",                  cmin),	     /* GNU */
+"cnewer",                cnewer),	     /* GNU */
+"ctime",                 ctime),
+"daystart",              daystart),	     /* GNU */
+"ls",                    ls),      /* GNU, Unix */
+"mmin",                  mmin),	     /* GNU */
+"mtime",                 mtime),
+"newer",                 newer),
+"used",                  used),	     /* GNU */
+
+
+## Things that are hard to test because they generate output files.
+"fls",                   fls),	     /* GNU */
+"fprint",                fprint),	     /* GNU */
+"fprint0",               fprint0),	     /* GNU */
+"fprintf",               fprintf),	     /* GNU */
+"fstype",                fstype),  /* GNU, Unix */
+
+## Things that are hard to test because they rely on features of 
+## the environment
+"gid",                   gid),	     /* GNU */
+"uid",                   uid),	     /* GNU */
+"user",                  user),
+"group",                 group),
+"mount",                 xdev),	    /* Unix */
+"nogroup",               nogroup),
+"nouser",                nouser),
+"ok",                    ok),
+"xdev",                  xdev),
+"ignore_readdir_race",   ignore_race),   /* GNU */
+"noignore_readdir_race", noignore_race), /* GNU */
+"noleaf",                noleaf),	     /* GNU */
+
+## Things that might be testable but which I have not yet thought 
+## about enough.
+"nowarn",                nowarn),	     /* GNU */
+"perm",                  perm),
+"warn",                  warn),	     /* GNU */
+{ARG_TEST, "help",                  parse_help,    NULL},       /* GNU */
+{ARG_TEST, "-help",                 parse_help,    NULL},       /* GNU */
+{ARG_TEST, "version",               parse_version, NULL},	  /* GNU */
+{ARG_TEST, "-version",              parse_version, NULL},	  /* GNU */
+
