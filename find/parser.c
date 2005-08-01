@@ -1312,6 +1312,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   mode_t perm_val;
   int mode_start = 0;
+  boolean havekind = false;
   enum permissions_type kind = PERM_EXACT;
   struct mode_change *change = NULL;
   struct predicate *our_pred;
@@ -1324,6 +1325,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
     case '-':
       mode_start = 1;
       kind = PERM_AT_LEAST;
+      havekind = true;
       break;
       
      case '+':
@@ -1346,11 +1348,13 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 	   mode_start = 0;
 	   kind = PERM_EXACT;
 	 }
+       havekind = true;
        break;
       
     case '/':			/* GNU extension */
        mode_start = 1;
        kind = PERM_ANY;
+       havekind = true;
        break;
        
     default:
@@ -1374,17 +1378,25 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
   
   our_pred = insert_primary (entry);
 
-  switch (argv[*arg_ptr][0])
+  if (havekind)
     {
-    case '-':
-      our_pred->args.perm.kind = PERM_AT_LEAST;
-      break;
-    case '+':
-      our_pred->args.perm.kind = PERM_ANY;
-      break;
-    default:
-      our_pred->args.perm.kind = PERM_EXACT;
-      break;
+      our_pred->args.perm.kind = kind;
+    }
+  else
+    {
+  
+      switch (argv[*arg_ptr][0])
+	{
+	case '-':
+	  our_pred->args.perm.kind = PERM_AT_LEAST;
+	  break;
+	case '+':
+	  our_pred->args.perm.kind = PERM_ANY;
+	  break;
+	default:
+	  our_pred->args.perm.kind = PERM_EXACT;
+	  break;
+	}
     }
   our_pred->args.perm.val = perm_val & MODE_ALL;
   (*arg_ptr)++;
