@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.22\n"
+"Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2005-08-01 08:41+0100\n"
-"PO-Revision-Date: 2005-06-21 13:33+0200\n"
+"PO-Revision-Date: 2005-08-01 17:33+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -215,7 +215,7 @@ msgstr "nivells més alt a la jerarquia del sistema de fitxers"
 #: find/find.c:1900
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "avís: no es seguirà l'enllaç simbòlic %s"
 
 #: find/find.c:1944
 #, c-format
@@ -283,7 +283,6 @@ msgstr ""
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
 #: find/parser.c:792
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -291,7 +290,7 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"opcions posicionals (sempre vertaderes): -daystart -follow\n"
+"opcions posicionals (sempre vertaderes): -daystart -follow -regextype\n"
 "opcions normals (sempre vertaderes, especificades abans d'altres "
 "expressions):\n"
 "      -depth -help -maxdepth NIVELLS -mindepth NIVELLS -mount -noleaf\n"
@@ -328,6 +327,10 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"accions: -delete -print0 -printf FORMAT -fprintf FORMAT FITXER -print \n"
+"      -fprint0 FITXER -fprint FITXER -ls -fls FITXER -prune -quit\n"
+"      -exec ORDRE ; -exec ORDRE {} + -ok ORDRE ;\n"
+"      -execdir ORDRE ; -execdir ORDRE {} + -okdir ORDRE ;\n"
 
 #: find/parser.c:812
 msgid ""
@@ -586,7 +589,7 @@ msgid "old"
 msgstr "vella"
 
 #: locate/locate.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -603,7 +606,8 @@ msgstr ""
 "count]\n"
 "            [-P | -H | --nofollow] [-L |--follow] [-m | --mmap] [-s | --"
 "stdio]\n"
-"            [-A | --all] [-p | --print] [-r | --regex] [--version] [--help]\n"
+"            [-A | --all] [-p | --print] [-r | --regex] [--regextype=TIPUS]\n"
+"            [--version] [--help]\n"
 "            patró...\n"
 
 #: locate/locate.c:1233
