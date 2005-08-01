@@ -1,4 +1,5 @@
-AUTOMAKE_OPTIONS=gnits readme-alpha
+AUTOMAKE_OPTIONS=gnits
+# readme-alpha
 
 EXTRA_DIST = COPYING ChangeLog TODO install-sh config.h.in stamp-h.in \
 		THANKS config.rpath
