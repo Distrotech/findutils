@@ -1,13 +1,13 @@
 # Irish translations for findutils.
 # Copyright (C) 2003 Free Software Foundation, Inc.
-# Kevin Patrick Scannell <scannell@SLU.EDU>, 2003.
+# Kevin Patrick Scannell <scannell@SLU.EDU>, 2003, 2004, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.22\n"
+"Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2005-08-01 08:41+0100\n"
-"PO-Revision-Date: 2005-06-18 05:47-0500\n"
+"PO-Revision-Date: 2005-08-01 05:47-0500\n"
 "Last-Translator: Kevin Patrick Scannell <scannell@SLU.EDU>\n"
 "Language-Team: Irish <ga@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -214,7 +214,7 @@ msgstr "leibhéal níos airde sa chóras comhaid"
 #: find/find.c:1900
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "rabhadh: ní leanfar nasc siombalach %s"
 
 #: find/find.c:1944
 #, c-format
@@ -285,7 +285,6 @@ msgstr ""
 "      SLONN1 -o SLONN2   SLONN1 -or SLONN2   SLONN1 , SLONN2\n"
 
 #: find/parser.c:792
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -293,7 +292,8 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"roghanna ionaid (fíor i gcónaí): -daystart -follow\n"
+"roghanna ionaid (fíor i gcónaí): -daystart -follow -regextype\n"
+"\n"
 "gnáthroghanna (fíor i gcónaí, tugtha roimh na sloinn eile):\n"
 "      -depth --help -maxdepth LEIBHÉIL -mindepth LEIBHÉIL -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
@@ -330,6 +330,11 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"gníomhartha: -delete -print0 -printf FORMÁID -fprintf COMHAD FORMÁID -"
+"print \n"
+"      -fprint0 COMHAD -fprint COMHAD -ls -fls COMHAD -prune -quit\n"
+"      -exec ORDÚ ; -exec ORDÚ {} + -ok ORDÚ ;\n"
+"      -execdir ORDÚ ; -execdir ORDÚ {} + -okdir ORDÚ ;\n"
 
 #: find/parser.c:812
 msgid ""
@@ -583,7 +588,7 @@ msgid "old"
 msgstr "sean"
 
 #: locate/locate.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -599,7 +604,8 @@ msgstr ""
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=CINEÁL]\n"
+"      [--version] [--help]\n"
 "      patrún...\n"
 
 #: locate/locate.c:1233
