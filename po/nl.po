@@ -1,4 +1,4 @@
-# Translation of findutils-4.2.22 to Dutch.
+# Translation of findutils-4.2.24 to Dutch.
 # Copyright (C) 1996, 2000, 2004, 2005 Free Software Foundation, Inc.
 # Benno Schulenberg <benno@nietvergeten.nl>, 2005.
 # Taco Witte <tcwitte@cs.uu.nl>, 2004.
@@ -7,16 +7,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.22\n"
+"Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-08-01 08:41+0100\n"
-"PO-Revision-Date: 2005-06-19 12:52+0200\n"
+"POT-Creation-Date: 2005-08-01 22:43+0100\n"
+"PO-Revision-Date: 2005-08-01 21:37+0200\n"
 "Last-Translator: Benno Schulenberg <benno@nietvergeten.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10.1\n"
+"X-Generator: KBabel 1.10.2\n"
 
 #: gnulib/lib/argmatch.c:137
 #, c-format
@@ -105,6 +105,80 @@ msgstr "'"
 #: gnulib/lib/quotearg.c:241
 msgid "'"
 msgstr "'"
+
+#: gnulib/lib/regex.c:1302
+msgid "Success"
+msgstr ""
+
+#: gnulib/lib/regex.c:1305
+msgid "No match"
+msgstr ""
+
+#: gnulib/lib/regex.c:1308
+#, fuzzy
+msgid "Invalid regular expression"
+msgstr "ongeldige expressie"
+
+#: gnulib/lib/regex.c:1311
+msgid "Invalid collation character"
+msgstr ""
+
+#: gnulib/lib/regex.c:1314
+msgid "Invalid character class name"
+msgstr ""
+
+#: gnulib/lib/regex.c:1317
+msgid "Trailing backslash"
+msgstr ""
+
+#: gnulib/lib/regex.c:1320
+msgid "Invalid back reference"
+msgstr ""
+
+#: gnulib/lib/regex.c:1323
+msgid "Unmatched [ or [^"
+msgstr ""
+
+#: gnulib/lib/regex.c:1326
+msgid "Unmatched ( or \\("
+msgstr ""
+
+#: gnulib/lib/regex.c:1329
+msgid "Unmatched \\{"
+msgstr ""
+
+#: gnulib/lib/regex.c:1332
+msgid "Invalid content of \\{\\}"
+msgstr ""
+
+#: gnulib/lib/regex.c:1335
+msgid "Invalid range end"
+msgstr ""
+
+#: gnulib/lib/regex.c:1338
+msgid "Memory exhausted"
+msgstr ""
+
+#: gnulib/lib/regex.c:1341
+#, fuzzy
+msgid "Invalid preceding regular expression"
+msgstr "ongeldige expressie"
+
+#: gnulib/lib/regex.c:1344
+msgid "Premature end of regular expression"
+msgstr ""
+
+#: gnulib/lib/regex.c:1347
+msgid "Regular expression too big"
+msgstr ""
+
+#: gnulib/lib/regex.c:1350
+msgid "Unmatched ) or \\)"
+msgstr ""
+
+#: gnulib/lib/regex.c:7919
+msgid "No previous regular expression"
+msgstr ""
 
 #: gnulib/lib/rpmatch.c:70
 msgid "^[yY]"
@@ -215,7 +289,7 @@ msgstr "niveaus hoger in de bestandshiërarchie"
 #: find/find.c:1900
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "waarschuwing: symbolische koppeling %s wordt niet gevolgd"
 
 #: find/find.c:1944
 #, c-format
@@ -277,12 +351,11 @@ msgid ""
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
 "operatoren (in afnemende voorrangsvolgorde; de operator -and is impliciet\n"
-"            als er geen anderen gegeven zijn):\n"
+"            als er geen andere gegeven zijn):\n"
 "    ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "    EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
 #: find/parser.c:792
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -290,10 +363,11 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"positionele opties (altijd waar): -daystart -follow\n"
+"positionele opties (altijd waar):  -daystart  -follow  -regextype\n"
+"\n"
 "normale opties (ook altijd waar, maar gegeven vóór andere expressies):\n"
-"    -depth --help -maxdepth NIVEAUS -mindepth NIVEAUS -mount -noleaf\n"
-"    --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
+"    -depth  --help  -maxdepth NIVEAUS  -mindepth NIVEAUS  -mount  -noleaf\n"
+"    --version  -xdev  -ignore_readdir_race  -noignore_readdir_race\n"
 
 #: find/parser.c:797
 msgid ""
@@ -326,6 +400,10 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"acties: -fprint BESTAND  -fprint0 BESTAND  -fprintf BESTAND OPMAAK\n"
+"    -exec COMMANDO ;  -exec COMMANDO {} +  -ok COMMANDO ;\n"
+"    -execdir COMMANDO ;  -execdir COMMANDO {} +  -okdir COMMANDO ;  -ls\n"
+"    -fls BESTAND  -print  -print0  -printf OPMAAK  -delete  -prune  -quit\n"
 
 #: find/parser.c:812
 msgid ""
@@ -420,7 +498,7 @@ msgstr ""
 #: find/parser.c:2196
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
-msgstr "Bij '-exec%s ...' mag {} slechts één keer voorkomen."
+msgstr "Bij '-exec%s ... +' mag {} slechts één keer voorkomen."
 
 #: find/pred.c:1164
 #, c-format
@@ -577,7 +655,7 @@ msgid "old"
 msgstr "oud"
 
 #: locate/locate.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -593,7 +671,8 @@ msgstr ""
 "          [--limit=N | -l N]  [-S | --statistics]  [-0 | --null]\n"
 "          [-c | --count]  [-P | -H | --nofollow]  [-L | --follow]\n"
 "          [-m | --mmap]  [-s | --stdio]  [-A | --all]  [-p | --print]\n"
-"          [-r | --regex]  [--version]  [--help]  PATROON...\n"
+"          [-r | --regex]  [--regextype=SOORT]  [--version]  [--help]\n"
+"          PATROON...\n"
 
 #: locate/locate.c:1233
 #, c-format
@@ -720,67 +799,3 @@ msgstr ""
 "verbose]\n"
 "          [-s maxtal_tekens]  [--max-chars=maxtal_tekens]  [--exit]\n"
 "          [--version]  [--help]  [COMMANDO [eerste_argumenten]]\n"
-
-#~ msgid "Success"
-#~ msgstr "Gelukt"
-
-#~ msgid "No match"
-#~ msgstr "Geen overeenkomsten"
-
-#~ msgid "Invalid regular expression"
-#~ msgstr "Ongeldige reguliere expressie"
-
-#~ msgid "Invalid collation character"
-#~ msgstr "Ongeldig sorteerteken"
-
-#~ msgid "Invalid character class name"
-#~ msgstr "Ongeldige tekenklassenaam"
-
-#~ msgid "Trailing backslash"
-#~ msgstr "Afsluitende backslash"
-
-#~ msgid "Invalid back reference"
-#~ msgstr "Ongeldige terugverwijzing"
-
-#~ msgid "Unmatched [ or [^"
-#~ msgstr "Ongepaarde [ of [^"
-
-#~ msgid "Unmatched ( or \\("
-#~ msgstr "Ongepaarde ( of \\("
-
-#~ msgid "Unmatched \\{"
-#~ msgstr "Ongepaarde \\{"
-
-#~ msgid "Invalid content of \\{\\}"
-#~ msgstr "Ongeldige inhoud van \\{\\}"
-
-#~ msgid "Invalid range end"
-#~ msgstr "Ongeldig einde van bereik"
-
-#~ msgid "Memory exhausted"
-#~ msgstr "Onvoldoende geheugen"
-
-#~ msgid "Invalid preceding regular expression"
-#~ msgstr "Ongeldige voorafgaande reguliere expressie"
-
-#~ msgid "Premature end of regular expression"
-#~ msgstr "Voortijdig einde van reguliere expressie"
-
-#~ msgid "Regular expression too big"
-#~ msgstr "Reguliere expressie is te groot"
-
-#~ msgid "Unmatched ) or \\)"
-#~ msgstr "Ongepaarde ) of \\)"
-
-#~ msgid "No previous regular expression"
-#~ msgstr "Geen eerdere reguliere expressie"
-
-#~ msgid ""
-#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-#~ "delete\n"
-#~ "      -quit\n"
-#~ msgstr ""
-#~ "acties: -fprint BESTAND  -fprint0 BESTAND  -fprintf BESTAND OPMAAK\n"
-#~ "    -exec COMMANDO ;  -ok COMMANDO ;  -ls  -fls BESTAND  -prune\n"
-#~ "    -print  -print0  -printf OPMAAK  -delete  -quit\n"
