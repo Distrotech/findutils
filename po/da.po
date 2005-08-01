@@ -8,10 +8,10 @@
 #     
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.22\n"
+"Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2005-08-01 08:41+0100\n"
-"PO-Revision-Date: 2005-06-22 14:24+0200\n"
+"PO-Revision-Date: 2005-08-01 18:25+0200\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +216,7 @@ msgstr "niveauer højere i filsystemshierarkiet"
 #: find/find.c:1900
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "advarsel: kunne ikke følge det symbolske link %s"
 
 #: find/find.c:1944
 #, c-format
@@ -282,7 +282,6 @@ msgstr ""
 "      UDTR1 -o UDTR2  UDTR1 -or UDTR2  UDTR1 , UDTR2\n"
 
 #: find/parser.c:792
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -290,10 +289,11 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"positionsafhængige tilvalg (altid sande): -daystart -follow\n"
+"positionsafhængige tilvalg (altid sande): -daystart -follow -regextype\n"
+"\n"
 "normale tilvalg (altid sande, angives før andre udtryk): -depth\n"
-"      --help -maxdepth NIVEAUER -mindepth NIVEAUER -mount -noleaf --version\n"
-"      -xdev -ignore_readdir_race -noignore_readdir_race\n"
+"      -depth --help -maxdepth NIVEAUER -mindepth NIVEAUER -mount -noleaf\n"
+"      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
 #: find/parser.c:797
 msgid ""
@@ -326,6 +326,10 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"handlinger: -delete -print0 -printf FORMAT -fprint FIL FORMAT -print \n"
+"      -fprint0 FIL -fprint FIL -ls -fls FIL -prune -quit\n"
+"      -exec KOMMANDO ; -exec KOMMANDO {} + -ok KOMMANDO ;\n"
+"      -execdir KOMMANDO ; -execdir KOMMANDO {} + -okdir KOMMANDO ;\n"
 
 #: find/parser.c:812
 msgid ""
@@ -577,7 +581,7 @@ msgid "old"
 msgstr "gammel"
 
 #: locate/locate.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -588,14 +592,15 @@ msgid ""
 "      [-version] [--help]\n"
 "      pattern...\n"
 msgstr ""
-"Brug: %s [-d sti | --database=sti] [-e | -E | --[non-]existing]\n"
+"Brug: %s [-d STI | --database=STI] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename]\n"
 "      [-l N | --limit=N] [-S | --statistics] [-0 | --null] [-c | --count]\\n"
 "\"\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]"
 "\\n\"\n"
-"      [-A | --all] [-p | --print] [-r | -regex] [--version] [--help]\n"
-"      mønster...\n"
+"      [-A | --all] [-p | --print] [-r | -regex] [--regextype=TYPE]\n"
+"      [--version] [--help]\n"
+"      MØNSTER...\n"
 
 #: locate/locate.c:1233
 #, c-format
