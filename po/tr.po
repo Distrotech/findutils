@@ -1,14 +1,13 @@
-# translation of findutils-4.2.22.po to Turkish
 # Turkish translations for findutils messages.
 # Copyright (C) 2005 Free Software Foundation, Inc.
 # Nilgün Belma Bugüner <nilgun@superonline.com>, 2001,...,2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.22\n"
+"Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2005-08-01 22:43+0100\n"
-"PO-Revision-Date: 2005-06-19 00:53+0300\n"
+"PO-Revision-Date: 2005-08-02 13:24+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@superonline.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -286,7 +285,7 @@ msgstr "seviyeler, dosya sistemi hiyerarşisinde daha yüksek"
 #: find/find.c:1900
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "uyarı: %s sembolik bağı izlenemiyor"
 
 #: find/find.c:1944
 #, c-format
@@ -356,7 +355,6 @@ msgstr ""
 "      İFADE1 , İFADE2\n"
 
 #: find/parser.c:792
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -364,7 +362,7 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"konumsal seçenekler (daima `true'):  -daystart -follow \n"
+"konumsal seçenekler (daima `true'):  -daystart -follow -regextype\n"
 "normal  seçenekler (daima `true', diğer ifadelerden önce belirtilirler):\n"
 "      -depth --help -maxdepth DÜZEYLER -mindepth DÜZEYLER -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
@@ -401,6 +399,10 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"eylemler: -delete -print0 -printf BİÇİM -fprintf DOSYA BİÇİM -print \n"
+"      -fprint0 DOSYA -fprint DOSYA -ls -fls DOSYA -prune -quit\n"
+"      -exec KOMUT ; -exec KOMUT {} + -ok KOMUT ;\n"
+"      -execdir KOMUT ; -execdir KOMUT {} + -okdir KOMUT ;\n"
 
 #: find/parser.c:812
 msgid ""
@@ -411,7 +413,7 @@ msgstr ""
 "Yazılım hatalarını http://savannah.gnu.org/ adresindeki hata raporlama\n"
 "sayfasından ya da eğer http erişiminiz yoksa <bug-findutils@gnu.org>\n"
 "adresine raporlayınız.\n"
-"Çeviri hatalarını ise <gnu-tr-u12a@lists.sourceforge.net> adresine bildirin."
+"Çeviri hatalarını ise <gnu-tr@belgeler.org> adresine bildiriniz."
 
 #: find/parser.c:843
 msgid "sanity check of the fnmatch() library function failed."
@@ -608,6 +610,8 @@ msgid ""
 "\n"
 "\tof which %s contain whitespace, "
 msgstr ""
+"\n"
+"\t%s boşluk içeriyor, "
 
 #: locate/locate.c:806
 #, c-format
@@ -615,6 +619,8 @@ msgid ""
 "\n"
 "\t%s contain newline characters, "
 msgstr ""
+"\n"
+"\t%s satırsonu karakteri içeriyor, "
 
 #: locate/locate.c:809
 #, c-format
@@ -622,6 +628,8 @@ msgid ""
 "\n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
+"\n"
+"\tve %s yüksek bitli karakterler içeriyor.\n"
 
 #: locate/locate.c:814
 #, c-format
@@ -647,7 +655,7 @@ msgid "old"
 msgstr "eski"
 
 #: locate/locate.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -665,7 +673,9 @@ msgstr ""
 "null]\n"
 "       [-c | --count]  [-P | -H | --nofollow]  [-L | --follow] [-m | --"
 "mmap ]\n"
-"       [ -s | --stdio ] [-r | --regex ] [--version] [--help] KALIP...\n"
+"       [ -s | --stdio ] [-A | --all] [-p | --print] [-r | --regex ]\n"
+"       [--regextype=TÜR] [--version] [--help]\n"
+"       KALIP...\n"
 
 #: locate/locate.c:1233
 #, c-format
