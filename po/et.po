@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.22\n"
+"Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-08-01 08:41+0100\n"
-"PO-Revision-Date: 2005-06-20 19:20+0300\n"
+"POT-Creation-Date: 2005-08-01 22:43+0100\n"
+"PO-Revision-Date: 2005-08-02 08:56+0300\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -101,6 +101,80 @@ msgstr "`"
 #: gnulib/lib/quotearg.c:241
 msgid "'"
 msgstr "'"
+
+#: gnulib/lib/regex.c:1302
+msgid "Success"
+msgstr ""
+
+#: gnulib/lib/regex.c:1305
+msgid "No match"
+msgstr ""
+
+#: gnulib/lib/regex.c:1308
+#, fuzzy
+msgid "Invalid regular expression"
+msgstr "vigane avaldis"
+
+#: gnulib/lib/regex.c:1311
+msgid "Invalid collation character"
+msgstr ""
+
+#: gnulib/lib/regex.c:1314
+msgid "Invalid character class name"
+msgstr ""
+
+#: gnulib/lib/regex.c:1317
+msgid "Trailing backslash"
+msgstr ""
+
+#: gnulib/lib/regex.c:1320
+msgid "Invalid back reference"
+msgstr ""
+
+#: gnulib/lib/regex.c:1323
+msgid "Unmatched [ or [^"
+msgstr ""
+
+#: gnulib/lib/regex.c:1326
+msgid "Unmatched ( or \\("
+msgstr ""
+
+#: gnulib/lib/regex.c:1329
+msgid "Unmatched \\{"
+msgstr ""
+
+#: gnulib/lib/regex.c:1332
+msgid "Invalid content of \\{\\}"
+msgstr ""
+
+#: gnulib/lib/regex.c:1335
+msgid "Invalid range end"
+msgstr ""
+
+#: gnulib/lib/regex.c:1338
+msgid "Memory exhausted"
+msgstr ""
+
+#: gnulib/lib/regex.c:1341
+#, fuzzy
+msgid "Invalid preceding regular expression"
+msgstr "vigane avaldis"
+
+#: gnulib/lib/regex.c:1344
+msgid "Premature end of regular expression"
+msgstr ""
+
+#: gnulib/lib/regex.c:1347
+msgid "Regular expression too big"
+msgstr ""
+
+#: gnulib/lib/regex.c:1350
+msgid "Unmatched ) or \\)"
+msgstr ""
+
+#: gnulib/lib/regex.c:7919
+msgid "No previous regular expression"
+msgstr ""
 
 #: gnulib/lib/rpmatch.c:70
 msgid "^[yY]"
@@ -211,7 +285,7 @@ msgstr "sammu kõrgemal failisüsteemi puus"
 #: find/find.c:1900
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "hoiatus: ei järgi nimeviidet %s"
 
 #: find/find.c:1944
 #, c-format
@@ -277,7 +351,6 @@ msgstr ""
 "      AVALD1 -o AVALD2   AVALD1 -or AVALD2   AVALD1 , AVALD2\n"
 
 #: find/parser.c:792
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -285,7 +358,7 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"positsioonilised võtmed (alati tõesed): -daystart -follow\n"
+"positsioonilised võtmed (alati tõesed): -daystart -follow -regextype\n"
 "tavalised võtmed (alati tõesed, kasutatakse muude avaldiste ees):\n"
 "      -depth --help -maxdepth TASE -mindepth TASE -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
@@ -321,6 +394,10 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"tegevused: -delete -print0 -printf VORMING -fprintf FAILI VORMING -print \n"
+"      -fprint0 FAIL -fprint FAIL -ls -fls FAIL -prune -quit\n"
+"      -exec KÄSKLUS ; -exec KÄSKLUS {} + -ok KÄSKLUS ;\n"
+"      -execdir KÄSKLUS ; -execdir KÄSKLUS {} + -okdir KÄSKLUS ;\n"
 
 #: find/parser.c:812
 msgid ""
@@ -571,7 +648,7 @@ msgid "old"
 msgstr "vana"
 
 #: locate/locate.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -587,7 +664,8 @@ msgstr ""
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TÜÜP]\n"
+"      [--version] [--help]\n"
 "      muster...\n"
 
 #: locate/locate.c:1233
@@ -712,68 +790,3 @@ msgstr ""
 "       [--verbose] [--exit] [--max-procs=maks-protsesse]\n"
 "       [--max-args=maks-argumente] [--no-run-if-empty] [--arg-file=fail]\n"
 "       [--version] [--help] [käsk [argumendid]]\n"
-
-#~ msgid "Success"
-#~ msgstr "Korras"
-
-#~ msgid "No match"
-#~ msgstr "Ei leitud"
-
-#~ msgid "Invalid regular expression"
-#~ msgstr "Vigane regulaaravaldis"
-
-#~ msgid "Invalid collation character"
-#~ msgstr "Vigane võrdlussümbol"
-
-#~ msgid "Invalid character class name"
-#~ msgstr "Vigane sümboliklassi nimi"
-
-#~ msgid "Trailing backslash"
-#~ msgstr "Järgnev langkriips"
-
-#~ msgid "Invalid back reference"
-#~ msgstr "Vigane tagasi viide"
-
-#~ msgid "Unmatched [ or [^"
-#~ msgstr "Puudub [ või [^"
-
-#~ msgid "Unmatched ( or \\("
-#~ msgstr "Puudub ( või \\("
-
-#~ msgid "Unmatched \\{"
-#~ msgstr "Puudub \\{"
-
-#~ msgid "Invalid content of \\{\\}"
-#~ msgstr "Vigane \\{\\} kontekst"
-
-#~ msgid "Invalid range end"
-#~ msgstr "Vigane vahemiku lõpp"
-
-#~ msgid "Memory exhausted"
-#~ msgstr "Mälu on otsas"
-
-#~ msgid "Invalid preceding regular expression"
-#~ msgstr "Vigane eelnev regulaaravaldis"
-
-#~ msgid "Premature end of regular expression"
-#~ msgstr "Ootamatu regulaaravaldise lõpp"
-
-#~ msgid "Regular expression too big"
-#~ msgstr "Regulaaravaldis on liiga suur"
-
-#~ msgid "Unmatched ) or \\)"
-#~ msgstr "Puudub ) või \\)"
-
-#~ msgid "No previous regular expression"
-#~ msgstr "Eelmist regulaaravaldist pole"
-
-#~ msgid ""
-#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-#~ "delete\n"
-#~ "      -quit\n"
-#~ msgstr ""
-#~ "tegevused: -exec KÄSK ; -fprint FAIL -fprint0 FAIL -fprintf FAIL VORMING\n"
-#~ "      -fls FAIL -ok KÄSK ; -print -print0 -printf VORMING -prune -ls -"
-#~ "delete\n"
-#~ "      -quit\n"

@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.22\n"
+"Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-08-01 08:41+0100\n"
-"PO-Revision-Date: 2005-06-21 06:58+0200\n"
+"POT-Creation-Date: 2005-08-01 22:43+0100\n"
+"PO-Revision-Date: 2005-08-02 05:56+0200\n"
 "Last-Translator: Marcel Telka <marcel@telka.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -101,6 +101,80 @@ msgstr "`"
 #: gnulib/lib/quotearg.c:241
 msgid "'"
 msgstr "'"
+
+#: gnulib/lib/regex.c:1302
+msgid "Success"
+msgstr ""
+
+#: gnulib/lib/regex.c:1305
+msgid "No match"
+msgstr ""
+
+#: gnulib/lib/regex.c:1308
+#, fuzzy
+msgid "Invalid regular expression"
+msgstr "neplatný výraz"
+
+#: gnulib/lib/regex.c:1311
+msgid "Invalid collation character"
+msgstr ""
+
+#: gnulib/lib/regex.c:1314
+msgid "Invalid character class name"
+msgstr ""
+
+#: gnulib/lib/regex.c:1317
+msgid "Trailing backslash"
+msgstr ""
+
+#: gnulib/lib/regex.c:1320
+msgid "Invalid back reference"
+msgstr ""
+
+#: gnulib/lib/regex.c:1323
+msgid "Unmatched [ or [^"
+msgstr ""
+
+#: gnulib/lib/regex.c:1326
+msgid "Unmatched ( or \\("
+msgstr ""
+
+#: gnulib/lib/regex.c:1329
+msgid "Unmatched \\{"
+msgstr ""
+
+#: gnulib/lib/regex.c:1332
+msgid "Invalid content of \\{\\}"
+msgstr ""
+
+#: gnulib/lib/regex.c:1335
+msgid "Invalid range end"
+msgstr ""
+
+#: gnulib/lib/regex.c:1338
+msgid "Memory exhausted"
+msgstr ""
+
+#: gnulib/lib/regex.c:1341
+#, fuzzy
+msgid "Invalid preceding regular expression"
+msgstr "neplatný výraz"
+
+#: gnulib/lib/regex.c:1344
+msgid "Premature end of regular expression"
+msgstr ""
+
+#: gnulib/lib/regex.c:1347
+msgid "Regular expression too big"
+msgstr ""
+
+#: gnulib/lib/regex.c:1350
+msgid "Unmatched ) or \\)"
+msgstr ""
+
+#: gnulib/lib/regex.c:7919
+msgid "No previous regular expression"
+msgstr ""
 
 #: gnulib/lib/rpmatch.c:70
 msgid "^[yY]"
@@ -211,7 +285,7 @@ msgstr "úrovne nad hierarchiou súborového systému"
 #: find/find.c:1900
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "upozornenie: nenasledujem symbolický odkaz %s"
 
 #: find/find.c:1944
 #, c-format
@@ -277,7 +351,6 @@ msgstr ""
 "      VÝRAZ1 -o VÝRAZ2  VÝRAZ1 - or VÝRAZ2   VÝRAZ1 , VÝRAZ2\n"
 
 #: find/parser.c:792
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -285,7 +358,8 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"pozičné voľby (vždy pravda): -daystart -follow\n"
+"pozičné voľby (vždy pravda): -daystart -follow -regextype\n"
+"\n"
 "obyčajné voľby (vždy pravda, zadané pred ostatnými výrazmi):\n"
 "      -depth --help -maxdepth ÚROVNE -mindepth ÚROVNE -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
@@ -321,6 +395,10 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"akcie: -delete -print0 -printf FORMÁT -fprintf SÚBOR FORMÁT -print \n"
+"      -fprint0 SÚBOR -fprint SÚBOR -ls -fls SÚBOR -prune -quit\n"
+"      -exec PRÍKAZ ; -exec PRÍKAZ {} + -ok PRÍKAZ ;\n"
+"      -execdir PRÍKAZ ; - execdir PRÍKAZ {} + -okdir PRÍKAZ ;\n"
 
 #: find/parser.c:812
 msgid ""
@@ -578,7 +656,7 @@ msgid "old"
 msgstr "staré"
 
 #: locate/locate.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -594,7 +672,8 @@ msgstr ""
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-A | --all] [-p | --print] [-r | --regex] [--version] [--help]\n"
+"      [-A | --all] [-p | --print] [-r | --regex] [--regextype=TYP]\n"
+"      [--version] [--help]\n"
 "      vzor...\n"
 
 #: locate/locate.c:1233
@@ -718,68 +797,3 @@ msgstr ""
 "       [--max-chars=max-znakov] [--verbose] [--exit] [--max-procs=max-proc]\n"
 "       [--max-args=max-param] [--no-run-if-empty] [--arg-file=súbor]\n"
 "       [--version] [--help] [príkaz [počiatočné-parametre]]\n"
-
-#~ msgid "Success"
-#~ msgstr "Úspech"
-
-#~ msgid "No match"
-#~ msgstr "Nie je zhoda"
-
-#~ msgid "Invalid regular expression"
-#~ msgstr "Neplatný regulárny výraz"
-
-#~ msgid "Invalid collation character"
-#~ msgstr "Neplatný triediaci znak"
-
-#~ msgid "Invalid character class name"
-#~ msgstr "Neplatný názov triedy znakov"
-
-#~ msgid "Trailing backslash"
-#~ msgstr "Koncová spätná lomka"
-
-#~ msgid "Invalid back reference"
-#~ msgstr "Neplatný spätný odkaz"
-
-#~ msgid "Unmatched [ or [^"
-#~ msgstr "Nezodpovedajúce [ alebo [^"
-
-#~ msgid "Unmatched ( or \\("
-#~ msgstr "Nezodpovedajúce ( alebo \\("
-
-#~ msgid "Unmatched \\{"
-#~ msgstr "Nezodpovedajúce \\{"
-
-#~ msgid "Invalid content of \\{\\}"
-#~ msgstr "Neplatný obsah \\{\\}"
-
-#~ msgid "Invalid range end"
-#~ msgstr "Neplatný koniec rozsahu"
-
-#~ msgid "Memory exhausted"
-#~ msgstr "Pamäť bola vyčerpaná"
-
-#~ msgid "Invalid preceding regular expression"
-#~ msgstr "Neplatný predchádzajúci regulárny výraz"
-
-#~ msgid "Premature end of regular expression"
-#~ msgstr "Neočakávaný koniec regulárneho výrazu"
-
-#~ msgid "Regular expression too big"
-#~ msgstr "Regulárny výraz je príliš veľký"
-
-#~ msgid "Unmatched ) or \\)"
-#~ msgstr "Nezodpovedajúce ) alebo \\)"
-
-#~ msgid "No previous regular expression"
-#~ msgstr "Bez predchádzajúceho regulárneho výrazu"
-
-#~ msgid ""
-#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-#~ "delete\n"
-#~ "      -quit\n"
-#~ msgstr ""
-#~ "akcie: -exec PRÍKAZ ; -fprint SÚBOR -fprint0 SÚBOR -fprintf SÚBOR FORMÁT\n"
-#~ "      -fls SÚBOR -ok PRÍKAZ ; -print -print0 -printf FORMÁT -prune -ls -"
-#~ "delete\n"
-#~ "      -quit\n"

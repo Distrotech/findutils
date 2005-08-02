@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.22\n"
+"Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-08-01 08:41+0100\n"
-"PO-Revision-Date: 2005-06-19 12:00-0500\n"
+"POT-Creation-Date: 2005-08-01 22:43+0100\n"
+"PO-Revision-Date: 2005-08-01 12:00-0500\n"
 "Last-Translator: Laurentiu Buzdugan <lbuz@rolix.org>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -105,6 +105,78 @@ msgstr "`"
 #: gnulib/lib/quotearg.c:241
 msgid "'"
 msgstr "'"
+
+#: gnulib/lib/regex.c:1302
+msgid "Success"
+msgstr "Succes"
+
+#: gnulib/lib/regex.c:1305
+msgid "No match"
+msgstr "Nici o potrivire"
+
+#: gnulib/lib/regex.c:1308
+msgid "Invalid regular expression"
+msgstr "Expresiei regularã invalidã"
+
+#: gnulib/lib/regex.c:1311
+msgid "Invalid collation character"
+msgstr "Caracter colatare invalid"
+
+#: gnulib/lib/regex.c:1314
+msgid "Invalid character class name"
+msgstr "Nume clasã caractere invalid"
+
+#: gnulib/lib/regex.c:1317
+msgid "Trailing backslash"
+msgstr "Trailing backslash"
+
+#: gnulib/lib/regex.c:1320
+msgid "Invalid back reference"
+msgstr "Referinþã înapoi invalidã"
+
+#: gnulib/lib/regex.c:1323
+msgid "Unmatched [ or [^"
+msgstr "[ sau [^ fãrã pereche"
+
+#: gnulib/lib/regex.c:1326
+msgid "Unmatched ( or \\("
+msgstr "( sau \\( fãrã pereche"
+
+#: gnulib/lib/regex.c:1329
+msgid "Unmatched \\{"
+msgstr "\\{ fãrã pereche"
+
+#: gnulib/lib/regex.c:1332
+msgid "Invalid content of \\{\\}"
+msgstr "Conþinut invalid pentru \\{\\}"
+
+#: gnulib/lib/regex.c:1335
+msgid "Invalid range end"
+msgstr "Capãt interval invalid"
+
+#: gnulib/lib/regex.c:1338
+msgid "Memory exhausted"
+msgstr "Memorie epuizatã"
+
+#: gnulib/lib/regex.c:1341
+msgid "Invalid preceding regular expression"
+msgstr "Invalid precedând expresie regularã"
+
+#: gnulib/lib/regex.c:1344
+msgid "Premature end of regular expression"
+msgstr "Sfârºit prematur al expresiei regulare"
+
+#: gnulib/lib/regex.c:1347
+msgid "Regular expression too big"
+msgstr "Expresie regularã prea mare"
+
+#: gnulib/lib/regex.c:1350
+msgid "Unmatched ) or \\)"
+msgstr ") sau \\) fãrã pereche"
+
+#: gnulib/lib/regex.c:7919
+msgid "No previous regular expression"
+msgstr "Nici o expresie regularã anterioarã"
 
 #: gnulib/lib/rpmatch.c:70
 msgid "^[yY]"
@@ -215,7 +287,7 @@ msgstr "nivele mai înalte în ierarhia sistemului de fiºiere"
 #: find/find.c:1900
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "avertisment: nu urmez legãtura simbolicã %s"
 
 #: find/find.c:1944
 #, c-format
@@ -283,7 +355,6 @@ msgstr ""
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
 #: find/parser.c:792
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -291,7 +362,8 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"opþiuni poziþionale (întotdeauna adevãrat): -daystart -follow\n"
+"opþiuni poziþionale (întotdeauna adevãrat): -daystart -follow -regextype\n"
+"\n"
 "opþiuni normale (întotdeauna adevãrat, specificate înaintea altor "
 "expresii):\n"
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
@@ -328,6 +400,10 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"acþiuni: -delete -print0 -printf FORMAT -fprintf FORMAT FIªIER -print \n"
+"      -fprint0 FIªIER -fprint FIªIER -ls -fls FIªIER -prune -quit\n"
+"      -exec COMANDÃ ; -exec COMANDÃ {} + -ok COMANDÃ ;\n"
+"      -execdir COMANDÃ ; -execdir COMANDÃ {} + -okdir COMANDÃ ;\n"
 
 #: find/parser.c:812
 msgid ""
@@ -579,7 +655,7 @@ msgid "old"
 msgstr "vechi"
 
 #: locate/locate.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -595,7 +671,8 @@ msgstr ""
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-A | --all] [-p | --print] [-r | --regex ] [--version] [--help]\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n"
+"      [--version] [--help]\n"
 "      pattern...\n"
 
 #: locate/locate.c:1233
@@ -720,60 +797,6 @@ msgstr ""
 "proc]\n"
 "     [--max-args=max-arg] [--no-run-if-empty] [--arg-file=file]\n"
 "     [--version] [--help] [command [argumente-iniþiale]]\n"
-
-#~ msgid "Success"
-#~ msgstr "Succes"
-
-#~ msgid "No match"
-#~ msgstr "Nici o potrivire"
-
-#~ msgid "Invalid regular expression"
-#~ msgstr "Expresiei regularã invalidã"
-
-#~ msgid "Invalid collation character"
-#~ msgstr "Caracter colatare invalid"
-
-#~ msgid "Invalid character class name"
-#~ msgstr "Nume clasã caractere invalid"
-
-#~ msgid "Trailing backslash"
-#~ msgstr "Trailing backslash"
-
-#~ msgid "Invalid back reference"
-#~ msgstr "Referinþã înapoi invalidã"
-
-#~ msgid "Unmatched [ or [^"
-#~ msgstr "[ sau [^ fãrã pereche"
-
-#~ msgid "Unmatched ( or \\("
-#~ msgstr "( sau \\( fãrã pereche"
-
-#~ msgid "Unmatched \\{"
-#~ msgstr "\\{ fãrã pereche"
-
-#~ msgid "Invalid content of \\{\\}"
-#~ msgstr "Conþinut invalid pentru \\{\\}"
-
-#~ msgid "Invalid range end"
-#~ msgstr "Capãt interval invalid"
-
-#~ msgid "Memory exhausted"
-#~ msgstr "Memorie epuizatã"
-
-#~ msgid "Invalid preceding regular expression"
-#~ msgstr "Invalid precedând expresie regularã"
-
-#~ msgid "Premature end of regular expression"
-#~ msgstr "Sfârºit prematur al expresiei regulare"
-
-#~ msgid "Regular expression too big"
-#~ msgstr "Expresie regularã prea mare"
-
-#~ msgid "Unmatched ) or \\)"
-#~ msgstr ") sau \\) fãrã pereche"
-
-#~ msgid "No previous regular expression"
-#~ msgstr "Nici o expresie regularã anterioarã"
 
 #~ msgid ""
 #~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
