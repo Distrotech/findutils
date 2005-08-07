@@ -74,7 +74,18 @@
 #ifdef STAT_MOUNTPOINTS
 static void init_mounted_dev_list(void);
 #endif
-
+
+/* We have encountered an error which shoudl affect the eexit status.
+ * This is normally used to change the exit status from 0 to 1.
+ * However, if the exit status is already 2 for example, we don't want to 
+ * reduce it to 1.
+ */
+static void
+error_severity(int level)
+{
+  if (state.exit_status < level)
+    state.exit_status = level;
+}
 
 static void
 visit(FTS *p, FTSENT *ent, struct stat *pstat)
@@ -93,12 +104,76 @@ visit(FTS *p, FTSENT *ent, struct stat *pstat)
     }
 }
 
-static void consider_visiting(FTS *p, FTSENT *ent)
+/* We've detected a filesystem loop.   This is caused by one of 
+ * two things:
+ *
+ * 1. Option -L is in effect and we've hit a symbolic link that 
+ *    points to an ancestor.  This is harmless.  We won't traverse the 
+ *    symbolic link.
+ *
+ * 2. We have hit a real cycle in the directory hierarchy.  In this 
+ *    case, we issue a diagnostic message (POSIX requires this) and we
+ *    skip that directory entry.
+ */
+static void
+issue_loop_warning(FTSENT * ent)
+{
+  if (S_ISLNK(ent->fts_statp->st_mode))
+    {
+      error(0, 0,
+	    _("Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."),
+	    quotearg_n(0, ent->fts_path));
+    }
+  else
+    {
+      /* We have found an infinite loop.  POSIX requires us to
+       * issue a diagnostic.  Usually we won't get to here
+       * because when the leaf optimisation is on, it will cause
+       * the subdirectory to be skipped.  If /a/b/c/d is a hard
+       * link to /a/b, then the link count of /a/b/c is 2,
+       * because the ".." entry of /b/b/c/d points to /a, not
+       * to /a/b/c.
+       */
+      error(0, 0,
+	    _("Filesystem loop detected; "
+	      "%s is part of thesame filesystem loop as %s."),
+	    quotearg_n(0, ent->fts_path),
+	    quotearg_n(1, ent->fts_cycle->fts_path));
+    }
+}
+
+
+static void
+consider_visiting(FTS *p, FTSENT *ent)
 {
   struct stat statbuf;
   mode_t mode;
+
+#ifdef DEBUG
+  fprintf(stderr,
+	  "consider_visiting: end->fts_info=%d, ent->fts_path=%s\n",
+	  ent->fts_info,
+	  quotearg_n(0, ent->fts_path));
+#endif
+
+  /* Cope with various error conditions. */
+  if (ent->fts_info == FTS_ERR
+      || ent->fts_info == FTS_NS
+      || ent->fts_info == FTS_DNR)
+    {
+      error(0, ent->fts_errno, ent->fts_path);
+      error_severity(1);
+      return;
+    }
+  else if (ent->fts_info == FTS_DC)
+    {
+      issue_loop_warning(ent);
+      error_severity(1);
+      return;
+    }
   
-  if (ent->fts_info == FTS_NS || ent->fts_info == FTS_NSOK)
+  /* Not an error, cope with the usual cases. */
+  if (ent->fts_info == FTS_NSOK)
     {
       state.have_stat = false;
       mode = 0;
@@ -199,7 +274,7 @@ find(char *arg)
   p = fts_open(arglist, ftsoptions, NULL);
   if (NULL == p)
     {
-      error (0, errno, _("cannot search %s"), quotearg(arg));
+      error (0, errno, _("cannot search %s"), quotearg_n(0, arg));
     }
   else
     {
