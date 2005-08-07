@@ -83,7 +83,7 @@ xargs.sysv/eEOF.exp \
 xargs.sysv/e.exp \
 xargs.sysv/empty_def-t.exp \
 xargs.sysv/empty-t.exp \
-xargs.sysv/eof.exp \
+xargs.sysv/eof1.exp \
 xargs.sysv/iARG.exp \
 xargs.sysv/idef.exp \
 xargs.sysv/idef-s26.exp \
@@ -162,7 +162,7 @@ xargs.posix/unmatched.xo \
 xargs.sysv/eEOF.xo \
 xargs.sysv/empty_def-t.xo \
 xargs.sysv/empty-t.xo \
-xargs.sysv/eof.xo \
+xargs.sysv/eof1.xo \
 xargs.sysv/e.xo \
 xargs.sysv/iARG.xo \
 xargs.sysv/idef-s26.xo \
@@ -194,7 +194,7 @@ inputs/EOFb.xi \
 inputs/EOFe.xi \
 inputs/eofstr.xi \
 inputs/eof_.xi \
-inputs/eof.xi \
+inputs/eof1.xi \
 inputs/EOF.xi \
 inputs/ett.xi \
 inputs/files0.xi \
