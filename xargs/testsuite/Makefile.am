@@ -48,8 +48,8 @@ xargs.posix/IARG-E_.exp \
 xargs.posix/IARG.exp \
 xargs.posix/IARG-s15.exp \
 xargs.posix/L2_2.exp \
-xargs.posix/l2.exp \
-xargs.posix/L2.exp \
+xargs.posix/uc_l2.exp \
+xargs.posix/uc_L2.exp \
 xargs.posix/L2-n2.exp \
 xargs.posix/L3.exp \
 xargs.posix/n1.exp \
@@ -92,7 +92,7 @@ xargs.sysv/iquotes.exp \
 xargs.sysv/l1_2.exp \
 xargs.sysv/l1.exp \
 xargs.sysv/l1n4.exp \
-xargs.sysv/l2.exp \
+xargs.sysv/lc_l2.exp \
 xargs.sysv/s30-t.exp \
 xargs.sysv/space-t.exp \
 xargs.sysv/trace.exp
@@ -138,8 +138,8 @@ xargs.posix/IARG-s15.xo \
 xargs.posix/IARG.xo \
 xargs.posix/L2_2.xo \
 xargs.posix/L2-n2.xo \
-xargs.posix/l2.xo \
-xargs.posix/L2.xo \
+xargs.posix/uc_l2.xo \
+xargs.posix/uc_L2.xo \
 xargs.posix/L3.xo \
 xargs.posix/n1.xo \
 xargs.posix/n2-s26.xo \
@@ -173,7 +173,7 @@ xargs.sysv/iquotes.xo \
 xargs.sysv/l1_2.xo \
 xargs.sysv/l1n4.xo \
 xargs.sysv/l1.xo \
-xargs.sysv/l2.xo \
+xargs.sysv/lc_l2.xo \
 xargs.sysv/s30-t.xo \
 xargs.sysv/space-t.xo \
 xargs.sysv/trace.xo
