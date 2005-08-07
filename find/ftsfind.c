@@ -87,6 +87,38 @@ error_severity(int level)
     state.exit_status = level;
 }
 
+#ifdef DEBUG
+#define STRINGIFY(X) #X
+#define HANDLECASE(N) case N: return #N;
+
+static char *
+get_fts_info_name(int info)
+{
+  static char buf[10];
+  switch (info)
+    {
+      HANDLECASE(FTS_D);
+      HANDLECASE(FTS_DC);
+      HANDLECASE(FTS_DEFAULT);
+      HANDLECASE(FTS_DNR);
+      HANDLECASE(FTS_DOT);
+      HANDLECASE(FTS_DP);
+      HANDLECASE(FTS_ERR);
+      HANDLECASE(FTS_F);
+      HANDLECASE(FTS_INIT);
+      HANDLECASE(FTS_NS);
+      HANDLECASE(FTS_NSOK);
+      HANDLECASE(FTS_SL);
+      HANDLECASE(FTS_SLNONE);
+      HANDLECASE(FTS_W);
+    default:
+      sprintf(buf, "[%d]", info);
+      return buf;
+    }
+}
+
+#endif
+
 static void
 visit(FTS *p, FTSENT *ent, struct stat *pstat)
 {
@@ -151,8 +183,8 @@ consider_visiting(FTS *p, FTSENT *ent)
 
 #ifdef DEBUG
   fprintf(stderr,
-	  "consider_visiting: end->fts_info=%d, ent->fts_path=%s\n",
-	  ent->fts_info,
+	  "consider_visiting: end->fts_info=%s, ent->fts_path=%s\n",
+	  get_fts_info_name(ent->fts_info),
 	  quotearg_n(0, ent->fts_path));
 #endif
 
