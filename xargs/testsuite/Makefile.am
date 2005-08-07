@@ -231,3 +231,12 @@ EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO) $(EXTRA_DIST_XI) $(EXTRA_DIST_XE
 CLEANFILES = *.log *.sum site.exp site.bak
 
 FORCE:
+
+checklists:
+	cd $(srcdir) && \
+	( find config inputs xargs.gnu xargs.posix xargs.sysv \( -name "*.exp" -o -name "*.xo" -o -name "*.xi" -o -name "*.xe" \) -print ; \
+	  ls $(EXTRA_DIST_XI)  ; \
+	  ls $(EXTRA_DIST_XE)  ; \
+	  ls $(EXTRA_DIST_XO)  ; \
+	  ls  $(EXTRA_DIST_EXP)  ; ) | \
+	sort | uniq -c | awk '$$1 != 2 { print; }'
