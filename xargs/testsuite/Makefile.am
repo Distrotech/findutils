@@ -48,7 +48,6 @@ xargs.posix/IARG-E_.exp \
 xargs.posix/IARG.exp \
 xargs.posix/IARG-s15.exp \
 xargs.posix/L2_2.exp \
-xargs.posix/uc_l2.exp \
 xargs.posix/uc_L2.exp \
 xargs.posix/L2-n2.exp \
 xargs.posix/L3.exp \
@@ -138,7 +137,6 @@ xargs.posix/IARG-s15.xo \
 xargs.posix/IARG.xo \
 xargs.posix/L2_2.xo \
 xargs.posix/L2-n2.xo \
-xargs.posix/uc_l2.xo \
 xargs.posix/uc_L2.xo \
 xargs.posix/L3.xo \
 xargs.posix/n1.xo \
