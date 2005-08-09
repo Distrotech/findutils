@@ -16,4 +16,9 @@
 
 
 # This test checks the second of these two cases.
-find_start p { / -mindepth 0 -maxdepth 0 -execdir echo == "{}" + }
+if { [ dot_is_on_path ] } {
+    warning { Cannot perform test as your $PATH environment variable includes a reference to the current directory } 
+    untested { skipping this test because your $PATH variable is wrongly set }
+} else {
+    find_start p { / -mindepth 0 -maxdepth 0 -execdir echo == "{}" + }
+}
