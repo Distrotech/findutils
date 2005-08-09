@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.22\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-07-29 23:14+0100\n"
+"POT-Creation-Date: 2005-08-09 22:12+0100\n"
 "PO-Revision-Date: 2005-06-19 00:53+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@superonline.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -97,11 +97,30 @@ msgstr "%s: `-W %s' seçeneği argümansız kullanılır\n"
 msgid "block size"
 msgstr "blok uzunluğu"
 
-#: gnulib/lib/quotearg.c:240
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#.
+#. If you don't know what to put here, please see
+#. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
+#. and use glyphs suitable for your language.
+#: gnulib/lib/quotearg.c:245
 msgid "`"
 msgstr "\""
 
-#: gnulib/lib/quotearg.c:241
+#: gnulib/lib/quotearg.c:246
 msgid "'"
 msgstr "\""
 
@@ -113,16 +132,16 @@ msgstr "^[eE]"
 msgid "^[nN]"
 msgstr "^[hH]"
 
-#: find/util.c:108
+#: find/util.c:119
 msgid "oops -- invalid default insertion of and!"
 msgstr "Hoop -- öntanımlı `and' yerleştirme geçersiz!"
 
-#: find/util.c:198
+#: find/util.c:209
 #, c-format
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Kullanımı: %s [-H] [-L] [-P] [dosyaYolu...] [ifade]\n"
 
-#: find/find.c:456
+#: find/find.c:194
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -130,44 +149,44 @@ msgstr ""
 "FIND_BLOCK_SIZE ortam değişkeni destekenmiyor, blok boyunu etkileyen tek şey "
 "POSIXLY_CORRECT ortam değişkenidir"
 
-#: find/find.c:538
+#: find/find.c:276
 msgid "paths must precede expression"
 msgstr "dosya yolları ifadeyi öncelemelidir"
 
-#: find/find.c:544
+#: find/find.c:282
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "geçersiz dayanak `%s'"
 
-#: find/find.c:552
+#: find/find.c:290
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "`%s'de argüman eksik"
 
-#: find/find.c:554
+#: find/find.c:292
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "`%s' argümanı `%s'de geçersiz"
 
-#: find/find.c:610
+#: find/find.c:348
 msgid "unexpected extra predicate"
 msgstr "umulmayan ek dayanak"
 
-#: find/find.c:662 find/find.c:665
+#: find/find.c:400 find/find.c:403
 msgid "cannot get current directory"
 msgstr "çalışılan dizin alınamadı"
 
-#: find/find.c:833
+#: find/find.c:577
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "Uyarı: %s dosya sistemi zaten ayrılmıştı."
 
-#: find/find.c:843
+#: find/find.c:587
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "Uyarı: %s dosya sistemi zaten bağlanmıştı."
 
-#: find/find.c:937
+#: find/find.c:681
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -176,7 +195,7 @@ msgstr ""
 "%s%s, %s yürütülürken değişti (eski aygıt numarası: %ld, yeni aygıt "
 "numarası: %ld, dosya sistemi türü: %s) [ref %ld]"
 
-#: find/find.c:974
+#: find/find.c:718
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -185,7 +204,7 @@ msgstr ""
 "%s%s, %s yürütülürken değişti (eski dosya indisi: %ld, yeni dosya indisi: %"
 "ld, dosya sistemi türü: %s) [ref %ld]"
 
-#: find/find.c:1511
+#: find/find.c:1255
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -194,7 +213,7 @@ msgstr ""
 "`%s' sembolik bağı dizin hiyerarşisinde bir döngünün parçası ve gösterdiği "
 "dizini zaten ziyaret etmiştik."
 
-#: find/find.c:1526
+#: find/find.c:1270
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -203,20 +222,20 @@ msgstr ""
 "Dosya sisteminde döngü saptandı; `%s', %d %s deki bir dizin gibi aynı aygıt "
 "ve düğüm numarasına sahip."
 
-#: find/find.c:1530
+#: find/find.c:1274
 msgid "level higher in the filesystem hierarchy"
 msgstr "seviye, dosya sistemi hiyerarşisinde daha yüksek"
 
-#: find/find.c:1531
+#: find/find.c:1275
 msgid "levels higher in the filesystem hierarchy"
 msgstr "seviyeler, dosya sistemi hiyerarşisinde daha yüksek"
 
-#: find/find.c:1900
+#: find/find.c:1507
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1944
+#: find/find.c:1551
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -233,7 +252,7 @@ msgstr ""
 msgid "unknown"
 msgstr "bilinmeyen"
 
-#: find/parser.c:374
+#: find/parser.c:408
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -246,7 +265,7 @@ msgstr ""
 "da belirtilse sınamaları etkiler). Lütfen seçenekleri diğer argümanlardan "
 "önce belirtin.\n"
 
-#: find/parser.c:613
+#: find/parser.c:647
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -254,12 +273,12 @@ msgstr ""
 "uyarı: -d seçeneği artık önerilmiyor; lütfen yerine POSIX uyumlu olan -depth "
 "seçeneğini kullanın."
 
-#: find/parser.c:783
+#: find/parser.c:817
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Kullanımı: %s [dosyaYolu...] [ifade]\n"
 
-#: find/parser.c:785
+#: find/parser.c:819
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -270,7 +289,7 @@ msgstr ""
 "ifade şundan ibaret olabilir:\n"
 "operatörler, seçenekler, sınamalar ve eylemler:\n"
 
-#: find/parser.c:788
+#: find/parser.c:822
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -283,7 +302,7 @@ msgstr ""
 "      İFADE1 -and İFADE2     İFADE1 -o İFADE2     İFADE1 -or İFADE2\n"
 "      İFADE1 , İFADE2\n"
 
-#: find/parser.c:792
+#: find/parser.c:826
 #, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
@@ -297,7 +316,7 @@ msgstr ""
 "      -depth --help -maxdepth DÜZEYLER -mindepth DÜZEYLER -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:797
+#: find/parser.c:831
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -312,7 +331,7 @@ msgstr ""
 "N\n"
 "      -mtime N -name KALIP -newer DOSYA"
 
-#: find/parser.c:802
+#: find/parser.c:836
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
@@ -322,7 +341,7 @@ msgstr ""
 "      -wholename KALIP -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user İSİM -xtype [bcdpfls]\n"
 
-#: find/parser.c:806
+#: find/parser.c:840
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -330,7 +349,7 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:812
+#: find/parser.c:846
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -341,11 +360,11 @@ msgstr ""
 "adresine raporlayınız.\n"
 "Çeviri hatalarını ise <gnu-tr-u12a@lists.sourceforge.net> adresine bildirin."
 
-#: find/parser.c:843
+#: find/parser.c:877
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "fnmatch() kütüphane işlevinin tutarlılık sınaması başarısız oldu."
 
-#: find/parser.c:858
+#: find/parser.c:892
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -360,48 +379,48 @@ msgstr ""
 "bulabilirsiniz.  Ayrıca, eğer GNU grep kullanıyorsanız, 'find ... -print0 | "
 "grep -FzZ %s' kullanabilirdiniz."
 
-#: find/parser.c:900
+#: find/parser.c:934
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "uyarı: -ipath dayanağının kullanımı önerilmiyor; yerine lütfen -iwholename "
 "kullanın."
 
-#: find/parser.c:1336
+#: find/parser.c:1374
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "geçersiz kip `%s'"
 
-#: find/parser.c:1500
+#: find/parser.c:1546
 msgid "invalid null argument to -size"
 msgstr "-size için boş (null) argüman geçersiz"
 
-#: find/parser.c:1546
+#: find/parser.c:1592
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size türü `%c' geçersiz"
 
-#: find/parser.c:1664
+#: find/parser.c:1710
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find sürüm %s\n"
 
-#: find/parser.c:1665
+#: find/parser.c:1711
 #, c-format
 msgid "Features enabled: "
 msgstr "Etkin özellikler:"
 
-#: find/parser.c:1912
+#: find/parser.c:1965
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uyarı: tanınmayan öncelem `\\%c'"
 
-#: find/parser.c:1958
+#: find/parser.c:2011
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uyarı: tanınmayan biçem yönergesi `%%%c'"
 
-#: find/parser.c:2064
+#: find/parser.c:2117
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -414,7 +433,7 @@ msgstr ""
 "kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
 "işaretlerini kaldırın)"
 
-#: find/parser.c:2161
+#: find/parser.c:2214
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -422,7 +441,7 @@ msgstr ""
 "-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, "
 "çünkü bu potensiyel bir güvenlik açığıdır."
 
-#: find/parser.c:2184
+#: find/parser.c:2237
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"

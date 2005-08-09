@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.22\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-07-29 23:14+0100\n"
+"POT-Creation-Date: 2005-08-09 22:12+0100\n"
 "PO-Revision-Date: 2005-06-19 23:12+0950\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net> \n"
@@ -96,11 +96,30 @@ msgstr "%s: tùy chọn «-W %s» không cho phép đối số\n"
 msgid "block size"
 msgstr "cỡ khối"
 
-#: gnulib/lib/quotearg.c:240
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#.
+#. If you don't know what to put here, please see
+#. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
+#. and use glyphs suitable for your language.
+#: gnulib/lib/quotearg.c:245
 msgid "`"
 msgstr "«"
 
-#: gnulib/lib/quotearg.c:241
+#: gnulib/lib/quotearg.c:246
 msgid "'"
 msgstr "»"
 
@@ -112,16 +131,16 @@ msgstr "^[cC]"
 msgid "^[nN]"
 msgstr "^[kK]"
 
-#: find/util.c:108
+#: find/util.c:119
 msgid "oops -- invalid default insertion of and!"
 msgstr "rỗ tiếc — chèn mặc định điều «and» một cách không hợp lệ."
 
-#: find/util.c:198
+#: find/util.c:209
 #, c-format
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Cách sử dụng: %s [-H] [-L] [-P] [đường_dẫn...] [biểu_thức]\n"
 
-#: find/find.c:456
+#: find/find.c:194
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -130,44 +149,44 @@ msgstr ""
 "điều làm ảnh hướng đến cỡ khối: biến môi trường «POSIXLY_CORRECT» (cách "
 "Posix đúng)"
 
-#: find/find.c:538
+#: find/find.c:276
 msgid "paths must precede expression"
 msgstr "đương dẫn phải đi trước biểu thức"
 
-#: find/find.c:544
+#: find/find.c:282
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "vị ngữ không hợp lệ «%s»"
 
-#: find/find.c:552
+#: find/find.c:290
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "thiếu đối số đối với «%s»"
 
-#: find/find.c:554
+#: find/find.c:292
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "đối số «%s» không hợp lệ đối với «%s»"
 
-#: find/find.c:610
+#: find/find.c:348
 msgid "unexpected extra predicate"
 msgstr "không ngờ vị ngữ thêm"
 
-#: find/find.c:662 find/find.c:665
+#: find/find.c:400 find/find.c:403
 msgid "cannot get current directory"
 msgstr "không gọi được thư mục hiện có"
 
-#: find/find.c:833
+#: find/find.c:577
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "Cảnh báo: hệ thống tâp tin «%s» vừa bị tháo gắn kết."
 
-#: find/find.c:843
+#: find/find.c:587
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "Cảnh báo: hệ thống tập tin «%s» vừa được gắn kết."
 
-#: find/find.c:937
+#: find/find.c:681
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -176,7 +195,7 @@ msgstr ""
 "«%s%s» đã thay đổi trong khi thì hành «%s» (số thiết bị cũ «%ld», số thiết "
 "bị mới «%ld», loại hệ thống tập tin là «%s») [nhắc «%ld»]"
 
-#: find/find.c:974
+#: find/find.c:718
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -185,7 +204,7 @@ msgstr ""
 "«%s%s» đã thay đổi trong khi thì hành «%s» (số inode cũ «%ld», số inode mới "
 "«%ld», loại hệ thống tập tin là «%s») [nhắc «%ld»]"
 
-#: find/find.c:1511
+#: find/find.c:1255
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -194,7 +213,7 @@ msgstr ""
 "Liên kết tương trưng «%s» là phần vòng lặp trong tôn ti thư mục ấy; đã thăm "
 "thư mục về mà nó hướng rồi."
 
-#: find/find.c:1526
+#: find/find.c:1270
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -203,20 +222,20 @@ msgstr ""
 "Mới phát hiện vòng lặp hệ thống tập tin; «%s» có cùng một số thiết bị và "
 "inode với thư mục «%d %s»."
 
-#: find/find.c:1530
+#: find/find.c:1274
 msgid "level higher in the filesystem hierarchy"
 msgstr "cấp cao hơn trong tôn ti hệ thống tập tin"
 
-#: find/find.c:1531
+#: find/find.c:1275
 msgid "levels higher in the filesystem hierarchy"
 msgstr "cấp cao hơn trong tôn ti hệ thống tập tin"
 
-#: find/find.c:1900
+#: find/find.c:1507
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1944
+#: find/find.c:1551
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -233,7 +252,7 @@ msgstr ""
 msgid "unknown"
 msgstr "chưa biết"
 
-#: find/parser.c:374
+#: find/parser.c:408
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -246,7 +265,7 @@ msgstr ""
 "thử được ghi rõ cả hai trước lẫn sau nó ).  Hãy ghi rõ tùy chọn trước đối số "
 "khác.\n"
 
-#: find/parser.c:613
+#: find/parser.c:647
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -254,12 +273,12 @@ msgstr ""
 "cảnh báo: tùy chọn «-d» bị phản đối nên hãy sử dụng tùy chọn «-depth» (độ "
 "sâu) thay thế, vì nó là tính năng tuân theo POSIX."
 
-#: find/parser.c:783
+#: find/parser.c:817
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Cách sử dụng: %s [đường_dẫn...] [biểu_thức]\n"
 
-#: find/parser.c:785
+#: find/parser.c:819
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -269,7 +288,7 @@ msgstr ""
 "đường dẫn mặc định là thư mục hiện có; biểu thức mặc định là «-print» (in)\n"
 "biểu thức có thể bao gồm: toán tử, tùy chọn, điều thử, và hành động:\n"
 
-#: find/parser.c:788
+#: find/parser.c:822
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -282,7 +301,7 @@ msgstr ""
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 "[EXPR - biểu thức; not - không phải; and - và; or - hay]\n"
 
-#: find/parser.c:792
+#: find/parser.c:826
 #, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
@@ -306,7 +325,7 @@ msgstr ""
 "\t-ignore_readdir_race \t\t(bỏ qua thư mục đọc [race])\n"
 "\t-noignore_readdir_race \t(không bỏ qua thư mục đọc [race])\n"
 
-#: find/parser.c:797
+#: find/parser.c:831
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -338,7 +357,7 @@ msgstr ""
 "\t-name MẤÚ \t(tên)\n"
 "\t-newer TẬP_TIN \t(mới hơn)"
 
-#: find/parser.c:802
+#: find/parser.c:836
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
@@ -358,7 +377,7 @@ msgstr ""
 "-user TÊN \t\t(người dùng)\n"
 "-xtype [bcdpfls] \t(loại)\n"
 
-#: find/parser.c:806
+#: find/parser.c:840
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -366,7 +385,7 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:812
+#: find/parser.c:846
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -377,11 +396,11 @@ msgstr ""
 "được,\n"
 "bằng cách gởi thư cho <bug-findutils@gnu.org>."
 
-#: find/parser.c:843
+#: find/parser.c:877
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "không kiểm tra sự đúng mực chức năng thư viện «fnmatch()» được."
 
-#: find/parser.c:858
+#: find/parser.c:892
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -396,48 +415,48 @@ msgstr ""
 "có lẽ «-samefile». Hoặc, nếu bạn có sử dụng công cụ «grep» của GNU, bạn có "
 "thể sử dụng «find ... -print0 | grep -FzZ %s»."
 
-#: find/parser.c:900
+#: find/parser.c:934
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "cảnh báo: vị ngữ «-ipath» (đường dẫn) bị phản đối thì hãy sử dụng tùy chọn «-"
 "iwholename» (tên đầy đủ) thay thế."
 
-#: find/parser.c:1336
+#: find/parser.c:1374
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "chế độ không hợp lệ «%s»"
 
-#: find/parser.c:1500
+#: find/parser.c:1546
 msgid "invalid null argument to -size"
 msgstr "đối số trống không hợp lệ đối với tùy chọn «-size» (cỡ)"
 
-#: find/parser.c:1546
+#: find/parser.c:1592
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "loại «-size» (cỡ) không hợp lệ «%c»"
 
-#: find/parser.c:1664
+#: find/parser.c:1710
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "Trình find (tìm) phiên bản «%s» của GNU\n"
 
-#: find/parser.c:1665
+#: find/parser.c:1711
 #, c-format
 msgid "Features enabled: "
 msgstr "Tính năng hoặt động:"
 
-#: find/parser.c:1912
+#: find/parser.c:1965
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "cảnh báo: không chấp nhận ký tự thoát «\\%c»"
 
-#: find/parser.c:1958
+#: find/parser.c:2011
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "cảnh báo: không chấp nhận chỉ thị định dạng «%%%c»"
 
-#: find/parser.c:2064
+#: find/parser.c:2117
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -450,7 +469,7 @@ msgstr ""
 "hiện ra «$PATH» của bạn (có nghĩa là hãy bỏ dấu chấm «.» hay ký tự hai chấm "
 "đi trước hay đi theo)."
 
-#: find/parser.c:2161
+#: find/parser.c:2214
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -458,7 +477,7 @@ msgstr ""
 "Không cho phép sử dụng ký tự «{}» trong tên trình tiện ích cho hai đối số «-"
 "execdir» và «-okdir», vì không an toàn."
 
-#: find/parser.c:2184
+#: find/parser.c:2237
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Hỗ trợ chỉ một thể hiện «{}» với đối số «-exec%s ... +»"
