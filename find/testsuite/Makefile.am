@@ -27,6 +27,7 @@ find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
 find.posix/depth1.xo \
 find.posix/sizes.xo \
+find.posix/sv-bug-14070.xo \
 find.gnu/follow-arg-parent-symlink.xo
 
 EXTRA_DIST_EXP = \
@@ -54,6 +55,7 @@ find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \
 find.posix/depth1.exp \
 find.posix/sizes.exp \
+find.posix/sv-bug-14070.exp \
 find.gnu/follow-arg-parent-symlink.exp
 
 EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO)

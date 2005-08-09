@@ -1,0 +1,11 @@
+# Savannah Bug #14070.  If we search a directory containing 
+# a directory and a symlink to that directory, this is not a loop.
+#
+# This bug is fixed by a change to gnulib.
+# 
+exec rm -rf tmp
+exec mkdir tmp tmp/X
+exec ln -s X tmp/symlink 
+exec ls -lR tmp
+find_start p { -L tmp -print }
+exec rm -rf tmp
