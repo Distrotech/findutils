@@ -31,6 +31,9 @@
 #include "regextype.h"
 
 
+/* Name this program was run with. */
+char *program_name;
+
 static void output(const char *s, int escape)
 {
   fputs(s, stdout);
@@ -492,6 +495,7 @@ static int describe_all(const char *up)
 int main (int argc, char *argv[])
 {
   const char *up = "";
+  program_name = argv[0];
   
   if (argc > 1)
     up = argv[1];

@@ -24,7 +24,7 @@ MAINTAINERCLEANFILES =
 
 
 INCLUDES = -I../gnulib/lib -I$(top_srcdir)/gnulib/lib 
-LDADD = ../gnulib/lib/libgnulib.a
+LDADD = ../gnulib/lib/libgnulib.a @INTLLIBS@
 
 libfind_a_SOURCES += modetype.h nextelem.h printquoted.h listfile.h regextype.h
 libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c forcefindlib.c qmark.c printquoted.c regextype.c
