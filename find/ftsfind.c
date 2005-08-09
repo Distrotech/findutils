@@ -47,8 +47,8 @@
 #include "../gnulib/lib/xalloc.h"
 #include "closeout.h"
 #include <modetype.h>
-#include "quote.h"
 #include "quotearg.h"
+#include "quote.h"
 #include "fts_.h"
 
 #ifdef HAVE_LOCALE_H
@@ -136,6 +136,27 @@ visit(FTS *p, FTSENT *ent, struct stat *pstat)
     }
 }
 
+static const char*
+partial_quotearg_n(int n, char *s, size_t len, enum quoting_style style)
+{
+  if (0 == len)
+    {
+      return quotearg_n_style(n, style, "");
+    }
+  else
+    {
+      char saved;
+      const char *result;
+      
+      saved = s[len];
+      s[len] = 0;
+      result = quotearg_n_style(n, style, s);
+      s[len] = saved;
+      return result;
+    }
+}
+
+
 /* We've detected a filesystem loop.   This is caused by one of 
  * two things:
  *
@@ -154,7 +175,7 @@ issue_loop_warning(FTSENT * ent)
     {
       error(0, 0,
 	    _("Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."),
-	    quotearg_n(0, ent->fts_path));
+	    quotearg_n_style(0, locale_quoting_style, ent->fts_path));
     }
   else
     {
@@ -168,10 +189,31 @@ issue_loop_warning(FTSENT * ent)
        */
       error(0, 0,
 	    _("Filesystem loop detected; "
-	      "%s is part of thesame filesystem loop as %s."),
-	    quotearg_n(0, ent->fts_path),
-	    quotearg_n(1, ent->fts_cycle->fts_path));
+	      "%s is part of the same filesystem loop as %s."),
+	    quotearg_n_style(0, locale_quoting_style, ent->fts_path),
+	    partial_quotearg_n(1,
+			       ent->fts_cycle->fts_path,
+			       ent->fts_cycle->fts_pathlen,
+			       locale_quoting_style));
     }
+}
+
+/* 
+ * Return true if NAME corresponds to a file which forms part of a 
+ * symbolic link loop.  The command 
+ *      rm -f a b; ln -s a b; ln -s b a 
+ * produces such a loop.
+ */
+static boolean 
+symlink_loop(const char *name)
+{
+  struct stat stbuf;
+  int rv;
+  if (following_links())
+    rv = stat(name, &stbuf);
+  else
+    rv = lstat(name, &stbuf);
+  return (0 != rv) && (ELOOP == errno);
 }
 
 
@@ -185,7 +227,7 @@ consider_visiting(FTS *p, FTSENT *ent)
   fprintf(stderr,
 	  "consider_visiting: end->fts_info=%s, ent->fts_path=%s\n",
 	  get_fts_info_name(ent->fts_info),
-	  quotearg_n(0, ent->fts_path));
+	  quotearg_n(0, ent->fts_path, locale_quoting_style));
 #endif
 
   /* Cope with various error conditions. */
@@ -202,6 +244,22 @@ consider_visiting(FTS *p, FTSENT *ent)
       issue_loop_warning(ent);
       error_severity(1);
       return;
+    }
+  else if (ent->fts_info == FTS_SLNONE)
+    {
+      /* fts_read() claims that ent->fts_accpath is a broken symbolic
+       * link.  That would be fine, but if this is part of a symbolic
+       * link loop, we diagnose the problem and also ensure that the
+       * eventual return value is nonzero.   Note that while the path 
+       * we stat is local (fts_accpath), we print the fill path name 
+       * of the file (fts_path) in the error message.
+       */
+      if (symlink_loop(ent->fts_accpath))
+	{
+	  error(0, ELOOP, ent->fts_path);
+	  error_severity(1);
+	  return;
+	}
     }
   
   /* Not an error, cope with the usual cases. */
@@ -306,7 +364,9 @@ find(char *arg)
   p = fts_open(arglist, ftsoptions, NULL);
   if (NULL == p)
     {
-      error (0, errno, _("cannot search %s"), quotearg_n(0, arg));
+      error (0, errno,
+	     _("cannot search %s"),
+	     quotearg_n_style(0, locale_quoting_style, arg));
     }
   else
     {
@@ -376,6 +436,7 @@ main (int argc, char **argv)
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
 #endif
+
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
   atexit (close_stdout);

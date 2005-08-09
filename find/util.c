@@ -472,7 +472,7 @@ optionp_stat(const char *name, struct stat *p)
 #ifdef DEBUG_STAT
 static uintmax_t stat_count = 0u;
 
-static int
+int
 debug_stat (const char *file, struct stat *bufp)
 {
   ++stat_count;

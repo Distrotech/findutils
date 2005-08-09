@@ -157,7 +157,7 @@ static char *ctime_format PARAMS((time_t when));
 #ifdef	DEBUG
 struct pred_assoc
 {
-  PFB pred_func;
+  PRED_FUNC pred_func;
   char *pred_name;
 };
 
@@ -1686,15 +1686,14 @@ ctime_format (time_t when)
    the predicate function PRED_FUNC. */
 
 char *
-find_pred_name (pred_func)
-     PFB pred_func;
+find_pred_name (PRED_FUNC func)
 {
   int i;
 
   for (i = 0; pred_table[i].pred_func != 0; i++)
-    if (pred_table[i].pred_func == pred_func)
+    if (pred_table[i].pred_func == func)
       break;
-  return (pred_table[i].pred_name);
+  return pred_table[i].pred_name;
 }
 
 static char *

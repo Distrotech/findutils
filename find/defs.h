@@ -83,6 +83,7 @@ int stat PARAMS((const char *__path, struct stat *__statbuf));
 int optionl_stat PARAMS((const char *name, struct stat *p));
 int optionp_stat PARAMS((const char *name, struct stat *p));
 int optionh_stat PARAMS((const char *name, struct stat *p));
+int debug_stat   PARAMS((const char *file, struct stat *bufp));
 
 int get_statinfo PARAMS((const char *pathname, const char *name, struct stat *p));
 
