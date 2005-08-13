@@ -285,7 +285,9 @@ patterns `fo*' and `F??' match the file names `Foo', `FOO', `foo',
 `fOo', etc.   In these patterns, unlike filename expansion by the
 shell, an initial '.' can be matched by '*'.  That is, 
 .B find \-name *bar 
-will match the file `.foobar'.
+will match the file `.foobar'.   Please note that you should quote
+patterns as a matter of course, otherwise the shell will expand any
+wildcard characters in them.
 
 .IP "\-inum \fIn\fR"
 File has inode number \fIn\fR.  It is normally easier to use the 
