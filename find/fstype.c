@@ -81,7 +81,7 @@ extern int errno;
 # define N_(String) String
 #endif
 
-static char *filesystem_type_uncached PARAMS((const struct stat *statp));
+static char *filesystem_type_uncached PARAMS((const struct stat *statp, const char *path));
 
 
 /* Get MNTTYPE_IGNORE if it is available. */
@@ -157,7 +157,7 @@ static int fstype_known = 0;
    Return "unknown" if its filesystem type is unknown.  */
 
 char *
-filesystem_type (const struct stat *statp)
+filesystem_type (const struct stat *statp, const char *path)
 {
   static char *current_fstype = NULL;
   static dev_t current_dev;
@@ -169,7 +169,7 @@ filesystem_type (const struct stat *statp)
       free (current_fstype);
     }
   current_dev = statp->st_dev;
-  current_fstype = filesystem_type_uncached (statp);
+  current_fstype = filesystem_type_uncached (statp, path);
   return current_fstype;
 }
 
@@ -200,7 +200,7 @@ set_fstype_devno(struct mount_entry *p)
    Return "unknown" if its filesystem type is unknown.  */
 
 static char *
-filesystem_type_uncached (const struct stat *statp)
+filesystem_type_uncached (const struct stat *statp, const char *path)
 {
   struct mount_entry *entries, *entry;
   char *type;

@@ -387,7 +387,7 @@ void set_follow_state PARAMS((enum SymlinkOption opt));
 void cleanup(void);
 
 /* fstype.c */
-char *filesystem_type PARAMS((const struct stat *statp));
+char *filesystem_type PARAMS((const struct stat *statp, const char *path));
 char * get_mounted_filesystems (void);
 dev_t * get_mounted_devices PARAMS((size_t *));
 

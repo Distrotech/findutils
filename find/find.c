@@ -902,17 +902,18 @@ wd_sanity_check(const char *thing_to_stat,
   const char *fstype;
   char *specific_what = NULL;
   int silent = 0;
+  const char *current_dir = ".";
   
   *changed = false;
   
-  if ((*options.xstat) (".", newinfo) != 0)
+  if ((*options.xstat) (current_dir, newinfo) != 0)
     error (1, errno, "%s", thing_to_stat);
   
   if (old_dev != newinfo->st_dev)
     {
       *changed = true;
       specific_what = specific_dirname(what);
-      fstype = filesystem_type(newinfo);
+      fstype = filesystem_type(newinfo, current_dir);
       silent = fs_likely_to_be_automounted(fstype);
 
       /* This condition is rare, so once we are here it is 
@@ -932,7 +933,7 @@ wd_sanity_check(const char *thing_to_stat,
 	{
 	case FATAL_IF_SANITY_CHECK_FAILS:
 	  {
-	    fstype = filesystem_type(newinfo);
+	    fstype = filesystem_type(newinfo, current_dir);
 	    error (1, 0,
 		   _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
 		   specific_what,
@@ -967,7 +968,7 @@ wd_sanity_check(const char *thing_to_stat,
     {
       *changed = true;
       specific_what = specific_dirname(what);
-      fstype = filesystem_type(newinfo);
+      fstype = filesystem_type(newinfo, current_dir);
       
       error ((isfatal == FATAL_IF_SANITY_CHECK_FAILS) ? 1 : 0,
 	     0,			/* no relevant errno value */

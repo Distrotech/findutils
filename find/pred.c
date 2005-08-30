@@ -658,7 +658,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  break;
 	case 'F':		/* filesystem type */
 	  /* trusted */
-	  print_quoted (fp, qopts, ttyflag, segment->text, filesystem_type (stat_buf));
+	  print_quoted (fp, qopts, ttyflag, segment->text, filesystem_type (stat_buf, pathname));
 	  break;
 	case 'g':		/* group name */
 	  /* trusted */
@@ -913,7 +913,7 @@ pred_fstype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
   
-  if (strcmp (filesystem_type (stat_buf), pred_ptr->args.str) == 0)
+  if (strcmp (filesystem_type (stat_buf, pathname), pred_ptr->args.str) == 0)
     return true;
   else
     return false;
