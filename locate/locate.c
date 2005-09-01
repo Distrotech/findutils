@@ -292,7 +292,6 @@ struct stringbuf
 {
   char *buffer;
   size_t buffersize;
-  size_t *soffs;
   size_t *preqlen;
 };
 static struct stringbuf casebuf;
@@ -936,7 +935,6 @@ locate (int argc,
     {
       add_visitor(visit_casefold, &casebuf);
       casebuf.preqlen = &procdata.pathsize;
-      casebuf.soffs = &procdata.count;
     }
   
   /* Add an inspector for each pattern we're looking for. */
