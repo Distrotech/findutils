@@ -1,4 +1,228 @@
+2005-09-01  Jim Meyering  <jim@meyering.net>
+
+        * locate/locate.c (struct stringbuf) [soffs]: Remove unused member.
+        (locate): Remove initialization, too.
+
+2005-09-01  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi: Typo fix from Jim Meyering (trivial change)
+
+2005-08-30  James Youngman  <jay@gnu.org>
+
+	* find/defs.h, find/find.c, find/fstype.c, find/pred.c:
+	Attempted fix for compilation when AFS is #defined
+
+2005-08-13  James Youngman  <jay@gnu.org>
+
+	* find/find.1: Remind the user to quote the pattern argument to -iname.
+
+2005-08-12  James Youngman  <jay@gnu.org>
+
+	* NEWS: Corrected typo.
+
+2005-08-09  James Youngman  <jay@gnu.org>
+
+	* NEWS: Indicate that regexprops.texi is built on Cygin now that
+	Savannah bug #14025 has been fixed.
+
+	* lib/Makefile.am, lib/regexprops.c: Fixed compilation failure on
+	Cygwin - Savannah Bug #14025 (tiny change, three lines), reported
+	and fixed by Eric Blake
+
+	* find/testsuite/Makefile.am,
+	find/testsuite/find.posix/sv-bug-14070.exp,
+	find/testsuite/find.posix/sv-bug-14070.xo: Added new test case for
+	SourceForge bug #14070
+
+	* find/testsuite/find.posix/sv-bug-14070.exp,
+	find/testsuite/find.posix/sv-bug-14070.xo: New file.
+
+	* find/defs.h, find/ftsfind.c, find/pred.c, find/util.c:
+	Ensure we can still build with --enable-debug
+
+	* find/testsuite/config/unix.exp,
+	find/testsuite/find.gnu/execdir-one.exp,
+	find/testsuite/find.gnu/execdir-root-only.exp,
+	find/testsuite/find.gnu/sv-bug-12230.exp: If . is on $PATH,
+	indicate that the -execdir tests cannot be carried out, as opposed
+	to indicating that those tests fail
+
+2005-08-07  James Youngman  <jay@gnu.org>
+
+	* NEWS: Indicated that some test suite files have been renamed.
+
+	* xargs/testsuite/Makefile.am, xargs/testsuite/inputs/eof.xi,
+	xargs/testsuite/inputs/eof1.xi,
+	xargs/testsuite/xargs.sysv/eof.exp,
+	xargs/testsuite/xargs.sysv/eof.xo,
+	xargs/testsuite/xargs.sysv/eof1.exp,
+	xargs/testsuite/xargs.sysv/eof1.xo,
+	xargs/testsuite/xargs.posix/lc_l2.exp,
+	xargs/testsuite/xargs.posix/lc_l2.xo,
+	xargs/testsuite/xargs.sysv/l2.exp,
+	xargs/testsuite/xargs.sysv/l2.xo,
+	xargs/testsuite/xargs.sysv/lc_l2.exp,
+	xargs/testsuite/xargs.sysv/lc_l2.xo,
+	xargs/testsuite/xargs.posix/L2.exp,
+	xargs/testsuite/xargs.posix/l2.exp,
+	xargs/testsuite/xargs.posix/L2.xo,
+	xargs/testsuite/xargs.posix/l2.xo,
+	xargs/testsuite/xargs.posix/uc_L2.exp,
+	xargs/testsuite/xargs.posix/uc_L2.xo: Work around problems with
+	CVS clients on case-insentitive operating systems
+
+	* debian/Changelog: Removed Changelog file since changelog is the
+	one we shpul;d be using and having both files upsets Cygwin
+	systems which cannot tell the dirrerence between changelog and
+	Changelog
+
+	* find/ftsfind.c:
+	If DEBUG is defined, show the symbolic names fro fts_info values.
+
+	* find/ftsfind.c: Added additional diagnostics.
+
+2005-08-01  James Youngman  <jay@gnu.org>
+
+	* ABOUT-NLS, INSTALL, Makefile.am, configure.in, depcomp,
+	doc/texinfo.tex, install-sh, missing, mkinstalldirs: By adding the
+	missing AM_GNU_GETTEXT_VERSION call, allowed autopoint to update
+	those files of which it has updated copies.
+
+	* po/Makevars.template, po/Makefile.in.in, po/findutils.pot:
+	Using AM_GNU_GETTEXT_VERSION, allowed gettext to update the infrastructure
+
+	* po/Rules-quot, po/boldquot.sed, po/en@boldquot.header, po/en@quot.header, po/insert-header.sin, po/quot.sed:
+	Files added by autopoint now that we are using AM_GNU_GETTEXT_VERSION
+
+	* find/testsuite/Makefile.am: Added find.gnu./perm-slash.{exp,xo}.
+
+2005-07-31  James Youngman  <jay@gnu.org>
+
+	* find/testsuite/excuses.txt: We now have tests for -perm.
+
+	* NEWS, configure.in, find/parser.c,
+	find/testsuite/find.gnu/perm-slash.exp,
+	find/testsuite/find.gnu/perm-slash.xo: Fixed bug which caused find
+	-perm /440 to be treated the same as find -perm 440
+
+	* find/testsuite/Makefile.am:
+	Generic tests for -perm -NNN and -perm NNN
+
+	* find/testsuite/excuses.txt: New file - list of test cases that
+	still need to be written, along with excuses why they haven;t been
+	done yet
+
+	* find/testsuite/find.posix/perm-vanilla.exp,
+	find/testsuite/find.posix/perm-vanilla.xo: Generic tests for -perm
+	-NNN and -perm NNN
+
+	* find/testsuite/find.gnu/inum.exp:
+	Ensure that the test would fail if -inum just always returned true
+
+	* find/testsuite/Makefile.am, find/testsuite/find.gnu/ilname.exp,
+	find/testsuite/find.gnu/ilname.xo,
+	find/testsuite/find.gnu/inum.exp, find/testsuite/find.gnu/inum.xo,
+	find/testsuite/find.gnu/lname.exp,
+	find/testsuite/find.gnu/lname.xo,
+	find/testsuite/find.gnu/xtype.exp,
+	find/testsuite/find.gnu/xtype.xo,
+	find/testsuite/find.posix/links.exp,
+	find/testsuite/find.posix/links.xo: New test cases for -ilname,
+	-inum, -lname, -xtype
+
+	* find/testsuite/Makefile.am, find/testsuite/find.gnu/delete.exp,
+	find/testsuite/find.gnu/delete.xo,
+	find/testsuite/find.gnu/iregex1.exp,
+	find/testsuite/find.gnu/iregex1.xo,
+	find/testsuite/find.gnu/regex1.exp,
+	find/testsuite/find.gnu/regex1.xo,
+	find/testsuite/find.gnu/regex2.exp,
+	find/testsuite/find.gnu/regex2.xo,
+	find/testsuite/find.gnu/samefile-copy.exp,
+	find/testsuite/find.gnu/samefile-copy.xo,
+	find/testsuite/find.gnu/samefile-link.exp,
+	find/testsuite/find.gnu/samefile-link.xo,
+	find/testsuite/find.gnu/samefile-same.exp,
+	find/testsuite/find.gnu/samefile-same.xo,
+	find/testsuite/find.gnu/samefile-symlink.exp,
+	find/testsuite/find.gnu/samefile-symlink.xo: Further test cases
+
+	* find/find.1: Indicate that -delete implies -depth (find.texi
+	already mentioned this).
+
+	* find/testsuite/Makefile.am:
+	Brought the list of .exp and .xo files in Makefile.am into sync with
+	the actual contents of the CVS repository.
+
+	* find/testsuite/Makefile.am, find/testsuite/find.gnu/depth-d.exp,
+	find/testsuite/find.gnu/depth-d.xo,
+	find/testsuite/find.gnu/empty.exp,
+	find/testsuite/find.gnu/empty.xo,
+	find/testsuite/find.gnu/execdir-one.exp,
+	find/testsuite/find.gnu/execdir-one.xo,
+	find/testsuite/find.gnu/false.exp,
+	find/testsuite/find.gnu/false.xo,
+	find/testsuite/find.gnu/follow-basic.exp,
+	find/testsuite/find.gnu/follow-basic.xo,
+	find/testsuite/find.gnu/gnu-or.exp,
+	find/testsuite/find.gnu/gnu-or.xo,
+	find/testsuite/find.gnu/gnuand.exp,
+	find/testsuite/find.gnu/gnuand.xo,
+	find/testsuite/find.gnu/gnunot.exp,
+	find/testsuite/find.gnu/gnunot.xo,
+	find/testsuite/find.gnu/iname.exp,
+	find/testsuite/find.gnu/iname.xo,
+	find/testsuite/find.gnu/ipath.exp,
+	find/testsuite/find.gnu/ipath.xo,
+	find/testsuite/find.gnu/iwholename.exp,
+	find/testsuite/find.gnu/iwholename.xo,
+	find/testsuite/find.gnu/path.exp, find/testsuite/find.gnu/path.xo,
+	find/testsuite/find.gnu/print0.exp,
+	find/testsuite/find.gnu/print0.xo,
+	find/testsuite/find.gnu/quit.exp, find/testsuite/find.gnu/quit.xo,
+	find/testsuite/find.gnu/true.exp, find/testsuite/find.gnu/true.xo,
+	find/testsuite/find.gnu/wholename.exp,
+	find/testsuite/find.gnu/wholename.xo,
+	find/testsuite/find.posix/and.exp,
+	find/testsuite/find.posix/and.xo,
+	find/testsuite/find.posix/exec-one.exp,
+	find/testsuite/find.posix/exec-one.xo,
+	find/testsuite/find.posix/grouping.exp,
+	find/testsuite/find.posix/grouping.xo,
+	find/testsuite/find.posix/name.exp,
+	find/testsuite/find.posix/name.xo,
+	find/testsuite/find.posix/posixnot.exp,
+	find/testsuite/find.posix/posixnot.xo,
+	find/testsuite/find.posix/prune.exp,
+	find/testsuite/find.posix/prune.xo: Added new test cases for many
+	of the actions and tests of find
+
+	* find/find.c (default_prints):
+	not a static function, so do not declare it as one.
+
+	* m4/withfts.m4: Fixed underquoted definition of FIND_WITH_FTS.
+	[this change is currently on a branch only]
+
+2005-07-30  James Youngman  <jay@gnu.org>
+
+	* find/finddata.c, find/ftsfind.c, find/parser.c, find/pred.c,
+	find/util.c, m4/Makefile.am, m4/withfts.m4: Initial attempt to
+	convert find to use gnulib's fts()
+	[this change is currently on a branch only]
+	
+	* find/finddata.c, find/ftsfind.c, m4/withfts.m4: New file.
+	[this change is currently on a branch only]
+	
+	* NEWS, configure.in, find/Makefile.am, find/defs.h, find/find.c,
+	import-gnulib.sh: Initial attempt to convert find to use gnulib's
+	fts() [this change is currently on a branch only]
+
 2005-07-29  James Youngman  <jay@gnu.org>
+
+	* NEWS, configure.in
+	Prepared for the release of findutils-4.2.24
+
+	* ChangeLog: Updated with recent changes.
 
 	* NEWS, find/find.1, doc/find.texi:
 	Indicate that -ok and -okdir redirect stdin from /dev/null.
@@ -7,31 +231,30 @@
 
 	* NEWS: Fixed bug #13973.
 
-	* find/pred.c: Fix Savannah bug #13973: Modify the handling of
-	-printf %Y so that it no longer modifies stat_buf
+	* find/pred.c (pred_fprintf): Fix Savannah bug #13973: Modify the
+	handling of -printf %Y so that it no longer modifies stat_buf
 
 	* find/testsuite/find.gnu/printf-symlink.exp,
 	find/testsuite/find.gnu/printf-symlink.xo: Detect Savannah bug
 	#13973: pollution of stat_buf by the %Y directive (trivial change
 	from Andreas Metzler)
 
-	* INSTALL, depcomp, doc/texinfo.tex, install-sh, missing,
-	mkinstalldirs: Updated auxilliary files from the automake-1.9
-	distribution
+	* INSTALL, depcomp, doc/texinfo.tex, install-sh, missing, mkinstalldirs:
+	Updated auxilliary files from the automake-1.9 distribution
 
-	* configure.in: Introduce new Automake conditional,
-	CROSS_COMPILING, true when we are corss compiling
+	* configure.in:
+	Introduce new Automake conditional, CROSS_COMPILING, true when we are corss compiling
 
-	* find/find.c: If we decline to follow a symbolic link due to the
-	safety check, issue a more self-explanatory warning message
+	* find/find.c:
+	If we decline to follow a symbolic link due to the safety check, issue a more self-explanatory warning message
 
 	* lib/Makefile.am: Don't build regexprops if we are cross compiling
 
-	* doc/Makefile.am: Depend on the regex.h file rather than the
-	'regexprops' binary, because the header file will always exist
-	even if we are doing "make dist".  Otherwise "make distcheck"
-	fails because it tries to rebuild find.info while the
-	source-directory is read-only.
+	* doc/Makefile.am:
+	Depend on the regex.h file rather than the 'regexprops' binary,
+	because the header file will always exist even if we are doing "make
+	dist".  Otherwise "make distcheck" fails because it tries to rebuild
+	find.info while the source-directory is read-only.
 
 2005-07-28  James Youngman  <jay@gnu.org>
 
