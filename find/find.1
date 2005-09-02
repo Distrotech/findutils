@@ -417,8 +417,9 @@ named pipe (FIFO)
 .IP f
 regular file
 .IP l
-symbolic link (never true if the \-L option or the \-follow option is
-in effect, unless the symbolic link is broken).
+symbolic link; this is never true if the \-L option or the \-follow
+option is in effect, unless the symbolic link is broken.  If you want
+to search for symbolic links when \-L is in effect, use \-xtype.
 .IP s
 socket
 .IP D

@@ -630,7 +630,9 @@ directory trees.
 happen to match broken symbolic links).
 @item
 @samp{-type} reports the types of the files that symbolic links point
-to.
+to.  This means that in combination with @samp{-L}, @samp{-type l}
+will be true only for broken symbolic links.  To check for symbolic
+links when @samp{-L} has been specified, use @samp{-xtype l}.
 @item
 Implies @samp{-noleaf} (@pxref{Directories}).
 @end itemize
@@ -896,7 +898,9 @@ named pipe (FIFO)
 @item f
 regular file
 @item l
-symbolic link
+symbolic link; if @samp{-L} is in effect, this is true only for broken
+symbolic links.  If you want to search for symbolic links when
+@samp{-L} is in effect, use @samp{-xtype} instead of @samp{-type}.
 @item s
 socket
 @item D
@@ -905,12 +909,34 @@ door (Solaris)
 @end deffn
 
 @deffn Test -xtype c
-The same as @samp{-type} unless the file is a symbolic link.  For
-symbolic links: if @samp{-follow} has not been given, true if the file
-is a link to a file of type @var{c}; if @samp{-follow} has been given,
-true if @var{c} is @samp{l}.  In other words, for symbolic links,
-@samp{-xtype} checks the type of the file that @samp{-type} does not
-check.  @xref{Symbolic Links}, for more information on @samp{-follow}.
+This test behaves the same as @samp{-type} unless the file is a
+symbolic link.  If the file is a symbolic link, the result is as
+follows (in the table below, @samp{X} should be understood to
+represent any letter except @samp{l}):
+
+@table @samp
+@item @samp{-P -xtype l}
+True if the symbolic link is broken
+@item @samp{-P -xtype X}
+True if the (ultimate) target file is of type @samp{X}.
+@item @samp{-L -xtype l}
+Always true
+@item @samp{-L -xtype X}
+False unless the symbolic link is broken
+@end table
+
+In other words, for symbolic links, @samp{-xtype} checks the type of
+the file that @samp{-type} does not check.  
+
+The @samp{-H} option also affects the behaviour of @samp{-xtype}.
+When @samp{-H} is in effect, @samp{-xtype} behaves as if @samp{-L} had
+been specified when examining files listed on the command line, and as
+if @samp{-P} had been specified otherwise.  If neither @samp{-H} nor
+@samp{-L} was specified, @samp{-xtype} behaves as if @samp{-P} had
+been specified.
+
+@xref{Symbolic Links}, for more information on @samp{-follow} and
+@samp{-L}.
 @end deffn
 
 @node Owner
