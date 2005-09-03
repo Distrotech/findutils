@@ -1,22 +1,26 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
-* Major changes in release 4.2.25-CVS
+* Major changes in release 4.2.25
 
 ** Bug Fixes
 
-   find -perm /440 (which should succeed if a file is readable by its
-   owner or group) now works.  Previously there was a bug which
-   caused this to be treated as "find -perm 440".
+find -perm /440 (which should succeed if a file is readable by its
+owner or group) now works.  Previously there was a bug which caused
+this to be treated as "find -perm 440".
 
-   Some files in the xargs test suite have been renamed to avoid
-   problems on operating systems whoch cannot distinguish filenames on
-   the basis of upper/lower case distinctions.
+Some files in the xargs test suite have been renamed to avoid problems
+on operating systems whoch cannot distinguish filenames on the basis
+of upper/lower case distinctions.
 
-   The software now builds on Cygwin, including the generated file
-   regexprops.texi.
+The software now builds on Cygwin, including the generated file
+regexprops.texi.
+
+Findutils should now build once again on systems supporting AFS, but
+this support has not recently been fully tested.  Findutils should
+also (once again) build on Cygwin.
 
 ** Other Changes
 
-   The test suite for find is now much more extensive.
+The test suite for find is now much more extensive.
 
 * Major changes in release 4.2.24
 
@@ -44,7 +48,7 @@ The "--regex" option of locate now assumes the regular expression to
 be in the same syntax as is used in GNU Emacs, though this can be
 changed with the new option --regextype.  This is a change from the
 existing behaviour (which was to use POSIX Basic Regular Expressions).
-Since this featrue is releatively new anyway, I though it was more
+Since this feature is releatively new anyway, I though it was more
 useful to have compatibility between regular expression handling in
 find and locate than to maintain the short-lived previous behaviour of
 locate.
