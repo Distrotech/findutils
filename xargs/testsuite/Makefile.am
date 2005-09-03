@@ -7,6 +7,7 @@ DEJATOOL = xargs
 EXTRA_DIST_EXP = \
 config/unix.exp \
 xargs.gnu/0n3.exp \
+xargs.gnu/delim-o.exp \
 xargs.gnu/E_-0.exp \
 xargs.gnu/empty_def-r.exp \
 xargs.gnu/empty-r.exp \
@@ -101,6 +102,7 @@ xargs.sysv/trace.exp
 EXTRA_DIST_XO = \
 xargs.gnu/0n3.xo \
 xargs.gnu/E_-0.xo \
+xargs.gnu/delim-o.xo \
 xargs.gnu/idef-0.xo \
 xargs.gnu/idef-s26-0.xo \
 xargs.gnu/l1-0.xo \
@@ -201,6 +203,7 @@ inputs/files0.xi \
 inputs/files.xi \
 inputs/foobar.xi \
 inputs/ftt.xi \
+inputs/helloworld.xi \
 inputs/items-0.xi \
 inputs/items.xi \
 inputs/ldata-0.xi \

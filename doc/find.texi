@@ -2838,9 +2838,23 @@ Read names from the file @var{inputfile} instead of standard input.
 @item --null
 @itemx -0
 Input file names are terminated by a null character instead of by
-whitespace, and any quotes and backslash characters are not considered special (every
-character is taken literally).  Disables the end of file string, which
-is treated like any other argument.
+whitespace, and any quotes and backslash characters are not considered
+special (every character is taken literally).  Disables the end of
+file string, which is treated like any other argument.
+
+@item --delimiter @var{delim}
+@itemx -d @var{delim}
+
+Input file names are terminated by the specified character @var{delim}
+instead of by whitespace, and any quotes and backslash characters are
+not considered special (every character is taken literally).  Disables
+the end of file string, which is treated like any other argument.
+
+The specified delimiter may be a single character, a C-style character
+escape such as @samp{\n}, or an octal or hexadecimal escape code.
+Octal and hexadecimal escape codes are understood as for the
+@code{printf} command.  Multibyte characters are not supported.
+
 
 @item --eof@r{[}=@var{eof-str}@r{]}
 @itemx -e@r{[}@var{eof-str}@r{]}

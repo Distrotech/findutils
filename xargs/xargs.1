@@ -4,6 +4,7 @@ xargs \- build and execute command lines from standard input
 .SH SYNOPSIS
 .B xargs
 [\-0prtx] [\-E[eof-str]] [\-e[eof-str]] [\-\-eof[=eof-str]] [\-\-null] 
+[\-d delimiter] [\-\-delimiter delimiter] 
 [\-I[replace-str]] [\-i[replace-str]] [\-\-replace[=replace-str]] 
 [\-l[max-lines]] [\-L[max-lines]] [\-\-max\-lines[=max-lines]] [\-n max-args] [\-\-max\-args=max-args] 
 [\-s max-chars] [\-\-max\-chars=max-chars] [\-P max-procs] [\-\-max\-procs=max-procs]
@@ -59,6 +60,22 @@ character is taken literally).  Disables the end of file string, which
 is treated like any other argument.  Useful when input items might
 contain white space, quote marks, or backslashes.  The GNU find
 \-print0 option produces input suitable for this mode.
+.TP
+.I "\-\-delimiter=delim, \-d delim"
+Input items are terminated by the specified character.  Quotes and
+backslash are not special; every character in the input is taken
+literally.  Disables the end-of-file string, which is treated like any
+other argument.  This can be used when the input consists of simply
+newline-separated items, although it is almost always better to design
+your program to use `\-\-null' where this is possible.  The specified
+delimiter may be a single character, a C-style character escape such
+as 
+.BR \en , 
+or an octal or hexadecimal escape code.  Octal and hexadecimal
+escape codes are understood as for the
+.B printf
+command.   Multibyte characters are not supported.
+
 .TP
 .I "\-\-eof[=eof-str], \-E[eof-str]"
 Set the end of file string to \fIeof-str\fR.  If the end of file
@@ -192,7 +209,7 @@ is not to have a logical end-of-file marker.  POSIX (IEEE Std 1003.1,
 \fBfind\fP(1), \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1),
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
-The \-L option is incompatible with the \-I option, but should not be.
+The \-L option is incompatible with the \-I option, but perhaps should not be.
 .P 
 It is not possible for 
 .B xargs 

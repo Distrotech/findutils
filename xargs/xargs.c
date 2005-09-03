@@ -234,10 +234,17 @@ static boolean print_command = false; /* Option -t */
    execute the command if the user responds affirmatively.  */
 static boolean query_before_executing = false;
 
+/* The delimiter for input arguments.   This is only consulted if the 
+ * -0 or -d option had been given.
+ */
+static char input_delimiter = '\0';
+
+
 static struct option const longopts[] =
 {
   {"null", no_argument, NULL, '0'},
   {"arg-file", required_argument, NULL, 'a'},
+  {"delimiter", required_argument, NULL, 'd'},
   {"eof", optional_argument, NULL, 'e'},
   {"replace", optional_argument, NULL, 'I'},
   {"max-lines", optional_argument, NULL, 'l'},
@@ -294,6 +301,118 @@ get_line_max(void)
 
   return 2048L;			/* a reasonable guess. */
 }
+
+static char 
+get_char_oct_or_hex_escape(const char *s)
+{
+  const char * p;
+  int base = 8;
+  unsigned long val;
+  char *endp;
+
+  assert('\\' == s[0]);
+  
+  if ('x' == s[1])
+    {
+      /* hex */
+      p = s+2;
+      base = 16;
+    }
+  else if (isdigit(s[1]))
+    {
+      /* octal */
+      p = s+1;
+      base = 8;
+    }
+  else
+    {
+      error(1, 0,
+	    _("Ilegal escape sequence %s in input delimiter specification."),
+	    s);
+    }
+  errno = 0;
+  endp = (char*)p;
+  val = strtoul(p, &endp, base);
+  
+  /* This if condition is carefully constructed to do 
+   * the right thing if UCHAR_MAX has the same 
+   * value as ULONG_MAX.   IF UCHAR_MAX==ULONG_MAX,
+   * then val can never be greater than UCHAR_MAX.
+   */
+  if ((ULONG_MAX == val && ERANGE == errno)
+      || (val > UCHAR_MAX))
+    {
+      if (16 == base)
+	{
+	  error(1, 0,
+		_("Ilegal escape sequence %s in input delimiter specification; character values must not exceed %lx."),
+		s, (unsigned long)UCHAR_MAX);
+	}
+      else
+	{
+	  error(1, 0,
+		_("Ilegal escape sequence %s in input delimiter specification; character values must not exceed %lo."),
+		s, (unsigned long)UCHAR_MAX);
+	}
+    }
+  
+  /* check for trailing garbage */
+  if (0 != *endp)
+    {
+      error(1, 0,
+	    _("Ilegal escape sequence %s in input delimiter specification; trailing characters %s not recognised."),
+	    s, endp);
+    }
+  
+  return (char) val;
+}
+
+
+static char 
+get_input_delimiter(const char *s)
+{
+  char result = '\0';
+  
+  if (1 == strlen(s))
+    {
+      return s[0];
+    }
+  else
+    {
+      if ('\\' == s[0])
+	{
+	  /* an escape code */
+	  switch (s[1])
+	    {
+	    case 'a':
+	      return '\a';
+	    case 'b':
+	      return '\b';
+	    case 'f':
+	      return '\f';
+	    case 'n':
+	      return '\n';
+	    case 'r':
+	      return '\r';
+	    case 't':
+	      return'\t';
+	    case 'v':
+	      return '\v';
+	    case '\\':
+	      return '\\';
+	    default:
+	      return get_char_oct_or_hex_escape(s);
+	    }
+	}
+      else
+	{
+	  error(1, 0,
+		_("Illegal input delimiter specification %s: the delimited must be either a single character or an escape sequence starting with \\."),
+		s);
+	}
+    }
+}
+
 
 
 int
@@ -359,13 +478,19 @@ main (int argc, char **argv)
   
 
   
-  while ((optc = getopt_long (argc, argv, "+0a:E:e::i::I:l::L:n:prs:txP:",
+  while ((optc = getopt_long (argc, argv, "+0a:E:e::i::I:l::L:n:prs:txP:d:",
 			      longopts, (int *) 0)) != -1)
     {
       switch (optc)
 	{
 	case '0':
 	  read_args = read_string;
+	  input_delimiter = '\0';
+	  break;
+
+	case 'd':
+	  read_args = read_string;
+	  input_delimiter = get_input_delimiter(optarg);
 	  break;
 
 	case 'E':		/* POSIX */
@@ -774,7 +899,7 @@ read_string (void)
 			 initial_args);
 	  return len;
 	}
-      if (c == '\0')
+      if (c == input_delimiter)
 	{
 	  lineno++;		/* For -l.  */
 	  *p++ = '\0';
@@ -1086,7 +1211,8 @@ usage (FILE *stream)
 {
   fprintf (stream, _("\
 Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
-       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-str]]\n\
+       [-n max-args] [-s max-chars] [-P max-procs]\n\
+       [--null] [-d|--delimiter=delim] [--eof[=eof-str]]\n\
        [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n\
        [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n\
        [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n\
