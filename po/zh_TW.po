@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-09-03 11:46+0100\n"
+"POT-Creation-Date: 2005-09-03 13:49+0100\n"
 "PO-Revision-Date: 2005-08-10 16:38+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -384,7 +384,7 @@ msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1551 xargs/xargs.c:887
+#: find/pred.c:1551 xargs/xargs.c:1012
 msgid "cannot fork"
 msgstr "fork 失敗"
 
@@ -441,7 +441,7 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr ""
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1095
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1221
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -559,46 +559,79 @@ msgstr "GNU locate %s 版本\n"
 msgid "argument to --limit"
 msgstr ""
 
-#: xargs/xargs.c:346
+#: xargs/xargs.c:330
+#, c-format
+msgid "Ilegal escape sequence %s in input delimiter specification."
+msgstr ""
+
+#: xargs/xargs.c:348
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; character values "
+"must not exceed %lx."
+msgstr ""
+
+#: xargs/xargs.c:354
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; character values "
+"must not exceed %lo."
+msgstr ""
+
+#: xargs/xargs.c:363
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; trailing "
+"characters %s not recognised."
+msgstr ""
+
+#: xargs/xargs.c:410
+#, c-format
+msgid ""
+"Illegal input delimiter specification %s: the delimited must be either a "
+"single character or an escape sequence starting with \\."
+msgstr ""
+
+#: xargs/xargs.c:465
 msgid "environment is too large for exec"
 msgstr ""
 
-#: xargs/xargs.c:459
+#: xargs/xargs.c:584
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs %s 版本\n"
 
-#: xargs/xargs.c:479
+#: xargs/xargs.c:604
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "無法開啟檔案 ‘%s’ 作為輸入資料"
 
-#: xargs/xargs.c:505
+#: xargs/xargs.c:630
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr ""
 
-#: xargs/xargs.c:514
+#: xargs/xargs.c:639
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "環境變數總共用了 %ld 位元組\n"
 
-#: xargs/xargs.c:517
+#: xargs/xargs.c:642
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr "POSIX 標準中參數長度上下限為：%ld, %ld\n"
 
-#: xargs/xargs.c:521
+#: xargs/xargs.c:646
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "實際上可用的指令列長度上限：%ld\n"
 
-#: xargs/xargs.c:524
+#: xargs/xargs.c:649
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "實際上使用的指令列緩衝區大小：%ld\n"
 
-#: xargs/xargs.c:636 xargs/xargs.c:717
+#: xargs/xargs.c:761 xargs/xargs.c:842
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -607,58 +640,58 @@ msgstr ""
 "%s引號不配合；除非使用 -0 選項，否則在預設模式下引號對於 xargs 來說是有特別意"
 "義的"
 
-#: xargs/xargs.c:637 xargs/xargs.c:718
+#: xargs/xargs.c:762 xargs/xargs.c:843
 msgid "double"
 msgstr "雙"
 
-#: xargs/xargs.c:637 xargs/xargs.c:718
+#: xargs/xargs.c:762 xargs/xargs.c:843
 msgid "single"
 msgstr "單"
 
-#: xargs/xargs.c:735 xargs/xargs.c:792
+#: xargs/xargs.c:860 xargs/xargs.c:917
 msgid "argument line too long"
 msgstr "參數太長"
 
-#: xargs/xargs.c:962
+#: xargs/xargs.c:1087
 msgid "error waiting for child process"
 msgstr "等待子進程時出現錯誤"
 
-#: xargs/xargs.c:978
+#: xargs/xargs.c:1103
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: 回傳碼為 255；中止"
 
-#: xargs/xargs.c:980
+#: xargs/xargs.c:1105
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: 因訊號 %d 而停止"
 
-#: xargs/xargs.c:982
+#: xargs/xargs.c:1107
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: 因訊號 %d 而中止"
 
-#: xargs/xargs.c:1035
+#: xargs/xargs.c:1160
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c 選項後的數值無效\n"
 
-#: xargs/xargs.c:1042
+#: xargs/xargs.c:1167
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c 選項後的數值必須不小於 %ld\n"
 
-#: xargs/xargs.c:1056
+#: xargs/xargs.c:1181
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c 選項後的數值必須小於 %ld\n"
 
-#: xargs/xargs.c:1087
-#, c-format
+#: xargs/xargs.c:1212
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
-"str]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs]\n"
+"       [--null] [-d|--delimiter=delim] [--eof[=eof-str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n"

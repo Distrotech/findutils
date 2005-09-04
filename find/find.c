@@ -527,7 +527,7 @@ main (int argc, char **argv)
   assert(entry_close != NULL);
   assert(entry_print != NULL);
   
-  parse_open (entry_open, argv, &argc);
+  parse_openparen (entry_open, argv, &argc);
   parse_begin_user_args(argv, argc, last_pred, predicates);
   pred_sanity_check(last_pred);
   
@@ -583,7 +583,7 @@ main (int argc, char **argv)
   else
     {
       /* `( user-supplied-expression ) -print'. */
-      parse_close (entry_close, argv, &argc);
+      parse_closeparen (entry_close, argv, &argc);
       pred_sanity_check(last_pred);
       parse_print (entry_print, argv, &argc);
       pred_sanity_check(last_pred);

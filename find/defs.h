@@ -429,7 +429,7 @@ boolean pred_amin PARAMS((char *pathname, struct stat *stat_buf, struct predicat
 boolean pred_and PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_anewer PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_atime PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_close PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_closeparen PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_cmin PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_cnewer PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_comma PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
@@ -462,7 +462,7 @@ boolean pred_nogroup PARAMS((char *pathname, struct stat *stat_buf, struct predi
 boolean pred_nouser PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_ok PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_okdir PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
-boolean pred_open PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_openparen PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_or PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_path PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_perm PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-09-03 11:46+0100\n"
+"POT-Creation-Date: 2005-09-03 13:49+0100\n"
 "PO-Revision-Date: 2004-12-23 16:57+0100\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -541,7 +541,7 @@ msgstr "< %s ... %s > ? "
 # Al fin y al cabo es la coletilla que tengo yo al final de mi
 # comentario, ¿no? Me parece lo mismo, má o meno, pero por no meternos
 # en darle caña y acabar ya esto de una vez :) ...
-#: find/pred.c:1551 xargs/xargs.c:887
+#: find/pred.c:1551 xargs/xargs.c:1012
 msgid "cannot fork"
 msgstr "falló la llamada al sistema `fork()'"
 
@@ -740,7 +740,7 @@ msgstr ""
 "o bien  %s bigramas_más_comunes < lista-de-ficheros > base-de-datos-de-"
 "locate\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1095
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1221
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -846,47 +846,80 @@ msgstr "GNU locate versión %s\n"
 msgid "argument to --limit"
 msgstr "argumento para --limit"
 
-#: xargs/xargs.c:346
+#: xargs/xargs.c:330
+#, c-format
+msgid "Ilegal escape sequence %s in input delimiter specification."
+msgstr ""
+
+#: xargs/xargs.c:348
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; character values "
+"must not exceed %lx."
+msgstr ""
+
+#: xargs/xargs.c:354
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; character values "
+"must not exceed %lo."
+msgstr ""
+
+#: xargs/xargs.c:363
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; trailing "
+"characters %s not recognised."
+msgstr ""
+
+#: xargs/xargs.c:410
+#, c-format
+msgid ""
+"Illegal input delimiter specification %s: the delimited must be either a "
+"single character or an escape sequence starting with \\."
+msgstr ""
+
+#: xargs/xargs.c:465
 msgid "environment is too large for exec"
 msgstr "el entorno es demasiado grande para exec"
 
-#: xargs/xargs.c:459
+#: xargs/xargs.c:584
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versión %s\n"
 
-#: xargs/xargs.c:479
+#: xargs/xargs.c:604
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr ""
 
-#: xargs/xargs.c:505
+#: xargs/xargs.c:630
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr "Se reduce arg_max (%ld) a arg_size (%ld)\n"
 
-#: xargs/xargs.c:514
+#: xargs/xargs.c:639
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "Las variables de entorno ocupan %ld bytes\n"
 
-#: xargs/xargs.c:517
+#: xargs/xargs.c:642
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr ""
 "Límites POSIX inferior y superior sobre la longitud del argumento: %ld, %ld\n"
 
-#: xargs/xargs.c:521
+#: xargs/xargs.c:646
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Máxima longitud de orden que se podría usar realmente: %ld\n"
 
-#: xargs/xargs.c:524
+#: xargs/xargs.c:649
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Tamaño del búfer de órdenes que se está usando realmente: %ld\n"
 
-#: xargs/xargs.c:636 xargs/xargs.c:717
+#: xargs/xargs.c:761 xargs/xargs.c:842
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -896,19 +929,19 @@ msgstr ""
 "xargs\n"
 "a menos que utilice la opción -0"
 
-#: xargs/xargs.c:637 xargs/xargs.c:718
+#: xargs/xargs.c:762 xargs/xargs.c:843
 msgid "double"
 msgstr "doble"
 
-#: xargs/xargs.c:637 xargs/xargs.c:718
+#: xargs/xargs.c:762 xargs/xargs.c:843
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:735 xargs/xargs.c:792
+#: xargs/xargs.c:860 xargs/xargs.c:917
 msgid "argument line too long"
 msgstr "línea de argumentos demasiado larga"
 
-#: xargs/xargs.c:962
+#: xargs/xargs.c:1087
 msgid "error waiting for child process"
 msgstr "error esperando al proceso hijo"
 
@@ -929,22 +962,22 @@ msgstr "error esperando al proceso hijo"
 # Me quedo con la duda de cómo se llama eso en español.
 # Esperemos que lo vea otro. sv
 #
-#: xargs/xargs.c:978
+#: xargs/xargs.c:1103
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: acabó con status 255; abortando"
 
-#: xargs/xargs.c:980
+#: xargs/xargs.c:1105
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: interrumpido por la señal %d"
 
-#: xargs/xargs.c:982
+#: xargs/xargs.c:1107
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminado por la señal %d"
 
-#: xargs/xargs.c:1035
+#: xargs/xargs.c:1160
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: número inválido para la opción -%c\n"
@@ -953,22 +986,22 @@ msgstr "%s: número inválido para la opción -%c\n"
 # queda mucho mejor. Si a alguien no le gusta, que me lo diga ;). IPG
 # Me parece acertado y lo digo :-) sv
 # falen ... :) ... ipg
-#: xargs/xargs.c:1042
+#: xargs/xargs.c:1167
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: el valor para la opción -%c debería ser mayor o igual que %ld\n"
 
-#: xargs/xargs.c:1056
+#: xargs/xargs.c:1181
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: el valor para la opción -%c debería ser menor que %ld\n"
 
-#: xargs/xargs.c:1087
+#: xargs/xargs.c:1212
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
-"str]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs]\n"
+"       [--null] [-d|--delimiter=delim] [--eof[=eof-str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n"

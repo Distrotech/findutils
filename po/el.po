@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-09-03 11:46+0100\n"
+"POT-Creation-Date: 2005-09-03 13:49+0100\n"
 "PO-Revision-Date: 2005-01-02 13:54+0200\n"
 "Last-Translator: Lefteris Dimitroulakis <edimitro@tee.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -422,7 +422,7 @@ msgstr ""
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1551 xargs/xargs.c:887
+#: find/pred.c:1551 xargs/xargs.c:1012
 msgid "cannot fork"
 msgstr "Δεν μπορώ να κλωνοποιήσω"
 
@@ -484,7 +484,7 @@ msgstr ""
 "Χρήση: %s [--version | --help]\n"
 "ή     %s most_common_bigrams < file-list > locate-database\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1095
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1221
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -590,46 +590,79 @@ msgstr "GNU locate έκδοση %s\n"
 msgid "argument to --limit"
 msgstr "όρισμα επιλογής --limit"
 
-#: xargs/xargs.c:346
+#: xargs/xargs.c:330
+#, c-format
+msgid "Ilegal escape sequence %s in input delimiter specification."
+msgstr ""
+
+#: xargs/xargs.c:348
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; character values "
+"must not exceed %lx."
+msgstr ""
+
+#: xargs/xargs.c:354
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; character values "
+"must not exceed %lo."
+msgstr ""
+
+#: xargs/xargs.c:363
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; trailing "
+"characters %s not recognised."
+msgstr ""
+
+#: xargs/xargs.c:410
+#, c-format
+msgid ""
+"Illegal input delimiter specification %s: the delimited must be either a "
+"single character or an escape sequence starting with \\."
+msgstr ""
+
+#: xargs/xargs.c:465
 msgid "environment is too large for exec"
 msgstr "το περιβάλλον είναι πολύ μεγάλο γιά την εκτέλεση"
 
-#: xargs/xargs.c:459
+#: xargs/xargs.c:584
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs έκδοση %s\n"
 
-#: xargs/xargs.c:479
+#: xargs/xargs.c:604
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr ""
 
-#: xargs/xargs.c:505
+#: xargs/xargs.c:630
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr "Μείωση του arg_max (%ld) σε arg_size (%ld)\n"
 
-#: xargs/xargs.c:514
+#: xargs/xargs.c:639
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "Οι μεταβλητές περιβάλλοντος καταλαμβάνουν %ld bytes\n"
 
-#: xargs/xargs.c:517
+#: xargs/xargs.c:642
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr "Άνω και κάτω όριο κατά POSIX για μήκος ορίσματος: %ld, %ld\n"
 
-#: xargs/xargs.c:521
+#: xargs/xargs.c:646
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Μέγιστο μήκος εντολής που θα μπορούσαμε να χρησιμοποιήσουμε: %ld\n"
 
-#: xargs/xargs.c:524
+#: xargs/xargs.c:649
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Μέγεθος του buffer εντολών που χρησιμοποιούμε: %ld\n"
 
-#: xargs/xargs.c:636 xargs/xargs.c:717
+#: xargs/xargs.c:761 xargs/xargs.c:842
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -638,58 +671,58 @@ msgstr ""
 "unmatched %s quote; εκ προεπιλογής τα εισαγωγικά έχουν ειδική σημασία για το "
 "xargs εκτός κι αν χρησιμοπείτε την επιλογή -0."
 
-#: xargs/xargs.c:637 xargs/xargs.c:718
+#: xargs/xargs.c:762 xargs/xargs.c:843
 msgid "double"
 msgstr "διπλά"
 
-#: xargs/xargs.c:637 xargs/xargs.c:718
+#: xargs/xargs.c:762 xargs/xargs.c:843
 msgid "single"
 msgstr "μονά"
 
-#: xargs/xargs.c:735 xargs/xargs.c:792
+#: xargs/xargs.c:860 xargs/xargs.c:917
 msgid "argument line too long"
 msgstr "γραμμή ορισμάτων πολύ μεγάλη"
 
-#: xargs/xargs.c:962
+#: xargs/xargs.c:1087
 msgid "error waiting for child process"
 msgstr "σφάλμα αναμένοντας τη θυγατρική διεργασία"
 
-#: xargs/xargs.c:978
+#: xargs/xargs.c:1103
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: τερματίστηκε με ένδειξη 255, απότομο σταμάτημα"
 
-#: xargs/xargs.c:980
+#: xargs/xargs.c:1105
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: σταμάτησε από το σήμα %d"
 
-#: xargs/xargs.c:982
+#: xargs/xargs.c:1107
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: τερματίστηκε από το σήμα  %d"
 
-#: xargs/xargs.c:1035
+#: xargs/xargs.c:1160
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: άκυρος αριθμός γιά την επιλογή -%c\n"
 
-#: xargs/xargs.c:1042
+#: xargs/xargs.c:1167
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s:η τιμή για την επιλογή -%c πρέπει να είναι >= %ld\n"
 
-#: xargs/xargs.c:1056
+#: xargs/xargs.c:1181
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: η τιμή για την επιλογή -%c πρέπει να είναι < %ld\n"
 
-#: xargs/xargs.c:1087
+#: xargs/xargs.c:1212
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
-"str]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs]\n"
+"       [--null] [-d|--delimiter=delim] [--eof[=eof-str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n"

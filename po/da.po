@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-09-03 11:46+0100\n"
+"POT-Creation-Date: 2005-09-03 13:49+0100\n"
 "PO-Revision-Date: 2005-08-01 18:25+0200\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -432,7 +432,7 @@ msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
 # der er plads nok at tage af
-#: find/pred.c:1551 xargs/xargs.c:887
+#: find/pred.c:1551 xargs/xargs.c:1012
 msgid "cannot fork"
 msgstr "kan ikke fraspalte en ny proces"
 
@@ -492,7 +492,7 @@ msgstr ""
 "Brug: %s [--version | --help]\n"
 "eller %s mest-brugte-bigrammer < liste > locate-database\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1095
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1221
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -611,46 +611,79 @@ msgstr "GNU locate version %s\n"
 msgid "argument to --limit"
 msgstr "parameter til --limit"
 
-#: xargs/xargs.c:346
+#: xargs/xargs.c:330
+#, c-format
+msgid "Ilegal escape sequence %s in input delimiter specification."
+msgstr ""
+
+#: xargs/xargs.c:348
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; character values "
+"must not exceed %lx."
+msgstr ""
+
+#: xargs/xargs.c:354
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; character values "
+"must not exceed %lo."
+msgstr ""
+
+#: xargs/xargs.c:363
+#, c-format
+msgid ""
+"Ilegal escape sequence %s in input delimiter specification; trailing "
+"characters %s not recognised."
+msgstr ""
+
+#: xargs/xargs.c:410
+#, c-format
+msgid ""
+"Illegal input delimiter specification %s: the delimited must be either a "
+"single character or an escape sequence starting with \\."
+msgstr ""
+
+#: xargs/xargs.c:465
 msgid "environment is too large for exec"
 msgstr "miljø for stort til at eksekvere"
 
-#: xargs/xargs.c:459
+#: xargs/xargs.c:584
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs version %s\n"
 
-#: xargs/xargs.c:479
+#: xargs/xargs.c:604
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Kan ikke åbne inddatafilen '%s'"
 
-#: xargs/xargs.c:505
+#: xargs/xargs.c:630
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr "Reducerer arg_max (%ld) til arg_size (%ld)\n"
 
-#: xargs/xargs.c:514
+#: xargs/xargs.c:639
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "Din miljøvariabel optager %ld byte\n"
 
-#: xargs/xargs.c:517
+#: xargs/xargs.c:642
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr "POSIX nedre og øvre grænser på parameterlængde: %ld, %ld\n"
 
-#: xargs/xargs.c:521
+#: xargs/xargs.c:646
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Maksimal længde af kommando der faktisk kunne bruges: %ld\n"
 
-#: xargs/xargs.c:524
+#: xargs/xargs.c:649
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Størrelsen af det kommandomellemlager som faktisk bruges: %ld\n"
 
-#: xargs/xargs.c:636 xargs/xargs.c:717
+#: xargs/xargs.c:761 xargs/xargs.c:842
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -659,59 +692,59 @@ msgstr ""
 "uafbalanceret citationstegn %s; som standard er citationstegn specielle for "
 "xargs medmindre du bruger tilvalget -0"
 
-#: xargs/xargs.c:637 xargs/xargs.c:718
+#: xargs/xargs.c:762 xargs/xargs.c:843
 msgid "double"
 msgstr "dobbelt"
 
-#: xargs/xargs.c:637 xargs/xargs.c:718
+#: xargs/xargs.c:762 xargs/xargs.c:843
 msgid "single"
 msgstr "enkelt"
 
-#: xargs/xargs.c:735 xargs/xargs.c:792
+#: xargs/xargs.c:860 xargs/xargs.c:917
 msgid "argument line too long"
 msgstr "parameterlinje for lang"
 
-#: xargs/xargs.c:962
+#: xargs/xargs.c:1087
 msgid "error waiting for child process"
 msgstr "fejl i forbindelse med at vente på afkomproces"
 
-#: xargs/xargs.c:978
+#: xargs/xargs.c:1103
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: stoppede med status 255; afbryder"
 
-#: xargs/xargs.c:980
+#: xargs/xargs.c:1105
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: standset af signal %d"
 
-#: xargs/xargs.c:982
+#: xargs/xargs.c:1107
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: afsluttet af signal %d"
 
 # omvendt ordstilling for at undgå sammensætningsproblem
-#: xargs/xargs.c:1035
+#: xargs/xargs.c:1160
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: ugyldig værdi til tilvalget -%c\n"
 
-#: xargs/xargs.c:1042
+#: xargs/xargs.c:1167
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: værdien for tilvalget -%c skal være >= %ld\n"
 
-#: xargs/xargs.c:1056
+#: xargs/xargs.c:1181
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: værdien for tilvalget -%c skal være < %ld\n"
 
-#: xargs/xargs.c:1087
-#, c-format
+#: xargs/xargs.c:1212
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs] [--null] [--eof[=eof-"
-"str]]\n"
+"       [-n max-args] [-s max-chars] [-P max-procs]\n"
+"       [--null] [-d|--delimiter=delim] [--eof[=eof-str]]\n"
 "       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n"
