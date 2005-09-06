@@ -440,7 +440,7 @@ main (int argc, char **argv)
   atexit (close_stdout);
   atexit (wait_for_proc_all);
 
-  /* IEE Std 1003.1, 2003 specifies that the combined argument and 
+  /* IEEE Std 1003.1, 2003 specifies that the combined argument and 
    * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 
    * specifies that it shall be at least LINE_MAX.
    */
