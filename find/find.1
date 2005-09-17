@@ -1114,9 +1114,9 @@ their group, or anybody else).
 
 .P
 .nf
-.B find . -perm +022
-.B find . -perm +g+w,o+w
-.B find . -perm +g=w,o=w
+.B find . -perm +220
+.B find . -perm +u+w,g+w
+.B find . -perm +u=w,g=w
 
 .fi
 All three of these commands do the same thing, but the first one uses
@@ -1128,8 +1128,8 @@ do.
 
 .P
 .nf
-.B find . -perm -022
-.B find . -perm -g+w,o+w
+.B find . -perm -220
+.B find . -perm -g+w,u+w
 
 .fi
 Both these commands do the same thing; search for files which are
