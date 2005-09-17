@@ -428,6 +428,7 @@ main (int argc, char **argv)
   long size_of_environment = env_size(environ);
   char *default_cmd = "/bin/echo";
   int (*read_args) PARAMS ((void)) = read_line;
+  int env_too_big = 0;
 
   program_name = argv[0];
   original_exit_value = 0;
@@ -462,7 +463,8 @@ main (int argc, char **argv)
   /* Take the size of the environment into account.  */
   if (size_of_environment > posix_arg_size_max)
     {
-      error (1, 0, _("environment is too large for exec"));
+      bc_ctl.arg_max = 0;
+      env_too_big = 1;
     }
   else
     {
@@ -589,6 +591,15 @@ main (int argc, char **argv)
 	  return 1;
 	}
     }
+
+  if (env_too_big)
+  {
+    /* We issue this error message after processing command line 
+     * arguments so that it is possible to use "xargs --help" even if
+     * the environment is too large. 
+     */
+    error (1, 0, _("environment is too large for exec"));
+  }
 
   if (0 == strcmp (input_file, "-"))
     {
