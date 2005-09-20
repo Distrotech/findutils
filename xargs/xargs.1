@@ -5,8 +5,8 @@ xargs \- build and execute command lines from standard input
 .B xargs
 [\-0prtx] [\-E[eof-str]] [\-e[eof-str]] [\-\-eof[=eof-str]] [\-\-null] 
 [\-d delimiter] [\-\-delimiter delimiter] 
-[\-I[replace-str]] [\-i[replace-str]] [\-\-replace[=replace-str]] 
-[\-l[max-lines]] [\-L[max-lines]] [\-\-max\-lines[=max-lines]] [\-n max-args] [\-\-max\-args=max-args] 
+[\-I replace-str] [\-i[replace-str]] [\-\-replace[=replace-str]] 
+[\-l[max-lines]] [\-L max-lines] [\-\-max\-lines[=max-lines]] [\-n max-args] [\-\-max\-args=max-args] 
 [\-s max-chars] [\-\-max\-chars=max-chars] [\-P max-procs] [\-\-max\-procs=max-procs]
 [\-\-interactive] [\-\-verbose] [\-\-exit] 
 [\-\-no\-run\-if\-empty] [\-\-arg\-file=file] [\-\-version] [\-\-help]
@@ -92,26 +92,27 @@ Print a summary of the options to
 .B xargs
 and exit.
 .TP
-.I "\-\-replace[=replace-str], \-I[replace-str], \-i[replace-str]"
+.I "\-I replace-str"
 Replace occurrences of \fIreplace-str\fR in the initial-arguments with
-names read from standard input.
-Also, unquoted blanks do not terminate input items; instead the
-separator is the newline character.
-If \fIreplace-str\fR is omitted, it
-defaults to "{}" (like for `find \-exec').  Implies \fI\-x\fP and
-\fI\-l 1\fP.
-\-i is deprecated in favour of \-I.
+names read from standard input.  Also, unquoted blanks do not
+terminate input items; instead the separator is the newline character.
+Implies \fI\-x\fP and \fI\-l 1\fP.
 .TP
-.I "\-\-max\-lines[=max-lines], \-L[max-lines]"
-Use at most \fImax-lines\fR nonblank input lines per command line;
-\fImax-lines\fR defaults to 1 if omitted.  Trailing blanks cause an
-input line to be logically continued on the next input line.  Implies
-\fI\-x\fR.
+.I "\-\-replace[=replace-str], \-i[replace-str]"
+This option is a synonym for \-I\fIreplace-str\fR if \fIreplace-str\fR
+is specified, and for \-I{} otherwise.  This option is deprecated; use
+\-I instead.
 .TP
-.I "\-l[max-lines]"
-Deprecated; non-POSIX-compliant synonym for the 
+.I "\-L max-lines"
+Use at most \fImax-lines\fR nonblank input lines per command line.
+Trailing blanks cause an input line to be logically continued on the
+next input line.  Implies \fI\-x\fR.
+.TP
+.I "\-\-max-lines[=max-lines], \-l[max-lines]"
+Synonym for the
 .I "\-L"
-option.
+option.  Unlike \-L, the \fImax-lines\fR argument is optional.  If
+\fImax-args\fR is not specified, it defaults to one.   This option is deprecared; use \-l instead.
 .TP
 .I "\-\-max\-args=max-args, \-n max-args"
 Use at most \fImax-args\fR arguments per command line.  Fewer than
@@ -204,6 +205,10 @@ As of GNU xargs version 4.2.9, the default behaviour of
 .B xargs
 is not to have a logical end-of-file marker.  POSIX (IEEE Std 1003.1,
 2004 Edition) allows this.
+.P
+The \-l and \-i options appear in the 1997 version of the POSIX
+standard, but do not appear in the 2004 version of the standard.
+Therefore you should use \-L and \-I instead, respectively.
 
 .SH "SEE ALSO"
 \fBfind\fP(1), \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1),

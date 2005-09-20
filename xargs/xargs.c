@@ -519,6 +519,12 @@ main (int argc, char **argv)
 	  break;
 
 	case 'L':		/* POSIX */
+	  bc_ctl.lines_per_exec = parse_num (optarg, 'l', 1L, -1L, 1);
+	  /* -L excludes -i -n.  */
+	  bc_ctl.args_per_exec = 0;
+	  bc_ctl.replace_pat = NULL;
+	  break;
+
 	case 'l':		/* deprecated */
 	  if (optarg)
 	    bc_ctl.lines_per_exec = parse_num (optarg, 'l', 1L, -1L, 1);
@@ -1221,12 +1227,14 @@ static void
 usage (FILE *stream)
 {
   fprintf (stream, _("\
-Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
-       [-n max-args] [-s max-chars] [-P max-procs]\n\
+Usage: %s [-0prtx] [-e[eof-str]] [--interactive]\n\
+       [-l[max-lines]] [-L max-lines] [--max-lines[=max-lines]]\n\
+       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n\
+       [-n max-args] [--max-args=max-args]\n\
+       [-s max-chars] [--max-chars=max-chars]\n\
+       [-P max-procs]  [--max-procs=max-procs]\n\
        [--null] [-d|--delimiter=delim] [--eof[=eof-str]]\n\
-       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n\
-       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n\
-       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n\
+       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n\
        [--version] [--help] [command [initial-arguments]]\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);

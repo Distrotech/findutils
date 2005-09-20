@@ -2038,14 +2038,14 @@ command.  By default, the command is run once even if there is no
 input.
 
 @item --max-lines@r{[}=@var{max-lines}@r{]}
-@itemx -L@r{[}@var{max-lines}@r{]}
+@itemx -L @var{max-lines}
 @itemx -l@r{[}@var{max-lines}@r{]}
 Use at most @var{max-lines} nonblank input lines per command line;
-@var{max-lines} defaults to 1 if omitted.  Trailing blanks cause an
+@var{max-lines} defaults to 1 if omitted; omitting the argument is not
+allowed in the case of the @samp{-L} option.  Trailing blanks cause an
 input line to be logically continued on the next input line, for the
-purpose of counting the lines.  Implies @samp{-x}.  The preferred
-name for this option is @samp{-L} as this is specified by POSIX.  This
-option should be compatible with @samp{-I} but currently it is not.
+purpose of counting the lines.  Implies @samp{-x}.  The preferred name
+for this option is @samp{-L} as this is specified by POSIX.  
 
 @item --max-args=@var{max-args}
 @itemx -n @var{max-args}
@@ -2081,14 +2081,14 @@ operation is equivalent to @samp{find -exec} (@pxref{Single File}).
 
 @table @code
 @item --replace@r{[}=@var{replace-str}@r{]}
-@itemx -I@r{[}@var{replace-str}@r{]}
+@itemx -I @var{replace-str}
 @itemx -i@r{[}@var{replace-str}@r{]}
 Replace occurrences of @var{replace-str} in the initial arguments with
-names read from the input.  Also, unquoted blanks do not
-terminate arguments; instead, the input is split at newlines only.  If
-@var{replace-str} is omitted, it defaults to @samp{@{@}} (like for
-@samp{find -exec}).  Implies @samp{-x} and @samp{-l 1}.  @samp{-i} is
-deprecated in favour of @samp{-I}. As an
+names read from the input.  Also, unquoted blanks do not terminate
+arguments; instead, the input is split at newlines only.  For the
+@samp{-i} option, if @var{replace-str} is omitted, it defaults to
+@samp{@{@}} (like for @samp{find -exec}).  Implies @samp{-x} and
+@samp{-l 1}.  @samp{-i} is deprecated in favour of @samp{-I}. As an
 example, to sort each file in the @file{bills} directory, leaving the
 output in that file name with @file{.sorted} appended, you could do:
 
@@ -2867,14 +2867,14 @@ option is not given, the end of file string defaults to @samp{_}.
 Print a summary of the options to @code{xargs} and exit.
 
 @item --replace@r{[}=@var{replace-str}@r{]}
-@itemx -I@r{[}@var{replace-str}@r{]}
+@itemx -I@r{}@var{replace-str}@r{}
 @itemx -i@r{[}@var{replace-str}@r{]}
 Replace occurrences of @var{replace-str} in the initial arguments with
 names read from standard input.  Also, unquoted blanks do not
-terminate arguments; instead, the input is split at newlines only.
-If @var{replace-str} is omitted, it defaults to @samp{@{@}}
-(like for @samp{find -exec}).  Implies @samp{-x} and @samp{-l 1}.  @samp{-i} is
-deprecated in favour of @samp{-I}.
+terminate arguments; instead, the input is split at newlines only.  If
+@var{replace-str} is omitted (allowed only for @samp{-i}), it defaults
+to @samp{@{@}} (like for @samp{find -exec}).  Implies @samp{-x} and
+@samp{-l 1}.  @samp{-i} is deprecated in favour of @samp{-I}.
 
 @item --max-lines@r{[}=@var{max-lines}@r{]}
 @itemx -l@r{[}@var{max-lines}@r{]}
