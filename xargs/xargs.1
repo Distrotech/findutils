@@ -3,7 +3,7 @@
 xargs \- build and execute command lines from standard input
 .SH SYNOPSIS
 .B xargs
-[\-0prtx] [\-E[eof-str]] [\-e[eof-str]] [\-\-eof[=eof-str]] [\-\-null] 
+[\-0prtx] [\-E eof-str] [\-e[eof-str]] [\-\-eof[=eof-str]] [\-\-null] 
 [\-d delimiter] [\-\-delimiter delimiter] 
 [\-I replace-str] [\-i[replace-str]] [\-\-replace[=replace-str]] 
 [\-l[max-lines]] [\-L max-lines] [\-\-max\-lines[=max-lines]] [\-n max-args] [\-\-max\-args=max-args] 
@@ -77,15 +77,16 @@ escape codes are understood as for the
 command.   Multibyte characters are not supported.
 
 .TP
-.I "\-\-eof[=eof-str], \-E[eof-str]"
+.I "\-Eeof-str"
 Set the end of file string to \fIeof-str\fR.  If the end of file
 string occurs as a line of input, the rest of the input is ignored.
-If \fIeof-str\fR is omitted, there is no end of file string.  If this
-option is not given, no end of file string is used.
+If neither \-E nor \-e is used, no end of file string is used.
 .TP 
-.I "\-e[eof-str]"
-This option is a synonym for the `\-E' option.   Use `\-E' instead,
-because it is POSIX compliant while this option is not. 
+.I "\-\-eof[=eof-str], \-e[eof-str]"
+This option is a synonym for the `\-E' option.  Use `\-E' instead,
+because it is POSIX compliant while this option is not.  If
+\fIeof-str\fR is omitted, there is no end of file string.  If neither
+\-E nor \-e is used, no end of file string is used.
 .TP
 .I "\-\-help"
 Print a summary of the options to
