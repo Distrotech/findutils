@@ -2082,18 +2082,19 @@ operation is equivalent to @samp{find -exec} (@pxref{Single File}).
 @table @code
 @item --replace@r{[}=@var{replace-str}@r{]}
 @itemx -I @var{replace-str}
-@itemx -i@r{[}@var{replace-str}@r{]}
+@itemx -i @var{replace-str}
 Replace occurrences of @var{replace-str} in the initial arguments with
 names read from the input.  Also, unquoted blanks do not terminate
 arguments; instead, the input is split at newlines only.  For the
-@samp{-i} option, if @var{replace-str} is omitted, it defaults to
-@samp{@{@}} (like for @samp{find -exec}).  Implies @samp{-x} and
-@samp{-l 1}.  @samp{-i} is deprecated in favour of @samp{-I}. As an
-example, to sort each file in the @file{bills} directory, leaving the
-output in that file name with @file{.sorted} appended, you could do:
+@samp{-i} option, if @var{replace-str} is omitted for @samp{--replace}
+or @samp{-i}, it defaults to @samp{@{@}} (like for @samp{find -exec}).
+Implies @samp{-x} and @samp{-l 1}.  @samp{-i} is deprecated in favour
+of @samp{-I}. As an example, to sort each file in the @file{bills}
+directory, leaving the output in that file name with @file{.sorted}
+appended, you could do:
 
 @example
-find bills -type f | xargs -IXX sort -o XX.sorted XX
+find bills -type f | xargs -I XX sort -o XX.sorted XX
 @end example
 
 @noindent
@@ -2867,14 +2868,15 @@ option is not given, the end of file string defaults to @samp{_}.
 Print a summary of the options to @code{xargs} and exit.
 
 @item --replace@r{[}=@var{replace-str}@r{]}
-@itemx -I@r{}@var{replace-str}@r{}
+@itemx -I @var{replace-str}
 @itemx -i@r{[}@var{replace-str}@r{]}
 Replace occurrences of @var{replace-str} in the initial arguments with
 names read from standard input.  Also, unquoted blanks do not
 terminate arguments; instead, the input is split at newlines only.  If
-@var{replace-str} is omitted (allowed only for @samp{-i}), it defaults
-to @samp{@{@}} (like for @samp{find -exec}).  Implies @samp{-x} and
-@samp{-l 1}.  @samp{-i} is deprecated in favour of @samp{-I}.
+@var{replace-str} is omitted (omitting it is allowed only for
+@samp{-i}), it defaults to @samp{@{@}} (like for @samp{find -exec}).
+Implies @samp{-x} and @samp{-l 1}.  @samp{-i} is deprecated in favour
+of @samp{-I}.
 
 @item --max-lines@r{[}=@var{max-lines}@r{]}
 @itemx -l@r{[}@var{max-lines}@r{]}
