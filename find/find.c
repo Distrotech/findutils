@@ -81,7 +81,7 @@
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
 
 #ifdef STAT_MOUNTPOINTS
-static void init_mounted_dev_list(void);
+static void init_mounted_dev_list(int mandatory);
 #endif
 
 static void process_top_path PARAMS((char *pathname, mode_t mode));
@@ -645,7 +645,7 @@ main (int argc, char **argv)
   if (!options.open_nofollow_available)
     {
 #ifdef STAT_MOUNTPOINTS
-      init_mounted_dev_list();
+      init_mounted_dev_list(0);
 #endif
     }
   
@@ -739,11 +739,15 @@ static size_t num_mounted_devices = 0u;
 
 
 static void
-init_mounted_dev_list()
+init_mounted_dev_list(int mandatory)
 {
   assert(NULL == mounted_devices);
   assert(0 == num_mounted_devices);
   mounted_devices = get_mounted_devices(&num_mounted_devices);
+  if (mandatory && (NULL == mounted_devices))
+    {
+      error(1, 0, "Cannot read list of mounted devices.");
+    }
 }
 
 static void
@@ -755,7 +759,7 @@ refresh_mounted_dev_list(void)
       mounted_devices = 0;
     }
   num_mounted_devices = 0u;
-  init_mounted_dev_list();
+  init_mounted_dev_list(1);
 }
 
 
@@ -1335,7 +1339,7 @@ chdir_back (void)
        * already have it.
        */
       if (NULL == mounted_devices)
-	init_mounted_dev_list();
+	init_mounted_dev_list(1);
 #endif
       
       if (chdir (starting_dir) != 0)
