@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-09-03 13:49+0100\n"
+"POT-Creation-Date: 2005-11-10 23:14-0800\n"
 "PO-Revision-Date: 2005-08-01 18:25+0200\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -98,11 +98,30 @@ msgstr "%s: tilvalget '-W %s' skal ikke have en parameter\n"
 msgid "block size"
 msgstr "blokstørrelse"
 
-#: gnulib/lib/quotearg.c:240
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#.
+#. If you don't know what to put here, please see
+#. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
+#. and use glyphs suitable for your language.
+#: gnulib/lib/quotearg.c:245
 msgid "`"
 msgstr "'"
 
-#: gnulib/lib/quotearg.c:241
+#: gnulib/lib/quotearg.c:246
 msgid "'"
 msgstr "'"
 
@@ -124,7 +143,7 @@ msgstr "ups - ugyldig automatisk indsættelse af 'and'!"
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Brug: %s [-H] [-L] [-P] [sti...] [udtryk]\n"
 
-#: find/find.c:456
+#: find/find.c:457
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -132,44 +151,44 @@ msgstr ""
 "Miljøvariablen FIND_BLOCK_SIZE er ikke understøttet, det eneste der påvirker "
 "blokstørrelsen er miljøvariablen POSIXLY_CORRECT"
 
-#: find/find.c:538
+#: find/find.c:539
 msgid "paths must precede expression"
 msgstr "stier skal stå før udtrykket"
 
-#: find/find.c:544
+#: find/find.c:545
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "ugyldigt udsagn '%s'"
 
-#: find/find.c:552
+#: find/find.c:553
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "manglende parameter til '%s'"
 
-#: find/find.c:554
+#: find/find.c:555
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "ugyldig parameter '%s' til '%s'"
 
-#: find/find.c:610
+#: find/find.c:611
 msgid "unexpected extra predicate"
 msgstr "uventet ekstra udsagn"
 
-#: find/find.c:662 find/find.c:665
+#: find/find.c:663 find/find.c:666
 msgid "cannot get current directory"
 msgstr "kan ikke hente det aktuelle katalog"
 
-#: find/find.c:833
+#: find/find.c:834
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "Advarsel: filsystemet %s er blevet afmonteret for nylig."
 
-#: find/find.c:843
+#: find/find.c:844
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "Advarsel: filsystemet %s er blevet monteret for nylig."
 
-#: find/find.c:938
+#: find/find.c:939
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -178,7 +197,7 @@ msgstr ""
 "%s%s ændrede sig under kørsel af %s (tidligere enhedsnummer %ld, nyt "
 "enhedsnummer %ld, filsystemtype er %s) [ref %ld]"
 
-#: find/find.c:975
+#: find/find.c:976
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -187,7 +206,7 @@ msgstr ""
 "%s%s ændrede sig under kørsel af %s (tidligere inode-nummer %ld, nyt inode-"
 "nummer %ld, filsystemtype er %s) [ref %ld]"
 
-#: find/find.c:1512
+#: find/find.c:1513
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -196,7 +215,7 @@ msgstr ""
 "Symbolsk kæde '%s' er del af en løkke i kataloghierarkiet; det katalog som "
 "den peger på, er allerede blevet besøgt."
 
-#: find/find.c:1527
+#: find/find.c:1528
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -205,20 +224,20 @@ msgstr ""
 "Filsystemsløkke fundet; '%s' har det samme enhedsnummer og indekseringsknude "
 "som et katalog hvilket er %d %s."
 
-#: find/find.c:1531
+#: find/find.c:1532
 msgid "level higher in the filesystem hierarchy"
 msgstr "niveau højere i filsystemshierarkiet"
 
-#: find/find.c:1532
+#: find/find.c:1533
 msgid "levels higher in the filesystem hierarchy"
 msgstr "niveauer højere i filsystemshierarkiet"
 
-#: find/find.c:1901
+#: find/find.c:1902
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "advarsel: kunne ikke følge det symbolske link %s"
 
-#: find/find.c:1945
+#: find/find.c:1946
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -432,7 +451,7 @@ msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
 # der er plads nok at tage af
-#: find/pred.c:1551 xargs/xargs.c:1012
+#: find/pred.c:1551 xargs/xargs.c:1029
 msgid "cannot fork"
 msgstr "kan ikke fraspalte en ny proces"
 
@@ -492,7 +511,7 @@ msgstr ""
 "Brug: %s [--version | --help]\n"
 "eller %s mest-brugte-bigrammer < liste > locate-database\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1221
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1240
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -644,46 +663,46 @@ msgid ""
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:465
-msgid "environment is too large for exec"
-msgstr "miljø for stort til at eksekvere"
-
-#: xargs/xargs.c:584
+#: xargs/xargs.c:592
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs version %s\n"
 
-#: xargs/xargs.c:604
+#: xargs/xargs.c:607
+msgid "environment is too large for exec"
+msgstr "miljø for stort til at eksekvere"
+
+#: xargs/xargs.c:621
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Kan ikke åbne inddatafilen '%s'"
 
-#: xargs/xargs.c:630
+#: xargs/xargs.c:647
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr "Reducerer arg_max (%ld) til arg_size (%ld)\n"
 
-#: xargs/xargs.c:639
+#: xargs/xargs.c:656
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "Din miljøvariabel optager %ld byte\n"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:659
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr "POSIX nedre og øvre grænser på parameterlængde: %ld, %ld\n"
 
-#: xargs/xargs.c:646
+#: xargs/xargs.c:663
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Maksimal længde af kommando der faktisk kunne bruges: %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:666
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Størrelsen af det kommandomellemlager som faktisk bruges: %ld\n"
 
-#: xargs/xargs.c:761 xargs/xargs.c:842
+#: xargs/xargs.c:778 xargs/xargs.c:859
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -692,62 +711,64 @@ msgstr ""
 "uafbalanceret citationstegn %s; som standard er citationstegn specielle for "
 "xargs medmindre du bruger tilvalget -0"
 
-#: xargs/xargs.c:762 xargs/xargs.c:843
+#: xargs/xargs.c:779 xargs/xargs.c:860
 msgid "double"
 msgstr "dobbelt"
 
-#: xargs/xargs.c:762 xargs/xargs.c:843
+#: xargs/xargs.c:779 xargs/xargs.c:860
 msgid "single"
 msgstr "enkelt"
 
-#: xargs/xargs.c:860 xargs/xargs.c:917
+#: xargs/xargs.c:877 xargs/xargs.c:934
 msgid "argument line too long"
 msgstr "parameterlinje for lang"
 
-#: xargs/xargs.c:1087
+#: xargs/xargs.c:1104
 msgid "error waiting for child process"
 msgstr "fejl i forbindelse med at vente på afkomproces"
 
-#: xargs/xargs.c:1103
+#: xargs/xargs.c:1120
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: stoppede med status 255; afbryder"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1122
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: standset af signal %d"
 
-#: xargs/xargs.c:1107
+#: xargs/xargs.c:1124
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: afsluttet af signal %d"
 
 # omvendt ordstilling for at undgå sammensætningsproblem
-#: xargs/xargs.c:1160
+#: xargs/xargs.c:1177
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: ugyldig værdi til tilvalget -%c\n"
 
-#: xargs/xargs.c:1167
+#: xargs/xargs.c:1184
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: værdien for tilvalget -%c skal være >= %ld\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1198
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: værdien for tilvalget -%c skal være < %ld\n"
 
-#: xargs/xargs.c:1212
+#: xargs/xargs.c:1229
 #, fuzzy, c-format
 msgid ""
-"Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs]\n"
-"       [--null] [-d|--delimiter=delim] [--eof[=eof-str]]\n"
-"       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
-"       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
-"       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n"
+"Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
+"       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
+"       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n"
+"       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n"
+"       [-n max-args] [--max-args=max-args]\n"
+"       [-s max-chars] [--max-chars=max-chars]\n"
+"       [-P max-procs]  [--max-procs=max-procs]\n"
+"       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
 "Brug: %s [-0prtx] [-e[eof-str]] [-i[erstatnings-str]] [-l[maks-linjer]]\n"
