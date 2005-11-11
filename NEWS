@@ -7,6 +7,12 @@ The xargs command now supports a new option (--delimiter) which allows
 input items to be separated by characters other than null and
 whitespace.  This resolves Savannah support request sr #102914.
 
+Sometimes find needs to read the /etc/mtab file (or perform the
+equivalent operation on systems not using /etc/mtab).  If this
+information is needed butnot available, find now exits with an error
+message non-zero status.  If the information is not needed, find will
+not spuriously fail.
+
 ** Documentation Changes
 
 The EXAMPLES section of the find manual page now correctly describes
