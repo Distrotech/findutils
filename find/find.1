@@ -204,7 +204,7 @@ Changes the regular expression syntax understood by
 and 
 .B -iregex
 tests which occur later on the command line.  Currently-implemented
-types are emacs, posix-awk, posix-basic (this is the default),
+types are emacs (this is the default), posix-awk, posix-basic,
 posix-egrep and posix-extended.
 
 .IP "\-version, \-\-version"
@@ -370,7 +370,7 @@ on the whole path, not a search.  For example, to match a file named
 `./fubar3', you can use the regular expression `.*bar.' or `.*b.*3',
 but not `f.*r3'.  The regular expressions understood by 
 .B find 
-are by default POSIX Basic Regular Expressions, but this can be
+are by default Emacs Regular Expressions, but this can be
 changed with the 
 .B \-regextype 
 option.
@@ -981,7 +981,11 @@ or
 on the symbolic link, so this diagnostic is frequently not necessary.
 .P
 The \-d option is supported for compatibility with various BSD systems,
-but you should use the POSIX-compliant predicate \-depth instead.
+but you should use the POSIX-compliant option \-depth instead.
+.P
+The POSIXLY_CORRECT environment variable does not affect the behaviour
+of the -regex or -iregex tests because those tests aren't specified in
+the POSIX standard.
 .SH "ENVIRONMENT VARIABLES"
 .IP LANG
 Provides a default value for the internationalization variables that
