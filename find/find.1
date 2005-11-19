@@ -346,7 +346,7 @@ Since an exact match is required, if you want to use this form for
 symbolic modes, you may have to specify a rather complex mode string.
 For example '\-perm g=w' will only match files which have mode 0020
 (that is, ones for which group write permission is the only permission
-set).  It is more likely that you will want to use the '+' or '-'
+set).  It is more likely that you will want to use the '/' or '-'
 forms, for example '\-perm -g=w', which matches any file with group
 write permission.  See the
 .B EXAMPLES 
@@ -364,6 +364,27 @@ modes are accepted in this form.  You must specify 'u', 'g' or 'o' if
 you use a symbolic mode.  See the
 .B EXAMPLES 
 section for some illustrative examples.
+.IP "\-perm +\fImode\fR"
+Deprecated, old way of searching for files with any of the permission
+bits in \fImode\fR set.  You should use
+.B -perm \fI/mode\fR
+instead. Trying to use the '+' syntax with symbolic modes will yield
+surprising results.  For example, '+u+x' is a valid symbolic mode
+(equivalent to +u,+x, i.e. 0111) and will therefore not be evaluated
+as
+.B \-perm +\fImode\fR
+but instead as the exact mode specifier
+.B \-perm \fImode\fR
+and so it matches files with exact permissions 0111 instead of files with any
+execute bit set.  If you found this paragraph confusing, you're not
+alone - just use 
+.B \-perm /\fImode\fR.
+This form of the 
+.B -perm
+test is deprecated because the POSIX specification requires the
+interpretation of a leading '+' as being part of a symbolic mode, and
+so we switched to using '/' instead.
+
 .IP "\-regex \fIpattern\fR"
 File name matches regular expression \fIpattern\fR.  This is a match
 on the whole path, not a search.  For example, to match a file named
@@ -1139,7 +1160,16 @@ do.
 Both these commands do the same thing; search for files which are
 writable by both their owner and their group.
 
+.P
+.nf
+.B find . \-perm \-444 \-perm /222 ! \-perm /111
+.B find . \-perm \-a+r \-perm /a+w ! \-perm /a+x
 
+.fi
+These two commands both search for files that are readable for
+everybody (\-perm \-444 or \-perm \-a+r), have at least on write bit
+set (\-perm /222 or \-perm /a+w) but are not executable for anybody (!
+\-perm /111 and ! \-perm /a+x respectively)
 
 .SH EXIT STATUS
 .PP
@@ -1152,9 +1182,9 @@ on the correctness of the results of
 
 .SH "SEE ALSO"
 \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1),
-\fBfnmatch\fP(3), \fBregex\fP(7), \fBstat\fP(2), \fBlstat\fP(2),
-\fBls\fP(1), \fBprintf\fP(3), \fBstrftime\fP(3), \fBctime\fP(3),
-\fBFinding Files\fP (on-line in Info, or printed), 
+\fBchmod\fP(1), \fBfnmatch\fP(3), \fBregex\fP(7), \fBstat\fP(2),
+\fBlstat\fP(2), \fBls\fP(1), \fBprintf\fP(3), \fBstrftime\fP(3),
+\fBctime\fP(3), \fBFinding Files\fP (on-line in Info, or printed).
 .SH "HISTORY"
 As of findutils-4.2.2, shell metacharacters ('*'. '?' or '[]' for
 example) used in filename patterns will match a leading '.', because

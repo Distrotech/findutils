@@ -979,6 +979,7 @@ numeric or symbolic.
 If @var{mode} starts with @samp{-}, true if
 @emph{all} of the permissions set in @var{mode} are set for the file;
 permissions not set in @var{mode} are ignored.
+
 If @var{mode} starts with @samp{/}, true if
 @emph{any} of the permissions set in @var{mode} are set for the file;
 permissions not set in @var{mode} are ignored.
@@ -1025,6 +1026,16 @@ As above
 @item -perm -022
 Search for files which are writeable by both their owner and their
 group.
+
+@item -perm -444 -perm /222 ! -perm /111
+Search for files which are readable for everybody, have at least one
+write bit set (i.e. somebody can write to them), but which cannot be
+executed by anybody.  Note that in some shells the @samp{!} must be
+escaped;.
+
+@item -perm -a+r -perm /a+w ! -perm /a+x
+As above.
+
 
 @item -perm -g+w,o+w
 As above.
@@ -1229,7 +1240,8 @@ Force precedence.  True if @var{expr} is true.
 @itemx @asis{-not @var{expr}}
 @findex !
 @findex -not
-True if @var{expr} is false.
+True if @var{expr} is false.  In some shells, it is necessary to
+protect the @samp{!} from shell interpretation by quoting it.
 
 @item @asis{@var{expr1 expr2}}
 @itemx @asis{@var{expr1} -a @var{expr2}}
