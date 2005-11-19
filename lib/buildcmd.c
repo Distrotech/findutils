@@ -250,9 +250,10 @@ bc_push_arg (const struct buildcmd_control *ctl,
        * conditional on arg!=NULL, since do_exec() 
        * actually calls bc_push_arg(ctl, state, NULL, 0, false).
        */
-      if (!initial_args
-	  && ctl->args_per_exec
-	  && (state->cmd_argc - ctl->initial_argc) == ctl->args_per_exec)
+      if ((!initial_args
+          && ctl->args_per_exec
+          && (state->cmd_argc - ctl->initial_argc) == ctl->args_per_exec)
+         || state->cmd_argc == ARG_MAX / sizeof (void *) - 1)
 	do_exec (ctl, state);
     }
 

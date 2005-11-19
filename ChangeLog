@@ -1,3 +1,58 @@
+2005-11-18  Jim Meyering  <jim@meyering.net>
+
+        * lib/buildcmd.c (bc_push_arg): When exec'ing, don't exceed
+        Linux's limit on the maximum number of command line arguments.
+
+2005-11-11  James Youngman  <jay@gnu.org>
+
+	* NEWS, find/find.c, find/fstype.c: Savannah bug #14922: if we need the
+	list of mounted filesystems but it is not available, exit fatally
+	with a message.  If it is not available but we don't need it,
+	there is no need for an error.
+
+2005-10-31  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi:
+	Removed redundant additional description of "--regextype".
+
+2005-10-08  James Youngman  <jay@gnu.org>
+
+	* find/find.c, lib/regextype.c: Fixed Savannah bug #14616, which
+	was that c99 code had crept in and it didn't compile on c89
+	compilers
+
+	* doc/find.texi: Savannah patch #4371 from Andreas Metzler; the
+	argument of -I is mandatory
+
+2005-09-21  James Youngman  <jay@gnu.org>
+
+	* xargs/xargs.1, xargs/xargs.c: Clarified the -E option
+
+2005-09-20  James Youngman  <jay@gnu.org>
+
+	* NEWS, configure.in, doc/find.texi, xargs/xargs.1, xargs/xargs.c:
+	Documentation clarification: -L and -I take a mandatory argument;
+	-l and -i do not
+
+2005-09-17  James Youngman  <jay@gnu.org>
+
+	* xargs/xargs.c:
+	Fixed Savannah bug #14550 - if environment is too large to allow
+	exec() to work, we cannot even use "xargs --help".
+
+	* find/find.1:
+	Avoid the use of -perm +mode, using -perm /mode instead.  From comment
+	by Andreas Metzler (though I didn't read the patch).
+
+	* ChangeLog, doc/find.texi, find/find.1, xargs/xargs.1:
+	Typo fix from A Costa (tiny change)
+
+	* NEWS: Corrections for find manual page - symbolic permissions.
+
+	* find/find.1:
+	Corrected an inaccuracy in the EXAMPLES section - in symbolic modes,
+	'o' stands for 'others' and 'u' stands for 'user' (i.e. the owner).
+
 2005-09-17  A Costa <agcosta@gis.net>  (tiny change)
 
 	docs/find.texi: Fixed typo
@@ -18,16 +73,22 @@
 
 2005-09-04  James Youngman  <jay@gnu.org>
 
-	* find/defs.h, find/find.c, find/parser.c, find/pred.c, po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
-	Work around compilation failure with GCC 4 and AIX 5.1, in which open is #defined to open64
+	* find/defs.h, find/find.c, find/parser.c, find/pred.c, 
+	Work around compilation failure with GCC 4 and AIX 5.1, in which
+	open is #defined to open64
 
 2005-09-03  James Youngman  <jay@gnu.org>
 
-	* find/testsuite/find.gnu/quit.exp:
-	Fixed Savannah bug#14390, by avoiding an accidental assumption in quite.exp that directory entries are returned by readir() in any particular order
+	* find/testsuite/find.gnu/quit.exp: Fixed Savannah bug#14390, by
+	avoiding an accidental assumption in quit.exp that directory
+	entries are returned by readir() in any particular order
 
-	* NEWS, configure.in, doc/find.texi, xargs/testsuite/Makefile.am, xargs/testsuite/inputs/helloworld.xi, xargs/testsuite/xargs.gnu/delim-o.exp, xargs/testsuite/xargs.gnu/delim-o.xo, xargs/xargs.1, xargs/xargs.c:
-	Added the --delimiter option to xargs, resolving Savannah support request sr #102914
+	* NEWS, configure.in, doc/find.texi, xargs/testsuite/Makefile.am,
+	xargs/testsuite/inputs/helloworld.xi,
+	xargs/testsuite/xargs.gnu/delim-o.exp,
+	xargs/testsuite/xargs.gnu/delim-o.xo, xargs/xargs.1,
+	xargs/xargs.c: Added the --delimiter option to xargs, resolving
+	Savannah support request sr #102914
 
 	* ChangeLog, NEWS, configure.in: Released findutils-4.2.25
 
