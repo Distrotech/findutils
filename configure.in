@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([GNU findutils], 4.2.26, [bug-findutils@gnu.org])
+AC_INIT([GNU findutils], 4.3.0-CVS, [bug-findutils@gnu.org])
 AM_INIT_AUTOMAKE
 
 AC_CONFIG_SRCDIR([find/pred.c])
@@ -8,9 +8,13 @@ AC_CANONICAL_HOST
 AC_CONFIG_MACRO_DIR(gnulib/m4)
 
 dnl Set of available languages.
-ALL_LINGUAS="be ca da de el eo es et fi fr ga gl hr hu id it ja ko lg ms nl pl pt pt_BR ro ru sk sl sr sv tr vi zh_CN zh_TW rw"
+ALL_LINGUAS="be ca da de el eo es et fi fr ga gl hr hu id it ja ko lg ms nl pl pt pt_BR ro ru sk sl sr sv tr vi zh_CN rw"
 
 AC_SUBST(INCLUDES)dnl
+
+dnl check for --with-fts
+FIND_WITH_FTS
+
 AC_ARG_ENABLE(id-cache,
 [  --enable-id-cache       cache all UIDs & GIDs; avoid if using NIS or Hesiod],
   AC_DEFINE(CACHE_IDS, 1, [Define if you want find -nouser and -nogroup to make tables of

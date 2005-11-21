@@ -1,4 +1,13 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.3.0
+
+** Functional Changes
+
+By default, find now uses the fts() function to search the file
+system, which means that it can search deeper directory hierarchies.
+You can go back to the old filesystem search implementation by using
+the configure option '--without-fts'.
+
 * Major changes in release 4.2.26
 
 ** Public Service Announcements

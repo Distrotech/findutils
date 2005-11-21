@@ -157,7 +157,7 @@ static char *ctime_format PARAMS((time_t when));
 #ifdef	DEBUG
 struct pred_assoc
 {
-  PFB pred_func;
+  PRED_FUNC pred_func;
   char *pred_name;
 };
 
@@ -167,7 +167,7 @@ struct pred_assoc pred_table[] =
   {pred_and, "and     "},
   {pred_anewer, "anewer  "},
   {pred_atime, "atime   "},
-  {pred_closeparen, ")       "},
+  {pred_close, ")       "},
   {pred_amin, "cmin    "},
   {pred_cnewer, "cnewer  "},
   {pred_comma, ",       "},
@@ -199,7 +199,7 @@ struct pred_assoc pred_table[] =
   {pred_nouser, "nouser  "},
   {pred_ok, "ok      "},
   {pred_okdir, "okdir   "},
-  {pred_openparen, "(       "},
+  {pred_open, "(       "},
   {pred_or, "or      "},
   {pred_path, "path    "},
   {pred_perm, "perm    "},
@@ -334,7 +334,7 @@ pred_atime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 }
 
 boolean
-pred_closeparen (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+pred_close (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
   (void) &stat_buf;
@@ -709,11 +709,11 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	case 'H':		/* ARGV element file was found under */
 	  /* trusted */
 	  {
-	    char cc = pathname[state.path_length];
+	    char cc = pathname[state.starting_path_length];
 
-	    pathname[state.path_length] = '\0';
+	    pathname[state.starting_path_length] = '\0';
 	    fprintf (fp, segment->text, pathname);
-	    pathname[state.path_length] = cc;
+	    pathname[state.starting_path_length] = cc;
 	    break;
 	  }
 	case 'i':		/* inode number */
@@ -810,7 +810,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  /* sanitised */
 	  if (state.curdepth > 0)
 	    {
-	      cp = pathname + state.path_length;
+	      cp = pathname + state.starting_path_length;
 	      if (*cp == '/')
 		/* Move past the slash between the ARGV element
 		   and the rest of the pathname.  But if the ARGV element
@@ -1187,7 +1187,7 @@ pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 }
 
 boolean
-pred_openparen (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+pred_open (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
   (void) stat_buf;
@@ -1686,15 +1686,14 @@ ctime_format (time_t when)
    the predicate function PRED_FUNC. */
 
 char *
-find_pred_name (pred_func)
-     PFB pred_func;
+find_pred_name (PRED_FUNC func)
 {
   int i;
 
   for (i = 0; pred_table[i].pred_func != 0; i++)
-    if (pred_table[i].pred_func == pred_func)
+    if (pred_table[i].pred_func == func)
       break;
-  return (pred_table[i].pred_name);
+  return pred_table[i].pred_name;
 }
 
 static char *

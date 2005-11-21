@@ -151,8 +151,8 @@ static boolean parse_quit          PARAMS((const struct parser_table*, char *arg
 
 
 boolean parse_print             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-boolean parse_openparen              PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
-boolean parse_closeparen             PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
+boolean parse_open              PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
+boolean parse_close             PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
 
 
 
@@ -206,8 +206,8 @@ static struct parser_table const parse_table[] =
 {
   PARSE_PUNCTUATION("!",                     negate),
   PARSE_PUNCTUATION("not",                   negate),	     /* GNU */
-  PARSE_PUNCTUATION("(",                     openparen),
-  PARSE_PUNCTUATION(")",                     closeparen),
+  PARSE_PUNCTUATION("(",                     open),
+  PARSE_PUNCTUATION(")",                     close),
   PARSE_PUNCTUATION(",",                     comma),	     /* GNU */
   PARSE_PUNCTUATION("a",                     and),
   PARSE_TEST       ("amin",                  amin),	     /* GNU */
@@ -304,6 +304,40 @@ static struct parser_table const parse_table[] =
 
 static const char *first_nonoption_arg = NULL;
 
+
+
+
+void 
+set_follow_state(enum SymlinkOption opt)
+{
+  switch (opt)
+    {
+    case SYMLINK_ALWAYS_DEREF:  /* -L */
+      options.xstat = optionl_stat;
+      options.no_leaf_check = true;
+      break;
+      
+    case SYMLINK_NEVER_DEREF:	/* -P (default) */
+      options.xstat = optionp_stat;
+      /* Can't turn no_leaf_check off because the user might have specified 
+       * -noleaf anyway
+       */
+      break;
+      
+    case SYMLINK_DEREF_ARGSONLY: /* -H */
+      options.xstat = optionh_stat;
+      options.no_leaf_check = true;
+    }
+
+  options.symlink_handling = opt;
+  
+  /* For DEBUG_STAT, the choice is made at runtime within debug_stat()
+   * by checking the contents of the symlink_handling variable.
+   */
+#if defined(DEBUG_STAT)
+  options.xstat = debug_stat;
+#endif /* !DEBUG_STAT */
+}
 
 
 void
@@ -474,7 +508,7 @@ parse_atime (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 boolean
-parse_closeparen (const struct parser_table* entry, char **argv, int *arg_ptr)
+parse_close (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -482,9 +516,9 @@ parse_closeparen (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
   
   our_pred = get_new_pred (entry);
-  our_pred->pred_func = pred_closeparen;
+  our_pred->pred_func = pred_close;
 #ifdef	DEBUG
-  our_pred->p_name = find_pred_name (pred_closeparen);
+  our_pred->p_name = find_pred_name (pred_close);
 #endif	/* DEBUG */
   our_pred->p_type = CLOSE_PAREN;
   our_pred->p_prec = NO_PREC;
@@ -1208,7 +1242,7 @@ parse_okdir (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 boolean
-parse_openparen (const struct parser_table* entry, char **argv, int *arg_ptr)
+parse_open (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -1216,9 +1250,9 @@ parse_openparen (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
   
   our_pred = get_new_pred_chk_op (entry);
-  our_pred->pred_func = pred_openparen;
+  our_pred->pred_func = pred_open;
 #ifdef	DEBUG
-  our_pred->p_name = find_pred_name (pred_openparen);
+  our_pred->p_name = find_pred_name (pred_open);
 #endif	/* DEBUG */
   our_pred->p_type = OPEN_PAREN;
   our_pred->p_prec = NO_PREC;
@@ -1701,6 +1735,13 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   printf("LEAF_OPTIMISATION ");
   ++features;
 #endif
+
+  if (is_fts_enabled())
+    {
+      printf("FTS ");
+      ++features;
+    }
+
   if (0 == features)
     {
       /* For the moment, leave this as English in case someone wants
