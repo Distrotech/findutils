@@ -1,11 +1,56 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
-* Major changes in release 4.2.26-CVS
+* Major changes in release 4.2.26
+
+** Public Service Announcements
+
+I'd like to point out a second time that the interpretation of '-perm
++mode' has changed to be more POSIX-compliant.  If you want the old
+behaviour of the GNU extension you should use '-perm /mode'.  See the
+NEWS entry for findutils version 4.2.21 for details.
 
 ** Functional Changes
 
 The xargs command now supports a new option (--delimiter) which allows
 input items to be separated by characters other than null and
 whitespace.  This resolves Savannah support request sr #102914.
+
+Sometimes find needs to read the /etc/mtab file (or perform the
+equivalent operation on systems not using /etc/mtab).  If this
+information is needed butnot available, find now exits with an error
+message non-zero status.  If the information is not needed, find will
+not spuriously fail.
+
+A new xargs option --delimiter allows the input delimiter to be
+changed (previously \0 was the only choice unless you use the -L
+option, which changes other semantics too).
+
+** Bug Fixes
+
+If the environment size is too large to allow xargs to operate
+normally, 'xargs --help' still works (now).
+
+If the input to xargs is a large number of very short options (for
+example, one character each), earlier versions of xargs would fail
+with 'Argument list too long'.  However, since this is precisely the
+problem that xargs was invented to solve, this is a bug.  Hence on
+those systems we now correctly use a shorter command line.  This
+problem particularly affected 64-bit Linux systems because of the
+larger size of pointers, although 32-bit Linux systems were also
+affected (albeit for longer command lines).  In theory the same
+problem could affect 'find -exec {} +', but that's much less likely
+(even so, the bug is fixed there too).
+
+
+** Documentation Changes
+
+The EXAMPLES section of the find manual page now correctly describes
+the symbolic and octal modes for the -perm test.
+
+The documentation and "--help" usage information for the -L, -l, -I
+and -i options have been clarified (but the behaviour has not changed).
+
+The documentation now explains more clearly what happens when you use
+"-L -type l".
 
 * Major changes in release 4.2.25
 

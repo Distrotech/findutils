@@ -141,10 +141,12 @@ get_regex_type_flags(int ix)
 int get_regex_type_synonym(int ix)
 {
   unsigned i;
+  int flags;
+  
   if (ix >= N_REGEX_MAP_ENTRIES)
     return -1;
   
-  int flags = regex_map[ix].option_val;
+  flags = regex_map[ix].option_val;
   for (i=0u; i<ix; ++i)
     {
       if (flags == regex_map[i].option_val)

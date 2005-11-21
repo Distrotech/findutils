@@ -202,9 +202,9 @@ to stat them; this gives a significant increase in search speed.
 Changes the regular expression syntax understood by 
 .B \-regex
 and 
-.B -iregex
+.B \-iregex
 tests which occur later on the command line.  Currently-implemented
-types are emacs, posix-awk, posix-basic (this is the default),
+types are emacs (this is the default), posix-awk, posix-basic,
 posix-egrep and posix-extended.
 
 .IP "\-version, \-\-version"
@@ -346,8 +346,8 @@ Since an exact match is required, if you want to use this form for
 symbolic modes, you may have to specify a rather complex mode string.
 For example '\-perm g=w' will only match files which have mode 0020
 (that is, ones for which group write permission is the only permission
-set).  It is more likely that you will want to use the '+' or '-'
-forms, for example '\-perm -g=w', which matches any file with group
+set).  It is more likely that you will want to use the '/' or '-'
+forms, for example '\-perm \-g=w', which matches any file with group
 write permission.  See the
 .B EXAMPLES 
 section for some illustrative examples.
@@ -358,24 +358,45 @@ in which would want to use them.  You must specify 'u', 'g' or 'o' if
 you use a symbolic mode.   See the 
 .B EXAMPLES 
 section for some illustrative examples.
-.IP "\-perm +\fImode\fR"
+.IP "\-perm /\fImode\fR"
 Any of the permission bits \fImode\fR are set for the file.  Symbolic
 modes are accepted in this form.  You must specify 'u', 'g' or 'o' if
 you use a symbolic mode.  See the
 .B EXAMPLES 
 section for some illustrative examples.
+.IP "\-perm +\fImode\fR"
+Deprecated, old way of searching for files with any of the permission
+bits in \fImode\fR set.  You should use
+.B \-perm \fI/mode\fR
+instead. Trying to use the '+' syntax with symbolic modes will yield
+surprising results.  For example, '+u+x' is a valid symbolic mode
+(equivalent to +u,+x, i.e. 0111) and will therefore not be evaluated
+as
+.B \-perm +\fImode\fR
+but instead as the exact mode specifier
+.B \-perm \fImode\fR
+and so it matches files with exact permissions 0111 instead of files with any
+execute bit set.  If you found this paragraph confusing, you're not
+alone - just use 
+.B \-perm /\fImode\fR.
+This form of the 
+.B \-perm
+test is deprecated because the POSIX specification requires the
+interpretation of a leading '+' as being part of a symbolic mode, and
+so we switched to using '/' instead.
+
 .IP "\-regex \fIpattern\fR"
 File name matches regular expression \fIpattern\fR.  This is a match
 on the whole path, not a search.  For example, to match a file named
 `./fubar3', you can use the regular expression `.*bar.' or `.*b.*3',
 but not `f.*r3'.  The regular expressions understood by 
 .B find 
-are by default POSIX Basic Regular Expressions, but this can be
+are by default Emacs Regular Expressions, but this can be
 changed with the 
 .B \-regextype 
 option.
 .IP "\-samefile \fIname\fR"
-File refers to the same inode as \fIname\fR.   When -L is in effect,
+File refers to the same inode as \fIname\fR.   When \-L is in effect,
 this can include symbolic links.
 .IP "\-size \fIn\fR[cwbkMG]"
 File uses \fIn\fP units of space.  The following suffixes 
@@ -478,11 +499,11 @@ quoted to protect them from expansion by the shell.  See the
 section for examples of the use of the `\-exec' option.  The specified
 command is run once for each matched file.
 The command is executed in the starting directory.   There are
-unavoidable security problems surrounding use of the -exec option;
-you should use the -execdir option instead.  
+unavoidable security problems surrounding use of the \-exec option;
+you should use the \-execdir option instead.  
 
 .IP "\-exec \fIcommand\fR {} +"
-This variant of the -exec option runs the specified command on the
+This variant of the \-exec option runs the specified command on the
 selected files, but the command line is built by appending each
 selected file name at the end; the total number of invocations of the
 command will be much less than the number of matched files.  The
@@ -493,13 +514,13 @@ the command.  The command is executed in the starting directory.
 
 .IP "\-execdir \fIcommand\fR ;"
 .IP "\-execdir \fIcommand\fR {} +"
-Like -exec, but the specified command is run from the subdirectory
+Like \-exec, but the specified command is run from the subdirectory
 containing the matched file, which is not normally the directory in
 which you started 
 .BR find .
 This a much more secure method for invoking commands, as it avoids
 race conditions during resolution of the paths to the matched files.
-As with the -exec option, the '+' form of -execdir will build a
+As with the \-exec option, the '+' form of \-execdir will build a
 command line to process more than one matched file, but any given
 invocation of
 .I command 
@@ -828,15 +849,15 @@ going to a terminal.
 Unusual characters are always escaped.  White space, backslash, and
 double quote characters are printed using C-style escaping (for
 example '\\f', '\\"').  Other unusual characters are printed using an
-octal escape.  Other printable characters (for \-ls and -fls these are
+octal escape.  Other printable characters (for \-ls and \-fls these are
 the characters between octal 041 and 0176) are printed as-is.
 .IP "\-printf, \-fprintf"
 If the output is not going to a terminal, it is printed as-is.
 Otherwise, the result depends on which directive is in use.  The
 directives %D, %F, %g, %G, %H, %Y, and %y expand to values which are
-not under control of files' ownwers, and so are printed as-is.  The
+not under control of files' owners, and so are printed as-is.  The
 directives %a, %b, %c, %d, %i, %k, %m, %M, %n, %s, %t, %u and %U have
-values which are under the control of files' ownwers but which cannot
+values which are under the control of files' owners but which cannot
 be used to send arbitrary data to the terminal, and so these are
 printed as-is.  The directives %f, %h, %l, %p and %P are quoted.  This
 quoting is performed in the same way as for GNU
@@ -965,7 +986,7 @@ does not actually enter such a subdirectory, it is allowed to avoid
 emitting a diagnostic message.  Although this behaviour may be
 somewhat confusing, it is unlikely that anybody actually depends on
 this behaviour.  If the leaf optimisation has been turned off with
-.BR -noleaf ,
+.BR \-noleaf ,
 the directory entry will always be examined and the diagnostic message
 will be issued where it is appropriate.  Symbolic links cannot be used
 to create filesystem cycles as such, but if the \-L option or the
@@ -981,7 +1002,11 @@ or
 on the symbolic link, so this diagnostic is frequently not necessary.
 .P
 The \-d option is supported for compatibility with various BSD systems,
-but you should use the POSIX-compliant predicate \-depth instead.
+but you should use the POSIX-compliant option \-depth instead.
+.P
+The POSIXLY_CORRECT environment variable does not affect the behaviour
+of the \-regex or \-iregex tests because those tests aren't specified in
+the POSIX standard.
 .SH "ENVIRONMENT VARIABLES"
 .IP LANG
 Provides a default value for the internationalization variables that
@@ -1016,10 +1041,10 @@ invoked by `\-exec', `\-execdir', `\-ok' and `\-okdir'.
 Determines the block size used by `-ls'.
 .IP TZ
 Affects the time zone used for some of the time-related format
-directives of -printf and -fprintf.
+directives of \-printf and \-fprintf.
 .SH "EXAMPLES"
 .nf
-.B find /tmp \-name core \-type f \-print | xargs /bin/rm -f
+.B find /tmp \-name core \-type f \-print | xargs /bin/rm \-f
 
 .fi
 Find files named 
@@ -1029,7 +1054,7 @@ in or below the directory
 and delete them.  Note that this will work incorrectly if there are 
 any filenames containing newlines, single or double quotes, or spaces.
 .P
-.B find /tmp \-name core \-type f \-print0 | xargs \-0 /bin/rm -f
+.B find /tmp \-name core \-type f \-print0 | xargs \-0 /bin/rm \-f
 
 .fi
 Find files named 
@@ -1059,7 +1084,7 @@ been used in that case also.
 
 .P
 .nf
-.B find /  \t\e( \-perm +4000 \-fprintf /root/suid.txt '%#m %u %p\en' \e) , \e
+.B find /  \t\e( \-perm \-4000 \-fprintf /root/suid.txt '%#m %u %p\en' \e) , \e
 .B       \t\t\e( \-size +100M \-fprintf /root/big.txt  '%\-10s %p\en' \e)
 
 .fi
@@ -1071,14 +1096,14 @@ and large files into
 
 .P
 .nf
-.B find $HOME  -mtime 0
+.B find $HOME  \-mtime 0
 
 .fi
 Search for files in your home directory which have been modified in
 the last twenty-four hours.  This command works this way because the
 time since each file was last modified is divided by 24 hours and any 
 remainder is discarded.  That means that to match 
-.B -mtime 
+.B \-mtime 
 .BR 0 ,
 a file will have to have a modification in the past which is less than
 24 hours ago.
@@ -1086,7 +1111,7 @@ a file will have to have a modification in the past which is less than
 
 .P
 .nf
-.B find . -perm 664
+.B find . \-perm 664
 
 .fi
 Search for files which have read and write permission for their owner,
@@ -1096,7 +1121,7 @@ example if someone can execute the file) will not be matched.
 
 .P
 .nf
-.B find . -perm -664
+.B find . \-perm -664
 
 .fi
 Search for files which have read and write permission for their owner
@@ -1106,7 +1131,7 @@ bit).  This will match a file which has mode 0777, for example.
 
 .P
 .nf
-.B find . -perm +222
+.B find . \-perm /222
 
 .fi
 Search for files which are writable by somebody (their owner, or
@@ -1114,9 +1139,9 @@ their group, or anybody else).
 
 .P
 .nf
-.B find . -perm +022
-.B find . -perm +g+w,o+w
-.B find . -perm +g=w,o=w
+.B find . \-perm /220
+.B find . \-perm /u+w,g+w
+.B find . \-perm /u=w,g=w
 
 .fi
 All three of these commands do the same thing, but the first one uses
@@ -1128,14 +1153,23 @@ do.
 
 .P
 .nf
-.B find . -perm -022
-.B find . -perm -g+w,o+w
+.B find . \-perm -220
+.B find . \-perm \-g+w,u+w
 
 .fi
 Both these commands do the same thing; search for files which are
 writable by both their owner and their group.
 
+.P
+.nf
+.B find . \-perm \-444 \-perm /222 ! \-perm /111
+.B find . \-perm \-a+r \-perm /a+w ! \-perm /a+x
 
+.fi
+These two commands both search for files that are readable for
+everybody (\-perm \-444 or \-perm \-a+r), have at least on write bit
+set (\-perm /222 or \-perm /a+w) but are not executable for anybody (!
+\-perm /111 and ! \-perm /a+x respectively)
 
 .SH EXIT STATUS
 .PP
@@ -1148,16 +1182,16 @@ on the correctness of the results of
 
 .SH "SEE ALSO"
 \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1),
-\fBfnmatch\fP(3), \fBregex\fP(7), \fBstat\fP(2), \fBlstat\fP(2),
-\fBls\fP(1), \fBprintf\fP(3), \fBstrftime\fP(3), \fBctime\fP(3),
-\fBFinding Files\fP (on-line in Info, or printed), 
+\fBchmod\fP(1), \fBfnmatch\fP(3), \fBregex\fP(7), \fBstat\fP(2),
+\fBlstat\fP(2), \fBls\fP(1), \fBprintf\fP(3), \fBstrftime\fP(3),
+\fBctime\fP(3), \fBFinding Files\fP (on-line in Info, or printed).
 .SH "HISTORY"
 As of findutils-4.2.2, shell metacharacters ('*'. '?' or '[]' for
 example) used in filename patterns will match a leading '.', because
 IEEE POSIX interpretation 126 requires this.
 .SH "NON-BUGS"
 .nf
-.B $ find . -name *.c -print
+.B $ find . \-name *.c \-print
 find: paths must precede expression
 Usage: find [-H] [-L] [-P] [path...] [expression]
 .fi
@@ -1170,13 +1204,13 @@ resulting in
 actually receiving a command line like this:
 .nf
 
-.B find . -name bigram.c code.c frcode.c locate.c -print
+.B find . \-name bigram.c code.c frcode.c locate.c \-print
 
 .fi
 That command is of course not going to work.  Instead of doing things
 this way, you should enclose the pattern in quotes:
 .nf
-.B $ find . -name \'*.c\' -print
+.B $ find . \-name \'*.c\' \-print
 .fi
 
 .SH "BUGS"
@@ -1184,8 +1218,8 @@ this way, you should enclose the pattern in quotes:
 There are security problems inherent in the behaviour that the POSIX
 standard specifies for
 .BR find ,
-which therefore cannot be fixed.  For example, the -exec action is
-inherently insecure, and -execdir should be used instead.  
+which therefore cannot be fixed.  For example, the \-exec action is
+inherently insecure, and \-execdir should be used instead.  
 Please see \fBFinding Files\fP for more information. 
 .P 
 The best way to report a bug is to use the form at

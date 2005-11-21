@@ -41,6 +41,8 @@ xargs.posix/EEOFe.exp \
 xargs.posix/EEOF.exp \
 xargs.posix/E_.exp \
 xargs.posix/E_-IARG.exp \
+xargs.posix/arg_max_32bit_linux_bug.exp \
+xargs.posix/arg_max_64bit_linux_bug.exp \
 xargs.posix/childfail.exp \
 xargs.posix/empty_def.exp \
 xargs.posix/empty.exp \
@@ -126,6 +128,8 @@ xargs.gnu/s20-0.xo \
 xargs.gnu/s30-0.xo \
 xargs.gnu/space-0.xo \
 xargs.gnu/space-t-0.xo \
+xargs.posix/arg_max_32bit_linux_bug.xo \
+xargs.posix/arg_max_64bit_linux_bug.xo \
 xargs.posix/EEOFb.xo \
 xargs.posix/EEOFe.xo \
 xargs.posix/EEOF.xo \
@@ -190,6 +194,8 @@ xargs.sysv/trace.xe
 
 
 EXTRA_DIST_XI = \
+inputs/16383-ys.xi \
+inputs/32767-ys.xi \
 inputs/blank.xi \
 inputs/eof_-0.xi \
 inputs/EOFb.xi \

@@ -428,6 +428,7 @@ main (int argc, char **argv)
   long size_of_environment = env_size(environ);
   char *default_cmd = "/bin/echo";
   int (*read_args) PARAMS ((void)) = read_line;
+  int env_too_big = 0;
 
   program_name = argv[0];
   original_exit_value = 0;
@@ -440,7 +441,7 @@ main (int argc, char **argv)
   atexit (close_stdout);
   atexit (wait_for_proc_all);
 
-  /* IEE Std 1003.1, 2003 specifies that the combined argument and 
+  /* IEEE Std 1003.1, 2003 specifies that the combined argument and 
    * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 
    * specifies that it shall be at least LINE_MAX.
    */
@@ -462,7 +463,8 @@ main (int argc, char **argv)
   /* Take the size of the environment into account.  */
   if (size_of_environment > posix_arg_size_max)
     {
-      error (1, 0, _("environment is too large for exec"));
+      bc_ctl.arg_max = 0;
+      env_too_big = 1;
     }
   else
     {
@@ -517,6 +519,12 @@ main (int argc, char **argv)
 	  break;
 
 	case 'L':		/* POSIX */
+	  bc_ctl.lines_per_exec = parse_num (optarg, 'L', 1L, -1L, 1);
+	  /* -L excludes -i -n.  */
+	  bc_ctl.args_per_exec = 0;
+	  bc_ctl.replace_pat = NULL;
+	  break;
+
 	case 'l':		/* deprecated */
 	  if (optarg)
 	    bc_ctl.lines_per_exec = parse_num (optarg, 'l', 1L, -1L, 1);
@@ -589,6 +597,15 @@ main (int argc, char **argv)
 	  return 1;
 	}
     }
+
+  if (env_too_big)
+  {
+    /* We issue this error message after processing command line 
+     * arguments so that it is possible to use "xargs --help" even if
+     * the environment is too large. 
+     */
+    error (1, 0, _("environment is too large for exec"));
+  }
 
   if (0 == strcmp (input_file, "-"))
     {
@@ -1210,12 +1227,14 @@ static void
 usage (FILE *stream)
 {
   fprintf (stream, _("\
-Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n\
-       [-n max-args] [-s max-chars] [-P max-procs]\n\
-       [--null] [-d|--delimiter=delim] [--eof[=eof-str]]\n\
-       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n\
-       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n\
-       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n\
+Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n\
+       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n\
+       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n\
+       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n\
+       [-n max-args] [--max-args=max-args]\n\
+       [-s max-chars] [--max-chars=max-chars]\n\
+       [-P max-procs]  [--max-procs=max-procs]\n\
+       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n\
        [--version] [--help] [command [initial-arguments]]\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);

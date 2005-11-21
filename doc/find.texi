@@ -979,6 +979,7 @@ numeric or symbolic.
 If @var{mode} starts with @samp{-}, true if
 @emph{all} of the permissions set in @var{mode} are set for the file;
 permissions not set in @var{mode} are ignored.
+
 If @var{mode} starts with @samp{/}, true if
 @emph{any} of the permissions set in @var{mode} are set for the file;
 permissions not set in @var{mode} are ignored.
@@ -1025,6 +1026,16 @@ As above
 @item -perm -022
 Search for files which are writeable by both their owner and their
 group.
+
+@item -perm -444 -perm /222 ! -perm /111
+Search for files which are readable for everybody, have at least one
+write bit set (i.e. somebody can write to them), but which cannot be
+executed by anybody.  Note that in some shells the @samp{!} must be
+escaped;.
+
+@item -perm -a+r -perm /a+w ! -perm /a+x
+As above.
+
 
 @item -perm -g+w,o+w
 As above.
@@ -1229,7 +1240,8 @@ Force precedence.  True if @var{expr} is true.
 @itemx @asis{-not @var{expr}}
 @findex !
 @findex -not
-True if @var{expr} is false.
+True if @var{expr} is false.  In some shells, it is necessary to
+protect the @samp{!} from shell interpretation by quoting it.
 
 @item @asis{@var{expr1 expr2}}
 @itemx @asis{@var{expr1} -a @var{expr2}}
@@ -1987,10 +1999,10 @@ Otherwise, the result depends on which directive is in use:
 
 @table @asis
 @item %D, %F, %H, %Y, %y
-These expand to values which are not under control of files' ownwers,
+These expand to values which are not under control of files' owners,
 and so are printed as-is.
 @item  %a, %b, %c, %d, %g, %G, %i, %k, %m, %M, %n, %s, %t, %u, %U
-These have values which are under the control of files' ownwers but
+These have values which are under the control of files' owners but
 which cannot be used to send arbitrary data to the terminal, and so
 these are printed as-is.
 @item %f, %h, %l, %p, %P
@@ -2038,14 +2050,14 @@ command.  By default, the command is run once even if there is no
 input.
 
 @item --max-lines@r{[}=@var{max-lines}@r{]}
-@itemx -L@r{[}@var{max-lines}@r{]}
+@itemx -L @var{max-lines}
 @itemx -l@r{[}@var{max-lines}@r{]}
 Use at most @var{max-lines} nonblank input lines per command line;
-@var{max-lines} defaults to 1 if omitted.  Trailing blanks cause an
+@var{max-lines} defaults to 1 if omitted; omitting the argument is not
+allowed in the case of the @samp{-L} option.  Trailing blanks cause an
 input line to be logically continued on the next input line, for the
-purpose of counting the lines.  Implies @samp{-x}.  The preferred
-name for this option is @samp{-L} as this is specified by POSIX.  This
-option should be compatible with @samp{-I} but currently it is not.
+purpose of counting the lines.  Implies @samp{-x}.  The preferred name
+for this option is @samp{-L} as this is specified by POSIX.  
 
 @item --max-args=@var{max-args}
 @itemx -n @var{max-args}
@@ -2081,19 +2093,20 @@ operation is equivalent to @samp{find -exec} (@pxref{Single File}).
 
 @table @code
 @item --replace@r{[}=@var{replace-str}@r{]}
-@itemx -I@r{[}@var{replace-str}@r{]}
-@itemx -i@r{[}@var{replace-str}@r{]}
+@itemx -I @var{replace-str}
+@itemx -i @var{replace-str}
 Replace occurrences of @var{replace-str} in the initial arguments with
-names read from the input.  Also, unquoted blanks do not
-terminate arguments; instead, the input is split at newlines only.  If
-@var{replace-str} is omitted, it defaults to @samp{@{@}} (like for
-@samp{find -exec}).  Implies @samp{-x} and @samp{-l 1}.  @samp{-i} is
-depreceated in favour of @samp{-I}. As an
-example, to sort each file in the @file{bills} directory, leaving the
-output in that file name with @file{.sorted} appended, you could do:
+names read from the input.  Also, unquoted blanks do not terminate
+arguments; instead, the input is split at newlines only.  For the
+@samp{-i} option, if @var{replace-str} is omitted for @samp{--replace}
+or @samp{-i}, it defaults to @samp{@{@}} (like for @samp{find -exec}).
+Implies @samp{-x} and @samp{-l 1}.  @samp{-i} is deprecated in favour
+of @samp{-I}. As an example, to sort each file in the @file{bills}
+directory, leaving the output in that file name with @file{.sorted}
+appended, you could do:
 
 @example
-find bills -type f | xargs -IXX sort -o XX.sorted XX
+find bills -type f | xargs -I XX sort -o XX.sorted XX
 @end example
 
 @noindent
@@ -2691,12 +2704,6 @@ the specified regular expression.  The regular expression may use
 pathname.
 
 @item --regextype
-This option changes the regular expression dialect used.  Dialects
-understood are described in @ref{Regular Expressions}.
-
-
-
-@item --regextype
 This option changes the regular expression syntax and behaviour used
 by the @samp{--regex} option.  @ref{Regular Expressions} for more
 information on the regular expression dialects understood by GNU
@@ -2867,14 +2874,15 @@ option is not given, the end of file string defaults to @samp{_}.
 Print a summary of the options to @code{xargs} and exit.
 
 @item --replace@r{[}=@var{replace-str}@r{]}
-@itemx -I@r{[}@var{replace-str}@r{]}
+@itemx -I @var{replace-str}
 @itemx -i@r{[}@var{replace-str}@r{]}
 Replace occurrences of @var{replace-str} in the initial arguments with
 names read from standard input.  Also, unquoted blanks do not
-terminate arguments; instead, the input is split at newlines only.
-If @var{replace-str} is omitted, it defaults to @samp{@{@}}
-(like for @samp{find -exec}).  Implies @samp{-x} and @samp{-l 1}.  @samp{-i} is
-depreceated in favour of @samp{-I}.
+terminate arguments; instead, the input is split at newlines only.  If
+@var{replace-str} is omitted (omitting it is allowed only for
+@samp{-i}), it defaults to @samp{@{@}} (like for @samp{find -exec}).
+Implies @samp{-x} and @samp{-l 1}.  @samp{-i} is deprecated in favour
+of @samp{-I}.
 
 @item --max-lines@r{[}=@var{max-lines}@r{]}
 @itemx -l@r{[}@var{max-lines}@r{]}

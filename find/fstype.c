@@ -193,6 +193,22 @@ set_fstype_devno(struct mount_entry *p)
   return 0;			/* not needed */
 }
 
+static struct mount_entry *
+must_read_fs_list(bool need_fs_type)
+{
+  struct mount_entry *entries = read_file_system_list(need_fs_type);
+  if (NULL == entries)
+    {
+      /* We cannot determine for sure which file we were trying to
+       * use because gnulib has extracted all that stuff away. 
+       * Hence we cannot issue a specific error message here.
+       */
+      error(1, 0, "Cannot read mounted filesystem list");
+    }
+  return entries;
+}
+
+
 
 /* Return a newly allocated string naming the type of filesystem that the
    file PATH, described by STATP, is on.
@@ -213,7 +229,7 @@ filesystem_type_uncached (const struct stat *statp, const char *path)
     }
 #endif 
   
-  entries = read_file_system_list(true);
+  entries = must_read_fs_list(true);
   for (type=NULL, entry=entries; entry; entry=entry->me_next)
     {
 #ifdef MNTTYPE_IGNORE
@@ -241,7 +257,7 @@ get_mounted_filesystems (void)
   size_t used = 0u;
   struct mount_entry *entries, *entry;
   
-  entries = read_file_system_list(false);
+  entries = must_read_fs_list(false);
   for (entry=entries; entry; entry=entry->me_next)
     {
       size_t len;
@@ -270,7 +286,13 @@ get_mounted_devices (size_t *n)
   size_t used = 0u;
   struct mount_entry *entries, *entry;
   dev_t *result = NULL;
-  
+
+  /* Use read_file_system_list() rather than must_read_fs_list()
+   * because on some system this is always called at startup,
+   * and find should only exit fatally if it needs to use the 
+   * result of this operation.   If we can't get the fs list 
+   * but we never need the information, there is no need to fail.
+   */
   for (entry = entries = read_file_system_list(false);
        entry;
        entry = entry->me_next)

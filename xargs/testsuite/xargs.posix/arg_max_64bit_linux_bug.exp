@@ -1,0 +1,9 @@
+#
+# See message from Jim Meyering. <87hdaam57n.fsf_-_@rho.meyering.net>
+#
+# This is because Linux's execve implementation requires that the sum of
+# the sizes of all argument string pointers not exceed 128K (the actual
+# limit is ARG_MAX - sizeof (void*)).  The difference between 32- and
+# 64-bit systems is because sizeof (void*) differs (4 vs. 8).
+xargs_start p { echo } 16383-ys.xi
+

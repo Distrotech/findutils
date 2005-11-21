@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-09-03 13:49+0100\n"
+"POT-Creation-Date: 2005-11-19 00:36-0800\n"
 "PO-Revision-Date: 2004-12-23 16:57+0100\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -97,11 +97,30 @@ msgstr "tamaño del bloque"
 
 # No ha habido ninguna queja en coreutils, pongamos aquí también los
 # símbolos de cita tradicionales en español.
-#: gnulib/lib/quotearg.c:240
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#.
+#. If you don't know what to put here, please see
+#. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
+#. and use glyphs suitable for your language.
+#: gnulib/lib/quotearg.c:245
 msgid "`"
 msgstr "«"
 
-#: gnulib/lib/quotearg.c:241
+#: gnulib/lib/quotearg.c:246
 msgid "'"
 msgstr "»"
 
@@ -127,7 +146,7 @@ msgstr "oh, oh -- ¡inserción por defecto de `and' inválida!"
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "Modo de empleo: %s [-H] [-L] [-P] [ruta-de-acceso...] [expresión]\n"
 
-#: find/find.c:456
+#: find/find.c:457
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -135,44 +154,44 @@ msgstr ""
 "La variable de entorno FIND_BLOCK_SIZE no está soportada, lo único que\n"
 "afecta al tamaño del bloque es la variable de entorno POSIXLY_CORRECT"
 
-#: find/find.c:538
+#: find/find.c:539
 msgid "paths must precede expression"
 msgstr "Las rutas-de-acceso deben preceder la expresión"
 
-#: find/find.c:544
+#: find/find.c:545
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "predicado inválido `%s'"
 
-#: find/find.c:552
+#: find/find.c:553
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "falta el argumento de `%s'"
 
-#: find/find.c:554
+#: find/find.c:555
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "argumento `%s' inválido para la opción `%s'"
 
-#: find/find.c:610
+#: find/find.c:611
 msgid "unexpected extra predicate"
 msgstr "predicado extra inesperado"
 
-#: find/find.c:662 find/find.c:665
+#: find/find.c:663 find/find.c:666
 msgid "cannot get current directory"
 msgstr "no se puede obtener el directorio actual"
 
-#: find/find.c:833
+#: find/find.c:838
 #, fuzzy, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "El sistema de ficheros %s ha sido desmontado recientemente."
 
-#: find/find.c:843
+#: find/find.c:848
 #, fuzzy, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "El sistema de ficheros %s ha sido montado recientemente."
 
-#: find/find.c:938
+#: find/find.c:943
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -183,7 +202,7 @@ msgstr ""
 "número de dispositivo nuevo %ld, el tipo de sistema de ficheros es %s [ref %"
 "ld]"
 
-#: find/find.c:975
+#: find/find.c:980
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -192,34 +211,34 @@ msgstr ""
 "%s%s ha cambiado durante la ejecución de %s (número de nodo-i antiguo %ld,\n"
 "número de nodo-i nuevo %ld, tipo de sistema de ficheros %s) [ref %ld]"
 
-#: find/find.c:1512
+#: find/find.c:1517
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1527
+#: find/find.c:1532
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1531
+#: find/find.c:1536
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1532
+#: find/find.c:1537
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1901
+#: find/find.c:1906
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1945
+#: find/find.c:1950
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -228,7 +247,7 @@ msgid ""
 "searched."
 msgstr ""
 
-#: find/fstype.c:232
+#: find/fstype.c:248
 msgid "unknown"
 msgstr "desconocido"
 
@@ -541,7 +560,7 @@ msgstr "< %s ... %s > ? "
 # Al fin y al cabo es la coletilla que tengo yo al final de mi
 # comentario, ¿no? Me parece lo mismo, má o meno, pero por no meternos
 # en darle caña y acabar ya esto de una vez :) ...
-#: find/pred.c:1551 xargs/xargs.c:1012
+#: find/pred.c:1551 xargs/xargs.c:1029
 msgid "cannot fork"
 msgstr "falló la llamada al sistema `fork()'"
 
@@ -740,7 +759,7 @@ msgstr ""
 "o bien  %s bigramas_más_comunes < lista-de-ficheros > base-de-datos-de-"
 "locate\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1221
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1240
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -879,47 +898,47 @@ msgid ""
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:465
-msgid "environment is too large for exec"
-msgstr "el entorno es demasiado grande para exec"
-
-#: xargs/xargs.c:584
+#: xargs/xargs.c:592
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versión %s\n"
 
-#: xargs/xargs.c:604
+#: xargs/xargs.c:607
+msgid "environment is too large for exec"
+msgstr "el entorno es demasiado grande para exec"
+
+#: xargs/xargs.c:621
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr ""
 
-#: xargs/xargs.c:630
+#: xargs/xargs.c:647
 #, c-format
 msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 msgstr "Se reduce arg_max (%ld) a arg_size (%ld)\n"
 
-#: xargs/xargs.c:639
+#: xargs/xargs.c:656
 #, c-format
 msgid "Your environment variables take up %ld bytes\n"
 msgstr "Las variables de entorno ocupan %ld bytes\n"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:659
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
 msgstr ""
 "Límites POSIX inferior y superior sobre la longitud del argumento: %ld, %ld\n"
 
-#: xargs/xargs.c:646
+#: xargs/xargs.c:663
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Máxima longitud de orden que se podría usar realmente: %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:666
 #, c-format
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Tamaño del búfer de órdenes que se está usando realmente: %ld\n"
 
-#: xargs/xargs.c:761 xargs/xargs.c:842
+#: xargs/xargs.c:778 xargs/xargs.c:859
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -929,19 +948,19 @@ msgstr ""
 "xargs\n"
 "a menos que utilice la opción -0"
 
-#: xargs/xargs.c:762 xargs/xargs.c:843
+#: xargs/xargs.c:779 xargs/xargs.c:860
 msgid "double"
 msgstr "doble"
 
-#: xargs/xargs.c:762 xargs/xargs.c:843
+#: xargs/xargs.c:779 xargs/xargs.c:860
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:860 xargs/xargs.c:917
+#: xargs/xargs.c:877 xargs/xargs.c:934
 msgid "argument line too long"
 msgstr "línea de argumentos demasiado larga"
 
-#: xargs/xargs.c:1087
+#: xargs/xargs.c:1104
 msgid "error waiting for child process"
 msgstr "error esperando al proceso hijo"
 
@@ -962,22 +981,22 @@ msgstr "error esperando al proceso hijo"
 # Me quedo con la duda de cómo se llama eso en español.
 # Esperemos que lo vea otro. sv
 #
-#: xargs/xargs.c:1103
+#: xargs/xargs.c:1120
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: acabó con status 255; abortando"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1122
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: interrumpido por la señal %d"
 
-#: xargs/xargs.c:1107
+#: xargs/xargs.c:1124
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminado por la señal %d"
 
-#: xargs/xargs.c:1160
+#: xargs/xargs.c:1177
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: número inválido para la opción -%c\n"
@@ -986,25 +1005,27 @@ msgstr "%s: número inválido para la opción -%c\n"
 # queda mucho mejor. Si a alguien no le gusta, que me lo diga ;). IPG
 # Me parece acertado y lo digo :-) sv
 # falen ... :) ... ipg
-#: xargs/xargs.c:1167
+#: xargs/xargs.c:1184
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: el valor para la opción -%c debería ser mayor o igual que %ld\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1198
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: el valor para la opción -%c debería ser menor que %ld\n"
 
-#: xargs/xargs.c:1212
+#: xargs/xargs.c:1229
 #, fuzzy, c-format
 msgid ""
-"Usage: %s [-0prtx] [-e[eof-str]] [-i[replace-str]] [-l[max-lines]]\n"
-"       [-n max-args] [-s max-chars] [-P max-procs]\n"
-"       [--null] [-d|--delimiter=delim] [--eof[=eof-str]]\n"
-"       [--replace[=replace-str]] [--max-lines[=max-lines]] [--interactive]\n"
-"       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
-"       [--max-args=max-args] [--no-run-if-empty] [--arg-file=file]\n"
+"Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
+"       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
+"       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n"
+"       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n"
+"       [-n max-args] [--max-args=max-args]\n"
+"       [-s max-chars] [--max-chars=max-chars]\n"
+"       [-P max-procs]  [--max-procs=max-procs]\n"
+"       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
 "Modo de empleo: %s [-0prtx] [-e[cadena-eof]] [-i[cadena-de-reemplazo]]\n"
