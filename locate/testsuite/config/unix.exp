@@ -210,14 +210,29 @@ proc locate_start { passfail updatedb_options locate_options
     if $verbose>1 then {
 	send_user "Spawning \"$updatedb_cmd\"\n"
     }
+    catch "exec $updatedb_cmd" comp_output
+
+    if {$comp_output != ""} then {
+	send_log "$comp_output\n"
+	if $verbose>1 then {
+	    send_user "$comp_output\n"
+	}
+	# If fail_good is set, that refers to the exit status of locate, not updatedb...
+	fail "$testname, $comp_output"
+	return
+    } else {
+	send_log "updatedb: OK.\n"
+    }
+
+
+    eval $between_hook
+    
     set locate_cmd "$LOCATE $LOCATEFLAGS $locate_options < $locate_infile > locate.out"
     send_log "$locate_cmd\n"
     if $verbose>1 then {
 	send_user "Spawning \"$locate_cmd\"\n"
     }
 
-    catch "exec $updatedb_cmd" comp_output
-    eval $between_hook
     catch "exec $locate_cmd" comp_output
     if {$comp_output != ""} then {
 	send_log "$comp_output\n"
