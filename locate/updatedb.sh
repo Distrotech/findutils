@@ -19,6 +19,9 @@
 
 # csh original by James Woods; sh conversion by David MacKenzie.
 
+#exec 2> /tmp/updatedb-trace.txt 
+#set -x
+
 usage="\
 Usage: $0 [--findoptions='-option1 -option2...']
        [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
@@ -169,6 +172,21 @@ fi
 : ${code:=${LIBEXECDIR}/@code@}
 
 
+checkbinary () {
+    if test -x "$1" ; then
+	: ok
+    else
+      eval echo "updatedb needs to be able to execute $1, but cannot." >&2
+      exit 1
+    fi
+}
+
+for binary in $find $frcode $bigram $code
+do
+  checkbinary $binary
+done
+
+
 PATH=/bin:/usr/bin:${BINDIR}; export PATH
 
 : ${PRUNEFS="nfs NFS proc afs proc smbfs autofs iso9660 ncpfs coda devpts ftpfs devfs mfs sysfs shfs"}
@@ -221,7 +239,7 @@ if [ "$myuid" = 0 ]; then
 fi
 } | $sort -f | $frcode $frcode_options > $LOCATE_DB.n
 then
-    # OK so far
+    : OK so far
     true
 else
     rv=$?
