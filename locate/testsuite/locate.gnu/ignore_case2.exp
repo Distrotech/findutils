@@ -4,5 +4,5 @@ exec rm -rf tmp
 exec mkdir tmp
 exec mkdir tmp/subdir
 exec touch tmp/subdir/fred
-locate_start f {--output=tmp/locatedb --localpaths=tmp/subdir/} {--database=tmp/locatedb FRed} {}
+locate_start f {--changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/} {--database=tmp/locatedb FRed} {}
 
