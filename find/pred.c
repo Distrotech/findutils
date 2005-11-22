@@ -1244,6 +1244,25 @@ pred_perm (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     }
 }
 
+
+boolean
+pred_executable (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  return 0 == access(state.rel_pathname, X_OK);
+}
+
+boolean
+pred_readable (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  return 0 == access(state.rel_pathname, R_OK);
+}
+
+boolean
+pred_writable (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  return 0 == access(state.rel_pathname, W_OK);
+}
+
 boolean
 pred_print (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {

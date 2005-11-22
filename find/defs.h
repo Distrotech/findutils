@@ -443,6 +443,7 @@ boolean pred_delete PARAMS((char *pathname, struct stat *stat_buf, struct predic
 boolean pred_empty PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_exec PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_execdir PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_executable PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_false PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_fls PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_fprint PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
@@ -475,6 +476,7 @@ boolean pred_print PARAMS((char *pathname, struct stat *stat_buf, struct predica
 boolean pred_print0 PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_prune PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_quit PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_readable PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_regex PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_samefile PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_size PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
@@ -483,6 +485,7 @@ boolean pred_type PARAMS((char *pathname, struct stat *stat_buf, struct predicat
 boolean pred_uid PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_used PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_user PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_writable PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_xtype PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 
 

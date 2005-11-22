@@ -971,6 +971,47 @@ program.
 @xref{File Permissions}, for information on how file permissions are
 structured and how to specify them.
 
+Four tests determine what users can do with files.  These are
+@samp{-readable}, @samp{-writable}, @samp{-executable} and
+@samp{-perm}.  The first three tests ask the operating system if the
+current user can perform the relevant operation on a file, while
+@samp{-perm} just examines the file's mode.  The file mode may give
+a misleading impression of what the user can actually do, because the
+file may have an access control list, or exist on a read-only
+filesystem, for example.  Of these four tests though, only
+@samp{-perm} is specified by the POSIX standard.
+
+The @samp{-readable}, @samp{-writable} and @samp{-executable} tests
+are implemented via the @code{access} system call.  This is
+implemented within the operating system itself.  If the file being
+considered is on an NFS filesystem, the remote system may allow or
+forbid read or write operations for reasons of which the NFS client
+cannot take account.  This includes user-ID mapping, either in the
+general sense or the more restricted sense in which remote superusers
+are treated by the NFS server as if they are the local user
+@samp{nobody} on the NFS server.
+
+None of the tests in this section should be used to verify that a user
+is authorised to perform any operation (on the file being tested or
+any other file) because of the possibility of a race condition.  That
+is, the situation may change between the test and an action being
+taken on the basis of the result of that test.
+
+
+@deffn Test -readable 
+True if the file can be read by the invoking user.
+@end deffn
+
+@deffn Test -writable
+True if the file can be written by the invoking user.  This is an
+in-principle check, and other things may prevent a successful write
+operation; for example, the filesystem might be full.
+@end deffn
+
+@deffn Test -executable
+True if the file can be executed by the invoking user.
+@end deffn
+
 @deffn Test -perm mode
 
 True if the file's permissions are exactly @var{mode}, which can be

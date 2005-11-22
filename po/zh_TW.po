@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-19 00:36-0800\n"
+"POT-Creation-Date: 2005-11-21 23:55-0800\n"
 "PO-Revision-Date: 2005-08-10 16:38+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -129,16 +129,16 @@ msgstr "^[yY]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:108
+#: find/util.c:119
 msgid "oops -- invalid default insertion of and!"
 msgstr ""
 
-#: find/util.c:198
+#: find/util.c:209
 #, c-format
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr ""
 
-#: find/find.c:457
+#: find/find.c:195
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -146,85 +146,85 @@ msgstr ""
 "環境變數 FIND_BLOCK_SIZE 已經不再支援，唯一一個能夠影響檔案區段大小的環境變數"
 "是 POSIXLY_CORRECT"
 
-#: find/find.c:539
+#: find/find.c:277
 msgid "paths must precede expression"
 msgstr ""
 
-#: find/find.c:545
+#: find/find.c:283
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr ""
 
-#: find/find.c:553
+#: find/find.c:291
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "‘%s’ 後缺少了參數"
 
-#: find/find.c:555
+#: find/find.c:293
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr ""
 
-#: find/find.c:611
+#: find/find.c:349
 msgid "unexpected extra predicate"
 msgstr ""
 
-#: find/find.c:663 find/find.c:666
+#: find/find.c:401 find/find.c:404
 msgid "cannot get current directory"
 msgstr "無法決定當前目錄位置"
 
-#: find/find.c:838
+#: find/find.c:582
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "警告︰檔案系統 %s 剛剛被卸載。"
 
-#: find/find.c:848
+#: find/find.c:592
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "警告︰檔案系統 %s 剛剛被掛載。"
 
-#: find/find.c:943
+#: find/find.c:687
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:980
+#: find/find.c:724
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
 "ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:1517
+#: find/find.c:1261
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1532
+#: find/find.c:1276
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1536
+#: find/find.c:1280
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1537
+#: find/find.c:1281
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1906
+#: find/find.c:1513
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1950
+#: find/find.c:1557
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -237,7 +237,7 @@ msgstr ""
 msgid "unknown"
 msgstr ""
 
-#: find/parser.c:374
+#: find/parser.c:414
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -246,26 +246,26 @@ msgid ""
 "arguments.\n"
 msgstr ""
 
-#: find/parser.c:613
+#: find/parser.c:653
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 "警告：-d 選項已經過時，請改用 -depth，因為後者才是符合 POSIX 標準的選項。"
 
-#: find/parser.c:783
+#: find/parser.c:823
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "用法：%s [路徑...] [表達式]\n"
 
-#: find/parser.c:785
+#: find/parser.c:825
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
 "expression may consist of: operators, options, tests, and actions:\n"
 msgstr ""
 
-#: find/parser.c:788
+#: find/parser.c:828
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -276,7 +276,7 @@ msgstr ""
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
-#: find/parser.c:792
+#: find/parser.c:832
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -285,7 +285,7 @@ msgid ""
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
 
-#: find/parser.c:797
+#: find/parser.c:837
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -294,14 +294,15 @@ msgid ""
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 
-#: find/parser.c:802
+#: find/parser.c:842
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
+"      -readable -writable -executable\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]\n"
 msgstr ""
 
-#: find/parser.c:806
+#: find/parser.c:847
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -309,7 +310,7 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:812
+#: find/parser.c:853
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -319,11 +320,11 @@ msgstr ""
 "問題修正的進度)。又或者如果您無法瀏覽網頁，可以選擇用電子郵件寄至\n"
 "<bug-findutils@gnu.org>。"
 
-#: find/parser.c:843
+#: find/parser.c:884
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "測試 fnmatch() 是否可用時出錯。"
 
-#: find/parser.c:858
+#: find/parser.c:899
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -337,46 +338,46 @@ msgstr ""
 "有用。又或者，如果您使用 GNU grep，可以嘗試使用 'find ... -print0 | grep -"
 "FzZ %s'。"
 
-#: find/parser.c:900
+#: find/parser.c:941
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr "警告：-ipath 選項已過時，請改用 -iwholename。"
 
-#: find/parser.c:1340
+#: find/parser.c:1381
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "模式 ‘%s’ 無效"
 
-#: find/parser.c:1512
+#: find/parser.c:1553
 msgid "invalid null argument to -size"
 msgstr "-size 後是無效的空白參數"
 
-#: find/parser.c:1558
+#: find/parser.c:1599
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size 指定的檔案大小單位 ‘%c’ 無效"
 
-#: find/parser.c:1676
+#: find/parser.c:1747
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find %s 版本\n"
 
-#: find/parser.c:1677
+#: find/parser.c:1748
 #, c-format
 msgid "Features enabled: "
 msgstr "啟用了的功能："
 
-#: find/parser.c:1924
+#: find/parser.c:2002
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr ""
 
-#: find/parser.c:1970
+#: find/parser.c:2048
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr ""
 
-#: find/parser.c:2076
+#: find/parser.c:2154
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -385,7 +386,7 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2173
+#: find/parser.c:2251
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -393,7 +394,7 @@ msgstr ""
 "您不應該在 -execdir 和 -okdir 中使用 {} 作為程式名稱，因為這樣做可能會造成安"
 "全漏洞。"
 
-#: find/parser.c:2196
+#: find/parser.c:2274
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
@@ -403,16 +404,16 @@ msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1551 xargs/xargs.c:1029
+#: find/pred.c:1570 xargs/xargs.c:1029
 msgid "cannot fork"
 msgstr "fork 失敗"
 
-#: find/pred.c:1591
+#: find/pred.c:1610
 #, c-format
 msgid "error waiting for %s"
 msgstr ""
 
-#: find/pred.c:1599
+#: find/pred.c:1618
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s 因訊號 %d 而終止"

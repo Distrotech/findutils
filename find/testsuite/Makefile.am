@@ -5,6 +5,7 @@ FINDFLAGS =
 DEJATOOL = find
 
 EXTRA_DIST_XO = \
+find.gnu/access.xo \
 find.gnu/comma.xo \
 find.gnu/delete.xo \
 find.gnu/depth.xo \
@@ -68,6 +69,7 @@ find.gnu/follow-arg-parent-symlink.xo
 
 EXTRA_DIST_EXP = \
 config/unix.exp \
+find.gnu/access.exp \
 find.gnu/comma.exp \
 find.gnu/delete.exp \
 find.gnu/depth.exp \

@@ -198,6 +198,17 @@ than the directory's link count, it knows that the rest of the entries
 in the directory are non-directories (`leaf' files in the directory
 tree).  If only the files' names need to be examined, there is no need
 to stat them; this gives a significant increase in search speed.
+.IP "\-readable, \-writable, \-executable"
+Matches files which are readable, writable and executable,
+respectively.  This takes into account access control lists and other
+permissions artefacts which the \-perm test ignores.  This test makes
+use of the
+.BR access (2)
+system call, and so can be fooled by NFS servers which do UID
+mapping (or root-squashing), since many systems implement 
+.BR access (2) 
+in the client's kernel and so cannot make use of the UID mapping
+information held on the server.
 .IP "\-regextype \fItype\fR"
 Changes the regular expression syntax understood by 
 .B \-regex
@@ -1108,6 +1119,12 @@ remainder is discarded.  That means that to match
 a file will have to have a modification in the past which is less than
 24 hours ago.
 
+.P
+.nf
+.B find /sbin /usr/sbin -executable \e! -readable \-print
+
+.fi
+Search for files which are executable but not readable.
 
 .P
 .nf
