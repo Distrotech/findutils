@@ -1,3 +1,68 @@
+2005-11-22  James Youngman  <jay@gnu.org>
+
+	* NEWS, configure.in, doc/find.texi, find/defs.h, find/find.1,
+	find/parser.c, find/pred.c, find/testsuite/Makefile.am,
+	find/testsuite/find.gnu/access.exp,
+	find/testsuite/find.gnu/access.xo:
+	Implemented the tests -readable, -writable and -executable
+
+2005-11-21  James Youngman  <jay@gnu.org>
+
+	* NEWS, configure.in, find/Makefile.am, find/defs.h, find/find.c,
+	find/finddata.c, find/ftsfind.c, find/parser.c, find/pred.c,
+	find/util.c, import-gnulib.sh, m4/Makefile.am, m4/withfts.m4:
+	Findutils 4.3.x defaults to using the the FTS implementation of
+	find.
+
+	* xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.xo,
+	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.exp,
+	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.xo,
+	xargs/testsuite/inputs/32767-ys.xi,
+	xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.exp,
+	xargs/testsuite/Makefile.am, xargs/testsuite/inputs/16383-ys.xi,
+	xargs/xargs.1, xargs/xargs.c, ChangeLog, NEWS, configure.in,
+	doc/find.texi, find/find.1, find/find.c, find/fstype.c,
+	import-gnulib.sh, lib/buildcmd.c, lib/extendbuf.c,
+	lib/regextype.c, locate/locate.1:
+	Applied all the trunk changes (up to this point) to the 4.3.x sources
+
+	* locate/testsuite/config/unix.exp:
+	Even if we expect locate to return a nonzero status, the test should
+	still fail if updatedb fails!
+
+	* locate/testsuite/locate.gnu/ignore_case2.exp:
+	Set the current directory for updatedb.  This test case is supposed to
+	fail because the filename is not matched, not because updatedb fails!
+
+	* locate/updatedb.sh:
+	Check the binaries actually exist in the place we expect.
+
+2005-11-20  James Youngman  <jay@gnu.org>
+
+	* locate/locate.1, xargs/xargs.1: Escape '-' as '\-' where appropriate.
+
+	* find/find.1: Escape '-' as '\-' where appropriate.  Fixes last
+	part of bug #14556.
+
+2005-11-19  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi, find/find.1: Applied edited form of Andreas
+	Metzler's -perm /mode documentation patch resolving Savannah bug
+	#14619.
+
+	* lib/extendbuf.c: In the success case, extendbuf() should
+	preserve the previous value of errno.  Fixes Savannah bug #14842.
+
+	* xargs/testsuite/Makefile.am: Added new test files
+
+	* find/find.1: Correctly indicate the default regular expression
+	syntax (fixes Savannah bug #14836).
+
+	* NEWS, configure.in: Released findutils-4.2.26
+
+	* xargs/testsuite/inputs/16383-ys.xi, xargs/testsuite/inputs/32767-ys.xi, xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.exp, xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.xo, xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.exp, xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.xo:
+	New file.
+
 2005-11-18  Jim Meyering  <jim@meyering.net> (tiny change)
 
         * lib/buildcmd.c (bc_push_arg): When exec'ing, don't exceed
