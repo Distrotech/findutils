@@ -183,6 +183,25 @@ void do_exec(const struct buildcmd_control *ctl,
 }
 
 
+/* Return nonzero if there would not be enoughy room for an additional
+ * argument.  If we return zero, there still may not be enough room
+ * for the next one, depending on its length.
+ */
+static int 
+bc_argc_limit_reached(int initial_args, 
+		      const struct buildcmd_control *ctl,
+		      struct buildcmd_state *state)
+{
+  if (!initial_args && ctl->args_per_exec &&
+      ( (state->cmd_argc - ctl->initial_argc) == ctl->args_per_exec))
+    return 1;
+  else if (state->cmd_argc == ARG_MAX / sizeof (void *) - 1)
+    return 1;
+  else
+    return 0;
+}
+
+
 /* Add ARG to the end of the list of arguments `cmd_argv' to pass
    to the command.
    LEN is the length of ARG, including the terminating null.
@@ -211,9 +230,9 @@ bc_push_arg (const struct buildcmd_control *ctl,
             error (1, 0, _("argument list too long"));
           do_exec (ctl, state);
         }
-      if (!initial_args && ctl->args_per_exec &&
-          state->cmd_argc - ctl->initial_argc == ctl->args_per_exec)
-        do_exec (ctl, state);
+      
+      if (bc_argc_limit_reached(initial_args, ctl, state))
+	do_exec (ctl, state);
     }
 
   if (state->cmd_argc >= state->cmd_argv_alloc)
@@ -250,11 +269,8 @@ bc_push_arg (const struct buildcmd_control *ctl,
        * conditional on arg!=NULL, since do_exec() 
        * actually calls bc_push_arg(ctl, state, NULL, 0, false).
        */
-      if ((!initial_args
-           && ctl->args_per_exec
-           && (state->cmd_argc - ctl->initial_argc) == ctl->args_per_exec)
-          || state->cmd_argc == ARG_MAX / sizeof (void *) - 1)
-        do_exec (ctl, state);
+      if (bc_argc_limit_reached(initial_args, ctl, state))
+	do_exec (ctl, state);
     }
 
   /* If this is an initial argument, set the high-water mark. */

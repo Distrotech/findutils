@@ -128,8 +128,6 @@ xargs.gnu/s20-0.xo \
 xargs.gnu/s30-0.xo \
 xargs.gnu/space-0.xo \
 xargs.gnu/space-t-0.xo \
-xargs.posix/arg_max_32bit_linux_bug.xo \
-xargs.posix/arg_max_64bit_linux_bug.xo \
 xargs.posix/EEOFb.xo \
 xargs.posix/EEOFe.xo \
 xargs.posix/EEOF.xo \
