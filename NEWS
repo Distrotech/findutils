@@ -7,6 +7,10 @@ Fixed a bug in the test suite which caused it to spuriously fail on
 systems where ARG_MAX is different to the value used by the Linux
 kernel on 32-bit x86-architecture systems.
 
+On systems running the Linux kernel, "find -printf %F" no longer
+produces the wrong answer for files on filesystems that have been
+remounted elsewhere using "mount --bind". (Savannah bug #14921).
+
 ** Documentation Changes
 
 The %M format specifier of "find -printf" is now documented, although
