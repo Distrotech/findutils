@@ -106,17 +106,17 @@ static char *mbstrstr PARAMS ((const char *haystack, const char *needle));
 
 void
 bc_do_insert (const struct buildcmd_control *ctl,
-	      struct buildcmd_state *state,
-	      char *arg, size_t arglen,
-	      const char *prefix, size_t pfxlen,
-	      const char *linebuf, size_t lblen,
-	      int initial_args)
+              struct buildcmd_state *state,
+              char *arg, size_t arglen,
+              const char *prefix, size_t pfxlen,
+              const char *linebuf, size_t lblen,
+              int initial_args)
 {
   /* Temporary copy of each arg with the replace pattern replaced by the
      real arg.  */
   static char *insertbuf;
   char *p;
-  int bytes_left = ctl->arg_max - 1;	/* Bytes left on the command line.  */
+  int bytes_left = ctl->arg_max - 1;    /* Bytes left on the command line.  */
   int need_prefix;
   
   if (!insertbuf)
@@ -126,21 +126,21 @@ bc_do_insert (const struct buildcmd_control *ctl,
   need_prefix = 0;
   do
     {
-      size_t len;		/* Length in ARG before `replace_pat'.  */
+      size_t len;               /* Length in ARG before `replace_pat'.  */
       char *s = mbstrstr (arg, ctl->replace_pat);
       if (s)
-	{
-	  need_prefix = 1;
-	  len = s - arg;
-	}
+        {
+          need_prefix = 1;
+          len = s - arg;
+        }
       else
-	{
-	  len = arglen;
-	}
+        {
+          len = arglen;
+        }
       
       bytes_left -= len;
       if (bytes_left <= 0)
-	break;
+        break;
 
       strncpy (p, arg, len);
       p += len;
@@ -148,15 +148,15 @@ bc_do_insert (const struct buildcmd_control *ctl,
       arglen -= len;
 
       if (s)
-	{
-	  bytes_left -= lblen;
-	  if (bytes_left <= 0)
-	    break;
-	  strcpy (p, linebuf);
-	  arg += ctl->rplen;
-	  arglen -= ctl->rplen;
-	  p += lblen;
-	}
+        {
+          bytes_left -= lblen;
+          if (bytes_left <= 0)
+            break;
+          strcpy (p, linebuf);
+          arg += ctl->rplen;
+          arglen -= ctl->rplen;
+          p += lblen;
+        }
     }
   while (*arg);
   if (*arg)
@@ -170,14 +170,14 @@ bc_do_insert (const struct buildcmd_control *ctl,
     }
   
   bc_push_arg (ctl, state,
-	       insertbuf, p - insertbuf,
-	       prefix, pfxlen,
-	       initial_args);
+               insertbuf, p - insertbuf,
+               prefix, pfxlen,
+               initial_args);
 }
 
 static
 void do_exec(const struct buildcmd_control *ctl,
-	     struct buildcmd_state *state)
+             struct buildcmd_state *state)
 {
   (ctl->exec_callback)(ctl, state);
 }
@@ -190,10 +190,10 @@ void do_exec(const struct buildcmd_control *ctl,
 
 void
 bc_push_arg (const struct buildcmd_control *ctl,
-	     struct buildcmd_state *state,
-	     const char *arg, size_t len,
-	     const char *prefix, size_t pfxlen,
-	     int initial_args)
+             struct buildcmd_state *state,
+             const char *arg, size_t len,
+             const char *prefix, size_t pfxlen,
+             int initial_args)
 {
   if (!initial_args)
     state->todo = 1;
@@ -201,34 +201,34 @@ bc_push_arg (const struct buildcmd_control *ctl,
   if (arg)
     {
       if (state->cmd_argv_chars + len > ctl->arg_max)
-	{
-	  if (initial_args || state->cmd_argc == ctl->initial_argc)
-	    error (1, 0, _("can not fit single argument within argument list size limit"));
-	  /* option -i (replace_pat) implies -x (exit_if_size_exceeded) */
-	  if (ctl->replace_pat
-	      || (ctl->exit_if_size_exceeded &&
-		  (ctl->lines_per_exec || ctl->args_per_exec)))
-	    error (1, 0, _("argument list too long"));
-	  do_exec (ctl, state);
-	}
+        {
+          if (initial_args || state->cmd_argc == ctl->initial_argc)
+            error (1, 0, _("can not fit single argument within argument list size limit"));
+          /* option -i (replace_pat) implies -x (exit_if_size_exceeded) */
+          if (ctl->replace_pat
+              || (ctl->exit_if_size_exceeded &&
+                  (ctl->lines_per_exec || ctl->args_per_exec)))
+            error (1, 0, _("argument list too long"));
+          do_exec (ctl, state);
+        }
       if (!initial_args && ctl->args_per_exec &&
-	  state->cmd_argc - ctl->initial_argc == ctl->args_per_exec)
-	do_exec (ctl, state);
+          state->cmd_argc - ctl->initial_argc == ctl->args_per_exec)
+        do_exec (ctl, state);
     }
 
   if (state->cmd_argc >= state->cmd_argv_alloc)
     {
       if (!state->cmd_argv)
-	{
-	  state->cmd_argv_alloc = 64;
-	  state->cmd_argv = (char **) xmalloc (sizeof (char *) * state->cmd_argv_alloc);
-	}
+        {
+          state->cmd_argv_alloc = 64;
+          state->cmd_argv = (char **) xmalloc (sizeof (char *) * state->cmd_argv_alloc);
+        }
       else
-	{
-	  state->cmd_argv_alloc *= 2;
-	  state->cmd_argv = (char **) xrealloc (state->cmd_argv,
-					 sizeof (char *) * state->cmd_argv_alloc);
-	}
+        {
+          state->cmd_argv_alloc *= 2;
+          state->cmd_argv = (char **) xrealloc (state->cmd_argv,
+                                         sizeof (char *) * state->cmd_argv_alloc);
+        }
     }
 
   if (!arg)
@@ -237,10 +237,10 @@ bc_push_arg (const struct buildcmd_control *ctl,
     {
       state->cmd_argv[state->cmd_argc++] = state->argbuf + state->cmd_argv_chars;
       if (prefix)
-	{
-	  strcpy (state->argbuf + state->cmd_argv_chars, prefix);
-	  state->cmd_argv_chars += pfxlen;
-	}
+        {
+          strcpy (state->argbuf + state->cmd_argv_chars, prefix);
+          state->cmd_argv_chars += pfxlen;
+        }
       
       strcpy (state->argbuf + state->cmd_argv_chars, arg);
       state->cmd_argv_chars += len;
@@ -251,10 +251,10 @@ bc_push_arg (const struct buildcmd_control *ctl,
        * actually calls bc_push_arg(ctl, state, NULL, 0, false).
        */
       if ((!initial_args
-          && ctl->args_per_exec
-          && (state->cmd_argc - ctl->initial_argc) == ctl->args_per_exec)
-         || state->cmd_argc == ARG_MAX / sizeof (void *) - 1)
-	do_exec (ctl, state);
+           && ctl->args_per_exec
+           && (state->cmd_argc - ctl->initial_argc) == ctl->args_per_exec)
+          || state->cmd_argc == ARG_MAX / sizeof (void *) - 1)
+        do_exec (ctl, state);
     }
 
   /* If this is an initial argument, set the high-water mark. */
@@ -281,15 +281,15 @@ mbstrstr (const char *haystack, const char *needle)
 
       memset (&mbstate, 0, sizeof (mbstate_t));
       while (hlen >= nlen)
-	{
-	  if (memcmp (haystack, needle, nlen) == 0)
-	    return (char *) haystack;
-	  step = mbrlen (haystack, hlen, &mbstate);
-	  if (step <= 0)
-	    break;
-	  haystack += step;
-	  hlen -= step;
-	}
+        {
+          if (memcmp (haystack, needle, nlen) == 0)
+            return (char *) haystack;
+          step = mbrlen (haystack, hlen, &mbstate);
+          if (step <= 0)
+            break;
+          haystack += step;
+          hlen -= step;
+        }
       return NULL;
     }
 #endif
@@ -331,7 +331,7 @@ bc_get_arg_max(void)
 
 
 static int cb_exec_noop(const struct buildcmd_control *ctl,
-			 struct buildcmd_state *state)
+                         struct buildcmd_state *state)
 {
   /* does nothing. */
   (void) ctl;
@@ -355,8 +355,8 @@ bc_init_controlinfo(struct buildcmd_control *ctl)
 
 void
 bc_init_state(const struct buildcmd_control *ctl,
-	      struct buildcmd_state *state,
-	      void *context)
+              struct buildcmd_state *state,
+              void *context)
 {
   state->cmd_argc = 0;
   state->cmd_argv_chars = 0;
@@ -370,7 +370,7 @@ bc_init_state(const struct buildcmd_control *ctl,
 
 void 
 bc_clear_args(const struct buildcmd_control *ctl,
-	      struct buildcmd_state *state)
+              struct buildcmd_state *state)
 {
   state->cmd_argc = ctl->initial_argc;
   state->cmd_argv_chars = state->cmd_initial_argv_chars;
