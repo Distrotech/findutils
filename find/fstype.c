@@ -238,7 +238,10 @@ filesystem_type_uncached (const struct stat *statp, const char *path)
 #endif
       set_fstype_devno(entry);
       if (entry->me_dev == statp->st_dev)
-	type = xstrdup(entry->me_type);
+	{
+	  type = xstrdup(entry->me_type);
+	  break;
+	}
     }
   free_file_system_list(entries);
 
