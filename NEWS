@@ -18,6 +18,10 @@ can be read, written or executed respectively.
 
 ** Bug Fixes
 
+If xargs is invoked with many short arguments on PPC systems running
+the Linux kernel, we no longer get an "argument list too long" error
+from the operating system.
+
 Fixed a bug in the test suite which caused it to spuriously fail on
 systems where ARG_MAX is different to the value used by the Linux
 kernel on 32-bit x86-architecture systems.
@@ -30,6 +34,10 @@ remounted elsewhere using "mount --bind". (Savannah bug #14921).
 
 The %M format specifier of "find -printf" is now documented, although
 it has existed since release 4.2.5.
+
+The 'find' manual page now correctly documents the fact that -regex
+defaults to using Emacs-style regular expressions (though this can be
+changed).
 
 * Major changes in release 4.2.26
 

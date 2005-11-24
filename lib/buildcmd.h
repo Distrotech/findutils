@@ -57,6 +57,18 @@ struct buildcmd_control
   
   /* The maximum number of characters that can be used per command line.  */
   long arg_max;
+
+  /* max_arg_count: the maximum number of arguments that can be used.
+   *
+   * Many systems include the size of the pointers in ARG_MAX.
+   * Linux on PPC fails if we just subtract 1 here.
+   *
+   * However, not all systems define ARG_MAX.  Our bc_get_arg_max()
+   * function returns a useful value even if ARG_MAX is not defined.
+   * However, sometimes, max_arg_count is LONG_MAX!
+   */
+  long max_arg_count;
+
   
   /* The length of `replace_pat'.  */
   size_t rplen;
@@ -78,7 +90,7 @@ struct buildcmd_control
   long lines_per_exec;		/* 0 */
   
   /* The maximum number of arguments to use per command line.  */
-  long args_per_exec;		/* 1024 */
+  long args_per_exec;
 };
 
 

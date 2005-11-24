@@ -74,6 +74,8 @@
 /* for sysconf() */
 #include <unistd.h>
 
+#include <assert.h>
+
 /* COMPAT:  SYSV version defaults size (and has a max value of) to 470.
    We try to make it as large as possible. */
 #if !defined(ARG_MAX) && defined(_SC_ARG_MAX)
@@ -118,7 +120,12 @@ bc_do_insert (const struct buildcmd_control *ctl,
   char *p;
   int bytes_left = ctl->arg_max - 1;    /* Bytes left on the command line.  */
   int need_prefix;
-  
+
+  /* XXX: on systems lacking an upper limit for exec args, ctl->arg_max
+   *      may have been set to LONG_MAX (see bc_get_arg_max()).  Hence
+   *      this xmalloc call may be a bad idea, especially since we are
+   *      adding 1 to it...
+   */
   if (!insertbuf)
     insertbuf = (char *) xmalloc (ctl->arg_max + 1);
   p = insertbuf;
@@ -183,22 +190,28 @@ void do_exec(const struct buildcmd_control *ctl,
 }
 
 
-/* Return nonzero if there would not be enoughy room for an additional
- * argument.  If we return zero, there still may not be enough room
- * for the next one, depending on its length.
+/* Return nonzero if there would not be enough room for an additional
+ * argument.  We check the total number of arguments only, not the space
+ * occupied by those arguments.
+ *
+ * If we return zero, there still may not be enough room for the next
+ * argument, depending on its length.
  */
 static int 
 bc_argc_limit_reached(int initial_args, 
 		      const struct buildcmd_control *ctl,
 		      struct buildcmd_state *state)
 {
+  /* Check to see if we about to exceed a limit set by xargs' -n option */
   if (!initial_args && ctl->args_per_exec &&
       ( (state->cmd_argc - ctl->initial_argc) == ctl->args_per_exec))
     return 1;
-  else if (state->cmd_argc == ARG_MAX / sizeof (void *) - 1)
-    return 1;
-  else
-    return 0;
+
+  /* We deliberately use an equality test here rather than >= in order
+   * to force a software failure if the code is modified in such a way
+   * that it fails to call this function for every new argument.
+   */
+  return state->cmd_argc == ctl->max_arg_count;
 }
 
 
@@ -359,8 +372,14 @@ static int cb_exec_noop(const struct buildcmd_control *ctl,
 void
 bc_init_controlinfo(struct buildcmd_control *ctl)
 {
+  long arg_max = bc_get_arg_max();
+  assert(arg_max > 0);
+  
   ctl->exit_if_size_exceeded = 0;
-  ctl->arg_max = bc_get_arg_max() - 2048; /* a la xargs */
+  ctl->arg_max = arg_max - 2048; /* a la xargs */
+  /* need to subtract 2 on the following line - for Linux/PPC */
+  ctl->max_arg_count = (arg_max / sizeof(void*)) - 2;
+  assert(ctl->max_arg_count > 0);
   ctl->rplen = 0u;
   ctl->replace_pat = NULL;
   ctl->initial_argc = 0;
@@ -378,7 +397,13 @@ bc_init_state(const struct buildcmd_control *ctl,
   state->cmd_argv_chars = 0;
   state->cmd_argv = NULL;
   state->cmd_argv_alloc = 0;
+  
+  /* XXX: the following memory allocation is inadvisable on systems
+   * with no ARG_MAX, because ctl->arg_max may actually be LONG_MAX.
+   * Also, adding one to that is a bad idea.
+   */
   state->argbuf = (char *) xmalloc (ctl->arg_max + 1);
+  
   state->cmd_argv_chars = state->cmd_initial_argv_chars = 0;
   state->todo = 0;
   state->usercontext = context;
