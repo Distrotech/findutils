@@ -90,7 +90,7 @@ struct buildcmd_control
   long lines_per_exec;		/* 0 */
   
   /* The maximum number of arguments to use per command line.  */
-  long args_per_exec;		/* 1024 */
+  long args_per_exec;
 };
 
 
