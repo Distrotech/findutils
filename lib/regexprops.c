@@ -358,7 +358,7 @@ static int describe_regex_syntax(int options)
 	  
 	  if (options & RE_CONTEXT_INVALID_OPS)
 	    {
-	      content("are special at any point in a regular expression except the following places, where they are illegal:");
+	      content("are special at any point in a regular expression except the following places, where they are not allowed:");
 	    }
 	  else
 	    {
