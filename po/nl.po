@@ -1,16 +1,16 @@
-# Translation of findutils-4.2.24 to Dutch.
+# Translation of findutils-4.2.26 to Dutch.
 # Copyright (C) 1996, 2000, 2004, 2005 Free Software Foundation, Inc.
-# Benno Schulenberg <benno@nietvergeten.nl>, 2005.
-# Taco Witte <tcwitte@cs.uu.nl>, 2004.
-# Ivo Timmermans <itimmermans@bigfoot.com>, 2000.
 # Erick Branderhorst <branderh@debian.org>, 1996.
+# Ivo Timmermans <itimmermans@bigfoot.com>, 2000.
+# Taco Witte <tcwitte@cs.uu.nl>, 2004.
+# Benno Schulenberg <benno@nietvergeten.nl>, 2005.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.24\n"
+"Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-21 23:55-0800\n"
-"PO-Revision-Date: 2005-08-01 21:37+0200\n"
+"POT-Creation-Date: 2005-11-29 11:48-0800\n"
+"PO-Revision-Date: 2005-11-28 22:12+0100\n"
 "Last-Translator: Benno Schulenberg <benno@nietvergeten.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -147,8 +147,8 @@ msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
-"De omgevingsvariabele FIND_BLOCK_SIZE wordt niet ondersteund.  Alleen de "
-"POSIXLY_CORRECT-omgevingsvariabele beïnvloedt de blokgrootte."
+"De omgevingsvariabele FIND_BLOCK_SIZE wordt niet ondersteund.\n"
+"Alleen de omgevingsvariabele POSIXLY_CORRECT beïnvloedt de blokgrootte."
 
 #: find/find.c:277
 msgid "paths must precede expression"
@@ -249,7 +249,7 @@ msgstr ""
 "wordt nu automatisch aangezet.  In de tot nu toe gegeven resultaten kunnen "
 "mappen ontbreken die doorzocht hadden moeten worden."
 
-#: find/fstype.c:248
+#: find/fstype.c:251
 msgid "unknown"
 msgstr "onbekend"
 
@@ -261,7 +261,7 @@ msgid ""
 "as those specified after it).  Please specify options before other "
 "arguments.\n"
 msgstr ""
-"waarschuwing: optie %s werd gegeven na het non-optie-argument %s, maar "
+"Waarschuwing: optie %s werd gegeven na het non-optie-argument %s, maar "
 "opties zijn niet positioneel: %s beïnvloedt zowel voorgaande als nakomende "
 "testen.  Geef opties op vóór andere argumenten.\n"
 
@@ -295,8 +295,9 @@ msgid ""
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
-"operatoren (in afnemende voorrangsvolgorde; de operator -and is impliciet\n"
-"            als er geen andere gegeven zijn):\n"
+"operatoren (in afnemende voorrangsvolgorde;\n"
+"            de operator '-and' is impliciet als er geen andere gegeven "
+"zijn):\n"
 "    ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "    EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
@@ -322,7 +323,7 @@ msgid ""
 "PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
-"testen (N kan +N of -N of N zijn): -amin N -anewer BESTAND -atime N -cmin N\n"
+"testen (N kan ook +N of -N zijn): -amin N -anewer BESTAND -atime N -cmin N\n"
 "    -cnewer BESTAND -ctime N -empty -false -fstype SOORT -gid N -group NAAM\n"
 "    -ilname PATROON -iname PATROON -inum N -iwholename PATROON -iregex "
 "PATROON\n"
@@ -376,10 +377,10 @@ msgid ""
 "perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
-"waarschuwing: bestandsnamen bevatten gewoonlijk geen schuine strepen "
+"Waarschuwing: bestandsnamen bevatten gewoonlijk geen schuine strepen "
 "(padnamen wel); dit betekent dat '%s %s' op dit systeem waarschijnlijk "
 "altijd onwaar zal zijn.  De test '-wholename' is vermoedelijk zinvoller, of "
-"misschien '-samefile'.  Of anders, als u GNU grep heeft, kunt u 'find ... -"
+"misschien '-samefile'.  Of anders, als u GNU grep hebt, kunt u 'find ... -"
 "print0 | grep -FzZ %s' gebruiken."
 
 #: find/parser.c:941
@@ -613,7 +614,7 @@ msgid ""
 "      [-version] [--help]\n"
 "      pattern...\n"
 msgstr ""
-"Gebruik:  %s [-d PAD | --database=PAD]  [-e | -E | --[non-]existing]\n"
+"Gebruik:  %s  [-d PAD | --database=PAD]  [-e | -E | --[non-]existing]\n"
 "          [-i | --ignore-case]  [-w | --wholename]  [-b | --basename]\n"
 "          [--limit=N | -l N]  [-S | --statistics]  [-0 | --null]\n"
 "          [-c | --count]  [-P | -H | --nofollow]  [-L | --follow]\n"
@@ -631,37 +632,45 @@ msgid "argument to --limit"
 msgstr "argument van --limit"
 
 #: xargs/xargs.c:330
-#, c-format
-msgid "Ilegal escape sequence %s in input delimiter specification."
-msgstr ""
+#, fuzzy, c-format
+msgid "Invalid escape sequence %s in input delimiter specification."
+msgstr "Ongeldige stuurcode %s in specificatie van scheidingsteken."
 
 #: xargs/xargs.c:348
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ilegal escape sequence %s in input delimiter specification; character values "
-"must not exceed %lx."
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lx."
 msgstr ""
+"Ongeldige stuurcode %s in specificatie van scheidingsteken; tekenwaardes "
+"mogen niet groter zijn dan %lx."
 
 #: xargs/xargs.c:354
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ilegal escape sequence %s in input delimiter specification; character values "
-"must not exceed %lo."
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lo."
 msgstr ""
+"Ongeldige stuurcode %s in specificatie van scheidingsteken; tekenwaardes "
+"mogen niet groter zijn dan %lo."
 
 #: xargs/xargs.c:363
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ilegal escape sequence %s in input delimiter specification; trailing "
+"Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
+"Ongeldige stuurcode %s in specificatie van scheidingsteken; onbegrepen "
+"nakomende tekens %s."
 
 #: xargs/xargs.c:410
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Illegal input delimiter specification %s: the delimited must be either a "
+"Invalid input delimiter specification %s: the delimited must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
+"Ongeldige specificatie %s van scheidingsteken; het scheidingsteken dient een "
+"enkel teken te zijn of een stuurcode beginnend met \\."
 
 #: xargs/xargs.c:592
 #, c-format
@@ -758,7 +767,7 @@ msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: waarde bij optie -%c moet < %ld zijn\n"
 
 #: xargs/xargs.c:1229
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
 "       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
@@ -770,38 +779,13 @@ msgid ""
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
-"Gebruik:  %s [-0prtx] [-n maxtal_argumenten]  [--max-"
-"args=maxtal_argumenten]\n"
-"          [-e[EOF_reeks]] [--eof[=EOF_reeks]]  [--no-run-if-empty]  [--"
-"null]\n"
-"          [-i[te_vervangen_reeks]]  [--replace[=te_vervangen_reeks]]\n"
-"          [-l[maxtal_regels]]  [--max-lines[=maxtal_regels]]  [--"
-"interactive]\n"
-"          [-P maxtal_processen]  [--max-procs=maxtal_processen]  [--"
-"verbose]\n"
-"          [-s maxtal_tekens]  [--max-chars=maxtal_tekens]  [--exit]\n"
+"Gebruik:  %s [-0prtx]  [--interactive]  [--null]  [-d|--delimiter=delim]\n"
+"          [-E EOF_reeks]  [-e[EOF_reeks]]  [--eof[=EOF_reeks]]\n"
+"          [-I te_vervangen_tekenreeks]  [-i[te_vervangen_tekenreeks]]\n"
+"          [--replace[=te_vervangen_reeks]]  [--max-lines[=maxtal_regels]]\n"
+"          [-L max_aantal_regels]  [-l[max_aantal_regels]]\n"
+"          [-n max_aantal_argumenten]  [--max-args=max_aantal_argumenten]\n"
+"          [-P max_aantal_processen]  [--max-procs=max_aantal_processen]\n"
+"          [-s max_aantal_tekens]  [--max-chars=max_aantal_tekens]\n"
+"          [--exit]  [--verbose]  [--no-run-if-empty]  [--arg-file=bestand]\n"
 "          [--version]  [--help]  [COMMANDO [eerste_argumenten]]\n"
-
-#, fuzzy
-#~ msgid "Invalid regular expression"
-#~ msgstr "ongeldige expressie"
-
-#, fuzzy
-#~ msgid "Invalid range end"
-#~ msgstr "ongeldige expressie"
-
-#, fuzzy
-#~ msgid "Invalid preceding regular expression"
-#~ msgstr "ongeldige expressie"
-
-#, fuzzy
-#~ msgid "Premature end of regular expression"
-#~ msgstr "ongeldige expressie"
-
-#, fuzzy
-#~ msgid "Regular expression too big"
-#~ msgstr "ongeldige expressie"
-
-#, fuzzy
-#~ msgid "No previous regular expression"
-#~ msgstr "ongeldige expressie"

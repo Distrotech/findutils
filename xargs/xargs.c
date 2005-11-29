@@ -327,7 +327,7 @@ get_char_oct_or_hex_escape(const char *s)
   else
     {
       error(1, 0,
-	    _("Ilegal escape sequence %s in input delimiter specification."),
+	    _("Invalid escape sequence %s in input delimiter specification."),
 	    s);
     }
   errno = 0;
@@ -345,13 +345,13 @@ get_char_oct_or_hex_escape(const char *s)
       if (16 == base)
 	{
 	  error(1, 0,
-		_("Ilegal escape sequence %s in input delimiter specification; character values must not exceed %lx."),
+		_("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."),
 		s, (unsigned long)UCHAR_MAX);
 	}
       else
 	{
 	  error(1, 0,
-		_("Ilegal escape sequence %s in input delimiter specification; character values must not exceed %lo."),
+		_("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."),
 		s, (unsigned long)UCHAR_MAX);
 	}
     }
@@ -360,7 +360,7 @@ get_char_oct_or_hex_escape(const char *s)
   if (0 != *endp)
     {
       error(1, 0,
-	    _("Ilegal escape sequence %s in input delimiter specification; trailing characters %s not recognised."),
+	    _("Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."),
 	    s, endp);
     }
   

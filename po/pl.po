@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.15\n"
+"Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-21 23:55-0800\n"
-"PO-Revision-Date: 2005-02-06 03:02+0100\n"
+"POT-Creation-Date: 2005-11-29 11:48-0800\n"
+"PO-Revision-Date: 2005-11-27 03:04+0100\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -231,7 +231,7 @@ msgstr "poziomów wy¿ej w hierarchii systemu plików"
 #: find/find.c:1513
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "uwaga: nie pod±¿anie za dowi±zaniem symbolicznym %s"
 
 #: find/find.c:1557
 #, c-format
@@ -245,7 +245,7 @@ msgstr ""
 "systemu plików. Automatyczne w³±czenie opcji -noleaf finda. Wcze¶niejsze "
 "wyniki mog³y nie zawieraæ katalogów, które powinny byæ przeszukane."
 
-#: find/fstype.c:248
+#: find/fstype.c:251
 msgid "unknown"
 msgstr "nieznany"
 
@@ -296,7 +296,6 @@ msgstr ""
 "      WYR1 -o WYR2     WYR1 -or WYR2     WYR1 , WYR2\n"
 
 #: find/parser.c:832
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -304,7 +303,8 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"opcje pozycyjne (zawsze prawdziwe): -daystart -follow\n"
+"opcje pozycyjne (zawsze prawdziwe): -daystart -follow -regextype\n"
+"\n"
 "opcje zwyk³e (zawsze prawdziwe, podawane przed innymi wyra¿eniami):\n"
 "      -depth --help -maxdepth POZIOMY -mindepth POZIOMY -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
@@ -343,6 +343,10 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"akcje: -delete -print0 -printf FORMAT -fprintf PLIK FORMAT -print \n"
+"      -fprint0 PLIK -fprint PLIK -ls -fls PLIK -prune -quit\n"
+"      -exec POLECENIE ; -exec POLECENIE {} + -ok POLECENIE ;\n"
+"      -execdir POLECENIE ; -execdir POLECENIE {} + -okdir POLECENIE ;\n"
 
 #: find/parser.c:853
 msgid ""
@@ -369,6 +373,10 @@ msgid ""
 "perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
+"uwaga: uniksowe nazwy plików zwykle nie zawieraj± uko¶ników (ale ¶cie¿ki "
+"tak). Oznacza to, ¿e '%s %s' bêdzie prawdopodobnie zawsze fa³szywe na tym "
+"systemie. Przydatny mo¿e byæ test '-wholename' albo '-samefile'. "
+"Ewentualnie, maj±c GNU grepa, mo¿na u¿yæ 'find ... -print0 | grep -FzZ %s'."
 
 #: find/parser.c:941
 msgid ""
@@ -573,6 +581,8 @@ msgstr "Wspó³czynnik kompresji %4.2f%%\n"
 #: locate/locate.c:861
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
+"uwaga: baza danych locate mo¿e byæ odczytana ze standardowego wej¶cia tylko "
+"raz."
 
 #: locate/locate.c:882
 #, c-format
@@ -589,7 +599,7 @@ msgid "old"
 msgstr "starym"
 
 #: locate/locate.c:1105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -600,12 +610,14 @@ msgid ""
 "      [-version] [--help]\n"
 "      pattern...\n"
 msgstr ""
-"Sk³adnia: %s [-d ¶cie¿ka | --database=¶cie¿ka] [-e | --existing]\n"
+"Sk³adnia: %s [-d ¶cie¿ka | --database=¶cie¿ka] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholepath] [-b | --basename] \n"
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
-"      [-r | --regex ] [--version] [--help] wzorzec...\n"
+"      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=RODZAJ]\n"
+"      [--version] [--help]\n"
+"      wzorzec...\n"
 
 #: locate/locate.c:1231
 #, c-format
@@ -617,37 +629,46 @@ msgid "argument to --limit"
 msgstr "argument dla --limit"
 
 #: xargs/xargs.c:330
-#, c-format
-msgid "Ilegal escape sequence %s in input delimiter specification."
+#, fuzzy, c-format
+msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
+"Niedopuszczalna sekwencja steruj±ca %s w okre¶leniu ogranicznika wej¶cia."
 
 #: xargs/xargs.c:348
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ilegal escape sequence %s in input delimiter specification; character values "
-"must not exceed %lx."
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lx."
 msgstr ""
+"Niedopuszczalna sekwencja steruj±ca %s w okre¶leniu ogranicznika wej¶cia; "
+"warto¶ci znaków nie mog± przekraczaæ %lx."
 
 #: xargs/xargs.c:354
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ilegal escape sequence %s in input delimiter specification; character values "
-"must not exceed %lo."
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lo."
 msgstr ""
+"Niedopuszczalna sekwencja steruj±ca %s w okre¶leniu ogranicznika wej¶cia; "
+"warto¶ci znaków nie mog± przekraczaæ %lo."
 
 #: xargs/xargs.c:363
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ilegal escape sequence %s in input delimiter specification; trailing "
+"Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
+"Niedopuszczalna sekwencja steruj±ca %s w okre¶leniu ogranicznika wej¶cia; "
+"koñcowe znaki %s nie zosta³y rozpoznane."
 
 #: xargs/xargs.c:410
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Illegal input delimiter specification %s: the delimited must be either a "
+"Invalid input delimiter specification %s: the delimited must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
+"Niedopuszczalne okre¶lenie ogranicznika wej¶cia %s: ogranicznik musi byæ "
+"pojedynczym znakiem lub sekwencj± steruj±c± zaczynaj±c± siê od \\."
 
 #: xargs/xargs.c:592
 #, c-format
@@ -744,7 +765,7 @@ msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: warto¶æ dla opcji -%c powinna byæ < %ld\n"
 
 #: xargs/xargs.c:1229
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
 "       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
@@ -756,110 +777,12 @@ msgid ""
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
-"Sk³adnia: %s [-0prtx] [-e[³añc-eof]] [-i[³añc-zmienn]] [-l[max-linii]]\n"
-"       [-n max-arg] [-s max-znaków] [-P max-proc] [--null] [--eof[=³añc-"
-"eof]]\n"
-"       [--replace[=³añc-zmienn]] [--max-lines[=max-linii]] [--interactive]\n"
-"       [--max-chars=max-znaków] [--verbose] [--exit] [--max-procs=max-proc]\n"
-"       [--max-args=max-arg] [--no-run-if-empty] [--arg-file=plik]\n"
+"Sk³adnia: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=ogranicznik]\n"
+"       [-E ³añc-eof] [-e[³añc-eof]]  [--eof[=³añc-eof]\n"
+"       [-L maks-linii] [-l[maks-linii]] [--max-lines[=maks-linii]]\n"
+"       [-I ³añc-zmienn] [-i[³añc-zmienn]] [--replace[=³añc-zminn]]\n"
+"       [-n maks-arg] [--max-args=maks-arg]\n"
+"       [-s maks-znaków] [--max-chars=maks-znaków]\n"
+"       [-P maks-proc]  [--max-procs=maks-proc]\n"
+"       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=plik]\n"
 "       [--version] [--help] [polecenie [pocz±tkowe-argumenty]]\n"
-
-#~ msgid "Success"
-#~ msgstr "Sukces"
-
-#~ msgid "No match"
-#~ msgstr "Brak dopasowania"
-
-#~ msgid "Invalid regular expression"
-#~ msgstr "B³êdne wyra¿enie regularne"
-
-#~ msgid "Invalid collation character"
-#~ msgstr "B³êdny znak ³±cz±cy"
-
-#~ msgid "Invalid character class name"
-#~ msgstr "B³êdna nazwa klasy znaków"
-
-#~ msgid "Trailing backslash"
-#~ msgstr "Backslash na koñcu"
-
-#~ msgid "Invalid back reference"
-#~ msgstr "B³êdne odwo³anie wsteczne"
-
-#~ msgid "Unmatched [ or [^"
-#~ msgstr "Niesparowany [ lub [^"
-
-#~ msgid "Unmatched ( or \\("
-#~ msgstr "Niesparowany ( lub \\("
-
-#~ msgid "Unmatched \\{"
-#~ msgstr "Niesparowany \\{"
-
-#~ msgid "Invalid content of \\{\\}"
-#~ msgstr "B³êdna zawarto¶æ \\{\\}"
-
-#~ msgid "Invalid range end"
-#~ msgstr "B³êdny koniec zakresu"
-
-#~ msgid "Memory exhausted"
-#~ msgstr "Pamiêæ wyczerpana"
-
-#~ msgid "Invalid preceding regular expression"
-#~ msgstr "B³êdne poprzedzaj±ce wyra¿enie regularne"
-
-#~ msgid "Premature end of regular expression"
-#~ msgstr "Przedwczesny koniec wyra¿enia regularnego"
-
-#~ msgid "Regular expression too big"
-#~ msgstr "Wyra¿enie regularne zbyt du¿e"
-
-#~ msgid "Unmatched ) or \\)"
-#~ msgstr "Niesparowany ) lub \\)"
-
-#~ msgid "No previous regular expression"
-#~ msgstr "Brak poprzedniego wyra¿enia regularnego"
-
-#~ msgid "Predicate List:\n"
-#~ msgstr "Lista wyra¿eñ:\n"
-
-#~ msgid "Eval Tree:\n"
-#~ msgstr "Drzewo dopasowuj±ce:\n"
-
-#~ msgid "Optimized Eval Tree:\n"
-#~ msgstr "Zoptymalizowane drzewo dopasowuj±ce:\n"
-
-#~ msgid "Optimized command line:\n"
-#~ msgstr "Zoptymalizowana linia poleceñ:\n"
-
-#~ msgid ""
-#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-#~ "delete\n"
-#~ "      -quit\n"
-#~ msgstr ""
-#~ "akcje: -exec POLECENIE ; -fprint PLIK -fprint0 PLIK -fprintf PLIK FORMAT\n"
-#~ "      -fls PLIK -ok POLECENIE ; -print -print0 -printf FORMAT -prune -ls\n"
-#~ "      -delete -quit\n"
-
-#~ msgid "virtual memory exhausted"
-#~ msgstr "pamiêæ wirtualna wyczerpana"
-
-#~ msgid "inserting %s\n"
-#~ msgstr "wstawianie %s\n"
-
-#~ msgid "    type: %s    %s  "
-#~ msgstr "     typ: %s    %s  "
-
-#~ msgid "left:\n"
-#~ msgstr "lewy:\n"
-
-#~ msgid "right:\n"
-#~ msgstr "prawy:\n"
-
-#~ msgid "[stat called here] "
-#~ msgstr "[tutaj wywo³ano stat] "
-
-#~ msgid "[type needed here] "
-#~ msgstr "[tutaj potrzebny typ] "
-
-#~ msgid "Normalized Eval Tree:\n"
-#~ msgstr "Znormalizowane drzewo dopasowuj±ce:\n"
