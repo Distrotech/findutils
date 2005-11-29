@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.24\n"
+"Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-19 00:36-0800\n"
-"PO-Revision-Date: 2005-08-01 17:33+0200\n"
+"POT-Creation-Date: 2005-11-28 23:04-0800\n"
+"PO-Revision-Date: 2005-11-28 20:22+0100\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -249,7 +249,7 @@ msgstr ""
 "automàticament l'opció -noleaf. Els resultats anteriors poden no haver "
 "inclós directoris que s'haurien d'haver cercat."
 
-#: find/fstype.c:248
+#: find/fstype.c:251
 msgid "unknown"
 msgstr "desconegut"
 
@@ -416,7 +416,7 @@ msgstr "Funcionalitats habilitades: "
 #: find/parser.c:1924
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
-msgstr "avís: sequència d'escapament «\\%c» no reconegut"
+msgstr "avís: seqüència d'escapament «\\%c» no reconegut"
 
 #: find/parser.c:1970
 #, c-format
@@ -642,6 +642,8 @@ msgstr "argument per a --limit"
 #, c-format
 msgid "Ilegal escape sequence %s in input delimiter specification."
 msgstr ""
+"La seqüència d'escapament %s és il·legal en una especificació de delimitació "
+"d'entrada."
 
 #: xargs/xargs.c:348
 #, c-format
@@ -649,6 +651,8 @@ msgid ""
 "Ilegal escape sequence %s in input delimiter specification; character values "
 "must not exceed %lx."
 msgstr ""
+"La seqüència d'escapament %s és il·legal en una especificació de delimitació "
+"d'entrada; els valors dels caràcters no ha d'excedir %lx."
 
 #: xargs/xargs.c:354
 #, c-format
@@ -656,6 +660,8 @@ msgid ""
 "Ilegal escape sequence %s in input delimiter specification; character values "
 "must not exceed %lo."
 msgstr ""
+"La seqüència d'escapament %s és il·legal en una especificació de delimitació "
+"d'entrada; els valors dels caràcters no han d'excedir %lo."
 
 #: xargs/xargs.c:363
 #, c-format
@@ -663,6 +669,8 @@ msgid ""
 "Ilegal escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
+"La seqüència d'escapament %s és il·legal en una especificació de delimitació "
+"d'entrada; no es reconeixen el caràcters finals %s."
 
 #: xargs/xargs.c:410
 #, c-format
@@ -670,6 +678,9 @@ msgid ""
 "Illegal input delimiter specification %s: the delimited must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
+"La seqüència d'escapament %s és il·legal en una especificació de delimitació "
+"d'entrada: el delimitador ha de ser un únic caràcter o una seqüència "
+"d'escapament que comence amb \\\\."
 
 #: xargs/xargs.c:592
 #, c-format
@@ -767,7 +778,7 @@ msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: el valor per a l'opció -%c ha de ser < %ld\n"
 
 #: xargs/xargs.c:1229
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
 "       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
@@ -779,13 +790,15 @@ msgid ""
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
-"Forma d'ús: %s [-0prtx] [-e[cadena-eof]] [-i[cadena-de-reemplaçament]]\n"
-"       [-l[màx-línies]] [-n màx-arguments] [-s màx-caràcters]\n"
-"       [-P màx-processos] [--null] [--eof[=cadena-eof]]\n"
-"       [--replace[=cadena-de-reemplaç]] [--max-lines[=màx-línies]]\n"
-"       [--interactive] [--max-chars=màx-caràcters]\n"
-"       [--verbose] [--exit] [--max-procs=màx-processos]\n"
-"       [--max-args=max-arguments] [--no-run-if-empty] [--arg-file=fitxer]\n"
+"Forma d'ús: %s [-0prtx] [--interactive] [--null] [-d|--deliminter=delim]\n"
+"       [-E cadena-eof] [-e[cadena-eof]] [--eof=[cadena-eof]]\n"
+"       [-L màx-línies] [-l[màx-línies] [--max-lines[=màx-línies]]\n"
+"       [-I cadena-de-reemplaçament] [-i[cadena-de-reemplaçament]]\n"
+"       [--replace=[cadena-de-reemplaçament]]\n"
+"       [-n màx-arguments] [--max-args=màx-arguments]\n"
+"       [-s màx-caràcters] [--max-chars=màx-caràcters]\n"
+"       [-P màx-processos] [--max-procs=màx-processos]\n"
+"       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=fitxer]\n"
 "       [--version] [--help] [ordre [arguments-inicials]]\n"
 
 #~ msgid "Success"
