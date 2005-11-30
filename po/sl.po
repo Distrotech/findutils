@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.24\n"
+"Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-28 23:04-0800\n"
-"PO-Revision-Date: 2005-08-24 11:05+0200\n"
+"POT-Creation-Date: 2005-11-29 11:42-0800\n"
+"PO-Revision-Date: 2005-11-29 09:39+0100\n"
 "Last-Translator: Primož Peterlin <primoz.peterlin@biofiz.mf.uni-lj.si>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -18,12 +18,12 @@ msgstr ""
 #: gnulib/lib/argmatch.c:137
 #, c-format
 msgid "invalid argument %s for %s"
-msgstr "neveljaven argument %s za »%s«"
+msgstr "neveljaven argument %s za %s"
 
 #: gnulib/lib/argmatch.c:138
 #, c-format
 msgid "ambiguous argument %s for %s"
-msgstr "dvoumen argument %s za »%s«"
+msgstr "dvoumen argument %s za %s"
 
 #: gnulib/lib/argmatch.c:157
 #, c-format
@@ -628,37 +628,45 @@ msgid "argument to --limit"
 msgstr "argument za --limit"
 
 #: xargs/xargs.c:330
-#, c-format
-msgid "Ilegal escape sequence %s in input delimiter specification."
-msgstr ""
+#, fuzzy, c-format
+msgid "Invalid escape sequence %s in input delimiter specification."
+msgstr "Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika."
 
 #: xargs/xargs.c:348
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ilegal escape sequence %s in input delimiter specification; character values "
-"must not exceed %lx."
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lx."
 msgstr ""
+"Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
+"vrednost znaka ne sme presegati %lx."
 
 #: xargs/xargs.c:354
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ilegal escape sequence %s in input delimiter specification; character values "
-"must not exceed %lo."
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lo."
 msgstr ""
+"Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
+"vrednost znaka ne sme presegati %lo."
 
 #: xargs/xargs.c:363
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ilegal escape sequence %s in input delimiter specification; trailing "
+"Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
+"Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
+"neprepoznan sledilni znak %s."
 
 #: xargs/xargs.c:410
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Illegal input delimiter specification %s: the delimited must be either a "
+"Invalid input delimiter specification %s: the delimited must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
+"Nedovoljena specifikacija vhodnega razmejilnika %s: razmejilnim mora biti "
+"bodisi en sam znak, bodisi ubežno zaporedje, ki se začenja z \\."
 
 #: xargs/xargs.c:592
 #, c-format
@@ -755,7 +763,7 @@ msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: vrednost za izbiro -%c mora biti < %ld\n"
 
 #: xargs/xargs.c:1229
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
 "       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
@@ -767,15 +775,16 @@ msgid ""
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
-"Uporaba: %s [-0prtx] [-e[niz-eof]] [-i[nadomestni-niz]] [-l[največ-vrstic]]\n"
-"        [-n največ-argumentov] [-s največ-znakov] [-P največ-procesov]\n"
-"        [--null] [--eof[=niz-eof]] [--replace[=nadomestni-niz]]\n"
-"        [--max-lines[=največ-vrstic]] [--interactive] [--max-chars=največ-"
-"znakov]\n"
-"        [--verbose] [--exit] [--max-procs=največ-procesov]\n"
-"        [--max-args=največ-argumentov] [--no-run-if-empty] [--arg-"
-"file=datoteka]\n"
-"        [--version] [--help] [ukaz [začetni-argumenti]]\n"
+"Uporaba: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=razmejilnik]\n"
+"       [-E eof-str] [-e[niz-eof]]  [--eof[=niz-eof]]\n"
+"       [-L največ-vrstic] [-l[največ-vrstic]] [--max-lines[=največ-vrstic]]\n"
+"       [-I nadomestni-niz] [-i[nadomestni-niz]] [--replace[=nadomestni-"
+"niz]]\n"
+"       [-n max-args] [--max-args=max-args]\n"
+"       [-s največ-znakov] [--max-chars=največ-znakov]\n"
+"       [-P največ-procesov]  [--max-procs=največ-procesov]\n"
+"       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=datoteka]\n"
+"       [--version] [--help] [ukaz [začetni-argumenti]]\n"
 
 #~ msgid "Success"
 #~ msgstr "Uspešno"
