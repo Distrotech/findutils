@@ -407,7 +407,7 @@ get_input_delimiter(const char *s)
       else
 	{
 	  error(1, 0,
-		_("Invalid input delimiter specification %s: the delimited must be either a single character or an escape sequence starting with \\."),
+		_("Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."),
 		s);
 	}
     }
