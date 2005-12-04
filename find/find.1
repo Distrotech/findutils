@@ -363,7 +363,13 @@ Any of the permission bits \fImode\fR are set for the file.  Symbolic
 modes are accepted in this form.  You must specify 'u', 'g' or 'o' if
 you use a symbolic mode.  See the
 .B EXAMPLES 
-section for some illustrative examples.
+section for some illustrative examples.  If no permission bits in 
+.I mode
+are set, this test currently matches no files.  However, it will soon
+be changed to match any file (the idea is to be more consistent with
+the behaviour of 
+.B perm 
+.BR \-000 ).
 .IP "\-perm +\fImode\fR"
 Deprecated, old way of searching for files with any of the permission
 bits in \fImode\fR set.  You should use
@@ -1218,6 +1224,14 @@ this way, you should enclose the pattern in quotes:
 .fi
 
 .SH "BUGS"
+.P
+The test 
+.B \-perm /000
+currently matches no files, but for greater consistency with 
+.B \-perm 
+.BR \-000 , 
+this will be changed to match all files; this change will probably be
+made in early 2006.  Meanwhile, a warning message is given if you do this.
 .P
 There are security problems inherent in the behaviour that the POSIX
 standard specifies for

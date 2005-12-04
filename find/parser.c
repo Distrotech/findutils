@@ -1364,6 +1364,21 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 	  break;
 	}
     }
+  if (('/' == argv[*arg_ptr][0]) && (0 == perm_val))
+    {
+      /* The meaning of -perm /000 will change in the future.
+       * It currently matches no files, but like -perm -000 it
+       * should match all files.
+       */
+      error (0, 0,
+	     _("warning: you have specified a mode pattern %s which is "
+	       "equivalent to 000. The meaning of -perm /000 will soon be "
+	       "changed to be consistent with -perm -000; that is, at the "
+	       "moment it matches no files but it will soon be changed to "
+	       "match all files."),
+	     argv[*arg_ptr]);
+    }
+
   our_pred->args.perm.val = perm_val & MODE_ALL;
   (*arg_ptr)++;
   return true;

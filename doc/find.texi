@@ -59,7 +59,7 @@ translation approved by the Foundation.
 @title Finding Files
 @subtitle Edition @value{EDITION}, for GNU @code{find} version @value{VERSION}
 @subtitle @value{UPDATED}
-@author by David MacKenzie
+@author by David MacKenzie and James Youngman
 
 @page
 @vskip 0pt plus 1filll
@@ -1040,6 +1040,16 @@ As above.
 @item -perm -g+w,o+w
 As above.
 @end table
+
+@quotation Warning
+If you specify @samp{-perm /000} or @samp{-perm /mode} where the
+symbolic mode @samp{mode} has no bits set, the test currently matches
+no files.  This differs from the behaviour of @samp{-perm -000}, which
+matches all files.  The behaviour of @samp{-perm /000} will be changed
+to be consistent with the behaviour of @samp{-perm -000}.  The change
+will probably be made in early 2006.
+@end quotation
+
 @end deffn
 
 @node Contents

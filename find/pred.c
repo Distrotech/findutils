@@ -1231,7 +1231,20 @@ pred_perm (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       break;
 
     case PERM_ANY:
-      return (stat_buf->st_mode & pred_ptr->args.perm.val) != 0;
+      /* True if any of the bits set in the mask are also set in the file's mode.
+       *
+       *
+       * Otherwise, if onum is prefixed by a hyphen, the primary shall
+       * evaluate as true if at least all of the bits specified in
+       * onum that are also set in the octal mask 07777 are set.
+       *
+       * Eric Blake's interpretation is that the mode argument is zero, 
+       
+       */
+      if (0 == pred_ptr->args.perm.val)
+	return true;		/* Savannah bug 14748; we used to return false */
+      else
+	return (stat_buf->st_mode & pred_ptr->args.perm.val) != 0;
       break;
 
     case PERM_EXACT:
