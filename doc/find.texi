@@ -2929,6 +2929,13 @@ Use at most @var{max-chars} characters per command line, including the
 command, initial arguments and any terminating nulls at the ends of
 the argument strings.
 
+@item --show-limits
+Display the limits on the command-line length which are imposed by the
+operating system, @code{xargs}' choice of buffer size and the
+@samp{-s} option.  Pipe the input from @file{/dev/null} (and perhaps
+specify @samp{--no-run-if-empty}) if you don't want @code{xargs} to do
+anything.
+
 @item --verbose
 @itemx -t
 Print the command line on the standard error output before executing
@@ -4297,7 +4304,8 @@ system-imposed limits on program command line argument length to
 invoke any program.  This is an unlikely situation and is more likely
 result of an attempt to test the limits of @code{xargs}, or break it.
 Please try unsetting some environment variables, or exiting the
-current shell.
+current shell.  You can also use @samp{xargs --show-limits} to
+understand the relevant sizes.
 
 @item can not fit single argument within argument list size limit
 You are using the @samp{-I} option and @code{xargs} doesn't have
