@@ -97,7 +97,7 @@ and exit.
 Replace occurrences of \fIreplace-str\fR in the initial-arguments with
 names read from standard input.  Also, unquoted blanks do not
 terminate input items; instead the separator is the newline character.
-Implies \fI\-x\fP and \fI\-l 1\fP.
+Implies \fI\-x\fP and \fI\-L 1\fP.
 .TP
 .I "\-\-replace[=replace-str], \-i[replace-str]"
 This option is a synonym for \-I\fIreplace-str\fR if \fIreplace-str\fR
@@ -110,10 +110,10 @@ Trailing blanks cause an input line to be logically continued on the
 next input line.  Implies \fI\-x\fR.
 .TP
 .I "\-\-max-lines[=max-lines], \-l[max-lines]"
-Synonym for the
-.I "\-L"
-option.  Unlike \-L, the \fImax-lines\fR argument is optional.  If
-\fImax-args\fR is not specified, it defaults to one.   This option is deprecared; use \-l instead.
+Synonym for the \-L option.  Unlike \-L, the \fImax-lines\fR argument
+is optional.  If \fImax-args\fR is not specified, it defaults to one.
+The \-l option is deprecated since the POSIX standard specifies \-L
+instead.
 .TP
 .I "\-\-max\-args=max-args, \-n max-args"
 Use at most \fImax-args\fR arguments per command line.  Fewer than
@@ -234,11 +234,11 @@ documentation.  The \-execdir option of
 .B find
 can often be used as a more secure alternative.
 
-When you use the \-i option, each line read from the input is buffered 
+When you use the \-I option, each line read from the input is buffered 
 internally.   This means that there is an upper limit on the length 
 of input line that 
 .B xargs 
-will accept when used with the \-i option.  To work around this 
+will accept when used with the \-I option.  To work around this 
 limitation, you can use the \-s option to increase the amount of
 buffer space that 
 .B xargs 
@@ -247,7 +247,7 @@ uses, and you can also use an extra invocation of
 to ensure that very long lines do not occur.  
 For example: 
 .P
-.B somecommand | xargs \-s 50000 echo | xargs \-i \-s 100000 rm '{}'
+.B somecommand | xargs \-s 50000 echo | xargs \-I '{}' \-s 100000 rm '{}'
 .P
 Here, the first invocation of 
 .B xargs 

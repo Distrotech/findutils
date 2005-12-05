@@ -147,14 +147,15 @@ Process each directory's contents before the directory itself.
 A synonym for \-depth, for compatibility with FreeBSD, NetBSD, MacOS X and OpenBSD.
 .IP \-follow
 Deprecated; use the \-L option instead.  Dereference symbolic links.
-Implies \-noleaf.  Unless the \-H or \-L option has been specified,
-the position of the \-follow option changes the behaviour of the
-\-newer predicate; any files listed as the argument of \-newer will be
-dereferenced if they are symbolic links.  The same consideration
-applies to \-anewer and \-cnewer.  Similarly, the \-type predicate
-will always match against the type of the file that a symbolic link
-points to rather than the link itself.  Using \-follow causes the
-\-lname and \-ilname predicates always to return false.
+Implies \-noleaf.  The \-follow option affects only those tests which
+appear after it on the command line.  Unless the \-H or \-L option has
+been specified, the position of the \-follow option changes the
+behaviour of the \-newer predicate; any files listed as the argument
+of \-newer will be dereferenced if they are symbolic links.  The same
+consideration applies to \-anewer and \-cnewer.  Similarly, the \-type
+predicate will always match against the type of the file that a
+symbolic link points to rather than the link itself.  Using \-follow
+causes the \-lname and \-ilname predicates always to return false.
 .IP "\-help, \-\-help"
 Print a summary of the command-line usage of
 .B find
@@ -1036,7 +1037,7 @@ variable affects the interpretation of the user's response to the
 query issued by `\-ok', but this is not the case for GNU find.
 .IP LC_CTYPE 
 This variable affects the treatment of character classes used with 
-the `\-name' option, if the system's 
+the `\-name' test, if the system's 
 .BR fnmatch (3) 
 library function supports this.   It has no effect on the behaviour 
 of the `\-ok' expression.
@@ -1048,7 +1049,9 @@ Determines the location of the internationalisation message catalogues.
 Affects the directories which are searched to find the executables 
 invoked by `\-exec', `\-execdir', `\-ok' and `\-okdir'.
 .IP POSIXLY_CORRECT
-Determines the block size used by `-ls'.
+Determines the block size used by `\-ls' and `\-fls'.  
+If `POSIXLY_CORRECT' is set, blocks are units of 512 bytes.  Otherwise
+they are units of 1024 bytes.
 .IP TZ
 Affects the time zone used for some of the time-related format
 directives of \-printf and \-fprintf.
