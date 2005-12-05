@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-29 11:42-0800\n"
+"POT-Creation-Date: 2005-12-04 23:56-0800\n"
 "PO-Revision-Date: 2004-12-23 16:57+0100\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -456,6 +456,15 @@ msgstr ""
 msgid "invalid mode `%s'"
 msgstr "modo inválido `%s'"
 
+#: find/parser.c:1374
+#, c-format
+msgid ""
+"warning: you have specified a mode pattern %s which is equivalent to 000. "
+"The meaning of -perm /000 will soon be changed to be consistent with -perm -"
+"000; that is, at the moment it matches no files but it will soon be changed "
+"to match all files."
+msgstr ""
+
 # Nota: No es que no se haya dado el argumento requerido a la opción -size,
 # sino que se ha dado un argumento nulo, que es distinto.
 # Para ver la sutil diferencia, poner LANG=C y comparar esto:
@@ -466,36 +475,36 @@ msgstr "modo inválido `%s'"
 #
 # find . -size ""
 #
-#: find/parser.c:1512
+#: find/parser.c:1527
 msgid "invalid null argument to -size"
 msgstr "argumento nulo inválido para la opción -size"
 
-#: find/parser.c:1558
+#: find/parser.c:1573
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "tipo dado a -size inválido `%c'"
 
-#: find/parser.c:1676
+#: find/parser.c:1691
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versión %s\n"
 
-#: find/parser.c:1677
+#: find/parser.c:1692
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:1924
+#: find/parser.c:1939
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "atención: secuencia de escape `\\%c' no reconocida"
 
-#: find/parser.c:1970
+#: find/parser.c:1985
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "atención: directiva de formato `%%%c' no reconocida"
 
-#: find/parser.c:2076
+#: find/parser.c:2091
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -504,13 +513,13 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2173
+#: find/parser.c:2188
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2196
+#: find/parser.c:2211
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
@@ -560,16 +569,16 @@ msgstr "< %s ... %s > ? "
 # Al fin y al cabo es la coletilla que tengo yo al final de mi
 # comentario, ¿no? Me parece lo mismo, má o meno, pero por no meternos
 # en darle caña y acabar ya esto de una vez :) ...
-#: find/pred.c:1551 xargs/xargs.c:1029
+#: find/pred.c:1564 xargs/xargs.c:1040
 msgid "cannot fork"
 msgstr "falló la llamada al sistema `fork()'"
 
-#: find/pred.c:1591
+#: find/pred.c:1604
 #, c-format
 msgid "error waiting for %s"
 msgstr "error esperando al proceso %s"
 
-#: find/pred.c:1599
+#: find/pred.c:1612
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s terminado por la señal %d"
@@ -759,7 +768,7 @@ msgstr ""
 "o bien  %s bigramas_más_comunes < lista-de-ficheros > base-de-datos-de-"
 "locate\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1240
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -894,7 +903,7 @@ msgstr ""
 #: xargs/xargs.c:410
 #, c-format
 msgid ""
-"Invalid input delimiter specification %s: the delimited must be either a "
+"Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 
@@ -938,7 +947,7 @@ msgstr "Máxima longitud de orden que se podría usar realmente: %ld\n"
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Tamaño del búfer de órdenes que se está usando realmente: %ld\n"
 
-#: xargs/xargs.c:778 xargs/xargs.c:859
+#: xargs/xargs.c:789 xargs/xargs.c:870
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -948,19 +957,19 @@ msgstr ""
 "xargs\n"
 "a menos que utilice la opción -0"
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "double"
 msgstr "doble"
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:877 xargs/xargs.c:934
+#: xargs/xargs.c:888 xargs/xargs.c:945
 msgid "argument line too long"
 msgstr "línea de argumentos demasiado larga"
 
-#: xargs/xargs.c:1104
+#: xargs/xargs.c:1115
 msgid "error waiting for child process"
 msgstr "error esperando al proceso hijo"
 
@@ -981,22 +990,22 @@ msgstr "error esperando al proceso hijo"
 # Me quedo con la duda de cómo se llama eso en español.
 # Esperemos que lo vea otro. sv
 #
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: acabó con status 255; abortando"
 
-#: xargs/xargs.c:1122
+#: xargs/xargs.c:1133
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: interrumpido por la señal %d"
 
-#: xargs/xargs.c:1124
+#: xargs/xargs.c:1135
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminado por la señal %d"
 
-#: xargs/xargs.c:1177
+#: xargs/xargs.c:1188
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: número inválido para la opción -%c\n"
@@ -1005,17 +1014,17 @@ msgstr "%s: número inválido para la opción -%c\n"
 # queda mucho mejor. Si a alguien no le gusta, que me lo diga ;). IPG
 # Me parece acertado y lo digo :-) sv
 # falen ... :) ... ipg
-#: xargs/xargs.c:1184
+#: xargs/xargs.c:1195
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: el valor para la opción -%c debería ser mayor o igual que %ld\n"
 
-#: xargs/xargs.c:1198
+#: xargs/xargs.c:1209
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: el valor para la opción -%c debería ser menor que %ld\n"
 
-#: xargs/xargs.c:1229
+#: xargs/xargs.c:1240
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
