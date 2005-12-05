@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-29 11:48-0800\n"
+"POT-Creation-Date: 2005-12-04 23:54-0800\n"
 "PO-Revision-Date: 2005-11-27 03:04+0100\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -390,36 +390,45 @@ msgstr ""
 msgid "invalid mode `%s'"
 msgstr "niew³a¶ciwe uprawnienia `%s'"
 
-#: find/parser.c:1553
+#: find/parser.c:1415
+#, c-format
+msgid ""
+"warning: you have specified a mode pattern %s which is equivalent to 000. "
+"The meaning of -perm /000 will soon be changed to be consistent with -perm -"
+"000; that is, at the moment it matches no files but it will soon be changed "
+"to match all files."
+msgstr ""
+
+#: find/parser.c:1568
 msgid "invalid null argument to -size"
 msgstr "b³êdny zerowy argument dla -size"
 
-#: find/parser.c:1599
+#: find/parser.c:1614
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "b³êdny typ -size `%c'"
 
-#: find/parser.c:1747
+#: find/parser.c:1762
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find wersja %s\n"
 
-#: find/parser.c:1748
+#: find/parser.c:1763
 #, c-format
 msgid "Features enabled: "
 msgstr "W³±czone w³a¶ciwo¶ci: "
 
-#: find/parser.c:2002
+#: find/parser.c:2017
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uwaga: nierozpoznany znak steruj±cy `\\%c'"
 
-#: find/parser.c:2048
+#: find/parser.c:2063
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uwaga: nierozpoznana dyrektywa formatuj±ca `%%%c'"
 
-#: find/parser.c:2154
+#: find/parser.c:2169
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -432,7 +441,7 @@ msgstr ""
 "katalog ze zmiennej $PATH (tzn. usun±æ \".\" albo wiod±ce lub koñcowe "
 "dwukropki)"
 
-#: find/parser.c:2251
+#: find/parser.c:2266
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -440,7 +449,7 @@ msgstr ""
 "Nie mo¿na u¿ywaæ {} wewn±trz nazwy narzêdzia dla opcji -execdir i -okdir, "
 "poniewa¿ jest to potencjalny problem z bezpieczeñstwem."
 
-#: find/parser.c:2274
+#: find/parser.c:2289
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Obs³ugiwane jest tylko jedno wyst±pienie {} przy -exec%s ... +"
@@ -450,16 +459,16 @@ msgstr "Obs³ugiwane jest tylko jedno wyst±pienie {} przy -exec%s ... +"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1570 xargs/xargs.c:1029
+#: find/pred.c:1583 xargs/xargs.c:1040
 msgid "cannot fork"
 msgstr "nie mo¿na wykonaæ fork"
 
-#: find/pred.c:1610
+#: find/pred.c:1623
 #, c-format
 msgid "error waiting for %s"
 msgstr "b³±d podczas czekania na %s"
 
-#: find/pred.c:1618
+#: find/pred.c:1631
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s zakoñczony sygna³em %d"
@@ -509,7 +518,7 @@ msgstr ""
 "Sk³adnia: %s [--version | --help]\n"
 "lub       %s najpopularniejsze_bigramy < lista-plików > baza-danych-locate\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1240
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -664,7 +673,7 @@ msgstr ""
 #: xargs/xargs.c:410
 #, fuzzy, c-format
 msgid ""
-"Invalid input delimiter specification %s: the delimited must be either a "
+"Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 "Niedopuszczalne okre¶lenie ogranicznika wej¶cia %s: ogranicznik musi byæ "
@@ -709,7 +718,7 @@ msgstr "Maksymalna d³ugo¶æ polecenia, które mo¿na u¿yæ: %ld\n"
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Rozmiar u¿ywanego bufora polecenia: %ld\n"
 
-#: xargs/xargs.c:778 xargs/xargs.c:859
+#: xargs/xargs.c:789 xargs/xargs.c:870
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -718,53 +727,53 @@ msgstr ""
 "niedopasowany %s znak cytowania; domy¶lnie znaki cytowania s± specjalnymi "
 "dla xargs o ile nie u¿yto opcji -0"
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "double"
 msgstr "podwójny"
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "single"
 msgstr "pojedynczy"
 
-#: xargs/xargs.c:877 xargs/xargs.c:934
+#: xargs/xargs.c:888 xargs/xargs.c:945
 msgid "argument line too long"
 msgstr "za d³uga linia argumentów"
 
-#: xargs/xargs.c:1104
+#: xargs/xargs.c:1115
 msgid "error waiting for child process"
 msgstr "b³±d podczas oczekiwania na proces potomny"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: wyszed³ ze stanem 255; zaniechanie"
 
-#: xargs/xargs.c:1122
+#: xargs/xargs.c:1133
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: zatrzymany sygna³em %d"
 
-#: xargs/xargs.c:1124
+#: xargs/xargs.c:1135
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: zakoñczony sygna³em %d"
 
-#: xargs/xargs.c:1177
+#: xargs/xargs.c:1188
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: b³êdna liczba dla opcji -%c\n"
 
-#: xargs/xargs.c:1184
+#: xargs/xargs.c:1195
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: warto¶æ dla opcji -%c powinna byæ >= %ld\n"
 
-#: xargs/xargs.c:1198
+#: xargs/xargs.c:1209
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: warto¶æ dla opcji -%c powinna byæ < %ld\n"
 
-#: xargs/xargs.c:1229
+#: xargs/xargs.c:1240
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"

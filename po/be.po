@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-29 11:48-0800\n"
+"POT-Creation-Date: 2005-12-04 23:54-0800\n"
 "PO-Revision-Date: 2003-11-04 05:21+0200\n"
 "Last-Translator: Ales Nyakhaychyk <nab@mail.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -356,36 +356,45 @@ msgstr ""
 msgid "invalid mode `%s'"
 msgstr "нерэчаісны рэжым \"%s\""
 
-#: find/parser.c:1553
+#: find/parser.c:1415
+#, c-format
+msgid ""
+"warning: you have specified a mode pattern %s which is equivalent to 000. "
+"The meaning of -perm /000 will soon be changed to be consistent with -perm -"
+"000; that is, at the moment it matches no files but it will soon be changed "
+"to match all files."
+msgstr ""
+
+#: find/parser.c:1568
 msgid "invalid null argument to -size"
 msgstr "нерэчаісны null-довад да -size"
 
-#: find/parser.c:1599
+#: find/parser.c:1614
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "нерэчаісны від -size \"%c\""
 
-#: find/parser.c:1747
+#: find/parser.c:1762
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find вэрсыі %s\n"
 
-#: find/parser.c:1748
+#: find/parser.c:1763
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2002
+#: find/parser.c:2017
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "увага: нераспазнаная службовая пасьлядоўнасьць \"\\%c\""
 
-#: find/parser.c:2048
+#: find/parser.c:2063
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "увага: нераспазнанае прадпісаньне фармату \"%%%c\""
 
-#: find/parser.c:2154
+#: find/parser.c:2169
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -394,13 +403,13 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2251
+#: find/parser.c:2266
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2274
+#: find/parser.c:2289
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
@@ -410,16 +419,16 @@ msgstr ""
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1570 xargs/xargs.c:1029
+#: find/pred.c:1583 xargs/xargs.c:1040
 msgid "cannot fork"
 msgstr "немагчыма нарадзіць працэс"
 
-#: find/pred.c:1610
+#: find/pred.c:1623
 #, c-format
 msgid "error waiting for %s"
 msgstr "памылка чаканьня %s"
 
-#: find/pred.c:1618
+#: find/pred.c:1631
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s завершаны сыгналам %d"
@@ -468,7 +477,7 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Выкарыстаньне: %s most_common_bigrams < list > coded_list\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1240
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
 #, fuzzy
 msgid ""
 "\n"
@@ -602,7 +611,7 @@ msgstr ""
 #: xargs/xargs.c:410
 #, c-format
 msgid ""
-"Invalid input delimiter specification %s: the delimited must be either a "
+"Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 
@@ -645,60 +654,60 @@ msgstr ""
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr ""
 
-#: xargs/xargs.c:778 xargs/xargs.c:859
+#: xargs/xargs.c:789 xargs/xargs.c:870
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
 "the -0 option"
 msgstr ""
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "double"
 msgstr "двайныя"
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "single"
 msgstr "адзінарныя"
 
-#: xargs/xargs.c:877 xargs/xargs.c:934
+#: xargs/xargs.c:888 xargs/xargs.c:945
 msgid "argument line too long"
 msgstr "сьпіс довадаў занадта доўгі"
 
-#: xargs/xargs.c:1104
+#: xargs/xargs.c:1115
 msgid "error waiting for child process"
 msgstr ""
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr ""
 
-#: xargs/xargs.c:1122
+#: xargs/xargs.c:1133
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: спынена сыгналам %d"
 
-#: xargs/xargs.c:1124
+#: xargs/xargs.c:1135
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: пярэрвана сыгналам %d"
 
-#: xargs/xargs.c:1177
+#: xargs/xargs.c:1188
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: нерэчаіснае значэньне для выбара -%c\n"
 
-#: xargs/xargs.c:1184
+#: xargs/xargs.c:1195
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: значэньне для выбара -%c мусіць быць >= %ld\n"
 
-#: xargs/xargs.c:1198
+#: xargs/xargs.c:1209
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: значэньне для выбара -%c мусіць быць < %ld\n"
 
-#: xargs/xargs.c:1229
+#: xargs/xargs.c:1240
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"

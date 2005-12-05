@@ -59,7 +59,7 @@ translation approved by the Foundation.
 @title Finding Files
 @subtitle Edition @value{EDITION}, for GNU @code{find} version @value{VERSION}
 @subtitle @value{UPDATED}
-@author by David MacKenzie
+@author by David MacKenzie and James Youngman
 
 @page
 @vskip 0pt plus 1filll
@@ -114,9 +114,34 @@ from Dan Bernstein.  The current maintainer of GNU findutils (and this
 manual) is James Youngman.  Many other people have contributed bug
 fixes, small improvements, and helpful suggestions.  Thanks!
 
-Mail suggestions and bug reports for these programs to
-@code{bug-findutils@@gnu.org}.  Please include the version
-number, which you can get by running @samp{find --version}.
+To report a bug in GNU findutils, please use the form on the Savannah
+web site at
+@code{http://savannah.gnu.org/bugs/?group=findutils}.  Reporting bugs
+this way means that you will then be able to track progress in fixing
+the problem.  
+
+If you don't have web access, you can also just send mail to the
+mailing list.  The mailing list @email{bug-findutils@@gnu.org} carries
+discussion of bugs in findutils, questions and answers about the
+software and discussion of the development of the programs.  To join
+the list, send email to @email{bug-findutils-request@@gnu.org}.
+
+Please read any relevant sections of this manual before asking for
+help on the mailing list.  You may also find it helpful to read the
+NON-BUGS section of the @code{find} manual page.
+
+If you ask for help on the mailing list, people will be able to help
+you much more effectively if you include the following things:
+
+@itemize @bullet
+@item The version of the software you are running.  You can find this
+out by running @samp{locate --version}.
+@item What you were trying to do
+@item The @emph{exact} command line you used
+@item The @emph{exact} output you got (if this is very long, try to
+find a smaller example which exhibits the same problem)
+@item The output you expected to get
+@end itemize
 
 @menu
 * Scope::
@@ -351,21 +376,29 @@ etc.
 @deffnx Test -iname pattern
 True if the base of the file name (the path with the leading
 directories removed) matches shell pattern @var{pattern}.  For
-@samp{-iname}, the match is case-insensitive.  To ignore a whole
-directory tree, use @samp{-prune} (@pxref{Directories}).  As an
-example, to find Texinfo source files in @file{/usr/local/doc}:
+@samp{-iname}, the match is case-insensitive.@footnote{Because we
+need to perform case-insensitive matching, the GNU fnmatch
+implementation is always used; if the C library includes the GNU
+implementation, we use that and otherwise we use the one from gnulib}
+To ignore a whole directory tree, use @samp{-prune}
+(@pxref{Directories}).  As an example, to find Texinfo source files in
+@file{/usr/local/doc}:
 
 @example
 find /usr/local/doc -name '*.texi'
 @end example
-@end deffn
 
 Notice that the wildcard must be enclosed in quotes in order to
 protect it from expansion by the shell.
 
-Patterns for @samp{-name} and @samp{-iname} will match a file name
-with a leading @samp{.}.  For example the command @samp{find /tmp
--name \*bar} will match the file @file{/tmp/.foobar}.
+As of findutils version 4.2.2, patterns for @samp{-name} and
+@samp{-iname} will match a file name with a leading @samp{.}.  For
+example the command @samp{find /tmp -name \*bar} will match the file
+@file{/tmp/.foobar}.  Braces within the pattern (@samp{@{@}}) are not
+considered to be special (that is, @code{find . -name 'foo@{1,2@}'}
+matches a file named @file{foo@{1,2@}}, not the files @file{foo1} and
+@file{foo2}.
+@end deffn
 
 
 @node Full Name Patterns
@@ -616,6 +649,9 @@ the @samp{-noleaf} option.  If you later use the @samp{-H} or
 @item -follow
 This option forms part of the ``expression'' and must be specified
 after the file names, but it is otherwise equivalent to @samp{-L}.
+The @samp{-follow} option affects only those tests which appear after
+it on the command line.  This option is deprecated.  Where possible,
+you should use @samp{-L} instead.
 @end table
 
 The following differences in behavior occur when the @samp{-L} option
@@ -698,7 +734,8 @@ are also matched.
 
 @deffn Test -inum n
 File has inode number @var{n}.  The @samp{+} and @samp{-} qualifiers
-also work, though these are rarely useful.
+also work, though these are rarely useful.  Much of the time it is
+easier to use @samp{-samefile} rather than this option.
 @end deffn
 
 You can also search for files that have a certain number of links,
@@ -784,12 +821,14 @@ modified yesterday, do
 @example
 find ~ -daystart -type f -mtime 1
 @end example
-@end deffn
 
 The @samp{-daystart} option is unlike most other options in that it
 has an effect on the way that other tests are performed.  The affected
 tests are @samp{-amin}, @samp{-cmin}, @samp{-mmin}, @samp{-atime},
-@samp{-ctime} and @samp{-mtime}.
+@samp{-ctime} and @samp{-mtime}.  The @samp{-daystart} option only
+affects the behaviour of any tests which appear after it on the
+command line.
+@end deffn
 
 @node Comparing Timestamps
 @subsection Comparing Timestamps
@@ -847,9 +886,9 @@ kilobytes (1024 bytes)
 @item w
 2-byte words
 @item M
-Megabytes
+Megabytes (units of 1048576 bytes)
 @item G
-Gigabytes
+Gigabytes (units of 1073741824 bytes)
 @end table
 
 The `b' suffix always considers blocks to be 512 bytes.  This is not
@@ -1081,6 +1120,16 @@ As above.
 @item -perm -g+w,o+w
 As above.
 @end table
+
+@quotation Warning
+If you specify @samp{-perm /000} or @samp{-perm /mode} where the
+symbolic mode @samp{mode} has no bits set, the test currently matches
+no files.  This differs from the behaviour of @samp{-perm -000}, which
+matches all files.  The behaviour of @samp{-perm /000} will be changed
+to be consistent with the behaviour of @samp{-perm -000}.  The change
+will probably be made in early 2006.
+@end quotation
+
 @end deffn
 
 @node Contents
@@ -1192,7 +1241,9 @@ and returns false.
 Exit immediately (with return value zero if no errors have occurred).
 No child processes will be left running, but no more files specified
 on the command line will be processed.  For example, @code{find
-/tmp/foo /tmp/bar -print -quit} will print only @samp{/tmp/foo}.
+/tmp/foo /tmp/bar -print -quit} will print only @samp{/tmp/foo}.  Any
+command lines which have been built by @samp{-exec ... \+} or
+@samp{-execdir ... \+} are invoked before the program is executed.
 @end deffn
 
 @deffn Option -noleaf
@@ -1222,7 +1273,10 @@ and so forth), because this scenario is common for those sorts of
 directories.  Completely silencing error messages from @code{find} is
 undesirable, so this option neatly solves the problem.  There is no
 way to search one part of the filesystem with this option on and part
-of it with this option off, though.
+of it with this option off, though.  When this option is turned on and 
+find discovers that one of the start-point files specified on the
+command line does not exist, no error message will be issued.
+
 @end deffn
 
 @deffn Option -noignore_readdir_race
@@ -1348,15 +1402,23 @@ files.
 
 @deffn Action -print
 True; print the entire file name on the standard output, followed by a
-newline.
+newline.  If there is the faintest possibility that one of the files
+for which you are searching might contain a newline, you should use
+@samp{-print0} instead.
 @end deffn
 
 @deffn Action -fprint file
 True; print the entire file name into file @var{file}, followed by a
 newline.  If @var{file} does not exist when @code{find} is run, it is
-created; if it does exist, it is truncated to 0 bytes.  The file names
-@file{/dev/stdout} and @file{/dev/stderr} are handled specially; they
-refer to the standard output and standard error output, respectively.
+created; if it does exist, it is truncated to 0 bytes.  The named
+output file is always created, even if no output is sent to it.  The
+file names @file{/dev/stdout} and @file{/dev/stderr} are handled
+specially; they refer to the standard output and standard error
+output, respectively.
+
+If there is the faintest possibility that one of the files for which
+you are searching might contain a newline, you should use
+@samp{-fprint0} instead.
 @end deffn
 
 @node Print File Information
@@ -1418,7 +1480,8 @@ the treatment of unprintable characters is harmonised for @samp{-ls},
 
 @deffn Action -fls file
 True; like @samp{-ls} but write to @var{file} like @samp{-fprint}
-(@pxref{Print File Name}).
+(@pxref{Print File Name}).  The named output file is always created,
+even if no output is sent to it.
 @end deffn
 
 @deffn Action -printf format
@@ -1426,16 +1489,18 @@ True; print @var{format} on the standard output, interpreting @samp{\}
 escapes and @samp{%} directives.  Field widths and precisions can be
 specified as with the @code{printf} C function.  Format flags (like
 @samp{#} for example) may not work as you expect because many of the
-fields, even numeric ones, are printed with %s.  This means though
-that the format flag @samp{-} will work; it forces left-alignment of
-the field.  Unlike @samp{-print}, @samp{-printf} does not add a
-newline at the end of the string.  If you want a newline at the end of
-the string, add a @samp{\n}.
+fields, even numeric ones, are printed with %s.  Numeric flags which
+are affected in this way include G, U, b, D, k and n.  This difference
+in behaviour means though that the format flag @samp{-} will work; it
+forces left-alignment of the field.  Unlike @samp{-print},
+@samp{-printf} does not add a newline at the end of the string.  If
+you want a newline at the end of the string, add a @samp{\n}.
 @end deffn
 
 @deffn Action -fprintf file format
 True; like @samp{-printf} but write to @var{file} like @samp{-fprint}
-(@pxref{Print File Name}).
+(@pxref{Print File Name}).  The output file is always created, even if
+no output is ever sent to it.
 @end deffn
 
 @menu
@@ -1468,6 +1533,8 @@ Horizontal tab.
 Vertical tab.
 @item \\
 A literal backslash (@samp{\}).
+@item \0
+ASCII NUL.
 @item \NNN
 The character whose ASCII code is NNN (octal).
 @end table
@@ -1555,7 +1622,14 @@ File's numeric user ID.
 @item %m
 @c full support, including # and 0.
 File's permissions (in octal).  If you always want to have a leading
-zero on the number, use the '#' format flag, for example '%#m'.
+zero on the number, use the '#' format flag, for example '%#m'.  
+
+The permisison numbers used are the traditional Unix permission
+numbers, which will be as expected on most systems, but if your
+system's permission bit layout differs from the traditional Unix
+semantics, you will see a difference between the mode as printed by
+@samp{%m} and the mode as it appears in @code{struct stat}.
+
 @item %M
 File's permissions (in symbolic form, as for @code{ls}).  This
 directive is supported in findutils 4.2.5 and later.
@@ -1787,14 +1861,20 @@ occurs in the command.  Both of these constructions need to be escaped
 shell.  The command is executed in the directory in which @code{find}
 was run.
 
-For example, to compare each C header file in the current directory
-with the file @file{/tmp/master}:
+For example, to compare each C header file in or below the current
+directory with the file @file{/tmp/master}:
 
 @example
 find . -name '*.h' -execdir diff -u '@{@}' /tmp/master ';'
 @end example
 @end deffn
 
+If you use`@samp{-execdir}, you must ensure that the current directory
+is not on @var{$PATH}, because otherwise an attacker could make
+@samp{find} run commands of their choice simply by leaving a
+suitably-named file in the right directory.  GNU find will refuse to
+run if you use @samp{-execdir} and the current directory is in
+@var{$PATH}.
 
 Another similar option, @samp{-exec} is supported, but is less secure.
 @xref{Security Considerations}, for a discussion of the security
@@ -1808,6 +1888,10 @@ directory from which @code{find} was invoked, meaning that @samp{@{@}}
 is expanded to a relative path starting with the name of one of the
 starting directories, rather than just the basename of the matched
 file.
+
+While some implementations of @code{find} replace the @samp{@{@}} only
+whwre it appears on its own in an argument, GNU @code{find} replaces
+@samp{@{@}} wherever it appears.
 @end deffn
 
 
@@ -1980,7 +2064,7 @@ null character.
 
 @deffn Action -fprint0 file
 True; like @samp{-print0} but write to @var{file} like @samp{-fprint}
-(@pxref{Print File Name}).
+(@pxref{Print File Name}).  The output file is always created.
 @end deffn
 
 As of findutils version 4.2.4, the @code{locate} program also has a
@@ -2033,7 +2117,7 @@ change in a future release.
 Unusual characters are always escaped.  White space, backslash, and
 double quote characters are printed using C-style escaping (for
 example @samp{\f}, @samp{\"}).  Other unusual characters are printed
-using an octal escape.  Other Printable characters (for @samp{-ls} and
+using an octal escape.  Other printable characters (for @samp{-ls} and
 @samp{-fls} these are the characters between octal 041 and 0176) are
 printed as-is.
 @item -printf
@@ -2091,7 +2175,7 @@ limit.  The following options modify those values.
 @itemx -r
 If the standard input does not contain any nonblanks, do not run the
 command.  By default, the command is run once even if there is no
-input.
+input.  This option is a GNU extension.
 
 @item --max-lines@r{[}=@var{max-lines}@r{]}
 @itemx -L @var{max-lines}
@@ -2113,10 +2197,12 @@ case @code{xargs} will exit.
 @item --max-chars=@var{max-chars}
 @itemx -s @var{max-chars}
 Use at most @var{max-chars} characters per command line, including the
-command initial arguments and the terminating nulls at the ends of
-the argument strings.  If you specify a value for this option which is
-too large or small, a warning message is printed and the appropriate
-upper or lower limit is used instead.
+command initial arguments and the terminating nulls at the ends of the
+argument strings.  If you specify a value for this option which is too
+large or small, a warning message is printed and the appropriate upper
+or lower limit is used instead.  You can use @samp{--show-limits}
+option to understand the command-line limits applying to @code{xargs}
+and how this is affected by any other options.
 
 @item --max-procs=@var{max-procs}
 @itemx -P @var{max-procs}
@@ -2160,6 +2246,35 @@ The equivalent command using @samp{find -execdir} is:
 find bills -type f -execdir sort -o '@{@}.sorted' '@{@}' ';'
 @end example
 @end table
+
+
+When you use the @samp{-I} option, each line read from the input is
+buffered internally.  This means that there is an upper limit on the
+length of input line that xargs will accept when used with the
+@samp{-I} option.  To work around this limitation, you can use the
+@samp{-s} option to increase the amount of buffer space that xargs
+uses, and you can also use an extra invocation of xargs to ensure that
+very long lines do not occur.  For example:
+
+@example
+somecommand | xargs -s 50000 echo | xargs -I '@{@}' -s 100000 rm '@{@}'
+@end example
+
+Here, the first invocation of @code{xargs} has no input line length
+limit because it doesn't use the @samp{-I} option. The second
+invocation of @code{xargs} does have such a limit, but we have ensured
+that the it never encounters a line which is longer than it can
+handle.  
+
+This is not an ideal solution.  Instead, the @samp{-I} option should
+not impose a line length limit (apart from any limit imposed by the
+operating system) and so one might consider this limitation to be a
+bug.  A better solution would be to allow @code{xargs -I} to
+automatically move to a larger value for the @samp{-s} option when
+this is needed.
+
+This sort of problem doesn't occur with the output of @code{find}
+because it emits just one filename per line.
 
 @node Querying
 @subsection Querying
@@ -2332,6 +2447,9 @@ The new GNU @code{locate} can read both the old and new database
 formats.  However, old versions of @code{locate} and @code{find}
 produce incorrect results if given a new-format database.
 
+Support for the old database format will eventually be discontinued,
+first in @code{updatedb} and later in @code{xargs}.
+
 If you run @samp{locate --statistics}, the resulting summary indicates
 the type of each @code{locate} database.
 
@@ -2497,6 +2615,7 @@ discussed in this manual.
 * Invoking updatedb::
 * Invoking xargs::
 * Regular Expressions::
+* Environment Variables::
 @end menu
 
 @node Invoking find, Invoking locate, , Reference
@@ -2512,8 +2631,10 @@ the tree.
 
 The options @samp{-H}, @samp{-L} or @samp{-P} may be specified at the
 start of the command line (if none of these is specified, @samp{-P} is
-assumed).  The arguments after these are a list of files or
-directories that should be searched.
+assumed).  If you specify more than one of these options, the last one
+specified takes effect (but note that the @samp{-follow} option is
+equivalent to @samp{-L}).  The arguments after these are a list of
+files or directories that should be searched.
 
 This list of files to search is followed by a list of expressions
 describing the files we wish to search for.  The first part of the
@@ -2558,6 +2679,7 @@ missing, @samp{-print} is assumed.
 @item --help
 Print a summary of the command line usage and exit.
 @item --version
+@itemx -version
 Print the version number of @code{find} and exit.
 @end table
 
@@ -2673,7 +2795,9 @@ Only print out such names which currently exist (instead of such names
 which existed when the database was created).  Note that this may slow
 down the program a lot, if there are many matches in the database.
 The way in which broken symbolic links are treated is affected by the
-@samp{-L}, @samp{-P} and @samp{-H} options.
+@samp{-L}, @samp{-P} and @samp{-H} options.  Please note that it is
+possible for the file to be deleted after @code{locate} has checked
+that it exists, but before you use it.
 
 @item --non-existing
 @itemx -E
@@ -2681,14 +2805,16 @@ Only print out such names which currently do not exist (instead of
 such names which existed when the database was created).  Note that
 this may slow down the program a lot, if there are many matches in the
 database.  The way in which broken symbolic links are treated is
-affected by the @samp{-L}, @samp{-P} and @samp{-H} options.
+affected by the @samp{-L}, @samp{-P} and @samp{-H} options.  Please
+note that @code{locate} checks that the file does not exist, but a
+file of the same name might be created after @code{locate}'s check but
+before you read @code{locate}'s output.
 
 @item --follow
 @itemx -L
 If testing for the existence of files (with the @samp{-e} or @samp{-E}
 options), consider broken symbolic links to be non-existing.  This is
-the default behaviour.
-
+the default behaviour.  
 
 @item --nofollow
 @itemx -P
@@ -2881,10 +3007,16 @@ if the command is not found
 if some other error occurred.
 @end table
 
+Exit codes greater than 128 are used by the shell to indicate that 
+a program died due to a fatal signal.
+  
 @table @code
 @item --arg-file@r{=@var{inputfile}}
 @itemx -a o@r{@var{inputfile}}
 Read names from the file @var{inputfile} instead of standard input.
+If you use this option, the standard input stream remains unchanged
+when commands are run. Otherwise, stdin is redirected from
+@file{/dev/null}.
 
 @item --null
 @itemx -0
@@ -2907,33 +3039,43 @@ Octal and hexadecimal escape codes are understood as for the
 @code{printf} command.  Multibyte characters are not supported.
 
 
-@item --eof@r{[}=@var{eof-str}@r{]}
+@item -E @var{eof-str}
+@itemx --eof@r{[}=@var{eof-str}@r{]}
 @itemx -e@r{[}@var{eof-str}@r{]}
 Set the end of file string to @var{eof-str}.  If the end of file
 string occurs as a line of input, the rest of the input is ignored.
-If @var{eof-str} is omitted, there is no end of file string.  If this
-option is not given, the end of file string defaults to @samp{_}.
+If @var{eof-str} is omitted (@samp{-e}) or blank (either @samp{-e} or
+@samp{-E}), there is no end of file string.  The @samp{-e} form of
+this option is deprecated in favour of the POSIX-compliant @samp{-E}
+option, which you should use instead.  As of GNU xargs version 4.2.9,
+the default behaviour of xargs is not to have a logical end-of-file
+marker.  The POSIX standard (IEEE Std 1003.1, 2004 Edition) allows
+this.
 
 @item --help
 Print a summary of the options to @code{xargs} and exit.
 
-@item --replace@r{[}=@var{replace-str}@r{]}
-@itemx -I @var{replace-str}
+@item -I @var{replace-str}
+@itemx --replace@r{[}=@var{replace-str}@r{]}
 @itemx -i@r{[}@var{replace-str}@r{]}
 Replace occurrences of @var{replace-str} in the initial arguments with
 names read from standard input.  Also, unquoted blanks do not
 terminate arguments; instead, the input is split at newlines only.  If
 @var{replace-str} is omitted (omitting it is allowed only for
 @samp{-i}), it defaults to @samp{@{@}} (like for @samp{find -exec}).
-Implies @samp{-x} and @samp{-l 1}.  @samp{-i} is deprecated in favour
-of @samp{-I}.
+Implies @samp{-x} and @samp{-l 1}.  The @samp{-i} option is deprecated
+in favour of the @samp{-I} option.
 
-@item --max-lines@r{[}=@var{max-lines}@r{]}
+@item -L @var{max-lines}
+@itemx --max-lines@r{[}=@var{max-lines}@r{]}
 @itemx -l@r{[}@var{max-lines}@r{]}
-Use at most @var{max-lines} non-blank input lines per command line;
-@var{max-lines} defaults to 1 if omitted.  Trailing blanks cause an
-input line to be logically continued on the next input line, for the
-purpose of counting the lines.  Implies @samp{-x}.
+Use at most @var{max-lines} non-blank input lines per command line.
+For @samp{-l}, @var{max-lines} defaults to 1 if omitted.  For
+@samp{-L}, the argument is mandatory.  Trailing blanks cause an input
+line to be logically continued on the next input line, for the purpose
+of counting the lines.  Implies @samp{-x}.  The @samp{-l} form of this
+option is deprecared in favour of the POSIX-compliant @samp{-L}
+option.
 
 @item --max-args=@var{max-args}
 @itemx -n @var{max-args}
@@ -2960,6 +3102,13 @@ Use at most @var{max-chars} characters per command line, including the
 command, initial arguments and any terminating nulls at the ends of
 the argument strings.
 
+@item --show-limits
+Display the limits on the command-line length which are imposed by the
+operating system, @code{xargs}' choice of buffer size and the
+@samp{-s} option.  Pipe the input from @file{/dev/null} (and perhaps
+specify @samp{--no-run-if-empty}) if you don't want @code{xargs} to do
+anything.
+
 @item --verbose
 @itemx -t
 Print the command line on the standard error output before executing
@@ -2981,7 +3130,7 @@ possible simultaneously.
 @end table
 
 
-@node Regular Expressions,, Invoking xargs, Reference
+@node Regular Expressions, Environment Variables, Invoking xargs, Reference
 @section Regular Expressions
 
 The @samp{-regex} and @samp{-iregex} tests of @code{find} allow
@@ -2998,6 +3147,52 @@ regular expression syntax and behaviour that should be used.  This
 should be one of the following:
 
 @include regexprops.texi
+
+@node Environment Variables,, Regular Expressions, Reference
+@section Environment Variables
+@table @var
+@item LANG
+Provides a default value for the internationalization variables that
+are unset or null.
+@item LC_ALL
+If set to a non-empty string value, override the values of all the
+other internationalization variables.
+@item LC_COLLATE
+The POSIX standard specifies that this variable affects the pattern
+matching to be used for the `\-name' option.  GNU find uses the
+GNU version of the @code{fnmatch} library function.
+
+POSIX also specifies that the `LC_COLLATE' environment 
+variable affects the interpretation of the user's response to the 
+query issued by `\-ok', but this is not the case for GNU find.
+@item LC_CTYPE 
+This variable affects the treatment of character classes used with 
+the @samp{-name} test, if the system's 
+@code{fnmatch} library function supports this.   It has no effect on the behaviour 
+of the @samp{-ok} expression.
+@item LC_MESSAGES
+Determines the locale to be used for internationalised messages.
+@item NLSPATH
+Determines the location of the internationalisation message catalogues.
+@item PATH
+Affects the directories which are searched to find the executables
+invoked by @samp{-exec}, @samp{-execdir} @samp{-ok} and @samp{-okdir}.
+If the @var{PATH} environment variable includes the current directory
+(by explicitly including @samp{.} or by having an empty element), and
+the find command line includes @samp{-execdir} or @samp{-okdir},
+@code{find} will refuse to run.  @xref{Security Considerations}, for a
+more detailed discussion of security matters.
+
+@item POSIXLY_CORRECT 
+Determines the block size used by @samp{-ls} and @samp{-fls}.  
+If @var{POSIXLY_CORRECT} is set, blocks are units of 512 bytes.  Otherwise
+they are units of 1024 bytes.
+
+@item TZ 
+Affects the time zone used for some of the time-related format
+directives of @samp{-printf} and @samp{-fprintf}.
+@end table
+
 
 
 @node Common Tasks, Worked Examples, Reference, Top
@@ -4328,7 +4523,8 @@ system-imposed limits on program command line argument length to
 invoke any program.  This is an unlikely situation and is more likely
 result of an attempt to test the limits of @code{xargs}, or break it.
 Please try unsetting some environment variables, or exiting the
-current shell.
+current shell.  You can also use @samp{xargs --show-limits} to
+understand the relevant sizes.
 
 @item can not fit single argument within argument list size limit
 You are using the @samp{-I} option and @code{xargs} doesn't have
@@ -4383,6 +4579,7 @@ The @code{updatedb} program (and the programs it invokes) do issue
 error messages, but none seem to be candidates for guidance.  If
 you are having a problem understanding one of these, ask for help on
 @email{bug-findutils@@gnu.org}.
+
 
 @node Primary Index, , Error Messages, Top
 @unnumbered @code{find} Primary Index

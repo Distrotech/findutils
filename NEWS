@@ -16,6 +16,13 @@ can be read, written or executed respectively.
 
 * Major changes in release 4.2.27-CVS
 
+** Warnings of Future Changes
+
+The test -perm /000 currently matches no files, but for greater
+consistency with -perm -000, this will be changed to match all files;
+this change will probably be made in early 2006.  Meanwhile, a warning
+message is given if you do this.
+
 ** Bug Fixes
 
 If xargs is invoked with many short arguments on PPC systems running

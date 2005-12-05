@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.24\n"
+"Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-29 11:48-0800\n"
-"PO-Revision-Date: 2005-08-24 11:05+0200\n"
+"POT-Creation-Date: 2005-12-04 23:54-0800\n"
+"PO-Revision-Date: 2005-11-29 09:39+0100\n"
 "Last-Translator: Primož Peterlin <primoz.peterlin@biofiz.mf.uni-lj.si>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -18,12 +18,12 @@ msgstr ""
 #: gnulib/lib/argmatch.c:137
 #, c-format
 msgid "invalid argument %s for %s"
-msgstr "neveljaven argument %s za »%s«"
+msgstr "neveljaven argument %s za %s"
 
 #: gnulib/lib/argmatch.c:138
 #, c-format
 msgid "ambiguous argument %s for %s"
-msgstr "dvoumen argument %s za »%s«"
+msgstr "dvoumen argument %s za %s"
 
 #: gnulib/lib/argmatch.c:157
 #, c-format
@@ -392,36 +392,45 @@ msgstr ""
 msgid "invalid mode `%s'"
 msgstr "neveljave način »%s«"
 
-#: find/parser.c:1553
+#: find/parser.c:1415
+#, c-format
+msgid ""
+"warning: you have specified a mode pattern %s which is equivalent to 000. "
+"The meaning of -perm /000 will soon be changed to be consistent with -perm -"
+"000; that is, at the moment it matches no files but it will soon be changed "
+"to match all files."
+msgstr ""
+
+#: find/parser.c:1568
 msgid "invalid null argument to -size"
 msgstr "neveljaven prazni argument pri -size"
 
-#: find/parser.c:1599
+#: find/parser.c:1614
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "neveljaven tip -size: »%c«"
 
-#: find/parser.c:1747
+#: find/parser.c:1762
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find, različica %s\n"
 
-#: find/parser.c:1748
+#: find/parser.c:1763
 #, c-format
 msgid "Features enabled: "
 msgstr "Omogočene možnosti: "
 
-#: find/parser.c:2002
+#: find/parser.c:2017
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "opozorilo: neprepoznano ubežno zaporedje »\\%c«"
 
-#: find/parser.c:2048
+#: find/parser.c:2063
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "opozorilo: neprepoznano formatno določilo »%%%c»"
 
-#: find/parser.c:2154
+#: find/parser.c:2169
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -433,7 +442,7 @@ msgstr ""
 "kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
 "iz spremenljivke $PATH - odstranite ».« ter uvodna ali zaključna dvopičja."
 
-#: find/parser.c:2251
+#: find/parser.c:2266
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -441,7 +450,7 @@ msgstr ""
 "Raba {} znotraj imena pomožnega programa za -execdir in -okdir zaradi "
 "mogočih varnostnih problemov ni dovoljena."
 
-#: find/parser.c:2274
+#: find/parser.c:2289
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Podprta je le enkratna navedba {} v kombinaciji z -exec%s ... +"
@@ -451,16 +460,16 @@ msgstr "Podprta je le enkratna navedba {} v kombinaciji z -exec%s ... +"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1570 xargs/xargs.c:1029
+#: find/pred.c:1583 xargs/xargs.c:1040
 msgid "cannot fork"
 msgstr "vejitev ni mogoča"
 
-#: find/pred.c:1610
+#: find/pred.c:1623
 #, c-format
 msgid "error waiting for %s"
 msgstr "napaka pri čakanju na %s"
 
-#: find/pred.c:1618
+#: find/pred.c:1631
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s zaključen s signalom %d"
@@ -511,7 +520,7 @@ msgstr ""
 "Uporaba: %s [--version | --help]\n"
 "ali      %s najpogostejši_bigrami < seznam > kodiran_seznam\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1240
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -630,37 +639,45 @@ msgid "argument to --limit"
 msgstr "argument za --limit"
 
 #: xargs/xargs.c:330
-#, c-format
+#, fuzzy, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
-msgstr ""
+msgstr "Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika."
 
 #: xargs/xargs.c:348
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lx."
 msgstr ""
+"Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
+"vrednost znaka ne sme presegati %lx."
 
 #: xargs/xargs.c:354
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lo."
 msgstr ""
+"Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
+"vrednost znaka ne sme presegati %lo."
 
 #: xargs/xargs.c:363
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
+"Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
+"neprepoznan sledilni znak %s."
 
 #: xargs/xargs.c:410
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Invalid input delimiter specification %s: the delimited must be either a "
+"Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
+"Nedovoljena specifikacija vhodnega razmejilnika %s: razmejilnim mora biti "
+"bodisi en sam znak, bodisi ubežno zaporedje, ki se začenja z \\."
 
 #: xargs/xargs.c:592
 #, c-format
@@ -701,7 +718,7 @@ msgstr "Največja dolžina ukaza, ki ga lahko uporabimo: %ld\n"
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Velikost ukaznega medpomnilnika, ki ga dejansko uporabljamo: %ld\n"
 
-#: xargs/xargs.c:778 xargs/xargs.c:859
+#: xargs/xargs.c:789 xargs/xargs.c:870
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -710,54 +727,54 @@ msgstr ""
 "%s narekovaj brez para; privzeto so narekovaji za xargs posebni, razen če "
 "vključite izbiro -O"
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "double"
 msgstr "dvojni"
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "single"
 msgstr "enojni"
 
-#: xargs/xargs.c:877 xargs/xargs.c:934
+#: xargs/xargs.c:888 xargs/xargs.c:945
 msgid "argument line too long"
 msgstr "vrstica z argumenti je predolga"
 
-#: xargs/xargs.c:1104
+#: xargs/xargs.c:1115
 msgid "error waiting for child process"
 msgstr "napaka pri čakanju na proces naslednik"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: izhod s statusom 255; prekinjamo"
 
-#: xargs/xargs.c:1122
+#: xargs/xargs.c:1133
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: ustavljeno s signalom %d"
 
-#: xargs/xargs.c:1124
+#: xargs/xargs.c:1135
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: zaključeno s signalom %d"
 
-#: xargs/xargs.c:1177
+#: xargs/xargs.c:1188
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: neveljavno število za izbiro -%c\n"
 
-#: xargs/xargs.c:1184
+#: xargs/xargs.c:1195
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: vrednost za izbiro -%c mora biti >= %ld\n"
 
-#: xargs/xargs.c:1198
+#: xargs/xargs.c:1209
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: vrednost za izbiro -%c mora biti < %ld\n"
 
-#: xargs/xargs.c:1229
-#, fuzzy, c-format
+#: xargs/xargs.c:1240
+#, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
 "       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
@@ -769,15 +786,16 @@ msgid ""
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
-"Uporaba: %s [-0prtx] [-e[niz-eof]] [-i[nadomestni-niz]] [-l[največ-vrstic]]\n"
-"        [-n največ-argumentov] [-s največ-znakov] [-P največ-procesov]\n"
-"        [--null] [--eof[=niz-eof]] [--replace[=nadomestni-niz]]\n"
-"        [--max-lines[=največ-vrstic]] [--interactive] [--max-chars=največ-"
-"znakov]\n"
-"        [--verbose] [--exit] [--max-procs=največ-procesov]\n"
-"        [--max-args=največ-argumentov] [--no-run-if-empty] [--arg-"
-"file=datoteka]\n"
-"        [--version] [--help] [ukaz [začetni-argumenti]]\n"
+"Uporaba: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=razmejilnik]\n"
+"       [-E eof-str] [-e[niz-eof]]  [--eof[=niz-eof]]\n"
+"       [-L največ-vrstic] [-l[največ-vrstic]] [--max-lines[=največ-vrstic]]\n"
+"       [-I nadomestni-niz] [-i[nadomestni-niz]] [--replace[=nadomestni-"
+"niz]]\n"
+"       [-n max-args] [--max-args=max-args]\n"
+"       [-s največ-znakov] [--max-chars=največ-znakov]\n"
+"       [-P največ-procesov]  [--max-procs=največ-procesov]\n"
+"       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=datoteka]\n"
+"       [--version] [--help] [ukaz [začetni-argumenti]]\n"
 
 #~ msgid "Success"
 #~ msgstr "Uspešno"

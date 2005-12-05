@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-29 11:48-0800\n"
+"POT-Creation-Date: 2005-12-04 23:54-0800\n"
 "PO-Revision-Date: 2005-04-04 10:55-0700\n"
 "Last-Translator: Steven Michael Murphy <murf@e-tools.com>\n"
 "Language-Team: Kinyarwanda <translation-team-rw@lists.sourceforge.net>\n"
@@ -374,37 +374,46 @@ msgstr "Iburira i ni Bitemewe. Gukoresha"
 msgid "invalid mode `%s'"
 msgstr "Sibyo Ubwoko"
 
-#: find/parser.c:1553
+#: find/parser.c:1415
+#, c-format
+msgid ""
+"warning: you have specified a mode pattern %s which is equivalent to 000. "
+"The meaning of -perm /000 will soon be changed to be consistent with -perm -"
+"000; that is, at the moment it matches no files but it will soon be changed "
+"to match all files."
+msgstr ""
+
+#: find/parser.c:1568
 #, fuzzy
 msgid "invalid null argument to -size"
 msgstr "Sibyo NTAGIHARI Kuri Ingano"
 
-#: find/parser.c:1599
+#: find/parser.c:1614
 #, fuzzy, c-format
 msgid "invalid -size type `%c'"
 msgstr "Sibyo Ingano Ubwoko"
 
-#: find/parser.c:1747
+#: find/parser.c:1762
 #, fuzzy, c-format
 msgid "GNU find version %s\n"
 msgstr "Gushaka Verisiyo"
 
-#: find/parser.c:1748
+#: find/parser.c:1763
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2002
+#: find/parser.c:2017
 #, fuzzy, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "Iburira"
 
-#: find/parser.c:2048
+#: find/parser.c:2063
 #, fuzzy, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "Iburira Imiterere"
 
-#: find/parser.c:2154
+#: find/parser.c:2169
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -413,13 +422,13 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2251
+#: find/parser.c:2266
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2274
+#: find/parser.c:2289
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
@@ -429,16 +438,16 @@ msgstr ""
 msgid "< %s ... %s > ? "
 msgstr "<%s...%s>CYOSE"
 
-#: find/pred.c:1570 xargs/xargs.c:1029
+#: find/pred.c:1583 xargs/xargs.c:1040
 msgid "cannot fork"
 msgstr ""
 
-#: find/pred.c:1610
+#: find/pred.c:1623
 #, fuzzy, c-format
 msgid "error waiting for %s"
 msgstr "Ikosa Tegereza kugirango"
 
-#: find/pred.c:1618
+#: find/pred.c:1631
 #, fuzzy, c-format
 msgid "%s terminated by signal %d"
 msgstr "%sku"
@@ -493,7 +502,7 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Verisiyo Ifashayobora Cyangwa IDOSIYE Urutonde"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1240
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
 #, fuzzy
 msgid ""
 "\n"
@@ -627,7 +636,7 @@ msgstr ""
 #: xargs/xargs.c:410
 #, c-format
 msgid ""
-"Invalid input delimiter specification %s: the delimited must be either a "
+"Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 
@@ -671,7 +680,7 @@ msgstr "Uburebure Bya Komandi: Twebwe Gukoresha"
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Bya Komandi: Twebwe ikoresha"
 
-#: xargs/xargs.c:778 xargs/xargs.c:859
+#: xargs/xargs.c:789 xargs/xargs.c:870
 #, fuzzy, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -683,7 +692,7 @@ msgstr ""
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.UnderLine..2.text
 # #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.Strikeout..2.text
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 #, fuzzy
 msgid "double"
 msgstr "MAHARAKUBIRI"
@@ -692,52 +701,52 @@ msgstr "MAHARAKUBIRI"
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.UnderLine..1.text
 # #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.Strikeout..1.text
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 #, fuzzy
 msgid "single"
 msgstr "UMWE"
 
-#: xargs/xargs.c:877 xargs/xargs.c:934
+#: xargs/xargs.c:888 xargs/xargs.c:945
 #, fuzzy
 msgid "argument line too long"
 msgstr "Umurongo"
 
-#: xargs/xargs.c:1104
+#: xargs/xargs.c:1115
 #, fuzzy
 msgid "error waiting for child process"
 msgstr "Ikosa Tegereza kugirango"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, fuzzy, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s:Na: Imimerere"
 
-#: xargs/xargs.c:1122
+#: xargs/xargs.c:1133
 #, fuzzy, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s:Kyahagariswe ku"
 
-#: xargs/xargs.c:1124
+#: xargs/xargs.c:1135
 #, fuzzy, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s:ku"
 
-#: xargs/xargs.c:1177
+#: xargs/xargs.c:1188
 #, fuzzy, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s:Sibyo Umubare kugirango"
 
-#: xargs/xargs.c:1184
+#: xargs/xargs.c:1195
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s:Agaciro kugirango Ihitamo"
 
-#: xargs/xargs.c:1198
+#: xargs/xargs.c:1209
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s:Agaciro kugirango Ihitamo"
 
-#: xargs/xargs.c:1229
+#: xargs/xargs.c:1240
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"

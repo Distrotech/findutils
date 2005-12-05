@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-11-29 11:48-0800\n"
+"POT-Creation-Date: 2005-12-04 23:54-0800\n"
 "PO-Revision-Date: 2005-11-28 23:52+0200\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@buguner.name.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -396,36 +396,45 @@ msgstr ""
 msgid "invalid mode `%s'"
 msgstr "geçersiz kip `%s'"
 
-#: find/parser.c:1553
+#: find/parser.c:1415
+#, c-format
+msgid ""
+"warning: you have specified a mode pattern %s which is equivalent to 000. "
+"The meaning of -perm /000 will soon be changed to be consistent with -perm -"
+"000; that is, at the moment it matches no files but it will soon be changed "
+"to match all files."
+msgstr ""
+
+#: find/parser.c:1568
 msgid "invalid null argument to -size"
 msgstr "-size için boş (null) argüman geçersiz"
 
-#: find/parser.c:1599
+#: find/parser.c:1614
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size türü `%c' geçersiz"
 
-#: find/parser.c:1747
+#: find/parser.c:1762
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find sürüm %s\n"
 
-#: find/parser.c:1748
+#: find/parser.c:1763
 #, c-format
 msgid "Features enabled: "
 msgstr "Etkin özellikler:"
 
-#: find/parser.c:2002
+#: find/parser.c:2017
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uyarı: tanınmayan öncelem `\\%c'"
 
-#: find/parser.c:2048
+#: find/parser.c:2063
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uyarı: tanınmayan biçem yönergesi `%%%c'"
 
-#: find/parser.c:2154
+#: find/parser.c:2169
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -438,7 +447,7 @@ msgstr ""
 "kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
 "işaretlerini kaldırın)"
 
-#: find/parser.c:2251
+#: find/parser.c:2266
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -446,7 +455,7 @@ msgstr ""
 "-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, "
 "çünkü bu potensiyel bir güvenlik açığıdır."
 
-#: find/parser.c:2274
+#: find/parser.c:2289
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
@@ -456,16 +465,16 @@ msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1570 xargs/xargs.c:1029
+#: find/pred.c:1583 xargs/xargs.c:1040
 msgid "cannot fork"
 msgstr "ayrılamaz"
 
-#: find/pred.c:1610
+#: find/pred.c:1623
 #, c-format
 msgid "error waiting for %s"
 msgstr "%s beklenirken hata oluştu"
 
-#: find/pred.c:1618
+#: find/pred.c:1631
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s, %d sinyali ile sonlandırıldı"
@@ -515,7 +524,7 @@ msgstr ""
 "Kullanımı: %s [--version | --help]\n"
 "veya       %s most_common_bigrams < dosya-listesi > konum-veritabanı\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1240
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -671,7 +680,7 @@ msgstr ""
 #: xargs/xargs.c:410
 #, fuzzy, c-format
 msgid ""
-"Invalid input delimiter specification %s: the delimited must be either a "
+"Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 "Girdi sınırlayıcı belirtimi %s kuraldışı: sınırlanan şey ya tek bir karakter "
@@ -716,7 +725,7 @@ msgstr "Kullanabileceğimiz asgari komut uzunluğu: %ld\n"
 msgid "Size of command buffer we are actually using: %ld\n"
 msgstr "Kullanmakta olduğumuz komut tamponunun boyu: %ld\n"
 
-#: xargs/xargs.c:778 xargs/xargs.c:859
+#: xargs/xargs.c:789 xargs/xargs.c:870
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -725,53 +734,53 @@ msgstr ""
 "%s karşılığı ile eşleşmiyor; -0 seçeneği ile belirtilmedikçe öntanımlı "
 "olarak sarmalayıcı karakterler xarg'lara özeldir"
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "double"
 msgstr "çift"
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:790 xargs/xargs.c:871
 msgid "single"
 msgstr "tek"
 
-#: xargs/xargs.c:877 xargs/xargs.c:934
+#: xargs/xargs.c:888 xargs/xargs.c:945
 msgid "argument line too long"
 msgstr "argüman satırı çok uzun"
 
-#: xargs/xargs.c:1104
+#: xargs/xargs.c:1115
 msgid "error waiting for child process"
 msgstr "ast süreç beklenirken hata oluştu"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: durum 255 ile çıkıldı; bırakılıyor"
 
-#: xargs/xargs.c:1122
+#: xargs/xargs.c:1133
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: %d sinyali ile durduruldu"
 
-#: xargs/xargs.c:1124
+#: xargs/xargs.c:1135
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: %d sinyali ile sonlandırıldı"
 
-#: xargs/xargs.c:1177
+#: xargs/xargs.c:1188
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c seçeneği için geçersiz sayı\n"
 
-#: xargs/xargs.c:1184
+#: xargs/xargs.c:1195
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c seçeneği için değer >= %ld olmalı\n"
 
-#: xargs/xargs.c:1198
+#: xargs/xargs.c:1209
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c seçeneği için değer < %ld olmalı\n"
 
-#: xargs/xargs.c:1229
+#: xargs/xargs.c:1240
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
