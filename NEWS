@@ -1,5 +1,5 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
-* Major changes in release 4.2.27-CVS
+* Major changes in release 4.2.27
 
 ** Warnings of Future Changes
 
@@ -23,6 +23,10 @@ produces the wrong answer for files on filesystems that have been
 remounted elsewhere using "mount --bind". (Savannah bug #14921).
 
 ** Documentation Changes
+
+Following some extensive and detailed review comments from Aaron
+Hawley, the material in the manual pages and the Texinfo manual are
+now synchronised.
 
 The %M format specifier of "find -printf" is now documented, although
 it has existed since release 4.2.5.
@@ -72,6 +76,12 @@ affected (albeit for longer command lines).  In theory the same
 problem could affect 'find -exec {} +', but that's much less likely
 (even so, the bug is fixed there too).
 
+Bugfix for an unusual failure mode (Savannah bug #14842) where an
+attempt to allocate more space for directory contents succeeds but is
+incorrectly diagnosed as a failure.  The likelihood of you
+experiencing this depends on your architecture, operating system and
+resource limits.  This failure has been observed in a directory
+containing 35396 entries.
 
 ** Documentation Changes
 
