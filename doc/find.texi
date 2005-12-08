@@ -1048,12 +1048,12 @@ example the executable bit).  This will match a file which has mode
 0777, for example.
 
 @item -perm /222
-Match files which are writeable by somebody (their owner, or
+Match files which are writable by somebody (their owner, or
 their group, or anybody else).
 
 @item -perm /022
-Match files which are writeable by either their owner or their
-group.  The files don't have to be writeable by both the owner and
+Match files which are writable by either their owner or their
+group.  The files don't have to be writable by both the owner and
 group to be matched; either will do.
 
 @item -perm /g+w,o+w
@@ -1063,7 +1063,7 @@ As above.
 As above
 
 @item -perm -022
-Search for files which are writeable by both their owner and their
+Search for files which are writable by both their owner and their
 group.
 
 @item -perm -444 -perm /222 ! -perm /111
@@ -1471,7 +1471,7 @@ no output is ever sent to it.
 @node Escapes
 @subsection Escapes
 
-The escapes that @samp{-printf} and @samp{-fprintf} recognize are:
+The escapes that @samp{-printf} and @samp{-fprintf} recognise are:
 
 @table @code
 @item \a
@@ -1516,7 +1516,7 @@ The format flag @samp{-} does work; it forces left-alignment of the
 field.
 
 @samp{%%} is a literal percent sign.  A @samp{%} character followed by
-an unrecognised character (i.e. not a known directive or printf field
+an unrecognised character (i.e. not a known directive or @code{printf} field
 width and precision specifier), is discarded (but the unrecognised
 character is printed), and a warning message is printed to the
 standard error output (because it was probably a typo).
@@ -1583,7 +1583,7 @@ File's numeric user ID.
 File's permissions (in octal).  If you always want to have a leading
 zero on the number, use the '#' format flag, for example '%#m'.  
 
-The permisison numbers used are the traditional Unix permission
+The permission numbers used are the traditional Unix permission
 numbers, which will be as expected on most systems, but if your
 system's permission bit layout differs from the traditional Unix
 semantics, you will see a difference between the mode as printed by
@@ -1811,7 +1811,7 @@ perform arbitrary actions on the files.
 Here is how to run a command on one file at a time.
 
 @deffn Action -execdir command ;
-Execute @var{command}; true if zero status is returned.  @code{find}
+Execute @var{command}; true if zero sftatus is returned.  @code{find}
 takes all arguments after @samp{-exec} to be part of the command until
 an argument consisting of @samp{;} is reached.  It replaces the string
 @samp{@{@}} by the current file name being processed everywhere it
@@ -1849,7 +1849,7 @@ starting directories, rather than just the basename of the matched
 file.
 
 While some implementations of @code{find} replace the @samp{@{@}} only
-whwre it appears on its own in an argument, GNU @code{find} replaces
+where it appears on its own in an argument, GNU @code{find} replaces
 @samp{@{@}} wherever it appears.
 @end deffn
 
@@ -2522,7 +2522,7 @@ shell wildcard to match a single character.
 
 The old format therefore cannot faithfully store entries with
 non-ASCII characters. It therefore should not be used in
-internationalized environments.
+internationalised environments.
 
 The output of @samp{locate --statistics} will give an incorrect count
 of the number of file names containing newlines or high-bit characters
@@ -2632,7 +2632,7 @@ options that the expression can contain.  If the expression is
 missing, @samp{-print} is assumed.
 
 
-@code{find} also recognizes two options for administrative use:
+@code{find} also recognises two options for administrative use:
 
 @table @code
 @item --help
@@ -3033,7 +3033,7 @@ For @samp{-l}, @var{max-lines} defaults to 1 if omitted.  For
 @samp{-L}, the argument is mandatory.  Trailing blanks cause an input
 line to be logically continued on the next input line, for the purpose
 of counting the lines.  Implies @samp{-x}.  The @samp{-l} form of this
-option is deprecared in favour of the POSIX-compliant @samp{-L}
+option is deprecated in favour of the POSIX-compliant @samp{-L}
 option.
 
 @item --max-args=@var{max-args}
@@ -3111,11 +3111,11 @@ should be one of the following:
 @section Environment Variables
 @table @var
 @item LANG
-Provides a default value for the internationalization variables that
+Provides a default value for the internationalisation variables that
 are unset or null.
 @item LC_ALL
 If set to a non-empty string value, override the values of all the
-other internationalization variables.
+other internationalisation variables.
 @item LC_COLLATE
 The POSIX standard specifies that this variable affects the pattern
 matching to be used for the `\-name' option.  GNU find uses the
@@ -3443,7 +3443,7 @@ Temporary files which are no longer required
 @end itemize
 
 This example concentrates on the actual deletion task rather than on
-sophisticated ways of locatng the files that need to be deleted.
+sophisticated ways of locating the files that need to be deleted.
 We'll assume that the files we want to delete are old files underneath
 @file{/var/tmp/stuff}.
 
@@ -3733,7 +3733,7 @@ find /var/tmp/stuff4 -mtime +90 -delete &
 wait
 @end smallexample
 
-In the example above, four spearate instances of @code{find} are used
+In the example above, four separate instances of @code{find} are used
 to search four subdirectories in parallel.  The @code{wait} command
 simply waits for all of these to complete.  Whether this approach is
 more or less efficient than a single instance of @code{find} depends
@@ -3760,7 +3760,7 @@ most secure alternative is @samp{-execdir @dots{} +}, but this is not as
 portable as the insecure action @samp{-exec @dots{} +}.
 
 The @samp{-delete} action is not completely portable, but the only
-other possiblility which is as secure (@samp{-execdir}) is no more
+other possibillity which is as secure (@samp{-execdir}) is no more
 portable.  The most efficient portable alternative is @samp{-exec
 @dots{}+}, but this is insecure and isn't supported by versions of GNU
 findutils prior to 4.2.12.
@@ -3797,10 +3797,10 @@ well be the wrong value.
 
 One solution to this problem is to modify @code{find} to recheck the
 modification time of @file{timestamp} every time a file is to be
-compared against it, but that will reduce the performence of
+compared against it, but that will reduce the performance of
 @code{find}.
 
-@subsection Using the test utlity to compare timestamps
+@subsection Using the test utility to compare timestamps
 
 The @code{test} command can be used to compare timestamps:
 
@@ -3847,7 +3847,7 @@ touch -r "$@{newest:-timestamp@}" timestamp
 
 The command above works by generating a list of the timestamps and
 names of all the files which are newer than the timestamp.  The
-@code{sort}, @code{tail} and @code{cut} comands simply pull out the
+@code{sort}, @code{tail} and @code{cut} commands simply pull out the
 name of the file with the largest timestamp value (that is, the latest
 file).  The @code{touch} command is then used to update the timestamp,
 
@@ -3861,7 +3861,7 @@ Many operating systems now keep file modification time information at
 a granularity which is finer than one second.  Unfortunately the
 @samp{%A@@} format for @samp{-printf} only prints a whole-number value
 currently; that is, these values are at a one-second granularity.
-This means that in our example above, @samp{$newest} wil be the name
+This means that in our example above, @samp{$newest} will be the name
 of a file which is no more than one second older than the newest file,
 but may indeed be older.
 
@@ -4096,7 +4096,7 @@ filesystem which would not normally be included in the search
 
 As @code{find} searches the filesystem, it finds subdirectories and
 then searches within them by changing its working directory.  First,
-@code{find} reaches and recognizes a subdirectory.  It then decides if that
+@code{find} reaches and recognises a subdirectory.  It then decides if that
 subdirectory meets the criteria for being searched; that is, any
 @samp{-xdev} or @samp{-prune} expressions are taken into account.  The
 @code{find} program will then change working directory and proceed to
@@ -4191,7 +4191,7 @@ administrator.  Therefore, if the @code{chdir()} sanity check fails,
 carries on as normal.  This is the usual case for automounters.
 
 Where an attacker is trying to exploit a race condition, the problem
-may not have gone away on the second attampt.  If this is the case,
+may not have gone away on the second attempt.  If this is the case,
 @code{find} will issue a warning message and then ignore that
 subdirectory.  When this happens, actions such as @samp{-exec} or
 @samp{-print} may already have taken place for the problematic
