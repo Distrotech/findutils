@@ -423,6 +423,8 @@ boolean parse_print PARAMS((const struct parser_table*, char *argv[], int *arg_p
 void pred_sanity_check PARAMS((const struct predicate *predicates));
 void parse_begin_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
 void parse_end_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
+boolean parse_openparen              PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
+boolean parse_closeparen             PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
 
 /* pred.c */
 boolean pred_amin PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));

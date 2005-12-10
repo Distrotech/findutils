@@ -151,8 +151,6 @@ static boolean parse_quit          PARAMS((const struct parser_table*, char *arg
 
 
 boolean parse_print             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-boolean parse_openparen              PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
-boolean parse_closeparen             PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
 
 
 
