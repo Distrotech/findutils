@@ -637,7 +637,7 @@ main (int argc, char **argv)
    * figure out how large a buffer we need to
    * hold all the arguments.  We cannot use ARG_MAX 
    * directly since that may be arbitrarily large.
-   * This is from a patch by Bob Prolux, <bob@proulx.com>.
+   * This is from a patch by Bob Proulx, <bob@proulx.com>.
    */
   if (bc_ctl.arg_max > arg_size)
     {
