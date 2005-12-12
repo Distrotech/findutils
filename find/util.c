@@ -92,7 +92,8 @@ get_new_pred (const struct parser_table *entry)
   last_pred->pred_next = NULL;
   last_pred->pred_left = NULL;
   last_pred->pred_right = NULL;
-  return (last_pred);
+  last_pred->literal_control_chars = options.literal_control_chars;
+  return last_pred;
 }
 
 /* Return a pointer to a new predicate, with operator check.

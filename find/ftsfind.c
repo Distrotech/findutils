@@ -445,10 +445,12 @@ main (int argc, char **argv)
   if (isatty(0))
     {
       options.warnings = true;
+      options.literal_control_chars = false;
     }
   else
     {
       options.warnings = false;
+      options.literal_control_chars = false; /* may change */
     }
   
   

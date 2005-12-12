@@ -135,6 +135,7 @@ static boolean parse_readable      PARAMS((const struct parser_table*, char *arg
 static boolean parse_regex         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_regextype     PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_samefile      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static boolean parse_show_control_chars PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_size          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_true          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_type          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
@@ -276,6 +277,9 @@ static struct parser_table const parse_table[] =
   PARSE_TEST       ("regex",                 regex),	     /* GNU */
   PARSE_OPTION     ("regextype",             regextype),     /* GNU */
   PARSE_TEST       ("samefile",              samefile),	     /* GNU */
+#if 0
+  PARSE_OPTION     ("show-control-chars",    show_control_chars), /* GNU, 4.3.0+ */
+#endif
   PARSE_TEST       ("size",                  size),
   PARSE_TEST       ("type",                  type),
   PARSE_TEST       ("uid",                   uid),	     /* GNU */
@@ -1643,6 +1647,42 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
   (*arg_ptr)++;
   return true;
 }
+
+#if 0
+static boolean
+parse_show_control_chars (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  const char *arg;
+  const char *errmsg = _("The -show-control-chars option takes a single argument which "
+			 "must be 'literal' or 'safe'");
+  
+  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
+    {
+      error (1, errno, "%s", errmsg);
+      return false;
+    }
+  else 
+    {
+      arg = argv[*arg_ptr];
+      
+      if (0 == strcmp("literal", arg))
+	{
+	  options.literal_control_chars = true;
+	}
+      else if (0 == strcmp("safe", arg))
+	{
+	  options.literal_control_chars = false;
+	}
+      else
+	{
+	  error (1, errno, "%s", errmsg);
+	  return false;
+	}
+      (*arg_ptr)++;		/* consume the argument. */
+      return true;
+    }
+}
+#endif
 
 
 static boolean

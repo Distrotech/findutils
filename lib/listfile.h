@@ -21,7 +21,7 @@
 #if !defined LISTFILE_H
 # define LISTFILE_H
 
-void list_file (char *name, char *relname, struct stat *statp, time_t current_time, int output_block_size, FILE *stream);
+void list_file (char *name, char *relname, struct stat *statp, time_t current_time, int output_block_size, int literal_control_chars, FILE *stream);
 
 
 

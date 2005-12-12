@@ -308,6 +308,9 @@ struct predicate
   /* True if this predicate node requires knowledge of the file type. */
   boolean need_type;
 
+  /* True if this predicate should display control characters literally */
+  boolean literal_control_chars;
+  
   /* Information needed by the predicate processor.
      Next to each member are listed the predicates that use it. */
   union
@@ -356,7 +359,6 @@ char *dirname PARAMS((char *path));
 void error PARAMS((int status, int errnum, char *message, ...));
 
 /* listfile.c */
-void list_file PARAMS((char *name, char *relname, struct stat *statp, time_t current_time, int output_block_size, FILE *stream));
 char *get_link_name PARAMS((char *name, char *relname));
 
 /* stpcpy.c */
@@ -549,9 +551,14 @@ struct options
    * no longer exists by the time we get around to processing it.
    */
   boolean ignore_readdir_race;
+
+  /* If true, pass control characters through.  If false, escape them
+   * or turn them into harmless things.
+   */
+  boolean literal_control_chars;
   
-/* If true, we issue warning messages
- */
+  /* If true, we issue warning messages
+   */
   boolean warnings;
   time_t start_time;		/* Time at start of execution.  */
   

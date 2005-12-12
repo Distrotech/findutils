@@ -178,7 +178,7 @@ struct group *getgrgid ();
 
 
 char * get_link_name (char *name, char *relname);
-static void print_name_with_quoting (register char *p, FILE *stream);
+static void print_name (register char *p, FILE *stream, int literal_control_chars);
 
 extern char * getgroup (gid_t gid);
 extern char * getuser (uid_t uid);
@@ -198,6 +198,7 @@ list_file (char *name,
 	   struct stat *statp,
 	   time_t current_time,
 	   int output_block_size,
+	   int literal_control_chars,
 	   FILE *stream)
 {
   char modebuf[11];
@@ -302,7 +303,7 @@ list_file (char *name,
 				 1, 1));
     }
 
-  print_name_with_quoting (name, stream);
+  print_name (name, stream, literal_control_chars);
 
 #ifdef S_ISLNK
   if (S_ISLNK (statp->st_mode))
@@ -312,13 +313,21 @@ list_file (char *name,
       if (linkname)
 	{
 	  fputs (" -> ", stream);
-	  print_name_with_quoting (linkname, stream);
+	  print_name (linkname, stream, literal_control_chars);
 	  free (linkname);
 	}
     }
 #endif
   putc ('\n', stream);
 }
+
+
+static void
+print_name_without_quoting (char *p, FILE *stream)
+{
+  fprintf(stream, "%s", p);
+}
+
 
 static void
 print_name_with_quoting (register char *p, FILE *stream)
@@ -368,6 +377,14 @@ print_name_with_quoting (register char *p, FILE *stream)
 	    fprintf (stream, "\\%03o", (unsigned int) c);
 	}
     }
+}
+
+static void print_name (register char *p, FILE *stream, int literal_control_chars)
+{
+  if (literal_control_chars)
+    print_name_without_quoting(p, stream);
+  else
+    print_name_with_quoting(p, stream);
 }
 
 #ifdef S_ISLNK

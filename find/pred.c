@@ -37,6 +37,7 @@
 #include "printquoted.h"
 #include "buildcmd.h"
 #include "yesno.h"
+#include "listfile.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -527,8 +528,9 @@ boolean
 pred_fls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   list_file (pathname, state.rel_pathname, stat_buf, options.start_time,
-	     options.output_block_size, pred_ptr->args.stream);
-  return (true);
+	     options.output_block_size,
+	     pred_ptr->literal_control_chars, pred_ptr->args.stream);
+  return true;
 }
 
 boolean
@@ -1060,11 +1062,11 @@ insert_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr,
 boolean
 pred_ls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  (void) pred_ptr;
-  
   list_file (pathname, state.rel_pathname, stat_buf, options.start_time,
-	     options.output_block_size, stdout);
-  return (true);
+	     options.output_block_size,
+	     pred_ptr->literal_control_chars,
+	     stdout);
+  return true;
 }
 
 boolean

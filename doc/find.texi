@@ -1421,6 +1421,47 @@ you are searching might contain a newline, you should use
 @samp{-fprint0} instead.
 @end deffn
 
+
+@c @deffn Option -show-control-chars how
+@c This option affects how some of @code{find}'s actions treat
+@c unprintable characters in file names.  If @samp{how} is
+@c @samp{literal}, any subsequent actions (i.e. actions further on in the
+@c command line) print file names as-is.  
+@c 
+@c If this option is not specified, it currently defaults to @samp{safe}.
+@c If @samp{how} is @samp{safe}, C-like backslash escapes are used to
+@c indicate the non-printable characters for @samp{-ls} and @samp{-fls}.
+@c On the other hand, @samp{-print}, @samp{-fprint}, @samp{-fprintf} and
+@c @code{-printf} all quote unprintable characters if the data is going
+@c to a tty, and otherwise the data is emitted literally.
+@c 
+@c @table @code
+@c @item -ls
+@c Escaped if @samp{how} is @samp{safe}
+@c @item -fls
+@c Escaped if @samp{how} is @samp{safe}
+@c @item -print
+@c Always quoted if stdout is a tty,
+@c @samp{-show-control-chars} is ignored
+@c @item -print0
+@c Always literal, never escaped
+@c @item -fprint
+@c Always quoted if the destination is a tty;
+@c @samp{-show-control-chars} is ignored
+@c @item -fprint0
+@c Always literal, never escaped
+@c @item -fprintf
+@c If the destination is a tty, the @samp{%f}, 
+@c @samp{%F}, @samp{%h}, @samp{%l}, @samp{%p},
+@c and @samp{%P} directives produce quoted
+@c strings if stdout is a tty and are treated
+@c literally otherwise.
+@c @item -printf
+@c As for @code{-fprintf}.
+@c @end table
+@c @end deffn
+
+
 @node Print File Information
 @section Print File Information
 
