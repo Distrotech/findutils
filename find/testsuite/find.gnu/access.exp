@@ -8,6 +8,5 @@ exec chmod 100 tmp/x
 exec chmod 000 tmp/0
 exec chmod 600 tmp/rw
 exec chmod 700 tmp/rwx
-exec ls -l tmp > OUT
 find_start p {tmp -readable -printf "r %p\n" , -writable -printf "w %p\n" , -executable  -printf "x %p\n"}
 exec rm -rf tmp
