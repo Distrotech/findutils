@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-12-05 23:53-0800\n"
+"POT-Creation-Date: 2005-12-12 00:21-0800\n"
 "PO-Revision-Date: 2005-12-06 11:30+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -129,16 +129,16 @@ msgstr "^[yY]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:108
+#: find/util.c:120
 msgid "oops -- invalid default insertion of and!"
 msgstr ""
 
-#: find/util.c:198
+#: find/util.c:210
 #, c-format
 msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
 msgstr "用法: %s [-H] [-L] [-P] [路徑...] [表達式]\n"
 
-#: find/find.c:457
+#: find/find.c:197
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -146,44 +146,44 @@ msgstr ""
 "環境變數 FIND_BLOCK_SIZE 已經不再支援，唯一一個能夠影響檔案區段大小的環境變數"
 "是 POSIXLY_CORRECT"
 
-#: find/find.c:539
+#: find/find.c:279
 msgid "paths must precede expression"
 msgstr "路徑必須放在表達式之前"
 
-#: find/find.c:545
+#: find/find.c:285
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr ""
 
-#: find/find.c:553
+#: find/find.c:293
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "‘%s’ 後缺少了參數"
 
-#: find/find.c:555
+#: find/find.c:295
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "‘%2$s’ 的參數 ‘%1$s’ 無效"
 
-#: find/find.c:611
+#: find/find.c:351
 msgid "unexpected extra predicate"
 msgstr ""
 
-#: find/find.c:663 find/find.c:666
+#: find/find.c:403 find/find.c:406
 msgid "cannot get current directory"
 msgstr "無法決定當前目錄位置"
 
-#: find/find.c:838
+#: find/find.c:584
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "警告︰檔案系統 %s 剛剛被卸載。"
 
-#: find/find.c:848
+#: find/find.c:594
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "警告︰檔案系統 %s 剛剛被掛載。"
 
-#: find/find.c:943
+#: find/find.c:689
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -192,7 +192,7 @@ msgstr ""
 "執行 %3$s 時 %1$s%2$s 有所更改 (舊裝置編號為 %4$ld，新裝置編號為 %5$ld，檔案"
 "系統類型為 %6$s) [ref %7$ld]"
 
-#: find/find.c:980
+#: find/find.c:726
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -201,34 +201,34 @@ msgstr ""
 "執行 %3$s 時 %1$s%2$s 有所更改 (舊 inode 編號為 %4$ld，新 inode 編號為 %5"
 "$ld，檔案系統類型為 %6$s) [ref %7$ld]"
 
-#: find/find.c:1517
+#: find/find.c:1263
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1532
+#: find/find.c:1278
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1536
+#: find/find.c:1282
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1537
+#: find/find.c:1283
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1906
+#: find/find.c:1515
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1950
+#: find/find.c:1559
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -241,7 +241,7 @@ msgstr ""
 msgid "unknown"
 msgstr ""
 
-#: find/parser.c:376
+#: find/parser.c:413
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -250,19 +250,19 @@ msgid ""
 "arguments.\n"
 msgstr ""
 
-#: find/parser.c:615
+#: find/parser.c:652
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 "警告：-d 選項已經過時，請改用 -depth，因為後者才是符合 POSIX 標準的選項。"
 
-#: find/parser.c:785
+#: find/parser.c:822
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "用法：%s [路徑...] [表達式]\n"
 
-#: find/parser.c:787
+#: find/parser.c:824
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -272,7 +272,7 @@ msgstr ""
 "預設路徑為目前的目錄，預設的表達式是 -print\n"
 "表達式可以包括運算子、選項、測試和操作模式：\n"
 
-#: find/parser.c:790
+#: find/parser.c:827
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -283,7 +283,7 @@ msgstr ""
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
-#: find/parser.c:794
+#: find/parser.c:831
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -297,7 +297,7 @@ msgstr ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:799
+#: find/parser.c:836
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -311,10 +311,11 @@ msgstr ""
 "PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 
-#: find/parser.c:804
+#: find/parser.c:841
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
+"      -readable -writable -executable\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]\n"
 msgstr ""
@@ -322,7 +323,7 @@ msgstr ""
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]\n"
 
-#: find/parser.c:808
+#: find/parser.c:846
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -334,7 +335,7 @@ msgstr ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 
-#: find/parser.c:814
+#: find/parser.c:852
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -344,11 +345,11 @@ msgstr ""
 "問題修正的進度)。又或者如果您無法瀏覽網頁，可以選擇用電子郵件寄至\n"
 "<bug-findutils@gnu.org>。"
 
-#: find/parser.c:845
+#: find/parser.c:883
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "測試 fnmatch() 是否可用時出錯。"
 
-#: find/parser.c:860
+#: find/parser.c:898
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -362,17 +363,17 @@ msgstr ""
 "有用。又或者，如果您使用 GNU grep，可以嘗試使用 'find ... -print0 | grep -"
 "FzZ %s'。"
 
-#: find/parser.c:902
+#: find/parser.c:940
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr "警告：-ipath 選項已過時，請改用 -iwholename。"
 
-#: find/parser.c:1342
+#: find/parser.c:1380
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "模式 ‘%s’ 無效"
 
-#: find/parser.c:1376
+#: find/parser.c:1414
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s which is equivalent to 000. "
@@ -381,36 +382,42 @@ msgid ""
 "to match all files."
 msgstr ""
 
-#: find/parser.c:1529
+#: find/parser.c:1567
 msgid "invalid null argument to -size"
 msgstr "-size 後是無效的空白參數"
 
-#: find/parser.c:1575
+#: find/parser.c:1613
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size 指定的檔案大小單位 ‘%c’ 無效"
 
-#: find/parser.c:1749
+#: find/parser.c:1651
+msgid ""
+"The -show-control-chars option takes a single argument which must be "
+"'literal' or 'safe'"
+msgstr ""
+
+#: find/parser.c:1797
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find %s 版本\n"
 
-#: find/parser.c:1750
+#: find/parser.c:1798
 #, c-format
 msgid "Features enabled: "
 msgstr "啟用了的功能："
 
-#: find/parser.c:1997
+#: find/parser.c:2052
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "警告：無效辨認轉義控制序列 (escape sequence) ‘\\%c’"
 
-#: find/parser.c:2043
+#: find/parser.c:2098
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr ""
 
-#: find/parser.c:2149
+#: find/parser.c:2204
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -421,7 +428,7 @@ msgstr ""
 "PATH 環境變數中包括了當前目錄，當配合 find 的 %s 操作模式時會令系統安全產生漏"
 "洞。請在 $PATH 變數中移除當前目錄 (即是 “.”，或者最前或最後的冒號)"
 
-#: find/parser.c:2246
+#: find/parser.c:2301
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -429,26 +436,26 @@ msgstr ""
 "您不應該在 -execdir 和 -okdir 中使用 {} 作為程式名稱，因為這樣做可能會造成安"
 "全漏洞。"
 
-#: find/parser.c:2269
+#: find/parser.c:2324
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
 
-#: find/pred.c:1165
+#: find/pred.c:1166
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1608 xargs/xargs.c:1040
+#: find/pred.c:1585 xargs/xargs.c:1040
 msgid "cannot fork"
 msgstr "fork 失敗"
 
-#: find/pred.c:1648
+#: find/pred.c:1625
 #, c-format
 msgid "error waiting for %s"
 msgstr "等待 %s 時出現錯誤"
 
-#: find/pred.c:1656
+#: find/pred.c:1633
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s 因訊號 %d 而終止"
