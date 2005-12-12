@@ -1,15 +1,30 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.0-CVS
 
+The 4.3.x release series are currently 'development' releases.  Please
+test it, but think carefully before installing it in a production
+system.  New features in findutils-4.3.x are under development; they
+may change or go away. 
+
 All changes up to and including findutils-4.2.27 are included in this
 release.  In addition the following changes are new in this release:
 
 ** Functional Changes
 
 By default, find now uses the fts() function to search the file
-system, which means that it can search deeper directory hierarchies.
-You can go back to the old filesystem search implementation by using
-the configure option '--without-fts'.
+system.  The use of fts greatly increases find's ability to search
+extremely deep directory hierarchites.
+
+You can tell that the version of find you are using uses FTS, because
+the output of "find --version" will include the word "FTS".
+
+Currently two binaries for 'find' are built.  The configure option
+--without-fts can be used to select whether 'find' uses fts:
+
+				  With fts	Without fts
+default configuration		  find		oldfind
+configure --with-fts		  find		oldfind
+configure --without-fts		  ftsfind	find
 
 New tests, -readable, -writable, -executable.  These check that a file
 can be read, written or executed respectively.

@@ -152,12 +152,7 @@ static boolean parse_writable      PARAMS((const struct parser_table*, char *arg
 static boolean parse_xtype         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_quit          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 
-
-
 boolean parse_print             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-boolean parse_open              PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
-boolean parse_close             PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
-
 
 
 static boolean insert_type PARAMS((char **argv, int *arg_ptr, const struct parser_table *entry, PRED_FUNC which_pred));
@@ -208,7 +203,7 @@ char *find_pred_name PARAMS((PRED_FUNC pred_func));
 
 static struct parser_table const parse_table[] =
 {
-  PARSE_PUNCTUATION("!",                     negate),
+ PARSE_PUNCTUATION("!",                     negate),
   PARSE_PUNCTUATION("not",                   negate),	     /* GNU */
   PARSE_PUNCTUATION("(",                     open),
   PARSE_PUNCTUATION(")",                     close),
@@ -226,14 +221,14 @@ static struct parser_table const parse_table[] =
   PARSE_OPTION     ("d",                     d), /* Mac OS X, FreeBSD, NetBSD, OpenBSD, but deprecated  in favour of -depth */
   PARSE_OPTION     ("depth",                 depth),
   PARSE_TEST       ("empty",                 empty),	     /* GNU */
-  PARSE_ACTION     ("exec",                  exec),
+  {ARG_ACTION,      "exec",    parse_exec, pred_exec}, /* POSIX */
   PARSE_TEST       ("executable",            executable),    /* GNU, 4.3.0+ */
   PARSE_ACTION     ("execdir",               execdir), /* *BSD, GNU */
   PARSE_ACTION     ("fls",                   fls),	     /* GNU */
   PARSE_POSOPT     ("follow",                follow),  /* GNU, Unix */
   PARSE_ACTION     ("fprint",                fprint),	     /* GNU */
   PARSE_ACTION     ("fprint0",               fprint0),	     /* GNU */
-  PARSE_ACTION     ("fprintf",               fprintf),	     /* GNU */
+  {ARG_ACTION,      "fprintf", parse_fprintf, pred_fprintf}, /* GNU */
   PARSE_TEST       ("fstype",                fstype),  /* GNU, Unix */
   PARSE_TEST       ("gid",                   gid),	     /* GNU */
   PARSE_TEST       ("group",                 group),
@@ -270,7 +265,7 @@ static struct parser_table const parse_table[] =
   PARSE_TEST       ("perm",                  perm),
   PARSE_ACTION     ("print",                 print),
   PARSE_ACTION     ("print0",                print0),	     /* GNU */
-  PARSE_ACTION_NP  ("printf",                printf),	     /* GNU */
+  {ARG_ACTION,      "printf",   parse_printf, NULL},	     /* GNU */
   PARSE_ACTION     ("prune",                 prune),
   PARSE_ACTION     ("quit",                  quit),	     /* GNU */
   PARSE_TEST       ("readable",              readable),	     /* GNU, 4.3.0+ */
