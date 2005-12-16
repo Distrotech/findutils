@@ -8,8 +8,8 @@ xargs \- build and execute command lines from standard input
 [\-I replace-str] [\-i[replace-str]] [\-\-replace[=replace-str]] 
 [\-l[max-lines]] [\-L max-lines] [\-\-max\-lines[=max-lines]] [\-n max-args] [\-\-max\-args=max-args] 
 [\-s max-chars] [\-\-max\-chars=max-chars] [\-P max-procs] [\-\-max\-procs=max-procs]
-[\-\-interactive] [\-\-verbose] [\-\-exit] 
-[\-\-no\-run\-if\-empty] [\-\-arg\-file=file] [\-\-version] [\-\-help]
+[\-\-interactive] [\-\-verbose] [\-\-exit] [\-\-no\-run\-if\-empty] 
+[\-\-arg\-file=file] [\-\-show\-limits] [\-\-version] [\-\-help] 
 [command [initial-arguments]]
 .SH DESCRIPTION
 This manual page
@@ -150,6 +150,20 @@ it.
 Print the version number of
 .B xargs
 and exit.
+.TP
+.I "\-\-show\\-limits"
+Display the limits on the command-line length which are imposed by the
+operating system, 
+.BR xargs '  
+choice of buffer size and the 
+.I \-s 
+option.  Pipe the input from 
+.B /dev/null
+(and perhaps specify 
+.BR --no-run-if-empty ) 
+if you don't want 
+.B xargs
+to do anything.
 .TP
 .I "\-\-exit, \-x"
 Exit if the size (see the \fI\-s\fR option) is exceeded.
