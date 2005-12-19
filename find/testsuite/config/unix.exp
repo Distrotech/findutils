@@ -22,12 +22,25 @@
 # written by Rob Savoye <rob@cygnus.com>.
 
 
-global FIND
-# look for FIND
-if ![info exists FIND] {
-    set FIND [findfile $base_dir/../find $base_dir/../find [transform find]]
-    verbose "FIND defaulting to $FIND" 2
+global OLDFIND
+global FTSFIND
+# look for OLDFIND and FTSFIND
+if { ![info exists OLDFIND] || ![info exists FTSFIND] } {
+    verbose "Searching for oldfind"
+    if ([findfile $base_dir/../oldfind 1 0]) {
+	verbose "found oldfind, so ftsfind must be called find"
+	set OLDFIND [findfile $base_dir/../oldfind $base_dir/../oldfind [transform oldfind]]
+	set FTSFIND [findfile $base_dir/../find    $base_dir/../find    [transform find   ]]
+    } else {
+	verbose "did not find oldfind, so ftsfind must be called ftsfind"
+	set OLDFIND [findfile $base_dir/../find    $base_dir/../find    [transform find   ]]
+	set FTSFIND [findfile $base_dir/../ftsfind $base_dir/../ftsfind [transform find   ]]
+    }
 }
+
+verbose "ftsfind is at $FTSFIND" 2
+verbose "oldfind is at $OLDFIND" 2
+
 
 global FINDFLAGS
 if ![info exists FINDFLAGS] then {
@@ -37,40 +50,35 @@ if ![info exists FINDFLAGS] then {
 # Called by runtest.
 # Extract and print the version number of find.
 proc find_version {} {
-    global FIND
+    global FTSFIND
     global FINDFLAGS
 
-    if {[which $FIND] != 0} then {
-	set tmp [ eval exec $FIND $FINDFLAGS --version </dev/null ]
+    if {[which $FTSFIND] != 0} then {
+	set tmp [ eval exec $FTSFIND $FINDFLAGS --version </dev/null ]
 	regexp "version.*$" $tmp version
 	if [info exists version] then {
-	    clone_output "[which $FIND] $version\n"
+	    clone_output "[which $FTSFIND] $version\n"
 	} else {
 	    warning "cannot get version from $tmp."
 	}
     } else {
-	warning "$FIND, program does not exist"
+	warning "$FTSFIND, program does not exist"
     }
 }
 
 # Run find and leave the output in $comp_output.
 # Called by individual test scripts.
-proc find_start { passfail options {infile ""}} {
+proc do_find_start { suffix findprogram passfail options {infile ""}} {
     global verbose
-    global FIND
     global FINDFLAGS
     global comp_output
-
-    if {[which $FIND] == 0} then {
-	error "$FIND, program does not exist"
-	exit 1
-    }
 
     set fail_good [string match "f*" $passfail]
 
     set scriptname [uplevel {info script}]
     set testbase [file rootname $scriptname]
-    set testname [file tail $testbase]
+    set test [file tail $testbase] 
+    set testname "$test.$suffix"
 
     # set compareprog "cmp"
     set compareprog "diff -u"
@@ -82,7 +90,7 @@ proc find_start { passfail options {infile ""}} {
 	set infile /dev/null
     }
 
-    set cmd "$FIND $FINDFLAGS $options < $infile | sort > find.out"
+    set cmd "$findprogram $FINDFLAGS $options < $infile | sort > find.out"
     send_log "$cmd\n"
     if $verbose>1 then {
 	send_user "Spawning \"$cmd\"\n"
@@ -128,6 +136,27 @@ proc find_start { passfail options {infile ""}} {
 	}
     }
     pass "$testname"
+}
+
+
+proc find_start { passfail options {infile ""}} {
+    global OLDFIND
+    global FTSFIND
+    global FINDFLAGS
+    global comp_output
+
+    if {[which $FTSFIND] == 0} then {
+	error "$FTSFIND, program does not exist"
+	exit 1
+    }
+    if {[which $OLDFIND] == 0} then {
+	error "$FTSFIND, program does not exist"
+	exit 1
+    }
+
+    # Run each test twice, once with the old binary and once with the new.
+    do_find_start old $OLDFIND $passfail $options $infile
+    do_find_start new $FTSFIND $passfail $options $infile
 }
 
 # Called by runtest.
