@@ -135,6 +135,7 @@ find.posix/posixnot.exp \
 find.posix/prune.exp \
 find.posix/grouping.exp \
 find.posix/and.exp \
+find.posix/bracket-depth.exp \
 find.posix/exec-one.exp \
 find.gnu/follow-arg-parent-symlink.exp
 
