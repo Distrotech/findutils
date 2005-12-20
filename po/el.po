@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-12-12 00:21-0800\n"
+"POT-Creation-Date: 2005-12-19 23:22-0800\n"
 "PO-Revision-Date: 2005-01-02 13:54+0200\n"
 "Last-Translator: Lefteris Dimitroulakis <edimitro@tee.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -148,44 +148,45 @@ msgstr ""
 "Η μεταβλητή περιβάλλοντος FIND_BLOCK_SIZE δεν υποστηρίζεται, αυτό που "
 "επιρρεάζει το μέγεθος μπλοκ είναι η μεταβλητή περιβάλλοντος POSIXLY_CORRECT"
 
-#: find/find.c:279
-msgid "paths must precede expression"
+#: find/find.c:282
+#, fuzzy, c-format
+msgid "paths must precede expression: %s"
 msgstr "οι διαδρομές πρέπει να προηγούνται των εκφράσεων"
 
-#: find/find.c:285
+#: find/find.c:292
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "το κατηγόρημα «%s» είναι άκυρο"
 
-#: find/find.c:293
+#: find/find.c:300
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "Το όρισμα για την «%s» απουσιάζει"
 
-#: find/find.c:295
+#: find/find.c:302
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "Το όρισμα «%s» για την «%s» είναι άκυρο"
 
-#: find/find.c:351
+#: find/find.c:358
 msgid "unexpected extra predicate"
 msgstr "μη αναμενόμενο extra κατηγόρημα"
 
-#: find/find.c:403 find/find.c:406
+#: find/find.c:410 find/find.c:413
 msgid "cannot get current directory"
 msgstr "Δεν μπορώ να βρώ τον τρέχοντα κατάλογο"
 
-#: find/find.c:584
+#: find/find.c:591
 #, fuzzy, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "Το σύστημα αρχείων %s αποπροσαρτήθηκε πρόσφατα."
 
-#: find/find.c:594
+#: find/find.c:601
 #, fuzzy, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "Το σύστημα αρχείων %s έχει προσφάτως προσαρτηθεί."
 
-#: find/find.c:689
+#: find/find.c:696
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -194,7 +195,7 @@ msgstr ""
 "%s%s άλλαξε κατά την εκτέλεση του %s (old device number %ld, new device "
 "number %ld, filesystem type is %s) [ref %ld]"
 
-#: find/find.c:726
+#: find/find.c:733
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -203,34 +204,34 @@ msgstr ""
 "%s%s άλλαξε κατά την εκτέλεση του %s (παλαιός αριθμός inode %ld, νέος "
 "αριθμός inode %ld, ο τύπος συστήματος αρχείων είναι %s) [ref %ld]"
 
-#: find/find.c:1263
+#: find/find.c:1270
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1278
+#: find/find.c:1285
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1282
+#: find/find.c:1289
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1283
+#: find/find.c:1290
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1515
+#: find/find.c:1522
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1559
+#: find/find.c:1566
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -243,7 +244,7 @@ msgstr ""
 msgid "unknown"
 msgstr "άγνωστο"
 
-#: find/parser.c:413
+#: find/parser.c:435
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -256,7 +257,7 @@ msgstr ""
 "τόσο πριν όσο και μετά).  Παρακαλώ καθόρισε επιλογές πριν από άλλα "
 "ορίσματα.\n"
 
-#: find/parser.c:652
+#: find/parser.c:674
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -264,12 +265,12 @@ msgstr ""
 "προειδοποίηση: η επιλογή -d έχει καταργηθεί, στη θέση της δώσε -depth που "
 "συμφωνεί με το POSIX."
 
-#: find/parser.c:822
+#: find/parser.c:844
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Χρήση: %s [διαδρομή...] [έκφραση]\n"
 
-#: find/parser.c:824
+#: find/parser.c:846
 #, fuzzy
 msgid ""
 "\n"
@@ -283,7 +284,7 @@ msgstr ""
 "ο -and υπονοείται όταν δεν δείνονται άλλοι):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
 
-#: find/parser.c:827
+#: find/parser.c:849
 #, fuzzy
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
@@ -298,7 +299,7 @@ msgstr ""
 "ο -and υπονοείται όταν δεν δείνονται άλλοι):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
 
-#: find/parser.c:831
+#: find/parser.c:853
 #, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
@@ -316,7 +317,7 @@ msgstr ""
 "      -ignore_readdir_race -noignore_readdir_race\n"
 "tests (N μπορεί νάναι +N ή -N ή N): -amin N -anewer ΑΡΧΕΙΟ -atime N -cmin N"
 
-#: find/parser.c:836
+#: find/parser.c:858
 #, fuzzy
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
@@ -331,7 +332,7 @@ msgstr ""
 "PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer ΑΡΧΕΙΟ"
 
-#: find/parser.c:841
+#: find/parser.c:863
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -343,7 +344,7 @@ msgstr ""
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user ΟΝΟΜΑ -xtype [bcdpfls]"
 
-#: find/parser.c:846
+#: find/parser.c:868
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -351,7 +352,7 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:852
+#: find/parser.c:874
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -362,11 +363,11 @@ msgstr ""
 "στο http://savannah.gnu.org/ ή, αν δεν έχεις πρόσβαση στο web,\n"
 "αποστέλοντας μήνυμα στη διεύθυνση <bug-findutils@gnu.org>."
 
-#: find/parser.c:883
+#: find/parser.c:905
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "η συνάρτηση βιβλιοθήκης fnmatch(), δεν πέρασε τον έλεγχο ακεραιότητος."
 
-#: find/parser.c:898
+#: find/parser.c:920
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -376,19 +377,19 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:940
+#: find/parser.c:962
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "προειδοποίηση: το κατηγόρημα -ipath είναι υπό κατάργηση· παρακαλώ "
 "χρησιμοποείστε στη θέση του το -iwholename."
 
-#: find/parser.c:1380
+#: find/parser.c:1402
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "άκυρη κατάσταση «%s»"
 
-#: find/parser.c:1414
+#: find/parser.c:1436
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s which is equivalent to 000. "
@@ -397,42 +398,42 @@ msgid ""
 "to match all files."
 msgstr ""
 
-#: find/parser.c:1567
+#: find/parser.c:1589
 msgid "invalid null argument to -size"
 msgstr "το όρισμα null είναι άκυρο για την επιλογή -size"
 
-#: find/parser.c:1613
+#: find/parser.c:1635
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "Ο τύπος «%c» για την επιλογή -size είναι άκυρος"
 
-#: find/parser.c:1651
+#: find/parser.c:1673
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1797
+#: find/parser.c:1826
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find έκδοση %s\n"
 
-#: find/parser.c:1798
+#: find/parser.c:1827
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2052
+#: find/parser.c:2081
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "προειδοποίηση: μη αναγνωριζόμενη ακολουθία διαφυγής «\\%c»"
 
-#: find/parser.c:2098
+#: find/parser.c:2127
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "προειδοποίηση: άγνωστη οδηγία μορφοποίησης «%%%c»"
 
-#: find/parser.c:2204
+#: find/parser.c:2233
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -441,13 +442,13 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2301
+#: find/parser.c:2330
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2324
+#: find/parser.c:2353
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
@@ -471,7 +472,7 @@ msgstr "σφάλμα περιμένοντας γιά %s"
 msgid "%s terminated by signal %d"
 msgstr "%s τερματίστηκε από το σήμα %d"
 
-#: find/tree.c:67 find/tree.c:72 find/tree.c:119 find/tree.c:158
+#: find/tree.c:67 find/tree.c:72 find/tree.c:123 find/tree.c:162
 msgid "invalid expression"
 msgstr "άκυρη έκφραση"
 
@@ -485,27 +486,32 @@ msgstr ""
 msgid "invalid expression; you have too many ')'"
 msgstr "άκυρη έκφραση"
 
-#: find/tree.c:99
+#: find/tree.c:98
+#, fuzzy
+msgid "invalid expression; empty parentheses are not allowed."
+msgstr "άκυρη έκφραση"
+
+#: find/tree.c:103
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
 "one."
 msgstr ""
 
-#: find/tree.c:104 find/tree.c:326
+#: find/tree.c:108 find/tree.c:330
 msgid "oops -- invalid expression type!"
 msgstr "oops -- άκυρος τύπος έκφρασης!"
 
-#: find/tree.c:173
+#: find/tree.c:177
 #, fuzzy, c-format
 msgid "oops -- invalid expression type (%d)!"
 msgstr "oops -- άκυρος τύπος έκφρασης!"
 
-#: find/tree.c:457
+#: find/tree.c:461
 #, fuzzy
 msgid "oops -- invalid expression type in mark_stat!"
 msgstr "oops -- άκυρος τύπος έκφρασης!"
 
-#: find/tree.c:493
+#: find/tree.c:497
 #, fuzzy
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "oops -- άκυρος τύπος έκφρασης!"

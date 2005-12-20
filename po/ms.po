@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-12-12 00:21-0800\n"
+"POT-Creation-Date: 2005-12-19 23:22-0800\n"
 "PO-Revision-Date: 2003-01-19 14:42+0800\n"
 "Last-Translator: Nik Ramadhan Nik Idris <toknix@yahoo.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -144,85 +144,86 @@ msgid ""
 "that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
 
-#: find/find.c:279
-msgid "paths must precede expression"
+#: find/find.c:282
+#, c-format
+msgid "paths must precede expression: %s"
 msgstr ""
 
-#: find/find.c:285
+#: find/find.c:292
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr ""
 
-#: find/find.c:293
+#: find/find.c:300
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "kehilangan hujah kepada `%s'"
 
-#: find/find.c:295
+#: find/find.c:302
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "hujah yang salah `%s' kepada `%s'"
 
-#: find/find.c:351
+#: find/find.c:358
 msgid "unexpected extra predicate"
 msgstr ""
 
-#: find/find.c:403 find/find.c:406
+#: find/find.c:410 find/find.c:413
 msgid "cannot get current directory"
 msgstr ""
 
-#: find/find.c:584
+#: find/find.c:591
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr ""
 
-#: find/find.c:594
+#: find/find.c:601
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr ""
 
-#: find/find.c:689
+#: find/find.c:696
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:726
+#: find/find.c:733
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
 "ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:1263
+#: find/find.c:1270
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1278
+#: find/find.c:1285
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1282
+#: find/find.c:1289
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1283
+#: find/find.c:1290
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1515
+#: find/find.c:1522
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1559
+#: find/find.c:1566
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -235,7 +236,7 @@ msgstr ""
 msgid "unknown"
 msgstr "tidak diketahui"
 
-#: find/parser.c:413
+#: find/parser.c:435
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -244,25 +245,25 @@ msgid ""
 "arguments.\n"
 msgstr ""
 
-#: find/parser.c:652
+#: find/parser.c:674
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 
-#: find/parser.c:822
+#: find/parser.c:844
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr ""
 
-#: find/parser.c:824
+#: find/parser.c:846
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
 "expression may consist of: operators, options, tests, and actions:\n"
 msgstr ""
 
-#: find/parser.c:827
+#: find/parser.c:849
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -270,7 +271,7 @@ msgid ""
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
 
-#: find/parser.c:831
+#: find/parser.c:853
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -279,7 +280,7 @@ msgid ""
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
 
-#: find/parser.c:836
+#: find/parser.c:858
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -288,7 +289,7 @@ msgid ""
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 
-#: find/parser.c:841
+#: find/parser.c:863
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
@@ -296,7 +297,7 @@ msgid ""
 "      -used N -user NAME -xtype [bcdpfls]\n"
 msgstr ""
 
-#: find/parser.c:846
+#: find/parser.c:868
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -304,18 +305,18 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:852
+#: find/parser.c:874
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
 
-#: find/parser.c:883
+#: find/parser.c:905
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 
-#: find/parser.c:898
+#: find/parser.c:920
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -325,17 +326,17 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:940
+#: find/parser.c:962
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 
-#: find/parser.c:1380
+#: find/parser.c:1402
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "mod yang salah `%s'"
 
-#: find/parser.c:1414
+#: find/parser.c:1436
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s which is equivalent to 000. "
@@ -344,42 +345,42 @@ msgid ""
 "to match all files."
 msgstr ""
 
-#: find/parser.c:1567
+#: find/parser.c:1589
 msgid "invalid null argument to -size"
 msgstr ""
 
-#: find/parser.c:1613
+#: find/parser.c:1635
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "jenis saiz tidak sah `%c'"
 
-#: find/parser.c:1651
+#: find/parser.c:1673
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1797
+#: find/parser.c:1826
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "versi find GNU  %s\n"
 
-#: find/parser.c:1798
+#: find/parser.c:1827
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2052
+#: find/parser.c:2081
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr ""
 
-#: find/parser.c:2098
+#: find/parser.c:2127
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr ""
 
-#: find/parser.c:2204
+#: find/parser.c:2233
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -388,13 +389,13 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2301
+#: find/parser.c:2330
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2324
+#: find/parser.c:2353
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
@@ -418,7 +419,7 @@ msgstr "ralat menunggu untuk %s"
 msgid "%s terminated by signal %d"
 msgstr ""
 
-#: find/tree.c:67 find/tree.c:72 find/tree.c:119 find/tree.c:158
+#: find/tree.c:67 find/tree.c:72 find/tree.c:123 find/tree.c:162
 msgid "invalid expression"
 msgstr ""
 
@@ -431,26 +432,30 @@ msgstr ""
 msgid "invalid expression; you have too many ')'"
 msgstr ""
 
-#: find/tree.c:99
+#: find/tree.c:98
+msgid "invalid expression; empty parentheses are not allowed."
+msgstr ""
+
+#: find/tree.c:103
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
 "one."
 msgstr ""
 
-#: find/tree.c:104 find/tree.c:326
+#: find/tree.c:108 find/tree.c:330
 msgid "oops -- invalid expression type!"
 msgstr ""
 
-#: find/tree.c:173
+#: find/tree.c:177
 #, c-format
 msgid "oops -- invalid expression type (%d)!"
 msgstr ""
 
-#: find/tree.c:457
+#: find/tree.c:461
 msgid "oops -- invalid expression type in mark_stat!"
 msgstr ""
 
-#: find/tree.c:493
+#: find/tree.c:497
 msgid "oops -- invalid expression type in mark_type!"
 msgstr ""
 

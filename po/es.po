@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-12-12 00:21-0800\n"
+"POT-Creation-Date: 2005-12-19 23:22-0800\n"
 "PO-Revision-Date: 2004-12-23 16:57+0100\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -154,44 +154,45 @@ msgstr ""
 "La variable de entorno FIND_BLOCK_SIZE no está soportada, lo único que\n"
 "afecta al tamaño del bloque es la variable de entorno POSIXLY_CORRECT"
 
-#: find/find.c:279
-msgid "paths must precede expression"
+#: find/find.c:282
+#, fuzzy, c-format
+msgid "paths must precede expression: %s"
 msgstr "Las rutas-de-acceso deben preceder la expresión"
 
-#: find/find.c:285
+#: find/find.c:292
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "predicado inválido `%s'"
 
-#: find/find.c:293
+#: find/find.c:300
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "falta el argumento de `%s'"
 
-#: find/find.c:295
+#: find/find.c:302
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "argumento `%s' inválido para la opción `%s'"
 
-#: find/find.c:351
+#: find/find.c:358
 msgid "unexpected extra predicate"
 msgstr "predicado extra inesperado"
 
-#: find/find.c:403 find/find.c:406
+#: find/find.c:410 find/find.c:413
 msgid "cannot get current directory"
 msgstr "no se puede obtener el directorio actual"
 
-#: find/find.c:584
+#: find/find.c:591
 #, fuzzy, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "El sistema de ficheros %s ha sido desmontado recientemente."
 
-#: find/find.c:594
+#: find/find.c:601
 #, fuzzy, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "El sistema de ficheros %s ha sido montado recientemente."
 
-#: find/find.c:689
+#: find/find.c:696
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -202,7 +203,7 @@ msgstr ""
 "número de dispositivo nuevo %ld, el tipo de sistema de ficheros es %s [ref %"
 "ld]"
 
-#: find/find.c:726
+#: find/find.c:733
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -211,34 +212,34 @@ msgstr ""
 "%s%s ha cambiado durante la ejecución de %s (número de nodo-i antiguo %ld,\n"
 "número de nodo-i nuevo %ld, tipo de sistema de ficheros %s) [ref %ld]"
 
-#: find/find.c:1263
+#: find/find.c:1270
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1278
+#: find/find.c:1285
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1282
+#: find/find.c:1289
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1283
+#: find/find.c:1290
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1515
+#: find/find.c:1522
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1559
+#: find/find.c:1566
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -251,7 +252,7 @@ msgstr ""
 msgid "unknown"
 msgstr "desconocido"
 
-#: find/parser.c:413
+#: find/parser.c:435
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -264,7 +265,7 @@ msgstr ""
 "las evaluaciones especificadas antes de él como a las especificadas\n"
 "después). Por favor especifique las opciones antes de otros argumentos.\n"
 
-#: find/parser.c:652
+#: find/parser.c:674
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -277,7 +278,7 @@ msgstr ""
 #  ¡Olé! Gracias a tos los de es@li.org que me habeis dado "ruta de acceso".
 #  No se qué significado tendría mi vida sin vuestra ayuda ;), snif ... :~)
 #  IPG
-#: find/parser.c:822
+#: find/parser.c:844
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Modo de empleo: %s [ruta-de-acceso...] [expresión]\n"
@@ -306,7 +307,7 @@ msgstr "Modo de empleo: %s [ruta-de-acceso...] [expresión]\n"
 # o mejor "si no se da ninguno". sv
 #
 # Lo dejo así. ipg
-#: find/parser.c:824
+#: find/parser.c:846
 #, fuzzy
 msgid ""
 "\n"
@@ -343,7 +344,7 @@ msgstr ""
 # o mejor "si no se da ninguno". sv
 #
 # Lo dejo así. ipg
-#: find/parser.c:827
+#: find/parser.c:849
 #, fuzzy
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
@@ -357,7 +358,7 @@ msgstr ""
 "operadores (prioridad decreciente; se supone -and si no se dan):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
 
-#: find/parser.c:831
+#: find/parser.c:853
 #, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
@@ -386,7 +387,7 @@ msgstr ""
 #
 #        También me han sugerido `patrón', pero prefiero EXPR-REG. IPG
 #
-#: find/parser.c:836
+#: find/parser.c:858
 #, fuzzy
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
@@ -400,7 +401,7 @@ msgstr ""
 "      -iwholename EXPR-REG -iregex EXPR-REG -links N -lname EXPR-REG\n"
 "      -mmin N -mtime N -name EXPR-REG -newer FICHERO"
 
-#: find/parser.c:841
+#: find/parser.c:863
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -412,7 +413,7 @@ msgstr ""
 "      -wholename EXPR-REG -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NOMBRE -xtype [bcdpfls]"
 
-#: find/parser.c:846
+#: find/parser.c:868
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -420,7 +421,7 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:852
+#: find/parser.c:874
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -430,12 +431,12 @@ msgstr ""
 "página de comunicación de bichos en http://savannah.gnu.org/ o bien, si no\n"
 "tiene acceso a web, enviando un mensaje a <bug-findutils@gnu.org>."
 
-#: find/parser.c:883
+#: find/parser.c:905
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 "la comprobación de adecuación de la función de biblioteca fnmatch() falló."
 
-#: find/parser.c:898
+#: find/parser.c:920
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -445,19 +446,19 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:940
+#: find/parser.c:962
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "atención: el predicado -ipath está obsoleto; por favor use -iwholename en\n"
 "su lugar"
 
-#: find/parser.c:1380
+#: find/parser.c:1402
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "modo inválido `%s'"
 
-#: find/parser.c:1414
+#: find/parser.c:1436
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s which is equivalent to 000. "
@@ -476,42 +477,42 @@ msgstr ""
 #
 # find . -size ""
 #
-#: find/parser.c:1567
+#: find/parser.c:1589
 msgid "invalid null argument to -size"
 msgstr "argumento nulo inválido para la opción -size"
 
-#: find/parser.c:1613
+#: find/parser.c:1635
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "tipo dado a -size inválido `%c'"
 
-#: find/parser.c:1651
+#: find/parser.c:1673
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1797
+#: find/parser.c:1826
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versión %s\n"
 
-#: find/parser.c:1798
+#: find/parser.c:1827
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2052
+#: find/parser.c:2081
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "atención: secuencia de escape `\\%c' no reconocida"
 
-#: find/parser.c:2098
+#: find/parser.c:2127
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "atención: directiva de formato `%%%c' no reconocida"
 
-#: find/parser.c:2204
+#: find/parser.c:2233
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -520,13 +521,13 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2301
+#: find/parser.c:2330
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2324
+#: find/parser.c:2353
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
@@ -590,7 +591,7 @@ msgstr "error esperando al proceso %s"
 msgid "%s terminated by signal %d"
 msgstr "%s terminado por la señal %d"
 
-#: find/tree.c:67 find/tree.c:72 find/tree.c:119 find/tree.c:158
+#: find/tree.c:67 find/tree.c:72 find/tree.c:123 find/tree.c:162
 msgid "invalid expression"
 msgstr "expresión inválida"
 
@@ -604,7 +605,12 @@ msgstr ""
 msgid "invalid expression; you have too many ')'"
 msgstr "expresión inválida"
 
-#: find/tree.c:99
+#: find/tree.c:98
+#, fuzzy
+msgid "invalid expression; empty parentheses are not allowed."
+msgstr "expresión inválida"
+
+#: find/tree.c:103
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
 "one."
@@ -644,7 +650,7 @@ msgstr ""
 # (Donde menos me pegan es en el "oh, oh", parece cosa de Papá Noel...). sv
 #
 # Será por las fechas ... ;) ok, claudico. ipg
-#: find/tree.c:104 find/tree.c:326
+#: find/tree.c:108 find/tree.c:330
 msgid "oops -- invalid expression type!"
 msgstr "oh, oh -- ¡tipo de expresión inválido!"
 
@@ -682,7 +688,7 @@ msgstr "oh, oh -- ¡tipo de expresión inválido!"
 # (Donde menos me pegan es en el "oh, oh", parece cosa de Papá Noel...). sv
 #
 # Será por las fechas ... ;) ok, claudico. ipg
-#: find/tree.c:173
+#: find/tree.c:177
 #, fuzzy, c-format
 msgid "oops -- invalid expression type (%d)!"
 msgstr "oh, oh -- ¡tipo de expresión inválido!"
@@ -721,7 +727,7 @@ msgstr "oh, oh -- ¡tipo de expresión inválido!"
 # (Donde menos me pegan es en el "oh, oh", parece cosa de Papá Noel...). sv
 #
 # Será por las fechas ... ;) ok, claudico. ipg
-#: find/tree.c:457
+#: find/tree.c:461
 #, fuzzy
 msgid "oops -- invalid expression type in mark_stat!"
 msgstr "oh, oh -- ¡tipo de expresión inválido!"
@@ -760,7 +766,7 @@ msgstr "oh, oh -- ¡tipo de expresión inválido!"
 # (Donde menos me pegan es en el "oh, oh", parece cosa de Papá Noel...). sv
 #
 # Será por las fechas ... ;) ok, claudico. ipg
-#: find/tree.c:493
+#: find/tree.c:497
 #, fuzzy
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "oh, oh -- ¡tipo de expresión inválido!"

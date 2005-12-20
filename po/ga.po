@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-12-12 00:21-0800\n"
+"POT-Creation-Date: 2005-12-19 23:22-0800\n"
 "PO-Revision-Date: 2005-08-01 05:47-0500\n"
 "Last-Translator: Kevin Patrick Scannell <scannell@SLU.EDU>\n"
 "Language-Team: Irish <ga@li.org>\n"
@@ -149,44 +149,45 @@ msgstr ""
 "Níl an athróg thimpeallachta FIND_BLOCK_SIZE le fáil, níl aon rud ag dul i "
 "bhfeidhm ar an méid bloic ach an athróg thimpeallachta POSIXLY_CORRECT"
 
-#: find/find.c:279
-msgid "paths must precede expression"
+#: find/find.c:282
+#, fuzzy, c-format
+msgid "paths must precede expression: %s"
 msgstr "ní foláir conairí a theacht roimh an slonn"
 
-#: find/find.c:285
+#: find/find.c:292
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "preideacáid neamhbhailí `%s'"
 
-#: find/find.c:293
+#: find/find.c:300
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "ní foláir argóint don rogha `%s'"
 
-#: find/find.c:295
+#: find/find.c:302
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "argóint neamhbhailí `%s' chun `%s'"
 
-#: find/find.c:351
+#: find/find.c:358
 msgid "unexpected extra predicate"
 msgstr "preideacáid bhreise gan choinne"
 
-#: find/find.c:403 find/find.c:406
+#: find/find.c:410 find/find.c:413
 msgid "cannot get current directory"
 msgstr "níl an chomhadlann reatha ar fáil"
 
-#: find/find.c:584
+#: find/find.c:591
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "Rabhadh: bhí an córas comhaid %s dífheistithe le gairid."
 
-#: find/find.c:594
+#: find/find.c:601
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "Rabhadh: bhí an córas comhaid %s feistithe le gairid."
 
-#: find/find.c:689
+#: find/find.c:696
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -195,7 +196,7 @@ msgstr ""
 "Athraíodh %s%s le linn rith %s (seanuimhir ghléis %ld, uimhir nua gléis %ld, "
 "cineál córas comhad %s) [tag %ld]"
 
-#: find/find.c:726
+#: find/find.c:733
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -204,7 +205,7 @@ msgstr ""
 "Athraíodh %s%s le linn rith %s (seanuimhir inode %ld, uimhir nua inode %ld, "
 "cineál córas comhad %s) [tag %ld]"
 
-#: find/find.c:1263
+#: find/find.c:1270
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -213,7 +214,7 @@ msgstr ""
 "Tá an nasc siombalach `%s' cuid de lúb sa chóras chomhadlainne; thugamar "
 "cuairt cheana ar an gcomhadlann lena bhfuil sé nasctha."
 
-#: find/find.c:1278
+#: find/find.c:1285
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -222,20 +223,20 @@ msgstr ""
 "Braitheadh lúb sa chóras comhaid; tá an uimhir ghléis agus inode céanna ag `%"
 "s' agus comhadlann eile atá %d %s."
 
-#: find/find.c:1282
+#: find/find.c:1289
 msgid "level higher in the filesystem hierarchy"
 msgstr "leibhéal amháin níos airde sa chóras comhaid"
 
-#: find/find.c:1283
+#: find/find.c:1290
 msgid "levels higher in the filesystem hierarchy"
 msgstr "leibhéal níos airde sa chóras comhaid"
 
-#: find/find.c:1515
+#: find/find.c:1522
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "rabhadh: ní leanfar nasc siombalach %s"
 
-#: find/find.c:1559
+#: find/find.c:1566
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -252,7 +253,7 @@ msgstr ""
 msgid "unknown"
 msgstr "anaithnid"
 
-#: find/parser.c:413
+#: find/parser.c:435
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -265,7 +266,7 @@ msgstr ""
 "bhfeidhm ar thrialacha ar gach taobh de).  Tabhair na roghanna roimh na "
 "hargóintí eile.\n"
 
-#: find/parser.c:652
+#: find/parser.c:674
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -273,12 +274,12 @@ msgstr ""
 "rabhadh: tá an rogha -d as feidhm; bain úsáid as -depth ina ionad, os rud é "
 "go bhfuil -depth oiriúnach leis an chaighdeán POSIX."
 
-#: find/parser.c:822
+#: find/parser.c:844
 #, c-format
 msgid "Usage: %s [path...] [expression]\n"
 msgstr "Úsáid: %s [conair...] [slonn]\n"
 
-#: find/parser.c:824
+#: find/parser.c:846
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -290,7 +291,7 @@ msgstr ""
 "is éard is féidir a bheith sa slonn:\n"
 "oibreoirí, roghanna, trialacha, agus gníomhartha:\n"
 
-#: find/parser.c:827
+#: find/parser.c:849
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -303,7 +304,7 @@ msgstr ""
 "SLONN2\n"
 "      SLONN1 -o SLONN2   SLONN1 -or SLONN2   SLONN1 , SLONN2\n"
 
-#: find/parser.c:831
+#: find/parser.c:853
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -317,7 +318,7 @@ msgstr ""
 "      -depth --help -maxdepth LEIBHÉIL -mindepth LEIBHÉIL -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:836
+#: find/parser.c:858
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -332,7 +333,7 @@ msgstr ""
 "PATRÚN\n"
 "      -links N -lname PATRÚN -mmin N -mtime N -name PATRÚN -newer COMHAD"
 
-#: find/parser.c:841
+#: find/parser.c:863
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -344,7 +345,7 @@ msgstr ""
 "      -wholename PATRÚN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user AINM -xtype [bcdpfls]\n"
 
-#: find/parser.c:846
+#: find/parser.c:868
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -357,7 +358,7 @@ msgstr ""
 "      -exec ORDÚ ; -exec ORDÚ {} + -ok ORDÚ ;\n"
 "      -execdir ORDÚ ; -execdir ORDÚ {} + -okdir ORDÚ ;\n"
 
-#: find/parser.c:852
+#: find/parser.c:874
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -369,11 +370,11 @@ msgstr ""
 "bhfuil\n"
 " rochtain ar an nGréasán agat, seol r-phost chuig <bug-findutils@gnu.org>."
 
-#: find/parser.c:883
+#: find/parser.c:905
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "theip ar sheiceáil slánchéille don fheidhm leabharlainne fnmatch()."
 
-#: find/parser.c:898
+#: find/parser.c:920
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -388,19 +389,19 @@ msgstr ""
 "wholename' níos áisiúla, nó b'fhéidir '-samefile'.  Nó, má tá GNU grep agat, "
 "is féidir 'find ... -print0 | grep -FzZ %s' a úsáid mar mhalairt."
 
-#: find/parser.c:940
+#: find/parser.c:962
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "rabhadh: tá an phreideacáid -ipath as feidhm; bain úsáid as -iwholename ina "
 "hionad, le do thoil."
 
-#: find/parser.c:1380
+#: find/parser.c:1402
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "mód neamhbhailí `%s'"
 
-#: find/parser.c:1414
+#: find/parser.c:1436
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s which is equivalent to 000. "
@@ -409,42 +410,42 @@ msgid ""
 "to match all files."
 msgstr ""
 
-#: find/parser.c:1567
+#: find/parser.c:1589
 msgid "invalid null argument to -size"
 msgstr "argóint nialasach neamhbhailí i ndiaidh -size"
 
-#: find/parser.c:1613
+#: find/parser.c:1635
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "argóint neamhbhailí `%c' i ndiaidh -size"
 
-#: find/parser.c:1651
+#: find/parser.c:1673
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1797
+#: find/parser.c:1826
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find, leagan %s\n"
 
-#: find/parser.c:1798
+#: find/parser.c:1827
 #, c-format
 msgid "Features enabled: "
 msgstr "Gnéithe arna gcumasú: "
 
-#: find/parser.c:2052
+#: find/parser.c:2081
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "rabhadh: seicheamh éalúcháin anaithnid `\\%c'"
 
-#: find/parser.c:2098
+#: find/parser.c:2127
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "rabhadh: treoir fhormáide anaithnid `%%%c'"
 
-#: find/parser.c:2204
+#: find/parser.c:2233
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -456,7 +457,7 @@ msgstr ""
 "neamhdhaingean é seo in éineacht leis an ghníomh %s.  Bain an chomhadlann "
 "reatha as $PATH (.i., bain \".\", nó idirstad ar dtús/i ndeireadh, amach)"
 
-#: find/parser.c:2301
+#: find/parser.c:2330
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -464,7 +465,7 @@ msgstr ""
 "Ní cheadaítear {} mar chuid d'ainm uirlise le -execdir nó -okdir, de bharr "
 "gur neamhdhaingean é seo."
 
-#: find/parser.c:2324
+#: find/parser.c:2353
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Ní thacaítear ach aon phéire amháin {} le -exec%s ... +"
@@ -489,7 +490,7 @@ msgstr "earráid ag fanacht le %s"
 msgid "%s terminated by signal %d"
 msgstr "Stopadh %s leis an chomhartha %d"
 
-#: find/tree.c:67 find/tree.c:72 find/tree.c:119 find/tree.c:158
+#: find/tree.c:67 find/tree.c:72 find/tree.c:123 find/tree.c:162
 msgid "invalid expression"
 msgstr "slonn neamhbhailí"
 
@@ -502,26 +503,31 @@ msgstr "slonn neamhbhailí; tá oibreoir dénártha agat agus níl aon rud roimhe."
 msgid "invalid expression; you have too many ')'"
 msgstr "slonn neamhbhailí; an iomarca ')'"
 
-#: find/tree.c:99
+#: find/tree.c:98
+#, fuzzy
+msgid "invalid expression; empty parentheses are not allowed."
+msgstr "slonn neamhbhailí; an iomarca ')'"
+
+#: find/tree.c:103
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
 "one."
 msgstr "slonn neamhbhailí; bhíothas ag súil le ')' áit éigin."
 
-#: find/tree.c:104 find/tree.c:326
+#: find/tree.c:108 find/tree.c:330
 msgid "oops -- invalid expression type!"
 msgstr "úps! -- is neamhbhailí an cineál sloinn seo!"
 
-#: find/tree.c:173
+#: find/tree.c:177
 #, c-format
 msgid "oops -- invalid expression type (%d)!"
 msgstr "úps! -- cineál neamhbhailí sloinn (%d)!"
 
-#: find/tree.c:457
+#: find/tree.c:461
 msgid "oops -- invalid expression type in mark_stat!"
 msgstr "úps! -- cineál neamhbhailí sloinn i mark_stat!"
 
-#: find/tree.c:493
+#: find/tree.c:497
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "úps! -- cineál neamhbhailí sloinn i mark_type!"
 
