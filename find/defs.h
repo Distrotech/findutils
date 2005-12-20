@@ -530,7 +530,7 @@ int get_info PARAMS((const char *pathname, const char *name, struct stat *p, str
 int following_links PARAMS((void));
 int digest_mode PARAMS((mode_t mode, const char *pathname, const char *name, struct stat *pstat, boolean leaf));
 boolean default_prints PARAMS((struct predicate *pred));
-boolean looks_like_expression PARAMS((const char *arg));
+boolean looks_like_expression PARAMS((const char *arg, boolean leading));
 
 
 struct options

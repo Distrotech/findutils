@@ -584,7 +584,7 @@ default_prints (struct predicate *pred)
 }
 
 boolean 
-looks_like_expression(const char *arg)
+looks_like_expression(const char *arg, boolean leading)
 {
   switch (arg[0])
     {
@@ -595,19 +595,18 @@ looks_like_expression(const char *arg)
 	return false;		/* Just "-" is a filename. */
       break;
       
-      /* According to the POSIX standard, we have to assume that a leading ')' is a 
-       * filename argument.   Hence it does not matter if the ')' is followed by any
-       * other characters.
-       */
     case ')':
-      return false;
+    case ',':
+      if (arg[1])
+	return false;		/* )x and ,z are not expressions */
+      else
+	return !leading;	/* A leading ) or , is not either */
       
-      /* (, ) and ! are part of an expression,
-       * but (2, )3 and !foo are filenames.
+      /* ( and ! are part of an expression, but (2 and !foo are
+       * filenames.
        */
     case '!':
     case '(':
-    case ',':
       if (arg[1])
 	return false;
       else

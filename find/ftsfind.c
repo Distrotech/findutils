@@ -386,7 +386,7 @@ process_all_startpoints(int argc, char *argv[])
   int i;
 
   /* figure out how many start points there are */
-  for (i = 0; i < argc && !looks_like_expression(argv[i]); i++)
+  for (i = 0; i < argc && !looks_like_expression(argv[i], true); i++)
     {
       find(argv[i]);
     }
@@ -536,7 +536,7 @@ main (int argc, char **argv)
   /* fprintf(stderr, "rest: optind=%ld\n", (long)optind); */
   
   /* Find where in ARGV the predicates begin. */
-  for (i = end_of_leading_options; i < argc && !looks_like_expression(argv[i]); i++)
+  for (i = end_of_leading_options; i < argc && !looks_like_expression(argv[i], true); i++)
     {
       /* fprintf(stderr, "Looks like %s is not a predicate\n", argv[i]); */
       /* Do nothing. */ ;
@@ -558,13 +558,10 @@ main (int argc, char **argv)
   /* Build the input order list. */
   while (i < argc)
     {
-      if (!looks_like_expression(argv[i]))
+      if (!looks_like_expression(argv[i], false))
 	{
-	  if (0 != strcmp(argv[i], ")"))
-	    {
-	      error (0, 0, _("paths must precede expression: %s"), argv[i]);
-	      usage(NULL);
-	    }
+	  error (0, 0, _("paths must precede expression: %s"), argv[i]);
+	  usage(NULL);
 	}
 
       predicate_name = argv[i];
