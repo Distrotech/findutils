@@ -121,6 +121,7 @@ find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
 find.gnu/quit.exp \
 find.gnu/xtype.exp \
+find.posix/empty-parens.exp \
 find.posix/files-not-expressions1.exp \
 find.posix/files-not-expressions2.exp \
 find.posix/files-not-expressions3.exp \

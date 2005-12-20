@@ -167,6 +167,8 @@ static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *
 static boolean insert_num PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry));
 static FILE *open_output_file PARAMS((char *path));
 static boolean stream_is_tty(FILE *fp);
+static boolean parse_noop PARAMS((const struct parser_table* entry, char **argv, int *arg_ptr));
+
 
 #ifdef DEBUG
 char *find_pred_name PARAMS((PRED_FUNC pred_func));
@@ -297,6 +299,7 @@ static struct parser_table const parse_table[] =
    */
   {ARG_TEST, "false",                 parse_false,   pred_false}, /* GNU */
   {ARG_TEST, "true",                  parse_true,    pred_true }, /* GNU */
+  {ARG_NOOP, "noop",                  NULL,          pred_true }, /* GNU, internal use only */
 
   /* Various other cases that don't fit neatly into our macro scheme. */
   {ARG_TEST, "help",                  parse_help,    NULL},       /* GNU */
@@ -308,7 +311,26 @@ static struct parser_table const parse_table[] =
 
 
 static const char *first_nonoption_arg = NULL;
+static const struct parser_table *noop = NULL;
 
+
+static const struct parser_table*
+get_noop(void)
+{
+  int i;
+  if (NULL == noop)
+    {
+      for (i = 0; parse_table[i].parser_name != 0; i++)
+	{
+	  if (ARG_NOOP ==parse_table[i].type)
+	    {
+	      noop = &(parse_table[i]);
+	      break;
+	    }
+	}
+    }
+  return noop;
+}
 
 
 
@@ -637,7 +659,7 @@ parse_depth (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
 
   options.do_dir_first = false;
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
  
 static boolean
@@ -730,7 +752,7 @@ parse_follow (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
 
   set_follow_state(SYMLINK_ALWAYS_DEREF);
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1018,7 +1040,7 @@ parse_maxdepth (const struct parser_table* entry, char **argv, int *arg_ptr)
   if (options.maxdepth < 0)
     return false;
   (*arg_ptr)++;
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1036,7 +1058,7 @@ parse_mindepth (const struct parser_table* entry, char **argv, int *arg_ptr)
   if (options.mindepth < 0)
     return false;
   (*arg_ptr)++;
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1133,7 +1155,7 @@ parse_noleaf (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) entry;
   
   options.no_leaf_check = true;
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 #ifdef CACHE_IDS
@@ -1232,7 +1254,7 @@ parse_nowarn (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) entry;
   
   options.warnings = false;
-  return true;;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1511,7 +1533,7 @@ parse_regextype (const struct parser_table* entry, char **argv, int *arg_ptr)
   options.regex_options = get_regex_type(argv[*arg_ptr]);
   (*arg_ptr)++;
 
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 
@@ -1694,6 +1716,13 @@ parse_true (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 static boolean
+parse_noop (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  (void) entry;
+  return parse_true(get_noop(), argv, arg_ptr);
+}
+
+static boolean
 insert_accesscheck (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -1847,7 +1876,7 @@ parse_xdev (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
   (void) entry;
   options.stay_on_filesystem = true;
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1857,7 +1886,7 @@ parse_ignore_race (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
   (void) entry;
   options.ignore_readdir_race = true;
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1867,7 +1896,7 @@ parse_noignore_race (const struct parser_table* entry, char **argv, int *arg_ptr
   (void) arg_ptr;
   (void) entry;
   options.ignore_readdir_race = false;
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1877,7 +1906,7 @@ parse_warn (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
   (void) entry;
   options.warnings = true;
-  return true;
+  return parse_noop(entry, argv, arg_ptr);
 }
 
 static boolean

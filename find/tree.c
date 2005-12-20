@@ -93,6 +93,10 @@ get_expr (struct predicate **input, short int prev_prec)
 
     case OPEN_PAREN:
       *input = (*input)->pred_next;
+      if ( (*input)->p_type == CLOSE_PAREN )
+	{
+	  error (1, 0, _("invalid expression; empty parentheses are not allowed."));
+	}
       next = get_expr (input, NO_PREC);
       if ((*input == NULL)
 	  || ((*input)->p_type != CLOSE_PAREN))

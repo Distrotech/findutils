@@ -403,6 +403,7 @@ dev_t * get_mounted_devices PARAMS((size_t *));
 enum arg_type
   {
     ARG_OPTION,			/* regular options like -maxdepth */
+    ARG_NOOP,			/* does nothing, returns true, internal use only */
     ARG_POSITIONAL_OPTION,	/* options whose position is important (-follow) */
     ARG_TEST,			/* a like -name */
     ARG_PUNCTUATION,		/* like -o or ( */
