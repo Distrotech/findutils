@@ -2679,11 +2679,11 @@ files or directories that should be searched.
 
 This list of files to search is followed by a list of expressions
 describing the files we wish to search for.  The first part of the
-expression is recognised by the fact that it begins with @samp{-},
-@samp{(}, @samp{)}, @samp{,}, or @samp{!}.  Any arguments after it are
-the rest of the expression.  If no files are given, the current
-directory is used.  If no expression is given, the expression
-@samp{-print} is used.
+expression is recognised by the fact that it begins with @samp{-}
+followed by some other letters (for example @samp{-print}), or is
+either @samp{(} or @samp{!}.  Any arguments after it are the rest of
+the expression.  If no files are given, the current directory is used.
+If no expression is given, the expression @samp{-print} is used.
 
 @code{find} exits with status zero if all files matched are processed
 successfully, greater than 0 if errors occur.

@@ -93,6 +93,7 @@ get_new_pred (const struct parser_table *entry)
   last_pred->pred_left = NULL;
   last_pred->pred_right = NULL;
   last_pred->literal_control_chars = options.literal_control_chars;
+  last_pred->artificial = false;
   return last_pred;
 }
 

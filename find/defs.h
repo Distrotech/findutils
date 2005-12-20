@@ -310,6 +310,9 @@ struct predicate
 
   /* True if this predicate should display control characters literally */
   boolean literal_control_chars;
+
+  /* True if this predicate didn't originate from the user. */
+  boolean artificial;
   
   /* Information needed by the predicate processor.
      Next to each member are listed the predicates that use it. */
@@ -511,7 +514,9 @@ void print_optlist PARAMS((FILE *fp, struct predicate *node));
 
 /* tree.c */
 struct predicate *
-get_expr PARAMS((struct predicate **input, short int prev_prec));
+get_expr PARAMS((struct predicate **input,
+		 short int prev_prec,
+		 const struct predicate *previous_predicate));
 boolean opt_expr PARAMS((struct predicate **eval_treep));
 boolean mark_stat PARAMS((struct predicate *tree));
 boolean mark_type PARAMS((struct predicate *tree));

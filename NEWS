@@ -1,6 +1,15 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.1-CVS
 
+Find now follows POSIX rules for determining where directories end and
+expressions start.  This means that "find \(1 \!2 \, \)" now searches
+in the four named directories, rather than trying to parse an
+expression. (Savannah bug #15235).
+
+You now get a more helpful error message when you use command lines
+which have missing expressions, such as 'find . ( )' or 'find . !'.
+
+
 * Major changes in release 4.3.0
 
 The 4.3.x release series are currently 'development' releases.  Please

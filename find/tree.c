@@ -59,7 +59,9 @@ static struct predicate *set_new_parent PARAMS((struct predicate *curr, enum pre
    our caller, so get_expr recurses. */
 
 struct predicate *
-get_expr (struct predicate **input, short int prev_prec)
+get_expr (struct predicate **input,
+	  short int prev_prec,
+	  const struct predicate* prev_pred)
 {
   struct predicate *next = NULL;
 
@@ -77,7 +79,17 @@ get_expr (struct predicate **input, short int prev_prec)
       break;
 
     case CLOSE_PAREN:
-      error (1, 0, _("invalid expression; you have too many ')'"));
+      if ( (*input)->artificial )
+	{
+	  /* We have reached the end of the user-supplied predicates
+	   * unexpectedly. 
+	   */
+	  error (1, 0, _("expected an expression after '%s'"), prev_pred->p_name);
+	}
+      else
+	{
+	  error (1, 0, _("invalid expression; you have too many ')'"));
+	}
       break;
 
     case PRIMARY_TYPE:
@@ -88,16 +100,17 @@ get_expr (struct predicate **input, short int prev_prec)
     case UNI_OP:
       next = *input;
       *input = (*input)->pred_next;
-      next->pred_right = get_expr (input, NEGATE_PREC);
+      next->pred_right = get_expr (input, NEGATE_PREC, next);
       break;
 
     case OPEN_PAREN:
+      prev_pred = (*input);
       *input = (*input)->pred_next;
       if ( (*input)->p_type == CLOSE_PAREN )
 	{
 	  error (1, 0, _("invalid expression; empty parentheses are not allowed."));
 	}
-      next = get_expr (input, NO_PREC);
+      next = get_expr (input, NO_PREC, prev_pred);
       if ((*input == NULL)
 	  || ((*input)->p_type != CLOSE_PAREN))
 	error (1, 0, _("invalid expression; I was expecting to find a ')' somewhere but did not see one."));
@@ -163,11 +176,14 @@ scan_rest (struct predicate **input,
 	  break;
 
 	case BI_OP:
-	  (*input)->pred_left = tree;
-	  tree = *input;
-	  *input = (*input)->pred_next;
-	  tree->pred_right = get_expr (input, tree->p_prec);
-	  break;
+	  {
+	    struct predicate *prev = (*input);
+	    (*input)->pred_left = tree;
+	    tree = *input;
+	    *input = (*input)->pred_next;
+	    tree->pred_right = get_expr (input, tree->p_prec, prev);
+	    break;
+	  }
 
 	case CLOSE_PAREN:
 	  return tree;

@@ -269,6 +269,7 @@ main (int argc, char **argv)
   assert(entry_print != NULL);
   
   parse_open (entry_open, argv, &argc);
+  predicates->artificial = true;
   parse_begin_user_args(argv, argc, last_pred, predicates);
   pred_sanity_check(last_pred);
   
@@ -299,6 +300,10 @@ main (int argc, char **argv)
 	    error (1, 0, _("invalid argument `%s' to `%s'"),
 		   argv[i], predicate_name);
 	}
+      else
+	{
+	  last_pred->p_name = predicate_name;
+	}
 
       pred_sanity_check(last_pred);
       pred_sanity_check(predicates); /* XXX: expensive */
@@ -313,6 +318,7 @@ main (int argc, char **argv)
       predicates = last_pred = predicates->pred_next;
       free ((char *) cur_pred);
       parse_print (entry_print, argv, &argc);
+      last_pred->artificial = true;
       pred_sanity_check(last_pred); 
       pred_sanity_check(predicates); /* XXX: expensive */
     }
@@ -329,8 +335,10 @@ main (int argc, char **argv)
     {
       /* `( user-supplied-expression ) -print'. */
       parse_close (entry_close, argv, &argc);
+      last_pred->artificial = true;
       pred_sanity_check(last_pred);
       parse_print (entry_print, argv, &argc);
+      last_pred->artificial = true;
       pred_sanity_check(last_pred);
       pred_sanity_check(predicates); /* XXX: expensive */
     }
@@ -345,14 +353,17 @@ main (int argc, char **argv)
   
   /* Done parsing the predicates.  Build the evaluation tree. */
   cur_pred = predicates;
-  eval_tree = get_expr (&cur_pred, NO_PREC);
+  eval_tree = get_expr (&cur_pred, NO_PREC, NULL);
 
   /* Check if we have any left-over predicates (this fixes
    * Debian bug #185202).
    */
   if (cur_pred != NULL)
     {
-      error (1, 0, _("unexpected extra predicate"));
+      if (0 == strcmp(cur_pred->p_name, ")"))
+	error (1, 0, _("you have too many '%s'"), cur_pred->p_name);
+      else
+	error (1, 0, _("unexpected extra predicate '%s'"), cur_pred->p_name);
     }
   
 #ifdef	DEBUG
