@@ -1,8 +1,90 @@
+2005-12-19 Eric Blake <ebb9@byu.net>
+
+	* find/testsuite/Makefile.am,
+	find/testsuite/find.posix/sv-bug-15235.xo, 
+	find/testsuite/find.posix/sv-bug-15235.exp: New tests for Savannah
+	bug 15235.
+	
+	* NEWS, find/find.1, doc/find.texi (Invoking find): Document bug
+	fix for Savannah bug 15235.
+
+2005-12-20  James Youngman <jay@gnu.org>
+
+	* find/defs.h, find/find.c, find/ftsfind.c,
+	find/testsuite/find.posix/bracket-depth.exp, find/util.c: Further
+	fix to bug# 15235: a leading comma is a filename not an expression
+
+	* find/defs.h, find/parser.c, find/testsuite/Makefile.am,
+	find/testsuite/find.posix/empty-parens.exp, find/tree.c: Accept
+	'find ( -depth )' but reject 'find ( )'
+
+	* find/testsuite/find.gnu/delete.exp: Use the new find program,
+	and the new way of locating it ($OLDFIND/$FTSFIND instead of $FIND)
+
+	* find/testsuite/Makefile.am: Added bracket-depth.exp.
+
+	* NEWS, configure.in: We have moved on from 4.3.0
+
+	* find/defs.h, find/find.c, find/ftsfind.c,
+	find/testsuite/Makefile.am, find/testsuite/find.gnu/delete.exp,
+	find/testsuite/find.posix/files-not-expressions1.exp,
+	find/testsuite/find.posix/files-not-expressions1.xo,
+	find/testsuite/find.posix/files-not-expressions2.exp,
+	find/testsuite/find.posix/files-not-expressions2.xo,
+	find/testsuite/find.posix/files-not-expressions3.exp,
+	find/testsuite/find.posix/files-not-expressions3.xo, find/util.c:
+	Avoid getting confused by filename arguments of which the first
+	character looks like a predicate, for example ',x' or '!x' or '(x'
+	(Savannah bug #15235).
+
+2005-12-19  James Youngman <jay@gnu.org>
+
+	* find/testsuite/config/unix.exp:
+	Run every test twice, once with the old (non-fts) binary and once with
+	the new (fts-enabled) binary.
+
+2005-12-16  James Youngman <jay@gnu.org>
+
+	* xargs/xargs.1, xargs/xargs.c: Fixed bug# 15211, that xargs
+	--show-limits is not documented in the manpage or in the usage
+	message
+
+2005-12-12  James Youngman <jay@gnu.org>
+
+	* find/testsuite/find.gnu/access.exp:
+	Don't leave junk files lying around the place
+
+	* README-CVS: Update the the instructions for getting gnulib; the
+	CVS arrangements at Savannah have changed.
+
+	* ChangeLog, NEWS, doc/find.texi, doc/perm.texi, find/defs.h, find/parser.c:
+	Merged changes from 4.2.x branch again
+
+	* NEWS, doc/find.texi, find/defs.h, find/find.c, find/ftsfind.c,
+	find/parser.c, find/pred.c, find/util.c, lib/listfile.c,
+	lib/listfile.h: Initial code to allow control over how -ls quote
+	(or does not quote) control characters; not enabled yet
+
+2005-12-11  James Youngman <jay@gnu.org>
+
+	* ChangeLog, THANKS, xargs/xargs.c:
+	Fixed spelling errors in Bob Proulx's name.  Sorry, Bob.
+
+2005-12-10  James Youngman <jay@gnu.org>
+
+	* doc/perm.texi:
+	Aaron Hawley: Updated perm.texi from the coreutils distribution
+
+	* find/parser.c:
+	Avoid using entries which have the same name as POSIX library
+	functions (fprintf, printf, exec) as the implementation is allowed to
+	#define these.  That generates hard-to-grok compilation errors.
+
 2005-12-10  Andreas Metzler <gnu@downhill.at.eu.org>
 
-	* find/defs.h, find/parser.c: fixed compilation warning caused by
-	lack of function declaration for parse_openparen and
-	parse_closeparen.
+	* ChangeLog, NEWS, configure.in, find/defs.h, find/parser.c:
+	Applied patch from Andreas Metzler fixing Savannah bug #15181:
+	implicit declaration of parse_openparen
 
 2005-12-08  James Youngman  <jay@gnu.org>
 
