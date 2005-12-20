@@ -53,6 +53,9 @@ find.gnu/wholename.xo \
 find.gnu/xtype-symlink.xo \
 find.gnu/quit.xo \
 find.gnu/xtype.xo \
+find.posix/files-not-expressions1.xo \
+find.posix/files-not-expressions2.xo \
+find.posix/files-not-expressions3.xo \
 find.posix/links.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
@@ -118,6 +121,9 @@ find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
 find.gnu/quit.exp \
 find.gnu/xtype.exp \
+find.posix/files-not-expressions1.exp \
+find.posix/files-not-expressions2.exp \
+find.posix/files-not-expressions3.exp \
 find.posix/links.exp \
 find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \

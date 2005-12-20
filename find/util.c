@@ -582,3 +582,38 @@ default_prints (struct predicate *pred)
     }
   return (true);
 }
+
+boolean 
+looks_like_expression(const char *arg)
+{
+  switch (arg[0])
+    {
+    case '-':
+      if (arg[1])		/* "-foo" is an expression.  */
+	return true;
+      else
+	return false;		/* Just "-" is a filename. */
+      break;
+      
+      /* According to the POSIX standard, we have to assume that a leading ')' is a 
+       * filename argument.   Hence it does not matter if the ')' is followed by any
+       * other characters.
+       */
+    case ')':
+      return false;
+      
+      /* (, ) and ! are part of an expression,
+       * but (2, )3 and !foo are filenames.
+       */
+    case '!':
+    case '(':
+    case ',':
+      if (arg[1])
+	return false;
+      else
+	return true;
+
+    default:
+      return false;
+    }
+}

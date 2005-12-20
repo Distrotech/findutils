@@ -253,7 +253,7 @@ main (int argc, char **argv)
   /* fprintf(stderr, "rest: optind=%ld\n", (long)optind); */
   
   /* Find where in ARGV the predicates begin. */
-  for (i = end_of_leading_options; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
+  for (i = end_of_leading_options; i < argc && !looks_like_expression(argv[i]); i++)
     {
       /* fprintf(stderr, "Looks like %s is not a predicate\n", argv[i]); */
       /* Do nothing. */ ;
@@ -275,8 +275,15 @@ main (int argc, char **argv)
   /* Build the input order list. */
   while (i < argc)
     {
-      if (strchr ("-!(),", argv[i][0]) == NULL)
-	usage (_("paths must precede expression"));
+      if (!looks_like_expression(argv[i]))
+	{
+	  if (0 != strcmp(argv[i], ")"))
+	    {
+	      error (0, 0, _("paths must precede expression: %s"), argv[i]);
+	      usage(NULL);
+	    }
+	}
+
       predicate_name = argv[i];
       parse_entry = find_parser (predicate_name);
       if (parse_entry == NULL)
@@ -406,7 +413,7 @@ main (int argc, char **argv)
     error (1, errno, _("cannot get current directory"));
 
   /* If no paths are given, default to ".".  */
-  for (i = end_of_leading_options; i < argc && strchr ("-!(),", argv[i][0]) == NULL; i++)
+  for (i = end_of_leading_options; i < argc && !looks_like_expression(argv[i]); i++)
     {
       process_top_path (argv[i], 0);
     }
