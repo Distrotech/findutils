@@ -64,6 +64,7 @@ get_expr (struct predicate **input,
 	  const struct predicate* prev_pred)
 {
   struct predicate *next = NULL;
+  struct predicate *this_pred = (*input);
 
   if (*input == NULL)
     error (1, 0, _("invalid expression"));
@@ -75,15 +76,25 @@ get_expr (struct predicate **input,
       break;
 
     case BI_OP:
-      error (1, 0, _("invalid expression; you have used a binary operator with nothing before it."));
+      /* e.g. "find . -a" */
+      error (1, 0, _("invalid expression; you have used a binary operator '%s' with nothing before it."), this_pred->p_name);
       break;
 
     case CLOSE_PAREN:
-      if ( (*input)->artificial )
+      if ((UNI_OP == prev_pred->p_type
+	  || BI_OP == prev_pred->p_type)
+	  && !this_pred->artificial)
+	{
+	  /* e.g. "find \( -not \)" or "find \( -true -a \" */
+	  error(1, 0, _("expected an expression between '%s' and ')'"),
+		prev_pred->p_name);
+	}
+      else if ( (*input)->artificial )
 	{
 	  /* We have reached the end of the user-supplied predicates
 	   * unexpectedly. 
 	   */
+	  /* e.g. "find . -true -a" */
 	  error (1, 0, _("expected an expression after '%s'"), prev_pred->p_name);
 	}
       else
@@ -104,6 +115,14 @@ get_expr (struct predicate **input,
       break;
 
     case OPEN_PAREN:
+      if ( (NULL == (*input)->pred_next) || (*input)->pred_next->artificial )
+	{
+	  /* user typed something like "find . (", and so the ) we are
+	   * looking at is from the artificial "( ) -print" that we
+	   * add.
+	   */
+	  error (1, 0, _("invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"), this_pred->p_name);
+	}
       prev_pred = (*input);
       *input = (*input)->pred_next;
       if ( (*input)->p_type == CLOSE_PAREN )
@@ -116,7 +135,7 @@ get_expr (struct predicate **input,
 	error (1, 0, _("invalid expression; I was expecting to find a ')' somewhere but did not see one."));
       *input = (*input)->pred_next;	/* move over close */
       break;
-
+      
     default:
       error (1, 0, _("oops -- invalid expression type!"));
       break;

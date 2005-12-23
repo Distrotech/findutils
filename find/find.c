@@ -261,6 +261,7 @@ main (int argc, char **argv)
   
   /* Enclose the expression in `( ... )' so a default -print will
      apply to the whole expression. */
+/* XXX: beginning of bit we need factor out of both find.c and ftsfind.c */
   entry_open  = find_parser("(");
   entry_close = find_parser(")");
   entry_print = find_parser("print");
@@ -360,10 +361,19 @@ main (int argc, char **argv)
    */
   if (cur_pred != NULL)
     {
-      if (0 == strcmp(cur_pred->p_name, ")"))
-	error (1, 0, _("you have too many '%s'"), cur_pred->p_name);
+      /* cur_pred->p_name is often NULL here */
+      if (cur_pred->pred_func == pred_close)
+	{
+	  /* e.g. "find \( -true \) \)" */
+	  error (1, 0, _("you have too many ')'"), cur_pred->p_name);
+	}
       else
-	error (1, 0, _("unexpected extra predicate '%s'"), cur_pred->p_name);
+	{
+	  if (cur_pred->p_name)
+	    error (1, 0, _("unexpected extra predicate '%s'"), cur_pred->p_name);
+	  else
+	    error (1, 0, _("unexpected extra predicate"));
+	}
     }
   
 #ifdef	DEBUG
@@ -386,6 +396,7 @@ main (int argc, char **argv)
   print_optlist(stderr, eval_tree);
   fprintf(stderr, "\n");
 #endif /* DEBUG */
+/* XXX: end of bit we need factor out of both find.c and ftsfind.c */
 
   /* safely_chdir() needs to check that it has ended up in the right place. 
    * To avoid bailing out when something gets automounted, it checks if 
