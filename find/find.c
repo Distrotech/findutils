@@ -89,12 +89,6 @@ static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct 
 /* Name this program was run with. */
 char *program_name;
 
-/* All predicates for each path to process. */
-struct predicate *predicates;
-
-/* The last predicate allocated. */
-struct predicate *last_pred;
-
 /* A file descriptor open to the initial working directory.
    Doing it this way allows us to work when the i.w.d. has
    unreadable parents.  */
@@ -167,8 +161,6 @@ main (int argc, char **argv)
     }
   
   
-  predicates = NULL;
-  last_pred = NULL;
   options.do_dir_first = true;
   options.maxdepth = options.mindepth = -1;
   options.start_time = time (NULL);

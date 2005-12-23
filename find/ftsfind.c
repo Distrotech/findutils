@@ -454,7 +454,6 @@ main (int argc, char **argv)
     }
   
   
-  last_pred = NULL;
   options.do_dir_first = true;
   options.maxdepth = options.mindepth = -1;
   options.start_time = time (NULL);

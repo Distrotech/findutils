@@ -516,9 +516,9 @@ void print_optlist PARAMS((FILE *fp, struct predicate *node));
 struct predicate * build_expression_tree PARAMS((int argc, char *argv[], int end_of_leading_options));
 struct predicate * get_eval_tree PARAMS((void));
 struct predicate *get_new_pred PARAMS((const struct parser_table *entry));
+struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry));
 
 /* util.c */
-struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry));
 struct predicate *insert_primary PARAMS((const struct parser_table *entry));
 struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr));
 void usage PARAMS((char *msg));

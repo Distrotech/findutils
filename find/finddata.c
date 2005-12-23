@@ -24,9 +24,6 @@
 /* Name this program was run with. */
 char *program_name;
 
-/* The last predicate allocated. */
-struct predicate *last_pred;
-
 struct options options;
 struct state state;
 

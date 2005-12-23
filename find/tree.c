@@ -43,6 +43,8 @@ static struct predicate *predicates = NULL;
 /* The root of the evaluation tree. */
 static struct predicate *eval_tree  = NULL;
 
+/* The last predicate allocated. */
+static struct predicate *last_pred = NULL;
 
 
 static struct predicate *scan_rest PARAMS((struct predicate **input,
@@ -758,4 +760,54 @@ get_new_pred (const struct parser_table *entry)
   last_pred->literal_control_chars = options.literal_control_chars;
   last_pred->artificial = false;
   return last_pred;
+}
+
+/* Return a pointer to a new predicate, with operator check.
+   Like get_new_pred, but it checks to make sure that the previous
+   predicate is an operator.  If it isn't, the AND operator is inserted. */
+
+struct predicate *
+get_new_pred_chk_op (const struct parser_table *entry)
+{
+  struct predicate *new_pred;
+  static const struct parser_table *entry_and = NULL;
+
+  /* Locate the entry in the parser table for the "and" operator */
+  if (NULL == entry_and)
+    entry_and = find_parser("and");
+
+  /* Check that it's actually there. If not, that is a bug.*/
+  assert(entry_and != NULL);	
+
+  if (last_pred)
+    switch (last_pred->p_type)
+      {
+      case NO_TYPE:
+	error (1, 0, _("oops -- invalid default insertion of and!"));
+	break;
+
+      case PRIMARY_TYPE:
+      case CLOSE_PAREN:
+	/* We need to interpose the and operator. */
+	new_pred = get_new_pred (entry_and);
+	new_pred->pred_func = pred_and;
+#ifdef	DEBUG
+	new_pred->p_name = find_pred_name (pred_and);
+#endif	/* DEBUG */
+	new_pred->p_type = BI_OP;
+	new_pred->p_prec = AND_PREC;
+	new_pred->need_stat = false;
+	new_pred->need_type = false;
+	new_pred->args.str = NULL;
+	new_pred->side_effects = false;
+	new_pred->no_default_print = false;
+	break;
+
+      default:
+	break;
+      }
+  
+  new_pred = get_new_pred (entry);
+  new_pred->parser_entry = entry;
+  return new_pred;
 }
