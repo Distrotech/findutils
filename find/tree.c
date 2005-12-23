@@ -37,7 +37,10 @@
 
 
 
+/* All predicates for each path to process. */
 static struct predicate *predicates = NULL;
+
+/* The root of the evaluation tree. */
 static struct predicate *eval_tree  = NULL;
 
 

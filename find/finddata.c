@@ -24,15 +24,8 @@
 /* Name this program was run with. */
 char *program_name;
 
-/* All predicates for each path to process. */
-struct predicate *predicates;
-
 /* The last predicate allocated. */
 struct predicate *last_pred;
-
-/* The root of the evaluation tree. */
-struct predicate *eval_tree = NULL;
-
 
 struct options options;
 struct state state;
