@@ -128,13 +128,9 @@ int
 main (int argc, char **argv)
 {
   int i;
-  const struct parser_table *entry_close, *entry_print, *entry_open;
-  const struct parser_table *parse_entry; /* Pointer to the parsing table entry for this expression. */
-  struct predicate *cur_pred;
-  char *predicate_name;		/* Name of predicate being parsed. */
   int end_of_leading_options = 0; /* First arg after any -H/-L etc. */
+  struct predicate *eval_tree;
 
-  
   program_name = argv[0];
 
   /* We call check_nofollow() before setlocale() because the numbers 
@@ -212,192 +208,14 @@ main (int argc, char **argv)
 #endif /* DEBUG */
 
   /* Check for -P, -H or -L options. */
-  for (i=1; (end_of_leading_options = i) < argc; ++i)
-    {
-      if (0 == strcmp("-H", argv[i]))
-	{
-	  /* Meaning: dereference symbolic links on command line, but nowhere else. */
-	  set_follow_state(SYMLINK_DEREF_ARGSONLY);
-	}
-      else if (0 == strcmp("-L", argv[i]))
-	{
-	  /* Meaning: dereference all symbolic links. */
-	  set_follow_state(SYMLINK_ALWAYS_DEREF);
-	}
-      else if (0 == strcmp("-P", argv[i]))
-	{
-	  /* Meaning: never dereference symbolic links (default). */
-	  set_follow_state(SYMLINK_NEVER_DEREF);
-	}
-      else if (0 == strcmp("--", argv[i]))
-	{
-	  /* -- signifies the end of options. */
-	  end_of_leading_options = i+1;	/* Next time start with the next option */
-	  break;
-	}
-      else
-	{
-	  /* Hmm, must be one of 
-	   * (a) A path name
-	   * (b) A predicate
-	   */
-	  end_of_leading_options = i; /* Next time start with this option */
-	  break;
-	}
-    }
+  end_of_leading_options = process_leading_options(argc, argv);
 
   /* We are now processing the part of the "find" command line 
    * after the -H/-L options (if any).
    */
+  eval_tree = build_expression_tree(argc, argv, end_of_leading_options);
 
-  /* fprintf(stderr, "rest: optind=%ld\n", (long)optind); */
   
-  /* Find where in ARGV the predicates begin. */
-  for (i = end_of_leading_options; i < argc && !looks_like_expression(argv[i], true); i++)
-    {
-      /* fprintf(stderr, "Looks like %s is not a predicate\n", argv[i]); */
-      /* Do nothing. */ ;
-    }
-  
-  /* Enclose the expression in `( ... )' so a default -print will
-     apply to the whole expression. */
-/* XXX: beginning of bit we need factor out of both find.c and ftsfind.c */
-  entry_open  = find_parser("(");
-  entry_close = find_parser(")");
-  entry_print = find_parser("print");
-  assert(entry_open  != NULL);
-  assert(entry_close != NULL);
-  assert(entry_print != NULL);
-  
-  parse_open (entry_open, argv, &argc);
-  predicates->artificial = true;
-  parse_begin_user_args(argv, argc, last_pred, predicates);
-  pred_sanity_check(last_pred);
-  
-  /* Build the input order list. */
-  while (i < argc)
-    {
-      if (!looks_like_expression(argv[i], false))
-	{
-	  error (0, 0, _("paths must precede expression: %s"), argv[i]);
-	  usage(NULL);
-	}
-
-      predicate_name = argv[i];
-      parse_entry = find_parser (predicate_name);
-      if (parse_entry == NULL)
-	{
-	  /* Command line option not recognized */
-	  error (1, 0, _("invalid predicate `%s'"), predicate_name);
-	}
-      
-      i++;
-      if (!(*(parse_entry->parser_func)) (parse_entry, argv, &i))
-	{
-	  if (argv[i] == NULL)
-	    /* Command line option requires an argument */
-	    error (1, 0, _("missing argument to `%s'"), predicate_name);
-	  else
-	    error (1, 0, _("invalid argument `%s' to `%s'"),
-		   argv[i], predicate_name);
-	}
-      else
-	{
-	  last_pred->p_name = predicate_name;
-	}
-
-      pred_sanity_check(last_pred);
-      pred_sanity_check(predicates); /* XXX: expensive */
-    }
-  parse_end_user_args(argv, argc, last_pred, predicates);
-  
-  if (predicates->pred_next == NULL)
-    {
-      /* No predicates that do something other than set a global variable
-	 were given; remove the unneeded initial `(' and add `-print'. */
-      cur_pred = predicates;
-      predicates = last_pred = predicates->pred_next;
-      free ((char *) cur_pred);
-      parse_print (entry_print, argv, &argc);
-      last_pred->artificial = true;
-      pred_sanity_check(last_pred); 
-      pred_sanity_check(predicates); /* XXX: expensive */
-    }
-  else if (!default_prints (predicates->pred_next))
-    {
-      /* One or more predicates that produce output were given;
-	 remove the unneeded initial `('. */
-      cur_pred = predicates;
-      predicates = predicates->pred_next;
-      pred_sanity_check(predicates); /* XXX: expensive */
-      free ((char *) cur_pred);
-    }
-  else
-    {
-      /* `( user-supplied-expression ) -print'. */
-      parse_close (entry_close, argv, &argc);
-      last_pred->artificial = true;
-      pred_sanity_check(last_pred);
-      parse_print (entry_print, argv, &argc);
-      last_pred->artificial = true;
-      pred_sanity_check(last_pred);
-      pred_sanity_check(predicates); /* XXX: expensive */
-    }
-
-#ifdef	DEBUG
-  fprintf (stderr, "Predicate List:\n");
-  print_list (stderr, predicates);
-#endif /* DEBUG */
-
-  /* do a sanity check */
-  pred_sanity_check(predicates);
-  
-  /* Done parsing the predicates.  Build the evaluation tree. */
-  cur_pred = predicates;
-  eval_tree = get_expr (&cur_pred, NO_PREC, NULL);
-
-  /* Check if we have any left-over predicates (this fixes
-   * Debian bug #185202).
-   */
-  if (cur_pred != NULL)
-    {
-      /* cur_pred->p_name is often NULL here */
-      if (cur_pred->pred_func == pred_close)
-	{
-	  /* e.g. "find \( -true \) \)" */
-	  error (1, 0, _("you have too many ')'"), cur_pred->p_name);
-	}
-      else
-	{
-	  if (cur_pred->p_name)
-	    error (1, 0, _("unexpected extra predicate '%s'"), cur_pred->p_name);
-	  else
-	    error (1, 0, _("unexpected extra predicate"));
-	}
-    }
-  
-#ifdef	DEBUG
-  fprintf (stderr, "Eval Tree:\n");
-  print_tree (stderr, eval_tree, 0);
-#endif /* DEBUG */
-
-  /* Rearrange the eval tree in optimal-predicate order. */
-  opt_expr (&eval_tree);
-
-  /* Determine the point, if any, at which to stat the file. */
-  mark_stat (eval_tree);
-  /* Determine the point, if any, at which to determine file type. */
-  mark_type (eval_tree);
-
-#ifdef DEBUG
-  fprintf (stderr, "Optimized Eval Tree:\n");
-  print_tree (stderr, eval_tree, 0);
-  fprintf (stderr, "Optimized command line:\n");
-  print_optlist(stderr, eval_tree);
-  fprintf(stderr, "\n");
-#endif /* DEBUG */
-/* XXX: end of bit we need factor out of both find.c and ftsfind.c */
-
   /* safely_chdir() needs to check that it has ended up in the right place. 
    * To avoid bailing out when something gets automounted, it checks if 
    * the target directory appears to have had a directory mounted on it as
@@ -1082,7 +900,7 @@ safely_chdir(const char *dest,
    * processed, do them now because they must be done in the same
    * directory.
    */
-  complete_pending_execdirs(eval_tree);
+  complete_pending_execdirs(get_eval_tree());
 
 #if defined(O_NOFOLLOW)
   if (options.open_nofollow_available)
@@ -1220,7 +1038,7 @@ static void do_process_top_dir(char *pathname,
 			       struct stat *pstat)
 {
   process_path (pathname, base, false, ".", mode);
-  complete_pending_execdirs(eval_tree);
+  complete_pending_execdirs(get_eval_tree());
 }
 
 static void do_process_predicate(char *pathname,
@@ -1229,7 +1047,7 @@ static void do_process_predicate(char *pathname,
 				 struct stat *pstat)
 {
   state.rel_pathname = base;
-  apply_predicate (pathname, pstat, eval_tree);
+  apply_predicate (pathname, pstat, get_eval_tree());
 }
 
 
@@ -1333,7 +1151,9 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   struct stat stat_buf;
   static dev_t root_dev;	/* Device ID of current argument pathname. */
   int i;
+  const struct predicate *eval_tree;
 
+  eval_tree = get_eval_tree();
   /* Assume it is a non-directory initially. */
   stat_buf.st_mode = 0;
   state.rel_pathname = name;
@@ -1491,7 +1311,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
        * yet been processed, do them now because they must be done in
        * the same directory.
        */
-      complete_pending_execdirs(eval_tree);
+      complete_pending_execdirs(get_eval_tree());
       
       if (strcmp (name, "."))
 	{
@@ -1618,8 +1438,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
        * yet been processed, do them now because they must be done in
        * the same directory.
        */
-      complete_pending_execdirs(eval_tree); 
-
+      complete_pending_execdirs(get_eval_tree()); 
 
       if (strcmp (name, "."))
 	{

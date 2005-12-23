@@ -1,5 +1,5 @@
 /* defs.h -- data types and declarations.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -513,23 +513,21 @@ void print_optlist PARAMS((FILE *fp, struct predicate *node));
 #endif /* DEBUG */
 
 /* tree.c */
-struct predicate *
-get_expr PARAMS((struct predicate **input,
-		 short int prev_prec,
-		 const struct predicate *previous_predicate));
-boolean opt_expr PARAMS((struct predicate **eval_treep));
-boolean mark_stat PARAMS((struct predicate *tree));
-boolean mark_type PARAMS((struct predicate *tree));
+struct predicate * build_expression_tree PARAMS((int argc, char *argv[], int end_of_leading_options));
+struct predicate * get_eval_tree PARAMS((void));
+struct predicate *get_new_pred PARAMS((const struct parser_table *entry));
 
 /* util.c */
-struct predicate *get_new_pred PARAMS((const struct parser_table *entry));
 struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry));
 struct predicate *insert_primary PARAMS((const struct parser_table *entry));
 struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr));
 void usage PARAMS((char *msg));
 extern boolean check_nofollow(void);
-extern void complete_pending_execs(struct predicate *p);
-extern void complete_pending_execdirs(struct predicate *p);
+void complete_pending_execs(struct predicate *p);
+void complete_pending_execdirs(struct predicate *p);
+int process_leading_options PARAMS((int argc, char *argv[]));
+
+
 /* find.c. */
 int get_info PARAMS((const char *pathname, const char *name, struct stat *p, struct predicate *pred_ptr));
 int following_links PARAMS((void));
@@ -632,9 +630,7 @@ struct state
 extern struct state state;
 extern char const *starting_dir;
 extern int starting_desc;
-extern struct predicate *eval_tree;
 extern char *program_name;
-extern struct predicate *predicates;
 extern struct predicate *last_pred;
 
 

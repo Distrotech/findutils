@@ -17,13 +17,14 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.*/
 
-/* GNU find was written by Eric Decker <cire@cisco.com>,
+/* This file was written by James Youngman, based on find.c.
+   
+   GNU find was written by Eric Decker <cire@cisco.com>,
    with enhancements by David MacKenzie <djm@gnu.org>,
    Jay Plett <jay@silence.princeton.nj.us>,
    and Tim Wood <axolotl!tim@toad.com>.
    The idea for -print0 and xargs -0 came from
    Dan Bernstein <brnstnd@kramden.acf.nyu.edu>.  
-   Improvements have been made by James Youngman <jay@gnu.org>.
 */
 
 
@@ -122,11 +123,14 @@ get_fts_info_name(int info)
 static void
 visit(FTS *p, FTSENT *ent, struct stat *pstat)
 {
+  const struct predicate *eval_tree;
+  
   state.curdepth = ent->fts_level;
   state.have_stat = (ent->fts_info != FTS_NS) && (ent->fts_info != FTS_NSOK);
   state.rel_pathname = ent->fts_accpath;
 
   /* Apply the predicates to this path. */
+  eval_tree = get_eval_tree();
   (*(eval_tree)->pred_func)(ent->fts_path, pstat, eval_tree);
 
   /* Deal with any side effects of applying the predicates. */
@@ -222,7 +226,7 @@ consider_visiting(FTS *p, FTSENT *ent)
 {
   struct stat statbuf;
   mode_t mode;
-
+  
 #ifdef DEBUG
   fprintf(stderr,
 	  "consider_visiting: end->fts_info=%s, ent->fts_path=%s\n",
@@ -324,7 +328,7 @@ consider_visiting(FTS *p, FTSENT *ent)
 	{
 	  /* we're leaving a directory. */
 	  state.stop_at_current_level = false;
-	  complete_pending_execdirs(eval_tree);
+	  complete_pending_execdirs(get_eval_tree());
 	}
     }
 }
@@ -411,13 +415,10 @@ int
 main (int argc, char **argv)
 {
   int i;
-  const struct parser_table *parse_entry; /* Pointer to the parsing table entry for this expression. */
-  struct predicate *cur_pred;
-  char *predicate_name;		/* Name of predicate being parsed. */
   int end_of_leading_options = 0; /* First arg after any -H/-L etc. */
-  program_name = argv[0];
-  const struct parser_table *entry_close, *entry_print, *entry_open;
+  struct predicate *eval_tree;
 
+  program_name = argv[0];
 
   /* We call check_nofollow() before setlocale() because the numbers 
    * for which we check (in the results of uname) definitiely have "."
@@ -454,7 +455,6 @@ main (int argc, char **argv)
     }
   
   
-  predicates = NULL;
   last_pred = NULL;
   options.do_dir_first = true;
   options.maxdepth = options.mindepth = -1;
@@ -495,190 +495,12 @@ main (int argc, char **argv)
 #endif /* DEBUG */
 
   /* Check for -P, -H or -L options. */
-  for (i=1; (end_of_leading_options = i) < argc; ++i)
-    {
-      if (0 == strcmp("-H", argv[i]))
-	{
-	  /* Meaning: dereference symbolic links on command line, but nowhere else. */
-	  set_follow_state(SYMLINK_DEREF_ARGSONLY);
-	}
-      else if (0 == strcmp("-L", argv[i]))
-	{
-	  /* Meaning: dereference all symbolic links. */
-	  set_follow_state(SYMLINK_ALWAYS_DEREF);
-	}
-      else if (0 == strcmp("-P", argv[i]))
-	{
-	  /* Meaning: never dereference symbolic links (default). */
-	  set_follow_state(SYMLINK_NEVER_DEREF);
-	}
-      else if (0 == strcmp("--", argv[i]))
-	{
-	  /* -- signifies the end of options. */
-	  end_of_leading_options = i+1;	/* Next time start with the next option */
-	  break;
-	}
-      else
-	{
-	  /* Hmm, must be one of 
-	   * (a) A path name
-	   * (b) A predicate
-	   */
-	  end_of_leading_options = i; /* Next time start with this option */
-	  break;
-	}
-    }
-
+  end_of_leading_options = process_leading_options(argc, argv);
+  
   /* We are now processing the part of the "find" command line 
    * after the -H/-L options (if any).
    */
-
-  /* fprintf(stderr, "rest: optind=%ld\n", (long)optind); */
-  
-  /* Find where in ARGV the predicates begin. */
-  for (i = end_of_leading_options; i < argc && !looks_like_expression(argv[i], true); i++)
-    {
-      /* fprintf(stderr, "Looks like %s is not a predicate\n", argv[i]); */
-      /* Do nothing. */ ;
-    }
-  
-/* XXX: beginning of bit we need factor out of both find.c and ftsfind.c */
-  /* Enclose the expression in `( ... )' so a default -print will
-     apply to the whole expression. */
-  entry_open  = find_parser("(");
-  entry_close = find_parser(")");
-  entry_print = find_parser("print");
-  assert(entry_open  != NULL);
-  assert(entry_close != NULL);
-  assert(entry_print != NULL);
-  
-  parse_open (entry_open, argv, &argc);
-  predicates->artificial = true;
-  parse_begin_user_args(argv, argc, last_pred, predicates);
-  pred_sanity_check(last_pred);
-  
-  /* Build the input order list. */
-  while (i < argc)
-    {
-      if (!looks_like_expression(argv[i], false))
-	{
-	  error (0, 0, _("paths must precede expression: %s"), argv[i]);
-	  usage(NULL);
-	}
-
-      predicate_name = argv[i];
-      parse_entry = find_parser (predicate_name);
-      if (parse_entry == NULL)
-	{
-	  /* Command line option not recognized */
-	  error (1, 0, _("invalid predicate `%s'"), predicate_name);
-	}
-      
-      i++;
-      if (!(*(parse_entry->parser_func)) (parse_entry, argv, &i))
-	{
-	  if (argv[i] == NULL)
-	    /* Command line option requires an argument */
-	    error (1, 0, _("missing argument to `%s'"), predicate_name);
-	  else
-	    error (1, 0, _("invalid argument `%s' to `%s'"),
-		   argv[i], predicate_name);
-	}
-      else
-	{
-	  last_pred->p_name = predicate_name;
-	}
-      pred_sanity_check(last_pred);
-      pred_sanity_check(predicates); /* XXX: expensive */
-    }
-  parse_end_user_args(argv, argc, last_pred, predicates);
-  if (predicates->pred_next == NULL)
-    {
-      /* No predicates that do something other than set a global variable
-	 were given; remove the unneeded initial `(' and add `-print'. */
-      cur_pred = predicates;
-      predicates = last_pred = predicates->pred_next;
-      free ((char *) cur_pred);
-      parse_print (entry_print, argv, &argc);
-      pred_sanity_check(last_pred); 
-      pred_sanity_check(predicates); /* XXX: expensive */
-    }
-  else if (!default_prints (predicates->pred_next))
-    {
-      /* One or more predicates that produce output were given;
-	 remove the unneeded initial `('. */
-      cur_pred = predicates;
-      predicates = predicates->pred_next;
-      pred_sanity_check(predicates); /* XXX: expensive */
-      free ((char *) cur_pred);
-    }
-  else
-    {
-      /* `( user-supplied-expression ) -print'. */
-      parse_close (entry_close, argv, &argc);
-      last_pred->artificial = true;
-      pred_sanity_check(last_pred);
-      parse_print (entry_print, argv, &argc);
-      last_pred->artificial = true;
-      pred_sanity_check(last_pred);
-      pred_sanity_check(predicates); /* XXX: expensive */
-    }
-
-#ifdef	DEBUG
-  fprintf (stderr, "Predicate List:\n");
-  print_list (stderr, predicates);
-#endif /* DEBUG */
-
-  /* do a sanity check */
-  pred_sanity_check(predicates);
-  
-  /* Done parsing the predicates.  Build the evaluation tree. */
-  cur_pred = predicates;
-  eval_tree = get_expr (&cur_pred, NO_PREC, NULL);
-
-  /* Check if we have any left-over predicates (this fixes
-   * Debian bug #185202).
-   */
-  if (cur_pred != NULL)
-    {
-      /* cur_pred->p_name is often NULL here */
-      if (cur_pred->pred_func == pred_close)
-	{
-	  /* e.g. "find \( -true \) \)" */
-	  error (1, 0, _("you have too many ')'"), cur_pred->p_name);
-	}
-      else
-	{
-	  if (cur_pred->p_name)
-	    error (1, 0, _("unexpected extra predicate '%s'"), cur_pred->p_name);
-	  else
-	    error (1, 0, _("unexpected extra predicate"));
-	}
-    }
-  
-#ifdef	DEBUG
-  fprintf (stderr, "Eval Tree:\n");
-  print_tree (stderr, eval_tree, 0);
-#endif /* DEBUG */
-
-  /* Rearrange the eval tree in optimal-predicate order. */
-  opt_expr (&eval_tree);
-
-  /* Determine the point, if any, at which to stat the file. */
-  mark_stat (eval_tree);
-  /* Determine the point, if any, at which to determine file type. */
-  mark_type (eval_tree);
-
-#ifdef DEBUG
-  fprintf (stderr, "Optimized Eval Tree:\n");
-  print_tree (stderr, eval_tree, 0);
-  fprintf (stderr, "Optimized command line:\n");
-  print_optlist(stderr, eval_tree);
-  fprintf(stderr, "\n");
-#endif /* DEBUG */
-
-
-  /* XXX: end of bit we need factor out of both find.c and ftsfind.c */
+  eval_tree = build_expression_tree(argc, argv, end_of_leading_options);
 
   /* safely_chdir() needs to check that it has ended up in the right place. 
    * To avoid bailing out when something gets automounted, it checks if 

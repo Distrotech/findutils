@@ -1,5 +1,5 @@
 /* util.c -- functions for initializing new tree elements, and other things.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -47,55 +47,6 @@
 #include <assert.h>
 
 
-/* Return a pointer to a new predicate structure, which has been
-   linked in as the last one in the predicates list.
-
-   Set `predicates' to point to the start of the predicates list.
-   Set `last_pred' to point to the new last predicate in the list.
-   
-   Set all cells in the new structure to the default values. */
-
-struct predicate *
-get_new_pred (const struct parser_table *entry)
-{
-  register struct predicate *new_pred;
-  (void) entry;
-
-  /* Options should not be turned into predicates. */
-  assert(entry->type != ARG_OPTION);
-  assert(entry->type != ARG_POSITIONAL_OPTION);
-  
-  if (predicates == NULL)
-    {
-      predicates = (struct predicate *)
-	xmalloc (sizeof (struct predicate));
-      last_pred = predicates;
-    }
-  else
-    {
-      new_pred = (struct predicate *) xmalloc (sizeof (struct predicate));
-      last_pred->pred_next = new_pred;
-      last_pred = new_pred;
-    }
-  last_pred->parser_entry = entry;
-  last_pred->pred_func = NULL;
-#ifdef	DEBUG
-  last_pred->p_name = NULL;
-#endif	/* DEBUG */
-  last_pred->p_type = NO_TYPE;
-  last_pred->p_prec = NO_PREC;
-  last_pred->side_effects = false;
-  last_pred->no_default_print = false;
-  last_pred->need_stat = true;
-  last_pred->need_type = true;
-  last_pred->args.str = NULL;
-  last_pred->pred_next = NULL;
-  last_pred->pred_left = NULL;
-  last_pred->pred_right = NULL;
-  last_pred->literal_control_chars = options.literal_control_chars;
-  last_pred->artificial = false;
-  return last_pred;
-}
 
 /* Return a pointer to a new predicate, with operator check.
    Like get_new_pred, but it checks to make sure that the previous
@@ -378,6 +329,7 @@ complete_pending_execs(struct predicate *p)
 void 
 cleanup(void)
 {
+  const struct predicate *eval_tree = get_eval_tree();
   if (eval_tree)
     {
       complete_pending_execs(eval_tree);
@@ -616,4 +568,45 @@ looks_like_expression(const char *arg, boolean leading)
     default:
       return false;
     }
+}
+
+int
+process_leading_options(int argc, char *argv[])
+{
+  int i, end_of_leading_options;
+  
+  for (i=1; (end_of_leading_options = i) < argc; ++i)
+    {
+      if (0 == strcmp("-H", argv[i]))
+	{
+	  /* Meaning: dereference symbolic links on command line, but nowhere else. */
+	  set_follow_state(SYMLINK_DEREF_ARGSONLY);
+	}
+      else if (0 == strcmp("-L", argv[i]))
+	{
+	  /* Meaning: dereference all symbolic links. */
+	  set_follow_state(SYMLINK_ALWAYS_DEREF);
+	}
+      else if (0 == strcmp("-P", argv[i]))
+	{
+	  /* Meaning: never dereference symbolic links (default). */
+	  set_follow_state(SYMLINK_NEVER_DEREF);
+	}
+      else if (0 == strcmp("--", argv[i]))
+	{
+	  /* -- signifies the end of options. */
+	  end_of_leading_options = i+1;	/* Next time start with the next option */
+	  break;
+	}
+      else
+	{
+	  /* Hmm, must be one of 
+	   * (a) A path name
+	   * (b) A predicate
+	   */
+	  end_of_leading_options = i; /* Next time start with this option */
+	  break;
+	}
+    }
+  return end_of_leading_options;
 }
