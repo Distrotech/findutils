@@ -1151,7 +1151,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   struct stat stat_buf;
   static dev_t root_dev;	/* Device ID of current argument pathname. */
   int i;
-  const struct predicate *eval_tree;
+  struct predicate *eval_tree;
 
   eval_tree = get_eval_tree();
   /* Assume it is a non-directory initially. */

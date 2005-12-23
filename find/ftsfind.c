@@ -123,7 +123,7 @@ get_fts_info_name(int info)
 static void
 visit(FTS *p, FTSENT *ent, struct stat *pstat)
 {
-  const struct predicate *eval_tree;
+  struct predicate *eval_tree;
   
   state.curdepth = ent->fts_level;
   state.have_stat = (ent->fts_info != FTS_NS) && (ent->fts_info != FTS_NSOK);

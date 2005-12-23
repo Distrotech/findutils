@@ -329,7 +329,7 @@ complete_pending_execs(struct predicate *p)
 void 
 cleanup(void)
 {
-  const struct predicate *eval_tree = get_eval_tree();
+  struct predicate *eval_tree = get_eval_tree();
   if (eval_tree)
     {
       complete_pending_execs(eval_tree);
