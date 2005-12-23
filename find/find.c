@@ -827,8 +827,11 @@ safely_chdir_nofollow(const char *dest,
 		      boolean *did_stat)
 {
   int extraflags, fd;
-  extraflags = 0;
 
+  (void) direction;
+  (void) statbuf_dest;
+  
+  extraflags = 0;
   *did_stat = false;
   
   switch (symlink_follow_option)
@@ -1037,6 +1040,8 @@ static void do_process_top_dir(char *pathname,
 			       int mode,
 			       struct stat *pstat)
 {
+  (void) pstat;
+  
   process_path (pathname, base, false, ".", mode);
   complete_pending_execdirs(get_eval_tree());
 }
@@ -1046,6 +1051,8 @@ static void do_process_predicate(char *pathname,
 				 int mode,
 				 struct stat *pstat)
 {
+  (void) mode;
+  
   state.rel_pathname = base;
   apply_predicate (pathname, pstat, get_eval_tree());
 }
@@ -1264,7 +1271,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 {
   int subdirs_left;		/* Number of unexamined subdirs in PATHNAME. */
   boolean subdirs_unreliable;	/* if true, cannot use dir link count as subdir limif (if false, it may STILL be unreliable) */
-  int idx;			/* Which entry are we on? */
+  unsigned int idx;		/* Which entry are we on? */
   struct stat stat_buf;
 
   struct savedir_dirinfo *dirinfo;

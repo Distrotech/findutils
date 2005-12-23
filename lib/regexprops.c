@@ -36,6 +36,8 @@ char *program_name;
 
 static void output(const char *s, int escape)
 {
+  (void) escape;
+  
   fputs(s, stdout);
 }
 
@@ -67,26 +69,16 @@ static void enum_item(const char *s)
   literal(s);
   newline();
 }
-static void table_item(const char *s)
-{
-  directive("@item");
-  newline();
-  content(s);
-  newline();
-}
-
-static void code(const char *s)
-{
-  directive("@code{");
-  content(s);
-  directive("}");
-}
 
 static void begin_subsection(const char *name,
 			  const char *next,
 			  const char *prev,
 			  const char *up)
 {
+  (void) next;
+  (void) prev;
+  (void) up;
+  
   newline();
   
   directive("@node ");
@@ -99,13 +91,6 @@ static void begin_subsection(const char *name,
   content(name);
   output("}", 0);
   content(" regular expression syntax");
-  newline();
-}
-
-static void begintable_asis()
-{
-  newline();
-  directive("@table @asis");
   newline();
 }
 
@@ -144,7 +129,8 @@ static void newpara()
 }
 
 
-static int describe_regex_syntax(int options)
+static void
+describe_regex_syntax(int options)
 {
   newpara();
   content("The character @samp{.} matches any single character");
@@ -435,7 +421,8 @@ static int describe_regex_syntax(int options)
 
 
 
-static int menu()
+static void
+menu(void)
 {
   int i, options;
   const char *name;
@@ -456,7 +443,8 @@ static int menu()
 }
 
 
-static int describe_all(const char *up)
+static void
+describe_all(const char *up)
 {
   const char *name, *next, *previous;
   int options;

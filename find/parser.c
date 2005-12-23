@@ -135,7 +135,9 @@ static boolean parse_readable      PARAMS((const struct parser_table*, char *arg
 static boolean parse_regex         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_regextype     PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_samefile      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+#if 0
 static boolean parse_show_control_chars PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+#endif
 static boolean parse_size          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_true          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_type          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));

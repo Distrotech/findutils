@@ -229,14 +229,15 @@ locate_read_str(char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
 {
   char * p = NULL;
   size_t sz = 0;
-  int needed, nread;
+  int nread;
+  size_t needed;
 
   nread = getdelim(&p, &sz, delimiter, fp);
   if (nread >= 0)
     {
       assert(p != NULL);
       
-      needed = offs + nread + 1;
+      needed = offs + nread + 1u;
       if (needed > (*siz))
 	{
 	  char *pnew = realloc(*buf, needed);

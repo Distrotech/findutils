@@ -37,10 +37,10 @@ struct buildcmd_state
   char *argbuf;
   
   /* Number of chars being used in `cmd_argv'.  */
-  int cmd_argv_chars;
+  size_t cmd_argv_chars;
 
   /* Number of chars being used in `cmd_argv' for the initial args..  */
-  int cmd_initial_argv_chars;
+  size_t cmd_initial_argv_chars;
 
   /* User context information. */
   void *usercontext;
@@ -56,7 +56,7 @@ struct buildcmd_control
   int exit_if_size_exceeded; /* false */
   
   /* The maximum number of characters that can be used per command line.  */
-  long arg_max;
+  size_t arg_max;
 
   /* max_arg_count: the maximum number of arguments that can be used.
    *
@@ -113,7 +113,7 @@ extern void bc_init_state(const struct buildcmd_control *ctl,
 			  struct buildcmd_state *state,
 			  void *usercontext);
 extern void bc_init_controlinfo(struct buildcmd_control *ctl);
-extern long bc_get_arg_max(void);
+extern size_t bc_get_arg_max(void);
 extern void bc_clear_args(const struct buildcmd_control *ctl,
 			  struct buildcmd_state *state);
 

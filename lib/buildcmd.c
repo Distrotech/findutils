@@ -118,7 +118,7 @@ bc_do_insert (const struct buildcmd_control *ctl,
      real arg.  */
   static char *insertbuf;
   char *p;
-  int bytes_left = ctl->arg_max - 1;    /* Bytes left on the command line.  */
+  size_t bytes_left = ctl->arg_max - 1;    /* Bytes left on the command line.  */
   int need_prefix;
 
   /* XXX: on systems lacking an upper limit for exec args, ctl->arg_max
@@ -145,9 +145,10 @@ bc_do_insert (const struct buildcmd_control *ctl,
           len = arglen;
         }
       
-      bytes_left -= len;
-      if (bytes_left <= 0)
+      if (bytes_left <= len)
         break;
+      else
+	bytes_left -= len;
 
       strncpy (p, arg, len);
       p += len;
@@ -156,9 +157,11 @@ bc_do_insert (const struct buildcmd_control *ctl,
 
       if (s)
         {
-          bytes_left -= lblen;
-          if (bytes_left <= 0)
-            break;
+	  if (bytes_left <= lblen)
+	    break;
+	  else
+	    bytes_left -= lblen;
+
           strcpy (p, linebuf);
           arg += ctl->rplen;
           arglen -= ctl->rplen;
@@ -326,16 +329,21 @@ mbstrstr (const char *haystack, const char *needle)
 }
 
 
-long
+size_t
 bc_get_arg_max(void)
 {
   long val;
+
+  /* We may resort to using LONG_MAX, so check it fits. */
+  /* XXX: better to do a compile-time check */
+  assert( (~(size_t)0) >= LONG_MAX);
+
 #ifdef _SC_ARG_MAX  
   val = sysconf(_SC_ARG_MAX);
 #else
   val = -1;
 #endif
-  
+
   if (val > 0)
     return val;
 
@@ -372,13 +380,15 @@ static int cb_exec_noop(const struct buildcmd_control *ctl,
 void
 bc_init_controlinfo(struct buildcmd_control *ctl)
 {
-  long arg_max = bc_get_arg_max();
-  assert(arg_max > 0);
+  size_t arg_max = bc_get_arg_max();
   
   ctl->exit_if_size_exceeded = 0;
+
+  assert(arg_max > 2048u);	/* XXX: this is an external condition, should not check it with assert. */
   ctl->arg_max = arg_max - 2048; /* a la xargs */
+
   /* need to subtract 2 on the following line - for Linux/PPC */
-  ctl->max_arg_count = (arg_max / sizeof(void*)) - 2;
+  ctl->max_arg_count = (arg_max / sizeof(void*)) - 2u;
   assert(ctl->max_arg_count > 0);
   ctl->rplen = 0u;
   ctl->replace_pat = NULL;
@@ -402,7 +412,7 @@ bc_init_state(const struct buildcmd_control *ctl,
    * with no ARG_MAX, because ctl->arg_max may actually be LONG_MAX.
    * Also, adding one to that is a bad idea.
    */
-  state->argbuf = (char *) xmalloc (ctl->arg_max + 1);
+  state->argbuf = (char *) xmalloc (ctl->arg_max + 1u);
   
   state->cmd_argv_chars = state->cmd_initial_argv_chars = 0;
   state->todo = 0;

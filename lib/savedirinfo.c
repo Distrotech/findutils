@@ -263,7 +263,7 @@ new_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
   struct savedir_dirinfo *p = xsavedir(dir, SavedirSort);
   char *buf, *s;
   size_t bufbytes = 0;
-  int i;
+  unsigned int i;
   
   if (p)
     {

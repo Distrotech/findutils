@@ -221,6 +221,8 @@ filesystem_type_uncached (const struct stat *statp, const char *path)
   struct mount_entry *entries, *entry;
   char *type;
 
+  (void) path;
+  
 #ifdef AFS
   if (in_afs(path))
     {

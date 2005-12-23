@@ -120,7 +120,7 @@ get_regex_type(const char *s)
 
   
 const char *
-get_regex_type_name(int ix)
+get_regex_type_name(unsigned int ix)
 {
   if (ix < N_REGEX_MAP_ENTRIES)
     return regex_map[ix].name;
@@ -129,7 +129,7 @@ get_regex_type_name(int ix)
 }
 
 int
-get_regex_type_flags(int ix)
+get_regex_type_flags(unsigned int ix)
 {
   if (ix < N_REGEX_MAP_ENTRIES)
     return regex_map[ix].option_val;
@@ -138,7 +138,7 @@ get_regex_type_flags(int ix)
 }
 
 
-int get_regex_type_synonym(int ix)
+int get_regex_type_synonym(unsigned int ix)
 {
   unsigned i;
   int flags;

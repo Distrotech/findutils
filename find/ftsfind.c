@@ -414,7 +414,6 @@ process_all_startpoints(int argc, char *argv[])
 int
 main (int argc, char **argv)
 {
-  int i;
   int end_of_leading_options = 0; /* First arg after any -H/-L etc. */
   struct predicate *eval_tree;
 

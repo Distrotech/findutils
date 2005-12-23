@@ -1263,18 +1263,30 @@ pred_perm (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_executable (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) pathname;
+  (void) stat_buf;
+  (void) pred_ptr;
+  
   return 0 == access(state.rel_pathname, X_OK);
 }
 
 boolean
 pred_readable (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) pathname;
+  (void) stat_buf;
+  (void) pred_ptr;
+  
   return 0 == access(state.rel_pathname, R_OK);
 }
 
 boolean
 pred_writable (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  (void) pathname;
+  (void) stat_buf;
+  (void) pred_ptr;
+  
   return 0 == access(state.rel_pathname, W_OK);
 }
 
@@ -1943,6 +1955,7 @@ pred_sanity_check(const struct predicate *predicates)
 
 	case ARG_PUNCTUATION:
 	case ARG_TEST:
+	case ARG_NOOP:
 	  /* Punctuation and tests should have no side
 	   * effects and not inhibit default print.
 	   */

@@ -23,6 +23,6 @@
 int get_regex_type(const char *s);
 
 
-const char * get_regex_type_name(int ix);
-int get_regex_type_flags(int ix);
-int get_regex_type_synonym(int ix);
+const char * get_regex_type_name(unsigned int ix);
+int get_regex_type_flags(unsigned int ix);
+int get_regex_type_synonym(unsigned int ix);

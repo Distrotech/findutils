@@ -223,9 +223,9 @@ static int pids_alloc = 0;
 
 /* Exit status; nonzero if any child process exited with a
    status of 1-125.  */
-volatile static int child_error = 0;
+static volatile int child_error = 0;
 
-volatile static int original_exit_value;
+static volatile int original_exit_value;
 
 /* If true, print each command on stderr before executing it.  */
 static boolean print_command = false; /* Option -t */
@@ -271,12 +271,12 @@ static void add_proc PARAMS ((pid_t pid));
 static void wait_for_proc PARAMS ((boolean all));
 static void wait_for_proc_all PARAMS ((void));
 static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
-static long env_size PARAMS ((char **envp));
+static size_t env_size PARAMS ((char **envp));
 static void usage PARAMS ((FILE * stream));
 
 
 
-static long
+static size_t
 get_line_max(void)
 {
   long val;
@@ -371,8 +371,6 @@ get_char_oct_or_hex_escape(const char *s)
 static char 
 get_input_delimiter(const char *s)
 {
-  char result = '\0';
-  
   if (1 == strlen(s))
     {
       return s[0];
@@ -409,6 +407,8 @@ get_input_delimiter(const char *s)
 	  error(1, 0,
 		_("Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."),
 		s);
+	  /*NOTREACHED*/
+	  return 0;
 	}
     }
 }
@@ -422,10 +422,10 @@ main (int argc, char **argv)
   int show_limits = 0;			/* --show-limits */
   int always_run_command = 1;
   char *input_file = "-"; /* "-" is stdin */
-  long posix_arg_size_max;
-  long posix_arg_size_min;
-  long arg_size;
-  long size_of_environment = env_size(environ);
+  size_t posix_arg_size_max;
+  size_t posix_arg_size_min;
+  size_t arg_size;
+  size_t size_of_environment = env_size(environ);
   char *default_cmd = "/bin/echo";
   int (*read_args) PARAMS ((void)) = read_line;
   int env_too_big = 0;
@@ -458,12 +458,12 @@ main (int argc, char **argv)
   /* Start with a reasonable default size, though this can be
    * adjusted via the -s option.
    */
-  arg_size = (128 * 1024) + size_of_environment;
+  arg_size = (128u * 1024u) + size_of_environment;
 
   /* Take the size of the environment into account.  */
   if (size_of_environment > posix_arg_size_max)
     {
-      bc_ctl.arg_max = 0;
+      bc_ctl.arg_max = 0u;
       env_too_big = 1;
     }
   else
@@ -643,28 +643,30 @@ main (int argc, char **argv)
     {
       if (show_limits)
 	{
+	  /* XXX: this will silently go wrong if sizeof(size_t)>sizeof(unsigned long) */
 	  fprintf(stderr,
-		  _("Reducing arg_max (%ld) to arg_size (%ld)\n"),
-		  bc_ctl.arg_max, arg_size);
+		  _("Reducing arg_max (%lu) to arg_size (%lu)\n"),
+		  (unsigned long)bc_ctl.arg_max, (unsigned long)arg_size);
 	}
       bc_ctl.arg_max = arg_size;
     }
 
   if (show_limits)
     {
+      /* XXX: this will all silently go wrong if sizeof(size_t)>sizeof(unsigned long) */
       fprintf(stderr,
-	      _("Your environment variables take up %ld bytes\n"),
-	      size_of_environment);
+	      _("Your environment variables take up %lu bytes\n"),
+	      (unsigned long)size_of_environment);
       fprintf(stderr,
-	      _("POSIX lower and upper limits on argument length: %ld, %ld\n"),
-	      posix_arg_size_min,
-	      posix_arg_size_max);
+	      _("POSIX lower and upper limits on argument length: %lu, %lu\n"),
+	      (unsigned long)posix_arg_size_min,
+	      (unsigned long)posix_arg_size_max);
       fprintf(stderr,
 	      _("Maximum length of command we could actually use: %ld\n"),
-	      (posix_arg_size_max - size_of_environment));
+	      (unsigned long)(posix_arg_size_max - size_of_environment));
       fprintf(stderr,
-	      _("Size of command buffer we are actually using: %ld\n"),
-	      bc_ctl.arg_max);
+	      _("Size of command buffer we are actually using: %lu\n"),
+	      (unsigned long)bc_ctl.arg_max);
       
       if (isatty(STDIN_FILENO))
 	{
@@ -678,8 +680,8 @@ main (int argc, char **argv)
       
     }
   
-  linebuf = (char *) xmalloc (bc_ctl.arg_max + 1);
-  bc_state.argbuf = (char *) xmalloc (bc_ctl.arg_max + 1);
+  linebuf = (char *) xmalloc (bc_ctl.arg_max + 1u);
+  bc_state.argbuf = (char *) xmalloc (bc_ctl.arg_max + 1u);
 
   /* Make sure to listen for the kids.  */
   signal (SIGCHLD, SIG_DFL);
@@ -712,7 +714,7 @@ main (int argc, char **argv)
   else
     {
       int i;
-      size_t len;
+      int len;
       size_t *arglen = (size_t *) xmalloc (sizeof (size_t) * argc);
 
       for (i = optind; i < argc; i++)
@@ -766,7 +768,7 @@ read_line (void)
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
-  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
+  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1u;
 
   if (eof)
     return -1;
@@ -906,7 +908,7 @@ read_string (void)
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
-  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
+  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1u;
 
   if (eof)
     return -1;
@@ -1019,6 +1021,9 @@ xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
 {
   pid_t child;
 
+  (void) ctl;
+  (void) state;
+  
   bc_push_arg (&bc_ctl, &bc_state,
 	       (char *) NULL, 0,
 	       NULL, 0,
@@ -1223,10 +1228,10 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
 
 /* Return how much of ARG_MAX is used by the environment.  */
 
-static long
+static size_t
 env_size (char **envp)
 {
-  long len = 0;
+  size_t len = 0u;
 
   while (*envp)
     len += strlen (*envp++) + 1;
