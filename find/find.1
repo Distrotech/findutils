@@ -3,7 +3,7 @@
 find \- search for files in a directory hierarchy
 .SH SYNOPSIS
 .B find 
-[\-H] [\-L] [\-P] [path...] [expression]
+[\-H] [\-L] [\-P] [-D debugopts] [-Olevel] [path...] [expression]
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -119,6 +119,80 @@ effect at the point where it appears (that is, if \-L is not used but
 \-follow is, any symbolic links appearing after \-follow on the
 command line will be dereferenced, and those before it will not).
 
+.IP "\-D debugoptions"
+Print diagnostic information; this can be helpful to diagnose problems
+with why
+.B find 
+is not doing what you want.  The list of debug options should be comma
+separated.  Compatibility of the debug options is not guaranteed
+between releases of findutils.  For a complete list of valid debug
+options, see the output of
+.B find
+.BR \-\-help .
+Valid debug options include
+.RS
+.IP tree
+Show the expression tree in its original and optimised form.
+.IP stat
+Print messages as files are examined with the 
+.B stat 
+and 
+.B lstat 
+system calls.  The 
+.B find
+program tries to minimise such calls.
+.IP opt
+Prints diagnostic information relating to the optimisation of the
+expression tree; see the \-O option.
+.RE
+.IP \-Olevel
+Enables query optimisation.   The 
+.B find 
+program reorders tests to speed up execution while preserving the
+overall effect; that is, predicates with side effects are not
+reordered relative to each other.  The optimisations performed at each
+optimisation level are as follows.
+.RS
+.IP 0
+Equivalent to optimisation level 1.
+.IP 1
+This is the default optimisation level and corresponds to the
+traditional behaviour.  Expressions are reordered so that tests based
+only on the names of files (for example \-name 
+and \-regex) are performed first.
+.IP 2
+Any \-type 
+or \-xtype 
+tests are performed after any tests based only on the names of files,
+but before any tests that require information from the inode.  On many
+modern versions of Unix, file types are returned by
+.B readdir() 
+and so these predicates are faster to evaluate than predicates which
+need to stat the file first.
+.IP 3
+At this optimisation level, the full cost-based query optimiser is
+enabled.  The order of tests is modified so that cheap (i.e. fast)
+tests are performed first and more expensive ones are performed later,
+if necessary.  Within each cost band, predicates are evaluated earlier
+or later according to whether they are likely to succeed or not.  For \-o,
+predicates which are likely to succeed are evaluated earlier, and for \-a,
+predicates which are likely to fail are evaluated earlier.
+.RE
+.IP
+The cost-based optimiser has a fixed idea of how likely any given test
+is to succeed.  In some cases the probability takes account of the
+specific nature of the test (for example, \-type f
+is assumed to be more likely to succeed than \-type c).
+The cost-based optimiser is currently being evaluated.   If it does
+not actually improve the performance of 
+.BR find ,
+it will be removed again.  Conversely, optimisations that prove to be
+reliable, robust and effective may be enabled at lower optimisation
+levels over time.  However, the default behaviour (i.e. optimisation
+level 1) will not be changed in the 4.3.x release series.  The
+findutils test suite runs all the tests on 
+.B find
+at each optimisation level and ensures that the result is the same.
 .P
 .SH EXPRESSIONS
 The expression is made up of options (which affect overall operation

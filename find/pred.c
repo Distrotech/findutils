@@ -150,7 +150,7 @@
 #undef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-static boolean insert_lname PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case));
+static boolean match_lname PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case));
 
 static char *format_date PARAMS((time_t when, int kind));
 static char *ctime_format PARAMS((time_t when));
@@ -169,7 +169,7 @@ struct pred_assoc pred_table[] =
   {pred_anewer, "anewer  "},
   {pred_atime, "atime   "},
   {pred_close, ")       "},
-  {pred_amin, "cmin    "},
+  {pred_cmin, "cmin    "},
   {pred_cnewer, "cnewer  "},
   {pred_comma, ",       "},
   {pred_ctime, "ctime   "},
@@ -177,6 +177,7 @@ struct pred_assoc pred_table[] =
   {pred_empty, "empty   "},
   {pred_exec, "exec    "},
   {pred_execdir, "execdir "},
+  {pred_executable, "executable "},
   {pred_false, "false   "},
   {pred_fprint, "fprint  "},
   {pred_fprint0, "fprint0 "},
@@ -191,7 +192,7 @@ struct pred_assoc pred_table[] =
   {pred_links, "links   "},
   {pred_lname, "lname   "},
   {pred_ls, "ls      "},
-  {pred_amin, "mmin    "},
+  {pred_mmin, "mmin    "},
   {pred_mtime, "mtime   "},
   {pred_name, "name    "},
   {pred_negate, "not     "},
@@ -207,6 +208,8 @@ struct pred_assoc pred_table[] =
   {pred_print, "print   "},
   {pred_print0, "print0  "},
   {pred_prune, "prune   "},
+  {pred_quit, "quit    "},
+  {pred_readable, "readable    "},
   {pred_regex, "regex   "},
   {pred_samefile,"samefile "},
   {pred_size, "size    "},
@@ -215,44 +218,11 @@ struct pred_assoc pred_table[] =
   {pred_uid, "uid     "},
   {pred_used, "used    "},
   {pred_user, "user    "},
+  {pred_writable, "writable "},
   {pred_xtype, "xtype   "},
   {0, "none    "}
 };
-
-struct op_assoc
-{
-  short type;
-  char *type_name;
-};
-
-struct op_assoc type_table[] =
-{
-  {NO_TYPE, "no          "},
-  {PRIMARY_TYPE, "primary      "},
-  {UNI_OP, "uni_op      "},
-  {BI_OP, "bi_op       "},
-  {OPEN_PAREN, "open_paren  "},
-  {CLOSE_PAREN, "close_paren "},
-  {-1, "unknown     "}
-};
-
-struct prec_assoc
-{
-  short prec;
-  char *prec_name;
-};
-
-struct prec_assoc prec_table[] =
-{
-  {NO_PREC, "no      "},
-  {COMMA_PREC, "comma   "},
-  {OR_PREC, "or      "},
-  {AND_PREC, "and     "},
-  {NEGATE_PREC, "negate  "},
-  {MAX_PREC, "max     "},
-  {-1, "unknown "}
-};
-#endif	/* DEBUG */
+#endif
 
 /* Predicate processing routines.
  
@@ -958,7 +928,7 @@ pred_group (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_ilname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  return insert_lname (pathname, stat_buf, pred_ptr, true);
+  return match_lname (pathname, stat_buf, pred_ptr, true);
 }
 
 boolean
@@ -1036,11 +1006,11 @@ pred_links (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  return insert_lname (pathname, stat_buf, pred_ptr, false);
+  return match_lname (pathname, stat_buf, pred_ptr, false);
 }
 
 static boolean
-insert_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case)
+match_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case)
 {
   boolean ret = false;
 #ifdef S_ISLNK
@@ -1056,7 +1026,7 @@ insert_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr,
 	}
     }
 #endif /* S_ISLNK */
-  return (ret);
+  return ret;
 }
 
 boolean
@@ -1606,10 +1576,10 @@ launch (const struct buildcmd_control *ctl,
        */
       if (!execp->use_current_dir)
 	{
-	  /* Even if DEBUG_STAT is set, don't announce our change of 
-	   * directory, since we're not going to emit a subsequent 
-	   * announcement of a call to stat() anyway, as we're about 
-	   * to exec something. 
+	  /* Even if DebugSearch is set, don't announce our change of
+	   * directory, since we're not going to emit a subsequent
+	   * announcement of a call to stat() anyway, as we're about
+	   * to exec something.
 	   */
 	  if (starting_desc < 0
 	      ? chdir (starting_dir) != 0
@@ -1727,90 +1697,6 @@ ctime_format (time_t when)
     }
 }
 
-#ifdef	DEBUG
-/* Return a pointer to the string representation of 
-   the predicate function PRED_FUNC. */
-
-char *
-find_pred_name (PRED_FUNC func)
-{
-  int i;
-
-  for (i = 0; pred_table[i].pred_func != 0; i++)
-    if (pred_table[i].pred_func == func)
-      break;
-  return pred_table[i].pred_name;
-}
-
-static char *
-type_name (type)
-     short type;
-{
-  int i;
-
-  for (i = 0; type_table[i].type != (short) -1; i++)
-    if (type_table[i].type == type)
-      break;
-  return (type_table[i].type_name);
-}
-
-static char *
-prec_name (prec)
-     short prec;
-{
-  int i;
-
-  for (i = 0; prec_table[i].prec != (short) -1; i++)
-    if (prec_table[i].prec == prec)
-      break;
-  return (prec_table[i].prec_name);
-}
-
-/* Walk the expression tree NODE to stdout.
-   INDENT is the number of levels to indent the left margin. */
-
-void
-print_tree (FILE *fp, struct predicate *node, int indent)
-{
-  int i;
-
-  if (node == NULL)
-    return;
-  for (i = 0; i < indent; i++)
-    fprintf (fp, "    ");
-  fprintf (fp, "pred = %s type = %s prec = %s addr = %p\n",
-	  find_pred_name (node->pred_func),
-	  type_name (node->p_type), prec_name (node->p_prec), node);
-  if (node->need_stat || node->need_type)
-    {
-      int comma = 0;
-      
-      for (i = 0; i < indent; i++)
-	fprintf (fp, "    ");
-      
-      fprintf (fp, "Needs ");
-      if (node->need_stat)
-	{
-	  fprintf (fp, "stat");
-	  comma = 1;
-	}
-      if (node->need_type)
-	{
-	  fprintf (fp, "%stype", comma ? "," : "");
-	}
-      fprintf (fp, "\n");
-    }
-  
-  for (i = 0; i < indent; i++)
-    fprintf (fp, "    ");
-  fprintf (fp, "left:\n");
-  print_tree (fp, node->pred_left, indent + 1);
-  for (i = 0; i < indent; i++)
-    fprintf (fp, "    ");
-  fprintf (fp, "right:\n");
-  print_tree (fp, node->pred_right, indent + 1);
-}
-
 /* Copy STR into BUF and trim blanks from the end of BUF.
    Return BUF. */
 
@@ -1832,7 +1718,6 @@ blank_rtrim (str, buf)
 }
 
 /* Print out the predicate list starting at NODE. */
-
 void
 print_list (FILE *fp, struct predicate *node)
 {
@@ -1842,16 +1727,13 @@ print_list (FILE *fp, struct predicate *node)
   cur = node;
   while (cur != NULL)
     {
-      fprintf (fp, "%s ", blank_rtrim (find_pred_name (cur->pred_func), name));
+      fprintf (fp, "%s ", blank_rtrim (cur->p_name, name));
       cur = cur->pred_next;
     }
   fprintf (fp, "\n");
 }
-
 
 /* Print out the predicate list starting at NODE. */
-
-
 static void
 print_parenthesised(FILE *fp, struct predicate *node)
 {
@@ -1881,27 +1763,23 @@ print_parenthesised(FILE *fp, struct predicate *node)
 	}
     }
 }
-
+
 void
-print_optlist (FILE *fp, struct predicate *p)
+print_optlist (FILE *fp, const struct predicate *p)
 {
-  char name[256];
-
   if (p)
     {
       print_parenthesised(fp, p->pred_left);
       fprintf (fp,
-	       "%s%s%s ",
-	       p->need_stat ? "[stat called here] " : "",
-	       p->need_type ? "[type needed here] " : "",
-	       blank_rtrim (find_pred_name (p->pred_func), name));
+	       "%s%s",
+	       p->need_stat ? "[call stat] " : "",
+	       p->need_type ? "[need type] " : "");
+      print_predicate(fp, p);
+      fprintf(fp, " [%g] ", p->est_success_rate);
       print_parenthesised(fp, p->pred_right);
     }
 }
-
-#endif	/* DEBUG */
-
-
+
 void
 pred_sanity_check(const struct predicate *predicates)
 {

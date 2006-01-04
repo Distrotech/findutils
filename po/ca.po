@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2005-12-19 23:22-0800\n"
+"POT-Creation-Date: 2006-01-03 06:35+0000\n"
 "PO-Revision-Date: 2005-11-28 20:22+0100\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -131,16 +131,46 @@ msgstr "^[sS]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:120
-msgid "oops -- invalid default insertion of and!"
-msgstr "oops -- inserció per defecte d'«and» no vàlida!"
-
-#: find/util.c:210
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+#: find/util.c:132
+#, fuzzy, c-format
+msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgstr "Forma d'ús: %s [-H] [-L] [-P] [camí...] [expressió]\n"
 
-#: find/find.c:197
+#: find/util.c:137
+#, fuzzy, c-format
+msgid "] [path...] [expression]\n"
+msgstr "Forma d'ús: %s [camí...] [expressió]\n"
+
+#: find/util.c:573
+#, fuzzy, c-format
+msgid "Ignoring unrecognised debug flag %s"
+msgstr "avís: seqüència d'escapament «\\%c» no reconegut"
+
+#: find/util.c:580
+msgid "Empty argument to the -D option."
+msgstr ""
+
+#: find/util.c:589
+msgid "The -O option must be immediately followed by a decimal integer"
+msgstr ""
+
+#: find/util.c:598 find/util.c:608
+msgid "Please specify a decimal number immediately after -O"
+msgstr ""
+
+#: find/util.c:613 find/util.c:617
+#, c-format
+msgid "Invalid optimisation level %s"
+msgstr ""
+
+#: find/util.c:624
+#, c-format
+msgid ""
+"Optimisation level %lu is too high.  If you want to find files very quickly, "
+"consider using GNU locate."
+msgstr ""
+
+#: find/util.c:735
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -148,45 +178,21 @@ msgstr ""
 "La variable d'entorn FIND_BLOCK_SIZE no està suportada, l'única cosa que "
 "afecta a la mida dels blocs és la variable d'entorn POSIXLY_CORRECT"
 
-#: find/find.c:282
-#, fuzzy, c-format
-msgid "paths must precede expression: %s"
-msgstr "els camins han de precedir la expressió"
-
-#: find/find.c:292
-#, c-format
-msgid "invalid predicate `%s'"
-msgstr "el predicat «%s» no és vàlid"
-
-#: find/find.c:300
-#, c-format
-msgid "missing argument to `%s'"
-msgstr "manca un argument per a «%s»"
-
-#: find/find.c:302
-#, c-format
-msgid "invalid argument `%s' to `%s'"
-msgstr "l'argument «%s» no és vàlid per a «%s»"
-
-#: find/find.c:358
-msgid "unexpected extra predicate"
-msgstr "s'ha trobat un predicat extra no esperat"
-
-#: find/find.c:410 find/find.c:413
+#: find/find.c:188 find/find.c:191
 msgid "cannot get current directory"
 msgstr "no es pot obtenir el directori actual"
 
-#: find/find.c:591
+#: find/find.c:369
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "Avís: el sistema de fitxers %s ha estat desmuntat fa poc."
 
-#: find/find.c:601
+#: find/find.c:379
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "Avís: el sistema de fitxers %s ha estat muntat fa poc."
 
-#: find/find.c:696
+#: find/find.c:474
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -196,7 +202,7 @@ msgstr ""
 "ld, el número del nou dispositiu és %ld, el tipus de sistema de fitxers és %"
 "s) [ref %ld]"
 
-#: find/find.c:733
+#: find/find.c:511
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -206,7 +212,7 @@ msgstr ""
 "el número del node-i nou és %ld, el tipus de sistema de fitxers és %s) [ref %"
 "ld]"
 
-#: find/find.c:1270
+#: find/find.c:1055
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -215,7 +221,7 @@ msgstr ""
 "L'enllaç simbòlic «%s» és part d'un bucle a la jerarquia del directori. Ja "
 "hem visitat el directori al qual apunta."
 
-#: find/find.c:1285
+#: find/find.c:1070
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -224,20 +230,20 @@ msgstr ""
 "S'ha detectat un bucle al sistema de fitxers; «%s» té el mateix número de "
 "dispositiu i node d'idenficació que un directori que és %d %s."
 
-#: find/find.c:1289
+#: find/find.c:1074
 msgid "level higher in the filesystem hierarchy"
 msgstr "nivell més alt a la jerarquia del sistema de fitxers"
 
-#: find/find.c:1290
+#: find/find.c:1075
 msgid "levels higher in the filesystem hierarchy"
 msgstr "nivells més alt a la jerarquia del sistema de fitxers"
 
-#: find/find.c:1522
+#: find/find.c:1308
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "avís: no es seguirà l'enllaç simbòlic %s"
 
-#: find/find.c:1566
+#: find/find.c:1352
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -250,11 +256,11 @@ msgstr ""
 "automàticament l'opció -noleaf. Els resultats anteriors poden no haver "
 "inclós directoris que s'haurien d'haver cercat."
 
-#: find/fstype.c:251
+#: find/fstype.c:253
 msgid "unknown"
 msgstr "desconegut"
 
-#: find/parser.c:435
+#: find/parser.c:430
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -267,7 +273,7 @@ msgstr ""
 "abans d'ella com també aquelles especificades després d'ella). Si us plau, "
 "especifiqueu les opcions abans d'altres arguments.\n"
 
-#: find/parser.c:674
+#: find/parser.c:687
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -275,12 +281,7 @@ msgstr ""
 "avís: l'opció -d està desaconsellada; si us plau, utilitzeu -depth en el seu "
 "lloc, ja que aquesta és una funcionalitat que compleix amb POSIX."
 
-#: find/parser.c:844
-#, c-format
-msgid "Usage: %s [path...] [expression]\n"
-msgstr "Forma d'ús: %s [camí...] [expressió]\n"
-
-#: find/parser.c:846
+#: find/parser.c:890
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -291,7 +292,7 @@ msgstr ""
 "print\n"
 "l'expressió pot consistir d'operadors, opcions, avaluacions i accions:\n"
 
-#: find/parser.c:849
+#: find/parser.c:893
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -302,7 +303,7 @@ msgstr ""
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
-#: find/parser.c:853
+#: find/parser.c:897
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -316,7 +317,7 @@ msgstr ""
 "      -depth -help -maxdepth NIVELLS -mindepth NIVELLS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:858
+#: find/parser.c:902
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -330,7 +331,7 @@ msgstr ""
 "      -ilname PATRÓ -iname PATRÓ -inum N -iwholename PATRÓ -iregex PATRÓ\n"
 "      -links N -lname PATRÓ -mmin N -mtime N -name PATRÓ -newer FITXER"
 
-#: find/parser.c:863
+#: find/parser.c:907
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -342,7 +343,7 @@ msgstr ""
 "      -wholename PATRÓ -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NOM -xtype [bcdpfls]\n"
 
-#: find/parser.c:868
+#: find/parser.c:912
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -354,7 +355,7 @@ msgstr ""
 "      -exec ORDRE ; -exec ORDRE {} + -ok ORDRE ;\n"
 "      -execdir ORDRE ; -execdir ORDRE {} + -okdir ORDRE ;\n"
 
-#: find/parser.c:874
+#: find/parser.c:918
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -365,12 +366,12 @@ msgstr ""
 "pàgina d'informes d'error de findutils en http://savannah.gnu.org/ o, si no\n"
 "teniu accés a la web, enviant correu a <bug-findutils@gnu.org>."
 
-#: find/parser.c:905
+#: find/parser.c:966
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 "la comprovació de sanitat de la funció fnmatch() de la biblioteca ha fallat."
 
-#: find/parser.c:920
+#: find/parser.c:981
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -385,19 +386,19 @@ msgstr ""
 "«-samefile». Alternativament, si esteu utilitzant GNU grep, podeu utilitzar "
 "«find ... -print0 | grep -FzZ %s»."
 
-#: find/parser.c:962
+#: find/parser.c:1027
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "avís: el predicat -ipath està desaconsellat; utilitzeu -iwholename en el seu "
 "lloc."
 
-#: find/parser.c:1402
+#: find/parser.c:1473
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "el mode «%s» no és vàlid"
 
-#: find/parser.c:1436
+#: find/parser.c:1507
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s which is equivalent to 000. "
@@ -406,42 +407,42 @@ msgid ""
 "to match all files."
 msgstr ""
 
-#: find/parser.c:1589
+#: find/parser.c:1663
 msgid "invalid null argument to -size"
 msgstr "l'argument nul no és vàlid per a -size"
 
-#: find/parser.c:1635
+#: find/parser.c:1709
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "el tipus de -size «%c» no vàlid"
 
-#: find/parser.c:1673
+#: find/parser.c:1758
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1826
+#: find/parser.c:1902
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versió %s\n"
 
-#: find/parser.c:1827
+#: find/parser.c:1903
 #, c-format
 msgid "Features enabled: "
 msgstr "Funcionalitats habilitades: "
 
-#: find/parser.c:2081
+#: find/parser.c:2171
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "avís: seqüència d'escapament «\\%c» no reconegut"
 
-#: find/parser.c:2127
+#: find/parser.c:2218
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "avís: directiva de format «%%%c» no reconeguda"
 
-#: find/parser.c:2233
+#: find/parser.c:2347
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -454,7 +455,7 @@ msgstr ""
 "del vostre $PATH (és a dir, elimineu «.» o els dos punts del principi o "
 "final)"
 
-#: find/parser.c:2330
+#: find/parser.c:2446
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -462,52 +463,73 @@ msgstr ""
 "No pdeu utilitzar {} dins del nom de la utilitat per a -execdir i -okdir, ja "
 "que això és un problema de seguretat potencial."
 
-#: find/parser.c:2353
+#: find/parser.c:2469
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Només es suporta una instància de {} amb -exec%s ... +"
 
-#: find/pred.c:1166
+#: find/pred.c:1136
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ?"
 
-#: find/pred.c:1585 xargs/xargs.c:1040
+#: find/pred.c:1567 xargs/xargs.c:1045
 msgid "cannot fork"
 msgstr "no es pot fer «fork»"
 
 # Suggerències? jm
-#: find/pred.c:1625
+#: find/pred.c:1607
 #, c-format
 msgid "error waiting for %s"
 msgstr "error a l'esperar al procés %s"
 
-#: find/pred.c:1633
+#: find/pred.c:1615
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s finalitzat pel senyal %d"
 
-#: find/tree.c:67 find/tree.c:72 find/tree.c:123 find/tree.c:162
+#: find/tree.c:87 find/tree.c:92 find/tree.c:172 find/tree.c:211
 msgid "invalid expression"
 msgstr "expressió no vàlida"
 
-#: find/tree.c:76
+#: find/tree.c:97
+#, fuzzy, c-format
 msgid ""
-"invalid expression; you have used a binary operator with nothing before it."
+"invalid expression; you have used a binary operator '%s' with nothing before "
+"it."
 msgstr ""
 "l'expressió no és vàlida; heu utilitzat un operador binari sense res davant "
 "d'ell."
 
-#: find/tree.c:80
+#: find/tree.c:106
+#, c-format
+msgid "expected an expression between '%s' and ')'"
+msgstr ""
+
+#: find/tree.c:115
+#, fuzzy, c-format
+msgid "expected an expression after '%s'"
+msgstr "s'ha trobat un predicat extra no esperat"
+
+#: find/tree.c:119
 msgid "invalid expression; you have too many ')'"
 msgstr "l'expressió no és vàlida; teniu massa «)»"
 
-#: find/tree.c:98
+#: find/tree.c:141
+#, fuzzy, c-format
+msgid ""
+"invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
+"need an extra predicate after '%s'"
+msgstr ""
+"l'expressió no és vàlida; s'esperava un «)» en algun lloc però no s'ha "
+"trobat cap."
+
+#: find/tree.c:147
 #, fuzzy
 msgid "invalid expression; empty parentheses are not allowed."
 msgstr "l'expressió no és vàlida; teniu massa «)»"
 
-#: find/tree.c:103
+#: find/tree.c:152
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
 "one."
@@ -515,22 +537,60 @@ msgstr ""
 "l'expressió no és vàlida; s'esperava un «)» en algun lloc però no s'ha "
 "trobat cap."
 
-#: find/tree.c:108 find/tree.c:330
+#: find/tree.c:157 find/tree.c:809
 msgid "oops -- invalid expression type!"
 msgstr "ep -- el tipus d'expressió no és vàlid!"
 
-#: find/tree.c:177
+#: find/tree.c:229
 #, c-format
 msgid "oops -- invalid expression type (%d)!"
 msgstr "ep -- el tipus d'expressió (%d) no és vàlid!"
 
-#: find/tree.c:461
+#: find/tree.c:939
 msgid "oops -- invalid expression type in mark_stat!"
 msgstr "ep -- el tipus d'expressió no és vàlid!"
 
-#: find/tree.c:497
+#: find/tree.c:975
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "ep -- el tipus d'expressió no és vàlid!"
+
+#: find/tree.c:1308
+#, fuzzy, c-format
+msgid "paths must precede expression: %s"
+msgstr "els camins han de precedir la expressió"
+
+#: find/tree.c:1317
+#, c-format
+msgid "invalid predicate `%s'"
+msgstr "el predicat «%s» no és vàlid"
+
+#: find/tree.c:1326
+#, c-format
+msgid "missing argument to `%s'"
+msgstr "manca un argument per a «%s»"
+
+#: find/tree.c:1328
+#, c-format
+msgid "invalid argument `%s' to `%s'"
+msgstr "l'argument «%s» no és vàlid per a «%s»"
+
+#: find/tree.c:1403
+#, fuzzy
+msgid "you have too many ')'"
+msgstr "l'expressió no és vàlida; teniu massa «)»"
+
+#: find/tree.c:1408
+#, fuzzy, c-format
+msgid "unexpected extra predicate '%s'"
+msgstr "s'ha trobat un predicat extra no esperat"
+
+#: find/tree.c:1410
+msgid "unexpected extra predicate"
+msgstr "s'ha trobat un predicat extra no esperat"
+
+#: find/tree.c:1520
+msgid "oops -- invalid default insertion of and!"
+msgstr "oops -- inserció per defecte d'«and» no vàlida!"
 
 #: locate/code.c:127
 #, c-format
@@ -541,7 +601,7 @@ msgstr ""
 "Forma d'ús: %s [--version | --help]\n"
 "            %s biagrames_més_comuns < llista-fitxers > base-de-dades-locate\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
+#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1256
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -558,27 +618,27 @@ msgstr "GNU findutils versió %s\n"
 msgid "days"
 msgstr "dies"
 
-#: locate/locate.c:523
+#: locate/locate.c:524
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "la base de dades de locate «%s» és corrupta o invàlida"
 
-#: locate/locate.c:791
+#: locate/locate.c:792
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Mida de la base de dades de locate: %s octets\n"
 
-#: locate/locate.c:795
+#: locate/locate.c:796
 #, c-format
 msgid "Filenames: %s "
 msgstr "Noms de fitxers: %s"
 
-#: locate/locate.c:798
+#: locate/locate.c:799
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "amb una longitud acumulada de %s octets"
 
-#: locate/locate.c:802
+#: locate/locate.c:803
 #, c-format
 msgid ""
 "\n"
@@ -587,7 +647,7 @@ msgstr ""
 "\n"
 "\tdels quals %s contenen espais, "
 
-#: locate/locate.c:805
+#: locate/locate.c:806
 #, c-format
 msgid ""
 "\n"
@@ -596,7 +656,7 @@ msgstr ""
 "\n"
 "\t%s contenen caràcters de retorn de carro, "
 
-#: locate/locate.c:808
+#: locate/locate.c:809
 #, c-format
 msgid ""
 "\n"
@@ -605,32 +665,32 @@ msgstr ""
 "\n"
 "\ti %s contenen caràcters amb el bit alt establert.\n"
 
-#: locate/locate.c:813
+#: locate/locate.c:814
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "El ràtio de compressió és %4.2f%%\n"
 
-#: locate/locate.c:861
+#: locate/locate.c:862
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "avís: la base de dades de locate només es pot llegir una vegada des de "
 "l'entrada estàndard."
 
-#: locate/locate.c:882
+#: locate/locate.c:883
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "avís: la base de dades «%s» té més de %d %s"
 
-#: locate/locate.c:1059
+#: locate/locate.c:1060
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "La base de dades %s és en el format %s.\n"
 
-#: locate/locate.c:1061
+#: locate/locate.c:1062
 msgid "old"
 msgstr "vella"
 
-#: locate/locate.c:1105
+#: locate/locate.c:1106
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -652,12 +712,12 @@ msgstr ""
 "            [--version] [--help]\n"
 "            patró...\n"
 
-#: locate/locate.c:1231
+#: locate/locate.c:1232
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate versió %s\n"
 
-#: locate/locate.c:1270
+#: locate/locate.c:1271
 msgid "argument to --limit"
 msgstr "argument per a --limit"
 
@@ -695,7 +755,7 @@ msgstr ""
 "La seqüència d'escapament %s és il·legal en una especificació de delimitació "
 "d'entrada; no es reconeixen el caràcters finals %s."
 
-#: xargs/xargs.c:410
+#: xargs/xargs.c:408
 #, fuzzy, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -719,33 +779,33 @@ msgstr "l'entorn és massa gran per a l'execució"
 msgid "Cannot open input file `%s'"
 msgstr "No s'ha pogut obrir el fitxer d'entrada «%s»"
 
-#: xargs/xargs.c:647
-#, c-format
-msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
+#: xargs/xargs.c:648
+#, fuzzy, c-format
+msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
 msgstr "S'està reduint arg_max (%ld) a arg_size (%ld)\n"
 
-#: xargs/xargs.c:656
-#, c-format
-msgid "Your environment variables take up %ld bytes\n"
+#: xargs/xargs.c:658
+#, fuzzy, c-format
+msgid "Your environment variables take up %lu bytes\n"
 msgstr "Les vostres variables d'entorn utilitzen %ld octets\n"
 
-#: xargs/xargs.c:659
-#, c-format
-msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
+#: xargs/xargs.c:661
+#, fuzzy, c-format
+msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr ""
 "límits inferior i superior POSIX per a la mida dels arguments: %ld, %ld\n"
 
-#: xargs/xargs.c:663
+#: xargs/xargs.c:665
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "La mida màxima de l'ordre que podem utilitzar: %ld\n"
 
-#: xargs/xargs.c:666
-#, c-format
-msgid "Size of command buffer we are actually using: %ld\n"
+#: xargs/xargs.c:668
+#, fuzzy, c-format
+msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "La mida de la memòria intermèdia que s'està utilitzant: %ld\n"
 
-#: xargs/xargs.c:789 xargs/xargs.c:870
+#: xargs/xargs.c:791 xargs/xargs.c:872
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -754,53 +814,53 @@ msgstr ""
 "s'ha trobat una cometa %s no emparellada. Per defecte, les cometes són "
 "especials per a xargs a no ser que s'utilitze l'opció -O"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:792 xargs/xargs.c:873
 msgid "double"
 msgstr "doble"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:792 xargs/xargs.c:873
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:888 xargs/xargs.c:945
+#: xargs/xargs.c:890 xargs/xargs.c:947
 msgid "argument line too long"
 msgstr "línia d'arguments massa llarga"
 
-#: xargs/xargs.c:1115
+#: xargs/xargs.c:1120
 msgid "error waiting for child process"
 msgstr "error a l'esperar al procés fill"
 
-#: xargs/xargs.c:1131
+#: xargs/xargs.c:1136
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: ha acabat amb estat 255; avortant"
 
-#: xargs/xargs.c:1133
+#: xargs/xargs.c:1138
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: interromput pel senyal %d"
 
-#: xargs/xargs.c:1135
+#: xargs/xargs.c:1140
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminat pel senyal %d"
 
-#: xargs/xargs.c:1188
+#: xargs/xargs.c:1193
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: número no vàlid per a l'opció -%c\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1200
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: el valor per a l'opció -%c ha de ser >= %ld\n"
 
-#: xargs/xargs.c:1209
+#: xargs/xargs.c:1214
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: el valor per a l'opció -%c ha de ser < %ld\n"
 
-#: xargs/xargs.c:1240
+#: xargs/xargs.c:1245
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"

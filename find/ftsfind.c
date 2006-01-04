@@ -88,7 +88,7 @@ error_severity(int level)
     state.exit_status = level;
 }
 
-#ifdef DEBUG
+
 #define STRINGIFY(X) #X
 #define HANDLECASE(N) case N: return #N;
 
@@ -117,8 +117,6 @@ get_fts_info_name(int info)
       return buf;
     }
 }
-
-#endif
 
 static void
 visit(FTS *p, FTSENT *ent, struct stat *pstat)
@@ -226,13 +224,13 @@ consider_visiting(FTS *p, FTSENT *ent)
 {
   struct stat statbuf;
   mode_t mode;
+  int ignore, isdir;
   
-#ifdef DEBUG
-  fprintf(stderr,
-	  "consider_visiting: end->fts_info=%s, ent->fts_path=%s\n",
-	  get_fts_info_name(ent->fts_info),
-	  quotearg_n(0, ent->fts_path, locale_quoting_style));
-#endif
+  if (options.debug_options & DebugSearch)
+    fprintf(stderr,
+	    "consider_visiting: end->fts_info=%s, ent->fts_path=%s\n",
+	    get_fts_info_name(ent->fts_info),
+	    quotearg_n_style(0, locale_quoting_style, ent->fts_path));
 
   /* Cope with various error conditions. */
   if (ent->fts_info == FTS_ERR
@@ -269,67 +267,76 @@ consider_visiting(FTS *p, FTSENT *ent)
   /* Not an error, cope with the usual cases. */
   if (ent->fts_info == FTS_NSOK)
     {
-      state.have_stat = false;
-      mode = 0;
+      assert(!state.have_stat);
+      assert(!state.have_type);
+      state.type = mode = 0;
     }
   else
     {
       state.have_stat = true;
+      state.have_type = true;
       statbuf = *(ent->fts_statp);
-      mode = statbuf.st_mode;
+      state.type = mode = statbuf.st_mode;
     }
 
   if (0 == ent->fts_level && (0u == state.starting_path_length))
     state.starting_path_length = ent->fts_pathlen;
-	      
-  if (0 != digest_mode(mode, ent->fts_path, ent->fts_name, &statbuf, 0))
+
+  if (mode)
     {
-      /* examine this item. */
-      int ignore = 0;
-	      
-      if (S_ISDIR(statbuf.st_mode) && (ent->fts_info == FTS_NSOK))
-	{
-	  /* This is a directory, but fts did not stat it, so
-	   * presumably would not be planning to search its
-	   * children.  Force a stat of the file so that the
-	   * children can be checked.
-	   */
-	  fts_set(p, ent, FTS_AGAIN);
-	  return;
-	}
+      if (!digest_mode(mode, ent->fts_path, ent->fts_name, &statbuf, 0))
+	return;
+    }
 
-      if (options.maxdepth >= 0 && (ent->fts_level > options.maxdepth))
-	{
-	  ignore = 1;
-	  fts_set(p, ent, FTS_SKIP);
-	}
-      else if ( (ent->fts_info == FTS_D) && !options.do_dir_first )
-	{
-	  /* this is the preorder visit, but user said -depth */ 
-	  ignore = 1;
-	}
-      else if ( (ent->fts_info == FTS_DP) && options.do_dir_first )
-	{
-	  /* this is the postorder visit, but user didn't say -depth */ 
-	  ignore = 1;
-	}
-      else if (ent->fts_level < options.mindepth)
-	{
-	  ignore = 1;
-	}
+  /* examine this item. */
+  ignore = 0;
+  isdir = S_ISDIR(statbuf.st_mode)
+    || (FTS_D  == ent->fts_info)
+    || (FTS_DP == ent->fts_info)
+    || (FTS_DC == ent->fts_info);
+      
+  if (isdir && (ent->fts_info == FTS_NSOK))
+    {
+      /* This is a directory, but fts did not stat it, so
+       * presumably would not be planning to search its
+       * children.  Force a stat of the file so that the
+       * children can be checked.
+       */
+      fts_set(p, ent, FTS_AGAIN);
+      return;
+    }
 
-      if (!ignore)
-	{
-	  visit(p, ent, &statbuf);
-	}
+  if (options.maxdepth >= 0 && (ent->fts_level > options.maxdepth))
+    {
+      ignore = 1;
+      fts_set(p, ent, FTS_SKIP);
+    }
+  else if ( (ent->fts_info == FTS_D) && !options.do_dir_first )
+    {
+      /* this is the preorder visit, but user said -depth */ 
+      ignore = 1;
+    }
+  else if ( (ent->fts_info == FTS_DP) && options.do_dir_first )
+    {
+      /* this is the postorder visit, but user didn't say -depth */ 
+      ignore = 1;
+    }
+  else if (ent->fts_level < options.mindepth)
+    {
+      ignore = 1;
+    }
+
+  if (!ignore)
+    {
+      visit(p, ent, &statbuf);
+    }
 	      
 	      
-      if (ent->fts_info == FTS_DP)
-	{
-	  /* we're leaving a directory. */
-	  state.stop_at_current_level = false;
-	  complete_pending_execdirs(get_eval_tree());
-	}
+  if (ent->fts_info == FTS_DP)
+    {
+      /* we're leaving a directory. */
+      state.stop_at_current_level = false;
+      complete_pending_execdirs(get_eval_tree());
     }
 }
 
@@ -376,6 +383,10 @@ find(char *arg)
     {
       while ( (ent=fts_read(p)) != NULL )
 	{
+	  state.have_stat = false;
+	  state.have_type = false;
+	  state.type = 0;
+	  
 	  consider_visiting(p, ent);
 	}
       fts_close(p);
@@ -418,20 +429,14 @@ main (int argc, char **argv)
   struct predicate *eval_tree;
 
   program_name = argv[0];
+  state.exit_status = 0;
 
-  /* We call check_nofollow() before setlocale() because the numbers 
-   * for which we check (in the results of uname) definitiely have "."
-   * as the decimal point indicator even under locales for which that 
-   * is not normally true.   Hence atof() would do the wrong thing 
-   * if we call it after setlocale().
+
+  /* Set the option defaults before we do the the locale
+   * initialisation as check_nofollow() needs to be executed in the
+   * POSIX locale.
    */
-#ifdef O_NOFOLLOW
-  options.open_nofollow_available = check_nofollow();
-#else
-  options.open_nofollow_available = false;
-#endif
-
-  options.regex_options = RE_SYNTAX_EMACS;
+  set_option_defaults(&options);
   
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
@@ -441,60 +446,19 @@ main (int argc, char **argv)
   textdomain (PACKAGE);
   atexit (close_stdout);
 
+  /* Check for -P, -H or -L options.  Also -D and -O, which are 
+   * both GNU extensions.
+   */
+  end_of_leading_options = process_leading_options(argc, argv);
   
-  if (isatty(0))
-    {
-      options.warnings = true;
-      options.literal_control_chars = false;
-    }
-  else
-    {
-      options.warnings = false;
-      options.literal_control_chars = false; /* may change */
-    }
-  
-  
-  options.do_dir_first = true;
-  options.maxdepth = options.mindepth = -1;
-  options.start_time = time (NULL);
-  options.cur_day_start = options.start_time - DAYSECS;
-  options.full_days = false;
-  options.stay_on_filesystem = false;
-  options.ignore_readdir_race = false;
-
-  state.exit_status = 0;
-
-#if defined(DEBUG_STAT)
-  options.xstat = debug_stat;
-#endif /* !DEBUG_STAT */
-
-  if (getenv("POSIXLY_CORRECT"))
-    options.output_block_size = 512;
-  else
-    options.output_block_size = 1024;
-
-  if (getenv("FIND_BLOCK_SIZE"))
-    {
-      error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
-    }
-
-#if LEAF_OPTIMISATION
-  /* The leaf optimisation is enabled. */
-  options.no_leaf_check = false;
-#else
-  /* The leaf optimisation is disabled. */
-  options.no_leaf_check = true;
-#endif
-
-  set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
+  if (options.debug_options & DebugStat)
+    options.xstat = debug_stat;
 
 #ifdef DEBUG
   fprintf (stderr, "cur_day_start = %s", ctime (&options.cur_day_start));
 #endif /* DEBUG */
 
-  /* Check for -P, -H or -L options. */
-  end_of_leading_options = process_leading_options(argc, argv);
-  
+
   /* We are now processing the part of the "find" command line 
    * after the -H/-L options (if any).
    */

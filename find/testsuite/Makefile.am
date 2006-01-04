@@ -18,6 +18,7 @@ find.gnu/exec-many-rtn-success.xo   \
 find.gnu/exec-one-rtn-fail.xo       \
 find.gnu/exec-one-rtn-success.xo \
 find.gnu/false.xo \
+find.gnu/follow-arg-parent-symlink.xo \
 find.gnu/follow-basic.xo \
 find.gnu/gnuand.xo \
 find.gnu/gnunot.xo \
@@ -53,23 +54,24 @@ find.gnu/wholename.xo \
 find.gnu/xtype-symlink.xo \
 find.gnu/quit.xo \
 find.gnu/xtype.xo \
+find.posix/and.xo \
+find.posix/depth1.xo \
+find.posix/exec-one.xo \
 find.posix/files-not-expressions1.xo \
 find.posix/files-not-expressions2.xo \
 find.posix/files-not-expressions3.xo \
+find.posix/grouping.xo \
 find.posix/links.xo \
+find.posix/name.xo \
+find.posix/perm-vanilla.xo \
+find.posix/posixnot.xo \
+find.posix/prune.xo \
+find.posix/sizes.xo \
+find.posix/sizetype.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
 find.posix/sv-bug-15235.xo \
-find.posix/depth1.xo \
-find.posix/sizes.xo \
-find.posix/name.xo \
-find.posix/perm-vanilla.xo \
-find.posix/prune.xo \
-find.posix/posixnot.xo \
-find.posix/grouping.xo \
-find.posix/and.xo \
-find.posix/exec-one.xo \
-find.gnu/follow-arg-parent-symlink.xo
+find.posix/typesize.xo
 
 EXTRA_DIST_EXP = \
 config/unix.exp \
@@ -85,6 +87,7 @@ find.gnu/exec-many-rtn-failure.exp  \
 find.gnu/exec-many-rtn-success.exp  \
 find.gnu/exec-one-rtn-fail.exp      \
 find.gnu/exec-one-rtn-success.exp   \
+find.gnu/follow-arg-parent-symlink.exp \
 find.gnu/follow-basic.exp \
 find.gnu/false.exp \
 find.gnu/gnuand.exp \
@@ -122,25 +125,26 @@ find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
 find.gnu/quit.exp \
 find.gnu/xtype.exp \
+find.posix/and.exp \
+find.posix/bracket-depth.exp \
+find.posix/depth1.exp \
 find.posix/empty-parens.exp \
+find.posix/exec-one.exp \
 find.posix/files-not-expressions1.exp \
 find.posix/files-not-expressions2.exp \
 find.posix/files-not-expressions3.exp \
+find.posix/grouping.exp \
 find.posix/links.exp \
-find.posix/sv-bug-11175.exp \
-find.posix/sv-bug-12181.exp \
-find.posix/sv-bug-15235.exp \
-find.posix/depth1.exp \
-find.posix/sizes.exp \
 find.posix/name.exp \
 find.posix/perm-vanilla.exp \
 find.posix/posixnot.exp \
 find.posix/prune.exp \
-find.posix/grouping.exp \
-find.posix/and.exp \
-find.posix/bracket-depth.exp \
-find.posix/exec-one.exp \
-find.gnu/follow-arg-parent-symlink.exp
+find.posix/sizes.exp \
+find.posix/sizetype.exp \
+find.posix/sv-bug-11175.exp \
+find.posix/sv-bug-12181.exp \
+find.posix/sv-bug-15235.exp \
+find.posix/typesize.exp
 
 EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO)
 

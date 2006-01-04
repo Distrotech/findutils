@@ -147,6 +147,7 @@ typedef int boolean;
 #endif
 
 struct predicate;
+struct options;
 
 /* Pointer to a predicate function. */
 typedef boolean (*PRED_FUNC)(char *pathname, struct stat *stat_buf, struct predicate *pred_ptr);
@@ -277,6 +278,22 @@ struct format_val
   struct quoting_options *quote_opts;
 };
 
+/* evaluation cost of a predicate */
+enum EvaluationCost
+{
+  NeedsNothing,
+  NeedsType,
+  NeedsStatInfo,
+  NeedsLinkName,
+  NeedsAccessInfo,
+  NeedsSyncDiskHit,
+  NeedsEventualExec,
+  NeedsImmediateExec,
+  NeedsUserInteraction,
+  NeedsUnknown,
+  NumEvaluationCosts
+};
+    
 struct predicate
 {
   /* Pointer to the function that implements this predicate.  */
@@ -308,11 +325,19 @@ struct predicate
   /* True if this predicate node requires knowledge of the file type. */
   boolean need_type;
 
+  enum EvaluationCost p_cost;
+
+  /* est_success_rate is a number between 0.0 and 1.0 */
+  float est_success_rate;
+  
   /* True if this predicate should display control characters literally */
   boolean literal_control_chars;
 
   /* True if this predicate didn't originate from the user. */
   boolean artificial;
+
+  /* The raw text of the argument of this predicate. */
+  char *arg_text;
   
   /* Information needed by the predicate processor.
      Next to each member are listed the predicates that use it. */
@@ -506,26 +531,28 @@ char *find_pred_name PARAMS((PRED_FUNC pred_func));
 
 
 
-#ifdef DEBUG
+void print_predicate PARAMS((FILE *fp, const struct predicate *p));
 void print_tree PARAMS((FILE*, struct predicate *node, int indent));
 void print_list PARAMS((FILE*, struct predicate *node));
-void print_optlist PARAMS((FILE *fp, struct predicate *node));
-#endif /* DEBUG */
+void print_optlist PARAMS((FILE *fp, const struct predicate *node));
+
 
 /* tree.c */
 struct predicate * build_expression_tree PARAMS((int argc, char *argv[], int end_of_leading_options));
 struct predicate * get_eval_tree PARAMS((void));
 struct predicate *get_new_pred PARAMS((const struct parser_table *entry));
 struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry));
+float  calculate_derived_rates PARAMS((struct predicate *p));
 
 /* util.c */
 struct predicate *insert_primary PARAMS((const struct parser_table *entry));
 struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr));
-void usage PARAMS((char *msg));
+void usage PARAMS((FILE *fp, int status, char *msg));
 extern boolean check_nofollow(void);
 void complete_pending_execs(struct predicate *p);
 void complete_pending_execdirs(struct predicate *p);
 int process_leading_options PARAMS((int argc, char *argv[]));
+void set_option_defaults PARAMS((struct options *p));
 
 
 /* find.c. */
@@ -535,6 +562,15 @@ int digest_mode PARAMS((mode_t mode, const char *pathname, const char *name, str
 boolean default_prints PARAMS((struct predicate *pred));
 boolean looks_like_expression PARAMS((const char *arg, boolean leading));
 
+
+enum DebugOption
+  {
+    DebugNone             = 0,
+    DebugExpressionTree   = 1,
+    DebugStat             = 2,
+    DebugSearch           = 4,
+    DebugTreeOpt          = 8
+  };
 
 struct options
 {
@@ -567,6 +603,7 @@ struct options
   /* If true, we issue warning messages
    */
   boolean warnings;
+  
   time_t start_time;		/* Time at start of execution.  */
   
   /* Seconds between 00:00 1/1/70 and either one day before now
@@ -577,6 +614,9 @@ struct options
   boolean full_days;
   
   int output_block_size;	/* Output block size.  */
+
+  /* bitmask for debug options */
+  unsigned long debug_options;
   
   enum SymlinkOption symlink_handling;
   
@@ -595,6 +635,10 @@ struct options
    * can be changed with the positional option, -regextype.
    */
   int regex_options;
+
+  /* Optimisation level.  One is the default. 
+   */
+  unsigned short optimisation_level;
 };
 extern struct options options;
 

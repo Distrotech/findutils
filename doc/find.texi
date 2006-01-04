@@ -312,6 +312,10 @@ performed on all files for which the entire expression is true
 Options take effect immediately, rather than being evaluated for each
 file when their place in the expression is reached.  Therefore, for
 clarity, it is best to place them at the beginning of the expression.
+There are two exceptions to this; @samp{-daystart} and @samp{-follow}
+have different effects depending on where in the command line they
+appear.  This can be confusing, so it's best to keep them at the
+beginning, too.
 
 Many of the primaries take arguments, which immediately follow them in
 the next command line argument to @code{find}.  Some arguments are

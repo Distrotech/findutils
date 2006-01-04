@@ -126,21 +126,14 @@ main (int argc, char **argv)
   struct predicate *eval_tree;
 
   program_name = argv[0];
+  state.exit_status = 0;
 
-  /* We call check_nofollow() before setlocale() because the numbers 
-   * for which we check (in the results of uname) definitiely have "."
-   * as the decimal point indicator even under locales for which that 
-   * is not normally true.   Hence atof() would do the wrong thing 
-   * if we call it after setlocale().
+  /* Set the option defaults before we do the the locale
+   * initialisation as check_nofollow() needs to be executed in the
+   * POSIX locale.
    */
-#ifdef O_NOFOLLOW
-  options.open_nofollow_available = check_nofollow();
-#else
-  options.open_nofollow_available = false;
-#endif
+  set_option_defaults(&options);
 
-  options.regex_options = RE_SYNTAX_EMACS;
-  
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
 #endif
@@ -148,59 +141,15 @@ main (int argc, char **argv)
   textdomain (PACKAGE);
   atexit (close_stdout);
 
-  
-  if (isatty(0))
-    {
-      options.warnings = true;
-      options.literal_control_chars = false;
-    }
-  else
-    {
-      options.warnings = false;
-      options.literal_control_chars = false; /* may change */
-    }
-  
-  
-  options.do_dir_first = true;
-  options.maxdepth = options.mindepth = -1;
-  options.start_time = time (NULL);
-  options.cur_day_start = options.start_time - DAYSECS;
-  options.full_days = false;
-  options.stay_on_filesystem = false;
-  options.ignore_readdir_race = false;
-
-  state.exit_status = 0;
-
-#if defined(DEBUG_STAT)
-  options.xstat = debug_stat;
-#endif /* !DEBUG_STAT */
-
-  if (getenv("POSIXLY_CORRECT"))
-    options.output_block_size = 512;
-  else
-    options.output_block_size = 1024;
-
-  if (getenv("FIND_BLOCK_SIZE"))
-    {
-      error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
-    }
-
-#if LEAF_OPTIMISATION
-  /* The leaf optimisation is enabled. */
-  options.no_leaf_check = false;
-#else
-  /* The leaf optimisation is disabled. */
-  options.no_leaf_check = true;
-#endif
-
-  set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
-
-#ifdef DEBUG
-  fprintf (stderr, "cur_day_start = %s", ctime (&options.cur_day_start));
-#endif /* DEBUG */
-
   /* Check for -P, -H or -L options. */
   end_of_leading_options = process_leading_options(argc, argv);
+
+  if (options.debug_options & DebugStat)
+    options.xstat = debug_stat;
+
+#ifdef DEBUG
+  fprintf (stderr, "cur_day_start = %s", ctime (&p->cur_day_start));
+#endif /* DEBUG */
 
   /* We are now processing the part of the "find" command line 
    * after the -H/-L options (if any).
@@ -681,10 +630,11 @@ safely_chdir_lstat(const char *dest,
 	      saved_errno = 0;	/* silence the error message */
 	      goto fail;
 	    }
-#endif	  
-#ifdef DEBUG_STAT
-	  fprintf(stderr, "safely_chdir(): chdir(\"%s\")\n", dest);
 #endif
+	  
+	  if (options.debug_options & DebugSearch)
+	    fprintf(stderr, "safely_chdir(): chdir(\"%s\")\n", dest);
+
 	  if (0 == chdir(dest))
 	    {
 	      /* check we ended up where we wanted to go */
@@ -915,9 +865,8 @@ chdir_back (void)
   
   if (starting_desc < 0)
     {
-#ifdef DEBUG_STAT
-      fprintf(stderr, "chdir_back(): chdir(\"%s\")\n", starting_dir);
-#endif
+      if (options.debug_options & DebugSearch)
+	fprintf(stderr, "chdir_back(): chdir(\"%s\")\n", starting_dir);
       
 #ifdef STAT_MOUNTPOINTS
       /* We will need the mounted device list.  Get it now if we don't
@@ -942,9 +891,9 @@ chdir_back (void)
     }
   else
     {
-#ifdef DEBUG_STAT
-      fprintf(stderr, "chdir_back(): chdir(<starting-point>)\n");
-#endif
+      if (options.debug_options & DebugSearch)
+	fprintf(stderr, "chdir_back(): chdir(<starting-point>)\n");
+
       if (fchdir (starting_desc) != 0)
 	error (1, errno, "%s", starting_dir);
     }
@@ -1215,10 +1164,9 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   if (options.do_dir_first && state.curdepth >= options.mindepth)
     apply_predicate (pathname, &stat_buf, eval_tree);
 
-#ifdef DEBUG
-  fprintf(stderr, "pathname = %s, stop_at_current_level = %d\n",
-	  pathname, state.stop_at_current_level);
-#endif /* DEBUG */
+  if (options.debug_options & DebugSearch)
+    fprintf(stderr, "pathname = %s, stop_at_current_level = %d\n",
+	    pathname, state.stop_at_current_level);
   
   if (state.stop_at_current_level == false)
     /* Scan directory on disk. */

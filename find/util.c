@@ -18,8 +18,6 @@
 */
 
 #include "defs.h"
-#include "xalloc.h"
-
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
@@ -29,6 +27,9 @@
 #ifdef HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>
 #endif
+
+#include "xalloc.h"
+#include "quotearg.h"
 
 
 #if ENABLE_NLS
@@ -44,9 +45,27 @@
 # define N_(String) String
 #endif
 
+#include <ctype.h>
+#include <string.h>
+#include <limits.h>
 #include <assert.h>
 
 
+struct debug_option_assoc
+{
+  char *name;
+  int    val;
+};
+static struct debug_option_assoc debugassoc[] = 
+  {
+    { "tree", DebugExpressionTree },
+    { "stat", DebugStat },
+    { "opt",  DebugExpressionTree|DebugTreeOpt }
+  };
+#define N_DEBUGASSOC (sizeof(debugassoc)/sizeof(debugassoc[0]))
+
+
+
 
 /* Add a primary of predicate type PRED_FUNC (described by ENTRY) to the predicate input list.
 
@@ -71,9 +90,7 @@ insert_primary_withpred (const struct parser_table *entry, PRED_FUNC pred_func)
 
   new_pred = get_new_pred_chk_op (entry);
   new_pred->pred_func = pred_func;
-#ifdef	DEBUG
   new_pred->p_name = entry->parser_name;
-#endif	/* DEBUG */
   new_pred->args.str = NULL;
   new_pred->p_type = PRIMARY_TYPE;
   new_pred->p_prec = NO_PREC;
@@ -105,13 +122,21 @@ insert_primary (const struct parser_table *entry)
 
 
 void
-usage (char *msg)
+usage (FILE *fp, int status, char *msg)
 {
+  size_t i;
+  
   if (msg)
-    fprintf (stderr, "%s: %s\n", program_name, msg);
-  fprintf (stderr, _("\
-Usage: %s [-H] [-L] [-P] [path...] [expression]\n"), program_name);
-  exit (1);
+    fprintf (fp, "%s: %s\n", program_name, msg);
+  
+  fprintf (fp, _("Usage: %s [-H] [-L] [-P] [-Olevel] [-D "), program_name);
+  for (i=0; i<N_DEBUGASSOC; ++i)
+    {
+      fprintf(fp, "%s%s", (i>0 ? "|" : ""), debugassoc[i].name);
+    }
+  fprintf (fp, _("] [path...] [expression]\n"));
+  if (0 != status)
+    exit (status);
 }
 
 
@@ -299,9 +324,8 @@ fallback_stat(const char *name, struct stat *p, int prev_rv)
     {
     case ENOENT:
     case ENOTDIR:
-#ifdef DEBUG_STAT
-      fprintf(stderr, "fallback_stat(): stat(%s) failed; falling back on lstat()\n", name);
-#endif
+      if (options.debug_options & DebugStat)
+	fprintf(stderr, "fallback_stat(): stat(%s) failed; falling back on lstat()\n", name);
       return lstat(name, p);
 
     case EACCES:
@@ -373,7 +397,7 @@ optionp_stat(const char *name, struct stat *p)
   return lstat(name, p);
 }
 
-#ifdef DEBUG_STAT
+
 static uintmax_t stat_count = 0u;
 
 int
@@ -390,8 +414,10 @@ debug_stat (const char *file, struct stat *bufp)
     case SYMLINK_NEVER_DEREF:
       return optionp_stat(file, bufp);
     }
+  /*NOTREACHED*/
+  assert(false);
+  return -1;
 }
-#endif /* DEBUG_STAT */
 
 
 int
@@ -519,7 +545,96 @@ looks_like_expression(const char *arg, boolean leading)
       return false;
     }
 }
+
+static void
+process_debug_options(char *arg)
+{
+  const char *p;
+  char *token_context = NULL;
+  const char delimiters[] = ",";
+  boolean empty = true;
+  size_t i;
+  
+  p = strtok_r(arg, delimiters, &token_context);
+  while (p)
+    {
+      empty = false;
 
+      for (i=0; i<N_DEBUGASSOC; ++i)
+	{
+	  if (0 == strcmp(debugassoc[i].name, p))
+	    {
+	      options.debug_options |= debugassoc[i].val;
+	      break;
+	    }
+	}
+      if (i >= N_DEBUGASSOC)
+	{
+	  error(0, 0, _("Ignoring unrecognised debug flag %s"),
+		quotearg_n_style(0, locale_quoting_style, arg));
+	}
+      p = strtok_r(NULL, delimiters, &token_context);
+    }
+  if (empty)
+    {
+      error(1, 0, _("Empty argument to the -D option."));
+    }
+}
+
+static void
+process_optimisation_option(const char *arg)
+{
+  if (0 == arg[0])
+    {
+      error(1, 0, _("The -O option must be immediately followed by a decimal integer"));
+    }
+  else 
+    {
+      unsigned long opt_level;
+      char *end;
+
+      if (!isdigit( (unsigned char) arg[0] ))
+	{
+	  error(1, 0, _("Please specify a decimal number immediately after -O"));
+	}
+      else 
+	{
+	  int prev_errno = errno;
+	  errno  = 0;
+	  
+	  opt_level = strtoul(arg, &end, 10);
+	  if ( (0==opt_level) && (end==arg) )
+	    {
+	      error(1, 0, _("Please specify a decimal number immediately after -O"));
+	    }
+	  else if (*end)
+	    {
+	      /* unwanted trailing characters. */
+	      error(1, 0, _("Invalid optimisation level %s"), arg);
+	    }
+	  else if ( (ULONG_MAX==opt_level) && errno)
+	    {
+	      error(1, errno, _("Invalid optimisation level %s"), arg);
+	    }
+	  else if (opt_level > USHRT_MAX)
+	    {
+	      /* tricky to test, as on some platforms USHORT_MAX and ULONG_MAX
+	       * can have the same value, though this is unusual.
+	       */
+	      error(1, 0, _("Optimisation level %lu is too high.  "
+			    "If you want to find files very quickly, "
+			    "consider using GNU locate."),
+		    opt_level);
+	    }
+	  else
+	    {
+	      options.optimisation_level = opt_level;
+	      errno = prev_errno;
+	    }
+	}
+    }
+}
+
 int
 process_leading_options(int argc, char *argv[])
 {
@@ -548,6 +663,15 @@ process_leading_options(int argc, char *argv[])
 	  end_of_leading_options = i+1;	/* Next time start with the next option */
 	  break;
 	}
+      else if (0 == strcmp("-D", argv[i]))
+	{
+	  process_debug_options(argv[i+1]);
+	  ++i;			/* skip the argument too. */
+	}
+      else if (0 == strncmp("-O", argv[i], 2))
+	{
+	  process_optimisation_option(argv[i]+2);
+	}
       else
 	{
 	  /* Hmm, must be one of 
@@ -559,4 +683,65 @@ process_leading_options(int argc, char *argv[])
 	}
     }
   return end_of_leading_options;
+}
+
+void 
+set_option_defaults(struct options *p)
+{
+  /* We call check_nofollow() before setlocale() because the numbers 
+   * for which we check (in the results of uname) definitiely have "."
+   * as the decimal point indicator even under locales for which that 
+   * is not normally true.   Hence atof() would do the wrong thing 
+   * if we call it after setlocale().
+   */
+#ifdef O_NOFOLLOW
+  p->open_nofollow_available = check_nofollow();
+#else
+  p->open_nofollow_available = false;
+#endif
+  
+  p->regex_options = RE_SYNTAX_EMACS;
+  
+  if (isatty(0))
+    {
+      p->warnings = true;
+      p->literal_control_chars = false;
+    }
+  else
+    {
+      p->warnings = false;
+      p->literal_control_chars = false; /* may change */
+    }
+  
+  
+  p->do_dir_first = true;
+  p->maxdepth = p->mindepth = -1;
+  p->start_time = time (NULL);
+  p->cur_day_start = p->start_time - DAYSECS;
+  p->full_days = false;
+  p->stay_on_filesystem = false;
+  p->ignore_readdir_race = false;
+
+  if (getenv("POSIXLY_CORRECT"))
+    p->output_block_size = 512;
+  else
+    p->output_block_size = 1024;
+
+  p->debug_options = 0uL;
+  p->optimisation_level = 0;
+  
+  if (getenv("FIND_BLOCK_SIZE"))
+    {
+      error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
+    }
+
+#if LEAF_OPTIMISATION
+  /* The leaf optimisation is enabled. */
+  p->no_leaf_check = false;
+#else
+  /* The leaf optimisation is disabled. */
+  p->no_leaf_check = true;
+#endif
+
+  set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
 }

@@ -14,6 +14,28 @@ which have missing expressions, such as
       find . \( -not \)
       find . \( -true -a
 
+For find, debug output can now be enabled at runtime with the -D
+option.  This causes the printing of various sorts of information
+about find's internal state and progress.
+
+Find now has a rudimentary cost-based optimiser.  It has an idea of
+the basic cost of each test (i.e. that -name is very cheap while -size
+is more expensive).  It re-orders tests bearing in mind the cost of
+each test and its likely success.  Predicates with side effects (for
+example -delete or -exec) are not reordered.  The optimiser is not
+yet enabled by default, but the new option -O controls the query 
+optimisation level.  To see this in action, try
+  find -D opt -O3 . -type f -o -type c -o -size 555 -name Z
+and compare the optimised query with:
+  find -D opt -O3 . -size 555 -o -type c -o -type f -name Z
+and
+  find -D opt     . -size 555 -o -type c -o -type f -name Z
+
+Over time, as optimisations are proven to be robust and correct, they
+will be moved to lower optimisation levels.  Some optimisations have
+always been performed by find (for example -name is always done early
+if possible).
+
 * Major changes in release 4.3.0
 
 The 4.3.x release series are currently 'development' releases.  Please
