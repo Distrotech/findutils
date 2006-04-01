@@ -1948,7 +1948,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 		   * In the latter case, -noleaf should be used routinely.
 		   */
 		  error(0, 0, _("WARNING: Hard link count is wrong for %s: this may be a bug in your filesystem driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
-			parent);
+			pathname);
 		  state.exit_status = 1; /* We know the result is wrong, now */
 		  options.no_leaf_check = true;	/* Don't make same
 						   mistake again */
