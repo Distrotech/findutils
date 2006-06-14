@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.26\n"
+"Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-01-03 06:35+0000\n"
-"PO-Revision-Date: 2005-11-28 20:22+0100\n"
+"POT-Creation-Date: 2006-06-14 22:33+0100\n"
+"PO-Revision-Date: 2006-05-20 14:54+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -33,61 +33,61 @@ msgstr "Els arguments vàlids són:"
 msgid "Unknown system error"
 msgstr "S'ha produït un error desconegut del sistema"
 
-#: gnulib/lib/getopt.c:551 gnulib/lib/getopt.c:570
+#: gnulib/lib/getopt.c:531 gnulib/lib/getopt.c:547
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: l'opció «%s» és ambigu\n"
 
-#: gnulib/lib/getopt.c:603 gnulib/lib/getopt.c:607
+#: gnulib/lib/getopt.c:580 gnulib/lib/getopt.c:584
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: l'opció «--%s» no accepta cap argument\n"
 
-#: gnulib/lib/getopt.c:616 gnulib/lib/getopt.c:621
+#: gnulib/lib/getopt.c:593 gnulib/lib/getopt.c:598
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: l'opció «%c%s» no accepta cap argument\n"
 
-#: gnulib/lib/getopt.c:667 gnulib/lib/getopt.c:689 gnulib/lib/getopt.c:1020
-#: gnulib/lib/getopt.c:1042
+#: gnulib/lib/getopt.c:641 gnulib/lib/getopt.c:660 gnulib/lib/getopt.c:976
+#: gnulib/lib/getopt.c:995
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: l'opció «%s» requereix un argument\n"
 
-#: gnulib/lib/getopt.c:727 gnulib/lib/getopt.c:730
+#: gnulib/lib/getopt.c:698 gnulib/lib/getopt.c:701
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr ""
 "%s: opció «--%s» no reconeguda\n"
 "\n"
 
-#: gnulib/lib/getopt.c:738 gnulib/lib/getopt.c:741
+#: gnulib/lib/getopt.c:709 gnulib/lib/getopt.c:712
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: opció «%c%s» no reconeguda\n"
 
-#: gnulib/lib/getopt.c:796 gnulib/lib/getopt.c:799
+#: gnulib/lib/getopt.c:764 gnulib/lib/getopt.c:767
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: opció il·legal -- %c\n"
 
-#: gnulib/lib/getopt.c:805 gnulib/lib/getopt.c:808
+#: gnulib/lib/getopt.c:773 gnulib/lib/getopt.c:776
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: opció no vàlida -- %c\n"
 
-#: gnulib/lib/getopt.c:863 gnulib/lib/getopt.c:882 gnulib/lib/getopt.c:1095
-#: gnulib/lib/getopt.c:1116
+#: gnulib/lib/getopt.c:828 gnulib/lib/getopt.c:844 gnulib/lib/getopt.c:1048
+#: gnulib/lib/getopt.c:1066
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: l'opció requereix un argument -- %c\n"
 
-#: gnulib/lib/getopt.c:935 gnulib/lib/getopt.c:954
+#: gnulib/lib/getopt.c:897 gnulib/lib/getopt.c:913
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: l'opció «-W %s» és ambigua\n"
 
-#: gnulib/lib/getopt.c:978 gnulib/lib/getopt.c:999
+#: gnulib/lib/getopt.c:937 gnulib/lib/getopt.c:955
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: l'opció «-W %s» no accepta cap argument\n"
@@ -406,6 +406,10 @@ msgid ""
 "000; that is, at the moment it matches no files but it will soon be changed "
 "to match all files."
 msgstr ""
+"avís: heu especificat un patró de mode %s que és equivalent a 000. El "
+"significat de -perm /000 canviarà prompte per a que siga consistent amb -"
+"perm -000; això vol dir, de moment no concorda amb cap fitxer, però prompte "
+"canviarà per a que concorde amb tots."
 
 #: find/parser.c:1663
 msgid "invalid null argument to -size"
@@ -722,23 +726,23 @@ msgid "argument to --limit"
 msgstr "argument per a --limit"
 
 #: xargs/xargs.c:330
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
 "La seqüència d'escapament %s és il·legal en una especificació de delimitació "
 "d'entrada."
 
 #: xargs/xargs.c:348
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lx."
 msgstr ""
 "La seqüència d'escapament %s és il·legal en una especificació de delimitació "
-"d'entrada; els valors dels caràcters no ha d'excedir %lx."
+"d'entrada; els valors dels caràcters no han d'excedir %lx."
 
 #: xargs/xargs.c:354
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lo."
@@ -747,7 +751,7 @@ msgstr ""
 "d'entrada; els valors dels caràcters no han d'excedir %lo."
 
 #: xargs/xargs.c:363
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
@@ -756,14 +760,14 @@ msgstr ""
 "d'entrada; no es reconeixen el caràcters finals %s."
 
 #: xargs/xargs.c:408
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 "La seqüència d'escapament %s és il·legal en una especificació de delimitació "
 "d'entrada: el delimitador ha de ser un únic caràcter o una seqüència "
-"d'escapament que comence amb \\\\."
+"d'escapament que comence amb \\."
 
 #: xargs/xargs.c:592
 #, c-format
