@@ -1,6 +1,7 @@
 #! /bin/sh
 # updatedb -- build a locate pathname database
-# Copyright (C) 1994 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1996, 1997, 2000, 2001, 2003, 2004, 2005, 2006
+# Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -84,11 +85,11 @@ getuid() {
 
 # figure out if su supports the -s option
 select_shell() {
-    if su "$1" -s $SHELL false < /dev/null  ; then
+    if su "$1" -s $SHELL -c false < /dev/null  ; then
 	# No.
 	echo ""
     else
-	if su "$1" -s $SHELL true < /dev/null  ; then
+	if su "$1" -s $SHELL -c true < /dev/null  ; then
 	    # Yes.
 	    echo "-s $SHELL"
         else
