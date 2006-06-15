@@ -1312,9 +1312,9 @@ actually receiving a command line like this:
 
 .fi
 That command is of course not going to work.  Instead of doing things
-this way, you should enclose the pattern in quotes:
+this way, you should enclose the pattern in quotes or escape the wildcard:
 .nf
-.B $ find . \-name \'*.c\' \-print
+.B $ find . \-name \e*.c \-print
 .fi
 
 .SH "BUGS"
