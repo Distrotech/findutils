@@ -250,7 +250,7 @@ static struct parser_table const parse_table[] =
   PARSE_TEST       ("nogroup",               nogroup),
   PARSE_TEST       ("nouser",                nouser),
   PARSE_OPTION     ("noignore_readdir_race", noignore_race), /* GNU */
-  PARSE_OPTION     ("nowarn",                nowarn),	     /* GNU */
+  PARSE_POSOPT     ("nowarn",                nowarn),	     /* GNU */
   PARSE_PUNCTUATION("o",                     or),
   PARSE_PUNCTUATION("or",                    or),	     /* GNU */
   PARSE_ACTION     ("ok",                    ok),
