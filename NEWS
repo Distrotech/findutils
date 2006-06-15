@@ -1,6 +1,8 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.1-CVS
 
+** Bug Fixes
+
 Find now follows POSIX rules for determining where directories end and
 expressions start.  This means that "find \(1 \!2 \, \)" now searches
 in the four named directories, rather than trying to parse an
@@ -14,9 +16,22 @@ which have missing expressions, such as
       find . \( -not \)
       find . \( -true -a
 
+Savannah bug #15800: If find finds more subdirectories within a parent
+directory than it previously expected to based on the link count of
+the parent, the resulting error message now gives the correct
+directory name (previously an error message was issued but it
+specified the wrong directory).
+
+** Functional changes
+
 For find, debug output can now be enabled at runtime with the -D
 option.  This causes the printing of various sorts of information
 about find's internal state and progress.
+
+The find option -nowarn cannot itself produce a warning (this used to
+happen with commands like "find . -name quux -nowarn -print".
+
+** Performance Enhancements
 
 Find now has a rudimentary cost-based optimiser.  It has an idea of
 the basic cost of each test (i.e. that -name is very cheap while -size
