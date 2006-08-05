@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-06-14 22:35+0100\n"
+"POT-Creation-Date: 2006-08-05 19:48+0100\n"
 "PO-Revision-Date: 2006-05-23 22:33+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -447,7 +447,7 @@ msgstr ""
 "osäkert i kombination med åtgärden %s för find. Ta bort aktuell katalog från "
 "din $PATH (alltså, ta bort \".\", inledande eller avslutande kolon)"
 
-#: find/parser.c:2186
+#: find/parser.c:2187
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -455,17 +455,22 @@ msgstr ""
 "Du kan inte använda {} inom verktygsnamnet för -execdir och -okdir, på grund "
 "av att det innebär en möjlig säkerhetsrisk."
 
-#: find/parser.c:2209
+#: find/parser.c:2210
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Endast en instans av {} stöds med -exec%s ... +"
+
+#: find/parser.c:2223
+#, fuzzy
+msgid "The environment is too large for exec()."
+msgstr "miljön är för stor för exec"
 
 #: find/pred.c:1164
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1564 xargs/xargs.c:1040
+#: find/pred.c:1564 xargs/xargs.c:1030
 msgid "cannot fork"
 msgstr "kan inte grena"
 
@@ -527,7 +532,7 @@ msgstr ""
 "Användning: %s [--version | --help]\n"
 "eller       %s vanligaste_bigram < fillista > locate-databas\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1241
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -645,12 +650,12 @@ msgstr "GNU locate version %s\n"
 msgid "argument to --limit"
 msgstr "argument till --limit"
 
-#: xargs/xargs.c:330
+#: xargs/xargs.c:304
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Ogiltig specialsekvens %s i inmatningsavskiljarspecifikationen."
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:322
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -659,7 +664,7 @@ msgstr ""
 "Ogiltig specialsekvens %s i inmatningsavskiljarspecifikationen; teckenvärden "
 "får inte överstiga %lx."
 
-#: xargs/xargs.c:354
+#: xargs/xargs.c:328
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -668,7 +673,7 @@ msgstr ""
 "Ogiltig specialsekvens %s i inmatningsavskiljarspecifikationen; teckenvärden "
 "får inte överstiga %lo."
 
-#: xargs/xargs.c:363
+#: xargs/xargs.c:337
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -677,7 +682,7 @@ msgstr ""
 "Ogiltig specialsekvens %s i inmatningsavskiljarspecifikationen; "
 "efterföljande tecknen %s är okända."
 
-#: xargs/xargs.c:410
+#: xargs/xargs.c:384
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -686,46 +691,46 @@ msgstr ""
 "Ogiltig inmatningsavskiljarspecifikation %s: avskiljaren måste vara antingen "
 "ett enstaka tecken eller en specialsekvens som börjar med \\."
 
-#: xargs/xargs.c:592
+#: xargs/xargs.c:399
+msgid "environment is too large for exec"
+msgstr "miljön är för stor för exec"
+
+#: xargs/xargs.c:541
+#, c-format
+msgid "warning: value %ld for -s option is too large, using %ld instead"
+msgstr ""
+
+#: xargs/xargs.c:580
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs version %s\n"
 
-#: xargs/xargs.c:607
-msgid "environment is too large for exec"
-msgstr "miljön är för stor för exec"
-
-#: xargs/xargs.c:621
+#: xargs/xargs.c:610
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Kan inte öppna inmatningsfil \"%s\""
 
-#: xargs/xargs.c:647
-#, c-format
-msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
-msgstr "Reducerar arg_max (%ld) till arg_size (%ld)\n"
-
-#: xargs/xargs.c:656
-#, c-format
-msgid "Your environment variables take up %ld bytes\n"
+#: xargs/xargs.c:646
+#, fuzzy, c-format
+msgid "Your environment variables take up %lu bytes\n"
 msgstr "Dina miljövariabler upptar %ld byte\n"
 
-#: xargs/xargs.c:659
-#, c-format
-msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
+#: xargs/xargs.c:649
+#, fuzzy, c-format
+msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Undre och övre POSIX-gränser för argumentlängd: %ld, %ld\n"
 
-#: xargs/xargs.c:663
+#: xargs/xargs.c:653
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Maximal längd på kommando som vi faktiskt kan använda: %ld\n"
 
-#: xargs/xargs.c:666
-#, c-format
-msgid "Size of command buffer we are actually using: %ld\n"
+#: xargs/xargs.c:657
+#, fuzzy, c-format
+msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Storlek på kommandobufferten som vi faktiskt använder: %ld\n"
 
-#: xargs/xargs.c:789 xargs/xargs.c:870
+#: xargs/xargs.c:779 xargs/xargs.c:860
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -734,53 +739,53 @@ msgstr ""
 "citattecknet %s är oavslutat; som standard är citattecken speciella för "
 "xargs såvida du inte använder flaggan -0"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:780 xargs/xargs.c:861
 msgid "double"
 msgstr "dubbelt"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:780 xargs/xargs.c:861
 msgid "single"
 msgstr "enkelt"
 
-#: xargs/xargs.c:888 xargs/xargs.c:945
+#: xargs/xargs.c:878 xargs/xargs.c:935
 msgid "argument line too long"
 msgstr "argumentraden är för lång"
 
-#: xargs/xargs.c:1115
+#: xargs/xargs.c:1105
 msgid "error waiting for child process"
 msgstr "fel vid väntande på barnprocess"
 
-#: xargs/xargs.c:1131
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: avslutades med status 255; avbryter"
 
-#: xargs/xargs.c:1133
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: stoppades av signal %d"
 
-#: xargs/xargs.c:1135
+#: xargs/xargs.c:1125
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: avslutades av signal %d"
 
-#: xargs/xargs.c:1188
+#: xargs/xargs.c:1178
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: ogiltigt tal för flaggan -%c\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1185
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: värdet på flaggan -%c ska vara >= %ld\n"
 
-#: xargs/xargs.c:1209
+#: xargs/xargs.c:1199
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: värdet på flaggan -%c ska vara < %ld\n"
 
-#: xargs/xargs.c:1240
+#: xargs/xargs.c:1230
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -804,6 +809,9 @@ msgstr ""
 "       [-P max-proc]  [--max-procs=max-proc]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=fil]\n"
 "       [--version] [--help] [kommando [initiala argument]]\n"
+
+#~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
+#~ msgstr "Reducerar arg_max (%ld) till arg_size (%ld)\n"
 
 #~ msgid "Success"
 #~ msgstr "Lyckades"

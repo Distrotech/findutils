@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-06-14 22:35+0100\n"
+"POT-Creation-Date: 2006-08-05 19:48+0100\n"
 "PO-Revision-Date: 2005-11-29 09:39+0100\n"
 "Last-Translator: Primož Peterlin <primoz.peterlin@biofiz.mf.uni-lj.si>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
@@ -440,7 +440,7 @@ msgstr ""
 "kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
 "iz spremenljivke $PATH - odstranite ».« ter uvodna ali zaključna dvopičja."
 
-#: find/parser.c:2186
+#: find/parser.c:2187
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -448,17 +448,22 @@ msgstr ""
 "Raba {} znotraj imena pomožnega programa za -execdir in -okdir zaradi "
 "mogočih varnostnih problemov ni dovoljena."
 
-#: find/parser.c:2209
+#: find/parser.c:2210
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Podprta je le enkratna navedba {} v kombinaciji z -exec%s ... +"
+
+#: find/parser.c:2223
+#, fuzzy
+msgid "The environment is too large for exec()."
+msgstr "okolje je preobsežno za klic exec"
 
 #: find/pred.c:1164
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1564 xargs/xargs.c:1040
+#: find/pred.c:1564 xargs/xargs.c:1030
 msgid "cannot fork"
 msgstr "vejitev ni mogoča"
 
@@ -518,7 +523,7 @@ msgstr ""
 "Uporaba: %s [--version | --help]\n"
 "ali      %s najpogostejši_bigrami < seznam > kodiran_seznam\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1241
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -636,12 +641,12 @@ msgstr "GNU locate, izdaja %s\n"
 msgid "argument to --limit"
 msgstr "argument za --limit"
 
-#: xargs/xargs.c:330
+#: xargs/xargs.c:304
 #, fuzzy, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika."
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:322
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -650,7 +655,7 @@ msgstr ""
 "Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
 "vrednost znaka ne sme presegati %lx."
 
-#: xargs/xargs.c:354
+#: xargs/xargs.c:328
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -659,7 +664,7 @@ msgstr ""
 "Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
 "vrednost znaka ne sme presegati %lo."
 
-#: xargs/xargs.c:363
+#: xargs/xargs.c:337
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -668,7 +673,7 @@ msgstr ""
 "Nedovoljeno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
 "neprepoznan sledilni znak %s."
 
-#: xargs/xargs.c:410
+#: xargs/xargs.c:384
 #, fuzzy, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -677,46 +682,46 @@ msgstr ""
 "Nedovoljena specifikacija vhodnega razmejilnika %s: razmejilnim mora biti "
 "bodisi en sam znak, bodisi ubežno zaporedje, ki se začenja z \\."
 
-#: xargs/xargs.c:592
+#: xargs/xargs.c:399
+msgid "environment is too large for exec"
+msgstr "okolje je preobsežno za klic exec"
+
+#: xargs/xargs.c:541
+#, c-format
+msgid "warning: value %ld for -s option is too large, using %ld instead"
+msgstr ""
+
+#: xargs/xargs.c:580
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs, izdaja %s\n"
 
-#: xargs/xargs.c:607
-msgid "environment is too large for exec"
-msgstr "okolje je preobsežno za klic exec"
-
-#: xargs/xargs.c:621
+#: xargs/xargs.c:610
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Vhodne datoteke »%s« ni mogoče odpreti"
 
-#: xargs/xargs.c:647
-#, c-format
-msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
-msgstr "Zmanjšujemo arg_max (%ld) na vrednost arg_size (%ld)\n"
-
-#: xargs/xargs.c:656
-#, c-format
-msgid "Your environment variables take up %ld bytes\n"
+#: xargs/xargs.c:646
+#, fuzzy, c-format
+msgid "Your environment variables take up %lu bytes\n"
 msgstr "Spremenljivke okolja zasedajo %ld bajtov\n"
 
-#: xargs/xargs.c:659
-#, c-format
-msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
+#: xargs/xargs.c:649
+#, fuzzy, c-format
+msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Zgornja in spodnja meja POSIX za dolžino argumenta: %ld, %ld\n"
 
-#: xargs/xargs.c:663
+#: xargs/xargs.c:653
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Največja dolžina ukaza, ki ga lahko uporabimo: %ld\n"
 
-#: xargs/xargs.c:666
-#, c-format
-msgid "Size of command buffer we are actually using: %ld\n"
+#: xargs/xargs.c:657
+#, fuzzy, c-format
+msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Velikost ukaznega medpomnilnika, ki ga dejansko uporabljamo: %ld\n"
 
-#: xargs/xargs.c:789 xargs/xargs.c:870
+#: xargs/xargs.c:779 xargs/xargs.c:860
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -725,53 +730,53 @@ msgstr ""
 "%s narekovaj brez para; privzeto so narekovaji za xargs posebni, razen če "
 "vključite izbiro -O"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:780 xargs/xargs.c:861
 msgid "double"
 msgstr "dvojni"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:780 xargs/xargs.c:861
 msgid "single"
 msgstr "enojni"
 
-#: xargs/xargs.c:888 xargs/xargs.c:945
+#: xargs/xargs.c:878 xargs/xargs.c:935
 msgid "argument line too long"
 msgstr "vrstica z argumenti je predolga"
 
-#: xargs/xargs.c:1115
+#: xargs/xargs.c:1105
 msgid "error waiting for child process"
 msgstr "napaka pri čakanju na proces naslednik"
 
-#: xargs/xargs.c:1131
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: izhod s statusom 255; prekinjamo"
 
-#: xargs/xargs.c:1133
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: ustavljeno s signalom %d"
 
-#: xargs/xargs.c:1135
+#: xargs/xargs.c:1125
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: zaključeno s signalom %d"
 
-#: xargs/xargs.c:1188
+#: xargs/xargs.c:1178
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: neveljavno število za izbiro -%c\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1185
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: vrednost za izbiro -%c mora biti >= %ld\n"
 
-#: xargs/xargs.c:1209
+#: xargs/xargs.c:1199
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: vrednost za izbiro -%c mora biti < %ld\n"
 
-#: xargs/xargs.c:1240
+#: xargs/xargs.c:1230
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -794,6 +799,9 @@ msgstr ""
 "       [-P največ-procesov]  [--max-procs=največ-procesov]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=datoteka]\n"
 "       [--version] [--help] [ukaz [začetni-argumenti]]\n"
+
+#~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
+#~ msgstr "Zmanjšujemo arg_max (%ld) na vrednost arg_size (%ld)\n"
 
 #~ msgid "Success"
 #~ msgstr "Uspešno"

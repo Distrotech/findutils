@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-06-14 22:35+0100\n"
+"POT-Creation-Date: 2006-08-05 19:48+0100\n"
 "PO-Revision-Date: 2006-05-20 13:25+0200\n"
 "Last-Translator: Benno Schulenberg <benno@nietvergeten.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -447,7 +447,7 @@ msgstr ""
 "combinatie met de actie %s van find.  Verwijder de huidige map uit uw PATH-"
 "variabele (oftewel: verwijder \".\" of dubbele punten aan begin en eind)."
 
-#: find/parser.c:2186
+#: find/parser.c:2187
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -455,17 +455,22 @@ msgstr ""
 "Om veiligheidsredenen mag {} bij '-execdir' en '-okdir' niet gebruikt worden "
 "binnen de naam van het hulpprogramma."
 
-#: find/parser.c:2209
+#: find/parser.c:2210
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Bij '-exec%s ... +' mag {} slechts één keer voorkomen."
+
+#: find/parser.c:2223
+#, fuzzy
+msgid "The environment is too large for exec()."
+msgstr "omgeving is te groot voor exec"
 
 #: find/pred.c:1164
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1564 xargs/xargs.c:1040
+#: find/pred.c:1564 xargs/xargs.c:1030
 msgid "cannot fork"
 msgstr "kan geen nieuw proces starten"
 
@@ -524,7 +529,7 @@ msgstr ""
 "Gebruik:  %s [ --version | --help ]\n"
 "     of:  %s meest_gebruikte_bigrams <bestandenlijst> locate-gegevensbank\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1241
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -643,12 +648,12 @@ msgstr "GNU locate versie %s\n"
 msgid "argument to --limit"
 msgstr "argument van --limit"
 
-#: xargs/xargs.c:330
+#: xargs/xargs.c:304
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Ongeldige stuurcode %s in specificatie van scheidingsteken."
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:322
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -657,7 +662,7 @@ msgstr ""
 "Ongeldige stuurcode %s in specificatie van scheidingsteken; tekenwaardes "
 "mogen niet groter zijn dan %lx."
 
-#: xargs/xargs.c:354
+#: xargs/xargs.c:328
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -666,7 +671,7 @@ msgstr ""
 "Ongeldige stuurcode %s in specificatie van scheidingsteken; tekenwaardes "
 "mogen niet groter zijn dan %lo."
 
-#: xargs/xargs.c:363
+#: xargs/xargs.c:337
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -675,7 +680,7 @@ msgstr ""
 "Ongeldige stuurcode %s in specificatie van scheidingsteken; onbegrepen "
 "nakomende tekens %s."
 
-#: xargs/xargs.c:410
+#: xargs/xargs.c:384
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -684,46 +689,46 @@ msgstr ""
 "Ongeldige specificatie %s van scheidingsteken; het scheidingsteken dient een "
 "enkel teken te zijn of een stuurcode beginnend met \\."
 
-#: xargs/xargs.c:592
+#: xargs/xargs.c:399
+msgid "environment is too large for exec"
+msgstr "omgeving is te groot voor exec"
+
+#: xargs/xargs.c:541
+#, c-format
+msgid "warning: value %ld for -s option is too large, using %ld instead"
+msgstr ""
+
+#: xargs/xargs.c:580
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versie %s\n"
 
-#: xargs/xargs.c:607
-msgid "environment is too large for exec"
-msgstr "omgeving is te groot voor exec"
-
-#: xargs/xargs.c:621
+#: xargs/xargs.c:610
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Kan invoerbestand '%s' niet openen"
 
-#: xargs/xargs.c:647
-#, c-format
-msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
-msgstr "arg_max (%ld) teruggebracht tot arg_size (%ld)\n"
-
-#: xargs/xargs.c:656
-#, c-format
-msgid "Your environment variables take up %ld bytes\n"
+#: xargs/xargs.c:646
+#, fuzzy, c-format
+msgid "Your environment variables take up %lu bytes\n"
 msgstr "De omgevingsvariabelen nemen %ld bytes in beslag\n"
 
-#: xargs/xargs.c:659
-#, c-format
-msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
+#: xargs/xargs.c:649
+#, fuzzy, c-format
+msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "POSIX minimum en maximum grenzen aan argumentlengte: %ld, %ld\n"
 
-#: xargs/xargs.c:663
+#: xargs/xargs.c:653
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Maximum lengte van een verwerkbaar commando: %ld\n"
 
-#: xargs/xargs.c:666
-#, c-format
-msgid "Size of command buffer we are actually using: %ld\n"
+#: xargs/xargs.c:657
+#, fuzzy, c-format
+msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Grootte van het werkelijk gebruikte commandobuffer: %ld\n"
 
-#: xargs/xargs.c:789 xargs/xargs.c:870
+#: xargs/xargs.c:779 xargs/xargs.c:860
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -732,53 +737,53 @@ msgstr ""
 "ongepaard %s aanhalingsteken; aanhalingstekens worden door xargs speciaal "
 "behandeld tenzij u de optie -0 gebruikt"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:780 xargs/xargs.c:861
 msgid "double"
 msgstr "dubbel"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:780 xargs/xargs.c:861
 msgid "single"
 msgstr "enkel"
 
-#: xargs/xargs.c:888 xargs/xargs.c:945
+#: xargs/xargs.c:878 xargs/xargs.c:935
 msgid "argument line too long"
 msgstr "argumentregel is te lang"
 
-#: xargs/xargs.c:1115
+#: xargs/xargs.c:1105
 msgid "error waiting for child process"
 msgstr "fout tijdens wachten op kindproces"
 
-#: xargs/xargs.c:1131
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: eindigde met afsluitwaarde 255; xargs breekt af"
 
-#: xargs/xargs.c:1133
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: gestopt door signaal %d"
 
-#: xargs/xargs.c:1135
+#: xargs/xargs.c:1125
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: afgebroken door signaal %d"
 
-#: xargs/xargs.c:1188
+#: xargs/xargs.c:1178
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: ongeldig nummer bij optie -%c\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1185
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: waarde bij optie -%c moet >= %ld zijn\n"
 
-#: xargs/xargs.c:1209
+#: xargs/xargs.c:1199
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: waarde bij optie -%c moet < %ld zijn\n"
 
-#: xargs/xargs.c:1240
+#: xargs/xargs.c:1230
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -801,3 +806,6 @@ msgstr ""
 "          [-s max_aantal_tekens]  [--max-chars=max_aantal_tekens]\n"
 "          [--exit]  [--verbose]  [--no-run-if-empty]  [--arg-file=bestand]\n"
 "          [--version]  [--help]  [COMMANDO [eerste_argumenten]]\n"
+
+#~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
+#~ msgstr "arg_max (%ld) teruggebracht tot arg_size (%ld)\n"

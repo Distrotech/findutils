@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-06-14 22:35+0100\n"
+"POT-Creation-Date: 2006-08-05 19:48+0100\n"
 "PO-Revision-Date: 2005-08-02 05:56+0200\n"
 "Last-Translator: Marcel Telka <marcel@telka.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -440,7 +440,7 @@ msgstr ""
 "vašej premennej $PATH (to znamená, že odstráňte \".\" alebo začiatočné alebo "
 "koncové dvojbodky)"
 
-#: find/parser.c:2186
+#: find/parser.c:2187
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -448,17 +448,22 @@ msgstr ""
 "Nemôžete použiť {} vo vnútri názvu nástroja pre -execdir a -okdir, pretože "
 "toto je potenciálny bezpečnostný problém."
 
-#: find/parser.c:2209
+#: find/parser.c:2210
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Len jeden výskyt {} je podporovaný s -exec%s ... +"
+
+#: find/parser.c:2223
+#, fuzzy
+msgid "The environment is too large for exec()."
+msgstr "prostredie je príliš veľké na vykonanie"
 
 #: find/pred.c:1164
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1564 xargs/xargs.c:1040
+#: find/pred.c:1564 xargs/xargs.c:1030
 msgid "cannot fork"
 msgstr "nemôžem vykonať fork"
 
@@ -517,7 +522,7 @@ msgstr ""
 "Použitie: %s [--version | --help]\n"
 "alebo     %s most_common_bigrams < zoznam-súborov > databáza-umiestnení\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1251
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1241
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -639,79 +644,79 @@ msgstr "GNU locale verzia %s\n"
 msgid "argument to --limit"
 msgstr "parameter pre --limit"
 
-#: xargs/xargs.c:330
+#: xargs/xargs.c:304
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:322
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lx."
 msgstr ""
 
-#: xargs/xargs.c:354
+#: xargs/xargs.c:328
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lo."
 msgstr ""
 
-#: xargs/xargs.c:363
+#: xargs/xargs.c:337
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
 
-#: xargs/xargs.c:410
+#: xargs/xargs.c:384
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:592
+#: xargs/xargs.c:399
+msgid "environment is too large for exec"
+msgstr "prostredie je príliš veľké na vykonanie"
+
+#: xargs/xargs.c:541
+#, c-format
+msgid "warning: value %ld for -s option is too large, using %ld instead"
+msgstr ""
+
+#: xargs/xargs.c:580
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs verzia %s\n"
 
-#: xargs/xargs.c:607
-msgid "environment is too large for exec"
-msgstr "prostredie je príliš veľké na vykonanie"
-
-#: xargs/xargs.c:621
+#: xargs/xargs.c:610
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Nepodarilo sa otvoriť vstupný súbor `%s'"
 
-#: xargs/xargs.c:647
-#, c-format
-msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
-msgstr "Zmenšenie arg_max (%ld) na arg_size (%ld)\n"
-
-#: xargs/xargs.c:656
-#, c-format
-msgid "Your environment variables take up %ld bytes\n"
+#: xargs/xargs.c:646
+#, fuzzy, c-format
+msgid "Your environment variables take up %lu bytes\n"
 msgstr "Vaše premenné prostredia zaberajú %ld byjtov\n"
 
-#: xargs/xargs.c:659
-#, c-format
-msgid "POSIX lower and upper limits on argument length: %ld, %ld\n"
+#: xargs/xargs.c:649
+#, fuzzy, c-format
+msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Dolné a horné POSIX limity pre dĺžku parametrov: %ld, %ld\n"
 
-#: xargs/xargs.c:663
+#: xargs/xargs.c:653
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Maximálna dĺžka príkazu, ktorú môžeme momentálne používať: %ld\n"
 
-#: xargs/xargs.c:666
-#, c-format
-msgid "Size of command buffer we are actually using: %ld\n"
+#: xargs/xargs.c:657
+#, fuzzy, c-format
+msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Veľkosť vyrovnávacej pamäte príkazov, ktorú práve používame: %ld\n"
 
-#: xargs/xargs.c:789 xargs/xargs.c:870
+#: xargs/xargs.c:779 xargs/xargs.c:860
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -720,53 +725,53 @@ msgstr ""
 "nezodpovedajúce úvodzovky %s; štandardne sú úvodzovky špeciálne pre xargs, "
 "pokiaľ nepoužijete voľbu -0"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:780 xargs/xargs.c:861
 msgid "double"
 msgstr "dvojitý"
 
-#: xargs/xargs.c:790 xargs/xargs.c:871
+#: xargs/xargs.c:780 xargs/xargs.c:861
 msgid "single"
 msgstr "jednoduchý"
 
-#: xargs/xargs.c:888 xargs/xargs.c:945
+#: xargs/xargs.c:878 xargs/xargs.c:935
 msgid "argument line too long"
 msgstr "riadok s parametrom je príliš dlhý"
 
-#: xargs/xargs.c:1115
+#: xargs/xargs.c:1105
 msgid "error waiting for child process"
 msgstr "chyba pri zápise do procesu potomka"
 
-#: xargs/xargs.c:1131
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: ukončený so stavom 255; prerušujem"
 
-#: xargs/xargs.c:1133
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: zastavený signálom %d"
 
-#: xargs/xargs.c:1135
+#: xargs/xargs.c:1125
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: ukončený signálom %d"
 
-#: xargs/xargs.c:1188
+#: xargs/xargs.c:1178
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: neplatné číslo pre voľbu -%c\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1185
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: hodnota pre voľbu -%c by mala byť >= %ld\n"
 
-#: xargs/xargs.c:1209
+#: xargs/xargs.c:1199
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: hodnota pre voľbu -%c by mala byť < %ld\n"
 
-#: xargs/xargs.c:1240
+#: xargs/xargs.c:1230
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -786,6 +791,9 @@ msgstr ""
 "       [--max-chars=max-znakov] [--verbose] [--exit] [--max-procs=max-proc]\n"
 "       [--max-args=max-param] [--no-run-if-empty] [--arg-file=súbor]\n"
 "       [--version] [--help] [príkaz [počiatočné-parametre]]\n"
+
+#~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
+#~ msgstr "Zmenšenie arg_max (%ld) na arg_size (%ld)\n"
 
 #, fuzzy
 #~ msgid "Invalid regular expression"
