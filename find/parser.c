@@ -2366,6 +2366,7 @@ new_insert_exec_ok (const char *action,
   boolean allow_plus;		/* True if + is a valid terminator */
   int brace_count;		/* Number of instances of {}. */
   PRED_FUNC func = entry->pred_func;
+  enum BC_INIT_STATUS bcstatus;
   
   struct predicate *our_pred;
   struct exec_val *execp;	/* Pointer for efficiency. */
@@ -2470,8 +2471,24 @@ new_insert_exec_ok (const char *action,
 	    suffix);
     }
 
-  /* execp->ctl   = xmalloc(sizeof struct buildcmd_control); */
-  bc_init_controlinfo(&execp->ctl);
+  /* We use a switch statement here so that 
+   * the compiler warns us when we forget to handle a 
+   * newly invented enum value.
+   */
+  bcstatus = bc_init_controlinfo(&execp->ctl);
+  switch (bcstatus) 
+    {
+    case BC_INIT_ENV_TOO_BIG:
+      error(1, 0, 
+	    _("The environment is too large for exec()."));
+      break;
+    case BC_INIT_OK:
+      /* Good news.  Carry on. */
+      break;
+    }
+  bc_use_sensible_arg_max(&execp->ctl);
+
+
   execp->ctl.exec_callback = launch;
 
   if (our_pred->args.exec_vec.multiple)

@@ -276,32 +276,6 @@ static void usage PARAMS ((FILE * stream));
 
 
 
-static size_t
-get_line_max(void)
-{
-  long val;
-#ifdef _SC_LINE_MAX  
-  val = sysconf(_SC_LINE_MAX);
-#else
-  val = -1;
-#endif
-  
-  if (val > 0)
-    return val;
-
-  /* either _SC_LINE_MAX was not available or 
-   * there is no particular limit.
-   */
-#ifdef LINE_MAX
-  val = LINE_MAX;
-#endif
-
-  if (val > 0)
-    return val;
-
-  return 2048L;			/* a reasonable guess. */
-}
-
 static char 
 get_char_oct_or_hex_escape(const char *s)
 {
@@ -413,6 +387,17 @@ get_input_delimiter(const char *s)
     }
 }
 
+static void 
+noop (void)
+{
+  /* does nothing. */
+}
+
+static void 
+fail_due_to_env_size (void)
+{
+  error (1, 0, _("environment is too large for exec"));
+}
 
 
 int
@@ -422,14 +407,12 @@ main (int argc, char **argv)
   int show_limits = 0;			/* --show-limits */
   int always_run_command = 1;
   char *input_file = "-"; /* "-" is stdin */
-  size_t posix_arg_size_max;
-  size_t posix_arg_size_min;
-  size_t arg_size;
-  size_t size_of_environment = env_size(environ);
   char *default_cmd = "/bin/echo";
   int (*read_args) PARAMS ((void)) = read_line;
+  void (*act_on_init_result)(void) = noop;
   int env_too_big = 0;
-
+  enum BC_INIT_STATUS bcstatus;
+  
   program_name = argv[0];
   original_exit_value = 0;
   
@@ -441,44 +424,40 @@ main (int argc, char **argv)
   atexit (close_stdout);
   atexit (wait_for_proc_all);
 
-  /* IEEE Std 1003.1, 2003 specifies that the combined argument and 
-   * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 
-   * specifies that it shall be at least LINE_MAX.
-   */
-  posix_arg_size_min = get_line_max();
-  posix_arg_size_max = bc_get_arg_max();
-  posix_arg_size_max -= 2048; /* POSIX.2 requires subtracting 2048.  */
-
-  bc_init_controlinfo(&bc_ctl);
-  assert(bc_ctl.arg_max == posix_arg_size_max);
-
-  bc_ctl.exec_callback = xargs_do_exec;
-
+  bcstatus = bc_init_controlinfo(&bc_ctl);
   
-  /* Start with a reasonable default size, though this can be
-   * adjusted via the -s option.
+  /* The bc_init_controlinfo call may have determined that the 
+   * environment is too big.  In that case, we will fail with 
+   * an error message after processing the command-line options,
+   * as "xargs --help" should still work even if the environment is 
+   * too big.
+   *
+   * Some of the argument processing depends on the contents of 
+   * bc_ctl, which will be in an undefined state if bc_init_controlinfo()
+   * failed.
    */
-  arg_size = (128u * 1024u) + size_of_environment;
-
-  /* Take the size of the environment into account.  */
-  if (size_of_environment > posix_arg_size_max)
+  if (BC_INIT_ENV_TOO_BIG == bcstatus)
     {
-      bc_ctl.arg_max = 0u;
-      env_too_big = 1;
+      act_on_init_result = fail_due_to_env_size;
     }
   else
     {
-      bc_ctl.arg_max = posix_arg_size_max - size_of_environment;
+      /* IEEE Std 1003.1, 2003 specifies that the combined argument and 
+       * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 
+       * specifies that it shall be at least LINE_MAX.
+       */
+#if defined(ARG_MAX)
+      assert(bc_ctl.arg_max <= (ARG_MAX-2048));
+#endif
+      assert(bc_ctl.arg_max >= LINE_MAX);
+      
+      bc_ctl.exec_callback = xargs_do_exec;
+      
+      /* Start with a reasonable default size, though this can be
+       * adjusted via the -s option.
+       */
+      bc_use_sensible_arg_max(&bc_ctl);
     }
-
-  /* Check against the upper and lower limits. */  
-  if (arg_size > bc_ctl.arg_max)
-    arg_size = bc_ctl.arg_max;
-  if (arg_size < posix_arg_size_min)
-    arg_size = posix_arg_size_min;
-  
-  
-
   
   while ((optc = getopt_long (argc, argv, "+0a:E:e::i::I:l::L:n:prs:txP:d:",
 			      longopts, (int *) 0)) != -1)
@@ -551,12 +530,21 @@ main (int argc, char **argv)
 	   * cannot support - in that case, the relevant limit is used.
 	   */
 	case 's':
-	  arg_size = parse_num (optarg, 's', 1L, posix_arg_size_max, 0);
-	  if (arg_size > posix_arg_size_max)
-	    {
-	      error (0, 0, "warning: value %ld for -s option is too large, using %ld instead", arg_size, posix_arg_size_max);
-	      arg_size = posix_arg_size_max;
-	    }
+	  {
+	    size_t arg_size;
+	    act_on_init_result();
+	    arg_size = parse_num (optarg, 's', 1L,
+				  bc_ctl.posix_arg_size_max, 0);
+	    if (arg_size > bc_ctl.posix_arg_size_max)
+	      {
+		error (0, 0,
+		       _("warning: value %ld for -s option is too large, "
+			 "using %ld instead"),
+		       arg_size, bc_ctl.posix_arg_size_max);
+		arg_size = bc_ctl.posix_arg_size_max;
+	      }
+	    bc_ctl.arg_max = arg_size;
+	  }
 	  break;
 
 	case 'S':
@@ -598,14 +586,15 @@ main (int argc, char **argv)
 	}
     }
 
-  if (env_too_big)
-  {
-    /* We issue this error message after processing command line 
-     * arguments so that it is possible to use "xargs --help" even if
-     * the environment is too large. 
-     */
-    error (1, 0, _("environment is too large for exec"));
-  }
+  /* If we had deferred failing due to problems in bc_init_controlinfo(),
+   * do it now.
+   *
+   * We issue this error message after processing command line 
+   * arguments so that it is possible to use "xargs --help" even if
+   * the environment is too large. 
+   */
+  act_on_init_result();
+  assert(BC_INIT_OK == bcstatus);
 
   if (0 == strcmp (input_file, "-"))
     {
@@ -633,37 +622,37 @@ main (int argc, char **argv)
       argv = &default_cmd;
     }
 
-  /* Taking into account the size of the environment, 
-   * figure out how large a buffer we need to
-   * hold all the arguments.  We cannot use ARG_MAX 
-   * directly since that may be arbitrarily large.
-   * This is from a patch by Bob Proulx, <bob@proulx.com>.
+  /* We want to be able to print size_t values as unsigned long, so if
+   * the cast isn't value-preserving, we have a problem.  This isn't a
+   * problem in C89, because size_t was known to be no wider than
+   * unsigned long.  In C99 this is no longer the case, but there are
+   * special C99 ways to print such values.  Unfortunately this
+   * program tries to work on both C89 and C99 systems.
    */
-  if (bc_ctl.arg_max > arg_size)
-    {
-      if (show_limits)
-	{
-	  /* XXX: this will silently go wrong if sizeof(size_t)>sizeof(unsigned long) */
-	  fprintf(stderr,
-		  _("Reducing arg_max (%lu) to arg_size (%lu)\n"),
-		  (unsigned long)bc_ctl.arg_max, (unsigned long)arg_size);
-	}
-      bc_ctl.arg_max = arg_size;
-    }
-
+#if defined(SIZE_MAX)
+# if SIZE_MAX > ULONG_MAX
+# error "I'm not sure how to print size_t values on your system"
+# endif
+#else
+  /* Without SIZE_MAX (i.e. limits.h) this is probably 
+   * close to the best we can do.
+   */
+  assert(sizeof(size_t) <= sizeof(unsigned long));
+#endif
+  
   if (show_limits)
     {
-      /* XXX: this will all silently go wrong if sizeof(size_t)>sizeof(unsigned long) */
       fprintf(stderr,
 	      _("Your environment variables take up %lu bytes\n"),
-	      (unsigned long)size_of_environment);
+	      (unsigned long)bc_size_of_environment());
       fprintf(stderr,
 	      _("POSIX lower and upper limits on argument length: %lu, %lu\n"),
-	      (unsigned long)posix_arg_size_min,
-	      (unsigned long)posix_arg_size_max);
+	      (unsigned long)bc_ctl.posix_arg_size_min,
+	      (unsigned long)bc_ctl.posix_arg_size_max);
       fprintf(stderr,
 	      _("Maximum length of command we could actually use: %ld\n"),
-	      (unsigned long)(posix_arg_size_max - size_of_environment));
+	      (unsigned long)(bc_ctl.posix_arg_size_max -
+			      bc_size_of_environment()));
       fprintf(stderr,
 	      _("Size of command buffer we are actually using: %lu\n"),
 	      (unsigned long)bc_ctl.arg_max);
@@ -1224,19 +1213,6 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
 	}
     }
   return val;
-}
-
-/* Return how much of ARG_MAX is used by the environment.  */
-
-static size_t
-env_size (char **envp)
-{
-  size_t len = 0u;
-
-  while (*envp)
-    len += strlen (*envp++) + 1;
-
-  return len;
 }
 
 static void
