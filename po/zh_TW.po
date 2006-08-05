@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-06-14 22:33+0100\n"
+"POT-Creation-Date: 2006-08-05 20:31+0100\n"
 "PO-Revision-Date: 2005-12-06 11:30+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -430,7 +430,7 @@ msgstr ""
 "PATH 環境變數中包括了當前目錄，當配合 find 的 %s 操作模式時會令系統安全產生漏"
 "洞。請在 $PATH 變數中移除當前目錄 (即是 “.”，或者最前或最後的冒號)"
 
-#: find/parser.c:2446
+#: find/parser.c:2447
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -438,17 +438,22 @@ msgstr ""
 "您不應該在 -execdir 和 -okdir 中使用 {} 作為程式名稱，因為這樣做可能會造成安"
 "全漏洞。"
 
-#: find/parser.c:2469
+#: find/parser.c:2470
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
+
+#: find/parser.c:2483
+#, fuzzy
+msgid "The environment is too large for exec()."
+msgstr "執行 exec 時的環境變數太大"
 
 #: find/pred.c:1136
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1567 xargs/xargs.c:1045
+#: find/pred.c:1567 xargs/xargs.c:1034
 msgid "cannot fork"
 msgstr "fork 失敗"
 
@@ -569,7 +574,7 @@ msgstr ""
 "用法: %s [--version | --help]\n"
 "或     %s most_common_bigrams < 檔案清單 > locate資料庫\n"
 
-#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1256
+#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1232
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -687,33 +692,33 @@ msgstr "GNU locate %s 版本\n"
 msgid "argument to --limit"
 msgstr ""
 
-#: xargs/xargs.c:330
+#: xargs/xargs.c:304
 #, fuzzy, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "轉義控制序列 (escape sequence) ‘%s’ 不合法。"
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:322
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lx."
 msgstr "轉義控制序列 (escape sequence) ‘%s’ 不合法：字元值不可以超過 %lx。"
 
-#: xargs/xargs.c:354
+#: xargs/xargs.c:328
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lo."
 msgstr "轉義控制序列 (escape sequence) ‘%s’ 不合法：字元值不可以超過 %lo。"
 
-#: xargs/xargs.c:363
+#: xargs/xargs.c:337
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr "轉義控制序列 (escape sequence) ‘%s’ 不合法：無法辨認最後的字元 ‘%s’。"
 
-#: xargs/xargs.c:408
+#: xargs/xargs.c:382
 #, fuzzy, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -722,46 +727,46 @@ msgstr ""
 "分隔字元 ‘%s’ 不合法：分隔字元必須是一個 ASCII 字元或以反斜號 \\ 開始的轉義控"
 "制序列 (escape sequence)。"
 
-#: xargs/xargs.c:592
+#: xargs/xargs.c:399
+msgid "environment is too large for exec"
+msgstr "執行 exec 時的環境變數太大"
+
+#: xargs/xargs.c:541
+#, c-format
+msgid "warning: value %ld for -s option is too large, using %ld instead"
+msgstr ""
+
+#: xargs/xargs.c:580
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs %s 版本\n"
 
-#: xargs/xargs.c:607
-msgid "environment is too large for exec"
-msgstr "執行 exec 時的環境變數太大"
-
-#: xargs/xargs.c:621
+#: xargs/xargs.c:610
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "無法開啟檔案 ‘%s’ 作為輸入資料"
 
-#: xargs/xargs.c:648
-#, c-format
-msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
-msgstr ""
-
-#: xargs/xargs.c:658
+#: xargs/xargs.c:646
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "環境變數總共用了 %ld 位元組\n"
 
-#: xargs/xargs.c:661
+#: xargs/xargs.c:649
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "POSIX 標準中參數長度上下限為：%ld, %ld\n"
 
-#: xargs/xargs.c:665
+#: xargs/xargs.c:653
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "實際上可用的指令列長度上限：%ld\n"
 
-#: xargs/xargs.c:668
+#: xargs/xargs.c:657
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "實際上使用的指令列緩衝區大小：%ld\n"
 
-#: xargs/xargs.c:791 xargs/xargs.c:872
+#: xargs/xargs.c:780 xargs/xargs.c:861
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -770,53 +775,53 @@ msgstr ""
 "%s引號不配合；除非使用 -0 選項，否則在預設模式下引號對於 xargs 來說是有特別意"
 "義的"
 
-#: xargs/xargs.c:792 xargs/xargs.c:873
+#: xargs/xargs.c:781 xargs/xargs.c:862
 msgid "double"
 msgstr "雙"
 
-#: xargs/xargs.c:792 xargs/xargs.c:873
+#: xargs/xargs.c:781 xargs/xargs.c:862
 msgid "single"
 msgstr "單"
 
-#: xargs/xargs.c:890 xargs/xargs.c:947
+#: xargs/xargs.c:879 xargs/xargs.c:936
 msgid "argument line too long"
 msgstr "參數太長"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1109
 msgid "error waiting for child process"
 msgstr "等待子進程時出現錯誤"
 
-#: xargs/xargs.c:1136
+#: xargs/xargs.c:1125
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: 回傳碼為 255；中止"
 
-#: xargs/xargs.c:1138
+#: xargs/xargs.c:1127
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: 因訊號 %d 而停止"
 
-#: xargs/xargs.c:1140
+#: xargs/xargs.c:1129
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: 因訊號 %d 而中止"
 
-#: xargs/xargs.c:1193
+#: xargs/xargs.c:1182
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c 選項後的數值無效\n"
 
-#: xargs/xargs.c:1200
+#: xargs/xargs.c:1189
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c 選項後的數值必須不小於 %ld\n"
 
-#: xargs/xargs.c:1214
+#: xargs/xargs.c:1203
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c 選項後的數值必須小於 %ld\n"
 
-#: xargs/xargs.c:1245
+#: xargs/xargs.c:1221
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"

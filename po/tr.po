@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-06-14 22:33+0100\n"
+"POT-Creation-Date: 2006-08-05 20:31+0100\n"
 "PO-Revision-Date: 2006-05-20 13:06+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@buguner.name.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -457,7 +457,7 @@ msgstr ""
 "kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
 "işaretlerini kaldırın)"
 
-#: find/parser.c:2446
+#: find/parser.c:2447
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -465,17 +465,22 @@ msgstr ""
 "-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, "
 "çünkü bu potensiyel bir güvenlik açığıdır."
 
-#: find/parser.c:2469
+#: find/parser.c:2470
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
+
+#: find/parser.c:2483
+#, fuzzy
+msgid "The environment is too large for exec()."
+msgstr "icra edilebilir olarak ortam çok geniş"
 
 #: find/pred.c:1136
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1567 xargs/xargs.c:1045
+#: find/pred.c:1567 xargs/xargs.c:1034
 msgid "cannot fork"
 msgstr "ayrılamaz"
 
@@ -596,7 +601,7 @@ msgstr ""
 "Kullanımı: %s [--version | --help]\n"
 "veya       %s most_common_bigrams < dosya-listesi > konum-veritabanı\n"
 
-#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1256
+#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1232
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -716,12 +721,12 @@ msgstr "GNU locate sürüm %s\n"
 msgid "argument to --limit"
 msgstr "--limit argümanı"
 
-#: xargs/xargs.c:330
+#: xargs/xargs.c:304
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz."
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:322
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -730,7 +735,7 @@ msgstr ""
 "Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz; karakter "
 "değerleri %lx değerini aşmamalı."
 
-#: xargs/xargs.c:354
+#: xargs/xargs.c:328
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -739,7 +744,7 @@ msgstr ""
 "Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz; karakter "
 "değerleri %lo değerini aşmamalı."
 
-#: xargs/xargs.c:363
+#: xargs/xargs.c:337
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -748,7 +753,7 @@ msgstr ""
 "Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz; ardındaki %s "
 "karakterleri tanınmıyor."
 
-#: xargs/xargs.c:408
+#: xargs/xargs.c:382
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -757,46 +762,46 @@ msgstr ""
 "Girdi sınırlayıcı belirtimi %s geçersiz: sınırlanan şey ya tek bir karakter "
 "ya da \\ ile öncelenmiş bir dizge olmalı."
 
-#: xargs/xargs.c:592
+#: xargs/xargs.c:399
+msgid "environment is too large for exec"
+msgstr "icra edilebilir olarak ortam çok geniş"
+
+#: xargs/xargs.c:541
+#, c-format
+msgid "warning: value %ld for -s option is too large, using %ld instead"
+msgstr ""
+
+#: xargs/xargs.c:580
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs sürüm %s\n"
 
-#: xargs/xargs.c:607
-msgid "environment is too large for exec"
-msgstr "icra edilebilir olarak ortam çok geniş"
-
-#: xargs/xargs.c:621
+#: xargs/xargs.c:610
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Girdi dosyası `%s' açılamıyor"
 
-#: xargs/xargs.c:648
-#, fuzzy, c-format
-msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
-msgstr "arg_max (%ld), arg_size'a (%ld) düşürülüyor\n"
-
-#: xargs/xargs.c:658
+#: xargs/xargs.c:646
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Ortam değişkenleriniz %ld bayt tutuyor\n"
 
-#: xargs/xargs.c:661
+#: xargs/xargs.c:649
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Argüman uzunluğu için POSIX alt ve üst sınırları: %ld, %ld\n"
 
-#: xargs/xargs.c:665
+#: xargs/xargs.c:653
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Kullanabileceğimiz asgari komut uzunluğu: %ld\n"
 
-#: xargs/xargs.c:668
+#: xargs/xargs.c:657
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Kullanmakta olduğumuz komut tamponunun boyu: %ld\n"
 
-#: xargs/xargs.c:791 xargs/xargs.c:872
+#: xargs/xargs.c:780 xargs/xargs.c:861
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -805,53 +810,53 @@ msgstr ""
 "%s karşılığı ile eşleşmiyor; -0 seçeneği ile belirtilmedikçe öntanımlı "
 "olarak sarmalayıcı karakterler xarg'lara özeldir"
 
-#: xargs/xargs.c:792 xargs/xargs.c:873
+#: xargs/xargs.c:781 xargs/xargs.c:862
 msgid "double"
 msgstr "çift"
 
-#: xargs/xargs.c:792 xargs/xargs.c:873
+#: xargs/xargs.c:781 xargs/xargs.c:862
 msgid "single"
 msgstr "tek"
 
-#: xargs/xargs.c:890 xargs/xargs.c:947
+#: xargs/xargs.c:879 xargs/xargs.c:936
 msgid "argument line too long"
 msgstr "argüman satırı çok uzun"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1109
 msgid "error waiting for child process"
 msgstr "ast süreç beklenirken hata oluştu"
 
-#: xargs/xargs.c:1136
+#: xargs/xargs.c:1125
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: durum 255 ile çıkıldı; bırakılıyor"
 
-#: xargs/xargs.c:1138
+#: xargs/xargs.c:1127
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: %d sinyali ile durduruldu"
 
-#: xargs/xargs.c:1140
+#: xargs/xargs.c:1129
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: %d sinyali ile sonlandırıldı"
 
-#: xargs/xargs.c:1193
+#: xargs/xargs.c:1182
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c seçeneği için geçersiz sayı\n"
 
-#: xargs/xargs.c:1200
+#: xargs/xargs.c:1189
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c seçeneği için değer >= %ld olmalı\n"
 
-#: xargs/xargs.c:1214
+#: xargs/xargs.c:1203
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c seçeneği için değer < %ld olmalı\n"
 
-#: xargs/xargs.c:1245
+#: xargs/xargs.c:1221
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -874,6 +879,10 @@ msgstr ""
 "       [-P azami-işlem-sayısı] [--max-procs=azami-işlem-sayısı]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=dosya]\n"
 "       [--version] [--help] [komut [ilk-argümanlar]]\n"
+
+#, fuzzy
+#~ msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
+#~ msgstr "arg_max (%ld), arg_size'a (%ld) düşürülüyor\n"
 
 #~ msgid "Success"
 #~ msgstr "Başarılı"

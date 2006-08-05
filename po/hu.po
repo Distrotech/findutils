@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-06-14 22:33+0100\n"
+"POT-Creation-Date: 2006-08-05 20:31+0100\n"
 "PO-Revision-Date: 2006-01-05 23:32+0100\n"
 "Last-Translator: Emese Kovacs <emese@instantweb.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -455,7 +455,7 @@ msgstr ""
 "könyvtárat a $PATH változóból (azaz a pontot vagy a kezdő/záró "
 "pontosvesszőt)."
 
-#: find/parser.c:2446
+#: find/parser.c:2447
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -463,17 +463,22 @@ msgstr ""
 "A {} jel nem használható a -execdir és -okdir segédprogramjának nevében, "
 "mivel ez egy lehetséges biztonsági probléma."
 
-#: find/parser.c:2469
+#: find/parser.c:2470
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Csak egyetlen {} példány támogatott a -exec%s ... + esetén"
+
+#: find/parser.c:2483
+#, fuzzy
+msgid "The environment is too large for exec()."
+msgstr "a környezet túl nagy az exec-hez"
 
 #: find/pred.c:1136
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1567 xargs/xargs.c:1045
+#: find/pred.c:1567 xargs/xargs.c:1034
 msgid "cannot fork"
 msgstr "fork() rendszerhívás sikertelen"
 
@@ -598,7 +603,7 @@ msgstr ""
 "Használat: %s [--version | --help]\n"
 "vagy %s most_common_bigrams < fájllista > locate-adatbázis\n"
 
-#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1256
+#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1232
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -718,14 +723,14 @@ msgstr "GNU locate %s verzió\n"
 msgid "argument to --limit"
 msgstr "a --limit argumentuma"
 
-#: xargs/xargs.c:330
+#: xargs/xargs.c:304
 #, fuzzy, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
 "A(z) \"%s\" escape sorozat szabálytalan a bemenet\n"
 "elhatárolójának meghatározásában"
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:322
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -735,7 +740,7 @@ msgstr ""
 "elhatárolójának meghatározásában, a karakterértékek nem léphetik túl a(z)\n"
 "%lx értéket."
 
-#: xargs/xargs.c:354
+#: xargs/xargs.c:328
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -745,7 +750,7 @@ msgstr ""
 "elhatárolójának meghatározásában, a karakterértékek nem léphetik túl a(z)\n"
 "%lo értéket."
 
-#: xargs/xargs.c:363
+#: xargs/xargs.c:337
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -755,7 +760,7 @@ msgstr ""
 "elhatárolójának meghatározásában, a(z) %s záró karaktereket a program\n"
 "nem ismerte fel."
 
-#: xargs/xargs.c:408
+#: xargs/xargs.c:382
 #, fuzzy, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -765,46 +770,46 @@ msgstr ""
 "az elhatárolt vagy egy karakternek, vagy egy \\ kezdetű escape sorozatnak\n"
 "kell lennie."
 
-#: xargs/xargs.c:592
+#: xargs/xargs.c:399
+msgid "environment is too large for exec"
+msgstr "a környezet túl nagy az exec-hez"
+
+#: xargs/xargs.c:541
+#, c-format
+msgid "warning: value %ld for -s option is too large, using %ld instead"
+msgstr ""
+
+#: xargs/xargs.c:580
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs %s verzió\n"
 
-#: xargs/xargs.c:607
-msgid "environment is too large for exec"
-msgstr "a környezet túl nagy az exec-hez"
-
-#: xargs/xargs.c:621
+#: xargs/xargs.c:610
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "A(z) \"%s\" bemeneti fájl nem nyitható meg"
 
-#: xargs/xargs.c:648
-#, fuzzy, c-format
-msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
-msgstr "Az arg_max (%ld) csökkentése az arg_size (%ld) értékére\n"
-
-#: xargs/xargs.c:658
+#: xargs/xargs.c:646
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "A környezeti változói %ld bájtot foglalnak\n"
 
-#: xargs/xargs.c:661
+#: xargs/xargs.c:649
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "A POSIX alsó és felső korlátai az arumentum hosszára: %ld, %ld\n"
 
-#: xargs/xargs.c:665
+#: xargs/xargs.c:653
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "A ténylegesen használható parancs maximális hossza: %ld\n"
 
-#: xargs/xargs.c:668
+#: xargs/xargs.c:657
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "A ténylegesen használt parancspuffer hossza: %ld\n"
 
-#: xargs/xargs.c:791 xargs/xargs.c:872
+#: xargs/xargs.c:780 xargs/xargs.c:861
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -813,53 +818,53 @@ msgstr ""
 "pár nélküli %s idézőjel; alapértelmezésben az idézőjelek speciálisak az "
 "xargs számára, hacsak nem használja a -0 kapcsolót"
 
-#: xargs/xargs.c:792 xargs/xargs.c:873
+#: xargs/xargs.c:781 xargs/xargs.c:862
 msgid "double"
 msgstr "kettős"
 
-#: xargs/xargs.c:792 xargs/xargs.c:873
+#: xargs/xargs.c:781 xargs/xargs.c:862
 msgid "single"
 msgstr "egyszeres"
 
-#: xargs/xargs.c:890 xargs/xargs.c:947
+#: xargs/xargs.c:879 xargs/xargs.c:936
 msgid "argument line too long"
 msgstr "az argumentumsor túl hosszú"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1109
 msgid "error waiting for child process"
 msgstr "hiba a gyermekfolyamatra való várakozás közben"
 
-#: xargs/xargs.c:1136
+#: xargs/xargs.c:1125
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: kilépési értéke 255; megszakítás"
 
-#: xargs/xargs.c:1138
+#: xargs/xargs.c:1127
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: %d szignállal leállítva (stopped)"
 
-#: xargs/xargs.c:1140
+#: xargs/xargs.c:1129
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: %d szignállal leállítva (terminated)"
 
-#: xargs/xargs.c:1193
+#: xargs/xargs.c:1182
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: érvénytelen szám a -%c kapcsolóhoz\n"
 
-#: xargs/xargs.c:1200
+#: xargs/xargs.c:1189
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: a -%c kapcsoló értéke >= %ld kell legyen\n"
 
-#: xargs/xargs.c:1214
+#: xargs/xargs.c:1203
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: a -%c kapcsoló értéke < %ld kell legyen\n"
 
-#: xargs/xargs.c:1245
+#: xargs/xargs.c:1221
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -881,3 +886,7 @@ msgstr ""
 "       [-P max-proc] [--max-procs=max-proc]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=fájl]\n"
 "       [--version] [--help] [parancs [induló-argumentumok]]\n"
+
+#, fuzzy
+#~ msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
+#~ msgstr "Az arg_max (%ld) csökkentése az arg_size (%ld) értékére\n"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-06-14 22:33+0100\n"
+"POT-Creation-Date: 2006-08-05 20:31+0100\n"
 "PO-Revision-Date: 2006-05-22 05:47-0500\n"
 "Last-Translator: Kevin Patrick Scannell <scannell@SLU.EDU>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -462,7 +462,7 @@ msgstr ""
 "neamhdhaingean é seo in éineacht leis an ghníomh %s.  Bain an chomhadlann "
 "reatha as $PATH (.i., bain \".\", nó idirstad ar dtús/i ndeireadh, amach)"
 
-#: find/parser.c:2446
+#: find/parser.c:2447
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -470,10 +470,15 @@ msgstr ""
 "Ní cheadaítear {} mar chuid d'ainm uirlise le -execdir nó -okdir, de bharr "
 "gur neamhdhaingean é seo."
 
-#: find/parser.c:2469
+#: find/parser.c:2470
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Ní thacaítear ach aon phéire amháin {} le -exec%s ... +"
+
+#: find/parser.c:2483
+#, fuzzy
+msgid "The environment is too large for exec()."
+msgstr "Tá an timpeallacht rómhór á rith"
 
 #: find/pred.c:1136
 #, c-format
@@ -481,7 +486,7 @@ msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
 # "fork" not in standard refs/corpus.  Maybe want a "gabhl*" word instead? -KPS
-#: find/pred.c:1567 xargs/xargs.c:1045
+#: find/pred.c:1567 xargs/xargs.c:1034
 msgid "cannot fork"
 msgstr "ní féidir forc a dhéanamh"
 
@@ -602,7 +607,7 @@ msgstr ""
 "Úsáid: %s [--version | --help]\n"
 "nó     %s bigramanna_níos_coitianta < liosta > locate-bunachar-sonraí\n"
 
-#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1256
+#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1232
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -721,12 +726,12 @@ msgstr "GNU locate, leagan %s\n"
 msgid "argument to --limit"
 msgstr "argóint i ndiaidh --limit"
 
-#: xargs/xargs.c:330
+#: xargs/xargs.c:304
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Seicheamh neamhcheadaithe éalúcháin %s i dteormharcóir ionchurtha."
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:322
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -735,7 +740,7 @@ msgstr ""
 "Seicheamh neamhcheadaithe éalúcháin %s i dteormharcóir ionchurtha; ní "
 "cheadaítear carachtair le luach níos mó ná %lx."
 
-#: xargs/xargs.c:354
+#: xargs/xargs.c:328
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -744,7 +749,7 @@ msgstr ""
 "Seicheamh neamhcheadaithe éalúcháin %s i dteormharcóir ionchurtha; ní "
 "cheadaítear carachtair le luach níos mó ná %lo."
 
-#: xargs/xargs.c:363
+#: xargs/xargs.c:337
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -753,7 +758,7 @@ msgstr ""
 "Seicheamh neamhcheadaithe éalúcháin %s i dteormharcóir ionchurtha; "
 "carachtair anaithnid %s ag an gcríoch."
 
-#: xargs/xargs.c:408
+#: xargs/xargs.c:382
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -763,46 +768,46 @@ msgstr ""
 "teormharcóir a bheith ina charachtar aonair nó seicheamh éalúcháin le \\ ar "
 "tosach."
 
-#: xargs/xargs.c:592
+#: xargs/xargs.c:399
+msgid "environment is too large for exec"
+msgstr "Tá an timpeallacht rómhór á rith"
+
+#: xargs/xargs.c:541
+#, c-format
+msgid "warning: value %ld for -s option is too large, using %ld instead"
+msgstr ""
+
+#: xargs/xargs.c:580
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs, leagan %s\n"
 
-#: xargs/xargs.c:607
-msgid "environment is too large for exec"
-msgstr "Tá an timpeallacht rómhór á rith"
-
-#: xargs/xargs.c:621
+#: xargs/xargs.c:610
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Ní féidir an t-inchomhad `%s' a oscailt"
 
-#: xargs/xargs.c:648
-#, fuzzy, c-format
-msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
-msgstr "Ag laghdú arg_max (%ld) go arg_size (%ld)\n"
-
-#: xargs/xargs.c:658
+#: xargs/xargs.c:646
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Líonann do chuid athróga timpeallachta %ld beart\n"
 
-#: xargs/xargs.c:661
+#: xargs/xargs.c:649
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Íosluach agus uasluach d'fhad na hargóintí de réir POSIX: %ld, %ld\n"
 
-#: xargs/xargs.c:665
+#: xargs/xargs.c:653
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Uasfhad d'ordú gur féidir linn a úsáid: %ld\n"
 
-#: xargs/xargs.c:668
+#: xargs/xargs.c:657
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Méid an mhaoláin ordaithe atá in úsáid i ndáiríre: %ld\n"
 
-#: xargs/xargs.c:791 xargs/xargs.c:872
+#: xargs/xargs.c:780 xargs/xargs.c:861
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -811,55 +816,55 @@ msgstr ""
 "comhartha athfhriotail %s corr; caitheann xargs le comharthaí athfhriotail "
 "go speisialta mura bhfuil an rogha -O tugtha agat"
 
-#: xargs/xargs.c:792 xargs/xargs.c:873
+#: xargs/xargs.c:781 xargs/xargs.c:862
 msgid "double"
 msgstr "dúbailte"
 
-#: xargs/xargs.c:792 xargs/xargs.c:873
+#: xargs/xargs.c:781 xargs/xargs.c:862
 msgid "single"
 msgstr "singil"
 
-#: xargs/xargs.c:890 xargs/xargs.c:947
+#: xargs/xargs.c:879 xargs/xargs.c:936
 msgid "argument line too long"
 msgstr "tá líne na n-argóintí rófhada"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1109
 msgid "error waiting for child process"
 msgstr "earráid ag feitheamh le próiseas sleachta"
 
-#: xargs/xargs.c:1136
+#: xargs/xargs.c:1125
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: stádas scortha 255; á thobscor"
 
 # does "stopped" have the implication of "temporarily"?  
 # might then want to distinguish from following msgid... --KPS
-#: xargs/xargs.c:1138
+#: xargs/xargs.c:1127
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: stopadh leis an chomhartha %d"
 
-#: xargs/xargs.c:1140
+#: xargs/xargs.c:1129
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: stopadh leis an chomhartha %d"
 
-#: xargs/xargs.c:1193
+#: xargs/xargs.c:1182
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: uimhir neamhbhailí i ndiaidh na rogha -%c\n"
 
-#: xargs/xargs.c:1200
+#: xargs/xargs.c:1189
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: caithfidh an luach i ndiaidh na rogha -%c a bheith >= %ld\n"
 
-#: xargs/xargs.c:1214
+#: xargs/xargs.c:1203
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: caithfidh an luach i ndiaidh na rogha -%c a bheith < %ld\n"
 
-#: xargs/xargs.c:1245
+#: xargs/xargs.c:1221
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -881,6 +886,10 @@ msgstr ""
 "       [-P uas-próis] [--max-procs=uas-próis]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=comhad]\n"
 "       [--version] [--help] [ordú [argóintí-tosaigh]]\n"
+
+#, fuzzy
+#~ msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
+#~ msgstr "Ag laghdú arg_max (%ld) go arg_size (%ld)\n"
 
 #~ msgid "Success"
 #~ msgstr "D'éirigh leis"
