@@ -43,6 +43,7 @@ set env{find} "$fulldir/find"
 
 # use the local help commands for updatedb
 set env(LIBEXECDIR) [ normalize_dir .. ] 
+# use our local version of find, too.
 
 # do not ignore any file systems for this test
 set env(PRUNEFS) ""
@@ -71,6 +72,14 @@ if ![info exists LOCATE] {
     set LOCATE [findfile $base_dir/../locate $base_dir/../locate [transform locate]]
     verbose "LOCATE defaulting to $LOCATE" 2
 }
+
+global FIND
+# look for find
+if ![info exists FIND] {
+    set FIND [findfile $base_dir/../../find/find $base_dir/../../find/find [transform find]]
+    verbose "FIND defaulting to $FIND" 2
+}
+set env(find) "$FIND"
 
 global LOCATEFLAGS
 if ![info exists LOCATEFLAGS] then {
