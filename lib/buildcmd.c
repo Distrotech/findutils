@@ -92,6 +92,10 @@
 
 #include "buildcmd.h"
 
+
+extern char **environ;
+
+
 static char *mbstrstr PARAMS ((const char *haystack, const char *needle));
 
 /* Replace all instances of `replace_pat' in ARG with `linebuf',
@@ -118,7 +122,7 @@ bc_do_insert (const struct buildcmd_control *ctl,
      real arg.  */
   static char *insertbuf;
   char *p;
-  int bytes_left = ctl->arg_max - 1;    /* Bytes left on the command line.  */
+  size_t bytes_left = ctl->arg_max - 1;    /* Bytes left on the command line.  */
   int need_prefix;
 
   /* XXX: on systems lacking an upper limit for exec args, ctl->arg_max
@@ -145,9 +149,10 @@ bc_do_insert (const struct buildcmd_control *ctl,
           len = arglen;
         }
       
-      bytes_left -= len;
-      if (bytes_left <= 0)
+      if (bytes_left <= len)
         break;
+      else
+	bytes_left -= len;
 
       strncpy (p, arg, len);
       p += len;
@@ -156,9 +161,11 @@ bc_do_insert (const struct buildcmd_control *ctl,
 
       if (s)
         {
-          bytes_left -= lblen;
-          if (bytes_left <= 0)
-            break;
+	  if (bytes_left <= lblen)
+	    break;
+	  else
+	    bytes_left -= lblen;
+
           strcpy (p, linebuf);
           arg += ctl->rplen;
           arglen -= ctl->rplen;
@@ -325,17 +332,48 @@ mbstrstr (const char *haystack, const char *needle)
   return strstr (haystack, needle);
 }
 
+static size_t
+get_line_max(void)
+{
+  long val;
+#ifdef _SC_LINE_MAX  
+  val = sysconf(_SC_LINE_MAX);
+#else
+  val = -1;
+#endif
+  
+  if (val > 0)
+    return val;
 
-long
+  /* either _SC_LINE_MAX was not available or 
+   * there is no particular limit.
+   */
+#ifdef LINE_MAX
+  val = LINE_MAX;
+#endif
+
+  if (val > 0)
+    return val;
+
+  return 2048L;			/* a reasonable guess. */
+}
+
+
+size_t
 bc_get_arg_max(void)
 {
   long val;
+
+  /* We may resort to using LONG_MAX, so check it fits. */
+  /* XXX: better to do a compile-time check */
+  assert( (~(size_t)0) >= LONG_MAX);
+
 #ifdef _SC_ARG_MAX  
   val = sysconf(_SC_ARG_MAX);
 #else
   val = -1;
 #endif
-  
+
   if (val > 0)
     return val;
 
@@ -369,16 +407,48 @@ static int cb_exec_noop(const struct buildcmd_control *ctl,
   return 0;
 }
 
-void
+
+/* Return how much of ARG_MAX is used by the environment.  */
+size_t
+bc_size_of_environment (void)
+{
+  size_t len = 0u;
+  char **envp = environ;
+
+  while (*envp)
+    len += strlen (*envp++) + 1;
+
+  return len;
+}
+
+
+enum BC_INIT_STATUS
 bc_init_controlinfo(struct buildcmd_control *ctl)
 {
-  long arg_max = bc_get_arg_max();
-  assert(arg_max > 0);
+  size_t size_of_environment = bc_size_of_environment();
+  size_t arg_max;
+  
+  ctl->posix_arg_size_min = get_line_max();
+  arg_max = bc_get_arg_max();
+  
+  /* POSIX.2 requires subtracting 2048.  */
+  assert(arg_max > 2048u);	/* XXX: this is an external condition, should not check it with assert. */
+  ctl->posix_arg_size_max = (arg_max - 2048);
   
   ctl->exit_if_size_exceeded = 0;
-  ctl->arg_max = arg_max - 2048; /* a la xargs */
+
+  /* Take the size of the environment into account.  */
+  if (size_of_environment > ctl->posix_arg_size_max)
+    {
+      return BC_INIT_ENV_TOO_BIG;
+    }
+  else
+    {
+      ctl->posix_arg_size_max - size_of_environment;
+    }
+
   /* need to subtract 2 on the following line - for Linux/PPC */
-  ctl->max_arg_count = (arg_max / sizeof(void*)) - 2;
+  ctl->max_arg_count = (ctl->posix_arg_size_max / sizeof(char*)) - 2u;
   assert(ctl->max_arg_count > 0);
   ctl->rplen = 0u;
   ctl->replace_pat = NULL;
@@ -386,7 +456,32 @@ bc_init_controlinfo(struct buildcmd_control *ctl)
   ctl->exec_callback = cb_exec_noop;
   ctl->lines_per_exec = 0;
   ctl->args_per_exec = 0;
+
+  /* Set the initial value of arg_max to the largest value we can
+   * tolerate.
+   */
+  ctl->arg_max = ctl->posix_arg_size_max;
+
+  return BC_INIT_OK;
 }
+
+void
+bc_use_sensible_arg_max(struct buildcmd_control *ctl)
+{
+  size_t env_size = bc_size_of_environment();
+  const size_t arg_size = (128u * 1024u) + env_size;
+  
+  /* Check against the upper and lower limits. */  
+  if (arg_size > ctl->posix_arg_size_max)
+    ctl->arg_max = ctl->posix_arg_size_max - env_size;
+  else if (arg_size < ctl->posix_arg_size_min)
+    ctl->arg_max = ctl->posix_arg_size_min;
+  else 
+    ctl->arg_max = arg_size;
+}
+
+
+
 
 void
 bc_init_state(const struct buildcmd_control *ctl,
@@ -399,10 +494,12 @@ bc_init_state(const struct buildcmd_control *ctl,
   state->cmd_argv_alloc = 0;
   
   /* XXX: the following memory allocation is inadvisable on systems
-   * with no ARG_MAX, because ctl->arg_max may actually be LONG_MAX.
-   * Also, adding one to that is a bad idea.
+   * with no ARG_MAX, because ctl->arg_max may actually be close to 
+   * LONG_MAX.   Adding one to it is safe though because earlier we
+   * subtracted 2048.
    */
-  state->argbuf = (char *) xmalloc (ctl->arg_max + 1);
+  assert(ctl->arg_max <= (LONG_MAX - 2048L));
+  state->argbuf = (char *) xmalloc (ctl->arg_max + 1u);
   
   state->cmd_argv_chars = state->cmd_initial_argv_chars = 0;
   state->todo = 0;

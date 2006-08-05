@@ -37,10 +37,10 @@ struct buildcmd_state
   char *argbuf;
   
   /* Number of chars being used in `cmd_argv'.  */
-  int cmd_argv_chars;
+  size_t cmd_argv_chars;
 
   /* Number of chars being used in `cmd_argv' for the initial args..  */
-  int cmd_initial_argv_chars;
+  size_t cmd_initial_argv_chars;
 
   /* User context information. */
   void *usercontext;
@@ -49,14 +49,17 @@ struct buildcmd_state
   int todo;
 };
 
-
 struct buildcmd_control
 {
   /* If true, exit if lines_per_exec or args_per_exec is exceeded.  */
   int exit_if_size_exceeded; /* false */
+
+  /* POSIX limits on the argument length. */
+  size_t posix_arg_size_max;
+  size_t posix_arg_size_min;
   
   /* The maximum number of characters that can be used per command line.  */
-  long arg_max;
+  size_t arg_max;
 
   /* max_arg_count: the maximum number of arguments that can be used.
    *
@@ -93,7 +96,13 @@ struct buildcmd_control
   long args_per_exec;
 };
 
+enum BC_INIT_STATUS 
+  {
+    BC_INIT_OK = 0,
+    BC_INIT_ENV_TOO_BIG
+  };
 
+extern size_t bc_size_of_environment (void);
 
 
 extern void bc_do_insert (const struct buildcmd_control *ctl,
@@ -109,11 +118,12 @@ extern void bc_push_arg (const struct buildcmd_control *ctl,
 			 const char *prefix, size_t pfxlen,
 			 int initial_args);
 
-extern void bc_init_state(const struct buildcmd_control *ctl,
-			  struct buildcmd_state *state,
-			  void *usercontext);
-extern void bc_init_controlinfo(struct buildcmd_control *ctl);
-extern long bc_get_arg_max(void);
+extern void  bc_init_state(const struct buildcmd_control *ctl,
+					 struct buildcmd_state *state,
+					 void *usercontext);
+extern enum BC_INIT_STATUS bc_init_controlinfo(struct buildcmd_control *ctl);
+extern size_t bc_get_arg_max(void);
+extern void bc_use_sensible_arg_max(struct buildcmd_control *ctl);
 extern void bc_clear_args(const struct buildcmd_control *ctl,
 			  struct buildcmd_state *state);
 
