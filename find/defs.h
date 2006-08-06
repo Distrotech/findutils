@@ -569,7 +569,8 @@ enum DebugOption
     DebugExpressionTree   = 1,
     DebugStat             = 2,
     DebugSearch           = 4,
-    DebugTreeOpt          = 8
+    DebugTreeOpt          = 8,
+    DebugHelp             = 16
   };
 
 struct options

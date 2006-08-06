@@ -55,12 +55,14 @@ struct debug_option_assoc
 {
   char *name;
   int    val;
+  char *docstring;
 };
 static struct debug_option_assoc debugassoc[] = 
   {
-    { "tree", DebugExpressionTree },
-    { "stat", DebugStat },
-    { "opt",  DebugExpressionTree|DebugTreeOpt }
+    { "help", DebugHelp, "Explain the various -D options" },
+    { "tree", DebugExpressionTree, "Display the expression tree" },
+    { "stat", DebugStat, "Trace calls to stat(2) and lstat(2)" },
+    { "opt",  DebugExpressionTree|DebugTreeOpt, "Show diagnostic information relating to optimisation" }
   };
 #define N_DEBUGASSOC (sizeof(debugassoc)/sizeof(debugassoc[0]))
 
@@ -121,6 +123,29 @@ insert_primary (const struct parser_table *entry)
 
 
 
+static void 
+show_valid_debug_options(FILE *fp, int full)
+{
+  int i;
+  if (full)
+    {
+      fprintf(fp, "Valid arguments for -D:\n");
+      for (i=0; i<N_DEBUGASSOC; ++i)
+	{
+	  fprintf(fp, "%-10s %s\n",
+		  debugassoc[i].name,
+		  debugassoc[i].docstring);
+	}
+    }
+  else
+    {
+      for (i=0; i<N_DEBUGASSOC; ++i)
+	{
+	  fprintf(fp, "%s%s", (i>0 ? "|" : ""), debugassoc[i].name);
+	}
+    }
+}
+
 void
 usage (FILE *fp, int status, char *msg)
 {
@@ -130,10 +155,7 @@ usage (FILE *fp, int status, char *msg)
     fprintf (fp, "%s: %s\n", program_name, msg);
   
   fprintf (fp, _("Usage: %s [-H] [-L] [-P] [-Olevel] [-D "), program_name);
-  for (i=0; i<N_DEBUGASSOC; ++i)
-    {
-      fprintf(fp, "%s%s", (i>0 ? "|" : ""), debugassoc[i].name);
-    }
+  show_valid_debug_options(fp, 0);
   fprintf (fp, _("] [path...] [expression]\n"));
   if (0 != status)
     exit (status);
@@ -578,6 +600,11 @@ process_debug_options(char *arg)
   if (empty)
     {
       error(1, 0, _("Empty argument to the -D option."));
+    }
+  else if (options.debug_options & DebugHelp) 
+    {
+      show_valid_debug_options(stdout, 1);
+      exit(0);
     }
 }
 
