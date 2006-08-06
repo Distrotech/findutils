@@ -30,7 +30,12 @@ verbose "base_dir is $base_dir" 2
 # look for OLDFIND and FTSFIND
 if { ![info exists OLDFIND] || ![info exists FTSFIND] } {
     verbose "Searching for oldfind"
-    set dir "$base_dir/find"
+    set dir "$base_dir/.."
+
+    set objfile "find.o"
+    if ![file exists "$dir/$objfile"] then {
+	error "dir is $dir, but I cannot see $objfile in that directory"
+    }
     if ([findfile $dir/oldfind 1 0]) {
 	verbose "found oldfind, so ftsfind must be called find"
 	set OLDFIND [findfile $dir/oldfind $dir/oldfind [transform oldfind]]
@@ -56,7 +61,7 @@ if [file exists $FTSFIND] then {
 	error "OLDFIND=$OLDFIND, but that program does not exist"
     }
 } else {
-    error "FTSFIND=$FTSFIND, but that program does not exist"
+    error "FTSFIND=$FTSFIND, but that program does not exist (base_dir is $base_dir)"
 }
     
 
