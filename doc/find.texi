@@ -2667,33 +2667,59 @@ discussed in this manual.
 @section Invoking @code{find}
 
 @example
-find @r{[-H] [-L] [-P]} @r{[}@var{file}@dots{}@r{]} @r{[}@var{expression}@r{]}
+find @r{[-H] [-L] [-P] [-D @var{debugoptions}] [-O@var{level}]} @r{[}@var{file}@dots{}@r{]} @r{[}@var{expression}@r{]}
 @end example
 
 @code{find} searches the directory tree rooted at each file name
 @var{file} by evaluating the @var{expression} on each file it finds in
 the tree.
 
-The options @samp{-H}, @samp{-L} or @samp{-P} may be specified at the
-start of the command line (if none of these is specified, @samp{-P} is
-assumed).  If you specify more than one of these options, the last one
-specified takes effect (but note that the @samp{-follow} option is
-equivalent to @samp{-L}).  The arguments after these are a list of
-files or directories that should be searched.
+The command line may begin with the @samp{-H}, @samp{-L}, @samp{-P},
+@samp{-D} and @samp{-O} options.  These are followed by a list of
+files or directories that should be searched.  If no files to search
+are specified, the current directory (@file{.}) is used.
 
 This list of files to search is followed by a list of expressions
 describing the files we wish to search for.  The first part of the
 expression is recognised by the fact that it begins with @samp{-}
 followed by some other letters (for example @samp{-print}), or is
 either @samp{(} or @samp{!}.  Any arguments after it are the rest of
-the expression.  If no files are given, the current directory is used.
+the expression.  
+
 If no expression is given, the expression @samp{-print} is used.
 
-@code{find} exits with status zero if all files matched are processed
-successfully, greater than 0 if errors occur.
+The @code{find} command exits with status zero if all files matched
+are processed successfully, greater than zero if errors occur.
 
-Three options can precede the list of files.  They determine the
-way that symbolic links are handled.
+The @code{find} program also recognises two options for administrative
+use:
+
+@table @samp
+@item --help
+Print a summary of the command line usage and exit.
+@item --version
+Print the version number of @code{find} and exit.
+@end table
+
+The @samp{-version} option is a synonym for @samp{--version}
+
+
+@menu
+* Filesystem Traversal Options::
+* Warning Messages::
+* Optimisation Options::
+* Debug Options::
+* Find Expressions::
+@end menu
+
+@node Filesystem Traversal Options, Warning Messages,, Invoking find
+@subsection Filesystem Traversal Options
+
+The options @samp{-H}, @samp{-L} or @samp{-P} may be specified at the
+start of the command line (if none of these is specified, @samp{-P} is
+assumed).  If you specify more than one of these options, the last one
+specified takes effect (but note that the @samp{-follow} option is
+equivalent to @samp{-L}).  
 
 @table @code
 @item -P
@@ -2713,28 +2739,7 @@ broken), it falls back on using the properties of the symbolic link
 itself.  @ref{Symbolic Links} for a more complete description of how
 symbolic links are handled.
 
-@xref{Primary Index}, for a summary of all of the tests, actions, and
-options that the expression can contain.  If the expression is
-missing, @samp{-print} is assumed.
-
-
-@code{find} also recognises two options for administrative use:
-
-@table @code
-@item --help
-Print a summary of the command line usage and exit.
-@item --version
-@itemx -version
-Print the version number of @code{find} and exit.
-@end table
-
-
-@menu
-* Warning Messages::
-@end menu
-
-
-@node Warning Messages,,, Invoking find
+@node Warning Messages, Optimisation Options, Filesystem Traversal Options, Invoking find
 @subsection Warning Messages
 
 If there is an error on the @code{find} command line, an error message
@@ -2754,10 +2759,9 @@ Do not issue warning messages.
 @end table
 
 These options take effect at the point on the command line where they
-are specified.  Therefore if you specify @samp{-nowarn} at the end of
-the command line, you will not see warning messages for any problems
-occurring before that.  The warning messages affected by the above
-options are triggered by:
+are specified.  Therefore it's not useful to specify @samp{-nowarn} at
+the end of the command line.  The warning messages affected by the
+above options are triggered by:
 
 @itemize @minus
 @item
@@ -2771,10 +2775,9 @@ Specifying an option (for example @samp{-mindepth}) after a non-option
 (for example @samp{-type} or @samp{-print}) on the command line.
 @end itemize
 
-
 The default behaviour above is designed to work in that way so that
-existing shell scripts which use such constructs don't generate
-spurious errors, but people will be made aware of the problem.
+existing shell scripts don't generate spurious errors, but people will
+be made aware of the problem.
 
 Some warning messages are issued for less common or more serious
 problems, and consequently cannot be turned off:
@@ -2785,6 +2788,78 @@ Use of an unrecognised backslash escape sequence with @samp{-fprintf}
 @item
 Use of an unrecognised formatting directive with @samp{-fprintf}
 @end itemize
+
+@node Optimisation Options, Debug Options, Warning Messages, Invoking find
+@subsection Optimisation Options
+
+The @samp{-O@var{level}} option sets @code{find}'s optimisation level
+to @var{level}.  The default optimisation level is 1.
+
+At certain optimisation levels, @code{find} reorders tests to speed up
+execution while preserving the overall effect; that is, predicates
+with side effects are not reordered relative to each other.  The
+optimisations performed at each optimisation level are as follows.
+
+@table @samp
+@item 0
+Currently equivalent to optimisation level 1.
+
+@item 1
+This is the default optimisation level and corresponds to the
+traditional behaviour.  Expressions are reordered so that tests based
+only on the names of files (for example@samp{ -name} and
+@samp{-regex}) are performed first.
+
+@item 2 
+Any @samp{-type} or @samp{-xtype} tests are performed after any tests
+based only on the names of files, but before any tests that require
+information from the inode.  On many modern versions of Unix, file
+types are returned by @code{readdir()} and so these predicates are
+faster to evaluate than predicates which need to stat the file first.
+
+@item 3 
+At this optimisation level, the full cost-based query optimiser is
+enabled.  The order of tests is modified so that cheap (i.e. fast)
+tests are performed first and more expensive ones are performed later,
+if necessary.  Within each cost band, predicates are evaluated earlier
+or later according to whether they are likely to succeed or not.  For
+@samp{-o}, predicates which are likely to succeed are evaluated
+earlier, and for @samp{-a}, predicates which are likely to fail are
+evaluated earlier.
+@end table
+
+
+@node Debug Options, Find Expressions, Optimisation Options, Invoking find
+@subsection Debug Options
+
+The @samp{-D} option makes @code{find} produce diagnostic output.
+Much of the information is useful only for diagnosing problems, and so
+most people will not find this option helpful.
+
+The list of debug options should be comma separated.  Compatibility of
+the debug options is not guaranteed between releases of findutils.
+For a complete list of valid debug options, see the output of
+@code{find -D help}.  Valid debug options include:
+@table @samp
+@item help
+Explain the debugging options.
+@item tree   
+Show the expression tree in its original and optimised form.
+@item stat   
+Print messages as files are examined with the stat and lstat system
+calls.  The find program tries to minimise such calls.
+@item opt    
+Prints diagnostic information relating to the optimisation of the
+expression tree; see the @samp{-O} option.
+@end table
+
+@node Find Expressions,, Debug Options, Invoking find
+@subsection Find Expressions
+
+The final part of the @code{find} command line is a list of
+expressions.  @xref{Primary Index}, for a summary of all of the tests,
+actions, and options that the expression can contain.  If the
+expression is missing, @samp{-print} is assumed.
 
 @node Invoking locate, Invoking updatedb, Invoking find, Reference
 @section Invoking @code{locate}
