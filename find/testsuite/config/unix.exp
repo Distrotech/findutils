@@ -24,23 +24,41 @@
 
 global OLDFIND
 global FTSFIND
+
+verbose "base_dir is $base_dir" 2
+
 # look for OLDFIND and FTSFIND
 if { ![info exists OLDFIND] || ![info exists FTSFIND] } {
     verbose "Searching for oldfind"
-    if ([findfile $base_dir/../oldfind 1 0]) {
+    set dir "$base_dir/find"
+    if ([findfile $dir/oldfind 1 0]) {
 	verbose "found oldfind, so ftsfind must be called find"
-	set OLDFIND [findfile $base_dir/../oldfind $base_dir/../oldfind [transform oldfind]]
-	set FTSFIND [findfile $base_dir/../find    $base_dir/../find    [transform find   ]]
+	set OLDFIND [findfile $dir/oldfind $dir/oldfind [transform oldfind]]
+	set FTSFIND [findfile $dir/find    $dir/find    [transform find   ]]
     } else {
 	verbose "did not find oldfind, so ftsfind must be called ftsfind"
-	set OLDFIND [findfile $base_dir/../find    $base_dir/../find    [transform find   ]]
-	set FTSFIND [findfile $base_dir/../ftsfind $base_dir/../ftsfind [transform find   ]]
+	set OLDFIND [findfile $dir/find    $dir/find    [transform find   ]]
+	set FTSFIND [findfile $dir/ftsfind $dir/ftsfind [transform ftsfind]]
     }
 }
 
 verbose "ftsfind is at $FTSFIND" 2
 verbose "oldfind is at $OLDFIND" 2
 
+if { [ string equal $FTSFIND $OLDFIND ] } {
+    error "OLDFIND and FTSFIND are set to $FTSFIND, which can't be right"
+}
+
+if [file exists $FTSFIND] then {
+    if [file exists $OLDFIND] then { 
+	verbose "FTSFIND=$FTSFIND and OLDFIND=$OLDFIND both exist." 2
+    } else {
+	error "OLDFIND=$OLDFIND, but that program does not exist"
+    }
+} else {
+    error "FTSFIND=$FTSFIND, but that program does not exist"
+}
+    
 
 global FINDFLAGS
 if ![info exists FINDFLAGS] then {
