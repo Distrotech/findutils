@@ -1,9 +1,23 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.2-CVS
 
+** Functional changes
+
+The slocate database format is now supported.  Preliminary changes
+intended to eventually allow setuid operation have also been made.
+For the moment, please don't install GNU locate as a set-user-ID
+program (except for testing purposes; if you do so, please make sure
+that untrusted users cannot execute the set-user-ID locate program).
+
+Use of an slocate database which was built with a nonzero security
+mode forces locate's "-e" option to be turned on, which has an effect
+on the "-S" option which is probably surprising for most users.
+
 ** Documentation Fixes
+
 The global effect of options (other than -daystart and -follow) is now
 explained more clearly in the manual page.   Savannah bug #15360.
+
 
 * Major changes in release 4.3.1
 

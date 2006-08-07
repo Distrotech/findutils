@@ -49,4 +49,7 @@
 #  endif
 # endif
 
+
+#define SLOCATE_DB_MAGIC_LEN 2
+
 #endif /* !_LOCATEDB_H */
