@@ -188,7 +188,7 @@ static int separator = '\n';
 static struct quoting_options * quote_opts = NULL;
 static bool stdout_is_a_tty;
 static bool print_quoted_filename;
-
+static bool results_were_filtered;
 
 static char*  slocate_db_pathname = "/var/lib/slocate/slocate.db";
 
@@ -841,7 +841,9 @@ print_stats(int argc, size_t database_file_size)
 	 human_readable ((uintmax_t) database_file_size,
 			 hbuf, human_ceiling, 1, 1));
   
-  printf(_("Filenames: %s "),
+  printf( (results_were_filtered ? 
+	   _("Matching Filenames: %s ") :
+	   _("All Filenames: %s ")),
 	 human_readable (statistics.total_filename_count,
 			 hbuf, human_ceiling, 1, 1));
   printf(_("with a cumulative length of %s bytes"),
@@ -859,10 +861,20 @@ print_stats(int argc, size_t database_file_size)
 			 hbuf, human_ceiling, 1, 1));
   
   if (!argc)
-    printf(_("Compression ratio %4.2f%%\n"),
-	   100.0 * ((double)statistics.total_filename_length
-		    - (double) database_file_size)
-	   / (double) statistics.total_filename_length);
+    {
+      if (statistics.total_filename_length)
+	{
+	  printf(_("Compression ratio %4.2f%%\n"),
+		 100.0 * ((double)statistics.total_filename_length
+			  - (double) database_file_size)
+		 / (double) statistics.total_filename_length);
+	}
+      else
+	{
+	  /* total_filename_length is zero, probably due to the filtering. */
+	  printf(_("Compression ratio is undefined\n"));
+	}
+    }
   printf("\n");
 }
 
@@ -963,6 +975,17 @@ search_one_database (int argc,
   int slocate_seclevel;
   struct visitor* pvis; /* temp for determining past_pat_inspector. */
   const char *format_name;
+  enum ExistenceCheckType do_check_existence;
+
+
+  /* We may turn on existence checking for a given database. 
+   * We ensure that we can return to the previous behaviour 
+   * by using two variables, do_check_existence (which we act on) 
+   * and check_existence (whcih indicates the default before we 
+   * adjust it on the bassis of what kind of database we;re using 
+   */
+  do_check_existence = check_existence;
+   
   
   if (ignore_case)
     regex_options |= RE_ICASE;
@@ -978,7 +1001,8 @@ search_one_database (int argc,
   inspectors = NULL;
   lastinspector = NULL;
   past_pat_inspector = NULL;
-
+  results_were_filtered = false;
+  
   procdata.pathsize = 1026;	/* Increased as necessary by locate_read_str.  */
   procdata.original_filename = xmalloc (procdata.pathsize);
 
@@ -1013,7 +1037,7 @@ search_one_database (int argc,
 	   * Showing stats is safe since filenames are only counted
 	   * after the existence check 
 	   */
-	  if (ACCEPT_EXISTING != check_existence) 
+	  if (ACCEPT_EXISTING != do_check_existence) 
 	    {
 	      if (enable_print)
 		{
@@ -1022,7 +1046,7 @@ search_one_database (int argc,
 			  "Turning on the '-e' option."),
 			procdata.dbfile);
 		}
-	      check_existence = ACCEPT_EXISTING;
+	      do_check_existence = ACCEPT_EXISTING;
 	    }
 	}
       add_visitor(visit_locate02_format, NULL);
@@ -1088,6 +1112,7 @@ search_one_database (int argc,
   /* Add an inspector for each pattern we're looking for. */
   for ( argn = 0; argn < argc; argn++ )
     {
+      results_were_filtered = true;
       pathpart = argv[argn];
       if (regex)
 	{
@@ -1152,9 +1177,10 @@ search_one_database (int argc,
   /* We add visit_existing_*() as late as possible to reduce the
    * number of stat() calls.
    */
-  switch (check_existence)
+  switch (do_check_existence)
     {
       case ACCEPT_EXISTING:
+	results_were_filtered = true;
 	if (follow_symlinks)	/* -L, default */
 	  add_visitor(visit_existing_follow, NULL);
 	else			/* -P */
@@ -1162,6 +1188,7 @@ search_one_database (int argc,
 	break;
 	  
       case ACCEPT_NON_EXISTING:
+	results_were_filtered = true;
 	if (follow_symlinks)	/* -L, default */
 	  add_visitor(visit_non_existing_follow, NULL);
 	else			/* -P */
@@ -1173,9 +1200,9 @@ search_one_database (int argc,
 	break;
     }
 
-  /* Security issue: The stats visitor must be added after the
-   * existence checker because otherwise the -S option would leak
-   * information about files that the caller cannot see.
+  /* Security issue: The stats visitor must be added immediately
+   * before the print visitor, because otherwise the -S option would
+   * leak information about files that the caller cannot see.
    */
   if (stats)
     add_visitor(visit_stats, &statistics);
@@ -1348,7 +1375,7 @@ static int
 opendb(const char *name)
 {
   int fd = open(name, O_RDONLY
-#if defined O_LARGEFILE
+#if defined(O_LARGEFILE)
 		|O_LARGEFILE
 #endif
 		);
