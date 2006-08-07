@@ -862,17 +862,24 @@ print_stats(int argc, size_t database_file_size)
   
   if (!argc)
     {
-      if (statistics.total_filename_length)
+      if (results_were_filtered)
 	{
-	  printf(_("Compression ratio %4.2f%%\n"),
-		 100.0 * ((double)statistics.total_filename_length
-			  - (double) database_file_size)
-		 / (double) statistics.total_filename_length);
+	  printf(_("Some filenames may have been filtered out, "
+		   "so we cannot compute the compression ratio.\n"));
 	}
       else
 	{
-	  /* total_filename_length is zero, probably due to the filtering. */
-	  printf(_("Compression ratio is undefined\n"));
+	  if (statistics.total_filename_length)
+	    {
+	      printf(_("Compression ratio %4.2f%%\n"),
+		     100.0 * ((double)statistics.total_filename_length
+			      - (double) database_file_size)
+		     / (double) statistics.total_filename_length);
+	    }
+	  else
+	    {
+	      printf(_("Compression ratio is undefined\n"));
+	    }
 	}
     }
   printf("\n");
@@ -1037,9 +1044,21 @@ search_one_database (int argc,
 	   * Showing stats is safe since filenames are only counted
 	   * after the existence check 
 	   */
+	  if (ACCEPT_NON_EXISTING == check_existence)
+	    {
+	      /* Do not allow the user to see a list of filenames that they 
+	       * cannot stat().
+	       */
+	      error(0, 0, 
+		    _("You specified the -E option, but that option "
+		      "cannot be used with slocate-format databases "
+		      "with a non-zero security level.  No results will be "
+		      "generated for this database.\n"));
+	      return 0;
+	    }
 	  if (ACCEPT_EXISTING != do_check_existence) 
 	    {
-	      if (enable_print)
+	      if (enable_print || stats)
 		{
 		  error(0, 0,
 			_("`%s' is an slocate database.  "
