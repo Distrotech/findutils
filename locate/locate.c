@@ -62,6 +62,7 @@
 
 #include <config.h>
 #include <stdio.h>
+#include <signal.h>
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -1291,31 +1292,31 @@ static struct option const longopts[] =
   {NULL, no_argument, NULL, 0}
 };
 
-static int
-elevated_privs(void)
-{
-  return getuid() != geteuid();
-}
 
 static int 
 drop_privs(void)
 {
-  uid_t orig_euid = getuid();
-  uid_t orig_uid = getuid();
-  gid_t orig_gid = getgid();
+  const char * what = "failed";
+  uid_t orig_euid = geteuid();
 
-  if (0 == orig_euid) 
+  /* Use of setgroups() is restrcted to root only. */
+  if (0 == orig_euid)
     {
       gid_t groups[1];
       groups[1] = getgid();
       if (0 != setgroups(1, groups)) 
 	{
-	  error(1, errno, _("Failed to drop group privileges"));
+	  what = _("failed to drop group privileges");
+	  goto fail;
 	}
     }
   
-  setuid(getuid());
-
+  if (0 != setuid(getuid()))
+    {
+      what = _("failed to drop setuid privileges");
+      goto fail;
+    }
+  
   /* Defend against the case where the attacker runs us with the
    * capability to call setuid() turned off, which on some systems
    * will cause the above attempt to drop privileges fail (leaving us
@@ -1323,12 +1324,23 @@ drop_privs(void)
    */
   if (0 == setuid(0))
     {
-      error(1, 0, _("Failed to drop privileges"));
-      abort();
-      assert(0);
-      _exit(1);
-      /*NOTREACHED*/
-      /* ... we hope. */
+      what = _("Failed to drop privileges");
+      goto fail;
+    }
+
+  /* success. */
+  return 0;
+  
+ fail:
+  error(1, errno, "%s", what);
+  abort();
+  kill(0, SIGKILL);
+  _exit(1);
+  /*NOTREACHED*/
+  /* ... we hope. */
+  for (;;)
+    {
+      /* deliberate infinite loop */
     }
 }
 
@@ -1581,10 +1593,6 @@ dolocate (int argc, char **argv, int secure_db_fd)
 	    {
 	      if (0 == strlen(e) || 0 == strcmp(e, "."))
 		{
-		  /* Use the default database name instead (note: we
-		   * don't use 'dbpath' since that might itself contain a 
-		   * colon-separated list).
-		   */
 		  e = LOCATE_DB;
 		}
 	  
