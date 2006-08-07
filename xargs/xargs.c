@@ -133,8 +133,6 @@ extern int errno;
 /* Return nonzero if S is the EOF string.  */
 #define EOF_STR(s) (eof_str && *eof_str == *s && !strcmp (eof_str, s))
 
-extern char **environ;
-
 /* Do multibyte processing if multibyte characters are supported,
    unless multibyte sequences are search safe.  Multibyte sequences
    are search safe if searching for a substring using the byte
@@ -271,7 +269,6 @@ static void add_proc PARAMS ((pid_t pid));
 static void wait_for_proc PARAMS ((boolean all));
 static void wait_for_proc_all PARAMS ((void));
 static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
-static size_t env_size PARAMS ((char **envp));
 static void usage PARAMS ((FILE * stream));
 
 
@@ -345,8 +342,6 @@ get_char_oct_or_hex_escape(const char *s)
 static char 
 get_input_delimiter(const char *s)
 {
-  char result = '\0';
-  
   if (1 == strlen(s))
     {
       return s[0];
@@ -407,7 +402,6 @@ main (int argc, char **argv)
   int show_limits = 0;			/* --show-limits */
   int always_run_command = 1;
   char *input_file = "-"; /* "-" is stdin */
-  size_t size_of_environment = env_size(environ);
   char *default_cmd = "/bin/echo";
   int (*read_args) PARAMS ((void)) = read_line;
   void (*act_on_init_result)(void) = noop;
@@ -1212,17 +1206,6 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
 }
 
 /* Return how much of ARG_MAX is used by the environment.  */
-
-static size_t
-env_size (char **envp)
-{
-  size_t len = 0u;
-
-  while (*envp)
-    len += strlen (*envp++) + 1;
-
-  return len;
-}
 
 static void
 usage (FILE *stream)
