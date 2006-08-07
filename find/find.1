@@ -209,10 +209,14 @@ performed on all files for which the expression is true.
 .SS OPTIONS
 .P
 All options always return true.  Except for \-follow and \-daystart,
-they always take effect, rather than being processed only when their
-place in the expression is reached.  Therefore, for clarity, it is
-best to place them at the beginning of the expression.  A warning is
-issued if you don't do this.
+the options affect all tests, including tests specified before the
+option.  This is because the options are processed when the command
+line is parsed, while the tests don't do anything until files are
+examined.  The \-follow and \-daystart options are different in this
+respect, and have an effect only on tests which appear later in the
+command line.  Therefore, for clarity, it is best to place them at the
+beginning of the expression.  A warning is issued if you don't do
+this.
 .IP \-daystart
 Measure times (for \-amin, \-atime, \-cmin, \-ctime, \-mmin, and \-mtime)
 from the beginning of today rather than from 24 hours ago.  This
