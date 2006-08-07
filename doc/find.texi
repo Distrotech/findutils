@@ -2668,10 +2668,9 @@ Do not issue warning messages.
 @end table
 
 These options take effect at the point on the command line where they
-are specified.  Therefore if you specify @samp{-nowarn} at the end of
-the command line, you will not see warning messages for any problems
-occurring before that.  The warning messages affected by the above
-options are triggered by:
+are specified.  Therefore it's not useful to specify @samp{-nowarn} at
+the end of the command line.  The warning messages affected by the
+above options are triggered by:
 
 @itemize @minus
 @item
@@ -2687,8 +2686,8 @@ Specifying an option (for example @samp{-mindepth}) after a non-option
 
 
 The default behaviour above is designed to work in that way so that
-existing shell scripts which use such constructs don't generate
-spurious errors, but people will be made aware of the problem.
+existing shell scripts don't generate spurious errors, but people will
+be made aware of the problem.
 
 Some warning messages are issued for less common or more serious
 problems, and consequently cannot be turned off:
