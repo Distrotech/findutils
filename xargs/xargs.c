@@ -133,8 +133,6 @@ extern int errno;
 /* Return nonzero if S is the EOF string.  */
 #define EOF_STR(s) (eof_str && *eof_str == *s && !strcmp (eof_str, s))
 
-extern char **environ;
-
 /* Do multibyte processing if multibyte characters are supported,
    unless multibyte sequences are search safe.  Multibyte sequences
    are search safe if searching for a substring using the byte
@@ -271,7 +269,6 @@ static void add_proc PARAMS ((pid_t pid));
 static void wait_for_proc PARAMS ((boolean all));
 static void wait_for_proc_all PARAMS ((void));
 static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
-static size_t env_size PARAMS ((char **envp));
 static void usage PARAMS ((FILE * stream));
 
 
