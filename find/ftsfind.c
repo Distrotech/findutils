@@ -308,12 +308,18 @@ consider_visiting(FTS *p, FTSENT *ent)
       return;
     }
 
-  if (options.maxdepth >= 0 && (ent->fts_level > options.maxdepth))
+  if (options.maxdepth >= 0)
     {
-      ignore = 1;
-      fts_set(p, ent, FTS_SKIP);
+      if (ent->fts_level >= options.maxdepth)
+	{
+	  fts_set(p, ent, FTS_SKIP); /* descend no further */
+	  
+	  if (ent->fts_level > options.maxdepth) 
+	    ignore = 1;		/* don't even look at this one */
+	}
     }
-  else if ( (ent->fts_info == FTS_D) && !options.do_dir_first )
+
+  if ( (ent->fts_info == FTS_D) && !options.do_dir_first )
     {
       /* this is the preorder visit, but user said -depth */ 
       ignore = 1;
