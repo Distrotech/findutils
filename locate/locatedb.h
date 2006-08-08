@@ -32,6 +32,21 @@
    This value (which is -128) indicates that the difference is
    too large to fit into one byte, and a two-byte integer follows.  */
 #define	LOCATEDB_ESCAPE 0x80
+#define LOCATEDB_ONEBYTE_MAX (127)
+#define LOCATEDB_ONEBYTE_MIN (-127)
+
+
+/* If it is ever possible to try to encode LOCATEDB_MAGIC as a
+ * single-byte offset, then an unfortunate length of common prefix
+ * will produce a spurious escape character, desynchronising the data
+ * stream.  We use a compile-time check in the preprocessor to prevent
+ * this.
+ */
+#if LOCATEDB_ESCAPE <= LOCATEDB_ONEBYTE_MAX
+#error "You have a bad combination of LOCATEDB_ESCAPE and LOCATEDB_ONEBYTE_MAX, see above"
+#endif
+  
+
 
 /* These are used for old, bigram-encoded databases:  */
 
