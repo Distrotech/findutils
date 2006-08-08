@@ -225,11 +225,13 @@ consider_visiting(FTS *p, FTSENT *ent)
   struct stat statbuf;
   mode_t mode;
   int ignore, isdir;
-  
+
   if (options.debug_options & DebugSearch)
     fprintf(stderr,
-	    "consider_visiting: end->fts_info=%s, ent->fts_path=%s\n",
+	    "consider_visiting: fts_info=%-6s, fts_level=%2d, "
+            "fts_path=%s\n",
 	    get_fts_info_name(ent->fts_info),
+            (int)ent->fts_level,
 	    quotearg_n_style(0, locale_quoting_style, ent->fts_path));
 
   /* Cope with various error conditions. */
@@ -294,7 +296,7 @@ consider_visiting(FTS *p, FTSENT *ent)
     || (FTS_D  == ent->fts_info)
     || (FTS_DP == ent->fts_info)
     || (FTS_DC == ent->fts_info);
-      
+
   if (isdir && (ent->fts_info == FTS_NSOK))
     {
       /* This is a directory, but fts did not stat it, so
@@ -330,8 +332,8 @@ consider_visiting(FTS *p, FTSENT *ent)
     {
       visit(p, ent, &statbuf);
     }
-	      
-	      
+
+
   if (ent->fts_info == FTS_DP)
     {
       /* we're leaving a directory. */
