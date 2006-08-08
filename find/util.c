@@ -61,6 +61,7 @@ static struct debug_option_assoc debugassoc[] =
   {
     { "help", DebugHelp, "Explain the various -D options" },
     { "tree", DebugExpressionTree, "Display the expression tree" },
+    { "search",DebugSearch, "Navigate the directory tree verbosely" },
     { "stat", DebugStat, "Trace calls to stat(2) and lstat(2)" },
     { "opt",  DebugExpressionTree|DebugTreeOpt, "Show diagnostic information relating to optimisation" }
   };
