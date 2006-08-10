@@ -724,17 +724,17 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  }
 #endif				/* S_ISLNK */
 	  break;
-	  
+
 	case 'M':		/* mode as 10 chars (eg., "-rwxr-x--x" */
 	  /* UNTRUSTED, probably unexploitable */
 	  {
 	    char modestring[16] ;
-	    mode_string (stat_buf->st_mode, modestring);
+	    filemodestring (stat_buf, modestring);
 	    modestring[10] = '\0';
 	    fprintf (fp, segment->text, modestring);
 	  }
 	  break;
-	  
+
 	case 'm':		/* mode as octal number (perms only) */
 	  /* UNTRUSTED, probably unexploitable */
 	  {
@@ -1844,5 +1844,3 @@ pred_sanity_check(const struct predicate *predicates)
 	}
     }
 }
-
-

@@ -44,7 +44,7 @@ alloca  argmatch  dirname error fileblocks  fnmatch-gnu fts \
 getline getopt human idcache lstat malloc memcmp memset mktime	\
 modechange pathmax quotearg realloc regex rpmatch savedir stdio-safer \
 stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
-xalloc xalloc-die xgetcwd  xstrtol  xstrtoumax yesno human filemode \
+xalloc xalloc-die xgetcwd  xstrtod xstrtol  xstrtoumax yesno human filemode \
 getline stpcpy canonicalize mountlist closeout gettext stat-macros"
 
 # We need regex to ensure that we can build on platforms like 
