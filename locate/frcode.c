@@ -164,7 +164,7 @@ main (int argc, char **argv)
   int line_len;			/* Length of input line.  */
   int delimiter = '\n';
   int optc;
-  
+
   program_name = argv[0];
   atexit (close_stdout);
 
@@ -172,9 +172,7 @@ main (int argc, char **argv)
   path = xmalloc (pathsize);
   oldpath = xmalloc (oldpathsize);
 
-  /* Set to anything not starting with a slash, to force the first
-     prefix count to 0.  */
-  strcpy (oldpath, " ");
+  oldpath[0] = 0;
   oldcount = 0;
 
 
