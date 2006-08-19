@@ -1516,10 +1516,17 @@ The format flag @samp{-} does work; it forces left-alignment of the
 field.
 
 @samp{%%} is a literal percent sign.  A @samp{%} character followed by
-an unrecognised character (i.e. not a known directive or @code{printf} field
-width and precision specifier), is discarded (but the unrecognised
-character is printed), and a warning message is printed to the
-standard error output (because it was probably a typo).
+an unrecognised character (i.e. not a known directive or @code{printf}
+field width and precision specifier), is discarded (but the
+unrecognised character is printed), and a warning message is printed
+to the standard error output (because it was probably a typo).  Don't
+rely on this behaviour, because other directives may be added in the
+future.
+
+A @samp{%} at the end of the format argument causes undefined
+behaviour since there is no following character.  In some locales, it
+may hide your door keys, while in others it may remove the final page
+from the novel you are reading.
 
 @menu
 * Name Directives::

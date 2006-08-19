@@ -36,6 +36,7 @@ find.gnu/perm-slash.xo \
 find.gnu/posix-dflt.xo \
 find.gnu/posix-h.xo \
 find.gnu/posix-l.xo \
+find.gnu/printfHdfl.xo \
 find.gnu/printf-symlink.xo \
 find.gnu/printf-h.xo \
 find.gnu/printf.xo \
@@ -100,6 +101,8 @@ find.gnu/perm-slash.exp \
 find.gnu/posix-dflt.exp \
 find.gnu/posix-h.exp \
 find.gnu/posix-l.exp \
+find.gnu/printfHdfl.exp \
+find.gnu/printf.exp \
 find.gnu/printf.exp \
 find.gnu/printf-symlink.exp \
 find.gnu/printf-h.exp \
@@ -114,6 +117,7 @@ find.gnu/true.exp \
 find.gnu/wholename.exp \
 find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
+find.gnu/sv-bug-17477.exp \
 find.gnu/quit.exp \
 find.gnu/xtype.exp \
 find.posix/links.exp \

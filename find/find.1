@@ -790,8 +790,12 @@ File's type (like in ls \-l), U=unknown type (shouldn't happen)
 .IP %Y
 File's type (like %y), plus follow symlinks: L=loop, N=nonexistent
 .PP
-A `%' character followed by any other character is discarded (but the
-other character is printed).
+A `%' character followed by any other character is discarded, but the
+other character is printed (don't rely on this, as further format
+characters may be introduced).  A `%' at the end of the format
+argument causes undefined behaviour since there is no following
+character.  In some locales, it may hide your door keys, while in
+others it may remove the final page from the novel you are reading.
 
 The %m and %d directives support the 
 .B #

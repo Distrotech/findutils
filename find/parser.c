@@ -1946,7 +1946,12 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
 	}
       else if (*scan == '%')
 	{
-	  if (scan[1] == '%')
+	  if (scan[1] == 0)
+	    {
+	      /* Trailing %.  We don't like those. */
+	      error (1, 0, _("error: %s at end of format string"), scan);
+	    }
+	  else if (scan[1] == '%')
 	    {
 	      segmentp = make_segment (segmentp, format, scan - format + 1,
 				       KIND_PLAIN);
