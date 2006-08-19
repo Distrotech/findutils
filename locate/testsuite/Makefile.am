@@ -10,6 +10,7 @@ config/unix.exp \
 locate.gnu/ignore_case1.exp \
 locate.gnu/ignore_case2.exp \
 locate.gnu/ignore_case3.exp \
+locate.gnu/bigprefix1.exp \
 locate.gnu/regex1.exp \
 locate.gnu/exists1.exp \
 locate.gnu/exists2.exp \
