@@ -1,12 +1,226 @@
-2005-12-19 Eric Blake <ebb9@byu.net>
+2006-08-19  James Youngman <jay@gnu.org>
 
-	* find/testsuite/Makefile.am,
-	find/testsuite/find.posix/sv-bug-15235.xo, 
-	find/testsuite/find.posix/sv-bug-15235.exp: New tests for Savannah
-	bug 15235.
-	
-	* NEWS, find/find.1, doc/find.texi (Invoking find): Document bug
-	fix for Savannah bug 15235.
+	* locate/testsuite/config/unix.exp, locate/testsuite/locate.gnu/bigprefix1.exp:
+	Explicit checks for parefixes which are within range of a short, but outside the one-byte range
+
+	* locate/testsuite/locate.gnu/bigprefix1.exp, locate/testsuite/locate.gnu/exceedshort.exp, locate/testsuite/locate.gnu/space1st.exp:
+	New file.
+
+	* locate/testsuite/Makefile.am, locate/testsuite/locate.gnu/exceedshort.exp, locate/testsuite/locate.gnu/space1st.exp:
+	Patch from Tavis Ormandy; check frcode handles initial space end encodes paths with more than 2^16 characters in the common prefix (trivial change)
+
+	* locate/frcode.c: Changes to avoid overflows
+
+2006-08-11  James Youngman <jay@gnu.org>
+
+	* locate/frcode.c:
+	Avoid producing an invalid database if the first item begins with a space
+
+2006-08-10  James Youngman <jay@gnu.org>
+
+	* find/pred.c, import-gnulib.sh, lib/listfile.c:
+	Updated callers of the gnnulib filemode module so that they work with the 2006-07-09 version of gnulib
+
+	* config.rpath: Updated config.rpath from autotools
+
+2006-08-08  James Youngman <jay@gnu.org>
+
+	* locate/locatedb.h:
+	Automatically verify (at compile time) that the frcode datastream
+	cannot get desynchronised.
+
+	* find/ftsfind.c:
+	Fixed Savannah bug #10494 (-maxdepth does not yield the same stat savinf in ftsfind as oldfind)
+
+	* find/ftsfind.c: display fts_level for find -D search
+
+	* find/util.c: Support find -D search
+
+	* locate/locate.c:
+	If the user specified -E but the database is an slocate database, do
+	not produce a list of files they cannot stat.  Issue an error message
+	explaining the problem.
+
+	* locate/locate.c:
+	Issue states messages in a way which indicates more clearly what's
+	happening when the numbers are reduced because not every filename
+	matched the pattern.
+
+	* locate/locate.c: Better error checking in drop_privs().
+
+2006-08-07  James Youngman <jay@gnu.org>
+
+	* NEWS, locate/locate.c, locate/locatedb.h:
+	Added support for slocate database format
+
+	* xargs/xargs.c:
+	Removed unused code (tivial patch from Miloslav Trmac).
+
+	* xargs/xargs.c: Removed unused code.
+
+	* doc/find.texi:
+	Clarify that the output format for locate -S differs from BSD's.
+
+	* NEWS, find/find.1:
+	Savannah bug #15360: explain global vs. positional options more clearly in the manual page
+
+	* NEWS: Typo in subsection header (* should be **).
+
+	* NEWS, find/find.1:
+	Savannah bug #15360: explain global vs. positional options more clearly in the manual page
+
+	* doc/find.texi: Fixed some clumsy phrasing
+
+	* NEWS, configure.in:
+	Now diverging again from the released tarball, so change once more to -CVS version number suffixes
+
+2006-08-06  James Youngman <jay@gnu.org>
+
+	* locate/locate.c: Fixed a typo in a comment.
+
+	* NEWS, configure.in: Moving on towards 4.3.2...
+
+	* find/testsuite/config/unix.exp:
+	Check that we can see the find.o file in the right position relative
+	to $base_dir to ensure that we are indeed testing the program we just built.
+
+	* find/testsuite/config/unix.exp:
+	Be more paranoid about whether we're really checking the right version
+	of find.
+
+	* NEWS, configure.in: Prepare for release of 4.3.1
+
+	* doc/find.texi: Document the -O and -D options
+
+	* find/defs.h, find/find.1, find/util.c:
+	'find -D help' now explains the available debugging options
+
+	* po/be.po, po/bg.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
+	Make dist changed all the po files again
+
+2006-08-05  James Youngman <jay@gnu.org>
+
+	* NEWS: Described more changes in 4.3.1.
+
+	* locate/testsuite/config/unix.exp:
+	Set the  environment variable so that updatedb knows where to find it; it's not in BINDIR yet during 'make check'
+
+	* po/be.po, po/bg.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
+	Make dist changed all the po files again :)
+
+	* po/et.po, po/vi.po: UPdated the Estonian and Vietnamese translations
+
+	* NEWS, configure.in: Prepare for release of findutils-4.2.28
+
+	* po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po, po/be.po, po/bg.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po:
+	Make dist changed all the po files again :)
+
+	* configure.in: Added Bulgarian translation.
+
+	* po/bg.po: Include Bulgarian translation
+
+	* configure.in: Added Bulgarian translation.
+
+	* po/et.po, po/vi.po: Updated Estonian and Vietnamese translations
+
+	* NEWS: Removed spurious comma.
+
+	* NEWS: Listed the updated translations.
+
+	* find/parser.c, lib/buildcmd.c, lib/buildcmd.h, xargs/xargs.c:
+	Fixed Savannah bug#16738, find does not subtract environment size in find .. -exec {} +
+
+	* NEWS: Updated the list of bugfixes etc.
+
+2006-06-15  James Youngman <jay@gnu.org>
+
+	* NEWS: Described recent changes
+
+	* configure.in: fix to how we invoke the gnulib regex module
+
+	* find/find.1:
+	Savannah bug #16269: avoid confusion over what type of quotes to use
+	in an example.
+
+	* find/parser.c: Option -nowarn should not itself produce a warning
+
+	* find/defs.h: Remoevd useless declaration of last_pred
+
+2006-06-14  James Youngman <jay@gnu.org>
+
+	* po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
+	Updated translation files ga pl sv tr nl ca vi bg fr
+
+	* locate/updatedb.sh:
+	Fixed Savannah bug #16579 (su false should be su -c false)
+
+2006-04-01  James Youngman <jay@gnu.org>
+
+	* find/find.c:
+	Fixed Savannah bug #15800: "Hard link count is wrong" reports wrong
+	directory name.
+
+2006-03-31  James Youngman <jay@gnu.org>
+
+	* po/hu.po: Updated Hungarian translation
+
+2006-01-04  James Youngman <jay@gnu.org>
+
+	* find/testsuite/find.posix/sizetype.exp, find/testsuite/find.posix/sizetype.xo, find/testsuite/find.posix/typesize.exp, find/testsuite/find.posix/typesize.xo:
+	Additional tests for -type -size and -size -type
+
+	* NEWS, doc/find.texi, find/defs.h, find/find.1, find/find.c, find/ftsfind.c, find/parser.c, find/pred.c, find/testsuite/Makefile.am, find/testsuite/config/unix.exp, find/testsuite/find.gnu/depth-d.exp, find/tree.c, find/util.c, po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
+	Initial implementation of a cost-based optimiser
+
+2005-12-23  James Youngman <jay@gnu.org>
+
+	* find/parser.c: Refactor of parse_[acm]time
+
+	* find/defs.h, find/find.c, find/finddata.c, find/ftsfind.c, find/tree.c, find/util.c:
+	last_pred can be a static in tree.c rather than a global variable
+
+	* find/tree.c, find/finddata.c:
+	Moved some global data out of finddata.o and into static variables in tree.c
+
+	* NEWS, find/find.c, find/fstype.c, find/ftsfind.c, find/parser.c, find/pred.c, lib/buildcmd.c, lib/buildcmd.h, lib/regexprops.c, lib/regextype.c, lib/regextype.h, lib/savedirinfo.c, locate/locate.c, xargs/xargs.c:
+	Fixed many compilation warnings
+
+	* find/find.c, find/ftsfind.c, find/util.c:
+	Evaluating the predicates can change the contents of the data structure (for example to add another exec item)
+
+	* find/defs.h, find/find.c, find/ftsfind.c, find/tree.c, find/util.c:
+	Re-factored a lot of common expression-handling code out of find.c and ftsfind.c, mainly into tree.c
+
+	* find/find.c, find/ftsfind.c, find/tree.c:
+	Savannah bug #15271: more helpful error messages for cases where there is a missing expression
+
+2005-12-20  James Youngman <jay@gnu.org>
+
+	* NEWS, doc/find.texi, find/defs.h, find/find.1, find/find.c, find/ftsfind.c, find/testsuite/Makefile.am, find/testsuite/find.posix/sv-bug-15235.exp, find/testsuite/find.posix/sv-bug-15235.xo, find/tree.c, find/util.c:
+	Savannah bug #15195: more helpful error messages for 'find . ( )' or 'find . \!'
+
+	* ChangeLog: Added entries for recent changes.
+
+	* find/defs.h, find/find.c, find/ftsfind.c, find/testsuite/find.posix/bracket-depth.exp, find/util.c:
+	Further fix to bug# 15235: a leading comma is a filename not an expression
+
+	* find/defs.h, find/parser.c, find/testsuite/Makefile.am, find/testsuite/find.posix/empty-parens.exp, find/tree.c:
+	Accept 'find ( -depth )' but reject 'find ( )'
+
+	* po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
+	did make dist
+
+	* find/testsuite/find.gnu/delete.exp:
+	Use the new find program, and the new way of locating it (/ instead of )
+
+	* find/testsuite/Makefile.am: Added bracket-depth.exp.
+
+	* NEWS, configure.in: We have moved on from 4.3.0
+
+	* find/defs.h, find/find.c, find/ftsfind.c, find/testsuite/Makefile.am, find/testsuite/find.gnu/delete.exp, find/testsuite/find.posix/files-not-expressions1.exp, find/testsuite/find.posix/files-not-expressions1.xo, find/testsuite/find.posix/files-not-expressions2.exp, find/testsuite/find.posix/files-not-expressions2.xo, find/testsuite/find.posix/files-not-expressions3.exp, find/testsuite/find.posix/files-not-expressions3.xo, find/util.c:
+	Avoid getting confused by filename arguments of which the first
+	character looks like a predicate, for example ',x' or '!x' or
+	'(x' (Savannah bug #15235).
 
 2005-12-20  James Youngman <jay@gnu.org>
 
@@ -42,6 +256,16 @@
 	* find/testsuite/config/unix.exp:
 	Run every test twice, once with the old (non-fts) binary and once with
 	the new (fts-enabled) binary.
+
+2005-12-19 Eric Blake <ebb9@byu.net>
+
+	* find/testsuite/Makefile.am,
+	find/testsuite/find.posix/sv-bug-15235.xo, 
+	find/testsuite/find.posix/sv-bug-15235.exp: New tests for Savannah
+	bug 15235.
+	
+	* NEWS, find/find.1, doc/find.texi (Invoking find): Document bug
+	fix for Savannah bug 15235.
 
 2005-12-16  James Youngman <jay@gnu.org>
 
