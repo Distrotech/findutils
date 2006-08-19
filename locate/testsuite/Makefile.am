@@ -16,7 +16,9 @@ locate.gnu/exists2.exp \
 locate.gnu/exists3.exp \
 locate.gnu/notexists1.exp \
 locate.gnu/notexists2.exp \
-locate.gnu/notexists3.exp
+locate.gnu/notexists3.exp \
+locate.gnu/space1st.exp \
+locate.gnu/exceedshort.exp
 
 EXTRA_DIST_XO = \
 locate.gnu/ignore_case1.xo \
