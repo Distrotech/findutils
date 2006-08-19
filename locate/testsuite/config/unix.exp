@@ -86,8 +86,6 @@ proc locate_version {} {
     }
 }
 
-# Run locate and leave the output in $comp_output.
-# Called by individual test scripts.
 proc locate_textonly { passfail id intext locateoptions outtext } {
     global LOCATE
     global FRCODE
@@ -147,6 +145,17 @@ proc locate_textonly { passfail id intext locateoptions outtext } {
 	send_log "Got     : $result\n"
 	fail "$testname-$id"
     }
+}
+
+
+# Do a test in which we expect an input text file to be preserved unchanged.
+proc locate_roundtrip { id intext } {
+    if ![regexp "\n$" $intext] {
+	# We like the items to be terminated by newlines.
+	error "The input text is not terminated by newline"
+    }
+
+    locate_textonly p $id $intext "-r ." $intext
 }
 
 
