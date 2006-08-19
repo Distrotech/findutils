@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.20\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-05 19:48+0100\n"
+"POT-Creation-Date: 2006-08-19 19:53+0100\n"
 "PO-Revision-Date: 2004-04-02 18:57GMT\n"
 "Last-Translator: K.Birabwa <kompyuta@kizito.freeuk.com>\n"
 "Language-Team: Luganda <kompyuta@kizito.freeuk.com>\n"
@@ -399,12 +399,17 @@ msgid "warning: unrecognized escape `\\%c'"
 msgstr ""
 "kulabula: akabonero akufuula enneyisa ya bunnaako, `\\%c', tekategeerekese"
 
-#: find/parser.c:1983
+#: find/parser.c:1952
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:1988
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "kulabula: ekiragiro ekifuga entereeza, `%%%c', tekitegeerekese"
 
-#: find/parser.c:2089
+#: find/parser.c:2094
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -413,18 +418,18 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2187
+#: find/parser.c:2192
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2210
+#: find/parser.c:2215
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2223
+#: find/parser.c:2228
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "exec esanze nga enviromenti esukkiridde obunene"
@@ -434,7 +439,7 @@ msgstr "exec esanze nga enviromenti esukkiridde obunene"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1564 xargs/xargs.c:1030
+#: find/pred.c:1564 xargs/xargs.c:1024
 msgid "cannot fork"
 msgstr "ekilagiro ekya sisitemu ekya`fork()' kigaanye"
 
@@ -496,7 +501,7 @@ msgstr ""
 "Nkozesa eri: %s bigulamu_ezisinga_okusangibwa < lukalala > "
 "lukalala_olutegeke\n"
 
-#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1241
+#: locate/code.c:131 locate/locate.c:1114 xargs/xargs.c:1224
 #, fuzzy
 msgid ""
 "\n"
@@ -602,132 +607,132 @@ msgstr "GNU locate ey'omutindo %s\n"
 msgid "argument to --limit"
 msgstr "agumenti eyitiridde obuwanvu"
 
-#: xargs/xargs.c:304
+#: xargs/xargs.c:301
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
 
-#: xargs/xargs.c:322
+#: xargs/xargs.c:319
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lx."
 msgstr ""
 
-#: xargs/xargs.c:328
+#: xargs/xargs.c:325
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lo."
 msgstr ""
 
-#: xargs/xargs.c:337
+#: xargs/xargs.c:334
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
 
-#: xargs/xargs.c:384
+#: xargs/xargs.c:379
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:399
+#: xargs/xargs.c:394
 msgid "environment is too large for exec"
 msgstr "exec esanze nga enviromenti esukkiridde obunene"
 
-#: xargs/xargs.c:541
+#: xargs/xargs.c:535
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:580
+#: xargs/xargs.c:574
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs ey'omutindo %s\n"
 
-#: xargs/xargs.c:610
+#: xargs/xargs.c:604
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr ""
 
-#: xargs/xargs.c:646
+#: xargs/xargs.c:640
 #, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr ""
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:643
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:647
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr ""
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:651
 #, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:779 xargs/xargs.c:860
+#: xargs/xargs.c:773 xargs/xargs.c:854
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
 "the -0 option"
 msgstr ""
 
-#: xargs/xargs.c:780 xargs/xargs.c:861
+#: xargs/xargs.c:774 xargs/xargs.c:855
 msgid "double"
 msgstr "nakabirye"
 
-#: xargs/xargs.c:780 xargs/xargs.c:861
+#: xargs/xargs.c:774 xargs/xargs.c:855
 msgid "single"
 msgstr "sekinnomu"
 
-#: xargs/xargs.c:878 xargs/xargs.c:935
+#: xargs/xargs.c:872 xargs/xargs.c:929
 msgid "argument line too long"
 msgstr "agumenti eyitiridde obuwanvu"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1099
 msgid "error waiting for child process"
 msgstr "wazzewo kiremya nga nnindirira omulimu oguzaalukusiddwa mu gunnaagwo"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1115
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: omulimu gumaliddwa nga gulina embeera eya 255, mbivuddeko"
 
-#: xargs/xargs.c:1123
+#: xargs/xargs.c:1117
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: omulimu guyimiriziddwa ekiragiro %d"
 
-#: xargs/xargs.c:1125
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: omulimu gukomekkerezedwa ekiragiro %d"
 
-#: xargs/xargs.c:1178
+#: xargs/xargs.c:1172
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: omuwendo guno tegukola ku kawayiro -%c\n"
 
-#: xargs/xargs.c:1185
+#: xargs/xargs.c:1179
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: akawayiro -%c kateekwa okubeera nga >= %ld\n"
 
-#: xargs/xargs.c:1199
+#: xargs/xargs.c:1193
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: akawayiro -%c kateekwa okubeera nga < %ld\n"
 
-#: xargs/xargs.c:1230
+#: xargs/xargs.c:1213
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
