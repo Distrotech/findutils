@@ -117,7 +117,7 @@ extern int errno;
 #ifdef gettext_noop
 # define N_(String) gettext_noop (String)
 #else
-/* We used to use (String) instead of just String, but apparently ISO C
+/* We used to use (String) instead of just String, but apparentl;y ISO C
  * doesn't allow this (at least, that's what HP said when someone reported
  * this as a compiler bug).  This is HP case number 1205608192.  See
  * also http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11250 (which references 

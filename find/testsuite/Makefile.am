@@ -38,6 +38,7 @@ find.gnu/perm-slash.xo \
 find.gnu/posix-dflt.xo \
 find.gnu/posix-h.xo \
 find.gnu/posix-l.xo \
+find.gnu/printfHdfl.xo \
 find.gnu/printf-symlink.xo \
 find.gnu/printf-h.xo \
 find.gnu/printf.xo \
@@ -62,6 +63,10 @@ find.posix/files-not-expressions2.xo \
 find.posix/files-not-expressions3.xo \
 find.posix/grouping.xo \
 find.posix/links.xo \
+find.posix/sv-bug-11175.xo \
+find.posix/sv-bug-12181.xo \
+find.posix/depth1.xo \
+find.posix/sizes.xo \
 find.posix/name.xo \
 find.posix/perm-X.xo \
 find.posix/perm-vanilla.xo \
@@ -72,7 +77,12 @@ find.posix/sizetype.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
 find.posix/sv-bug-15235.xo \
-find.posix/typesize.xo
+find.posix/typesize.xo \
+find.posix/posixnot.xo \
+find.posix/grouping.xo \
+find.posix/and.xo \
+find.posix/exec-one.xo \
+find.gnu/follow-arg-parent-symlink.xo
 
 EXTRA_DIST_EXP = \
 config/unix.exp \
@@ -110,6 +120,8 @@ find.gnu/perm-slash.exp \
 find.gnu/posix-dflt.exp \
 find.gnu/posix-h.exp \
 find.gnu/posix-l.exp \
+find.gnu/printfHdfl.exp \
+find.gnu/printf.exp \
 find.gnu/printf.exp \
 find.gnu/printf-symlink.exp \
 find.gnu/printf-h.exp \
@@ -124,6 +136,7 @@ find.gnu/true.exp \
 find.gnu/wholename.exp \
 find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
+find.gnu/sv-bug-17477.exp \
 find.gnu/quit.exp \
 find.gnu/xtype.exp \
 find.posix/and.exp \
@@ -136,6 +149,10 @@ find.posix/files-not-expressions2.exp \
 find.posix/files-not-expressions3.exp \
 find.posix/grouping.exp \
 find.posix/links.exp \
+find.posix/sv-bug-11175.exp \
+find.posix/sv-bug-12181.exp \
+find.posix/depth1.exp \
+find.posix/sizes.exp \
 find.posix/name.exp \
 find.posix/perm-X.exp \
 find.posix/perm-vanilla.exp \
@@ -146,7 +163,11 @@ find.posix/sizetype.exp \
 find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \
 find.posix/sv-bug-15235.exp \
-find.posix/typesize.exp
+find.posix/typesize.exp \
+find.posix/grouping.exp \
+find.posix/and.exp \
+find.posix/exec-one.exp \
+find.gnu/follow-arg-parent-symlink.exp
 
 EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO)
 

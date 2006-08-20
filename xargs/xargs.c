@@ -663,11 +663,10 @@ main (int argc, char **argv)
 		  "not what you wanted to happen, please type the "
 		  "end-of-file keystroke.\n");
 	}
-      
     }
   
-  linebuf = (char *) xmalloc (bc_ctl.arg_max + 1u);
-  bc_state.argbuf = (char *) xmalloc (bc_ctl.arg_max + 1u);
+  linebuf = (char *) xmalloc (bc_ctl.arg_max + 1);
+  bc_state.argbuf = (char *) xmalloc (bc_ctl.arg_max + 1);
 
   /* Make sure to listen for the kids.  */
   signal (SIGCHLD, SIG_DFL);
@@ -700,7 +699,7 @@ main (int argc, char **argv)
   else
     {
       int i;
-      int len;
+      size_t len;
       size_t *arglen = (size_t *) xmalloc (sizeof (size_t) * argc);
 
       for (i = optind; i < argc; i++)
@@ -754,7 +753,7 @@ read_line (void)
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
-  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1u;
+  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
 
   if (eof)
     return -1;
@@ -894,7 +893,7 @@ read_string (void)
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
-  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1u;
+  char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
 
   if (eof)
     return -1;
@@ -1222,7 +1221,7 @@ Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n\
        [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n\
        [-n max-args] [--max-args=max-args]\n\
        [-s max-chars] [--max-chars=max-chars]\n\
-       [-P max-procs]  [--max-procs=max-procs]\n\
+       [-P max-procs]  [--max-procs=max-procs] [[--show-limits]\n\
        [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n\
        [--version] [--help] [command [initial-arguments]]\n"),
 	   program_name);
