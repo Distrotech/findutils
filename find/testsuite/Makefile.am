@@ -63,6 +63,7 @@ find.posix/files-not-expressions3.xo \
 find.posix/grouping.xo \
 find.posix/links.xo \
 find.posix/name.xo \
+find.posix/perm-X.xo \
 find.posix/perm-vanilla.xo \
 find.posix/posixnot.xo \
 find.posix/prune.xo \
@@ -136,6 +137,7 @@ find.posix/files-not-expressions3.exp \
 find.posix/grouping.exp \
 find.posix/links.exp \
 find.posix/name.exp \
+find.posix/perm-X.exp \
 find.posix/perm-vanilla.exp \
 find.posix/posixnot.exp \
 find.posix/prune.exp \

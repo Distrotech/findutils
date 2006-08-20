@@ -1,5 +1,5 @@
 /* defs.h -- data types and declarations.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004, 2005 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004, 2005, 2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -201,7 +201,7 @@ struct long_val
 struct perm_val
 {
   enum permissions_type kind;
-  mode_t val;
+  mode_t val[2];
 };
 
 /* dir_id is used to support loop detection in find.c and 

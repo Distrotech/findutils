@@ -369,7 +369,7 @@ find(char *arg)
       break;
 	  
     case SYMLINK_DEREF_ARGSONLY:
-      ftsoptions |= FTS_COMFOLLOW;
+      ftsoptions |= FTS_COMFOLLOW|FTS_PHYSICAL;
       break;
 	  
     case SYMLINK_NEVER_DEREF:

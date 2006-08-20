@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-06 18:30+0100\n"
+"POT-Creation-Date: 2006-08-20 19:17+0100\n"
 "PO-Revision-Date: 2005-12-06 11:30+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -29,7 +29,7 @@ msgstr "%2$s 的參數 %1$s 不明確"
 msgid "Valid arguments are:"
 msgstr "有效的參數為："
 
-#: gnulib/lib/error.c:121
+#: gnulib/lib/error.c:125
 msgid "Unknown system error"
 msgstr "不明的系統錯誤"
 
@@ -129,46 +129,46 @@ msgstr "^[yY]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:157
+#: find/util.c:158
 #, fuzzy, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgstr "用法: %s [-H] [-L] [-P] [路徑...] [表達式]\n"
 
-#: find/util.c:159
+#: find/util.c:160
 #, fuzzy, c-format
 msgid "] [path...] [expression]\n"
 msgstr "用法：%s [路徑...] [表達式]\n"
 
-#: find/util.c:595
+#: find/util.c:596
 #, fuzzy, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "警告：無效辨認轉義控制序列 (escape sequence) ‘\\%c’"
 
-#: find/util.c:602
+#: find/util.c:603
 msgid "Empty argument to the -D option."
 msgstr ""
 
-#: find/util.c:616
+#: find/util.c:617
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr ""
 
-#: find/util.c:625 find/util.c:635
+#: find/util.c:626 find/util.c:636
 msgid "Please specify a decimal number immediately after -O"
 msgstr ""
 
-#: find/util.c:640 find/util.c:644
+#: find/util.c:641 find/util.c:645
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr ""
 
-#: find/util.c:651
+#: find/util.c:652
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:762
+#: find/util.c:763
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -375,7 +375,7 @@ msgstr "警告：-ipath 選項已過時，請改用 -iwholename。"
 msgid "invalid mode `%s'"
 msgstr "模式 ‘%s’ 無效"
 
-#: find/parser.c:1507
+#: find/parser.c:1508
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s which is equivalent to 000. "
@@ -384,42 +384,42 @@ msgid ""
 "to match all files."
 msgstr ""
 
-#: find/parser.c:1663
+#: find/parser.c:1664
 msgid "invalid null argument to -size"
 msgstr "-size 後是無效的空白參數"
 
-#: find/parser.c:1709
+#: find/parser.c:1710
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size 指定的檔案大小單位 ‘%c’ 無效"
 
-#: find/parser.c:1758
+#: find/parser.c:1759
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1902
+#: find/parser.c:1903
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find %s 版本\n"
 
-#: find/parser.c:1903
+#: find/parser.c:1904
 #, c-format
 msgid "Features enabled: "
 msgstr "啟用了的功能："
 
-#: find/parser.c:2171
+#: find/parser.c:2172
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "警告：無效辨認轉義控制序列 (escape sequence) ‘\\%c’"
 
-#: find/parser.c:2218
+#: find/parser.c:2219
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr ""
 
-#: find/parser.c:2347
+#: find/parser.c:2348
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -430,7 +430,7 @@ msgstr ""
 "PATH 環境變數中包括了當前目錄，當配合 find 的 %s 操作模式時會令系統安全產生漏"
 "洞。請在 $PATH 變數中移除當前目錄 (即是 “.”，或者最前或最後的冒號)"
 
-#: find/parser.c:2447
+#: find/parser.c:2448
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -438,12 +438,12 @@ msgstr ""
 "您不應該在 -execdir 和 -okdir 中使用 {} 作為程式名稱，因為這樣做可能會造成安"
 "全漏洞。"
 
-#: find/parser.c:2470
+#: find/parser.c:2471
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
 
-#: find/parser.c:2483
+#: find/parser.c:2484
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "執行 exec 時的環境變數太大"
@@ -453,16 +453,16 @@ msgstr "執行 exec 時的環境變數太大"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1567 xargs/xargs.c:1034
+#: find/pred.c:1569 xargs/xargs.c:1031
 msgid "cannot fork"
 msgstr "fork 失敗"
 
-#: find/pred.c:1607
+#: find/pred.c:1609
 #, c-format
 msgid "error waiting for %s"
 msgstr "等待 %s 時出現錯誤"
 
-#: find/pred.c:1615
+#: find/pred.c:1617
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s 因訊號 %d 而終止"
@@ -574,7 +574,7 @@ msgstr ""
 "用法: %s [--version | --help]\n"
 "或     %s most_common_bigrams < 檔案清單 > locate資料庫\n"
 
-#: locate/code.c:131 locate/locate.c:1115 xargs/xargs.c:1232
+#: locate/code.c:131 locate/locate.c:1307 xargs/xargs.c:1229
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -587,31 +587,36 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils %s 版本\n"
 
-#: locate/locate.c:155
+#: locate/locate.c:160
 msgid "days"
 msgstr "日"
 
-#: locate/locate.c:524
+#: locate/locate.c:562
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "locate 資料庫 ‘%s’ 內容已損壞或無效"
 
-#: locate/locate.c:792
+#: locate/locate.c:840
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "locate 資料庫大小：%s 位元組\n"
 
-#: locate/locate.c:796
-#, c-format
-msgid "Filenames: %s "
+#: locate/locate.c:845
+#, fuzzy, c-format
+msgid "Matching Filenames: %s "
 msgstr "檔案總數: %s，"
 
-#: locate/locate.c:799
+#: locate/locate.c:846
+#, fuzzy, c-format
+msgid "All Filenames: %s "
+msgstr "檔案總數: %s，"
+
+#: locate/locate.c:849
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "總長度共 %s 位元組"
 
-#: locate/locate.c:803
+#: locate/locate.c:853
 #, c-format
 msgid ""
 "\n"
@@ -620,7 +625,7 @@ msgstr ""
 "\n"
 "\t其中 %s 個有空白字元，"
 
-#: locate/locate.c:806
+#: locate/locate.c:856
 #, c-format
 msgid ""
 "\n"
@@ -629,7 +634,7 @@ msgstr ""
 "\n"
 "\t%s 個有換行字元，"
 
-#: locate/locate.c:809
+#: locate/locate.c:859
 #, c-format
 msgid ""
 "\n"
@@ -638,31 +643,55 @@ msgstr ""
 "\n"
 "\t和 %s 個含有不是 7 bit 的字元。\n"
 
-#: locate/locate.c:814
+#: locate/locate.c:867
+#, c-format
+msgid ""
+"Some filenames may have been filtered out, so we cannot compute the "
+"compression ratio.\n"
+msgstr ""
+
+#: locate/locate.c:874
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "壓縮比率 %4.2f%%\n"
 
-#: locate/locate.c:862
-msgid "warning: the locate database can only be read from stdin once."
-msgstr "警告：locate 資料庫只可以由標準輸入讀取一次。"
+#: locate/locate.c:881
+#, fuzzy, c-format
+msgid "Compression ratio is undefined\n"
+msgstr "壓縮比率 %4.2f%%\n"
 
-# e.g. database `%s' is more than 8 days old
-#: locate/locate.c:883
+#: locate/locate.c:938
 #, c-format
-msgid "warning: database `%s' is more than %d %s old"
-msgstr "警告：資料庫 ‘%s’ 是超過 %d %s前產生的"
+msgid ""
+"locate database `%s' looks like an slocate database but it seems to have "
+"security level %c, which GNU findutils does not currently support"
+msgstr ""
 
-#: locate/locate.c:1060
+#: locate/locate.c:1025
+#, c-format
+msgid ""
+"`%s' is an slocate database.  Support for these is new, expect problems for "
+"now (you are, after all, using the CVS code)."
+msgstr ""
+
+#: locate/locate.c:1053
+msgid ""
+"You specified the -E option, but that option cannot be used with slocate-"
+"format databases with a non-zero security level.  No results will be "
+"generated for this database.\n"
+msgstr ""
+
+#: locate/locate.c:1064
+#, c-format
+msgid "`%s' is an slocate database.  Turning on the '-e' option."
+msgstr ""
+
+#: locate/locate.c:1257
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "資料庫 %s 使用了%s格式。\n"
 
-#: locate/locate.c:1062
-msgid "old"
-msgstr "舊的"
-
-#: locate/locate.c:1106
+#: locate/locate.c:1298
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -683,42 +712,64 @@ msgstr ""
 "      [-version] [--help]\n"
 "      檔案名稱樣式...\n"
 
-#: locate/locate.c:1232
+#: locate/locate.c:1355
+msgid "failed to drop group privileges"
+msgstr ""
+
+#: locate/locate.c:1362
+msgid "failed to drop setuid privileges"
+msgstr ""
+
+#: locate/locate.c:1373
+msgid "Failed to drop privileges"
+msgstr ""
+
+#: locate/locate.c:1506
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate %s 版本\n"
 
-#: locate/locate.c:1271
+#: locate/locate.c:1545
 msgid "argument to --limit"
 msgstr ""
 
-#: xargs/xargs.c:304
+#: locate/locate.c:1628
+msgid "warning: the locate database can only be read from stdin once."
+msgstr "警告：locate 資料庫只可以由標準輸入讀取一次。"
+
+# e.g. database `%s' is more than 8 days old
+#: locate/locate.c:1697
+#, c-format
+msgid "warning: database `%s' is more than %d %s old"
+msgstr "警告：資料庫 ‘%s’ 是超過 %d %s前產生的"
+
+#: xargs/xargs.c:301
 #, fuzzy, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "轉義控制序列 (escape sequence) ‘%s’ 不合法。"
 
-#: xargs/xargs.c:322
+#: xargs/xargs.c:319
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lx."
 msgstr "轉義控制序列 (escape sequence) ‘%s’ 不合法：字元值不可以超過 %lx。"
 
-#: xargs/xargs.c:328
+#: xargs/xargs.c:325
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lo."
 msgstr "轉義控制序列 (escape sequence) ‘%s’ 不合法：字元值不可以超過 %lo。"
 
-#: xargs/xargs.c:337
+#: xargs/xargs.c:334
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr "轉義控制序列 (escape sequence) ‘%s’ 不合法：無法辨認最後的字元 ‘%s’。"
 
-#: xargs/xargs.c:382
+#: xargs/xargs.c:379
 #, fuzzy, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -727,46 +778,46 @@ msgstr ""
 "分隔字元 ‘%s’ 不合法：分隔字元必須是一個 ASCII 字元或以反斜號 \\ 開始的轉義控"
 "制序列 (escape sequence)。"
 
-#: xargs/xargs.c:399
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "執行 exec 時的環境變數太大"
 
-#: xargs/xargs.c:541
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:580
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs %s 版本\n"
 
-#: xargs/xargs.c:610
+#: xargs/xargs.c:607
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "無法開啟檔案 ‘%s’ 作為輸入資料"
 
-#: xargs/xargs.c:646
+#: xargs/xargs.c:643
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "環境變數總共用了 %ld 位元組\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:646
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "POSIX 標準中參數長度上下限為：%ld, %ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:650
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "實際上可用的指令列長度上限：%ld\n"
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:654
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "實際上使用的指令列緩衝區大小：%ld\n"
 
-#: xargs/xargs.c:780 xargs/xargs.c:861
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -775,53 +826,53 @@ msgstr ""
 "%s引號不配合；除非使用 -0 選項，否則在預設模式下引號對於 xargs 來說是有特別意"
 "義的"
 
-#: xargs/xargs.c:781 xargs/xargs.c:862
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "雙"
 
-#: xargs/xargs.c:781 xargs/xargs.c:862
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "單"
 
-#: xargs/xargs.c:879 xargs/xargs.c:936
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "參數太長"
 
-#: xargs/xargs.c:1109
+#: xargs/xargs.c:1106
 msgid "error waiting for child process"
 msgstr "等待子進程時出現錯誤"
 
-#: xargs/xargs.c:1125
+#: xargs/xargs.c:1122
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: 回傳碼為 255；中止"
 
-#: xargs/xargs.c:1127
+#: xargs/xargs.c:1124
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: 因訊號 %d 而停止"
 
-#: xargs/xargs.c:1129
+#: xargs/xargs.c:1126
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: 因訊號 %d 而中止"
 
-#: xargs/xargs.c:1182
+#: xargs/xargs.c:1179
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c 選項後的數值無效\n"
 
-#: xargs/xargs.c:1189
+#: xargs/xargs.c:1186
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c 選項後的數值必須不小於 %ld\n"
 
-#: xargs/xargs.c:1203
+#: xargs/xargs.c:1200
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c 選項後的數值必須小於 %ld\n"
 
-#: xargs/xargs.c:1221
+#: xargs/xargs.c:1218
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -843,3 +894,6 @@ msgstr ""
 "       [-P max-procs]  [--max-procs=max-procs]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [指令 [指令的參數]]\n"
+
+#~ msgid "old"
+#~ msgstr "舊的"

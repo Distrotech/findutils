@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # import-gnulib.sh -- imports a copy of gnulib into findutils
-# Copyright (C) 2003,2004,2005 Free Software Foundation, Inc.
+# Copyright (C) 2003,2004,2005,2006 Free Software Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,37 +20,50 @@
 #
 ##########################################################################
 #
-# This script is intended to populate the "gnulib" directory 
+# This script is intended to populate the "gnulib" directory
 # with a subset of the gnulib code, as provided by "gnulib-tool".
 #
-# To use it, run this script, speficying the location of the 
-# gnulib code as the only argument.   Some sanity-checking is done 
+# To use it, run this script, speficying the location of the
+# gnulib code as the only argument.   Some sanity-checking is done
 # before we commit to modifying things.   The gnulib code is placed
-# in the "gnulib" subdirectory, which is where the buid files expect 
-# it to be. 
-# 
+# in the "gnulib" subdirectory, which is where the buid files expect
+# it to be.
+#
 
-# If CDPATH is set, it will sometimes print the name of the directory 
-# to which you have moved.  Unsetting CDPATH prevents this, as does 
+# If CDPATH is set, it will sometimes print the name of the directory
+# to which you have moved.  Unsetting CDPATH prevents this, as does
 # prefixing it with ".".
 unset CDPATH
 
 destdir="gnulib"
 
 
-# Modules needed for findutils itself.
+# Random extra gnulib files needed for findutils.
+# The source path is relative to gnulib, the destination to .
+findutils_files='
+build-aux/config.guess
+build-aux/config.rpath
+build-aux/config.sub
+build-aux/depcomp
+build-aux/install-sh
+build-aux/mdate-sh
+build-aux/missing
+build-aux/texinfo.tex
+'
+
+# Modules needed for findutils.
 findutils_modules="\
-alloca  argmatch  dirname error fileblocks  fnmatch-gnu fts \
-getline getopt human idcache lstat malloc memcmp memset mktime	\
-modechange pathmax quotearg realloc regex rpmatch savedir stdio-safer \
+alloca argmatch dirname error fileblocks fnmatch-gnu fopen-safer fts \
+getline getopt human idcache lstat malloc memcmp memset mktime \
+modechange pathmax quotearg realloc regex rpmatch savedir \
 stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
 xalloc xalloc-die xgetcwd  xstrtod xstrtol  xstrtoumax yesno human filemode \
 getline stpcpy canonicalize mountlist closeout gettext stat-macros"
 
-# We need regex to ensure that we can build on platforms like 
-# Solaris which lack those functions. 
+# We need regex to ensure that we can build on platforms like
+# Solaris which lack those functions.
 
-modules="$findutils_modules $intl_modules"
+modules="$findutils_modules"
 export modules
 
 if test $# -lt 1
@@ -83,7 +96,7 @@ else
     exit 1
 fi
 
-    
+
 # exec "$1"/gnulib-tool --create-testdir --dir="$destdir" --lib=libgnulib $modules
 
 if [ -d gnulib ]
@@ -101,6 +114,15 @@ else
     echo "gnulib-tool failed, exiting." >&2
     exit 1
 fi
+
+
+for file in $findutils_files; do
+  case $file in
+    */mdate-sh | */texinfo.tex) dest=doc;;
+    *) dest=.;;
+  esac
+  cp -fp "$1"/$file $dest || exit
+done
 
 
 
@@ -135,5 +157,5 @@ EOF
 ## printf "%s" "EXTRA_DIST = "
 ## cd  ./gnulib/m4
 ## ls *.m4 | sed -e 's/$/ \\/' | sed -e '$ s/\\$//'
-## echo 
+## echo
 ## ) > gnulib/m4/Makefile.am

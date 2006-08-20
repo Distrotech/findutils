@@ -1,3 +1,50 @@
+2006-08-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Port recent fixes for symbolic modes involving X from gnulib,
+	and clarify the documentation in this area.
+	* doc/find.texi: Use "file mode bits" when talking about
+	all the file mode bits (including setuid, setgid, and sticky),
+	and "permissions" when talking only about permissions bits
+	(read, write, execute/search).  Use "execute/search" to
+	talk about the x bit, since it means both.  You do not need
+	permission to the linked-to file to follow a symlink for
+	syscalls like "stat", but you do need search permission for
+	the directories you traverse.  Clarify the explanation of
+	-perm.  Use "that" instead of "which" when "which" isn't
+	quite correct English.
+	(Mode Bits): Renamed from Permissions.  All uses changed.
+	* doc/perm.texi: Sync from coreutils 6.0.
+	* find/defs.h (struct perm_val.val): Now an array of two items,
+	one for non-directories, and one for directories.  This is
+	to handle symbolic modes like +X correctly.
+	* find/parser.c (parse_perm): Likewise.  Also, adjust to
+	latest gnulib interface for mode_adjust.
+	* find/pred.c (pred_perm): Likewise.
+	* find/testsuite/Makefile.am (EXTRA_DIST_XO): Add find.posix/perm-X.xo.
+	(EXTRA_DIST_EXP): Add find.posix/perm-X.exp.
+	* find/testsuite/find.posix/perm-X.exp: New file.
+	* find/testsuite/find.posix/perm-X.so: New file.
+
+12006-08-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Port to latest gnulib, and simplify the bootstrapping procedure.
+	* intl: Remove this directory and everything in it.
+	* depcomp, install-sh, missing, mkinstalldirs, doc/texinfo.tex:
+	Remove these files from CVS, as they are now gotten from gnulib.
+	* README-CVS: Don't recommend "autoreconf -i", as it doesn't work
+	for us.
+	* import-gnulib.sh (findutils_files): New var.  Grab this stuff
+	from gnulib.
+	(findutils_modules): Add fopen-safer; remove stdio-safer.  This
+	adjusts to latest gnulib.
+	(modules): Remove obsolete reference to intl_modules.
+	* .cvsignore: Remove stamp-h; add stamp-h1.
+	* doc/.cvsignore: Add regexprops.texi.
+	* find/.cvsignore: Add oldfind.
+	* lib/.cvsignore: Add .deps, regexprops.
+	* m4/.cvsignore: Add Makefile.
+	* po/.cvsignore: Add stamp-po.
+
 2006-08-19  James Youngman <jay@gnu.org>
 
 	* locate/testsuite/config/unix.exp, locate/testsuite/locate.gnu/bigprefix1.exp:

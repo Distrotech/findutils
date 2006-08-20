@@ -188,7 +188,7 @@ are of a certain type (regular file, directory, symbolic link, etc.);
 @item
 are owned by a certain user or group;
 @item
-have certain access permissions;
+have certain access permissions or special mode bits;
 @item
 contain text that matches a certain pattern;
 @item
@@ -346,7 +346,7 @@ more information about the matching files.
 * Size::
 * Type::
 * Owner::
-* Permissions::
+* Mode Bits::
 * Contents::
 * Directories::
 * Filesystems::
@@ -620,11 +620,12 @@ links listed on the command line are dereferenced, but other symbolic
 links are not.
 
 Symbolic links are different to ``hard links'' in the sense that you
-need permissions upon the linked-to file in order to be able to
+need permission to search the directories
+in the the linked-to file name to
 dereference the link.  This can mean that even if you specify the
 @samp{-L} option, @code{find} may not be able to determine the
 properties of the file that the link points to (because you don't have
-sufficient permissions).  In this situation, @code{find} uses the
+sufficient permission).  In this situation, @code{find} uses the
 properties of the link itself.  This also occurs if a symbolic link
 exists but points to a file that is missing.
 
@@ -1008,10 +1009,10 @@ existing user or group, using the @code{chown} or @code{chgrp}
 program.
 @end deffn
 
-@node Permissions
-@section Permissions
+@node Mode Bits
+@section File Mode Bits
 
-@xref{File Permissions}, for information on how file permissions are
+@xref{File Permissions}, for information on how file mode bits are
 structured and how to specify them.
 
 Four tests determine what users can do with files.  These are
@@ -1052,27 +1053,31 @@ operation; for example, the filesystem might be full.
 @end deffn
 
 @deffn Test -executable
-True if the file can be executed by the invoking user.
+True if the file can be executed/searched by the invoking user.
 @end deffn
 
-@deffn Test -perm mode
+@deffn Test -perm pmode
 
-True if the file's permissions are exactly @var{mode}, which can be
-numeric or symbolic.
+True if the file's mode bits match @var{pmode}, which can be
+either a symbolic or numeric @var{mode} (@pxref{File Permissions})
+optionally prefixed by @samp{-} or @samp{/}.
 
-If @var{mode} starts with @samp{-}, true if
-@emph{all} of the permissions set in @var{mode} are set for the file;
-permissions not set in @var{mode} are ignored.
+A @var{pmode} that starts with neither @samp{-} nor @samp{/} matches
+if @var{mode} exactly matches the file mode bits.
 
-If @var{mode} starts with @samp{/}, true if
-@emph{any} of the permissions set in @var{mode} are set for the file;
-permissions not set in @var{mode} are ignored.
+A @var{pmode} that starts with @samp{-} matches if
+@emph{all} the file mode bits set in @var{mode} are set for the file;
+bits not set in @var{mode} are ignored.
+
+A @var{pmode} that starts with @samp{/} matches if
+@emph{any} of the file mode bits set in @var{mode} are set for the file;
+bits not set in @var{mode} are ignored.
 This is a GNU extension.
 
 If you don't use the @samp{/} or @samp{-} form with a symbolic mode
 string, you may have to specify a rather complex mode string.  For
-example @samp{-perm g=w} will only match files which have mode 0020
-(that is, ones for which group write permission is the only permission
+example @samp{-perm g=w} will only match files that have mode 0020
+(that is, ones for which group write permission is the only file mode bit
 set).  It is more likely that you will want to use the @samp{/} or
 @samp{-} forms, for example @samp{-perm -g=w}, which matches any file
 with group write permission.
@@ -1080,24 +1085,24 @@ with group write permission.
 
 @table @samp
 @item -perm 664
-Match files which have read and write permission for their owner,
-and group, but which the rest of the world can read but not write to.
-Files which meet these criteria but have other permissions bits set
-(for example if someone can execute the file) will not be matched.
+Match files that have read and write permission for their owner,
+and group, but that the rest of the world can read but not write to.
+Do not match files that meet these criteria but have other file mode
+bits set (for example if someone can execute/search the file).
 
 @item -perm -664
-Match files which have read and write permission for their owner,
-and group, but which the rest of the world can read but not write to,
-without regard to the presence of any extra permission bits (for
-example the executable bit).  This will match a file which has mode
+Match files that have read and write permission for their owner,
+and group, but that the rest of the world can read but not write to,
+without regard to the presence of any extra file mode bits (for
+example the executable bit).  This matchs a file with mode
 0777, for example.
 
 @item -perm /222
-Match files which are writable by somebody (their owner, or
+Match files that are writable by somebody (their owner, or
 their group, or anybody else).
 
 @item -perm /022
-Match files which are writable by either their owner or their
+Match files that are writable by either their owner or their
 group.  The files don't have to be writable by both the owner and
 group to be matched; either will do.
 
@@ -1105,16 +1110,16 @@ group to be matched; either will do.
 As above.
 
 @item -perm /g=w,o=w
-As above
+As above.
 
 @item -perm -022
-Search for files which are writable by both their owner and their
+Match files that are writable by both their owner and their
 group.
 
 @item -perm -444 -perm /222 ! -perm /111
-Search for files which are readable for everybody, have at least one
-write bit set (i.e. somebody can write to them), but which cannot be
-executed by anybody.  Note that in some shells the @samp{!} must be
+Match files that are readable for everybody, have at least one
+write bit set (i.e. somebody can write to them), but that cannot be
+executed/searched by anybody.  Note that in some shells the @samp{!} must be
 escaped;.
 
 @item -perm -a+r -perm /a+w ! -perm /a+x
@@ -1491,13 +1496,13 @@ which case 512-byte blocks are used.  @xref{Size}, for how to find
 files based on their size.
 
 @item
-The file's type and permissions.  The type is shown as a dash for a
+The file's type and file mode bits.  The type is shown as a dash for a
 regular file; for other file types, a letter like for @samp{-type} is
-used (@pxref{Type}).  The permissions are read, write, and execute for
+used (@pxref{Type}).  The file mode bits are read, write, and execute/search for
 the file's owner, its group, and other users, respectively; a dash
 means the permission is not granted.  @xref{File Permissions}, for
-more details about file permissions.  @xref{Permissions}, for how to
-find files based on their permissions.
+more details about file permissions.  @xref{Mode Bits}, for how to
+find files based on their file mode bits.
 
 @item
 The number of hard links to the file.
@@ -1666,17 +1671,17 @@ File's user name, or numeric user ID if the user has no name.
 File's numeric user ID.
 @item %m
 @c full support, including # and 0.
-File's permissions (in octal).  If you always want to have a leading
+File's mode bits (in octal).  If you always want to have a leading
 zero on the number, use the '#' format flag, for example '%#m'.  
 
-The permission numbers used are the traditional Unix permission
+The file mode bit numbers used are the traditional Unix
 numbers, which will be as expected on most systems, but if your
-system's permission bit layout differs from the traditional Unix
+system's file mode bit layout differs from the traditional Unix
 semantics, you will see a difference between the mode as printed by
 @samp{%m} and the mode as it appears in @code{struct stat}.
 
 @item %M
-File's permissions (in symbolic form, as for @code{ls}).  This
+File's type and mode bits (in symbolic form, as for @code{ls}).  This
 directive is supported in findutils 4.2.5 and later.
 @end table
 
@@ -4746,4 +4751,3 @@ Expressions}, for more information on expressions.
 @comment LocalWords: su Timar ubins ug unstripped vf VM Weitzel
 @comment LocalWords: wildcard zlogout basename execdir wholename iwholename
 @comment LocalWords: timestamp timestamps Solaris FreeBSD OpenBSD POSIX
-
