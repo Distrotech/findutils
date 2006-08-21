@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2006-05-20 14:54+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -441,12 +441,17 @@ msgstr "Funcionalitats habilitades: "
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "avís: seqüència d'escapament «\\%c» no reconegut"
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "avís: directiva de format «%%%c» no reconeguda"
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -459,7 +464,7 @@ msgstr ""
 "del vostre $PATH (és a dir, elimineu «.» o els dos punts del principi o "
 "final)"
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -467,12 +472,12 @@ msgstr ""
 "No pdeu utilitzar {} dins del nom de la utilitat per a -execdir i -okdir, ja "
 "que això és un problema de seguretat potencial."
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Només es suporta una instància de {} amb -exec%s ... +"
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "l'entorn és massa gran per a l'execució"

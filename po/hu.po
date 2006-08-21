@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2006-01-05 23:32+0100\n"
 "Last-Translator: Emese Kovacs <emese@instantweb.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -437,12 +437,17 @@ msgstr "Engedélyezett szolgáltatások: "
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "figyelmeztetés: ismeretlen escape: \"\\%c\""
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "figyelmeztetés: ismeretlen formátumelőírás: \"%%%c\""
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -455,7 +460,7 @@ msgstr ""
 "könyvtárat a $PATH változóból (azaz a pontot vagy a kezdő/záró "
 "pontosvesszőt)."
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -463,12 +468,12 @@ msgstr ""
 "A {} jel nem használható a -execdir és -okdir segédprogramjának nevében, "
 "mivel ez egy lehetséges biztonsági probléma."
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Csak egyetlen {} példány támogatott a -exec%s ... + esetén"
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "a környezet túl nagy az exec-hez"

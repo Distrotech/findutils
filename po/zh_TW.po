@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2005-12-06 11:30+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -414,12 +414,17 @@ msgstr "啟用了的功能："
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "警告：無效辨認轉義控制序列 (escape sequence) ‘\\%c’"
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr ""
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -430,7 +435,7 @@ msgstr ""
 "PATH 環境變數中包括了當前目錄，當配合 find 的 %s 操作模式時會令系統安全產生漏"
 "洞。請在 $PATH 變數中移除當前目錄 (即是 “.”，或者最前或最後的冒號)"
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -438,12 +443,12 @@ msgstr ""
 "您不應該在 -execdir 和 -okdir 中使用 {} 作為程式名稱，因為這樣做可能會造成安"
 "全漏洞。"
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "執行 exec 時的環境變數太大"

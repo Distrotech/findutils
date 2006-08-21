@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2006-05-20 13:06+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@buguner.name.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -439,12 +439,17 @@ msgstr "Etkin özellikler:"
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uyarı: tanınmayan öncelem `\\%c'"
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uyarı: tanınmayan biçem yönergesi `%%%c'"
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -457,7 +462,7 @@ msgstr ""
 "kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
 "işaretlerini kaldırın)"
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -465,12 +470,12 @@ msgstr ""
 "-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, "
 "çünkü bu potensiyel bir güvenlik açığıdır."
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "icra edilebilir olarak ortam çok geniş"

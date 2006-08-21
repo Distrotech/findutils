@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2004-12-23 16:57+0100\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -508,12 +508,17 @@ msgstr ""
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "atención: secuencia de escape `\\%c' no reconocida"
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "atención: directiva de formato `%%%c' no reconocida"
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -522,18 +527,18 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "el entorno es demasiado grande para exec"

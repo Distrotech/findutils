@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2006-05-23 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -445,12 +445,17 @@ msgstr "Options activées: "
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "AVERTISSEMENT: séquence d'échappement « \\%c » inconnue."
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "AVERTISSEMENT: directive de formatage « %%%c » inconnue."
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -463,7 +468,7 @@ msgstr ""
 "enlever le répertoire courant de  $PATH (i.e enlver \".\" ou : en préfixe et "
 "suffixe)"
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -471,12 +476,12 @@ msgstr ""
 "Vous ne pouvez utiliser {} à l'intérieur du nom de l'utilitaire pour --"
 "execdir et -okdir, parce qu'il pose un problème potentiel de sécurité."
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Une seule instance de {} est supportée avec -exec%s ... +"
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "L'environnement est trop large pour l'exécution."

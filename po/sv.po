@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2006-05-23 22:33+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -440,12 +440,17 @@ msgstr "Aktiverade funktioner: "
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "varning: okänd kontrollsekvens \"\\%c\""
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "varning: okänt formatdirektiv \"%%%c\""
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -457,7 +462,7 @@ msgstr ""
 "osäkert i kombination med åtgärden %s för find. Ta bort aktuell katalog från "
 "din $PATH (alltså, ta bort \".\", inledande eller avslutande kolon)"
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -465,12 +470,12 @@ msgstr ""
 "Du kan inte använda {} inom verktygsnamnet för -execdir och -okdir, på grund "
 "av att det innebär en möjlig säkerhetsrisk."
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Endast en instans av {} stöds med -exec%s ... +"
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "miljön är för stor för exec"

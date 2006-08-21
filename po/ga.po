@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2006-05-22 05:47-0500\n"
 "Last-Translator: Kevin Patrick Scannell <scannell@SLU.EDU>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -445,12 +445,17 @@ msgstr "Gnéithe arna gcumasú: "
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "rabhadh: seicheamh éalúcháin anaithnid `\\%c'"
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "rabhadh: treoir fhormáide anaithnid `%%%c'"
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -462,7 +467,7 @@ msgstr ""
 "neamhdhaingean é seo in éineacht leis an ghníomh %s.  Bain an chomhadlann "
 "reatha as $PATH (.i., bain \".\", nó idirstad ar dtús/i ndeireadh, amach)"
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -470,12 +475,12 @@ msgstr ""
 "Ní cheadaítear {} mar chuid d'ainm uirlise le -execdir nó -okdir, de bharr "
 "gur neamhdhaingean é seo."
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Ní thacaítear ach aon phéire amháin {} le -exec%s ... +"
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "Tá an timpeallacht rómhór á rith"

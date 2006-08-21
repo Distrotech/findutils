@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2006-07-11 22:58+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -498,12 +498,17 @@ msgstr "Các tính năng hoạt động: "
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "cảnh báo : không nhận diện ký tự thoát « \\%c »"
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "cảnh báo : không nhận diện chỉ thị định dạng « %%%c »"
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -516,7 +521,7 @@ msgstr ""
 "mục hiện thời ra « $PATH » của bạn (tức là hãy gỡ bỏ dấu chấm « . » hay ký "
 "tự hai chấm nào « : » nằm trước hay nằm theo)."
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -524,12 +529,12 @@ msgstr ""
 "Không cho phép bạn dùng ký tự « {} » bên trong tên tiện ích cho đối số « -"
 "execdir » và « -okdir », vì có thể rủi ro bảo mật."
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Hỗ trợ chỉ một thể hiện « {} » với đối số « -exec%s ... + »"
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "môi trường quá lớn đối với « exec » (thì hành)"

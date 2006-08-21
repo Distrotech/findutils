@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-08-20 21:27+0100\n"
+"POT-Creation-Date: 2006-08-20 21:45+0100\n"
 "PO-Revision-Date: 2006-07-28 09:35+0300\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -431,12 +431,17 @@ msgstr "Lubatud omadused: "
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "hoiatus: tundmatu paojada `\\%c'"
 
-#: find/parser.c:2219
+#: find/parser.c:2187
+#, c-format
+msgid "error: %s at end of format string"
+msgstr ""
+
+#: find/parser.c:2224
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "hoiatus: tundmatu formaadidirektiiv `%%%c'"
 
-#: find/parser.c:2348
+#: find/parser.c:2353
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -448,7 +453,7 @@ msgstr ""
 "korral ebaturvaline.  Palun eemaldage jooksev kataloog PATH muutujast "
 "(eemaldage \".\" või algavad või lõpetavad koolonid)"
 
-#: find/parser.c:2448
+#: find/parser.c:2453
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -456,12 +461,12 @@ msgstr ""
 "Võtmetega -execdir ja -okdir ei ole lubatud programmi nimes kasutada {}, "
 "kuna see võib olla turvarisk."
 
-#: find/parser.c:2471
+#: find/parser.c:2476
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Predikaadiga -exec%s ... + on lubatud kasutada ainult ühte {} paari"
 
-#: find/parser.c:2484
+#: find/parser.c:2489
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "exec funktsioonile antud keskkond on liiga suur"
