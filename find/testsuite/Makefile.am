@@ -137,6 +137,7 @@ find.gnu/wholename.exp \
 find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
 find.gnu/sv-bug-17477.exp \
+find.gnu/sv-bug-17490.exp \
 find.gnu/quit.exp \
 find.gnu/xtype.exp \
 find.posix/and.exp \
