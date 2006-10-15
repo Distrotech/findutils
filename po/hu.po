@@ -6,17 +6,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.26\n"
+"Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2006-08-19 19:53+0100\n"
-"PO-Revision-Date: 2006-01-05 23:32+0100\n"
+"PO-Revision-Date: 2006-09-11 13:14+0100\n"
 "Last-Translator: Emese Kovacs <emese@instantweb.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.10.2\n"
-"Plural-Forms:  nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: gnulib/lib/argmatch.c:137
 #, c-format
@@ -26,7 +26,7 @@ msgstr "a(z) \"%s\" argumentum érvénytelen a következőhöz: %s"
 #: gnulib/lib/argmatch.c:138
 #, c-format
 msgid "ambiguous argument %s for %s"
-msgstr "a(z) \"%s\" argumentum nem egyértelmű a következőhöz: \\\"%s\\\""
+msgstr "a(z) \"%s\" argumentum nem egyértelmű a következőhöz: \"%s\""
 
 #: gnulib/lib/argmatch.c:157
 #, c-format
@@ -157,7 +157,7 @@ msgstr "az útvonalaknak meg kell előzniük a kifejezést"
 #: find/find.c:545
 #, c-format
 msgid "invalid predicate `%s'"
-msgstr "érvénytelen predikátum: \\\"%s\\\""
+msgstr "érvénytelen predikátum: \"%s\""
 
 #: find/find.c:553
 #, c-format
@@ -313,7 +313,7 @@ msgstr ""
 "helyzetérzékeny kapcsolók: (mindig igaz) -daystart -follow -regextype\n"
 "\n"
 "normál kapcsolók (mindig igaz, más kifejezések előtt adandó meg):\n"
-"      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
+"      -depth --help -maxdepth SZINTEK -mindepth SZINTEK -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
 #: find/parser.c:795
@@ -402,6 +402,10 @@ msgid ""
 "000; that is, at the moment it matches no files but it will soon be changed "
 "to match all files."
 msgstr ""
+"figyelmeztetés: a(z) %s módmintát adtad meg, amely azonos a 000-val. A -"
+"perm /000 jelentése hamarosan módosulni fog, hogy összhangban legyen a -perm "
+"-000-val, azaz pillanatnyilag nem illeszkedik egyetlen fájlra sem, de ez "
+"módosulni fog, hogy az összes fájlra illeszkedjen."
 
 #: find/parser.c:1525
 msgid "invalid null argument to -size"
@@ -656,51 +660,47 @@ msgid "argument to --limit"
 msgstr "a --limit argumentuma"
 
 #: xargs/xargs.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
-"A(z) \"%s\" escape sorozat szabálytalan a bemenet\n"
-"elhatárolójának meghatározásában"
+"A(z) \"%s\" escape sorozat érvénytelen a bemenet elhatárolójának "
+"meghatározásában."
 
 #: xargs/xargs.c:319
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lx."
 msgstr ""
-"A(z) \"%s\" escape sorozat szabálytalan a bemenet\n"
-"elhatárolójának meghatározásában, a karakterértékek nem léphetik túl a(z)\n"
-"%lx értéket."
+"A(z) \"%s\" escape sorozat érvénytelen a bemenet elhatárolójának "
+"meghatározásában; a karakterértékek nem léphetik túl a(z) %lx értéket."
 
 #: xargs/xargs.c:325
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lo."
 msgstr ""
-"A(z) \"%s\" escape sorozat szabálytalan a bemenet\n"
-"elhatárolójának meghatározásában, a karakterértékek nem léphetik túl a(z)\n"
-"%lo értéket."
+"A(z) \"%s\" escape sorozat érvénytelen a bemenet elhatárolójának "
+"meghatározásában; a karakterértékek nem léphetik túl a(z) %lo értéket."
 
 #: xargs/xargs.c:334
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
-"A(z) \"%s\" escape sorozat szabálytalan a bemenet\n"
-"elhatárolójának meghatározásában, a(z) %s záró karaktereket a program\n"
-"nem ismerte fel."
+"A(z) \"%s\" escape sorozat érvénytelen a bemenet elhatárolójának "
+"meghatározásában ;a(z) %s záró karaktereket a program nem ismerte fel."
 
 #: xargs/xargs.c:379
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
-"A bemenet elhatárolójának \"%s\" meghatározása szabálytalan:\n"
-"az elhatárolt vagy egy karakternek, vagy egy \\ kezdetű escape sorozatnak\n"
-"kell lennie."
+"A bemenet elhatárolójának \"%s\" meghatározása érvénytelen: az elhatároló "
+"vagy egy karakter, vagy egy \\ kezdetű escape sorozat kell legyen."
 
 #: xargs/xargs.c:394
 msgid "environment is too large for exec"
@@ -729,7 +729,7 @@ msgstr "A környezeti változói %ld bájtot foglalnak\n"
 #: xargs/xargs.c:643
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
-msgstr "A POSIX alsó és felső korlátai az arumentum hosszára: %ld, %ld\n"
+msgstr "A POSIX alsó és felső korlátai az argumentum hosszára: %ld, %ld\n"
 
 #: xargs/xargs.c:647
 #, c-format
