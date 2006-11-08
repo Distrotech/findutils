@@ -134,14 +134,12 @@ bc_do_insert (const struct buildcmd_control *ctl,
     insertbuf = (char *) xmalloc (ctl->arg_max + 1);
   p = insertbuf;
 
-  need_prefix = 0;
   do
     {
       size_t len;               /* Length in ARG before `replace_pat'.  */
       char *s = mbstrstr (arg, ctl->replace_pat);
       if (s)
         {
-          need_prefix = 1;
           len = s - arg;
         }
       else
@@ -161,31 +159,31 @@ bc_do_insert (const struct buildcmd_control *ctl,
 
       if (s)
         {
-	  if (bytes_left <= lblen)
+	  if (bytes_left <= (lblen + pfxlen))
 	    break;
 	  else
-	    bytes_left -= lblen;
-
+	    bytes_left -= (lblen + pfxlen);
+	  
+	  if (prefix)
+	    {
+	      strcpy (p, prefix);
+	      p += pfxlen;
+	    }
           strcpy (p, linebuf);
+          p += lblen;
+
           arg += ctl->rplen;
           arglen -= ctl->rplen;
-          p += lblen;
         }
     }
   while (*arg);
   if (*arg)
     error (1, 0, _("command too long"));
   *p++ = '\0';
-
-  if (!need_prefix)
-    {
-      prefix = NULL;
-      pfxlen = 0;
-    }
   
   bc_push_arg (ctl, state,
                insertbuf, p - insertbuf,
-               prefix, pfxlen,
+               NULL, 0,
                initial_args);
 }
 
