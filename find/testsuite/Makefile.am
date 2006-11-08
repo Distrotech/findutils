@@ -65,6 +65,7 @@ find.posix/grouping.xo \
 find.posix/links.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
+find.posix/sv-bug-18222.xo \
 find.posix/depth1.xo \
 find.posix/sizes.xo \
 find.posix/name.xo \
@@ -138,6 +139,7 @@ find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
 find.gnu/sv-bug-17477.exp \
 find.gnu/sv-bug-17490.exp \
+find.gnu/sv-bug-18222.exp \
 find.gnu/quit.exp \
 find.gnu/xtype.exp \
 find.posix/and.exp \

@@ -355,6 +355,8 @@ find(char *arg)
   FTSENT *ent;
   
 
+  state.starting_path_length = strlen(arg);
+
   arglist[0] = arg;
   arglist[1] = NULL;
   
