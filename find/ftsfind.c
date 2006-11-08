@@ -1,6 +1,6 @@
 /* find -- search for files in a directory hierarchy (fts version)
    Copyright (C) 1990, 91, 92, 93, 94, 2000, 
-                 2003, 2004, 2005 Free Software Foundation, Inc.
+                 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -281,9 +281,6 @@ consider_visiting(FTS *p, FTSENT *ent)
       state.type = mode = statbuf.st_mode;
     }
 
-  if (0 == ent->fts_level && (0u == state.starting_path_length))
-    state.starting_path_length = ent->fts_pathlen;
-
   if (mode)
     {
       if (!digest_mode(mode, ent->fts_path, ent->fts_name, &statbuf, 0))
@@ -411,9 +408,10 @@ process_all_startpoints(int argc, char *argv[])
   /* figure out how many start points there are */
   for (i = 0; i < argc && !looks_like_expression(argv[i], true); i++)
     {
+      state.starting_path_length = strlen(argv[i]);
       find(argv[i]);
     }
-  
+
   if (i == 0)
     {
       /* 
