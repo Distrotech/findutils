@@ -50,6 +50,7 @@ find.gnu/samefile-copy.xo \
 find.gnu/samefile-link.xo \
 find.gnu/samefile-same.xo \
 find.gnu/samefile-symlink.xo \
+find.gnu/sv-bug-18222.xo \
 find.gnu/true.xo \
 find.gnu/wholename.xo \
 find.gnu/xtype-symlink.xo \
@@ -65,7 +66,6 @@ find.posix/grouping.xo \
 find.posix/links.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
-find.posix/sv-bug-18222.xo \
 find.posix/depth1.xo \
 find.posix/sizes.xo \
 find.posix/name.xo \
