@@ -1289,9 +1289,13 @@ boolean
 pred_prune (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  (void) stat_buf;
   (void) pred_ptr;
-  state.stop_at_current_level = true;
+
+  if (options.do_dir_first == true &&
+      stat_buf != NULL &&
+      S_ISDIR(stat_buf->st_mode))
+    state.stop_at_current_level = true;
+
   return (options.do_dir_first); /* This is what SunOS find seems to do. */
 }
 
