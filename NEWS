@@ -1,17 +1,44 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.2-CVS
 
+** Bug Fixes
+
+#18222: find -printf '%H %P' once again prints the right result if
+more than one start point was given on the command line.
+
+#17782: find -execdir now correctly puts the prefix "./" before the
+expansion of "{}" rather than at the start of the argument it appears
+in.  Please note that if you use the -exec or -execdir actions with a
+shell, then you may be vulnerable to shell code injection attacks, so
+don't do that.  It's not a security defect in find - you should not be
+passing untrusted data (such as file names chosen by other people) to
+the shell.
+
+#17490: find  -regex generated a segfault in findutils-4.3.1, but this
+ is fixed in findutils-4.3.2.
+
+#17477: find -printf '%' (that is, where the format has a trailing %)
+now generates an error message.
+
+#17372: The fts-based find executable (the default configuration uses
+fts) is now much faster when -maxdepth is used on filesystems with
+high fanouts.
+
+#15531: The -prune action now behaves correctly when applied to a file.
+
 ** Functional changes
 
 The slocate database format is now supported.  Preliminary changes
-intended to eventually allow setuid operation have also been made.
-For the moment, please don't install GNU locate as a set-user-ID
-program (except for testing purposes; if you do so, please make sure
-that untrusted users cannot execute the set-user-ID locate program).
+intended to eventually allow setuid operation of locate have also been
+made.  For the moment, please don't install GNU locate as a
+set-user-ID program (except for testing purposes; if you do so, please
+make sure that untrusted users cannot execute the set-user-ID locate
+program).
 
 Use of an slocate database which was built with a nonzero security
-mode forces locate's "-e" option to be turned on, which has an effect
-on the "-S" option which is probably surprising for most users.
+mode (at the moment, GNU updatedb will not do this) forces locate's
+"-e" option to be turned on, which has an effect on the "-S" option
+which is probably surprising for most users.
 
 ** Documentation Fixes
 
