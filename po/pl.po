@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.27\n"
+"Project-Id-Version: findutils 4.3.1\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2006-11-20 22:39+0000\n"
-"PO-Revision-Date: 2006-05-20 09:28+0200\n"
+"PO-Revision-Date: 2006-11-08 18:01+0100\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -131,36 +131,36 @@ msgid "^[nN]"
 msgstr "^[nN]"
 
 #: find/util.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
-msgstr "Sk³adnia: %s [-H] [-L] [-P] [¶cie¿ka...] [wyra¿enie]\n"
+msgstr "Sk³adnia: %s [-H] [-L] [-P] [-Opoziom] [-D "
 
 #: find/util.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "] [path...] [expression]\n"
-msgstr "Sk³adnia: %s [¶cie¿ka...] [wyra¿enie]\n"
+msgstr "] [¶cie¿ka...] [wyra¿enie]\n"
 
 #: find/util.c:596
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring unrecognised debug flag %s"
-msgstr "uwaga: nierozpoznany znak steruj±cy `\\%c'"
+msgstr "Zignorowano nierozpoznan± flagê diagnostyczn± %s"
 
 #: find/util.c:603
 msgid "Empty argument to the -D option."
-msgstr ""
+msgstr "Pusty argument dla opcji -D."
 
 #: find/util.c:617
 msgid "The -O option must be immediately followed by a decimal integer"
-msgstr ""
+msgstr "Bezpo¶rednio po opcji -O musi wyst±piæ liczba dziesiêtna"
 
 #: find/util.c:626 find/util.c:636
 msgid "Please specify a decimal number immediately after -O"
-msgstr ""
+msgstr "Proszê podaæ liczbê dziesiêtn± bezpo¶rednio po -O"
 
 #: find/util.c:641 find/util.c:645
 #, c-format
 msgid "Invalid optimisation level %s"
-msgstr ""
+msgstr "B³êdny poziom optymalizacji %s"
 
 #: find/util.c:652
 #, c-format
@@ -168,6 +168,8 @@ msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
+"Poziom optymalizacji %lu jest zbyt du¿y. Aby odnale¼æ pliki bardzo szybko, "
+"mo¿na u¿yæ GNU locate."
 
 #: find/util.c:763
 msgid ""
@@ -327,7 +329,6 @@ msgstr ""
 "      -links N -lname WZORZEC -mmin N -mtime N -name WZORZEC -newer PLIK"
 
 #: find/parser.c:907
-#, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
@@ -335,6 +336,7 @@ msgid ""
 "      -used N -user NAME -xtype [bcdpfls]\n"
 msgstr ""
 "      -nouser -nogroup -path WZORZEC -perm [+-]TRYB -regex WZORZEC\n"
+"      -readable -writable -executable\n"
 "      -wholename WZORZEC -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAZWA -xtype [bcdpfls]\n"
 
@@ -419,6 +421,8 @@ msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
+"Opcja -show-control-chars przyjmuje jeden argument o warto¶ci 'literal' lub "
+"'safe'"
 
 #: find/parser.c:1903
 #, c-format
@@ -472,9 +476,8 @@ msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Obs³ugiwane jest tylko jedno wyst±pienie {} przy -exec%s ... +"
 
 #: find/parser.c:2489
-#, fuzzy
 msgid "The environment is too large for exec()."
-msgstr "¶rodowisko jest zbyt du¿e, aby wykonaæ exec"
+msgstr "¦rodowisko jest zbyt du¿e, aby wykonaæ exec()."
 
 #: find/pred.c:1136
 #, c-format
@@ -500,37 +503,38 @@ msgid "invalid expression"
 msgstr "b³êdne wyra¿enie"
 
 #: find/tree.c:97
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "invalid expression; you have used a binary operator '%s' with nothing before "
 "it."
-msgstr "b³êdne wyra¿enie; podano operator binarny bez niczego przed nim."
+msgstr "b³êdne wyra¿enie; podano operator binarny '%s' bez niczego przed nim."
 
 #: find/tree.c:106
 #, c-format
 msgid "expected an expression between '%s' and ')'"
-msgstr ""
+msgstr "oczekiwano wyra¿enia pomiêdzy '%s' i ')'"
 
 #: find/tree.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "expected an expression after '%s'"
-msgstr "nie obs³ugiwane dodatkowe wyra¿enie"
+msgstr "oczekiwano wyra¿enia po '%s'"
 
 #: find/tree.c:119
 msgid "invalid expression; you have too many ')'"
 msgstr "b³êdne wyra¿enie; za du¿o ')'"
 
 #: find/tree.c:141
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
 "need an extra predicate after '%s'"
-msgstr "b³êdne wyra¿enie; oczekiwano gdzie¶ ')', ale nie znaleziono."
+msgstr ""
+"b³êdne wyra¿enie; oczekiwano gdzie¶ ')', ale nie znaleziono. Byæ mo¿e "
+"potrzebne jest dodatkowe wyra¿enie po '%s'"
 
 #: find/tree.c:147
-#, fuzzy
 msgid "invalid expression; empty parentheses are not allowed."
-msgstr "b³êdne wyra¿enie; za du¿o ')'"
+msgstr "b³êdne wyra¿enie; puste nawiasy nie s± dozwolone."
 
 #: find/tree.c:152
 msgid ""
@@ -556,9 +560,9 @@ msgid "oops -- invalid expression type in mark_type!"
 msgstr "ojej -- b³êdny typ wyra¿enia w mark_type!"
 
 #: find/tree.c:1308
-#, fuzzy, c-format
+#, c-format
 msgid "paths must precede expression: %s"
-msgstr "¶cie¿ki musz± poprzedzaæ wyra¿enie"
+msgstr "¶cie¿ki musz± poprzedzaæ wyra¿enie: %s"
 
 #: find/tree.c:1317
 #, c-format
@@ -576,14 +580,13 @@ msgid "invalid argument `%s' to `%s'"
 msgstr "b³êdny argument `%s' dla `%s'"
 
 #: find/tree.c:1403
-#, fuzzy
 msgid "you have too many ')'"
-msgstr "b³êdne wyra¿enie; za du¿o ')'"
+msgstr "za du¿o ')'"
 
 #: find/tree.c:1408
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected extra predicate '%s'"
-msgstr "nie obs³ugiwane dodatkowe wyra¿enie"
+msgstr "nieoczekiwane dodatkowe wyra¿enie '%s'"
 
 #: find/tree.c:1410
 msgid "unexpected extra predicate"
@@ -821,7 +824,7 @@ msgstr "¶rodowisko jest zbyt du¿e, aby wykonaæ exec"
 #: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
-msgstr ""
+msgstr "uwaga: warto¶æ %ld dla opcji -s jest zbyt du¿a, u¿yto %ld"
 
 #: xargs/xargs.c:577
 #, c-format
@@ -834,14 +837,14 @@ msgid "Cannot open input file `%s'"
 msgstr "Nie mo¿na otworzyæ pliku wej¶ciowego `%s'"
 
 #: xargs/xargs.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "Your environment variables take up %lu bytes\n"
-msgstr "Zmienne ¶rodowiskowe zajmuj± %ld bajtów\n"
+msgstr "Zmienne ¶rodowiskowe zajmuj± %lu bajtów\n"
 
 #: xargs/xargs.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
-msgstr "POSIX-owy dolny i górny limit na d³ugo¶æ argumentów: %ld, %ld\n"
+msgstr "POSIX-owy dolny i górny limit na d³ugo¶æ argumentów: %lu, %lu\n"
 
 #: xargs/xargs.c:650
 #, c-format
@@ -849,9 +852,9 @@ msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Maksymalna d³ugo¶æ polecenia, które mo¿na u¿yæ: %ld\n"
 
 #: xargs/xargs.c:654
-#, fuzzy, c-format
+#, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
-msgstr "Rozmiar u¿ywanego bufora polecenia: %ld\n"
+msgstr "Rozmiar u¿ywanego bufora polecenia: %lu\n"
 
 #: xargs/xargs.c:776 xargs/xargs.c:857
 #, c-format
@@ -933,7 +936,3 @@ msgstr ""
 
 #~ msgid "old"
 #~ msgstr "starym"
-
-#, fuzzy
-#~ msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
-#~ msgstr "Zmniejszanie arg_max (%ld) do arg_size (%ld)\n"

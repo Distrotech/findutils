@@ -10,10 +10,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.27\n"
+"Project-Id-Version: findutils 4.3.1\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2006-11-20 22:39+0000\n"
-"PO-Revision-Date: 2006-05-23 13:22+0300\n"
+"PO-Revision-Date: 2006-11-13 23:03+0200\n"
 "Last-Translator: Anton Zinoviev <zinoviev@debian.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -139,36 +139,36 @@ msgid "^[nN]"
 msgstr "^[нНkKnN]"
 
 #: find/util.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
-msgstr "Използване: %s [-H] [-L] [-P] [път...] [израз]\n"
+msgstr "Използване: %s [-H] [-L] [-P] [-Oниво] [-D "
 
 #: find/util.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "] [path...] [expression]\n"
-msgstr "Използване: %s [път...] [израз]\n"
+msgstr "] [път...] [израз]\n"
 
 #: find/util.c:596
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring unrecognised debug flag %s"
-msgstr "внимание: непозната обратно наклонена черта „\\%c“"
+msgstr "Пренебрегва се непознатият флаг за програмно тестване %s"
 
 #: find/util.c:603
 msgid "Empty argument to the -D option."
-msgstr ""
+msgstr "Празен аргумент за опцията -D."
 
 #: find/util.c:617
 msgid "The -O option must be immediately followed by a decimal integer"
-msgstr ""
+msgstr "Опцията -O трябва непосредствено да се следва от десетично цяло число."
 
 #: find/util.c:626 find/util.c:636
 msgid "Please specify a decimal number immediately after -O"
-msgstr ""
+msgstr "Моля, задайте десетично цяло число непосредствено след -O"
 
 #: find/util.c:641 find/util.c:645
 #, c-format
 msgid "Invalid optimisation level %s"
-msgstr ""
+msgstr "Нреправилно ниво за оптимизация %s"
 
 #: find/util.c:652
 #, c-format
@@ -176,6 +176,8 @@ msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
+"Нивото за оптимизация %lu е твърде високо.  Ако желаете да намирате "
+"файловете много бързо, обмислете да използвате GNU locate."
 
 #: find/util.c:763
 msgid ""
@@ -340,7 +342,6 @@ msgstr ""
 "      -links N -lname ОБРАЗЕЦ -mmin N -mtime N -name ОБРАЗЕЦ -newer ФАЙЛ"
 
 #: find/parser.c:907
-#, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
@@ -348,6 +349,7 @@ msgid ""
 "      -used N -user NAME -xtype [bcdpfls]\n"
 msgstr ""
 "      -nouser -nogroup -path ОБРАЗЕЦ -perm [+-]РЕЖИМ -regex ОБРАЗЕЦ\n"
+"      -readable -writable -executable\n"
 "      -wholename ОБРАЗЕЦ -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user ИМЕ -xtype [bcdpfls]\n"
 
@@ -434,6 +436,8 @@ msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
+"Опцията -show-control-chars приема единствен аргумент, който трябва да бъде "
+"„literal“ или „safe“"
 
 #: find/parser.c:1903
 #, c-format
@@ -486,9 +490,8 @@ msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "С -exec%s ... + е позволено само едно използване на {}"
 
 #: find/parser.c:2489
-#, fuzzy
 msgid "The environment is too large for exec()."
-msgstr "обкръжението е твърде голямо за exec"
+msgstr "Обкръжението е твърде голямо за exec()."
 
 #: find/pred.c:1136
 #, c-format
@@ -514,39 +517,39 @@ msgid "invalid expression"
 msgstr "неправилен израз"
 
 #: find/tree.c:97
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "invalid expression; you have used a binary operator '%s' with nothing before "
 "it."
-msgstr "неправилен израз; използвали сте двуместен оператор с нищо преди него."
+msgstr ""
+"неправилен израз; използвали сте двуместният оператор „%s“ с нищо преди него."
 
 #: find/tree.c:106
 #, c-format
 msgid "expected an expression between '%s' and ')'"
-msgstr ""
+msgstr "между „%s“ и „)“ се очакваше израз"
 
 #: find/tree.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "expected an expression after '%s'"
-msgstr "неочакван допълнителен предикат"
+msgstr "след „%s“ се очаква израз"
 
 #: find/tree.c:119
 msgid "invalid expression; you have too many ')'"
 msgstr "неправилен израз; има твърде много „)“"
 
 #: find/tree.c:141
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
 "need an extra predicate after '%s'"
 msgstr ""
 "неправилен израз; очакваше се някъде да се срещне затваряща скоба „)“, но "
-"такава не бе открита."
+"такава не бе открита.  Вероятно след „%s“ има нужда от допълнителен предикат."
 
 #: find/tree.c:147
-#, fuzzy
 msgid "invalid expression; empty parentheses are not allowed."
-msgstr "неправилен израз; има твърде много „)“"
+msgstr "неправилен израз; не се позволяват празни скоби."
 
 #: find/tree.c:152
 msgid ""
@@ -574,9 +577,9 @@ msgid "oops -- invalid expression type in mark_type!"
 msgstr "Опа! Неправилен тип на израза в mark_type!"
 
 #: find/tree.c:1308
-#, fuzzy, c-format
+#, c-format
 msgid "paths must precede expression: %s"
-msgstr "пътищата трябва да предхождат израза"
+msgstr "пътищата трябва да предхождат израза: %s"
 
 #: find/tree.c:1317
 #, c-format
@@ -594,14 +597,13 @@ msgid "invalid argument `%s' to `%s'"
 msgstr "неправилен аргумент „%s“ за „%s“"
 
 #: find/tree.c:1403
-#, fuzzy
 msgid "you have too many ')'"
-msgstr "неправилен израз; има твърде много „)“"
+msgstr "има твърде много „)“"
 
 #: find/tree.c:1408
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected extra predicate '%s'"
-msgstr "неочакван допълнителен предикат"
+msgstr "неочакван допълнителен предикат „%s“"
 
 #: find/tree.c:1410
 msgid "unexpected extra predicate"
@@ -842,6 +844,8 @@ msgstr "обкръжението е твърде голямо за exec"
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
+"внимание: стойността %ld за опцията -s е твърде голяма, вместо нея се "
+"използва %ld"
 
 #: xargs/xargs.c:577
 #, c-format
@@ -854,15 +858,15 @@ msgid "Cannot open input file `%s'"
 msgstr "Не може да се отвори входният файл „%s“"
 
 #: xargs/xargs.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "Your environment variables take up %lu bytes\n"
-msgstr "Променливите на обкръжението заемат %ld байта\n"
+msgstr "Променливите на обкръжението заемат %lu байта\n"
 
 #: xargs/xargs.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr ""
-"Горна и долна граница на дължината на аргументите според POSIX: %ld, %ld\n"
+"Горна и долна граница на дължината на аргументите според POSIX: %lu, %lu\n"
 
 #: xargs/xargs.c:650
 #, c-format
@@ -870,9 +874,9 @@ msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Максимална дължина на командата, която може да се използва: %ld\n"
 
 #: xargs/xargs.c:654
-#, fuzzy, c-format
+#, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
-msgstr "Размер на командния буфер, който действително се използва: %ld\n"
+msgstr "Размер на командния буфер, който действително се използва: %lu\n"
 
 #: xargs/xargs.c:776 xargs/xargs.c:857
 #, c-format
@@ -958,6 +962,5 @@ msgstr ""
 #~ msgid "old"
 #~ msgstr "стар"
 
-#, fuzzy
-#~ msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
+#~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 #~ msgstr "Стойността на arg_max (%ld) се намалява до arg_size (%ld)\n"

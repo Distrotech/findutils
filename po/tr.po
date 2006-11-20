@@ -1,19 +1,19 @@
 # Turkish translations for findutils messages.
 # Copyright (C) 2006 Free Software Foundation, Inc.
-# Nilgün Belma Bugüner <nilgun@buguner.name.tr>, 2001,...,2006.
 #
+# Nilgün Belma Bugüner <nilgun@buguner.name.tr>, 2001,...,2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.2.27\n"
+"Project-Id-Version: findutils 4.3.1\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2006-11-20 22:39+0000\n"
-"PO-Revision-Date: 2006-05-20 13:06+0300\n"
+"PO-Revision-Date: 2006-11-08 19:40+0200\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@buguner.name.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: KBabel 1.11.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: gnulib/lib/argmatch.c:137
@@ -132,36 +132,36 @@ msgid "^[nN]"
 msgstr "^[hH]"
 
 #: find/util.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
-msgstr "Kullanımı: %s [-H] [-L] [-P] [dosyaYolu...] [ifade]\n"
+msgstr "Kullanımı: %s [-H] [-L] [-P] [-Oseviye] [-D "
 
 #: find/util.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "] [path...] [expression]\n"
-msgstr "Kullanımı: %s [dosyaYolu...] [ifade]\n"
+msgstr "] [dosyaYolu...] [ifade]\n"
 
 #: find/util.c:596
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring unrecognised debug flag %s"
-msgstr "uyarı: tanınmayan öncelem `\\%c'"
+msgstr "Tanınmayan hata ayıklama seçeneği %s yoksayılıyor"
 
 #: find/util.c:603
 msgid "Empty argument to the -D option."
-msgstr ""
+msgstr "-D seçeneğine boş argüman."
 
 #: find/util.c:617
 msgid "The -O option must be immediately followed by a decimal integer"
-msgstr ""
+msgstr "-O seçeneği ile bir ondalık tamsayı verilmelidir"
 
 #: find/util.c:626 find/util.c:636
 msgid "Please specify a decimal number immediately after -O"
-msgstr ""
+msgstr "-O'nun ardına lütfen bir ondalık sayı yazın"
 
 #: find/util.c:641 find/util.c:645
 #, c-format
 msgid "Invalid optimisation level %s"
-msgstr ""
+msgstr "En iyileme seviyesi %s geçersiz"
 
 #: find/util.c:652
 #, c-format
@@ -169,6 +169,8 @@ msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
+"En iyileme seviyesi %lu çok büyük. Dosyaları çabucak bulmak istiyorsanız, "
+"GNU locate kullanmayı düşünebilirsiniz"
 
 #: find/util.c:763
 msgid ""
@@ -332,7 +334,6 @@ msgstr ""
 "      -mtime N -name KALIP -newer DOSYA"
 
 #: find/parser.c:907
-#, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
@@ -340,6 +341,7 @@ msgid ""
 "      -used N -user NAME -xtype [bcdpfls]\n"
 msgstr ""
 "      -nouser -nogroup -path KALIP -perm [+-]KİP -regex KALIP\n"
+"      -readable -writable -executable\n"
 "      -wholename KALIP -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user İSİM -xtype [bcdpfls]\n"
 
@@ -423,6 +425,8 @@ msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
+"-show-control-chars seçeneği ya 'literal' ya da 'safe' olması gereken tek "
+"bir argüman alır"
 
 #: find/parser.c:1903
 #, c-format
@@ -476,9 +480,8 @@ msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
 
 #: find/parser.c:2489
-#, fuzzy
 msgid "The environment is too large for exec()."
-msgstr "icra edilebilir olarak ortam çok geniş"
+msgstr "exec() için ortam çok geniş."
 
 #: find/pred.c:1136
 #, c-format
@@ -504,37 +507,40 @@ msgid "invalid expression"
 msgstr "ifade geçersiz"
 
 #: find/tree.c:97
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "invalid expression; you have used a binary operator '%s' with nothing before "
 "it."
-msgstr "geçersiz ifade; bir iki terimli işleci sol terimsiz kullanmışsınız."
+msgstr ""
+"geçersiz ifade; öncesinde başka hiçbirşey olmaksızın  bir iki terimli '%s' "
+"işleci kullanmalısınız"
 
 #: find/tree.c:106
 #, c-format
 msgid "expected an expression between '%s' and ')'"
-msgstr ""
+msgstr "'%s' ile ')' arasında bir ifade umuluyordu"
 
 #: find/tree.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "expected an expression after '%s'"
-msgstr "umulmayan ek dayanak"
+msgstr "'%s' sonrasında bir ifade umuluyordu"
 
 #: find/tree.c:119
 msgid "invalid expression; you have too many ')'"
 msgstr "geçersiz ifade; çok fazla ')' var"
 
 #: find/tree.c:141
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
 "need an extra predicate after '%s'"
-msgstr "geçersiz ifade; bir ')' olmalıydı ama hiç yok."
+msgstr ""
+"geçersiz ifade; bir ')' umuluyordu ama yok. Belki de '%s' sonrasında ek bir "
+"dayanağa ihtiyacınız var"
 
 #: find/tree.c:147
-#, fuzzy
 msgid "invalid expression; empty parentheses are not allowed."
-msgstr "geçersiz ifade; çok fazla ')' var"
+msgstr "geçersiz ifade; boş parantezlere izin yok"
 
 #: find/tree.c:152
 msgid ""
@@ -560,9 +566,9 @@ msgid "oops -- invalid expression type in mark_type!"
 msgstr "hooop -- mark_type'ta geçersiz ifade türü!"
 
 #: find/tree.c:1308
-#, fuzzy, c-format
+#, c-format
 msgid "paths must precede expression: %s"
-msgstr "dosya yolları ifadeyi öncelemelidir"
+msgstr "dosya yolları ifadeyi öncelemelidir: %s"
 
 #: find/tree.c:1317
 #, c-format
@@ -580,14 +586,13 @@ msgid "invalid argument `%s' to `%s'"
 msgstr "`%s' argümanı `%s'de geçersiz"
 
 #: find/tree.c:1403
-#, fuzzy
 msgid "you have too many ')'"
-msgstr "geçersiz ifade; çok fazla ')' var"
+msgstr "çok fazla ')' var"
 
 #: find/tree.c:1408
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected extra predicate '%s'"
-msgstr "umulmayan ek dayanak"
+msgstr "umulmayan ek dayanak '%s'"
 
 #: find/tree.c:1410
 msgid "unexpected extra predicate"
@@ -613,7 +618,7 @@ msgid ""
 msgstr ""
 "\n"
 "Yazılım hatalarını <bug-findutils@gnu.org> adresine bildiriniz.\n"
-"Çeviri hatalarını ise <gnu-tr-u12a@belgeler.org> adresine bildirin.\n"
+"Çeviri hatalarını ise <gnu-tr@belgeler.org> adresine bildirin.\n"
 
 #: locate/code.c:165
 #, c-format
@@ -825,7 +830,7 @@ msgstr "icra edilebilir olarak ortam çok geniş"
 #: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
-msgstr ""
+msgstr "uyarı: %ld değeri -s seçeneği için çok büyük, yerine %ld kullanılıyor"
 
 #: xargs/xargs.c:577
 #, c-format
@@ -838,14 +843,14 @@ msgid "Cannot open input file `%s'"
 msgstr "Girdi dosyası `%s' açılamıyor"
 
 #: xargs/xargs.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "Your environment variables take up %lu bytes\n"
-msgstr "Ortam değişkenleriniz %ld bayt tutuyor\n"
+msgstr "Ortam değişkenleriniz %lu bayt tutuyor\n"
 
 #: xargs/xargs.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
-msgstr "Argüman uzunluğu için POSIX alt ve üst sınırları: %ld, %ld\n"
+msgstr "Argüman uzunluğu için POSIX alt ve üst sınırları: %lu, %lu\n"
 
 #: xargs/xargs.c:650
 #, c-format
@@ -853,9 +858,9 @@ msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Kullanabileceğimiz asgari komut uzunluğu: %ld\n"
 
 #: xargs/xargs.c:654
-#, fuzzy, c-format
+#, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
-msgstr "Kullanmakta olduğumuz komut tamponunun boyu: %ld\n"
+msgstr "Kullanmakta olduğumuz komut tamponunun boyu: %lu\n"
 
 #: xargs/xargs.c:776 xargs/xargs.c:857
 #, c-format
@@ -938,144 +943,3 @@ msgstr ""
 
 #~ msgid "old"
 #~ msgstr "eski"
-
-#, fuzzy
-#~ msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
-#~ msgstr "arg_max (%ld), arg_size'a (%ld) düşürülüyor\n"
-
-#~ msgid "Success"
-#~ msgstr "Başarılı"
-
-#~ msgid "No match"
-#~ msgstr "Eşleşmez"
-
-#~ msgid "Invalid regular expression"
-#~ msgstr "Düzenli ifade geçersiz"
-
-#~ msgid "Invalid collation character"
-#~ msgstr "Karşılaştırma karakteri geçersiz"
-
-#~ msgid "Invalid character class name"
-#~ msgstr "Karakter sınıf ismi geçersiz"
-
-#~ msgid "Trailing backslash"
-#~ msgstr "İzleyen tersbölü"
-
-#~ msgid "Invalid back reference"
-#~ msgstr "Geriye başvuru geçersiz"
-
-#~ msgid "Unmatched [ or [^"
-#~ msgstr "[ ya da [^ eşleşmiyor"
-
-#~ msgid "Unmatched ( or \\("
-#~ msgstr "( ya da \\( eşleşmiyor"
-
-#~ msgid "Unmatched \\{"
-#~ msgstr "\\{ eşleşmiyor"
-
-#~ msgid "Invalid content of \\{\\}"
-#~ msgstr "\\{\\} içeriği geçersiz"
-
-#~ msgid "Invalid range end"
-#~ msgstr "Kapsam sonu geçersiz"
-
-#~ msgid "Memory exhausted"
-#~ msgstr "Bellek tükendi"
-
-#~ msgid "Invalid preceding regular expression"
-#~ msgstr "düzenli ifade önceliği geçersiz"
-
-#~ msgid "Premature end of regular expression"
-#~ msgstr "Düzenli ifadenin sonu eksik kalmış"
-
-#~ msgid "Regular expression too big"
-#~ msgstr "Düzenli ifade çok büyük"
-
-#~ msgid "Unmatched ) or \\)"
-#~ msgstr ") ya da  \\) eşleşmiyor"
-
-#~ msgid "No previous regular expression"
-#~ msgstr "Daha önce düzenli ifade yok"
-
-#~ msgid ""
-#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-#~ "delete\n"
-#~ "      -quit\n"
-#~ msgstr ""
-#~ "eylemler: -exec KOMUT ; -fprint DOSYA -fprint0 DOSYA -fprintf DOSYA "
-#~ "BİÇİMİ\n"
-#~ "      -fls DOSYA -ok KOMUT ; -print -print0 -printf BİÇİM -prune -ls -"
-#~ "delete\n"
-#~ "      -quit\n"
-
-#~ msgid "Predicate List:\n"
-#~ msgstr "Dayanak Listesi:\n"
-
-#~ msgid "Eval Tree:\n"
-#~ msgstr "Değer Ağacı:\n"
-
-#~ msgid "Optimized Eval Tree:\n"
-#~ msgstr "Eniyilenmiş Değer Ağacı:\n"
-
-#~ msgid "Optimized command line:\n"
-#~ msgstr "Eniyilenmiş komut satırı:\n"
-
-#~ msgid "virtual memory exhausted"
-#~ msgstr "sanal bellek tükendi"
-
-#~ msgid "inserting %s\n"
-#~ msgstr "%s yerleştiriliyor\n"
-
-#~ msgid "    type: %s    %s  "
-#~ msgstr "    tür: %s    %s  "
-
-#~ msgid "left:\n"
-#~ msgstr "yanlış:\n"
-
-#~ msgid "right:\n"
-#~ msgstr "doğru:\n"
-
-#~ msgid "[stat called here] "
-#~ msgstr "[stat burada çağrıldı] "
-
-#~ msgid "[type needed here] "
-#~ msgstr "[type burada gerekti] "
-
-#~ msgid "Normalized Eval Tree:\n"
-#~ msgstr "Normalleştirilen Değer Ağacı:\n"
-
-#~ msgid "error in %s: %s"
-#~ msgstr "%s de hata: %s"
-
-#~ msgid ""
-#~ "warning: locate database path `%s' contains a leading colon, which is not "
-#~ "a valid database name"
-#~ msgstr ""
-#~ "uyarı: `%s' konum veritabanı dosyayolunun başında `:' var ve bu onu "
-#~ "geçersiz bir veritabanı ismi yapıyor"
-
-#~ msgid ""
-#~ "warning: locate database path `%s' contains a trailing colon, which is "
-#~ "not a valid database name"
-#~ msgstr ""
-#~ "uyarı: `%s' konum veritabanı dosyayolunun sonunda `:' var ve bu onu "
-#~ "geçersiz bir veritabanı ismi yapıyor"
-
-#~ msgid "command too long"
-#~ msgstr "komut çok uzun"
-
-#~ msgid "can not fit single argument within argument list size limit"
-#~ msgstr "argüman listesinin uzunluğu yanında tek argüman yeterli olmayabilir"
-
-#~ msgid "argument list too long"
-#~ msgstr "argüman listesi çok uzun"
-
-#~ msgid "%s changed during execution of %s"
-#~ msgstr "%s %s icra edilirken değişti"
-
-#~ msgid "%s/.. changed during execution of %s"
-#~ msgstr "%s/.. %s icra edilirken değişti"
-
-#~ msgid "unmatched %s quote"
-#~ msgstr "eşlenemeyen %s kotası"
