@@ -6,6 +6,20 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)*
 The global effect of options (other than -daystart and -follow) is now
 explained more clearly in the manual page.   Savannah bug #15360.
 
+** Bug Fixes
+
+#17782: find -execdir now correctly puts the prefix "./" before the
+expansion of "{}" rather than at the start of the argument it appears
+in.  Please note that if you use the -exec or -execdir actions with a
+shell, then you may be vulnerable to shell code injection attacks, so
+don't do that.  It's not a security defect in find - you should not be
+passing untrusted data (such as file names chosen by other people) to
+the shell.
+
+#17477: find -printf '%' (that is, where the format has a trailing %)
+now generates an error message.
+
+
 * Major changes in release 4.2.28
 
 * Bug Fixes
