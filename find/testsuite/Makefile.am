@@ -50,6 +50,7 @@ find.gnu/samefile-copy.xo \
 find.gnu/samefile-link.xo \
 find.gnu/samefile-same.xo \
 find.gnu/samefile-symlink.xo \
+find.gnu/sv-bug-17782.xo \
 find.gnu/sv-bug-18222.xo \
 find.gnu/true.xo \
 find.gnu/wholename.xo \
@@ -139,6 +140,7 @@ find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
 find.gnu/sv-bug-17477.exp \
 find.gnu/sv-bug-17490.exp \
+find.gnu/sv-bug-17782.exp \
 find.gnu/sv-bug-18222.exp \
 find.gnu/quit.exp \
 find.gnu/xtype.exp \
