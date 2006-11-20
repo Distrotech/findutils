@@ -223,7 +223,8 @@ bc_argc_limit_reached(int initial_args,
 /* Add ARG to the end of the list of arguments `cmd_argv' to pass
    to the command.
    LEN is the length of ARG, including the terminating null.
-   If this brings the list up to its maximum size, execute the command.  */
+   If this brings the list up to its maximum size, execute the command.  
+*/
 
 void
 bc_push_arg (const struct buildcmd_control *ctl,
@@ -241,7 +242,7 @@ bc_push_arg (const struct buildcmd_control *ctl,
         {
           if (initial_args || state->cmd_argc == ctl->initial_argc)
             error (1, 0, _("can not fit single argument within argument list size limit"));
-          /* option -i (replace_pat) implies -x (exit_if_size_exceeded) */
+          /* xargs option -i (replace_pat) implies -x (exit_if_size_exceeded) */
           if (ctl->replace_pat
               || (ctl->exit_if_size_exceeded &&
                   (ctl->lines_per_exec || ctl->args_per_exec)))

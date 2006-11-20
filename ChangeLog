@@ -1,10 +1,19 @@
-2007-11-08  James Youngman <jay@gnu.org>
+2006-11-08  James Youngman <jay@gnu.org>
 
-	* ftsfind.c (process_all_startpoints): Set
+	* find/testsuite/Makefile.am:
+	Oops, indicate the right directory for the new test files
+
+	* ChangeLog, depcomp, doc/texinfo.tex, find/ftsfind.c, find/testsuite/Makefile.am, find/testsuite/find.gnu/sv-bug-18222.exp, find/testsuite/find.gnu/sv-bug-18222.xo, install-sh:
+	Savannah bug#18222 - test case
+
+	* ChangeLog, lib/buildcmd.c:
+	Fixed Svannah bug #17782 ('./' prefix added at start of arg while it should be added at the start of the expansion of {})
+
+	* find/ftsfind.c (process_all_startpoints): Set
 	state.starting_path_length for every pathname argument.
 	This fixes Savannah bug #18222.
 
-	* pred.c (pred_prune): -prune should have an effect only if we are
+	* find/pred.c (pred_prune): -prune should have an effect only if we are
 	 currently considering a directory (Savannah bug #15531).
 	
 2006-10-15  James Youngman <jay@gnu.org>
@@ -13,6 +22,17 @@
 	-execdir echo "foo {}" runs 'echo ./foo filename' instead of the
 	correct command 'echo foo ./filename'.
 	
+	* po/hu.po, po/sl.po: Updated Hungarian and Slovenian po files
+
+2006-08-21  James Youngman <jay@gnu.org>
+
+	* find/parser.c, find/testsuite/Makefile.am, find/testsuite/find.gnu/sv-bug-17490.exp:
+	Fixed Savannah bug #17490, which was a coiredump when -regex ZZZ was the final test on the command line
+
+2006-08-20  James Youngman <jay@gnu.org>
+
+	* find/parser.c: Merged the fix for the trailing % in "find -printf".
+
 2006-08-20  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Port recent fixes for symbolic modes involving X from gnulib,

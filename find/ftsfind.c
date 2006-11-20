@@ -361,6 +361,14 @@ find(char *arg)
   arglist[1] = NULL;
   
   ftsoptions = FTS_NOSTAT;
+
+  /* Work around Savannah bug #17877, which manifests on systems which
+   * use the same inode number for more than one file (smbfs, FAT,
+   * sometimes some FUSE-based ones).  This happens for unreferenced
+   * files.  Fix suggested by Jim Meyering.
+   */
+  ftsoptions |= FTS_TIGHT_CYCLE_CHECK;
+  
   switch (options.symlink_handling)
     {
     case SYMLINK_ALWAYS_DEREF:
