@@ -4093,11 +4093,39 @@ filesystem which would not normally be included in the search
 (defeating the @code{-prune} action for example).
 
 @menu
+* Problems with -exec and filenames::
 * Changing the Current Working Directory::
 * Race Conditions with -exec::
 * Race Conditions with -print and -print0::
 @end menu
 
+@node Problems with -exec and filenames
+@subsection Problems with -exec and filenames
+
+It is safe in many cases to use the @samp{-execdir} action with any
+file name.  Because @samp{-execdir} prefixes the arguments it passes
+to programs with @samp{./}, you will not accidentally pass an argument
+which is interpreted as an option.  For example the file @file{-f}
+would be passed to @code{rm} as @file{./-f}, which is harmless.
+
+However, your degree of safety does depend on the nature of the
+program you are running.  For example constructs such as these two commands
+
+@example
+find -exec sh -c "something @{@}" \;
+find -execdir sh -c "something @{@}" \;
+@end example
+
+are very dangerous.  The reason for this is that the @samp{@{@}} is
+expanded to a filename which might contain a semicolon or other
+characters special to the shell.  If for example someone creates the
+file @file{/tmp/foo; rm -rf $HOME} then the two commands above could
+delete someone's home directory.
+
+So for this reason do not run any command which will pass untrusted
+data (such as the names of files) to commands which interpret
+arguments as commands to be further interpreted (for example
+@samp{sh}).
 
 @node Changing the Current Working Directory
 @subsection Changing the Current Working Directory
