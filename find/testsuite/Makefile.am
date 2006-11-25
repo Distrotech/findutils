@@ -17,6 +17,7 @@ find.gnu/exec-many-rtn-success.xo   \
 find.gnu/exec-one-rtn-fail.xo       \
 find.gnu/exec-one-rtn-success.xo \
 find.gnu/false.xo \
+find.gnu/follow-arg-parent-symlink.xo \
 find.gnu/follow-basic.xo \
 find.gnu/gnuand.xo \
 find.gnu/gnunot.xo \
@@ -48,6 +49,7 @@ find.gnu/samefile-copy.xo \
 find.gnu/samefile-link.xo \
 find.gnu/samefile-same.xo \
 find.gnu/samefile-symlink.xo \
+find.gnu/sv-bug-17782.xo \
 find.gnu/true.xo \
 find.gnu/wholename.xo \
 find.gnu/xtype-symlink.xo \
@@ -64,8 +66,7 @@ find.posix/prune.xo \
 find.posix/posixnot.xo \
 find.posix/grouping.xo \
 find.posix/and.xo \
-find.posix/exec-one.xo \
-find.gnu/follow-arg-parent-symlink.xo
+find.posix/exec-one.xo
 
 EXTRA_DIST_EXP = \
 config/unix.exp \
@@ -80,6 +81,7 @@ find.gnu/exec-many-rtn-failure.exp  \
 find.gnu/exec-many-rtn-success.exp  \
 find.gnu/exec-one-rtn-fail.exp      \
 find.gnu/exec-one-rtn-success.exp   \
+find.gnu/follow-arg-parent-symlink.exp \
 find.gnu/follow-basic.exp \
 find.gnu/false.exp \
 find.gnu/gnuand.exp \
@@ -118,6 +120,7 @@ find.gnu/wholename.exp \
 find.gnu/xtype-symlink.exp \
 find.gnu/sv-bug-12230.exp \
 find.gnu/sv-bug-17477.exp \
+find.gnu/sv-bug-17782.exp \
 find.gnu/quit.exp \
 find.gnu/xtype.exp \
 find.posix/links.exp \
@@ -131,8 +134,7 @@ find.posix/posixnot.exp \
 find.posix/prune.exp \
 find.posix/grouping.exp \
 find.posix/and.exp \
-find.posix/exec-one.exp \
-find.gnu/follow-arg-parent-symlink.exp
+find.posix/exec-one.exp
 
 EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO)
 
