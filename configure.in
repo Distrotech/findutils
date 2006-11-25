@@ -87,6 +87,14 @@ AC_SYS_LARGEFILE
 
 gl_INIT
 
+
+
+dnl Older versions of gnulib/m4/nls.m4 provide AM_MKINSTALLDIRS.
+dnl The current version of gnulib does not, but the version of 
+dnl po/Makefile.in.in that comes with gettext-0.14.6 expects
+dnl that @MKINSTALLDIRS@ will be expanded.
+AM_MKINSTALLDIRS
+
 dnl lib/regexprops needs to be a native program, because we need to 
 dnl run it in order to generate the documentation about the properties
 dnl of regular expressions.  See lib/Makefile.am.

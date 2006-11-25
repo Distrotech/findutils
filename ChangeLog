@@ -1,3 +1,14 @@
+2006-11-25  James Youngman  <jay@gnu.org>
+
+	* doc/textinfo.tex: Removed; we now use the version supplied 
+	by automake.
+	
+	* m4/mkinstalldirs.m4: Added this file.  It's an excerpt from an
+	old version of gnulib's m4/nls.po file.  The current version of
+	gnulib does not expand MKINSTALLDIRS, but gettext-0.14.6's version
+	of po/Makefile.in.in expects it to be expanded.  This m4 file
+	fills the gap.
+
 2006-11-20  James Youngman  <jay@gnu.org>
 
 	* po/et.po, po/bg.po, po/pl.po, po/nl.po, po/tr.po: Updated
