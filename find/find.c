@@ -148,7 +148,7 @@ main (int argc, char **argv)
     options.xstat = debug_stat;
 
 #ifdef DEBUG
-  fprintf (stderr, "cur_day_start = %s", ctime (&p->cur_day_start));
+  fprintf (stderr, "cur_day_start = %s", ctime (&options.cur_day_start));
 #endif /* DEBUG */
 
   /* We are now processing the part of the "find" command line 
