@@ -22,6 +22,7 @@
 
 #include <fnmatch.h>
 #include <signal.h>
+#include <math.h>
 #include <pwd.h>
 #include <grp.h>
 #include <sys/types.h>
@@ -546,59 +547,52 @@ mode_to_filetype(mode_t m)
     m == S_IFIFO  ? "p" : "U";
 }
 
-
-boolean
-pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+static double 
+file_sparseness(const struct stat *p)
 {
-  FILE *fp = pred_ptr->args.printf_vec.stream;
-  const struct quoting_options *qopts = pred_ptr->args.printf_vec.quote_opts;
-  boolean ttyflag = pred_ptr->args.printf_vec.dest_is_tty;
-  struct segment *segment;
-  char *cp;
-  char hbuf[LONGEST_HUMAN_READABLE + 1];
-
-  for (segment = pred_ptr->args.printf_vec.segment; segment;
-       segment = segment->next)
+  if (0 == p->st_size)
     {
-      if (segment->kind & 0xff00) /* Component of date. */
-	{
-	  time_t t;
+      if (0 == p->st_blocks)
+	return 1.0;
+      else
+	return p->st_blocks < 0 ? -HUGE_VAL : HUGE_VAL;
+    }
+  else
+    {
+      double blklen = file_blocksize(p) * (double)p->st_blocks;
+      return blklen / p->st_size;
+    }
+}
 
-	  switch (segment->kind & 0xff)
-	    {
-	    case 'A':
-	      t = stat_buf->st_atime;
-	      break;
-	    case 'C':
-	      t = stat_buf->st_ctime;
-	      break;
-	    case 'T':
-	      t = stat_buf->st_mtime;
-	      break;
-	    default:
-	      abort ();
-	    }
-	  /* We trust the output of format_date not to contain 
-	   * nasty characters, though the value of the date
-	   * is itself untrusted data.
-	   */
-	  /* trusted */
-	  fprintf (fp, segment->text,
-		   format_date (t, (segment->kind >> 8) & 0xff));
-	  continue;
-	}
 
-      switch (segment->kind)
+
+static boolean
+do_fprintf(FILE *fp,
+	   struct segment *segment,
+	   char *pathname,
+	   const struct stat *stat_buf,
+	   boolean ttyflag,
+	   const struct quoting_options *qopts)
+{
+  char hbuf[LONGEST_HUMAN_READABLE + 1];
+  char *cp;
+
+  switch (segment->segkind)
+    {
+    case KIND_PLAIN:	/* Plain text string (no % conversion). */
+      /* trusted */
+      fwrite (segment->text, 1, segment->text_len, fp);
+      break;
+	  
+    case KIND_STOP:		/* Terminate argument and flush output. */
+      /* trusted */
+      fwrite (segment->text, 1, segment->text_len, fp);
+      fflush (fp);
+      return (true);
+	  
+    case KIND_FORMAT:
+      switch (segment->format_char[0])
 	{
-	case KIND_PLAIN:	/* Plain text string (no % conversion). */
-	  /* trusted */
-	  fwrite (segment->text, 1, segment->text_len, fp);
-	  break;
-	case KIND_STOP:		/* Terminate argument and flush output. */
-	  /* trusted */
-	  fwrite (segment->text, 1, segment->text_len, fp);
-	  fflush (fp);
-	  return (true);
 	case 'a':		/* atime in `ctime' format. */
 	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text, ctime_format (stat_buf->st_atime));
@@ -647,7 +641,11 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 		fprintf (fp, segment->text, g->gr_name);
 		break;
 	      }
-	    /* else fallthru */
+	    else
+	      {
+		/* Do nothing. */
+		/*FALLTHROUGH*/
+	      }
 	  }
 	case 'G':		/* GID number */
 	  /* UNTRUSTED, probably unexploitable */
@@ -691,9 +689,9 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	case 'i':		/* inode number */
 	  /* UNTRUSTED, but not exploitable I think */
 	  fprintf (fp, segment->text,
-			human_readable ((uintmax_t) stat_buf->st_ino, hbuf,
-					human_ceiling,
-					1, 1));
+		   human_readable ((uintmax_t) stat_buf->st_ino, hbuf,
+				   human_ceiling,
+				   1, 1));
 	  break;
 	case 'k':		/* size in 1K blocks */
 	  /* UNTRUSTED, but not exploitable I think */
@@ -800,6 +798,12 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 		   human_readable ((uintmax_t) stat_buf->st_size,
 				   hbuf, human_ceiling, 1, 1));
 	  break;
+	  
+	case 'S':		/* sparseness */
+	  /* UNTRUSTED, probably unexploitable */
+	  fprintf (fp, segment->text, file_sparseness(stat_buf));;
+	  break;
+	  
 	case 't':		/* mtime in `ctime' format */
 	  /* UNTRUSTED, probably unexploitable */
 	  fprintf (fp, segment->text, ctime_format (stat_buf->st_mtime));
@@ -830,41 +834,41 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 				   human_ceiling, 1, 1));
 	  break;
 
-	/* type of filesystem entry like `ls -l`: (d,-,l,s,p,b,c,n) n=nonexistent(symlink) */
+	  /* type of filesystem entry like `ls -l`: (d,-,l,s,p,b,c,n) n=nonexistent(symlink) */
 	case 'Y':		/* in case of symlink */
 	  /* trusted */
 	  {
 #ifdef S_ISLNK
-	  if (S_ISLNK (stat_buf->st_mode))
-	    {
-	      struct stat sbuf;
-	      /* If we would normally follow links, do not do so.
-	       * If we would normally not follow links, do so.
-	       */
-	      if ((following_links() ? lstat : stat)
-		  (state.rel_pathname, &sbuf) != 0)
+	    if (S_ISLNK (stat_buf->st_mode))
 	      {
-		if ( errno == ENOENT ) {
-		  fprintf (fp, segment->text, "N");
-		  break;
-		};
-		if ( errno == ELOOP ) {
-		  fprintf (fp, segment->text, "L");
-		  break;
-		};
-		error (0, errno, "%s", pathname);
-		/* exit_status = 1;
-		return (false); */
+		struct stat sbuf;
+		/* If we would normally follow links, do not do so.
+		 * If we would normally not follow links, do so.
+		 */
+		if ((following_links() ? lstat : stat)
+		    (state.rel_pathname, &sbuf) != 0)
+		  {
+		    if ( errno == ENOENT ) {
+		      fprintf (fp, segment->text, "N");
+		      break;
+		    };
+		    if ( errno == ELOOP ) {
+		      fprintf (fp, segment->text, "L");
+		      break;
+		    };
+		    error (0, errno, "%s", pathname);
+		    /* exit_status = 1;
+		       return (false); */
+		  }
+		fprintf (fp, segment->text,
+			 mode_to_filetype(sbuf.st_mode & S_IFMT));
 	      }
-	      fprintf (fp, segment->text,
-		       mode_to_filetype(sbuf.st_mode & S_IFMT));
-	    }
 #endif /* S_ISLNK */
-	  else
-	    {
-	      fprintf (fp, segment->text,
-		       mode_to_filetype(stat_buf->st_mode & S_IFMT));
-	    }
+	    else
+	      {
+		fprintf (fp, segment->text,
+			 mode_to_filetype(stat_buf->st_mode & S_IFMT));
+	      }
 	  }
 	  break;
 
@@ -875,6 +879,52 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 		     mode_to_filetype(stat_buf->st_mode & S_IFMT));
 	  }
 	  break;
+	}
+      break;
+    }
+}
+
+boolean
+pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  FILE *fp = pred_ptr->args.printf_vec.stream;
+  struct segment *segment;
+  boolean ttyflag = pred_ptr->args.printf_vec.dest_is_tty;
+  const struct quoting_options *qopts = pred_ptr->args.printf_vec.quote_opts;
+
+  for (segment = pred_ptr->args.printf_vec.segment; segment;
+       segment = segment->next)
+    {
+      if ( (KIND_FORMAT == segment->segkind) && segment->format_char[1]) /* Component of date. */
+	{
+	  time_t t;
+
+	  switch (segment->format_char[0])
+	    {
+	    case 'A':
+	      t = stat_buf->st_atime;
+	      break;
+	    case 'C':
+	      t = stat_buf->st_ctime;
+	      break;
+	    case 'T':
+	      t = stat_buf->st_mtime;
+	      break;
+	    default:
+	      assert(0);
+	      abort ();
+	    }
+	  /* We trust the output of format_date not to contain 
+	   * nasty characters, though the value of the date
+	   * is itself untrusted data.
+	   */
+	  /* trusted */
+	  fprintf (fp, segment->text,
+		   format_date (t, segment->format_char[1]));
+	}
+      else
+	{
+	  do_fprintf(fp, segment, pathname, stat_buf, ttyflag, qopts);
 	}
     }
   return true;
@@ -1363,7 +1413,7 @@ pred_samefile (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr
    * and the device number of the file we're looking for is not the
    * same as the device number of the current directory, this
    * predicate cannot return true.  Hence there would be no need to
-   * stat the file we're lookingn at.
+   * stat the file we're looking at.
    */
   (void) pathname;
   

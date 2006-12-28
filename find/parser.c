@@ -158,7 +158,9 @@ static boolean insert_type PARAMS((char **argv, int *arg_ptr, const struct parse
 static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry, int regex_options));
 static boolean insert_fprintf PARAMS((FILE *fp, const struct parser_table *entry, PRED_FUNC func, char *argv[], int *arg_ptr));
 
-static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len, int kind, struct predicate *pred));
+static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len,
+					     int kind, char format_char, char aux_format_char,
+					     struct predicate *pred));
 static boolean insert_exec_ok PARAMS((const char *action, const struct parser_table *entry, char *argv[], int *arg_ptr));
 static boolean get_num_days PARAMS((char *str, uintmax_t *num_days, enum comparison_type *comp_type));
 static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
@@ -2144,7 +2146,8 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
 		  *scan = '\b';
 		  break;
 		case 'c':
-		  make_segment (segmentp, format, scan - format, KIND_STOP,
+		  make_segment (segmentp, format, scan - format,
+				KIND_STOP, 0, 0,
 				our_pred);
 		  if (our_pred->need_stat && (our_pred->p_cost < NeedsStatInfo))
 		    our_pred->p_cost = NeedsStatInfo;
@@ -2175,7 +2178,8 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
 		}
 	    }
 	  segmentp = make_segment (segmentp, format, scan - format + 1,
-				   KIND_PLAIN, our_pred);
+				   KIND_PLAIN, 0, 0,
+				   our_pred);
 	  format = scan2 + 1;	/* Move past the escape. */
 	  scan = scan2;		/* Incremented immediately by `for'. */
 	}
@@ -2189,7 +2193,8 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
 	  else if (scan[1] == '%')
 	    {
 	      segmentp = make_segment (segmentp, format, scan - format + 1,
-				       KIND_PLAIN, our_pred);
+				       KIND_PLAIN, 0, 0,
+				       our_pred);
 	      scan++;
 	      format = scan + 1;
 	      continue;
@@ -2202,17 +2207,18 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
 	  if (*scan2 == '.')
 	    for (scan2++; ISDIGIT (*scan2); scan2++)
 	      /* Do nothing. */ ;
-	  if (strchr ("abcdDfFgGhHiklmMnpPstuUyY", *scan2))
+	  if (strchr ("abcdDfFgGhHiklmMnpPsStuUyY", *scan2))
 	    {
 	      segmentp = make_segment (segmentp, format, scan2 - format,
-				       (int) *scan2, our_pred);
+				       KIND_FORMAT, *scan2, 0,
+				       our_pred);
 	      scan = scan2;
 	      format = scan + 1;
 	    }
 	  else if (strchr ("ACT", *scan2) && scan2[1])
 	    {
 	      segmentp = make_segment (segmentp, format, scan2 - format,
-				       *scan2 | (scan2[1] << 8),
+				       KIND_FORMAT, scan2[0], scan2[1],
 				       our_pred);
 	      scan = scan2 + 1;
 	      format = scan + 1;
@@ -2224,7 +2230,8 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
 	      error (0, 0, _("warning: unrecognized format directive `%%%c'"),
 		     *scan2);
 	      segmentp = make_segment (segmentp, format, scan - format,
-				       KIND_PLAIN, our_pred);
+				       KIND_PLAIN, 0, 0,
+				       our_pred);
 	      format = scan + 1;
 	      continue;
 	    }
@@ -2232,7 +2239,7 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
     }
 
   if (scan > format)
-    make_segment (segmentp, format, scan - format, KIND_PLAIN,
+    make_segment (segmentp, format, scan - format, KIND_PLAIN, 0, 0,
 		  our_pred);
   return true;
 }
@@ -2242,7 +2249,12 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
    Return the address of the `next' pointer of the new segment. */
 
 static struct segment **
-make_segment (struct segment **segment, char *format, int len, int kind,
+make_segment (struct segment **segment,
+	      char *format,
+	      int len,
+	      int kind,
+	      char format_char,
+	      char aux_format_char,
 	      struct predicate *pred)
 {
   enum EvaluationCost mycost = NeedsNothing;
@@ -2250,7 +2262,9 @@ make_segment (struct segment **segment, char *format, int len, int kind,
 
   *segment = (struct segment *) xmalloc (sizeof (struct segment));
 
-  (*segment)->kind = kind;
+  (*segment)->segkind = kind;
+  (*segment)->format_char[0] = format_char;
+  (*segment)->format_char[1] = aux_format_char;
   (*segment)->next = NULL;
   (*segment)->text_len = len;
 
@@ -2258,12 +2272,22 @@ make_segment (struct segment **segment, char *format, int len, int kind,
   strncpy (fmt, format, len);
   fmt += len;
 
-  switch (kind & 0xff)
+  switch (kind)
     {
     case KIND_PLAIN:		/* Plain text string, no % conversion. */
     case KIND_STOP:		/* Terminate argument, no newline. */
+      assert(0 == format_char);
+      assert(0 == aux_format_char);
+      *fmt = '\0';
+      if (mycost > pred->p_cost)
+	pred->p_cost = NeedsNothing;
+      return &(*segment)->next;
       break;
+    }
 
+  assert(kind == KIND_FORMAT);
+  switch (format_char)
+    {
     case 'l':			/* object of symlink */
       pred->need_stat = true;	
       mycost = NeedsLinkName;
@@ -2293,6 +2317,12 @@ make_segment (struct segment **segment, char *format, int len, int kind,
       *fmt++ = 's';
       break;
       
+    case 'S':			/* sparseness */
+      pred->need_stat = true;
+      mycost = NeedsStatInfo;
+      *fmt++ = 'g';
+      break;
+      
     case 'Y':			/* symlink pointed file type */
       pred->need_stat = true;
       mycost = NeedsType;	/* true for amortised effect */
@@ -2301,12 +2331,15 @@ make_segment (struct segment **segment, char *format, int len, int kind,
       
     case 'f':			/* basename of path */
     case 'h':			/* leading directories part of path */
-    case 'H':			/* ARGV element file was found under */
     case 'p':			/* pathname */
     case 'P':			/* pathname with ARGV element stripped */
       *fmt++ = 's';
       break;
 
+    case 'H':			/* ARGV element file was found under */
+      *fmt++ = 's';
+      break;
+      
       /* Numeric items that one might expect to honour 
        * #, 0, + flags but which do not.
        */
@@ -2331,6 +2364,15 @@ make_segment (struct segment **segment, char *format, int len, int kind,
       *fmt++ = 'o';
       pred->need_stat = true;
       mycost = NeedsStatInfo;
+      break;
+
+    case '{':
+    case '[':
+    case '(':
+      error (1, 0,
+	     _("error: the format directive `%%%c' is reserved for future use"),
+	     (int)kind);
+      /*NOTREACHED*/
       break;
     }
   *fmt = '\0';

@@ -259,12 +259,17 @@ struct exec_val
    each \c and `%' conversion is a segment. */
 
 /* Special values for the `kind' field of `struct segment'. */
-#define KIND_PLAIN 0		/* Segment containing just plain text. */
-#define KIND_STOP 1		/* \c -- stop printing and flush output. */
+enum SegmentKind 
+  {
+    KIND_PLAIN=0,		/* Segment containing just plain text. */
+    KIND_STOP=1,		/* \c -- stop printing and flush output. */
+    KIND_FORMAT,		/* Regular format */
+  };
 
 struct segment
 {
-  int kind;			/* Format chars or KIND_{PLAIN,STOP}. */
+  enum SegmentKind segkind;     /* KIND_FORMAT, KIND_PLAIN, KIND_STOP */
+  char format_char[2];		/* Format chars if kind is KIND_FORMAT */
   char *text;			/* Plain text or `%' format string. */
   int text_len;			/* Length of `text'. */
   struct segment *next;		/* Next segment for this predicate. */
@@ -385,9 +390,6 @@ char *dirname PARAMS((char *path));
 
 /* error.c */
 void error PARAMS((int status, int errnum, char *message, ...));
-
-/* listfile.c */
-char *get_link_name PARAMS((char *name, char *relname));
 
 /* stpcpy.c */
 #if !HAVE_STPCPY

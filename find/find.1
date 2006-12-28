@@ -862,6 +862,14 @@ File's name with the name of the command line argument under which
 it was found removed.
 .IP %s
 File's size in bytes.
+.IP %S 
+File's sparseness.  This is calculated as (BLOCKSIZE*st_blocks /
+st_size).  The exact value you will get for an ordinary file of a
+certain length is system-dependent.  However, normally sparse files
+will have values less than 1.0, and files which use indirect blocks
+may have a value which is greater than 1.0.   The value used for
+BLOCKSIZE is system-dependent, but is usually 512 bytes.   If the file
+size is zero, the value printed is undefined.
 .IP %t
 File's last modification time in the format returned by the C `ctime'
 function.
