@@ -1,6 +1,6 @@
 # -*- TCL -*-
 # Test-specific TCL procedures required by DejaGNU.
-# Copyright (C) 1994 Free Software Foundation, Inc.
+# Copyright (C) 1994, 2006 Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,17 +20,29 @@
 
 # Modified by David MacKenzie <djm@gnu.org> from the gcc files
 # written by Rob Savoye <rob@cygnus.com>.
+# Modified by James Youngman <jay@gnu.org>.
 
+
+# We used to use "file normalize" here but that is not available in 
+# Tcl version 8.3 (it was introduced in 8.4).   The DejaGnu utility funciton 
+# 'absolute' will canonicalise directory names but not the names of 
+# vanilla files. 
+proc normalize { path } {
+    set dir [absolute [file dirname $path] ]
+    set base [file tail $path]
+    return [ file join $dir $base ]
+}
+
 
 # use the local version of find for updatedb
 #
 # We normalise (normalize for those over the water) pathnames 
 # because the updatedb shell script uses "cd", which means that 
 # any relative paths no longer point where we thought they did.
-set env(find) [file normalize "../../find/find"]
+set env(find) [normalize "../../find/find"]
 
 # use the local help commands for updatedb
-set env(LIBEXECDIR) [file normalize .. ]
+set env(LIBEXECDIR) [normalize .. ]
 
 # do not ignore any file systems for this test
 set env(PRUNEFS) ""
