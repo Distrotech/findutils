@@ -2383,9 +2383,12 @@ make_segment (struct segment **segment,
 }
 
 static void 
-check_path_safety(const char *action)
+check_path_safety(const char *action, char **argv)
 {
   const char *path = getenv("PATH");
+
+  (void)argv;
+  
   char *s;
   s = next_element(path, 1);
   while ((s = next_element ((char *) NULL, 1)) != NULL)
@@ -2394,6 +2397,12 @@ check_path_safety(const char *action)
 	{
 	  error(1, 0, _("The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\" or leading or trailing colons)"),
 		action);
+	}
+      else if ('/' != s[0])
+	{
+	  /* Relative paths are also dangerous in $PATH. */
+	  error(1, 0, _("The ralative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"),
+		s, action);
 	}
     }
 }
@@ -2445,7 +2454,7 @@ new_insert_exec_ok (const char *action,
   if ((func == pred_execdir) || (func == pred_okdir))
     {
       options.ignore_readdir_race = false;
-      check_path_safety(action);
+      check_path_safety(action, argv);
       execp->use_current_dir = true;
     }
   else
