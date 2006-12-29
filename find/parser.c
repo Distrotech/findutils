@@ -2600,11 +2600,7 @@ new_insert_exec_ok (const char *action,
 static boolean
 insert_exec_ok (const char *action, const struct parser_table *entry, char **argv, int *arg_ptr)
 {
-#if defined(NEW_EXEC)
   return new_insert_exec_ok(action, entry, argv, arg_ptr);
-#else
-  return old_insert_exec_ok(func, argv, arg_ptr);
-#endif
 }
 
 

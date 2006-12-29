@@ -220,25 +220,11 @@ struct size_val
   uintmax_t size;
 };
 
-#define NEW_EXEC 1
-/*
-#undef NEW_EXEC 
-*/
-
-#if !defined(NEW_EXEC)
-struct path_arg
-{
-  short offset;			/* Offset in `vec' of this arg. */
-  short count;			/* Number of path replacements in this arg. */
-  char *origarg;		/* Arg with "{}" intact. */
-};
-#endif
 
 #include "buildcmd.h"
 
 struct exec_val
 {
-#if defined(NEW_EXEC)
   /* new-style */
   boolean multiple;		/* -exec {} \+ denotes multiple argument. */
   struct buildcmd_control ctl;
@@ -247,10 +233,6 @@ struct exec_val
   int num_args;
   boolean use_current_dir;      /* If nonzero, don't chdir to start dir */
   boolean close_stdin;		/* If true, close stdin in the child. */
-#else
-  struct path_arg *paths;	/* Array of args with path replacements. */
-  char **vec;			/* Array of args to pass to program. */
-#endif
 };
 
 /* The format string for a -printf or -fprintf is chopped into one or

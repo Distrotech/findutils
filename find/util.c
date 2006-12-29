@@ -250,7 +250,6 @@ check_nofollow(void)
 void
 complete_pending_execdirs(struct predicate *p)
 {
-#if defined(NEW_EXEC)
   if (NULL == p)
     return;
   
@@ -275,10 +274,6 @@ complete_pending_execdirs(struct predicate *p)
     }
 
   complete_pending_execdirs(p->pred_right);
-#else
-  /* nothing to do. */
-  return;
-#endif
 }
 
 
@@ -290,7 +285,6 @@ complete_pending_execdirs(struct predicate *p)
 void
 complete_pending_execs(struct predicate *p)
 {
-#if defined(NEW_EXEC)
   if (NULL == p)
     return;
   
@@ -315,10 +309,6 @@ complete_pending_execs(struct predicate *p)
     }
 
   complete_pending_execs(p->pred_right);
-#else
-  /* nothing to do. */
-  return;
-#endif
 }
 
 
