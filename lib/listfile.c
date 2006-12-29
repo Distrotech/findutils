@@ -177,11 +177,19 @@ struct group *getgrgid ();
 #undef HAVE_MAJOR
 
 
-char * get_link_name (char *name, char *relname);
 static void print_name (register char *p, FILE *stream, int literal_control_chars);
 
 extern char * getgroup (gid_t gid);
 extern char * getuser (uid_t uid);
+
+
+
+size_t 
+file_blocksize(const struct stat *p)
+{
+  return ST_NBLOCKSIZE;
+}
+
 
 
 /* NAME is the name to print.
@@ -389,7 +397,7 @@ static void print_name (register char *p, FILE *stream, int literal_control_char
 
 #ifdef S_ISLNK
 char *
-get_link_name (char *name, char *relname)
+get_link_name (const char *name, char *relname)
 {
   register char *linkname;
   register int linklen;
