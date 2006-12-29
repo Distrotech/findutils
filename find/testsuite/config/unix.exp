@@ -95,10 +95,17 @@ proc do_find_start { suffix findprogram flags passfail options {infile ""}} {
     global verbose
     global comp_output
 
-    set fail_good [string match "f*" $passfail]
-
     set scriptname [uplevel {info script}]
     set testbase [file rootname $scriptname]
+    
+    set fail_good [string match "f*" $passfail]
+    if { ! $fail_good } {
+	if { ! [string match "p*" $passfail] } {
+	    untested "Badly defined test"
+	    error "The first argument to find_start was $passfail but it should begin with either p (pass) or f (fail)"
+	}
+    }
+    
     set test [file tail $testbase] 
     set testname "$test.$suffix"
 
@@ -172,7 +179,7 @@ proc find_start { passfail options {infile ""}} {
 	exit 1
     }
     if {[which $OLDFIND] == 0} then {
-	error "$FTSFIND, program does not exist"
+	error "$OLDFIND, program does not exist"
 	exit 1
     }
 
