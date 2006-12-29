@@ -155,6 +155,8 @@ static char *format_date PARAMS((time_t when, int kind));
 static char *ctime_format PARAMS((time_t when));
 
 #ifdef	DEBUG
+typedef boolean (*PFB) (char *, struct stat *, struct predicate *);
+
 struct pred_assoc
 {
   PFB pred_func;
