@@ -2400,8 +2400,6 @@ check_path_safety(const char *action)
 
 
 /* handles both exec and ok predicate */
-#if defined(NEW_EXEC)
-/* handles both exec and ok predicate */
 static boolean
 new_insert_exec_ok (const char *action,
 		    const struct parser_table *entry,
@@ -2596,77 +2594,6 @@ new_insert_exec_ok (const char *action,
   
   return true;
 }
-#else
-/* handles both exec and ok predicate */
-static boolean
-old_insert_exec_ok (boolean (*func) (/* ??? */), char **argv, int *arg_ptr)
-{
-  int start, end;		/* Indexes in ARGV of start & end of cmd. */
-  int num_paths;		/* Number of args with path replacements. */
-  int path_pos;			/* Index in array of path replacements. */
-  int vec_pos;			/* Index in array of args. */
-  struct predicate *our_pred;
-  struct exec_val *execp;	/* Pointer for efficiency. */
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-
-  /* Count the number of args with path replacements, up until the ';'. */
-  start = *arg_ptr;
-  for (end = start, num_paths = 0;
-       (argv[end] != NULL)
-       && ((argv[end][0] != ';') || (argv[end][1] != '\0'));
-       end++)
-    if (strstr (argv[end], "{}"))
-      num_paths++;
-  /* Fail if no command given or no semicolon found. */
-  if ((end == start) || (argv[end] == NULL))
-    {
-      *arg_ptr = end;
-      return false;
-    }
-
-  our_pred = insert_primary (func);
-  our_pred->side_effects = our_pred->no_default_print = true;
-  execp = &our_pred->args.exec_vec;
-  execp->usercontext = our_pred;
-  execp->use_current_dir = false;
-  execp->paths =
-    (struct path_arg *) xmalloc (sizeof (struct path_arg) * (num_paths + 1));
-  execp->vec = (char **) xmalloc (sizeof (char *) * (end - start + 1));
-  /* Record the positions of all args, and the args with path replacements. */
-  for (end = start, path_pos = vec_pos = 0;
-       (argv[end] != NULL)
-       && ((argv[end][0] != ';') || (argv[end][1] != '\0'));
-       end++)
-    {
-      register char *p;
-      
-      execp->paths[path_pos].count = 0;
-      for (p = argv[end]; *p; ++p)
-	if (p[0] == '{' && p[1] == '}')
-	  {
-	    execp->paths[path_pos].count++;
-	    ++p;
-	  }
-      if (execp->paths[path_pos].count)
-	{
-	  execp->paths[path_pos].offset = vec_pos;
-	  execp->paths[path_pos].origarg = argv[end];
-	  path_pos++;
-	}
-      execp->vec[vec_pos++] = argv[end];
-    }
-  execp->paths[path_pos].offset = -1;
-  execp->vec[vec_pos] = NULL;
-
-  if (argv[end] == NULL)
-    *arg_ptr = end;
-  else
-    *arg_ptr = end + 1;
-  return true;
-}
-#endif
 
 
 
