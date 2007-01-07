@@ -6,6 +6,13 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 The -printf action (and similar related actions) now support %S,
 which is a measurement of the sparseness of a file.
 
+The test "-perm /000" now matches all files instead of no files.  For
+over a year find has been issuing warning messages indicating that
+this change will happen.  We now issue a warning indicating that the
+change has already happened (in 4.3.x only, there is no plan to make
+this change in the 4.2.x series).
+
+
 ** Bug Fixes
 
 #18713: Quoted but empty arguments which occur last on an xargs input

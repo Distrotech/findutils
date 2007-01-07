@@ -1460,10 +1460,10 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
     default:
       /* For example, '-perm 0644', which is valid and matches 
        * only files whose mode is exactly 0644.
-       *
-       * We do nothing here, because mode_start and kind are already
-       * correctly set.
        */
+      mode_start = 0;
+      kind = PERM_EXACT;
+      havekind = true;
       rate = 0.01;
       break;
     }
@@ -1477,6 +1477,34 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
   perm_val[0] = mode_adjust (0, false, 0, change, NULL);
   perm_val[1] = mode_adjust (0, true, 0, change, NULL);
   free (change);
+  
+  if (('/' == argv[*arg_ptr][0]) && (0 == perm_val[0]) && (0 == perm_val[1]))
+    {
+      /* The meaning of -perm /000 will change in the future.  It
+       * currently matches no files, but like -perm -000 it should
+       * match all files.
+       *
+       * Starting in 2005, we used to issue a warning message
+       * informing the user that the behaviour would change in the
+       * future.  We have now changed the behaviour and issue a
+       * warning message that the behaviour recently changed.
+       */
+      error (0, 0,
+	     _("warning: you have specified a mode pattern %s (which is "
+	       "equivalent to /000). The meaning of -perm /000 has now been "
+	       "changed to be consistent with -perm -000; that is, while it "
+	       "used to match no files, it now matches all files."),
+	     argv[*arg_ptr]);
+      
+      kind = PERM_AT_LEAST;
+      havekind = true;
+
+      /* The "magic" number below is just the fraction of files on my 
+       * own system that "-type l -xtype l" fails for (i.e. unbroken symlinks).
+       * Actual totals are 1472 and 1073833.
+       */
+      rate = 0.9986; /* probably matches anything but a broken symlink */
+    }
   
   our_pred = insert_primary (entry);
   our_pred->est_success_rate = rate;
@@ -1500,21 +1528,6 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 	  break;
 	}
     }
-  if (('/' == argv[*arg_ptr][0]) && (0 == perm_val[0]) && (0 == perm_val[1]))
-    {
-      /* The meaning of -perm /000 will change in the future.
-       * It currently matches no files, but like -perm -000 it
-       * should match all files.
-       */
-      error (0, 0,
-	     _("warning: you have specified a mode pattern %s which is "
-	       "equivalent to 000. The meaning of -perm /000 will soon be "
-	       "changed to be consistent with -perm -000; that is, at the "
-	       "moment it matches no files but it will soon be changed to "
-	       "match all files."),
-	     argv[*arg_ptr]);
-    }
-
   memcpy (our_pred->args.perm.val, perm_val, sizeof perm_val);
   (*arg_ptr)++;
   return true;

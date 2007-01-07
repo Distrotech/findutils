@@ -1,5 +1,11 @@
 2007-01-07  James Youngman  <jay@gnu.org>
 
+	* find/parser.c (parse_perm), find/testsuite/find.gnu/perm000.exp,
+	  find/testsuite/find.gnu/perm000.xo: -perm /000 is now quivalent
+	  to -perm -000, as dscussed in Savannah bug #14748.  The warning
+	  message we issue when the user does this now explains that the
+	  defintion changed as we promised it would in 2005.
+
 	* xargs/xargs.c (read_line): Correctly handle quoted empty
 	arguments occurring first or last on a line (by adding an empty
 	argument to the output).  Fixes Savannah bug #18713.

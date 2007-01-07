@@ -34,6 +34,7 @@ find.gnu/name-opt.xo \
 find.gnu/name-period.xo \
 find.gnu/path.xo \
 find.gnu/perm.xo \
+find.gnu/perm000.xo \
 find.gnu/perm-slash.xo \
 find.gnu/posix-dflt.xo \
 find.gnu/posix-h.xo \
@@ -118,6 +119,7 @@ find.gnu/name-period.exp \
 find.gnu/path.exp \
 find.gnu/print0.exp \
 find.gnu/perm.exp \
+find.gnu/perm000.exp \
 find.gnu/perm-slash.exp \
 find.gnu/posix-dflt.exp \
 find.gnu/posix-h.exp \
