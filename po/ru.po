@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2006-11-25 16:54+0000\n"
+"POT-Creation-Date: 2007-01-07 18:05+0000\n"
 "PO-Revision-Date: 2002-01-07 18:43GMT+06\n"
 "Last-Translator: Denis Perchine <dyp@perchine.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -140,36 +140,36 @@ msgstr "Использование: %s [путь...] [выражение]\n"
 msgid "] [path...] [expression]\n"
 msgstr "Использование: %s [путь...] [выражение]\n"
 
-#: find/util.c:596
+#: find/util.c:586
 #, fuzzy, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "предупреждение: нераспознаваемая последовательность '\\%c'"
 
-#: find/util.c:603
+#: find/util.c:593
 msgid "Empty argument to the -D option."
 msgstr ""
 
-#: find/util.c:617
+#: find/util.c:607
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr ""
 
-#: find/util.c:626 find/util.c:636
+#: find/util.c:616 find/util.c:626
 msgid "Please specify a decimal number immediately after -O"
 msgstr ""
 
-#: find/util.c:641 find/util.c:645
+#: find/util.c:631 find/util.c:635
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr ""
 
-#: find/util.c:652
+#: find/util.c:642
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:763
+#: find/util.c:753
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -243,7 +243,7 @@ msgstr ""
 msgid "unknown"
 msgstr "неизвестный"
 
-#: find/parser.c:430
+#: find/parser.c:432
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -252,13 +252,13 @@ msgid ""
 "arguments.\n"
 msgstr ""
 
-#: find/parser.c:687
+#: find/parser.c:689
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 
-#: find/parser.c:890
+#: find/parser.c:892
 #, fuzzy
 msgid ""
 "\n"
@@ -271,7 +271,7 @@ msgstr ""
 "других):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:893
+#: find/parser.c:895
 #, fuzzy
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
@@ -285,7 +285,7 @@ msgstr ""
 "других):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:897
+#: find/parser.c:899
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -294,7 +294,7 @@ msgid ""
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
 
-#: find/parser.c:902
+#: find/parser.c:904
 #, fuzzy
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
@@ -307,7 +307,7 @@ msgstr ""
 "      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n"
 
-#: find/parser.c:907
+#: find/parser.c:909
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -319,7 +319,7 @@ msgstr ""
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:912
+#: find/parser.c:914
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -327,18 +327,18 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:918
+#: find/parser.c:920
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
 
-#: find/parser.c:966
+#: find/parser.c:968
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 
-#: find/parser.c:981
+#: find/parser.c:983
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -348,17 +348,17 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:1027
+#: find/parser.c:1029
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 
-#: find/parser.c:1473
+#: find/parser.c:1475
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "неверный режим '%s'"
 
-#: find/parser.c:1508
+#: find/parser.c:1510
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s which is equivalent to 000. "
@@ -367,47 +367,52 @@ msgid ""
 "to match all files."
 msgstr ""
 
-#: find/parser.c:1664
+#: find/parser.c:1666
 msgid "invalid null argument to -size"
 msgstr "отсутствует аргумент у -size"
 
-#: find/parser.c:1710
+#: find/parser.c:1712
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "неверный тип '%c' для -size"
 
-#: find/parser.c:1759
+#: find/parser.c:1761
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1903
+#: find/parser.c:1905
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find версии %s\n"
 
-#: find/parser.c:1904
+#: find/parser.c:1906
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2172
+#: find/parser.c:2175
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "предупреждение: нераспознаваемая последовательность '\\%c'"
 
-#: find/parser.c:2187
+#: find/parser.c:2191
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2224
+#: find/parser.c:2230
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "предyпреждение: нераспознаваемый формат директивы '%%%c'"
 
-#: find/parser.c:2353
+#: find/parser.c:2373
+#, c-format
+msgid "error: the format directive `%%%c' is reserved for future use"
+msgstr ""
+
+#: find/parser.c:2398
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -416,37 +421,45 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2453
+#: find/parser.c:2404
+#, c-format
+msgid ""
+"The ralative path %s is included in the PATH environment variable, which is "
+"insecure in combination with the %s action of find.  Please remove that "
+"entry from $PATH"
+msgstr ""
+
+#: find/parser.c:2502
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2476
+#: find/parser.c:2525
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2489
+#: find/parser.c:2538
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "окружение слишком велико для исполнения"
 
-#: find/pred.c:1136
+#: find/pred.c:1186
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1573 xargs/xargs.c:1030
+#: find/pred.c:1623 xargs/xargs.c:1041
 msgid "cannot fork"
 msgstr "не могу создать процесс"
 
-#: find/pred.c:1613
+#: find/pred.c:1663
 #, c-format
 msgid "error waiting for %s"
 msgstr "ошибка ожидания %s"
 
-#: find/pred.c:1621
+#: find/pred.c:1671
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s прерван по сигналу %d"
@@ -560,7 +573,7 @@ msgid ""
 msgstr ""
 "Использование: %s most_common_bigrams < список > зашифрованный_список\n"
 
-#: locate/code.c:131 locate/locate.c:1307 xargs/xargs.c:1228
+#: locate/code.c:131 locate/locate.c:1307 xargs/xargs.c:1239
 #, fuzzy
 msgid ""
 "\n"
@@ -788,60 +801,60 @@ msgstr ""
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:867
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
 "the -0 option"
 msgstr ""
 
-#: xargs/xargs.c:777 xargs/xargs.c:858
+#: xargs/xargs.c:779 xargs/xargs.c:868
 msgid "double"
 msgstr "двойная"
 
-#: xargs/xargs.c:777 xargs/xargs.c:858
+#: xargs/xargs.c:779 xargs/xargs.c:868
 msgid "single"
 msgstr "одинарная"
 
-#: xargs/xargs.c:875 xargs/xargs.c:932
+#: xargs/xargs.c:886 xargs/xargs.c:943
 msgid "argument line too long"
 msgstr "строка аргументов слишком велика"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1116
 msgid "error waiting for child process"
 msgstr "ошибка ожидания дочернего процесса"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1132
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: завершен со статусом 255; прерываюсь"
 
-#: xargs/xargs.c:1123
+#: xargs/xargs.c:1134
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: остановлен по сигналу %d"
 
-#: xargs/xargs.c:1125
+#: xargs/xargs.c:1136
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: завершен по сигналу %d"
 
-#: xargs/xargs.c:1178
+#: xargs/xargs.c:1189
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: неверное число для опции -%c\n"
 
-#: xargs/xargs.c:1185
+#: xargs/xargs.c:1196
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: значение для опции -%c должно быть >= %ld\n"
 
-#: xargs/xargs.c:1199
+#: xargs/xargs.c:1210
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: значение для опции -%c должно быть < %ld\n"
 
-#: xargs/xargs.c:1217
+#: xargs/xargs.c:1228
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
