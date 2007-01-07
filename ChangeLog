@@ -1,4 +1,48 @@
+2006-12-29  James Youngman  <jay@gnu.org>
+
+	* find/testsuite/config/unix.exp:
+	Verify that find_start is invoked with wither a p (pass) or an f
+	(fail) argument.
+
+	* lib/listfile.c, lib/listfile.h:
+	define find_blocksize() and provide a declaration for get_link_name()
+
+	* find/testsuite/config/unix.exp: Updated copyright years.
+
+	* find/testsuite/find.gnu/execdir-one.exp, find/testsuite/find.gnu/execdir-root-only.exp, find/testsuite/find.gnu/sv-bug-12230.exp, find/testsuite/find.gnu/sv-bug-17782.exp, find/testsuite/config/unix.exp:
+	Avoid tests using -execdir if $PATH contains a relative directory
+
+	* find/parser.c:
+	Also flag $PATH values containing relative directories as being dangerous.
+
+	* find/parser.c, find/defs.h, find/util.c:
+	Instead of selecting the old or new exec handling code with the NEW_EXEC macro, just use the new code all the time
+
+	* locate/testsuite/config/unix.exp:
+	Fixed Savannah bug #13252, test suite failure caused by the fact that 'file normalize' is not available in Tcl 8.3
+
+	* NEWS, find/pred.c:
+	Fixed Savannah bug #18433, compilation failure with configure --enable-debug
+
+2006-12-28  James Youngman  <jay@gnu.org>
+
+	* NEWS: Document addition of %S.
+
+	* find/defs.h, find/find.1, find/parser.c, find/pred.c:
+	Implemented %S (sparseness) printf format, and general refactoring and cleanup of printf predicate
+
+2006-12-01  James Youngman  <jay@gnu.org>
+
+	* NEWS, configure.in: Begin work on findutils 4.2.30
+
+	* find/find.c:
+	Fix compilation error for oldfind if --enable-debug was passed to configure
+
+	* NEWS, configure.in: Prepare for work on findutils-4.3.3
+
 2006-11-25  James Youngman  <jay@gnu.org>
+
+	* find/testsuite/Makefile.am: Added test case for Savannah bug #17782
 
 	* doc/textinfo.tex: Removed; we now use the version supplied 
 	by automake.
