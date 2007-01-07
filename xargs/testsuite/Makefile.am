@@ -96,6 +96,7 @@ xargs.sysv/l1.exp \
 xargs.sysv/l1n4.exp \
 xargs.sysv/lc_l2.exp \
 xargs.sysv/s30-t.exp \
+xargs.sysv/sv-bug-18713.exp \
 xargs.sysv/space-t.exp \
 xargs.sysv/trace.exp
 
@@ -177,6 +178,7 @@ xargs.sysv/l1n4.xo \
 xargs.sysv/l1.xo \
 xargs.sysv/lc_l2.xo \
 xargs.sysv/s30-t.xo \
+xargs.sysv/sv-bug-18713.xo \
 xargs.sysv/space-t.xo \
 xargs.sysv/trace.xo
 
@@ -195,6 +197,7 @@ EXTRA_DIST_XI = \
 inputs/16383-ys.xi \
 inputs/32767-ys.xi \
 inputs/blank.xi \
+inputs/empty.xi \
 inputs/eof_-0.xi \
 inputs/EOFb.xi \
 inputs/EOFe.xi \

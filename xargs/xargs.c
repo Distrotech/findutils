@@ -1,5 +1,5 @@
 /* xargs -- build and execute command lines from standard input
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2005 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -750,17 +750,19 @@ read_line (void)
   int quotc = 0;		/* The last quote character read.  */
   int c = EOF;
   boolean first = true;		/* true if reading first arg on line.  */
+  boolean seen_arg = false;      /* true if we have seen any arg (or part of one) yet */
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
   char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
-
+  
   if (eof)
     return -1;
   while (1)
     {
       prevc = c;
       c = getc (input_stream);
+      
       if (c == EOF)
 	{
 	  /* COMPAT: SYSV seems to ignore stuff on a line that
@@ -800,9 +802,16 @@ read_line (void)
 		lineno++;	/* For -l.  */
 	      if (p == linebuf)
 		{
-		  /* Blank line.  */
-		  state = SPACE;
-		  continue;
+		  if (seen_arg)
+		    {
+		      /* An empty argument, add it to the list as normal. */
+		    }
+		  else
+		    {
+		      /* Blank line.  */
+		      state = SPACE;
+		      continue;
+		    }
 		}
 	      *p++ = '\0';
 	      len = p - linebuf;
@@ -818,6 +827,7 @@ read_line (void)
 			     initial_args);
 	      return len;
 	    }
+	  seen_arg = true;
 	  if (!bc_ctl.replace_pat && ISSPACE (c))
 	    {
 	      *p++ = '\0';
@@ -860,6 +870,7 @@ read_line (void)
 	  if (c == quotc)
 	    {
 	      state = NORM;
+	      seen_arg = true; /* Makes a difference for e.g. just '' or "" as the first arg on a line */
 	      continue;
 	    }
 	  break;

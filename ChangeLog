@@ -1,3 +1,14 @@
+2007-01-07  James Youngman  <jay@gnu.org>
+
+	* xargs/xargs.c (read_line): Correctly handle quoted empty
+	arguments occurring first or last on a line (by adding an empty
+	argument to the output).  Fixes Savannah bug #18713.
+
+	* xargs/testsuite/xargs.sysv/sv-bug-18713.exp,
+	xargs/testsuite/xargs.sysv/sv-bug-18713.xo,
+	xargs/testsuite/input/empty.xi: Test case for Savannah bug #18713.
+	 
+
 2006-12-29  James Youngman  <jay@gnu.org>
 
 	* find/testsuite/config/unix.exp:
