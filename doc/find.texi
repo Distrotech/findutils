@@ -621,7 +621,7 @@ links are not.
 
 Symbolic links are different to ``hard links'' in the sense that you
 need permission to search the directories
-in the the linked-to file name to
+in the linked-to file name to
 dereference the link.  This can mean that even if you specify the
 @samp{-L} option, @code{find} may not be able to determine the
 properties of the file that the link points to (because you don't have
@@ -1094,7 +1094,7 @@ bits set (for example if someone can execute/search the file).
 Match files that have read and write permission for their owner,
 and group, but that the rest of the world can read but not write to,
 without regard to the presence of any extra file mode bits (for
-example the executable bit).  This matchs a file with mode
+example the executable bit).  This matches a file with mode
 0777, for example.
 
 @item -perm /222
@@ -1118,7 +1118,7 @@ group.
 
 @item -perm -444 -perm /222 ! -perm /111
 Match files that are readable for everybody, have at least one
-write bit set (i.e. somebody can write to them), but that cannot be
+write bit set (i.e., somebody can write to them), but that cannot be
 executed/searched by anybody.  Note that in some shells the @samp{!} must be
 escaped;.
 
@@ -1607,7 +1607,7 @@ The format flag @samp{-} does work; it forces left-alignment of the
 field.
 
 @samp{%%} is a literal percent sign.  A @samp{%} character followed by
-an unrecognised character (i.e. not a known directive or @code{printf}
+an unrecognised character (i.e., not a known directive or @code{printf}
 field width and precision specifier), is discarded (but the
 unrecognised character is printed), and a warning message is printed
 to the standard error output (because it was probably a typo).  Don't
@@ -1909,7 +1909,7 @@ perform arbitrary actions on the files.
 Here is how to run a command on one file at a time.
 
 @deffn Action -execdir command ;
-Execute @var{command}; true if zero sftatus is returned.  @code{find}
+Execute @var{command}; true if zero status is returned.  @code{find}
 takes all arguments after @samp{-exec} to be part of the command until
 an argument consisting of @samp{;} is reached.  It replaces the string
 @samp{@{@}} by the current file name being processed everywhere it
@@ -2831,7 +2831,7 @@ faster to evaluate than predicates which need to stat the file first.
 
 @item 3 
 At this optimisation level, the full cost-based query optimiser is
-enabled.  The order of tests is modified so that cheap (i.e. fast)
+enabled.  The order of tests is modified so that cheap (i.e., fast)
 tests are performed first and more expensive ones are performed later,
 if necessary.  Within each cost band, predicates are evaluated earlier
 or later according to whether they are likely to succeed or not.  For
@@ -3044,7 +3044,7 @@ database for performance.  @code{updatedb} is often run periodically
 as a @code{cron} job and configured with environment variables or
 command options.  Typically, operating systems have a shell script
 that ``exports'' configurations for variable definitions and uses
-another schell script that ``sources'' the configuration file into the
+another shell script that ``sources'' the configuration file into the
 environment and then executes @code{updatedb} in the environment.
 
 @code{updatedb} creates and updates the database of file names used by
@@ -3054,7 +3054,7 @@ database for performance.  @code{updatedb} is often run periodically
 as a @code{cron} job and configured with environment variables or
 command options.  Typically, operating systems have a shell script
 that ``exports'' configurations for variable definitions and uses
-another schell script that ``sources'' the configuration file into the
+another shell script that ``sources'' the configuration file into the
 environment and then executes @code{updatedb} in the environment.
 
 @table @code
@@ -3935,7 +3935,7 @@ most secure alternative is @samp{-execdir @dots{} +}, but this is not as
 portable as the insecure action @samp{-exec @dots{} +}.
 
 The @samp{-delete} action is not completely portable, but the only
-other possibillity which is as secure (@samp{-execdir}) is no more
+other possibility which is as secure (@samp{-execdir}) is no more
 portable.  The most efficient portable alternative is @samp{-exec
 @dots{}+}, but this is insecure and isn't supported by versions of GNU
 findutils prior to 4.2.12.
