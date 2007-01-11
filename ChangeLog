@@ -1,3 +1,134 @@
+2007-01-09  Ralf Wildenhues  <Ralf.Wildenhues@gmx.de>
+
+       * doc/find.texi: Fix some typos. (trivial change)
+	
+2007-01-07  James Youngman <jay@gnu.org>
+
+	* NEWS: Mention that Savannah bug #17437 was fixed in findutils-4.3.2.
+
+	* ChangeLog, NEWS, find/parser.c, find/testsuite/Makefile.am, find/testsuite/find.gnu/perm000.exp, find/testsuite/find.gnu/perm000.xo:
+	Changed the interpretatioon of -perm /000 as described in bug #14748
+
+	* ChangeLog, NEWS, xargs/testsuite/Makefile.am, xargs/testsuite/inputs/empty.xi, xargs/testsuite/xargs.sysv/sv-bug-18713.exp, xargs/testsuite/xargs.sysv/sv-bug-18713.xo, xargs/xargs.c:
+	xargs: correctly handle quoted empty arguments occurring first or last on a line (by adding an empty argument to the output).  Fixes Savannah bug #18713.
+
+	* po/be.po, po/bg.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
+	Did make dist
+
+	* ChangeLog: Updated with recent changes.
+
+2006-12-29  James Youngman <jay@gnu.org>
+
+	* find/testsuite/config/unix.exp:
+	Verify that find_start is invoked with wither a p (pass) or an f
+	(fail) argument.
+
+	* lib/listfile.c, lib/listfile.h:
+	define find_blocksize() and provide a declaration for get_link_name()
+
+	* find/testsuite/config/unix.exp: Updated copyright years.
+
+	* find/testsuite/find.gnu/execdir-one.exp, find/testsuite/find.gnu/execdir-root-only.exp, find/testsuite/find.gnu/sv-bug-12230.exp, find/testsuite/find.gnu/sv-bug-17782.exp, find/testsuite/config/unix.exp:
+	Avoid tests using -execdir if /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/bin/X11:/usr/games contains a relative directory
+
+	* find/parser.c:
+	Also flag $PATH values containing relative directories as being dangerous.
+
+	* find/parser.c, find/defs.h, find/util.c:
+	Instead of selecting the old or new exec handling code with the NEW_EXEC macro, just use the new code all the time
+
+	* locate/testsuite/config/unix.exp:
+	Fixed Savannah bug #13252, test suite failure caused by the fact that 'file normalize' is not available in Tcl 8.3
+
+	* NEWS, find/pred.c:
+	Fixed Savannah bug #18433, compilation failure with configure --enable-debug
+
+2006-12-28  James Youngman <jay@gnu.org>
+
+	* NEWS: Document addition of %S.
+
+	* find/defs.h, find/find.1, find/parser.c, find/pred.c:
+	Implemented %S (sparseness) printf format, and general refactoring and cleanup of printf predicate
+
+2006-12-01  James Youngman <jay@gnu.org>
+
+	* NEWS, configure.in: Begin work on findutils 4.2.30
+
+	* find/find.c:
+	Fix compilation error for oldfind if --enable-debug was passed to configure
+
+	* NEWS, configure.in: Prepare for work on findutils-4.3.3
+
+2006-11-25  James Youngman <jay@gnu.org>
+
+	* NEWS, configure.in: Prepare to release version 4.2.29
+
+	* find/testsuite/Makefile.am: Added test case for Savannah bug #17782
+
+	* NEWS, configure.in: Prepare for release of findutils-4.3.2
+
+	* ChangeLog, NEWS, configure.in:
+	Oops, we actually already had the Kinyarwanda translation in ALL_LINGUAS
+
+	* NEWS, ChangeLog, configure.in: Added Kinyarwanda (rw) to ALL_LINGUAS.
+
+	* ChangeLog, configure.in, m4/mkinstalldirs.m4:
+	Define the m4 macro MKINSTALLDIRS ourselves, because po/Makefile.in.in needs it but gnulib no longer provides it
+
+	* doc/.cvsignore, doc/texinfo.tex:
+	Use the version of texinfo.tex from automake
+
+	* po/findutils.pot, po/be.po, po/bg.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
+	did make dist
+
+2006-11-24  James Youngman <jay@gnu.org>
+
+	* doc/find.texi: Warn about using -exec sh .... {}
+
+2006-11-20  James Youngman <jay@gnu.org>
+
+	* find/testsuite/Makefile.am: Distribute the new DejaGnu test cases
+
+	* NEWS: Updated with information about changes so far.
+
+	* ChangeLog, po/bg.po, po/et.po, po/nl.po, po/pl.po, po/tr.po:
+	Updated translations for Bulgarian, Estonian, Dutch, Polish and Turkish
+
+	* po/be.po, po/bg.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
+	Updated the POT file
+
+	* find/testsuite/find.gnu/sv-bug-17782.exp, find/testsuite/find.gnu/sv-bug-17782.xo:
+	Added test case for Savannah bug #17822
+
+	* ChangeLog, find/testsuite/find.gnu/sv-bug-17782.exp, find/testsuite/find.gnu/sv-bug-17782.xo:
+	Added test case for Savannah Bug 17782
+
+	* find/testsuite/find.gnu/sv-bug-17782.exp, find/testsuite/find.gnu/sv-bug-17782.xo:
+	New file.
+
+	* ChangeLog, find/ftsfind.c, lib/buildcmd.c:
+	Work around Savannah bug #17877, which manifests on systems which use
+	the same inode number for more than one file (smbfs, FAT, sometimes
+	some FUSE-based ones).  This happens for unreferenced files.  Fix
+	suggested by Jim Meyering.
+
+2006-11-08  James Youngman <jay@gnu.org>
+
+	* find/testsuite/Makefile.am:
+	Oops, indicate the right directory for the new test files
+
+	* ChangeLog, depcomp, doc/texinfo.tex, find/ftsfind.c, find/testsuite/Makefile.am, find/testsuite/find.gnu/sv-bug-18222.exp, find/testsuite/find.gnu/sv-bug-18222.xo, install-sh:
+	Savannah bug#18222 - test case
+
+	* find/ftsfind.c:
+	Fixed Savannah bug #18222 (state.starting_path_length was not being updated for the second and following start point)
+
+	* ChangeLog, find/pred.c:
+	Fixed Savannah bug #15531; -prune should take effect ony if we are currently considering a directory
+
+	* ChangeLog, lib/buildcmd.c:
+	Fixed Svannah bug #17782 ('./' prefix added at start of arg while it should be added at the start of the expansion of {})
+
 2006-10-15  James Youngman <jay@gnu.org>
 
 	* lib/buildcmd.c, 
