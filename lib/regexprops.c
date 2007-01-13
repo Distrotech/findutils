@@ -320,7 +320,7 @@ static int describe_regex_syntax(int options)
       literal("The character @samp{$} only represents the end of a string when it appears:");
       beginenum();
       enum_item("At the end of a regular expression");
-      enum_item("Before an close-group, signified by ");
+      enum_item("Before a close-group, signified by ");
       if (options & RE_NO_BK_PARENS)
 	{
 	  literal("@samp{)}");
