@@ -6,8 +6,8 @@ locate \- list files in databases that match a pattern
 [\-d path | \-\-database=path] [\-e | \-E | \-\-[non\-]existing] [\-i
 | \-\-ignore-case] [\-0 | \-\-null] [\-c | \-\-count] [\-w | \-\-wholename]
 |\-b | \-\-basename] [\-l N | \-\-limit=N] [\-S | \-\-statistics] [\-r
-| \-\-regex ] [\-P | \-H | \-\-nofollow] [\-L | \-\-follow] [\-\-version]
-[\-A | \-\-all] [\-p | \-\-print] [\-\-help] pattern...
+| \-\-regex ] [\-\-max-database-age D] [\-P | \-H | \-\-nofollow] [\-L
+| \-\-follow] [\-\-version] [\-A | \-\-all] [\-p | \-\-print] [\-\-help] pattern...
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -50,9 +50,17 @@ printed exactly as-is.
 
 .SH OPTIONS
 .TP
+.I "\-0, \-\-null"
+Use ASCII NUL as a separator, instead of newline.   
+.TP
 .I "\-A, \-\-all"
 Print only names which match all non-option arguments, not those matching
 one or more non-option arguments.
+.TP
+.I "\-b, \-\-basename"
+Results are considered to match if the pattern specified matches the
+final component of the name of a file as listed in the database.
+This final component is usually referred to as the `base name'.
 .TP
 .I "\-c, \-\-count"
 Instead of printing the matched filenames, just print the total 
@@ -103,16 +111,10 @@ that existed when the database was created).
 Note that this may slow down the program a lot, if there are many matches
 in the database.
 .TP
-.I "\-L, \-\-follow"
-If testing for the existence of files (with the \-e or \-E options),
-consider broken symbolic links to be non-existing.   This is the default.
-.TP
-.I "\-P, \-H, \-\-nofollow"
-If testing for the existence of files (with the \-e or \-E options), treat
-broken symbolic links as if they were existing files.  The \-H
-form of this option is provided purely for similarity with
-.BR find ;
-the use of \-P is recommended over \-H.
+.I "\-\-help"
+Print a summary of the options to
+.B locate
+and exit.
 .TP
 .I "\-i, \-\-ignore-case"
 Ignore case distinctions in both the pattern and the file names.
@@ -122,25 +124,24 @@ Limit the number of matches to N.  If a limit is set via this option,
 the number of results printed for the \-c option will never be larger
 than this number.
 .TP
+.I "\-L, \-\-follow"
+If testing for the existence of files (with the \-e or \-E options),
+consider broken symbolic links to be non-existing.   This is the default.
+.TP
 .I "\-m, \-\-mmap"
 Accepted but does nothing, for compatibility with BSD 
 .BR locate .
 .TP
-.I "\-0, \-\-null"
-Use ASCII NUL as a separator, instead of newline.   
+.I "\-P, \-H, \-\-nofollow"
+If testing for the existence of files (with the \-e or \-E options), treat
+broken symbolic links as if they were existing files.  The \-H
+form of this option is provided purely for similarity with
+.BR find ;
+the use of \-P is recommended over \-H.
 .TP
 .I "\-p, \-\-print"
 Print search results when they normally would not, because of the presence
 of \-\-statistics (\-S) or \-\-count (\-c).
-.TP
-.I "\-w, \-\-wholename"
-Match against the whole name of the file as listed in the database.
-This is the default.
-.TP
-.I "\-b, \-\-basename"
-Results are considered to match if the pattern specified matches the
-final component of the name of a file as listed in the database.
-This final component is usually referred to as the `base name'.
 .TP
 .I "\-r, \-\-regex "
 The pattern specified on the command line is understood to be a
@@ -169,15 +170,14 @@ for \-\-statistics.  However, the ouptut of
 is different for the GNU and BSD implementations of 
 .BR locate .
 .TP
-.I "\-\-help"
-Print a summary of the options to
-.B locate
-and exit.
-.TP
 .I "\-\-version"
 Print the version number of
 .B locate
 and exit.
+.TP
+.I "\-w, \-\-wholename"
+Match against the whole name of the file as listed in the database.
+This is the default.
 .SH ENVIRONMENT
 .TP
 .B LOCATE_PATH
