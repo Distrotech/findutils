@@ -1689,13 +1689,16 @@ dolocate (int argc, char **argv, int secure_db_fd)
 	    }
 	  else
 	    {
-	      if (now - st.st_mtime > WARN_SECONDS)
+	      double age = now - st.st_mtime;
+	      if (age > WARN_SECONDS)
 		{
 		  /* For example:
-		     warning: database `fred' is more than 8 days old */
+		     warning: database `fred' is more than 8 days old (actual age is 10 days)*/
 		  error (0, 0,
-			 _("warning: database `%s' is more than %d %s old"),
-			 e, WARN_NUMBER_UNITS, _(warn_name_units));
+			 _("warning: database `%s' is more than %d %s old (actual age is %.0f %s)"),
+			 e, 
+			 WARN_NUMBER_UNITS,              _(warn_name_units),
+			 (age/(double)SECONDS_PER_UNIT), _(warn_name_units));
 		}
 	    }
 	}
