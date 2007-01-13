@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-01-07 18:05+0000\n"
+"POT-Creation-Date: 2007-01-13 16:18+0000\n"
 "PO-Revision-Date: 2002-04-22 02:04+02:00\n"
 "Last-Translator: Hrvoje Niksic <hniksic@xemacs.org>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -359,61 +359,60 @@ msgstr ""
 msgid "invalid mode `%s'"
 msgstr "neispravan mod `%s'"
 
-#: find/parser.c:1510
+#: find/parser.c:1493
 #, c-format
 msgid ""
-"warning: you have specified a mode pattern %s which is equivalent to 000. "
-"The meaning of -perm /000 will soon be changed to be consistent with -perm -"
-"000; that is, at the moment it matches no files but it will soon be changed "
-"to match all files."
+"warning: you have specified a mode pattern %s (which is equivalent to /000). "
+"The meaning of -perm /000 has now been changed to be consistent with -perm -"
+"000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:1666
+#: find/parser.c:1679
 msgid "invalid null argument to -size"
 msgstr "neispravan prazan argument -size"
 
-#: find/parser.c:1712
+#: find/parser.c:1725
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "neispravan -size tip `%c'"
 
-#: find/parser.c:1761
+#: find/parser.c:1774
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1905
+#: find/parser.c:1918
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find verzija %s\n"
 
-#: find/parser.c:1906
+#: find/parser.c:1919
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2175
+#: find/parser.c:2188
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "upozorenje: nepoznati escape `\\%c'"
 
-#: find/parser.c:2191
+#: find/parser.c:2204
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2230
+#: find/parser.c:2243
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "upozorenje: nepoznata format direktiva `%%%c'"
 
-#: find/parser.c:2373
+#: find/parser.c:2386
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2398
+#: find/parser.c:2411
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -422,7 +421,7 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2404
+#: find/parser.c:2417
 #, c-format
 msgid ""
 "The ralative path %s is included in the PATH environment variable, which is "
@@ -430,18 +429,18 @@ msgid ""
 "entry from $PATH"
 msgstr ""
 
-#: find/parser.c:2502
+#: find/parser.c:2515
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2525
+#: find/parser.c:2538
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2538
+#: find/parser.c:2551
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "okoli¹ je prevelik za exec"
@@ -573,7 +572,7 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Uporaba: %s most_common_bigrams < lista > kodirana_lista\n"
 
-#: locate/code.c:131 locate/locate.c:1307 xargs/xargs.c:1239
+#: locate/code.c:131 locate/locate.c:1354 xargs/xargs.c:1239
 #, fuzzy
 msgid ""
 "\n"
@@ -587,105 +586,114 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU find verzija %s\n"
 
-#: locate/locate.c:160
+#: locate/locate.c:161
 msgid "days"
 msgstr "dana"
 
-#: locate/locate.c:562
+#: locate/locate.c:210
+msgid "The argument argument for option --max-database-age must not be empty"
+msgstr ""
+
+#: locate/locate.c:227 locate/locate.c:234
+#, fuzzy, c-format
+msgid "Invalid argument `%s' for option --max-database-age"
+msgstr "neispravan argument `%s' `%s'-u"
+
+#: locate/locate.c:609
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr ""
 
-#: locate/locate.c:840
+#: locate/locate.c:887
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr ""
 
-#: locate/locate.c:845
+#: locate/locate.c:892
 #, c-format
 msgid "Matching Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:846
+#: locate/locate.c:893
 #, c-format
 msgid "All Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:849
+#: locate/locate.c:896
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr ""
 
-#: locate/locate.c:853
+#: locate/locate.c:900
 #, c-format
 msgid ""
 "\n"
 "\tof which %s contain whitespace, "
 msgstr ""
 
-#: locate/locate.c:856
+#: locate/locate.c:903
 #, c-format
 msgid ""
 "\n"
 "\t%s contain newline characters, "
 msgstr ""
 
-#: locate/locate.c:859
+#: locate/locate.c:906
 #, c-format
 msgid ""
 "\n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:867
+#: locate/locate.c:914
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
 "compression ratio.\n"
 msgstr ""
 
-#: locate/locate.c:874
+#: locate/locate.c:921
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr ""
 
-#: locate/locate.c:881
+#: locate/locate.c:928
 #, c-format
 msgid "Compression ratio is undefined\n"
 msgstr ""
 
-#: locate/locate.c:938
+#: locate/locate.c:985
 #, c-format
 msgid ""
 "locate database `%s' looks like an slocate database but it seems to have "
 "security level %c, which GNU findutils does not currently support"
 msgstr ""
 
-#: locate/locate.c:1025
+#: locate/locate.c:1072
 #, c-format
 msgid ""
 "`%s' is an slocate database.  Support for these is new, expect problems for "
 "now (you are, after all, using the CVS code)."
 msgstr ""
 
-#: locate/locate.c:1053
+#: locate/locate.c:1100
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
 "format databases with a non-zero security level.  No results will be "
 "generated for this database.\n"
 msgstr ""
 
-#: locate/locate.c:1064
+#: locate/locate.c:1111
 #, c-format
 msgid "`%s' is an slocate database.  Turning on the '-e' option."
 msgstr ""
 
-#: locate/locate.c:1257
+#: locate/locate.c:1304
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr ""
 
-#: locate/locate.c:1298
+#: locate/locate.c:1345
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -694,39 +702,39 @@ msgid ""
 "      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
 "stdio ]\n"
 "      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n"
-"      [-version] [--help]\n"
+"      [--max-database-age D] [-version] [--help]\n"
 "      pattern...\n"
 msgstr ""
 
-#: locate/locate.c:1355
+#: locate/locate.c:1404
 msgid "failed to drop group privileges"
 msgstr ""
 
-#: locate/locate.c:1362
+#: locate/locate.c:1411
 msgid "failed to drop setuid privileges"
 msgstr ""
 
-#: locate/locate.c:1373
+#: locate/locate.c:1422
 msgid "Failed to drop privileges"
 msgstr ""
 
-#: locate/locate.c:1506
+#: locate/locate.c:1560
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate verzija %s\n"
 
-#: locate/locate.c:1545
+#: locate/locate.c:1599
 #, fuzzy
 msgid "argument to --limit"
 msgstr "linija s argumentima predugaèka"
 
-#: locate/locate.c:1628
+#: locate/locate.c:1682
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 
-#: locate/locate.c:1697
-#, c-format
-msgid "warning: database `%s' is more than %d %s old"
+#: locate/locate.c:1753
+#, fuzzy, c-format
+msgid "warning: database `%s' is more than %d %s old (actual age is %.1f %s)"
 msgstr "upozorenje: baza `%s' starija je od %d %s"
 
 #: xargs/xargs.c:301
@@ -863,7 +871,7 @@ msgid ""
 "       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n"
 "       [-n max-args] [--max-args=max-args]\n"
 "       [-s max-chars] [--max-chars=max-chars]\n"
-"       [-P max-procs]  [--max-procs=max-procs] [[--show-limits]\n"
+"       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [command [initial-arguments]]\n"
 msgstr ""
