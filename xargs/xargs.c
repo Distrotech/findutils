@@ -828,7 +828,11 @@ read_line (void)
 	      return len;
 	    }
 	  seen_arg = true;
-	  if (!bc_ctl.replace_pat && ISSPACE (c))
+
+	  /* POSIX: In the POSIX locale, the separators are <SPC> and
+	   * <TAB>, but not <FF> or <VT>. 
+	   */
+	  if (!bc_ctl.replace_pat && ISBLANK (c))
 	    {
 	      *p++ = '\0';
 	      len = p - linebuf;

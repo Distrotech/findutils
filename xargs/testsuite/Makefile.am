@@ -79,6 +79,8 @@ xargs.posix/s6.exp \
 xargs.posix/savannah-11865.exp \
 xargs.posix/space.exp \
 xargs.posix/space-I.exp \
+xargs.posix/sv-bug-18714.exp \
+xargs.posix/sv-bug-18714b.exp \
 xargs.posix/unmatched2.exp \
 xargs.posix/unmatched.exp \
 xargs.posix/unmatched-n2-x.exp \
@@ -162,6 +164,8 @@ xargs.posix/s47.xo \
 xargs.posix/s48.xo \
 xargs.posix/savannah-11865.xo \
 xargs.posix/space.xo \
+xargs.posix/sv-bug-18714.xo \
+xargs.posix/sv-bug-18714b.xo \
 xargs.posix/unmatched2.xo \
 xargs.posix/unmatched.xo \
 xargs.sysv/eEOF.xo \
@@ -209,6 +213,7 @@ inputs/ett.xi \
 inputs/files0.xi \
 inputs/files.xi \
 inputs/foobar.xi \
+inputs/formfeeds.xi \
 inputs/ftt.xi \
 inputs/helloworld.xi \
 inputs/items-0.xi \
@@ -229,7 +234,8 @@ inputs/stairs2.xi \
 inputs/stairs.xi \
 inputs/stt.xi \
 inputs/unmatched2.xi \
-inputs/unmatched.xi
+inputs/unmatched.xi \
+inputs/verticaltabs.xi
 
 
 EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO) $(EXTRA_DIST_XI) $(EXTRA_DIST_XE)

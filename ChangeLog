@@ -1,5 +1,17 @@
 2007-01-13  James Youngman  <jay@gnu.org>
 
+	* xargs/xargs.c (read_line): Fixed Savannah bug# 18714; VT and FF
+	are not separators, according to POSIX (in the POSIX locale).
+
+	* xargs/testsuite/Makefile.am,
+	  xargs/testsuite/input/formfeeds.xi, 
+	  xargs/testsuite/input/verticaltabs.xi, 
+	  xargs/testsuite/xargs.posix/sv-bug-18714.exp, 
+	  xargs/testsuite/xargs.posix/sv-bug-18714.xo, 
+	  xargs/testsuite/xargs.posix/sv-bug-18714b.exp, 
+	  xargs/testsuite/xargs.posix/sv-bug-18714b.xo: Tests for Savannah
+	  bug #18714.
+
 	* xargs/xargs.c (usage): Removed suprious "[" in --help output
 	(fixes Savannah bug #18384).
 
