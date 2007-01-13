@@ -1434,7 +1434,7 @@ you are searching might contain a newline, you should use
 @c @deffn Option -show-control-chars how
 @c This option affects how some of @code{find}'s actions treat
 @c unprintable characters in file names.  If @samp{how} is
-@c @samp{literal}, any subsequent actions (i.e. actions further on in the
+@c @samp{literal}, any subsequent actions (i.e., actions further on in the
 @c command line) print file names as-is.  
 @c 
 @c If this option is not specified, it currently defaults to @samp{safe}.
@@ -2965,7 +2965,11 @@ Ignore case distinctions in both the pattern and the file names.
 Limit the number of results printed to N.  When used with the
 @samp{--count} option, the value printed will never be larger than
 this limit.
-
+@item --max-database-age=D
+Normally, @code{locate} will issue a warning message when it searches
+a database which is more than 8 days old.  This option changes that
+value to something other than 8.  The effect of specifying a negative
+value is undefined.
 @item --mmap
 @itemx -m
 Accepted but does nothing.  The option is supported only to provide

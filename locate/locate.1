@@ -128,6 +128,13 @@ than this number.
 If testing for the existence of files (with the \-e or \-E options),
 consider broken symbolic links to be non-existing.   This is the default.
 .TP
+.I "\-\-max-database-age D"
+Normally, 
+.B locate
+will issue a warning message when it searches a database which is more
+than 8 days old.  This option changes that value to something other
+than 8.  The effect of specifying a negative value is undefined.
+.TP
 .I "\-m, \-\-mmap"
 Accepted but does nothing, for compatibility with BSD 
 .BR locate .

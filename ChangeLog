@@ -1,7 +1,13 @@
 2007-01-13  James Youngman  <jay@gnu.org>
 
+	* locate/locate.c: Implement the option --max-database-age.
+	(main) Accept the option. 
+	(set_max_db_age): Parse the argument.
+
 	* locate/locate.c (dolocate): If the database is more than N days
 	old, indicate its actual age in the warning message we produce.
+
+	* locate/locate.1, docs/find.texi: Document --max-database-age
 
 	* THANKS: Thank Dean Gaudet for the idea of -sparse.
 

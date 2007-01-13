@@ -1,6 +1,6 @@
 /* locate -- search databases for filenames that match patterns
    Copyright (C) 1994, 1996, 1998, 1999, 2000, 2003,
-                 2004, 2005 Free Software Foundation, Inc.
+                 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -155,12 +155,11 @@ extern int errno;
 
 /* Warn if a database is older than this.  8 days allows for a weekly
    update that takes up to a day to perform.  */
-#define WARN_NUMBER_UNITS (8)
+static unsigned int warn_number_units = 8;
+
 /* Printable name of units used in WARN_SECONDS */
 static const char warn_name_units[] = N_("days");
 #define SECONDS_PER_UNIT (60 * 60 * 24)
-
-#define WARN_SECONDS ((SECONDS_PER_UNIT) * (WARN_NUMBER_UNITS))
 
 enum visit_result
   {
@@ -193,6 +192,54 @@ static bool results_were_filtered;
 static char*  slocate_db_pathname = "/var/lib/slocate/slocate.db";
 
 static const char *selected_secure_db = NULL;
+
+
+/* Change the number of days old the database can be 
+ * before we complain about it. 
+ */
+static void
+set_max_db_age(const char *s) 
+{
+  char *end;
+  unsigned long int val;
+  /* XXX: we ignore the case where the input is negative, which is allowed(!). */
+
+  if (0 == *s)
+    {
+      error(1, 0,
+	    _("The argument argument for option --max-database-age must not be empty"),
+	    s);
+    }
+  
+  
+  /* We have to set errno here, otherwise when the function returns ULONG_MAX,
+   * we would not be able to tell if that is the correct answer, or whether it
+   * signifies an error.
+   */
+  errno = 0;
+  val = strtoul(s, &end, 10);
+  
+  /* Diagnose number too large, non-numbes and trailing junk. */
+  if ((ULONG_MAX == val && ERANGE == errno) ||
+      (0 == val && EINVAL == errno))
+    {
+      error(1, errno,
+	    _("Invalid argument `%s' for option --max-database-age"),
+	    s);
+    }
+  else if (*end)
+    {
+      /* errno wasn't set, don't print its message */
+      error(1, 0,
+	    _("Invalid argument `%s' for option --max-database-age"),
+	    s);
+    }
+  else
+    {
+      warn_number_units = val;
+    }
+}
+
 
 
 /* Read in a 16-bit int, high byte first (network byte order).  */
@@ -1301,14 +1348,15 @@ Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
       [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n\
       [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n\
-      [-version] [--help]\n\
+      [--max-database-age D] [-version] [--help]\n\
       pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
 enum
   {
-    REGEXTYPE_OPTION = CHAR_MAX + 1
+    REGEXTYPE_OPTION = CHAR_MAX + 1,
+    MAX_DB_AGE
   };
 
 
@@ -1335,6 +1383,7 @@ static struct option const longopts[] =
   {"statistics",  no_argument, NULL, 'S'},
   {"follow",      no_argument, NULL, 'L'},
   {"nofollow",    no_argument, NULL, 'P'},
+  {"max-database-age",    required_argument, NULL, MAX_DB_AGE},
   {NULL, no_argument, NULL, 0}
 };
 
@@ -1497,6 +1546,11 @@ dolocate (int argc, char **argv, int secure_db_fd)
       case 'h':
 	usage (stdout);
 	return 0;
+
+      case MAX_DB_AGE:
+	/* XXX: nothing in the test suite for this option. */
+	set_max_db_age(optarg);
+	break;
 
       case 'p':
 	print = 1;
@@ -1689,15 +1743,16 @@ dolocate (int argc, char **argv, int secure_db_fd)
 	    }
 	  else
 	    {
-	      double age = now - st.st_mtime;
-	      if (age > WARN_SECONDS)
+	      double age          = difftime(now, st.st_mtime);
+	      double warn_seconds = SECONDS_PER_UNIT * warn_number_units;
+	      if (age > warn_seconds)
 		{
 		  /* For example:
 		     warning: database `fred' is more than 8 days old (actual age is 10 days)*/
 		  error (0, 0,
-			 _("warning: database `%s' is more than %d %s old (actual age is %.0f %s)"),
+			 _("warning: database `%s' is more than %d %s old (actual age is %.1f %s)"),
 			 e, 
-			 WARN_NUMBER_UNITS,              _(warn_name_units),
+			 warn_number_units,              _(warn_name_units),
 			 (age/(double)SECONDS_PER_UNIT), _(warn_name_units));
 		}
 	    }
