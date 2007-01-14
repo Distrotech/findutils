@@ -76,7 +76,7 @@
 static void init_mounted_dev_list(void);
 #endif
 
-/* We have encountered an error which shoudl affect the exit status.
+/* We have encountered an error which should affect the exit status.
  * This is normally used to change the exit status from 0 to 1.
  * However, if the exit status is already 2 for example, we don't want to 
  * reduce it to 1.
@@ -186,7 +186,7 @@ issue_loop_warning(FTSENT * ent)
        * because when the leaf optimisation is on, it will cause
        * the subdirectory to be skipped.  If /a/b/c/d is a hard
        * link to /a/b, then the link count of /a/b/c is 2,
-       * because the ".." entry of /b/b/c/d points to /a, not
+       * because the ".." entry of /a/b/c/d points to /a, not
        * to /a/b/c.
        */
       error(0, 0,
@@ -362,10 +362,8 @@ find(char *arg)
   
   ftsoptions = FTS_NOSTAT;
 
-  /* Work around Savannah bug #17877, which manifests on systems which
-   * use the same inode number for more than one file (smbfs, FAT,
-   * sometimes some FUSE-based ones).  This happens for unreferenced
-   * files.  Fix suggested by Jim Meyering.
+  /* Try to work around Savannah bug #17877 (but actually this change
+   * doesn't fix the bug).
    */
   ftsoptions |= FTS_TIGHT_CYCLE_CHECK;
   
@@ -418,7 +416,7 @@ process_all_startpoints(int argc, char *argv[])
   /* figure out how many start points there are */
   for (i = 0; i < argc && !looks_like_expression(argv[i], true); i++)
     {
-      state.starting_path_length = strlen(argv[i]);
+      state.starting_path_length = strlen(argv[i]); /* XXX: is this redundant? */
       find(argv[i]);
     }
 
@@ -522,7 +520,8 @@ main (int argc, char **argv)
   return state.exit_status;
 }
 
-boolean is_fts_enabled()
+boolean
+is_fts_enabled()
 {
   /* this version of find (i.e. this main()) uses fts. */
   return true;
