@@ -1,3 +1,28 @@
+2007-01-16  James Youngman  <jay@gnu.org>
+
+	(ctime_format): format the time manually (rather than using ctime)
+	in order to include the sub-second part of the time.
+	(weekdays, months): new static variables used bu ctime_format.
+	(format_date): append a the sub-second part of the timestamp to
+	the seconds part of date/time output.
+	
+2007-01-15  James Youngman  <jay@gnu.org>
+
+	* find/defs.h (time_val): define struct; use timespec to hold time
+	in the 'reftime' member.
+	(args): use struct timespec instead of time_t for predicates
+	-newer, -anewer, -cnewer.  * find/parser.c (includes): include
+	stat-time.h.
+	(parse_anewer, parse_cnewer, parse_newer): use struct timespec to
+	hold timestamps.  * find/pred.c (compare_ts): new function for
+	comparing timestamps in struct timespec.
+	(pred_anewer, pred_cnewer, pred_newer): use compare_ts() to
+	compare timestamps (hence takinng acoung of sub-second
+	granularity).
+	* find/ftsfind.c: Various improvements to comments.
+	(is_fts_enabled): Newline before function name to comply with GNU
+	coding standard.
+
 2007-01-13  James Youngman  <jay@gnu.org>
 
 	* xargs/xargs.c (read_line): Fixed Savannah bug# 18714; VT and FF

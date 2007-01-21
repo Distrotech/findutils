@@ -1,0 +1,10 @@
+# tests for -execdir pwd \+
+if { [ safe_path ] } {
+    exec rm -rf tmp
+    exec mkdir tmp
+    exec touch tmp/foo
+    set expected [ exec sh -c "cd tmp && /bin/pwd" ]
+    verbose "Expected output for the pwd invoked by find is is $expected" 2
+    find_start p {tmp -name foo -execdir /bin/pwd  \; } "" $expected
+    exec rm -rf tmp
+}

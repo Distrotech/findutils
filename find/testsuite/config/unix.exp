@@ -91,7 +91,7 @@ proc find_version {} {
 
 # Run find and leave the output in $comp_output.
 # Called by individual test scripts.
-proc do_find_start { suffix findprogram flags passfail options {infile ""}} {
+proc do_find_start { suffix findprogram flags passfail options infile output } {
     global verbose
     global comp_output
 
@@ -111,6 +111,11 @@ proc do_find_start { suffix findprogram flags passfail options {infile ""}} {
 
     # set compareprog "cmp"
     set compareprog "diff -u"
+
+    set tmpout ""
+    if { $output != "" } {
+	error "The output option is not supported yet"
+    }
 
     set outfile "$testbase.xo"
     if {$infile != ""} then {
@@ -168,11 +173,17 @@ proc do_find_start { suffix findprogram flags passfail options {infile ""}} {
 }
 
 
-proc find_start { passfail options {infile ""}} {
+proc find_start { passfail options {infile ""} {output ""}} {
     global OLDFIND
     global FTSFIND
     global FINDFLAGS
     global comp_output
+
+    if {$infile != ""} then {
+	set msg "Did not expect infile parameter to be set"
+	untested $msg
+	error $msg
+    }
 
     if {[which $FTSFIND] == 0} then {
 	error "$FTSFIND, program does not exist"
@@ -186,8 +197,8 @@ proc find_start { passfail options {infile ""}} {
     # Now run the test with each binary, once with each optimisation level.
     foreach optlevel {0 1 2 3} {
 	set flags "$FINDFLAGS -O$optlevel"
-	do_find_start old-O$optlevel  $OLDFIND $flags $passfail $options $infile
-	do_find_start new-O$optlevel  $FTSFIND $flags $passfail $options $infile
+	do_find_start old-O$optlevel  $OLDFIND $flags $passfail $options $infile $output
+	do_find_start new-O$optlevel  $FTSFIND $flags $passfail $options $infile $output
     }
 }
 
@@ -197,7 +208,7 @@ proc find_exit {} {
     catch "exec rm -f find.out cmp.out"
 }
 
-proc unsafe_path {} {
+proc path_setting_is_unsafe {} {
     global env;
     set itemlist [ split $env(PATH) : ]
     foreach item $itemlist {
@@ -216,7 +227,7 @@ proc unsafe_path {} {
 }
 
 proc safe_path [ ] {
-    if { [ unsafe_path ] } {
+    if { [ path_setting_is_unsafe ] } {
 	warning { Cannot perform test as your $PATH environment variable includes a reference to the current directory or a directory name which is not absolute } 
 	untested { skipping this test because your $PATH variable is wrongly set }
 	return 0

@@ -35,6 +35,7 @@
 #include "nextelem.h"
 #include "stdio-safer.h"
 #include "regextype.h"
+#include "stat-time.h"
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
@@ -491,7 +492,6 @@ estimate_timestamp_success_rate(time_t when)
   return estimate_file_age_success_rate(num_days);
 }
 
-
 /* The parsers are responsible to continue scanning ARGV for
    their arguments.  Each parser knows what is and isn't
    allowed for itself.
@@ -502,28 +502,7 @@ estimate_timestamp_success_rate(time_t when)
  
    The predicate structure is updated with the new information. */
 
-static boolean
-parse_amin (const struct parser_table* entry, char **argv, int *arg_ptr)
-{
-  struct predicate *our_pred;
-  uintmax_t num;
-  enum comparison_type c_type;
-  time_t t;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  if (!get_num_days (argv[*arg_ptr], &num, &c_type))
-    return false;
-  t = options.cur_day_start + DAYSECS - num * 60;
-  our_pred = insert_primary (entry);
-  our_pred->args.info.kind = c_type;
-  our_pred->args.info.negative = t < 0;
-  our_pred->args.info.l_val = t;
-  our_pred->est_success_rate = estimate_file_age_success_rate(num);
-  (*arg_ptr)++;
-  return true;
-}
-
+
 static boolean
 parse_and (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -551,7 +530,8 @@ parse_anewer (const struct parser_table* entry, char **argv, int *arg_ptr)
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (entry);
-  our_pred->args.time = stat_newer.st_mtime;
+  our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
+  our_pred->args.reftime.kind = COMP_GT;
   our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
   (*arg_ptr)++;
   return true;
@@ -574,28 +554,6 @@ parse_close (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 static boolean
-parse_cmin (const struct parser_table* entry, char **argv, int *arg_ptr)
-{
-  struct predicate *our_pred;
-  uintmax_t num;
-  enum comparison_type c_type;
-  time_t t;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  if (!get_num_days (argv[*arg_ptr], &num, &c_type))
-    return false;
-  t = options.cur_day_start + DAYSECS - num * 60;
-  our_pred = insert_primary (entry);
-  our_pred->args.info.kind = c_type;
-  our_pred->args.info.negative = t < 0;
-  our_pred->args.info.l_val = t;
-  our_pred->est_success_rate = estimate_file_age_success_rate(num);
-  (*arg_ptr)++;
-  return true;
-}
-
-static boolean
 parse_cnewer (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -606,7 +564,8 @@ parse_cnewer (const struct parser_table* entry, char **argv, int *arg_ptr)
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (entry);
-  our_pred->args.time = stat_newer.st_mtime;
+  our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
+  our_pred->args.reftime.kind = COMP_GT;
   our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
   (*arg_ptr)++;
   return true;
@@ -849,7 +808,7 @@ static boolean
 parse_gid (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p = insert_num (argv, arg_ptr, entry);
-  p->est_success_rate = (p->args.info.l_val < 100) ? 0.99 : 0.2;
+  p->est_success_rate = (p->args.numinfo.l_val < 100) ? 0.99 : 0.2;
   return p;
 }
 
@@ -876,7 +835,7 @@ parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
   our_pred = insert_primary (entry);
   our_pred->args.gid = gid;
-  our_pred->est_success_rate = (our_pred->args.info.l_val < 100) ? 0.99 : 0.2;
+  our_pred->est_success_rate = (our_pred->args.numinfo.l_val < 100) ? 0.99 : 0.2;
   (*arg_ptr)++;
   return true;
 }
@@ -1059,9 +1018,9 @@ static boolean
 parse_links (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p = insert_num (argv, arg_ptr, entry);
-  if (p->args.info.l_val == 1)
+  if (p->args.numinfo.l_val == 1)
     p->est_success_rate = 0.99;
-  else if (p->args.info.l_val == 2)
+  else if (p->args.numinfo.l_val == 2)
     p->est_success_rate = 0.01;
   else
     p->est_success_rate = 1e-3;
@@ -1136,9 +1095,10 @@ parse_mindepth (const struct parser_table* entry, char **argv, int *arg_ptr)
   (*arg_ptr)++;
   return parse_noop(entry, argv, arg_ptr);
 }
+
 
 static boolean
-parse_mmin (const struct parser_table* entry, char **argv, int *arg_ptr)
+do_parse_xmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   uintmax_t num;
@@ -1147,16 +1107,35 @@ parse_mmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
-  if (!get_num_days (argv[*arg_ptr], &num, &c_type))
+  /* XXX: need to capture sub-second part */
+  if (!get_num_days (argv[*arg_ptr], &num, &c_type)) /* actually not a number of days... */
     return false;
   t = options.cur_day_start + DAYSECS - num * 60;
   our_pred = insert_primary (entry);
-  our_pred->args.info.kind = c_type;
-  our_pred->args.info.negative = t < 0;
-  our_pred->args.info.l_val = t;
+  our_pred->args.reftime.kind = c_type;
+  our_pred->args.reftime.ts.tv_sec = t;
+  our_pred->args.reftime.ts.tv_nsec = 0; /* XXX: need to capture this. */
   our_pred->est_success_rate = estimate_file_age_success_rate(num);
   (*arg_ptr)++;
   return true;
+}
+static boolean
+parse_amin (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  return do_parse_xmin(entry, argv, arg_ptr);
+}
+
+static boolean
+parse_cmin (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  return do_parse_xmin(entry, argv, arg_ptr);
+}
+
+
+static boolean
+parse_mmin (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  return do_parse_xmin(entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1211,7 +1190,8 @@ parse_newer (const struct parser_table* entry, char **argv, int *arg_ptr)
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (entry);
-  our_pred->args.time = stat_newer.st_mtime;
+  our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
+  our_pred->args.reftime.kind = COMP_GT;
   our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
   (*arg_ptr)++;
   return true;
@@ -1850,7 +1830,7 @@ static boolean
 parse_uid (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p = insert_num (argv, arg_ptr, entry);
-  p->est_success_rate = (p->args.info.l_val < 100) ? 0.99 : 0.2;
+  p->est_success_rate = (p->args.numinfo.l_val < 100) ? 0.99 : 0.2;
   return p;
 }
 
@@ -1864,13 +1844,15 @@ parse_used (const struct parser_table* entry, char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
+
+  /* XXX: need to capture nanoseconds part */
   if (!get_num (argv[*arg_ptr], &num_days, &c_type))
     return false;
   t = num_days * DAYSECS;
   our_pred = insert_primary (entry);
-  our_pred->args.info.kind = c_type;
-  our_pred->args.info.negative = t < 0;
-  our_pred->args.info.l_val = t;
+  our_pred->args.reftime.kind = c_type;
+  our_pred->args.reftime.ts.tv_sec = t;
+  our_pred->args.reftime.ts.tv_nsec = 0; /* XXX: capture ns part */
   our_pred->est_success_rate = estimate_file_age_success_rate(num_days);
   (*arg_ptr)++;
   return true;
@@ -2129,7 +2111,8 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
   our_pred->args.printf_vec.quote_opts = clone_quoting_options (NULL);
   our_pred->need_type = false;
   our_pred->need_stat = false;
-  
+  our_pred->p_cost    = NeedsNothing;
+
   segmentp = &our_pred->args.printf_vec.segment;
   *segmentp = NULL;
 
@@ -2628,6 +2611,7 @@ insert_exec_ok (const char *action, const struct parser_table *entry, char **arg
 
 
 /* Get a number of days and comparison type.
+    - but beware, this is also used to collect numbers of minutes - 
    STR is the ASCII representation.
    Set *NUM_DAYS to the number of days, taken as being from
    the current moment (or possibly midnight).  Thus the sense of the
@@ -2653,7 +2637,7 @@ get_num_days (char *str, uintmax_t *num_days, enum comparison_type *comp_type)
   return r;
 }
 
-/* Insert a time predicate PRED.
+/* Insert a time predicate based on the information in ENTRY.
    ARGV is a pointer to the argument array.
    ARG_PTR is a pointer to an index into the array, incremented if
    all went well.
@@ -2675,6 +2659,8 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
+
+  /* XXX: capture sub-second part */
   if (!get_num_days (argv[*arg_ptr], &num_days, &c_type))
     return false;
 
@@ -2700,9 +2686,9 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
     }
   
   our_pred = insert_primary (entry);
-  our_pred->args.info.kind = c_type;
-  our_pred->args.info.negative = t < 0;
-  our_pred->args.info.l_val = t;
+  our_pred->args.reftime.kind = c_type;
+  our_pred->args.reftime.ts.tv_sec = t;
+  our_pred->args.reftime.ts.tv_nsec = 0; /* XXX: capture this part */
   our_pred->est_success_rate = estimate_file_age_success_rate(num_days);
   (*arg_ptr)++;
 
@@ -2714,14 +2700,14 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 	       ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
 	       (c_type == COMP_GT) ? " >" :
 	       ((c_type == COMP_LT) ? " <" : ((c_type == COMP_EQ) ? ">=" : " ?")));
-      t = our_pred->args.info.l_val;
-      fprintf (stderr, "%ju %s", (uintmax_t) our_pred->args.info.l_val, ctime (&t));
+      t = our_pred->args.reftime.ts.tv_sec;
+      fprintf (stderr, "%ju %s", (uintmax_t) our_pred->args.reftime.ts.tv_sec, ctime (&t));
       if (c_type == COMP_EQ)
 	{
-	  t = our_pred->args.info.l_val += DAYSECS;
+	  t = our_pred->args.reftime.ts.tv_sec += DAYSECS;
 	  fprintf (stderr, "                 <  %ju %s",
-		   (uintmax_t) our_pred->args.info.l_val, ctime (&t));
-	  our_pred->args.info.l_val -= DAYSECS;
+		   (uintmax_t) our_pred->args.reftime.ts.tv_sec, ctime (&t));
+	  our_pred->args.reftime.ts.tv_sec -= DAYSECS;
 	}
     }
   
@@ -2785,8 +2771,8 @@ insert_num (char **argv, int *arg_ptr, const struct parser_table *entry)
   if (!get_num (argv[*arg_ptr], &num, &c_type))
     return NULL;
   our_pred = insert_primary (entry);
-  our_pred->args.info.kind = c_type;
-  our_pred->args.info.l_val = num;
+  our_pred->args.numinfo.kind = c_type;
+  our_pred->args.numinfo.l_val = num;
   (*arg_ptr)++;
   
   if (options.debug_options & DebugExpressionTree)
@@ -2797,7 +2783,7 @@ insert_num (char **argv, int *arg_ptr, const struct parser_table *entry)
 	       ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
 	       (c_type == COMP_GT) ? " >" :
 	       ((c_type == COMP_LT) ? " <" : ((c_type == COMP_EQ) ? " =" : " ?")));
-      fprintf (stderr, "%ju\n", our_pred->args.info.l_val);
+      fprintf (stderr, "%ju\n", our_pred->args.numinfo.l_val);
     }
   return our_pred;
 }

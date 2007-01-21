@@ -64,6 +64,7 @@ extern int errno;
 #endif
 
 #include "regex.h"
+#include "timespec.h"
 
 #ifndef S_IFLNK
 #define lstat stat
@@ -220,7 +221,13 @@ struct size_val
   uintmax_t size;
 };
 
+struct time_val
+{
+  enum comparison_type kind;
+  struct timespec      ts;
+};
 
+    
 #include "buildcmd.h"
 
 struct exec_val
@@ -333,12 +340,11 @@ struct predicate
     char *str;			/* fstype [i]lname [i]name [i]path */
     struct re_pattern_buffer *regex; /* regex */
     struct exec_val exec_vec;	/* exec ok */
-    struct long_val info;	/* atime ctime gid inum links mtime
-                                   size uid */
+    struct long_val numinfo;	/* gid inum links  uid */
     struct size_val size;	/* size */
     uid_t uid;			/* user */
     gid_t gid;			/* group */
-    time_t time;		/* newer */
+    struct time_val reftime;	/* newer anewer cnewer mtime atime ctime mmin amin cmin */
     struct perm_val perm;	/* perm */
     struct dir_id   fileid;	/* samefile */
     mode_t type;		/* type */

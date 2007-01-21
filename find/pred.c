@@ -29,6 +29,7 @@
 #include <sys/stat.h>
 #include <assert.h>
 #include <fcntl.h>
+#include <locale.h>
 #include "xalloc.h"
 #include "dirname.h"
 #include "human.h"
@@ -39,6 +40,7 @@
 #include "buildcmd.h"
 #include "yesno.h"
 #include "listfile.h"
+#include "stat-time.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -153,8 +155,8 @@
 
 static boolean match_lname PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, boolean ignore_case));
 
-static char *format_date PARAMS((time_t when, int kind));
-static char *ctime_format PARAMS((time_t when));
+static char *format_date PARAMS((struct timespec ts, int kind));
+static char *ctime_format PARAMS((struct timespec ts));
 
 #ifdef	DEBUG
 struct pred_assoc
@@ -225,6 +227,32 @@ struct pred_assoc pred_table[] =
 };
 #endif
 
+/* Returns ts1 - ts2 */
+static double ts_difference(struct timespec ts1,
+			    struct timespec ts2)
+{
+  double d =  difftime(ts1.tv_sec, ts2.tv_sec) 
+    + (1.0e-9 * (ts1.tv_nsec - ts2.tv_nsec));
+  return d;
+}
+
+
+static int 
+compare_ts(struct timespec ts1,
+	   struct timespec ts2)
+{
+  if ((ts1.tv_sec == ts2.tv_sec) &&
+      (ts1.tv_nsec == ts2.tv_nsec))
+    {
+      return 0;
+    }
+  else
+    {
+      double diff = ts_difference(ts1, ts2);
+      return diff < 0.0 ? -1 : +1;
+    }
+}
+
 /* Predicate processing routines.
  
    PATHNAME is the full pathname of the file being checked.
@@ -242,25 +270,22 @@ struct pred_assoc pred_table[] =
  * COMP_EQ: less than WINDOW seconds after the specified time.
  */
 static boolean
-pred_timewindow(time_t the_time, struct predicate const *pred_ptr, int window)
+pred_timewindow(struct timespec ts, struct predicate const *pred_ptr, int window)
 {
-  switch (pred_ptr->args.info.kind)
+  double delta;
+  
+  switch (pred_ptr->args.reftime.kind)
     {
     case COMP_GT:
-      if (the_time > (time_t) pred_ptr->args.info.l_val)
-	return true;
-      break;
+      return compare_ts(ts, pred_ptr->args.reftime.ts) > 0;
+      
     case COMP_LT:
-      if (the_time < (time_t) pred_ptr->args.info.l_val)
-	return true;
-      break;
+      return compare_ts(ts, pred_ptr->args.reftime.ts) < 0;
+      
     case COMP_EQ:
-      if ((the_time >= (time_t) pred_ptr->args.info.l_val)
-	  && (the_time < (time_t) pred_ptr->args.info.l_val + window))
-	return true;
-      break;
+      delta = ts_difference(ts, pred_ptr->args.reftime.ts);
+      return (delta >= 0.0 && delta < window);
     }
-  return false;
 }
 
 
@@ -268,7 +293,7 @@ boolean
 pred_amin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
-  return pred_timewindow(stat_buf->st_atime, pred_ptr, 60);
+  return pred_timewindow(get_stat_atime(stat_buf), pred_ptr, 60);
 }
 
 boolean
@@ -292,17 +317,15 @@ boolean
 pred_anewer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
-  
-  if (stat_buf->st_atime > pred_ptr->args.time)
-    return (true);
-  return (false);
+  assert(COMP_GT == pred_ptr->args.reftime.kind);
+  return compare_ts(get_stat_atime(stat_buf), pred_ptr->args.reftime.ts) > 0;
 }
 
 boolean
 pred_atime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
-  return pred_timewindow(stat_buf->st_atime, pred_ptr, DAYSECS);
+  return pred_timewindow(get_stat_atime(stat_buf), pred_ptr, DAYSECS);
 }
 
 boolean
@@ -319,7 +342,7 @@ boolean
 pred_cmin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  return pred_timewindow(stat_buf->st_ctime, pred_ptr, 60);
+  return pred_timewindow(get_stat_ctime(stat_buf), pred_ptr, 60);
 }
 
 boolean
@@ -327,10 +350,8 @@ pred_cnewer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
   
-  if (stat_buf->st_ctime > pred_ptr->args.time)
-    return true;
-  else
-    return false;
+  assert(COMP_GT == pred_ptr->args.reftime.kind);
+  return compare_ts(get_stat_ctime(stat_buf), pred_ptr->args.reftime.ts) > 0;
 }
 
 boolean
@@ -351,7 +372,7 @@ boolean
 pred_ctime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
-  return pred_timewindow(stat_buf->st_ctime, pred_ptr, DAYSECS);
+  return pred_timewindow(get_stat_ctime(stat_buf), pred_ptr, DAYSECS);
 }
 
 boolean
@@ -595,7 +616,7 @@ do_fprintf(FILE *fp,
 	{
 	case 'a':		/* atime in `ctime' format. */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text, ctime_format (stat_buf->st_atime));
+	  fprintf (fp, segment->text, ctime_format (get_stat_atime(stat_buf)));
 	  break;
 	case 'b':		/* size in 512-byte blocks */
 	  /* UNTRUSTED, probably unexploitable */
@@ -606,7 +627,7 @@ do_fprintf(FILE *fp,
 	  break;
 	case 'c':		/* ctime in `ctime' format */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text, ctime_format (stat_buf->st_ctime));
+	  fprintf (fp, segment->text, ctime_format (get_stat_ctime(stat_buf)));
 	  break;
 	case 'd':		/* depth in search tree */
 	  /* UNTRUSTED, probably unexploitable */
@@ -806,8 +827,9 @@ do_fprintf(FILE *fp,
 	  
 	case 't':		/* mtime in `ctime' format */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text, ctime_format (stat_buf->st_mtime));
+	  fprintf (fp, segment->text, ctime_format (get_stat_mtime(stat_buf)));
 	  break;
+	  
 	case 'u':		/* user name */
 	  /* trusted */
 	  /* (well, the actual user is selected by the user on systems
@@ -897,18 +919,18 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     {
       if ( (KIND_FORMAT == segment->segkind) && segment->format_char[1]) /* Component of date. */
 	{
-	  time_t t;
-
+	  struct timespec ts;
+	  
 	  switch (segment->format_char[0])
 	    {
 	    case 'A':
-	      t = stat_buf->st_atime;
+	      ts = get_stat_atime(stat_buf);
 	      break;
 	    case 'C':
-	      t = stat_buf->st_ctime;
+	      ts = get_stat_ctime(stat_buf);
 	      break;
 	    case 'T':
-	      t = stat_buf->st_mtime;
+	      ts = get_stat_mtime(stat_buf);
 	      break;
 	    default:
 	      assert(0);
@@ -920,7 +942,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	   */
 	  /* trusted */
 	  fprintf (fp, segment->text,
-		   format_date (t, segment->format_char[1]));
+		   format_date (ts, segment->format_char[1]));
 	}
       else
 	{
@@ -946,18 +968,18 @@ pred_gid (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
   
-  switch (pred_ptr->args.info.kind)
+  switch (pred_ptr->args.numinfo.kind)
     {
     case COMP_GT:
-      if (stat_buf->st_gid > pred_ptr->args.info.l_val)
+      if (stat_buf->st_gid > pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     case COMP_LT:
-      if (stat_buf->st_gid < pred_ptr->args.info.l_val)
+      if (stat_buf->st_gid < pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     case COMP_EQ:
-      if (stat_buf->st_gid == pred_ptr->args.info.l_val)
+      if (stat_buf->st_gid == pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     }
@@ -1002,18 +1024,18 @@ pred_inum (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
   
-  switch (pred_ptr->args.info.kind)
+  switch (pred_ptr->args.numinfo.kind)
     {
     case COMP_GT:
-      if (stat_buf->st_ino > pred_ptr->args.info.l_val)
+      if (stat_buf->st_ino > pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     case COMP_LT:
-      if (stat_buf->st_ino < pred_ptr->args.info.l_val)
+      if (stat_buf->st_ino < pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     case COMP_EQ:
-      if (stat_buf->st_ino == pred_ptr->args.info.l_val)
+      if (stat_buf->st_ino == pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     }
@@ -1035,18 +1057,18 @@ pred_links (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
   
-  switch (pred_ptr->args.info.kind)
+  switch (pred_ptr->args.numinfo.kind)
     {
     case COMP_GT:
-      if (stat_buf->st_nlink > pred_ptr->args.info.l_val)
+      if (stat_buf->st_nlink > pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     case COMP_LT:
-      if (stat_buf->st_nlink < pred_ptr->args.info.l_val)
+      if (stat_buf->st_nlink < pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     case COMP_EQ:
-      if (stat_buf->st_nlink == pred_ptr->args.info.l_val)
+      if (stat_buf->st_nlink == pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     }
@@ -1093,14 +1115,14 @@ boolean
 pred_mmin (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
-  return pred_timewindow(stat_buf->st_mtime, pred_ptr, 60);
+  return pred_timewindow(get_stat_mtime(stat_buf), pred_ptr, 60);
 }
 
 boolean
 pred_mtime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  return pred_timewindow(stat_buf->st_mtime, pred_ptr, DAYSECS);
+  return pred_timewindow(get_stat_mtime(stat_buf), pred_ptr, DAYSECS);
 }
 
 boolean
@@ -1135,9 +1157,8 @@ pred_newer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
   
-  if (stat_buf->st_mtime > pred_ptr->args.time)
-    return (true);
-  return (false);
+  assert(COMP_GT == pred_ptr->args.reftime.kind);
+  return compare_ts(get_stat_mtime(stat_buf), pred_ptr->args.reftime.ts) > 0;
 }
 
 boolean
@@ -1478,18 +1499,18 @@ boolean
 pred_uid (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  switch (pred_ptr->args.info.kind)
+  switch (pred_ptr->args.numinfo.kind)
     {
     case COMP_GT:
-      if (stat_buf->st_uid > pred_ptr->args.info.l_val)
+      if (stat_buf->st_uid > pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     case COMP_LT:
-      if (stat_buf->st_uid < pred_ptr->args.info.l_val)
+      if (stat_buf->st_uid < pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     case COMP_EQ:
-      if (stat_buf->st_uid == pred_ptr->args.info.l_val)
+      if (stat_buf->st_uid == pred_ptr->args.numinfo.l_val)
 	return (true);
       break;
     }
@@ -1499,10 +1520,20 @@ pred_uid (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_used (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  time_t delta;
+  struct timespec delta, at, ct;
 
   (void) pathname;
-  delta = stat_buf->st_atime - stat_buf->st_ctime; /* Use difftime? */
+
+  /* XXX: this needs to be retested carefully (manually, if necessary) */
+  at = get_stat_atime(stat_buf);
+  ct = get_stat_ctime(stat_buf);
+  delta.tv_sec  = at.tv_sec  - ct.tv_sec;
+  delta.tv_nsec = at.tv_nsec - ct.tv_nsec;
+  if (delta.tv_nsec < 0)
+    {
+      delta.tv_nsec += 1000000000;
+      delta.tv_sec  -=          1;
+    }
   return pred_timewindow(delta, pred_ptr, DAYSECS);
 }
 
@@ -1704,52 +1735,172 @@ launch (const struct buildcmd_control *ctl,
 
 
 /* Return a static string formatting the time WHEN according to the
-   strftime format character KIND.  */
-
+ * strftime format character KIND.
+ *
+ * This function contains a number of assertions.  These look like
+ * runtime checks of the results of computations, which would be a
+ * problem since external events should not be tested for with
+ * "assert" (instead you should use "if").  However, they are not
+ * really runtime checks.  The assertions actually exist to verify
+ * that the various buffers are correctly sized.
+ */
 static char *
-format_date (time_t when, int kind)
+format_date (struct timespec ts, int kind)
 {
-  static char buf[MAX (LONGEST_HUMAN_READABLE + 2, 64)];
+  /* Use an extra 10 characters for 9 digits of nanoseconds and 1 for
+   * the decimal point
+   */
+  enum {
+    NS_BUF_LEN = 12,
+    DATE_LEN_PERCENT_APLUS=21	/* length of result of %A+ (it's longer than %c)*/
+  };	  
+  static char buf[10u + MAX(DATE_LEN_PERCENT_APLUS, MAX (LONGEST_HUMAN_READABLE + 2, 64))];
+  char ns_buf[NS_BUF_LEN]; /* .9999999990 */
+  int  charsprinted, need_ns_suffix;
   struct tm *tm;
   char fmt[6];
 
-  fmt[0] = '%';
-  fmt[1] = kind;
-  fmt[2] = '\0';
+  /* human_readable() assumes we pass a buffer which is at least as
+   * long as LONGEST_HUMAN_READABLE.  We use an assertion here to
+   * ensure that no nasty unsigned overflow happend in our calculation
+   * of the size of buf.  Do the assertion here rather than in the
+   * code for %@ so that we find the problem quickly if it exists.  If
+   * you want to submit a patch to move this into the if statement, go
+   * ahead, I'll apply it.  But include performance timings
+   * demonstrating that the performance difference is actually
+   * measurable.
+   */
+  assert(sizeof(buf) >= LONGEST_HUMAN_READABLE);
+  
+  /* Format the main part of the time. */
   if (kind == '+')
-    strcpy (fmt, "%F+%T");
-
-  if (kind != '@'
-      && (tm = localtime (&when))
-      && strftime (buf, sizeof buf, fmt, tm))
-    return buf;
+    {
+      strcpy (fmt, "%F+%T");
+      need_ns_suffix = 1;
+    }
   else
     {
-      uintmax_t w = when;
-      char *p = human_readable (when < 0 ? -w : w, buf + 1,
+      fmt[0] = '%';
+      fmt[1] = kind;
+      fmt[2] = '\0';
+
+      /* %a, %c, and %t are handled in ctime_format() */
+      switch (kind)
+	{
+	case 'S':
+	case 'T':
+	case 'X':
+	  need_ns_suffix = 1;
+	  break;
+	default:
+	  need_ns_suffix = 0;
+	  break;
+	}
+    }
+
+  if (need_ns_suffix)
+    {
+      /* Format the nanoseconds part.  Leave a trailing zero to discourage people from 
+       * writing scripts which extract the fractional part of the timestamp by using 
+       * column offsets.  The reason for discouraging this is that in the future, the 
+       * granularity may not be nanoseconds.
+       */
+      charsprinted = snprintf(ns_buf, NS_BUF_LEN, ".%09ld0", (long int)ts.tv_nsec);
+      assert(charsprinted < NS_BUF_LEN);
+    }
+
+  if (kind != '@'
+      && (tm = localtime (&ts.tv_sec))
+      && strftime (buf, sizeof buf, fmt, tm))
+    {
+      /* For %AS, %CS, %TS, add the fractional part of the seconds information. */
+      if (need_ns_suffix)
+	{
+	  assert((sizeof buf - strlen(buf)) > strlen(ns_buf));
+	  strcat(buf, ns_buf);
+	}
+      return buf;
+    }
+  else
+    {
+      uintmax_t w = ts.tv_sec;
+      size_t used, len, remaining;
+
+      /* XXX: note that we are negating an unsigned type which is the widest possible
+       * unsigned type.
+       */
+      char *p = human_readable (ts.tv_sec < 0 ? -w : w, buf + 1,
 				human_ceiling, 1, 1);
-      if (when < 0)
-	*--p = '-';
+      assert(p > buf);
+      assert(p < (buf + (sizeof buf)));
+      if (ts.tv_sec < 0)
+	*--p = '-'; /* XXX: Ugh, relying on internal details of human_readable(). */
+
+      /* Add the nanoseconds part.  Because we cannot enforce a particlar implementation 
+       * of human_readable, we cannot assume any particular value for (p-buf).  So we 
+       * need to be careful that there is enough space remaining in the buffer.
+       */
+      len = strlen(p);
+      used = (p-buf) + len;	/* Offset into buf of current end */
+      assert(sizeof buf > used); /* Ensure we can perform subtraction safely. */
+      remaining = sizeof buf - used - 1u; /* allow space for NUL */
+      assert(strlen(ns_buf) < remaining);
+      strcat(p, ns_buf);
       return p;
     }
 }
 
+static const char *weekdays[] = 
+  {
+    "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+  };
+static char * months[] = 
+  {
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  };
+
+
 static char *
-ctime_format (time_t when)
+ctime_format (struct timespec ts)
 {
-  char *r = ctime (&when);
-  if (!r)
+  const struct tm * ptm;
+#define TIME_BUF_LEN 1024u
+  static char resultbuf[TIME_BUF_LEN];
+  int nout;
+  
+  ptm = localtime(&ts.tv_sec);
+  if (ptm)
     {
-      /* The time cannot be represented as a struct tm.
-	 Output it as an integer.  */
-      return format_date (when, '@');
+      assert(ptm->tm_wday >=  0);
+      assert(ptm->tm_wday <   7);
+      assert(ptm->tm_mon  >=  0);
+      assert(ptm->tm_mon  <  12);
+      assert(ptm->tm_hour >=  0);
+      assert(ptm->tm_hour <  24);
+      assert(ptm->tm_min  <  60);
+      assert(ptm->tm_sec  <= 61); /* allows 2 leap seconds. */
+      
+      /* wkday mon mday hh:mm:ss.nnnnnnnnn yyyy */
+      nout = snprintf(resultbuf, TIME_BUF_LEN,
+		      "%3s %3s %2d %02d:%02d:%02d.%010ld %04d",
+		      weekdays[ptm->tm_wday],
+		      months[ptm->tm_mon],
+		      ptm->tm_mday,
+		      ptm->tm_hour,
+		      ptm->tm_min,
+		      ptm->tm_sec,
+		      (long int)ts.tv_nsec,
+		      1900 + ptm->tm_year);
+      
+      assert(nout < TIME_BUF_LEN);
+      return resultbuf;
     }
   else
     {
-      /* Remove the trailing newline from the ctime output,
-	 being careful not to assume that the output is fixed-width.  */
-      *strchr (r, '\n') = '\0';
-      return r;
+      /* The time cannot be represented as a struct tm.
+	 Output it as an integer.  */
+      return format_date (ts, '@');
     }
 }
 

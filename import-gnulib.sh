@@ -58,7 +58,7 @@ getline getopt human idcache lstat malloc memcmp memset mktime \
 modechange pathmax quotearg realloc regex rpmatch savedir \
 stpcpy strdup strftime  strstr strtol strtoul strtoull strtoumax  \
 xalloc xalloc-die xgetcwd  xstrtod xstrtol  xstrtoumax yesno human filemode \
-getline stpcpy canonicalize mountlist closeout gettext stat-macros"
+getline stpcpy canonicalize mountlist closeout gettext stat-macros stat-time"
 
 # We need regex to ensure that we can build on platforms like
 # Solaris which lack those functions.
