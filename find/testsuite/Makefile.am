@@ -96,6 +96,7 @@ find.gnu/depth.exp \
 find.gnu/depth-d.exp \
 find.gnu/empty.exp \
 find.gnu/execdir-one.exp \
+find.gnu/execdir-pwd.exp \
 find.gnu/execdir-root-only.exp \
 find.gnu/exec-many-rtn-failure.exp  \
 find.gnu/exec-many-rtn-success.exp  \
