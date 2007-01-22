@@ -1,5 +1,14 @@
 2007-01-22  James Youngman  <jay@gnu.org>
 
+	* find/testsuite/config/unix.exp (find_start): allow a test to be
+	skipped for either the old or the new find executable.
+	* find/testsuite/find.gnu/execdir-pwd.exp: New test, covering
+	Savannah bug #18466.  This test currently fails for the ftsfind
+	binary and passes for the oldfind binary.  Due to a limitation in
+	the way that we perform the test, we can't expect a failure in the
+	new binary but not the old.  Therefore we skip the test for the
+	old binary.
+	
 	* lib/regeprops.c (describe_regex_syntax): fixed a typo in the text
 	* doc/find.texi (Multiple Files): fixed a typo
 

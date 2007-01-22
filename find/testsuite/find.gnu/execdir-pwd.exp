@@ -1,10 +1,27 @@
 # tests for -execdir pwd \+
 if { [ safe_path ] } {
+    global SKIP_OLD
+
+    # For the moment we expect this test to fail for ftsfind..
+    send_log "This test is expected to fail for ftsfind but not oldfind\n"
+    send_log "The PRMS number refers to http://savannah.gnu.org/bugs/?18466\n"
+    setup_xfail "*-*-*" "18466"
+
     exec rm -rf tmp
     exec mkdir tmp
-    exec touch tmp/foo
-    set expected [ exec sh -c "cd tmp && /bin/pwd" ]
-    verbose "Expected output for the pwd invoked by find is is $expected" 2
-    find_start p {tmp -name foo -execdir /bin/pwd  \; } "" $expected
+
+    # Create an empty shell script.
+    exec touch    tmp/foo
+    exec chmod +x tmp/foo
+
+    # The -execdir should find the "foo" in the current directory.
+    # If not, the find command is probably executing the command
+    # built up by -execdir in the wrong directory.
+
+    set SKIP_OLD 1
+    find_start xp {tmp -name foo -execdir sh ./foo  \{\} + } "" 
+    set SKIP_OLD 0
     exec rm -rf tmp
+
+    clear_xfail
 }

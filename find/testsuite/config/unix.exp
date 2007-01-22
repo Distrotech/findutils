@@ -98,14 +98,29 @@ proc do_find_start { suffix findprogram flags passfail options infile output } {
     set scriptname [uplevel {info script}]
     set testbase [file rootname $scriptname]
     
-    set fail_good [string match "f*" $passfail]
-    if { ! $fail_good } {
-	if { ! [string match "p*" $passfail] } {
-	    untested "Badly defined test"
-	    error "The first argument to find_start was $passfail but it should begin with either p (pass) or f (fail)"
+
+    if { [string match "f*" $passfail] } {
+	set fail_good 1
+    } else {
+	if { [string match "p*" $passfail] } {
+	    set fail_good 0
+	} else {
+	    if { [string match "xf*" $passfail] } {
+		setup_xfail "*-*-*"
+		set fail_good 1
+	    } else {
+		if { [string match "xp*" $passfail] } {
+		    setup_xfail "*-*-*"
+		    set fail_good 0
+		} else {
+		    # badly formed
+		    untested "Badly defined test"
+		    error "The first argument to find_start was $passfail but it should begin with p (pass) or f (fail) or xf (should fail but we know it passes) or xp (should pass but we know it fails)"
+		}
+	    }
 	}
     }
-    
+
     set test [file tail $testbase] 
     set testname "$test.$suffix"
 
@@ -178,6 +193,8 @@ proc find_start { passfail options {infile ""} {output ""}} {
     global FTSFIND
     global FINDFLAGS
     global comp_output
+    global SKIP_OLD
+    global SKIP_NEW
 
     if {$infile != ""} then {
 	set msg "Did not expect infile parameter to be set"
@@ -197,8 +214,12 @@ proc find_start { passfail options {infile ""} {output ""}} {
     # Now run the test with each binary, once with each optimisation level.
     foreach optlevel {0 1 2 3} {
 	set flags "$FINDFLAGS -O$optlevel"
-	do_find_start old-O$optlevel  $OLDFIND $flags $passfail $options $infile $output
-	do_find_start new-O$optlevel  $FTSFIND $flags $passfail $options $infile $output
+	if { ![info exists SKIP_OLD] || ! $SKIP_OLD } {
+	    do_find_start old-O$optlevel  $OLDFIND $flags $passfail $options $infile $output
+	}
+	if { ![info exists SKIP_NEW] || !$SKIP_NEW } {
+	    do_find_start new-O$optlevel  $FTSFIND $flags $passfail $options $infile $output
+	}
     }
 }
 
