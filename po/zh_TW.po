@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-01-13 18:06+0000\n"
+"POT-Creation-Date: 2007-01-22 11:02+0000\n"
 "PO-Revision-Date: 2005-12-06 11:30+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -113,11 +113,11 @@ msgstr "區段大小"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:245
+#: gnulib/lib/quotearg.c:230
 msgid "`"
 msgstr "‘"
 
-#: gnulib/lib/quotearg.c:246
+#: gnulib/lib/quotearg.c:231
 msgid "'"
 msgstr "’"
 
@@ -248,7 +248,7 @@ msgstr ""
 msgid "unknown"
 msgstr ""
 
-#: find/parser.c:432
+#: find/parser.c:433
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -257,14 +257,14 @@ msgid ""
 "arguments.\n"
 msgstr ""
 
-#: find/parser.c:689
+#: find/parser.c:648
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 "警告：-d 選項已經過時，請改用 -depth，因為後者才是符合 POSIX 標準的選項。"
 
-#: find/parser.c:892
+#: find/parser.c:851
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -274,7 +274,7 @@ msgstr ""
 "預設路徑為目前的目錄，預設的表達式是 -print\n"
 "表達式可以包括運算子、選項、測試和操作模式：\n"
 
-#: find/parser.c:895
+#: find/parser.c:854
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -285,7 +285,7 @@ msgstr ""
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
-#: find/parser.c:899
+#: find/parser.c:858
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -299,7 +299,7 @@ msgstr ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:904
+#: find/parser.c:863
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -313,7 +313,7 @@ msgstr ""
 "PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 
-#: find/parser.c:909
+#: find/parser.c:868
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -325,7 +325,7 @@ msgstr ""
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]\n"
 
-#: find/parser.c:914
+#: find/parser.c:873
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -337,7 +337,7 @@ msgstr ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 
-#: find/parser.c:920
+#: find/parser.c:879
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -347,11 +347,11 @@ msgstr ""
 "問題修正的進度)。又或者如果您無法瀏覽網頁，可以選擇用電子郵件寄至\n"
 "<bug-findutils@gnu.org>。"
 
-#: find/parser.c:968
+#: find/parser.c:927
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "測試 fnmatch() 是否可用時出錯。"
 
-#: find/parser.c:983
+#: find/parser.c:942
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -365,17 +365,17 @@ msgstr ""
 "有用。又或者，如果您使用 GNU grep，可以嘗試使用 'find ... -print0 | grep -"
 "FzZ %s'。"
 
-#: find/parser.c:1029
+#: find/parser.c:988
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr "警告：-ipath 選項已過時，請改用 -iwholename。"
 
-#: find/parser.c:1475
+#: find/parser.c:1455
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "模式 ‘%s’ 無效"
 
-#: find/parser.c:1493
+#: find/parser.c:1473
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -383,52 +383,52 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:1679
+#: find/parser.c:1659
 msgid "invalid null argument to -size"
 msgstr "-size 後是無效的空白參數"
 
-#: find/parser.c:1725
+#: find/parser.c:1705
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size 指定的檔案大小單位 ‘%c’ 無效"
 
-#: find/parser.c:1774
+#: find/parser.c:1754
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1918
+#: find/parser.c:1900
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find %s 版本\n"
 
-#: find/parser.c:1919
+#: find/parser.c:1901
 #, c-format
 msgid "Features enabled: "
 msgstr "啟用了的功能："
 
-#: find/parser.c:2188
+#: find/parser.c:2171
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "警告：無效辨認轉義控制序列 (escape sequence) ‘\\%c’"
 
-#: find/parser.c:2204
+#: find/parser.c:2187
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2243
+#: find/parser.c:2226
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr ""
 
-#: find/parser.c:2386
+#: find/parser.c:2369
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2411
+#: find/parser.c:2394
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -439,7 +439,7 @@ msgstr ""
 "PATH 環境變數中包括了當前目錄，當配合 find 的 %s 操作模式時會令系統安全產生漏"
 "洞。請在 $PATH 變數中移除當前目錄 (即是 “.”，或者最前或最後的冒號)"
 
-#: find/parser.c:2417
+#: find/parser.c:2400
 #, fuzzy, c-format
 msgid ""
 "The ralative path %s is included in the PATH environment variable, which is "
@@ -449,7 +449,7 @@ msgstr ""
 "PATH 環境變數中包括了當前目錄，當配合 find 的 %s 操作模式時會令系統安全產生漏"
 "洞。請在 $PATH 變數中移除當前目錄 (即是 “.”，或者最前或最後的冒號)"
 
-#: find/parser.c:2515
+#: find/parser.c:2498
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -457,31 +457,31 @@ msgstr ""
 "您不應該在 -execdir 和 -okdir 中使用 {} 作為程式名稱，因為這樣做可能會造成安"
 "全漏洞。"
 
-#: find/parser.c:2538
+#: find/parser.c:2521
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
 
-#: find/parser.c:2551
+#: find/parser.c:2534
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "執行 exec 時的環境變數太大"
 
-#: find/pred.c:1186
+#: find/pred.c:1207
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1623 xargs/xargs.c:1045
+#: find/pred.c:1654 xargs/xargs.c:1045
 msgid "cannot fork"
 msgstr "fork 失敗"
 
-#: find/pred.c:1663
+#: find/pred.c:1694
 #, c-format
 msgid "error waiting for %s"
 msgstr "等待 %s 時出現錯誤"
 
-#: find/pred.c:1671
+#: find/pred.c:1702
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s 因訊號 %d 而終止"

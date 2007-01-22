@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-01-13 18:06+0000\n"
+"POT-Creation-Date: 2007-01-22 11:02+0000\n"
 "PO-Revision-Date: 2006-05-22 05:47-0500\n"
 "Last-Translator: Kevin Patrick Scannell <scannell@SLU.EDU>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -113,11 +113,11 @@ msgstr "méid bloc"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:245
+#: gnulib/lib/quotearg.c:230
 msgid "`"
 msgstr "`"
 
-#: gnulib/lib/quotearg.c:246
+#: gnulib/lib/quotearg.c:231
 msgid "'"
 msgstr "'"
 
@@ -259,7 +259,7 @@ msgstr ""
 msgid "unknown"
 msgstr "anaithnid"
 
-#: find/parser.c:432
+#: find/parser.c:433
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -272,7 +272,7 @@ msgstr ""
 "bhfeidhm ar thrialacha ar gach taobh de).  Tabhair na roghanna roimh na "
 "hargóintí eile.\n"
 
-#: find/parser.c:689
+#: find/parser.c:648
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -280,7 +280,7 @@ msgstr ""
 "rabhadh: tá an rogha -d as feidhm; bain úsáid as -depth ina ionad, os rud é "
 "go bhfuil -depth oiriúnach leis an chaighdeán POSIX."
 
-#: find/parser.c:892
+#: find/parser.c:851
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -292,7 +292,7 @@ msgstr ""
 "is éard is féidir a bheith sa slonn:\n"
 "oibreoirí, roghanna, trialacha, agus gníomhartha:\n"
 
-#: find/parser.c:895
+#: find/parser.c:854
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -305,7 +305,7 @@ msgstr ""
 "SLONN2\n"
 "      SLONN1 -o SLONN2   SLONN1 -or SLONN2   SLONN1 , SLONN2\n"
 
-#: find/parser.c:899
+#: find/parser.c:858
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -319,7 +319,7 @@ msgstr ""
 "      -depth --help -maxdepth LEIBHÉIL -mindepth LEIBHÉIL -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:904
+#: find/parser.c:863
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -334,7 +334,7 @@ msgstr ""
 "PATRÚN\n"
 "      -links N -lname PATRÚN -mmin N -mtime N -name PATRÚN -newer COMHAD"
 
-#: find/parser.c:909
+#: find/parser.c:868
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -346,7 +346,7 @@ msgstr ""
 "      -wholename PATRÚN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user AINM -xtype [bcdpfls]\n"
 
-#: find/parser.c:914
+#: find/parser.c:873
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -359,7 +359,7 @@ msgstr ""
 "      -exec ORDÚ ; -exec ORDÚ {} + -ok ORDÚ ;\n"
 "      -execdir ORDÚ ; -execdir ORDÚ {} + -okdir ORDÚ ;\n"
 
-#: find/parser.c:920
+#: find/parser.c:879
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -371,11 +371,11 @@ msgstr ""
 "bhfuil\n"
 " rochtain ar an nGréasán agat, seol r-phost chuig <bug-findutils@gnu.org>."
 
-#: find/parser.c:968
+#: find/parser.c:927
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "theip ar sheiceáil slánchéille don fheidhm leabharlainne fnmatch()."
 
-#: find/parser.c:983
+#: find/parser.c:942
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -390,19 +390,19 @@ msgstr ""
 "wholename' níos áisiúla, nó b'fhéidir '-samefile'.  Nó, má tá GNU grep agat, "
 "is féidir 'find ... -print0 | grep -FzZ %s' a úsáid mar mhalairt."
 
-#: find/parser.c:1029
+#: find/parser.c:988
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "rabhadh: tá an phreideacáid -ipath as feidhm; bain úsáid as -iwholename ina "
 "hionad, le do thoil."
 
-#: find/parser.c:1475
+#: find/parser.c:1455
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "mód neamhbhailí `%s'"
 
-#: find/parser.c:1493
+#: find/parser.c:1473
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -414,52 +414,52 @@ msgstr ""
 "000'; .i., ní mheaitseálann sé comhad ar bith faoi láthair, ach "
 "meaitseálfaidh sé gach uile chomhad roimh i bhfad."
 
-#: find/parser.c:1679
+#: find/parser.c:1659
 msgid "invalid null argument to -size"
 msgstr "argóint nialasach neamhbhailí i ndiaidh -size"
 
-#: find/parser.c:1725
+#: find/parser.c:1705
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "argóint neamhbhailí `%c' i ndiaidh -size"
 
-#: find/parser.c:1774
+#: find/parser.c:1754
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:1918
+#: find/parser.c:1900
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find, leagan %s\n"
 
-#: find/parser.c:1919
+#: find/parser.c:1901
 #, c-format
 msgid "Features enabled: "
 msgstr "Gnéithe arna gcumasú: "
 
-#: find/parser.c:2188
+#: find/parser.c:2171
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "rabhadh: seicheamh éalúcháin anaithnid `\\%c'"
 
-#: find/parser.c:2204
+#: find/parser.c:2187
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2243
+#: find/parser.c:2226
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "rabhadh: treoir fhormáide anaithnid `%%%c'"
 
-#: find/parser.c:2386
+#: find/parser.c:2369
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2411
+#: find/parser.c:2394
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -471,7 +471,7 @@ msgstr ""
 "neamhdhaingean é seo in éineacht leis an ghníomh %s.  Bain an chomhadlann "
 "reatha as $PATH (.i., bain \".\", nó idirstad ar dtús/i ndeireadh, amach)"
 
-#: find/parser.c:2417
+#: find/parser.c:2400
 #, fuzzy, c-format
 msgid ""
 "The ralative path %s is included in the PATH environment variable, which is "
@@ -482,7 +482,7 @@ msgstr ""
 "neamhdhaingean é seo in éineacht leis an ghníomh %s.  Bain an chomhadlann "
 "reatha as $PATH (.i., bain \".\", nó idirstad ar dtús/i ndeireadh, amach)"
 
-#: find/parser.c:2515
+#: find/parser.c:2498
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -490,32 +490,32 @@ msgstr ""
 "Ní cheadaítear {} mar chuid d'ainm uirlise le -execdir nó -okdir, de bharr "
 "gur neamhdhaingean é seo."
 
-#: find/parser.c:2538
+#: find/parser.c:2521
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Ní thacaítear ach aon phéire amháin {} le -exec%s ... +"
 
-#: find/parser.c:2551
+#: find/parser.c:2534
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "Tá an timpeallacht rómhór á rith"
 
-#: find/pred.c:1186
+#: find/pred.c:1207
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
 # "fork" not in standard refs/corpus.  Maybe want a "gabhl*" word instead? -KPS
-#: find/pred.c:1623 xargs/xargs.c:1045
+#: find/pred.c:1654 xargs/xargs.c:1045
 msgid "cannot fork"
 msgstr "ní féidir forc a dhéanamh"
 
-#: find/pred.c:1663
+#: find/pred.c:1694
 #, c-format
 msgid "error waiting for %s"
 msgstr "earráid ag feitheamh le %s"
 
-#: find/pred.c:1671
+#: find/pred.c:1702
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "Stopadh %s leis an chomhartha %d"
