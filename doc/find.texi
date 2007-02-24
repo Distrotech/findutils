@@ -2005,7 +2005,9 @@ arguments are delimited by blanks (which can be protected with double
 or single quotes or a backslash) or newlines.  It executes the
 @var{command} (default is @file{/bin/echo}) one or more times with any
 @var{initial-arguments} followed by arguments read from standard
-input.  Blank lines on the standard input are ignored.
+input.  Blank lines on the standard input are ignored.  If the
+@samp{-L} option is in use, trailing blanks indicate that @code{xargs}
+should consider the following line to be part of this one.
 
 Instead of blank-delimited names, it is safer to use @samp{find
 -print0} or @samp{find -fprint0} and process the output by giving the
