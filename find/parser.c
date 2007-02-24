@@ -21,6 +21,7 @@
 
 #include "defs.h"
 #include <ctype.h>
+#include <math.h>
 #include <assert.h>
 #include <pwd.h>
 #include <grp.h>
@@ -164,8 +165,9 @@ static struct segment **make_segment PARAMS((struct segment **segment, char *for
 					     int kind, char format_char, char aux_format_char,
 					     struct predicate *pred));
 static boolean insert_exec_ok PARAMS((const char *action, const struct parser_table *entry, char *argv[], int *arg_ptr));
-static boolean get_num_days PARAMS((char *str, uintmax_t *num_days, double *fraction, enum comparison_type *comp_type));
-static boolean get_num PARAMS((char *str, uintmax_t *num, double *fractional_part, enum comparison_type *comp_type));
+static boolean get_comp_type PARAMS((char **str, enum comparison_type *comp_type));
+static boolean get_relative_timestamp PARAMS((char *str, struct time_val *tval, time_t origin, double sec_per_unit, const char *overflowmessage));
+static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
 static struct predicate* insert_num PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry));
 static FILE *open_output_file PARAMS((char *path));
 static boolean stream_is_tty(FILE *fp);
@@ -489,7 +491,7 @@ estimate_file_age_success_rate(float num_days)
 static float 
 estimate_timestamp_success_rate(time_t when)
 {
-  int num_days = (when - options.cur_day_start) / 86400;
+  int num_days = (options.cur_day_start - when) / 86400;
   return estimate_file_age_success_rate(num_days);
 }
 
@@ -1102,22 +1104,19 @@ static boolean
 do_parse_xmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
-  uintmax_t num;
-  double frac;
-  enum comparison_type c_type;
-  struct timespec ts;
+  struct time_val tval;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
 
-  if (!get_num_days (argv[*arg_ptr], &num, &frac, &c_type)) /* actually not a number of days... */
+  if (!get_relative_timestamp(argv[*arg_ptr], &tval,
+			      options.cur_day_start + DAYSECS, 60,
+			      "arithmetic overflow while converting %s minutes to a number of seconds"))
     return false;
-
+      
   our_pred = insert_primary (entry);
-  our_pred->args.reftime.kind = c_type;
-  our_pred->args.reftime.ts.tv_sec = options.cur_day_start + DAYSECS - num * 60;
-  our_pred->args.reftime.ts.tv_nsec = frac * 1e9;
-  our_pred->est_success_rate = estimate_file_age_success_rate(num);
+  our_pred->args.reftime = tval;
+  our_pred->est_success_rate = estimate_timestamp_success_rate(tval.ts.tv_sec);
   (*arg_ptr)++;
   return true;
 }
@@ -1707,7 +1706,7 @@ parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
       error (1, 0, _("invalid -size type `%c'"), argv[*arg_ptr][len - 1]);
     }
   /* TODO: accept fractional megabytes etc. ? */
-  if (!get_num (argv[*arg_ptr], &num, NULL, &c_type))
+  if (!get_num (argv[*arg_ptr], &num, &c_type))
     return false;
   our_pred = insert_primary (entry);
   our_pred->args.size.kind = c_type;
@@ -1841,22 +1840,19 @@ static boolean
 parse_used (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
-  uintmax_t num_days;
-  enum comparison_type c_type;
-  time_t t;
-  double frac;
+  struct time_val tval;
+  const char *errmsg = "arithmetic overflow while converting %s days to a number of seconds";
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
 
-  if (!get_num (argv[*arg_ptr], &num_days, &frac, &c_type))
+  /* The timespec is actually a delta value, so we use an origin of 0. */
+  if (!get_relative_timestamp(argv[*arg_ptr], &tval, 0, DAYSECS, errmsg))
     return false;
-  t = num_days * DAYSECS;
+  
   our_pred = insert_primary (entry);
-  our_pred->args.reftime.kind = c_type;
-  our_pred->args.reftime.ts.tv_sec = t;
-  our_pred->args.reftime.ts.tv_nsec = frac * 1e9;
-  our_pred->est_success_rate = estimate_file_age_success_rate(num_days);
+  our_pred->args.reftime = tval;
+  our_pred->est_success_rate = estimate_file_age_success_rate(tval.ts.tv_sec / DAYSECS);
   (*arg_ptr)++;
   return true;
 }
@@ -2613,33 +2609,70 @@ insert_exec_ok (const char *action, const struct parser_table *entry, char **arg
 
 
 
-/* Get a number of days and comparison type.
-    - but beware, this is also used to collect numbers of minutes - 
-   STR is the ASCII representation.
-   Set *NUM_DAYS to the number of days, taken as being from
-   the current moment (or possibly midnight).  Thus the sense of the
-   comparison type appears to be reversed.
-   Set *COMP_TYPE to the kind of comparison that is requested.
+/* Get a timestamp and comparison type.
 
+   STR is the ASCII representation.
+   Set *NUM_DAYS to the number of days/minutes/whatever, taken as being 
+   relative to ORIGIN (usually the current moment or midnight).  
+   Thus the sense of the comparison type appears to be reversed.
+   Set *COMP_TYPE to the kind of comparison that is requested.
+   Issue OVERFLOWMESSAGE if overflow occurs.
    Return true if all okay, false if input error.
 
    Used by -atime, -ctime and -mtime (parsers) to
    get the appropriate information for a time predicate processor. */
 
 static boolean
-get_num_days (char *str,
-	      uintmax_t *num_days, double *fractional_part,
-	      enum comparison_type *comp_type)
+get_relative_timestamp (char *str,
+			struct time_val *result,
+			time_t origin,
+			double sec_per_unit,
+			const char *overflowmessage)
 {
-  boolean r = get_num (str, num_days, fractional_part, comp_type);
-  if (r)
-    switch (*comp_type)
-      {
-      case COMP_LT: *comp_type = COMP_GT; break;
-      case COMP_GT: *comp_type = COMP_LT; break;
-      default: break;
-      }
-  return r;
+  uintmax_t checkval;
+  double offset, seconds, f;
+  
+  if (get_comp_type(&str, &result->kind))
+    {
+      /* Invert the sense of the comparison */
+      switch (result->kind)
+	{
+	case COMP_LT: result->kind = COMP_GT; break;
+	case COMP_GT: result->kind = COMP_LT; break;
+	default: break;
+	}
+
+      /* Convert the ASCII number into floating-point. */
+      if (xstrtod(str, NULL, &offset, strtod))
+	{
+	  /* Separate the floating point number the user specified
+	   * (which is a number of days, or minutes, etc) into an
+	   * integral number of seconds (SECONDS) and a fraction (F).
+	   */
+	  f = modf(offset * sec_per_unit, &seconds);
+	  
+	  result->ts.tv_sec  = origin - seconds;
+	  result->ts.tv_nsec = fabs(f * 1e9);
+
+	  /* Check for overflow. */
+	  checkval = (uintmax_t)origin - seconds;
+	  if (checkval != result->ts.tv_sec)
+	    {
+	      /* an overflow has occurred. */
+	      error (1, 0, overflowmessage, str);
+	    }
+	  return true;
+	}
+      else
+	{
+	  /* Conversion from ASCII to double failed. */
+	  return false;
+	}
+    }
+  else
+    {
+      return false;
+    }
 }
 
 /* Insert a time predicate based on the information in ENTRY.
@@ -2657,58 +2690,59 @@ get_num_days (char *str,
 static boolean 
 parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 {
+  float num_days_approx;
   struct predicate *our_pred;
-  uintmax_t num_days;
-  double fraction;
-  enum comparison_type c_type;
-  time_t t;
-
+  struct time_val tval;
+  enum comparison_type comp;
+  char *s;
+  const char *errmsg = "arithmetic overflow while converting %s days to a number of seconds";
+  time_t origin;
+  
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
 
-  if (!get_num_days (argv[*arg_ptr], &num_days, &fraction, &c_type))
-    return false;
-
-  /* Figure out the timestamp value we are looking for. */
-  t = ( options.cur_day_start - (num_days + fraction) * DAYSECS
-		   + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
-
-  if (1)
+  /* Decide the origin by previewing the comparison type. */
+  origin = options.cur_day_start;
+  s = argv[*arg_ptr];
+  if (get_comp_type(&s, &comp))
     {
-      /* We introduce a scope in which 'val' can be declared, for the 
-       * benefit of compilers that are really C89 compilers
-       * which support intmax_t because config.h #defines it
-       */
-      intmax_t val = ( (intmax_t)options.cur_day_start -
-		       (num_days + fraction) * DAYSECS
-		       + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
-      t = val;
-      
-      /* Check for possibility of an overflow */
-      if ( (intmax_t)t != val ) 
+      /* Remember, we invert the sense of the comparison, so this tests against COMP_LT instead of COMP_GT... */
+      if (COMP_LT == tval.kind)      
 	{
-	  error (1, 0, "arithmetic overflow while converting %s days to a number of seconds", argv[*arg_ptr]);
+	  uintmax_t expected = origin + (DAYSECS-1);
+	  origin += (DAYSECS-1);
+	  if (origin != expected)
+	    {
+	      error(1, 0,
+		    _("arithmetic overflow when trying to calculate the end of today"));
+	    }
 	}
+      /* We discard the value of comp here, as get_relative_timestamp
+       * will set tval.kind. 
+       */
     }
   
+  if (!get_relative_timestamp(argv[*arg_ptr], &tval, origin, DAYSECS, errmsg))
+    return false;
+
   our_pred = insert_primary (entry);
-  our_pred->args.reftime.kind = c_type;
-  our_pred->args.reftime.ts.tv_sec = t;
-  our_pred->args.reftime.ts.tv_nsec = fraction * 1e9;
-  our_pred->est_success_rate = estimate_file_age_success_rate(num_days);
+  our_pred->args.reftime = tval;
+  our_pred->est_success_rate = estimate_timestamp_success_rate(tval.ts.tv_sec);
   (*arg_ptr)++;
 
   if (options.debug_options & DebugExpressionTree)
     {
+      time_t t;
+
       fprintf (stderr, "inserting %s\n", our_pred->p_name);
       fprintf (stderr, "    type: %s    %s  ",
-	       (c_type == COMP_GT) ? "gt" :
-	       ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
-	       (c_type == COMP_GT) ? " >" :
-	       ((c_type == COMP_LT) ? " <" : ((c_type == COMP_EQ) ? ">=" : " ?")));
+	       (tval.kind == COMP_GT) ? "gt" :
+	       ((tval.kind == COMP_LT) ? "lt" : ((tval.kind == COMP_EQ) ? "eq" : "?")),
+	       (tval.kind == COMP_GT) ? " >" :
+	       ((tval.kind == COMP_LT) ? " <" : ((tval.kind == COMP_EQ) ? ">=" : " ?")));
       t = our_pred->args.reftime.ts.tv_sec;
       fprintf (stderr, "%ju %s", (uintmax_t) our_pred->args.reftime.ts.tv_sec, ctime (&t));
-      if (c_type == COMP_EQ)
+      if (tval.kind == COMP_EQ)
 	{
 	  t = our_pred->args.reftime.ts.tv_sec += DAYSECS;
 	  fprintf (stderr, "                 <  %ju %s",
@@ -2719,6 +2753,36 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
   
   return true;
 }
+
+/* Get the comparison type prefix (if any) from a number argument.
+   The prefix is at *STR.
+   Set *COMP_TYPE to the kind of comparison that is requested.
+   Advance *STR beyond any initial comparison prefix.  
+
+   Return true if all okay, false if input error.  */
+static boolean
+get_comp_type(char **str, enum comparison_type *comp_type)
+{
+  switch (**str)
+    {
+    case '+':
+      *comp_type = COMP_GT;
+      (*str)++;
+      break;
+    case '-':
+      *comp_type = COMP_LT;
+      (*str)++;
+      break;
+    default:
+      *comp_type = COMP_EQ;
+      break;
+    }
+  return true;
+}
+
+
+   
+				 
 
 /* Get a number with comparison information.
    The sense of the comparison information is 'normal'; that is,
@@ -2733,56 +2797,23 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 static boolean
 get_num (char *str,
 	 uintmax_t *num,
-	 double *fractional_part,
 	 enum comparison_type *comp_type)
 {
-  char **pend;
+  char *pend;
   boolean ok;
-  
+  const char *suffixes;
+
   if (str == NULL)
     return false;
-  switch (str[0])
-    {
-    case '+':
-      *comp_type = COMP_GT;
-      str++;
-      break;
-    case '-':
-      *comp_type = COMP_LT;
-      str++;
-      break;
-    default:
-      *comp_type = COMP_EQ;
-      break;
-    }
 
-  ok = xstrtoumax (str, pend, 10, num, "") == LONGINT_OK;
-  if (ok && fractional_part)
+  /* Figure out the comparison type if the caller accepts one. */
+  if (comp_type)
     {
-      if (*pend)
-	{
-	  if ('.'== (**pend))
-	    {
-	      /* We have a fractional part. */
-	      const char *p;
-	      ok = xstrtod(*pend, &p, fractional_part, strtod);
-	      if (!ok)
-		{
-		  *fractional_part = 0.0;
-		  ok = true;
-		}
-	    }
-	  else
-	    {
-	      *fractional_part = 0.0;
-	    }
-	}
-      else
-	{
-	  *fractional_part = 0.0;
-	}
+      if (!get_comp_type(&str, comp_type))
+	return false;
     }
-  return ok;
+  
+  return xstrtoumax (str, &pend, 10, num, "") == LONGINT_OK;
 }
 
 /* Insert a number predicate.
@@ -2806,7 +2837,7 @@ insert_num (char **argv, int *arg_ptr, const struct parser_table *entry)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return NULL;
-  if (!get_num (argv[*arg_ptr], &num, NULL, &c_type))
+  if (!get_num (argv[*arg_ptr], &num, &c_type))
     return NULL;
   our_pred = insert_primary (entry);
   our_pred->args.numinfo.kind = c_type;

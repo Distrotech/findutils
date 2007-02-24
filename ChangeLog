@@ -2,14 +2,16 @@
 
 	* find/parser.c (pred_sanity_check): define this function even for
 	_NDEBUG, but do nothing in that case.
+	(estimate_timestamp_success_rate): correct (invert) the sense of
+	the subtraction used to find the file's age.
 
 	* import-gnulib.sh (findutils_modules): Import Gnulib modules
 	xstrtod and timespec.
 
 	* find/parser.c (get_num): Support numbers with a fractional part.
-	(get_num): Accept arguments with a fractional part
-	(insert_num): ditto
-	(get_num_days): Support numbers with a fractional part.
+	(get_comp_type): Refactored out of get_num.
+	(get_relative_timestamp): new function replacing get_num_days.
+	(get_num_days): Remove.
 	(do_parse_xmin): Support fractional arguments and
 	nanosecond timestamps.
 	(parse_used): ditto
