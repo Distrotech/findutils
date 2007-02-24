@@ -1277,14 +1277,14 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
 
   predicates = NULL;
   
-  /* Find where in ARGV the predicates begin by skipping the list of start points. */
+  /* Find where in ARGV the predicates begin by skipping the list of
+   * start points.
+   */
   for (i = end_of_leading_options; i < argc && !looks_like_expression(argv[i], true); i++)
     {
-      /* fprintf(stderr, "Looks like %s is not a predicate\n", argv[i]); */
       /* Do nothing. */ ;
     }
   
-  /* XXX: beginning of bit we need factor out of both find.c and ftsfind.c */
   /* Enclose the expression in `( ... )' so a default -print will
      apply to the whole expression. */
   entry_open  = find_parser("(");

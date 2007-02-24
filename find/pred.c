@@ -1524,7 +1524,7 @@ pred_used (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 
   (void) pathname;
 
-  /* XXX: this needs to be retested carefully (manually, if necessary) */
+  /* TODO: this needs to be retested carefully (manually, if necessary) */
   at = get_stat_atime(stat_buf);
   ct = get_stat_ctime(stat_buf);
   delta.tv_sec  = at.tv_sec  - ct.tv_sec;
@@ -1826,8 +1826,8 @@ format_date (struct timespec ts, int kind)
       uintmax_t w = ts.tv_sec;
       size_t used, len, remaining;
 
-      /* XXX: note that we are negating an unsigned type which is the widest possible
-       * unsigned type.
+      /* XXX: note that we are negating an unsigned type which is the
+       * widest possible unsigned type.
        */
       char *p = human_readable (ts.tv_sec < 0 ? -w : w, buf + 1,
 				human_ceiling, 1, 1);
@@ -1987,6 +1987,18 @@ print_optlist (FILE *fp, const struct predicate *p)
     }
 }
 
+#ifdef _NDEBUG
+/* If _NDEBUG is defined, the assertions will do nothing.   Hence 
+ * there is no point in having a function body for pred_sanity_check()
+ * if that preprocessor macro is defined. 
+ */
+void
+pred_sanity_check(const struct predicate *predicates)
+{
+  /* Do nothing, since assert() is a no-op with _NDEBUG set */
+  return;
+}
+#else
 void
 pred_sanity_check(const struct predicate *predicates)
 {
@@ -2047,7 +2059,7 @@ pred_sanity_check(const struct predicate *predicates)
 	  assert(!p->no_default_print);
 	  assert(!p->side_effects);
 	  break;
-	  
 	}
     }
 }
+#endif

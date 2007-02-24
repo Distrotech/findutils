@@ -36,6 +36,7 @@
 #include "stdio-safer.h"
 #include "regextype.h"
 #include "stat-time.h"
+#include "xstrtod.h"
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
@@ -163,8 +164,8 @@ static struct segment **make_segment PARAMS((struct segment **segment, char *for
 					     int kind, char format_char, char aux_format_char,
 					     struct predicate *pred));
 static boolean insert_exec_ok PARAMS((const char *action, const struct parser_table *entry, char *argv[], int *arg_ptr));
-static boolean get_num_days PARAMS((char *str, uintmax_t *num_days, enum comparison_type *comp_type));
-static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
+static boolean get_num_days PARAMS((char *str, uintmax_t *num_days, double *fraction, enum comparison_type *comp_type));
+static boolean get_num PARAMS((char *str, uintmax_t *num, double *fractional_part, enum comparison_type *comp_type));
 static struct predicate* insert_num PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry));
 static FILE *open_output_file PARAMS((char *path));
 static boolean stream_is_tty(FILE *fp);
@@ -1102,19 +1103,20 @@ do_parse_xmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   uintmax_t num;
+  double frac;
   enum comparison_type c_type;
-  time_t t;
+  struct timespec ts;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
-  /* XXX: need to capture sub-second part */
-  if (!get_num_days (argv[*arg_ptr], &num, &c_type)) /* actually not a number of days... */
+
+  if (!get_num_days (argv[*arg_ptr], &num, &frac, &c_type)) /* actually not a number of days... */
     return false;
-  t = options.cur_day_start + DAYSECS - num * 60;
+
   our_pred = insert_primary (entry);
   our_pred->args.reftime.kind = c_type;
-  our_pred->args.reftime.ts.tv_sec = t;
-  our_pred->args.reftime.ts.tv_nsec = 0; /* XXX: need to capture this. */
+  our_pred->args.reftime.ts.tv_sec = options.cur_day_start + DAYSECS - num * 60;
+  our_pred->args.reftime.ts.tv_nsec = frac * 1e9;
   our_pred->est_success_rate = estimate_file_age_success_rate(num);
   (*arg_ptr)++;
   return true;
@@ -1704,7 +1706,8 @@ parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
     default:
       error (1, 0, _("invalid -size type `%c'"), argv[*arg_ptr][len - 1]);
     }
-  if (!get_num (argv[*arg_ptr], &num, &c_type))
+  /* TODO: accept fractional megabytes etc. ? */
+  if (!get_num (argv[*arg_ptr], &num, NULL, &c_type))
     return false;
   our_pred = insert_primary (entry);
   our_pred->args.size.kind = c_type;
@@ -1841,18 +1844,18 @@ parse_used (const struct parser_table* entry, char **argv, int *arg_ptr)
   uintmax_t num_days;
   enum comparison_type c_type;
   time_t t;
+  double frac;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
 
-  /* XXX: need to capture nanoseconds part */
-  if (!get_num (argv[*arg_ptr], &num_days, &c_type))
+  if (!get_num (argv[*arg_ptr], &num_days, &frac, &c_type))
     return false;
   t = num_days * DAYSECS;
   our_pred = insert_primary (entry);
   our_pred->args.reftime.kind = c_type;
   our_pred->args.reftime.ts.tv_sec = t;
-  our_pred->args.reftime.ts.tv_nsec = 0; /* XXX: capture ns part */
+  our_pred->args.reftime.ts.tv_nsec = frac * 1e9;
   our_pred->est_success_rate = estimate_file_age_success_rate(num_days);
   (*arg_ptr)++;
   return true;
@@ -2624,9 +2627,11 @@ insert_exec_ok (const char *action, const struct parser_table *entry, char **arg
    get the appropriate information for a time predicate processor. */
 
 static boolean
-get_num_days (char *str, uintmax_t *num_days, enum comparison_type *comp_type)
+get_num_days (char *str,
+	      uintmax_t *num_days, double *fractional_part,
+	      enum comparison_type *comp_type)
 {
-  boolean r = get_num (str, num_days, comp_type);
+  boolean r = get_num (str, num_days, fractional_part, comp_type);
   if (r)
     switch (*comp_type)
       {
@@ -2654,18 +2659,18 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 {
   struct predicate *our_pred;
   uintmax_t num_days;
+  double fraction;
   enum comparison_type c_type;
   time_t t;
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
 
-  /* XXX: capture sub-second part */
-  if (!get_num_days (argv[*arg_ptr], &num_days, &c_type))
+  if (!get_num_days (argv[*arg_ptr], &num_days, &fraction, &c_type))
     return false;
 
   /* Figure out the timestamp value we are looking for. */
-  t = ( options.cur_day_start - num_days * DAYSECS
+  t = ( options.cur_day_start - (num_days + fraction) * DAYSECS
 		   + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
 
   if (1)
@@ -2674,7 +2679,8 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
        * benefit of compilers that are really C89 compilers
        * which support intmax_t because config.h #defines it
        */
-      intmax_t val = ( (intmax_t)options.cur_day_start - num_days * DAYSECS
+      intmax_t val = ( (intmax_t)options.cur_day_start -
+		       (num_days + fraction) * DAYSECS
 		       + ((c_type == COMP_GT) ? DAYSECS - 1 : 0));
       t = val;
       
@@ -2688,7 +2694,7 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
   our_pred = insert_primary (entry);
   our_pred->args.reftime.kind = c_type;
   our_pred->args.reftime.ts.tv_sec = t;
-  our_pred->args.reftime.ts.tv_nsec = 0; /* XXX: capture this part */
+  our_pred->args.reftime.ts.tv_nsec = fraction * 1e9;
   our_pred->est_success_rate = estimate_file_age_success_rate(num_days);
   (*arg_ptr)++;
 
@@ -2725,8 +2731,14 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
    Return true if all okay, false if input error.  */
 
 static boolean
-get_num (char *str, uintmax_t *num, enum comparison_type *comp_type)
+get_num (char *str,
+	 uintmax_t *num,
+	 double *fractional_part,
+	 enum comparison_type *comp_type)
 {
+  char **pend;
+  boolean ok;
+  
   if (str == NULL)
     return false;
   switch (str[0])
@@ -2744,7 +2756,33 @@ get_num (char *str, uintmax_t *num, enum comparison_type *comp_type)
       break;
     }
 
-  return xstrtoumax (str, NULL, 10, num, "") == LONGINT_OK;
+  ok = xstrtoumax (str, pend, 10, num, "") == LONGINT_OK;
+  if (ok && fractional_part)
+    {
+      if (*pend)
+	{
+	  if ('.'== (**pend))
+	    {
+	      /* We have a fractional part. */
+	      const char *p;
+	      ok = xstrtod(*pend, &p, fractional_part, strtod);
+	      if (!ok)
+		{
+		  *fractional_part = 0.0;
+		  ok = true;
+		}
+	    }
+	  else
+	    {
+	      *fractional_part = 0.0;
+	    }
+	}
+      else
+	{
+	  *fractional_part = 0.0;
+	}
+    }
+  return ok;
 }
 
 /* Insert a number predicate.
@@ -2768,7 +2806,7 @@ insert_num (char **argv, int *arg_ptr, const struct parser_table *entry)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return NULL;
-  if (!get_num (argv[*arg_ptr], &num, &c_type))
+  if (!get_num (argv[*arg_ptr], &num, NULL, &c_type))
     return NULL;
   our_pred = insert_primary (entry);
   our_pred->args.numinfo.kind = c_type;

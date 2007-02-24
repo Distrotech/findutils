@@ -416,7 +416,7 @@ process_all_startpoints(int argc, char *argv[])
   /* figure out how many start points there are */
   for (i = 0; i < argc && !looks_like_expression(argv[i], true); i++)
     {
-      state.starting_path_length = strlen(argv[i]); /* XXX: is this redundant? */
+      state.starting_path_length = strlen(argv[i]); /* TODO: is this redundant? */
       find(argv[i]);
     }
 

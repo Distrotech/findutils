@@ -801,7 +801,9 @@ True if the file was last accessed (or its status changed, or it was
 modified) @var{n}*24 hours ago.  The number of 24-hour periods since
 the file's timestamp is always rounded down; therefore 0 means ``less
 than 24 hours ago'', 1 means ``between 24 and 48 hours ago'', and so
-forth.
+forth.  Fractional values are supported but this only really makes
+sense for the case where ranges (@samp{+@var{n}} and @samp{-@var{n}})
+are used.
 @end deffn
 
 @deffn Test -amin n
@@ -810,8 +812,8 @@ forth.
 True if the file was last accessed (or its status changed, or it was
 modified) @var{n} minutes ago.  These tests provide finer granularity
 of measurement than @samp{-atime} et al., but rounding is done in a
-similar way.  For example, to list files in @file{/u/bill} that were
-last read from 2 to 6 minutes ago:
+similar way (again, fractions are supported).  For example, to list
+files in @file{/u/bill} that were last read from 2 to 6 minutes ago:
 
 @example
 find /u/bill -amin +2 -amin -6

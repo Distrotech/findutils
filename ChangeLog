@@ -1,8 +1,23 @@
 2007-02-24  James Youngman  <jay@gnu.org>
 
+	* find/parser.c (pred_sanity_check): define this function even for
+	_NDEBUG, but do nothing in that case.
+
+	* import-gnulib.sh (findutils_modules): Import xstrtod.
+
+	* find/parser.c (get_num): Support numbers with a fractional part.
+	(get_num): Accept arguments with a fractional part
+	(insert_num): ditto
+	(get_num_days): Support numbers with a fractional part.
+	(do_parse_xmin): Support fractional arguments and
+	nanosecond timestamps.
+	(parse_used): ditto
+	(parse_time): ditto
+
 	* xargs/xargs.c (read_line): Give a warning message if a NUL is
 	found in the input (this function is called only when -0 is not in
 	effect).
+
 	* xargs/xargs.c (nullwarning_given): New variable indicating if
 	the NULL character warning had already been issued.
 
