@@ -253,6 +253,7 @@ void free_dirinfo(struct savedir_dirinfo *p)
   p->entries = NULL;
   free(p->buffer);
   p->buffer = NULL;
+  free(p);
 }
 
 
