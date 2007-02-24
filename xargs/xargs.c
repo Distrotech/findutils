@@ -97,11 +97,6 @@
 
 #include "wait.h"
 
-/* States for read_line. */
-#define NORM 0
-#define SPACE 1
-#define QUOTE 2
-#define BACKSLASH 3
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
@@ -743,9 +738,17 @@ main (int argc, char **argv)
 static int
 read_line (void)
 {
+/* States for read_line. */
+  enum read_line_state 
+    {
+      NORM = 0,
+      SPACE = 1,
+      QUOTE = 2,
+      BACKSLASH = 3
+    };
   static boolean eof = false;
   /* Start out in mode SPACE to always strip leading spaces (even with -i).  */
-  int state = SPACE;		/* The type of character we last read.  */
+  enum read_line_state state = SPACE; /* The type of character we last read.  */
   int prevc;			/* The previous value of c.  */
   int quotc = 0;		/* The last quote character read.  */
   int c = EOF;
