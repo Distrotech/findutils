@@ -184,6 +184,9 @@ static int lineno = 0;
 static struct buildcmd_state bc_state;
 static struct buildcmd_control bc_ctl;
 
+/* Did we already complain about NUL characters in the input? */
+static int nullwarning_given = 0;
+
 
 /* If nonzero, when this string is read on stdin it is treated as
    end of file.
@@ -886,6 +889,17 @@ read_line (void)
 	  state = NORM;
 	  break;
 	}
+      
+      if ( (0 == c) && !nullwarning_given )
+	{
+	  /* This is just a warning message.  We only issue it once. */
+	  error (0, 0,
+		 _("warning: a NUL character occurred in the input.  "
+		   "It cannot be passed through in the argument list.  "
+		   "Did you mean to use the --null option?"));
+	  nullwarning_given = 1;
+	}
+
 #if 1
       if (p >= endbuf)
         {
