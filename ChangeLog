@@ -1,5 +1,11 @@
 2007-02-24  James Youngman  <jay@gnu.org>
 
+	* xargs/xargs.c (read_line): Give a warning message if a NUL is
+	found in the input (this function is called only when -0 is not in
+	effect).
+	* xargs/xargs.c (nullwarning_given): New variable indicating if
+	the NULL character warning had already been issued.
+
 	* doc/find.texi (Multiple Files): Describe how trailing blanks are
 	handled when -L is in effect.
 	
@@ -31,7 +37,7 @@
 
 	(ctime_format): format the time manually (rather than using ctime)
 	in order to include the sub-second part of the time.
-	(weekdays, months): new static variables used bu ctime_format.
+	(weekdays, months): new static variables used by ctime_format.
 	(format_date): append a the sub-second part of the timestamp to
 	the seconds part of date/time output.
 	
