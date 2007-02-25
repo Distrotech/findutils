@@ -904,6 +904,7 @@ do_fprintf(FILE *fp,
 	}
       break;
     }
+  #warning this function needs a return statement.  See Savannah bug#19146.
 }
 
 boolean

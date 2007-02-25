@@ -65,6 +65,7 @@
 #include <signal.h>
 #include <ctype.h>
 #include <sys/types.h>
+#include <grp.h>		/* for setgroups() */
 #include <sys/stat.h>
 #include <time.h>
 #include <fnmatch.h>
@@ -189,7 +190,7 @@ static bool stdout_is_a_tty;
 static bool print_quoted_filename;
 static bool results_were_filtered;
 
-static char*  slocate_db_pathname = "/var/lib/slocate/slocate.db";
+/* static char*  slocate_db_pathname = "/var/lib/slocate/slocate.db"; */
 
 static const char *selected_secure_db = NULL;
 
@@ -207,8 +208,7 @@ set_max_db_age(const char *s)
   if (0 == *s)
     {
       error(1, 0,
-	    _("The argument argument for option --max-database-age must not be empty"),
-	    s);
+	    _("The argument argument for option --max-database-age must not be empty"));
     }
   
   
@@ -957,8 +957,6 @@ looking_at_slocate_locatedb (const char *filename,
 			     size_t len,
 			     int *seclevel)
 {
-  char slocate_magic[] = "1";
-  size_t lenwanted = sizeof(slocate_magic);
   assert(len <= 2);
   
   if (len < 2)
@@ -992,6 +990,11 @@ looking_at_slocate_locatedb (const char *filename,
 		{
 		  return 1;
 		}
+	    }
+	  else
+	    {
+	      /* Not a digit. */
+	      return 0;
 	    }
 	}
       else
@@ -1063,6 +1066,7 @@ search_one_database (int argc,
 
   nread = fread (procdata.original_filename, 1, SLOCATE_DB_MAGIC_LEN,
 		 procdata.fp);
+  slocate_seclevel = 0;
   if (looking_at_slocate_locatedb(procdata.dbfile,
 				  procdata.original_filename,
 				  nread,

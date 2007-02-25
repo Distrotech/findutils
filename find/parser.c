@@ -1651,7 +1651,6 @@ parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
   enum comparison_type c_type;
   int blksize = 512;
   int len;
-  float rate = 1.0;
   
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
@@ -2690,7 +2689,6 @@ get_relative_timestamp (char *str,
 static boolean 
 parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 {
-  float num_days_approx;
   struct predicate *our_pred;
   struct time_val tval;
   enum comparison_type comp;
@@ -2800,8 +2798,6 @@ get_num (char *str,
 	 enum comparison_type *comp_type)
 {
   char *pend;
-  boolean ok;
-  const char *suffixes;
 
   if (str == NULL)
     return false;

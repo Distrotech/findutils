@@ -123,7 +123,6 @@ bc_do_insert (const struct buildcmd_control *ctl,
   static char *insertbuf;
   char *p;
   size_t bytes_left = ctl->arg_max - 1;    /* Bytes left on the command line.  */
-  int need_prefix;
 
   /* XXX: on systems lacking an upper limit for exec args, ctl->arg_max
    *      may have been set to LONG_MAX (see bc_get_arg_max()).  Hence
@@ -443,6 +442,7 @@ bc_init_controlinfo(struct buildcmd_control *ctl)
     }
   else
     {
+#warning the next line is probably a bug.
       ctl->posix_arg_size_max - size_of_environment;
     }
 

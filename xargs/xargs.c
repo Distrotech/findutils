@@ -295,6 +295,7 @@ get_char_oct_or_hex_escape(const char *s)
     }
   else
     {
+      p = NULL;			/* Silence compiler warning. */
       error(1, 0,
 	    _("Invalid escape sequence %s in input delimiter specification."),
 	    s);
@@ -405,7 +406,6 @@ main (int argc, char **argv)
   char *default_cmd = "/bin/echo";
   int (*read_args) PARAMS ((void)) = read_line;
   void (*act_on_init_result)(void) = noop;
-  int env_too_big = 0;
   enum BC_INIT_STATUS bcstatus;
   
   program_name = argv[0];

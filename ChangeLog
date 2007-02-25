@@ -1,3 +1,45 @@
+2007-02-25  James Youngman  <jay@gnu.org>
+
+	* find/find.c (process_dir): Removed duplicated (shadow)
+	declaration of did_stat.  Assert that we did not use subdirs_left
+	if subdirs_unreliable is true.
+
+	* find/parser.c (parse_size): Removed unused variable rate.
+	(parse_time): Removed unused variable num_days_approx.
+	(get_num): Removed unused variables ok and suffixes.
+
+	* find/pred.c (do_fprintf): Indicate that the function needs a
+	return value (referring to Savannah bug #19146).
+
+	* find/tree.c (predlist_dump): Commented out unused function
+	(predlist_merge_nosort): Commented out unused function
+	(getrate): Returns type is float, so return 1.0f not 1.0.
+	(calculate_derived_rates): Removed unused variable rate.  Use a
+	switch statement rater than ifs.
+
+	* find/util.c (usage): Removed unused variale i.
+
+	* lib/buildcmd.c (bc_do_insert): Removed unused variable
+	need_prefix.
+	(bc_init_controlinfo): annotate a line (with #warning) which is
+	probably a bug.
+
+	* locate/locate.c: #include <grp.h> for the benefit of the
+	setgroups() call in drop_privs.
+	(slocate_db_pathname): Commented out unused variable.
+	(set_max_db_age): error command has no format directive, so
+	remove the unused extra argument.
+	(looking_at_slocate_db): Removed unused variables magic and
+	lenwanted.  Fix bug where result is indeterminate (due to falling
+	off the end of the function) if the first character is a nondigit.
+	(search_one_database): Eliminate (spurious) compiler warning
+	rlating to possible use before initialisation of slocate_seclevel.
+
+	* xargs/xargs.c (get_char_oct_or_hex_escape): Eliminate spurious
+	compiler warning on variable p.
+	(main): Removed unused varible env_too_big
+
+
 2007-02-24  James Youngman  <jay@gnu.org>
 
 	* find/parser.c (pred_sanity_check): define this function even for

@@ -150,8 +150,6 @@ show_valid_debug_options(FILE *fp, int full)
 void
 usage (FILE *fp, int status, char *msg)
 {
-  size_t i;
-  
   if (msg)
     fprintf (fp, "%s: %s\n", program_name, msg);
   

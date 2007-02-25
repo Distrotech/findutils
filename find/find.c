@@ -1219,6 +1219,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
   if (statp->st_nlink < 2)
     {
       subdirs_unreliable = true;
+      subdirs_left = 0;
     }
   else
     {
@@ -1354,6 +1355,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 		  state.exit_status = 1; /* We know the result is wrong, now */
 		  options.no_leaf_check = true;	/* Don't make same
 						   mistake again */
+		  subdirs_unreliable = 1;
 		  subdirs_left = 1; /* band-aid for this iteration. */
 		}
 	      
@@ -1391,7 +1393,6 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	{
 	  enum SafeChdirStatus status;
 	  struct dir_id did;
-	  boolean did_stat = false;
 	  
 	  /* We could go back and do the next command-line arg
 	     instead, maybe using longjmp.  */
@@ -1406,6 +1407,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      dir = parent;
 	    }
 	  
+	  did_stat = false;
 	  status = safely_chdir (dir, TraversingUp, &stat_buf, SymlinkHandleDefault, &did_stat);
 	  switch (status)
 	    {
@@ -1440,5 +1442,13 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
       if (cur_path)
 	free (cur_path);
       free_dirinfo(dirinfo);
+    }
+
+  if (subdirs_unreliable)
+    {
+      /* Make sure we hasn't used the variable subdirs_left if we knew
+       * we shouldn't do so.
+       */
+      assert(0 == subdirs_left || options.no_leaf_check);
     }
 }

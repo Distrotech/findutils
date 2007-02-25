@@ -309,6 +309,7 @@ predlist_insert(struct predlist *list,
     list->tail = list->head;
 }
 
+#if 0
 static void 
 predlist_dump(FILE *fp, const char *label, const struct predlist *list)
 {
@@ -334,6 +335,7 @@ predlist_merge_nosort(struct predlist *list,
     }
 }
 
+#endif
 static int
 pred_cost_compare(const struct predicate *p1, const struct predicate *p2, boolean wantfailure)
 {
@@ -1181,15 +1183,13 @@ getrate(const struct predicate *p)
   if (p)
     return p->est_success_rate;
   else
-    return 1.0;
+    return 1.0f;
 }
 
 
 float 
 calculate_derived_rates(struct predicate *p)
 {
-  float rate;
-
   assert(NULL != p);
 
   if (p->pred_right)
@@ -1199,48 +1199,57 @@ calculate_derived_rates(struct predicate *p)
 
   assert(p->p_type != CLOSE_PAREN);
   assert(p->p_type != OPEN_PAREN);
-  
-  if (p->p_type == PRIMARY_TYPE)
+
+  switch (p->p_type)
     {
+    case NO_TYPE:
       assert(NULL == p->pred_right);
       assert(NULL == p->pred_left);
       return p->est_success_rate;
-    }
-  else if (p->p_type == UNI_OP)
-    {
+      
+    case PRIMARY_TYPE:
+      assert(NULL == p->pred_right);
+      assert(NULL == p->pred_left);
+      return p->est_success_rate;
+
+    case UNI_OP:
       /* Unary operators must have exactly one operand */
       assert(pred_negate == p->pred_func);
       assert(NULL == p->pred_left);
-      rate = 1.0 - p->pred_right->est_success_rate;
-    }
-  else if (p->p_type == BI_OP)
-    {
-      /* Binary operators must have two operands */
-      if (pred_and == p->pred_func)
-	{
-	  rate = getrate(p->pred_right) * getrate(p->pred_left);
-	}
-      else if (pred_comma == p->pred_func)
-	{
-	  rate = 1.0;
-	}
-      else if (pred_or == p->pred_func)
-	{
-	  rate = getrate(p->pred_right) + getrate(p->pred_left);
-	}
-    }
-  else if (p->p_type == CLOSE_PAREN || p->p_type == OPEN_PAREN)	    
-    {
-      rate = 1.0;
-    }
-  else if (p->p_type == NO_TYPE)
-    {
-      assert(NULL == p->pred_right);
-      assert(NULL == p->pred_left);
+      p->est_success_rate = (1.0 - p->pred_right->est_success_rate);
+      return p->est_success_rate;
+
+    case BI_OP:
+      {
+	float rate;
+	/* Binary operators must have two operands */
+	if (pred_and == p->pred_func)
+	  {
+	    rate = getrate(p->pred_right) * getrate(p->pred_left);
+	  }
+	else if (pred_comma == p->pred_func)
+	  {
+	    rate = 1.0f;
+	  }
+	else if (pred_or == p->pred_func)
+	  {
+	    rate = getrate(p->pred_right) + getrate(p->pred_left);
+	  }
+	else
+	  {
+	    /* only and, or and comma are BI_OP. */
+	    assert(0);
+	    rate = 0.0f;
+	  }
+	p->est_success_rate = constrain_rate(rate);
+      }
+      return p->est_success_rate;
+
+    case OPEN_PAREN:
+    case CLOSE_PAREN:
+      p->est_success_rate = 1.0;
       return p->est_success_rate;
     }
-  p->est_success_rate = constrain_rate(rate);
-  return p->est_success_rate;
 }
 
 /* opt_expr() rearranges predicates such that each left subtree is
