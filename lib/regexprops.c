@@ -1,7 +1,7 @@
 /* regexprops.c -- document the properties of the regular expressions 
                    understood by gnulib.
 
-   Copyright 2005 Free Software Foundation, Inc.
+   Copyright 2005, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

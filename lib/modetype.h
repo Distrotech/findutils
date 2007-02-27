@@ -1,6 +1,6 @@
 /* modetype.h -- file type bits definitions for POSIX systems
    Requires sys/types.h sys/stat.h.
-   Copyright (C) 1990 Free Software Foundation, Inc.
+   Copyright (C) 1990, 2001, 2003, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
