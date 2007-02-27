@@ -1217,7 +1217,7 @@ Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n\
        [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n\
        [-n max-args] [--max-args=max-args]\n\
        [-s max-chars] [--max-chars=max-chars]\n\
-       [-P max-procs]  [--max-procs=max-procs] [[--show-limits]\n\
+       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n\
        [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n\
        [--version] [--help] [command [initial-arguments]]\n"),
 	   program_name);
