@@ -77,6 +77,7 @@
 #include "locatedb.h"
 #include <getline.h>
 #include "closeout.h"
+#include "gnulib-version.h"
 
 char *xmalloc PARAMS((size_t));
 
@@ -163,6 +164,7 @@ main (int argc, char **argv)
   else if (0 == strcmp(argv[1], "--version"))
     {
       printf (_("GNU findutils version %s\n"), version_string);
+      printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
       return 0;
     }
   

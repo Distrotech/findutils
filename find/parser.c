@@ -38,6 +38,7 @@
 #include "regextype.h"
 #include "stat-time.h"
 #include "xstrtod.h"
+#include "gnulib-version.h"
 
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
@@ -1896,6 +1897,7 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   
   fflush (stderr);
   printf (_("GNU find version %s\n"), version_string);
+  printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
   printf (_("Features enabled: "));
   
 #if CACHE_IDS

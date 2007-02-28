@@ -1,3 +1,27 @@
+2007-02-28  James Youngman  <jay@gnu.org>
+
+	* import-gnulib.config: New file.  Specifies which version of
+	Gnulib we need to check out and build from.
+	
+	* import-gnulib.sh: Use import-gnulib.config.
+	
+	* README-CVS: Describe the new method of building from CVS.
+	
+	* lib/gnulib-version.h, lib/gnulib-version.sh: New files; code for
+	reporting which version of Gnulib we built findutils from.
+	
+	* lib/Makefile.am: Build gnulib-version.c out of
+	./gnulib-version.config by using lib/gnulib-version.sh.
+	
+	* Makefile.am: Ship import-gnulib.config and import-gnulib.sh.
+	
+	* .cvsignore: Ignore gnulib-cvs
+	
+	* lib/.cvsignore: Ignore gnulib-version.c
+	
+	* find/parser.c, locate/code.c, locate/locate.c, xargs/xargs.c:
+	Report which version of Gnulib we were built from.
+
 2007-02-25  James Youngman  <jay@gnu.org>
 
 	* find/find.c (process_dir): Removed duplicated (shadow)

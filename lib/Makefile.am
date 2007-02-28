@@ -13,15 +13,16 @@ noinst_PROGRAMS = regexprops
 regexprops_SOURCES = regexprops.c regextype.c
 endif
 
-libfind_a_SOURCES =
-EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h
-BUILT_SOURCES =
+libfind_a_SOURCES = gnulib-version.c
+EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h \
+	gnulib-version.h gnulib-version.sh gnulib-version.c
+BUILT_SOURCES = gnulib-version.c
 SUFFIXES =
-MOSTLYCLEANFILES =
-CLEANFILES =
+MOSTLYCLEANFILES = 
+CLEANFILES = 
 DISTCLEANFILES =
 MAINTAINERCLEANFILES =
-
+IMPORT_GNULIB_CONFIG = $(top_srcdir)/import-gnulib.config
 
 INCLUDES = -I../gnulib/lib -I$(top_srcdir)/gnulib/lib 
 LDADD = ../gnulib/lib/libgnulib.a @INTLLIBS@
@@ -38,3 +39,6 @@ libfind_a_DEPENDENCIES = @FINDLIBOBJS@
 
 # libfind_a_OBJECTS  += @FINDLIBOBJS@
 # libfind_la_OBJECTS += @LTFINDLIBOBJS@
+
+$(srcdir)/gnulib-version.c: $(srcdir)/gnulib-version.sh $(IMPORT_GNULIB_CONFIG)
+	sh $(srcdir)/gnulib-version.sh $(top_srcdir) $(srcdir)  $(IMPORT_GNULIB_CONFIG)

@@ -163,6 +163,7 @@ typedef int boolean;
 
 #include <xalloc.h>
 #include "closeout.h"
+#include "gnulib-version.h"
 
 void error PARAMS ((int status, int errnum, char *message,...));
 
@@ -573,6 +574,7 @@ main (int argc, char **argv)
 
 	case 'v':
 	  printf (_("GNU xargs version %s\n"), version_string);
+	  printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
 	  return 0;
 
 	default:
