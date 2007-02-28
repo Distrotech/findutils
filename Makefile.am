@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS=gnits
 # readme-alpha
 
 EXTRA_DIST = COPYING ChangeLog TODO install-sh config.h.in stamp-h.in \
-		THANKS config.rpath
+		THANKS config.rpath import-gnulib.sh import-gnulib.config
 SUBDIRS = gnulib lib find xargs locate doc po m4
 
 ACLOCAL_AMFLAGS = -I gnulib/m4 -I m4
@@ -54,3 +54,4 @@ findutils-check-testfiles:
 	distcount=`ls $(distdir)/*/testsuite/*/*.xe | wc -l` && srccount=`ls $(srcdir)/*/testsuite/*/*.xe | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
 	@echo ; echo Checking to see if we distributed the full set of .xi files
 	distcount=`ls $(distdir)/*/testsuite/inputs/*.xi | wc -l` && srccount=`ls $(srcdir)/*/testsuite/inputs/*.xi | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
+

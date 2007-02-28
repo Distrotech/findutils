@@ -135,7 +135,7 @@ extern int errno;
 #include "quotearg.h"
 #include "printquoted.h"
 #include "regextype.h"
-
+#include "gnulib-version.h"
 
 /* Note that this evaluates C many times.  */
 #ifdef _LIBC
@@ -1229,6 +1229,7 @@ main (int argc, char **argv)
 
       case 'v':
 	printf (_("GNU locate version %s\n"), version_string);
+	printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
 	return 0;
 
       case 'w':
