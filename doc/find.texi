@@ -1901,6 +1901,23 @@ an immediate fatal exit.  In this situation, any partially-built
 command lines will not be invoked (this prevents possible infinite
 loops).
 
+At first sight, it looks like the list of filenames to be processed
+can only be at the end of the command line, and that this might be a
+problem for some comamnds (@code{cp} and @code{rsync} for example).
+
+However, there is a slightly obscure but powerful workarouund for this
+problem which takes advantage of the behaviour of @code{sh -c}:-
+
+@example
+find startpoint -tests @dots{} -exec sh -c 'scp "$@@" remote:/dest' sh @{@} + 
+@end example
+
+In the example above, the filenames we want to work on need to occur
+on the @code{scp} command line before the name of the destination.  We
+use the shell to invoke the command @code{scp "$@@" remote:/dest} and
+the shell expands @code{"$@@"} to the list of filenames we want to
+process.
+
 Another, but less secure, way to run a command on more than one file
 at once, is to use the @code{xargs} command, which is invoked like
 this:
