@@ -1,5 +1,15 @@
 2007-03-03  James Youngman  <jay@gnu.org>
 
+	* import-gnulib.sh: Pass --with-tests to gnulib-tool so that relevant
+	gnulib unit tests are built and are run for "make check".  
+
+	* configure.in (AC_CONFIG_FILES): Add tests/Makefile (the makefile
+	for the gnulib unit tests).
+
+	* Makefile.am: Add 'tests' to SUBDIRS.
+
+	* .cvsignore: Add 'tests'.
+	
 	* import-gnulib.config (modules): Also use Gnulib modules
 	mbscasestr and mbsstr in order to perform correct string searching
 	in multibyte strings, in order to fix Savannah bug #14535.

@@ -37,6 +37,8 @@ unset CDPATH
 configfile="./import-gnulib.config"
 cvsdir="gnulib-cvs"
 
+tool="${cvsdir}"/gnulib/gnulib-tool
+
 source $configfile
 
 if [ -z "$gnulib_version" ] 
@@ -91,21 +93,19 @@ fi
     set +x
 )
 
-set x $cvsdir/gnulib ; shift
-
-if test -f "$1"/gnulib-tool
+if test -f "$tool"
 then
     true
 else
-    echo "$1/gnulib-tool does not exist, did you specify the right directory?" >&2
+    echo "$tool does not exist, did you specify the right directory?" >&2
     exit 1
 fi
 
-if test -x "$1"/gnulib-tool
+if test -x "$tool"
 then
     true
 else
-    echo "$1/gnulib-tool is not executable" >&2
+    echo "$tool is not executable" >&2
     exit 1
 fi
 
@@ -118,11 +118,11 @@ fi
 mkdir gnulib
 
 
-if "$1"/gnulib-tool --import --symlink --dir=. --lib=libgnulib --source-base=gnulib/lib --m4-base=gnulib/m4  $modules
+if "$tool" --import --symlink --with-tests --dir=. --lib=libgnulib --source-base=gnulib/lib --m4-base=gnulib/m4  $modules
 then
     : OK
 else
-    echo "gnulib-tool failed, exiting." >&2
+    echo "$tool failed, exiting." >&2
     exit 1
 fi
 
@@ -132,7 +132,7 @@ for file in $extra_files; do
     */mdate-sh | */texinfo.tex) dest=doc;;
     *) dest=.;;
   esac
-  cp -fp "$1"/$file $dest || exit
+  cp -fp "${cvsdir}"/gnulib/"$file" "$dest" || exit
 done
 
 
