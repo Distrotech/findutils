@@ -1396,11 +1396,14 @@ static int
 drop_privs(void)
 {
   const char * what = "failed";
-  uid_t orig_euid = geteuid();
-
+  const uid_t orig_euid = geteuid();
+  const uid_t uid       = getuid();
+  const gid_t gid       = getgid();
+  
   /* Use of setgroups() is restrcted to root only. */
   if (0 == orig_euid)
     {
+      /* UID != 0, but EUID == 0.  We're running setuid-root. */
       gid_t groups[1];
       groups[1] = getgid();
       if (0 != setgroups(1, groups)) 
@@ -1409,21 +1412,52 @@ drop_privs(void)
 	  goto fail;
 	}
     }
-  
-  if (0 != setuid(getuid()))
+
+  /* Drop any setuid privileges */
+  if (uid != orig_euid)
     {
-      what = _("failed to drop setuid privileges");
-      goto fail;
+      if (0 == uid)
+	{
+	  /* We're really root anyway, but are setuid to something else. Leave it. */
+	}
+      else
+	{
+	  errno = 0;
+	  if (0 != setuid(getuid()))
+	    {
+	      what = _("failed to drop setuid privileges");
+	      goto fail;
+	    }
+	  
+	  /* Defend against the case where the attacker runs us with the
+	   * capability to call setuid() turned off, which on some systems
+	   * will cause the above attempt to drop privileges fail (leaving us
+	   * privileged).
+	   */
+	  else
+	    {
+	      /* Check that we can no longer switch bask to root */
+	      if (0 == setuid(0))
+		{
+		  what = _("Failed to fully drop privileges");
+		  /* The errno value here is not interesting (since
+		   * the system call we are complaining about
+		   * succeeded when we wanted it to fail).  Arrange
+		   * for the call to error() not to print the errno
+		   * value by setting errno=0.
+		   */
+		  errno = 0;
+		  goto fail;
+		}
+	    }
+	}
     }
   
-  /* Defend against the case where the attacker runs us with the
-   * capability to call setuid() turned off, which on some systems
-   * will cause the above attempt to drop privileges fail (leaving us
-   * privileged).
-   */
-  if (0 == setuid(0))
+  /* Drop any setgid privileges */
+  errno = 0;
+  if (0 != setgid(gid))
     {
-      what = _("Failed to drop privileges");
+      what = _("failed to drop setgid privileges");
       goto fail;
     }
 
