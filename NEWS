@@ -1,6 +1,15 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.3-CVS
 
+** Bug Fixes
+
+Savannah bug #14535: correctly support case-folding in locate (that
+is, "locate -i") for multibyte character environments such as UTF-8.
+Previously, if your search string contained a character which was
+outside the single-byte-encoding range for UTF-8 for example, then the
+case-folding behaviour failed to work and only exact matches would be
+returned.
+
 ** Functional changes
 
 The -printf action (and similar related actions) now support %S,

@@ -1,3 +1,31 @@
+2007-03-03  James Youngman  <jay@gnu.org>
+
+	* import-gnulib.config (modules): Also use Gnulib modules
+	mbscasestr and mbsstr in order to perform correct string searching
+	in multibyte strings, in order to fix Savannah bug #14535.
+
+	* locate/testsuite/locate.gnu/sv-bug-14535.exp: new test case for
+	Savannah bug #14535.
+	
+	* locale/locate.c (visit_substring_match_nocasefold): Use mbsstr
+	rather than strstr, in order to correctly support multibyte
+	strings.  
+	(visit_substring_match_casefold): Use mbscasestr rather than
+	strstr in order to correctly support case-folding in a multibyte
+	environment (e.g. with UTF-8 characters outside the normal ASCII
+	range).  This fixes Savannah bug #14535.
+	(struct casefolder): No longer needed, removed
+	(visit_casefold): No longer needed, removed.
+	(lc_strcpy): No longer needed, removed.
+	(search_one_database): Removed redundant variable need_fold and
+	the code which used to set it.  It had controlled the adding of
+	the visitor function visit_casefold, but that function itself is
+	no longer required.  Also there is now no need to pass in a
+	lower-case argument to visit_substring_match_casefold, so don't
+	pass that in the context argument.
+
+	* locate/locate.c (usage): Fixed typo.
+	
 2007-03-01  James Youngman  <jay@gnu.org>
 
 	* doc/find.texi (Multiple Files): Document the construct

@@ -85,13 +85,8 @@
 
 #define NDEBUG
 #include <assert.h>
-
-#if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
 #include <string.h>
-#else
-#include <strings.h>
-#define strchr index
-#endif
+
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
@@ -143,7 +138,7 @@ extern int errno;
 #include "regextype.h"
 #include "gnulib-version.h"
 
-/* Note that this evaluates C many times.  */
+/* Note that this evaluates Ch many times.  */
 #ifdef _LIBC
 # define TOUPPER(Ch) toupper (Ch)
 # define TOLOWER(Ch) tolower (Ch)
@@ -316,17 +311,6 @@ locate_read_str(char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
 }
 
 
-static void
-lc_strcpy(char *dest, const char *src)
-{
-  while (*src)
-    {
-      *dest++ = TOLOWER(*src);
-      ++src;
-    }
-  *dest = 0;
-}
-
 struct locate_limits
 {
   uintmax_t limit;
@@ -355,12 +339,6 @@ struct stringbuf
 };
 static struct stringbuf casebuf;
 
-
-struct casefolder
-{
-  const char *pattern;
-  struct stringbuf *pbuf;
-};
 
 struct regular_expression
 {
@@ -646,21 +624,6 @@ visit_basename(struct process_data *procdata, void *context)
 }
 
 
-static int
-visit_casefold(struct process_data *procdata, void *context)
-{
-  struct stringbuf *b = context;
-
-  if (*b->preqlen+1 > b->buffersize)
-    {
-      b->buffer = xrealloc(b->buffer, *b->preqlen+1); /* XXX: consider using extendbuf(). */
-      b->buffersize = *b->preqlen+1;
-    }
-  lc_strcpy(b->buffer, procdata->munged_filename);
-
-  return VISIT_CONTINUE;
-}
-  
 /* visit_existing_follow implements -L -e */
 static int
 visit_existing_follow(struct process_data *procdata, void *context)
@@ -754,7 +717,7 @@ visit_substring_match_nocasefold(struct process_data *procdata, void *context)
 {
   const char *pattern = context;
 
-  if (NULL != strstr(procdata->munged_filename, pattern))
+  if (NULL != mbsstr(procdata->munged_filename, pattern))
     return VISIT_ACCEPTED;
   else
     return VISIT_REJECTED;
@@ -763,11 +726,9 @@ visit_substring_match_nocasefold(struct process_data *procdata, void *context)
 static int
 visit_substring_match_casefold(struct process_data *procdata, void *context)
 {
-  const struct casefolder * p = context;
-  const struct stringbuf * b = p->pbuf;
-  (void) procdata;
+  const char *pattern = context;
 
-  if (NULL != strstr(b->buffer, p->pattern))
+  if (NULL != mbscasestr(procdata->munged_filename, pattern))
     return VISIT_ACCEPTED;
   else
     return VISIT_REJECTED;
@@ -1026,7 +987,6 @@ search_one_database (int argc,
 {
   char *pathpart; 		/* A pattern to consider. */
   int argn;			/* Index to current pattern in argv. */
-  int need_fold;	/* Set when folding and any pattern is non-glob. */
   int nread;		     /* number of bytes read from an entry. */
   struct process_data procdata;	/* Storage for data shared with visitors. */
   int slocate_seclevel;
@@ -1161,24 +1121,6 @@ search_one_database (int argc,
   if (basename_only)
     add_visitor(visit_basename, NULL);
   
-  /* See if we need fold. */
-  if (ignore_case && !regex)
-    for ( argn = 0; argn < argc; argn++ )
-      {
-        pathpart = argv[argn];
-        if (!contains_metacharacter(pathpart))
-	  {
-	    need_fold = 1;
-	    break;
-	  }
-      }
-
-  if (need_fold)
-    {
-      add_visitor(visit_casefold, &casebuf);
-      casebuf.preqlen = &procdata.pathsize;
-    }
-  
   /* Add an inspector for each pattern we're looking for. */
   for ( argn = 0; argn < argc; argn++ )
     {
@@ -1225,20 +1167,9 @@ search_one_database (int argc,
 	   * James Youngman <jay@gnu.org> 
 	   */
 	  if (ignore_case)
-	    {
-	      struct casefolder * cf = xmalloc(sizeof(*cf));
-	      cf->pattern = pathpart;
-	      cf->pbuf = &casebuf;
-	      add_visitor(visit_substring_match_casefold, cf);
-	      /* If we ignore case, convert it to lower now so we don't have to
-	       * do it every time
-	       */
-	      lc_strcpy(pathpart, pathpart);
-	    }
+	    add_visitor(visit_substring_match_casefold, pathpart);
 	  else
-	    {
-	      add_visitor(visit_substring_match_nocasefold, pathpart);
-	    }
+	    add_visitor(visit_substring_match_nocasefold, pathpart);
 	}
     }
 
@@ -1352,7 +1283,7 @@ Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
       [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n\
       [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n\
-      [--max-database-age D] [-version] [--help]\n\
+      [--max-database-age D] [--version] [--help]\n\
       pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
