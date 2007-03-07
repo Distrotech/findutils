@@ -200,6 +200,7 @@ struct pred_assoc pred_table[] =
   {pred_name, "name    "},
   {pred_negate, "not     "},
   {pred_newer, "newer   "},
+  {pred_newerXY, "newerXY   "},
   {pred_nogroup, "nogroup "},
   {pred_nouser, "nouser  "},
   {pred_ok, "ok      "},
@@ -519,7 +520,7 @@ pred_false (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_fls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  list_file (pathname, state.rel_pathname, stat_buf, options.start_time,
+  list_file (pathname, state.rel_pathname, stat_buf, options.start_time.tv_sec,
 	     options.output_block_size,
 	     pred_ptr->literal_control_chars, pred_ptr->args.stream);
   return true;
@@ -1105,7 +1106,7 @@ match_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, 
 boolean
 pred_ls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  list_file (pathname, state.rel_pathname, stat_buf, options.start_time,
+  list_file (pathname, state.rel_pathname, stat_buf, options.start_time.tv_sec,
 	     options.output_block_size,
 	     pred_ptr->literal_control_chars,
 	     stdout);
@@ -1160,6 +1161,37 @@ pred_newer (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   
   assert(COMP_GT == pred_ptr->args.reftime.kind);
   return compare_ts(get_stat_mtime(stat_buf), pred_ptr->args.reftime.ts) > 0;
+}
+
+boolean
+pred_newerXY (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  struct timespec ts;
+  
+  assert(COMP_GT == pred_ptr->args.reftime.kind);
+  
+  switch (pred_ptr->args.reftime.xval)
+    {
+    case XVAL_ATIME:
+      ts = get_stat_atime(stat_buf);
+      break;
+    case XVAL_BIRTHTIME:
+      assert(pred_ptr->args.reftime.xval != XVAL_BIRTHTIME); /* Unsupported. */
+      assert(0);
+      abort();
+      break;
+    case XVAL_CTIME:
+      ts = get_stat_ctime(stat_buf);
+      break;
+    case XVAL_MTIME:
+      ts = get_stat_mtime(stat_buf);
+      break;
+    case XVAL_TIME:
+      assert(pred_ptr->args.reftime.xval != XVAL_TIME);
+      abort();
+      break;
+    }
+  return compare_ts(ts, pred_ptr->args.reftime.ts) > 0;
 }
 
 boolean

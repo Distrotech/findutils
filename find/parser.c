@@ -121,6 +121,7 @@ static boolean parse_mmin          PARAMS((const struct parser_table*, char *arg
 static boolean parse_name          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_negate        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_newer         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static boolean parse_newerXY       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_noleaf        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_nogroup       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_nouser        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
@@ -199,6 +200,12 @@ static boolean parse_noop PARAMS((const struct parser_table* entry, char **argv,
   { (ARG_PUNCTUATION), (what), PASTE(parse_,suffix), PASTE(pred_,suffix) }
 
 
+/* Predicates we cannot handle in the usual way */
+static struct parser_table const parse_entry_newerXY = 
+  {
+    ARG_SPECIAL_PARSE, "newerXY",            parse_newerXY, pred_newerXY /* BSD  */
+  };
+
 /* GNU find predicates that are not mentioned in POSIX.2 are marked `GNU'.
    If they are in some Unix versions of find, they are marked `Unix'. */
 
@@ -253,6 +260,7 @@ static struct parser_table const parse_table[] =
   PARSE(ARG_UNIMPLEMENTED, "ncpio",          ncpio),	    /* Unix */
 #endif				                    
   PARSE_TEST       ("newer",                 newer),
+  {ARG_TEST,       "atime",                  parse_time, pred_atime},
   PARSE_OPTION     ("noleaf",                noleaf),	     /* GNU */
   PARSE_TEST       ("nogroup",               nogroup),
   PARSE_TEST       ("nouser",                nouser),
@@ -313,7 +321,6 @@ static const char *first_nonoption_arg = NULL;
 static const struct parser_table *noop = NULL;
 
 
-
 static const struct parser_table*
 get_noop(void)
 {
@@ -331,8 +338,27 @@ get_noop(void)
     }
   return noop;
 }
-
-
+
+static struct timespec
+get_stat_Ytime(const struct stat *p,
+	       char what)
+{
+  switch (what)
+    {
+    case 'a':
+      return get_stat_atime(p);
+    case 'B':
+      assert(what != 'B');
+    case 'c':
+      return get_stat_ctime(p);
+    case 'm':
+      return get_stat_mtime(p);
+    default:
+      assert(0);
+      abort();
+      abort();
+    }
+}
 
 void 
 set_follow_state(enum SymlinkOption opt)
@@ -390,6 +416,64 @@ parse_end_user_args (char **args, int argno, const struct predicate *last, const
 }
 
 
+/* Check that it is legal to fid the given primary in its
+ * position and return it.
+ */
+const struct parser_table*
+found_parser(const char *original_arg, const struct parser_table *entry)
+{
+  /* If this is an option, but we have already had a 
+   * non-option argument, the user may be under the 
+   * impression that the behaviour of the option 
+   * argument is conditional on some preceding 
+   * tests.  This might typically be the case with,
+   * for example, -maxdepth.
+   *
+   * The options -daystart and -follow are exempt 
+   * from this treatment, since their positioning
+   * in the command line does have an effect on 
+   * subsequent tests but not previous ones.  That
+   * might be intentional on the part of the user.
+   */
+  if (entry->type != ARG_POSITIONAL_OPTION)
+    {
+      /* Something other than -follow/-daystart.
+       * If this is an option, check if it followed
+       * a non-option and if so, issue a warning.
+       */
+      if (entry->type == ARG_OPTION)
+	{
+	  if ((first_nonoption_arg != NULL)
+	      && options.warnings )
+	    {
+	      /* option which follows a non-option */
+	      error (0, 0,
+		     _("warning: you have specified the %s "
+		       "option after a non-option argument %s, "
+		       "but options are not positional (%s affects "
+		       "tests specified before it as well as those "
+		       "specified after it).  Please specify options "
+		       "before other arguments.\n"),
+		     original_arg,
+		     first_nonoption_arg,
+		     original_arg);
+	    }
+	}
+      else
+	{
+	  /* Not an option or a positional option,
+	   * so remember we've seen it in order to 
+	   * use it in a possible future warning message.
+	   */
+	  if (first_nonoption_arg == NULL)
+	    {
+	      first_nonoption_arg = original_arg;
+	    }
+	}
+    }
+	  
+  return entry;
+}
 
 
 /* Return a pointer to the parser function to invoke for predicate
@@ -400,65 +484,24 @@ const struct parser_table*
 find_parser (char *search_name)
 {
   int i;
+  const struct parser_table *p;
   const char *original_arg = search_name;
+  
+  /* Ugh.  Special case -newerXY. */
+  if (0 == strncmp("-newer", search_name, 6)
+      && (8 == strlen(search_name)))
+    {
+      return found_parser(original_arg, &parse_entry_newerXY);
+    }
   
   if (*search_name == '-')
     search_name++;
+
   for (i = 0; parse_table[i].parser_name != 0; i++)
     {
       if (strcmp (parse_table[i].parser_name, search_name) == 0)
 	{
-	  /* If this is an option, but we have already had a 
-	   * non-option argument, the user may be under the 
-	   * impression that the behaviour of the option 
-	   * argument is conditional on some preceding 
-	   * tests.  This might typically be the case with,
-	   * for example, -maxdepth.
-	   *
-	   * The options -daystart and -follow are exempt 
-	   * from this treatment, since their positioning
-	   * in the command line does have an effect on 
-	   * subsequent tests but not previous ones.  That
-	   * might be intentional on the part of the user.
-	   */
-	  if (parse_table[i].type != ARG_POSITIONAL_OPTION)
-	    {
-	      /* Something other than -follow/-daystart.
-	       * If this is an option, check if it followed
-	       * a non-option and if so, issue a warning.
-	       */
-	      if (parse_table[i].type == ARG_OPTION)
-		{
-		  if ((first_nonoption_arg != NULL)
-		      && options.warnings )
-		    {
-		      /* option which follows a non-option */
-		      error (0, 0,
-			     _("warning: you have specified the %s "
-			       "option after a non-option argument %s, "
-			       "but options are not positional (%s affects "
-			       "tests specified before it as well as those "
-			       "specified after it).  Please specify options "
-			       "before other arguments.\n"),
-			     original_arg,
-			     first_nonoption_arg,
-			     original_arg);
-		    }
-		}
-	      else
-		{
-		  /* Not an option or a positional option,
-		   * so remember we've seen it in order to 
-		   * use it in a possible future warning message.
-		   */
-		  if (first_nonoption_arg == NULL)
-		    {
-		      first_nonoption_arg = original_arg;
-		    }
-		}
-	    }
-	  
-	  return &parse_table[i];
+	  return found_parser(original_arg, &parse_table[i]);
 	}
     }
   return NULL;
@@ -534,6 +577,7 @@ parse_anewer (const struct parser_table* entry, char **argv, int *arg_ptr)
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (entry);
+  our_pred->args.reftime.xval = XVAL_ATIME;
   our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
   our_pred->args.reftime.kind = COMP_GT;
   our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
@@ -568,6 +612,7 @@ parse_cnewer (const struct parser_table* entry, char **argv, int *arg_ptr)
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (entry);
+  our_pred->args.reftime.xval = XVAL_CTIME; /* like -newercm */
   our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
   our_pred->args.reftime.kind = COMP_GT;
   our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
@@ -1102,7 +1147,7 @@ parse_mindepth (const struct parser_table* entry, char **argv, int *arg_ptr)
 
 
 static boolean
-do_parse_xmin (const struct parser_table* entry, char **argv, int *arg_ptr)
+do_parse_xmin (const struct parser_table* entry, char **argv, int *arg_ptr, enum xval xv)
 {
   struct predicate *our_pred;
   struct time_val tval;
@@ -1110,6 +1155,7 @@ do_parse_xmin (const struct parser_table* entry, char **argv, int *arg_ptr)
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
 
+  tval.xval = xv;
   if (!get_relative_timestamp(argv[*arg_ptr], &tval,
 			      options.cur_day_start + DAYSECS, 60,
 			      "arithmetic overflow while converting %s minutes to a number of seconds"))
@@ -1124,20 +1170,20 @@ do_parse_xmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_amin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return do_parse_xmin(entry, argv, arg_ptr);
+  return do_parse_xmin(entry, argv, arg_ptr, XVAL_ATIME);
 }
 
 static boolean
 parse_cmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return do_parse_xmin(entry, argv, arg_ptr);
+  return do_parse_xmin(entry, argv, arg_ptr, XVAL_CTIME);
 }
 
 
 static boolean
 parse_mmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return do_parse_xmin(entry, argv, arg_ptr);
+  return do_parse_xmin(entry, argv, arg_ptr, XVAL_MTIME);
 }
 
 static boolean
@@ -1193,11 +1239,90 @@ parse_newer (const struct parser_table* entry, char **argv, int *arg_ptr)
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (entry);
   our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
+  our_pred->args.reftime.xval = XVAL_MTIME;
   our_pred->args.reftime.kind = COMP_GT;
   our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
   (*arg_ptr)++;
   return true;
 }
+
+
+static boolean
+parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  (void) argv;
+  (void) arg_ptr;
+
+  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
+    {
+      return false;
+    }
+  else if (8u != strlen(argv[*arg_ptr]))
+    {
+      return false;
+    }
+  else 
+    {
+      char x, y;
+      const char const validchars[] = "aBcmt";
+      
+      assert(0 == strncmp("-newer", argv[*arg_ptr], 6));
+      x = argv[*arg_ptr][6];
+      y = argv[*arg_ptr][7];
+
+      /* We do not currently support st_birthtime, 
+       * and -newertY (for any Y) is invalid.
+       */
+      if (x == 'B' || y == 'B' /* TODO: support B where possible */
+	  || x == 't'
+	  || 0 == strchr(validchars, x)
+	  || 0 == strchr( validchars, y))
+	{
+	  return false;
+	}
+      else
+	{
+	  struct predicate *our_pred;
+	  
+	  /* Because this item is ARG_SPECIAL_PARSE, we have to advance arg_ptr
+	   * past the test name (for most other tests, this is already done)
+	   */
+	  (*arg_ptr)++;
+	  
+	  our_pred = insert_primary (entry);
+	  if ('t' == y)
+	    {
+	      if (!get_date(&our_pred->args.reftime.ts,
+			    argv[*arg_ptr],
+			    &options.start_time))
+		{
+		  error(1, 0,
+			_("I cannot figure out how to interpret `%s' as a date or time"),
+			argv[*arg_ptr]);
+		}
+	    }
+	  else
+	    {
+	      struct stat stat_newer;
+	      
+	      /* Stat the named file. */
+	      if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
+		error (1, errno, "%s", argv[*arg_ptr]);
+	      
+	      our_pred->args.reftime.ts = get_stat_Ytime(&stat_newer, y);
+	    }
+	  our_pred->args.reftime.kind = COMP_GT;
+	  our_pred->est_success_rate = estimate_timestamp_success_rate(our_pred->args.reftime.ts.tv_sec);
+	  (*arg_ptr)++;
+	  
+	  assert(our_pred->pred_func != NULL);
+	  assert(our_pred->pred_func == pred_newerXY);
+	  assert(our_pred->need_stat);
+	  return true;
+	}
+    }
+}
+
 
 static boolean
 parse_noleaf (const struct parser_table* entry, char **argv, int *arg_ptr)

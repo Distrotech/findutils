@@ -28,8 +28,10 @@
 #include <sys/utsname.h>
 #endif
 
+#include <sys/time.h>
 #include "xalloc.h"
 #include "quotearg.h"
+#include "timespec.h"
 
 
 #if ENABLE_NLS
@@ -701,6 +703,26 @@ process_leading_options(int argc, char *argv[])
   return end_of_leading_options;
 }
 
+static struct timespec 
+now(void)
+{
+  struct timespec retval;
+  struct timeval tv;
+  time_t t;
+  
+  if (0 == gettimeofday(&tv, NULL))
+    {
+      retval.tv_sec  = tv.tv_sec;
+      retval.tv_nsec = tv.tv_usec * 1000; /* convert unit from microseconds to nanoseconds */
+      return retval;
+    }
+  t = time(NULL);
+  assert(t != (time_t)-1);
+  retval.tv_sec = t;
+  retval.tv_nsec = 0;
+  return retval;
+}
+
 void 
 set_option_defaults(struct options *p)
 {
@@ -732,8 +754,8 @@ set_option_defaults(struct options *p)
   
   p->do_dir_first = true;
   p->maxdepth = p->mindepth = -1;
-  p->start_time = time (NULL);
-  p->cur_day_start = p->start_time - DAYSECS;
+  p->start_time = now();
+  p->cur_day_start = p->start_time.tv_sec - DAYSECS;
   p->full_days = false;
   p->stay_on_filesystem = false;
   p->ignore_readdir_race = false;

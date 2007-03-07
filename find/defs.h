@@ -221,8 +221,15 @@ struct size_val
   uintmax_t size;
 };
 
+
+enum xval 
+  {
+    XVAL_ATIME, XVAL_BIRTHTIME, XVAL_CTIME, XVAL_MTIME, XVAL_TIME
+  };
+
 struct time_val
 {
+  enum xval            xval; 
   enum comparison_type kind;
   struct timespec      ts;
 };
@@ -344,7 +351,7 @@ struct predicate
     struct size_val size;	/* size */
     uid_t uid;			/* user */
     gid_t gid;			/* group */
-    struct time_val reftime;	/* newer anewer cnewer mtime atime ctime mmin amin cmin */
+    struct time_val reftime;	/* newer newerXY anewer cnewer mtime atime ctime mmin amin cmin */
     struct perm_val perm;	/* perm */
     struct dir_id   fileid;	/* samefile */
     mode_t type;		/* type */
@@ -424,6 +431,7 @@ enum arg_type
     ARG_NOOP,			/* does nothing, returns true, internal use only */
     ARG_POSITIONAL_OPTION,	/* options whose position is important (-follow) */
     ARG_TEST,			/* a like -name */
+    ARG_SPECIAL_PARSE,		/* complex to parse, don't eat the test name before calling parse_xx(). */
     ARG_PUNCTUATION,		/* like -o or ( */
     ARG_ACTION			/* like -print */
   };
@@ -487,6 +495,7 @@ boolean pred_mtime PARAMS((char *pathname, struct stat *stat_buf, struct predica
 boolean pred_name PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_negate PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_newer PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
+boolean pred_newerXY PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_nogroup PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_nouser PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
 boolean pred_ok PARAMS((char *pathname, struct stat *stat_buf, struct predicate *pred_ptr));
@@ -595,7 +604,7 @@ struct options
    */
   boolean warnings;
   
-  time_t start_time;		/* Time at start of execution.  */
+  struct timespec      start_time;		/* Time at start of execution.  */
   
   /* Seconds between 00:00 1/1/70 and either one day before now
      (the default), or the start of today (if -daystart is given). */

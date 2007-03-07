@@ -1019,6 +1019,7 @@ static struct pred_cost_lookup costlookup[] =
     { pred_name	     ,  NeedsNothing         },
     { pred_negate    ,  NeedsNothing,        },
     { pred_newer     ,  NeedsStatInfo,       },
+    { pred_newerXY   ,  NeedsStatInfo,       },
     { pred_nogroup   ,  NeedsStatInfo        }, /* true for amortised cost if caching is on */
     { pred_nouser    ,  NeedsStatInfo        }, /* true for amortised cost if caching is on */
     { pred_ok        ,  NeedsUserInteraction },
@@ -1323,19 +1324,33 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
       if (parse_entry == NULL)
 	{
 	  /* Command line option not recognized */
-	  error (1, 0, _("invalid predicate `%s'"), predicate_name);
+	  error (1, 0, _("unknown predicate `%s'"), predicate_name);
 	}
-      
-      i++;
+
+      /* We have recognised a test of the form -foo.  Eat that, 
+       * unless it is a predicate like -newerXY.
+       */
+      if (parse_entry->type != ARG_SPECIAL_PARSE)
+	{
+	  i++;
+	}
       oldi = i;
       if (!(*(parse_entry->parser_func)) (parse_entry, argv, &i))
 	{
-	  if (argv[i] == NULL)
-	    /* Command line option requires an argument */
-	    error (1, 0, _("missing argument to `%s'"), predicate_name);
+	  if (oldi == i)
+	    {
+	      error (1, 0, _("invalid predicate `%s'"),
+		     predicate_name);
+	    }
 	  else
-	    error (1, 0, _("invalid argument `%s' to `%s'"),
-		   argv[i], predicate_name);
+	    {
+	      if (argv[i] == NULL)
+		/* Command line option requires an argument */
+		error (1, 0, _("missing argument to `%s'"), predicate_name);
+	      else
+		error (1, 0, _("invalid argument `%s' to `%s'"),
+		       argv[i], predicate_name);
+	    }
 	}
       else
 	{

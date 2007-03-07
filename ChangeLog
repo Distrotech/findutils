@@ -1,3 +1,52 @@
+2007-03-07  James Youngman  <jay@gnu.org>
+
+	* import-gnulib.config: (gnulib_version): Use gnulib version
+	2007-03-05
+	(modules): Added getdate
+
+	* find/Makefile.am (LDADD): Added @LIB_CLOCK_GETTIME@ for
+	clock_gettime(), if it is available.
+
+	* find/defs.h: (enum xval): New enumeration, representing the
+	value of X used in the -newerXY test.  It is stored in the reftime
+	member of 'union args'.
+	(struct predicate): reftime is also used by -newerXY.
+	(enum arg_type): Added ARG_SPECIAL_PARSE for -newerXY, because the
+	parsing function needs to look at the name of the test.
+	(struct options): start_time is now a struct timespec, not a
+	time_t. 
+
+	* find/parser.c: (parse_newerXY): New parsing function for
+	-newerXY, a feature copied from FreeBSD (also present other BSD
+	implementations too)
+	(get_stat_Ytime): New function; returns st_atime, st_mtime or
+	st_ctime from struct stat, as a timespec, as required according to
+	the value of Y in -newerXY.
+	(found_parser): Factored the tail out of find_parser.
+	(find_parser): Moved tail into found_parser.  Add special handling
+	for -newerXY.
+	(do_parse_xmin): New argument xv, indicating the value to which
+	predicate->reftime.xval should be set.
+	(parse_amin): Pass XVAL_ATIME to do_parse_xmin.
+	(parse_cmin): Pass XVAL_CTIME to do_parse_xmin.
+	(parse_mmin): Pass XVAL_MTIME to do_parse_xmin.
+	(parse_newer): Set args.reftime.xval to XVAL_MTIME.
+	
+	* find/pred.c (pred_table): added pred_XY.
+	(pred_fls): options.start_time is now a struct timespec, so just
+	pass the tv_sec member to list_file.
+	(pred_ls): ditto
+	(pred_newerXY): New function, implementing -newerXY.
+
+	* find/tree.c (costlookup): pred_newerXY needs stat information.
+	(build_expression_tree): For predicates of type ARG_SPECIAL_PARSE,
+	pass them in the name of the predicate (that is, don't advance
+	argc).
+
+	* find/util.c (now): New function for setting options.start_time.
+	Use nanoseconds where it is available.
+	(set_option_defaults): Use now() rather than time().
+
 2007-03-03  James Youngman  <jay@gnu.org>
 
 	* import-gnulib.sh: Pass --with-tests to gnulib-tool so that relevant

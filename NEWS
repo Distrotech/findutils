@@ -34,6 +34,26 @@ The -printf format specifiers also support sub-second timestamps:
   %AX     %CX    %TX 
 
 
+The new test -newerXY supports comparison between status times for
+files.  One of the status times for a file being considered (denoted
+X) is checked against a reference time (denoted Y) for the file whose
+name id the argument.  X and Y can be:
+
+   a 	Access time
+   B	Birth time (st_birthtime, currently unsupported)
+   c	Change time
+   m	Modification time
+   t	Valid only for the reference time; instead of comparison
+	against a file status time, the argument is a time string.
+	Not yet supported.
+
+For example, -newermm is equivalent to -newer, and -neweram is true if
+the file being considered was accessed more recently than the
+reference file was modified.  The -newerXY test supports subsecond
+timestamps where these are available.  The X=B variant is not yet
+implemented.
+   
+
 ** Bug Fixes
 
 #17437: Corrected the handling of X in symbolic permissions (such
