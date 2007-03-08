@@ -112,7 +112,7 @@ the link itself will be used.
 When the \-H or \-L options are in effect, any symbolic links listed
 as the argument of \-newer will be dereferenced, and the timestamp
 will be taken from the file to which the symbolic link points.  The
-same consideration applies to \-anewer and \-cnewer.
+same consideration applies to \-newerXY, \-anewer and \-cnewer.
 
 The \-follow option has a similar effect to \-L, though it takes
 effect at the point where it appears (that is, if \-L is not used but
@@ -232,10 +232,11 @@ appear after it on the command line.  Unless the \-H or \-L option has
 been specified, the position of the \-follow option changes the
 behaviour of the \-newer predicate; any files listed as the argument
 of \-newer will be dereferenced if they are symbolic links.  The same
-consideration applies to \-anewer and \-cnewer.  Similarly, the \-type
-predicate will always match against the type of the file that a
-symbolic link points to rather than the link itself.  Using \-follow
-causes the \-lname and \-ilname predicates always to return false.
+consideration applies to \-newerXY, \-anewer and \-cnewer.  Similarly,
+the \-type predicate will always match against the type of the file
+that a symbolic link points to rather than the link itself.  Using
+\-follow causes the \-lname and \-ilname predicates always to return
+false.
 .IP "\-help, \-\-help"
 Print a summary of the command-line usage of
 .B find
@@ -279,17 +280,6 @@ than the directory's link count, it knows that the rest of the entries
 in the directory are non-directories (`leaf' files in the directory
 tree).  If only the files' names need to be examined, there is no need
 to stat them; this gives a significant increase in search speed.
-.IP "\-readable, \-writable, \-executable"
-Matches files which are readable, writable and executable,
-respectively.  This takes into account access control lists and other
-permissions artefacts which the \-perm test ignores.  This test makes
-use of the
-.BR access (2)
-system call, and so can be fooled by NFS servers which do UID
-mapping (or root-squashing), since many systems implement 
-.BR access (2) 
-in the client's kernel and so cannot make use of the UID mapping
-information held on the server.
 .IP "\-regextype \fItype\fR"
 Changes the regular expression syntax understood by 
 .B \-regex
@@ -312,6 +302,27 @@ otherwise.
 Don't descend directories on other filesystems.
 
 .SS TESTS
+Some tests, for example
+.B \-newerXY
+and 
+.BR -samefile ,
+allow comparison between the file currently being examined and some
+reference file specified on the command line.  When these tests are
+used, the interpretation of the reference file is determined by the 
+options 
+.BR \-H , 
+.R \-L 
+and 
+.R -P
+and any previous 
+.BR \-follow ,
+but the reference file is only examined once, at the time the command
+line is parsed.  If the reference file cannot be examined (for
+example, the 
+.BR stat (2) 
+system call fails for it), an error message is issued, and 
+.B find
+exits with a nonzero status.
 .P
 Numeric arguments can be specified as
 .IP \fI+n\fP
@@ -323,6 +334,7 @@ for less than
 .IP \fIn\fP
 for exactly
 .IR n .
+.P
 .IP "\-amin \fIn\fR"
 File was last accessed \fIn\fR minutes ago.
 .IP "\-anewer \fIfile\fR"
@@ -425,6 +437,46 @@ in order to protect it from expansion by the shell.
 File was modified more recently than \fIfile\fR.  If \fIfile\fR is a
 symbolic link and the \-H option or the \-L option is in effect, the
 modification time of the file it points to is always used.
+.IP "\-newerXY \fIreference\fR"
+Compares the timestamp of the current file with \fIreference\fR.  
+The 
+.I reference 
+argument is normally the name of a file (and one of its timestamps is
+used for the comparison) but it may also be a string describing an
+absolute time.  
+.I X 
+and 
+.I Y 
+are placeholders for other letters, and these letters select which
+time belonging to 
+how 
+.I reference 
+is used for the comparison.
+.TS
+ll
+ll
+ll
+ll
+llw(2i).
+a	The access time of the file \fIreference\fR 
+B	The birth time of the file \fIreference\fR
+c	The inode status change time of \fIreference\fR
+m	The modification time of the file \fIreference\fR
+t	\fIreference\fR is interpreted directly as a time
+.TE
+
+Some combinations are invalid; for example, it is invalid for
+.I X 
+to be 
+.IR t .
+Some combinations are not implemented on all systems; for example 
+.I B
+is not supported on all systems.  If an invalid or unsupported
+combination of 
+.I XY 
+is specified, a fatal error results.  Time specifications are
+interpreted as for the argument to the \-d option of GNU 
+.BR date .
 .IP \-nouser
 No user corresponds to file's numeric user ID.
 .IP \-nogroup
@@ -482,7 +534,18 @@ This form of the
 test is deprecated because the POSIX specification requires the
 interpretation of a leading '+' as being part of a symbolic mode, and
 so we switched to using '/' instead.
-
+.IP "\-readable, \-writable, \-executable"
+Matches files which are readable, writable and executable,
+respectively.  This takes into account access control lists and other
+permissions artefacts which the 
+.B \-perm 
+test ignores.  This test makes use of the
+.BR access (2)
+system call, and so can be fooled by NFS servers which do UID
+mapping (or root-squashing), since many systems implement 
+.BR access (2) 
+in the client's kernel and so cannot make use of the UID mapping
+information held on the server.
 .IP "\-regex \fIpattern\fR"
 File name matches regular expression \fIpattern\fR.  This is a match
 on the whole path, not a search.  For example, to match a file named
@@ -1311,6 +1374,42 @@ on the correctness of the results of
 As of findutils-4.2.2, shell metacharacters ('*'. '?' or '[]' for
 example) used in filename patterns will match a leading '.', because
 IEEE POSIX interpretation 126 requires this.
+.P
+The syntax 
+\.B -perm +MODE 
+was deprecated in findutils-4.2.21, in favour of
+\.B -perm 
+.BR /MODE .
+As of findutils-4.3.3, 
+.B \-perm /000
+now matches all files instead of none.  
+.P
+Nanosecond-resolution
+timestamps were implemented in findutils-4.3.3.
+.TS
+l l l .
+Feature	Added in	Also occurs in 
+\-newerXY	4.3.3	BSD
+\-D	4.3.1
+\-O	4.3.1
+\-exec ... +	4.2.12	POSIX
+\-execdir	4.2.12	BSD
+\-okdir	4.2.12
+\-H	4.2.6	POSIX
+\-L	4.2.6	POSIX
+\-P	4.2.6	BSD
+\-delete	4.2.3	
+\-quit	4.2.3
+\-d	4.2.3	BSD
+\-wholename	4.2.0
+-\iwholename	4.2.0
+\-ignore_readdir_race	4.2.0
+\-fls	4.0
+\-ilname	3.8
+\-iname	3.8
+\-ipath	3.8
+\-iregex	3.8
+.TE
 .SH "NON-BUGS"
 .nf
 .B $ find . \-name *.c \-print
@@ -1337,20 +1436,18 @@ this way, you should enclose the pattern in quotes or escape the wildcard:
 
 .SH "BUGS"
 .P
-The test 
-.B \-perm /000
-currently matches no files, but for greater consistency with 
-.B \-perm 
-.BR \-000 , 
-this will be changed to match all files; this change will probably be
-made in early 2006.  Meanwhile, a warning message is given if you do this.
-.P
 There are security problems inherent in the behaviour that the POSIX
 standard specifies for
 .BR find ,
 which therefore cannot be fixed.  For example, the \-exec action is
 inherently insecure, and \-execdir should be used instead.  
 Please see \fBFinding Files\fP for more information. 
+.P
+The environment variable 
+.B  LC_COLLATE
+has no effect on the 
+.B \-ok 
+action.
 .P 
 The best way to report a bug is to use the form at
 http://savannah.gnu.org/bugs/?group=findutils.  
