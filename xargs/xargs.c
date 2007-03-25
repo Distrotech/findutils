@@ -657,11 +657,19 @@ main (int argc, char **argv)
       if (isatty(STDIN_FILENO))
 	{
 	  fprintf(stderr,
-		  "\n"
-		  "Execution of xargs will continue now, and it will "
-		  "try to read its input and run commands; if this is "
-		  "not what you wanted to happen, please type the "
-		  "end-of-file keystroke.\n");
+		  _("\n"
+		    "Execution of xargs will continue now, and it will "
+		    "try to read its input and run commands; if this is "
+		    "not what you wanted to happen, please type the "
+		    "end-of-file keystroke.\n"));
+	  if (always_run_command)
+	    {
+	      fprintf(stderr,
+		      _("Warning: %s will be run at least once.  "
+			"If you do not want that to happen, then press "
+			"the interrupt keystroke.\n"),
+		      argv[optind]);
+	    }
 	}
     }
   

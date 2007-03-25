@@ -931,7 +931,8 @@ email to <bug-findutils@gnu.org>."));
   exit (0);
 }
 
-static float estimate_pattern_match_rate(const char *pattern, int is_regex)
+static float
+estimate_pattern_match_rate(const char *pattern, int is_regex)
 {
   if (strpbrk(pattern, "*?[") || (is_regex && strpbrk(pattern, ".")))
     {
@@ -1713,7 +1714,7 @@ parse_quit  (const struct parser_table* entry, char **argv, int *arg_ptr)
   our_pred->need_stat = our_pred->need_type = false;
   our_pred->side_effects = true; /* Exiting is a side effect... */
   our_pred->no_default_print = false; /* Don't inhibit the default print, though. */
-  our_pred->est_success_rate = 1e-6;
+  our_pred->est_success_rate = 1.0f;
   return true;
 }
 
@@ -2604,7 +2605,7 @@ new_insert_exec_ok (const char *action,
 	}
       
       saw_braces = 0;
-      if (strstr (argv[end], "{}"))
+      if (strstr (argv[end], "{}")) /* XXX: wrong for multibyte locales */
 	{
 	  saw_braces = 1;
 	  ++brace_count;
