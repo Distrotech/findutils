@@ -32,7 +32,7 @@
 unset CDPATH
 
 ## Defaults
-cvsdir=/doesnotexist
+# cvsdir=/doesnotexist
 configfile="./import-gnulib.config"
 need_checkout=yes
 
@@ -109,7 +109,7 @@ do_checkout () {
 }
 
 run_gnulib_tool() {
-    local tool="${gnulibdir}"/gnulib-tool
+    local tool="$1"
     if test -f "$tool"
     then
         true
@@ -147,6 +147,7 @@ run_gnulib_tool() {
 
 
 hack_gnulib_tool_output() {
+    local gnulibdir="${1}"
     for file in $extra_files; do
       case $file in
         */mdate-sh | */texinfo.tex) dest=doc;;
@@ -184,6 +185,7 @@ refresh_output_files() {
 
 main() {
     ## Option parsing
+    local gnulibdir=/doesnotexist
     while getopts "d:" opt
     do
       case "$opt" in
@@ -198,14 +200,17 @@ main() {
 
     ## If -d was not given, do CVS checkout/update
     if [ $need_checkout = yes ] ; then
-	gnulibdir="$cvsdir"/gnulib
         do_checkout gnulib-cvs
+	gnulibdir=gnulib-cvs/gnulib
     else
         echo "Warning: using gnulib code which already exists in $gnulibdir" >&2
     fi
     
     ## Invoke gnulib-tool to import the code.
-    run_gnulib_tool && hack_gnulib_tool_output &&
+    local tool="${gnulibdir}"/gnulib-tool
+
+    run_gnulib_tool "${tool}" && 
+    hack_gnulib_tool_output "${gnulibdir}" &&
     refresh_output_files && echo Done.
 }
 
