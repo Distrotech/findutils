@@ -180,6 +180,7 @@ set_fstype_devno(struct mount_entry *p)
   
   if (p->me_dev == (dev_t)-1)
     {
+      set_stat_placeholders(&stbuf);
       if (0 == (options.xstat)(p->me_mountdir, &stbuf))
 	{
 	  p->me_dev = stbuf.st_dev;

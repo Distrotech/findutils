@@ -187,6 +187,7 @@ main (int argc, char **argv)
       if (! starting_dir)
 	error (1, errno, _("cannot get current directory"));
     }
+  set_stat_placeholders(&starting_stat_buf);
   if ((*options.xstat) (".", &starting_stat_buf) != 0)
     error (1, errno, _("cannot get current directory"));
 
@@ -442,6 +443,7 @@ wd_sanity_check(const char *thing_to_stat,
   
   *changed = false;
   
+  set_stat_placeholders(newinfo);
   if ((*options.xstat) (current_dir, newinfo) != 0)
     error (1, errno, "%s", thing_to_stat);
   
@@ -569,6 +571,7 @@ safely_chdir_lstat(const char *dest,
   if (dotfd >= 0)
     {
       /* Stat the directory we're going to. */
+      set_stat_placeholders(statbuf_dest);
       if (0 == options.xstat(dest, statbuf_dest))
 	{
 	  statflag = true;
@@ -1283,6 +1286,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 		  /* If there is a link we need to follow it.  Hence 
 		   * the direct call to stat() not through (options.xstat)
 		   */
+		  set_stat_placeholders(&stat_buf);
 		  if (0 != stat(".", &stat_buf))
 		    break;	/* skip the assignment. */
 		}

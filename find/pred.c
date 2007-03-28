@@ -922,17 +922,28 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       if ( (KIND_FORMAT == segment->segkind) && segment->format_char[1]) /* Component of date. */
 	{
 	  struct timespec ts;
+	  int valid = 0;
 	  
 	  switch (segment->format_char[0])
 	    {
 	    case 'A':
 	      ts = get_stat_atime(stat_buf);
+	      valid = 1;
+	      break;
+	    case 'B':
+	      ts = get_stat_birthtime(stat_buf);
+	      if ('@' == segment->format_char[1])
+		valid = 1;
+	      else
+		valid = (ts.tv_nsec >= 0);
 	      break;
 	    case 'C':
 	      ts = get_stat_ctime(stat_buf);
+	      valid = 1;
 	      break;
 	    case 'T':
 	      ts = get_stat_mtime(stat_buf);
+	      valid = 1;
 	      break;
 	    default:
 	      assert(0);
@@ -942,9 +953,22 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	   * nasty characters, though the value of the date
 	   * is itself untrusted data.
 	   */
-	  /* trusted */
-	  fprintf (fp, segment->text,
-		   format_date (ts, segment->format_char[1]));
+	  if (valid)
+	    {
+	      /* trusted */
+	      fprintf (fp, segment->text,
+		       format_date (ts, segment->format_char[1]));
+	    }
+	  else
+	    {
+	      /* The specified timestamp is not available, output
+	       * nothing for the timestamp, but use the rest (so that
+	       * for example find foo -printf '[%Bs] %p\n' can print
+	       * "[] foo").
+	       */
+	      /* trusted */
+	      fprintf (fp, segment->text, "");
+	    }
 	}
       else
 	{
@@ -1176,9 +1200,14 @@ pred_newerXY (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       ts = get_stat_atime(stat_buf);
       break;
     case XVAL_BIRTHTIME:
-      assert(pred_ptr->args.reftime.xval != XVAL_BIRTHTIME); /* Unsupported. */
-      assert(0);
-      abort();
+      ts = get_stat_birthtime(stat_buf);
+      if (ts.tv_nsec < 0);
+	{
+	  /* XXX: Cannot determine birth time.  Warn once. */
+	  error(0, 0, _("Warning: cannot determine birth time of file `%s'"),
+		pathname);
+	  return 0;
+	}
       break;
     case XVAL_CTIME:
       ts = get_stat_ctime(stat_buf);
@@ -1186,7 +1215,7 @@ pred_newerXY (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     case XVAL_MTIME:
       ts = get_stat_mtime(stat_buf);
       break;
-    case XVAL_TIME:
+    case XVAL_TIME:		/* Should not happen (-newertY is not valid). */
       assert(pred_ptr->args.reftime.xval != XVAL_TIME);
       abort();
       break;
@@ -1594,6 +1623,7 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   else
     ystat = optionl_stat;
   
+  set_stat_placeholders(&sbuf);
   if ((*ystat) (state.rel_pathname, &sbuf) != 0)
     {
       if (following_links() && errno == ENOENT)
@@ -1780,15 +1810,26 @@ launch (const struct buildcmd_control *ctl,
 static char *
 format_date (struct timespec ts, int kind)
 {
-  /* Use an extra 10 characters for 9 digits of nanoseconds and 1 for
-   * the decimal point
+  /* In theory, we use an extra 10 characters for 9 digits of
+   * nanoseconds and 1 for the decimal point.  However, the real
+   * world is more complex than that.
+   *
+   * For example, some systems return junk in the tv_nsec part of
+   * st_birthtime.  An example of this is the NetBSD-4.0-RELENG kernel
+   * (at Sat Mar 24 18:46:46 2007) running a NetBSD-3.1-RELEASE
+   * runtime and examining files on an msdos filesytem.  So for that 
+   * reason we set NS_BUF_LEN to 32, which is simply "long enough" as 
+   * opposed to "exactly the right size".  Note that the behaviour of 
+   * NetBSD appears to be a result of the use of uninitialised data, 
+   * as it's not 100% reproducible (more like 25%).
    */
   enum {
-    NS_BUF_LEN = 12,
+    NS_BUF_LEN = 32,
     DATE_LEN_PERCENT_APLUS=21	/* length of result of %A+ (it's longer than %c)*/
   };	  
-  static char buf[10u + MAX(DATE_LEN_PERCENT_APLUS, MAX (LONGEST_HUMAN_READABLE + 2, 64))];
-  char ns_buf[NS_BUF_LEN]; /* .9999999990 */
+  static char buf[128u+10u + MAX(DATE_LEN_PERCENT_APLUS,
+			    MAX (LONGEST_HUMAN_READABLE + 2, NS_BUF_LEN+64+200))];
+  char ns_buf[NS_BUF_LEN]; /* -.9999999990 (- sign can happen!)*/
   int  charsprinted, need_ns_suffix;
   struct tm *tm;
   char fmt[6];
@@ -1823,6 +1864,7 @@ format_date (struct timespec ts, int kind)
 	case 'S':
 	case 'T':
 	case 'X':
+	case '@':
 	  need_ns_suffix = 1;
 	  break;
 	default:
@@ -1838,6 +1880,7 @@ format_date (struct timespec ts, int kind)
        * column offsets.  The reason for discouraging this is that in the future, the 
        * granularity may not be nanoseconds.
        */
+      ns_buf[0] = 0;
       charsprinted = snprintf(ns_buf, NS_BUF_LEN, ".%09ld0", (long int)ts.tv_nsec);
       assert(charsprinted < NS_BUF_LEN);
     }
@@ -1873,12 +1916,22 @@ format_date (struct timespec ts, int kind)
        * of human_readable, we cannot assume any particular value for (p-buf).  So we 
        * need to be careful that there is enough space remaining in the buffer.
        */
-      len = strlen(p);
-      used = (p-buf) + len;	/* Offset into buf of current end */
-      assert(sizeof buf > used); /* Ensure we can perform subtraction safely. */
-      remaining = sizeof buf - used - 1u; /* allow space for NUL */
-      assert(strlen(ns_buf) < remaining);
-      strcat(p, ns_buf);
+      if (need_ns_suffix)
+	{
+	  len = strlen(p);
+	  used = (p-buf) + len;	/* Offset into buf of current end */
+	  assert(sizeof buf > used); /* Ensure we can perform subtraction safely. */
+	  remaining = sizeof buf - used - 1u; /* allow space for NUL */
+	  
+	  if (strlen(ns_buf) >= remaining)
+	    {
+	      error(0, 0,
+		    "charsprinted=%ld but remaining=%lu: ns_buf=%s",
+		    (long)charsprinted, (unsigned long)remaining, ns_buf);
+	    }
+	  assert(strlen(ns_buf) < remaining);
+	  strcat(p, ns_buf);
+	}
       return p;
     }
 }

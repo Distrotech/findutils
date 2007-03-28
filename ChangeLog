@@ -1,3 +1,23 @@
+2007-03-28  James Youngman  <jay@gnu.org>
+
+	* find/defs.h (set_stat_placeholders): utility function for
+	initialising the sturct stat fields that NetBSD doesn't always set
+	(like st_birthtime where the file is on a filesystem not
+	supporting birthtime).
+	* find/util.c: set_stat_placeholders(): new function
+	(get_statinfo): Call set_stat_placeholders().
+	(optionh_stat, optionl_stat, optionp_stat): ditto
+	* find/find.c (main, wd_sanity_check, safely_chdir_lstat,
+	process_dir): use set_stat_placeholders().
+	* find/parser.c (parse_anewer, parse_cnewer, parse_newer,
+	parse_newerXY): ditto.
+	(get_stat_Ytime): Support birth time ('B').
+	(parse_newerXY): Support st_birthtime.
+	* find/fstype.c (set_fstype_devno): Use set_stat_placeholders().
+	* find/pred.c (pred_xtype): Use set_stat_placeholders().
+	(pred_newerXY): Support birth time.
+	(pred_fprintf, format_date): ditto ("%Bx").
+
 2007-03-25  James Youngman  <jay@gnu.org>
 
 	* xargs/xargs.c (main): For "xargs --show-limits" where stdin is a

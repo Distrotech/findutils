@@ -86,6 +86,7 @@ int optionp_stat PARAMS((const char *name, struct stat *p));
 int optionh_stat PARAMS((const char *name, struct stat *p));
 int debug_stat   PARAMS((const char *file, struct stat *bufp));
 
+void set_stat_placeholders PARAMS((struct stat *p));
 int get_statinfo PARAMS((const char *pathname, const char *name, struct stat *p));
 
 #if ! defined HAVE_FCHDIR && ! defined fchdir

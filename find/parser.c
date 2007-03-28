@@ -339,20 +339,25 @@ get_noop(void)
   return noop;
 }
 
-static struct timespec
+static int
 get_stat_Ytime(const struct stat *p,
-	       char what)
+	       char what,
+	       struct timespec *ret)
 {
   switch (what)
     {
     case 'a':
-      return get_stat_atime(p);
+      *ret = get_stat_atime(p);
+      return 1;
     case 'B':
-      assert(what != 'B');
+      *ret = get_stat_birthtime(p);
+      return (ret->tv_nsec >= 0);
     case 'c':
-      return get_stat_ctime(p);
+      *ret = get_stat_ctime(p);
+      return 1;
     case 'm':
-      return get_stat_mtime(p);
+      *ret = get_stat_mtime(p);
+      return 1;
     default:
       assert(0);
       abort();
@@ -574,6 +579,7 @@ parse_anewer (const struct parser_table* entry, char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
+  set_stat_placeholders(&stat_newer);
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (entry);
@@ -609,6 +615,7 @@ parse_cnewer (const struct parser_table* entry, char **argv, int *arg_ptr)
 
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
+  set_stat_placeholders(&stat_newer);
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (entry);
@@ -1236,6 +1243,7 @@ parse_newer (const struct parser_table* entry, char **argv, int *arg_ptr)
   
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
+  set_stat_placeholders(&stat_newer);
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
     error (1, errno, "%s", argv[*arg_ptr]);
   our_pred = insert_primary (entry);
@@ -1265,17 +1273,24 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
   else 
     {
       char x, y;
-      const char const validchars[] = "aBcmt";
+      const char validchars[] = "aBcmt";
       
       assert(0 == strncmp("-newer", argv[*arg_ptr], 6));
       x = argv[*arg_ptr][6];
       y = argv[*arg_ptr][7];
 
-      /* We do not currently support st_birthtime, 
-       * and -newertY (for any Y) is invalid.
-       */
-      if (x == 'B' || y == 'B' /* TODO: support B where possible */
-	  || x == 't'
+
+#if !defined(HAVE_STRUCT_STAT_ST_BIRTHTIME) && !defined(HAVE_STRUCT_STAT_ST_BIRTHTIMENSEC) && !defined(HAVE_STRUCT_STAT_ST_BIRTHTIMESPEC_TV_NSEC)
+      if ('B' == x || 'B' == y)
+	{
+	  error(0, 0,
+		_("This system does not provide a way to find the birth time of a file."));
+	  return 0;
+	}
+#endif
+      
+      /* -newertY (for any Y) is invalid. */
+      if (x == 't'
 	  || 0 == strchr(validchars, x)
 	  || 0 == strchr( validchars, y))
 	{
@@ -1291,6 +1306,27 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 	  (*arg_ptr)++;
 	  
 	  our_pred = insert_primary (entry);
+
+
+	  switch (x)
+	    {
+	    case 'a':
+	      our_pred->args.reftime.xval = XVAL_ATIME;
+	      break;
+	    case 'B':
+	      our_pred->args.reftime.xval = XVAL_BIRTHTIME;
+	      break;
+	    case 'c':
+	      our_pred->args.reftime.xval = XVAL_CTIME;
+	      break;
+	    case 'm':
+	      our_pred->args.reftime.xval = XVAL_MTIME;
+	      break;
+	    default:
+	      assert(strchr(validchars, x));
+	      assert(0);
+	    }
+	  
 	  if ('t' == y)
 	    {
 	      if (!get_date(&our_pred->args.reftime.ts,
@@ -1307,10 +1343,16 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 	      struct stat stat_newer;
 	      
 	      /* Stat the named file. */
+	      set_stat_placeholders(&stat_newer);
 	      if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
 		error (1, errno, "%s", argv[*arg_ptr]);
 	      
-	      our_pred->args.reftime.ts = get_stat_Ytime(&stat_newer, y);
+	      if (!get_stat_Ytime(&stat_newer, y, &our_pred->args.reftime.ts))
+		{
+		  /* We cannot extract a timestamp from the struct stat. */
+		  error(1, 0, _("Cannot obtain birth time of file `%s'"),
+			argv[*arg_ptr]);
+		}
 	    }
 	  our_pred->args.reftime.kind = COMP_GT;
 	  our_pred->est_success_rate = estimate_timestamp_success_rate(our_pred->args.reftime.ts.tv_sec);
@@ -1861,6 +1903,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
   
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
+  set_stat_placeholders(&st);
   if ((*options.xstat) (argv[*arg_ptr], &st))
     error (1, errno, "%s", argv[*arg_ptr]);
   
@@ -2337,7 +2380,7 @@ insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char
 	      scan = scan2;
 	      format = scan + 1;
 	    }
-	  else if (strchr ("ACT", *scan2) && scan2[1])
+	  else if (strchr ("ABCT", *scan2) && scan2[1])
 	    {
 	      segmentp = make_segment (segmentp, format, scan2 - format,
 				       KIND_FORMAT, scan2[0], scan2[1],
@@ -2424,6 +2467,7 @@ make_segment (struct segment **segment,
       
     case 'a':			/* atime in `ctime' format */
     case 'A':			/* atime in user-specified strftime format */
+    case 'B':			/* birth time in user-specified strftime format */
     case 'c':			/* ctime in `ctime' format */
     case 'C':			/* ctime in user-specified strftime format */
     case 'F':			/* filesystem type */
@@ -2467,7 +2511,7 @@ make_segment (struct segment **segment,
        */
     case 'G':			/* GID number */
     case 'U':			/* UID number */
-    case 'b':			/* size in 512-byte blocks */
+    case 'b':			/* size in 512-byte blocks (NOT birthtime in ctime fmt)*/
     case 'D':                   /* Filesystem device on which the file exits */
     case 'k':			/* size in 1K blocks */
     case 'n':			/* number of links */

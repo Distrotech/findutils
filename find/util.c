@@ -161,6 +161,23 @@ usage (FILE *fp, int status, char *msg)
   if (0 != status)
     exit (status);
 }
+
+void 
+set_stat_placeholders(struct stat *p)
+{
+#if HAVE_STRUCT_STAT_ST_BIRTHTIME
+  p->st_birthtime = 0;
+#endif
+#if HAVE_STRUCT_STAT_ST_BIRTHTIMENSEC
+  p->st_birthtimensec = 0;
+#endif
+#if HAVE_STRUCT_STAT_ST_BIRTHTIMESPEC_TV_NSEC
+  p->st_birthtimespec.tv_nsec = -1;
+#endif
+#if HAVE_STRUCT_STAT_ST_BIRTHTIMESPEC_TV_SEC
+  p->st_birthtimespec.tv_sec = 0;
+#endif
+}
 
 
 /* Get the stat information for a file, if it is 
@@ -169,14 +186,22 @@ usage (FILE *fp, int status, char *msg)
 int
 get_statinfo (const char *pathname, const char *name, struct stat *p)
 {
-  if (!state.have_stat && (*options.xstat) (name, p) != 0)
+  /* Set markers in fields so we have a good idea if the implementation
+   * didn't bother to set them (e.g., NetBSD st_birthtimespec for MS-DOS 
+   * files)
+   */
+  if (!state.have_stat)
     {
-      if (!options.ignore_readdir_race || (errno != ENOENT) )
+      set_stat_placeholders(p);
+      if ((*options.xstat) (name, p) != 0)
 	{
-	  error (0, errno, "%s", pathname);
-	  state.exit_status = 1;
+	  if (!options.ignore_readdir_race || (errno != ENOENT) )
+	    {
+	      error (0, errno, "%s", pathname);
+	      state.exit_status = 1;
+	    }
+	  return -1;
 	}
-      return -1;
     }
   state.have_stat = true;
   state.have_type = true;
@@ -372,7 +397,9 @@ optionh_stat(const char *name, struct stat *p)
       /* This file is from the command line; deference the link (if it
        * is a link).  
        */
-      int rv = stat(name, p);
+      int rv;
+      set_stat_placeholders(p);
+      rv = stat(name, p);
       if (0 == rv)
 	return 0;		/* success */
       else
@@ -393,7 +420,9 @@ optionh_stat(const char *name, struct stat *p)
 int 
 optionl_stat(const char *name, struct stat *p)
 {
-  int rv = stat(name, p);
+  int rv;
+  set_stat_placeholders(p);
+  rv = stat(name, p);
   if (0 == rv)
     return 0;			/* normal case. */
   else
@@ -407,6 +436,7 @@ optionl_stat(const char *name, struct stat *p)
 int 
 optionp_stat(const char *name, struct stat *p)
 {
+  set_stat_placeholders(p);
   return lstat(name, p);
 }
 
@@ -418,6 +448,7 @@ debug_stat (const char *file, struct stat *bufp)
 {
   ++stat_count;
   fprintf (stderr, "debug_stat (%s)\n", file);
+
   switch (options.symlink_handling)
     {
     case SYMLINK_ALWAYS_DEREF:
