@@ -1337,19 +1337,26 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
       oldi = i;
       if (!(*(parse_entry->parser_func)) (parse_entry, argv, &i))
 	{
-	  if (oldi == i)
+	  if (argv[i])
 	    {
-	      error (1, 0, _("invalid predicate `%s'"),
-		     predicate_name);
+	      if ( (ARG_SPECIAL_PARSE == parse_entry->type) && (i == oldi) )
+		{
+		  /* The special parse function spat out the
+		   * predicate.  It must be invalid, or not tasty.
+		   */
+		  error (1, 0, _("invalid predicate `%s'"),
+			 argv[i], predicate_name);
+		}
+	      else
+		{
+		  error (1, 0, _("invalid argument `%s' to `%s'"),
+			 argv[i], predicate_name);
+		}
 	    }
 	  else
 	    {
-	      if (argv[i] == NULL)
-		/* Command line option requires an argument */
-		error (1, 0, _("missing argument to `%s'"), predicate_name);
-	      else
-		error (1, 0, _("invalid argument `%s' to `%s'"),
-		       argv[i], predicate_name);
+	      /* Command line option requires an argument */
+	      error (1, 0, _("missing argument to `%s'"), predicate_name);
 	    }
 	}
       else
