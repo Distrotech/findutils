@@ -151,7 +151,7 @@ hack_gnulib_tool_output() {
     for file in $extra_files; do
       case $file in
         */mdate-sh | */texinfo.tex) dest=doc;;
-        *) dest=.;;
+        *) dest=build-aux;;
       esac
       cp -fp "${gnulibdir}"/"$file" "$dest" || exit
     done
