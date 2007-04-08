@@ -19,6 +19,7 @@ locate.gnu/notexists1.exp \
 locate.gnu/notexists2.exp \
 locate.gnu/notexists3.exp \
 locate.gnu/space1st.exp \
+locate.gnu/sv-bug-14535.exp \
 locate.gnu/exceedshort.exp
 
 EXTRA_DIST_XO = \

@@ -1,12 +1,14 @@
 AUTOMAKE_OPTIONS=gnits
 # readme-alpha
 
-EXTRA_DIST = COPYING ChangeLog TODO install-sh config.h.in stamp-h.in \
-		THANKS config.rpath import-gnulib.sh import-gnulib.config
+EXTRA_DIST = COPYING ChangeLog TODO config.h.in stamp-h.in \
+		THANKS import-gnulib.sh import-gnulib.config
 # "tests" is the gnulib unit test dir.
 SUBDIRS = gnulib tests lib find xargs locate doc po m4
 
 ACLOCAL_AMFLAGS = -I gnulib/m4 -I m4
+
+TESTFILE_SUFFIXES = .exp .xo .xe .xi
 
 # CONFIG_CLEAN_FILES = gnulib/lib/regex.c
 
@@ -47,12 +49,7 @@ findutils-check-pofiles:
 ## of them, there will be some tests which people using the CVS code will be
 ## running, but people using the source distribution will not.
 findutils-check-testfiles:
-	@echo ; echo Checking to see if we distributed the full set of .exp files
-	distcount=`ls $(distdir)/*/testsuite/*/*.exp | wc -l` && srccount=`ls $(srcdir)/*/testsuite/*/*.exp | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
-	@echo ; echo Checking to see if we distributed the full set of .xo files
-	distcount=`ls $(distdir)/*/testsuite/*/*.xo | wc -l` && srccount=`ls $(srcdir)/*/testsuite/*/*.xo | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
-	@echo ; echo Checking to see if we distributed the full set of .xe files
-	distcount=`ls $(distdir)/*/testsuite/*/*.xe | wc -l` && srccount=`ls $(srcdir)/*/testsuite/*/*.xe | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
-	@echo ; echo Checking to see if we distributed the full set of .xi files
-	distcount=`ls $(distdir)/*/testsuite/inputs/*.xi | wc -l` && srccount=`ls $(srcdir)/*/testsuite/inputs/*.xi | wc -l` && echo source $$srccount distributed $$distcount && test $$distcount -eq $$srccount
+	@echo
+	$(AUXDIR)/check-testfiles.sh "$(distdir)" "$(srcdir)" $(TESTFILE_SUFFIXES)
+
 

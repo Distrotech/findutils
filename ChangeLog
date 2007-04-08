@@ -1,7 +1,16 @@
 2007-04-08  James Youngman  <jay@gnu.org>
 
-	* config.rpath, depcomp, missing: Moved into build-aux/.
+	* configure.in: Set @AUXDIR@ (to the location of the build-aux
+	directory).
+	* build-aux/check-testfiles.sh: New script, which checks that all
+	the DejaGnu test files have been included in the distribution and
+	(more helpfully) lists any that are missing.
+	* Makefile.am (findutils-check-testfiles): Use
+	build-aux/check-testfiles.sh.
+	* locate/testsuite/Makefile.am (EXTRA_DIST_EXP): distribute 
+	locate/testsuite/locate.gnu/sv-bug-14535.exp. 
 
+	* config.rpath, depcomp, missing: Moved into build-aux/.
 	* configure.in(AC_CONFIG_AUX_DIR): Find aux files in $SRCDIR/build-aux,
 	not in $SRCDIR.
 
