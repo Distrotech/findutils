@@ -1,3 +1,19 @@
+2007-04-09  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi: Change fully-specified @node directives to
+	single-argument @node directives in order to accomodate the
+	inclusion of getdate.texi.
+
+	* doc/find.texi: Document -newerXY.
+
+	* doc/find.texi (Security Considerations): updated to describe
+	differences in the fts-based implementation.
+
+	* find/find.1: Indicate that testing the birth time where this is
+	not supported produces a negative result for files where the birth
+	time is not known (or a fatal error if the file of interest is a
+	reference file).
+	
 2007-04-08  James Youngman  <jay@gnu.org>
 
 	* configure.in: Set @AUXDIR@ (to the location of the build-aux

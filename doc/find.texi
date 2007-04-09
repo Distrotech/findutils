@@ -69,7 +69,8 @@ translation approved by the Foundation.
 @contents
 
 @ifnottex
-@node Top, Introduction, , (dir)
+@node Top
+@top GNU Findutils
 @comment  node-name,  next,  previous,  up
 
 This file documents the GNU utilities for finding files that match
@@ -86,6 +87,7 @@ This is edition @value{EDITION}, for @code{find} version @value{VERSION}.
 * Actions::                     Doing things to files you have found.
 * Databases::                   Maintaining file name databases.
 * File Permissions::            How to control access to files.
+* Date input formats::          Specifying literal times.
 * Reference::                   Summary of how to invoke the programs.
 * Common Tasks::                Solutions to common real-world problems.
 * Worked Examples::             Examples demonstrating more complex points.
@@ -94,7 +96,7 @@ This is edition @value{EDITION}, for @code{find} version @value{VERSION}.
 * Primary Index::               The components of @code{find} expressions.
 @end menu
 
-@node Introduction, Finding Files, Top, Top
+@node Introduction
 @chapter Introduction
 
 This manual shows how to find files that meet criteria you specify,
@@ -331,7 +333,7 @@ for less than @var{n},
 for exactly @var{n}.
 @end table
 
-@node Finding Files, Actions, Introduction, Top
+@node Finding Files
 @chapter Finding Files
 
 By default, @code{find} prints to the standard output the names of the
@@ -778,7 +780,13 @@ change the status (modify the file or its attributes)
 modify (change the file's contents)
 @end enumerate
 
-There is no timestamp that indicates when a file was @emph{created}.
+Some systems also provide a timestamp that indicates when a file was
+@emph{created}.   For example, the UFS2 fileystem under NetBSD-3.1
+records the @emph{birth time} of each file.  This information is also
+available under other versions of BSD and some versions of Cygwin.
+However, even on systems which support file birth time, files may
+exist for which this information was not recorded (for example, UFS1
+file systems simply do not contain this information).
 
 You can search for files whose time stamps are within a certain age
 range, or compare them to other time stamps.
@@ -826,7 +834,7 @@ ago.  So, to list the regular files in your home directory that were
 modified yesterday, do
 
 @example
-find ~ -daystart -type f -mtime 1
+find ~/ -daystart -type f -mtime 1
 @end example
 
 The @samp{-daystart} option is unlike most other options in that it
@@ -840,12 +848,56 @@ command line.
 @node Comparing Timestamps
 @subsection Comparing Timestamps
 
-As an alternative to comparing timestamps to the current time, you can
-compare them to another file's timestamp.  That file's timestamp could
-be updated by another program when some event occurs.  Or you could
-set it to a particular fixed date using the @code{touch} command.  For
-example, to list files in @file{/usr} modified after February 1 of the
-current year:
+@deffn Test -newerXY reference
+Succeeds if timestamp @samp{X} of the file being considered is newer
+than timestamp @samp{Y} of the file @file{reference}.   The latters
+@samp{X} and @samp{Y} can be any of the following letters:
+
+@table @samp
+@item a
+Last-access time of @file{reference}
+@item B
+Birth time of @file{reference} (when this is not known, the test cannot succeed)
+@item c
+Last-change time of @file{reference}
+@item m
+Last-modification time of @file{reference}
+@item t
+The @file{reference} argument is interpreted as a literal time, rather
+than the name of a file.  @xref{Date input formats}, for a description
+of how the timestamp is understood.  Tests of the form @samp{-newerXt}
+are valid but tests of the form @samp{-newertY} are not.
+@end table
+
+For example the test @code{-newerac /tmp/foo} succeeds for all files
+which have been accessed more recently than @file{/tmp/foo} was
+changed.   Here @samp{X} is @samp{a} and @samp{Y} is @samp{c}.   
+
+Not all files have a known birth time.  If @samp{Y} is @samp{b} and
+the birth time of @file{reference} is not available, @code{find} exits
+with an explanatory error message.  If @samp{X} is @samp{b} and we do
+not know the birth time the file currently being considered, the test
+simply fails (that is, it behaves like @code{-false} does).
+
+Some operating systems (for example, most implementations of Unix) do
+not support file birth times.  Some others, for example NetBSD-3.1,
+do.  Even on operating systems which support file birth times, the
+information may not be available for specific files.  For example,
+under NetBSD, file birth times are supported on UFS2 file systems, but
+not UFS1 file systems.
+
+@end deffn
+
+
+
+There are two ways to list files in @file{/usr} modified after
+February 1 of the current year.  One uses @samp{-newermt}:
+
+@example
+find /usr -newermt "Feb 1"
+@end example
+
+The other way of doing this works on the versions of find before 4.3.3:
 
 @c Idea from Rick Sladkey.
 @example
@@ -1390,7 +1442,7 @@ Always true.
 Always false.
 @end deffn
 
-@node Actions, Databases, Finding Files, Top
+@node Actions
 @chapter Actions
 
 There are several ways you can print information about the files that
@@ -2471,7 +2523,7 @@ find /usr/local -type f -perm /a=x \
 @end example
 
 
-@node Databases, File Permissions, Actions, Top
+@node Databases
 @chapter File Name Databases
 
 The file name databases used by @code{locate} contain lists of files
@@ -2676,12 +2728,14 @@ So, if you are using the new database format (this is the default) and
 your system uses GNU @code{sort}, newlines will be correctly handled
 at all times.  Otherwise, newlines may not be correctly handled.
 
-@node File Permissions, Reference, Databases, Top
+@node File Permissions
 @chapter File Permissions
 
 @include perm.texi
 
-@node Reference, Common Tasks, File Permissions, Top
+@include getdate.texi
+
+@node Reference
 @chapter Reference
 
 Below are summaries of the command line syntax for the programs
@@ -2696,7 +2750,7 @@ discussed in this manual.
 * Environment Variables::
 @end menu
 
-@node Invoking find, Invoking locate, , Reference
+@node Invoking find
 @section Invoking @code{find}
 
 @example
@@ -2745,7 +2799,7 @@ The @samp{-version} option is a synonym for @samp{--version}
 * Find Expressions::
 @end menu
 
-@node Filesystem Traversal Options, Warning Messages,, Invoking find
+@node Filesystem Traversal Options
 @subsection Filesystem Traversal Options
 
 The options @samp{-H}, @samp{-L} or @samp{-P} may be specified at the
@@ -2772,7 +2826,7 @@ broken), it falls back on using the properties of the symbolic link
 itself.  @ref{Symbolic Links} for a more complete description of how
 symbolic links are handled.
 
-@node Warning Messages, Optimisation Options, Filesystem Traversal Options, Invoking find
+@node Warning Messages
 @subsection Warning Messages
 
 If there is an error on the @code{find} command line, an error message
@@ -2822,7 +2876,7 @@ Use of an unrecognised backslash escape sequence with @samp{-fprintf}
 Use of an unrecognised formatting directive with @samp{-fprintf}
 @end itemize
 
-@node Optimisation Options, Debug Options, Warning Messages, Invoking find
+@node Optimisation Options
 @subsection Optimisation Options
 
 The @samp{-O@var{level}} option sets @code{find}'s optimisation level
@@ -2862,7 +2916,7 @@ evaluated earlier.
 @end table
 
 
-@node Debug Options, Find Expressions, Optimisation Options, Invoking find
+@node Debug Options
 @subsection Debug Options
 
 The @samp{-D} option makes @code{find} produce diagnostic output.
@@ -2886,7 +2940,7 @@ Prints diagnostic information relating to the optimisation of the
 expression tree; see the @samp{-O} option.
 @end table
 
-@node Find Expressions,, Debug Options, Invoking find
+@node Find Expressions
 @subsection Find Expressions
 
 The final part of the @code{find} command line is a list of
@@ -2894,7 +2948,7 @@ expressions.  @xref{Primary Index}, for a summary of all of the tests,
 actions, and options that the expression can contain.  If the
 expression is missing, @samp{-print} is assumed.
 
-@node Invoking locate, Invoking updatedb, Invoking find, Reference
+@node Invoking locate
 @section Invoking @code{locate}
 
 @example
@@ -3055,7 +3109,7 @@ Print a summary of the command line usage for @code{locate} and exit.
 Print the version number of @code{locate} and exit.
 @end table
 
-@node Invoking updatedb, Invoking xargs, Invoking locate, Reference
+@node Invoking updatedb
 @section Invoking @code{updatedb}
 
 @example
@@ -3140,7 +3194,7 @@ Print a summary of the command line usage and exit.
 Print the version number of @code{updatedb} and exit.
 @end table
 
-@node Invoking xargs, Regular Expressions,  Invoking updatedb, Reference
+@node Invoking xargs
 @section Invoking @code{xargs}
 
 @example
@@ -3289,7 +3343,7 @@ possible simultaneously.
 @end table
 
 
-@node Regular Expressions, Environment Variables, Invoking xargs, Reference
+@node Regular Expressions
 @section Regular Expressions
 
 The @samp{-regex} and @samp{-iregex} tests of @code{find} allow
@@ -3307,7 +3361,7 @@ should be one of the following:
 
 @include regexprops.texi
 
-@node Environment Variables,, Regular Expressions, Reference
+@node Environment Variables
 @section Environment Variables
 @table @var
 @item LANG
@@ -3354,7 +3408,7 @@ directives of @samp{-printf} and @samp{-fprintf}.
 
 
 
-@node Common Tasks, Worked Examples, Reference, Top
+@node Common Tasks
 @chapter Common Tasks
 
 The sections that follow contain some extended examples that both give
@@ -3609,7 +3663,7 @@ cat allexec
 @code{find} has only to make one scan through the directory tree
 (which is one of the most time consuming parts of its work).
 
-@node Worked Examples, Security Considerations, Common Tasks, Top
+@node Worked Examples
 @chapter Worked Examples
 
 The tools in the findutils package, and in particular @code{find},
@@ -4150,7 +4204,7 @@ other, to the nearest second.  The second @code{find} command takes
 each resulting file one at a time, and if that is newer than the
 timestamp file, the timestamp is updated.
 
-@node Security Considerations, Error Messages, Worked Examples, Top
+@node Security Considerations
 @chapter Security Considerations
 
 Security considerations are important if you are using @code{find} or
@@ -4304,6 +4358,7 @@ However, your degree of safety does depend on the nature of the
 program you are running.  For example constructs such as these two commands
 
 @example
+# risky
 find -exec sh -c "something @{@}" \;
 find -execdir sh -c "something @{@}" \;
 @end example
@@ -4318,6 +4373,19 @@ So for this reason do not run any command which will pass untrusted
 data (such as the names of files) to commands which interpret
 arguments as commands to be further interpreted (for example
 @samp{sh}).
+
+In the case of the shell, there is a clever workaround for this
+problem:
+
+@example
+# safer 
+find -exec sh -c 'something "$@@"' @{@} \;
+find -execdir sh -c 'something "$@@"' @{@}\;
+@end example
+
+This approach is not guaranteed to avoid every problem, but it is much
+safer than substituting data of an attacker's choice into the text of
+a shell command.
 
 @node Changing the Current Working Directory
 @subsection Changing the Current Working Directory
@@ -4415,7 +4483,8 @@ fail.
 However, this does not normally represent a security problem, since
 the automounter configuration is normally set up by the system
 administrator.  Therefore, if the @code{chdir()} sanity check fails,
-@code{find} will make one more attempt.  If that succeeds, execution
+@code{find} will make one more attempt@footnote{This may not be the
+case for the fts-based executable}.  If that succeeds, execution
 carries on as normal.  This is the usual case for automounters.
 
 Where an attacker is trying to exploit a race condition, the problem
@@ -4552,6 +4621,14 @@ ensures that @code{xargs} considers file names to be separated by
 ASCII NUL characters rather than whitespace.  However, useful as this
 option is, the POSIX standard does not make it mandatory.
 
+POSIX also specifies that @code{xargs} interprets quoting and trailing
+whitespace specially in filenames, too.  This means that using
+@code{find ... -print | xargs ...} can cause the commands run by
+@code{xargs} to receive a list of file names which is not the same as
+the list printed by @code{find}.   The interpretation of quotes and
+trailing whitespace is turned off by the @samp{-0} argument to
+@code{xargs}, which is another reason to use that option.
+
 @comment  node-name,  next,  previous,  up
 @node Security Considerations for locate
 @section Security Considerations for @code{locate}
@@ -4588,7 +4665,7 @@ only trusted programs.
 @end table
 
 @comment  node-name,  next,  previous,  up
-@node Error Messages, Primary Index, Security Considerations, Top
+@node Error Messages
 @chapter Error Messages
 
 This section describes some of the error messages sometimes made by
@@ -4597,13 +4674,13 @@ cases provides advice as to what you should do about this.
 
 This manual is written in English.  The GNU findutils software
 features translations of error messages for many languages.  For this
-reason the error messages produced by
-the programs are made to be as self-explanatory as possible.  This approach avoids leaving people to
-figure out which test an English-language error message
-corresponds to. Error messages which are self-explanatory
-will not normally be mentioned in this document.  For
-those messages mentioned in this document, only the
-English-language version of the message will be listed.
+reason the error messages produced by the programs are made to be as
+self-explanatory as possible.  This approach avoids leaving people to
+figure out which test an English-language error message corresponds
+to.  Error messages which are self-explanatory will not normally be
+mentioned in this document.  For those messages mentioned in this
+document, only the English-language version of the message will be
+listed.
 
 @menu
 * Error Messages From find::
@@ -4612,7 +4689,7 @@ English-language version of the message will be listed.
 * Error Messages From updatedb::
 @end menu
 
-@node Error Messages From find, Error Messages From xargs, , Error Messages
+@node Error Messages From find
 @section Error Messages From @code{find}
 
 @table @samp
@@ -4699,7 +4776,7 @@ with a fatal signal.  This is just an advisory message.
 @end table
 
 
-@node Error Messages From xargs, Error Messages From locate, Error Messages From find, Error Messages
+@node Error Messages From xargs
 @section Error Messages From xargs
 
 @table @samp
@@ -4735,7 +4812,7 @@ return status 255.
 See the description of the similar message for @code{find}.
 @end table
 
-@node Error Messages From locate, Error Messages From updatedb, Error Messages From xargs, Error Messages
+@node Error Messages From locate
 @section Error Messages From @code{locate}
 
 @table @samp
@@ -4759,7 +4836,7 @@ these programs should interoperate without problem.  Ask for help on
 @end table
 
 
-@node Error Messages From updatedb, , Error Messages From locate, Error Messages
+@node Error Messages From updatedb
 @section Error Messages From updatedb
 
 The @code{updatedb} program (and the programs it invokes) do issue
@@ -4768,7 +4845,7 @@ you are having a problem understanding one of these, ask for help on
 @email{bug-findutils@@gnu.org}.
 
 
-@node Primary Index, , Error Messages, Top
+@node Primary Index
 @unnumbered @code{find} Primary Index
 
 This is a list of all of the primaries (tests, actions, and options)

@@ -477,6 +477,10 @@ combination of
 is specified, a fatal error results.  Time specifications are
 interpreted as for the argument to the \-d option of GNU 
 .BR date .
+If you try to use the birth time of a reference file, and the birth
+time cannot be determined, a fatal error message results.  If you
+specify a test which refers to the birth time of files being examined,
+this test will fail for any files where the birth time is unknown.
 .IP \-nouser
 No user corresponds to file's numeric user ID.
 .IP \-nogroup
