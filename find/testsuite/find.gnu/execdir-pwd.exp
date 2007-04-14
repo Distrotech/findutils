@@ -2,11 +2,6 @@
 if { [ safe_path ] } {
     global SKIP_OLD
 
-    # For the moment we expect this test to fail for ftsfind..
-    send_log "This test is expected to fail for ftsfind but not oldfind\n"
-    send_log "The PRMS number refers to http://savannah.gnu.org/bugs/?18466\n"
-    setup_xfail "*-*-*" "18466"
-
     exec rm -rf tmp
     exec mkdir tmp
 
@@ -19,9 +14,7 @@ if { [ safe_path ] } {
     # built up by -execdir in the wrong directory.
 
     set SKIP_OLD 1
-    find_start xp {tmp -name foo -execdir sh ./foo  \{\} + } "" 
+    find_start p {tmp -name foo -execdir sh ./foo  \{\} + } "" 
     set SKIP_OLD 0
     exec rm -rf tmp
-
-    clear_xfail
 }

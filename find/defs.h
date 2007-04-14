@@ -65,6 +65,8 @@ extern int errno;
 
 #include "regex.h"
 #include "timespec.h"
+#include "buildcmd.h"
+
 
 #ifndef S_IFLNK
 #define lstat stat
@@ -236,11 +238,8 @@ struct time_val
 };
 
     
-#include "buildcmd.h"
-
 struct exec_val
 {
-  /* new-style */
   boolean multiple;		/* -exec {} \+ denotes multiple argument. */
   struct buildcmd_control ctl;
   struct buildcmd_state   state;
@@ -248,6 +247,7 @@ struct exec_val
   int num_args;
   boolean use_current_dir;      /* If nonzero, don't chdir to start dir */
   boolean close_stdin;		/* If true, close stdin in the child. */
+  int dirfd;			/* The directory to do the exec in. */
 };
 
 /* The format string for a -printf or -fprintf is chopped into one or
@@ -375,9 +375,9 @@ struct predicate
 };
 
 /* find.c, ftsfind.c */
-boolean is_fts_enabled();
-
-
+boolean is_fts_enabled(int *ftsoptions);
+int get_start_dirfd(void);
+int get_current_dirfd(void);
 
 /* find library function declarations.  */
 
@@ -550,13 +550,14 @@ struct predicate *insert_primary_withpred PARAMS((const struct parser_table *ent
 void usage PARAMS((FILE *fp, int status, char *msg));
 extern boolean check_nofollow(void);
 void complete_pending_execs(struct predicate *p);
-void complete_pending_execdirs(struct predicate *p);
+void complete_pending_execdirs(int dirfd); /* Passing dirfd is an unpleasant CodeSmell. */
+
 int process_leading_options PARAMS((int argc, char *argv[]));
 void set_option_defaults PARAMS((struct options *p));
 
 
 /* find.c. */
-int get_info PARAMS((const char *pathname, const char *name, struct stat *p, struct predicate *pred_ptr));
+int get_info PARAMS((const char *pathname, struct stat *p, struct predicate *pred_ptr));
 int following_links PARAMS((void));
 int digest_mode PARAMS((mode_t mode, const char *pathname, const char *name, struct stat *pstat, boolean leaf));
 boolean default_prints PARAMS((struct predicate *pred));
@@ -570,7 +571,8 @@ enum DebugOption
     DebugStat             = 2,
     DebugSearch           = 4,
     DebugTreeOpt          = 8,
-    DebugHelp             = 16
+    DebugHelp             = 16,
+    DebugExec             = 32
   };
 
 struct options
@@ -659,6 +661,10 @@ struct state
   /* The file being operated on, relative to the current directory.
      Used for stat, readlink, remove, and opendir.  */
   char *rel_pathname;
+  /* The directory fd to which rel_pathname is relative.  Thsi is relevant
+   * when we're navigating the hierarchy with fts() and using FTS_CWDFD.
+   */
+  int cwd_dir_fd;
 
   /* Length of starting path. */
   int starting_path_length;
@@ -669,6 +675,12 @@ struct state
   
   /* Status value to return to system. */
   int exit_status;
+
+  /* True if there are any execdirs.  This saves us a pair of fchdir()
+   * calls for every directory we leave if it is false.  This is just
+   * an optimisation.  Set to true if you want to be conservative.
+   */
+  boolean execdirs_outstanding;
 };
 
 /* finddata.c */

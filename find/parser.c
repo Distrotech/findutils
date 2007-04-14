@@ -38,6 +38,7 @@
 #include "regextype.h"
 #include "stat-time.h"
 #include "xstrtod.h"
+#include "fts_.h"
 #include "gnulib-version.h"
 
 #ifdef HAVE_FCNTL_H
@@ -166,7 +167,7 @@ static boolean insert_fprintf PARAMS((FILE *fp, const struct parser_table *entry
 static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len,
 					     int kind, char format_char, char aux_format_char,
 					     struct predicate *pred));
-static boolean insert_exec_ok PARAMS((const char *action, const struct parser_table *entry, char *argv[], int *arg_ptr));
+static boolean insert_exec_ok PARAMS((const char *action, const struct parser_table *entry, int dirfd, char *argv[], int *arg_ptr));
 static boolean get_comp_type PARAMS((char **str, enum comparison_type *comp_type));
 static boolean get_relative_timestamp PARAMS((char *str, struct time_val *tval, time_t origin, double sec_per_unit, const char *overflowmessage));
 static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
@@ -721,13 +722,13 @@ parse_empty (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_exec (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return insert_exec_ok ("-exec", entry, argv, arg_ptr);
+  return insert_exec_ok ("-exec", entry, get_start_dirfd(), argv, arg_ptr);
 }
 
 static boolean
 parse_execdir (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return insert_exec_ok ("-execdir", entry, argv, arg_ptr);
+  return insert_exec_ok ("-execdir", entry, -1, argv, arg_ptr);
 }
 
 static boolean
@@ -1482,13 +1483,13 @@ parse_nowarn (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_ok (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return insert_exec_ok ("-ok", entry, argv, arg_ptr);
+  return insert_exec_ok ("-ok", entry, get_start_dirfd(), argv, arg_ptr);
 }
 
 static boolean
 parse_okdir (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return insert_exec_ok ("-okdir", entry, argv, arg_ptr);
+  return insert_exec_ok ("-okdir", entry, -1, argv, arg_ptr);
 }
 
 boolean
@@ -2059,6 +2060,7 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   extern char *version_string;
   int features = 0;
+  int flags;
   
   (void) argv;
   (void) arg_ptr;
@@ -2095,10 +2097,23 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   ++features;
 #endif
 
-  if (is_fts_enabled())
+  flags = 0;
+  if (is_fts_enabled(&flags))
     {
-      printf("FTS ");
+      int nflags = 0;
+      printf("FTS(");
       ++features;
+
+      if (flags & FTS_CWDFD)
+	{
+	  if (nflags)
+	    {
+	      printf(",");
+	    }
+	  printf("FTS_CWDFD");
+	  ++nflags;
+	}
+      printf(") ");
     }
 
   printf("CBO(level=%d) ", (int)(options.optimisation_level));
@@ -2578,6 +2593,7 @@ check_path_safety(const char *action, char **argv)
 static boolean
 new_insert_exec_ok (const char *action,
 		    const struct parser_table *entry,
+		    int dirfd,
 		    char **argv,
 		    int *arg_ptr)
 {
@@ -2773,9 +2789,9 @@ new_insert_exec_ok (const char *action,
 
 
 static boolean
-insert_exec_ok (const char *action, const struct parser_table *entry, char **argv, int *arg_ptr)
+insert_exec_ok (const char *action, const struct parser_table *entry, int dirfd, char **argv, int *arg_ptr)
 {
-  return new_insert_exec_ok(action, entry, argv, arg_ptr);
+  return new_insert_exec_ok(action, entry, dirfd, argv, arg_ptr);
 }
 
 

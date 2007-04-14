@@ -89,6 +89,7 @@
 
 #include <xalloc.h>
 #include <error.h>
+#include <openat.h>
 
 #include "buildcmd.h"
 
@@ -181,7 +182,7 @@ bc_do_insert (const struct buildcmd_control *ctl,
   *p++ = '\0';
   
   bc_push_arg (ctl, state,
-               insertbuf, p - insertbuf,
+	       insertbuf, p - insertbuf,
                NULL, 0,
                initial_args);
 }
@@ -233,7 +234,9 @@ bc_push_arg (const struct buildcmd_control *ctl,
              int initial_args)
 {
   if (!initial_args)
-    state->todo = 1;
+    {
+      state->todo = 1;
+    }
   
   if (arg)
     {
@@ -502,6 +505,7 @@ bc_init_state(const struct buildcmd_control *ctl,
   
   state->cmd_argv_chars = state->cmd_initial_argv_chars = 0;
   state->todo = 0;
+  state->dirfd = -1;
   state->usercontext = context;
 }
 
@@ -512,5 +516,6 @@ bc_clear_args(const struct buildcmd_control *ctl,
   state->cmd_argc = ctl->initial_argc;
   state->cmd_argv_chars = state->cmd_initial_argv_chars;
   state->todo = 0;
+  state->dirfd = -1;
 }
 

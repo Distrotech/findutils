@@ -44,6 +44,10 @@
 #include <sys/file.h>
 #endif
 
+#include <unistd.h>
+#if defined(HAVE_FCNTL_H)
+#include <fcntl.h>
+#endif
 
 #include "../gnulib/lib/xalloc.h"
 #include "closeout.h"
@@ -51,6 +55,8 @@
 #include "quotearg.h"
 #include "quote.h"
 #include "fts_.h"
+#include "openat.h"
+#include "save-cwd.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -70,6 +76,107 @@
 /* See locate.c for explanation as to why not use (String) */
 # define N_(String) String
 #endif
+
+
+static void set_close_on_exec(int fd)
+{
+#if defined(F_GETFD) && defined(FD_CLOEXEC)
+  int flags;
+  flags = fcntl(fd, F_GETFD);
+  if (flags >= 0)
+    {
+      flags |= FD_CLOEXEC;
+      fcntl(fd, F_SETFD, flags);
+    }
+#endif
+}
+
+
+
+/* FTS_TIGHT_CYCLE_CHECK tries to work around Savannah bug #17877
+ * (but actually using it doesn't fix the bug).
+ */
+static int ftsoptions = FTS_NOSTAT|FTS_TIGHT_CYCLE_CHECK;
+
+static int prev_depth = INT_MIN; /* fts_level can be < 0 */
+static int curr_fd = -1;
+
+int get_current_dirfd(void)
+{
+  if (ftsoptions & FTS_CWDFD)
+    {
+      assert(curr_fd != -1);
+      assert( (AT_FDCWD == curr_fd) || (curr_fd >= 0) );
+      
+      if (AT_FDCWD == curr_fd)
+	return starting_desc;
+      else
+	return curr_fd;
+    }
+  else
+    {
+      return AT_FDCWD;
+    }
+}
+
+static void left_dir(void)
+{
+  if (ftsoptions & FTS_CWDFD)
+    {
+      if (curr_fd >= 0)
+	{
+	  close(curr_fd);
+	  curr_fd = -1;
+	}
+    }
+  else
+    {
+      /* do nothing. */
+    }
+}
+
+/*
+ * Signal that we are now inside a directory pointed to by dirfd.
+ * The caller can't tell if this is the first time this happens, so 
+ * we have to be careful not to call dup() more than once 
+ */
+static void inside_dir(int dirfd)
+{
+  if (ftsoptions & FTS_CWDFD)
+    {
+      assert(dirfd == AT_FDCWD || dirfd >= 0);
+      
+      state.cwd_dir_fd = dirfd;
+      if (curr_fd < 0)
+	{
+	  if (AT_FDCWD == dirfd)
+	    {
+	      curr_fd = AT_FDCWD;
+	    }
+	  else if (dirfd >= 0)
+	    {
+	      curr_fd = dup(dirfd);
+	      set_close_on_exec(curr_fd);
+	    }
+	  else 
+	    {
+	      /* curr_fd is invalid, but dirfd is also invalid.
+	       * This should not have happened.
+	       */
+	      assert(curr_fd >= 0 || dirfd >= 0);
+	    }
+	}
+    }
+  else
+    {
+      /* FTS_CWDFD is not in use.  We can always assume that 
+       * AT_FDCWD refers to the directory we are currentl searching.
+       *
+       * Therefore there is nothing to do.
+       */
+    }
+}
+
 
 
 #ifdef STAT_MOUNTPOINTS
@@ -126,6 +233,7 @@ visit(FTS *p, FTSENT *ent, struct stat *pstat)
   state.curdepth = ent->fts_level;
   state.have_stat = (ent->fts_info != FTS_NS) && (ent->fts_info != FTS_NSOK);
   state.rel_pathname = ent->fts_accpath;
+  state.cwd_dir_fd   = p->fts_cwd_fd;
 
   /* Apply the predicates to this path. */
   eval_tree = get_eval_tree();
@@ -217,6 +325,64 @@ symlink_loop(const char *name)
     rv = lstat(name, &stbuf);
   return (0 != rv) && (ELOOP == errno);
 }
+
+  
+static int
+complete_execdirs_cb(void *context)
+{
+  (void) context;
+  /* By the tme this callback is called, the current directory is correct. */
+  complete_pending_execdirs(AT_FDCWD);
+}
+
+static int 
+show_outstanding_execdirs(FILE *fp)
+{
+  if (options.debug_options & DebugExec)
+    {
+      int seen=0;
+      struct predicate *p;
+      p = get_eval_tree();
+      fprintf(fp, "Outstanding execdirs:");
+
+      while (p)
+	{
+	  const char *pfx;
+	  
+	  if (p->pred_func == pred_execdir)
+	    pfx = "-execdir";
+	  else if (p->pred_func == pred_okdir)
+	    pfx = "-okdir";
+	  else
+	    pfx = NULL;
+	  if (pfx)
+	    {
+	      int i;
+	      const struct exec_val *execp = &p->args.exec_vec;
+	      ++seen;
+	      
+	      fprintf(fp, "%s ", pfx);
+	      if (execp->multiple)
+		fprintf(fp, "multiple ");
+	      fprintf(fp, "%d args: ", execp->state.cmd_argc);
+	      for (i=0; i<execp->state.cmd_argc; ++i)
+		{
+		  fprintf(fp, "%s ", execp->state.cmd_argv[i]);
+		}
+	      fprintf(fp, "\n");
+	    }
+	  p = p->pred_next;
+	}
+      if (!seen)
+	fprintf(fp, " none\n");
+    }
+  else
+    {
+      /* No debug output is wanted. */
+    }
+}
+
+
 
 
 static void
@@ -225,18 +391,31 @@ consider_visiting(FTS *p, FTSENT *ent)
   struct stat statbuf;
   mode_t mode;
   int ignore, isdir;
-
+  boolean dirchanged;
+  
   if (options.debug_options & DebugSearch)
     fprintf(stderr,
-	    "consider_visiting: fts_info=%-6s, fts_level=%2d, "
-            "fts_path=%s\n",
+	    "consider_visiting: fts_info=%-6s, fts_level=%2d, prev_depth=%d "
+            "fts_path=%s, fts_accpath=%s\n",
 	    get_fts_info_name(ent->fts_info),
-            (int)ent->fts_level,
-	    quotearg_n_style(0, locale_quoting_style, ent->fts_path));
+            (int)ent->fts_level, prev_depth,
+	    quotearg_n_style(0, locale_quoting_style, ent->fts_path),
+	    quotearg_n_style(1, locale_quoting_style, ent->fts_accpath));
+  
+  if (ent->fts_info == FTS_DP)
+    {
+      left_dir();
+    }
+  else if (ent->fts_level > prev_depth || ent->fts_level==0)
+    {
+      left_dir();
+    }
+  inside_dir(p->fts_cwd_fd);
+  prev_depth = ent->fts_level;
 
+  
   /* Cope with various error conditions. */
   if (ent->fts_info == FTS_ERR
-      || ent->fts_info == FTS_NS
       || ent->fts_info == FTS_DNR)
     {
       error(0, ent->fts_errno, ent->fts_path);
@@ -336,36 +515,46 @@ consider_visiting(FTS *p, FTSENT *ent)
       visit(p, ent, &statbuf);
     }
 
+  /* XXX: if we allow a build-up of pending arguments for "-execdir foo {} +" 
+   * we need to execute them in the same directory as we found the item.  
+   * If we are trying to do "find a -execdir echo {} +", we will need to 
+   * echo 
+   *      a while in the original working directory
+   *      b while in a
+   *      c while in b (just before leaving b)
+   *
+   * These restrictions are hard to satisfy while using fts().   The reason is
+   * that it doesn't tell us just before we leave a directory.  For the moment, 
+   * we punt and don't allow the arguments to build up.
+   */
+  if (state.execdirs_outstanding)
+    {
+      show_outstanding_execdirs(stderr);
+      run_in_dir(p->fts_cwd_fd, complete_execdirs_cb);
+    }
 
   if (ent->fts_info == FTS_DP)
     {
       /* we're leaving a directory. */
       state.stop_at_current_level = false;
-      complete_pending_execdirs(get_eval_tree());
     }
 }
+
 
 
 static void
 find(char *arg)
 {
   char * arglist[2];
-  int ftsoptions;
   FTS *p;
   FTSENT *ent;
   
 
   state.starting_path_length = strlen(arg);
+  inside_dir(AT_FDCWD);
 
   arglist[0] = arg;
   arglist[1] = NULL;
-  
-  ftsoptions = FTS_NOSTAT;
-
-  /* Try to work around Savannah bug #17877 (but actually this change
-   * doesn't fix the bug).
-   */
-  ftsoptions |= FTS_TIGHT_CYCLE_CHECK;
   
   switch (options.symlink_handling)
     {
@@ -399,7 +588,6 @@ find(char *arg)
 	  state.have_stat = false;
 	  state.have_type = false;
 	  state.type = 0;
-	  
 	  consider_visiting(p, ent);
 	}
       fts_close(p);
@@ -444,7 +632,8 @@ main (int argc, char **argv)
 
   program_name = argv[0];
   state.exit_status = 0;
-
+  state.execdirs_outstanding = false;
+  state.cwd_dir_fd = AT_FDCWD;
 
   /* Set the option defaults before we do the the locale
    * initialisation as check_nofollow() needs to be executed in the
@@ -496,7 +685,7 @@ main (int argc, char **argv)
     }
   
 
-  starting_desc = open (".", O_RDONLY);
+  starting_desc = open (".", O_RDONLY|O_LARGEFILE);
   if (0 <= starting_desc && fchdir (starting_desc) != 0)
     {
       close (starting_desc);
@@ -521,8 +710,9 @@ main (int argc, char **argv)
 }
 
 boolean
-is_fts_enabled()
+is_fts_enabled(int *fts_options)
 {
   /* this version of find (i.e. this main()) uses fts. */
+  *fts_options = fts_options;
   return true;
 }

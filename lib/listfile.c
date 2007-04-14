@@ -47,6 +47,8 @@ char *alloca ();
 #include <grp.h>
 #include <time.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <openat.h>
 #include "human.h"
 #include "xalloc.h"
 #include "pathmax.h"
@@ -84,6 +86,31 @@ extern int errno;
 #include <sys/sysmacros.h>
 #define HAVE_MAJOR
 #endif
+
+
+
+
+
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#define textdomain(Domain)
+#define bindtextdomain(Package, Directory)
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+/* See locate.c for explanation as to why not use (String) */
+# define N_(String) String
+#endif
+
+
 
 #ifdef STAT_MACROS_BROKEN
 #undef S_ISCHR
@@ -202,8 +229,9 @@ file_blocksize(const struct stat *p)
 
 void
 list_file (char *name,
+	   int dirfd, 
 	   char *relname,
-	   struct stat *statp,
+	   const struct stat *statp,
 	   time_t current_time,
 	   int output_block_size,
 	   int literal_control_chars,
@@ -316,7 +344,7 @@ list_file (char *name,
 #ifdef S_ISLNK
   if (S_ISLNK (statp->st_mode))
     {
-      char *linkname = get_link_name (name, relname);
+      char *linkname = get_link_name_at (name, dirfd, relname);
 
       if (linkname)
 	{
@@ -396,7 +424,7 @@ static void print_name (register char *p, FILE *stream, int literal_control_char
 }
 
 #ifdef S_ISLNK
-char *
+static char *
 get_link_name (const char *name, char *relname)
 {
   register char *linkname;
@@ -417,4 +445,34 @@ get_link_name (const char *name, char *relname)
   linkname[linklen] = '\0';
   return linkname;
 }
+
+struct link_name_args
+{
+  const char *name;
+  char *relname;
+  char *result;
+};
+
+static int
+get_link_name_cb(void *context)
+{
+  struct link_name_args *args = context;
+  args->result = get_link_name(args->name, args->relname);
+  return 0;
+}
+
+char *
+get_link_name_at (const char *name, int dirfd, char *relname)
+{
+  struct link_name_args args;
+  args.result = NULL;
+  args.name = name;
+  args.relname = relname;
+  if (0 == run_in_dir(dirfd, get_link_name_cb, &args))
+    return args.result;
+  else
+    return NULL;
+}
+
+
 #endif

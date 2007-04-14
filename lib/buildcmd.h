@@ -47,6 +47,9 @@ struct buildcmd_state
 
   /* to-do flag. */
   int todo;
+
+  /* Directory in which to perform the exec. */
+  int dirfd;
 };
 
 struct buildcmd_control
@@ -119,8 +122,8 @@ extern void bc_push_arg (const struct buildcmd_control *ctl,
 			 int initial_args);
 
 extern void  bc_init_state(const struct buildcmd_control *ctl,
-					 struct buildcmd_state *state,
-					 void *usercontext);
+			   struct buildcmd_state *state,
+			   void *usercontext);
 extern enum BC_INIT_STATUS bc_init_controlinfo(struct buildcmd_control *ctl);
 extern size_t bc_get_arg_max(void);
 extern void bc_use_sensible_arg_max(struct buildcmd_control *ctl);

@@ -42,12 +42,14 @@
 #else
 #include <sys/file.h>
 #endif
+#include <openat.h>
 
 #include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/human.h"
 #include "../gnulib/lib/canonicalize.h"
-#include "closeout.h"
 #include <modetype.h>
+
+#include "closeout.h"
 #include "savedirinfo.h"
 #include "buildcmd.h"
 #include "dirname.h"
@@ -117,6 +119,12 @@ enum WdSanityCheckFatality
     NON_FATAL_IF_SANITY_CHECK_FAILS
   };
 
+
+int get_current_dirfd(void)
+{
+  return AT_FDCWD;
+}
+
 
 int
 main (int argc, char **argv)
@@ -151,6 +159,11 @@ main (int argc, char **argv)
   fprintf (stderr, "cur_day_start = %s", ctime (&options.cur_day_start));
 #endif /* DEBUG */
 
+  /* state.cwd_dir_fd has to be initialised before we call build_expression_tree()
+   * because command-line parsing may lead us to stat some files.
+   */
+  state.cwd_dir_fd = AT_FDCWD;
+  
   /* We are now processing the part of the "find" command line 
    * after the -H/-L options (if any).
    */
@@ -175,12 +188,14 @@ main (int argc, char **argv)
     }
   
 
-  starting_desc = open (".", O_RDONLY);
+  starting_desc = open (".", O_RDONLY|O_LARGEFILE);
   if (0 <= starting_desc && fchdir (starting_desc) != 0)
     {
       close (starting_desc);
       starting_desc = -1;
     }
+  assert(starting_desc >= 0);
+
   if (starting_desc < 0)
     {
       starting_dir = xgetcwd ();
@@ -189,7 +204,7 @@ main (int argc, char **argv)
     }
   set_stat_placeholders(&starting_stat_buf);
   if ((*options.xstat) (".", &starting_stat_buf) != 0)
-    error (1, errno, _("cannot get current directory"));
+    error (1, errno, _("cannot stat current directory"));
 
   /* If no paths are given, default to ".".  */
   for (i = end_of_leading_options; i < argc && !looks_like_expression(argv[i], true); i++)
@@ -218,9 +233,10 @@ main (int argc, char **argv)
   return state.exit_status;
 }
 
-boolean is_fts_enabled()
+boolean is_fts_enabled(int *ftsoptions)
 {
   /* this version of find (i.e. this main()) does not use fts. */
+  *ftsoptions = 0;
   return false;
 }
 
@@ -533,7 +549,8 @@ enum SafeChdirStatus
     SafeChdirFailStat,
     SafeChdirFailWouldBeUnableToReturn,
     SafeChdirFailChdirFailed,
-    SafeChdirFailNonexistent
+    SafeChdirFailNonexistent,
+    SafeChdirFailDestUnreadable
   };
 
 /* Safely perform a change in directory.  We do this by calling
@@ -560,7 +577,7 @@ safely_chdir_lstat(const char *dest,
   
   saved_errno = errno = 0;
 
-  dotfd = open(".", O_RDONLY);
+  dotfd = open(".", O_RDONLY|O_LARGEFILE);
 
   /* We jump back to here if wd_sanity_check()
    * recoverably triggers an alert.
@@ -680,7 +697,7 @@ safely_chdir_lstat(const char *dest,
 		      goto fail;
 		    }
 		}
-	      
+
 	      close(dotfd);
 	      return SafeChdirOK;
 	    }
@@ -794,7 +811,7 @@ safely_chdir_nofollow(const char *dest,
     }
   
   errno = 0;
-  fd = open(dest, O_RDONLY|extraflags);
+  fd = open(dest, O_RDONLY|O_LARGEFILE|extraflags);
   if (fd < 0)
     {
       switch (errno)
@@ -804,7 +821,7 @@ safely_chdir_nofollow(const char *dest,
 	case ENOENT:
 	  return SafeChdirFailNonexistent;
 	default:
-	  return SafeChdirFailChdirFailed;
+	  return SafeChdirFailDestUnreadable;
 	}
     }
   
@@ -843,18 +860,23 @@ safely_chdir(const char *dest,
 	     enum ChdirSymlinkHandling symlink_follow_option,
 	     boolean *did_stat)
 {
+  enum SafeChdirStatus result;
+  
   /* We're about to leave a directory.  If there are any -execdir
    * argument lists which have been built but have not yet been
    * processed, do them now because they must be done in the same
    * directory.
    */
-  complete_pending_execdirs(get_eval_tree());
+  complete_pending_execdirs(get_current_dirfd());
 
-#if defined(O_NOFOLLOW)
-  if (options.open_nofollow_available)
-    return safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_follow_option, did_stat);
+#if !defined(O_NOFOLLOW)
+  options.open_nofollow_available = false;
 #endif
-  return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_follow_option, did_stat);
+  if (options.open_nofollow_available)
+    result = safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_follow_option, did_stat);
+  else
+    result = safely_chdir_lstat(dest, direction, statbuf_dest, symlink_follow_option, did_stat);
+  return result;
 }
 
 
@@ -898,7 +920,9 @@ chdir_back (void)
 	fprintf(stderr, "chdir_back(): chdir(<starting-point>)\n");
 
       if (fchdir (starting_desc) != 0)
-	error (1, errno, "%s", starting_dir);
+	{
+	  error (1, errno, "%s", starting_dir);
+	}
     }
 }
 
@@ -987,7 +1011,7 @@ static void do_process_top_dir(char *pathname,
   (void) pstat;
   
   process_path (pathname, base, false, ".", mode);
-  complete_pending_execdirs(get_eval_tree());
+  complete_pending_execdirs(get_current_dirfd());
 }
 
 static void do_process_predicate(char *pathname,
@@ -997,7 +1021,7 @@ static void do_process_predicate(char *pathname,
 {
   (void) mode;
   
-  state.rel_pathname = base;
+  state.rel_pathname = base;	/* cwd_dir_fd was already set by safely_chdir */
   apply_predicate (pathname, pstat, get_eval_tree());
 }
 
@@ -1128,10 +1152,17 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   /* Now we really need to stat the directory, even if we know the
    * type, because we need information like struct stat.st_rdev.
    */
-  if (get_statinfo(pathname, name, &stat_buf) != 0)
-    return 0;
+  if (0 == stat_buf.st_mode)
+    {
+      /* This call was made conditional on Sat Apr 14 16:01:01 2007,
+       * and at that time the test suite passed without it.  Omitting
+       * this stat call saves a lot of system calls.
+       */
+      if (get_statinfo(pathname, name, &stat_buf) != 0)
+	return 0;
 
-  state.have_stat = true;
+      state.have_stat = true;
+    }
   mode = state.type = stat_buf.st_mode;	/* use full info now that we have it. */
   state.stop_at_current_level =
     options.maxdepth >= 0
@@ -1262,7 +1293,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
        * yet been processed, do them now because they must be done in
        * the same directory.
        */
-      complete_pending_execdirs(get_eval_tree());
+      complete_pending_execdirs(get_current_dirfd());
       
       if (strcmp (name, "."))
 	{
@@ -1301,6 +1332,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      break;
 	      
 	    case SafeChdirFailNonexistent:
+	    case SafeChdirFailDestUnreadable:
 	    case SafeChdirFailStat:
 	    case SafeChdirFailNotDir:
 	    case SafeChdirFailChdirFailed:
@@ -1391,7 +1423,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
        * yet been processed, do them now because they must be done in
        * the same directory.
        */
-      complete_pending_execdirs(get_eval_tree()); 
+      complete_pending_execdirs(get_current_dirfd()); 
 
       if (strcmp (name, "."))
 	{
@@ -1423,6 +1455,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      return;
 	      
 	    case SafeChdirFailNonexistent:
+	    case SafeChdirFailDestUnreadable:
 	    case SafeChdirFailStat:
 	    case SafeChdirFailSymlink:
 	    case SafeChdirFailNotDir:

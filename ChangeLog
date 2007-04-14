@@ -1,3 +1,85 @@
+2007-04-14  James Youngman  <jay@gnu.org>
+
+	* doc/.cvsignore: Ignore getdate.texi
+
+	* find/defs.h: #include "buildcmd.h" near the top of the file, not
+	in the middle.
+
+	* all: Pass O_LARGEFILE when opening directories.
+
+	* all: Changes to allow us to use the FTS_CWDFD mode of fts().
+	These are quite extensive changes, and are detailed below.
+
+	* find/defs.h (struct exec_val): New member dirfd, the directory
+	in which the exec should take place.
+	(is_fts_enabled): Tell the caller which flags are passed to
+	fts_open().
+	(get_start_dirfd): New function.  Returns value of start_desc.
+	(get_current_dirfd): New function.  Returns the fd of the
+	directory fts is currently traversing.  If this is the current
+	directory, AT_FDCWD is returned.
+	(complete_pending_execdirs): takes a new argument, indicating
+	where the exec is to take place.  Ugh.
+	(get_info): the file name is taken from state.rel_pathname, so
+	we don't need it as a function argument.
+	(enum DebugOption): Added DebugExec ("-D exec").
+	(struct state): Added cwd_dir_fd, the directory we are examining
+	with fts().  If fts() is not in use, this is AT_FDCWD.  Also added
+	execdirs_outstanding, which is a boolean which tells us if there
+	are any not-yet-execed -execdir or -okdir actions (with +).  This
+	is not really used yet.
+	* find/ftsfind.c (set_close_on_exec): New function.
+	(get_current_dirfd): Return an fd open on the directory that fts()
+	is currently examining.
+	(left_dir): Signal that our previous ides of which dirctory fts is
+	searching is now out of date.
+	(inside_dir): Indicate which directory fts is now searching.
+	(complete_execdirs_cb): Callback for run_in_dir() to complete
+	pending execdirs in this directory.
+	(show_outstanding_execdirs): Supports "-D exec"
+	consider_visiting(): Do not allow building-up of pending execdirs,
+	as a workaround to Savannah bug #18466.
+	(ftsoptions): Make this a static module variable.
+	* find/parser.c (insert_exec_ok): New parameter describing which
+	directory the exec should occur in.
+	(parse_version): for FTS, add a list of options being used.
+	* find/pred.c (pred_and, pred_comma): No need to pass the relative
+	path name to get_info(), it can pull it from state.rel_pathname.
+	(pred_delete): use unlinkat().
+	(pred_empty): use openat().
+	(new_impl_pred_exec): Accept an fd parameter describing where the
+	exec is to take place.
+	(pred_executable, pred_writable, pred_readable): Use run_in_dir()
+	to ensure that access() is called in a working directory which is
+	suitable for the pathname we pass in.
+	(prep_child_for_exec): In the child process, change to the
+	appropriate directory becore the exec().
+	* find/util.c (debugassoc): Support "-D exec".
+	(get_info): No longer need to pass the relative path to
+	get_statinfo().
+	(do_complete_pending_execdirs): Refactored body of what used to be
+	complete_pending_execdirs().
+	(complete_pending_execdirs): Pull body out into
+	do_complete_pending_execdirs() and call that only if there is work
+	to do.
+	(fallback_stat, optionh_stat, optionp_stat, optionl_stat): Use fstatat().
+	(get_start_dirfd): New access function for starting_desc.
+	* find/testsuite/find.gnu/execdir-hier.exp: New test
+	* find/testsuite/find.gnu/execdir-hier.xo: Expected outut for new test
+	* lib/dircallback.c, lib/dircallback.h: New function,
+	run_in_dir(), which runs a callback function in a specified
+	directory.	
+	* lib/listfile.c: Use run_in_dir() to call readlink() in the right
+	directory.
+	(get_link_name_at): Call get_link_name_cb via run_in_dir.
+	(get_link_name_cb): New callback function, wrappting
+	get_link_name().
+	
+	* find/testsuite/find.gnu/execdir-pwd.exp: Since we have disabled
+	thebuilding-up of command lines for -execdir, Savannah bug #18466
+	has been neutralised (but not fixed - we just don't allow the
+	problem circumstance to occur).
+	
 2007-04-09  James Youngman  <jay@gnu.org>
 
 	* doc/find.texi: Change fully-specified @node directives to

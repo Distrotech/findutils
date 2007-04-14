@@ -30,6 +30,7 @@
 #include <assert.h>
 #include <fcntl.h>
 #include <locale.h>
+#include <openat.h>
 #include "xalloc.h"
 #include "dirname.h"
 #include "human.h"
@@ -41,6 +42,7 @@
 #include "yesno.h"
 #include "listfile.h"
 #include "stat-time.h"
+#include "dircallback.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -305,7 +307,7 @@ pred_and (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 					    pred_ptr->pred_left))
     {
       /* Check whether we need a stat here. */
-      if (get_info(pathname, state.rel_pathname, stat_buf, pred_ptr) != 0)
+      if (get_info(pathname, stat_buf, pred_ptr) != 0)
 	    return false;
       return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,  
 						  pred_ptr->pred_right));
@@ -363,7 +365,7 @@ pred_comma (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 				       pred_ptr->pred_left);
   /* Check whether we need a stat here. */
   /* TODO: what about need_type? */
-  if (get_info(pathname, state.rel_pathname, stat_buf, pred_ptr) != 0)
+  if (get_info(pathname, stat_buf, pred_ptr) != 0)
     return false;
   return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 					      pred_ptr->pred_right));
@@ -383,7 +385,10 @@ pred_delete (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   (void) stat_buf;
   if (strcmp (state.rel_pathname, "."))
     {
-      if (0 != remove (state.rel_pathname))
+      int flags=0;
+      if (S_ISDIR(stat_buf->st_mode))
+	flags |= AT_REMOVEDIR;
+      if (0 != unlinkat(state.cwd_dir_fd, state.rel_pathname, flags))
 	{
 	  error (0, errno, "cannot delete %s", pathname);
 	  return false;
@@ -406,12 +411,19 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   
   if (S_ISDIR (stat_buf->st_mode))
     {
+      int fd;
       DIR *d;
       struct dirent *dp;
       boolean empty = true;
 
       errno = 0;
-      d = opendir (state.rel_pathname);
+      if ((fd = openat(state.cwd_dir_fd, state.rel_pathname, O_RDONLY|O_LARGEFILE)) < 0)
+	{
+	  error (0, errno, "%s", pathname);
+	  state.exit_status = 1;
+	  return false;
+	}
+      d = fdopendir (fd);
       if (d == NULL)
 	{
 	  error (0, errno, "%s", pathname);
@@ -443,7 +455,8 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 }
 
 static boolean
-new_impl_pred_exec (const char *pathname, struct stat *stat_buf,
+new_impl_pred_exec (int dirfd, const char *pathname,
+		    struct stat *stat_buf,
 		    struct predicate *pred_ptr,
 		    const char *prefix, size_t pfxlen)
 {
@@ -451,7 +464,7 @@ new_impl_pred_exec (const char *pathname, struct stat *stat_buf,
   size_t len = strlen(pathname);
 
   (void) stat_buf;
-  
+  execp->dirfd = dirfd;
   if (execp->multiple)
     {
       /* Push the argument onto the current list. 
@@ -463,6 +476,9 @@ new_impl_pred_exec (const char *pathname, struct stat *stat_buf,
 		  pathname, len+1,
 		  prefix, pfxlen,
 		  0);
+
+      /* remember that there are pending execdirs. */
+      state.execdirs_outstanding = true;
       
       /* POSIX: If the primary expression is punctuated by a plus
        * sign, the primary shall always evaluate as true
@@ -494,7 +510,8 @@ new_impl_pred_exec (const char *pathname, struct stat *stat_buf,
 boolean
 pred_exec (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  return new_impl_pred_exec(pathname, stat_buf, pred_ptr, NULL, 0);
+  return new_impl_pred_exec(get_start_dirfd(),
+			    pathname, stat_buf, pred_ptr, NULL, 0);
 }
 
 boolean
@@ -502,7 +519,8 @@ pred_execdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
    const char *prefix = (state.rel_pathname[0] == '/') ? NULL : "./";
    (void) &pathname;
-   return new_impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr,
+   return new_impl_pred_exec (get_current_dirfd(),
+			      state.rel_pathname, stat_buf, pred_ptr,
 			      prefix, (prefix ? 2 : 0));
 }
 
@@ -520,7 +538,7 @@ pred_false (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_fls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  list_file (pathname, state.rel_pathname, stat_buf, options.start_time.tv_sec,
+  list_file (pathname, state.cwd_dir_fd, state.rel_pathname, stat_buf, options.start_time.tv_sec,
 	     options.output_block_size,
 	     pred_ptr->literal_control_chars, pred_ptr->args.stream);
   return true;
@@ -730,7 +748,7 @@ do_fprintf(FILE *fp,
 
 	    if (S_ISLNK (stat_buf->st_mode))
 	      {
-		linkname = get_link_name (pathname, state.rel_pathname);
+		linkname = get_link_name_at (pathname, state.cwd_dir_fd, state.rel_pathname);
 		if (linkname == 0)
 		  state.exit_status = 1;
 	      }
@@ -740,7 +758,12 @@ do_fprintf(FILE *fp,
 		free (linkname);
 	      }
 	    else
-	      print_quoted (fp, qopts, ttyflag, segment->text, "");
+	      {
+		/* We still need to honour the field width etc., so this is
+		 * not a no-op.
+		 */
+		print_quoted (fp, qopts, ttyflag, segment->text, "");
+	      }
 	  }
 #endif				/* S_ISLNK */
 	  break;
@@ -1114,7 +1137,7 @@ match_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, 
 #ifdef S_ISLNK
   if (S_ISLNK (stat_buf->st_mode))
     {
-      char *linkname = get_link_name (pathname, state.rel_pathname);
+      char *linkname = get_link_name_at (pathname, state.cwd_dir_fd, state.rel_pathname);
       if (linkname)
 	{
 	  if (fnmatch (pred_ptr->args.str, linkname,
@@ -1130,7 +1153,8 @@ match_lname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, 
 boolean
 pred_ls (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  list_file (pathname, state.rel_pathname, stat_buf, options.start_time.tv_sec,
+  list_file (pathname, state.cwd_dir_fd, state.rel_pathname,
+	     stat_buf, options.start_time.tv_sec,
 	     options.output_block_size,
 	     pred_ptr->literal_control_chars,
 	     stdout);
@@ -1172,7 +1196,7 @@ pred_negate (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   /* Check whether we need a stat here. */
   /* TODO: what about need_type? */
-  if (get_info(pathname, state.rel_pathname, stat_buf, pred_ptr) != 0)
+  if (get_info(pathname, stat_buf, pred_ptr) != 0)
     return false;
   return (!(*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 					      pred_ptr->pred_right));
@@ -1275,7 +1299,8 @@ boolean
 pred_ok (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
-    return new_impl_pred_exec (pathname, stat_buf, pred_ptr, NULL, 0);
+    return new_impl_pred_exec (get_start_dirfd(),
+			       pathname, stat_buf, pred_ptr, NULL, 0);
   else
     return false;
 }
@@ -1285,7 +1310,8 @@ pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   const char *prefix = (state.rel_pathname[0] == '/') ? NULL : "./";
   if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
-    return new_impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr, 
+    return new_impl_pred_exec (get_current_dirfd(),
+			       state.rel_pathname, stat_buf, pred_ptr, 
 			       prefix, (prefix ? 2 : 0));
   else
     return false;
@@ -1307,7 +1333,7 @@ pred_or (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       || !(*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
 					     pred_ptr->pred_left))
     {
-      if (get_info(pathname, state.rel_pathname, stat_buf, pred_ptr) != 0)
+      if (get_info(pathname, stat_buf, pred_ptr) != 0)
 	return false;
       return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
 						  pred_ptr->pred_right));
@@ -1365,6 +1391,35 @@ pred_perm (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 }
 
 
+struct access_check_args
+{
+  const char *filename;
+  int access_type;
+  int cb_errno;
+};
+
+
+static int
+access_callback(void *context)
+{
+  int rv;
+  struct access_check_args *args = context;
+  if ((rv = access(args->filename, args->access_type)) < 0)
+    args->cb_errno = errno;
+  return rv;
+}
+
+static int
+can_access(int access_type)
+{
+  struct access_check_args args;
+  args.filename = state.rel_pathname;
+  args.access_type = access_type;
+  args.cb_errno = 0;
+  return 0 == run_in_dir(state.cwd_dir_fd, access_callback, &args);
+}
+
+
 boolean
 pred_executable (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
@@ -1372,7 +1427,7 @@ pred_executable (char *pathname, struct stat *stat_buf, struct predicate *pred_p
   (void) stat_buf;
   (void) pred_ptr;
   
-  return 0 == access(state.rel_pathname, X_OK);
+  return can_access(X_OK);
 }
 
 boolean
@@ -1382,7 +1437,7 @@ pred_readable (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr
   (void) stat_buf;
   (void) pred_ptr;
   
-  return 0 == access(state.rel_pathname, R_OK);
+  return can_access(R_OK);
 }
 
 boolean
@@ -1392,7 +1447,7 @@ pred_writable (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr
   (void) stat_buf;
   (void) pred_ptr;
   
-  return 0 == access(state.rel_pathname, W_OK);
+  return can_access(W_OK);
 }
 
 boolean
@@ -1666,25 +1721,52 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
     Otherwise return false, possibly printing an error message. */
 
 
-static void
-prep_child_for_exec (boolean close_stdin)
+static boolean
+prep_child_for_exec (boolean close_stdin, int dirfd)
 {
+  boolean ok = true;
   if (close_stdin)
     {
       const char inputfile[] = "/dev/null";
-      /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
       
-      close(0);
-      if (open(inputfile, O_RDONLY) < 0)
+      if (close(0) < 0)
 	{
-	  /* This is not entirely fatal, since 
-	   * executing the child with a closed
-	   * stdin is almost as good as executing it
-	   * with its stdin attached to /dev/null.
-	   */
-	  error (0, errno, "%s", inputfile);
+	  error(0, errno, _("Cannot close standard input"));
+	  ok = false;
+	}
+      else 
+	{
+	  if (open(inputfile, O_RDONLY|O_LARGEFILE) < 0)
+	    {
+	      /* This is not entirely fatal, since 
+	       * executing the child with a closed
+	       * stdin is almost as good as executing it
+	       * with its stdin attached to /dev/null.
+	       */
+	      error (0, errno, "%s", inputfile);
+	      /* do not set ok=false, it is OK to continue anyway. */
+	    }
 	}
     }
+
+  /* Even if DebugSearch is set, don't announce our change of
+   * directory, since we're not going to emit a subsequent
+   * announcement of a call to stat() anyway, as we're about to exec
+   * something.
+   */
+  if (dirfd != AT_FDCWD)
+    {
+      assert(dirfd >= 0);
+      if (0 != fchdir(dirfd))
+	{
+	  /* If we cannot execute our command in the correct directory,
+	   * we should not execute it at all.
+	   */
+	  error(0, errno, _("Failed to change directory"));
+	  ok = false;
+	}
+    }
+  return ok;
 }
 
 
@@ -1697,7 +1779,14 @@ launch (const struct buildcmd_control *ctl,
   pid_t child_pid;
   static int first_time = 1;
   const struct exec_val *execp = buildstate->usercontext;
+
+  if (!execp->use_current_dir)
+    {
+      assert(starting_desc >= 0);
+      assert(execp->dirfd == starting_desc);
+    }
   
+	
   /* Null terminate the arg list.  */
   bc_push_arg (ctl, buildstate, (char *) NULL, 0, NULL, 0, false); 
   
@@ -1717,27 +1806,11 @@ launch (const struct buildcmd_control *ctl,
     error (1, errno, _("cannot fork"));
   if (child_pid == 0)
     {
-      /* We be the child. */
-      prep_child_for_exec(execp->close_stdin);
-
-      /* For -exec and -ok, change directory back to the starting directory.
-       * for -execdir and -okdir, stay in the directory we are searching
-       * (the latter is more secure).
-       */
-      if (!execp->use_current_dir)
+      /* We are the child. */
+      assert(starting_desc >= 0);
+      if (!prep_child_for_exec(execp->close_stdin, execp->dirfd))
 	{
-	  /* Even if DebugSearch is set, don't announce our change of
-	   * directory, since we're not going to emit a subsequent
-	   * announcement of a call to stat() anyway, as we're about
-	   * to exec something.
-	   */
-	  if (starting_desc < 0
-	      ? chdir (starting_dir) != 0
-	      : fchdir (starting_desc) != 0)
-	    {
-	      error (0, errno, "%s", starting_dir);
-	      _exit (1);
-	    }
+	  _exit(1);
 	}
       
       execvp (buildstate->cmd_argv[0], buildstate->cmd_argv);

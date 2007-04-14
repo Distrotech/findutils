@@ -1,0 +1,101 @@
+/* listfile.c -- run a function in a specific directory
+   Copyright (C) 2007 Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+   USA.
+*/
+
+/* This file was written by James Youngman, based on gnulib'c at-func.c. 
+ */
+
+
+#if HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#include "openat.h"
+#include <stdarg.h>
+#include <stddef.h>
+
+#include "fcntl--.h"
+#include "lchown.h"
+#include "lstat.h"
+#include "save-cwd.h"
+
+
+/* The presence of unistd.h is assumed by gnulib these days, so we 
+ * might as well assume it too. 
+ */
+#include <unistd.h> /* for readlink() */
+
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
+
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#define textdomain(Domain)
+#define bindtextdomain(Package, Directory)
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+/* See locate.c for explanation as to why not use (String) */
+# define N_(String) String
+#endif
+
+
+
+int
+run_in_dir (int dirfd, int (*callback)(void*), void *usercontext)
+{
+  if (dirfd == AT_FDCWD)
+    {
+      return (*callback)(usercontext);
+    }
+  else
+    {
+      struct saved_cwd saved_cwd;
+      int saved_errno;
+      int err;
+      
+      if (save_cwd (&saved_cwd) != 0)
+	openat_save_fail (errno);
+      
+      if (fchdir (dirfd) != 0)
+	{
+	  saved_errno = errno;
+	  free_cwd (&saved_cwd);
+	  errno = saved_errno;
+      return -1;
+	}
+      
+      err = (*callback)(usercontext);
+      saved_errno = (err < 0 ? errno : 0);
+      
+      if (restore_cwd (&saved_cwd) != 0)
+	openat_restore_fail (errno);
+      
+      free_cwd (&saved_cwd);
+      
+      if (saved_errno)
+	errno = saved_errno;
+      return err;
+    }
+}
+

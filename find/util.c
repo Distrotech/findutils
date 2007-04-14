@@ -51,6 +51,7 @@
 #include <string.h>
 #include <limits.h>
 #include <assert.h>
+#include <openat.h>
 
 
 struct debug_option_assoc
@@ -65,7 +66,8 @@ static struct debug_option_assoc debugassoc[] =
     { "tree", DebugExpressionTree, "Display the expression tree" },
     { "search",DebugSearch, "Navigate the directory tree verbosely" },
     { "stat", DebugStat, "Trace calls to stat(2) and lstat(2)" },
-    { "opt",  DebugExpressionTree|DebugTreeOpt, "Show diagnostic information relating to optimisation" }
+    { "opt",  DebugExpressionTree|DebugTreeOpt, "Show diagnostic information relating to optimisation" },
+    { "exec", DebugExec,  "Show diagnostic information relating to -exec, -execdir, -ok and -okdir" }
   };
 #define N_DEBUGASSOC (sizeof(debugassoc)/sizeof(debugassoc[0]))
 
@@ -215,23 +217,23 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
  */
 int
 get_info (const char *pathname,
-	  const char *name,
 	  struct stat *p,
 	  struct predicate *pred_ptr)
 {
+  boolean todo = false;
+  
   /* If we need the full stat info, or we need the type info but don't 
    * already have it, stat the file now.
    */
-  (void) name;
   if (pred_ptr->need_stat)
-    {
-      return get_statinfo(pathname, state.rel_pathname, p);
-    }
-  if ((pred_ptr->need_type && (0 == state.have_type)))
-    {
-      return get_statinfo(pathname, state.rel_pathname, p);
-    }
-  return 0;
+    todo = true;
+  else if ((pred_ptr->need_type && (0 == state.have_type)))
+    todo = true;
+  
+  if (todo)
+    return get_statinfo(pathname, state.rel_pathname, p);
+  else
+    return 0;
 }
 
 /* Determine if we can use O_NOFOLLOW.
@@ -272,13 +274,15 @@ check_nofollow(void)
  * than ';' (singles only).  If there are any, run them (this will
  * have no effect if there are no arguments waiting).
  */
-void
-complete_pending_execdirs(struct predicate *p)
+static void
+do_complete_pending_execdirs(struct predicate *p, int dirfd)
 {
   if (NULL == p)
     return;
   
-  complete_pending_execdirs(p->pred_left);
+  assert(state.execdirs_outstanding);
+  
+  do_complete_pending_execdirs(p->pred_left, dirfd);
   
   if (p->pred_func == pred_execdir || p->pred_func == pred_okdir)
     {
@@ -298,8 +302,19 @@ complete_pending_execdirs(struct predicate *p)
 	}
     }
 
-  complete_pending_execdirs(p->pred_right);
+  do_complete_pending_execdirs(p->pred_right, dirfd);
 }
+
+void
+complete_pending_execdirs(int dirfd)
+{
+  if (state.execdirs_outstanding)
+    {
+      do_complete_pending_execdirs(get_eval_tree(), dirfd);
+      state.execdirs_outstanding = false;
+    }
+}
+
 
 
 /* Examine the predicate list for instances of -exec which have been
@@ -346,7 +361,7 @@ cleanup(void)
   if (eval_tree)
     {
       complete_pending_execs(eval_tree);
-      complete_pending_execdirs(eval_tree);
+      complete_pending_execdirs(get_current_dirfd());
     }
 }
 
@@ -364,7 +379,7 @@ fallback_stat(const char *name, struct stat *p, int prev_rv)
     case ENOTDIR:
       if (options.debug_options & DebugStat)
 	fprintf(stderr, "fallback_stat(): stat(%s) failed; falling back on lstat()\n", name);
-      return lstat(name, p);
+      return fstatat(state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
 
     case EACCES:
     case EIO:
@@ -392,14 +407,14 @@ fallback_stat(const char *name, struct stat *p, int prev_rv)
 int 
 optionh_stat(const char *name, struct stat *p)
 {
+  set_stat_placeholders(p);
   if (0 == state.curdepth) 
     {
       /* This file is from the command line; deference the link (if it
        * is a link).  
        */
       int rv;
-      set_stat_placeholders(p);
-      rv = stat(name, p);
+      rv = fstatat(state.cwd_dir_fd, name, p, 0);
       if (0 == rv)
 	return 0;		/* success */
       else
@@ -409,7 +424,7 @@ optionh_stat(const char *name, struct stat *p)
     {
       /* Not a file on the command line; do not dereference the link.
        */
-      return lstat(name, p);
+      return fstatat(state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
     }
 }
 
@@ -422,7 +437,7 @@ optionl_stat(const char *name, struct stat *p)
 {
   int rv;
   set_stat_placeholders(p);
-  rv = stat(name, p);
+  rv = fstatat(state.cwd_dir_fd, name, p, 0);
   if (0 == rv)
     return 0;			/* normal case. */
   else
@@ -437,7 +452,7 @@ int
 optionp_stat(const char *name, struct stat *p)
 {
   set_stat_placeholders(p);
-  return lstat(name, p);
+  return fstatat(state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
 }
 
 
@@ -813,4 +828,14 @@ set_option_defaults(struct options *p)
 #endif
 
   set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
+}
+
+
+/* get_start_dirfd
+ *
+ * Returns the fd for the directory we started in.
+ */
+int get_start_dirfd(void)
+{
+  return starting_desc;
 }
