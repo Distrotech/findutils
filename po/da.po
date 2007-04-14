@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-04-08 12:35+0100\n"
+"POT-Creation-Date: 2007-04-14 22:35+0100\n"
 "PO-Revision-Date: 2005-08-01 18:25+0200\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -134,46 +134,46 @@ msgstr "^[yYjJ]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:158
+#: find/util.c:160
 #, fuzzy, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgstr "Brug: %s [-H] [-L] [-P] [sti...] [udtryk]\n"
 
-#: find/util.c:160
+#: find/util.c:162
 #, fuzzy, c-format
 msgid "] [path...] [expression]\n"
 msgstr "Brug: %s [sti...] [udtryk]\n"
 
-#: find/util.c:617
+#: find/util.c:632
 #, fuzzy, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "advarsel: ukendt undvigetegn '\\%c'"
 
-#: find/util.c:624
+#: find/util.c:639
 msgid "Empty argument to the -D option."
 msgstr ""
 
-#: find/util.c:638
+#: find/util.c:653
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr ""
 
-#: find/util.c:647 find/util.c:657
+#: find/util.c:662 find/util.c:672
 msgid "Please specify a decimal number immediately after -O"
 msgstr ""
 
-#: find/util.c:662 find/util.c:666
+#: find/util.c:677 find/util.c:681
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr ""
 
-#: find/util.c:673
+#: find/util.c:688
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:804
+#: find/util.c:819
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -181,21 +181,26 @@ msgstr ""
 "Miljøvariablen FIND_BLOCK_SIZE er ikke understøttet, det eneste der påvirker "
 "blokstørrelsen er miljøvariablen POSIXLY_CORRECT"
 
-#: find/find.c:188 find/find.c:192
+#: find/find.c:203
 msgid "cannot get current directory"
 msgstr "kan ikke hente det aktuelle katalog"
 
-#: find/find.c:370
+#: find/find.c:207
+#, fuzzy
+msgid "cannot stat current directory"
+msgstr "kan ikke hente det aktuelle katalog"
+
+#: find/find.c:386
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "Advarsel: filsystemet %s er blevet afmonteret for nylig."
 
-#: find/find.c:380
+#: find/find.c:396
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "Advarsel: filsystemet %s er blevet monteret for nylig."
 
-#: find/find.c:476
+#: find/find.c:492
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -204,7 +209,7 @@ msgstr ""
 "%s%s ændrede sig under kørsel af %s (tidligere enhedsnummer %ld, nyt "
 "enhedsnummer %ld, filsystemtype er %s) [ref %ld]"
 
-#: find/find.c:513
+#: find/find.c:529
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -213,7 +218,7 @@ msgstr ""
 "%s%s ændrede sig under kørsel af %s (tidligere inode-nummer %ld, nyt inode-"
 "nummer %ld, filsystemtype er %s) [ref %ld]"
 
-#: find/find.c:1058
+#: find/find.c:1082
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -222,7 +227,7 @@ msgstr ""
 "Symbolsk kæde '%s' er del af en løkke i kataloghierarkiet; det katalog som "
 "den peger på, er allerede blevet besøgt."
 
-#: find/find.c:1073
+#: find/find.c:1097
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -231,20 +236,20 @@ msgstr ""
 "Filsystemsløkke fundet; '%s' har det samme enhedsnummer og indekseringsknude "
 "som et katalog hvilket er %d %s."
 
-#: find/find.c:1077
+#: find/find.c:1101
 msgid "level higher in the filesystem hierarchy"
 msgstr "niveau højere i filsystemshierarkiet"
 
-#: find/find.c:1078
+#: find/find.c:1102
 msgid "levels higher in the filesystem hierarchy"
 msgstr "niveauer højere i filsystemshierarkiet"
 
-#: find/find.c:1313
+#: find/find.c:1345
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "advarsel: kunne ikke følge det symbolske link %s"
 
-#: find/find.c:1357
+#: find/find.c:1389
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -261,7 +266,7 @@ msgstr ""
 msgid "unknown"
 msgstr "ukendt"
 
-#: find/parser.c:456
+#: find/parser.c:457
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -273,7 +278,7 @@ msgstr ""
 "tilvalg, men tilvalg er ikke positionsafhængige (tilvalget %s påvirker både "
 "test angivet før og efter det); angiv venligst tilvalg før andre parametre.\n"
 
-#: find/parser.c:704
+#: find/parser.c:705
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -281,7 +286,7 @@ msgstr ""
 "advarsel: tilvalget -d er forældet; benyt -depth i stedet som er i "
 "overenstemmelse med POSIX."
 
-#: find/parser.c:907
+#: find/parser.c:908
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -291,7 +296,7 @@ msgstr ""
 "hvis ikke andet angivet er stien det aktuelle katalog og udtrykket -print\n"
 "udtryk kan bestå af: operatorer, tilvalg, test og handlinger:\n"
 
-#: find/parser.c:910
+#: find/parser.c:911
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -302,7 +307,7 @@ msgstr ""
 "      ( UDTR )  ! UDTR  -not UDTR  UDTR1 -a UDTR2  UDTR1 -and UDTR2\n"
 "      UDTR1 -o UDTR2  UDTR1 -or UDTR2  UDTR1 , UDTR2\n"
 
-#: find/parser.c:914
+#: find/parser.c:915
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -316,7 +321,7 @@ msgstr ""
 "      -depth --help -maxdepth NIVEAUER -mindepth NIVEAUER -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:919
+#: find/parser.c:920
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -330,7 +335,7 @@ msgstr ""
 "MØNSTER\n"
 "      -links N -lname MØNSTER -mmin N -mtime N -name MØNSTER -newer FIL"
 
-#: find/parser.c:924
+#: find/parser.c:925
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -342,7 +347,7 @@ msgstr ""
 "      -wholename MØNSTER -size N[bckwMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAVN -xtype [bcdpfls]\n"
 
-#: find/parser.c:929
+#: find/parser.c:930
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -354,7 +359,7 @@ msgstr ""
 "      -exec KOMMANDO ; -exec KOMMANDO {} + -ok KOMMANDO ;\n"
 "      -execdir KOMMANDO ; -execdir KOMMANDO {} + -okdir KOMMANDO ;\n"
 
-#: find/parser.c:935
+#: find/parser.c:936
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -364,11 +369,11 @@ msgstr ""
 "på http://savannah.gnu.org/ eller, hvis du ikke kan tilgå denne, ved\n"
 "at sende et brev til <bug-findutils@gnu.org>."
 
-#: find/parser.c:984
+#: find/parser.c:985
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "fornuftighedstjek af biblioteksfunktionen fnmatch() mislykkedes."
 
-#: find/parser.c:999
+#: find/parser.c:1000
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -383,32 +388,32 @@ msgstr ""
 "brugbar. Alternativt kan du hvis du bruger GNU grep, benytte 'find ... -"
 "print0 | grep -FzZ %s'."
 
-#: find/parser.c:1045
+#: find/parser.c:1046
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "advarsel: udsagnet -ipath er forældet; brug venligst -iwholename i stedet."
 
-#: find/parser.c:1287
+#: find/parser.c:1288
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1337
+#: find/parser.c:1338
 #, c-format
 msgid "I cannot figure out how to interpret `%s' as a date or time"
 msgstr ""
 
-#: find/parser.c:1353
+#: find/parser.c:1354
 #, fuzzy, c-format
 msgid "Cannot obtain birth time of file `%s'"
 msgstr "Kan ikke åbne inddatafilen '%s'"
 
-#: find/parser.c:1625
+#: find/parser.c:1626
 #, c-format
 msgid "invalid mode `%s'"
 msgstr "ugyldig tilstand '%s'"
 
-#: find/parser.c:1643
+#: find/parser.c:1644
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -416,57 +421,57 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:1828
+#: find/parser.c:1829
 msgid "invalid null argument to -size"
 msgstr "ugyldig tom parameter til -size"
 
-#: find/parser.c:1874
+#: find/parser.c:1875
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "ugyldig -size type '%c'"
 
-#: find/parser.c:1925
+#: find/parser.c:1926
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2068
+#: find/parser.c:2070
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find version %s\n"
 
-#: find/parser.c:2069 locate/code.c:167 locate/locate.c:1530 xargs/xargs.c:577
+#: find/parser.c:2071 locate/code.c:167 locate/locate.c:1530 xargs/xargs.c:577
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils version %s\n"
 
-#: find/parser.c:2070
+#: find/parser.c:2072
 #, c-format
 msgid "Features enabled: "
 msgstr "Faciliteter aktiveret: "
 
-#: find/parser.c:2340
+#: find/parser.c:2355
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "advarsel: ukendt undvigetegn '\\%c'"
 
-#: find/parser.c:2356
+#: find/parser.c:2371
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2395
+#: find/parser.c:2410
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "advarsel: ukendt formatteringsdirektiv '%%%c'"
 
-#: find/parser.c:2539
+#: find/parser.c:2554
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2564
+#: find/parser.c:2579
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -479,7 +484,7 @@ msgstr ""
 "katalog fra din $PATH (dvs. fjern \".\" eller begyndende og afsluttende "
 "koloner)"
 
-#: find/parser.c:2570
+#: find/parser.c:2585
 #, fuzzy, c-format
 msgid ""
 "The ralative path %s is included in the PATH environment variable, which is "
@@ -491,7 +496,7 @@ msgstr ""
 "katalog fra din $PATH (dvs. fjern \".\" eller begyndende og afsluttende "
 "koloner)"
 
-#: find/parser.c:2668
+#: find/parser.c:2684
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -499,42 +504,50 @@ msgstr ""
 "Det kan ikke bruge {} i programnavnet for -execdir og -okdir fordi der er et "
 "potentielt sikkerhedsproblem."
 
-#: find/parser.c:2691
+#: find/parser.c:2707
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Kun en forekomst af {} er understøttet med -exec%s ... +"
 
-#: find/parser.c:2704
+#: find/parser.c:2720
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "miljø for stort til at eksekvere"
 
-#: find/parser.c:2887
+#: find/parser.c:2903
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/pred.c:1207
+#: find/pred.c:1231
 #, c-format
 msgid "Warning: cannot determine birth time of file `%s'"
 msgstr ""
 
-#: find/pred.c:1269
+#: find/pred.c:1293
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
+#: find/pred.c:1734
+msgid "Cannot close standard input"
+msgstr ""
+
+#: find/pred.c:1765
+msgid "Failed to change directory"
+msgstr ""
+
 # der er plads nok at tage af
-#: find/pred.c:1717 xargs/xargs.c:1072
+#: find/pred.c:1806 xargs/xargs.c:1072
 msgid "cannot fork"
 msgstr "kan ikke fraspalte en ny proces"
 
 # ditto, ingen grund til kryptiskhed
-#: find/pred.c:1757
+#: find/pred.c:1830
 #, c-format
 msgid "error waiting for %s"
 msgstr "fejl i forbindelse med at vente på %s"
 
-#: find/pred.c:1765
+#: find/pred.c:1838
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s afsluttet af signal %d"
