@@ -48,17 +48,25 @@ set env(LIBEXECDIR) [ normalize_dir .. ]
 # do not ignore any file systems for this test
 set env(PRUNEFS) ""
 global UPDATEDB
-# look for UPDATEDB
-if ![info exists UPDATEDB] {
-    set UPDATEDB [findfile $base_dir/../updatedb $base_dir/../updatedb [transform updatedb]]
-    verbose "UPDATEDB defaulting to $UPDATEDB" 2
-}
-
 global FRCODE
-# look for FRCODE
-if ![info exists FRCODE] {
-    set FRCODE [findfile $base_dir/../frcode $base_dir/../frcode [transform frcode]]
-    verbose "FRCODE defaulting to $FRCODE" 2
+global LOCATE
+global FIND
+
+# look for binaries
+set UPDATEDB [findfile $base_dir/../updatedb     $base_dir/../updatedb     [transform updatedb]]
+set FRCODE   [findfile $base_dir/../frcode       $base_dir/../frcode       [transform frcode  ]]
+set LOCATE   [findfile $base_dir/../locate       $base_dir/../locate       [transform locate  ]]
+set FIND     [findfile $base_dir/../../find/find $base_dir/../../find/find [transform find    ]]
+verbose "UPDATEDB is $UPDATEDB" 1
+verbose "FRCODE   is $FRCODE" 1
+verbose "LOCATE   is $LOCATE" 1
+verbose "FIND     is $FIND" 1
+
+
+foreach exe "$UPDATEDB $FRCODE $LOCATE $FIND" {
+    if ![ string match "/*" $exe ] {
+	error "Failed to find a binary to test for $exe"
+    }
 }
 
 global UPDATEDBFLAGS
@@ -66,19 +74,6 @@ if ![info exists UPDATEDBFLAGS] then {
     set UPDATEDBFLAGS ""
 }
 
-global LOCATE
-# look for LOCATE
-if ![info exists LOCATE] {
-    set LOCATE [findfile $base_dir/../locate $base_dir/../locate [transform locate]]
-    verbose "LOCATE defaulting to $LOCATE" 2
-}
-
-global FIND
-# look for find
-if ![info exists FIND] {
-    set FIND [findfile $base_dir/../../find/find $base_dir/../../find/find [transform find]]
-    verbose "FIND defaulting to $FIND" 2
-}
 set env(find) "$FIND"
 
 global LOCATEFLAGS
@@ -112,16 +107,6 @@ proc locate_version {} {
 proc locate_textonly { passfail id intext locateoptions outtext } {
     global LOCATE
     global FRCODE
-
-    if {[which $LOCATE] == 0} then {
-	error "$LOCATE, program does not exist"
-	exit 1
-    }
-
-    if {[which $FRCODE] == 0} then {
-	error "$FRCODE, program does not exist"
-	exit 1
-    }
 
     set fail_good [string match "f*" $passfail]
 
@@ -195,15 +180,6 @@ proc locate_start { passfail updatedb_options locate_options
     global UPDATEDB
     global UPDATEDBFLAGS
     global comp_output
-
-    if {[which $UPDATEDB] == 0} then {
-	error "$UPDATEDB, program does not exist"
-	exit 1
-    }
-    if {[which $LOCATE] == 0} then {
-	error "$LOCATE, program does not exist"
-	exit 1
-    }
 
     set fail_good [string match "f*" $passfail]
 

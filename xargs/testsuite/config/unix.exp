@@ -21,11 +21,25 @@
 # written by Rob Savoye <rob@cygnus.com>.
 
 
+verbose "base_dir is $base_dir" 2
+
+set objfile "xargs.o"
+set dir "$base_dir/.."
+set path "$dir/$objfile"
+if ![file exists $path] then {
+    error "$path does not exist"
+} else {
+    set XARGS [findfile $base_dir/../xargs [transform xargs]]
+}
+
 global XARGS
-# look for XARGS
-if ![info exists XARGS] {
-    set XARGS [findfile $base_dir/../xargs $base_dir/../xargs [transform xargs]]
-    verbose "XARGS defaulting to $XARGS" 2
+
+
+set XARGS [findfile $base_dir/../xargs $base_dir/../xargs [transform xargs]]
+if [ string match "/*" $XARGS ] {
+    verbose "XARGS is set to $XARGS" 1
+} else {
+    error "Failed to find a binary to test"
 }
 
 global XARGSFLAGS

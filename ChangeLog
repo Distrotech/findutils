@@ -1,5 +1,9 @@
 2007-04-15  James Youngman  <jay@gnu.org>
 
+	* doc/Makefile.am (regexprops.texi): Do not use $(RM) because many
+	versions od make do not set it, and so it expands to nothing.
+	This avoids suprious emission of the regexprops.texi file to stdout.
+
 	* find/find.c (main, safely_chdir_lstat, safely_chdir_nofollow):
 	Only use O_LARGEFILE if it is #defined (NetBSD-3.1 does not define
 	it).  
