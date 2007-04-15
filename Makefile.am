@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS=gnits
 EXTRA_DIST = COPYING ChangeLog TODO config.h.in stamp-h.in \
 		THANKS import-gnulib.sh import-gnulib.config
 # "tests" is the gnulib unit test dir.
-SUBDIRS = gnulib tests lib find xargs locate doc po m4
+SUBDIRS = gnulib tests build-aux lib find xargs locate doc po m4 
 
 ACLOCAL_AMFLAGS = -I gnulib/m4 -I m4
 
