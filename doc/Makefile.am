@@ -58,5 +58,5 @@ else
 regexprops.texi: ../gnulib/lib/regex.h
 	cd ../lib && $(MAKE) $(AM_MAKEFLAGS) regexprops$(EXEEXT)
 	../lib/regexprops$(EXEEXT) "Regular Expressions" > $@
-	$(RM) ../lib/regexprops$(EXEEXT)
+	rm ../lib/regexprops$(EXEEXT)
 endif
