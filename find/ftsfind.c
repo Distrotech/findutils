@@ -685,7 +685,11 @@ main (int argc, char **argv)
     }
   
 
-  starting_desc = open (".", O_RDONLY|O_LARGEFILE);
+  starting_desc = open (".", O_RDONLY
+#if defined O_LARGEFILE
+			|O_LARGEFILE
+#endif
+			);
   if (0 <= starting_desc && fchdir (starting_desc) != 0)
     {
       close (starting_desc);

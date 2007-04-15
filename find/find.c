@@ -188,7 +188,11 @@ main (int argc, char **argv)
     }
   
 
-  starting_desc = open (".", O_RDONLY|O_LARGEFILE);
+  starting_desc = open (".", O_RDONLY
+#if defined O_LARGEFILE
+			|O_LARGEFILE
+#endif
+			);
   if (0 <= starting_desc && fchdir (starting_desc) != 0)
     {
       close (starting_desc);
@@ -577,7 +581,11 @@ safely_chdir_lstat(const char *dest,
   
   saved_errno = errno = 0;
 
-  dotfd = open(".", O_RDONLY|O_LARGEFILE);
+  dotfd = open(".", O_RDONLY
+#if defined O_LARGEFILE
+	       |O_LARGEFILE
+#endif
+	       );
 
   /* We jump back to here if wd_sanity_check()
    * recoverably triggers an alert.
@@ -811,7 +819,11 @@ safely_chdir_nofollow(const char *dest,
     }
   
   errno = 0;
-  fd = open(dest, O_RDONLY|O_LARGEFILE|extraflags);
+  fd = open(dest, O_RDONLY
+#if defined O_LARGEFILE
+	    |O_LARGEFILE
+#endif
+	    |extraflags);
   if (fd < 0)
     {
       switch (errno)

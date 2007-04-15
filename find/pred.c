@@ -417,7 +417,11 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       boolean empty = true;
 
       errno = 0;
-      if ((fd = openat(state.cwd_dir_fd, state.rel_pathname, O_RDONLY|O_LARGEFILE)) < 0)
+      if ((fd = openat(state.cwd_dir_fd, state.rel_pathname, O_RDONLY
+#if defined O_LARGEFILE
+			|O_LARGEFILE
+#endif
+		       )) < 0)
 	{
 	  error (0, errno, "%s", pathname);
 	  state.exit_status = 1;
@@ -1736,7 +1740,11 @@ prep_child_for_exec (boolean close_stdin, int dirfd)
 	}
       else 
 	{
-	  if (open(inputfile, O_RDONLY|O_LARGEFILE) < 0)
+	  if (open(inputfile, O_RDONLY
+#if defined O_LARGEFILE
+		   |O_LARGEFILE
+#endif
+		   ) < 0)
 	    {
 	      /* This is not entirely fatal, since 
 	       * executing the child with a closed
