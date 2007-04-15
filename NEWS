@@ -3,17 +3,43 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 ** Bug Fixes
 
-Savannah bug #14535: correctly support case-folding in locate (that
-is, "locate -i") for multibyte character environments such as UTF-8.
-Previously, if your search string contained a character which was
-outside the single-byte-encoding range for UTF-8 for example, then the
-case-folding behaviour failed to work and only exact matches would be
-returned.
+#19596: Correct the comparison in the find manpage between %b and %s
+(the divisor is 512 not 1024).
 
-Savannah bug #18466: we now avoid this bug by limiting "-execdir ...+"
+#18714: In the POSIX locale, vertical tabs and form feeds are not
+field separators.
+
+#18713: Quoted but empty arguments which occur last on an xargs input
+line are no longer ignored, but instead produce an empty argument.
+
+#18554: Documented the construct  -exec sh -c 'foo "$@" bar' {} +
+
+#18466: we now avoid this bug by limiting "-execdir ...+"
 to just one argument for the time being.  There is a performance
 penalty for doing this.  We hope to make a better fix in a later
 release.
+
+#18384: excess bracket in xargs --help
+
+#18320: Zero bytes in input should give warning
+
+#17437: Corrected the handling of X in symbolic permissions (such
+as-u+w,a+X).  This change actually occurred in findutils-4.3.2, but
+the NEWS file for that release didn't mention it.
+
+#17396: find -mtime -atime -ctime does not support fractional part
+(see "Functional changes" below)
+
+#14748: find -perm /zzz gives wrong result when zzz evaluates to an
+ all-zero mask
+
+#14535: correctly support case-folding in locate (that is, "locate
+-i") for multibyte character environments such as UTF-8.  Previously,
+if your search string contained a character which was outside the
+single-byte-encoding range for UTF-8 for example, then the
+case-folding behaviour failed to work and only exact matches would be
+returned.
+
 
 
 ** Functional changes
@@ -63,18 +89,6 @@ If you configure the sourec code and then run the tests with "make
 check", the test suite fails rather than defaulting to testing the
 system binaries.
    
-
-** Bug Fixes
-
-#17437: Corrected the handling of X in symbolic permissions (such
-as-u+w,a+X).  This change actually occurred in findutils-4.3.2, but
-the NEWS file for that release didn't mention it.
-
-#18714: In the POSIX locale, vertical tabs and form feeds are not
-field separators.
-
-#18713: Quoted but empty arguments which occur last on an xargs input
-line are no longer ignored, but instead produce an empty argument.
 
 * Major changes in release 4.3.2
 
