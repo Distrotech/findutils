@@ -233,11 +233,15 @@ main() {
     ## Invoke gnulib-tool to import the code.
     local tool="${gnulibdir}"/gnulib-tool
 
-    run_gnulib_tool "${tool}" && 
-    hack_gnulib_tool_output "${gnulibdir}" &&
-    refresh_output_files && 
-    update_version_file  &&
-    echo Done.
+    if run_gnulib_tool "${tool}" && 
+	hack_gnulib_tool_output "${gnulibdir}" &&
+	refresh_output_files && 
+	update_version_file   ; then
+	echo Done.
+    else
+	echo FAILED >&2
+	exit 1
+    fi
 }
 
 main "$@"
