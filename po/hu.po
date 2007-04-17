@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-04-15 19:48+0100\n"
+"POT-Creation-Date: 2007-04-17 10:18+0100\n"
 "PO-Revision-Date: 2006-09-11 13:14+0100\n"
 "Last-Translator: Emese Kovacs <emese@instantweb.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -243,18 +243,18 @@ msgstr "szinttel feljebb a fájlrendszer-hierarchiában"
 msgid "levels higher in the filesystem hierarchy"
 msgstr "szinttel feljebb a fájlrendszer-hierarchiában"
 
-#: find/find.c:1357
+#: find/find.c:1358
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "figyelmeztetés: a(z) %s szimbolikus linket a rendszer nem követi"
 
-#: find/find.c:1401
-#, c-format
+#: find/find.c:1402
+#, fuzzy, c-format
 msgid ""
-"WARNING: Hard link count is wrong for %s: this may be a bug in your "
-"filesystem driver.  Automatically turning on find's -noleaf option.  Earlier "
-"results may have failed to include directories that should have been "
-"searched."
+"WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
+"already saw %d subdirectories): this may be a bug in your filesystem "
+"driver.  Automatically turning on find's -noleaf option.  Earlier results "
+"may have failed to include directories that should have been searched."
 msgstr ""
 "FIGYELMEZTETÉS: A hard linkek szám hibás a következőhöz: %s; ez lehet egy "
 "hiba a fájlrendszer illesztőprogramjában. A find -noleaf kapcsolója "
