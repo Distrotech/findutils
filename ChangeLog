@@ -1,5 +1,11 @@
 2007-04-17  James Youngman  <jay@gnu.org>
 
+	* find/testsuite/find/posix/sv-bug-19605.exp: New test, for
+	Savannah bug #19605.
+	* find/ftsfind.c (consider_visiting): if fts_read() returns
+	enf->fts_info==FTS_NS, check for and diagnose a symbolic link
+	loop.  This fixes Savannah bug #19605.
+
 	* find/find.c (process_path): collect the stat information for
 	directories even if we already have the mode information, because
 	we need to use the members st_nlink and st_rdev in for the leaf

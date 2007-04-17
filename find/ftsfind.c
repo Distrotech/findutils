@@ -444,6 +444,28 @@ consider_visiting(FTS *p, FTSENT *ent)
 	  return;
 	}
     }
+  else if (ent->fts_info == FTS_NS)
+    {
+      if (ent->fts_level == 0)
+	{
+	  /* e.g., nonexistent starting point */
+	  error(0, ent->fts_errno, ent->fts_path);
+	  error_severity(1);	/* remember problem */
+	  return;
+	}
+      else
+	{
+	  /* The following if statement fixes Savannah bug #19605
+	   * (failure to diagnose a symbolic link loop)
+	   */
+	  if (symlink_loop(ent->fts_accpath))
+	    {
+	      error(0, ELOOP, ent->fts_path);
+	      error_severity(1);
+	      return;
+	    }
+	}
+    }
   
   /* Cope with the usual cases. */
   if (ent->fts_info == FTS_NSOK
