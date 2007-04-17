@@ -1,5 +1,14 @@
 2007-04-17  James Youngman  <jay@gnu.org>
 
+	* find/ftsfind.c (is_fts_enabled): Return a copy of ftsoptions,
+	not a copy of the (uninitialised) input argument.  This fixes
+	Savannah bug #19615.
+
+	* find/ftsfind.c (consider_visiting): If fts_read() returned
+	FTS_NS, then remember that the stat information is not valid, and
+	therefore don't set state.have_type or state.have_stat.  This
+	fixes Savannah bug #19613.
+
 	* find/testsuite/find.posix/sv-bug-91613.exp, 
 	* find/testsuite/find.posix/sv-bug-91613.xo: New test for Savannah
 	bug 19613 (assertion failure on symbolic link loop).

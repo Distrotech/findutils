@@ -445,8 +445,9 @@ consider_visiting(FTS *p, FTSENT *ent)
 	}
     }
   
-  /* Not an error, cope with the usual cases. */
-  if (ent->fts_info == FTS_NSOK)
+  /* Cope with the usual cases. */
+  if (ent->fts_info == FTS_NSOK
+      || ent->fts_info == FTS_NS /* e.g. symlink loop */)
     {
       assert(!state.have_stat);
       assert(!state.have_type);
@@ -717,6 +718,6 @@ boolean
 is_fts_enabled(int *fts_options)
 {
   /* this version of find (i.e. this main()) uses fts. */
-  *fts_options = fts_options;
+  *fts_options = ftsoptions;
   return true;
 }

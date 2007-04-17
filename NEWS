@@ -1,4 +1,19 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
+* Major changes in release 4.3.4-CVS
+
+** Bug Fixes
+
+#19615: find --version no longer claims to be using FTS_CWDFD when it
+ isn't.  This bug affected only findutils-4.3.3.
+
+#19613: "find -L . -type f" no longer causes an assertion failure when
+ it encounters a symbolic link loop.  This bug affected only
+ findutils-4.3.3.
+
+Findutils-4.3.3 was released on 2007-04-15.
+
+** Bug Fixes
+
 * Major changes in release 4.3.3
 
 Fiundutils-4.3.3 was released on 2007-04-15.
