@@ -1,10 +1,16 @@
 2007-04-17  James Youngman  <jay@gnu.org>
 
+	* import-gnulib.config (gnulib_version): Use the 2007-04-17
+	version of gnulib to fix a compilation error on Cygwin.  This
+	fixes Savannah bug #19619.
+	
 	* find/testsuite/find/posix/sv-bug-19605.exp: New test, for
 	Savannah bug #19605.
+	* find/testsuite/find/posix/sv-bug-19617.exp: New test, for
+	Savannah bug #19617.
 	* find/ftsfind.c (consider_visiting): if fts_read() returns
 	enf->fts_info==FTS_NS, check for and diagnose a symbolic link
-	loop.  This fixes Savannah bug #19605.
+	loop.  This fixes Savannah bugs #19605 and #19617.
 
 	* find/find.c (process_path): collect the stat information for
 	directories even if we already have the mode information, because

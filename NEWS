@@ -3,6 +3,11 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 ** Bug Fixes
 
+#19619: Findutils builds once again on Cygwin.
+
+#19617: Nonexistent start points are (once again) diagnosed in
+ftsfind.  This bug affected only findutils-4.3.3.
+
 #19616: Fix leaf optimisation and loop detection (which were
 unreliable in findutils 4.3.3).  This bug affected only
 findutils-4.3.3.
@@ -14,7 +19,9 @@ isn't.  This bug affected only findutils-4.3.3.
 it encounters a symbolic link loop.  This bug affected only
 findutils-4.3.3.
 
-Findutils-4.3.3 was released on 2007-04-15.
+#19605: Issue an error message (and later return nonzero exit status)
+ if a symbolic link loop was encountered during directory traversal.
+
 
 ** Bug Fixes
 
