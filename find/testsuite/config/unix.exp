@@ -89,11 +89,10 @@ proc find_version {} {
     }
 }
 
-# Run find and leave the output in $comp_output.
+# Run find 
 # Called by individual test scripts.
 proc do_find_start { suffix findprogram flags passfail options infile output } {
     global verbose
-    global comp_output
 
     set scriptname [uplevel {info script}]
     set testbase [file rootname $scriptname]
@@ -139,25 +138,37 @@ proc do_find_start { suffix findprogram flags passfail options infile output } {
 	set infile /dev/null
     }
 
-    set cmd "$findprogram $flags $options < $infile | sort > find.out"
+    set cmd "$findprogram $flags $options < $infile > find.out.uns"
     send_log "$cmd\n"
     if $verbose>1 then {
 	send_user "Spawning \"$cmd\"\n"
     }
 
-    catch "exec $cmd" comp_output
-    if {$comp_output != ""} then {
-	send_log "$comp_output\n"
-	if $verbose>1 then {
-	    send_user "$comp_output\n"
-	}
-	if $fail_good then {
-	    pass "$testname"
-	} else {
-	    fail "$testname, $comp_output"
-	}
-	return
+    if $fail_good then {
+	send_log "Hoping for this command to return nonzero\n"
+    } else {
+	send_log "Hoping for this command to return 0\n"
     }
+    set failed [ catch "exec $cmd" result ] 
+    send_log "return value is $failed, result is '$result'\n"
+    if $failed {
+	# The command failed.
+	if $fail_good then {
+	    send_log "As expected, $cmd returned nonzero\n"
+	} else {
+	    fail "$testname, $result"
+	}
+    } else {
+	# The command returned 0.
+	if $fail_good then {
+	    fail "$testname, $result"
+	} else {
+	    send_log "As expected, $cmd returned 0\n"
+	}
+    }
+
+    exec sort < find.out.uns > find.out
+    file delete find.out.uns
 
     if [file exists $outfile] then {
 	# We use the 'sort' above to sort the output of find to ensure
@@ -192,7 +203,6 @@ proc find_start { passfail options {infile ""} {output ""}} {
     global OLDFIND
     global FTSFIND
     global FINDFLAGS
-    global comp_output
     global SKIP_OLD
     global SKIP_NEW
 
