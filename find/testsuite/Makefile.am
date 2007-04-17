@@ -81,6 +81,7 @@ find.posix/sizetype.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
 find.posix/sv-bug-15235.xo \
+find.posix/sv-bug-19613.xo \
 find.posix/typesize.xo \
 find.posix/posixnot.xo \
 find.posix/grouping.xo \
@@ -174,6 +175,7 @@ find.posix/sizetype.exp \
 find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \
 find.posix/sv-bug-15235.exp \
+find.posix/sv-bug-19613.exp \
 find.posix/typesize.exp \
 find.posix/grouping.exp \
 find.posix/and.exp \

@@ -1,3 +1,16 @@
+2007-04-17  James Youngman  <jay@gnu.org>
+
+	* find/testsuite/find.posix/sv-bug-91613.exp, 
+	* find/testsuite/find.posix/sv-bug-91613.xo: New test for Savannah
+	bug 19613 (assertion failure on symbolic link loop).
+
+	* find/testsuite/config/unix.exp: Correctly diagnose a test case
+	which fails because find was expected to fail and instead
+	succeeded.
+	* find/testsuite/find.gnu/exec-many-rtn-failure.exp: The child
+	process in this test should return non-zero, not zero.  Therefore
+	run "false" instead of "true".
+	
 2007-04-15  James Youngman  <jay@gnu.org>
 
  	* find/find.1: "-printf %b": blocks are 512 bytes.   Fixes
