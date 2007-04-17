@@ -84,7 +84,7 @@ static void init_mounted_dev_list(int mandatory);
 
 static void process_top_path PARAMS((char *pathname, mode_t mode));
 static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent, mode_t type));
-static void process_dir PARAMS((char *pathname, char *name, int pathlen, struct stat *statp, char *parent));
+static void process_dir PARAMS((char *pathname, char *name, int pathlen, const struct stat *statp, char *parent));
 
 
 
@@ -1164,17 +1164,10 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   /* Now we really need to stat the directory, even if we know the
    * type, because we need information like struct stat.st_rdev.
    */
-  if (0 == stat_buf.st_mode)
-    {
-      /* This call was made conditional on Sat Apr 14 16:01:01 2007,
-       * and at that time the test suite passed without it.  Omitting
-       * this stat call saves a lot of system calls.
-       */
-      if (get_statinfo(pathname, name, &stat_buf) != 0)
-	return 0;
+  if (get_statinfo(pathname, name, &stat_buf) != 0)
+    return 0;
 
-      state.have_stat = true;
-    }
+  state.have_stat = true;
   mode = state.type = stat_buf.st_mode;	/* use full info now that we have it. */
   state.stop_at_current_level =
     options.maxdepth >= 0
@@ -1215,8 +1208,10 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
 	    pathname, state.stop_at_current_level);
   
   if (state.stop_at_current_level == false)
-    /* Scan directory on disk. */
-    process_dir (pathname, name, strlen (pathname), &stat_buf, parent);
+    {
+      /* Scan directory on disk. */
+      process_dir (pathname, name, strlen (pathname), &stat_buf, parent);
+    }
 
   if (options.do_dir_first == false && state.curdepth >= options.mindepth)
     {
@@ -1253,15 +1248,21 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
    starting directory.  */
 
 static void
-process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *parent)
+process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, char *parent)
 {
   int subdirs_left;		/* Number of unexamined subdirs in PATHNAME. */
   boolean subdirs_unreliable;	/* if true, cannot use dir link count as subdir limif (if false, it may STILL be unreliable) */
   unsigned int idx;		/* Which entry are we on? */
   struct stat stat_buf;
-
+  size_t dircount = 0u;
   struct savedir_dirinfo *dirinfo;
-
+#if 0
+  printf("process_dir: pathname=%s name=%s statp->st_nlink=%d st_ino=%d\n",
+	 pathname,
+	 name,
+	 (int)statp->st_nlink,
+	 (int)statp->st_ino);
+#endif  
   if (statp->st_nlink < 2)
     {
       subdirs_unreliable = true;
@@ -1398,8 +1399,10 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 		   * doesn't really handle hard links with Unix semantics.
 		   * In the latter case, -noleaf should be used routinely.
 		   */
-		  error(0, 0, _("WARNING: Hard link count is wrong for %s: this may be a bug in your filesystem driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
-			pathname);
+		  error(0, 0, _("WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we already saw %d subdirectories): this may be a bug in your filesystem driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
+			pathname,
+			statp->st_nlink,
+			dircount);
 		  state.exit_status = 1; /* We know the result is wrong, now */
 		  options.no_leaf_check = true;	/* Don't make same
 						   mistake again */
@@ -1415,9 +1418,14 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 		 there are additional links, we know that the rest of
 		 the entries are non-directories -- in other words,
 		 leaf files. */
-	      subdirs_left -= process_path (cur_path, cur_name,
+	      {
+		int count;
+		count = process_path (cur_path, cur_name,
 					    subdirs_left == 0, pathname,
 					    mode);
+		subdirs_left -= count;
+		dircount += count;
+	      }
 	    }
 	  else
 	    {
