@@ -4,7 +4,7 @@ exec mkdir tmp
 
 ## set up a selection of test files
 foreach perm  { 400 555 700 } {
-    exec touch "tmp/$perm"
+    touch "tmp/$perm"
     exec chmod $perm "tmp/$perm"
 }
 exec ls -l tmp
