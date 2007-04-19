@@ -1,5 +1,10 @@
 2007-04-19  James Youngman  <jay@gnu.org>
 
+	* find/testsuite/find.gnu/execdir-hier.exp: Avoid running 
+	-execdir based tests if "." is on $PATH.  Fixes Savannah bug
+	#19634.
+	* find/testsuite/find.gnu/execdir-in-unreadable.exp: ditto
+
 	* find/testsuite/config/unix.exp (touch): New procedure touch,
 	replacing "exec touch" for greater efficiency.
 	* find/testsuite/find.posix/depth1.exp: Change "exec touch" to

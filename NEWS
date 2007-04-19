@@ -3,6 +3,8 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 ** Bug Fixes
 
+#19634: Test suite now passes (again) if "." is on your $PATH.
+
 #19619: Findutils builds once again on Cygwin.
 
 #19617: Nonexistent start points are (once again) diagnosed in
@@ -22,6 +24,9 @@ findutils-4.3.3.
 #19605: Issue an error message (and later return nonzero exit status)
  if a symbolic link loop was encountered during directory traversal.
 
+#18414: Tests for "find -readable" are skipped for the superuser, as
+ on some systems (e.g. Cygwin with an Administrative user) users can
+ read mode-000 files.
 
 ** Bug Fixes
 
