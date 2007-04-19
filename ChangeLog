@@ -1,3 +1,10 @@
+2007-04-19  Peter Breitenlohner <peb@mppmu.mpg.de> (Trivial change)
+
+	* locate/bigram.c (main): Set the initial pathname to the empty
+	string, to avoid decompression problems if the initial pathname
+	begins with a space.  This fixes Savannah bug #19484.
+	* locate/code.c (main): ditto
+
 2007-04-19  James Youngman  <jay@gnu.org>
 
 	* locate/updatedb.1 (--help): Option name should be bold, not
