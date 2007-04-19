@@ -1,3 +1,21 @@
+2007-04-19  James Youngman  <jay@gnu.org>
+
+	* find/testsuite/config/unix.exp (touch): New procedure touch,
+	replacing "exec touch" for greater efficiency.
+	* find/testsuite/find.posix/depth1.exp: Change "exec touch" to
+	"touch".
+	* find/testsuite/find.posix/files-not-expressions1.exp: ditto
+	* find/testsuite/find.posix/files-not-expressions2.exp: ditto
+	* find/testsuite/find.posix/files-not-expressions3.exp: ditto
+	* find/testsuite/find.posix/links.exp: ditto
+	* find/testsuite/find.posix/perm-vanilla.exp: ditto
+	* find/testsuite/find.posix/sv-bug-15235.exp: ditto
+	* /find/testsuite/find.posix/sv-bug-19613.exp: ditto
+	
+	* find/testsuite/find.gnu/access.exp: Fix savannah bug #18414 by
+	skipping the test if the user can read any file (e.g. is root or
+	is an Admin user under Cygwin).
+	
 2007-04-17  James Youngman  <jay@gnu.org>
 
 	* import-gnulib.config (gnulib_version): Use the 2007-04-17

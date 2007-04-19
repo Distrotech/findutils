@@ -257,6 +257,15 @@ proc path_setting_is_unsafe {} {
     return 0;
 }
 
+proc touch args {
+    foreach filename $args {
+	set f [open "$filename" "a"]
+	close $f
+    }
+}
+
+
+
 proc safe_path [ ] {
     if { [ path_setting_is_unsafe ] } {
 	warning { Cannot perform test as your $PATH environment variable includes a reference to the current directory or a directory name which is not absolute } 

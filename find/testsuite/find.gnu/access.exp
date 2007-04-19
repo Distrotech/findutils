@@ -1,12 +1,22 @@
 # tests for -readable, -writable, -executable
 exec rm -rf tmp
 exec mkdir tmp
-exec touch tmp/x tmp/w tmp/r tmp/rw tmp/rwx tmp/0 
-exec chmod 400 tmp/r
-exec chmod 200 tmp/w
-exec chmod 100 tmp/x
-exec chmod 000 tmp/0
-exec chmod 600 tmp/rw
-exec chmod 700 tmp/rwx
-find_start p {tmp -readable -printf "r %p\n" , -writable -printf "w %p\n" , -executable  -printf "x %p\n"}
-exec rm -rf tmp
+touch tmp/000
+exec chmod 000 tmp/000
+if [ file readable tmp/000 ] {
+    # On Cygwin, a user with admin rights can read all files, and 
+    # access(foo,R_OK) correctly returns 1 for all files.
+    warning "You have superuser privileges, skipping this test."
+3    untested {skipping this test because you have superuser privileges}
+} else {
+    touch tmp/x tmp/w tmp/r tmp/rw tmp/rwx tmp/0 
+    exec chmod 400 tmp/r
+    exec chmod 200 tmp/w
+    exec chmod 100 tmp/x
+    exec chmod 000 tmp/0
+    exec chmod 600 tmp/rw
+    exec chmod 700 tmp/rwx
+    find_start p {tmp -readable -printf "r %p\n" , -writable -printf "w %p\n" , -executable  -printf "x %p\n"}
+    exec rm -rf tmp
+}
+
