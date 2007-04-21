@@ -177,6 +177,7 @@ find.posix/sv-bug-12181.exp \
 find.posix/sv-bug-15235.exp \
 find.posix/sv-bug-19605.exp \
 find.posix/sv-bug-19613.exp \
+find.posix/sv-bug-19617.exp \
 find.posix/typesize.exp \
 find.posix/grouping.exp \
 find.posix/and.exp \
