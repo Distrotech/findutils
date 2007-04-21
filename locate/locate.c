@@ -1034,8 +1034,7 @@ search_one_database (int argc,
     {
       error(0, 0,
 	    _("`%s' is an slocate database.  "
-	      "Support for these is new, expect problems for now "
-	      "(you are, after all, using the CVS code)."),
+	      "Support for these is new, expect problems for now."),
 	    procdata.dbfile);
       
       /* slocate also uses frcode, but with a different header. 
@@ -1047,6 +1046,9 @@ search_one_database (int argc,
 	  /* We don't know what those security levels mean, 
 	   * so do nothing further 
 	   */
+	  error(0, 0,
+		_("`%s' is an slocate database of unsupported security level %d; skipping it."),
+		procdata.dbfile, slocate_seclevel);
 	  return 0;
 	}
       else if (slocate_seclevel > 0)
