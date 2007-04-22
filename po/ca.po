@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-04-17 10:18+0100\n"
+"POT-Creation-Date: 2007-04-22 23:20+0100\n"
 "PO-Revision-Date: 2006-05-20 14:54+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -449,7 +449,7 @@ msgstr ""
 msgid "GNU find version %s\n"
 msgstr "GNU find versió %s\n"
 
-#: find/parser.c:2071 locate/code.c:167 locate/locate.c:1530 xargs/xargs.c:577
+#: find/parser.c:2071 locate/code.c:167 locate/locate.c:1530 xargs/xargs.c:579
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils versió %s\n"
@@ -544,7 +544,7 @@ msgstr ""
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1814 xargs/xargs.c:1072
+#: find/pred.c:1814 xargs/xargs.c:1074
 msgid "cannot fork"
 msgstr "no es pot fer «fork»"
 
@@ -677,7 +677,7 @@ msgstr ""
 "Forma d'ús: %s [--version | --help]\n"
 "            %s biagrames_més_comuns < llista-fitxers > base-de-dades-locate\n"
 
-#: locate/code.c:132 locate/locate.c:1289 xargs/xargs.c:1270
+#: locate/code.c:132 locate/locate.c:1289 xargs/xargs.c:1272
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -694,41 +694,41 @@ msgstr "GNU findutils versió %s\n"
 msgid "days"
 msgstr "dies"
 
-#: locate/locate.c:206
+#: locate/locate.c:204
 msgid "The argument argument for option --max-database-age must not be empty"
 msgstr ""
 
-#: locate/locate.c:222 locate/locate.c:229
+#: locate/locate.c:220 locate/locate.c:227
 #, fuzzy, c-format
 msgid "Invalid argument `%s' for option --max-database-age"
 msgstr "l'argument «%s» no és vàlid per a «%s»"
 
-#: locate/locate.c:587
+#: locate/locate.c:585
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "la base de dades de locate «%s» és corrupta o invàlida"
 
-#: locate/locate.c:848
+#: locate/locate.c:846
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Mida de la base de dades de locate: %s octets\n"
 
-#: locate/locate.c:853
+#: locate/locate.c:851
 #, fuzzy, c-format
 msgid "Matching Filenames: %s "
 msgstr "Noms de fitxers: %s"
 
-#: locate/locate.c:854
+#: locate/locate.c:852
 #, fuzzy, c-format
 msgid "All Filenames: %s "
 msgstr "Noms de fitxers: %s"
 
-#: locate/locate.c:857
+#: locate/locate.c:855
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "amb una longitud acumulada de %s octets"
 
-#: locate/locate.c:861
+#: locate/locate.c:859
 #, c-format
 msgid ""
 "\n"
@@ -737,7 +737,7 @@ msgstr ""
 "\n"
 "\tdels quals %s contenen espais, "
 
-#: locate/locate.c:864
+#: locate/locate.c:862
 #, c-format
 msgid ""
 "\n"
@@ -746,7 +746,7 @@ msgstr ""
 "\n"
 "\t%s contenen caràcters de retorn de carro, "
 
-#: locate/locate.c:867
+#: locate/locate.c:865
 #, c-format
 msgid ""
 "\n"
@@ -755,35 +755,41 @@ msgstr ""
 "\n"
 "\ti %s contenen caràcters amb el bit alt establert.\n"
 
-#: locate/locate.c:875
+#: locate/locate.c:873
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
 "compression ratio.\n"
 msgstr ""
 
-#: locate/locate.c:882
+#: locate/locate.c:880
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "El ràtio de compressió és %4.2f%%\n"
 
-#: locate/locate.c:889
+#: locate/locate.c:887
 #, fuzzy, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "El ràtio de compressió és %4.2f%%\n"
 
-#: locate/locate.c:944
+#: locate/locate.c:942
 #, c-format
 msgid ""
 "locate database `%s' looks like an slocate database but it seems to have "
 "security level %c, which GNU findutils does not currently support"
 msgstr ""
 
-#: locate/locate.c:1036
+#: locate/locate.c:1034
 #, c-format
 msgid ""
 "`%s' is an slocate database.  Support for these is new, expect problems for "
-"now (you are, after all, using the CVS code)."
+"now."
+msgstr ""
+
+#: locate/locate.c:1048
+#, c-format
+msgid ""
+"`%s' is an slocate database of unsupported security level %d; skipping it."
 msgstr ""
 
 #: locate/locate.c:1064
@@ -909,43 +915,43 @@ msgstr ""
 msgid "environment is too large for exec"
 msgstr "l'entorn és massa gran per a l'execució"
 
-#: xargs/xargs.c:537
+#: xargs/xargs.c:539
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:576
+#: xargs/xargs.c:578
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versió %s\n"
 
-#: xargs/xargs.c:607
+#: xargs/xargs.c:609
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "No s'ha pogut obrir el fitxer d'entrada «%s»"
 
-#: xargs/xargs.c:643
+#: xargs/xargs.c:645
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Les vostres variables d'entorn utilitzen %ld octets\n"
 
-#: xargs/xargs.c:646
+#: xargs/xargs.c:648
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr ""
 "límits inferior i superior POSIX per a la mida dels arguments: %ld, %ld\n"
 
-#: xargs/xargs.c:650
+#: xargs/xargs.c:652
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "La mida màxima de l'ordre que podem utilitzar: %ld\n"
 
-#: xargs/xargs.c:654
+#: xargs/xargs.c:656
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "La mida de la memòria intermèdia que s'està utilitzant: %ld\n"
 
-#: xargs/xargs.c:660
+#: xargs/xargs.c:662
 #, c-format
 msgid ""
 "\n"
@@ -954,14 +960,14 @@ msgid ""
 "of-file keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:668
+#: xargs/xargs.c:670
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
 "then press the interrupt keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:794 xargs/xargs.c:887
+#: xargs/xargs.c:796 xargs/xargs.c:889
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -970,59 +976,59 @@ msgstr ""
 "s'ha trobat una cometa %s no emparellada. Per defecte, les cometes són "
 "especials per a xargs a no ser que s'utilitze l'opció -O"
 
-#: xargs/xargs.c:795 xargs/xargs.c:888
+#: xargs/xargs.c:797 xargs/xargs.c:890
 msgid "double"
 msgstr "doble"
 
-#: xargs/xargs.c:795 xargs/xargs.c:888
+#: xargs/xargs.c:797 xargs/xargs.c:890
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:907
+#: xargs/xargs.c:909
 msgid ""
 "warning: a NUL character occurred in the input.  It cannot be passed through "
 "in the argument list.  Did you mean to use the --null option?"
 msgstr ""
 
-#: xargs/xargs.c:917 xargs/xargs.c:974
+#: xargs/xargs.c:919 xargs/xargs.c:976
 msgid "argument line too long"
 msgstr "línia d'arguments massa llarga"
 
-#: xargs/xargs.c:1147
+#: xargs/xargs.c:1149
 msgid "error waiting for child process"
 msgstr "error a l'esperar al procés fill"
 
-#: xargs/xargs.c:1163
+#: xargs/xargs.c:1165
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: ha acabat amb estat 255; avortant"
 
-#: xargs/xargs.c:1165
+#: xargs/xargs.c:1167
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: interromput pel senyal %d"
 
-#: xargs/xargs.c:1167
+#: xargs/xargs.c:1169
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminat pel senyal %d"
 
-#: xargs/xargs.c:1220
+#: xargs/xargs.c:1222
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: número no vàlid per a l'opció -%c\n"
 
-#: xargs/xargs.c:1227
+#: xargs/xargs.c:1229
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: el valor per a l'opció -%c ha de ser >= %ld\n"
 
-#: xargs/xargs.c:1241
+#: xargs/xargs.c:1243
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: el valor per a l'opció -%c ha de ser < %ld\n"
 
-#: xargs/xargs.c:1259
+#: xargs/xargs.c:1261
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
