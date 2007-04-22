@@ -1108,7 +1108,7 @@ Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
       [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n\
       [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n\
-      [-version] [--help]\n\
+      [--version] [--help]\n\
       pattern...\n"),
 	   program_name);
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
