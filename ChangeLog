@@ -1,5 +1,9 @@
 2007-04-22  James Youngman  <jay@gnu.org>
 
+	* doc/Makefile.am: When cross-compiling, 'make clean' should not
+	delete doc/regexprops.texi, becaue we can't regenerate it.  Fixes
+	Savannah bug #19658.
+
 	* locate/Makefile.am (BUILT_SOURCES): Automatically generate
 	dblocation.texi, which records the defautl database location.
 	* doc/find.texi: Collect the default database location from

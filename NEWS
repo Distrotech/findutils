@@ -7,6 +7,12 @@ Updatedb can now support he generation of file name databases which
 are compatible with slocate.  For some time, GNU locate has been able
 to read these.
 
+** Bug Fixes
+
+#19658: When cross-compiling, "make clean" no longer deletes the
+generated file doc/regexprops.texi, because there is no way to
+regenerate it.
+
 ** Documentation Fixes
 
 The locatedb.5 manpage now documents the (default) LOCATE02 format
