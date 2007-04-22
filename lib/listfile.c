@@ -208,9 +208,9 @@ list_file (char *name,
 
 #if HAVE_ST_DM_MODE
   /* Cray DMF: look at the file's migrated, not real, status */
-  mode_string (statp->st_dm_mode, modebuf);
+  strmode (statp->st_dm_mode, modebuf);
 #else
-  mode_string (statp->st_mode, modebuf);
+  strmode (statp->st_mode, modebuf);
 #endif
   modebuf[10] = '\0';
 

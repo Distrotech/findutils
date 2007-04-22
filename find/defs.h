@@ -195,7 +195,7 @@ struct long_val
 struct perm_val
 {
   enum permissions_type kind;
-  mode_t val;
+  mode_t val[2];
 };
 
 /* dir_id is used to support loop detection in find.c and 

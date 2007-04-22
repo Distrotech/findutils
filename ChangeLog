@@ -3,6 +3,30 @@
  	* find/find.1: "-printf %b": blocks are 512 bytes.   Fixes
 	Savannah bug #19596.
 
+2007-03-03  James Youngman  <jay@gnu.org>
+
+	* all: Several updates resulting from updating gnulib from
+	2005-07-26 to 2007-02-24.
+
+	* import-gnulib.config (modules): use fopen-safer rather than
+	stdio-safer, and omit the reference to the nonexistent module
+	'stat'.
+
+	* configure.in: use gl_REGEX not gl_INCLUDED_REGEX due to gnulib
+	version update
+
+	* find/defs.h (struct perm_val): Changes to accomodate the updated
+	API for mode_adjust.
+
+	* find/parser.c (parse_perm): New interface to mode_adjust.
+	
+
+	* find/pred.c (pred_fprintf): The gnulib function mode_string is
+	now called filemodestring.
+	(pred_perm): New interface to mode_adjust.
+
+	* lib/listfile.c (list_file): mode_string is renamed to strmode.
+
 2007-03-01  James Youngman  <jay@gnu.org>
 
 	* doc/find.texi (Multiple Files): Document the construct

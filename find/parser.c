@@ -1275,7 +1275,7 @@ parse_wholename (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  mode_t perm_val;
+  mode_t perm_val[2];
   int mode_start = 0;
   boolean havekind = false;
   enum permissions_type kind = PERM_EXACT;
@@ -1338,7 +1338,8 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
       if (NULL == change)
 	error (1, 0, _("invalid mode `%s'"), argv[*arg_ptr]);
     }
-  perm_val = mode_adjust (0, change, 0);
+  perm_val[0] = mode_adjust (0, false, 0, change, NULL);
+  perm_val[1] = mode_adjust (0, true, 0, change, NULL);
   free (change);
   
   our_pred = insert_primary (entry);
@@ -1363,7 +1364,8 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 	  break;
 	}
     }
-  if (('/' == argv[*arg_ptr][0]) && (0 == perm_val))
+  
+  if (('/' == argv[*arg_ptr][0]) && (0 == perm_val[0]) && (0 == perm_val[1]))
     {
       /* The meaning of -perm /000 will change in the future.
        * It currently matches no files, but like -perm -000 it
@@ -1378,7 +1380,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 	     argv[*arg_ptr]);
     }
 
-  our_pred->args.perm.val = perm_val & MODE_ALL;
+  memcpy (our_pred->args.perm.val, perm_val, sizeof perm_val);
   (*arg_ptr)++;
   return true;
 }

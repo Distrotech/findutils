@@ -759,7 +759,7 @@ pred_fprintf (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	  /* UNTRUSTED, probably unexploitable */
 	  {
 	    char modestring[16] ;
-	    mode_string (stat_buf->st_mode, modestring);
+	    filemodestring (stat_buf, modestring);
 	    modestring[10] = '\0';
 	    fprintf (fp, segment->text, modestring);
 	  }
@@ -1225,11 +1225,13 @@ pred_path (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_perm (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
+  mode_t mode = stat_buf->st_mode;
+  mode_t perm_val = pred_ptr->args.perm.val[S_ISDIR (mode) != 0];
   (void) pathname;
   switch (pred_ptr->args.perm.kind)
     {
     case PERM_AT_LEAST:
-      return (stat_buf->st_mode & pred_ptr->args.perm.val) == pred_ptr->args.perm.val;
+      return (mode & perm_val) == perm_val;
       break;
 
     case PERM_ANY:
@@ -1243,14 +1245,14 @@ pred_perm (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
        * Eric Blake's interpretation is that the mode argument is zero, 
        
        */
-      if (0 == pred_ptr->args.perm.val)
+      if (0 == perm_val)
 	return true;		/* Savannah bug 14748; we used to return false */
       else
-	return (stat_buf->st_mode & pred_ptr->args.perm.val) != 0;
+	return (mode & perm_val) != 0;
       break;
 
     case PERM_EXACT:
-      return (stat_buf->st_mode & MODE_ALL) == pred_ptr->args.perm.val;
+      return (mode & MODE_ALL) == perm_val;
       break;
 
     default:
