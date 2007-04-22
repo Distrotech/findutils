@@ -1,7 +1,15 @@
 info_TEXINFOS = find.texi
 find_TEXINFOS = perm.texi regexprops.texi
 MOSTLYCLEANFILES = find.cps 
-CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz regexprops.texi
+CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz 
+
+# To build regexprops.texi, we need to build the regexprops program and 
+# run it on the host.  If we are cross compiling, we may not have a native
+# binary.  When this is the case, we use a workaround; don't delete the 
+# file for 'make clean'.  This fixes Savannah bug #19658.
+if !CROSS_COMPILING
+CLEANFILES += regexprops.texi
+endif
 
 MAKEINFOTXT = $(MAKEINFO) --plaintext
 

@@ -1,3 +1,9 @@
+2007-04-22  James Youngman  <jay@gnu.org>
+
+	* doc/Makefile.am: When cross-compiling, 'make clean' should not
+	delete doc/regexprops.texi, becaue we can't regenerate it.  Fixes
+	Savannah bug #19658.
+
 2007-04-15  James Youngman  <jay@gnu.org>
 
  	* find/find.1: "-printf %b": blocks are 512 bytes.   Fixes
