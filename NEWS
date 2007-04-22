@@ -7,6 +7,9 @@ Updatedb can now support he generation of file name databases which
 are compatible with slocate.  For some time, GNU locate has been able
 to read these.
 
+The /proc filesystem is excluded from the locate database (by
+default; change PRUNEPATHS to modify this behaviour).
+
 ** Bug Fixes
 
 #19658: When cross-compiling, "make clean" no longer deletes the

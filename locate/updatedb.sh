@@ -149,7 +149,7 @@ select_shell() {
 : ${NETPATHS=}
 
 # Directories to not put in the database, which would otherwise be.
-: ${PRUNEPATHS="/tmp /usr/tmp /var/tmp /afs /amd /sfs"}
+: ${PRUNEPATHS="/tmp /usr/tmp /var/tmp /afs /amd /sfs /proc"}
 
 # Trailing slashes result in regex items that are never matched, which 
 # is not what the user will expect.   Therefore we now reject such 
