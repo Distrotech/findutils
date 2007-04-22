@@ -1,5 +1,5 @@
 /* frcode -- front-compress a sorted list
-   Copyright (C) 1994 Free Software Foundation, Inc.
+   Copyright (C) 1994,2005,2006,2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,14 +22,13 @@
    Uses front compression (also known as incremental encoding);
    see ";login:", March 1983, p. 8.
 
-   The input is a sorted list of NUL-terminated strings.
-   (FIXME newline-terminated, until we figure out how to sort
-   NUL-terminated strings.)
+   The input is a sorted list of NUL-terminated strings (or
+   newline-terminated if the -0 option is not given). 
 
-   The output entries are in the same order as the input;
-   each entry consists of an offset-differential count byte
-   (the additional number of characters of prefix of the preceding entry to
-   use beyond the number that the preceding entry is using of its predecessor),
+   The output entries are in the same order as the input; each entry
+   consists of a signed offset-differential count byte (the additional
+   number of characters of prefix of the preceding entry to use beyond
+   the number that the preceding entry is using of its predecessor),
    followed by a null-terminated ASCII remainder.
 
    If the offset-differential count is larger than can be stored
@@ -61,12 +60,15 @@
    (6 = 14 - 8, and -9 = 5 - 14)
 
    Written by James A. Woods <jwoods@adobe.com>.
-   Modified by David MacKenzie <djm@gnu.org>.  */
+   Modified by David MacKenzie <djm@gnu.org>.
+   Modified by James Youngman <jay@gnu.org>.
+*/
 
 #include <config.h>
 #include <stdio.h>
 #include <limits.h>
 #include <assert.h>
+#include <errno.h>
 #include <sys/types.h>
 
 #if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
@@ -90,7 +92,7 @@
 #ifdef gettext_noop
 # define N_(String) gettext_noop (String)
 #else
-/* We used to use (String) instead of just String, but apparentl;y ISO C
+/* We used to use (String) instead of just String, but apparently ISO C
  * doesn't allow this (at least, that's what HP said when someone reported
  * this as a compiler bug).  This is HP case number 1205608192.  See
  * also http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11250 (which references 
@@ -104,6 +106,7 @@
 #include "locatedb.h"
 #include <getline.h>
 #include <getopt.h>
+#include "error.h"
 #include "closeout.h"
 
 char *xmalloc PARAMS((size_t));
@@ -116,8 +119,9 @@ char *program_name;
 static void
 put_short (int c, FILE *fp)
 {
-  /* XXX: The value may be negative, but I think ISO C doesn't 
-   * guarantee the assumptions we're making here will hold.
+  /* XXX: The value of c may be negative.  ANSI C 1989 (section 6.3.7)
+   * indicates that the result of shifting a negative value right is
+   * implementation defined.
    */
   assert(c <= SHRT_MAX);
   assert(c >= SHRT_MIN);
@@ -166,6 +170,44 @@ usage (FILE *stream)
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
 
+static long
+get_seclevel(char *s)
+{
+  long result;
+  char *p;
+  
+  /* Reset errno in oreder to be able to distinguish LONG_MAX/LONG_MIN
+   * from values whichare actually out of range 
+   */
+  errno = 0;
+  
+  result = strtol(s, &p, 10);
+  if ((0==result) && (p == optarg))
+    {
+      error(1, 0, _("You need to specify a security level as a decimal integer."));
+      /*NOTREACHED*/
+      return -1;
+    }
+  else if ((LONG_MIN==result || LONG_MAX==result) && errno)
+    
+    {
+      error(1, 0, _("Security level %s is outside the convertible range."), s);
+      /*NOTREACHED*/
+      return -1;
+    }
+  else if (*p)
+    {
+      /* Some suffix exists */
+      error(1, 0, _("Security level %s has unexpected suffix %s."), s, p);
+      /*NOTREACHED*/
+      return -1;
+    }
+  else
+    {
+      return result;
+    }
+}
+
 
 int
 main (int argc, char **argv)
@@ -177,8 +219,12 @@ main (int argc, char **argv)
   int line_len;			/* Length of input line.  */
   int delimiter = '\n';
   int optc;
+  int slocate_compat = 0;
+  long slocate_seclevel = 0L;
 
   program_name = argv[0];
+  if (!program_name)
+    program_name = "frcode";
   atexit (close_stdout);
 
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
@@ -189,11 +235,22 @@ main (int argc, char **argv)
   oldcount = 0;
 
 
-  while ((optc = getopt_long (argc, argv, "hv0", longopts, (int *) 0)) != -1)
+  while ((optc = getopt_long (argc, argv, "hv0S:", longopts, (int *) 0)) != -1)
     switch (optc)
       {
       case '0':
 	delimiter = 0;
+	break;
+
+      case 'S':
+	slocate_compat = 1;
+	slocate_seclevel = get_seclevel(optarg);
+	if (slocate_seclevel < 0 || slocate_seclevel > 1)
+	  {
+	    error(1, 0,
+		  _("slocate security level %ld is unsupported."),
+		  slocate_seclevel);
+	  }
 	break;
 
       case 'h':
@@ -217,8 +274,18 @@ main (int argc, char **argv)
     }
 
 
-
-  fwrite (LOCATEDB_MAGIC, sizeof (LOCATEDB_MAGIC), 1, stdout);
+  if (slocate_compat)
+    {
+      fputc(slocate_seclevel ? '1' : '0', stdout);
+      fputc(0, stdout);
+      
+    }
+  else
+    {
+      /* GNU LOCATE02 format */
+      fwrite (LOCATEDB_MAGIC, sizeof (LOCATEDB_MAGIC), 1, stdout);
+    }
+  
 
   while ((line_len = getdelim (&path, &pathsize, delimiter, stdin)) > 0)
     {
@@ -236,15 +303,25 @@ main (int argc, char **argv)
 	}
       oldcount = count;
 
-      /* If the difference is small, it fits in one byte;
-	 otherwise, two bytes plus a marker noting that fact.  */
-      if (diffcount < LOCATEDB_ONEBYTE_MIN || diffcount > LOCATEDB_ONEBYTE_MAX)
+      if (slocate_compat)
 	{
-	  putc (LOCATEDB_ESCAPE, stdout);
-	  put_short (diffcount, stdout);
+	  /* Emit no count for the first pathname. */
+	  slocate_compat = 0;
 	}
       else
-	putc (diffcount, stdout);
+	{
+	  /* If the difference is small, it fits in one byte;
+	     otherwise, two bytes plus a marker noting that fact.  */
+	  if (diffcount < LOCATEDB_ONEBYTE_MIN || diffcount > LOCATEDB_ONEBYTE_MAX)
+	    {
+	      putc (LOCATEDB_ESCAPE, stdout);
+	      put_short (diffcount, stdout);
+	    }
+	  else
+	    {
+	      putc (diffcount, stdout);
+	    }
+	}
 
       fputs (path + count, stdout);
       putc ('\0', stdout);

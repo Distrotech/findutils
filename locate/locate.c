@@ -185,8 +185,6 @@ static bool stdout_is_a_tty;
 static bool print_quoted_filename;
 static bool results_were_filtered;
 
-/* static char*  slocate_db_pathname = "/var/lib/slocate/slocate.db"; */
-
 static const char *selected_secure_db = NULL;
 
 
@@ -1595,7 +1593,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
       if (secure_db_fd >= 0)
 	{
 	  close(secure_db_fd);
-	  secure_db_fd = 0;
+	  secure_db_fd = -1;
 	}
     }
 

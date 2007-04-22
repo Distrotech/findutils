@@ -89,7 +89,25 @@ Default is \fBdaemon\fP.
 You can also use the environment variable \fBNETUSER\fP to set this user.
 .TP
 .B \-\-old\-format
-Create the database in the old format instead of the new one.
+Create the database in the old format.  This is a synonym for 
+.BR \-\-dbformat=old .
+.TP
+.B \-\-dbformat=F
+Create the database in format F.  The default format is called LOCATE02.
+F can be 
+.B old
+to select the old database format (this is the same as specifying
+.BR \-\-old\-format ).
+Alternatively the 
+.B slocate
+format is also supported.  When the 
+.B slocate 
+format is in use, the database produced is marked as having security
+level 1.  If you want to build a system-wide
+.B slocate
+database, you may want to run 
+.B updatedb
+as root.
 .TP
 .B \-\-version
 Print the version number of

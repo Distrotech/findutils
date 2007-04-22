@@ -8,7 +8,7 @@ bin_PROGRAMS = locate
 libexec_PROGRAMS = frcode code bigram
 bin_SCRIPTS = updatedb
 man_MANS = locate.1 updatedb.1 locatedb.5
-
+BUILT_SOURCES = dblocation.texi
 EXTRA_DIST = locatedb.h updatedb.sh $(man_MANS)
 CLEANFILES = updatedb
 
@@ -40,5 +40,8 @@ updatedb: updatedb.sh
 
 install-data-hook:
 	$(top_srcdir)/build-aux/mkinstalldirs $(DESTDIR)$(localstatedir)
+
+dblocation.texi: Makefile
+	echo '@set LOCATE_DB $(LOCATE_DB)' > $@
 
 SUBDIRS = testsuite

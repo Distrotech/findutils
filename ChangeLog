@@ -1,5 +1,18 @@
 2007-04-22  James Youngman  <jay@gnu.org>
 
+	* locate/Makefile.am (BUILT_SOURCES): Automatically generate
+	dblocation.texi, which records the defautl database location.
+	* doc/find.texi: Collect the default database location from
+	../locate/dblocation.texi, and use LOCATE_DB in various places.
+	Document the fact that updatedb can generate slocate-compatible
+	databases.  Document the --dbformat option of updatedb.
+	* locate/frcode.c (main): Implemented the -S option which allows the
+	generation of an slocate secure database.  
+	* locate/updatedb.sh: New option --dbformat which selects which
+	database format to use.   
+	* locate/updatedb.1 (--dbformat): Document the new option.
+	
+
 	* find/testsuite/find.gnu/access.exp: fixed a typo which prevented
 	the test correctly being skipped when run as root.   This re-fixes
 	Savannah bug# 18414, I hope.

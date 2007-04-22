@@ -28,7 +28,7 @@ Usage: $0 [--findoptions='-option1 -option2...']
        [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
        [--prunepaths='dir1 dir2...'] [--prunefs='fs1 fs2...']
        [--output=dbfile] [--netuser=user] [--localuser=user] 
-       [--old-format] [--version] [--help]
+       [--old-format] [--dbformat] [--version] [--help]
 
 Report bugs to <bug-findutils@gnu.org>."
 changeto=/
@@ -52,6 +52,7 @@ do
     --localuser) LOCALUSER="$val" ;;
     --old-format) old=yes ;;
     --changecwd)  changeto="$val" ;;
+    --dbformat)   dbformat="$val" ;;
     --version) echo "GNU updatedb version @VERSION@"; exit 0 ;;
     --help) echo "$usage"; exit 0 ;;
     *) echo "updatedb: invalid option $opt
@@ -60,22 +61,50 @@ $usage" >&2
   esac
 done
 
-if test "$old" = yes; then
-    echo "Warning: future versions of findutils will shortly discontinue support for the old locate database format." >&2
 
+
+
+case "${dbformat:+yes}_${old}" in 
+    yes_yes)
+	echo "The --dbformat and --old cannot both be specified." >&2
+	exit 1
+	;;
+	*) 
+	;;
+esac
+
+if test "$old" = yes || test "$dbformat" = "old" ; then
+    echo "Warning: future versions of findutils will shortly discontinue support for the old locate database format." >&2
+    old=yes
     sort="@SORT@"
     print_option="-print"
     frcode_options=""
 else
+    frcode_options=""
+    case "$dbformat" in 
+	"")
+		# Default, use LOCATE02
+	    ;;
+	LOCATE02)
+	    ;;
+	slocate)
+	    frcode_options="$frcode_options -S 1"
+	    ;;
+	*)
+	    echo "Unsupported locate database format ${dbformat}: Supported formats are:" >&2
+	    echo "LOCATE02, slocate, old" >&2
+	    exit 1
+    esac
+
+
     if @SORT_SUPPORTS_Z@
     then
         sort="@SORT@ -z"
         print_option="-print0"
-        frcode_options="-0"
+        frcode_options="$frcode_options -0"
     else
         sort="@SORT@"
         print_option="-print"
-        frcode_options=""
     fi
 fi
 
@@ -206,8 +235,7 @@ rm -f $LOCATE_DB.n
 trap 'rm -f $LOCATE_DB.n; exit' HUP TERM
 
 if test $old = no; then
-
-# FIXME figure out how to sort null-terminated strings, and use -print0.
+# LOCATE02 or slocate format
 if {
 cd "$changeto"
 if test -n "$SEARCHPATHS"; then
@@ -263,12 +291,12 @@ fi
 else # old
 
 if ! bigrams=`mktemp -t updatedbXXXXXXXXX`; then
-    echo tempfile failed
+    echo mktemp failed >&2
     exit 1
 fi
 
 if ! filelist=`mktemp -t updatedbXXXXXXXXX`; then
-    echo tempfile failed
+    echo mktemp failed >&2
     exit 1
 fi
 
