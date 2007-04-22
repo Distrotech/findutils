@@ -80,9 +80,8 @@ main (int argc, char **argv)
   path = xmalloc (pathsize);
   oldpath = xmalloc (oldpathsize);
 
-  /* Set to anything not starting with a slash, to force the first
-     prefix count to 0.  */
-  strcpy (oldpath, " ");
+  /* Set to empty string, to force the first prefix count to 0.  */
+  oldpath[0] = '\0';
 
   while ((line_len = getline (&path, &pathsize, stdin)) > 0)
     {

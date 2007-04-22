@@ -1,0 +1,32 @@
+# Check bugram.c and code.c correctly handle the case where
+# the first filename indexed begins with a space.
+set testname [ file tail [ file rootname [ info script ] ] ]
+
+proc clean_it {} {
+    exec rm -rf bigrams bigram.full list locatedb
+}
+
+# The salient point of this test is that the test data starts with a space.
+set input " fred"
+global BIGRAM
+global CODE
+global LOCATE
+cleanup
+
+# Manually prepare an old-style database.
+exec echo $input > list
+exec $BIGRAM < list  >bigram.full
+exec sh -c {sort < bigram.full | uniq -c | sort -nr | awk '{ if (NR <= 128) print $2 }' | tr -d '\012' > bigrams}
+exec $CODE bigrams < list > locatedb
+
+# Make sure that we find the input filename.  To ensure best 
+# accuracy, we perform a regex match against the whole name.
+if [ catch { exec $LOCATE -d locatedb -r "^ fred$" } ] then {
+    clean_it
+    fail "$testname"
+} else {
+    clean_it
+    pass "$testname"
+}
+
+

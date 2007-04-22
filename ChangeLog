@@ -1,5 +1,16 @@
 2007-04-22  James Youngman  <jay@gnu.org>
 
+	* locate/bigram.c (main): Initialise the oldpath variable to the
+	empty string, to avoid problems if the first item we index begins
+	with a space.  This fixes Savannah bug #19484.
+	* locate/code.c (main): ditto
+	* locate/testsuite/locate.gnu/sv-bug-19484.exp: New test case for
+	Savannah bug #19484.
+	* locate/testsuite/config/unix.exp: Also set BIGRAM and CODE to
+	the locations of the bigram and code executables.
+	* locate/testsuite/Makefile.am (EXTRA_DIST_EXP): Distribute
+	sv-bug-19484.exp.
+
 	* doc/Makefile.am: When cross-compiling, 'make clean' should not
 	delete doc/regexprops.texi, becaue we can't regenerate it.  Fixes
 	Savannah bug #19658.

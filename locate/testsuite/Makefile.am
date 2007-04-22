@@ -19,7 +19,8 @@ locate.gnu/notexists1.exp \
 locate.gnu/notexists2.exp \
 locate.gnu/notexists3.exp \
 locate.gnu/space1st.exp \
-locate.gnu/exceedshort.exp
+locate.gnu/exceedshort.exp \
+locate.gnu/sv-bug-19484.exp
 
 EXTRA_DIST_XO = \
 locate.gnu/ignore_case1.xo \

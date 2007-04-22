@@ -43,6 +43,7 @@ set env(find) [normalize "../../find/find"]
 
 # use the local help commands for updatedb
 set env(LIBEXECDIR) [normalize .. ]
+verbose "LIBEXECDIR environment variable has been set to $env(LIBEXECDIR)" 2
 
 # do not ignore any file systems for this test
 set env(PRUNEFS) ""
@@ -58,6 +59,18 @@ global FRCODE
 if ![info exists FRCODE] {
     set FRCODE [findfile $base_dir/../frcode $base_dir/../frcode [transform frcode]]
     verbose "FRCODE defaulting to $FRCODE" 2
+}
+
+# look for bigram and code
+global BIGRAM
+if ![info exists BIGRAM] {
+    set BIGRAM [findfile $base_dir/../bigram $base_dir/../bigram [transform bigram]]
+    verbose "BIGRAM defaulting to $BIGRAM" 2
+}
+global CODE
+if ![info exists CODE] {
+    set CODE [findfile $base_dir/../code $base_dir/../code [transform code]]
+    verbose "CODE defaulting to $CODE" 2
 }
 
 global UPDATEDBFLAGS
