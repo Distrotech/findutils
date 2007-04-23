@@ -189,11 +189,6 @@ extern int errno;
 # define ST_NBLOCKSIZE 512
 #endif
 
-#ifndef _POSIX_VERSION
-struct passwd *getpwuid ();
-struct group *getgrgid ();
-#endif
-
 #ifdef major			/* Might be defined in sys/types.h.  */
 #define HAVE_MAJOR
 #endif
