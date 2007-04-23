@@ -238,10 +238,10 @@ scan_rest (struct predicate **input,
 static boolean
 predicate_is_cost_free(const struct predicate *p)
 {
-  PRED_FUNC pred_func = p->pred_func;
-  
-  if (pred_func == pred_name || pred_func == pred_path ||
-      pred_func == pred_iname || pred_func == pred_ipath)
+  if (pred_is(p, pred_name) ||
+      pred_is(p, pred_path) ||
+      pred_is(p, pred_iname) ||
+      pred_is(p, pred_ipath))
     {
       /* Traditionally (at least 4.1.7 through 4.2.x) GNU find always
        * optimised these cases.
@@ -250,8 +250,10 @@ predicate_is_cost_free(const struct predicate *p)
     }
   else if (options.optimisation_level > 0)
     {
-      if (pred_func == pred_and || pred_func == pred_negate ||
-	       pred_func == pred_comma || pred_func == pred_or)
+      if (pred_is(p, pred_and) ||
+	  pred_is(p, pred_negate) ||
+	  pred_is(p, pred_comma) ||
+	  pred_is(p, pred_or))
 	return false;
       else
 	return NeedsNothing == p->p_cost;
@@ -565,13 +567,13 @@ consider_arm_swap(struct predicate *p)
 	      fprintf(stderr, "Success rates: l=%f, r=%f\n", succ_rate_l, succ_rate_r);
 	    }
 	  
-	  if (pred_or == p->pred_func)
+	  if (pred_is(p, pred_or))
 	    {
 	      want_swap = succ_rate_r < succ_rate_l;
 	      if (!want_swap)
 		reason = "Operation is OR and right success rate >= left";
 	    }
-	  else if (pred_and == p->pred_func)
+	  else if (pred_is(p, pred_and))
 	    {
 	      want_swap = succ_rate_r > succ_rate_l;
 	      if (!want_swap)
@@ -924,8 +926,8 @@ mark_stat (struct predicate *tree)
 
     case UNI_OP:
       if (mark_stat (tree->pred_right))
-	tree->need_stat = true;
-      return (false);
+	tree->need_stat = true;	/* XXX: is this needed? */
+      return false;
 
     case BI_OP:
       /* ANDs and ORs are linked along ->left ending in NULL. */
@@ -933,9 +935,9 @@ mark_stat (struct predicate *tree)
 	mark_stat (tree->pred_left);
 
       if (mark_stat (tree->pred_right))
-	tree->need_stat = true;
+	tree->need_stat = true;	/* XXX: is this needed? */
 
-      return (false);
+      return false;
 
     default:
       error (1, 0, _("oops -- invalid expression type in mark_stat!"));
@@ -960,7 +962,7 @@ mark_type (struct predicate *tree)
 
     case UNI_OP:
       if (mark_type (tree->pred_right))
-	tree->need_type = true;
+	tree->need_type = true;	/* XXX: is this needed */
       return false;
 
     case BI_OP:
@@ -969,7 +971,7 @@ mark_type (struct predicate *tree)
 	mark_type (tree->pred_left);
 
       if (mark_type (tree->pred_right))
-	tree->need_type = true;
+	tree->need_type = true;	/* XXX: is this needed? */
 
       return false;
 
@@ -1086,11 +1088,10 @@ cost_table_comparison(const void *p1, const void *p2)
 }
 
 static enum EvaluationCost
-get_pred_cost(struct predicate *p)
+get_pred_cost(const struct predicate *p)
 {
   enum EvaluationCost data_requirement_cost = NeedsNothing;
   enum EvaluationCost inherent_cost = NeedsUnknown;
-  PRED_FUNC f = p->pred_func;
 
   if (p->need_stat)
     {
@@ -1105,14 +1106,14 @@ get_pred_cost(struct predicate *p)
       data_requirement_cost = NeedsNothing;
     }
   
-  if (pred_exec == f || pred_execdir == f)
+  if (pred_is(p, pred_exec) || pred_is(p, pred_execdir))
     {
       if (p->args.exec_vec.multiple)
 	inherent_cost = NeedsEventualExec;
       else
 	inherent_cost = NeedsImmediateExec;
     }
-  else if (pred_fprintf == f)
+  else if (pred_is(p, pred_fprintf))
     {
       /* the parser calculated the cost for us. */
       inherent_cost = p->p_cost;
@@ -1215,7 +1216,7 @@ calculate_derived_rates(struct predicate *p)
 
     case UNI_OP:
       /* Unary operators must have exactly one operand */
-      assert(pred_negate == p->pred_func);
+      assert(pred_is(p, pred_negate));
       assert(NULL == p->pred_left);
       p->est_success_rate = (1.0 - p->pred_right->est_success_rate);
       return p->est_success_rate;
@@ -1224,15 +1225,15 @@ calculate_derived_rates(struct predicate *p)
       {
 	float rate;
 	/* Binary operators must have two operands */
-	if (pred_and == p->pred_func)
+	if (pred_is(p, pred_and))
 	  {
 	    rate = getrate(p->pred_right) * getrate(p->pred_left);
 	  }
-	else if (pred_comma == p->pred_func)
+	else if (pred_is(p, pred_comma))
 	  {
 	    rate = 1.0f;
 	  }
-	else if (pred_or == p->pred_func)
+	else if (pred_is(p, pred_or))
 	  {
 	    rate = getrate(p->pred_right) + getrate(p->pred_left);
 	  }
@@ -1428,7 +1429,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   if (cur_pred != NULL)
     {
       /* cur_pred->p_name is often NULL here */
-      if (cur_pred->pred_func == pred_close)
+      if (pred_is(cur_pred, pred_close))
 	{
 	  /* e.g. "find \( -true \) \)" */
 	  error (1, 0, _("you have too many ')'"), cur_pred->p_name);
@@ -1460,11 +1461,19 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   
   /* Check that the tree is still in normalised order */
   check_normalization(eval_tree, true);
-  
+
+#if 0  
+  /*
+    James Youngman, Mon Apr 23 00:39:48 2007...
+    Not that apply_predicate() calls get_info(),
+    we may no longer need to mark parent predicates if their children need the stat.
+   */
+
   /* Determine the point, if any, at which to stat the file. */
   mark_stat (eval_tree);
   /* Determine the point, if any, at which to determine file type. */
   mark_type (eval_tree);
+#endif 
 
   if (options.debug_options & (DebugExpressionTree|DebugTreeOpt))
     {
@@ -1477,6 +1486,16 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
 
   return eval_tree;
 }
+
+/* Initialise the performance data for a predicate. 
+ */
+static void
+init_pred_perf(struct predicate *pred)
+{
+  struct predicate_performance_info *p = &pred->perf;
+  p->visits = p->successes = 0;
+}
+
 
 /* Return a pointer to a new predicate structure, which has been
    linked in as the last one in the predicates list.
@@ -1524,6 +1543,7 @@ get_new_pred (const struct parser_table *entry)
   last_pred->literal_control_chars = options.literal_control_chars;
   last_pred->artificial = false;
   last_pred->est_success_rate = 1.0;
+  init_pred_perf(last_pred);
   return last_pred;
 }
 

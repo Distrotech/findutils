@@ -75,9 +75,6 @@
 # define N_(String) String
 #endif
 
-#define apply_predicate(pathname, stat_buf_ptr, node)	\
-  (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
-
 #ifdef STAT_MOUNTPOINTS
 static void init_mounted_dev_list(int mandatory);
 #endif
@@ -233,6 +230,7 @@ main (int argc, char **argv)
    * partially-full command lines which have been built, 
    * but which are not yet complete.   Execute those now.
    */
+  show_success_rates(eval_tree);
   cleanup();
   return state.exit_status;
 }

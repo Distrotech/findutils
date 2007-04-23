@@ -1985,7 +1985,7 @@ parse_accesscheck (const struct parser_table* entry, char **argv, int *arg_ptr)
   our_pred = insert_primary (entry);
   our_pred->need_stat = our_pred->need_type = false;
   our_pred->side_effects = our_pred->no_default_print = false;
-  if (our_pred->pred_func == pred_executable)
+  if (pred_is(our_pred, pred_executable))
     our_pred->est_success_rate = 0.2;
   else
     our_pred->est_success_rate = 0.9;

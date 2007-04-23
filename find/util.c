@@ -66,6 +66,7 @@ static struct debug_option_assoc debugassoc[] =
     { "tree", DebugExpressionTree, "Display the expression tree" },
     { "search",DebugSearch, "Navigate the directory tree verbosely" },
     { "stat", DebugStat, "Trace calls to stat(2) and lstat(2)" },
+    { "rates", DebugSuccessRates, "Indicate how often each predicate succeeded" },
     { "opt",  DebugExpressionTree|DebugTreeOpt, "Show diagnostic information relating to optimisation" },
     { "exec", DebugExec,  "Show diagnostic information relating to -exec, -execdir, -ok and -okdir" }
   };
@@ -284,7 +285,7 @@ do_complete_pending_execdirs(struct predicate *p, int dirfd)
   
   do_complete_pending_execdirs(p->pred_left, dirfd);
   
-  if (p->pred_func == pred_execdir || p->pred_func == pred_okdir)
+  if (pred_is(p, pred_execdir) || pred_is(p, pred_okdir))
     {
       /* It's an exec-family predicate.  p->args.exec_val is valid. */
       if (p->args.exec_vec.multiple)
@@ -333,7 +334,8 @@ complete_pending_execs(struct predicate *p)
   /* It's an exec-family predicate then p->args.exec_val is valid
    * and we can check it. 
    */
-  if (p->pred_func == pred_exec && p->args.exec_vec.multiple)
+  /* XXX: what about pred_ok() ? */
+  if (pred_is(p, pred_exec) && p->args.exec_vec.multiple)
     {
       struct exec_val *execp = &p->args.exec_vec;
       
@@ -838,4 +840,28 @@ set_option_defaults(struct options *p)
 int get_start_dirfd(void)
 {
   return starting_desc;
+}
+
+/* apply_predicate
+ *
+ */
+boolean apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p)
+{
+  ++p->perf.visits;
+
+  if (p->need_stat || p->need_type)
+    {
+      /* We may need a stat here. */
+      if (get_info(pathname, stat_buf, p) != 0)
+	    return false;
+    }
+  if ((p->pred_func)(pathname, stat_buf, p))
+    {
+      ++(p->perf.successes);
+      return true;
+    }
+  else
+    {
+      return false;
+    }
 }

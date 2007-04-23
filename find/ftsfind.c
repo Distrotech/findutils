@@ -237,7 +237,7 @@ visit(FTS *p, FTSENT *ent, struct stat *pstat)
 
   /* Apply the predicates to this path. */
   eval_tree = get_eval_tree();
-  (*(eval_tree)->pred_func)(ent->fts_path, pstat, eval_tree);
+  apply_predicate(ent->fts_path, pstat, eval_tree);
 
   /* Deal with any side effects of applying the predicates. */
   if (state.stop_at_current_level)
@@ -349,9 +349,9 @@ show_outstanding_execdirs(FILE *fp)
 	{
 	  const char *pfx;
 	  
-	  if (p->pred_func == pred_execdir)
+	  if (pred_is(p, pred_execdir))
 	    pfx = "-execdir";
-	  else if (p->pred_func == pred_okdir)
+	  else if (pred_is(p, pred_okdir))
 	    pfx = "-okdir";
 	  else
 	    pfx = NULL;
@@ -732,6 +732,7 @@ main (int argc, char **argv)
    * partially-full command lines which have been built, 
    * but which are not yet complete.   Execute those now.
    */
+  show_success_rates(eval_tree);
   cleanup();
   return state.exit_status;
 }

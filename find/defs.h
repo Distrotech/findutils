@@ -280,6 +280,13 @@ struct format_val
   struct quoting_options *quote_opts;
 };
 
+/* Profiling information for a predicate */
+struct predicate_performance_info
+{
+  unsigned long visits;
+  unsigned long successes;
+};
+
 /* evaluation cost of a predicate */
 enum EvaluationCost
 {
@@ -371,6 +378,8 @@ struct predicate
   struct predicate *pred_left;
   struct predicate *pred_right;
 
+  struct predicate_performance_info perf;
+  
   const struct parser_table* parser_entry;
 };
 
@@ -535,6 +544,7 @@ void print_predicate PARAMS((FILE *fp, const struct predicate *p));
 void print_tree PARAMS((FILE*, struct predicate *node, int indent));
 void print_list PARAMS((FILE*, struct predicate *node));
 void print_optlist PARAMS((FILE *fp, const struct predicate *node));
+void show_success_rates(const struct predicate *node);
 
 
 /* tree.c */
@@ -555,6 +565,15 @@ void complete_pending_execdirs(int dirfd); /* Passing dirfd is an unpleasant Cod
 int process_leading_options PARAMS((int argc, char *argv[]));
 void set_option_defaults PARAMS((struct options *p));
 
+#if 0
+#define apply_predicate(pathname, stat_buf_ptr, node)	\
+  (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
+#else
+boolean apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p);
+#endif
+
+#define pred_is(node, fn) ( ((node)->pred_func) == (fn) )
+
 
 /* find.c. */
 int get_info PARAMS((const char *pathname, struct stat *p, struct predicate *pred_ptr));
@@ -572,7 +591,8 @@ enum DebugOption
     DebugSearch           = 4,
     DebugTreeOpt          = 8,
     DebugHelp             = 16,
-    DebugExec             = 32
+    DebugExec             = 32,
+    DebugSuccessRates     = 64
   };
 
 struct options

@@ -1,3 +1,23 @@
+2007-04-23  James Youngman  <jay@gnu.org>
+
+	* find/defs.h (struct predicate_performance_info): New data
+	structure for holding perofmance statistics.
+	(struct predicate: include predicate_performance_info
+	(apply_predicate): change from macro to function
+	(pred_is): new macro, for predicate identity testing
+	(enum DebugOption): Added DebugSuccessRates
+	* find/find.1: Document option "-D rates" which turns on 
+	DebugSuccessRates. 
+	* doc/find.texi: ditto
+	* find.c (main): Call show_success_rates() before exiting.
+	(apply_predicate): remove the macro defintion, declare equivalent
+	function in defs.h.
+	* find/ftsfind.c (main): Call show_success_rates() before
+	exiting.  Use apply_predicate().
+	(show_outstanding_execdirs): use pred_is().
+
+	
+
 2007-04-22  Eric Blake  <ebb9@byu.net>
 
 	* xargs/xargs.c (main): Don't assume LINE_MAX exists (i.e. is

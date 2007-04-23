@@ -303,17 +303,12 @@ boolean
 pred_and (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (pred_ptr->pred_left == NULL
-      || (*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
-					    pred_ptr->pred_left))
+      || apply_predicate(pathname, stat_buf, pred_ptr->pred_left))
     {
-      /* Check whether we need a stat here. */
-      if (get_info(pathname, stat_buf, pred_ptr) != 0)
-	    return false;
-      return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,  
-						  pred_ptr->pred_right));
+      return apply_predicate(pathname, stat_buf, pred_ptr->pred_right);
     }
   else
-    return (false);
+    return false;
 }
 
 boolean
@@ -361,14 +356,10 @@ boolean
 pred_comma (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (pred_ptr->pred_left != NULL)
-    (*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
-				       pred_ptr->pred_left);
-  /* Check whether we need a stat here. */
-  /* TODO: what about need_type? */
-  if (get_info(pathname, stat_buf, pred_ptr) != 0)
-    return false;
-  return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
-					      pred_ptr->pred_right));
+    {
+      apply_predicate(pathname, stat_buf,pred_ptr->pred_left);
+    }
+  return apply_predicate(pathname, stat_buf, pred_ptr->pred_right);
 }
 
 boolean
@@ -1198,12 +1189,7 @@ pred_name (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 boolean
 pred_negate (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  /* Check whether we need a stat here. */
-  /* TODO: what about need_type? */
-  if (get_info(pathname, stat_buf, pred_ptr) != 0)
-    return false;
-  return (!(*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
-					      pred_ptr->pred_right));
+  return !apply_predicate(pathname, stat_buf, pred_ptr->pred_right);
 }
 
 boolean
@@ -1334,13 +1320,9 @@ boolean
 pred_or (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (pred_ptr->pred_left == NULL
-      || !(*pred_ptr->pred_left->pred_func) (pathname, stat_buf,
-					     pred_ptr->pred_left))
+      || !apply_predicate(pathname, stat_buf, pred_ptr->pred_left))
     {
-      if (get_info(pathname, stat_buf, pred_ptr) != 0)
-	return false;
-      return ((*pred_ptr->pred_right->pred_func) (pathname, stat_buf,
-						  pred_ptr->pred_right));
+      return apply_predicate(pathname, stat_buf, pred_ptr->pred_right);
     }
   else
     return true;
@@ -2115,8 +2097,7 @@ print_parenthesised(FILE *fp, struct predicate *node)
 
   if (node)
     {
-      if ( ( (node->pred_func == pred_or)
-	     || (node->pred_func == pred_and) )
+      if (pred_is(node, pred_or) || pred_is(node, pred_and)
 	  && node->pred_left == NULL)
 	{
 	  /* We print "<nothing> or  X" as just "X"
@@ -2150,9 +2131,35 @@ print_optlist (FILE *fp, const struct predicate *p)
 	       p->need_type ? "[need type] " : "");
       print_predicate(fp, p);
       fprintf(fp, " [%g] ", p->est_success_rate);
+      if (options.debug_options & DebugSuccessRates)
+	{
+	  fprintf(fp, "[%ld/%ld", p->perf.successes, p->perf.visits);
+	  if (p->perf.visits)
+	    {
+	      double real_rate = (double)p->perf.successes / (double)p->perf.visits;
+	      fprintf(fp, "=%g] ", real_rate);
+	    }
+	  else
+	    {
+	      fprintf(fp, "=_] ");
+	    }
+	}
       print_parenthesised(fp, p->pred_right);
     }
 }
+
+void show_success_rates(const struct predicate *p)
+{
+  if (options.debug_options & DebugSuccessRates)
+    {
+      fprintf(stderr, "Predicate success rates after completion:\n");
+      print_optlist(stderr, p);
+      fprintf(stderr, "\n");
+    }
+}
+
+
+
 
 #ifdef _NDEBUG
 /* If _NDEBUG is defined, the assertions will do nothing.   Hence 
@@ -2208,7 +2215,7 @@ pred_sanity_check(const struct predicate *predicates)
 	  
 	case ARG_ACTION:
 	  assert(p->side_effects); /* actions have side effects. */
-	  if (p->pred_func != pred_prune && p->pred_func != pred_quit)
+	  if (!pred_is(p, pred_prune) && !pred_is(p, pred_quit))
 	    {
 	      /* actions other than -prune and -quit should
 	       * inhibit the default -print
