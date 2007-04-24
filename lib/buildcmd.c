@@ -17,6 +17,29 @@
    USA.
 */
 
+/*
+ XXX_SOC:
+ 
+ One of the aspects of the SOC project is to adapt this module.  
+ This module currently makes an initial guess at two things:
+  
+   buildcmd_control->arg_max   (The most characters we can fit in)
+   buildcmd_control->max_arg_count (most args)
+
+ The nature of the SOC task is to adjust these values when exec fails.
+ Optionally (if we have the time) we can make the software adjust them 
+ when exec succeeds.  If we do the latter, we need to ensure we don't
+ get into some state where we are sitting just below the limit and 
+ keep trying to extend, because that would lead to every other exec
+ failing. 
+
+ If our initial guess is successful, there is no pressing need really to 
+ increase our guess.  Indeed, if we are beign called by xargs (as opposed
+ to find) th user may have specified a limit with "-s" and we should not 
+ exceed it.
+*/
+
+
 #include <config.h>
 
 # ifndef PARAMS
@@ -191,6 +214,24 @@ static
 void do_exec(const struct buildcmd_control *ctl,
              struct buildcmd_state *state)
 {
+  /* XXX_SOC:
+   
+     Here we are calling the user's function.  Currently there is no
+     way for it to report that the argument list was too long.  We
+     should introduce an externally callable function that allows them
+     to report this.
+
+     If the callee does report that the exec failed, we need to retry
+     the exec with a shorter argument list.  Once we have reduced the
+     argument list to the point where the exec can succeed, we need to 
+     preserve the list of arguments we couldn't exec this time. 
+
+     This also means that the control argument here probably needs not 
+     to be const (since the limits are in the control arg).
+
+     The caller's only requirement on do_exec is that it should 
+     free up enough room for at least one argument.   
+   */
   (ctl->exec_callback)(ctl, state);
 }
 
@@ -225,7 +266,11 @@ bc_argc_limit_reached(int initial_args,
    LEN is the length of ARG, including the terminating null.
    If this brings the list up to its maximum size, execute the command.  
 */
-
+/* XXX: sometimes this function is called (internally) 
+ *      just to push a NULL onto the and of the arg list.
+ *      We should probably do that with a separate function
+ *      for greater clarity.
+ */
 void
 bc_push_arg (const struct buildcmd_control *ctl,
              struct buildcmd_state *state,
@@ -240,6 +285,11 @@ bc_push_arg (const struct buildcmd_control *ctl,
   
   if (arg)
     {
+      /* XXX_SOC: if do_exec() is only guaranteeed to free up one
+       * argument, this if statement may need to become a while loop.
+       * If it becomes a while loop, it needs not to be an infinite
+       * loop...
+       */
       if (state->cmd_argv_chars + len > ctl->arg_max)
         {
           if (initial_args || state->cmd_argc == ctl->initial_argc)
@@ -251,13 +301,20 @@ bc_push_arg (const struct buildcmd_control *ctl,
             error (1, 0, _("argument list too long"));
           do_exec (ctl, state);
         }
-      
+      /* XXX_SOC: this if may also need to become a while loop.  In
+	 fact perhaps it is best to factor this out into a separate
+	 function which ceeps calling the exec handler until there is
+	 space for our next argument.  Each exec will free one argc
+	 "slot" so the main thing to worry about repeated exec calls
+	 for would be total argument length.
+       */
       if (bc_argc_limit_reached(initial_args, ctl, state))
 	do_exec (ctl, state);
     }
 
   if (state->cmd_argc >= state->cmd_argv_alloc)
     {
+      /* XXX: we could use extendbuf() here. */
       if (!state->cmd_argv)
         {
           state->cmd_argv_alloc = 64;
@@ -304,7 +361,9 @@ bc_push_arg (const struct buildcmd_control *ctl,
 
 /* Finds the first occurrence of the substring NEEDLE in the string
    HAYSTACK.  Both strings can be multibyte strings.  */
-
+/* XXX: gnulib probably offers this.   We'll probably remove
+ *      this from trunk 4.3.x development.
+ */
 static char *
 mbstrstr (const char *haystack, const char *needle)
 {
@@ -446,6 +505,7 @@ bc_init_controlinfo(struct buildcmd_control *ctl)
   else
     {
 #warning the next line is probably a bug.
+      /* Probably should be "-=" not "-". */
       ctl->posix_arg_size_max - size_of_environment;
     }
 
