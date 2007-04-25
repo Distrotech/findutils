@@ -1,5 +1,5 @@
 /* buildcmd.c -- build command lines from a list of arguments.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2005 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2005, 2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -50,9 +50,7 @@
 #  endif
 # endif
 
-#if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
 #include <string.h>
-#endif
 
 
 #if DO_MULTIBYTE
@@ -120,8 +118,6 @@
 extern char **environ;
 
 
-static char *mbstrstr PARAMS ((const char *haystack, const char *needle));
-
 /* Replace all instances of `replace_pat' in ARG with `linebuf',
    and add the resulting string to the list of arguments for the command
    to execute.
@@ -160,7 +156,7 @@ bc_do_insert (const struct buildcmd_control *ctl,
   do
     {
       size_t len;               /* Length in ARG before `replace_pat'.  */
-      char *s = mbstrstr (arg, ctl->replace_pat);
+      char *s = mbsstr (arg, ctl->replace_pat);
       if (s)
         {
           len = s - arg;
@@ -356,40 +352,6 @@ bc_push_arg (const struct buildcmd_control *ctl,
     {
       state->cmd_initial_argv_chars = state->cmd_argv_chars;
     }
-}
-
-
-/* Finds the first occurrence of the substring NEEDLE in the string
-   HAYSTACK.  Both strings can be multibyte strings.  */
-/* XXX: gnulib probably offers this.   We'll probably remove
- *      this from trunk 4.3.x development.
- */
-static char *
-mbstrstr (const char *haystack, const char *needle)
-{
-#if DO_MULTIBYTE
-  if (MB_CUR_MAX > 1)
-    {
-      size_t hlen = strlen (haystack);
-      size_t nlen = strlen (needle);
-      mbstate_t mbstate;
-      size_t step;
-
-      memset (&mbstate, 0, sizeof (mbstate_t));
-      while (hlen >= nlen)
-        {
-          if (memcmp (haystack, needle, nlen) == 0)
-            return (char *) haystack;
-          step = mbrlen (haystack, hlen, &mbstate);
-          if (step <= 0)
-            break;
-          haystack += step;
-          hlen -= step;
-        }
-      return NULL;
-    }
-#endif
-  return strstr (haystack, needle);
 }
 
 static size_t
