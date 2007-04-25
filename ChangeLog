@@ -1,5 +1,14 @@
 2007-04-25  James Youngman  <jay@gnu.org>
 
+	* find/tree.c (predlist_dump, predlist_merge_nosort): These
+	functions were unused and commented out.  Removed.
+	(mark_stat) No longer used.  Removed.
+	(mark_type) No longer used.  Removed.
+	
+	* find/parser.c (new_insert_exec_ok): When checking for {} in the
+	arguments to -exec..., use mbsstr() rather than strstr() in order
+	to cope bettwe with multibyte locales.
+
 	* lib/buildcmd.c: Don't define mbsstr() locally.  Instead, call
 	gnulib's mbsstr().
 

@@ -1919,6 +1919,9 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 #if 0
+/* This function is commented out partly because support for it is
+ * uneven. 
+ */
 static boolean
 parse_show_control_chars (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -2665,7 +2668,7 @@ new_insert_exec_ok (const char *action,
 	}
       
       saw_braces = 0;
-      if (strstr (argv[end], "{}")) /* XXX: wrong for multibyte locales */
+      if (mbsstr (argv[end], "{}"))
 	{
 	  saw_braces = 1;
 	  ++brace_count;

@@ -1,5 +1,5 @@
 /* tree.c -- helper functions to build and evaluate the expression tree.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -311,33 +311,6 @@ predlist_insert(struct predlist *list,
     list->tail = list->head;
 }
 
-#if 0
-static void 
-predlist_dump(FILE *fp, const char *label, const struct predlist *list)
-{
-  const struct predicate *p;
-  fprintf(fp, "%s:\n", label);
-  for (p=list->head; p; p=p->pred_left)
-    {
-      print_optlist(fp, p);
-      fprintf(fp, " ");
-    }
-  fprintf(fp, "\n");
-}
-
-static void 
-predlist_merge_nosort(struct predlist *list,
-		      struct predicate **last)
-{
-  if (list->head)
-    {
-      calculate_derived_rates(list->head);
-      merge_pred(list->head, list->tail, last);
-      predlist_init(list);
-    }
-}
-
-#endif
 static int
 pred_cost_compare(const struct predicate *p1, const struct predicate *p2, boolean wantfailure)
 {
@@ -913,73 +886,6 @@ merge_pred (struct predicate *beg_list, struct predicate *end_list, struct predi
    that a stat is made as late as possible.  Return true if the top node 
    in TREE requires a stat, false if not. */
 
-static boolean
-mark_stat (struct predicate *tree)
-{
-  /* The tree is executed in-order, so walk this way (apologies to Aerosmith)
-     to find the first predicate for which the stat is needed. */
-  switch (tree->p_type)
-    {
-    case NO_TYPE:
-    case PRIMARY_TYPE:
-      return tree->need_stat;
-
-    case UNI_OP:
-      if (mark_stat (tree->pred_right))
-	tree->need_stat = true;	/* XXX: is this needed? */
-      return false;
-
-    case BI_OP:
-      /* ANDs and ORs are linked along ->left ending in NULL. */
-      if (tree->pred_left != NULL)
-	mark_stat (tree->pred_left);
-
-      if (mark_stat (tree->pred_right))
-	tree->need_stat = true;	/* XXX: is this needed? */
-
-      return false;
-
-    default:
-      error (1, 0, _("oops -- invalid expression type in mark_stat!"));
-      return (false);
-    }
-}
-
-/* Find the first node in expression tree TREE that we will
-   need to know the file type, if any.   Operates in the same 
-   was as mark_stat().
-*/
-static boolean
-mark_type (struct predicate *tree)
-{
-  /* The tree is executed in-order, so walk this way (apologies to Aerosmith)
-     to find the first predicate for which the type information is needed. */
-  switch (tree->p_type)
-    {
-    case NO_TYPE:
-    case PRIMARY_TYPE:
-      return tree->need_type;
-
-    case UNI_OP:
-      if (mark_type (tree->pred_right))
-	tree->need_type = true;	/* XXX: is this needed */
-      return false;
-
-    case BI_OP:
-      /* ANDs and ORs are linked along ->left ending in NULL. */
-      if (tree->pred_left != NULL)
-	mark_type (tree->pred_left);
-
-      if (mark_type (tree->pred_right))
-	tree->need_type = true;	/* XXX: is this needed? */
-
-      return false;
-
-    default:
-      error (1, 0, _("oops -- invalid expression type in mark_type!"));
-      return (false);
-    }
-}
 
 struct pred_cost_lookup
 {
@@ -1461,19 +1367,6 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   
   /* Check that the tree is still in normalised order */
   check_normalization(eval_tree, true);
-
-#if 0  
-  /*
-    James Youngman, Mon Apr 23 00:39:48 2007...
-    Not that apply_predicate() calls get_info(),
-    we may no longer need to mark parent predicates if their children need the stat.
-   */
-
-  /* Determine the point, if any, at which to stat the file. */
-  mark_stat (eval_tree);
-  /* Determine the point, if any, at which to determine file type. */
-  mark_type (eval_tree);
-#endif 
 
   if (options.debug_options & (DebugExpressionTree|DebugTreeOpt))
     {
