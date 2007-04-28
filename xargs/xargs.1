@@ -134,13 +134,11 @@ This option is a GNU extension.
 .I "\-\-max\-chars=max-chars, \-s max-chars"
 Use at most \fImax-chars\fR characters per command line, including the
 command and initial-arguments and the terminating nulls at the ends of
-the argument strings.  The default is 131072 characters, not including
-the size of the environment variables (which are provided for
-separately so that it doesn't matter if your environment variables
-take up more than 131072 bytes).  The operating system places limits
-on the values that you can usefully specify, and if you exceed these a
-warning message is printed and the value actually used is set to the
-appropriate upper or lower limit.
+the argument strings.  The largest allowed value is system-dependent,
+and is calculated as the argument length limit for exec, less the size
+of your environment, less 2048 bytes of headroom.  If this value is
+more than 128KiB, 128Kib is used as the default value; otherwise, the
+default value is the maximum.
 .TP
 .I "\-\-verbose, \-t"
 Print the command line on the standard error output before executing
@@ -224,6 +222,18 @@ is not to have a logical end-of-file marker.  POSIX (IEEE Std 1003.1,
 The \-l and \-i options appear in the 1997 version of the POSIX
 standard, but do not appear in the 2004 version of the standard.
 Therefore you should use \-L and \-I instead, respectively.
+.P
+The POSIX stadard allows implementations to have a limit on the size
+of arguments to the 
+.B exec 
+functions.  This limit could be as low as 4096 bytes including the size of the
+environment.  For scripts to be portable, they must not rely on a
+larger value.  However, I know of no implementation whose actual limit
+is that small.  The 
+.B \-\-show\-limits 
+option can be used to discover the actual limits in force on the
+current system.
+
 
 .SH "SEE ALSO"
 \fBfind\fP(1), \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1),

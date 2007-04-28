@@ -445,17 +445,18 @@ bc_size_of_environment (void)
 
 
 enum BC_INIT_STATUS
-bc_init_controlinfo(struct buildcmd_control *ctl)
+bc_init_controlinfo(struct buildcmd_control *ctl,
+		    size_t headroom)
 {
   size_t size_of_environment = bc_size_of_environment();
-  size_t arg_max;
-  
-  ctl->posix_arg_size_min = get_line_max();
-  arg_max = bc_get_arg_max();
-  
-  /* POSIX.2 requires subtracting 2048.  */
-  assert(arg_max > 2048u);	/* XXX: this is an external condition, should not check it with assert. */
-  ctl->posix_arg_size_max = (arg_max - 2048);
+  int val;
+
+  /* POSIX requires that _POSIX_ARG_MAX is 4096.  That is the lowest
+   * possible value for ARG_MAX on a POSIX compliant system.  See
+   * http://www.opengroup.org/onlinepubs/009695399/basedefs/limits.h.html
+   */
+  ctl->posix_arg_size_min = _POSIX_ARG_MAX;
+  ctl->posix_arg_size_max = bc_get_arg_max();
   
   ctl->exit_if_size_exceeded = 0;
 
@@ -464,13 +465,21 @@ bc_init_controlinfo(struct buildcmd_control *ctl)
     {
       return BC_INIT_ENV_TOO_BIG;
     }
+  else if ((headroom + size_of_environment) >= ctl->posix_arg_size_max)
+    {
+      /* POSIX.2 requires xargs to subtract 2048, but ARG_MAX is
+       * guaranteed to be at least 4096.  Although xargs could use an
+       * assertion here, we use a runtime check which returns an error
+       * code, because our caller may not be xargs.
+       */
+      return BC_INIT_CANNOT_ACCOMODATE_HEADROOM;
+    }
   else
     {
-#warning the next line is probably a bug.
-      /* Probably should be "-=" not "-". */
-      ctl->posix_arg_size_max - size_of_environment;
+      ctl->posix_arg_size_max -= size_of_environment;
+      ctl->posix_arg_size_max -= headroom;
     }
-
+  
   /* need to subtract 2 on the following line - for Linux/PPC */
   ctl->max_arg_count = (ctl->posix_arg_size_max / sizeof(char*)) - 2u;
   assert(ctl->max_arg_count > 0);
@@ -492,12 +501,11 @@ bc_init_controlinfo(struct buildcmd_control *ctl)
 void
 bc_use_sensible_arg_max(struct buildcmd_control *ctl)
 {
-  size_t env_size = bc_size_of_environment();
-  const size_t arg_size = (128u * 1024u) + env_size;
+  enum { arg_size = (128u * 1024u) };
   
   /* Check against the upper and lower limits. */  
   if (arg_size > ctl->posix_arg_size_max)
-    ctl->arg_max = ctl->posix_arg_size_max - env_size;
+    ctl->arg_max = ctl->posix_arg_size_max;
   else if (arg_size < ctl->posix_arg_size_min)
     ctl->arg_max = ctl->posix_arg_size_min;
   else 

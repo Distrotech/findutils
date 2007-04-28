@@ -16,10 +16,17 @@ default; change PRUNEPATHS to modify this behaviour).
 generated file doc/regexprops.texi, because there is no way to
 regenerate it.
 
+#19391: When xargs knows that the system's actual exec limit is larger
+than the compiled-in ARG_MAX, use the system's limit without
+generating an assertion failure.  
+
 ** Documentation Fixes
 
 The locatedb.5 manpage now documents the (default) LOCATE02 format
 more clearly, and also documents the slocate database format.
+
+The maximum and default values applying to the -s option of xargs are
+now documented more clearly in the manual page.
 
 * Major changes in release 4.3.4
 

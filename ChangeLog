@@ -1,3 +1,33 @@
+2007-04-28  James Youngman  <jay@gnu.org>
+
+	* lib/buildcmd.c (bc_init_controlinfo): Eliminate confusing extra
+	variable arg_max.  Add return value
+	BC_INIT_CANNOT_ACCOMODATE_HEADROOM for the case where the
+	environment itself is not too large, but the required headroom
+	cannot also be accomodated.  The caller now passes in the amount
+	of headroom required.  
+	(bc_use_sensible_arg_max): Use the environment size consistently;
+	this is accounted for already in posix_arg_size_max, so there is
+	no need to re-measure the size of the environment.
+	* lib/buildcmd.h: Define BC_INIT_CANNOT_ACCOMODATE_HEADROOM and
+	add the headroom parameter to the prototype of bc_init_controlinfo().
+	* xargs/xargs.c (main): Define XARGS_POSIX_HEADROOM as 2048 and
+	use that symbolic value.  Pass XARGS_POSIX_HEADROOM to
+	bc_init_controlinfo().  Handle the case where
+	BC_INIT_CANNOT_ACCOMODATE_HEADROOM is returned by
+	bc_init_controlinfo().  
+	* find/parser.c (new_insert_exec_ok): Pass the required headroom to
+	bc_init_controlinfo() and handle the error return
+	BC_INIT_CANNOT_ACCOMODATE_HEADROOM.  
+	* xargs/xargs.1: Correct the description of the default value and
+	maximum value for the -s option of xargs.
+
+	* xargs/xargs.c (main): Modify the assertions not to assume that
+	bc_ctl.arg_max is 2KiB less than ARG_MAX, since sysconfig() may
+	have returned a value for _SC_ARG_MAX which is greater.  For
+	example, AIX 5.3 can do this.  This should fix Savannah bug
+	#19391. 
+
 2007-04-25  James Youngman  <jay@gnu.org>
 
 	* find/tree.c (predlist_dump, predlist_merge_nosort): These
@@ -52,7 +82,7 @@
 	Savannah bug #19658.
 
 	* locate/Makefile.am (BUILT_SOURCES): Automatically generate
-	dblocation.texi, which records the defautl database location.
+	dblocation.texi, which records the default database location.
 	* doc/find.texi: Collect the default database location from
 	../locate/dblocation.texi, and use LOCATE_DB in various places.
 	Document the fact that updatedb can generate slocate-compatible
@@ -3250,7 +3280,7 @@
 2004-11-12  James Youngman <jay@gnu.org>
 
 	* NEWS, doc/find.texi, find/defs.h, find/find.1, find/find.c, find/parser.c, find/pred.c, find/testsuite/find.gnu/posix-dflt.exp, find/testsuite/find.gnu/posix-dflt.xo, find/testsuite/find.gnu/posix-h.exp, find/testsuite/find.gnu/posix-h.xo, find/testsuite/find.gnu/posix-l.exp, find/testsuite/find.gnu/posix-l.xo, find/util.c:
-	Implemented BSD option -P and also the correct defautl behaviour of find with respect to symlinks if neither -L nor -H is specified [i.e. same as -P]
+	Implemented BSD option -P and also the correct default behaviour of find with respect to symlinks if neither -L nor -H is specified [i.e. same as -P]
 
 2004-11-11  James Youngman <jay@gnu.org>
 

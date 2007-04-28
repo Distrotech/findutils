@@ -2711,14 +2711,18 @@ new_insert_exec_ok (const char *action,
 	    suffix);
     }
 
-  /* We use a switch statement here so that 
-   * the compiler warns us when we forget to handle a 
-   * newly invented enum value.
+  /* We use a switch statement here so that the compiler warns us when
+   * we forget to handle a newly invented enum value.
+   *
+   * Like xargs, we allow 2KiB of headroom for the launched utility to
+   * export its own environment variables before calling something
+   * else.
    */
-  bcstatus = bc_init_controlinfo(&execp->ctl);
+  bcstatus = bc_init_controlinfo(&execp->ctl, 2048u);
   switch (bcstatus) 
     {
     case BC_INIT_ENV_TOO_BIG:
+    case BC_INIT_CANNOT_ACCOMODATE_HEADROOM:
       error(1, 0, 
 	    _("The environment is too large for exec()."));
       break;

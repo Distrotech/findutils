@@ -408,6 +408,7 @@ main (int argc, char **argv)
   int (*read_args) PARAMS ((void)) = read_line;
   void (*act_on_init_result)(void) = noop;
   enum BC_INIT_STATUS bcstatus;
+  enum { XARGS_POSIX_HEADROOM = 2048u };
   
   program_name = argv[0];
   original_exit_value = 0;
@@ -420,7 +421,11 @@ main (int argc, char **argv)
   atexit (close_stdout);
   atexit (wait_for_proc_all);
 
-  bcstatus = bc_init_controlinfo(&bc_ctl);
+  /* xargs is required by POSIX to allow 2048 bytes of headroom 
+   * for extra environment variables (that perhaps the utliity might 
+   * want to set before execing something else).
+   */
+  bcstatus = bc_init_controlinfo(&bc_ctl, XARGS_POSIX_HEADROOM);
   
   /* The bc_init_controlinfo call may have determined that the 
    * environment is too big.  In that case, we will fail with 
@@ -436,16 +441,53 @@ main (int argc, char **argv)
     {
       act_on_init_result = fail_due_to_env_size;
     }
+  else if (BC_INIT_CANNOT_ACCOMODATE_HEADROOM == bcstatus)
+    {
+      /* All POSIX systems are required to support ARG_MAX of at least
+       * 4096.  For everything to work the total of (command line +
+       * headroom + environment) must fit into this.  POSIX requires
+       * that we use a headroom of 2048 bytes.  The user is in control
+       * of the size of the environment.  
+       *
+       * In general if bc_init_controlinfo() returns
+       * BC_INIT_CANNOT_ACCOMODATE_HEADROOM, its caller can try again
+       * with a smaller headroom.  However, in the case of xargs, this
+       * would not be POSIX-compliant.
+       */
+      act_on_init_result = fail_due_to_env_size;
+    }
   else
     {
       /* IEEE Std 1003.1, 2003 specifies that the combined argument and 
        * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 
        * specifies that it shall be at least LINE_MAX.
        */
-#if defined(ARG_MAX)
-      assert(bc_ctl.arg_max <= (ARG_MAX-2048));
+#ifdef _SC_ARG_MAX  
+      long val = sysconf(_SC_ARG_MAX);
+      if (val > 0)
+	{
+	  /* Note that val can in fact be greater than ARG_MAX
+	   * and bc_ctl.arg_max can also be greater than ARG_MAX.
+	   */
+	  assert(bc_ctl.arg_max <= (val-XARGS_POSIX_HEADROOM));
+	}
+      else
+	{
+# if defined(ARG_MAX)
+	  assert(bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
+# endif
+	}
+#else
+      /* No _SC_ARG_MAX */
+      assert(bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
 #endif
+
+
 #ifdef LINE_MAX
+      /* This assertion ensures that this xargs implementation
+       * conforms to the POSIX requirement that the default command
+       * line length shall be at least LINE_MAX.
+       */
       assert(bc_ctl.arg_max >= LINE_MAX);
 #endif
       
@@ -645,9 +687,11 @@ main (int argc, char **argv)
 	      _("Your environment variables take up %lu bytes\n"),
 	      (unsigned long)bc_size_of_environment());
       fprintf(stderr,
-	      _("POSIX lower and upper limits on argument length: %lu, %lu\n"),
-	      (unsigned long)bc_ctl.posix_arg_size_min,
+	      _("POSIX upper limit on argument length (this system): %lu\n"),
 	      (unsigned long)bc_ctl.posix_arg_size_max);
+      fprintf(stderr,
+	      _("POSIX smallest allowable upper limit on argument length (all systems): %lu\n"),
+	      (unsigned long)bc_ctl.posix_arg_size_min);
       fprintf(stderr,
 	      _("Maximum length of command we could actually use: %ld\n"),
 	      (unsigned long)(bc_ctl.posix_arg_size_max -

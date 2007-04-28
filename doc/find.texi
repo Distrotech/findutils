@@ -2346,7 +2346,16 @@ argument strings.  If you specify a value for this option which is too
 large or small, a warning message is printed and the appropriate upper
 or lower limit is used instead.  You can use @samp{--show-limits}
 option to understand the command-line limits applying to @code{xargs}
-and how this is affected by any other options.
+and how this is affected by any other options.  The POSIX limits shown
+when you do this have already been adjusted to take into account the
+size of your environment variables.  
+
+The largest allowed value is system-dependent, and is calculated as
+the argument length limit for exec, less the size of your environment,
+less 2048 bytes of headroom.  If this value is more than 128KiB,
+128Kib is used as the default value; otherwise, the default value is
+the maximum.
+
 
 @item --max-procs=@var{max-procs}
 @itemx -P @var{max-procs}
