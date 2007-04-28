@@ -51,7 +51,9 @@
 #include <string.h>
 #include <limits.h>
 #include <assert.h>
-#include <openat.h>
+#include "verify.h"
+#include "openat.h"
+
 
 
 struct debug_option_assoc
@@ -409,6 +411,8 @@ fallback_stat(const char *name, struct stat *p, int prev_rv)
 int 
 optionh_stat(const char *name, struct stat *p)
 {
+  if (AT_FDCWD != state.cwd_dir_fd)
+    assert(state.cwd_dir_fd >= 0);
   set_stat_placeholders(p);
   if (0 == state.curdepth) 
     {
@@ -438,6 +442,9 @@ int
 optionl_stat(const char *name, struct stat *p)
 {
   int rv;
+  if (AT_FDCWD != state.cwd_dir_fd)
+    assert(state.cwd_dir_fd >= 0);
+  
   set_stat_placeholders(p);
   rv = fstatat(state.cwd_dir_fd, name, p, 0);
   if (0 == rv)
@@ -453,6 +460,7 @@ optionl_stat(const char *name, struct stat *p)
 int 
 optionp_stat(const char *name, struct stat *p)
 {
+  assert((state.cwd_dir_fd >= 0) || (state.cwd_dir_fd==AT_FDCWD));
   set_stat_placeholders(p);
   return fstatat(state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
 }

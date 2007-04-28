@@ -369,6 +369,13 @@ pred_ctime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   return pred_timewindow(get_stat_ctime(stat_buf), pred_ptr, DAYSECS);
 }
 
+static boolean
+perform_delete(int flags)
+{
+  return 0 == unlinkat(state.cwd_dir_fd, state.rel_pathname, flags);
+}
+
+
 boolean
 pred_delete (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
@@ -377,21 +384,33 @@ pred_delete (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
   if (strcmp (state.rel_pathname, "."))
     {
       int flags=0;
-      if (S_ISDIR(stat_buf->st_mode))
+      if (state.have_stat && S_ISDIR(stat_buf->st_mode))
 	flags |= AT_REMOVEDIR;
-      if (0 != unlinkat(state.cwd_dir_fd, state.rel_pathname, flags))
-	{
-	  error (0, errno, "cannot delete %s", pathname);
-	  return false;
-	}
-      else
+      if (perform_delete(flags))
 	{
 	  return true;
 	}
+      else
+	{
+	  if (EISDIR == errno)
+	    {
+	      if ((flags & AT_REMOVEDIR) == 0)
+		{
+		  /* unlink() operation failed because we should have done rmdir(). */
+		  flags |= AT_REMOVEDIR;
+		  if (perform_delete(flags))
+		    return true;
+		}
+	    }
+	}
+      error (0, errno, "cannot delete %s", pathname);
+      return false;
     }
-  
-  /* nothing to do. */
-  return true;
+  else
+    {
+      /* nothing to do. */
+      return true;
+    }
 }
 
 boolean

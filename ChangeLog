@@ -1,5 +1,30 @@
 2007-04-28  James Youngman  <jay@gnu.org>
 
+	* find/testsuite/find.gnu/deletedir.exp,
+	find/testsuite/find.gnu/deletedir.xo: New test.
+	* find/testsuite/find.gnu/deletefile.exp,
+	find/testsuite/find.gnu/deletefile.xo: New test.
+	* find/testsuite/Makefile.am: Distribute the new tests
+	deletefile.exp and deletedir,exp, with their expected-output (.xo)
+	files too.
+	* find/testsuite/config/unix.exp (find_start): Add a new "setup"
+	parameter called just before each time find is invoked.  This
+	allows last-minute tasks to be performed.  This feature is
+	essential for find commands that modify the filesystem, since
+	otherwise we cannot use our strategy of invoking both binaries at
+	each optimisation level.
+	
+	* find/util.c (optionh_stat, optionp_stat, optionl_stat): Assert
+	that state.cwd_dir_fd is valid.
+
+	* find/parser.c (parse_delete): Set need_stat to false, since we
+	don't need the stat information in pred_delete.
+	* find/pred.c (pred_delete): If unlinkat() with a zero flags
+	parameter fails with errno==EISDIR, just try again with
+	flags=AT_REMOVEDIR.  That way we normally avoid the cost of a
+	stat.  If we happen to have the stat information to hand anyway,
+	we make sure we get it right the first time.
+
 	* lib/buildcmd.c (bc_init_controlinfo): Eliminate confusing extra
 	variable arg_max.  Add return value
 	BC_INIT_CANNOT_ACCOMODATE_HEADROOM for the case where the
@@ -19,6 +44,7 @@
 	* find/parser.c (new_insert_exec_ok): Pass the required headroom to
 	bc_init_controlinfo() and handle the error return
 	BC_INIT_CANNOT_ACCOMODATE_HEADROOM.  
+
 	* xargs/xargs.1: Correct the description of the default value and
 	maximum value for the -s option of xargs.
 

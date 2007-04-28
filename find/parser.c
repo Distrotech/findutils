@@ -673,11 +673,17 @@ parse_delete (const struct parser_table* entry, char *argv[], int *arg_ptr)
   struct predicate *our_pred;
   (void) argv;
   (void) arg_ptr;
-  
+
   our_pred = insert_primary (entry);
   our_pred->side_effects = our_pred->no_default_print = true;
   /* -delete implies -depth */
   options.do_dir_first = false;
+  
+  /* We do not need stat information because we check for the case
+   * (errno==EISDIR) in pred_delete.
+   */
+  our_pred->need_stat = our_pred->need_type = false;
+  
   our_pred->est_success_rate = 1.0f;
   return true;
 }

@@ -186,7 +186,7 @@ proc do_find_start { suffix findprogram flags passfail options infile output } {
 	send_log "$cmp_cmd\n"
 	catch "exec $cmp_cmd" cmpout
 	if {$cmpout != ""} then {
-	    fail "$testname, $cmpout"
+	    fail "$testname, standard output differs from the expected result:\n$cmpout"
 	    return
 	}
     } else {
@@ -199,7 +199,7 @@ proc do_find_start { suffix findprogram flags passfail options infile output } {
 }
 
 
-proc find_start { passfail options {infile ""} {output ""}} {
+proc find_start { passfail options {infile ""} {output ""} {setup ""}} {
     global OLDFIND
     global FTSFIND
     global FINDFLAGS
@@ -225,9 +225,11 @@ proc find_start { passfail options {infile ""} {output ""}} {
     foreach optlevel {0 1 2 3} {
 	set flags "$FINDFLAGS -O$optlevel"
 	if { ![info exists SKIP_OLD] || ! $SKIP_OLD } {
+	    eval $setup
 	    do_find_start old-O$optlevel  $OLDFIND $flags $passfail $options $infile $output
 	}
 	if { ![info exists SKIP_NEW] || !$SKIP_NEW } {
+	    eval $setup
 	    do_find_start new-O$optlevel  $FTSFIND $flags $passfail $options $infile $output
 	}
     }

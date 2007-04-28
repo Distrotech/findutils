@@ -98,11 +98,9 @@
 #include <assert.h>
 
 /* COMPAT:  SYSV version defaults size (and has a max value of) to 470.
-   We try to make it as large as possible. */
-#if !defined(ARG_MAX) && defined(_SC_ARG_MAX)
-#define ARG_MAX sysconf (_SC_ARG_MAX)
-#endif
-#ifndef ARG_MAX
+   We try to make it as large as possible.  See bc_get_arg_max() below. */
+#if !defined(ARG_MAX) && defined(NCARGS)
+#error "You have an unusual system.  Once you remove this error message from buildcmd.c, it should work, but please make sure that DejaGnu is installed on your system and that 'make check' passes before using the findutils programs"
 #define ARG_MAX NCARGS
 #endif
 

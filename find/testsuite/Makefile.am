@@ -8,6 +8,8 @@ EXTRA_DIST_XO = \
 find.gnu/access.xo \
 find.gnu/comma.xo \
 find.gnu/delete.xo \
+find.gnu/deletedir.xo \
+find.gnu/deletefile.xo \
 find.gnu/depth.xo \
 find.gnu/depth-d.xo \
 find.gnu/empty.xo \
@@ -94,6 +96,8 @@ config/unix.exp \
 find.gnu/access.exp \
 find.gnu/comma.exp \
 find.gnu/delete.exp \
+find.gnu/deletedir.xo \
+find.gnu/deletefile.xo \
 find.gnu/depth.exp \
 find.gnu/depth-d.exp \
 find.gnu/empty.exp \
