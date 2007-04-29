@@ -57,6 +57,7 @@
 #include "fts_.h"
 #include "openat.h"
 #include "save-cwd.h"
+#include "xgetcwd.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>

@@ -166,7 +166,7 @@
 #undef HAVE_MAJOR
 
 
-static void print_name (register char *p, FILE *stream, int literal_control_chars);
+static void print_name (register const char *p, FILE *stream, int literal_control_chars);
 
 extern char * getgroup (gid_t gid);
 extern char * getuser (uid_t uid);
@@ -190,7 +190,7 @@ file_blocksize(const struct stat *p)
    STREAM is the stdio stream to print on.  */
 
 void
-list_file (char *name,
+list_file (const char *name,
 	   int dirfd, 
 	   char *relname,
 	   const struct stat *statp,
@@ -321,14 +321,14 @@ list_file (char *name,
 
 
 static void
-print_name_without_quoting (char *p, FILE *stream)
+print_name_without_quoting (const char *p, FILE *stream)
 {
   fprintf(stream, "%s", p);
 }
 
 
 static void
-print_name_with_quoting (register char *p, FILE *stream)
+print_name_with_quoting (register const char *p, FILE *stream)
 {
   register unsigned char c;
 
@@ -377,7 +377,7 @@ print_name_with_quoting (register char *p, FILE *stream)
     }
 }
 
-static void print_name (register char *p, FILE *stream, int literal_control_chars)
+static void print_name (register const char *p, FILE *stream, int literal_control_chars)
 {
   if (literal_control_chars)
     print_name_without_quoting(p, stream);

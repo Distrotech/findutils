@@ -55,6 +55,7 @@
 #include "dirname.h"
 #include "quote.h"
 #include "quotearg.h"
+#include "xgetcwd.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>

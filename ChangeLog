@@ -1,3 +1,18 @@
+2007-04-30  James Youngman  <jay@gnu.org>
+
+	* find/defs.h: Change all predicate functions to take a const
+	char* argument as the pathname, not a char*.  Modify the parser
+	table definition accordingly.
+	* find/parser.c: Ditto
+	* find/pred.c: Ditto
+	* find/pred.c (do_fprintf): copy the pathname string for the %H
+	and %h cases, since we can no longer modify the string in place.
+	* lib/listfile.c (print_name, list_file,
+	print_name_without_quoting, print_name_with_quoting): Use const
+	char * param for pathname.
+	* lib/listfile.h (list_file): Use const char * param for
+	pathname. 
+
 2007-04-29  James Youngman  <jay@gnu.org>
 	
 	* find/defs.h: Declare fatal_file_error(), a function for
