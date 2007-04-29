@@ -1632,7 +1632,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
       change = mode_compile (argv[*arg_ptr] + mode_start);
       if (NULL == change)
 	error (1, 0, _("invalid mode %s"),
-	       quotearg_n_style(0, locale_quoting_style, argv[*arg_ptr]));
+	       quotearg_n_style(0, options.err_quoting_style, argv[*arg_ptr]));
     }
   perm_val[0] = mode_adjust (0, false, 0, change, NULL);
   perm_val[1] = mode_adjust (0, true, 0, change, NULL);

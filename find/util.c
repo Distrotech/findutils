@@ -54,7 +54,6 @@
 #include "verify.h"
 #include "openat.h"
 
-
 
 struct debug_option_assoc
 {
@@ -202,7 +201,8 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
 	{
 	  if (!options.ignore_readdir_race || (errno != ENOENT) )
 	    {
-	      error (0, errno, "%s", pathname);
+	      error (0, errno, "%s",
+		     safely_quote_err_filename(0, pathname));
 	      state.exit_status = 1;
 	    }
 	  return -1;
@@ -640,7 +640,7 @@ process_debug_options(char *arg)
       if (i >= N_DEBUGASSOC)
 	{
 	  error(0, 0, _("Ignoring unrecognised debug flag %s"),
-		quotearg_n_style(0, locale_quoting_style, arg));
+		quotearg_n_style(0, options.err_quoting_style, arg));
 	}
       p = strtok_r(NULL, delimiters, &token_context);
     }
@@ -838,6 +838,8 @@ set_option_defaults(struct options *p)
 #endif
 
   set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
+
+  p->err_quoting_style = locale_quoting_style;
 }
 
 
@@ -853,7 +855,8 @@ int get_start_dirfd(void)
 /* apply_predicate
  *
  */
-boolean apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p)
+boolean
+apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p)
 {
   ++p->perf.visits;
 
@@ -872,4 +875,25 @@ boolean apply_predicate(const char *pathname, struct stat *stat_buf, struct pred
     {
       return false;
     }
+}
+
+
+/* safely_quote_err_filename
+ *
+ */
+const char *
+safely_quote_err_filename (int n, char const *arg)
+{
+  return quotearg_n_style (n, options.err_quoting_style, arg);
+}
+
+/* fatal_file_error
+ *
+ */
+void
+fatal_file_error(const char *name)
+{
+  error (1, errno, "%s", safely_quote_err_filename(0, name));
+  /*NOTREACHED*/
+  abort();
 }

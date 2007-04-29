@@ -1,4 +1,18 @@
 2007-04-29  James Youngman  <jay@gnu.org>
+	
+	* find/defs.h: Declare fatal_file_error(), a function for
+	reporting immediately-fatal file errors, which appropriately
+	quotes the file name.  The function does not return.  Also define
+	ATTRIBUTE_NORETURN.  Record the currently-required quoting style
+	in struct options.
+
+	* find/find.c, find/ftsfind.c, find/parser.c, find/pred.c,
+	find/util.c: Call fatal_file_error() for fatal file errors.  Use
+	quotearg_n_style() to quote filenames which are used in error
+	message that aren't fatal.  Use options.err_quoting_style as the
+	quoting style.  This fixes Savannah bug #18203.
+	* locate/locate.c: ditto
+	* xargs/xargs.c: ditto
 
 	* lib/listfile.c: To use alloca, just #include <alloca.h>.  Gnulib
 	handles the rest.  Also these days, <stdlib.h> and <string.h> can

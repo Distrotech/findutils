@@ -304,7 +304,7 @@ issue_loop_warning(FTSENT * ent)
 	    partial_quotearg_n(1,
 			       ent->fts_cycle->fts_path,
 			       ent->fts_cycle->fts_pathlen,
-			       locale_quoting_style));
+			       options.err_quoting_style));
     }
 }
 
@@ -399,8 +399,8 @@ consider_visiting(FTS *p, FTSENT *ent)
             "fts_path=%s, fts_accpath=%s\n",
 	    get_fts_info_name(ent->fts_info),
             (int)ent->fts_level, prev_depth,
-	    quotearg_n_style(0, locale_quoting_style, ent->fts_path),
-	    quotearg_n_style(1, locale_quoting_style, ent->fts_accpath));
+	    quotearg_n_style(0, options.err_quoting_style, ent->fts_path),
+	    quotearg_n_style(1, options.err_quoting_style, ent->fts_accpath));
   
   if (ent->fts_info == FTS_DP)
     {

@@ -96,6 +96,7 @@
 #endif
 
 #include "wait.h"
+#include "quotearg.h"
 
 
 #ifdef STDC_HEADERS
@@ -648,8 +649,8 @@ main (int argc, char **argv)
       if (NULL == input_stream)
 	{
 	  error (1, errno,
-		 _("Cannot open input file `%s'"),
-		 input_file);
+		 _("Cannot open input file %s"),
+		 quotearg_n_style(0, locale_quoting_style, input_file));
 	}
     }
 
@@ -1080,7 +1081,7 @@ prep_child_for_exec (void)
 	   * stdin is almost as good as executing it
 	   * with its stdin attached to /dev/null.
 	   */
-	  error (0, errno, "%s", inputfile);
+	  error (0, errno, "%s", quotearg_n_style(0, locale_quoting_style, inputfile));
 	}
     }
 }

@@ -217,15 +217,15 @@ set_max_db_age(const char *s)
       (0 == val && EINVAL == errno))
     {
       error(1, errno,
-	    _("Invalid argument `%s' for option --max-database-age"),
-	    s);
+	    _("Invalid argument %s for option --max-database-age"),
+	    quotearg_n_style(0, locale_quoting_style, s));
     }
   else if (*end)
     {
       /* errno wasn't set, don't print its message */
       error(1, 0,
-	    _("Invalid argument `%s' for option --max-database-age"),
-	    s);
+	    _("Invalid argument %s for option --max-database-age"),
+	    quotearg_n_style(0, locale_quoting_style, s));
     }
   else
     {
@@ -582,7 +582,8 @@ visit_locate02_format(struct process_data *procdata, void *context)
        * reading in data which is outside our control, we
        * cannot prevent it.
        */
-      error(1, 0, _("locate database `%s' is corrupt or invalid"), procdata->dbfile);
+      error(1, 0, _("locate database %s is corrupt or invalid"),
+	    quotearg_n_style(0, locale_quoting_style, procdata->dbfile));
     }
  
   /* Overlay the old path with the remainder of the new.  */
@@ -939,10 +940,11 @@ looking_at_slocate_locatedb (const char *filename,
 		   * We don't know how to handle those.
 		   */
 		  error(0, 0,
-			_("locate database `%s' looks like an slocate "
+			_("locate database %s looks like an slocate "
 			  "database but it seems to have security level %c, "
 			  "which GNU findutils does not currently support"),
-			filename, data[1]);
+			quotearg_n_style(0, locale_quoting_style, filename),
+			data[1]);
 		  return 1;
 		}
 	      else
@@ -1031,9 +1033,9 @@ search_one_database (int argc,
 				  &slocate_seclevel))
     {
       error(0, 0,
-	    _("`%s' is an slocate database.  "
+	    _("%s is an slocate database.  "
 	      "Support for these is new, expect problems for now."),
-	    procdata.dbfile);
+	    quotearg_n_style(0, locale_quoting_style, procdata.dbfile));
       
       /* slocate also uses frcode, but with a different header. 
        * We handle the header here and then work with the data 
@@ -1045,8 +1047,9 @@ search_one_database (int argc,
 	   * so do nothing further 
 	   */
 	  error(0, 0,
-		_("`%s' is an slocate database of unsupported security level %d; skipping it."),
-		procdata.dbfile, slocate_seclevel);
+		_("%s is an slocate database of unsupported security level %d; skipping it."),
+		quotearg_n_style(0, locale_quoting_style, procdata.dbfile),
+		slocate_seclevel);
 	  return 0;
 	}
       else if (slocate_seclevel > 0)
@@ -1072,9 +1075,9 @@ search_one_database (int argc,
 	      if (enable_print || stats)
 		{
 		  error(0, 0,
-			_("`%s' is an slocate database.  "
+			_("%s is an slocate database.  "
 			  "Turning on the '-e' option."),
-			procdata.dbfile);
+			quotearg_n_style(0, locale_quoting_style, procdata.dbfile));
 		}
 	      do_check_existence = ACCEPT_EXISTING;
 	    }
@@ -1260,7 +1263,8 @@ search_one_database (int argc,
   
   if (ferror (procdata.fp))
     {
-      error (0, errno, "%s", procdata.dbfile);
+      error (0, errno, "%s",
+	     quotearg_n_style(0, locale_quoting_style, procdata.dbfile));
       return 0;
     }
   return plimit->items_accepted;
@@ -1396,7 +1400,8 @@ drop_privs(void)
   return 0;
   
  fail:
-  error(1, errno, "%s", what);
+  error(1, errno, "%s",
+	quotearg_n_style(0, locale_quoting_style, what));
   abort();
   kill(0, SIGKILL);
   _exit(1);
@@ -1670,7 +1675,8 @@ dolocate (int argc, char **argv, int secure_db_fd)
 	      fd = opendb(e);
 	      if (fd < 0)
 		{
-		  error (0, errno, "%s", e);
+		  error (0, errno, "%s",
+			 quotearg_n_style(0, locale_quoting_style, e));
 		  return 0;
 		}
 	    }
@@ -1693,7 +1699,8 @@ dolocate (int argc, char **argv, int secure_db_fd)
       /* Check the database to see if it is old. */
       if (fstat(fd, &st))
 	{
-	  error (0, errno, "%s", e);
+	  error (0, errno, "%s",
+		 quotearg_n_style(0, locale_quoting_style, e));
 	  /* continue anyway */
 	  filesize = (off_t)0;
 	}
@@ -1720,8 +1727,8 @@ dolocate (int argc, char **argv, int secure_db_fd)
 		  /* For example:
 		     warning: database `fred' is more than 8 days old (actual age is 10 days)*/
 		  error (0, 0,
-			 _("warning: database `%s' is more than %d %s old (actual age is %.1f %s)"),
-			 e, 
+			 _("warning: database %s is more than %d %s old (actual age is %.1f %s)"),
+			 quotearg_n_style(0,  locale_quoting_style, e), 
 			 warn_number_units,              _(warn_name_units),
 			 (age/(double)SECONDS_PER_UNIT), _(warn_name_units));
 		}
@@ -1731,7 +1738,8 @@ dolocate (int argc, char **argv, int secure_db_fd)
       fp = fdopen(fd, "r");
       if (NULL == fp)
 	{
-	  error (0, errno, "%s", e);
+	  error (0, errno, "%s",
+		 quotearg_n_style(0, locale_quoting_style, e));
 	  return 0;
 	}
 
@@ -1745,7 +1753,8 @@ dolocate (int argc, char **argv, int secure_db_fd)
       /* Close the databsase (even if it is stdin) */
       if (fclose (fp) == EOF)
 	{
-	  error (0, errno, "%s", e);
+	  error (0, errno, "%s",
+		 quotearg_n_style(0, locale_quoting_style, e));
 	  return 0;
 	}
     }

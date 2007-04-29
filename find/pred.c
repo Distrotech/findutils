@@ -1848,7 +1848,7 @@ launch (const struct buildcmd_control *ctl,
   if (WIFSIGNALED (wait_status))
     {
       error (0, 0, _("%s terminated by signal %d"),
-	     quotearg_n_style(0, locale_quoting_style,
+	     quotearg_n_style(0, options.err_quoting_style,
 			      buildstate->cmd_argv[0]),
 	     WTERMSIG (wait_status));
       

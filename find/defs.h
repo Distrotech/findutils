@@ -66,6 +66,7 @@ extern int errno;
 #include "regex.h"
 #include "timespec.h"
 #include "buildcmd.h"
+#include "quotearg.h"
 
 
 #ifndef S_IFLNK
@@ -79,6 +80,10 @@ extern int errno;
 #   define PARAMS(Args) ()
 #  endif
 # endif
+
+#ifndef ATTRIBUTE_NORETURN
+# define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
+#endif
 
 int lstat PARAMS((const char *__path, struct stat *__statbuf));
 int stat PARAMS((const char *__path, struct stat *__statbuf));
@@ -559,6 +564,8 @@ void usage PARAMS((FILE *fp, int status, char *msg));
 extern boolean check_nofollow(void);
 void complete_pending_execs(struct predicate *p);
 void complete_pending_execdirs(int dirfd); /* Passing dirfd is an unpleasant CodeSmell. */
+const char *safely_quote_err_filename (int n, char const *arg);
+void fatal_file_error(const char *name) ATTRIBUTE_NORETURN;
 
 int process_leading_options PARAMS((int argc, char *argv[]));
 void set_option_defaults PARAMS((struct options *p));
@@ -660,6 +667,11 @@ struct options
   /* Optimisation level.  One is the default. 
    */
   unsigned short optimisation_level;
+
+
+  /* How should we quote filenames in error messages and so forth?
+   */
+  enum quoting_style err_quoting_style;
 };
 extern struct options options;
 
@@ -706,7 +718,6 @@ extern struct state state;
 extern char const *starting_dir;
 extern int starting_desc;
 extern char *program_name;
-
 
 
 #endif

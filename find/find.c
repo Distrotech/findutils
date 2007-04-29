@@ -386,7 +386,7 @@ dirchange_is_fatal(const char *specific_what,
 	{
 	  error (0, 0,
 		 _("Warning: filesystem %s has recently been unmounted."),
-		 specific_what);
+		 safely_quote_err_filename(0, specific_what));
 	}
       break;
 	      
@@ -396,7 +396,7 @@ dirchange_is_fatal(const char *specific_what,
 	{
 	  error (0, 0,
 		 _("Warning: filesystem %s has recently been mounted."),
-		 specific_what);
+		 safely_quote_err_filename(0, specific_what));
 	}
       break;
 
@@ -463,7 +463,7 @@ wd_sanity_check(const char *thing_to_stat,
   
   set_stat_placeholders(newinfo);
   if ((*options.xstat) (current_dir, newinfo) != 0)
-    error (1, errno, "%s", thing_to_stat);
+    fatal_file_error(thing_to_stat);
   
   if (old_dev != newinfo->st_dev)
     {
@@ -492,9 +492,9 @@ wd_sanity_check(const char *thing_to_stat,
 	    fstype = filesystem_type(newinfo, current_dir);
 	    error (1, 0,
 		   _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
-		   specific_what,
+		   safely_quote_err_filename(0, specific_what),
 		   parent ? "/.." : "",
-		   progname,
+		   safely_quote_err_filename(1, progname),
 		   (long) old_dev,
 		   (long) newinfo->st_dev,
 		   fstype,
@@ -529,9 +529,9 @@ wd_sanity_check(const char *thing_to_stat,
       error ((isfatal == FATAL_IF_SANITY_CHECK_FAILS) ? 1 : 0,
 	     0,			/* no relevant errno value */
 	     _("%s%s changed during execution of %s (old inode number %ld, new inode number %ld, filesystem type is %s) [ref %ld]"),
-	     specific_what, 
+	     safely_quote_err_filename(0, specific_what), 
 	     parent ? "/.." : "",
-	     progname,
+	     safely_quote_err_filename(1, progname),
 	     (long) old_ino,
 	     (long) newinfo->st_ino,
 	     fstype,
@@ -912,7 +912,7 @@ chdir_back (void)
 #endif
       
       if (chdir (starting_dir) != 0)
-	error (1, errno, "%s", starting_dir);
+	fatal_file_error(starting_dir);
 
       wd_sanity_check(starting_dir,
 		      program_name,
@@ -931,7 +931,7 @@ chdir_back (void)
 
       if (fchdir (starting_desc) != 0)
 	{
-	  error (1, errno, "%s", starting_dir);
+	  fatal_file_error(starting_dir);
 	}
     }
 }
@@ -990,10 +990,11 @@ at_top (char *pathname,
 	{
 	  const char *what = (SafeChdirFailWouldBeUnableToReturn == chdir_status) ? "." : parent_dir;
 	  if (errno)
-	    error (0, errno, "%s", what);
+	    error (0, errno, "%s",
+		   safely_quote_err_filename(0, what));
 	  else
-	    error (0, 0, "Failed to safely change directory into `%s'",
-		   parent_dir);
+	    error (0, 0, "Failed to safely change directory into %s",
+		   safely_quote_err_filename(0, parent_dir));
 	    
 	  /* We can't process this command-line argument. */
 	  state.exit_status = 1;
@@ -1089,8 +1090,8 @@ issue_loop_warning(const char *name, const char *pathname, int level)
   if (S_ISLNK(stbuf_link.st_mode))
     {
       error(0, 0,
-	    _("Symbolic link `%s' is part of a loop in the directory hierarchy; we have already visited the directory to which it points."),
-	    pathname);
+	    _("Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."),
+	    safely_quote_err_filename(0, pathname));
     }
   else
     {
@@ -1104,8 +1105,8 @@ issue_loop_warning(const char *name, const char *pathname, int level)
        * to /a/b/c.
        */
       error(0, 0,
-	    _("Filesystem loop detected; `%s' has the same device number and inode as a directory which is %d %s."),
-	    pathname,
+	    _("Filesystem loop detected; %s has the same device number and inode as a directory which is %d %s."),
+	    safely_quote_err_filename(0, pathname),
 	    distance,
 	    (distance == 1 ?
 	     _("level higher in the filesystem hierarchy") :
@@ -1279,7 +1280,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
   if (dirinfo == NULL)
     {
       assert(errno != 0);
-      error (0, errno, "%s", pathname);
+      error (0, errno, "%s", safely_quote_err_filename(0, pathname));
       state.exit_status = 1;
     }
   else
@@ -1347,14 +1348,15 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	    case SafeChdirFailStat:
 	    case SafeChdirFailNotDir:
 	    case SafeChdirFailChdirFailed:
-	      error (0, errno, "%s", pathname);
+	      error (0, errno, "%s",
+		     safely_quote_err_filename(0, pathname));
 	      state.exit_status = 1;
 	      return;
 	      
 	    case SafeChdirFailSymlink:
 	      error (0, 0,
 		     _("warning: not following the symbolic link %s"),
-		     pathname);
+		     safely_quote_err_filename(0, pathname));
 	      state.exit_status = 1;
 	      return;
 	    }
@@ -1398,7 +1400,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 		   * In the latter case, -noleaf should be used routinely.
 		   */
 		  error(0, 0, _("WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we already saw %d subdirectories): this may be a bug in your filesystem driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
-			pathname,
+			safely_quote_err_filename(0, pathname),
 			statp->st_nlink,
 			dircount);
 		  state.exit_status = 1; /* We know the result is wrong, now */
@@ -1478,7 +1480,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	    case SafeChdirFailSymlink:
 	    case SafeChdirFailNotDir:
 	    case SafeChdirFailChdirFailed:
-	      error (1, errno, "%s", pathname);
+	      error (1, errno, "%s", safely_quote_err_filename(0, pathname));
 	      return;
 	    }
 
