@@ -1,3 +1,16 @@
+2007-04-29  Michael Haubenwallner <michael.haubenwallner@salomon.at> (Trivial Change)
+
+	* find/defs.h (pred_open) Rename to pred_openparen to avoid
+	problems with the macrtos which build the parser tabnles on
+	platforms where 'open' is in fact a macro whcih expands to
+	open64.   The problem was that token pasting put pred_open64 into
+	the parser table, but the function was still defined as
+	parse_open.   This fixes Savannah bug #19371.
+	(pred_close): ditto
+	* find/parser.c (parse_open, parse_close): ditto.  Also change
+	repferences to pred_open and pred_close similarly.
+	* find/parser.c (parse_openparen, parse_closeparen): ditto
+
 2007-04-28  James Youngman  <jay@gnu.org>
 
 	* find/testsuite/find.gnu/deletedir.exp,

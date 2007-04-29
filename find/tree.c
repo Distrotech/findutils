@@ -898,7 +898,7 @@ static struct pred_cost_lookup costlookup[] =
     { pred_and       ,  NeedsNothing,        },
     { pred_anewer    ,  NeedsStatInfo,       },
     { pred_atime     ,  NeedsStatInfo,       },
-    { pred_close     ,  NeedsNothing         },
+    { pred_closeparen,  NeedsNothing         },
     { pred_cmin      ,  NeedsStatInfo,       },
     { pred_cnewer    ,  NeedsStatInfo,       },
     { pred_comma     ,  NeedsNothing,        },
@@ -932,7 +932,7 @@ static struct pred_cost_lookup costlookup[] =
     { pred_nouser    ,  NeedsStatInfo        }, /* true for amortised cost if caching is on */
     { pred_ok        ,  NeedsUserInteraction },
     { pred_okdir     ,  NeedsUserInteraction },
-    { pred_open	     ,  NeedsNothing         },
+    { pred_openparen ,  NeedsNothing         },
     { pred_or        ,  NeedsNothing,        },
     { pred_path	     ,  NeedsNothing         },
     { pred_perm	     ,  NeedsStatInfo        },
@@ -1211,7 +1211,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   assert(entry_close != NULL);
   assert(entry_print != NULL);
   
-  parse_open (entry_open, argv, &argc);
+  parse_openparen (entry_open, argv, &argc);
   last_pred->p_name = "(";
   predicates->artificial = true;
   parse_begin_user_args(argv, argc, last_pred, predicates);
@@ -1304,7 +1304,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   else
     {
       /* `( user-supplied-expression ) -print'. */
-      parse_close (entry_close, argv, &argc);
+      parse_closeparen (entry_close, argv, &argc);
       last_pred->p_name = ")";
       last_pred->artificial = true;
       pred_sanity_check(last_pred);
@@ -1335,7 +1335,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   if (cur_pred != NULL)
     {
       /* cur_pred->p_name is often NULL here */
-      if (pred_is(cur_pred, pred_close))
+      if (pred_is(cur_pred, pred_closeparen))
 	{
 	  /* e.g. "find \( -true \) \)" */
 	  error (1, 0, _("you have too many ')'"), cur_pred->p_name);

@@ -173,7 +173,7 @@ struct pred_assoc pred_table[] =
   {pred_and, "and     "},
   {pred_anewer, "anewer  "},
   {pred_atime, "atime   "},
-  {pred_close, ")       "},
+  {pred_closeparen, ")       "},
   {pred_cmin, "cmin    "},
   {pred_cnewer, "cnewer  "},
   {pred_comma, ",       "},
@@ -207,7 +207,7 @@ struct pred_assoc pred_table[] =
   {pred_nouser, "nouser  "},
   {pred_ok, "ok      "},
   {pred_okdir, "okdir   "},
-  {pred_open, "(       "},
+  {pred_openparen, "(       "},
   {pred_or, "or      "},
   {pred_path, "path    "},
   {pred_perm, "perm    "},
@@ -327,7 +327,7 @@ pred_atime (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 }
 
 boolean
-pred_close (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+pred_closeparen (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
   (void) &stat_buf;
@@ -1327,7 +1327,7 @@ pred_okdir (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 }
 
 boolean
-pred_open (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+pred_openparen (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
   (void) stat_buf;

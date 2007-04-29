@@ -214,8 +214,8 @@ static struct parser_table const parse_table[] =
 {
   PARSE_PUNCTUATION("!",                     negate),
   PARSE_PUNCTUATION("not",                   negate),	     /* GNU */
-  PARSE_PUNCTUATION("(",                     open),
-  PARSE_PUNCTUATION(")",                     close),
+  PARSE_PUNCTUATION("(",                     openparen),
+  PARSE_PUNCTUATION(")",                     closeparen),
   PARSE_PUNCTUATION(",",                     comma),	     /* GNU */
   PARSE_PUNCTUATION("a",                     and),
   PARSE_TEST       ("amin",                  amin),	     /* GNU */
@@ -593,7 +593,7 @@ parse_anewer (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 boolean
-parse_close (const struct parser_table* entry, char **argv, int *arg_ptr)
+parse_closeparen (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -601,7 +601,7 @@ parse_close (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
   
   our_pred = get_new_pred (entry);
-  our_pred->pred_func = pred_close;
+  our_pred->pred_func = pred_closeparen;
   our_pred->p_type = CLOSE_PAREN;
   our_pred->p_prec = NO_PREC;
   our_pred->need_stat = our_pred->need_type = false;
@@ -1499,7 +1499,7 @@ parse_okdir (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 boolean
-parse_open (const struct parser_table* entry, char **argv, int *arg_ptr)
+parse_openparen (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
 
@@ -1507,7 +1507,7 @@ parse_open (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
   
   our_pred = get_new_pred_chk_op (entry);
-  our_pred->pred_func = pred_open;
+  our_pred->pred_func = pred_openparen;
   our_pred->p_type = OPEN_PAREN;
   our_pred->p_prec = NO_PREC;
   our_pred->need_stat = our_pred->need_type = false;
