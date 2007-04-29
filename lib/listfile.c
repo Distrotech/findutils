@@ -1,5 +1,5 @@
 /* listfile.c -- display a long listing of a file
-   Copyright (C) 1991, 1993, 2000 Free Software Foundation, Inc.
+   Copyright (C) 1991, 1993, 2000, 2004, 2005, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,34 +21,21 @@
 # include <config.h>
 #endif
 
-#ifndef __GNUC__
-# if HAVE_ALLOCA_H
-#  include <alloca.h>
-# else
-#  ifdef _AIX
- #  pragma alloca
-#  else
-#   ifdef _WIN32
-#    include <malloc.h>
-#    include <io.h>
-#   else
-#    ifndef alloca
-char *alloca ();
-#    endif
-#   endif
-#  endif
-# endif
-#endif
+#include <alloca.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <pwd.h>
 #include <grp.h>
 #include <time.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <string.h>
+#include <unistd.h> /* for readlink() */
 #include <openat.h>
+
 #include "human.h"
 #include "xalloc.h"
 #include "pathmax.h"
@@ -56,26 +43,6 @@ char *alloca ();
 #include "filemode.h"
 
 #include "listfile.h"
-
-#if HAVE_STRING_H || STDC_HEADERS
-#include <string.h>
-#else
-#include <strings.h>
-#endif
-
-
-/* The presence of unistd.h is assumed by gnulib these days, so we 
- * might as well assume it too. 
- */
-#include <unistd.h> /* for readlink() */
-
-
-#if STDC_HEADERS
-# include <stdlib.h>
-#else
-char *getenv ();
-extern int errno;
-#endif
 
 /* Since major is a function on SVR4, we can't use `ifndef major'.  */
 #ifdef MAJOR_IN_MKDEV

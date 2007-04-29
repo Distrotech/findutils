@@ -1,6 +1,8 @@
-/* pred.c -- execute the expression tree.
-   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 
-                 2003, 2004 Free Software Foundation, Inc.
+/* qmark.c -- quote 'dangerous' filenames
+
+   Copyright (C) 2005 Free Software Foundation, Inc.  
+   Derived from courutils' ls.c:
+   Copyright (C) 85, 88, 90, 91, 1995-2005 Free Software Foundation, Inc.  
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

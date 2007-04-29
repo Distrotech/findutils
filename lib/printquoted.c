@@ -62,6 +62,7 @@ print_quoted (FILE *fp,
 	  /* The original coreutils code uses alloca(), but I don't
 	   * want to take on the anguish of introducing alloca() to
 	   * 'find'.
+	   * XXX: newsflash: we already have alloca().
 	   */
 	  buf = xmalloc (len + 1);
 	  quotearg_buffer (buf, len + 1, s, -1, qopts);
