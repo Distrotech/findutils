@@ -403,7 +403,8 @@ pred_delete (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 		}
 	    }
 	}
-      error (0, errno, "cannot delete %s", pathname);
+      error (0, errno, "cannot delete %s",
+	     safely_quote_err_filename(0, pathname));
       return false;
     }
   else
@@ -433,14 +434,14 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 #endif
 		       )) < 0)
 	{
-	  error (0, errno, "%s", pathname);
+	  error (0, errno, "%s", safely_quote_err_filename(0, pathname));
 	  state.exit_status = 1;
 	  return false;
 	}
       d = fdopendir (fd);
       if (d == NULL)
 	{
-	  error (0, errno, "%s", pathname);
+	  error (0, errno, "%s", safely_quote_err_filename(0, pathname));
 	  state.exit_status = 1;
 	  return false;
 	}
@@ -456,7 +457,7 @@ pred_empty (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	}
       if (CLOSEDIR (d))
 	{
-	  error (0, errno, "%s", pathname);
+	  error (0, errno, "%s", safely_quote_err_filename(0, pathname));
 	  state.exit_status = 1;
 	  return false;
 	}
@@ -916,7 +917,7 @@ do_fprintf(FILE *fp,
 		      fprintf (fp, segment->text, "L");
 		      break;
 		    };
-		    error (0, errno, "%s", pathname);
+		    error (0, errno, "%s", safely_quote_err_filename(0, pathname));
 		    /* exit_status = 1;
 		       return (false); */
 		  }
@@ -1237,8 +1238,8 @@ pred_newerXY (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
       if (ts.tv_nsec < 0);
 	{
 	  /* XXX: Cannot determine birth time.  Warn once. */
-	  error(0, 0, _("Warning: cannot determine birth time of file `%s'"),
-		pathname);
+	  error(0, 0, _("Warning: cannot determine birth time of file %s"),
+		safely_quote_err_filename(0, pathname));
 	  return 0;
 	}
       break;
@@ -1696,7 +1697,7 @@ pred_xtype (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 	}
       else
 	{
-	  error (0, errno, "%s", pathname);
+	  error (0, errno, "%s", safely_quote_err_filename(0, pathname));
 	  state.exit_status = 1;
 	}
       return false;
@@ -1752,7 +1753,7 @@ prep_child_for_exec (boolean close_stdin, int dirfd)
 	       * stdin is almost as good as executing it
 	       * with its stdin attached to /dev/null.
 	       */
-	      error (0, errno, "%s", inputfile);
+	      error (0, errno, "%s", safely_quote_err_filename(0, inputfile));
 	      /* do not set ok=false, it is OK to continue anyway. */
 	    }
 	}
@@ -1823,7 +1824,8 @@ launch (const struct buildcmd_control *ctl,
 	}
       
       execvp (buildstate->cmd_argv[0], buildstate->cmd_argv);
-      error (0, errno, "%s", buildstate->cmd_argv[0]);
+      error (0, errno, "%s",
+	     safely_quote_err_filename(0, buildstate->cmd_argv[0]));
       _exit (1);
     }
 
@@ -1836,7 +1838,8 @@ launch (const struct buildcmd_control *ctl,
     {
       if (errno != EINTR)
 	{
-	  error (0, errno, _("error waiting for %s"), buildstate->cmd_argv[0]);
+	  error (0, errno, _("error waiting for %s"),
+		 safely_quote_err_filename(0, buildstate->cmd_argv[0]));
 	  state.exit_status = 1;
 	  return 0;		/* FAIL */
 	}
@@ -1845,7 +1848,9 @@ launch (const struct buildcmd_control *ctl,
   if (WIFSIGNALED (wait_status))
     {
       error (0, 0, _("%s terminated by signal %d"),
-	     buildstate->cmd_argv[0], WTERMSIG (wait_status));
+	     quotearg_n_style(0, locale_quoting_style,
+			      buildstate->cmd_argv[0]),
+	     WTERMSIG (wait_status));
       
       if (execp->multiple)
 	{

@@ -285,7 +285,7 @@ issue_loop_warning(FTSENT * ent)
     {
       error(0, 0,
 	    _("Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."),
-	    quotearg_n_style(0, locale_quoting_style, ent->fts_path));
+	    safely_quote_err_filename(0, ent->fts_path));
     }
   else
     {
@@ -300,7 +300,7 @@ issue_loop_warning(FTSENT * ent)
       error(0, 0,
 	    _("Filesystem loop detected; "
 	      "%s is part of the same filesystem loop as %s."),
-	    quotearg_n_style(0, locale_quoting_style, ent->fts_path),
+	    safely_quote_err_filename(0, ent->fts_path),
 	    partial_quotearg_n(1,
 			       ent->fts_cycle->fts_path,
 			       ent->fts_cycle->fts_pathlen,
@@ -418,7 +418,8 @@ consider_visiting(FTS *p, FTSENT *ent)
   if (ent->fts_info == FTS_ERR
       || ent->fts_info == FTS_DNR)
     {
-      error(0, ent->fts_errno, ent->fts_path);
+      error(0, ent->fts_errno, "%s",
+	    safely_quote_err_filename(0, ent->fts_path));
       error_severity(1);
       return;
     }
@@ -439,7 +440,7 @@ consider_visiting(FTS *p, FTSENT *ent)
        */
       if (symlink_loop(ent->fts_accpath))
 	{
-	  error(0, ELOOP, ent->fts_path);
+	  error(0, ELOOP, "%s", safely_quote_err_filename(0, ent->fts_path));
 	  error_severity(1);
 	  return;
 	}
@@ -449,7 +450,8 @@ consider_visiting(FTS *p, FTSENT *ent)
       if (ent->fts_level == 0)
 	{
 	  /* e.g., nonexistent starting point */
-	  error(0, ent->fts_errno, ent->fts_path);
+	  error(0, ent->fts_errno, "%s",
+		safely_quote_err_filename(0, ent->fts_path));
 	  error_severity(1);	/* remember problem */
 	  return;
 	}
@@ -460,7 +462,8 @@ consider_visiting(FTS *p, FTSENT *ent)
 	   */
 	  if (symlink_loop(ent->fts_accpath))
 	    {
-	      error(0, ELOOP, ent->fts_path);
+	      error(0, ELOOP, "%s",
+		    safely_quote_err_filename(0, ent->fts_path));
 	      error_severity(1);
 	      return;
 	    }
@@ -600,9 +603,8 @@ find(char *arg)
   p = fts_open(arglist, ftsoptions, NULL);
   if (NULL == p)
     {
-      error (0, errno,
-	     _("cannot search %s"),
-	     quotearg_n_style(0, locale_quoting_style, arg));
+      error (0, errno, _("cannot search %s"),
+	     safely_quote_err_filename(0, arg));
     }
   else
     {

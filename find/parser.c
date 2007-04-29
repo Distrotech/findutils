@@ -582,7 +582,7 @@ parse_anewer (const struct parser_table* entry, char **argv, int *arg_ptr)
     return false;
   set_stat_placeholders(&stat_newer);
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
-    error (1, errno, "%s", argv[*arg_ptr]);
+    fatal_file_error(argv[*arg_ptr]);
   our_pred = insert_primary (entry);
   our_pred->args.reftime.xval = XVAL_ATIME;
   our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
@@ -618,7 +618,7 @@ parse_cnewer (const struct parser_table* entry, char **argv, int *arg_ptr)
     return false;
   set_stat_placeholders(&stat_newer);
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
-    error (1, errno, "%s", argv[*arg_ptr]);
+    fatal_file_error(argv[*arg_ptr]);
   our_pred = insert_primary (entry);
   our_pred->args.reftime.xval = XVAL_CTIME; /* like -newercm */
   our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
@@ -1004,7 +1004,9 @@ check_name_arg(const char *pred, const char *arg)
   if (strchr(arg, '/'))
     {
       error(0, 0,_("warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."),
-	    pred, arg, arg);
+	    pred,
+	    safely_quote_err_filename(0, arg),
+	    safely_quote_err_filename(1, arg));
     }
   return true;			/* allow it anyway */
 }
@@ -1252,7 +1254,7 @@ parse_newer (const struct parser_table* entry, char **argv, int *arg_ptr)
     return false;
   set_stat_placeholders(&stat_newer);
   if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
-    error (1, errno, "%s", argv[*arg_ptr]);
+    fatal_file_error(argv[*arg_ptr]);
   our_pred = insert_primary (entry);
   our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
   our_pred->args.reftime.xval = XVAL_MTIME;
@@ -1341,8 +1343,8 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 			    &options.start_time))
 		{
 		  error(1, 0,
-			_("I cannot figure out how to interpret `%s' as a date or time"),
-			argv[*arg_ptr]);
+			_("I cannot figure out how to interpret %s as a date or time"),
+			quotearg_n_style(0, options.err_quoting_style, argv[*arg_ptr]));
 		}
 	    }
 	  else
@@ -1352,13 +1354,13 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 	      /* Stat the named file. */
 	      set_stat_placeholders(&stat_newer);
 	      if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
-		error (1, errno, "%s", argv[*arg_ptr]);
+		fatal_file_error(argv[*arg_ptr]);
 	      
 	      if (!get_stat_Ytime(&stat_newer, y, &our_pred->args.reftime.ts))
 		{
 		  /* We cannot extract a timestamp from the struct stat. */
-		  error(1, 0, _("Cannot obtain birth time of file `%s'"),
-			argv[*arg_ptr]);
+		  error(1, 0, _("Cannot obtain birth time of file %s"),
+			safely_quote_err_filename(0, argv[*arg_ptr]));
 		}
 	    }
 	  our_pred->args.reftime.kind = COMP_GT;
@@ -1629,7 +1631,8 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
     {
       change = mode_compile (argv[*arg_ptr] + mode_start);
       if (NULL == change)
-	error (1, 0, _("invalid mode `%s'"), argv[*arg_ptr]);
+	error (1, 0, _("invalid mode %s"),
+	       quotearg_n_style(0, locale_quoting_style, argv[*arg_ptr]));
     }
   perm_val[0] = mode_adjust (0, false, 0, change, NULL);
   perm_val[1] = mode_adjust (0, true, 0, change, NULL);
@@ -1912,7 +1915,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
     return false;
   set_stat_placeholders(&st);
   if ((*options.xstat) (argv[*arg_ptr], &st))
-    error (1, errno, "%s", argv[*arg_ptr]);
+    fatal_file_error(argv[*arg_ptr]);
   
   our_pred = insert_primary (entry);
   our_pred->args.fileid.ino = st.st_ino;
@@ -2592,7 +2595,8 @@ check_path_safety(const char *action, char **argv)
 	{
 	  /* Relative paths are also dangerous in $PATH. */
 	  error(1, 0, _("The ralative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"),
-		s, action);
+		safely_quote_err_filename(0, s),
+		action);
 	}
     }
 }
@@ -3065,6 +3069,6 @@ open_output_file (char *path)
     return stdout;
   f = fopen_safer (path, "w");
   if (f == NULL)
-    error (1, errno, "%s", path);
+    fatal_file_error(path);
   return f;
 }
