@@ -21,40 +21,24 @@
 
 #include <config.h>
 #include <sys/types.h>
+
+/* XXX: some of these includes probably don't belong in a common header file */
 #include <sys/stat.h>
 #include <stdio.h>
-
-#if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
 #include <string.h>
-#else
-#include <strings.h>
-#ifndef strchr
-#define strchr index
-#endif
-#ifndef strrchr
-#define strrchr rindex
-#endif
-#endif
-
 #include <errno.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
+#include <limits.h>
+#include <stdbool.h>
+
+
+
 #ifndef errno
 extern int errno;
 #endif
 
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#endif
-
-/* The presence of unistd.h is assumed by gnulib these days, so we 
- * might as well assume it too. 
- */
-#include <unistd.h>
-
-#include <time.h>
-
-#if HAVE_LIMITS_H
-# include <limits.h>
-#endif
 #ifndef CHAR_BIT
 # define CHAR_BIT 8
 #endif
@@ -62,31 +46,20 @@ extern int errno;
 #if HAVE_INTTYPES_H
 # include <inttypes.h>
 #endif
+typedef bool boolean;
 
 #include "regex.h"
 #include "timespec.h"
 #include "buildcmd.h"
 #include "quotearg.h"
+#include "stat_.h" /* S_ISUID etc. */
 
-
-#ifndef S_IFLNK
-#define lstat stat
-#endif
-
-# ifndef PARAMS
-#  if defined PROTOTYPES || (defined __STDC__ && __STDC__)
-#   define PARAMS(Args) Args
-#  else
-#   define PARAMS(Args) ()
-#  endif
-# endif
+/* These days we will assume ANSI/ISO C protootypes work on our compiler. */
+#define PARAMS(Args) Args
 
 #ifndef ATTRIBUTE_NORETURN
 # define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
 #endif
-
-int lstat PARAMS((const char *__path, struct stat *__statbuf));
-int stat PARAMS((const char *__path, struct stat *__statbuf));
 
 int optionl_stat PARAMS((const char *name, struct stat *p));
 int optionp_stat PARAMS((const char *name, struct stat *p));
@@ -96,48 +69,6 @@ int debug_stat   PARAMS((const char *file, struct stat *bufp));
 void set_stat_placeholders PARAMS((struct stat *p));
 int get_statinfo PARAMS((const char *pathname, const char *name, struct stat *p));
 
-#if ! defined HAVE_FCHDIR && ! defined fchdir
-# define fchdir(fd) (-1)
-#endif
-
-
-
-#ifndef S_ISUID
-# define S_ISUID 0004000
-#endif
-#ifndef S_ISGID
-# define S_ISGID 0002000
-#endif
-#ifndef S_ISVTX
-# define S_ISVTX 0001000
-#endif
-#ifndef S_IRUSR
-# define S_IRUSR 0000400
-#endif
-#ifndef S_IWUSR
-# define S_IWUSR 0000200
-#endif
-#ifndef S_IXUSR
-# define S_IXUSR 0000100
-#endif
-#ifndef S_IRGRP
-# define S_IRGRP 0000040
-#endif
-#ifndef S_IWGRP
-# define S_IWGRP 0000020
-#endif
-#ifndef S_IXGRP
-# define S_IXGRP 0000010
-#endif
-#ifndef S_IROTH
-# define S_IROTH 0000004
-#endif
-#ifndef S_IWOTH
-# define S_IWOTH 0000002
-#endif
-#ifndef S_IXOTH
-# define S_IXOTH 0000001
-#endif
 
 #define MODE_WXUSR	(S_IWUSR | S_IXUSR)
 #define MODE_R		(S_IRUSR | S_IRGRP | S_IROTH)
@@ -145,15 +76,6 @@ int get_statinfo PARAMS((const char *pathname, const char *name, struct stat *p)
 #define MODE_RWX	(S_IXUSR | S_IXGRP | S_IXOTH | MODE_RW)
 #define MODE_ALL	(S_ISUID | S_ISGID | S_ISVTX | MODE_RWX)
 
-#if 1
-#include <stdbool.h>
-typedef bool boolean;
-#else
-/* Not char because of type promotion; NeXT gcc can't handle it.  */
-typedef int boolean;
-#define		true    1
-#define		false	0
-#endif
 
 struct predicate;
 struct options;
@@ -394,27 +316,6 @@ int get_start_dirfd(void);
 int get_current_dirfd(void);
 
 /* find library function declarations.  */
-
-/* dirname.c */
-char *dirname PARAMS((char *path));
-
-/* error.c */
-void error PARAMS((int status, int errnum, char *message, ...));
-
-/* stpcpy.c */
-#if !HAVE_STPCPY
-char *stpcpy PARAMS((char *dest, const char *src));
-#endif
-
-/* xgetcwd.c */
-char *xgetcwd PARAMS((void));
-
-/* xmalloc.c */
-#if __STDC__
-#define VOID void
-#else
-#define VOID char
-#endif
 
 /* find global function declarations.  */
 
