@@ -114,9 +114,10 @@ char *xmalloc PARAMS((size_t));
 /* The name this program was run with.  */
 char *program_name;
 
-/* Write out a 16-bit int, high byte first (network byte order).  */
-
-static void
+/* Write out a 16-bit int, high byte first (network byte order).
+ * Return true iff all went well.
+ */
+static int
 put_short (int c, FILE *fp)
 {
   /* XXX: The value of c may be negative.  ANSI C 1989 (section 6.3.7)
@@ -125,8 +126,7 @@ put_short (int c, FILE *fp)
    */
   assert(c <= SHRT_MAX);
   assert(c >= SHRT_MIN);
-  putc (c >> 8, fp);
-  putc (c, fp); 
+  return (putc (c >> 8, fp) != EOF) && (putc (c, fp) != EOF);
 }
 
 /* Return the length of the longest common prefix of strings S1 and S2. */
@@ -208,6 +208,12 @@ get_seclevel(char *s)
     }
 }
 
+static void
+outerr(void)
+{
+  /* Issue the same error message as closeout() would. */
+  error(1, errno, _("write error"));
+}
 
 int
 main (int argc, char **argv)
@@ -283,7 +289,11 @@ main (int argc, char **argv)
   else
     {
       /* GNU LOCATE02 format */
-      fwrite (LOCATEDB_MAGIC, sizeof (LOCATEDB_MAGIC), 1, stdout);
+      if (fwrite (LOCATEDB_MAGIC, 1, sizeof (LOCATEDB_MAGIC), stdout)
+	  != sizeof(LOCATEDB_MAGIC))
+	{
+	  error(1, errno, _("Failed to write to standard output"));
+	}
     }
   
 
@@ -312,29 +322,37 @@ main (int argc, char **argv)
 	{
 	  /* If the difference is small, it fits in one byte;
 	     otherwise, two bytes plus a marker noting that fact.  */
-	  if (diffcount < LOCATEDB_ONEBYTE_MIN || diffcount > LOCATEDB_ONEBYTE_MAX)
+	  if (diffcount < LOCATEDB_ONEBYTE_MIN
+	      || diffcount > LOCATEDB_ONEBYTE_MAX)
 	    {
-	      putc (LOCATEDB_ESCAPE, stdout);
-	      put_short (diffcount, stdout);
+	      if (EOF == putc (LOCATEDB_ESCAPE, stdout))
+		outerr();
+	      if (!put_short (diffcount, stdout))
+		outerr();
 	    }
 	  else
 	    {
-	      putc (diffcount, stdout);
+	      if (EOF == putc (diffcount, stdout))
+		outerr();
 	    }
 	}
 
-      fputs (path + count, stdout);
-      putc ('\0', stdout);
-
-      {
-	/* Swap path and oldpath and their sizes.  */
-	char *tmppath = oldpath;
-	size_t tmppathsize = oldpathsize;
-	oldpath = path;
-	oldpathsize = pathsize;
-	path = tmppath;
-	pathsize = tmppathsize;
-      }
+      if ( (EOF == fputs (path + count, stdout))
+	   || (EOF == putc ('\0', stdout)))
+	{
+	  outerr();
+	}
+      
+      if (1)
+	{
+	  /* Swap path and oldpath and their sizes.  */
+	  char *tmppath = oldpath;
+	  size_t tmppathsize = oldpathsize;
+	  oldpath = path;
+	  oldpathsize = pathsize;
+	  path = tmppath;
+	  pathsize = tmppathsize;
+	}
     }
 
   free (path);

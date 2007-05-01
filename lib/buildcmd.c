@@ -352,6 +352,10 @@ bc_push_arg (const struct buildcmd_control *ctl,
     }
 }
 
+#if 0
+/* We used to set posix_arg_size_min to the LINE_MAX limit, but 
+ * currently we use _POSIX_ARG_MAX (which is the minimum value).
+ */
 static size_t
 get_line_max(void)
 {
@@ -377,7 +381,7 @@ get_line_max(void)
 
   return 2048L;			/* a reasonable guess. */
 }
-
+#endif
 
 size_t
 bc_get_arg_max(void)
@@ -447,7 +451,6 @@ bc_init_controlinfo(struct buildcmd_control *ctl,
 		    size_t headroom)
 {
   size_t size_of_environment = bc_size_of_environment();
-  int val;
 
   /* POSIX requires that _POSIX_ARG_MAX is 4096.  That is the lowest
    * possible value for ARG_MAX on a POSIX compliant system.  See

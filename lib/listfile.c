@@ -41,6 +41,7 @@
 #include "pathmax.h"
 #include "error.h"
 #include "filemode.h"
+#include "dircallback.h"
 
 #include "listfile.h"
 

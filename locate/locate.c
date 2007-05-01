@@ -329,15 +329,6 @@ struct locate_stats
 static struct locate_stats statistics;
 
 
-struct stringbuf
-{
-  char *buffer;
-  size_t buffersize;
-  size_t *preqlen;
-};
-static struct stringbuf casebuf;
-
-
 struct regular_expression
 {
   struct re_pattern_buffer regex; /* for --regex */
@@ -1108,7 +1099,14 @@ search_one_database (int argc,
 	    {
 	      int more_read = fread (procdata.original_filename + nread, 1,
 				     256 - nread, procdata.fp);
-	      /* XXX: check more_read+nread! */
+	      if ( (more_read + nread) != 256 )
+		{
+		  error(1, 0,
+			_("Old-format locate database %s is "
+			  "too short to be valid"),
+			quotearg_n_style(0, locale_quoting_style, dbfile));
+		  
+		}
 	    }
 	  
 	  for (i = 0; i < 128; i++)

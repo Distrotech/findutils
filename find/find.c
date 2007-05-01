@@ -56,6 +56,7 @@
 #include "quote.h"
 #include "quotearg.h"
 #include "xgetcwd.h"
+#include "error.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -499,7 +500,7 @@ wd_sanity_check(const char *thing_to_stat,
 		   (long) old_dev,
 		   (long) newinfo->st_dev,
 		   fstype,
-		   line_no);
+		   (long)line_no);
 	    /*NOTREACHED*/
 	    return false;
 	  }
@@ -536,7 +537,7 @@ wd_sanity_check(const char *thing_to_stat,
 	     (long) old_ino,
 	     (long) newinfo->st_ino,
 	     fstype,
-	     line_no);
+	     (long)line_no);
       free(specific_what);
       return false;
     }

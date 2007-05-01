@@ -43,6 +43,7 @@
 #include "listfile.h"
 #include "stat-time.h"
 #include "dircallback.h"
+#include "error.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -275,8 +276,6 @@ compare_ts(struct timespec ts1,
 static boolean
 pred_timewindow(struct timespec ts, struct predicate const *pred_ptr, int window)
 {
-  double delta;
-  
   switch (pred_ptr->args.reftime.kind)
     {
     case COMP_GT:
@@ -286,8 +285,10 @@ pred_timewindow(struct timespec ts, struct predicate const *pred_ptr, int window
       return compare_ts(ts, pred_ptr->args.reftime.ts) < 0;
       
     case COMP_EQ:
-      delta = ts_difference(ts, pred_ptr->args.reftime.ts);
-      return (delta >= 0.0 && delta < window);
+      {
+	double delta = ts_difference(ts, pred_ptr->args.reftime.ts);
+	return (delta >= 0.0 && delta < window);
+      }
     }
 }
 
@@ -732,7 +733,6 @@ do_fprintf(FILE *fp,
 	case 'H':		/* ARGV element file was found under */
 	  /* trusted */
 	  {
-	    char cc = pathname[state.starting_path_length];
 	    char *s = xmalloc(state.starting_path_length+1);
 	    memcpy(s, pathname, state.starting_path_length);
 	    s[state.starting_path_length] = 0;
@@ -1224,35 +1224,45 @@ boolean
 pred_newerXY (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   struct timespec ts;
+  boolean collected = false;
   
   assert(COMP_GT == pred_ptr->args.reftime.kind);
   
   switch (pred_ptr->args.reftime.xval)
     {
+    case XVAL_TIME:
+      assert(pred_ptr->args.reftime.xval != XVAL_TIME);
+      return false;
+
     case XVAL_ATIME:
       ts = get_stat_atime(stat_buf);
+      collected = true;
       break;
+      
     case XVAL_BIRTHTIME:
       ts = get_stat_birthtime(stat_buf);
+      collected = true;
       if (ts.tv_nsec < 0);
 	{
 	  /* XXX: Cannot determine birth time.  Warn once. */
 	  error(0, 0, _("Warning: cannot determine birth time of file %s"),
 		safely_quote_err_filename(0, pathname));
-	  return 0;
+	  return false;
 	}
       break;
+      
     case XVAL_CTIME:
       ts = get_stat_ctime(stat_buf);
+      collected = true;
       break;
+      
     case XVAL_MTIME:
       ts = get_stat_mtime(stat_buf);
-      break;
-    case XVAL_TIME:		/* Should not happen (-newertY is not valid). */
-      assert(pred_ptr->args.reftime.xval != XVAL_TIME);
-      abort();
+      collected = true;
       break;
     }
+  
+  assert(collected);
   return compare_ts(ts, pred_ptr->args.reftime.ts) > 0;
 }
 
@@ -1931,6 +1941,9 @@ format_date (struct timespec ts, int kind)
    * measurable.
    */
   assert(sizeof(buf) >= LONGEST_HUMAN_READABLE);
+
+  charsprinted = 0;
+  need_ns_suffix = 0;
   
   /* Format the main part of the time. */
   if (kind == '+')
@@ -1961,9 +1974,10 @@ format_date (struct timespec ts, int kind)
 
   if (need_ns_suffix)
     {
-      /* Format the nanoseconds part.  Leave a trailing zero to discourage people from 
-       * writing scripts which extract the fractional part of the timestamp by using 
-       * column offsets.  The reason for discouraging this is that in the future, the 
+      /* Format the nanoseconds part.  Leave a trailing zero to
+       * discourage people from writing scripts which extract the
+       * fractional part of the timestamp by using column offsets.
+       * The reason for discouraging this is that in the future, the
        * granularity may not be nanoseconds.
        */
       ns_buf[0] = 0;
@@ -1975,7 +1989,9 @@ format_date (struct timespec ts, int kind)
       && (tm = localtime (&ts.tv_sec))
       && strftime (buf, sizeof buf, fmt, tm))
     {
-      /* For %AS, %CS, %TS, add the fractional part of the seconds information. */
+      /* For %AS, %CS, %TS, add the fractional part of the seconds
+       * information.
+       */
       if (need_ns_suffix)
 	{
 	  assert((sizeof buf - strlen(buf)) > strlen(ns_buf));
@@ -1998,9 +2014,10 @@ format_date (struct timespec ts, int kind)
       if (ts.tv_sec < 0)
 	*--p = '-'; /* XXX: Ugh, relying on internal details of human_readable(). */
 
-      /* Add the nanoseconds part.  Because we cannot enforce a particlar implementation 
-       * of human_readable, we cannot assume any particular value for (p-buf).  So we 
-       * need to be careful that there is enough space remaining in the buffer.
+      /* Add the nanoseconds part.  Because we cannot enforce a
+       * particlar implementation of human_readable, we cannot assume
+       * any particular value for (p-buf).  So we need to be careful
+       * that there is enough space remaining in the buffer.
        */
       if (need_ns_suffix)
 	{
@@ -2120,7 +2137,7 @@ print_parenthesised(FILE *fp, struct predicate *node)
 
   if (node)
     {
-      if (pred_is(node, pred_or) || pred_is(node, pred_and)
+      if ((pred_is(node, pred_or) || pred_is(node, pred_and))
 	  && node->pred_left == NULL)
 	{
 	  /* We print "<nothing> or  X" as just "X"
@@ -2247,8 +2264,12 @@ pred_sanity_check(const struct predicate *predicates)
 	    }
 	  break;
 
-	case ARG_PUNCTUATION:
+	/* We happen to know that the only user of ARG_SPECIAL_PARSE
+	 * is a test, so handle it like ARG_TEST.
+	 */
+	case ARG_SPECIAL_PARSE:
 	case ARG_TEST:
+	case ARG_PUNCTUATION:
 	case ARG_NOOP:
 	  /* Punctuation and tests should have no side
 	   * effects and not inhibit default print.

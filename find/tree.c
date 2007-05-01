@@ -17,11 +17,13 @@
    USA.
 */
 
-#include "defs.h"
-#include "../gnulib/lib/xalloc.h"
-
 #include <assert.h>
 #include <stdlib.h>
+
+#include "defs.h"
+#include "../gnulib/lib/xalloc.h"
+#include "error.h"
+
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -1252,7 +1254,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
 		   * predicate.  It must be invalid, or not tasty.
 		   */
 		  error (1, 0, _("invalid predicate `%s'"),
-			 argv[i], predicate_name);
+			 predicate_name);
 		}
 	      else
 		{
@@ -1338,7 +1340,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
       if (pred_is(cur_pred, pred_closeparen))
 	{
 	  /* e.g. "find \( -true \) \)" */
-	  error (1, 0, _("you have too many ')'"), cur_pred->p_name);
+	  error (1, 0, _("you have too many ')'"));
 	}
       else
 	{

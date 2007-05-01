@@ -58,6 +58,8 @@
 #include "openat.h"
 #include "save-cwd.h"
 #include "xgetcwd.h"
+#include "error.h"
+#include "dircallback.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -334,9 +336,10 @@ complete_execdirs_cb(void *context)
   (void) context;
   /* By the tme this callback is called, the current directory is correct. */
   complete_pending_execdirs(AT_FDCWD);
+  return 0;
 }
 
-static int 
+static void
 show_outstanding_execdirs(FILE *fp)
 {
   if (options.debug_options & DebugExec)
@@ -392,7 +395,6 @@ consider_visiting(FTS *p, FTSENT *ent)
   struct stat statbuf;
   mode_t mode;
   int ignore, isdir;
-  boolean dirchanged;
   
   if (options.debug_options & DebugSearch)
     fprintf(stderr,
@@ -557,7 +559,7 @@ consider_visiting(FTS *p, FTSENT *ent)
   if (state.execdirs_outstanding)
     {
       show_outstanding_execdirs(stderr);
-      run_in_dir(p->fts_cwd_fd, complete_execdirs_cb);
+      run_in_dir(p->fts_cwd_fd, complete_execdirs_cb, NULL);
     }
 
   if (ent->fts_info == FTS_DP)

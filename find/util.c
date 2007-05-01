@@ -27,12 +27,18 @@
 #ifdef HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>
 #endif
-
 #include <sys/time.h>
+#include <ctype.h>
+#include <string.h>
+#include <limits.h>
+#include <assert.h>
+
 #include "xalloc.h"
 #include "quotearg.h"
 #include "timespec.h"
-
+#include "error.h"
+#include "verify.h"
+#include "openat.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -46,13 +52,6 @@
 /* See locate.c for explanation as to why not use (String) */
 # define N_(String) String
 #endif
-
-#include <ctype.h>
-#include <string.h>
-#include <limits.h>
-#include <assert.h>
-#include "verify.h"
-#include "openat.h"
 
 
 struct debug_option_assoc

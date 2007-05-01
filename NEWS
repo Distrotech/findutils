@@ -12,6 +12,13 @@ default; change PRUNEPATHS to modify this behaviour).
 
 ** Bug Fixes
 
+#19768: Better detection of corrupted old-style locate databases
+(e.g. if the database is too short to include a complete bigram
+table).
+
+#19766: The frcode and code programs now detect write errors more
+reliably.
+
 #19371: Fix compilation failure on systems which #define open to
 open64 (and similarly with the close system call).  This fixes
 Savannah bug #19371, affecting AIX 5.3.

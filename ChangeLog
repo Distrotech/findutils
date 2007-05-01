@@ -1,3 +1,37 @@
+2007-05-01  James Youngman  <jay@gnu.org>
+
+	* find/find.c (wd_sanity_check): corrected the type of %ld fprintf
+	arguments in error messages.  
+	* find/fstype.c: include "error.h" for the declaratio of error().
+	* find/ftsfind.c: include "error.h" for the declaratio of
+	error().  Include dircallback.h for the correct declararion of
+	run_in_dir(). 
+	* find/parser.c: include getdate.h (for declaration of getdate)
+	and error.h (for the declaration of error).
+	(find_parser): Removed unused variable p.
+	* find/pred.c (pred_timewindow): Removed unused variable delta.
+	(do_fprintf): Removed unused variable cc.
+	* find/tree.c: Include error.h (for the declaration of error()).
+	(build_expression_tree): removed sourious extra arguments in call
+	to error().
+	* find/util.c: include error.h.  
+	* lib/buildcmd.h (get_line_max): Comment out unused function.
+	* lib/listfile.c: Include dircallback.h.
+	* locate/code.c: Include errno.h, erorr.h, progname.h and
+	xlloc.h. 
+	(inerr): New function for reporting read errors.
+	(outerr): New function for reporting output errors.
+	(main): Call inerror when fgets fails.  Call outerr when fwrite
+	or putc or putw fails.  
+	* locate/frcode.c (put_short): Return boolean value indicating
+	success.  
+	(outerr): New function for reporting write errors.
+	(main): Call outerr if call to putc() or puts() or put_short()
+	fails.    
+	* locate/locate.c (search_one_database): diagnose corruption if a
+	traditional-style database is too short to include a complete
+	bigram table.
+
 2007-04-30  James Youngman  <jay@gnu.org>
 
 	* find/defs.h: Change all predicate functions to take a const

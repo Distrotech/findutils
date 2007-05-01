@@ -39,6 +39,8 @@
 #include "stat-time.h"
 #include "xstrtod.h"
 #include "fts_.h"
+#include "getdate.h"
+#include "error.h"
 #include "gnulib-version.h"
 
 #ifdef HAVE_FCNTL_H
@@ -201,7 +203,11 @@ static boolean parse_noop PARAMS((const struct parser_table* entry, char **argv,
   { (ARG_PUNCTUATION), (what), PASTE(parse_,suffix), PASTE(pred_,suffix) }
 
 
-/* Predicates we cannot handle in the usual way */
+/* Predicates we cannot handle in the usual way.  If you add an entry
+ * to this table, double-check the switch statement in
+ * pred_sanity_check() to make sure that the new case is being
+ * correctly handled.
+ */
 static struct parser_table const parse_entry_newerXY = 
   {
     ARG_SPECIAL_PARSE, "newerXY",            parse_newerXY, pred_newerXY /* BSD  */
@@ -490,7 +496,6 @@ const struct parser_table*
 find_parser (char *search_name)
 {
   int i;
-  const struct parser_table *p;
   const char *original_arg = search_name;
   
   /* Ugh.  Special case -newerXY. */
