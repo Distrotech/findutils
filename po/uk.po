@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.2\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-04-23 10:11+0100\n"
+"POT-Creation-Date: 2007-05-05 13:52+0100\n"
 "PO-Revision-Date: 2007-01-03 13:55+0300\n"
 "Last-Translator: Maxim V. Dziumanenko <dziumanenko@gmail.com>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
@@ -140,29 +140,34 @@ msgstr "Використання: %s [-H] [-L] [-P] [-Oрівень] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [шлях...] [вираз]\n"
 
-#: find/util.c:634
+#: find/util.c:204
+#, c-format
+msgid "Warning: file %s appears to have mode 0000"
+msgstr ""
+
+#: find/util.c:698
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Невідома ознака налагодження %s проігнорована"
 
-#: find/util.c:641
+#: find/util.c:705
 msgid "Empty argument to the -D option."
 msgstr "Не вказаний аргумент ключа -D"
 
-#: find/util.c:655
+#: find/util.c:719
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "За ключем -O одразу має йти десяткове ціле число"
 
-#: find/util.c:664 find/util.c:674
+#: find/util.c:728 find/util.c:738
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Вкажіть десяткове ціле число після ключа -O"
 
-#: find/util.c:679 find/util.c:683
+#: find/util.c:743 find/util.c:747
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Некоректний рівень оптимізації %s"
 
-#: find/util.c:690
+#: find/util.c:754
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -171,7 +176,7 @@ msgstr ""
 "Рівень оптимізації %lu надто високий.  Якщо треба дуже швидко шукати файли, "
 "скористайтесь GNU locate."
 
-#: find/util.c:821
+#: find/util.c:885
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -179,26 +184,26 @@ msgstr ""
 "Змінна оточення FIND_BLOCK_SIZE не підтримується, на розмір блоку впливає "
 "лише змінна оточення POSIXLY_CORRECT"
 
-#: find/find.c:204
+#: find/find.c:206
 msgid "cannot get current directory"
 msgstr "не вдається отримати поточний каталог"
 
-#: find/find.c:208
+#: find/find.c:210
 #, fuzzy
 msgid "cannot stat current directory"
 msgstr "не вдається отримати поточний каталог"
 
-#: find/find.c:388
+#: find/find.c:390
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr "Попередження: файлову систему %s відключено."
 
-#: find/find.c:398
+#: find/find.c:400
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr "Попередження: файлову систему %s підключено."
 
-#: find/find.c:494
+#: find/find.c:496
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -207,7 +212,7 @@ msgstr ""
 "%s%s змінено під час виконання %s (старий номер пристрою %ld, новий номер "
 "пристрою %ld, файлова система %s) [посилань %ld]"
 
-#: find/find.c:531
+#: find/find.c:533
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -216,38 +221,38 @@ msgstr ""
 "%s%s змінено під час виконання %s (старий inode %ld, новий inode %ld, "
 "файлова система %s) [посилань %ld]"
 
-#: find/find.c:1092
-#, c-format
+#: find/find.c:1095
+#, fuzzy, c-format
 msgid ""
-"Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
+"Symbolic link %s is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 "Символічне посилання `%s' є частиною циклу в ієрархії каталогів; у каталозі "
 "на який воно вказує, пошук вже відбувався."
 
-#: find/find.c:1107
-#, c-format
+#: find/find.c:1110
+#, fuzzy, c-format
 msgid ""
-"Filesystem loop detected; `%s' has the same device number and inode as a "
+"Filesystem loop detected; %s has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 "Зациклення у файловій системі; `%s' має той самий номер пристрою та inode, "
 "що й каталог, який %d %s."
 
-#: find/find.c:1111
+#: find/find.c:1114
 msgid "level higher in the filesystem hierarchy"
 msgstr "рівнем вище у ієрархії файлової системи"
 
-#: find/find.c:1112
+#: find/find.c:1115
 msgid "levels higher in the filesystem hierarchy"
 msgstr "рівнями вище у ієрархії файлової системи"
 
-#: find/find.c:1356
+#: find/find.c:1360
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "попередження: не відбувся перехід за символічним посиланням %s"
 
-#: find/find.c:1400
+#: find/find.c:1404
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -260,11 +265,11 @@ msgstr ""
 "попередні результати можуть не бути включені каталоги, у яких мав би бути "
 "проведений пошук."
 
-#: find/fstype.c:254
+#: find/fstype.c:255
 msgid "unknown"
 msgstr "невідомо"
 
-#: find/parser.c:457
+#: find/parser.c:463
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -276,7 +281,7 @@ msgstr ""
 "є залежними від позиції (%s впливає на перевірки вказані перед ним, а також "
 "на ті, що вказані після).  Вказуйте ключі перед іншими аргументами.\n"
 
-#: find/parser.c:705
+#: find/parser.c:716
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -284,7 +289,7 @@ msgstr ""
 "попередження: ключ -d застарів; натомість використовуйте -depth, оскільки "
 "він є POSIX-сумісним."
 
-#: find/parser.c:908
+#: find/parser.c:919
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -294,7 +299,7 @@ msgstr ""
 "типовий шлях: поточний каталог; типовий вираз: -print\n"
 "вирази можуть складатись з: операторів, ключів, перевірок та дій:\n"
 
-#: find/parser.c:911
+#: find/parser.c:922
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -306,7 +311,7 @@ msgstr ""
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
-#: find/parser.c:915
+#: find/parser.c:926
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -320,7 +325,7 @@ msgstr ""
 "      -depth --help -maxdepth РІВНІВ -mindepth РІВНІВ -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:920
+#: find/parser.c:931
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -335,7 +340,7 @@ msgstr ""
 "ШАБЛОН\n"
 "      -links N -lname ШАБЛОН -mmin N -mtime N -name ШАБЛОН -newer ФАЙЛ"
 
-#: find/parser.c:925
+#: find/parser.c:936
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
@@ -347,7 +352,7 @@ msgstr ""
 "      -wholename ШАБЛОН -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user НАЗВА -xtype [bcdpfls]\n"
 
-#: find/parser.c:930
+#: find/parser.c:941
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -359,7 +364,7 @@ msgstr ""
 "      -exec КОМАНДА ; -exec КОМАНДА {} + -ok КОМАНДА ;\n"
 "      -execdir КОМАНДА ; -execdir КОМАНДА {} + -okdir КОМАНДА ;\n"
 
-#: find/parser.c:936
+#: find/parser.c:947
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -370,11 +375,11 @@ msgstr ""
 "http://savannah.gnu.org/ або, якщо у вас немає доступу до веб, надсилайте\n"
 "поштою за адресою <bug-findutils@gnu.org>."
 
-#: find/parser.c:985
+#: find/parser.c:996
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "помилка перевірки бібліотечною функцією fnmatch()."
 
-#: find/parser.c:1000
+#: find/parser.c:1011
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -389,32 +394,32 @@ msgstr ""
 "можливо, '-samefile'.  Якщо ж ви користуєтесь GNU grep, можете "
 "використовувати 'find ... -print0 | grep -FzZ %s'."
 
-#: find/parser.c:1046
+#: find/parser.c:1059
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "попередження: ключ -ipath застарів; натомість користуйтесь -iwholename."
 
-#: find/parser.c:1288
+#: find/parser.c:1301
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1338
+#: find/parser.c:1351
 #, c-format
-msgid "I cannot figure out how to interpret `%s' as a date or time"
+msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1354
+#: find/parser.c:1367
 #, fuzzy, c-format
-msgid "Cannot obtain birth time of file `%s'"
+msgid "Cannot obtain birth time of file %s"
 msgstr "Не вдається відкрити вхідний файл `%s'"
 
-#: find/parser.c:1626
-#, c-format
-msgid "invalid mode `%s'"
+#: find/parser.c:1639
+#, fuzzy, c-format
+msgid "invalid mode %s"
 msgstr "неправильний режим '%s'"
 
-#: find/parser.c:1644
+#: find/parser.c:1658
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -426,16 +431,16 @@ msgstr ""
 "зараз вираз не відповідає ніяким файлам, але скоро буде змінений, щоб "
 "відповідав усім файлам."
 
-#: find/parser.c:1829
+#: find/parser.c:1843
 msgid "invalid null argument to -size"
 msgstr "відсутній аргумент у -size"
 
-#: find/parser.c:1875
+#: find/parser.c:1889
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "неправильний тип '%c' для -size"
 
-#: find/parser.c:1926
+#: find/parser.c:2072
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -443,42 +448,42 @@ msgstr ""
 "Параметр -show-control-chars приймає один аргумент, який має бути 'literal' "
 "чи 'safe'"
 
-#: find/parser.c:2070
+#: find/parser.c:2216
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find версії %s\n"
 
-#: find/parser.c:2071 locate/code.c:167 locate/locate.c:1530 xargs/xargs.c:579
+#: find/parser.c:2217 locate/code.c:190 locate/locate.c:1533 xargs/xargs.c:622
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils версії %s\n"
 
-#: find/parser.c:2072
+#: find/parser.c:2218
 #, c-format
 msgid "Features enabled: "
 msgstr "Увімкнені функції: "
 
-#: find/parser.c:2355
+#: find/parser.c:2501
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "попередження: невідома послідовність '\\%c'"
 
-#: find/parser.c:2371
+#: find/parser.c:2517
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "помилка: %s наприкінці рядка формату"
 
-#: find/parser.c:2410
+#: find/parser.c:2556
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "попередження: невідомий формат директиви '%%%c'"
 
-#: find/parser.c:2554
+#: find/parser.c:2700
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2579
+#: find/parser.c:2725
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -490,7 +495,7 @@ msgstr ""
 "створює небезпеку. Видаліть поточний каталог із змінної $PATH (тобто, "
 "видаліть \".\", або двокрапку попереду чи позаду)"
 
-#: find/parser.c:2585
+#: find/parser.c:2731
 #, fuzzy, c-format
 msgid ""
 "The ralative path %s is included in the PATH environment variable, which is "
@@ -501,7 +506,7 @@ msgstr ""
 "створює небезпеку. Видаліть поточний каталог із змінної $PATH (тобто, "
 "видаліть \".\", або двокрапку попереду чи позаду)"
 
-#: find/parser.c:2684
+#: find/parser.c:2831
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -509,56 +514,56 @@ msgstr ""
 "Неможна використовувати {} у назві утиліти для -execdir та -okdir, оскільки "
 "це - потенційна проблема безпеки."
 
-#: find/parser.c:2707
+#: find/parser.c:2854
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "У виразі -exec%s ... + підтримується лише один екземпляр {}"
 
-#: find/parser.c:2720
+#: find/parser.c:2871
 msgid "The environment is too large for exec()."
 msgstr "Оточення надто велике для виконання."
 
-#: find/parser.c:2903
+#: find/parser.c:3054
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/pred.c:1221
-#, c-format
-msgid "Warning: cannot determine birth time of file `%s'"
-msgstr ""
+#: find/pred.c:1248
+#, fuzzy, c-format
+msgid "Warning: cannot determine birth time of file %s"
+msgstr "Не вдається відкрити вхідний файл `%s'"
 
-#: find/pred.c:1283
+#: find/pred.c:1312
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1720
+#: find/pred.c:1760
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1755
+#: find/pred.c:1795
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1796 xargs/xargs.c:1074
+#: find/pred.c:1836 xargs/xargs.c:1119
 msgid "cannot fork"
 msgstr "не вдається створити процес"
 
-#: find/pred.c:1820
+#: find/pred.c:1861
 #, c-format
 msgid "error waiting for %s"
 msgstr "помилка очікування %s"
 
-#: find/pred.c:1828
+#: find/pred.c:1870
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s перерваний сигналом %d"
 
-#: find/tree.c:87 find/tree.c:92 find/tree.c:172 find/tree.c:211
+#: find/tree.c:89 find/tree.c:94 find/tree.c:174 find/tree.c:213
 msgid "invalid expression"
 msgstr "неправильний вираз"
 
-#: find/tree.c:97
+#: find/tree.c:99
 #, c-format
 msgid ""
 "invalid expression; you have used a binary operator '%s' with nothing before "
@@ -567,21 +572,21 @@ msgstr ""
 "неправильний вираз; ви використовувати двійковий оператор '%s', але перед "
 "ним нічого не вказано."
 
-#: find/tree.c:106
+#: find/tree.c:108
 #, c-format
 msgid "expected an expression between '%s' and ')'"
 msgstr "між '%s' та ')' очікувався вираз"
 
-#: find/tree.c:115
+#: find/tree.c:117
 #, c-format
 msgid "expected an expression after '%s'"
 msgstr "після '%s' очікувався вираз"
 
-#: find/tree.c:119
+#: find/tree.c:121
 msgid "invalid expression; you have too many ')'"
 msgstr "неправильний вираз: надто багато символів ')'"
 
-#: find/tree.c:141
+#: find/tree.c:143
 #, c-format
 msgid ""
 "invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
@@ -590,76 +595,68 @@ msgstr ""
 "неправильний вираз; очікувався символ ')' але він не знайдений.  Можливо, "
 "потрібен додатковий ключ після '%s'"
 
-#: find/tree.c:147
+#: find/tree.c:149
 msgid "invalid expression; empty parentheses are not allowed."
 msgstr "неправильний вираз: порожні дужки неприпустимі."
 
-#: find/tree.c:152
+#: find/tree.c:154
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
 "one."
 msgstr "неправильний вираз: очікувався символ ')', але він не знайдений."
 
-#: find/tree.c:157 find/tree.c:813
+#: find/tree.c:159 find/tree.c:788
 msgid "oops -- invalid expression type!"
 msgstr "оопс -- неправильний тип виразу!"
 
-#: find/tree.c:229
+#: find/tree.c:231
 #, c-format
 msgid "oops -- invalid expression type (%d)!"
 msgstr "оопс -- неправильний тип виразу (%d)!"
 
-#: find/tree.c:943
-msgid "oops -- invalid expression type in mark_stat!"
-msgstr "оопс -- неправильний тип виразу у mark_stat!"
-
-#: find/tree.c:979
-msgid "oops -- invalid expression type in mark_type!"
-msgstr "оопс -- неправильний тип виразу у mark_type!"
-
-#: find/tree.c:1319
+#: find/tree.c:1227
 #, c-format
 msgid "paths must precede expression: %s"
 msgstr "шляхи треба вказувати перед виразом: %s"
 
-#: find/tree.c:1328
+#: find/tree.c:1236
 #, fuzzy, c-format
 msgid "unknown predicate `%s'"
 msgstr "неправильний ключ `%s'"
 
-#: find/tree.c:1348
+#: find/tree.c:1256
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "неправильний ключ `%s'"
 
-#: find/tree.c:1353
+#: find/tree.c:1261
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "неправильний аргумент `%s' у `%s'"
 
-#: find/tree.c:1360
+#: find/tree.c:1268
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "відсутній аргумент у `%s'"
 
-#: find/tree.c:1435
+#: find/tree.c:1343
 msgid "you have too many ')'"
 msgstr "надто багато символів ')'"
 
-#: find/tree.c:1440
+#: find/tree.c:1348
 #, c-format
 msgid "unexpected extra predicate '%s'"
 msgstr "неочікуваний зайвий ключ `%s'"
 
-#: find/tree.c:1442
+#: find/tree.c:1350
 msgid "unexpected extra predicate"
 msgstr "неочікуваний зайвий ключ"
 
-#: find/tree.c:1571
+#: find/tree.c:1466
 msgid "oops -- invalid default insertion of and!"
 msgstr "оопс -- помилкова типова вставка оператора 'ТА' (and)"
 
-#: locate/code.c:128
+#: locate/code.c:131
 #, c-format
 msgid ""
 "Usage: %s [--version | --help]\n"
@@ -668,7 +665,7 @@ msgstr ""
 "Використання: %s [--version | --help]\n"
 "чи     %s most_common_bigrams < список-файлів > база-даних-locate\n"
 
-#: locate/code.c:132 locate/locate.c:1289 xargs/xargs.c:1272
+#: locate/code.c:135 locate/locate.c:1291 xargs/xargs.c:1317
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -676,7 +673,11 @@ msgstr ""
 "\n"
 "Про помилки звітуйте за адресою <bug-findutils@gnu.org>.\n"
 
-#: locate/code.c:166
+#: locate/code.c:153
+msgid "write error"
+msgstr ""
+
+#: locate/code.c:189
 #, c-format
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils версії %s\n"
@@ -691,35 +692,35 @@ msgstr ""
 
 #: locate/locate.c:220 locate/locate.c:227
 #, fuzzy, c-format
-msgid "Invalid argument `%s' for option --max-database-age"
+msgid "Invalid argument %s for option --max-database-age"
 msgstr "неправильний аргумент `%s' у `%s'"
 
-#: locate/locate.c:585
-#, c-format
-msgid "locate database `%s' is corrupt or invalid"
+#: locate/locate.c:576
+#, fuzzy, c-format
+msgid "locate database %s is corrupt or invalid"
 msgstr "база даних locate `%s' пошкоджена чи неправильна"
 
-#: locate/locate.c:846
+#: locate/locate.c:838
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Розмір бази даних locate: %s байтів\n"
 
-#: locate/locate.c:851
+#: locate/locate.c:843
 #, c-format
 msgid "Matching Filenames: %s "
 msgstr "Відповідні назви файлів: %s "
 
-#: locate/locate.c:852
+#: locate/locate.c:844
 #, c-format
 msgid "All Filenames: %s "
 msgstr "Усі назви файлів: %s "
 
-#: locate/locate.c:855
+#: locate/locate.c:847
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "сукупна довжина: %s байтів"
 
-#: locate/locate.c:859
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
@@ -728,7 +729,7 @@ msgstr ""
 "\n"
 "\tз яких %s - пробіли, "
 
-#: locate/locate.c:862
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
@@ -737,7 +738,7 @@ msgstr ""
 "\n"
 "\t%s містять символи нового рядка, "
 
-#: locate/locate.c:865
+#: locate/locate.c:857
 #, c-format
 msgid ""
 "\n"
@@ -746,7 +747,7 @@ msgstr ""
 "\n"
 "\tта %s містять символи з встановленим старшим бітом.\n"
 
-#: locate/locate.c:873
+#: locate/locate.c:865
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
@@ -755,41 +756,41 @@ msgstr ""
 "Деякі назви файлів можуть бути відфільтровані, тож ступінь стиснення "
 "неможливо підрахувати.\n"
 
-#: locate/locate.c:880
+#: locate/locate.c:872
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Ступінь стиснення %4.2f%%\n"
 
-#: locate/locate.c:887
+#: locate/locate.c:879
 #, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "Ступінь стиснення невизначений\n"
 
-#: locate/locate.c:942
-#, c-format
+#: locate/locate.c:934
+#, fuzzy, c-format
 msgid ""
-"locate database `%s' looks like an slocate database but it seems to have "
+"locate database %s looks like an slocate database but it seems to have "
 "security level %c, which GNU findutils does not currently support"
 msgstr ""
 "база даних locate `%s' схожа на базу даних slocate, але має рівень безпеки %"
 "c, який наразі не підтримується GNU findutils"
 
-#: locate/locate.c:1034
+#: locate/locate.c:1027
 #, fuzzy, c-format
 msgid ""
-"`%s' is an slocate database.  Support for these is new, expect problems for "
+"%s is an slocate database.  Support for these is new, expect problems for "
 "now."
 msgstr ""
 "`%s' - це база даних slocate.  Код підтримки цієї функціональності новий, "
 "тож можливе виникнення проблем (з рештою, ви використовуєте код з CVS)."
 
-#: locate/locate.c:1048
+#: locate/locate.c:1041
 #, fuzzy, c-format
 msgid ""
-"`%s' is an slocate database of unsupported security level %d; skipping it."
+"%s is an slocate database of unsupported security level %d; skipping it."
 msgstr "`%s' - це база даних slocate.  Вмикається параметр '-e'."
 
-#: locate/locate.c:1064
+#: locate/locate.c:1058
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
 "format databases with a non-zero security level.  No results will be "
@@ -799,17 +800,22 @@ msgstr ""
 "форматі slocate які мають не нульовий рівень безпеки.  Пошук у цій базі "
 "даних не дасть результату.\n"
 
-#: locate/locate.c:1075
-#, c-format
-msgid "`%s' is an slocate database.  Turning on the '-e' option."
+#: locate/locate.c:1069
+#, fuzzy, c-format
+msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr "`%s' - це база даних slocate.  Вмикається параметр '-e'."
 
-#: locate/locate.c:1239
+#: locate/locate.c:1105
+#, fuzzy, c-format
+msgid "Old-format locate database %s is too short to be valid"
+msgstr "база даних locate `%s' пошкоджена чи неправильна"
+
+#: locate/locate.c:1240
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "База даних %s має формат %s.\n"
 
-#: locate/locate.c:1280
+#: locate/locate.c:1282
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -830,50 +836,50 @@ msgstr ""
 "      [-version] [--help]\n"
 "      шаблон...\n"
 
-#: locate/locate.c:1342
+#: locate/locate.c:1344
 msgid "failed to drop group privileges"
 msgstr "не вдається позбутись групових прав"
 
-#: locate/locate.c:1359
+#: locate/locate.c:1361
 msgid "failed to drop setuid privileges"
 msgstr "не вдається позбутись прав setuid"
 
-#: locate/locate.c:1373
+#: locate/locate.c:1375
 #, fuzzy
 msgid "Failed to fully drop privileges"
 msgstr "Не вдається позбутись прав"
 
-#: locate/locate.c:1391
+#: locate/locate.c:1393
 #, fuzzy
 msgid "failed to drop setgid privileges"
 msgstr "не вдається позбутись прав setuid"
 
-#: locate/locate.c:1529
+#: locate/locate.c:1532
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate версії %s\n"
 
-#: locate/locate.c:1569
+#: locate/locate.c:1572
 msgid "argument to --limit"
 msgstr "аргумент для --limit"
 
-#: locate/locate.c:1652
+#: locate/locate.c:1655
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "попередження: базу даних locate можна прочитати з стандартного потоку вводу "
 "лише один раз."
 
-#: locate/locate.c:1723
+#: locate/locate.c:1728
 #, fuzzy, c-format
-msgid "warning: database `%s' is more than %d %s old (actual age is %.1f %s)"
+msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "попередження: база даних '%s' застаріла більш ніж на %d %s"
 
-#: xargs/xargs.c:301
+#: xargs/xargs.c:302
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Некоректна escape-послідовність %s у визначенні роздільника для входу."
 
-#: xargs/xargs.c:319
+#: xargs/xargs.c:320
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -882,7 +888,7 @@ msgstr ""
 "Некоректна escape-послідовність %s у визначенні роздільника для входу; "
 "значення символів не можуть перевищувати %lx."
 
-#: xargs/xargs.c:325
+#: xargs/xargs.c:326
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -891,7 +897,7 @@ msgstr ""
 "Некоректна escape-послідовність %s у визначенні роздільника для входу; "
 "значення символів не можуть перевищувати %lo."
 
-#: xargs/xargs.c:334
+#: xargs/xargs.c:335
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -900,7 +906,7 @@ msgstr ""
 "Некоректна escape-послідовність %s у визначенні роздільника для входу; "
 "невідомі символи %s наприкінці."
 
-#: xargs/xargs.c:379
+#: xargs/xargs.c:380
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -909,48 +915,54 @@ msgstr ""
 "Некоректне визначення роздільника входу %s: роздільник має бути або символом "
 "або escape-послідовністю, що починається з \\."
 
-#: xargs/xargs.c:396
+#: xargs/xargs.c:397
 msgid "environment is too large for exec"
 msgstr "оточення надто велике для виконання"
 
-#: xargs/xargs.c:539
+#: xargs/xargs.c:582
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "попередження: значення %ld для ключа -s надто велике, натомість "
 "використовується %ld"
 
-#: xargs/xargs.c:578
+#: xargs/xargs.c:621
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs версії %s\n"
 
-#: xargs/xargs.c:609
-#, c-format
-msgid "Cannot open input file `%s'"
+#: xargs/xargs.c:652
+#, fuzzy, c-format
+msgid "Cannot open input file %s"
 msgstr "Не вдається відкрити вхідний файл `%s'"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:688
 #, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Змінні оточення займають %lu\n"
 
-#: xargs/xargs.c:648
-#, c-format
-msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
+#: xargs/xargs.c:691
+#, fuzzy, c-format
+msgid "POSIX upper limit on argument length (this system): %lu\n"
 msgstr "Нижня та верхня межа POSIX довжини аргументу: %lu, %lu\n"
 
-#: xargs/xargs.c:652
+#: xargs/xargs.c:694
+#, fuzzy, c-format
+msgid ""
+"POSIX smallest allowable upper limit on argument length (all systems): %lu\n"
+msgstr "Нижня та верхня межа POSIX довжини аргументу: %lu, %lu\n"
+
+#: xargs/xargs.c:697
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Максимальна довжина команди, яку можна використовувати: %ld\n"
 
-#: xargs/xargs.c:656
+#: xargs/xargs.c:701
 #, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Розмір буфера команд, який використовується: %lu\n"
 
-#: xargs/xargs.c:662
+#: xargs/xargs.c:707
 #, c-format
 msgid ""
 "\n"
@@ -959,14 +971,14 @@ msgid ""
 "of-file keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:670
+#: xargs/xargs.c:715
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
 "then press the interrupt keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:796 xargs/xargs.c:889
+#: xargs/xargs.c:841 xargs/xargs.c:934
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -975,59 +987,59 @@ msgstr ""
 "непарні лапки %s quote; зазвичай лапки мають спеціальне значення, якщо не "
 "вказано ключ -0"
 
-#: xargs/xargs.c:797 xargs/xargs.c:890
+#: xargs/xargs.c:842 xargs/xargs.c:935
 msgid "double"
 msgstr "подвійна"
 
-#: xargs/xargs.c:797 xargs/xargs.c:890
+#: xargs/xargs.c:842 xargs/xargs.c:935
 msgid "single"
 msgstr "одинарна"
 
-#: xargs/xargs.c:909
+#: xargs/xargs.c:954
 msgid ""
 "warning: a NUL character occurred in the input.  It cannot be passed through "
 "in the argument list.  Did you mean to use the --null option?"
 msgstr ""
 
-#: xargs/xargs.c:919 xargs/xargs.c:976
+#: xargs/xargs.c:964 xargs/xargs.c:1021
 msgid "argument line too long"
 msgstr "рядок аргументів надто великий"
 
-#: xargs/xargs.c:1149
+#: xargs/xargs.c:1194
 msgid "error waiting for child process"
 msgstr "помилка очікування дочірнього процесу"
 
-#: xargs/xargs.c:1165
+#: xargs/xargs.c:1210
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: завершився зі статусом 255; переривання роботи"
 
-#: xargs/xargs.c:1167
+#: xargs/xargs.c:1212
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: зупинено сигналом %d"
 
-#: xargs/xargs.c:1169
+#: xargs/xargs.c:1214
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: завершений сигналом %d"
 
-#: xargs/xargs.c:1222
+#: xargs/xargs.c:1267
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: некоректне число для ключа -%c\n"
 
-#: xargs/xargs.c:1229
+#: xargs/xargs.c:1274
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: значення для ключа -%c має бути >= %ld\n"
 
-#: xargs/xargs.c:1243
+#: xargs/xargs.c:1288
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: значення для ключа -%c має бути < %ld\n"
 
-#: xargs/xargs.c:1261
+#: xargs/xargs.c:1306
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -1051,3 +1063,9 @@ msgstr ""
 "       [-P макс-процесів]  [--max-procs=макс-процесів] [[--show-limits]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=файл]\n"
 "       [--version] [--help] [команда [початкові-аргументи]]\n"
+
+#~ msgid "oops -- invalid expression type in mark_stat!"
+#~ msgstr "оопс -- неправильний тип виразу у mark_stat!"
+
+#~ msgid "oops -- invalid expression type in mark_type!"
+#~ msgstr "оопс -- неправильний тип виразу у mark_type!"

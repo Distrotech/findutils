@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-04-23 10:11+0100\n"
+"POT-Creation-Date: 2007-05-05 13:52+0100\n"
 "PO-Revision-Date: 2005-04-04 10:55-0700\n"
 "Last-Translator: Steven Michael Murphy <murf@e-tools.com>\n"
 "Language-Team: Kinyarwanda <translation-team-rw@lists.sourceforge.net>\n"
@@ -153,63 +153,68 @@ msgstr "H Inzira imvugo"
 msgid "] [path...] [expression]\n"
 msgstr "Inzira imvugo"
 
-#: find/util.c:634
+#: find/util.c:204
+#, c-format
+msgid "Warning: file %s appears to have mode 0000"
+msgstr ""
+
+#: find/util.c:698
 #, fuzzy, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Iburira"
 
-#: find/util.c:641
+#: find/util.c:705
 msgid "Empty argument to the -D option."
 msgstr ""
 
-#: find/util.c:655
+#: find/util.c:719
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr ""
 
-#: find/util.c:664 find/util.c:674
+#: find/util.c:728 find/util.c:738
 msgid "Please specify a decimal number immediately after -O"
 msgstr ""
 
-#: find/util.c:679 find/util.c:683
+#: find/util.c:743 find/util.c:747
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr ""
 
-#: find/util.c:690
+#: find/util.c:754
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:821
+#: find/util.c:885
 #, fuzzy
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr "IMPINDURAGACIRO ni OYA i i Funga Ingano ni i IMPINDURAGACIRO"
 
-#: find/find.c:204
+#: find/find.c:206
 #, fuzzy
 msgid "cannot get current directory"
 msgstr "Kubona KIGEZWEHO bushyinguro"
 
-#: find/find.c:208
+#: find/find.c:210
 #, fuzzy
 msgid "cannot stat current directory"
 msgstr "Kubona KIGEZWEHO bushyinguro"
 
-#: find/find.c:388
+#: find/find.c:390
 #, c-format
 msgid "Warning: filesystem %s has recently been unmounted."
 msgstr ""
 
-#: find/find.c:398
+#: find/find.c:400
 #, c-format
 msgid "Warning: filesystem %s has recently been mounted."
 msgstr ""
 
-#: find/find.c:494
+#: find/find.c:496
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -218,7 +223,7 @@ msgstr ""
 "%s%sByahinduwe Bya ki/ bishaje APAREYE Umubare Gishya APAREYE Umubare Ubwoko "
 "ni indango"
 
-#: find/find.c:531
+#: find/find.c:533
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -226,34 +231,34 @@ msgid ""
 msgstr ""
 "%s%sByahinduwe Bya ki/ bishaje Umubare Gishya Umubare Ubwoko ni indango"
 
-#: find/find.c:1092
+#: find/find.c:1095
 #, c-format
 msgid ""
-"Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
+"Symbolic link %s is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1107
+#: find/find.c:1110
 #, c-format
 msgid ""
-"Filesystem loop detected; `%s' has the same device number and inode as a "
+"Filesystem loop detected; %s has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1111
+#: find/find.c:1114
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1112
+#: find/find.c:1115
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1356
+#: find/find.c:1360
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1400
+#: find/find.c:1404
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -262,11 +267,11 @@ msgid ""
 "may have failed to include directories that should have been searched."
 msgstr ""
 
-#: find/fstype.c:254
+#: find/fstype.c:255
 msgid "unknown"
 msgstr "itazwi"
 
-#: find/parser.c:457
+#: find/parser.c:463
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -277,14 +282,14 @@ msgstr ""
 "Iburira i Ihitamo Nyuma a Ihitamo Amahitamo OYA Mbere Nka Nka Nyuma "
 "Amahitamo Mbere Ikindi ingingo"
 
-#: find/parser.c:705
+#: find/parser.c:716
 #, fuzzy
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr "Iburira i D Ihitamo ni Bitemewe. Gukoresha Ubujyakuzimu i ni a"
 
-#: find/parser.c:908
+#: find/parser.c:919
 #, fuzzy
 msgid ""
 "\n"
@@ -294,7 +299,7 @@ msgstr ""
 "Mburabuzi Inzira ni i KIGEZWEHO bushyinguro Mburabuzi imvugo ni Gicurasi Bya "
 "Mukoresha Na ni Oya Ibindi OYA a Na"
 
-#: find/parser.c:911
+#: find/parser.c:922
 #, fuzzy
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
@@ -305,7 +310,7 @@ msgstr ""
 "Mburabuzi Inzira ni i KIGEZWEHO bushyinguro Mburabuzi imvugo ni Gicurasi Bya "
 "Mukoresha Na ni Oya Ibindi OYA a Na"
 
-#: find/parser.c:915
+#: find/parser.c:926
 #, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
@@ -317,7 +322,7 @@ msgstr ""
 "o Cyangwa Amahitamo Buri gihe NIBYO Amahitamo Buri gihe NIBYO Mbere Ikindi "
 "Ifashayobora Verisiyo Cyangwa Cyangwa"
 
-#: find/parser.c:920
+#: find/parser.c:931
 #, fuzzy
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
@@ -327,7 +332,7 @@ msgid ""
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr "-ubusa SIBYO Itsinda amahuza Izina:"
 
-#: find/parser.c:925
+#: find/parser.c:936
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -336,7 +341,7 @@ msgid ""
 "      -used N -user NAME -xtype [bcdpfls]\n"
 msgstr "-Inzira Ingano NIBYO Ubwoko UID Ukoresha:"
 
-#: find/parser.c:930
+#: find/parser.c:941
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -344,7 +349,7 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:936
+#: find/parser.c:947
 #, fuzzy
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
@@ -352,12 +357,12 @@ msgid ""
 "email to <bug-findutils@gnu.org>."
 msgstr "org."
 
-#: find/parser.c:985
+#: find/parser.c:996
 #, fuzzy
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "Kugenzura... Bya i Isomero Umumaro Byanze"
 
-#: find/parser.c:1000
+#: find/parser.c:1011
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -367,32 +372,32 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:1046
+#: find/parser.c:1059
 #, fuzzy
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr "Iburira i ni Bitemewe. Gukoresha"
 
-#: find/parser.c:1288
+#: find/parser.c:1301
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1338
+#: find/parser.c:1351
 #, c-format
-msgid "I cannot figure out how to interpret `%s' as a date or time"
+msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1354
+#: find/parser.c:1367
 #, c-format
-msgid "Cannot obtain birth time of file `%s'"
+msgid "Cannot obtain birth time of file %s"
 msgstr ""
 
-#: find/parser.c:1626
+#: find/parser.c:1639
 #, fuzzy, c-format
-msgid "invalid mode `%s'"
+msgid "invalid mode %s"
 msgstr "Sibyo Ubwoko"
 
-#: find/parser.c:1644
+#: find/parser.c:1658
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -400,58 +405,58 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:1829
+#: find/parser.c:1843
 #, fuzzy
 msgid "invalid null argument to -size"
 msgstr "Sibyo NTAGIHARI Kuri Ingano"
 
-#: find/parser.c:1875
+#: find/parser.c:1889
 #, fuzzy, c-format
 msgid "invalid -size type `%c'"
 msgstr "Sibyo Ingano Ubwoko"
 
-#: find/parser.c:1926
+#: find/parser.c:2072
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2070
+#: find/parser.c:2216
 #, fuzzy, c-format
 msgid "GNU find version %s\n"
 msgstr "Gushaka Verisiyo"
 
-#: find/parser.c:2071 locate/code.c:167 locate/locate.c:1530 xargs/xargs.c:579
+#: find/parser.c:2217 locate/code.c:190 locate/locate.c:1533 xargs/xargs.c:622
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "Verisiyo"
 
-#: find/parser.c:2072
+#: find/parser.c:2218
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2355
+#: find/parser.c:2501
 #, fuzzy, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "Iburira"
 
-#: find/parser.c:2371
+#: find/parser.c:2517
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2410
+#: find/parser.c:2556
 #, fuzzy, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "Iburira Imiterere"
 
-#: find/parser.c:2554
+#: find/parser.c:2700
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2579
+#: find/parser.c:2725
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -460,7 +465,7 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2585
+#: find/parser.c:2731
 #, c-format
 msgid ""
 "The ralative path %s is included in the PATH environment variable, which is "
@@ -468,88 +473,88 @@ msgid ""
 "entry from $PATH"
 msgstr ""
 
-#: find/parser.c:2684
+#: find/parser.c:2831
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2707
+#: find/parser.c:2854
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2720
+#: find/parser.c:2871
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "ni Binini kugirango"
 
-#: find/parser.c:2903
+#: find/parser.c:3054
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/pred.c:1221
+#: find/pred.c:1248
 #, c-format
-msgid "Warning: cannot determine birth time of file `%s'"
+msgid "Warning: cannot determine birth time of file %s"
 msgstr ""
 
-#: find/pred.c:1283
+#: find/pred.c:1312
 #, fuzzy, c-format
 msgid "< %s ... %s > ? "
 msgstr "<%s...%s>CYOSE"
 
-#: find/pred.c:1720
+#: find/pred.c:1760
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1755
+#: find/pred.c:1795
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1796 xargs/xargs.c:1074
+#: find/pred.c:1836 xargs/xargs.c:1119
 msgid "cannot fork"
 msgstr ""
 
-#: find/pred.c:1820
+#: find/pred.c:1861
 #, fuzzy, c-format
 msgid "error waiting for %s"
 msgstr "Ikosa Tegereza kugirango"
 
-#: find/pred.c:1828
+#: find/pred.c:1870
 #, fuzzy, c-format
 msgid "%s terminated by signal %d"
 msgstr "%sku"
 
 # sc/source\ui\src\namedlg.src:RID_SCDLG_NAMES.STR_INVALIDSYMBOL.text
-#: find/tree.c:87 find/tree.c:92 find/tree.c:172 find/tree.c:211
+#: find/tree.c:89 find/tree.c:94 find/tree.c:174 find/tree.c:213
 #, fuzzy
 msgid "invalid expression"
 msgstr "Imvugo itariyo"
 
-#: find/tree.c:97
+#: find/tree.c:99
 #, c-format
 msgid ""
 "invalid expression; you have used a binary operator '%s' with nothing before "
 "it."
 msgstr ""
 
-#: find/tree.c:106
+#: find/tree.c:108
 #, c-format
 msgid "expected an expression between '%s' and ')'"
 msgstr ""
 
-#: find/tree.c:115
+#: find/tree.c:117
 #, fuzzy, c-format
 msgid "expected an expression after '%s'"
 msgstr "Birenga"
 
 # sc/source\ui\src\namedlg.src:RID_SCDLG_NAMES.STR_INVALIDSYMBOL.text
-#: find/tree.c:119
+#: find/tree.c:121
 #, fuzzy
 msgid "invalid expression; you have too many ')'"
 msgstr "Imvugo itariyo"
 
-#: find/tree.c:141
+#: find/tree.c:143
 #, c-format
 msgid ""
 "invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
@@ -557,98 +562,92 @@ msgid ""
 msgstr ""
 
 # sc/source\ui\src\namedlg.src:RID_SCDLG_NAMES.STR_INVALIDSYMBOL.text
-#: find/tree.c:147
+#: find/tree.c:149
 #, fuzzy
 msgid "invalid expression; empty parentheses are not allowed."
 msgstr "Imvugo itariyo"
 
-#: find/tree.c:152
+#: find/tree.c:154
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
 "one."
 msgstr ""
 
-#: find/tree.c:157 find/tree.c:813
+#: find/tree.c:159 find/tree.c:788
 #, fuzzy
 msgid "oops -- invalid expression type!"
 msgstr "Sibyo imvugo Ubwoko"
 
-#: find/tree.c:229
+#: find/tree.c:231
 #, fuzzy, c-format
 msgid "oops -- invalid expression type (%d)!"
 msgstr "Sibyo imvugo Ubwoko"
 
-#: find/tree.c:943
-#, fuzzy
-msgid "oops -- invalid expression type in mark_stat!"
-msgstr "Sibyo imvugo Ubwoko"
-
-#: find/tree.c:979
-#, fuzzy
-msgid "oops -- invalid expression type in mark_type!"
-msgstr "Sibyo imvugo Ubwoko"
-
-#: find/tree.c:1319
+#: find/tree.c:1227
 #, fuzzy, c-format
 msgid "paths must precede expression: %s"
 msgstr "Inzira imvugo"
 
-#: find/tree.c:1328
+#: find/tree.c:1236
 #, fuzzy, c-format
 msgid "unknown predicate `%s'"
 msgstr "Sibyo"
 
-#: find/tree.c:1348
+#: find/tree.c:1256
 #, fuzzy, c-format
 msgid "invalid predicate `%s'"
 msgstr "Sibyo"
 
-#: find/tree.c:1353
+#: find/tree.c:1261
 #, fuzzy, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "Sibyo Kuri"
 
-#: find/tree.c:1360
+#: find/tree.c:1268
 #, fuzzy, c-format
 msgid "missing argument to `%s'"
 msgstr "Ibuze Kuri"
 
 # sc/source\ui\src\namedlg.src:RID_SCDLG_NAMES.STR_INVALIDSYMBOL.text
-#: find/tree.c:1435
+#: find/tree.c:1343
 #, fuzzy
 msgid "you have too many ')'"
 msgstr "Imvugo itariyo"
 
-#: find/tree.c:1440
+#: find/tree.c:1348
 #, fuzzy, c-format
 msgid "unexpected extra predicate '%s'"
 msgstr "Birenga"
 
-#: find/tree.c:1442
+#: find/tree.c:1350
 #, fuzzy
 msgid "unexpected extra predicate"
 msgstr "Birenga"
 
-#: find/tree.c:1571
+#: find/tree.c:1466
 #, fuzzy
 msgid "oops -- invalid default insertion of and!"
 msgstr "Sibyo Mburabuzi Iyinjizamo Bya Na"
 
-#: locate/code.c:128
+#: locate/code.c:131
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [--version | --help]\n"
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Verisiyo Ifashayobora Cyangwa IDOSIYE Urutonde"
 
-#: locate/code.c:132 locate/locate.c:1289 xargs/xargs.c:1272
+#: locate/code.c:135 locate/locate.c:1291 xargs/xargs.c:1317
 #, fuzzy
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
 msgstr "org."
 
-#: locate/code.c:166
+#: locate/code.c:153
+msgid "write error"
+msgstr ""
+
+#: locate/code.c:189
 #, fuzzy, c-format
 msgid "GNU findutils version %s\n"
 msgstr "Verisiyo"
@@ -663,110 +662,115 @@ msgstr ""
 
 #: locate/locate.c:220 locate/locate.c:227
 #, fuzzy, c-format
-msgid "Invalid argument `%s' for option --max-database-age"
+msgid "Invalid argument %s for option --max-database-age"
 msgstr "Sibyo Kuri"
 
-#: locate/locate.c:585
+#: locate/locate.c:576
 #, fuzzy, c-format
-msgid "locate database `%s' is corrupt or invalid"
+msgid "locate database %s is corrupt or invalid"
 msgstr "Ububikoshingiro ni Cyangwa Sibyo"
 
-#: locate/locate.c:846
+#: locate/locate.c:838
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr ""
 
-#: locate/locate.c:851
+#: locate/locate.c:843
 #, c-format
 msgid "Matching Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:852
+#: locate/locate.c:844
 #, c-format
 msgid "All Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:855
+#: locate/locate.c:847
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr ""
 
-#: locate/locate.c:859
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
 "\tof which %s contain whitespace, "
 msgstr ""
 
-#: locate/locate.c:862
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
 "\t%s contain newline characters, "
 msgstr ""
 
-#: locate/locate.c:865
+#: locate/locate.c:857
 #, c-format
 msgid ""
 "\n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:873
+#: locate/locate.c:865
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
 "compression ratio.\n"
 msgstr ""
 
-#: locate/locate.c:880
+#: locate/locate.c:872
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr ""
 
-#: locate/locate.c:887
+#: locate/locate.c:879
 #, c-format
 msgid "Compression ratio is undefined\n"
 msgstr ""
 
-#: locate/locate.c:942
+#: locate/locate.c:934
 #, c-format
 msgid ""
-"locate database `%s' looks like an slocate database but it seems to have "
+"locate database %s looks like an slocate database but it seems to have "
 "security level %c, which GNU findutils does not currently support"
 msgstr ""
 
-#: locate/locate.c:1034
+#: locate/locate.c:1027
 #, c-format
 msgid ""
-"`%s' is an slocate database.  Support for these is new, expect problems for "
+"%s is an slocate database.  Support for these is new, expect problems for "
 "now."
 msgstr ""
 
-#: locate/locate.c:1048
+#: locate/locate.c:1041
 #, c-format
 msgid ""
-"`%s' is an slocate database of unsupported security level %d; skipping it."
+"%s is an slocate database of unsupported security level %d; skipping it."
 msgstr ""
 
-#: locate/locate.c:1064
+#: locate/locate.c:1058
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
 "format databases with a non-zero security level.  No results will be "
 "generated for this database.\n"
 msgstr ""
 
-#: locate/locate.c:1075
+#: locate/locate.c:1069
 #, c-format
-msgid "`%s' is an slocate database.  Turning on the '-e' option."
+msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr ""
 
-#: locate/locate.c:1239
+#: locate/locate.c:1105
+#, fuzzy, c-format
+msgid "Old-format locate database %s is too short to be valid"
+msgstr "Ububikoshingiro ni Cyangwa Sibyo"
+
+#: locate/locate.c:1240
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr ""
 
-#: locate/locate.c:1280
+#: locate/locate.c:1282
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -781,115 +785,121 @@ msgstr ""
 "D Inzira Ububikoshingiro Inzira E i Kwirengagiza L Verisiyo Ifashayobora "
 "Ishusho"
 
-#: locate/locate.c:1342
+#: locate/locate.c:1344
 msgid "failed to drop group privileges"
 msgstr ""
 
-#: locate/locate.c:1359
+#: locate/locate.c:1361
 msgid "failed to drop setuid privileges"
 msgstr ""
 
-#: locate/locate.c:1373
+#: locate/locate.c:1375
 msgid "Failed to fully drop privileges"
 msgstr ""
 
-#: locate/locate.c:1391
+#: locate/locate.c:1393
 msgid "failed to drop setgid privileges"
 msgstr ""
 
-#: locate/locate.c:1529
+#: locate/locate.c:1532
 #, fuzzy, c-format
 msgid "GNU locate version %s\n"
 msgstr "Verisiyo"
 
-#: locate/locate.c:1569
+#: locate/locate.c:1572
 #, fuzzy
 msgid "argument to --limit"
 msgstr "Kuri"
 
-#: locate/locate.c:1652
+#: locate/locate.c:1655
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 
-#: locate/locate.c:1723
+#: locate/locate.c:1728
 #, fuzzy, c-format
-msgid "warning: database `%s' is more than %d %s old (actual age is %.1f %s)"
+msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "Iburira Ububikoshingiro ni Birenzeho ki/ bishaje"
 
-#: xargs/xargs.c:301
+#: xargs/xargs.c:302
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
 
-#: xargs/xargs.c:319
+#: xargs/xargs.c:320
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lx."
 msgstr ""
 
-#: xargs/xargs.c:325
+#: xargs/xargs.c:326
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lo."
 msgstr ""
 
-#: xargs/xargs.c:334
+#: xargs/xargs.c:335
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
 
-#: xargs/xargs.c:379
+#: xargs/xargs.c:380
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:396
+#: xargs/xargs.c:397
 #, fuzzy
 msgid "environment is too large for exec"
 msgstr "ni Binini kugirango"
 
-#: xargs/xargs.c:539
+#: xargs/xargs.c:582
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:578
+#: xargs/xargs.c:621
 #, fuzzy, c-format
 msgid "GNU xargs version %s\n"
 msgstr "Verisiyo"
 
-#: xargs/xargs.c:609
+#: xargs/xargs.c:652
 #, c-format
-msgid "Cannot open input file `%s'"
+msgid "Cannot open input file %s"
 msgstr ""
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:688
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Ibihinduka Hejuru"
 
-#: xargs/xargs.c:648
+#: xargs/xargs.c:691
 #, fuzzy, c-format
-msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
+msgid "POSIX upper limit on argument length (this system): %lu\n"
 msgstr "Ntoya Na Nkuru Imbibi ku Uburebure"
 
-#: xargs/xargs.c:652
+#: xargs/xargs.c:694
+#, fuzzy, c-format
+msgid ""
+"POSIX smallest allowable upper limit on argument length (all systems): %lu\n"
+msgstr "Ntoya Na Nkuru Imbibi ku Uburebure"
+
+#: xargs/xargs.c:697
 #, fuzzy, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Uburebure Bya Komandi: Twebwe Gukoresha"
 
-#: xargs/xargs.c:656
+#: xargs/xargs.c:701
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Bya Komandi: Twebwe ikoresha"
 
-#: xargs/xargs.c:662
+#: xargs/xargs.c:707
 #, c-format
 msgid ""
 "\n"
@@ -898,14 +908,14 @@ msgid ""
 "of-file keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:670
+#: xargs/xargs.c:715
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
 "then press the interrupt keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:796 xargs/xargs.c:889
+#: xargs/xargs.c:841 xargs/xargs.c:934
 #, fuzzy, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -917,7 +927,7 @@ msgstr ""
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.UnderLine..2.text
 # #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.Strikeout..2.text
-#: xargs/xargs.c:797 xargs/xargs.c:890
+#: xargs/xargs.c:842 xargs/xargs.c:935
 #, fuzzy
 msgid "double"
 msgstr "MAHARAKUBIRI"
@@ -926,58 +936,58 @@ msgstr "MAHARAKUBIRI"
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.UnderLine..1.text
 # #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.Strikeout..1.text
-#: xargs/xargs.c:797 xargs/xargs.c:890
+#: xargs/xargs.c:842 xargs/xargs.c:935
 #, fuzzy
 msgid "single"
 msgstr "UMWE"
 
-#: xargs/xargs.c:909
+#: xargs/xargs.c:954
 msgid ""
 "warning: a NUL character occurred in the input.  It cannot be passed through "
 "in the argument list.  Did you mean to use the --null option?"
 msgstr ""
 
-#: xargs/xargs.c:919 xargs/xargs.c:976
+#: xargs/xargs.c:964 xargs/xargs.c:1021
 #, fuzzy
 msgid "argument line too long"
 msgstr "Umurongo"
 
-#: xargs/xargs.c:1149
+#: xargs/xargs.c:1194
 #, fuzzy
 msgid "error waiting for child process"
 msgstr "Ikosa Tegereza kugirango"
 
-#: xargs/xargs.c:1165
+#: xargs/xargs.c:1210
 #, fuzzy, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s:Na: Imimerere"
 
-#: xargs/xargs.c:1167
+#: xargs/xargs.c:1212
 #, fuzzy, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s:Kyahagariswe ku"
 
-#: xargs/xargs.c:1169
+#: xargs/xargs.c:1214
 #, fuzzy, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s:ku"
 
-#: xargs/xargs.c:1222
+#: xargs/xargs.c:1267
 #, fuzzy, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s:Sibyo Umubare kugirango"
 
-#: xargs/xargs.c:1229
+#: xargs/xargs.c:1274
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s:Agaciro kugirango Ihitamo"
 
-#: xargs/xargs.c:1243
+#: xargs/xargs.c:1288
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s:Agaciro kugirango Ihitamo"
 
-#: xargs/xargs.c:1261
+#: xargs/xargs.c:1306
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -994,6 +1004,14 @@ msgstr ""
 "Gusimbura KININI Imirongo KININI Imirongo Biganira KININI KININI Gusohoka "
 "KININI KININI KININI KININI Oya Gukoresha NIBA ubusa Verisiyo Ifashayobora "
 "Komandi: ingingo"
+
+#, fuzzy
+#~ msgid "oops -- invalid expression type in mark_stat!"
+#~ msgstr "Sibyo imvugo Ubwoko"
+
+#, fuzzy
+#~ msgid "oops -- invalid expression type in mark_type!"
+#~ msgstr "Sibyo imvugo Ubwoko"
 
 #, fuzzy
 #~ msgid "Reducing arg_max (%lu) to arg_size (%lu)\n"
