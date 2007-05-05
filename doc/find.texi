@@ -2145,6 +2145,11 @@ contain blanks, this problem occurs only infrequently.  If you are
 only searching through files that you know have safe names, then you
 need not be concerned about it.
 
+Error messages issued by @code{find} and @code{locate} quote unusual
+characters in file names in order to prevent unwanted changes in the
+terminal's state.
+
+
 @c This example is adapted from:
 @c From: pfalstad@stone.Princeton.EDU (Paul John Falstad)
 @c Newsgroups: comp.unix.shell
@@ -4762,6 +4767,11 @@ listed.
 
 @node Error Messages From find
 @section Error Messages From @code{find}
+
+Most error messages produced by find are self-explanatory.  Error
+messages sometimes include a filename.  When this happens, the
+filename is quoted in order to prevent any unusual characters in the
+filename making unwanted changes in the state of the terminal.
 
 @table @samp
 @item invalid predicate `-foo'
