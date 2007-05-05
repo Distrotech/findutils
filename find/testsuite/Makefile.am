@@ -96,8 +96,8 @@ config/unix.exp \
 find.gnu/access.exp \
 find.gnu/comma.exp \
 find.gnu/delete.exp \
-find.gnu/deletedir.xo \
-find.gnu/deletefile.xo \
+find.gnu/deletedir.exp \
+find.gnu/deletefile.exp \
 find.gnu/depth.exp \
 find.gnu/depth-d.exp \
 find.gnu/empty.exp \
