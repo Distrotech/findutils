@@ -1569,9 +1569,13 @@ pred_samefile (const char *pathname, struct stat *stat_buf, struct predicate *pr
    * stat the file we're looking at.
    */
   (void) pathname;
-  
-  return stat_buf->st_ino == pred_ptr->args.fileid.ino
-    &&   stat_buf->st_dev == pred_ptr->args.fileid.dev;
+
+  /* We will often still have an fd open on the file under consideration,
+   * but that's just to ensure inode number stability by maintaining 
+   * a reference to it; we don't need the file for anything else.
+   */
+  return stat_buf->st_ino == pred_ptr->args.samefileid.ino
+    &&   stat_buf->st_dev == pred_ptr->args.samefileid.dev;
 }
 
 boolean

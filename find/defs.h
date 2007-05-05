@@ -135,13 +135,21 @@ struct perm_val
   mode_t val[2];
 };
 
-/* dir_id is used to support loop detection in find.c and 
- * also to support the -samefile test.
+/* dir_id is used to support loop detection in find.c
  */
 struct dir_id
 {
   ino_t ino;
   dev_t dev;
+};
+
+/* samefile_file_id is used to support the -samefile test.
+ */
+struct samefile_file_id
+{
+  ino_t ino;
+  dev_t dev;
+  int   fd;
 };
 
 struct size_val
@@ -288,7 +296,7 @@ struct predicate
     gid_t gid;			/* group */
     struct time_val reftime;	/* newer newerXY anewer cnewer mtime atime ctime mmin amin cmin */
     struct perm_val perm;	/* perm */
-    struct dir_id   fileid;	/* samefile */
+    struct samefile_file_id samefileid; /* samefile */
     mode_t type;		/* type */
     FILE *stream;		/* ls fls fprint0 */
     struct format_val printf_vec; /* printf fprintf fprint  */

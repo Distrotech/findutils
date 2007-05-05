@@ -1,5 +1,14 @@
 2007-05-05  James Youngman  <jay@gnu.org>
 
+	* find/parser.c (parse_samefile): Hold a file descriptor open on
+	the reference file in order to prevent pred_samefile getting
+	fooled by inode reuse.  Pay attention to race conditions on
+	systems lacking O_NOFOLLOW when the -P option is in force.  This
+	fixes Savannah bug #19806.
+
+	* find/defs.h (struct samefile_file_id): New struct, like dir_id
+	but including a file descriptor on the reference file.
+
 	* find/pred.c (pred_type): -type should return false if the file
 	has mode 00000, as opposed to having an assertion failure.   This 
 	fixes Savannah bug #16378.

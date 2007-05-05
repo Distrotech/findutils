@@ -12,6 +12,9 @@ default; change PRUNEPATHS to modify this behaviour).
 
 ** Bug Fixes
 
+#19806: The -samefile predicate might get fooled by inode reuse.  We
+now hold open a file descriptor on the reference file to prevent this.
+
 #19768: Better detection of corrupted old-style locate databases
 (e.g. if the database is too short to include a complete bigram
 table).

@@ -1913,18 +1913,147 @@ parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
+  /* General idea: stat the file, remember device and inode numbers.
+   * If a candidate file matches those, it's the same file.  
+   */
   struct predicate *our_pred;
-  struct stat st;
+  struct stat st, fst;
+  int fd, openflags;
   
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
+
   set_stat_placeholders(&st);
+  set_stat_placeholders(&fst);
+  
   if ((*options.xstat) (argv[*arg_ptr], &st))
     fatal_file_error(argv[*arg_ptr]);
+
+  /* POSIX systems are free to re-use the inode number of a deleted
+   * file.  To ensure that we are not fooled by inode reuse, we hold
+   * the file open if we can.  This would prevent the system reusing
+   * the file.
+   */
+  fd = -3;			/* means, uninitialised */
+  openflags = O_RDONLY;
+  
+  if (options.symlink_handling == SYMLINK_NEVER_DEREF)
+    {
+      if (options.open_nofollow_available)
+	{
+	  assert(O_NOFOLLOW != 0);
+	  openflags |= O_NOFOLLOW;
+	  fd = -1;		/* safe to open it. */
+	}
+      else
+	{
+	  if (S_ISLNK(st.st_mode))
+	    {
+	      /* no way to ensure that a symlink will not be followed
+	       * by open(2), so fall back on using lstat().  Accept 
+	       * the risk that the named file will be deleted and 
+	       * replaced with another having the same inode.
+	       *
+	       * Avoid opening the file.
+	       */
+	      fd = -2;		/* Do not open it */
+	    }
+	  else
+	    {
+	      fd = -1;
+	      /* Race condition here: the file might become a symlink here. */
+	    }
+	}
+    }
+  else
+    {
+      /* We want to dereference the symlink anyway */
+      fd = -1;			/* safe to open it without O_NOFOLLOW */
+    }
+
+  assert(fd != -3);		/* check we made a decision */
+  if (fd == -1)
+    {
+      /* Race condition here.  The file might become a
+       * symbolic link in between out call to stat and
+       * the call to open.
+       */
+      fd = open(argv[*arg_ptr], openflags);
+
+      if (fd >= 0)
+	{
+	  /* We stat the file again here to prevent a race condition 
+	   * between the first stat and the call to open(2).
+	   */
+	  if (0 != fstat(fd, &fst))
+	    {
+	      fatal_file_error(argv[*arg_ptr]);
+	    }
+	  else
+	    {
+	      /* Worry about the race condition.  If the file became a
+	       * symlink after our first stat and before our call to
+	       * open, fst may contain the stat information for the
+	       * destination of the link, not the link itself.
+	       */
+	      if ((*options.xstat) (argv[*arg_ptr], &st))
+		fatal_file_error(argv[*arg_ptr]);
+
+	      if ((options.symlink_handling == SYMLINK_NEVER_DEREF)
+		  && (!options.open_nofollow_available))
+		{
+		  if (S_ISLNK(st.st_mode))
+		    {
+		      /* We lost the race.  Leave the data in st.  The
+		       * file descriptor points to the wrong thing.
+		       */
+		      close(fd);
+		      fd = -1;
+		    }
+		  else
+		    {
+		      /* Several possibilities here:
+		       * 1. There was no race
+		       * 2. The file changed into a symlink after the stat and
+		       *    before the open, and then back into a non-symlink
+		       *    before the second stat.
+		       *
+		       * In case (1) there is no problem.  In case (2), 
+		       * the stat() and fstat() calls will have returned 
+		       * different data.  O_NOFOLLOW was not available,
+		       * so the open() call may have followed a symlink
+		       * even if the -P option is in effect.
+		       */
+		      if ((st.st_dev == fst.st_dev)
+			  && (st.st_ino == fst.st_ino))
+			{
+			  /* No race.  No need to copy fst to st,
+			   * since they should be identical (modulo
+			   * differences in padding bytes).
+			   */
+			}
+		      else
+			{
+			  /* We lost the race.  Leave the data in st.  The
+			   * file descriptor points to the wrong thing.
+			   */
+			  close(fd);
+			  fd = -1;
+			}
+		    }
+		}
+	      else
+		{
+		  st = fst;
+		}
+	    }
+	}
+    }
   
   our_pred = insert_primary (entry);
-  our_pred->args.fileid.ino = st.st_ino;
-  our_pred->args.fileid.dev = st.st_dev;
+  our_pred->args.samefileid.ino = st.st_ino;
+  our_pred->args.samefileid.dev = st.st_dev;
+  our_pred->args.samefileid.fd  = fd;
   our_pred->need_type = false;
   our_pred->need_stat = true;
   our_pred->est_success_rate = 0.01f;
