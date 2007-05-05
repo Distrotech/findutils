@@ -196,7 +196,16 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
   if (!state.have_stat)
     {
       set_stat_placeholders(p);
-      if ((*options.xstat) (name, p) != 0)
+      if (0 == (*options.xstat) (name, p))
+	{
+	  if (00000 == p->st_mode)
+	    {
+	      /* Savannah bug #16378. */
+	      error(0, 0, _("Warning: file %s appears to have mode 0000"),
+		    quotearg_n_style(0, options.err_quoting_style, name));
+	    }
+	}
+      else
 	{
 	  if (!options.ignore_readdir_race || (errno != ENOENT) )
 	    {
@@ -210,6 +219,7 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
   state.have_stat = true;
   state.have_type = true;
   state.type = p->st_mode;
+
   return 0;
 }
 
@@ -367,6 +377,53 @@ cleanup(void)
       complete_pending_execdirs(get_current_dirfd());
     }
 }
+
+/* Savannah bug #16378 manifests as an assertion failure in pred_type()
+ * when an NFS server returns st_mode with value 0 (of course the stat(2)
+ * system call is itself returning 0 in this case). 
+ */
+#undef DEBUG_SV_BUG_16378
+#if defined(DEBUG_SV_BUG_16378)
+static int hook_fstatat(int fd, const char *name, struct stat *p, int flags)
+{
+  static int warned = 0;
+
+  if (!warned)
+    {
+      /* No use of _() here; no point asking translators to translate a debug msg */
+      error(0, 0,
+	    "Warning: some debug code is enabled for Savannah bug #16378; "
+	    "this should not occur in released versions of findutils!");
+      warned = 1;
+    }
+  
+  if (0 == strcmp(name, "./mode0file")
+      || 0 == strcmp(name, "mode0file")) 
+    {
+      time_t now = time(NULL);
+      long day = 86400;
+      
+      p->st_rdev = 0;
+      p->st_dev = 0x300;
+      p->st_ino = 0;
+      p->st_mode = 0;		/* SV bug #16378 */
+      p->st_nlink = 1;
+      p->st_uid = geteuid();
+      p->st_gid = 0;
+      p->st_size = 42;
+      p->st_blksize = 32768;
+      p->st_atime = now-1*day;
+      p->st_mtime = now-2*day;
+      p->st_ctime = now-3*day;
+
+      return 0;
+    }
+  return fstatat(fd, name, p, flags);
+}
+
+# undef  fstatat
+# define fstatat(fd,name,p,flags) hook_fstatat((fd),(name),(p),(flags))
+#endif
 
 
 static int

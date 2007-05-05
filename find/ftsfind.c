@@ -487,6 +487,13 @@ consider_visiting(FTS *p, FTSENT *ent)
       state.have_type = true;
       statbuf = *(ent->fts_statp);
       state.type = mode = statbuf.st_mode;
+      
+      if (00000 == mode)
+	{
+	  /* Savannah bug #16378. */
+	  error(0, 0, _("Warning: file %s appears to have mode 0000"),
+		quotearg_n_style(0, options.err_quoting_style, ent->fts_path));
+	}
     }
 
   if (mode)

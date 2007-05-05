@@ -1,3 +1,15 @@
+2007-05-05  James Youngman  <jay@gnu.org>
+
+	* find/pred.c (pred_type): -type should return false if the file
+	has mode 00000, as opposed to having an assertion failure.   This 
+	fixes Savannah bug #16378.
+
+	* find/ftsfind.c (consider_visiting): Issue a warning message if
+	none of the mode bits are set for a file (i.e. st_mode==00000).
+	* find/util.c (get_statinfo): ditto
+	* find/util.c (hook_fstatat): Introduced debug code (normally
+	disabled) for testing Savannah bug #16378.
+	
 2007-05-01  James Youngman  <jay@gnu.org>
 
 	* find/find.c (wd_sanity_check): corrected the type of %ld fprintf

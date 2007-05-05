@@ -1590,7 +1590,14 @@ pred_type (const char *pathname, struct stat *stat_buf, struct predicate *pred_p
   mode_t type = pred_ptr->args.type;
 
   assert(state.have_type);
-  assert(state.type != 0);
+
+  if (0 == state.type)
+    {
+      /* This can sometimes happen with broken NFS servers. 
+       * See Savannah bug #16378.
+       */
+      return false;
+    }
   
   (void) pathname;
 
