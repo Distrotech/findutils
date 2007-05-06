@@ -29,7 +29,7 @@
 
 
 size_t qmark_chars(char *buf, size_t len);
-void print_quoted (FILE *fp, const struct quoting_options *qopts, bool dest_is_tty, const char *format, const char *s);
+int print_quoted (FILE *fp, const struct quoting_options *qopts, bool dest_is_tty, const char *format, const char *s);
 
 
 #endif

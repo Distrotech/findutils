@@ -28,6 +28,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <assert.h>
+#include <stdarg.h>
 #include <fcntl.h>
 #include <locale.h>
 #include <openat.h>
@@ -554,9 +555,11 @@ pred_false (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 boolean
 pred_fls (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  list_file (pathname, state.cwd_dir_fd, state.rel_pathname, stat_buf, options.start_time.tv_sec,
+  FILE * stream = pred_ptr->args.printf_vec.stream;
+  list_file (pathname, state.cwd_dir_fd, state.rel_pathname, stat_buf,
+	     options.start_time.tv_sec,
 	     options.output_block_size,
-	     pred_ptr->literal_control_chars, pred_ptr->args.stream);
+	     pred_ptr->literal_control_chars, stream);
   return true;
 }
 
@@ -577,12 +580,13 @@ pred_fprint (const char *pathname, struct stat *stat_buf, struct predicate *pred
 boolean
 pred_fprint0 (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  (void) &pathname;
+  FILE * fp = pred_ptr->args.printf_vec.stream;
+
   (void) &stat_buf;
   
-  fputs (pathname, pred_ptr->args.stream);
-  putc (0, pred_ptr->args.stream);
-  return (true);
+  fputs (pathname, fp);
+  putc (0, fp);
+  return true;
 }
 
 
@@ -622,13 +626,52 @@ file_sparseness(const struct stat *p)
 
 
 
-static boolean
-do_fprintf(FILE *fp,
+static void
+checked_fprintf(struct format_val *dest, const char *fmt, ...)
+{
+  int rv;
+  va_list ap;
+
+  va_start(ap, fmt);
+  rv = vfprintf(dest->stream, fmt, ap);
+  if (rv < 0)
+    nonfatal_file_error(dest->filename);
+}
+
+
+static void
+checked_print_quoted (struct format_val *dest,
+			   const char *format, const char *s)
+{
+  int rv = print_quoted(dest->stream, dest->quote_opts, dest->dest_is_tty,
+			format, s);
+  if (rv < 0)
+    nonfatal_file_error(dest->filename);
+}
+
+
+static void
+checked_fwrite(void *p, size_t siz, size_t nmemb, struct format_val *dest)
+{
+  int items_written = fwrite(p, siz, nmemb, dest->stream);
+  if (items_written < nmemb)
+    nonfatal_file_error(dest->filename);
+}
+
+static void
+checked_fflush(struct format_val *dest)
+{
+  if (0 != fflush(dest->stream))
+    {
+      nonfatal_file_error(dest->filename);
+    }
+}
+
+static void
+do_fprintf(struct format_val *dest,
 	   struct segment *segment,
 	   const char *pathname,
-	   const struct stat *stat_buf,
-	   boolean ttyflag,
-	   const struct quoting_options *qopts)
+	   const struct stat *stat_buf)
 {
   char hbuf[LONGEST_HUMAN_READABLE + 1];
   const char *cp;
@@ -637,50 +680,50 @@ do_fprintf(FILE *fp,
     {
     case KIND_PLAIN:	/* Plain text string (no % conversion). */
       /* trusted */
-      fwrite (segment->text, 1, segment->text_len, fp);
+      checked_fwrite(segment->text, 1, segment->text_len, dest);
       break;
 	  
     case KIND_STOP:		/* Terminate argument and flush output. */
       /* trusted */
-      fwrite (segment->text, 1, segment->text_len, fp);
-      fflush (fp);
-      return (true);
+      checked_fwrite(segment->text, 1, segment->text_len, dest);
+      checked_fflush(dest);
+      break;
 	  
     case KIND_FORMAT:
       switch (segment->format_char[0])
 	{
 	case 'a':		/* atime in `ctime' format. */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text, ctime_format (get_stat_atime(stat_buf)));
+	  checked_fprintf (dest, segment->text, ctime_format (get_stat_atime(stat_buf)));
 	  break;
 	case 'b':		/* size in 512-byte blocks */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
-				   hbuf, human_ceiling,
-				   ST_NBLOCKSIZE, 512));
+	  checked_fprintf (dest, segment->text,
+			   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
+					   hbuf, human_ceiling,
+					   ST_NBLOCKSIZE, 512));
 	  break;
 	case 'c':		/* ctime in `ctime' format */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text, ctime_format (get_stat_ctime(stat_buf)));
+	  checked_fprintf (dest, segment->text, ctime_format (get_stat_ctime(stat_buf)));
 	  break;
 	case 'd':		/* depth in search tree */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text, state.curdepth);
+	  checked_fprintf (dest, segment->text, state.curdepth);
 	  break;
 	case 'D':		/* Device on which file exists (stat.st_dev) */
 	  /* trusted */
-	  fprintf (fp, segment->text, 
-		   human_readable ((uintmax_t) stat_buf->st_dev, hbuf,
-				   human_ceiling, 1, 1));
+	  checked_fprintf (dest, segment->text, 
+			   human_readable ((uintmax_t) stat_buf->st_dev, hbuf,
+					   human_ceiling, 1, 1));
 	  break;
 	case 'f':		/* base name of path */
 	  /* sanitised */
-	  print_quoted (fp, qopts, ttyflag, segment->text, base_name (pathname));
+	  checked_print_quoted (dest, segment->text, base_name (pathname));
 	  break;
 	case 'F':		/* filesystem type */
 	  /* trusted */
-	  print_quoted (fp, qopts, ttyflag, segment->text, filesystem_type (stat_buf, pathname));
+	  checked_print_quoted (dest, segment->text, filesystem_type (stat_buf, pathname));
 	  break;
 	case 'g':		/* group name */
 	  /* trusted */
@@ -694,7 +737,7 @@ do_fprintf(FILE *fp,
 	    if (g)
 	      {
 		segment->text[segment->text_len] = 's';
-		fprintf (fp, segment->text, g->gr_name);
+		checked_fprintf (dest, segment->text, g->gr_name);
 		break;
 	      }
 	    else
@@ -703,11 +746,13 @@ do_fprintf(FILE *fp,
 		/*FALLTHROUGH*/
 	      }
 	  }
+	  /*FALLTHROUGH*/ /*...sometimes, so 'G' case.*/
+
 	case 'G':		/* GID number */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) stat_buf->st_gid, hbuf,
-				   human_ceiling, 1, 1));
+	  checked_fprintf (dest, segment->text,
+			   human_readable ((uintmax_t) stat_buf->st_gid, hbuf,
+					   human_ceiling, 1, 1));
 	  break;
 	case 'h':		/* leading directories part of path */
 	  /* sanitised */
@@ -719,40 +764,42 @@ do_fprintf(FILE *fp,
 		 * print the string because it contains characters
 		 * other than just '%s'.  The %h expands to ".".
 		 */
-		print_quoted (fp, qopts, ttyflag, segment->text, ".");
+		checked_print_quoted (dest, segment->text, ".");
 	      }
 	    else
 	      {
 		char *s = strdup(pathname);
 		s[cp - pathname] = 0;
-		print_quoted (fp, qopts, ttyflag, segment->text, s);
+		checked_print_quoted (dest, segment->text, s);
 		free(s);
 	      }
-	    break;
 	  }
+	  break;
+
 	case 'H':		/* ARGV element file was found under */
 	  /* trusted */
 	  {
 	    char *s = xmalloc(state.starting_path_length+1);
 	    memcpy(s, pathname, state.starting_path_length);
 	    s[state.starting_path_length] = 0;
-	    fprintf (fp, segment->text, s);
+	    checked_fprintf (dest, segment->text, s);
 	    free(s);
-	    break;
 	  }
+	  break;
+
 	case 'i':		/* inode number */
 	  /* UNTRUSTED, but not exploitable I think */
-	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) stat_buf->st_ino, hbuf,
-				   human_ceiling,
-				   1, 1));
+	  checked_fprintf (dest, segment->text,
+			   human_readable ((uintmax_t) stat_buf->st_ino, hbuf,
+					   human_ceiling,
+					   1, 1));
 	  break;
 	case 'k':		/* size in 1K blocks */
 	  /* UNTRUSTED, but not exploitable I think */
-	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
-				   hbuf, human_ceiling,
-				   ST_NBLOCKSIZE, 1024)); 
+	  checked_fprintf (dest, segment->text,
+			   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
+					   hbuf, human_ceiling,
+					   ST_NBLOCKSIZE, 1024)); 
 	  break;
 	case 'l':		/* object of symlink */
 	  /* sanitised */
@@ -768,7 +815,7 @@ do_fprintf(FILE *fp,
 	      }
 	    if (linkname)
 	      {
-		print_quoted (fp, qopts, ttyflag, segment->text, linkname);
+		checked_print_quoted (dest, segment->text, linkname);
 		free (linkname);
 	      }
 	    else
@@ -776,7 +823,7 @@ do_fprintf(FILE *fp,
 		/* We still need to honour the field width etc., so this is
 		 * not a no-op.
 		 */
-		print_quoted (fp, qopts, ttyflag, segment->text, "");
+		checked_print_quoted (dest, segment->text, "");
 	      }
 	  }
 #endif				/* S_ISLNK */
@@ -788,7 +835,7 @@ do_fprintf(FILE *fp,
 	    char modestring[16] ;
 	    filemodestring (stat_buf, modestring);
 	    modestring[10] = '\0';
-	    fprintf (fp, segment->text, modestring);
+	    checked_fprintf (dest, segment->text, modestring);
 	  }
 	  break;
 
@@ -805,7 +852,7 @@ do_fprintf(FILE *fp,
 	       && S_IRUSR == 00400 && S_IWUSR == 00200 && S_IXUSR == 00100
 	       && S_IRGRP == 00040 && S_IWGRP == 00020 && S_IXGRP == 00010
 	       && S_IROTH == 00004 && S_IWOTH == 00002 && S_IXOTH == 00001);
-	    fprintf (fp, segment->text,
+	    checked_fprintf (dest, segment->text,
 		     (traditional_numbering_scheme
 		      ? m & MODE_ALL
 		      : ((m & S_ISUID ? 04000 : 0)
@@ -825,16 +872,18 @@ do_fprintf(FILE *fp,
 	  
 	case 'n':		/* number of links */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text,
+	  checked_fprintf (dest, segment->text,
 		   human_readable ((uintmax_t) stat_buf->st_nlink,
 				   hbuf,
 				   human_ceiling,
 				   1, 1));
 	  break;
+
 	case 'p':		/* pathname */
 	  /* sanitised */
-	  print_quoted (fp, qopts, ttyflag, segment->text, pathname);
+	  checked_print_quoted (dest, segment->text, pathname);
 	  break;
+
 	case 'P':		/* pathname with ARGV element stripped */
 	  /* sanitised */
 	  if (state.curdepth > 0)
@@ -848,24 +897,28 @@ do_fprintf(FILE *fp,
 		cp++;
 	    }
 	  else
-	    cp = "";
-	  print_quoted (fp, qopts, ttyflag, segment->text, cp);
+	    {
+	      cp = "";
+	    }
+	  checked_print_quoted (dest, segment->text, cp);
 	  break;
+	  
 	case 's':		/* size in bytes */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text,
+	  checked_fprintf (dest, segment->text,
 		   human_readable ((uintmax_t) stat_buf->st_size,
 				   hbuf, human_ceiling, 1, 1));
 	  break;
 	  
 	case 'S':		/* sparseness */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text, file_sparseness(stat_buf));;
+	  checked_fprintf (dest, segment->text, file_sparseness(stat_buf));;
 	  break;
 	  
 	case 't':		/* mtime in `ctime' format */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text, ctime_format (get_stat_mtime(stat_buf)));
+	  checked_fprintf (dest, segment->text,
+			   ctime_format (get_stat_mtime(stat_buf)));
 	  break;
 	  
 	case 'u':		/* user name */
@@ -881,20 +934,23 @@ do_fprintf(FILE *fp,
 	    if (p)
 	      {
 		segment->text[segment->text_len] = 's';
-		fprintf (fp, segment->text, p->pw_name);
+		checked_fprintf (dest, segment->text, p->pw_name);
 		break;
 	      }
 	    /* else fallthru */
 	  }
+	  /* FALLTHROUGH*/ /* .. to case U */
 	  
 	case 'U':		/* UID number */
 	  /* UNTRUSTED, probably unexploitable */
-	  fprintf (fp, segment->text,
-		   human_readable ((uintmax_t) stat_buf->st_uid, hbuf,
-				   human_ceiling, 1, 1));
+	  checked_fprintf (dest, segment->text,
+			   human_readable ((uintmax_t) stat_buf->st_uid, hbuf,
+					   human_ceiling, 1, 1));
 	  break;
 
-	  /* type of filesystem entry like `ls -l`: (d,-,l,s,p,b,c,n) n=nonexistent(symlink) */
+	  /* %Y: type of filesystem entry like `ls -l`: 
+	   *     (d,-,l,s,p,b,c,n) n=nonexistent(symlink) 
+	   */
 	case 'Y':		/* in case of symlink */
 	  /* trusted */
 	  {
@@ -908,26 +964,34 @@ do_fprintf(FILE *fp,
 		if ((following_links() ? lstat : stat)
 		    (state.rel_pathname, &sbuf) != 0)
 		  {
-		    if ( errno == ENOENT ) {
-		      fprintf (fp, segment->text, "N");
-		      break;
-		    };
-		    if ( errno == ELOOP ) {
-		      fprintf (fp, segment->text, "L");
-		      break;
-		    };
-		    error (0, errno, "%s", safely_quote_err_filename(0, pathname));
-		    /* exit_status = 1;
-		       return (false); */
+		    if ( errno == ENOENT )
+		      {
+			checked_fprintf (dest, segment->text, "N");
+			break;
+		      }
+		    else if ( errno == ELOOP )
+		      {
+			checked_fprintf (dest, segment->text, "L");
+			break;
+		      }
+		    else 
+		      {
+			checked_fprintf (dest, segment->text, "?");
+			error (0, errno, "%s",
+			       safely_quote_err_filename(0, pathname));
+			/* exit_status = 1;
+			   return ; */
+			break;
+		      }
 		  }
-		fprintf (fp, segment->text,
-			 mode_to_filetype(sbuf.st_mode & S_IFMT));
+		checked_fprintf (dest, segment->text,
+				 mode_to_filetype(sbuf.st_mode & S_IFMT));
 	      }
 #endif /* S_ISLNK */
 	    else
 	      {
-		fprintf (fp, segment->text,
-			 mode_to_filetype(stat_buf->st_mode & S_IFMT));
+		checked_fprintf (dest, segment->text,
+				 mode_to_filetype(stat_buf->st_mode & S_IFMT));
 	      }
 	  }
 	  break;
@@ -935,26 +999,23 @@ do_fprintf(FILE *fp,
 	case 'y':
 	  /* trusted */
 	  {
-	    fprintf (fp, segment->text,
-		     mode_to_filetype(stat_buf->st_mode & S_IFMT));
+	    checked_fprintf (dest, segment->text,
+			     mode_to_filetype(stat_buf->st_mode & S_IFMT));
 	  }
 	  break;
 	}
+      /* end of KIND_FORMAT case */
       break;
     }
-  #warning this function needs a return statement.  See Savannah bug#19146.
 }
 
 boolean
 pred_fprintf (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  FILE *fp = pred_ptr->args.printf_vec.stream;
+  struct format_val *dest = &pred_ptr->args.printf_vec;
   struct segment *segment;
-  boolean ttyflag = pred_ptr->args.printf_vec.dest_is_tty;
-  const struct quoting_options *qopts = pred_ptr->args.printf_vec.quote_opts;
 
-  for (segment = pred_ptr->args.printf_vec.segment; segment;
-       segment = segment->next)
+  for (segment = dest->segment; segment; segment = segment->next)
     {
       if ( (KIND_FORMAT == segment->segkind) && segment->format_char[1]) /* Component of date. */
 	{
@@ -993,8 +1054,8 @@ pred_fprintf (const char *pathname, struct stat *stat_buf, struct predicate *pre
 	  if (valid)
 	    {
 	      /* trusted */
-	      fprintf (fp, segment->text,
-		       format_date (ts, segment->format_char[1]));
+	      checked_fprintf (dest, segment->text,
+			       format_date (ts, segment->format_char[1]));
 	    }
 	  else
 	    {
@@ -1004,12 +1065,13 @@ pred_fprintf (const char *pathname, struct stat *stat_buf, struct predicate *pre
 	       * "[] foo").
 	       */
 	      /* trusted */
-	      fprintf (fp, segment->text, "");
+	      checked_fprintf (dest, segment->text, "");
 	    }
 	}
       else
 	{
-	  do_fprintf(fp, segment, pathname, stat_buf, ttyflag, qopts);
+	  /* Print a segment which is not a date. */
+	  do_fprintf(dest, segment, pathname, stat_buf);
 	}
     }
   return true;
@@ -1167,12 +1229,7 @@ match_lname (const char *pathname, struct stat *stat_buf, struct predicate *pred
 boolean
 pred_ls (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  list_file (pathname, state.cwd_dir_fd, state.rel_pathname,
-	     stat_buf, options.start_time.tv_sec,
-	     options.output_block_size,
-	     pred_ptr->literal_control_chars,
-	     stdout);
-  return true;
+  return pred_fls(pathname, stat_buf, pred_ptr);
 }
 
 boolean
@@ -1470,7 +1527,7 @@ pred_print (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 {
   (void) stat_buf;
   (void) pred_ptr;
-  /* puts (pathname); */
+
   print_quoted(pred_ptr->args.printf_vec.stream,
 	       pred_ptr->args.printf_vec.quote_opts,
 	       pred_ptr->args.printf_vec.dest_is_tty,
@@ -1481,11 +1538,7 @@ pred_print (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 boolean
 pred_print0 (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  (void) stat_buf;
-  (void) pred_ptr;
-  fputs (pathname, stdout);
-  putc (0, stdout);
-  return (true);
+  return pred_fprint0(pathname, stat_buf, pred_ptr);
 }
 
 boolean

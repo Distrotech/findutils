@@ -1,3 +1,69 @@
+2007-05-06  James Youngman  <jay@gnu.org>
+
+	* find/tree.c: (costlookup): Added pred_fls to the optimiser's
+	predicate cost lookup table.
+
+	* lib/printquoted.c (print_quoted): Change return value from void
+	to int, to allow the caller to detect failures.
+	* lib/printquoted.h (print_quoted): Change declaration
+	accordingly.  
+
+	* find/defs.h (struct format_val): Incldue a 'filename' member so
+	that we can provide more useful error messages (e.g. when we fail
+	to flush or close an output file).
+	(nonfatal_file_error): declare new function.
+
+	* find/util.c (traverse_tree): Utility function which calls a
+	callback on every node of the parse tree.
+	(flush_and_close_output_files): Flush all output streams.  Close
+	all output files.  Report any errors.
+	(cleanup): Use traverse_tree() to invoke
+	complete_pending_execdirs().
+	(report_file_err): refactored error reporting function, extracted
+	from fatal_file_error.
+	(nonfatal_file_error): New function.
+
+	* find/pred.c (checked_fprintf): New function, which performa an
+	fprinf(), and checkes the result.  If the operation resulted in an
+	error, a nonfatal error message is issued.
+	(checked_print_quoted): Ditto, for print_quoted rather than
+	fprintf.
+	(checked_fwrite): Ditto for fwrite instead of fprintf.
+	(checked_fflush): Ditto for fflush
+	(do_fprintf): Use the checked_*() functions rather than their
+	direct counterparts, to ensure that I/O errors are detected.  This
+	fixes Savannah bug #19416.
+	(pred_fls): Use args.printf_vec instead of args.stream, which has
+	now been removed. 
+	(pred_ls): just call pred_fls.
+	(pred_fprint0): use args.printf_vec, instead of the now removed
+	args.stream.
+	(pred_print0): just call pred_fprint0
+
+	* find/parser.c: (insert_fprintf): Make the caller collect the
+	format argument from the argument list.
+	(open_output_file): Enhance to set up defaults in
+	our_pred->args.printf_vec as well as opening the output file.
+	Also record the filename for possible later use in an error
+	message. 
+	(collect_arg): Convenience function for collecting an argument
+	from the argument list.
+	(insert_fls): Refactored the body of parse_fls out so that
+	parse_ls can use it.
+	(parse_fls): call insert_fls.
+	(parse_ls): ditto
+	(parse_fprint): Instead of setting up our_pred->args.printf_vec
+	manually, call open_output_file() to do it.
+	(parse_print): Same, but by calling open_stdout().
+	(insert_fprint): Make the caller collect the filename argument,
+	and delegate the setup of our_pred->args.printf_vec to either
+	open_output_file() (for parse_fprint and parse_fprint0) or
+	open_stdout (parse_print0).
+	(parse_fprint0): Use collect_arg().
+	(parse_print0): Use insert_fprint(), just like parse_fprint0.
+	(parse_printf): Use collect_arg().
+	(parse_fprintf): Use collect_arg().
+
 2007-05-05  James Youngman  <jay@gnu.org>
 
 	* find/parser.c (parse_samefile): Hold a file descriptor open on

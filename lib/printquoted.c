@@ -43,13 +43,15 @@
  * convert any potentially-dangerous characters.  The logic in this function 
  * was taken from ls.c in coreutils (at Sun Jun  5 20:42:51 2005 UTC).
  */
-void
+int
 print_quoted (FILE *fp,
 	      const struct quoting_options *qopts,
 	      bool dest_is_tty,
 	      const char *format,
 	      const char *s)
 {
+  int rv;
+  
   if (dest_is_tty)
     {
       char smallbuf[BUFSIZ];
@@ -71,7 +73,7 @@ print_quoted (FILE *fp,
       /* Replace any remaining funny characters with '?'. */
       len = qmark_chars(buf, len);
       
-      fprintf(fp, format, buf);	/* Print the quoted version */
+      rv = fprintf(fp, format, buf);	/* Print the quoted version */
       if (buf != smallbuf)
 	{
 	  free(buf);
@@ -81,8 +83,8 @@ print_quoted (FILE *fp,
   else
     {
       /* no need to quote things. */
-      fprintf(fp, format, s);
+      rv = fprintf(fp, format, s);
     }
-  
+  return rv;
 }
 

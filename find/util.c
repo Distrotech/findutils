@@ -363,7 +363,55 @@ complete_pending_execs(struct predicate *p)
 
   complete_pending_execs(p->pred_right);
 }
+
+static void
+traverse_tree(struct predicate *tree,
+			  void (*callback)(struct predicate*))
+{
+  if (tree->pred_left)
+    traverse_tree(tree->pred_left, callback);
 
+  callback(tree);
+  
+  if (tree->pred_right)
+    traverse_tree(tree->pred_right, callback);
+}
+
+static void
+flush_and_close_output_files(struct predicate *p)
+{
+  if (pred_is(p, pred_fprint)
+      || pred_is(p, pred_fprintf)
+      || pred_is(p, pred_fls)
+      || pred_is(p, pred_fprint0))
+    {
+      FILE *f = p->args.printf_vec.stream;
+      bool failed;
+      
+      if (f == stdout || f == stderr)
+	failed = fflush(p->args.printf_vec.stream) == EOF;
+      else
+	failed = fclose(p->args.printf_vec.stream) == EOF;
+     
+      if (failed)
+	  nonfatal_file_error(p->args.printf_vec.filename);
+    }
+  else if (pred_is(p, pred_print))
+    {
+      if (fflush(p->args.printf_vec.stream) == EOF)
+	{
+	  nonfatal_file_error(p->args.printf_vec.filename);
+	}
+    }
+  else if (pred_is(p, pred_ls) || pred_is(p, pred_print0))
+    {
+      if (fflush(stdout) == EOF)
+	{
+	  /* XXX: migrate to printf_vec. */
+	  nonfatal_file_error("standard output");
+	}
+    }
+}
 
 /* Complete any outstanding commands.
  */
@@ -373,8 +421,9 @@ cleanup(void)
   struct predicate *eval_tree = get_eval_tree();
   if (eval_tree)
     {
-      complete_pending_execs(eval_tree);
+      traverse_tree(eval_tree, complete_pending_execs);
       complete_pending_execdirs(get_current_dirfd());
+      traverse_tree(eval_tree, flush_and_close_output_files);
     }
 }
 
@@ -943,13 +992,35 @@ safely_quote_err_filename (int n, char const *arg)
   return quotearg_n_style (n, options.err_quoting_style, arg);
 }
 
+/* report_file_err
+ */
+static void
+report_file_err(int exitval, int errno_value, const char *name)
+{
+  /* It is important that the errno value is passed in as a function
+   * argument before we call safely_quote_err_filename(), because otherwise 
+   * we might find that safely_quote_err_filename() changes errno.
+   */
+  if (state.exit_status < 1)
+    state.exit_status = 1;
+
+  error (exitval, errno_value, "%s", safely_quote_err_filename(0, name));
+}
+
 /* fatal_file_error
  *
  */
 void
 fatal_file_error(const char *name)
 {
-  error (1, errno, "%s", safely_quote_err_filename(0, name));
+  report_file_err(1, errno, name);
   /*NOTREACHED*/
   abort();
 }
+
+void
+nonfatal_file_error(const char *name)
+{
+  report_file_err(0, errno, name);
+}
+

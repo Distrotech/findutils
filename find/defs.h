@@ -211,6 +211,7 @@ struct format_val
 {
   struct segment *segment;	/* Linked list of segments. */
   FILE *stream;			/* Output stream to print on. */
+  const char *filename;		/* We need the filename for error messages. */
   boolean dest_is_tty;		/* True if the destination is a terminal. */
   struct quoting_options *quote_opts;
 };
@@ -298,8 +299,7 @@ struct predicate
     struct perm_val perm;	/* perm */
     struct samefile_file_id samefileid; /* samefile */
     mode_t type;		/* type */
-    FILE *stream;		/* ls fls fprint0 */
-    struct format_val printf_vec; /* printf fprintf fprint  */
+    struct format_val printf_vec; /* printf fprintf fprint ls fls print0 fprint0 print */
   } args;
 
   /* The next predicate in the user input sequence,
@@ -477,6 +477,7 @@ void complete_pending_execs(struct predicate *p);
 void complete_pending_execdirs(int dirfd); /* Passing dirfd is an unpleasant CodeSmell. */
 const char *safely_quote_err_filename (int n, char const *arg);
 void fatal_file_error(const char *name) ATTRIBUTE_NORETURN;
+void nonfatal_file_error(const char *name);
 
 int process_leading_options PARAMS((int argc, char *argv[]));
 void set_option_defaults PARAMS((struct options *p));

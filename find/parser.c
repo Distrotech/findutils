@@ -164,7 +164,10 @@ boolean parse_print             PARAMS((const struct parser_table*, char *argv[]
 
 static boolean insert_type PARAMS((char **argv, int *arg_ptr, const struct parser_table *entry, PRED_FUNC which_pred));
 static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry, int regex_options));
-static boolean insert_fprintf PARAMS((FILE *fp, const struct parser_table *entry, PRED_FUNC func, char *argv[], int *arg_ptr));
+static boolean insert_fprintf (struct format_val *vec,
+			       const struct parser_table *entry,
+			       PRED_FUNC func,
+			       const char *format);
 
 static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len,
 					     int kind, char format_char, char aux_format_char,
@@ -174,7 +177,8 @@ static boolean get_comp_type PARAMS((char **str, enum comparison_type *comp_type
 static boolean get_relative_timestamp PARAMS((char *str, struct time_val *tval, time_t origin, double sec_per_unit, const char *overflowmessage));
 static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
 static struct predicate* insert_num PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry));
-static FILE *open_output_file PARAMS((char *path));
+static void open_output_file (const char *path, struct format_val *p);
+static void open_stdout (struct format_val *p);
 static boolean stream_is_tty(FILE *fp);
 static boolean parse_noop PARAMS((const struct parser_table* entry, char **argv, int *arg_ptr));
 
@@ -550,6 +554,25 @@ estimate_timestamp_success_rate(time_t when)
   return estimate_file_age_success_rate(num_days);
 }
 
+/* Collect an argument from the argument list, or 
+ * return false.
+ */
+static boolean
+collect_arg(char **argv, int *arg_ptr, const char **collected_arg)
+{
+  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
+    {
+      *collected_arg = NULL;
+      return false;
+    }
+  else
+    {
+      *collected_arg = argv[*arg_ptr];
+      (*arg_ptr)++;
+      return true;
+    }
+}
+
 /* The parsers are responsible to continue scanning ARGV for
    their arguments.  Each parser knows what is and isn't
    allowed for itself.
@@ -758,36 +781,25 @@ parse_false (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 static boolean
-parse_fls (const struct parser_table* entry, char **argv, int *arg_ptr)
+insert_fls (const struct parser_table* entry, const char *filename)
 {
-  struct predicate *our_pred;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  our_pred = insert_primary (entry);
-  our_pred->args.stream = open_output_file (argv[*arg_ptr]);
+  struct predicate *our_pred = insert_primary (entry);
+  if (filename)
+    open_output_file (filename, &our_pred->args.printf_vec);
+  else
+    open_stdout (&our_pred->args.printf_vec);
   our_pred->side_effects = our_pred->no_default_print = true;
   our_pred->est_success_rate = 1.0f;
-  (*arg_ptr)++;
   return true;
 }
 
-static boolean 
-parse_fprintf (const struct parser_table* entry, char **argv, int *arg_ptr)
-{
-  FILE *fp;
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  if (argv[*arg_ptr + 1] == NULL)
-    {
-      /* Ensure we get "missing arg" message, not "invalid arg".  */
-      (*arg_ptr)++;
-      return false;
-    }
-  fp = open_output_file (argv[*arg_ptr]);
-  (*arg_ptr)++;
-  return insert_fprintf (fp, entry, pred_fprintf, argv, arg_ptr);
+static boolean
+parse_fls (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  const char *filename;
+  return collect_arg(argv, arg_ptr, &filename)
+    &&  insert_fls(entry, filename);
 }
 
 static boolean
@@ -809,10 +821,7 @@ parse_fprint (const struct parser_table* entry, char **argv, int *arg_ptr)
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
   our_pred = insert_primary (entry);
-  our_pred->args.printf_vec.segment = NULL;
-  our_pred->args.printf_vec.stream = open_output_file (argv[*arg_ptr]);
-  our_pred->args.printf_vec.dest_is_tty = stream_is_tty(our_pred->args.printf_vec.stream);
-  our_pred->args.printf_vec.quote_opts = clone_quoting_options (NULL);
+  open_output_file (argv[*arg_ptr], &our_pred->args.printf_vec);
   our_pred->side_effects = our_pred->no_default_print = true;
   our_pred->need_stat = our_pred->need_type = false;
   our_pred->est_success_rate = 1.0f;
@@ -820,20 +829,29 @@ parse_fprint (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
-parse_fprint0 (const struct parser_table* entry, char **argv, int *arg_ptr)
+static boolean 
+insert_fprint(const struct parser_table* entry, const char *filename)
 {
-  struct predicate *our_pred;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  our_pred = insert_primary (entry);
-  our_pred->args.stream = open_output_file (argv[*arg_ptr]);
+  struct predicate *our_pred = insert_primary (entry);
+  if (filename)
+    open_output_file (filename, &our_pred->args.printf_vec);
+  else
+    open_stdout (&our_pred->args.printf_vec);
   our_pred->side_effects = our_pred->no_default_print = true;
   our_pred->need_stat = our_pred->need_type = false;
   our_pred->est_success_rate = 1.0f;
-  (*arg_ptr)++;
   return true;
+}
+
+
+static boolean
+parse_fprint0 (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  const char *filename;
+  if (collect_arg(argv, arg_ptr, &filename))
+    return insert_fprint(entry, filename);
+  else
+    return false;
 }
 
 static float estimate_fstype_success_rate(const char *fsname)
@@ -1121,14 +1139,9 @@ parse_lname (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_ls (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
-
   (void) &argv;
   (void) &arg_ptr;
-
-  our_pred = insert_primary (entry);
-  our_pred->side_effects = our_pred->no_default_print = true;
-  return true;
+  return insert_fls(entry, NULL);
 }
 
 static boolean
@@ -1712,37 +1725,43 @@ parse_print (const struct parser_table* entry, char **argv, int *arg_ptr)
      already specified -print. */
   our_pred->side_effects = our_pred->no_default_print = true;
   our_pred->need_stat = our_pred->need_type = false;
-  our_pred->args.printf_vec.segment = NULL;
-  our_pred->args.printf_vec.stream = stdout;
-  our_pred->args.printf_vec.dest_is_tty = stream_is_tty(stdout);
-  our_pred->args.printf_vec.quote_opts = clone_quoting_options (NULL);
-  
+  open_stdout(&our_pred->args.printf_vec);
   return true;
 }
 
 static boolean
 parse_print0 (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
-
-  (void) argv;
-  (void) arg_ptr;
-  
-  our_pred = insert_primary (entry);
-  /* -print0 has the side effect of printing.  This prevents us
-     from doing undesired multiple printing when the user has
-     already specified -print0. */
-  our_pred->side_effects = our_pred->no_default_print = true;
-  our_pred->need_stat = our_pred->need_type = false;
-  return true;
+  return insert_fprint(entry, NULL);
 }
 
 static boolean
 parse_printf (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  return insert_fprintf (stdout, entry, pred_fprintf, argv, arg_ptr);
+  const char *format;
+  if (collect_arg(argv, arg_ptr, &format))
+    {
+      struct format_val fmt;
+      open_stdout(&fmt);
+      return insert_fprintf (&fmt, entry, pred_fprintf, format);
+    }
+  return false;
+}
+
+static boolean 
+parse_fprintf (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  const char *format, *filename;
+  if (collect_arg(argv, arg_ptr, &filename))
+    {
+      if (collect_arg(argv, arg_ptr, &format))
+	{
+	  struct format_val fmt;
+	  open_output_file (filename, &fmt);
+	  return insert_fprintf (&fmt, entry, pred_fprintf, format);
+	}
+    }
+  return false;
 }
 
 static boolean
@@ -2424,21 +2443,19 @@ stream_is_tty(FILE *fp)
 
 /* XXX: do we need to pass FUNC to this function? */
 static boolean
-insert_fprintf (FILE *fp, const struct parser_table *entry, PRED_FUNC func, char **argv, int *arg_ptr)
+insert_fprintf (struct format_val *vec,
+		const struct parser_table *entry, PRED_FUNC func,
+		const char *format_const)
 {
-  char *format;			/* Beginning of unprocessed format string. */
+  char *format = (char*)format_const; /* XXX: casting away constness */
   register char *scan;		/* Current address in scanning `format'. */
   register char *scan2;		/* Address inside of element being scanned. */
   struct segment **segmentp;	/* Address of current segment. */
   struct predicate *our_pred;
 
-  format = argv[(*arg_ptr)++];
-
   our_pred = insert_primary_withpred (entry, func);
   our_pred->side_effects = our_pred->no_default_print = true;
-  our_pred->args.printf_vec.stream = fp;
-  our_pred->args.printf_vec.dest_is_tty = stream_is_tty(fp);
-  our_pred->args.printf_vec.quote_opts = clone_quoting_options (NULL);
+  our_pred->args.printf_vec = *vec;
   our_pred->need_type = false;
   our_pred->need_stat = false;
   our_pred->p_cost    = NeedsNothing;
@@ -3192,17 +3209,39 @@ insert_num (char **argv, int *arg_ptr, const struct parser_table *entry)
   return our_pred;
 }
 
-static FILE *
-open_output_file (char *path)
+static void
+open_output_file (const char *path, struct format_val *p)
 {
-  FILE *f;
-
+  p->segment = NULL;
+  p->quote_opts = clone_quoting_options (NULL);
+  
   if (!strcmp (path, "/dev/stderr"))
-    return stderr;
+    {
+      p->stream = stderr;
+      p->filename = _("standard error stream");
+    }
   else if (!strcmp (path, "/dev/stdout"))
-    return stdout;
-  f = fopen_safer (path, "w");
-  if (f == NULL)
-    fatal_file_error(path);
-  return f;
+    {
+      p->stream = stdout;
+      p->filename = _("standard output stream");
+    }
+  else
+    {
+      p->stream = fopen_safer (path, "w");
+      p->filename = path;
+      
+      if (p->stream == NULL)
+	{
+	  fatal_file_error(path);
+	}
+    }
+
+  p->dest_is_tty = stream_is_tty(p->stream);
 }
+
+static void
+open_stdout (struct format_val *p)
+{
+  open_output_file("/dev/stdout", p);
+}
+
