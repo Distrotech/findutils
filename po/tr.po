@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.1\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-05-05 13:52+0100\n"
+"POT-Creation-Date: 2007-05-08 10:29+0100\n"
 "PO-Revision-Date: 2006-11-08 19:40+0200\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@buguner.name.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -146,29 +146,29 @@ msgstr "] [dosyaYolu...] [ifade]\n"
 msgid "Warning: file %s appears to have mode 0000"
 msgstr ""
 
-#: find/util.c:698
+#: find/util.c:747
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Tanınmayan hata ayıklama seçeneği %s yoksayılıyor"
 
-#: find/util.c:705
+#: find/util.c:754
 msgid "Empty argument to the -D option."
 msgstr "-D seçeneğine boş argüman."
 
-#: find/util.c:719
+#: find/util.c:768
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "-O seçeneği ile bir ondalık tamsayı verilmelidir"
 
-#: find/util.c:728 find/util.c:738
+#: find/util.c:777 find/util.c:787
 msgid "Please specify a decimal number immediately after -O"
 msgstr "-O'nun ardına lütfen bir ondalık sayı yazın"
 
-#: find/util.c:743 find/util.c:747
+#: find/util.c:792 find/util.c:796
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "En iyileme seviyesi %s geçersiz"
 
-#: find/util.c:754
+#: find/util.c:803
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -177,7 +177,7 @@ msgstr ""
 "En iyileme seviyesi %lu çok büyük. Dosyaları çabucak bulmak istiyorsanız, "
 "GNU locate kullanmayı düşünebilirsiniz"
 
-#: find/util.c:885
+#: find/util.c:934
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -270,7 +270,7 @@ msgstr ""
 msgid "unknown"
 msgstr "bilinmeyen"
 
-#: find/parser.c:463
+#: find/parser.c:467
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -283,7 +283,7 @@ msgstr ""
 "da belirtilse sınamaları etkiler). Lütfen seçenekleri diğer argümanlardan "
 "önce belirtin.\n"
 
-#: find/parser.c:716
+#: find/parser.c:752
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -291,7 +291,23 @@ msgstr ""
 "uyarı: -d seçeneği artık önerilmiyor; lütfen yerine POSIX uyumlu olan -depth "
 "seçeneğini kullanın."
 
-#: find/parser.c:919
+#: find/parser.c:946
+#, c-format
+msgid ""
+"%s is not the name of an existing group and it does not look like a numeic "
+"group ID because it has the unexpected suffix %s"
+msgstr ""
+
+#: find/parser.c:959
+#, c-format
+msgid "%s is not the name of an existing group"
+msgstr ""
+
+#: find/parser.c:964
+msgid "argument to -group is empty, but should be a group name"
+msgstr ""
+
+#: find/parser.c:985
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -302,7 +318,7 @@ msgstr ""
 "ifade şundan ibaret olabilir:\n"
 "operatörler, seçenekler, sınamalar ve eylemler:\n"
 
-#: find/parser.c:922
+#: find/parser.c:988
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -315,7 +331,7 @@ msgstr ""
 "      İFADE1 -and İFADE2     İFADE1 -o İFADE2     İFADE1 -or İFADE2\n"
 "      İFADE1 , İFADE2\n"
 
-#: find/parser.c:926
+#: find/parser.c:992
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -328,7 +344,7 @@ msgstr ""
 "      -depth --help -maxdepth DÜZEYLER -mindepth DÜZEYLER -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:931
+#: find/parser.c:997
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -343,7 +359,7 @@ msgstr ""
 "N\n"
 "      -mtime N -name KALIP -newer DOSYA"
 
-#: find/parser.c:936
+#: find/parser.c:1002
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
@@ -355,7 +371,7 @@ msgstr ""
 "      -wholename KALIP -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user İSİM -xtype [bcdpfls]\n"
 
-#: find/parser.c:941
+#: find/parser.c:1007
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -367,7 +383,7 @@ msgstr ""
 "      -exec KOMUT ; -exec KOMUT {} + -ok KOMUT ;\n"
 "      -execdir KOMUT ; -execdir KOMUT {} + -okdir KOMUT ;\n"
 
-#: find/parser.c:947
+#: find/parser.c:1013
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -378,11 +394,11 @@ msgstr ""
 "adresine raporlayınız.\n"
 "Çeviri hatalarını ise <gnu-tr@belgeler.org> adresine bildiriniz."
 
-#: find/parser.c:996
+#: find/parser.c:1067
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "fnmatch() kütüphane işlevinin tutarlılık sınaması başarısız oldu."
 
-#: find/parser.c:1011
+#: find/parser.c:1081
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -397,33 +413,38 @@ msgstr ""
 "bulabilirsiniz.  Ayrıca, eğer GNU grep kullanıyorsanız, 'find ... -print0 | "
 "grep -FzZ %s' kullanabilirdiniz."
 
-#: find/parser.c:1059
+#: find/parser.c:1128
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "uyarı: -ipath dayanağının kullanımı önerilmiyor; yerine lütfen -iwholename "
 "kullanın."
 
-#: find/parser.c:1301
+#: find/parser.c:1211
+#, c-format
+msgid "Expected a positive decimal integer argument to %s, but got %s"
+msgstr ""
+
+#: find/parser.c:1358
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1351
+#: find/parser.c:1408
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1367
+#: find/parser.c:1424
 #, fuzzy, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Girdi dosyası `%s' açılamıyor"
 
-#: find/parser.c:1639
+#: find/parser.c:1689
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "geçersiz kip `%s'"
 
-#: find/parser.c:1658
+#: find/parser.c:1708
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -434,16 +455,21 @@ msgstr ""
 "olarak  -perm -000 ile değiştirilmiş olacaktır; yani, şu an hiçbir dosya ile "
 "eşleşmiyorsa bile ileride bütün dosyalarla eşleşiyor olacaktır."
 
-#: find/parser.c:1843
+#: find/parser.c:1903
 msgid "invalid null argument to -size"
 msgstr "-size için boş (null) argüman geçersiz"
 
-#: find/parser.c:1889
+#: find/parser.c:1951
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size türü `%c' geçersiz"
 
-#: find/parser.c:2072
+#: find/parser.c:1956
+#, fuzzy, c-format
+msgid "Invalid argument `%s%c' to -size"
+msgstr "`%s' argümanı `%s'de geçersiz"
+
+#: find/parser.c:2132
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -451,42 +477,56 @@ msgstr ""
 "-show-control-chars seçeneği ya 'literal' ya da 'safe' olması gereken tek "
 "bir argüman alır"
 
-#: find/parser.c:2216
+#: find/parser.c:2235
+#, fuzzy, c-format
+msgid "Invalid argument %s to -used"
+msgstr "%2$s için %1$s argümanı geçersiz"
+
+#: find/parser.c:2289
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find sürüm %s\n"
 
-#: find/parser.c:2217 locate/code.c:190 locate/locate.c:1533 xargs/xargs.c:622
+#: find/parser.c:2290 locate/code.c:190 locate/locate.c:1533 xargs/xargs.c:622
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils sürüm %s\n"
 
-#: find/parser.c:2218
+#: find/parser.c:2291
 #, c-format
 msgid "Features enabled: "
 msgstr "Etkin özellikler:"
 
-#: find/parser.c:2501
+#: find/parser.c:2398
+msgid "Arguments to -type should contain only one letter"
+msgstr ""
+
+#: find/parser.c:2445
+#, c-format
+msgid "Unknown argument to -type: %c"
+msgstr ""
+
+#: find/parser.c:2566
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uyarı: tanınmayan öncelem `\\%c'"
 
-#: find/parser.c:2517
+#: find/parser.c:2582
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2556
+#: find/parser.c:2621
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uyarı: tanınmayan biçem yönergesi `%%%c'"
 
-#: find/parser.c:2700
+#: find/parser.c:2765
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2725
+#: find/parser.c:2790
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -499,7 +539,7 @@ msgstr ""
 "kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
 "işaretlerini kaldırın)"
 
-#: find/parser.c:2731
+#: find/parser.c:2796
 #, fuzzy, c-format
 msgid ""
 "The ralative path %s is included in the PATH environment variable, which is "
@@ -511,7 +551,7 @@ msgstr ""
 "kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
 "işaretlerini kaldırın)"
 
-#: find/parser.c:2831
+#: find/parser.c:2896
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -519,47 +559,55 @@ msgstr ""
 "-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, "
 "çünkü bu potensiyel bir güvenlik açığıdır."
 
-#: find/parser.c:2854
+#: find/parser.c:2919
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
 
-#: find/parser.c:2871
+#: find/parser.c:2936
 msgid "The environment is too large for exec()."
 msgstr "exec() için ortam çok geniş."
 
-#: find/parser.c:3054
+#: find/parser.c:3119
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/pred.c:1248
+#: find/parser.c:3271
+msgid "standard error"
+msgstr ""
+
+#: find/parser.c:3276
+msgid "standard output"
+msgstr ""
+
+#: find/pred.c:1305
 #, fuzzy, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr "Girdi dosyası `%s' açılamıyor"
 
-#: find/pred.c:1312
+#: find/pred.c:1369
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1760
+#: find/pred.c:1813
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1795
+#: find/pred.c:1848
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1836 xargs/xargs.c:1119
+#: find/pred.c:1889 xargs/xargs.c:1119
 msgid "cannot fork"
 msgstr "ayrılamaz"
 
-#: find/pred.c:1861
+#: find/pred.c:1914
 #, c-format
 msgid "error waiting for %s"
 msgstr "%s beklenirken hata oluştu"
 
-#: find/pred.c:1870
+#: find/pred.c:1923
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s, %d sinyali ile sonlandırıldı"
@@ -619,45 +667,45 @@ msgstr "hooop -- geçersiz ifade türü!"
 msgid "oops -- invalid expression type (%d)!"
 msgstr "hooop -- geçersiz ifade türü (%d)!"
 
-#: find/tree.c:1227
+#: find/tree.c:1228
 #, c-format
 msgid "paths must precede expression: %s"
 msgstr "dosya yolları ifadeyi öncelemelidir: %s"
 
-#: find/tree.c:1236
+#: find/tree.c:1237
 #, fuzzy, c-format
 msgid "unknown predicate `%s'"
 msgstr "geçersiz dayanak `%s'"
 
-#: find/tree.c:1256
+#: find/tree.c:1257
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "geçersiz dayanak `%s'"
 
-#: find/tree.c:1261
+#: find/tree.c:1262
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "`%s' argümanı `%s'de geçersiz"
 
-#: find/tree.c:1268
+#: find/tree.c:1269
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "`%s'de argüman eksik"
 
-#: find/tree.c:1343
+#: find/tree.c:1344
 msgid "you have too many ')'"
 msgstr "çok fazla ')' var"
 
-#: find/tree.c:1348
+#: find/tree.c:1349
 #, c-format
 msgid "unexpected extra predicate '%s'"
 msgstr "umulmayan ek dayanak '%s'"
 
-#: find/tree.c:1350
+#: find/tree.c:1351
 msgid "unexpected extra predicate"
 msgstr "umulmayan ek dayanak"
 
-#: find/tree.c:1466
+#: find/tree.c:1467
 msgid "oops -- invalid default insertion of and!"
 msgstr "Hoop -- öntanımlı `and' yerleştirme geçersiz!"
 

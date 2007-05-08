@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-05-05 13:52+0100\n"
+"POT-Creation-Date: 2007-05-08 10:29+0100\n"
 "PO-Revision-Date: 2002-01-07 18:43GMT+06\n"
 "Last-Translator: Denis Perchine <dyp@perchine.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -145,36 +145,36 @@ msgstr "Использование: %s [путь...] [выражение]\n"
 msgid "Warning: file %s appears to have mode 0000"
 msgstr ""
 
-#: find/util.c:698
+#: find/util.c:747
 #, fuzzy, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "предупреждение: нераспознаваемая последовательность '\\%c'"
 
-#: find/util.c:705
+#: find/util.c:754
 msgid "Empty argument to the -D option."
 msgstr ""
 
-#: find/util.c:719
+#: find/util.c:768
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr ""
 
-#: find/util.c:728 find/util.c:738
+#: find/util.c:777 find/util.c:787
 msgid "Please specify a decimal number immediately after -O"
 msgstr ""
 
-#: find/util.c:743 find/util.c:747
+#: find/util.c:792 find/util.c:796
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr ""
 
-#: find/util.c:754
+#: find/util.c:803
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:885
+#: find/util.c:934
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -253,7 +253,7 @@ msgstr ""
 msgid "unknown"
 msgstr "неизвестный"
 
-#: find/parser.c:463
+#: find/parser.c:467
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -262,13 +262,29 @@ msgid ""
 "arguments.\n"
 msgstr ""
 
-#: find/parser.c:716
+#: find/parser.c:752
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 
-#: find/parser.c:919
+#: find/parser.c:946
+#, c-format
+msgid ""
+"%s is not the name of an existing group and it does not look like a numeic "
+"group ID because it has the unexpected suffix %s"
+msgstr ""
+
+#: find/parser.c:959
+#, c-format
+msgid "%s is not the name of an existing group"
+msgstr ""
+
+#: find/parser.c:964
+msgid "argument to -group is empty, but should be a group name"
+msgstr ""
+
+#: find/parser.c:985
 #, fuzzy
 msgid ""
 "\n"
@@ -281,7 +297,7 @@ msgstr ""
 "других):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:922
+#: find/parser.c:988
 #, fuzzy
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
@@ -295,7 +311,7 @@ msgstr ""
 "других):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:926
+#: find/parser.c:992
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -304,7 +320,7 @@ msgid ""
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
 
-#: find/parser.c:931
+#: find/parser.c:997
 #, fuzzy
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
@@ -317,7 +333,7 @@ msgstr ""
 "      -ilname PATTERN -iname PATTERN -inum N -ipath PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n"
 
-#: find/parser.c:936
+#: find/parser.c:1002
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -329,7 +345,7 @@ msgstr ""
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NAME\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:941
+#: find/parser.c:1007
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -337,18 +353,18 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:947
+#: find/parser.c:1013
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
 
-#: find/parser.c:996
+#: find/parser.c:1067
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 
-#: find/parser.c:1011
+#: find/parser.c:1081
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -358,31 +374,36 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:1059
+#: find/parser.c:1128
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 
-#: find/parser.c:1301
+#: find/parser.c:1211
+#, c-format
+msgid "Expected a positive decimal integer argument to %s, but got %s"
+msgstr ""
+
+#: find/parser.c:1358
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1351
+#: find/parser.c:1408
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1367
+#: find/parser.c:1424
 #, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr ""
 
-#: find/parser.c:1639
+#: find/parser.c:1689
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "неверный режим '%s'"
 
-#: find/parser.c:1658
+#: find/parser.c:1708
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -390,57 +411,76 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:1843
+#: find/parser.c:1903
 msgid "invalid null argument to -size"
 msgstr "отсутствует аргумент у -size"
 
-#: find/parser.c:1889
+#: find/parser.c:1951
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "неверный тип '%c' для -size"
 
-#: find/parser.c:2072
+#: find/parser.c:1956
+#, fuzzy, c-format
+msgid "Invalid argument `%s%c' to -size"
+msgstr "неверный аргумент `%s' у `%s'"
+
+#: find/parser.c:2132
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2216
+#: find/parser.c:2235
+#, fuzzy, c-format
+msgid "Invalid argument %s to -used"
+msgstr "неверный аргумент %s у `%s'"
+
+#: find/parser.c:2289
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find версии %s\n"
 
-#: find/parser.c:2217 locate/code.c:190 locate/locate.c:1533 xargs/xargs.c:622
+#: find/parser.c:2290 locate/code.c:190 locate/locate.c:1533 xargs/xargs.c:622
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU find версии %s\n"
 
-#: find/parser.c:2218
+#: find/parser.c:2291
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2501
+#: find/parser.c:2398
+msgid "Arguments to -type should contain only one letter"
+msgstr ""
+
+#: find/parser.c:2445
+#, c-format
+msgid "Unknown argument to -type: %c"
+msgstr ""
+
+#: find/parser.c:2566
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "предупреждение: нераспознаваемая последовательность '\\%c'"
 
-#: find/parser.c:2517
+#: find/parser.c:2582
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2556
+#: find/parser.c:2621
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "предyпреждение: нераспознаваемый формат директивы '%%%c'"
 
-#: find/parser.c:2700
+#: find/parser.c:2765
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2725
+#: find/parser.c:2790
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -449,7 +489,7 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2731
+#: find/parser.c:2796
 #, c-format
 msgid ""
 "The ralative path %s is included in the PATH environment variable, which is "
@@ -457,54 +497,62 @@ msgid ""
 "entry from $PATH"
 msgstr ""
 
-#: find/parser.c:2831
+#: find/parser.c:2896
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2854
+#: find/parser.c:2919
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:2871
+#: find/parser.c:2936
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "окружение слишком велико для исполнения"
 
-#: find/parser.c:3054
+#: find/parser.c:3119
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/pred.c:1248
+#: find/parser.c:3271
+msgid "standard error"
+msgstr ""
+
+#: find/parser.c:3276
+msgid "standard output"
+msgstr ""
+
+#: find/pred.c:1305
 #, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr ""
 
-#: find/pred.c:1312
+#: find/pred.c:1369
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1760
+#: find/pred.c:1813
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1795
+#: find/pred.c:1848
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1836 xargs/xargs.c:1119
+#: find/pred.c:1889 xargs/xargs.c:1119
 msgid "cannot fork"
 msgstr "не могу создать процесс"
 
-#: find/pred.c:1861
+#: find/pred.c:1914
 #, c-format
 msgid "error waiting for %s"
 msgstr "ошибка ожидания %s"
 
-#: find/pred.c:1870
+#: find/pred.c:1923
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s прерван по сигналу %d"
@@ -562,46 +610,46 @@ msgstr "оопс -- неверный тип выражения!"
 msgid "oops -- invalid expression type (%d)!"
 msgstr "оопс -- неверный тип выражения!"
 
-#: find/tree.c:1227
+#: find/tree.c:1228
 #, fuzzy, c-format
 msgid "paths must precede expression: %s"
 msgstr "пути должны быть перед выражением"
 
-#: find/tree.c:1236
+#: find/tree.c:1237
 #, fuzzy, c-format
 msgid "unknown predicate `%s'"
 msgstr "неверный предикат `%s'"
 
-#: find/tree.c:1256
+#: find/tree.c:1257
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "неверный предикат `%s'"
 
-#: find/tree.c:1261
+#: find/tree.c:1262
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "неверный аргумент `%s' у `%s'"
 
-#: find/tree.c:1268
+#: find/tree.c:1269
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "отсутствует аргумент у `%s'"
 
-#: find/tree.c:1343
+#: find/tree.c:1344
 #, fuzzy
 msgid "you have too many ')'"
 msgstr "неверное выражение"
 
-#: find/tree.c:1348
+#: find/tree.c:1349
 #, fuzzy, c-format
 msgid "unexpected extra predicate '%s'"
 msgstr "неверный предикат `%s'"
 
-#: find/tree.c:1350
+#: find/tree.c:1351
 msgid "unexpected extra predicate"
 msgstr ""
 
-#: find/tree.c:1466
+#: find/tree.c:1467
 msgid "oops -- invalid default insertion of and!"
 msgstr "оопс -- неверная вставка по умолчанию оператора 'И' (and)"
 
