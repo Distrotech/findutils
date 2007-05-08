@@ -173,9 +173,9 @@ static struct segment **make_segment PARAMS((struct segment **segment, char *for
 					     int kind, char format_char, char aux_format_char,
 					     struct predicate *pred));
 static boolean insert_exec_ok PARAMS((const char *action, const struct parser_table *entry, int dirfd, char *argv[], int *arg_ptr));
-static boolean get_comp_type PARAMS((char **str, enum comparison_type *comp_type));
-static boolean get_relative_timestamp PARAMS((char *str, struct time_val *tval, time_t origin, double sec_per_unit, const char *overflowmessage));
-static boolean get_num PARAMS((char *str, uintmax_t *num, enum comparison_type *comp_type));
+static boolean get_comp_type PARAMS((const char **str, enum comparison_type *comp_type));
+static boolean get_relative_timestamp PARAMS((const char *str, struct time_val *tval, time_t origin, double sec_per_unit, const char *overflowmessage));
+static boolean get_num PARAMS((const char *str, uintmax_t *num, enum comparison_type *comp_type));
 static struct predicate* insert_num PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry));
 static void open_output_file (const char *path, struct format_val *p);
 static void open_stdout (struct format_val *p);
@@ -573,6 +573,27 @@ collect_arg(char **argv, int *arg_ptr, const char **collected_arg)
     }
 }
 
+static boolean 
+collect_arg_stat_info(char **argv, int *arg_ptr, struct stat *p)
+{
+  const char *filename;
+  if (collect_arg(argv, arg_ptr, &filename))
+    {
+      if (0 == (options.xstat)(filename, p))
+	{
+	  return true;
+	}
+      else
+	{
+	  fatal_file_error(filename);
+	}
+    }
+  else
+    {
+      return false;
+    }
+}
+
 /* The parsers are responsible to continue scanning ARGV for
    their arguments.  Each parser knows what is and isn't
    allowed for itself.
@@ -603,21 +624,19 @@ parse_and (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_anewer (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
   struct stat stat_newer;
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
   set_stat_placeholders(&stat_newer);
-  if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
-    fatal_file_error(argv[*arg_ptr]);
-  our_pred = insert_primary (entry);
-  our_pred->args.reftime.xval = XVAL_ATIME;
-  our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
-  our_pred->args.reftime.kind = COMP_GT;
-  our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
-  (*arg_ptr)++;
-  return true;
+  if (collect_arg_stat_info(argv, arg_ptr, &stat_newer))
+    {
+      struct predicate *our_pred = insert_primary (entry);
+      our_pred->args.reftime.xval = XVAL_ATIME;
+      our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
+      our_pred->args.reftime.kind = COMP_GT;
+      our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
+      return true;
+    }
+  return false;
 }
 
 boolean
@@ -639,21 +658,19 @@ parse_closeparen (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_cnewer (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
   struct stat stat_newer;
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
   set_stat_placeholders(&stat_newer);
-  if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
-    fatal_file_error(argv[*arg_ptr]);
-  our_pred = insert_primary (entry);
-  our_pred->args.reftime.xval = XVAL_CTIME; /* like -newercm */
-  our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
-  our_pred->args.reftime.kind = COMP_GT;
-  our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
-  (*arg_ptr)++;
-  return true;
+  if (collect_arg_stat_info(argv, arg_ptr, &stat_newer))
+    {
+      struct predicate *our_pred = insert_primary (entry);
+      our_pred->args.reftime.xval = XVAL_CTIME; /* like -newercm */
+      our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
+      our_pred->args.reftime.kind = COMP_GT;
+      our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
+      return true;
+    }
+  return false;
 }
 
 static boolean
@@ -721,7 +738,6 @@ parse_depth (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   (void) entry;
   (void) argv;
-  (void) arg_ptr;
 
   options.do_dir_first = false;
   return parse_noop(entry, argv, arg_ptr);
@@ -730,9 +746,6 @@ parse_depth (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_d (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  (void) argv;
-  (void) arg_ptr;
-  
   if (options.warnings)
     {
       error (0, 0,
@@ -805,10 +818,6 @@ parse_fls (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_follow (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  (void) entry;
-  (void) argv;
-  (void) arg_ptr;
-
   set_follow_state(SYMLINK_ALWAYS_DEREF);
   return parse_noop(entry, argv, arg_ptr);
 }
@@ -817,16 +826,20 @@ static boolean
 parse_fprint (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  our_pred = insert_primary (entry);
-  open_output_file (argv[*arg_ptr], &our_pred->args.printf_vec);
-  our_pred->side_effects = our_pred->no_default_print = true;
-  our_pred->need_stat = our_pred->need_type = false;
-  our_pred->est_success_rate = 1.0f;
-  (*arg_ptr)++;
-  return true;
+  const char *filename;
+  if (collect_arg(argv, arg_ptr, &filename))
+    {
+      our_pred = insert_primary (entry);
+      open_output_file (filename, &our_pred->args.printf_vec);
+      our_pred->side_effects = our_pred->no_default_print = true;
+      our_pred->need_stat = our_pred->need_type = false;
+      our_pred->est_success_rate = 1.0f;
+      return true;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 static boolean 
@@ -874,20 +887,24 @@ static float estimate_fstype_success_rate(const char *fsname)
 static boolean
 parse_fstype (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
+  const char *typename;
+  if (collect_arg(argv, arg_ptr, &typename))
+    {
+      struct predicate *our_pred = insert_primary (entry);
+      our_pred->args.str = typename;
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  our_pred = insert_primary (entry);
-  our_pred->args.str = argv[*arg_ptr];
-
-  /* This is an expensive operation, so although there are
-   * circumstances where it is selective, we ignore this fact because
-   * we probably don't want to promote this test to the front anyway.
-   */
-  our_pred->est_success_rate = estimate_fstype_success_rate(argv[*arg_ptr]);
-  (*arg_ptr)++;
-  return true;
+      /* This is an expensive operation, so although there are
+       * circumstances where it is selective, we ignore this fact
+       * because we probably don't want to promote this test to the
+       * front anyway.
+       */
+      our_pred->est_success_rate = estimate_fstype_success_rate(typename);
+      return true;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 static boolean
@@ -901,29 +918,60 @@ parse_gid (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct group *cur_gr;
-  struct predicate *our_pred;
-  gid_t gid;
-  int gid_len;
+  const char *groupname;
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  cur_gr = getgrnam (argv[*arg_ptr]);
-  endgrent ();
-  if (cur_gr != NULL)
-    gid = cur_gr->gr_gid;
-  else
+  if (collect_arg(argv, arg_ptr, &groupname))
     {
-      gid_len = strspn (argv[*arg_ptr], "0123456789");
-      if ((gid_len == 0) || (argv[*arg_ptr][gid_len] != '\0'))
-	return false;
-      gid = atoi (argv[*arg_ptr]);
+      gid_t gid;
+      struct predicate *our_pred;
+      struct group *cur_gr = getgrnam(groupname);
+      endgrent();
+      if (cur_gr)
+	{
+	  gid = cur_gr->gr_gid;
+	}
+      else
+	{
+	  const int gid_len = strspn (groupname, "0123456789");
+	  if (gid_len)
+	    {
+	      if (groupname[gid_len] == 0)
+		{
+		  gid = atoi (groupname);
+#warning "no error checking on the previous line"
+		}
+	      else
+		{
+		  /* XXX: no test in test suite for this */
+		  error(1, 0, _("%s is not the name of an existing group and"
+				" it does not look like a numeic group ID because "
+				"it has the unexpected suffix %s"),
+			quotearg_n_style(0, options.err_quoting_style, groupname),
+			quotearg_n_style(1, options.err_quoting_style, groupname+gid_len));
+		  return false;
+		}
+	    }
+	  else
+	    {
+	      if (*groupname)
+		{
+		  /* XXX: no test in test suite for this */
+		  error(1, 0, _("%s is not the name of an existing group"),
+			quotearg_n_style(0, options.err_quoting_style, groupname));
+		}
+	      else
+		{
+		  error(1, 0, _("argument to -group is empty, but should be a group name"));
+		}
+	      return false;
+	    }
+	}
+      our_pred = insert_primary (entry);
+      our_pred->args.gid = gid;
+      our_pred->est_success_rate = (our_pred->args.numinfo.l_val < 100) ? 0.99 : 0.2;
+      return true;
     }
-  our_pred = insert_primary (entry);
-  our_pred->args.gid = gid;
-  our_pred->est_success_rate = (our_pred->args.numinfo.l_val < 100) ? 0.99 : 0.2;
-  (*arg_ptr)++;
-  return true;
+  return false;
 }
 
 static boolean
@@ -985,39 +1033,43 @@ estimate_pattern_match_rate(const char *pattern, int is_regex)
 static boolean
 parse_ilname (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  our_pred = insert_primary (entry);
-  our_pred->args.str = argv[*arg_ptr];
-  /* Use the generic glob pattern estimator to figure out how many 
-   * links will match, but bear in mind that most files won't be links.
-   */
-  our_pred->est_success_rate = 0.1 * estimate_pattern_match_rate(our_pred->args.str, 0);
-  (*arg_ptr)++;
-  return true;
+  const char *name;
+  if (collect_arg(argv, arg_ptr, &name))
+    {
+      struct predicate *our_pred = insert_primary (entry);
+      our_pred->args.str = name;
+      /* Use the generic glob pattern estimator to figure out how many 
+       * links will match, but bear in mind that most files won't be links.
+       */
+      our_pred->est_success_rate = 0.1 * estimate_pattern_match_rate(name, 0);
+      return true;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 
-/* sanity check the fnmatch() function to make sure
- * it really is the GNU version. 
+/* sanity check the fnmatch() function to make sure that case folding
+ * is supported (as opposed to just having the flag ignored).
  */
 static boolean 
 fnmatch_sanitycheck(void)
 {
-  /* fprintf(stderr, "Performing find sanity check..."); */
-  if (0 != fnmatch("foo", "foo", 0)
-      || 0 == fnmatch("Foo", "foo", 0)
-      || 0 != fnmatch("Foo", "foo", FNM_CASEFOLD))
+  static boolean checked = false;
+  if (!checked)
     {
-      error (1, 0, _("sanity check of the fnmatch() library function failed."));
-      /* fprintf(stderr, "FAILED\n"); */
-      return false;
+      if (0 != fnmatch("foo", "foo", 0)
+	  || 0 == fnmatch("Foo", "foo", 0)
+	  || 0 != fnmatch("Foo", "foo", FNM_CASEFOLD))
+	{
+	  error (1, 0, _("sanity check of the fnmatch() library function failed."));
+	  return false;
+	}
+      checked = true;
     }
-
-  /* fprintf(stderr, "OK\n"); */
-  return true;
+  return checked;
 }
 
 
@@ -1039,21 +1091,20 @@ check_name_arg(const char *pred, const char *arg)
 static boolean
 parse_iname (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  if (!check_name_arg("-iname", argv[*arg_ptr]))
-    return false;
-
+  const char *name;
   fnmatch_sanitycheck();
-  
-  our_pred = insert_primary (entry);
-  our_pred->need_stat = our_pred->need_type = false;
-  our_pred->args.str = argv[*arg_ptr];
-  our_pred->est_success_rate = estimate_pattern_match_rate(our_pred->args.str, 0);
-  (*arg_ptr)++;
-  return true;
+  if (collect_arg(argv, arg_ptr, &name))
+    {
+      if (check_name_arg("-iname", name))
+	{
+	  struct predicate *our_pred = insert_primary (entry);
+	  our_pred->need_stat = our_pred->need_type = false;
+	  our_pred->args.str = name;
+	  our_pred->est_success_rate = estimate_pattern_match_rate(name, 0);
+	  return true;
+	}
+    }
+  return false;
 }
 
 static boolean
@@ -1082,19 +1133,18 @@ parse_ipath (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_iwholename (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
+  const char *name;
 
   fnmatch_sanitycheck();
-  
-  our_pred = insert_primary_withpred (entry, pred_ipath);
-  our_pred->need_stat = our_pred->need_type = false;
-  our_pred->args.str = argv[*arg_ptr];
-  our_pred->est_success_rate = estimate_pattern_match_rate(our_pred->args.str, 0);
-  (*arg_ptr)++;
-  return true;
+  if (collect_arg(argv, arg_ptr, &name))
+    {
+      struct predicate *our_pred = insert_primary_withpred (entry, pred_ipath);
+      our_pred->need_stat = our_pred->need_type = false;
+      our_pred->args.str = name;
+      our_pred->est_success_rate = estimate_pattern_match_rate(name, 0);
+      return true;
+    }
+  return false;
 }
 
 static boolean
@@ -1119,21 +1169,16 @@ parse_links (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_lname (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
-
-  (void) argv;
-  (void) arg_ptr;
-  
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-
+  const char *name;
   fnmatch_sanitycheck();
-  
-  our_pred = insert_primary (entry);
-  our_pred->args.str = argv[*arg_ptr];
-  our_pred->est_success_rate = 0.1 * estimate_pattern_match_rate(our_pred->args.str, 0);
-  (*arg_ptr)++;
-  return true;
+  if (collect_arg(argv, arg_ptr, &name))
+    {
+      struct predicate *our_pred = insert_primary (entry);
+      our_pred->args.str = name;
+      our_pred->est_success_rate = 0.1 * estimate_pattern_match_rate(name, 0);
+      return true;
+    }
+  return false;
 }
 
 static boolean
@@ -1145,62 +1190,68 @@ parse_ls (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 static boolean
+insert_depthspec(const struct parser_table* entry, char **argv, int *arg_ptr,
+		 int *limitptr)
+{
+  const char *depthstr;
+  int depth_len;
+  const char *predicate = argv[(*arg_ptr)-1];
+  if (collect_arg(argv, arg_ptr, &depthstr))
+    {
+      depth_len = strspn (depthstr, "0123456789");
+      if ((depth_len > 0) && (depthstr[depth_len] == 0))
+	{
+	  (*limitptr) = atoi (depthstr);
+#warning "consider replacing all calls to atio with a utility function"
+	  if (*limitptr >= 0)
+	    {
+	      return parse_noop(entry, argv, arg_ptr);
+	    }
+	}
+      error(1, 0, _("Expected a positive decimal integer argument to %s, but got %s"),
+	    predicate,
+	    quotearg_n_style(0, options.err_quoting_style, depthstr));
+      return false;
+    }
+  /* missing argument */
+  return false;
+}
+
+
+static boolean
 parse_maxdepth (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  int depth_len;
-  (void) entry;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  depth_len = strspn (argv[*arg_ptr], "0123456789");
-  if ((depth_len == 0) || (argv[*arg_ptr][depth_len] != '\0'))
-    return false;
-  options.maxdepth = atoi (argv[*arg_ptr]);
-  if (options.maxdepth < 0)
-    return false;
-  (*arg_ptr)++;
-  return parse_noop(entry, argv, arg_ptr);
+  return insert_depthspec(entry, argv, arg_ptr, &options.maxdepth);
 }
 
 static boolean
 parse_mindepth (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  int depth_len;
-  (void) entry;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  depth_len = strspn (argv[*arg_ptr], "0123456789");
-  if ((depth_len == 0) || (argv[*arg_ptr][depth_len] != '\0'))
-    return false;
-  options.mindepth = atoi (argv[*arg_ptr]);
-  if (options.mindepth < 0)
-    return false;
-  (*arg_ptr)++;
-  return parse_noop(entry, argv, arg_ptr);
+  return insert_depthspec(entry, argv, arg_ptr, &options.mindepth);
 }
 
 
 static boolean
 do_parse_xmin (const struct parser_table* entry, char **argv, int *arg_ptr, enum xval xv)
 {
-  struct predicate *our_pred;
-  struct time_val tval;
+  const char *minutes;
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-
-  tval.xval = xv;
-  if (!get_relative_timestamp(argv[*arg_ptr], &tval,
-			      options.cur_day_start + DAYSECS, 60,
-			      "arithmetic overflow while converting %s minutes to a number of seconds"))
-    return false;
-      
-  our_pred = insert_primary (entry);
-  our_pred->args.reftime = tval;
-  our_pred->est_success_rate = estimate_timestamp_success_rate(tval.ts.tv_sec);
-  (*arg_ptr)++;
-  return true;
+  if (collect_arg(argv, arg_ptr, &minutes))
+    {
+      struct time_val tval;
+      tval.xval = xv;
+      if (get_relative_timestamp(minutes, &tval,
+				 options.cur_day_start + DAYSECS, 60,
+				 "arithmetic overflow while converting %s "
+				 "minutes to a number of seconds"))
+	{
+	  struct predicate *our_pred = insert_primary (entry);
+	  our_pred->args.reftime = tval;
+	  our_pred->est_success_rate = estimate_timestamp_success_rate(tval.ts.tv_sec);
+	  return true;
+	}
+    }
+  return false;
 }
 static boolean
 parse_amin (const struct parser_table* entry, char **argv, int *arg_ptr)
@@ -1224,23 +1275,20 @@ parse_mmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_name (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
-
-  (void) argv;
-  (void) arg_ptr;
-  
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  if (!check_name_arg("-name", argv[*arg_ptr]))
-    return false;
-  fnmatch_sanitycheck();
-  
-  our_pred = insert_primary (entry);
-  our_pred->need_stat = our_pred->need_type = false;
-  our_pred->args.str = argv[*arg_ptr];
-  our_pred->est_success_rate = estimate_pattern_match_rate(our_pred->args.str, 0);
-  (*arg_ptr)++;
-  return true;
+  const char *name;
+  if (collect_arg(argv, arg_ptr, &name))
+    {
+      fnmatch_sanitycheck();
+      if (check_name_arg("-name", name))
+	{
+	  struct predicate *our_pred = insert_primary (entry);
+	  our_pred->need_stat = our_pred->need_type = false;
+	  our_pred->args.str = name;
+	  our_pred->est_success_rate = estimate_pattern_match_rate(name, 0);
+	  return true;
+	}
+    }
+  return false;
 }
 
 static boolean
@@ -1265,21 +1313,17 @@ parse_newer (const struct parser_table* entry, char **argv, int *arg_ptr)
   struct predicate *our_pred;
   struct stat stat_newer;
 
-  (void) argv;
-  (void) arg_ptr;
-  
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
   set_stat_placeholders(&stat_newer);
-  if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
-    fatal_file_error(argv[*arg_ptr]);
-  our_pred = insert_primary (entry);
-  our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
-  our_pred->args.reftime.xval = XVAL_MTIME;
-  our_pred->args.reftime.kind = COMP_GT;
-  our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
-  (*arg_ptr)++;
-  return true;
+  if (collect_arg_stat_info(argv, arg_ptr, &stat_newer))
+    {
+      our_pred = insert_primary (entry);
+      our_pred->args.reftime.ts = get_stat_mtime(&stat_newer);
+      our_pred->args.reftime.xval = XVAL_MTIME;
+      our_pred->args.reftime.kind = COMP_GT;
+      our_pred->est_success_rate = estimate_timestamp_success_rate(stat_newer.st_mtime);
+      return true;
+    }
+  return false;
 }
 
 
@@ -1397,10 +1441,6 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_noleaf (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  (void) &argv;
-  (void) &arg_ptr;
-  (void) entry;
-  
   options.no_leaf_check = true;
   return parse_noop(entry, argv, arg_ptr);
 }
@@ -1498,10 +1538,6 @@ parse_nouser (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_nowarn (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  (void) argv;
-  (void) arg_ptr;
-  (void) entry;
-  
   options.warnings = false;
   return parse_noop(entry, argv, arg_ptr);
 }
@@ -1567,16 +1603,16 @@ parse_path (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_wholename (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct predicate *our_pred;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  our_pred = insert_primary_withpred (entry, pred_path);
-  our_pred->need_stat = our_pred->need_type = false;
-  our_pred->args.str = argv[*arg_ptr];
-  our_pred->est_success_rate = estimate_pattern_match_rate(our_pred->args.str, 0);
-  (*arg_ptr)++;
-  return true;
+  const char *name;
+  if (collect_arg(argv, arg_ptr, &name))
+    {
+      struct predicate *our_pred = insert_primary_withpred (entry, pred_path);
+      our_pred->need_stat = our_pred->need_type = false;
+      our_pred->args.str = name;
+      our_pred->est_success_rate = estimate_pattern_match_rate(name, 0);
+      return true;
+    }
+  return false;
 }
 
 static boolean
@@ -1589,11 +1625,12 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
   enum permissions_type kind = PERM_EXACT;
   struct mode_change *change = NULL;
   struct predicate *our_pred;
+  const char *perm_expr;
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
+  if (!collect_arg(argv, arg_ptr, &perm_expr))
     return false;
 
-  switch (argv[*arg_ptr][0])
+  switch (perm_expr[0])
     {
     case '-':
       mode_start = 1;
@@ -1603,7 +1640,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
       break;
       
      case '+':
-       change = mode_compile (argv[*arg_ptr]);
+       change = mode_compile (perm_expr);
        if (NULL == change)
 	 {
 	   /* Most likely the caller is an old script that is still
@@ -1647,16 +1684,16 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 
   if (NULL == change)
     {
-      change = mode_compile (argv[*arg_ptr] + mode_start);
+      change = mode_compile (perm_expr + mode_start);
       if (NULL == change)
 	error (1, 0, _("invalid mode %s"),
-	       quotearg_n_style(0, options.err_quoting_style, argv[*arg_ptr]));
+	       quotearg_n_style(0, options.err_quoting_style, perm_expr));
     }
   perm_val[0] = mode_adjust (0, false, 0, change, NULL);
   perm_val[1] = mode_adjust (0, true, 0, change, NULL);
   free (change);
   
-  if (('/' == argv[*arg_ptr][0]) && (0 == perm_val[0]) && (0 == perm_val[1]))
+  if (('/' == perm_expr[0]) && (0 == perm_val[0]) && (0 == perm_val[1]))
     {
       /* The meaning of -perm /000 will change in the future.  It
        * currently matches no files, but like -perm -000 it should
@@ -1672,7 +1709,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 	       "equivalent to /000). The meaning of -perm /000 has now been "
 	       "changed to be consistent with -perm -000; that is, while it "
 	       "used to match no files, it now matches all files."),
-	     argv[*arg_ptr]);
+	     perm_expr);
       
       kind = PERM_AT_LEAST;
       havekind = true;
@@ -1693,7 +1730,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
   else
     {
   
-      switch (argv[*arg_ptr][0])
+      switch (perm_expr[0])
 	{
 	case '-':
 	  our_pred->args.perm.kind = PERM_AT_LEAST;
@@ -1707,7 +1744,6 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 	}
     }
   memcpy (our_pred->args.perm.val, perm_val, sizeof perm_val);
-  (*arg_ptr)++;
   return true;
 }
 
@@ -1798,14 +1834,14 @@ parse_quit  (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean 
 parse_regextype (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-
-  /* collect the regex type name */
-  options.regex_options = get_regex_type(argv[*arg_ptr]);
-  (*arg_ptr)++;
-
-  return parse_noop(entry, argv, arg_ptr);
+  const char *type_name;
+  if (collect_arg(argv, arg_ptr, &type_name))
+    {
+      /* collect the regex type name */
+      options.regex_options = get_regex_type(type_name);
+      return parse_noop(entry, argv, arg_ptr);
+    }
+  return false;
 }
 
 
@@ -1818,32 +1854,31 @@ parse_regex (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 insert_regex (char **argv, int *arg_ptr, const struct parser_table *entry, int regex_options)
 {
-  struct predicate *our_pred;
-  struct re_pattern_buffer *re;
-  const char *error_message;
-
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  our_pred = insert_primary_withpred (entry, pred_regex);
-  our_pred->need_stat = our_pred->need_type = false;
-  re = (struct re_pattern_buffer *)
-    xmalloc (sizeof (struct re_pattern_buffer));
-  our_pred->args.regex = re;
-  re->allocated = 100;
-  re->buffer = (unsigned char *) xmalloc (re->allocated);
-  re->fastmap = NULL;
-
-  re_set_syntax(regex_options);
-  re->syntax = regex_options;
-  re->translate = NULL;
-  
-  error_message = re_compile_pattern (argv[*arg_ptr], strlen (argv[*arg_ptr]),
-				      re);
-  if (error_message)
-    error (1, 0, "%s", error_message);
-  our_pred->est_success_rate = estimate_pattern_match_rate(argv[*arg_ptr], 1);
-  (*arg_ptr)++;
-  return true;
+  const char *rx;
+  if (collect_arg(argv, arg_ptr, &rx))
+    {
+      struct re_pattern_buffer *re;
+      const char *error_message;
+      struct predicate *our_pred = insert_primary_withpred (entry, pred_regex);
+      our_pred->need_stat = our_pred->need_type = false;
+      re = (struct re_pattern_buffer *)
+	xmalloc (sizeof (struct re_pattern_buffer));
+      our_pred->args.regex = re;
+      re->allocated = 100;
+      re->buffer = (unsigned char *) xmalloc (re->allocated);
+      re->fastmap = NULL;
+      
+      re_set_syntax(regex_options);
+      re->syntax = regex_options;
+      re->translate = NULL;
+      
+      error_message = re_compile_pattern (rx, strlen(rx), re);
+      if (error_message)
+	error (1, 0, "%s", error_message);
+      our_pred->est_success_rate = estimate_pattern_match_rate(rx, 1);
+      return true;
+    }
+  return false;
 }
 
 static boolean
@@ -1851,16 +1886,24 @@ parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   uintmax_t num;
+  char suffix;
   enum comparison_type c_type;
+
   int blksize = 512;
   int len;
-  
+
+  /* XXX: cannot (yet) convert to ue collect_arg() as this 
+   * function modifies the args in-place. 
+   */
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     return false;
+  
   len = strlen (argv[*arg_ptr]);
   if (len == 0)
     error (1, 0, _("invalid null argument to -size"));
-  switch (argv[*arg_ptr][len - 1])
+
+  suffix = argv[*arg_ptr][len - 1];
+  switch (suffix)
     {
     case 'b':
       blksize = 512;
@@ -1909,7 +1952,10 @@ parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
   /* TODO: accept fractional megabytes etc. ? */
   if (!get_num (argv[*arg_ptr], &num, &c_type))
-    return false;
+    {
+      error(1, 0, _("Invalid argument `%s%c' to -size"), argv[*arg_ptr], (int)suffix);
+      return false;
+    }
   our_pred = insert_primary (entry);
   our_pred->args.size.kind = c_type;
   our_pred->args.size.blocksize = blksize;
@@ -1939,15 +1985,11 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
   struct stat st, fst;
   int fd, openflags;
   
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-
   set_stat_placeholders(&st);
-  set_stat_placeholders(&fst);
+  if (!collect_arg_stat_info(argv, arg_ptr, &st))
+    return false;
   
-  if ((*options.xstat) (argv[*arg_ptr], &st))
-    fatal_file_error(argv[*arg_ptr]);
-
+  set_stat_placeholders(&fst);
   /* POSIX systems are free to re-use the inode number of a deleted
    * file.  To ensure that we are not fooled by inode reuse, we hold
    * the file open if we can.  This would prevent the system reusing
@@ -2076,7 +2118,6 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
   our_pred->need_type = false;
   our_pred->need_stat = true;
   our_pred->est_success_rate = 0.01f;
-  (*arg_ptr)++;
   return true;
 }
 
@@ -2176,48 +2217,61 @@ parse_used (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
   struct time_val tval;
+  const char *offset_str;
   const char *errmsg = "arithmetic overflow while converting %s days to a number of seconds";
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-
-  /* The timespec is actually a delta value, so we use an origin of 0. */
-  if (!get_relative_timestamp(argv[*arg_ptr], &tval, 0, DAYSECS, errmsg))
-    return false;
-  
-  our_pred = insert_primary (entry);
-  our_pred->args.reftime = tval;
-  our_pred->est_success_rate = estimate_file_age_success_rate(tval.ts.tv_sec / DAYSECS);
-  (*arg_ptr)++;
-  return true;
+  if (collect_arg(argv, arg_ptr, &offset_str))
+    {
+      /* The timespec is actually a delta value, so we use an origin of 0. */
+      if (get_relative_timestamp(offset_str, &tval, 0, DAYSECS, errmsg))
+	{
+	  our_pred = insert_primary (entry);
+	  our_pred->args.reftime = tval;
+	  our_pred->est_success_rate = estimate_file_age_success_rate(tval.ts.tv_sec / DAYSECS);
+	  return true;
+	}
+      else
+	{
+	  error(1, 0, _("Invalid argument %s to -used"), offset_str);
+	  return false;
+	}
+    }
+  else
+    {
+      return false;		/* missing argument */
+    }
 }
 
 static boolean
 parse_user (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  struct passwd *cur_pwd;
-  struct predicate *our_pred;
-  uid_t uid;
-  int uid_len;
+  const char *username;
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return false;
-  cur_pwd = getpwnam (argv[*arg_ptr]);
-  endpwent ();
-  if (cur_pwd != NULL)
-    uid = cur_pwd->pw_uid;
-  else
+  if (collect_arg(argv, arg_ptr, &username))
     {
-      uid_len = strspn (argv[*arg_ptr], "0123456789");
-      if ((uid_len == 0) || (argv[*arg_ptr][uid_len] != '\0'))
-	return false;
-      uid = atoi (argv[*arg_ptr]);
+      struct predicate *our_pred;
+      uid_t uid;
+      struct passwd *cur_pwd = getpwnam(username);
+      endpwent();
+      if (cur_pwd != NULL)
+	{
+	  uid = cur_pwd->pw_uid;
+	}
+      else
+	{
+	  int uid_len = strspn (username, "0123456789");
+	  if (uid_len && (username[uid_len]==0))
+	    uid = atoi (username);
+	  else
+	    return false;
+#warning "no success checking has occured in atoi on previous line"
+	}
+      our_pred = insert_primary (entry);
+      our_pred->args.uid = uid;
+      our_pred->est_success_rate = (our_pred->args.uid < 100) ? 0.99 : 0.2;
+      return true;
     }
-  our_pred = insert_primary (entry);
-  our_pred->args.uid = uid;
-  our_pred->est_success_rate = (our_pred->args.uid < 100) ? 0.99 : 0.2;
-  (*arg_ptr)++;
-  return true;
+  return false;
 }
 
 static boolean
@@ -2298,9 +2352,6 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_xdev (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  (void) argv;
-  (void) arg_ptr;
-  (void) entry;
   options.stay_on_filesystem = true;
   return parse_noop(entry, argv, arg_ptr);
 }
@@ -2308,9 +2359,6 @@ parse_xdev (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_ignore_race (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  (void) argv;
-  (void) arg_ptr;
-  (void) entry;
   options.ignore_readdir_race = true;
   return parse_noop(entry, argv, arg_ptr);
 }
@@ -2318,9 +2366,6 @@ parse_ignore_race (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_noignore_race (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  (void) argv;
-  (void) arg_ptr;
-  (void) entry;
   options.ignore_readdir_race = false;
   return parse_noop(entry, argv, arg_ptr);
 }
@@ -2328,9 +2373,6 @@ parse_noignore_race (const struct parser_table* entry, char **argv, int *arg_ptr
 static boolean
 parse_warn (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  (void) argv;
-  (void) arg_ptr;
-  (void) entry;
   options.warnings = true;
   return parse_noop(entry, argv, arg_ptr);
 }
@@ -2338,8 +2380,6 @@ parse_warn (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_xtype (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  (void) argv;
-  (void) arg_ptr;
   return insert_type (argv, arg_ptr, entry, pred_xtype);
 }
 
@@ -2349,75 +2389,83 @@ insert_type (char **argv, int *arg_ptr, const struct parser_table *entry, PRED_F
   mode_t type_cell;
   struct predicate *our_pred;
   float rate = 0.5;
-  
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL)
-      || (strlen (argv[*arg_ptr]) != 1))
-    return false;
-  switch (argv[*arg_ptr][0])
+  const char *typeletter;
+
+  if (collect_arg(argv, arg_ptr, &typeletter))
     {
-    case 'b':			/* block special */
-      type_cell = S_IFBLK;
-      rate = 0.01f;
-      break;
-    case 'c':			/* character special */
-      type_cell = S_IFCHR;
-      rate = 0.01f;
-      break;
-    case 'd':			/* directory */
-      type_cell = S_IFDIR;
-      rate = 0.4f;
-      break;
-    case 'f':			/* regular file */
-      type_cell = S_IFREG;
-      rate = 0.95f;
-      break;
+      if (strlen(typeletter) != 1u)
+	{
+	  error(1, 0, _("Arguments to -type should contain only one letter"));
+	  return false;
+	}
+      
+      switch (typeletter[0])
+	{
+	case 'b':			/* block special */
+	  type_cell = S_IFBLK;
+	  rate = 0.01f;
+	  break;
+	case 'c':			/* character special */
+	  type_cell = S_IFCHR;
+	  rate = 0.01f;
+	  break;
+	case 'd':			/* directory */
+	  type_cell = S_IFDIR;
+	  rate = 0.4f;
+	  break;
+	case 'f':			/* regular file */
+	  type_cell = S_IFREG;
+	  rate = 0.95f;
+	  break;
 #ifdef S_IFLNK
-    case 'l':			/* symbolic link */
-      type_cell = S_IFLNK;
-      rate = 0.1f;
-      break;
+	case 'l':			/* symbolic link */
+	  type_cell = S_IFLNK;
+	  rate = 0.1f;
+	  break;
 #endif
 #ifdef S_IFIFO
-    case 'p':			/* pipe */
-      type_cell = S_IFIFO;
-      rate = 0.01f;
-      break;
+	case 'p':			/* pipe */
+	  type_cell = S_IFIFO;
+	  rate = 0.01f;
+	  break;
 #endif
 #ifdef S_IFSOCK
-    case 's':			/* socket */
-      type_cell = S_IFSOCK;
-      rate = 0.01f;
-      break;
+	case 's':			/* socket */
+	  type_cell = S_IFSOCK;
+	  rate = 0.01f;
+	  break;
 #endif
 #ifdef S_IFDOOR
-    case 'D':			/* Solaris door */
-      type_cell = S_IFDOOR;
-      rate = 0.01f;
-      break;
+	case 'D':			/* Solaris door */
+	  type_cell = S_IFDOOR;
+	  rate = 0.01f;
+	  break;
 #endif
-    default:			/* None of the above ... nuke 'em. */
-      return false;
+	default:			/* None of the above ... nuke 'em. */
+	  error(1, 0, _("Unknown argument to -type: %c"), (*typeletter));
+	  return false;
+	}
+      our_pred = insert_primary_withpred (entry, which_pred);
+      our_pred->est_success_rate = rate;
+      
+      /* Figure out if we will need to stat the file, because if we don't
+       * need to follow symlinks, we can avoid a stat call by using 
+       * struct dirent.d_type.
+       */
+      if (which_pred == pred_xtype)
+	{
+	  our_pred->need_stat = true;
+	  our_pred->need_type = false;
+	}
+      else
+	{
+	  our_pred->need_stat = false; /* struct dirent is enough */
+	  our_pred->need_type = true;
+	}
+      our_pred->args.type = type_cell;
+      return true;
     }
-  our_pred = insert_primary_withpred (entry, which_pred);
-  our_pred->est_success_rate = rate;
-  
-  /* Figure out if we will need to stat the file, because if we don't
-   * need to follow symlinks, we can avoid a stat call by using 
-   * struct dirent.d_type.
-   */
-  if (which_pred == pred_xtype)
-    {
-      our_pred->need_stat = true;
-      our_pred->need_type = false;
-    }
-  else
-    {
-      our_pred->need_stat = false; /* struct dirent is enough */
-      our_pred->need_type = true;
-    }
-  our_pred->args.type = type_cell;
-  (*arg_ptr)++;			/* Move on to next argument. */
-  return true;
+  return false;
 }
 
 
@@ -2978,7 +3026,7 @@ insert_exec_ok (const char *action, const struct parser_table *entry, int dirfd,
    get the appropriate information for a time predicate processor. */
 
 static boolean
-get_relative_timestamp (char *str,
+get_relative_timestamp (const char *str,
 			struct time_val *result,
 			time_t origin,
 			double sec_per_unit,
@@ -3048,17 +3096,17 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
   struct predicate *our_pred;
   struct time_val tval;
   enum comparison_type comp;
-  char *s;
+  const char *timearg;
   const char *errmsg = "arithmetic overflow while converting %s days to a number of seconds";
   time_t origin;
-  
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
+
+  if (!collect_arg(argv, arg_ptr, &timearg))
     return false;
 
   /* Decide the origin by previewing the comparison type. */
   origin = options.cur_day_start;
-  s = argv[*arg_ptr];
-  if (get_comp_type(&s, &comp))
+
+  if (get_comp_type(&timearg, &comp))
     {
       /* Remember, we invert the sense of the comparison, so this tests against COMP_LT instead of COMP_GT... */
       if (COMP_LT == tval.kind)      
@@ -3076,13 +3124,12 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
        */
     }
   
-  if (!get_relative_timestamp(argv[*arg_ptr], &tval, origin, DAYSECS, errmsg))
+  if (!get_relative_timestamp(timearg, &tval, origin, DAYSECS, errmsg))
     return false;
 
   our_pred = insert_primary (entry);
   our_pred->args.reftime = tval;
   our_pred->est_success_rate = estimate_timestamp_success_rate(tval.ts.tv_sec);
-  (*arg_ptr)++;
 
   if (options.debug_options & DebugExpressionTree)
     {
@@ -3115,7 +3162,7 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 
    Return true if all okay, false if input error.  */
 static boolean
-get_comp_type(char **str, enum comparison_type *comp_type)
+get_comp_type(const char **str, enum comparison_type *comp_type)
 {
   switch (**str)
     {
@@ -3149,7 +3196,7 @@ get_comp_type(char **str, enum comparison_type *comp_type)
    Return true if all okay, false if input error.  */
 
 static boolean
-get_num (char *str,
+get_num (const char *str,
 	 uintmax_t *num,
 	 enum comparison_type *comp_type)
 {
@@ -3183,30 +3230,33 @@ get_num (char *str,
 static struct predicate *
 insert_num (char **argv, int *arg_ptr, const struct parser_table *entry)
 {
-  struct predicate *our_pred;
-  uintmax_t num;
-  enum comparison_type c_type;
+  const char *numstr;
 
-  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
-    return NULL;
-  if (!get_num (argv[*arg_ptr], &num, &c_type))
-    return NULL;
-  our_pred = insert_primary (entry);
-  our_pred->args.numinfo.kind = c_type;
-  our_pred->args.numinfo.l_val = num;
-  (*arg_ptr)++;
-  
-  if (options.debug_options & DebugExpressionTree)
-    {
-      fprintf (stderr, "inserting %s\n", our_pred->p_name);
-      fprintf (stderr, "    type: %s    %s  ",
-	       (c_type == COMP_GT) ? "gt" :
-	       ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
-	       (c_type == COMP_GT) ? " >" :
-	       ((c_type == COMP_LT) ? " <" : ((c_type == COMP_EQ) ? " =" : " ?")));
-      fprintf (stderr, "%ju\n", our_pred->args.numinfo.l_val);
-    }
-  return our_pred;
+  if (collect_arg(argv, arg_ptr, &numstr))
+  {
+    uintmax_t num;
+    enum comparison_type c_type;
+
+    if (get_num (numstr, &num, &c_type))
+      {
+	struct predicate *our_pred = insert_primary (entry);
+	our_pred->args.numinfo.kind = c_type;
+	our_pred->args.numinfo.l_val = num;
+	
+	if (options.debug_options & DebugExpressionTree)
+	  {
+	    fprintf (stderr, "inserting %s\n", our_pred->p_name);
+	    fprintf (stderr, "    type: %s    %s  ",
+		     (c_type == COMP_GT) ? "gt" :
+		     ((c_type == COMP_LT) ? "lt" : ((c_type == COMP_EQ) ? "eq" : "?")),
+		     (c_type == COMP_GT) ? " >" :
+		     ((c_type == COMP_LT) ? " <" : ((c_type == COMP_EQ) ? " =" : " ?")));
+	    fprintf (stderr, "%ju\n", our_pred->args.numinfo.l_val);
+	  }
+	return our_pred;
+      }
+  }
+  return NULL;
 }
 
 static void
@@ -3218,12 +3268,12 @@ open_output_file (const char *path, struct format_val *p)
   if (!strcmp (path, "/dev/stderr"))
     {
       p->stream = stderr;
-      p->filename = _("standard error stream");
+      p->filename = _("standard error");
     }
   else if (!strcmp (path, "/dev/stdout"))
     {
       p->stream = stdout;
-      p->filename = _("standard output stream");
+      p->filename = _("standard output");
     }
   else
     {

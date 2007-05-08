@@ -288,7 +288,7 @@ struct predicate
      Next to each member are listed the predicates that use it. */
   union
   {
-    char *str;			/* fstype [i]lname [i]name [i]path */
+    const char *str;		/* fstype [i]lname [i]name [i]path */
     struct re_pattern_buffer *regex; /* regex */
     struct exec_val exec_vec;	/* exec ok */
     struct long_val numinfo;	/* gid inum links  uid */

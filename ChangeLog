@@ -1,3 +1,65 @@
+2007-05-08  James Youngman  <jay@gnu.org>
+
+	* find/defs.h (struct predicate.args): str is now const.
+
+	* find/parser.c (get_comp_type): get_comp_type now takes a const
+	char* parameter.
+	(get_num): ditto
+	(get_relative_timestamp): ditto.  Also use collect_arg().
+	(collect_arg_stat_info): New function; collects a command-line
+	argument and returns its xstat information, in one go.
+	error(1,...)  is called if the stat fails.
+	(parse_anewer): Use collect_arg().
+	(parse_cnewer): ditto
+	(parse_fprint): ditto
+	(parse_fstype): ditto
+	(parse_group): ditto
+	(parse_ilname): ditto
+	(parse_iname): ditto
+	(parse_iwholename): ditto
+	(parse_lname): ditto
+	(insert_depthspec): ditto
+	(parse_name): ditto
+	(parse_newer): ditto
+	(parse_wholename): ditto
+	(parse_perm): ditto
+	(parse_regextype): ditto
+	(insert_regex): ditto
+	(parse_samefile): ditto
+	(parse_used): ditto
+	(parse_user): ditto
+	(insert_type): ditto
+	(parse_time): ditto
+	(parse_size): When the size argument is invalid but consists only
+	of a valid suffix char, avoid issuing an error message about a
+	blank argument.  Append the suffix letter again.
+	(parse_xdev, parse_ignore_race, parse_noignore_race, parse_warn,
+	parse_xtype): Remove casts to void for some function parameters
+	that were, in fact, used.
+
+	* find/testsuite/find.gnu/fprint-unwritable.exp: new test
+	* find/testsuite/find.gnu/fprint0_stdout.exp: new test
+	* find/testsuite/find.gnu/fprint0_stdout.xo: new test
+	* find/testsuite/find.gnu/mindepth-arg.exp: new test
+	* find/testsuite/find.gnu/mindepth-arg.xo: new test
+	* find/testsuite/find.gnu/mindepth-badarg.exp: new test
+	* find/testsuite/find.gnu/print_stdout.exp: new test
+	* find/testsuite/find.gnu/print_stdout.xo: new test
+	* find/testsuite/find.gnu/samefile-missing.exp: new test
+	* find/testsuite/find.gnu/samefile-p-brokenlink.exp: new test
+	* find/testsuite/find.gnu/samefile-p-brokenlink.xo: new test
+	* find/testsuite/find.gnu/used-invarg.exp: new test
+	* find/testsuite/find.gnu/used-missing.exp: new test
+	* find/testsuite/find.gnu/user-invalid.exp: new test
+	* find/testsuite/find.posix/group-empty.exp: new test
+	* find/testsuite/find.posix/group-missing.exp: new test
+	* find/testsuite/find.posix/name-missing.exp: new test
+	* find/testsuite/find.posix/size-invalid.exp: new test
+	* find/testsuite/find.posix/size-missing.exp: new test
+	* find/testsuite/find.posix/typearg.exp: new test
+	* find/testsuite/find.posix/user-empty.exp: new test
+	* find/testsuite/find.posix/user-missing.exp: new test
+
 2007-05-06  James Youngman  <jay@gnu.org>
 
 	* find/tree.c: (costlookup): Added pred_fls to the optimiser's
