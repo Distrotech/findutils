@@ -45,3 +45,8 @@ dblocation.texi: Makefile
 	echo '@set LOCATE_DB $(LOCATE_DB)' > $@
 
 SUBDIRS = testsuite
+
+dist-hook: findutils-check-manpages
+
+findutils-check-manpages:
+	$(top_srcdir)/build-aux/man-lint.sh $(srcdir) $(man_MANS)

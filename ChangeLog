@@ -1,3 +1,25 @@
+2007-05-19  James Youngman  <jay@gnu.org>
+
+	* find/find.1: Spurious .R directives (.R is not a directive)
+	should be .B.   This fixes Savannah bug #19871.
+	* build-aux/man-lint.sh: New file; verifies that the specified
+	manual pages do not provoke error messages from troff.  This is
+	used to detect further occurrences of Savannah bug #19871.
+	* find/Makefile.am (dist-hook): Run findutils-check-manpages,
+	which invokes man-lint.sh.
+	* locate/Makefile.am (dist-hook): ditto
+	* xargs/Makefile.am (dist-hook): ditto
+
+	* .cvsignore: Ignore ylwrap, which automake-1.10 wants us to have
+	a copy of for some reason
+
+	* import-gnulib.sh (main): New option -a which just runs the
+	autotools without reimporting gnulib.
+
+	* Makefile.am (jy-regex-fix): The previous explanatory comment
+	refers to the jy-regex-fix target, not to dist-hook, so it has
+	been moved.
+
 2007-05-08  James Youngman  <jay@gnu.org>
 
 	* find/defs.h (struct predicate.args): str is now const.

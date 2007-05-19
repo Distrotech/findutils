@@ -32,3 +32,7 @@ SUBDIRS = testsuite
 
 #$(PROGRAMS): ../lib/libfind.a
 
+dist-hook: findutils-check-manpages
+
+findutils-check-manpages:
+	$(top_srcdir)/build-aux/man-lint.sh $(srcdir) $(man_MANS)

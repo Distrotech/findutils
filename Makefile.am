@@ -15,6 +15,9 @@ TESTFILE_SUFFIXES = .exp .xo .xe .xi
 
 # DISTCLEANFILES = intl/libintl.h
 
+dist-hook: jy-regex-fix findutils-check-pofiles findutils-check-testfiles
+
+
 ##
 ## regex.c seems to get left out if I use automake-1.9 but not 
 ## if I use automake-1.7.   Hence dist-hook has to be able to 
@@ -23,8 +26,6 @@ TESTFILE_SUFFIXES = .exp .xo .xe .xi
 ## file is already in place.   Ugh.  
 ##                             -- James Youngman <jay@gnu.org>
 ## 
-dist-hook: jy-regex-fix findutils-check-pofiles findutils-check-testfiles
-
 jy-regex-fix:
 	if test -f $(distdir)/gnulib/lib/regex.c ; then \
 		echo regex.c is already in place.  Great. ; \

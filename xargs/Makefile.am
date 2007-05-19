@@ -9,3 +9,7 @@ SUBDIRS = testsuite
 
 $(PROGRAMS): ../find/version.o ../lib/libfind.a ../gnulib/lib/libgnulib.a
 
+dist-hook: findutils-check-manpages
+
+findutils-check-manpages:
+	$(top_srcdir)/build-aux/man-lint.sh $(srcdir) $(man_MANS)

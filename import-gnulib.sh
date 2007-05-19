@@ -210,10 +210,11 @@ EOF
 main() {
     ## Option parsing
     local gnulibdir=/doesnotexist
-    while getopts "d:" opt
+    while getopts "d:a" opt
     do
       case "$opt" in
           d)  gnulibdir="$OPTARG" ; need_checkout=no ;;
+	  a)  refresh_output_files ; exit $? ;;
           **) usage; exit 1;;
       esac
     done
