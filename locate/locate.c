@@ -1333,13 +1333,13 @@ drop_privs(void)
   const uid_t uid       = getuid();
   const gid_t gid       = getgid();
   
-  /* Use of setgroups() is restrcted to root only. */
+  /* Use of setgroups() is restricted to root only. */
   if (0 == orig_euid)
     {
-      /* UID != 0, but EUID == 0.  We're running setuid-root. */
+      /* We're either root or running setuid-root. */
       gid_t groups[1];
-      groups[1] = getgid();
-      if (0 != setgroups(1, groups)) 
+      groups[1] = gid;
+      if (0 != setgroups(1u, groups)) 
 	{
 	  what = _("failed to drop group privileges");
 	  goto fail;

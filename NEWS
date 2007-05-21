@@ -1,7 +1,14 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
-* Major changes in release 4.3.6-CVS
+* Major changes in release 4.3.6
 
 ** Bug Fixes
+
+#19923: Fixed an array overrun in groups[] array of 'locate' when run by
+or as root.  This bug appears not to be exploitable.  If locate is not
+installed setuid, the bug is not exploitable.  For setuid
+installations, it is concievable that there could be an information
+leak if the user uses the -d option or the -e option, though the
+maintainer has been unable to provoke this on an x86 system.
 
 #19871: Spurious .R directives in manpage produced error messages from
 GNU troff.  This is now fixed (they are corrected to .B).

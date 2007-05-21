@@ -1,3 +1,21 @@
+2007-05-21  James Youngman  <jay@gnu.org>
+
+	* build-aux/Makefile.am (EXTRA_DIST): Added man-lint.sh.
+
+	* locate/locate.c (drop_privs): pass the correct list of groups to
+	setgroups().  Previously, if root invoked locate, their group ID
+	would have been set to a random value.  The same bug also caused
+	an array overrun past the end of the local array groups[].  The
+	variable which gets overwritten by the buffer overrun on x86 is
+	'what'.  The value of that variable is always changed before it is
+	used, and so I believe that this buffer overrun will not cause a
+	crash.  The only effect of the bug therefore would be for locate
+	to change group to a random group ID since groups[0] is
+	uninitialised.  On my test system this random group ID is 0
+	anyway.  The effect does not depend on any externally-controllable
+	information, so it is unlikely this is exploitable.   This bug is
+	detailed as bug# 19923.
+
 2007-05-19  James Youngman  <jay@gnu.org>
 
 	* find/find.1: Spurious .R directives (.R is not a directive)
