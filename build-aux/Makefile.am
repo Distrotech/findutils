@@ -1,1 +1,1 @@
-EXTRA_DIST = check-testfiles.sh
+EXTRA_DIST = check-testfiles.sh man-lint.sh
