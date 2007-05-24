@@ -3,6 +3,9 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 ** Bug Fixes
 
+Findutils should now build on systems which have the modf() function
+in the maths library, -lm.   This includes some versions of HP-UX.
+
 #19923: Fixed an array overrun in groups[] array of 'locate' when run by
 or as root.  This bug appears not to be exploitable.  If locate is not
 installed setuid, the bug is not exploitable.  For setuid

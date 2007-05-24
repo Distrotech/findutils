@@ -1,3 +1,10 @@
+2007-05-24  James Youngman  <jay@gnu.org>
+
+
+	* configure.in (FINDLIBS): Update FINDLIBS to link against -lm for
+	modf.   This fixed a link error on HP-UX. 
+	* find/Makefile.am (LDADD): Use @FINDLIBS@
+
 2007-05-21  James Youngman  <jay@gnu.org>
 
 	* build-aux/Makefile.am (EXTRA_DIST): Added man-lint.sh.

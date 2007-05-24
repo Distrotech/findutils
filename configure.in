@@ -108,6 +108,10 @@ dnl C library, try -lsun.
 AC_CHECK_FUNC(getpwnam, [],
 [AC_CHECK_LIB(sun, getpwnam)])
 
+AC_CHECK_LIB([m],[modf],[FINDLIBS="-lm $FINDLIBS"]
+  AC_DEFINE_UNQUOTED(HAVE_LIBM,1,[modf is in -lm]))
+AC_SUBST([FINDLIBS])
+
 dnl Checks for header files.
 AC_HEADER_STDC
 dnl Assume unistd.h is present - coreutils does too.
