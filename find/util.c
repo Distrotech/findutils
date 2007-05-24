@@ -257,6 +257,11 @@ check_nofollow(void)
   struct utsname uts;
   float  release;
 
+  if (0 == O_NOFOLLOW)
+    {
+      return false;
+    }
+  
   if (0 == uname(&uts))
     {
       /* POSIX requires that atof() ignore "unrecognised suffixes". */

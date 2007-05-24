@@ -1,5 +1,9 @@
 2007-05-24  James Youngman  <jay@gnu.org>
 
+	* find/util.c (check_nofollow): If O_NOFOLLOW is defined but 0,
+	act as if it is undefined.  This should prevent a runtime
+	assertion failure on IRIX 6.5.  This fixes Savannah bug #19948.
+	
 	* m4/noreturn.m4: New file, testing for support of __attribute__
 	((__noreturn__)).  Defines jy_AC_ATTRIBUTE_NORETURN and sets
 	HAVE_ATTRIBUTE_NORETURN. 
