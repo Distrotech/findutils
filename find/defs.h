@@ -58,7 +58,11 @@ typedef bool boolean;
 #define PARAMS(Args) Args
 
 #ifndef ATTRIBUTE_NORETURN
-# define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
+# if HAVE_ATTRIBUTE_NORETURN
+#  define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
+# else
+#  define ATTRIBUTE_NORETURN /* nothing */
+# endif
 #endif
 
 int optionl_stat PARAMS((const char *name, struct stat *p));

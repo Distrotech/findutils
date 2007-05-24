@@ -1,6 +1,13 @@
 2007-05-24  James Youngman  <jay@gnu.org>
 
-
+	* m4/noreturn.m4: New file, testing for support of __attribute__
+	((__noreturn__)).  Defines jy_AC_ATTRIBUTE_NORETURN and sets
+	HAVE_ATTRIBUTE_NORETURN. 
+	* configure.in: Call jy_AC_ATTRIBUTE_NORETURN.
+	* find/defs.h (ATTRIBUTE_NORETURN): Define to nothing if
+	HAVE_ATTRIBUTE_NORETURN is not set in config.h.  This should fix a
+	compilation error with non-GCC compilers.
+	
 	* configure.in (FINDLIBS): Update FINDLIBS to link against -lm for
 	modf.   This fixed a link error on HP-UX. 
 	* find/Makefile.am (LDADD): Use @FINDLIBS@
