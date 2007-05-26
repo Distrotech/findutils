@@ -1,5 +1,17 @@
 2007-05-26  James Youngman  <jay@gnu.org>
 
+	* find/parser.c (parse_gid): Return an explicit boolean constant
+	rather than automatically converting from a pointer, because the
+	gnulib substitute for bool (or _Bool) in c89 environments lacking
+	bool does not support that conversion.  One affected system is Sun
+	WorkShop Compilers 5.0 98/12/15 C 5.0 on Solaris 7.  This is
+	Savannah bug #19970, reported by Nelson Beebe.
+	(parse_inum): Ditto.
+	(parse_links): Ditto.
+	(parse_uid): Ditto.
+	(check_path_safety): declarations need to go before code, not
+	interspersed.  Move declaration of char* s.
+
 	* xargs/testsuite/xargs.posix/rc-125.exp: Explain Savannah bug
 	#19969.   This bug is not yet fixed.
 

@@ -912,8 +912,15 @@ static boolean
 parse_gid (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p = insert_num (argv, arg_ptr, entry);
-  p->est_success_rate = (p->args.numinfo.l_val < 100) ? 0.99 : 0.2;
-  return p;
+  if (p)
+    {
+      p->est_success_rate = (p->args.numinfo.l_val < 100) ? 0.99 : 0.2;
+      return true;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 static boolean
@@ -1112,9 +1119,18 @@ static boolean
 parse_inum (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p =  insert_num (argv, arg_ptr, entry);
-  /* inode number is exact match only, so very low proportions of files match */
-  p->est_success_rate = 1e-6;
-  return p;
+  if (p)
+    {
+      /* inode number is exact match only, so very low proportions of
+       * files match
+       */
+      p->est_success_rate = 1e-6;
+      return true;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 /* -ipath is deprecated (at RMS's request) in favour of 
@@ -1158,13 +1174,20 @@ static boolean
 parse_links (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p = insert_num (argv, arg_ptr, entry);
-  if (p->args.numinfo.l_val == 1)
-    p->est_success_rate = 0.99;
-  else if (p->args.numinfo.l_val == 2)
-    p->est_success_rate = 0.01;
+  if (p)
+    {
+      if (p->args.numinfo.l_val == 1)
+	p->est_success_rate = 0.99;
+      else if (p->args.numinfo.l_val == 2)
+	p->est_success_rate = 0.01;
+      else
+	p->est_success_rate = 1e-3;
+      return true;
+    }
   else
-    p->est_success_rate = 1e-3;
-  return p;
+    {
+      return false;
+    }
 }
 
 static boolean
@@ -2209,8 +2232,15 @@ static boolean
 parse_uid (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p = insert_num (argv, arg_ptr, entry);
-  p->est_success_rate = (p->args.numinfo.l_val < 100) ? 0.99 : 0.2;
-  return p;
+  if (p)
+    {
+      p->est_success_rate = (p->args.numinfo.l_val < 100) ? 0.99 : 0.2;
+      return true;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 static boolean
@@ -2779,10 +2809,10 @@ static void
 check_path_safety(const char *action, char **argv)
 {
   const char *path = getenv("PATH");
+  char *s;
 
   (void)argv;
   
-  char *s;
   s = next_element(path, 1);
   while ((s = next_element ((char *) NULL, 1)) != NULL)
     {

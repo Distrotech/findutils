@@ -31,7 +31,7 @@
 #include <time.h>
 #include <limits.h>		/* for CHAR_BIT */
 #include <stdbool.h>		/* for bool/boolean */
-#include <stdint_.h>		/* for uintmax_t */
+#include <stdint.h>		/* for uintmax_t */
 
 
 
