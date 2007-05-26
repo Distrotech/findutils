@@ -7,12 +7,7 @@ quickly.  cc works correctly.
 * Speed of locate without "-i" option needs to be increased.
 
 * Internationalization
-** Is ansi2knr internationalized?  Does it need to be?
-
-** Should these files be internationalized?
-	strftime.c
-
-** updatedb.sh should be internationalized as well
+** updatedb.sh should be internationalized
 
 * Eliminate unnecessary strcpy calls in xargs.
 
@@ -34,17 +29,6 @@ directory entries before recursion
 * large file problems
 depcomp gets added by automake
 
-* xargs: allow newline or arbitrary character to separate arguments
-Tyler 'Crackerjack' MacDonald <yi@yi.org> suggested that it would be
-nice if newlines could separate arguments to xargs.  This would allow
-a single line to be used as an argument, regardless of white space,
-quotes, and backslash.  A function similar to read_string in xargs.c
-can be written which replaces the line:
-
-      if (c == '\0')
-
-with the appropriate character.
-
 * investigate _LIBC when used with TOLOWER and TOUPPER
 _LIBC is used to determine whether TOLOWER should check isupper first.
 Is there something better to check?  Alternatively, can tolower be
@@ -56,24 +40,14 @@ Bruno Haible reported problems with BeOS.
 * Include example of use of updatedb in documentation.
 Use something close to the Debian daily cron job.
 
-* Side effects do not allow the implicit use of -print.
-Specifically, the use of -prune turns off the implicit use of -print.
-Look at this line in find.c:
-  else if (!no_side_effects (predicates->pred_next))
-side_effects really means:
-predicate which produces output, according to find.c, at least it does
-some of the time.
-Two predicates, side_effects, and produce_output
-
-
 * Supply example for time range commands for find.
 
                         --//--
 This is used by Emacs' spell checker ispell.el:
 
-LocalWords: ansi knr strftime xargs updatedb sh fnmatch hin strcpy
-LocalWords: lib getstr getline frcode bigram texi depcomp automake
-LocalWords: strncasecmp strcasecmp LIBOBJS FUNC findutils Solaris
-LocalWords: LIBC TOLOWER TOUPPER tolower isupper PRUNEFS
-LocalWords: nfs proc Debian cron
-LocalWords: Haible BeOS Crackerjack
+LocalWords: strftime xargs updatedb sh strcpy
+LocalWords: lib frcode bigram texi depcomp automake
+LocalWords: LIBOBJS FUNC findutils
+LocalWords: LIBC TOLOWER TOUPPER tolower isupper
+LocalWords: Debian cron
+LocalWords: Haible BeOS
