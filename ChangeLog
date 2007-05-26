@@ -1,8 +1,26 @@
+2007-05-26  James Youngman  <jay@gnu.org>
+
+	* xargs/testsuite/xargs.posix/rc-125.exp: Explain Savannah bug
+	#19969.   This bug is not yet fixed.
+
+	* find/defs.h: #include <stdint_.h>, for uintmax_t.  This should
+	fix a compilation error on DEC C V5.9-005 on Digital UNIX V4.0F
+	(Rev. 1229).  This is Savannah bug #19965, reported by Nelson
+	Beebe.  
+
+	* find/defs.h: Don't include <errno.h>, since it is not needed in
+	the header file itself.  The "extern int errno;" declaration is
+	now obsolete.
+	* find/parser.c: Include <errno.h>
+	* find/pred.c: Dito
+	* find/util.c: Ditto
+ 
 2007-05-24  James Youngman  <jay@gnu.org>
 
 	* find/util.c (check_nofollow): If O_NOFOLLOW is defined but 0,
 	act as if it is undefined.  This should prevent a runtime
-	assertion failure on IRIX 6.5.  This fixes Savannah bug #19948.
+	assertion failure on IRIX 6.5.  This fixes Savannah bug #19948,
+	reported by Nelson Beebe.
 	
 	* m4/noreturn.m4: New file, testing for support of __attribute__
 	((__noreturn__)).  Defines jy_AC_ATTRIBUTE_NORETURN and sets
@@ -10,10 +28,12 @@
 	* configure.in: Call jy_AC_ATTRIBUTE_NORETURN.
 	* find/defs.h (ATTRIBUTE_NORETURN): Define to nothing if
 	HAVE_ATTRIBUTE_NORETURN is not set in config.h.  This should fix a
-	compilation error with non-GCC compilers.
+	compilation error with non-GCC compilers.   This is Savannah bug
+	#19967, reported by Nelson Beebe.
 	
 	* configure.in (FINDLIBS): Update FINDLIBS to link against -lm for
-	modf.   This fixed a link error on HP-UX. 
+	modf.   This fixed a link error on HP-UX.   This fixes Savannah
+	bug #19966, reported by Nelson Beebe.
 	* find/Makefile.am (LDADD): Use @FINDLIBS@
 
 2007-05-21  James Youngman  <jay@gnu.org>

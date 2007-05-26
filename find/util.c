@@ -31,6 +31,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <limits.h>
+#include <errno.h>
 #include <assert.h>
 
 #include "xalloc.h"

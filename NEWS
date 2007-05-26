@@ -3,8 +3,15 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 ** Bug Fixes
 
-Findutils should now build on systems which have the modf() function
-in the maths library, -lm.   This includes some versions of HP-UX.
+#19967: Build successfully with C compilers that don't support the GCC
+ construct __attribute__((__noreturn__)).
+
+#19966: Findutils should now build on systems which have the modf()
+function in the maths library, -lm.  This includes some versions of
+HP-UX.
+
+#19965: Fixed a compilation failure on OSF/1 4.0 (no definition of the
+type uintmax_t).
 
 #19948: Fixed an assertion failure on IRIX 6.5 (O_NOFOLLOW is defined
 to 0 there).

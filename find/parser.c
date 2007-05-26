@@ -24,6 +24,7 @@
 #include <math.h>
 #include <assert.h>
 #include <pwd.h>
+#include <errno.h>
 #include <grp.h>
 #include <fnmatch.h>
 #include "modechange.h"

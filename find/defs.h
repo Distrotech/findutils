@@ -24,20 +24,16 @@
 
 /* XXX: some of these includes probably don't belong in a common header file */
 #include <sys/stat.h>
-#include <stdio.h>
+#include <stdio.h>		/* for FILE* */
 #include <string.h>
-#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
-#include <limits.h>
-#include <stdbool.h>
+#include <limits.h>		/* for CHAR_BIT */
+#include <stdbool.h>		/* for bool/boolean */
+#include <stdint_.h>		/* for uintmax_t */
 
 
-
-#ifndef errno
-extern int errno;
-#endif
 
 #ifndef CHAR_BIT
 # define CHAR_BIT 8
