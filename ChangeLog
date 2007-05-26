@@ -1,5 +1,23 @@
 2007-05-26  James Youngman  <jay@gnu.org>
 
+	Code refactoring in locate.
+	* locate/locate.c (visit): New function, into which we factor out
+	the traversal of the inspector list.
+	(process_simple): Use visit().
+	(process_or): Use visit().
+	(process_and): Use visit().
+
+	Speed improvements in locate for unibyte locales.
+	* locate/locate.c (visit_substring_match_nocasefold_wide): Renamed
+	from visit_substring_match_nocasefold.
+	(visit_substring_match_casefold_wide): Renamed from
+	visit_substring_match_casefold.
+	(visit_substring_match_casefold_narrow): Special case of
+	visit_substring_match_casefold_wide which we use for unibyte
+	locales; we use strcasestr() rather than mbscasestr().
+	(visit_substring_match_nocasefold_narrow): Ditto, using strstr()
+	instead of mbsstr().
+
 	* find/parser.c (parse_gid): Return an explicit boolean constant
 	rather than automatically converting from a pointer, because the
 	gnulib substitute for bool (or _Bool) in c89 environments lacking

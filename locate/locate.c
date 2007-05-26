@@ -113,7 +113,7 @@ extern int errno;
 #ifdef gettext_noop
 # define N_(String) gettext_noop (String)
 #else
-/* We used to use (String) instead of just String, but apparentl;y ISO C
+/* We used to use (String) instead of just String, but apparently ISO C
  * doesn't allow this (at least, that's what HP said when someone reported
  * this as a compiler bug).  This is HP case number 1205608192.  See
  * also http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11250 (which references 
@@ -369,49 +369,40 @@ static struct visitor *inspectors = NULL;
 static struct visitor *lastinspector = NULL;
 static struct visitor *past_pat_inspector = NULL;
 
-/* 0 or 1 pattern(s) */
-static int
-process_simple(struct process_data *procdata)
+static inline int visit(const struct visitor *p,
+			int accept_flags,
+			struct process_data *procdata,
+			const struct visitor * const stop)
 {
-  int result = VISIT_CONTINUE;
-  const struct visitor *p = inspectors;
-  
-  while ( ((VISIT_CONTINUE | VISIT_ACCEPTED) & result) && (NULL != p) )
+  register int result = accept_flags;
+  while ( (accept_flags & result) && (stop != p) )
     {
       result = (p->inspector)(procdata, p->context);
       p = p->next;
     }
+  return result;
+}
 
-    return result;
+/* 0 or 1 pattern(s) */
+static int
+process_simple(struct process_data *procdata)
+{
+  return visit(inspectors, (VISIT_CONTINUE|VISIT_ACCEPTED), procdata, NULL);
 }
 
 /* Accept if any pattern matches. */
 static int
 process_or (struct process_data *procdata)
 {
-  int result = VISIT_CONTINUE;
-  const struct visitor *p = inspectors;
+  int result;
   
-  while ( ((VISIT_CONTINUE | VISIT_REJECTED) & result) && (past_pat_inspector != p) )
-    {
-      result = (p->inspector)(procdata, p->context);
-      p = p->next;
-    }
-
+  result = visit(inspectors, (VISIT_CONTINUE|VISIT_REJECTED), procdata, past_pat_inspector);
   if (result == VISIT_CONTINUE)
     result = VISIT_REJECTED;
   if (result & (VISIT_ABORT | VISIT_REJECTED))
     return result;
 
-  p = past_pat_inspector;
-  result = VISIT_CONTINUE;
-
-  while ( (VISIT_CONTINUE == result) && (NULL != p) )
-    {
-      result = (p->inspector)(procdata, p->context);
-      p = p->next;
-    }
-  
+  result = visit(past_pat_inspector, VISIT_CONTINUE, procdata, NULL);
   if (VISIT_CONTINUE == result)
     return VISIT_ACCEPTED;
   else
@@ -422,29 +413,15 @@ process_or (struct process_data *procdata)
 static int
 process_and (struct process_data *procdata)
 {
-  int result = VISIT_CONTINUE;
-  const struct visitor *p = inspectors;
+  int result;
   
-  while ( ((VISIT_CONTINUE | VISIT_ACCEPTED) & result) && (past_pat_inspector != p) )
-    {
-      result = (p->inspector)(procdata, p->context);
-      p = p->next;
-    }
-
+  result = visit(inspectors, (VISIT_CONTINUE|VISIT_ACCEPTED), procdata, past_pat_inspector);
   if (result == VISIT_CONTINUE)
     result = VISIT_REJECTED;
   if (result & (VISIT_ABORT | VISIT_REJECTED))
     return result;
 
-  p = past_pat_inspector;
-  result = VISIT_CONTINUE;
-
-  while ( (VISIT_CONTINUE == result) && (NULL != p) )
-    {
-      result = (p->inspector)(procdata, p->context);
-      p = p->next;
-    }
-  
+  result = visit(past_pat_inspector, VISIT_CONTINUE, procdata, NULL);
   if (VISIT_CONTINUE == result)
     return VISIT_ACCEPTED;
   else
@@ -578,7 +555,8 @@ visit_locate02_format(struct process_data *procdata, void *context)
     }
  
   /* Overlay the old path with the remainder of the new.  */
-  nread = locate_read_str (&procdata->original_filename, &procdata->pathsize,
+  nread = locate_read_str (&procdata->original_filename,
+			   &procdata->pathsize,
 			   procdata->fp, 0, procdata->count);
   if (nread < 0)
     return VISIT_ABORT;
@@ -703,7 +681,7 @@ visit_non_existing_nofollow(struct process_data *procdata, void *context)
 }
 
 static int
-visit_substring_match_nocasefold(struct process_data *procdata, void *context)
+visit_substring_match_nocasefold_wide(struct process_data *procdata, void *context)
 {
   const char *pattern = context;
 
@@ -714,11 +692,35 @@ visit_substring_match_nocasefold(struct process_data *procdata, void *context)
 }
 
 static int
-visit_substring_match_casefold(struct process_data *procdata, void *context)
+visit_substring_match_nocasefold_narrow(struct process_data *procdata, void *context)
+{
+  const char *pattern = context;
+  assert(MB_CUR_MAX == 1);
+  if (NULL != strstr(procdata->munged_filename, pattern))
+    return VISIT_ACCEPTED;
+  else
+    return VISIT_REJECTED;
+}
+
+static int
+visit_substring_match_casefold_wide(struct process_data *procdata, void *context)
 {
   const char *pattern = context;
 
   if (NULL != mbscasestr(procdata->munged_filename, pattern))
+    return VISIT_ACCEPTED;
+  else
+    return VISIT_REJECTED;
+}
+
+
+static int
+visit_substring_match_casefold_narrow(struct process_data *procdata, void *context)
+{
+  const char *pattern = context;
+
+  assert(MB_CUR_MAX == 1);
+  if (NULL != strcasestr(procdata->munged_filename, pattern))
     return VISIT_ACCEPTED;
   else
     return VISIT_REJECTED;
@@ -869,7 +871,7 @@ print_stats(int argc, size_t database_file_size)
 	{
 	  if (statistics.total_filename_length)
 	    {
-	      printf(_("Compression ratio %4.2f%%\n"),
+	      printf(_("Compression ratio %4.2f%% (higher is better)\n"),
 		     100.0 * ((double)statistics.total_filename_length
 			      - (double) database_file_size)
 		     / (double) statistics.total_filename_length);
@@ -1010,8 +1012,11 @@ search_one_database (int argc,
   lastinspector = NULL;
   past_pat_inspector = NULL;
   results_were_filtered = false;
-  
+#if 0  
   procdata.pathsize = 1026;	/* Increased as necessary by locate_read_str.  */
+#else
+  procdata.pathsize = 128;	/* Increased as necessary by locate_read_str.  */
+#endif
   procdata.original_filename = xmalloc (procdata.pathsize);
 
 
@@ -1167,10 +1172,26 @@ search_one_database (int argc,
 	   * traditional behaviour.
 	   * James Youngman <jay@gnu.org> 
 	   */
-	  if (ignore_case)
-	    add_visitor(visit_substring_match_casefold, pathpart);
+	  visitfunc matcher;
+	  if (1 == MB_CUR_MAX)
+	    {
+	      /* As an optimisation, use a strstr() matcher if we are
+	       * in a unibyte locale.  This can give a x2 speedup in
+	       * the C locale.  Some light testing reveals that
+	       * glibc's strstr() is somewhere around 40% faster than
+	       * gnulib's, so we just use strstr().
+	       */
+	      matcher = ignore_case ?
+		visit_substring_match_casefold_narrow  :
+		visit_substring_match_nocasefold_narrow;
+	    }
 	  else
-	    add_visitor(visit_substring_match_nocasefold, pathpart);
+	    {
+	      matcher = ignore_case ?
+		visit_substring_match_casefold_wide  :
+		visit_substring_match_nocasefold_wide;
+	    }
+	  add_visitor(matcher, pathpart);
 	}
     }
 
