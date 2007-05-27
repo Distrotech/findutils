@@ -32,6 +32,7 @@
 #include <limits.h>		/* for CHAR_BIT */
 #include <stdbool.h>		/* for bool/boolean */
 #include <stdint.h>		/* for uintmax_t */
+#include <sys/stat.h> /* S_ISUID etc. */
 
 
 
@@ -48,7 +49,6 @@ typedef bool boolean;
 #include "timespec.h"
 #include "buildcmd.h"
 #include "quotearg.h"
-#include "stat_.h" /* S_ISUID etc. */
 
 /* These days we will assume ANSI/ISO C protootypes work on our compiler. */
 #define PARAMS(Args) Args

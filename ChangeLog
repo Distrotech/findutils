@@ -1,5 +1,10 @@
 2007-05-27  James Youngman  <jay@gnu.org>
 
+	* import-gnulib.config (modules): Import sys_stat.
+	(gnulib_version): Update to 2007-05-26.  This fixes a compilation
+	error in stdlib.h with the DEC C compiler.  This fixes Savannah
+	bug# 19983.
+
 	* find/parser.c (safe_atoi): New function, like atoi, but which
 	calls error(1, ...) when the argument is invalid or out of range.
 	(parse_group): Use safe_atoi.
