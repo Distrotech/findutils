@@ -1,6 +1,6 @@
 /* modetype.h -- file type bits definitions for POSIX systems
    Requires sys/types.h sys/stat.h.
-   Copyright (C) 1990 Free Software Foundation, Inc.
+   Copyright (C) 1990, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -85,11 +85,60 @@
 #define	S_ISDOOR(m) (((m) & S_IFMT) == S_IFDOOR)
 #endif
 #if !defined(S_ISMPB) && defined(S_IFMPB) /* V7 */
-#define S_ISMPB(m) (((m) & S_IFMT) == S_IFMPB)
-#define S_ISMPC(m) (((m) & S_IFMT) == S_IFMPC)
+/* Also available on Coherent, according to 
+ * Albert D. Cahalan (acahalan@cs.uml.edu)
+ */
+#define S_ISMPB(m) (((m) & S_IFMT) == S_IFMPB) /* multiplexed block device */
+#define S_ISMPC(m) (((m) & S_IFMT) == S_IFMPC) /* multiplexed char  device */
+/* GNU BFD library source uses type letter 'm' for these */
 #endif
+
 #if !defined(S_ISNWK) && defined(S_IFNWK) /* HP/UX */
+/* Apparently HPUX ls gives 'n' as the type letter for these. */
 #define S_ISNWK(m) (((m) & S_IFMT) == S_IFNWK)
 #endif
 
 #endif
+
+/* The above macros don't handle 
+ * /bin/ls letters     Mode    What is it?
+ *                     S_IFNAM (Xenix "name files")
+ *  H                  S_ISCDF (HPUX Context Dependent Files)
+ *                     S_IFCMP
+ *                     S_IFSHAD
+ */
+
+/*
+In message <199907051927.PAA01106@jupiter.cs.uml.edu>
+Albert Cahalan wrote:-
+
+BTW, I believe many of these can't actually exist on disk.
+Some of these (like S_IFSHAD AFAIK) are not seen by userspace.
+
+hex  name     ls octal  description
+0000             000000 SCO out-of-service inode, BSD unknown type
+1000 S_IFIFO  p| 010000 fifo (named pipe)
+2000 S_IFCHR  c  020000 character special
+3000 S_IFMPC     030000 multiplexed character device (Coherent)
+4000 S_IFDIR  d/ 040000 directory
+5000 S_IFNAM     050000 XENIX special named file
+6000 S_IFBLK  b  060000 block special
+7000 S_IFMPB     070000 multiplexed block device (Coherent)
+8000 S_IFREG  -  100000 regular
+9000 S_IFCMP     110000 VxFS compressed (file?)
+9000 S_IFNWK     110000 HP-UX network special
+a000 S_IFLNK  l@ 120000 symbolic link
+b000 S_IFSHAD    130000 Solaris shadow inode for ACL
+c000 S_IFSOCK s= 140000 socket (also "S_IFSOC" on VxFS)
+d000 S_IFDOOR D  150000 Solaris door
+e000 S_IFWHT  w% 160000 BSD whiteout (not used for inode)
+f000 S_IFMT      170000 mask (not used for inode)
+hex  name     ls octal  description
+0200 S_ISVTX     001000 save swapped text even after use
+0400 S_ISGID     002000 set group ID on execution
+0400 S_ENFMT     002000 SysV forced file locking (shared w/ S_ISGID)
+0800 S_CDF       004000 HP-UX hidden directory
+0800 S_ISUID     004000 set user ID on execution
+
+
+*/
