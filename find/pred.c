@@ -595,17 +595,32 @@ pred_fprint0 (const char *pathname, struct stat *stat_buf, struct predicate *pre
 static char*
 mode_to_filetype(mode_t m)
 {
-  return
-    m == S_IFSOCK ? "s" :
-    m == S_IFLNK  ? "l" :
-    m == S_IFREG  ? "f" :
-    m == S_IFBLK  ? "b" :
-    m == S_IFDIR  ? "d" :
-    m == S_IFCHR  ? "c" :
-#ifdef S_IFDOOR
-    m == S_IFDOOR ? "D" :
+#define HANDLE_TYPE(t,letter) if (m==t) { return letter; }
+#ifdef S_IFREG
+  HANDLE_TYPE(S_IFREG,  "f");	/* regular file */
 #endif
-    m == S_IFIFO  ? "p" : "U";
+#ifdef S_IFDIR
+  HANDLE_TYPE(S_IFDIR,  "d");	/* directory */
+#endif
+#ifdef S_IFLNK
+  HANDLE_TYPE(S_IFLNK,  "l");	/* symbolic link */
+#endif
+#ifdef S_IFSOCK
+  HANDLE_TYPE(S_IFSOCK, "s");	/* Unix domain socket */
+#endif
+#ifdef S_IFBLK
+  HANDLE_TYPE(S_IFBLK,  "b");	/* block device */
+#endif
+#ifdef S_IFCHR
+  HANDLE_TYPE(S_IFCHR,  "c");	/* character device */
+#endif
+#ifdef S_IFIFO
+  HANDLE_TYPE(S_IFIFO,  "p");	/* FIFO */
+#endif
+#ifdef S_IFDOOR
+  HANDLE_TYPE(S_IFDOOR, "D");	/* Door (e.g. on Solaris) */
+#endif
+  return "U";			/* Unknown */
 }
 
 static double 
