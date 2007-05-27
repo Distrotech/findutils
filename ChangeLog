@@ -1,5 +1,11 @@
 2007-05-27  James Youngman  <jay@gnu.org>
 
+	* find/parser.c (safe_atoi): New function, like atoi, but which
+	calls error(1, ...) when the argument is invalid or out of range.
+	(parse_group): Use safe_atoi.
+	(insert_depthspec): Use safe_atoi
+	(parse_user): Use safe_atoi
+
 	* configure.in: Check for fabs in libm (fixing a compilation error
 	on Solaris).
 

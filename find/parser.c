@@ -923,6 +923,54 @@ parse_gid (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
 }
 
+
+static int
+safe_atoi (const char *s)
+{
+  long lval;
+  const char *end;
+  
+  errno = 0;
+  lval = strtol(s, &end, 10);
+  if ( (LONG_MAX == lval) || (LONG_MIN == lval) )
+    {
+      /* max/min possible value, or an error. */
+      if (errno == ERANGE)
+	{
+	  /* too big, or too small. */
+	  error(1, errno, "%s", s);
+	}
+      else
+	{
+	  /* not a valid number */
+	  error(1, errno, "%s", s);
+	}
+      /* Otherwise, we do a range chack against INT_MAX and INT_MIN
+       * below.
+       */
+    }
+  
+  if (lval > INT_MAX || lval < INT_MIN)
+    {
+      /* The number was in range for long, but not int. */
+      errno = ERANGE;
+      error(1, errno, "%s", s);
+    }
+  else if (*end)
+    {
+      error(1, errno, "Unexpected suffix %s on %s",
+	    quotearg_n_style(0, options.err_quoting_style, end),
+	    quotearg_n_style(1, options.err_quoting_style, s));
+    }
+  else if (end == s)
+    {
+      error(1, errno, "Expected an integer: %s", 
+	    quotearg_n_style(0, options.err_quoting_style, s));
+    }
+  return (int)lval;
+}
+
+
 static boolean
 parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -945,8 +993,7 @@ parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 	    {
 	      if (groupname[gid_len] == 0)
 		{
-		  gid = atoi (groupname);
-#warning "no error checking on the previous line"
+		  gid = safe_atoi (groupname);
 		}
 	      else
 		{
@@ -1225,8 +1272,7 @@ insert_depthspec(const struct parser_table* entry, char **argv, int *arg_ptr,
       depth_len = strspn (depthstr, "0123456789");
       if ((depth_len > 0) && (depthstr[depth_len] == 0))
 	{
-	  (*limitptr) = atoi (depthstr);
-#warning "consider replacing all calls to atio with a utility function"
+	  (*limitptr) = safe_atoi (depthstr);
 	  if (*limitptr >= 0)
 	    {
 	      return parse_noop(entry, argv, arg_ptr);
@@ -2292,10 +2338,9 @@ parse_user (const struct parser_table* entry, char **argv, int *arg_ptr)
 	{
 	  int uid_len = strspn (username, "0123456789");
 	  if (uid_len && (username[uid_len]==0))
-	    uid = atoi (username);
+	    uid = safe_atoi (username);
 	  else
 	    return false;
-#warning "no success checking has occured in atoi on previous line"
 	}
       our_pred = insert_primary (entry);
       our_pred->args.uid = uid;
