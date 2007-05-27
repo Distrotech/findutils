@@ -3,6 +3,8 @@
 	* find/pred.c (mode_to_filetype): Don't use S_IFSOCK on systems
 	which lack that macro.  POSIX systems are allowed to lack
 	sockets (it's an XSI extension).
+	(file_sparseness): If struct stat lacks st_blocks, assume all
+	files have a spearseness of 1.0.
 
 	* import-gnulib.config (modules): Import fchdir inorder to fix an
 	undefined-symbol error for fchdir on BeOS.

@@ -626,6 +626,7 @@ mode_to_filetype(mode_t m)
 static double 
 file_sparseness(const struct stat *p)
 {
+#if defined(HAVE_STRUCT_STAT_ST_BLOCKS)
   if (0 == p->st_size)
     {
       if (0 == p->st_blocks)
@@ -638,6 +639,9 @@ file_sparseness(const struct stat *p)
       double blklen = file_blocksize(p) * (double)p->st_blocks;
       return blklen / p->st_size;
     }
+#else  
+  return 1.0;
+#endif
 }
 
 
