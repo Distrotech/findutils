@@ -1776,6 +1776,16 @@ is usually greater than %s/1024, but it can also be smaller if the
 file is a sparse file (that is, it has ``holes'').
 @item %s
 File's size in bytes.
+@item %S
+File's sparseness.  This is calculated as @code{(BLOCKSIZE*st_blocks /
+st_size)}.  The exact value you will get for an ordinary file of a
+certain length is system-dependent.  However, normally sparse files
+will have values less than 1.0, and files which use indirect blocks
+and have few holes may have a value which is greater than 1.0.  The
+value used for BLOCKSIZE is system-dependent, but is usually 512
+bytes.  If the file size is zero, the value printed is undefined.  On
+systems which lack support for st_blocks, a file's sparseness is
+assumed to be 1.0.
 @end table
 
 @node Location Directives
