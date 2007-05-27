@@ -1,5 +1,8 @@
 2007-05-27  James Youngman  <jay@gnu.org>
 
+	* find/pred.c (file_sparseness): If st_blocks is not present in
+	struct stat, the file has a sparseness of 1.0.
+
 	* doc/find.texi (Size Directives): Document the %S format
 	directive for -printf.
 
