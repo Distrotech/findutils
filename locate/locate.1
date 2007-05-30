@@ -192,6 +192,12 @@ results that vary between different versions of
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
 .P
+All versions of GNU locate prior to 4.2.31 fail to correctly handle
+long (roughly, over 1024 bytes) filenames in old-format databases.
+This can lead to a heap buffer overrun and it a potential security
+issue.  Verions 4.3.0 to 4.3.6 are also affected by the bug.
+Databases in the default LOCATE02 format are correctly handled.
+.P
 The locate database correctly handles filenames containing newlines,
 but only if the system's sort command has a working
 .I \-z

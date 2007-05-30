@@ -26,19 +26,12 @@ Users can select which databases \fBlocate\fP searches using an
 environment variable or command line option; see \fBlocate\fP(1).
 Databases can not be concatenated together.
 .P
-The file name database format changed starting with GNU
-.B find
-and
-.B locate
-version 4.0 to allow machines with different byte orderings to share
-the databases.  The new GNU
-.B locate
-can read both the old and new database formats.
-However, old versions of
-.B locate
-and
-.B find
-produce incorrect results if given a new-format database.
+Versions of locate prior to 4.2.31 fail to correctly handle long file
+names in the old databse format, but the default database format
+(called LOCATE02) is not affected by this problem.  All versions of
+.B locate 
+since version 4.0 support the new LOCATE02 format.   The old database
+format also cannot correctly represent non-ASCII characters.
 .SH OPTIONS
 .TP
 .B \-\-findoptions='\fI\-option1 \-option2...\fP'
@@ -89,7 +82,11 @@ Default is \fBdaemon\fP.
 You can also use the environment variable \fBNETUSER\fP to set this user.
 .TP
 .B \-\-old\-format
-Create the database in the old format instead of the new one.
+Create the database in the old format instead of the new one.  Avoid
+using this option as older versions of locate are susceptible to a
+buffer overrun when reading old-format databases.  The old fatabase
+format is also incapable of correctly representing non-ASCII
+characters.
 .TP
 .B \-\-version
 Print the version number of
@@ -104,6 +101,12 @@ and exit.
 \fBfind\fP(1), \fBlocate\fP(1), \fBlocatedb\fP(5), \fBxargs\fP(1)
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
+.P
+All versions of GNU locate prior to 4.2.31 fail to correctly handle
+long (roughly, over 1024 bytes) filenames in old-format databases.
+This can lead to a heap buffer overrun and it a potential security
+issue.  Verions 4.3.0 to 4.3.6 are also affected by the bug.
+Databases in the default LOCATE02 format are correctly handled.
 .P
 The 
 .B updatedb

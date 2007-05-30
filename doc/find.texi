@@ -2520,6 +2520,11 @@ The old database format is used by Unix @code{locate} and @code{find}
 programs and earlier releases of the GNU ones.  @code{updatedb}
 produces this format if given the @samp{--old-format} option.
 
+All versions of GNU @code{locate} prior to 4.2.31 fail to correctly
+handle very long file names, possibly leading to security problems
+relating to a heap buffer overrun.  @xref{Security Considerations for
+locate}, for a detailed explanation.
+
 @code{updatedb} runs programs called @code{bigram} and @code{code} to
 produce old-format databases.  The old format differs from the new one
 in the following ways.  Instead of each entry starting with an
@@ -2958,7 +2963,9 @@ with versions of @code{locate} other than GNU @code{locate}.  Using
 this option means that @code{locate} will not be able to properly
 handle non-ASCII characters in file names (that is, file names
 containing characters which have the eighth bit set, such as many of
-the characters from the ISO-8859-1 character set).
+the characters from the ISO-8859-1 character set).  Versions of
+@code{locate} prior to 4.2.31 fail to correctly handle long filenames
+in old-format databases.
 @item --help
 Print a summary of the command line usage and exit.
 @item --version
@@ -4381,13 +4388,47 @@ option is, the POSIX standard does not make it mandatory.
 @node Security Considerations for locate
 @section Security Considerations for @code{locate}
 
+@subsection Race Conditions
 It is fairly unusual for the output of @code{locate} to be fed into
 another command.  However, if this were to be done, this would raise
-the same set of security issues as the use of @samp{find @dots{} -print}.
-Although the problems relating to whitespace in file names can be
-resolved by using @code{locate}'s @samp{-0} option, this still leaves
-the race condition problems associated with @samp{find @dots{} -print0}.
-There is no way to avoid these problems in the case of @code{locate}.
+the same set of security issues as the use of @samp{find @dots{}
+-print}.  Although the problems relating to whitespace in file names
+can be resolved by the @samp{-0} option of @code{locate}, this still
+leaves the race condition problems associated with @samp{find @dots{}
+-print0}.  There is no way to avoid these problems in the case of
+@code{locate}.
+
+@subsection Long File Name Bugs with Old-Format Databases
+All versions of @code{locate} prior to 4.2.31 have a bug in the way
+that old-format databases are read.  They read file names into a
+fixed-length 1026 byte buffer, allocated on the heap.  This buffer is
+not extended if file names are too long to fit into the buffer.  No
+range checking on the length of the filename is performed.  This could
+in theory lead to a privilege escalation attack.  Findutils versions
+4.3.0 to 4.3.6 are also affected.
+
+On systems using the old database format and affected versions of
+@code{locate}, carefully-chosen long file names could in theory allow
+malicious users to run code of their choice as any user invoking
+locate.
+
+If remote users can choose the names of files stored on your system,
+and these files are indexed by @code{updatedb}, this may be a remote
+security vulnerability.  Findutils version 4.2.31 fixes this problem.
+The @code{updatedb}, @code{bigram} and @code{code} programs do no
+appear to be affected.
+
+If you are also using GNU coreutils, you can use the following command
+to determine the length of the longest file name on a given system:
+
+@example
+find / -print0 | tr -c '\0' 'x' | tr '\0' '\n' | wc -L
+@end example
+
+Although this problem is significant, the old database format is not
+the default, and use of the old database format is not common.  Most
+installations and most users will not be affected by this problem.  
+
 
 @node Security Summary
 @section Summary
