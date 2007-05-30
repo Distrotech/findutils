@@ -7,7 +7,7 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)*
 #20014: Findutils-4.2.31 includes a patch for a potential security
 problem in locate.  When locate read an old-format database, it read
 file names into a fixed-length buffer allocated on the heap without
-checking for overflow.  Although overflowing a heap buffer if often
+checking for overflow.  Although overflowing a heap buffer is often
 somewhat safer than overflowing a buffer on the stack, this bug still
 has potential security implications.
 
