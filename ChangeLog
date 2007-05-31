@@ -1,3 +1,10 @@
+2007-05-31  James Youngman  <jay@gnu.org>
+
+	* find/parser.c (parse_time): Once we have determined the
+	comparison type, restore the original time argument since
+	get_relative_timestamp() also wants to see it.  This fixes
+	Savannah bug #20005.
+
 2007-05-31  Jakub Bogusz <qboosh@pld-linux.org>  (trivial change)
 
 	* find/parser.c (parse_group): Correct typo in error message.

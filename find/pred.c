@@ -2207,7 +2207,7 @@ print_list (FILE *fp, struct predicate *node)
   cur = node;
   while (cur != NULL)
     {
-      fprintf (fp, "%s ", blank_rtrim (cur->p_name, name));
+      fprintf (fp, "[%s] ", blank_rtrim (cur->p_name, name));
       cur = cur->pred_next;
     }
   fprintf (fp, "\n");
