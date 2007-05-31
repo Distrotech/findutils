@@ -999,8 +999,8 @@ parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 		{
 		  /* XXX: no test in test suite for this */
 		  error(1, 0, _("%s is not the name of an existing group and"
-				" it does not look like a numeic group ID because "
-				"it has the unexpected suffix %s"),
+				" it does not look like a numeric group ID "
+				"because it has the unexpected suffix %s"),
 			quotearg_n_style(0, options.err_quoting_style, groupname),
 			quotearg_n_style(1, options.err_quoting_style, groupname+gid_len));
 		  return false;
@@ -2869,7 +2869,10 @@ check_path_safety(const char *action, char **argv)
       else if ('/' != s[0])
 	{
 	  /* Relative paths are also dangerous in $PATH. */
-	  error(1, 0, _("The ralative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"),
+	  error(1, 0, _("The relative path %s is included in the PATH "
+			"environment variable, which is insecure in "
+			"combination with the %s action of find.  "
+			"Please remove that entry from $PATH"),
 		safely_quote_err_filename(0, s),
 		action);
 	}
