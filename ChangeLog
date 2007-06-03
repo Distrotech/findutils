@@ -1,3 +1,11 @@
+2007-06-03  James Youngman  <jay@gnu.org>
+
+	* configure.in: Determine if the setgroups function is available,
+	and set HAVE_SETGROUPS if so.
+	* locate/locate.c (drop_privs): Call setgroups() only if 
+	HAVE_SETGROUPS indicates that it is available.  This fixes
+	Savannah bug #19981.
+
 2007-05-31  James Youngman  <jay@gnu.org>
 
 	* find/parser.c (parse_time): Once we have determined the

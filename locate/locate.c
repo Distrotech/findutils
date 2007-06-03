@@ -1353,7 +1353,8 @@ drop_privs(void)
   const uid_t orig_euid = geteuid();
   const uid_t uid       = getuid();
   const gid_t gid       = getgid();
-  
+
+#if HAVE_SETGROUPS  
   /* Use of setgroups() is restricted to root only. */
   if (0 == orig_euid)
     {
@@ -1366,6 +1367,7 @@ drop_privs(void)
 	  goto fail;
 	}
     }
+#endif
 
   /* Drop any setuid privileges */
   if (uid != orig_euid)
