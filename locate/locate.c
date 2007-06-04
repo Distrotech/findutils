@@ -92,11 +92,7 @@
 #include <stdlib.h>
 #endif
 
-#ifdef HAVE_ERRNO_H
 #include <errno.h>
-#else
-extern int errno;
-#endif
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -125,9 +121,9 @@ extern int errno;
 
 #include "locatedb.h"
 #include <getline.h>
-#include "../gnulib/lib/xalloc.h"
-#include "../gnulib/lib/error.h"
-#include "../gnulib/lib/human.h"
+#include "xalloc.h"
+#include "error.h"
+#include "human.h"
 #include "dirname.h"
 #include "closeout.h"
 #include "nextelem.h"
@@ -451,8 +447,6 @@ add_visitor(visitfunc fn, void *context)
     }
 }
 
-
-
 static int
 visit_justprint_quoted(struct process_data *procdata, void *context)
 {
@@ -473,37 +467,100 @@ visit_justprint_unquoted(struct process_data *procdata, void *context)
   return VISIT_CONTINUE;
 }
 
+static void
+toolong (struct process_data *procdata)
+{
+  error (1, 0,
+	 _("locate database %s contains a "
+	   "filename longer than locate can handle"),
+	 procdata->dbfile);
+}
+
+static void
+extend (struct process_data *procdata, size_t siz1, size_t siz2)
+{
+  /* Figure out if the addition operation is safe before performing it. */
+  if (SIZE_MAX - siz1 < siz2)
+    {
+      toolong (procdata);
+    }
+  else if (procdata->pathsize < (siz1+siz2))
+    {
+      procdata->pathsize = siz1+siz2;
+      procdata->original_filename = x2nrealloc (procdata->original_filename,
+						&procdata->pathsize,
+						1);
+    }
+}
+
 static int
 visit_old_format(struct process_data *procdata, void *context)
 {
-  register char *s;
+  register size_t i;
   (void) context;
+
+  if (EOF == procdata->c)
+    return VISIT_ABORT;
 
   /* Get the offset in the path where this path info starts.  */
   if (procdata->c == LOCATEDB_OLD_ESCAPE)
-    procdata->count += getw (procdata->fp) - LOCATEDB_OLD_OFFSET;
+    {
+      int state = GetwordEndianStateInitial;
+      int minval, maxval;
+      int word;
+      
+      procdata->count -= LOCATEDB_OLD_OFFSET;
+      minval = (0       - procdata->count);
+      if (procdata->count >= 0)
+	maxval = (procdata->len - procdata->count);
+      else
+	maxval = (procdata->len - 0);
+      word = getword(procdata->fp, procdata->dbfile,
+		     minval, maxval, &state);
+      procdata->count += word;
+      assert(procdata->count >= 0);
+    }
   else
-    procdata->count += procdata->c - LOCATEDB_OLD_OFFSET;
+    {
+      procdata->count += (procdata->c - LOCATEDB_OLD_OFFSET);
+      assert(procdata->count >= 0);
+    }
 
-  /* Overlay the old path with the remainder of the new.  */
-  for (s = procdata->original_filename + procdata->count;
+  /* Overlay the old path with the remainder of the new.  Read 
+   * more data until we get to the next filename.
+   */
+  for (i=procdata->count;
        (procdata->c = getc (procdata->fp)) > LOCATEDB_OLD_ESCAPE;)
-    if (procdata->c < 0200)
-      *s++ = procdata->c;		/* An ordinary character.  */
-    else
-      {
-	/* Bigram markers have the high bit set. */
-	procdata->c &= 0177;
-	*s++ = procdata->bigram1[procdata->c];
-	*s++ = procdata->bigram2[procdata->c];
-      }
-  *s-- = '\0';
+    {
+      if (EOF == procdata->c)
+	break;
 
+      if (procdata->c < 0200)
+	{
+	  /* An ordinary character. */	  
+	  extend (procdata, i, 1u);
+	  procdata->original_filename[i++] = procdata->c;
+	}
+      else
+	{
+	  /* Bigram markers have the high bit set. */
+	  extend (procdata, i, 2u);
+	  procdata->c &= 0177;
+	  procdata->original_filename[i++] = procdata->bigram1[procdata->c];
+	  procdata->original_filename[i++] = procdata->bigram2[procdata->c];
+	}
+    }
+
+  /* Consider the case where we executed the loop body zero times; we
+   * still need space for the terminating null byte. 
+   */
+  extend (procdata, i, 1u);
+  procdata->original_filename[i] = 0;
+  procdata->len = i;
   procdata->munged_filename = procdata->original_filename;
   
   return VISIT_CONTINUE;
 }
-
 
 static int
 visit_locate02_format(struct process_data *procdata, void *context)
@@ -871,6 +928,12 @@ print_stats(int argc, size_t database_file_size)
 	{
 	  if (statistics.total_filename_length)
 	    {
+	      /* A negative compression ratio just means that the
+	       * compressed database is larger than the list of
+	       * filenames.  This can happen for example for
+	       * old-format databases containing a small list of short
+	       * filenames, because the bigram list is 256 bytes.
+	       */
 	      printf(_("Compression ratio %4.2f%% (higher is better)\n"),
 		     100.0 * ((double)statistics.total_filename_length
 			      - (double) database_file_size)
@@ -1087,6 +1150,7 @@ search_one_database (int argc,
       int nread2;
       
       procdata.slocatedb_format = 0;
+      extend (&procdata, sizeof(LOCATEDB_MAGIC), 0u);
       nread2 = fread (procdata.original_filename+nread, 1, sizeof (LOCATEDB_MAGIC)-nread,
 		      procdata.fp);
       if (looking_at_gnu_locatedb(procdata.original_filename, nread+nread2))
@@ -1102,6 +1166,7 @@ search_one_database (int argc,
 	  /* Read the list of the most common bigrams in the database.  */
 	  if (nread < 256)
 	    {
+	      extend (&procdata, 256u, 0u);
 	      int more_read = fread (procdata.original_filename + nread, 1,
 				     256 - nread, procdata.fp);
 	      if ( (more_read + nread) != 256 )
