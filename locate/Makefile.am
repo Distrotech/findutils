@@ -11,6 +11,7 @@ man_MANS = locate.1 updatedb.1 locatedb.5
 BUILT_SOURCES = dblocation.texi
 EXTRA_DIST = locatedb.h updatedb.sh $(man_MANS)
 CLEANFILES = updatedb dblocation.texi
+locate_SOURCES = locate.c word_io.c
 
 INCLUDES = -I$(top_srcdir)/lib -I../gnulib/lib -I$(top_srcdir)/gnulib/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
 
