@@ -18,6 +18,7 @@ locate.gnu/exists3.exp \
 locate.gnu/notexists1.exp \
 locate.gnu/notexists2.exp \
 locate.gnu/notexists3.exp \
+locate.gnu/old_prefix.exp \
 locate.gnu/space1st.exp \
 locate.gnu/sv-bug-14535.exp \
 locate.gnu/exceedshort.exp
@@ -31,7 +32,8 @@ locate.gnu/exists2.xo \
 locate.gnu/exists3.xo \
 locate.gnu/notexists1.xo \
 locate.gnu/notexists2.xo \
-locate.gnu/notexists3.xo
+locate.gnu/notexists3.xo \
+locate.gnu/old_prefix.xo
 
 
 EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO)

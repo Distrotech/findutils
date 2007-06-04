@@ -1,4 +1,28 @@
+2007-06-04  James Youngman  <jay@gnu.org>
+
+	* locate/testsuite/Makefile.am (EXTRA_DIST_XO, EXTRA_DIST_EXP):
+	Added old_prefix.exp and old_prefix.xo, a new test case for long
+	shared rpefixes with the old database format.
+
+	* locate/locate.c (visit_old_format): Use getword() from word_io.c
+	instead of getw(), because getw() is not in POSIX.
+	* locate/word_io.c: New file, providing replacement for getw().
+	* locate/locatedb.h: Declare getword()
+	* locate/Makefile.am (locate_SOURCES): Added word_io.c
+
+	* locate/testsuite/config/unix.exp (locate_start): Make the
+	filaure moessages slightly more explicit; indicate what went wrong
+	when a test fails.
+
 2007-06-03  James Youngman  <jay@gnu.org>
+
+	* locate/locate.c (visit_old_format, extend, toolong): Extend the
+	buffer used to build the current pathname when reading an
+	old-format database.  The new function extend is called to do
+	this.  The new function toolong is called to report a fatal error
+	when the buffer size would otherwise exceed SIZE_MAX.  This fixes
+	Savannah bug #20014, which is a security-related problem with the
+	CVE identifier CVE-2007-2452.
 
 	* configure.in: Determine if the setgroups function is available,
 	and set HAVE_SETGROUPS if so.
