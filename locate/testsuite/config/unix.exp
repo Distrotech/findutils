@@ -102,6 +102,7 @@ proc locate_version {} {
     }
 }
 
+
 # Run locate and leave the output in $comp_output.
 # Called by individual test scripts.
 proc locate_textonly { passfail id intext locateoptions outtext } {
@@ -213,8 +214,9 @@ proc locate_start { passfail updatedb_options locate_options
 	if $verbose>1 then {
 	    send_user "$comp_output\n"
 	}
-	# If fail_good is set, that refers to the exit status of locate, not updatedb...
-	fail "$testname, $comp_output"
+	# If fail_good is set, that refers to the exit 
+	# status of locate, not updatedb...
+	fail "$testname: updatedb is supposed to be silent, $comp_output"
 	return
     } else {
 	send_log "updatedb: OK.\n"
@@ -238,7 +240,7 @@ proc locate_start { passfail updatedb_options locate_options
 	if $fail_good then {
 	    pass "$testname"
 	} else {
-	    fail "$testname, $comp_output"
+	    fail "$testname: locate failed, $comp_output"
 	}
 	return
     }
