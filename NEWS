@@ -1,6 +1,31 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.7-CVS
 
+** Functional changes
+
+Locate can now read old-format locate databases generated on machines
+with a different byte order.  It does this by guessing the byte order,
+so the result is not completely reliable.  If you need to share
+databases between machines of different architectures, you should use
+the LOCATE02 format (which has other advantages, as explained in the
+documentation).
+
+** Security Fixes
+
+#20014: Findutils-4.3.7 includes a patch for a potential security
+problem in locate.  When locate read an old-format database, it read
+file names into a fixed-length buffer allocated on the heap without
+checking for overflow.  Although overflowing a heap buffer is often
+somewhat safer than overflowing a buffer on the stack, this bug still
+has potential security implications.
+
+This bug also affected the following previous findutils releases:
+
+ - All releases prior to 4.2.31
+ - Findutils 4.3.0 to 4.3.6.
+
+This bug has been assigned CVE number CVE-2007-2452.
+
 ** Bug Fixes
 
 #20005: Tests -mtime -n and -mtime +n incorrectly treated like -mtime n.

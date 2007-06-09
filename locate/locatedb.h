@@ -64,16 +64,16 @@
 #  endif
 # endif
 
-enum 
+typedef enum 
   { 
     GetwordEndianStateInitial = 0,
     GetwordEndianStateNative  = 1,
     GetwordEndianStateSwab    = 2
-  };
+  } GetwordEndianState;
 
 int getword (FILE *fp, const char *filename,
 	     size_t minvalue, size_t maxvalue,
-	     int *endian_state_flag);
+	     GetwordEndianState *endian_state_flag);
 
 
 #define SLOCATE_DB_MAGIC_LEN 2

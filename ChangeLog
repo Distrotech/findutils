@@ -1,3 +1,31 @@
+2007-06-09  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi (Security Considerations for locate): Discuss in
+	detail the buffer overrun when reading old-format locate
+	databases.  This is CVE reference CVE-2007-2452.
+
+2007-06-05  James Youngman  <jay@gnu.org>
+
+	Guess the byte-order of old-format locate databases.
+	* locate/word_io.c (getword): Make the endian_state_flag parameter
+	an enum rather than an int.  If we are in the initial ("don't
+	know") byte-order guessing state and the swapped value is out of
+	range, use this as evidence that the byte order is native.
+	* locate/locatedb.h: Declare getword accordingly.
+	* locate/locate.c (struct process_data): Added endian_state
+	member, which remembers for us what the big/little endian order
+	guessing state is when we read an old-format database.
+	(visit_old_format): Use the procdata.endian_state rather than a
+	local variable, so that the information can persist across calls.
+	(i_am_little_endian): Locate figures out if we needed to byteswap
+	the words in an old-format database, but that is an implementation
+	detail.  Therefore we figure out our own byte order so that we can
+	produce a more relevant message for --statistics.  The
+	i_am_little_endian() returns nonzero if the current host has
+	little-endian byte order.
+	(search_one_database): Report the byte-order of old-format
+	databases. 
+
 2007-06-04  James Youngman  <jay@gnu.org>
 
 	* locate/testsuite/Makefile.am (EXTRA_DIST_XO, EXTRA_DIST_EXP):
@@ -11,7 +39,7 @@
 	* locate/Makefile.am (locate_SOURCES): Added word_io.c
 
 	* locate/testsuite/config/unix.exp (locate_start): Make the
-	filaure moessages slightly more explicit; indicate what went wrong
+	failure messages slightly more explicit; indicate what went wrong
 	when a test fails.
 
 2007-06-03  James Youngman  <jay@gnu.org>

@@ -2761,11 +2761,31 @@ shell wildcard to match a single character.
 
 The old format therefore cannot faithfully store entries with
 non-ASCII characters. It therefore should not be used in
-internationalised environments.
+internationalised environments.  That is, most installations should
+not use it.
+
+Because the long counts are stored by the @code{code} program as
+native-order machine words, the database format is not eaily used in
+environments which differ in terms of byte order.  If locate databases
+are to be shared between machines, the LOCATE02 database format should
+be used.  This has other benefits as discussed above.  However, the
+length of the filename currently being processed can normally be used
+to place reasonable limits on the long counts and so this information
+is used by locate to help it guess the byte ordering of the old format
+database.  Unless it finds evidence to the contrary, @code{locate}
+will assume that the byte order of the database is the same as the
+native byte order of the machine running @code{locate}.  The output of
+@samp{locate --statistics} also includes information about the byte
+order of old-format databases.
 
 The output of @samp{locate --statistics} will give an incorrect count
 of the number of file names containing newlines or high-bit characters
 for old-format databases.
+
+Old versions of GNU @code{locate} fail to correctly handle very long
+file names, possibly leading to security problems relating to a heap
+buffer overrun.  @xref{Security Considerations for locate}, for a
+detailed explanation.
 
 @node Newline Handling
 @section Newline Handling
@@ -4719,6 +4739,7 @@ trailing whitespace is turned off by the @samp{-0} argument to
 @node Security Considerations for locate
 @section Security Considerations for @code{locate}
 
+@subsection Race Conditions
 It is fairly unusual for the output of @code{locate} to be fed into
 another command.  However, if this were to be done, this would raise
 the same set of security issues as the use of @samp{find @dots{} -print}.
@@ -4726,6 +4747,47 @@ Although the problems relating to whitespace in file names can be
 resolved by using @code{locate}'s @samp{-0} option, this still leaves
 the race condition problems associated with @samp{find @dots{} -print0}.
 There is no way to avoid these problems in the case of @code{locate}.
+
+@subsection Long File Name Bugs with Old-Format Databases
+Old versions of @code{locate} have a bug in the way that old-format
+databases are read.  This bug affects the following versions of
+@code{locate}:
+
+@enumerate
+@item All releases prior to 4.2.31
+@item All 4.3.x releases prior to 4.3.7
+@end enumerate
+
+The affected versions of @code{locate} read file names into a
+fixed-length 1026 byte buffer, allocated on the heap.  This buffer is
+not extended if file names are too long to fit into the buffer.  No
+range checking on the length of the filename is performed.  This could
+in theory lead to a privilege escalation attack.  Findutils versions
+4.3.0 to 4.3.6 are also affected.
+
+On systems using the old database format and affected versions of
+@code{locate}, carefully-chosen long file names could in theory allow
+malicious users to run code of their choice as any user invoking
+locate.
+
+If remote users can choose the names of files stored on your system,
+and these files are indexed by @code{updatedb}, this may be a remote
+security vulnerability.  Findutils version 4.2.31 and findutils
+version 4.3.7 include fixes for this problem.  The @code{updatedb},
+@code{bigram} and @code{code} programs do no appear to be affected.
+
+If you are also using GNU coreutils, you can use the following command
+to determine the length of the longest file name on a given system:
+
+@example
+find / -print0 | tr -c '\0' 'x' | tr '\0' '\n' | wc -L
+@end example
+
+Although this problem is significant, the old database format is not
+the default, and use of the old database format is not common.  Most
+installations and most users will not be affected by this problem.  
+
+
 
 @node Security Summary
 @section Summary

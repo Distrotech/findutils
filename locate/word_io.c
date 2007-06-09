@@ -18,6 +18,7 @@
 */
 
 #include <config.h>
+#include <string.h>
 #include <errno.h>
 
 #include "quote.h"
@@ -51,49 +52,66 @@
      ((((x) & 0xff000000) >> 24) | (((x) & 0x00ff0000) >>  8) | \
       (((x) & 0x0000ff00) <<  8) | (((x) & 0x000000ff) << 24))
 
+enum { WORDBYTES=4 };
+
 static int 
 decode_value(const unsigned char data[], 
 	     int limit,
-	     int *endian_state_flag,
+	     GetwordEndianState *endian_state_flag,
 	     const char *filename)
 {
-  int val;
+  int swapped;
+  union 
+  {
+    int ival;			/* native representation */
+    unsigned char data[WORDBYTES];
+  } u;
+  u.ival = 0;
+  memcpy(&u.data, data, WORDBYTES);
+  swapped = bswap_32(u.ival);	/* byteswapped */
   
-  if (*endian_state_flag = GetwordEndianStateInitial)
+  if (*endian_state_flag == GetwordEndianStateInitial)
     {
-      int testflag = GetwordEndianStateNative;
-      
-      val = decode_value(data, limit, &testflag, filename);
-      if (val <= limit)
+      if (u.ival <= limit)
 	{
-	  return val;
+	  if (swapped > limit)
+	    {
+	      /* the native value is inside the limit and the 
+	       * swapped value is not.  We take this as proof 
+	       * that we should be using the ative byte order. 
+	       */
+	      *endian_state_flag = GetwordEndianStateNative;
+	    }
+	  return u.ival;
 	}
       else 
 	{
-	  testflag = GetwordEndianStateSwab;
-	  val = decode_value(data, limit, &testflag, filename);
-	  if (val <= limit)
+	  if (swapped <= limit)
 	    {
 	      /* Aha, now we know we have to byte-swap. */
 	      error(0, 0,
-		    _("Warning: locate database %s was built with a different byte order"),
+		    _("Warning: locate database %s was "
+		      "built with a different byte order"),
 		    quotearg_n_style(0, locale_quoting_style, filename));
-	      *endian_state_flag = testflag;
-	      return val;
+	      *endian_state_flag = GetwordEndianStateSwab;
+	      return swapped;
 	    }
 	  else
 	    {
-	      return val;
+	      /* u.ival > limit and swapped > limit.  For the moment, assume 
+	       * native ordering.
+	       */
+	      return u.ival;
 	    }
 	}
     }
   else 
     {
-      val = *(int*)data;
+      /* We already know the byte order. */
       if (*endian_state_flag == GetwordEndianStateSwab)
-	return bswap_32(val);
+	return swapped;
       else
-	return val;
+	return u.ival;
     }
 }
 
@@ -104,9 +122,8 @@ getword (FILE *fp,
 	 const char *filename,
 	 size_t minvalue,
 	 size_t maxvalue,
-	 int *endian_state_flag)
+	 GetwordEndianState *endian_state_flag)
 {
-  enum { WORDBYTES=4 };
   unsigned char data[4];
   size_t bytes_read;
 

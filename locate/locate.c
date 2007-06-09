@@ -343,6 +343,7 @@ struct process_data
   FILE *fp;			/* The pathname database.  */
   const char *dbfile;		/* Its name, or "<stdin>" */
   int  slocatedb_format;	/* Allows us to cope with slocate's format variant */
+  GetwordEndianState endian_state;
   /* for the old database format,
      the first and second characters of the most common bigrams.  */
   char bigram1[128];
@@ -505,7 +506,6 @@ visit_old_format(struct process_data *procdata, void *context)
   /* Get the offset in the path where this path info starts.  */
   if (procdata->c == LOCATEDB_OLD_ESCAPE)
     {
-      int state = GetwordEndianStateInitial;
       int minval, maxval;
       int word;
       
@@ -516,7 +516,7 @@ visit_old_format(struct process_data *procdata, void *context)
       else
 	maxval = (procdata->len - 0);
       word = getword(procdata->fp, procdata->dbfile,
-		     minval, maxval, &state);
+		     minval, maxval, &procdata->endian_state);
       procdata->count += word;
       assert(procdata->count >= 0);
     }
@@ -1022,6 +1022,24 @@ looking_at_slocate_locatedb (const char *filename,
     }
 }
 
+
+static int 
+i_am_little_endian(void)
+{
+  union 
+  {
+    unsigned char uch[4];
+    unsigned int ui;
+  } u;
+  u.ui = 0u;
+  u.uch[0] = 1;
+  u.uch[1] = u.uch[2] = u.uch[3] = 0;
+  return u.ui == 1;
+}
+
+
+
+
 /* Print or count the entries in DBFILE that match shell globbing patterns in 
    ARGV. Return the number of entries matched. */
 
@@ -1046,6 +1064,7 @@ search_one_database (int argc,
   int nread;		     /* number of bytes read from an entry. */
   struct process_data procdata;	/* Storage for data shared with visitors. */
   int slocate_seclevel;
+  int oldformat;
   struct visitor* pvis; /* temp for determining past_pat_inspector. */
   const char *format_name;
   enum ExistenceCheckType do_check_existence;
@@ -1062,7 +1081,9 @@ search_one_database (int argc,
   
   if (ignore_case)
     regex_options |= RE_ICASE;
-  
+
+  oldformat = 0;
+  procdata.endian_state = GetwordEndianStateInitial;
   procdata.len = procdata.count = 0;
   procdata.slocatedb_format = 0;
   procdata.itemcount = 0;
@@ -1185,6 +1206,7 @@ search_one_database (int argc,
 	      procdata.bigram2[i] = procdata.original_filename[(i << 1) + 1];
 	    }
 	  format_name = "old";
+	  oldformat = 1;
 	  add_visitor(visit_old_format, NULL);
 	}
     }
@@ -1323,9 +1345,9 @@ search_one_database (int argc,
 
   if (stats)
     {
-	printf(_("Database %s is in the %s format.\n"),
-	       procdata.dbfile,
-	       format_name);
+      printf(_("Database %s is in the %s format.\n"),
+	     procdata.dbfile,
+	     format_name);
     }
 
 
@@ -1341,6 +1363,28 @@ search_one_database (int argc,
   
   if (stats)
     {
+      if (oldformat)
+	{
+	  int host_little_endian = i_am_little_endian();
+	  const char *little = _("The database has little-endian "
+				 "machine-word encoding.\n");
+	  const char *big    = _("The database has big-endian "
+				 "machine-word encoding.\n");
+	  
+	  if (GetwordEndianStateNative == procdata.endian_state)
+	    {
+	      printf("%s", (host_little_endian ? little : big));
+	    }
+	  else if (GetwordEndianStateSwab == procdata.endian_state)
+	    {
+	      printf("%s", (host_little_endian ? big : little));
+	    }
+	  else
+	    {
+	      printf(_("The database machine-word encoding order "
+		       "is not obvious.\n"));
+	    }
+	}
       if (filesize)
 	print_stats(argc, filesize);
     }
