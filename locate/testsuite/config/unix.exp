@@ -287,7 +287,7 @@ proc locate_from_db { passfail locate_options locate_database } {
 	send_user "Spawning \"$locate_cmd\"\n"
     }
 
-    catch "exec $locate_cmd 2>ZZ" comp_output
+    catch "exec $locate_cmd 2>/dev/null" comp_output
     if {$comp_output != ""} then {
 	send_log "$comp_output\n"
 	if $verbose>1 then {
