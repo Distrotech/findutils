@@ -18,8 +18,8 @@ dnl   James Youngman <jay@gnu.org>, 2007.
 AC_DEFUN([jy_AC_ATTRIBUTE_NORETURN],
 [AC_CACHE_CHECK([for __attribute__ ((__noreturn__)) support],
 	[jy_cv_cc_attribute_noreturn],
-	[AC_COMPILE_IFELSE(
-		[void report_fatal_error(void) __attribute__ ((__noreturn__));]
+	[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],
+		[void report_fatal_error(void) __attribute__ ((__noreturn__));])],
 		[jy_cv_cc_attribute_noreturn=yes],
 		[jy_cv_cc_attribute_noreturn=no])])
 if test $jy_cv_cc_attribute_noreturn = yes; then
