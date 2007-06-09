@@ -1,5 +1,5 @@
 /* code -- bigram- and front-encode filenames for locate
-   Copyright (C) 1994 Free Software Foundation, Inc.
+   Copyright (C) 1994, 2005, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <errno.h>
+#include <stdbool.h>
 
 
 #ifdef STDC_HEADERS
@@ -239,15 +240,17 @@ main (int argc, char **argv)
       if (diffcount < -LOCATEDB_OLD_OFFSET || diffcount > LOCATEDB_OLD_OFFSET)
 	{
 	  if (EOF ==- putc (LOCATEDB_OLD_ESCAPE, stdout))
-	    outerr();
-	  
-	  if (EOF == putw (diffcount + LOCATEDB_OLD_OFFSET, stdout))
-	    outerr();
+	    outerr ();
+
+	  if (!putword (stdout,
+			diffcount+LOCATEDB_OLD_OFFSET,
+			GetwordEndianStateNative))
+	    outerr ();
 	}
       else
 	{
 	  if (EOF == putc (diffcount + LOCATEDB_OLD_OFFSET, stdout))
-	    outerr();
+	    outerr ();
 	}
 
       /* Look for bigrams in the remainder of the path.  */

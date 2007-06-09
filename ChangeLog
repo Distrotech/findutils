@@ -1,5 +1,15 @@
 2007-06-09  James Youngman  <jay@gnu.org>
 
+
+	Avoid using the non-portable function putw().
+	* locate/locatedb.h: Declare putword().
+	* locate/frcode.c: Include <stdbool.h> as locatedb.h now requires
+	it.
+	* locate/code.c (main): Use putword() rather than putw(), because
+	the latter was removed from SUSv3. This fixes Savannah bug #19980.
+	Also include <stdbool.h> as locatedb.h now requires this.  
+	* locate/word_io.c (putword): Define the new function putword.
+	
 	Ensure that <config.h> is included before any system header
 	* find/defs.h: Do not include <config.h> from "defs.h".  Instead
 	just complain if it was not already included, since it needs  to

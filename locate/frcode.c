@@ -65,11 +65,14 @@
 */
 
 #include <config.h>
+
+
 #include <stdio.h>
 #include <limits.h>
 #include <assert.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <stdbool.h>
 
 #if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
 #include <string.h>

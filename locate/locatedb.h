@@ -20,8 +20,6 @@
 #ifndef _LOCATEDB_H
 #define _LOCATEDB_H 1
 
-#include <stdio.h>
-
 /* The magic string at the start of a locate database, to make sure
    it's in the right format.  The 02 is the database format version number.
    This string has the same format as a database entry, but you can't
@@ -74,6 +72,9 @@ typedef enum
 int getword (FILE *fp, const char *filename,
 	     size_t minvalue, size_t maxvalue,
 	     GetwordEndianState *endian_state_flag);
+
+bool putword (FILE *fp, int word,
+	      GetwordEndianState endian_state_flag);
 
 
 #define SLOCATE_DB_MAGIC_LEN 2

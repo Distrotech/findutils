@@ -35,6 +35,10 @@ This bug has been assigned CVE number CVE-2007-2452.
 #19981: Don't call setgroups if the function isn't available.  This
 fixes Savannah bug# 19981.
 
+#19980: Don't use the functions putw() or getw() since these are not
+in current POSIX.  Use the gnulib version of wcwidth() where the
+system does not provide it.
+
 * Major changes in release 4.3.6
 
 ** Bug Fixes

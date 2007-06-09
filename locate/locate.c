@@ -61,6 +61,7 @@
 */
 
 #include <config.h>
+
 #include <stdio.h>
 #include <signal.h>
 #include <ctype.h>
@@ -71,6 +72,8 @@
 #include <fnmatch.h>
 #include <getopt.h>
 #include <xstrtol.h>
+
+#include <stdbool.h>		/* for bool/boolean */
 
 /* The presence of unistd.h is assumed by gnulib these days, so we 
  * might as well assume it too. 
