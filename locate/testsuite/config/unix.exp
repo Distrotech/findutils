@@ -265,6 +265,67 @@ proc locate_start { passfail updatedb_options locate_options
     catch "exec rm -rf tmp"
 }
 
+
+
+proc locate_from_db { passfail locate_options locate_database } {
+    global LOCATE
+    global LOCATEFLAGS
+    global verbose
+
+    set fail_good [string match "f*" $passfail]
+    set scriptname [uplevel {info script}]
+    set testbase [file rootname $scriptname]
+    set testname [file tail $testbase]
+    set testdir  [file dirname $scriptname]
+
+    set dbpath "$testdir/$locate_database"
+    set outfile "$testbase.xo"
+
+    set locate_cmd "$LOCATE $LOCATEFLAGS -d $dbpath $locate_options > locate.out"
+    send_log "$locate_cmd\n"
+    if $verbose>1 then {
+	send_user "Spawning \"$locate_cmd\"\n"
+    }
+
+    catch "exec $locate_cmd 2>ZZ" comp_output
+    if {$comp_output != ""} then {
+	send_log "$comp_output\n"
+	if $verbose>1 then {
+	    send_user "$comp_output\n"
+	}
+	if $fail_good then {
+	    # XXX: in general may want to compare output, too.
+	    pass "$testname"
+	} else {
+	    fail "$testname: locate unfortunately failed, $comp_output"
+	}
+	return
+    }
+
+
+    if [file exists $outfile] then {
+	set cmp_cmd "cmp locate.out $outfile"
+	send_log "$cmp_cmd\n"
+	catch "exec $cmp_cmd" cmpout
+	if {$cmpout != ""} then {
+	    #catch "exec diff locate.out $outfile" diffout
+	    #puts $diffout
+	    fail "$testname, $cmpout"
+	    return
+	}
+    } else {
+	if {[file size locate.out] != 0} then {
+	    fail "$testname, output should be empty"
+	    return
+	}
+    }
+    pass "$testname"
+}
+
+
+
+
+
 # Called by runtest.
 # Clean up (remove temporary files) before runtest exits.
 proc locate_exit {} {

@@ -1,4 +1,21 @@
 2007-06-09  James Youngman  <jay@gnu.org>
+	
+	Check that we can correctly read old-format databases which are
+	big-endian or little endian.
+	* locate/testsuite/config/unix.exp (locate_from_db): New function;
+	supports testing locate against a provided database.
+	* locate/testsuite/locate.gnu/bigendian.exp: New test; make sure
+	we can read an old-format big-endian database.
+	* locate/testsuite/locate.gnu/bigendian.xo: Expected output from
+	bigendian.exp test.
+	* locate/testsuite/locate.gnu/littleendian.exp: New test; make sure
+	we can read an old-format little-endian database.
+	* locate/testsuite/locate.gnu//locateddb.old.powerpc.xi: Old format
+	big endian database file, for supporting bigendian.exp.
+	* locate/testsuite/locate.gnu/littleendian.xo: Expected output from
+	littleendian.exp test.
+	* locate/testsuite/locate.gnu//locateddb.old.x86.xi: Old format
+	little endian database file, for supporting littleendian.exp.
 
 	* doc/find.texi (Size Directives): Compare %b with %s/512, not
 	%s/1024.  This fixes (again) Savannah bug #19596.
