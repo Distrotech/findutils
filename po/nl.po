@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.1\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-05-08 10:29+0100\n"
+"POT-Creation-Date: 2007-06-05 10:13+0100\n"
 "PO-Revision-Date: 2006-11-08 19:10+0100\n"
 "Last-Translator: Benno Schulenberg <benno@nietvergeten.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -133,44 +133,44 @@ msgstr "^[jJ]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:161
+#: find/util.c:162
 #, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgstr "Gebruik:  %s [-H] [-L] [-P] [-Oniveau] [-D "
 
-#: find/util.c:163
+#: find/util.c:164
 #, c-format
 msgid "] [path...] [expression]\n"
 msgstr "] [pad...] [expressie]\n"
 
-#: find/util.c:204
+#: find/util.c:205
 #, c-format
 msgid "Warning: file %s appears to have mode 0000"
 msgstr ""
 
-#: find/util.c:747
+#: find/util.c:753
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Onbekende debuggingvlag '%s'; genegeerd."
 
-#: find/util.c:754
+#: find/util.c:760
 msgid "Empty argument to the -D option."
 msgstr "Argument van optie '-D' is leeg"
 
-#: find/util.c:768
+#: find/util.c:774
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "Direct na optie '-O' dient een decimaal getal te staan"
 
-#: find/util.c:777 find/util.c:787
+#: find/util.c:783 find/util.c:793
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Geef een decimaal getal op direct na optie '-O'"
 
-#: find/util.c:792 find/util.c:796
+#: find/util.c:798 find/util.c:802
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Ongeldig optimalisatieniveau %s"
 
-#: find/util.c:803
+#: find/util.c:809
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -179,7 +179,7 @@ msgstr ""
 "Optimalisatieniveau %lu is te hoog.  Als u bestanden heel vlug wilt vinden, "
 "gebruik dan 'locate'."
 
-#: find/util.c:934
+#: find/util.c:940
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -272,7 +272,7 @@ msgstr ""
 msgid "unknown"
 msgstr "onbekend"
 
-#: find/parser.c:467
+#: find/parser.c:468
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -284,7 +284,7 @@ msgstr ""
 "opties zijn niet positioneel: '%s' beïnvloedt zowel voorgaande als nakomende "
 "testen.  Geef opties op vóór andere argumenten.\n"
 
-#: find/parser.c:752
+#: find/parser.c:753
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -292,23 +292,23 @@ msgstr ""
 "Waarschuwing: de optie '-d' wordt afgeraden; gebruik liever '-depth', omdat "
 "dat een POSIX-mogelijkheid is."
 
-#: find/parser.c:946
+#: find/parser.c:1001
 #, c-format
 msgid ""
-"%s is not the name of an existing group and it does not look like a numeic "
+"%s is not the name of an existing group and it does not look like a numeric "
 "group ID because it has the unexpected suffix %s"
 msgstr ""
 
-#: find/parser.c:959
+#: find/parser.c:1014
 #, c-format
 msgid "%s is not the name of an existing group"
 msgstr ""
 
-#: find/parser.c:964
+#: find/parser.c:1019
 msgid "argument to -group is empty, but should be a group name"
 msgstr ""
 
-#: find/parser.c:985
+#: find/parser.c:1040
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -318,7 +318,7 @@ msgstr ""
 "Het standaardpad is de huidige map; de standaardexpressie is '-print';\n"
 "de expressie mag bestaan uit: operatoren, opties, testen, en acties:\n"
 
-#: find/parser.c:988
+#: find/parser.c:1043
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -330,7 +330,7 @@ msgstr ""
 "    ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "    EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
-#: find/parser.c:992
+#: find/parser.c:1047
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -344,7 +344,7 @@ msgstr ""
 "    -depth  --help  -maxdepth NIVEAUS  -mindepth NIVEAUS  -mount  -noleaf\n"
 "    --version  -xdev  -ignore_readdir_race  -noignore_readdir_race\n"
 
-#: find/parser.c:997
+#: find/parser.c:1052
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -358,7 +358,7 @@ msgstr ""
 "PATROON\n"
 "    -links N -lname PATROON -mmin N -mtime N -name PATROON -newer BESTAND"
 
-#: find/parser.c:1002
+#: find/parser.c:1057
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
@@ -370,7 +370,7 @@ msgstr ""
 "    -wholename PATROON -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "    -used N -user NAAM -xtype [bcdpfls]\n"
 
-#: find/parser.c:1007
+#: find/parser.c:1062
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -382,7 +382,7 @@ msgstr ""
 "    -execdir COMMANDO ;  -execdir COMMANDO {} +  -okdir COMMANDO ;  -ls\n"
 "    -fls BESTAND  -print  -print0  -printf OPMAAK  -delete  -prune  -quit\n"
 
-#: find/parser.c:1013
+#: find/parser.c:1068
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -393,11 +393,11 @@ msgstr ""
 "een e-mail naar <bug-findutils@gnu.org>.\n"
 "Meld gebreken in de vertaling aan <vertaling@vrijschrift.org>."
 
-#: find/parser.c:1067
+#: find/parser.c:1122
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "de zinnigheidscontrole van de fnmatch()-systeemfunctie is mislukt"
 
-#: find/parser.c:1081
+#: find/parser.c:1136
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -412,38 +412,38 @@ msgstr ""
 "misschien '-samefile'.  Of anders, als u GNU grep hebt, kunt u 'find ... -"
 "print0 | grep -FzZ %s' gebruiken."
 
-#: find/parser.c:1128
+#: find/parser.c:1192
 msgid ""
 "warning: the predicate -ipath is deprecated; please use -iwholename instead."
 msgstr ""
 "Waarschuwing: de optie '-ipath' wordt afgeraden; gebruik liever '-"
 "iwholename'."
 
-#: find/parser.c:1211
+#: find/parser.c:1281
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
 msgstr ""
 
-#: find/parser.c:1358
+#: find/parser.c:1428
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1408
+#: find/parser.c:1478
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1424
+#: find/parser.c:1494
 #, fuzzy, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Kan invoerbestand '%s' niet openen"
 
-#: find/parser.c:1689
+#: find/parser.c:1759
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "ongeldige modus '%s'"
 
-#: find/parser.c:1708
+#: find/parser.c:1778
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -455,21 +455,21 @@ msgstr ""
 "binnenkort veranderen.  Op dit moment komt dit laatste patroon met geen "
 "enkel bestand overeen, maar zal binnenkort overeenkomen met alle bestanden."
 
-#: find/parser.c:1903
+#: find/parser.c:1973
 msgid "invalid null argument to -size"
 msgstr "ongeldig leeg argument van '-size'"
 
-#: find/parser.c:1951
+#: find/parser.c:2021
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "ongeldige aanduiding '%c' bij optie '-size'"
 
-#: find/parser.c:1956
+#: find/parser.c:2026
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "ongeldig argument '%s' van '%s'"
 
-#: find/parser.c:2132
+#: find/parser.c:2202
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -477,56 +477,56 @@ msgstr ""
 "De optie '-show-control-chars' vereist als argument ofwel 'literal' ofwel "
 "'safe'."
 
-#: find/parser.c:2235
+#: find/parser.c:2312
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "ongeldig argument %s van %s"
 
-#: find/parser.c:2289
+#: find/parser.c:2365
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versie %s\n"
 
-#: find/parser.c:2290 locate/code.c:190 locate/locate.c:1533 xargs/xargs.c:622
+#: find/parser.c:2366 locate/code.c:190 locate/locate.c:1665 xargs/xargs.c:622
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils versie %s\n"
 
-#: find/parser.c:2291
+#: find/parser.c:2367
 #, c-format
 msgid "Features enabled: "
 msgstr "Aangezette mogelijkheden: "
 
-#: find/parser.c:2398
+#: find/parser.c:2474
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2445
+#: find/parser.c:2521
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2566
+#: find/parser.c:2642
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "waarschuwing: onbekende stuurcode '\\%c'"
 
-#: find/parser.c:2582
+#: find/parser.c:2658
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2621
+#: find/parser.c:2697
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "waarschuwing: onbekende opmaakcode '%%%c'"
 
-#: find/parser.c:2765
+#: find/parser.c:2841
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2790
+#: find/parser.c:2866
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -538,10 +538,10 @@ msgstr ""
 "combinatie met de actie %s van find.  Verwijder de huidige map uit uw PATH-"
 "variabele (oftewel: verwijder \".\" of dubbele punten aan begin en eind)."
 
-#: find/parser.c:2796
+#: find/parser.c:2872
 #, fuzzy, c-format
 msgid ""
-"The ralative path %s is included in the PATH environment variable, which is "
+"The relative path %s is included in the PATH environment variable, which is "
 "insecure in combination with the %s action of find.  Please remove that "
 "entry from $PATH"
 msgstr ""
@@ -549,7 +549,7 @@ msgstr ""
 "combinatie met de actie %s van find.  Verwijder de huidige map uit uw PATH-"
 "variabele (oftewel: verwijder \".\" of dubbele punten aan begin en eind)."
 
-#: find/parser.c:2896
+#: find/parser.c:2975
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -557,55 +557,55 @@ msgstr ""
 "Om veiligheidsredenen mag {} bij '-execdir' en '-okdir' niet gebruikt worden "
 "binnen de naam van het hulpprogramma."
 
-#: find/parser.c:2919
+#: find/parser.c:2998
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Bij '-exec%s ... +' mag {} slechts één keer voorkomen."
 
-#: find/parser.c:2936
+#: find/parser.c:3015
 msgid "The environment is too large for exec()."
 msgstr "Omgeving is te groot voor exec()."
 
-#: find/parser.c:3119
+#: find/parser.c:3201
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3271
+#: find/parser.c:3355
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3276
+#: find/parser.c:3360
 msgid "standard output"
 msgstr ""
 
-#: find/pred.c:1305
+#: find/pred.c:1325
 #, fuzzy, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr "Kan invoerbestand '%s' niet openen"
 
-#: find/pred.c:1369
+#: find/pred.c:1389
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1813
+#: find/pred.c:1833
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1848
+#: find/pred.c:1868
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1889 xargs/xargs.c:1119
+#: find/pred.c:1909 xargs/xargs.c:1119
 msgid "cannot fork"
 msgstr "kan geen nieuw proces starten"
 
-#: find/pred.c:1914
+#: find/pred.c:1934
 #, c-format
 msgid "error waiting for %s"
 msgstr "fout tijdens wachten op %s"
 
-#: find/pred.c:1923
+#: find/pred.c:1943
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s afgebroken door signaal %d"
@@ -713,7 +713,7 @@ msgstr ""
 "Gebruik:  %s meest_gebruikte_bigrams <bestandenlijst> locate-gegevensbank\n"
 "     of:  %s [ --version | --help ]\n"
 
-#: locate/code.c:135 locate/locate.c:1291 xargs/xargs.c:1317
+#: locate/code.c:135 locate/locate.c:1421 xargs/xargs.c:1317
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -731,45 +731,50 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils versie %s\n"
 
-#: locate/locate.c:157
+#: locate/locate.c:153
 msgid "days"
 msgstr "dagen"
 
-#: locate/locate.c:204
+#: locate/locate.c:200
 msgid "The argument argument for option --max-database-age must not be empty"
 msgstr ""
 
-#: locate/locate.c:220 locate/locate.c:227
+#: locate/locate.c:216 locate/locate.c:223
 #, fuzzy, c-format
 msgid "Invalid argument %s for option --max-database-age"
 msgstr "ongeldig argument '%s' van '%s'"
 
-#: locate/locate.c:576
+#: locate/locate.c:475
+#, c-format
+msgid "locate database %s contains a filename longer than locate can handle"
+msgstr ""
+
+#: locate/locate.c:610
 #, fuzzy, c-format
 msgid "locate database %s is corrupt or invalid"
 msgstr "locate-gegevensbank '%s' is beschadigd of ongeldig"
 
-#: locate/locate.c:838
+#: locate/locate.c:897
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Grootte van locate-gegevensbank: %s bytes\n"
 
-#: locate/locate.c:843
+#: locate/locate.c:902
 #, fuzzy, c-format
 msgid "Matching Filenames: %s "
 msgstr "Bestandsnamen: %s"
 
-#: locate/locate.c:844
+#: locate/locate.c:903
 #, fuzzy, c-format
 msgid "All Filenames: %s "
 msgstr "Bestandsnamen: %s"
 
-#: locate/locate.c:847
+#: locate/locate.c:906
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "met een totale lengte van %s bytes"
 
-#: locate/locate.c:851
+#: locate/locate.c:910
 #, c-format
 msgid ""
 "\n"
@@ -778,7 +783,7 @@ msgstr ""
 "\n"
 "\twaarvan %s witruimte bevatten, "
 
-#: locate/locate.c:854
+#: locate/locate.c:913
 #, c-format
 msgid ""
 "\n"
@@ -787,7 +792,7 @@ msgstr ""
 "\n"
 "\t%s LF-tekens bevatten, "
 
-#: locate/locate.c:857
+#: locate/locate.c:916
 #, c-format
 msgid ""
 "\n"
@@ -796,66 +801,79 @@ msgstr ""
 "\n"
 "\ten %s tekens bevatten met het hoogste bit gezet.\n"
 
-#: locate/locate.c:865
+#: locate/locate.c:924
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
 "compression ratio.\n"
 msgstr ""
 
-#: locate/locate.c:872
-#, c-format
-msgid "Compression ratio %4.2f%%\n"
+#: locate/locate.c:937
+#, fuzzy, c-format
+msgid "Compression ratio %4.2f%% (higher is better)\n"
 msgstr "Compressieverhouding %4.2f%%\n"
 
-#: locate/locate.c:879
+#: locate/locate.c:944
 #, fuzzy, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "Compressieverhouding %4.2f%%\n"
 
-#: locate/locate.c:934
+#: locate/locate.c:999
 #, c-format
 msgid ""
 "locate database %s looks like an slocate database but it seems to have "
 "security level %c, which GNU findutils does not currently support"
 msgstr ""
 
-#: locate/locate.c:1027
+#: locate/locate.c:1116
 #, c-format
 msgid ""
 "%s is an slocate database.  Support for these is new, expect problems for "
 "now."
 msgstr ""
 
-#: locate/locate.c:1041
+#: locate/locate.c:1130
 #, c-format
 msgid ""
 "%s is an slocate database of unsupported security level %d; skipping it."
 msgstr ""
 
-#: locate/locate.c:1058
+#: locate/locate.c:1147
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
 "format databases with a non-zero security level.  No results will be "
 "generated for this database.\n"
 msgstr ""
 
-#: locate/locate.c:1069
+#: locate/locate.c:1158
 #, c-format
 msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr ""
 
-#: locate/locate.c:1105
+#: locate/locate.c:1196
 #, fuzzy, c-format
 msgid "Old-format locate database %s is too short to be valid"
 msgstr "locate-gegevensbank '%s' is beschadigd of ongeldig"
 
-#: locate/locate.c:1240
+#: locate/locate.c:1348
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Gegevensbank %s is in de %s-indeling.\n"
 
-#: locate/locate.c:1282
+#: locate/locate.c:1369
+msgid "The database has little-endian machine-word encoding.\n"
+msgstr ""
+
+#: locate/locate.c:1371
+msgid "The database has big-endian machine-word encoding.\n"
+msgstr ""
+
+#: locate/locate.c:1384
+#, c-format
+msgid "The database machine-word encoding order is not obvious.\n"
+msgstr ""
+
+#: locate/locate.c:1412
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -875,38 +893,38 @@ msgstr ""
 "          [-r | --regex]  [--regextype=SOORT]  [--version]  [--help]\n"
 "          PATROON...\n"
 
-#: locate/locate.c:1344
+#: locate/locate.c:1475
 msgid "failed to drop group privileges"
 msgstr ""
 
-#: locate/locate.c:1361
+#: locate/locate.c:1493
 msgid "failed to drop setuid privileges"
 msgstr ""
 
-#: locate/locate.c:1375
+#: locate/locate.c:1507
 msgid "Failed to fully drop privileges"
 msgstr ""
 
-#: locate/locate.c:1393
+#: locate/locate.c:1525
 msgid "failed to drop setgid privileges"
 msgstr ""
 
-#: locate/locate.c:1532
+#: locate/locate.c:1664
 #, c-format
 msgid "GNU locate version %s\n"
 msgstr "GNU locate versie %s\n"
 
-#: locate/locate.c:1572
+#: locate/locate.c:1704
 msgid "argument to --limit"
 msgstr "argument van --limit"
 
-#: locate/locate.c:1655
+#: locate/locate.c:1787
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "waarschuwing: de locate-gegevensbank kan slechts één keer van "
 "standaardinvoer gelezen worden"
 
-#: locate/locate.c:1728
+#: locate/locate.c:1860
 #, fuzzy, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "waarschuwing: gegevensbank '%s' is meer dan %d %s oud"
