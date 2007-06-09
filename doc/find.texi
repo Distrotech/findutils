@@ -1613,7 +1613,7 @@ is a sparse file (that is, it has ``holes'').
 @item %b
 The amount of disk space used for this file in 512-byte blocks. Since
 disk space is allocated in multiples of the filesystem block size this
-is usually greater than %s/1024, but it can also be smaller if the
+is usually greater than %s/512, but it can also be smaller if the
 file is a sparse file (that is, it has ``holes'').
 @item %s
 File's size in bytes.
@@ -2520,10 +2520,10 @@ The old database format is used by Unix @code{locate} and @code{find}
 programs and earlier releases of the GNU ones.  @code{updatedb}
 produces this format if given the @samp{--old-format} option.
 
-All versions of GNU @code{locate} prior to 4.2.31 fail to correctly
-handle very long file names, possibly leading to security problems
-relating to a heap buffer overrun.  @xref{Security Considerations for
-locate}, for a detailed explanation.
+Old versions of GNU @code{locate} fail to correctly handle very long
+file names, possibly leading to security problems relating to a heap
+buffer overrun.  @xref{Security Considerations for locate}, for a
+detailed explanation.
 
 @code{updatedb} runs programs called @code{bigram} and @code{code} to
 produce old-format databases.  The old format differs from the new one
@@ -2965,7 +2965,7 @@ handle non-ASCII characters in file names (that is, file names
 containing characters which have the eighth bit set, such as many of
 the characters from the ISO-8859-1 character set).  Versions of
 @code{locate} prior to 4.2.31 fail to correctly handle long filenames
-in old-format databases.
+in old-format databases.  Versions 4.3.0 to 4.3.6 were also affected.
 @item --help
 Print a summary of the command line usage and exit.
 @item --version
@@ -4399,13 +4399,13 @@ leaves the race condition problems associated with @samp{find @dots{}
 @code{locate}.
 
 @subsection Long File Name Bugs with Old-Format Databases
-All versions of @code{locate} prior to 4.2.31 have a bug in the way
-that old-format databases are read.  They read file names into a
-fixed-length 1026 byte buffer, allocated on the heap.  This buffer is
-not extended if file names are too long to fit into the buffer.  No
-range checking on the length of the filename is performed.  This could
-in theory lead to a privilege escalation attack.  Findutils versions
-4.3.0 to 4.3.6 are also affected.
+All versions of @code{locate} prior to 4.2.31, and also versions 4.3.0
+to 4.3.6, have a bug in the way that old-format databases are read.
+They read file names into a fixed-length 1026 byte buffer, allocated
+on the heap.  This buffer is not extended if file names are too long
+to fit into the buffer.  No range checking on the length of the
+filename is performed.  This could in theory lead to a privilege
+escalation attack.
 
 On systems using the old database format and affected versions of
 @code{locate}, carefully-chosen long file names could in theory allow
