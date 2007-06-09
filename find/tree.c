@@ -17,11 +17,13 @@
    USA.
 */
 
+#include <config.h>
+#include "defs.h"
+
 #include <assert.h>
 #include <stdlib.h>
 
-#include "defs.h"
-#include "../gnulib/lib/xalloc.h"
+#include "xalloc.h"
 #include "error.h"
 
 

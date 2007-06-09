@@ -27,6 +27,7 @@
 */
 
 
+#include <config.h>
 #include "defs.h"
 
 #define USE_SAFE_CHDIR 1
@@ -44,9 +45,9 @@
 #endif
 #include <openat.h>
 
-#include "../gnulib/lib/xalloc.h"
-#include "../gnulib/lib/human.h"
-#include "../gnulib/lib/canonicalize.h"
+#include "xalloc.h"
+#include "human.h"
+#include "canonicalize.h"
 #include <modetype.h>
 
 #include "closeout.h"

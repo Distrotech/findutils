@@ -28,6 +28,7 @@
 */
 
 
+#include <config.h>
 #include "defs.h"
 
 
@@ -45,11 +46,8 @@
 #endif
 
 #include <unistd.h>
-#if defined(HAVE_FCNTL_H)
-#include <fcntl.h>
-#endif
 
-#include "../gnulib/lib/xalloc.h"
+#include "xalloc.h"
 #include "closeout.h"
 #include <modetype.h>
 #include "quotearg.h"

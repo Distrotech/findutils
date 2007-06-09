@@ -1,6 +1,6 @@
 /* finddata.c -- global data for "find".
    Copyright (C) 1990, 91, 92, 93, 94, 2000, 
-                 2003, 2004, 2005 Free Software Foundation, Inc.
+                 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.
 */
+
+#include <config.h>
 
 #include "defs.h"
 

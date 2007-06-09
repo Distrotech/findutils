@@ -1,5 +1,21 @@
 2007-06-09  James Youngman  <jay@gnu.org>
 
+	Ensure that <config.h> is included before any system header
+	* find/defs.h: Do not include <config.h> from "defs.h".  Instead
+	just complain if it was not already included, since it needs  to
+	be included first of all, even before system headers (in case
+	gnulib had replaced a system header).  Check
+	ALREADY_INCLUDED_CONFIG_H to determine this.
+	* configure.in: Always define ALREADY_INCLUDED_CONFIG_H in
+	config.h.
+	* find/find.c: Include config.h before defs.h.
+	* find/finddata.c: ditto.
+	* find/fstfind.c: ditto.
+	* find/parser.c: ditto.
+	* find/pred.c: ditto.
+	* find/util.c: ditto
+	* find/tree.c: ditto (fixing Savannah bug #20128).
+
 	* m4/noreturn.m4 (jy_AC_ATTRIBUTE_NORETURN): Use AC_LANG_PROGRAM
 	inside AC_COMPILE_IFELSE.
 

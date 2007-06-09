@@ -17,6 +17,7 @@
    USA.
 */
 
+#include <config.h>
 #include "defs.h"
 
 #ifdef HAVE_FCNTL_H

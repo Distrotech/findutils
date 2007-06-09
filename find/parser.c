@@ -1,6 +1,6 @@
 /* parser.c -- convert the command line args into an expression tree.
    Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2001, 2003, 
-                 2004, 2005, 2006 Free Software Foundation, Inc.
+                 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
    USA.
 */
 
+#include <config.h>
 
 #include "defs.h"
 #include <ctype.h>

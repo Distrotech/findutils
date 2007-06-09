@@ -1,5 +1,5 @@
 /* defs.h -- data types and declarations.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004, 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,21 @@
 #ifndef INC_DEFS_H
 #define INC_DEFS_H 1
 
-#include <config.h>
+#if !defined(ALREADY_INCLUDED_CONFIG_H)
+/*
+ * Savannah bug #20128: if we include some system header and it
+ * includes some othersecond system header, the second system header
+ * may in fact turn out to be a file provided by gnulib.  For that
+ * situation, we need to have already included <config.h> so that the
+ * Gnulib files have access to the information probed by their
+ * configure script fragments.  So <config.h> should be the first
+ * thing included.
+ */
+#error "<config.h> should be #included before defs.h, and indeed before any other header"
+Please stop compiling the program now
+#endif
+
+
 #include <sys/types.h>
 
 /* XXX: some of these includes probably don't belong in a common header file */
