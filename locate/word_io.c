@@ -25,6 +25,7 @@
 #include <stdbool.h>		/* for bool */
 #include <assert.h>
 
+#include "error.h"
 #include "quote.h"
 #include "quotearg.h"
 #include "locatedb.h"
