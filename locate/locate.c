@@ -1472,7 +1472,7 @@ drop_privs(void)
     {
       /* We're either root or running setuid-root. */
       gid_t groups[1];
-      groups[1] = gid;
+      groups[0] = gid;
       if (0 != setgroups(1u, groups)) 
 	{
 	  what = _("failed to drop group privileges");

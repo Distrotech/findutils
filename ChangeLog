@@ -1,5 +1,19 @@
 2007-06-12  James Youngman  <jay@gnu.org>
 
+	* find/find.1 (HISTORY): Document when the find tests -readable,
+	-writable, -executable and the option -regextype were introduced.
+
+2007-06-12  Nix  <nix@esperi.org.uk> (trivial change)
+
+	* locate/locate.c (drop_privs): Use groups[0] rather than
+	groups[1], since groups[] is a one-element array.  This is a
+	buffer overrun affecting root only.  In theory it could affect
+	setuid installations, but I (James Youngman) cannot find an explot
+	mechanism for it.  This fixes Savannah bug#20157.
+	* NEWS: Mention this fix.
+
+2007-06-12  James Youngman  <jay@gnu.org>
+
 	Make the test suite work when run as root.
 	* find/testsuite/config/unix.exp (fs_superuser): Abstract out the
 	check which discovers if we have superuser privileges on the
