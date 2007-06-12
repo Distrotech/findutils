@@ -1,3 +1,12 @@
+2007-06-12  James Youngman  <jay@gnu.org>
+
+	Make the test suite work when run as root.
+	* find/testsuite/config/unix.exp (fs_superuser): Abstract out the
+	check which discovers if we have superuser privileges on the
+	filesystem (taken from access.exp).
+	* find/testsuite/find.gnu/access.exp: Call fs_superuser.
+	* find/testsuite/find.gnu/fprint-unwritable.exp: Use fs_superuser.
+
 2007-06-09  James Youngman  <jay@gnu.org>
 
 	Check that we can correctly read old-format databases which are

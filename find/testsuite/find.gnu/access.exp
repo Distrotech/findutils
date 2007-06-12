@@ -1,14 +1,7 @@
 # tests for -readable, -writable, -executable
 exec rm -rf tmp
 exec mkdir tmp
-touch tmp/000
-exec chmod 000 tmp/000
-if [ file readable tmp/000 ] {
-    # On Cygwin, a user with admin rights can read all files, and 
-    # access(foo,R_OK) correctly returns 1 for all files.
-    warning "You have superuser privileges, skipping this test."
-    untested {skipping this test because you have superuser privileges}
-} else {
+if { ! [ fs_superuser ] } {
     touch tmp/x tmp/w tmp/r tmp/rw tmp/rwx tmp/0 
     exec chmod 400 tmp/r
     exec chmod 200 tmp/w

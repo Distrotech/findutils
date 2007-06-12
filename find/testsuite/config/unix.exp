@@ -278,3 +278,21 @@ proc safe_path [ ] {
     }
 }
 
+
+proc fs_superuser [ ] {
+    set tmpfile "tmp000"
+    exec rm -f $tmpfile
+    touch $tmpfile
+    exec chmod 000 $tmpfile
+    set retval 0
+
+    if [ file readable $tmpfile ] {
+	# On Cygwin, a user with admin rights can read all files, and 
+	# access(foo,R_OK) correctly returns 1 for all files.
+	warning "You have superuser privileges, skipping this test."
+	untested {skipping this test because you have superuser privileges}
+	set retval 1
+    }
+    exec rm -f $tmpfile
+    return $retval
+}
