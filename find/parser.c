@@ -3192,7 +3192,7 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
       /* Remember, we invert the sense of the comparison, so this tests 
        * against COMP_LT instead of COMP_GT... 
        */
-      if (COMP_LT == tval.kind)      
+      if (COMP_LT == comp)      
 	{
 	  uintmax_t expected = origin + (DAYSECS-1);
 	  origin += (DAYSECS-1);

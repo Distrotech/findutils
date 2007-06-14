@@ -1,3 +1,11 @@
+2007-06-14  James Youngman  <jay@gnu.org>
+
+	* find/parser.c (parse_time): Use the variable comp, which holds
+	the planned comparison type, rather than the structure tval, which
+	has not been initialised yet and contains a random value.  This
+	fixes Savannah bug #20139.
+	* NEWS: Mention the bugfix.
+
 2007-06-12  James Youngman  <jay@gnu.org>
 
 	* find/find.1 (HISTORY): Document when the find tests -readable,
