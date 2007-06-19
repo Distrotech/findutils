@@ -28,9 +28,9 @@
 #include "openat.h"
 #include <stdarg.h>
 #include <stddef.h>
+#include <errno.h>
 
 #include "fcntl--.h"
-#include "lchown.h"
 #include "lstat.h"
 #include "save-cwd.h"
 
@@ -98,4 +98,3 @@ run_in_dir (int dirfd, int (*callback)(void*), void *usercontext)
       return err;
     }
 }
-
