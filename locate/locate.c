@@ -200,7 +200,7 @@ set_max_db_age(const char *s)
   if (0 == *s)
     {
       error(1, 0,
-	    _("The argument argument for option --max-database-age must not be empty"));
+	    _("The argument for option --max-database-age must not be empty"));
     }
   
   
@@ -1935,4 +1935,3 @@ main (int argc, char **argv)
   
   return dolocate(argc, argv, dbfd);
 }
-
