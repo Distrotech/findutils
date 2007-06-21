@@ -252,7 +252,7 @@ get_info (const char *pathname,
 
 /* Determine if we can use O_NOFOLLOW.
  */
-#if defined(O_NOFOLLOW)
+#if defined O_NOFOLLOW
 boolean 
 check_nofollow(void)
 {
@@ -439,7 +439,7 @@ cleanup(void)
  * system call is itself returning 0 in this case). 
  */
 #undef DEBUG_SV_BUG_16378
-#if defined(DEBUG_SV_BUG_16378)
+#if defined DEBUG_SV_BUG_16378
 static int hook_fstatat(int fd, const char *name, struct stat *p, int flags)
 {
   static int warned = 0;

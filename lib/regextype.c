@@ -30,7 +30,6 @@
 #include "regextype.h"
 #include "regex.h"
 #include "quote.h"
-#include "quotearg.h"
 #include "xalloc.h"
 #include "error.h"
 

@@ -81,7 +81,7 @@
 
 static void set_close_on_exec(int fd)
 {
-#if defined(F_GETFD) && defined(FD_CLOEXEC)
+#if defined F_GETFD && defined FD_CLOEXEC
   int flags;
   flags = fcntl(fd, F_GETFD);
   if (flags >= 0)
@@ -268,7 +268,7 @@ partial_quotearg_n(int n, char *s, size_t len, enum quoting_style style)
 }
 
 
-/* We've detected a filesystem loop.   This is caused by one of 
+/* We've detected a file system loop.   This is caused by one of 
  * two things:
  *
  * 1. Option -L is in effect and we've hit a symbolic link that 
@@ -299,8 +299,8 @@ issue_loop_warning(FTSENT * ent)
        * to /a/b/c.
        */
       error(0, 0,
-	    _("Filesystem loop detected; "
-	      "%s is part of the same filesystem loop as %s."),
+	    _("File system loop detected; "
+	      "%s is part of the same file system loop as %s."),
 	    safely_quote_err_filename(0, ent->fts_path),
 	    partial_quotearg_n(1,
 			       ent->fts_cycle->fts_path,
@@ -668,9 +668,8 @@ main (int argc, char **argv)
   state.execdirs_outstanding = false;
   state.cwd_dir_fd = AT_FDCWD;
 
-  /* Set the option defaults before we do the the locale
-   * initialisation as check_nofollow() needs to be executed in the
-   * POSIX locale.
+  /* Set the option defaults before we do the locale initialisation as
+   * check_nofollow() needs to be executed in the POSIX locale.
    */
   set_option_defaults(&options);
   
@@ -704,7 +703,7 @@ main (int argc, char **argv)
    * To avoid bailing out when something gets automounted, it checks if 
    * the target directory appears to have had a directory mounted on it as
    * we chdir()ed.  The problem with this is that in order to notice that 
-   * a filesystem was mounted, we would need to lstat() all the mount points.
+   * a file system was mounted, we would need to lstat() all the mount points.
    * That strategy loses if our machine is a client of a dead NFS server.
    *
    * Hence if safely_chdir() and wd_sanity_check() can manage without needing 

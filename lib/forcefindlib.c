@@ -20,9 +20,7 @@
 /* Written by James Youngman. */
 
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 
 extern void forcefindlib(void);	/* prevent GCC warning... */

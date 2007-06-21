@@ -20,12 +20,11 @@
 /* Written by David MacKenzie <djm@gnu.org>,
    inspired by John P. Rouillard <rouilj@cs.umb.edu>.  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
+
 
 #include <stdio.h>
-#if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
+#if defined HAVE_STRING_H || defined STDC_HEADERS
 #include <string.h>
 #else
 #include <strings.h>
@@ -33,7 +32,7 @@
 #define strchr index
 #endif
 #endif
-#if defined(STDC_HEADERS)
+#if defined STDC_HEADERS
 #include <stdlib.h>
 #endif
 

@@ -30,8 +30,8 @@
 
    0-28		likeliest differential counts + offset (14) to make nonnegative
    30		escape code for out-of-range count to follow in next halfword
-   128-255 	bigram codes (the 128 most common, as determined by `updatedb')
-   32-127  	single character (printable) ASCII remainder
+   128-255      bigram codes (the 128 most common, as determined by `updatedb')
+   32-127       single character (printable) ASCII remainder
 
    Earlier versions of GNU locate used to use a novel two-tiered
    string search technique, which was described in Usenix ;login:, Vol
@@ -1062,7 +1062,7 @@ search_one_database (int argc,
 		     int regex,
 		     int regex_options)
 {
-  char *pathpart; 		/* A pattern to consider. */
+  char *pathpart;		/* A pattern to consider. */
   int argn;			/* Index to current pattern in argv. */
   int nread;		     /* number of bytes read from an entry. */
   struct process_data procdata;	/* Storage for data shared with visitors. */
@@ -1231,7 +1231,7 @@ search_one_database (int argc,
 	  
 	  re_set_syntax(regex_options);
 	  p->regex.allocated = 100;
-	  p->regex.buffer = (unsigned char *) xmalloc (p->regex.allocated);
+	  p->regex.buffer = xmalloc (p->regex.allocated);
 	  p->regex.fastmap = NULL;
 	  p->regex.syntax = regex_options;
 	  p->regex.translate = NULL;
@@ -1550,7 +1550,7 @@ static int
 opendb(const char *name)
 {
   int fd = open(name, O_RDONLY
-#if defined(O_LARGEFILE)
+#if defined O_LARGEFILE
 		|O_LARGEFILE
 #endif
 		);
@@ -1741,7 +1741,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
   if (stats)
     {
       if (optind == argc)
- 	  use_limit = 0;
+	use_limit = 0;
     }
   else
     {
@@ -1849,7 +1849,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
 	       * database is.  But since the message is just advisory,
 	       * we continue anyway.
 	       */
-	      error (0, errno, "time system call");
+	      error (0, errno, _("time system call failed"));
 	    }
 	  else
 	    {
@@ -1935,3 +1935,4 @@ main (int argc, char **argv)
   
   return dolocate(argc, argv, dbfd);
 }
+

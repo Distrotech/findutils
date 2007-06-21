@@ -148,7 +148,7 @@ bc_do_insert (const struct buildcmd_control *ctl,
    *      adding 1 to it...
    */
   if (!insertbuf)
-    insertbuf = (char *) xmalloc (ctl->arg_max + 1);
+    insertbuf = xmalloc (ctl->arg_max + 1);
   p = insertbuf;
 
   do
@@ -312,13 +312,13 @@ bc_push_arg (const struct buildcmd_control *ctl,
       if (!state->cmd_argv)
         {
           state->cmd_argv_alloc = 64;
-          state->cmd_argv = (char **) xmalloc (sizeof (char *) * state->cmd_argv_alloc);
+          state->cmd_argv = xmalloc (sizeof (char *) * state->cmd_argv_alloc);
         }
       else
         {
           state->cmd_argv_alloc *= 2;
-          state->cmd_argv = (char **) xrealloc (state->cmd_argv,
-                                         sizeof (char *) * state->cmd_argv_alloc);
+          state->cmd_argv = xrealloc (state->cmd_argv,
+				      sizeof (char *) * state->cmd_argv_alloc);
         }
     }
 
@@ -532,7 +532,7 @@ bc_init_state(const struct buildcmd_control *ctl,
    * subtracted 2048.
    */
   assert(ctl->arg_max <= (LONG_MAX - 2048L));
-  state->argbuf = (char *) xmalloc (ctl->arg_max + 1u);
+  state->argbuf = xmalloc (ctl->arg_max + 1u);
   
   state->cmd_argv_chars = state->cmd_initial_argv_chars = 0;
   state->todo = 0;

@@ -1,4 +1,4 @@
-/* fstype.c -- determine type of filesystems that files are on
+/* fstype.c -- determine type of file systems that files are on
    Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -82,7 +82,7 @@ extern int errno;
 # define N_(String) String
 #endif
 
-static char *filesystem_type_uncached PARAMS((const struct stat *statp, const char *path));
+static char *file_system_type_uncached PARAMS((const struct stat *statp, const char *path));
 
 
 /* Get MNTTYPE_IGNORE if it is available. */
@@ -149,13 +149,13 @@ in_afs (char *path)
 }
 #endif /* AFS */
 
-/* Nonzero if the current filesystem's type is known.  */
+/* Nonzero if the current file system's type is known.  */
 static int fstype_known = 0;
 
-/* Return a static string naming the type of filesystem that the file PATH,
+/* Return a static string naming the type of file system that the file PATH,
    described by STATP, is on.
    RELPATH is the file name relative to the current directory.
-   Return "unknown" if its filesystem type is unknown.  */
+   Return "unknown" if its file system type is unknown.  */
 
 char *
 filesystem_type (const struct stat *statp, const char *path)
@@ -170,7 +170,7 @@ filesystem_type (const struct stat *statp, const char *path)
       free (current_fstype);
     }
   current_dev = statp->st_dev;
-  current_fstype = filesystem_type_uncached (statp, path);
+  current_fstype = file_system_type_uncached (statp, path);
   return current_fstype;
 }
 
@@ -205,20 +205,20 @@ must_read_fs_list(bool need_fs_type)
        * use because gnulib has extracted all that stuff away. 
        * Hence we cannot issue a specific error message here.
        */
-      error(1, 0, "Cannot read mounted filesystem list");
+      error(1, 0, "Cannot read mounted file system list");
     }
   return entries;
 }
 
 
 
-/* Return a newly allocated string naming the type of filesystem that the
+/* Return a newly allocated string naming the type of file system that the
    file PATH, described by STATP, is on.
    RELPATH is the file name relative to the current directory.
-   Return "unknown" if its filesystem type is unknown.  */
+   Return "unknown" if its file system type is unknown.  */
 
 static char *
-filesystem_type_uncached (const struct stat *statp, const char *path)
+file_system_type_uncached (const struct stat *statp, const char *path)
 {
   struct mount_entry *entries, *entry;
   char *type;

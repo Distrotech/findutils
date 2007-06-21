@@ -20,7 +20,7 @@
 /* Written by Mike Rendell <michael@cs.mun.ca>
    and David MacKenzie <djm@gnu.org>.  
    Modifications by 
-   	James Youngman
+        James Youngman
 	Dmitry V. Levin
 */
 
@@ -58,13 +58,13 @@
 #include <getopt.h>
 #include <fcntl.h>
 
-#if defined(STDC_HEADERS)
+#if defined STDC_HEADERS
 #include <assert.h>
 #endif
 
-#if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
+#if defined HAVE_STRING_H || defined STDC_HEADERS
 #include <string.h>
-#if !defined(STDC_HEADERS)
+#if !defined STDC_HEADERS
 #include <memory.h>
 #endif
 #else
@@ -474,7 +474,7 @@ main (int argc, char **argv)
 	}
       else
 	{
-# if defined(ARG_MAX)
+# if defined ARG_MAX
 	  assert(bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
 # endif
 	}
@@ -671,7 +671,7 @@ main (int argc, char **argv)
    * special C99 ways to print such values.  Unfortunately this
    * program tries to work on both C89 and C99 systems.
    */
-#if defined(SIZE_MAX)
+#if defined SIZE_MAX
 # if SIZE_MAX > ULONG_MAX
 # error "I'm not sure how to print size_t values on your system"
 # endif
@@ -720,8 +720,8 @@ main (int argc, char **argv)
 	}
     }
   
-  linebuf = (char *) xmalloc (bc_ctl.arg_max + 1);
-  bc_state.argbuf = (char *) xmalloc (bc_ctl.arg_max + 1);
+  linebuf = xmalloc (bc_ctl.arg_max + 1);
+  bc_state.argbuf = xmalloc (bc_ctl.arg_max + 1);
 
   /* Make sure to listen for the kids.  */
   signal (SIGCHLD, SIG_DFL);
@@ -755,7 +755,7 @@ main (int argc, char **argv)
     {
       int i;
       size_t len;
-      size_t *arglen = (size_t *) xmalloc (sizeof (size_t) * argc);
+      size_t *arglen = xmalloc (sizeof (size_t) * argc);
 
       for (i = optind; i < argc; i++)
 	arglen[i] = strlen(argv[i]);
@@ -1159,13 +1159,13 @@ add_proc (pid_t pid)
       if (pids_alloc == 0)
 	{
 	  pids_alloc = proc_max ? proc_max : 64;
-	  pids = (pid_t *) xmalloc (sizeof (pid_t) * pids_alloc);
+	  pids = xmalloc (sizeof (pid_t) * pids_alloc);
 	}
       else
 	{
 	  pids_alloc *= 2;
-	  pids = (pid_t *) xrealloc (pids,
-				     sizeof (pid_t) * pids_alloc);
+	  pids = xrealloc (pids,
+			   sizeof (pid_t) * pids_alloc);
 	}
       memset (&pids[i], '\0', sizeof (pid_t) * (pids_alloc - i));
     }

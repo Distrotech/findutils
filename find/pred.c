@@ -110,7 +110,7 @@
    ST_NBLOCKSIZE: Size of blocks used when calculating ST_NBLOCKS.  */
 #ifndef HAVE_STRUCT_STAT_ST_BLOCKS
 # define ST_BLKSIZE(statbuf) DEV_BSIZE
-# if defined(_POSIX_SOURCE) || !defined(BSIZE) /* fileblocks.c uses BSIZE.  */
+# if defined _POSIX_SOURCE || !defined BSIZE /* fileblocks.c uses BSIZE.  */
 #  define ST_NBLOCKS(statbuf) \
   (S_ISREG ((statbuf).st_mode) \
    || S_ISDIR ((statbuf).st_mode) \
@@ -125,16 +125,16 @@
 /* Some systems, like Sequents, return st_blksize of 0 on pipes. */
 # define ST_BLKSIZE(statbuf) ((statbuf).st_blksize > 0 \
 			       ? (statbuf).st_blksize : DEV_BSIZE)
-# if defined(hpux) || defined(__hpux__) || defined(__hpux)
+# if defined hpux || defined __hpux__ || defined __hpux
 /* HP-UX counts st_blocks in 1024-byte units.
-   This loses when mixing HP-UX and BSD filesystems with NFS.  */
+   This loses when mixing HP-UX and BSD file systems with NFS.  */
 #  define ST_NBLOCKSIZE 1024
 # else /* !hpux */
-#  if defined(_AIX) && defined(_I386)
+#  if defined _AIX && defined _I386
 /* AIX PS/2 counts st_blocks in 4K units.  */
 #   define ST_NBLOCKSIZE (4 * 1024)
 #  else /* not AIX PS/2 */
-#   if defined(_CRAY)
+#   if defined _CRAY
 #    define ST_NBLOCKS(statbuf) \
   (S_ISREG ((statbuf).st_mode) \
    || S_ISDIR ((statbuf).st_mode) \
@@ -407,7 +407,7 @@ pred_delete (const char *pathname, struct stat *stat_buf, struct predicate *pred
 		}
 	    }
 	}
-      error (0, errno, "cannot delete %s",
+      error (0, errno, _("cannot delete %s"),
 	     safely_quote_err_filename(0, pathname));
       return false;
     }
@@ -627,7 +627,7 @@ mode_to_filetype(mode_t m)
 static double 
 file_sparseness(const struct stat *p)
 {
-#if defined(HAVE_STRUCT_STAT_ST_BLOCKS)
+#if defined HAVE_STRUCT_STAT_ST_BLOCKS
   if (0 == p->st_size)
     {
       if (0 == p->st_blocks)
@@ -742,7 +742,7 @@ do_fprintf(struct format_val *dest,
 	  /* sanitised */
 	  checked_print_quoted (dest, segment->text, base_name (pathname));
 	  break;
-	case 'F':		/* filesystem type */
+	case 'F':		/* file system type */
 	  /* trusted */
 	  checked_print_quoted (dest, segment->text, filesystem_type (stat_buf, pathname));
 	  break;
@@ -969,7 +969,7 @@ do_fprintf(struct format_val *dest,
 					   human_ceiling, 1, 1));
 	  break;
 
-	  /* %Y: type of filesystem entry like `ls -l`: 
+	  /* %Y: type of file system entry like `ls -l`: 
 	   *     (d,-,l,s,p,b,c,n) n=nonexistent(symlink) 
 	   */
 	case 'Y':		/* in case of symlink */

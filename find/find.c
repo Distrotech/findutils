@@ -136,7 +136,7 @@ main (int argc, char **argv)
   program_name = argv[0];
   state.exit_status = 0;
 
-  /* Set the option defaults before we do the the locale
+  /* Set the option defaults before we do the locale
    * initialisation as check_nofollow() needs to be executed in the
    * POSIX locale.
    */
@@ -174,7 +174,7 @@ main (int argc, char **argv)
    * To avoid bailing out when something gets automounted, it checks if 
    * the target directory appears to have had a directory mounted on it as
    * we chdir()ed.  The problem with this is that in order to notice that 
-   * a filesystem was mounted, we would need to lstat() all the mount points.
+   * a file system was mounted, we would need to lstat() all the mount points.
    * That strategy loses if our machine is a client of a dead NFS server.
    *
    * Hence if safely_chdir() and wd_sanity_check() can manage without needing 
@@ -275,7 +275,7 @@ specific_dirname(const char *dir)
 
 
 
-/* Return non-zero if FS is the name of a filesystem that is likely to
+/* Return non-zero if FS is the name of a file system that is likely to
  * be automounted
  */
 static int
@@ -362,15 +362,15 @@ get_mount_state(dev_t newdev)
 /* We stat()ed a directory, chdir()ed into it (we know this 
  * since direction is TraversingDown), stat()ed it again,
  * and noticed that the device numbers are different.  Check
- * if the filesystem was recently mounted. 
+ * if the file system was recently mounted. 
  * 
  * If it was, it looks like chdir()ing into the directory
- * caused a filesystem to be mounted.  Maybe automount is
+ * caused a file system to be mounted.  Maybe automount is
  * running.  Anyway, that's probably OK - but it happens
  * only when we are moving downward.
  *
  * We also allow for the possibility that a similar thing
- * has happened with the unmounting of a filesystem.  This
+ * has happened with the unmounting of a file system.  This
  * is much rarer, as it relies on an automounter timeout
  * occurring at exactly the wrong moment.
  */
@@ -388,7 +388,7 @@ dirchange_is_fatal(const char *specific_what,
       if (!silent)
 	{
 	  error (0, 0,
-		 _("Warning: filesystem %s has recently been unmounted."),
+		 _("Warning: file system %s has recently been unmounted."),
 		 safely_quote_err_filename(0, specific_what));
 	}
       break;
@@ -398,7 +398,7 @@ dirchange_is_fatal(const char *specific_what,
       if (!silent)
 	{
 	  error (0, 0,
-		 _("Warning: filesystem %s has recently been mounted."),
+		 _("Warning: file system %s has recently been mounted."),
 		 safely_quote_err_filename(0, specific_what));
 	}
       break;
@@ -418,13 +418,13 @@ dirchange_is_fatal(const char *specific_what,
 
 /* Examine the results of the stat() of a directory from before we
  * entered or left it, with the results of stat()ing it afterward.  If
- * these are different, the filesystem tree has been modified while we
+ * these are different, the file system tree has been modified while we
  * were traversing it.  That might be an attempt to use a race
  * condition to persuade find to do something it didn't intend
  * (e.g. an attempt by an ordinary user to exploit the fact that root
- * sometimes runs find on the whole filesystem).  However, this can
+ * sometimes runs find on the whole file system).  However, this can
  * also happen if automount is running (certainly on Solaris).  With 
- * automount, moving into a directory can cause a filesystem to be 
+ * automount, moving into a directory can cause a file system to be 
  * mounted there.
  *
  * To cope sensibly with this, we will raise an error if we see the
@@ -438,11 +438,11 @@ dirchange_is_fatal(const char *specific_what,
  *
  * If the device number and inode are both the same, we are happy.
  *
- * If a filesystem is (un)mounted as we chdir() into the directory, that 
- * may mean that we're now examining a section of the filesystem that might 
+ * If a file system is (un)mounted as we chdir() into the directory, that 
+ * may mean that we're now examining a section of the file system that might 
  * have been excluded from consideration (via -prune or -quit for example).
  * Hence we print a warning message to indicate that the output of find 
- * might be inconsistent due to the change in the filesystem.
+ * might be inconsistent due to the change in the file system.
  */
 static boolean
 wd_sanity_check(const char *thing_to_stat,
@@ -494,7 +494,7 @@ wd_sanity_check(const char *thing_to_stat,
 	  {
 	    fstype = filesystem_type(newinfo, current_dir);
 	    error (1, 0,
-		   _("%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"),
+		   _("%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"),
 		   safely_quote_err_filename(0, specific_what),
 		   parent ? "/.." : "",
 		   safely_quote_err_filename(1, progname),
@@ -531,7 +531,7 @@ wd_sanity_check(const char *thing_to_stat,
       
       error ((isfatal == FATAL_IF_SANITY_CHECK_FAILS) ? 1 : 0,
 	     0,			/* no relevant errno value */
-	     _("%s%s changed during execution of %s (old inode number %ld, new inode number %ld, filesystem type is %s) [ref %ld]"),
+	     _("%s%s changed during execution of %s (old inode number %ld, new inode number %ld, file system type is %s) [ref %ld]"),
 	     safely_quote_err_filename(0, specific_what), 
 	     parent ? "/.." : "",
 	     safely_quote_err_filename(1, progname),
@@ -723,7 +723,7 @@ safely_chdir_lstat(const char *dest,
 	      else if (ENOTDIR == saved_errno)
 		{
 		  /* This can happen if the we stat a directory,
-		   * and then filesystem activity changes it into 
+		   * and then file system activity changes it into 
 		   * a non-directory.
 		   */
 		  saved_errno = 0;	/* don't issue err msg */
@@ -783,7 +783,7 @@ safely_chdir_lstat(const char *dest,
   return rv;
 }
 
-#if defined(O_NOFOLLOW)
+#if defined O_NOFOLLOW
 /* Safely change working directory to the specified subdirectory.  If
  * we are not allowed to follow symbolic links, we use open() with
  * O_NOFOLLOW, followed by fchdir().  This ensures that we don't
@@ -996,7 +996,7 @@ at_top (char *pathname,
 	    error (0, errno, "%s",
 		   safely_quote_err_filename(0, what));
 	  else
-	    error (0, 0, "Failed to safely change directory into %s",
+	    error (0, 0, _("Failed to safely change directory into %s"),
 		   safely_quote_err_filename(0, parent_dir));
 	    
 	  /* We can't process this command-line argument. */
@@ -1072,7 +1072,7 @@ static int dir_curr = -1;
 
 
 
-/* We've detected a filesystem loop.   This is caused by one of 
+/* We've detected a file system loop.   This is caused by one of 
  * two things:
  *
  * 1. Option -L is in effect and we've hit a symbolic link that 
@@ -1112,8 +1112,8 @@ issue_loop_warning(const char *name, const char *pathname, int level)
 	    safely_quote_err_filename(0, pathname),
 	    distance,
 	    (distance == 1 ?
-	     _("level higher in the filesystem hierarchy") :
-	     _("levels higher in the filesystem hierarchy")));
+	     _("level higher in the file system hierarchy") :
+	     _("levels higher in the file system hierarchy")));
     }
 }
 
@@ -1397,12 +1397,12 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 		  /* This is a subdirectory, but the number of directories we 
 		   * have found now exceeds the number we would expect given 
 		   * the hard link count on the parent.   This is likely to be 
-		   * a bug in the filesystem driver (e.g. Linux's 
-		   * /proc filesystem) or may just be a fact that the OS 
+		   * a bug in the file system driver (e.g. Linux's 
+		   * /proc file system) or may just be a fact that the OS 
 		   * doesn't really handle hard links with Unix semantics.
 		   * In the latter case, -noleaf should be used routinely.
 		   */
-		  error(0, 0, _("WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we already saw %d subdirectories): this may be a bug in your filesystem driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
+		  error(0, 0, _("WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we already saw %d subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
 			safely_quote_err_filename(0, pathname),
 			statp->st_nlink,
 			dircount);
@@ -1414,7 +1414,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 		}
 	      
 	      /* Normal case optimization.  On normal Unix
-		 filesystems, a directory that has no subdirectories
+		 file systems, a directory that has no subdirectories
 		 has two links: its name, and ".".  Any additional
 		 links are to the ".." entries of its subdirectories.
 		 Once we have processed as many subdirectories as
@@ -1432,7 +1432,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	    }
 	  else
 	    {
-	      /* There might be weird (e.g., CD-ROM or MS-DOS) filesystems
+	      /* There might be weird (e.g., CD-ROM or MS-DOS) file systems
 		 mounted, which don't have Unix-like directory link counts. */
 	      process_path (cur_path, cur_name, false, pathname, mode);
 	    }

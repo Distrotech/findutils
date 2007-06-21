@@ -39,8 +39,8 @@
 
    0-28		likeliest differential counts + offset (14) to make nonnegative
    30		escape code for out-of-range count to follow in next halfword
-   128-255 	bigram codes (the 128 most common, as determined by `updatedb')
-   32-127  	single character (printable) ASCII remainder
+   128-255      bigram codes (the 128 most common, as determined by `updatedb')
+   32-127       single character (printable) ASCII remainder
 
    Written by James A. Woods <jwoods@adobe.com>.
    Modified by David MacKenzie <djm@gnu.org>.  */

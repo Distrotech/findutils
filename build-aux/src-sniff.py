@@ -17,7 +17,7 @@ LINE_SMELLS_SRC = [
     [r'error \(EXIT_SUCCESS',"passing EXIT_SUCCESS to error is confusing"],
     [r'file[s]ystem', "prefer writing 'file system' to 'filesystem'"],
     [r'HAVE''_CONFIG_H', "Avoid checking HAVE_CONFIG_H"],
-    [r'HAVE_FCNTL_H', "Avoid checking HAVE_FCNTL_H"],
+#   [r'HAVE_FCNTL_H', "Avoid checking HAVE_FCNTL_H"],
     [r'O_NDELAY', "Avoid using O_NDELAY"],
     [r'the *the', "'the the' is probably not deliberate"],
     [r'(?<!\w)error \([^_"]*[^_]"[^"]*[a-z]{3}', "untranslated error message"],
@@ -69,8 +69,8 @@ def CheckFirstInclude(filename, lines, fulltext):
                 "%s should be included by most files" % FIRST_INCLUDE)
 
 def CheckLineSmells(filename, lines, fulltext):
-    for smell in COMPILED_LINE_SMELLS:
-        for line in lines:
+    for line in lines:
+        for smell in COMPILED_LINE_SMELLS:
             match = smell[0].search(line[1])
             if match:
                 Problem(filename, '%d: "%s": %s'

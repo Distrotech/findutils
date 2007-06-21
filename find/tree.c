@@ -828,7 +828,7 @@ set_new_parent (struct predicate *curr, enum predicate_precedence high_prec, str
 {
   struct predicate *new_parent;
 
-  new_parent = (struct predicate *) xmalloc (sizeof (struct predicate));
+  new_parent = xmalloc (sizeof (struct predicate));
   new_parent->p_type = BI_OP;
   new_parent->p_prec = high_prec;
   new_parent->need_stat = false;
@@ -893,7 +893,7 @@ merge_pred (struct predicate *beg_list, struct predicate *end_list, struct predi
 
 struct pred_cost_lookup
 {
-  PRED_FUNC 		fn;
+  PRED_FUNC             fn;
   enum EvaluationCost   cost;
 };
 static struct pred_cost_lookup costlookup[] = 
@@ -1291,7 +1291,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
 	 were given; remove the unneeded initial `(' and add `-print'. */
       cur_pred = predicates;
       predicates = last_pred = predicates->pred_next;
-      free ((char *) cur_pred);
+      free (cur_pred);
       parse_print (entry_print, argv, &argc);
       last_pred->p_name = "-print";
       pred_sanity_check(last_pred); 
@@ -1304,7 +1304,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
       cur_pred = predicates;
       predicates = predicates->pred_next;
       pred_sanity_check(predicates); /* XXX: expensive */
-      free ((char *) cur_pred);
+      free (cur_pred);
     }
   else
     {
@@ -1421,7 +1421,7 @@ get_new_pred (const struct parser_table *entry)
     }
   else
     {
-      new_pred = (struct predicate *) xmalloc (sizeof (struct predicate));
+      new_pred = xmalloc (sizeof (struct predicate));
       last_pred->pred_next = new_pred;
       last_pred = new_pred;
     }

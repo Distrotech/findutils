@@ -74,7 +74,7 @@
 #include <sys/types.h>
 #include <stdbool.h>
 
-#if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
+#if defined HAVE_STRING_H || defined STDC_HEADERS
 #include <string.h>
 #else
 #include <strings.h>

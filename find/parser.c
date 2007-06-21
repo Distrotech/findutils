@@ -876,7 +876,7 @@ static float estimate_fstype_success_rate(const char *fsname)
   if (0 == stat(dir, &dir_stat))
     {
       const char *fstype = filesystem_type(&dir_stat, dir);
-      /* Assume most files are on the same filesystem type as the root fs. */
+      /* Assume most files are on the same file system type as the root fs. */
       if (0 == strcmp(fsname, fstype))
 	  return 0.7f;
       else
@@ -1932,11 +1932,10 @@ insert_regex (char **argv, int *arg_ptr, const struct parser_table *entry, int r
       const char *error_message;
       struct predicate *our_pred = insert_primary_withpred (entry, pred_regex);
       our_pred->need_stat = our_pred->need_type = false;
-      re = (struct re_pattern_buffer *)
-	xmalloc (sizeof (struct re_pattern_buffer));
+      re = xmalloc (sizeof (struct re_pattern_buffer));
       our_pred->args.regex = re;
       re->allocated = 100;
-      re->buffer = (unsigned char *) xmalloc (re->allocated);
+      re->buffer = xmalloc (re->allocated);
       re->fastmap = NULL;
       
       re_set_syntax(regex_options);
@@ -2379,16 +2378,16 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   printf("DEBUG_STAT ");
   ++features;
 #endif
-#if defined(USE_STRUCT_DIRENT_D_TYPE) && defined(HAVE_STRUCT_DIRENT_D_TYPE)
+#if defined USE_STRUCT_DIRENT_D_TYPE && defined HAVE_STRUCT_DIRENT_D_TYPE
   printf("D_TYPE ");
   ++features;
 #endif
-#if defined(O_NOFOLLOW)
+#if defined O_NOFOLLOW
   printf("O_NOFOLLOW(%s) ",
 	 (options.open_nofollow_available ? "enabled" : "disabled"));
   ++features;
 #endif
-#if defined(LEAF_OPTIMISATION)
+#if defined LEAF_OPTIMISATION
   printf("LEAF_OPTIMISATION ");
   ++features;
 #endif
@@ -2728,7 +2727,7 @@ make_segment (struct segment **segment,
   enum EvaluationCost mycost = NeedsNothing;
   char *fmt;
 
-  *segment = (struct segment *) xmalloc (sizeof (struct segment));
+  *segment = xmalloc (sizeof (struct segment));
 
   (*segment)->segkind = kind;
   (*segment)->format_char[0] = format_char;
@@ -2773,7 +2772,7 @@ make_segment (struct segment **segment,
     case 'B':			/* birth time in user-specified strftime format */
     case 'c':			/* ctime in `ctime' format */
     case 'C':			/* ctime in user-specified strftime format */
-    case 'F':			/* filesystem type */
+    case 'F':			/* file system type */
     case 'g':			/* group name */
     case 'i':			/* inode number */
     case 'M':			/* mode in `ls -l' format (eg., "drwxr-xr-x") */
@@ -2968,7 +2967,7 @@ new_insert_exec_ok (const char *action,
 	       * occur even in the utility name.  This is insecure
 	       * since it means we will be executing a command whose
 	       * name is chosen according to whatever find finds in
-	       * the filesystem.  That can be influenced by an
+	       * the file system.  That can be influenced by an
 	       * attacker.  Hence for -execdir and -okdir this is not
 	       * allowed.  We can specify this as those options are 
 	       * not defined by POSIX.

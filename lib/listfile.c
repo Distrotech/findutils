@@ -17,9 +17,7 @@
    USA.
 */
 
-#if HAVE_CONFIG_H
-# include <config.h>
-#endif
+#include <config.h>
 
 #include <alloca.h>
 
@@ -92,7 +90,7 @@
 #ifndef S_ISBLK
 #define S_ISBLK(m) (((m) & S_IFMT) == S_IFBLK)
 #endif
-#if defined(S_IFLNK) && !defined(S_ISLNK)
+#if defined S_IFLNK && !defined S_ISLNK
 #define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
 #endif
 
@@ -112,7 +110,7 @@
    ST_NBLOCKSIZE: Size of blocks used when calculating ST_NBLOCKS.  */
 #ifndef HAVE_STRUCT_STAT_ST_BLOCKS
 # define ST_BLKSIZE(statbuf) DEV_BSIZE
-# if defined(_POSIX_SOURCE) || !defined(BSIZE) /* fileblocks.c uses BSIZE.  */
+# if defined _POSIX_SOURCE || !defined BSIZE /* fileblocks.c uses BSIZE.  */
 #  define ST_NBLOCKS(statbuf) \
   (S_ISREG ((statbuf).st_mode) \
    || S_ISDIR ((statbuf).st_mode) \
@@ -127,16 +125,16 @@
 /* Some systems, like Sequents, return st_blksize of 0 on pipes. */
 # define ST_BLKSIZE(statbuf) ((statbuf).st_blksize > 0 \
 			       ? (statbuf).st_blksize : DEV_BSIZE)
-# if defined(hpux) || defined(__hpux__) || defined(__hpux)
+# if defined hpux || defined __hpux__ || defined __hpux
 /* HP-UX counts st_blocks in 1024-byte units.
    This loses when mixing HP-UX and BSD filesystems with NFS.  */
 #  define ST_NBLOCKSIZE 1024
 # else /* !hpux */
-#  if defined(_AIX) && defined(_I386)
+#  if defined _AIX && defined _I386
 /* AIX PS/2 counts st_blocks in 4K units.  */
 #   define ST_NBLOCKSIZE (4 * 1024)
 #  else /* not AIX PS/2 */
-#   if defined(_CRAY)
+#   if defined _CRAY
 #    define ST_NBLOCKS(statbuf) \
   (S_ISREG ((statbuf).st_mode) \
    || S_ISDIR ((statbuf).st_mode) \
@@ -277,7 +275,7 @@ list_file (const char *name,
 	 : "%b %e  %Y");
 
       while (!strftime (buf, bufsize, fmt, when_local))
-	buf = (char *) alloca (bufsize *= 2);
+	buf = alloca (bufsize *= 2);
 
       fprintf (stream, "%s ", buf);
     }
@@ -397,7 +395,7 @@ get_link_name (const char *name, char *relname)
      mount points with some automounters.
      So allocate a pessimistic PATH_MAX + 1 bytes.  */
 #define LINK_BUF PATH_MAX
-  linkname = (char *) xmalloc (LINK_BUF + 1);
+  linkname = xmalloc (LINK_BUF + 1);
   linklen = readlink (relname, linkname, LINK_BUF);
   if (linklen < 0)
     {

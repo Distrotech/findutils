@@ -17,11 +17,10 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
-#if defined(HAVE_STRING_H)
+
+#if defined HAVE_STRING_H
 #include <string.h>
 #else
 #include <strings.h>
