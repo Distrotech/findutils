@@ -1885,10 +1885,19 @@ time zone (e.g., EDT), or nothing if no time zone is determinable
 @item M
 minute (00..59)
 @item S
-second (00..61)
+second (00..61).  There is a fractional part.
 @item @@
-seconds since Jan. 1, 1970, 00:00 GMT.
+seconds since Jan. 1, 1970, 00:00 GMT, with fractional part.
 @end table
+
+The fractional part of the seconds field is of indeterminate length
+and precision.  That is, the length of the fractional part of the
+seconds field will in general vary between findutils releases and
+between systems.  This means that it is unwise to assume that field
+has any specific length.  The length of this field is not usually a
+guide to the precision of timestamps in the underlying file system.
+
+
 
 @node Date Components
 @subsubsection Date Components
@@ -1937,15 +1946,19 @@ time, 24-hour (hh:mm:ss)
 @item X
 locale's time representation (H:M:S)
 @item c
-locale's date and time (Sat Nov 04 12:02:33 EST 1989)
+locale's date and time in ctime format (Sat Nov 04 12:02:33 EST
+1989).  This format does nto include any fractional part in the
+seconds field.
 @item D
 date (mm/dd/yy)
 @item x
 locale's date representation (mm/dd/yy)
 @item +
-Date and time, separated by '+', for example `2004-04-28+22:22:05'.
+Date and time, separated by '+', for example
+`2004-04-28+22:22:05.0000000000'.
 The time is given in the current timezone (which may be affected by
-setting the TZ environment variable).  This is a GNU extension.
+setting the TZ environment variable).  This is a GNU extension.  The
+seconds field includes a fractional part.
 @end table
 
 @node Formatting Flags

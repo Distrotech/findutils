@@ -807,7 +807,7 @@ available on all systems, due to differences in `strftime' between
 systems.  
 .RS
 .IP @
-seconds since Jan. 1, 1970, 00:00 GMT.
+seconds since Jan. 1, 1970, 00:00 GMT, with fractional part.
 .PP
 Time fields:
 .IP H
@@ -825,13 +825,14 @@ locale's AM or PM
 .IP r
 time, 12-hour (hh:mm:ss [AP]M)
 .IP S
-second (00..61)
+Second (00.00 .. 61.00).  There is a fractional part.
 .IP T
 time, 24-hour (hh:mm:ss)
 .IP +
-Date and time, separated by '+', for example `2004\-04\-28+22:22:05'.
-The time is given in the current timezone (which may be affected by
-setting the TZ environment variable).  This is a GNU extension.
+Date and time, separated by '+', for example
+`2004\-04\-28+22:22:05.0'.  This is a GNU extension.  The time is
+given in the current timezone (which may be affected by setting the TZ
+environment variable).  The seconds field includes a fractional part.
 .IP X
 locale's time representation (H:M:S)
 .IP Z
@@ -847,7 +848,11 @@ locale's abbreviated month name (Jan..Dec)
 .IP B
 locale's full month name, variable length (January..December)
 .IP c
-locale's date and time (Sat Nov 04 12:02:33 EST 1989)
+locale's date and time (Sat Nov 04 12:02:33 EST 1989).  The format is
+the same as for 
+.BR ctime (3)
+and so to preserve compatibility with that format, there is no fractional part
+in the seconds field.
 .IP d
 day of month (01..31)
 .IP D

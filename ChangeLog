@@ -1,5 +1,15 @@
 2007-06-22  James Youngman  <jay@gnu.org>
 
+	Better documentation for the fractional part of seconds fields for
+	-printf and similar actions.
+	* doc/find.texi (Time Components): Point out that the seconds
+	field of the timestamp is often printed out with a fractional part
+	of unspecified length and precision.  The '%Tc' field has no
+	seconds part.
+	(Combined Time Formats): Point out the same thing for '%T@'.
+	* find/find.1 (%A): Point out the same thing.
+	* NEWS: Mention these changes.
+
 	Fix various lint-type complaints taken from the rules in the
 	coreutils Makefile.maint file (see build-aux/src-sniff.py).
 	* xargs/xargs.c: Removed unnecessary parentheses in "#if defined"
