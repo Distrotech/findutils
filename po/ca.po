@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-09 18:49+0100\n"
+"POT-Creation-Date: 2007-06-25 10:26+0100\n"
 "PO-Revision-Date: 2006-05-20 14:54+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -193,34 +193,39 @@ msgid "cannot stat current directory"
 msgstr "no es pot obtenir el directori actual"
 
 #: find/find.c:391
-#, c-format
-msgid "Warning: filesystem %s has recently been unmounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been unmounted."
 msgstr "Avís: el sistema de fitxers %s ha estat desmuntat fa poc."
 
 #: find/find.c:401
-#, c-format
-msgid "Warning: filesystem %s has recently been mounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been mounted."
 msgstr "Avís: el sistema de fitxers %s ha estat muntat fa poc."
 
 #: find/find.c:497
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, filesystem type is %s) [ref %ld]"
+"number %ld, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s ha canviat durant l'execució de %s (el número de dispositiu vell era %"
 "ld, el número del nou dispositiu és %ld, el tipus de sistema de fitxers és %"
 "s) [ref %ld]"
 
 #: find/find.c:534
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
-"ld, filesystem type is %s) [ref %ld]"
+"ld, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s ha canviat durant l'execució de %s (el número del node-i vell era %ld, "
 "el número del node-i nou és %ld, el tipus de sistema de fitxers és %s) [ref %"
 "ld]"
+
+#: find/find.c:999
+#, c-format
+msgid "Failed to safely change directory into %s"
+msgstr ""
 
 #: find/find.c:1096
 #, fuzzy, c-format
@@ -241,11 +246,13 @@ msgstr ""
 "dispositiu i node d'idenficació que un directori que és %d %s."
 
 #: find/find.c:1115
-msgid "level higher in the filesystem hierarchy"
+#, fuzzy
+msgid "level higher in the file system hierarchy"
 msgstr "nivell més alt a la jerarquia del sistema de fitxers"
 
 #: find/find.c:1116
-msgid "levels higher in the filesystem hierarchy"
+#, fuzzy
+msgid "levels higher in the file system hierarchy"
 msgstr "nivells més alt a la jerarquia del sistema de fitxers"
 
 #: find/find.c:1361
@@ -257,7 +264,7 @@ msgstr "avís: no es seguirà l'enllaç simbòlic %s"
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
-"already saw %d subdirectories): this may be a bug in your filesystem "
+"already saw %d subdirectories): this may be a bug in your file system "
 "driver.  Automatically turning on find's -noleaf option.  Earlier results "
 "may have failed to include directories that should have been searched."
 msgstr ""
@@ -455,76 +462,76 @@ msgstr ""
 "perm -000; això vol dir, de moment no concorda amb cap fitxer, però prompte "
 "canviarà per a que concorde amb tots."
 
-#: find/parser.c:1974
+#: find/parser.c:1973
 msgid "invalid null argument to -size"
 msgstr "l'argument nul no és vàlid per a -size"
 
-#: find/parser.c:2022
+#: find/parser.c:2021
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "el tipus de -size «%c» no vàlid"
 
-#: find/parser.c:2027
+#: find/parser.c:2026
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "l'argument «%s» no és vàlid per a «%s»"
 
-#: find/parser.c:2203
+#: find/parser.c:2202
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2313
+#: find/parser.c:2312
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "l'argument %s no és vàlid per a %s"
 
-#: find/parser.c:2366
+#: find/parser.c:2365
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versió %s\n"
 
-#: find/parser.c:2367 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
+#: find/parser.c:2366 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils versió %s\n"
 
-#: find/parser.c:2368
+#: find/parser.c:2367
 #, c-format
 msgid "Features enabled: "
 msgstr "Funcionalitats habilitades: "
 
-#: find/parser.c:2475
+#: find/parser.c:2474
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2522
+#: find/parser.c:2521
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2643
+#: find/parser.c:2642
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "avís: seqüència d'escapament «\\%c» no reconegut"
 
-#: find/parser.c:2659
+#: find/parser.c:2658
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2698
+#: find/parser.c:2697
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "avís: directiva de format «%%%c» no reconeguda"
 
-#: find/parser.c:2842
+#: find/parser.c:2841
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2867
+#: find/parser.c:2866
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -537,7 +544,7 @@ msgstr ""
 "del vostre $PATH (és a dir, elimineu «.» o els dos punts del principi o "
 "final)"
 
-#: find/parser.c:2873
+#: find/parser.c:2872
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -549,7 +556,7 @@ msgstr ""
 "del vostre $PATH (és a dir, elimineu «.» o els dos punts del principi o "
 "final)"
 
-#: find/parser.c:2976
+#: find/parser.c:2975
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -557,26 +564,31 @@ msgstr ""
 "No pdeu utilitzar {} dins del nom de la utilitat per a -execdir i -okdir, ja "
 "que això és un problema de seguretat potencial."
 
-#: find/parser.c:2999
+#: find/parser.c:2998
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Només es suporta una instància de {} amb -exec%s ... +"
 
-#: find/parser.c:3016
+#: find/parser.c:3015
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "l'entorn és massa gran per a l'execució"
 
-#: find/parser.c:3202
+#: find/parser.c:3201
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3356
+#: find/parser.c:3355
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3361
+#: find/parser.c:3360
 msgid "standard output"
+msgstr ""
+
+#: find/pred.c:410
+#, c-format
+msgid "cannot delete %s"
 msgstr ""
 
 #: find/pred.c:1326
@@ -744,8 +756,9 @@ msgid "days"
 msgstr "dies"
 
 #: locate/locate.c:203
-msgid "The argument argument for option --max-database-age must not be empty"
-msgstr ""
+#, fuzzy
+msgid "The argument for option --max-database-age must not be empty"
+msgstr "l'argument «%s» no és vàlid per a «%s»"
 
 #: locate/locate.c:219 locate/locate.c:226
 #, fuzzy, c-format
@@ -935,6 +948,10 @@ msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "avís: la base de dades de locate només es pot llegir una vegada des de "
 "l'entrada estàndard."
+
+#: locate/locate.c:1852
+msgid "time system call failed"
+msgstr ""
 
 #: locate/locate.c:1863
 #, fuzzy, c-format

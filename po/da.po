@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-09 18:49+0100\n"
+"POT-Creation-Date: 2007-06-25 10:26+0100\n"
 "PO-Revision-Date: 2005-08-01 18:25+0200\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -196,32 +196,37 @@ msgid "cannot stat current directory"
 msgstr "kan ikke hente det aktuelle katalog"
 
 #: find/find.c:391
-#, c-format
-msgid "Warning: filesystem %s has recently been unmounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been unmounted."
 msgstr "Advarsel: filsystemet %s er blevet afmonteret for nylig."
 
 #: find/find.c:401
-#, c-format
-msgid "Warning: filesystem %s has recently been mounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been mounted."
 msgstr "Advarsel: filsystemet %s er blevet monteret for nylig."
 
 #: find/find.c:497
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, filesystem type is %s) [ref %ld]"
+"number %ld, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s ændrede sig under kørsel af %s (tidligere enhedsnummer %ld, nyt "
 "enhedsnummer %ld, filsystemtype er %s) [ref %ld]"
 
 #: find/find.c:534
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
-"ld, filesystem type is %s) [ref %ld]"
+"ld, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s ændrede sig under kørsel af %s (tidligere inode-nummer %ld, nyt inode-"
 "nummer %ld, filsystemtype er %s) [ref %ld]"
+
+#: find/find.c:999
+#, c-format
+msgid "Failed to safely change directory into %s"
+msgstr ""
 
 #: find/find.c:1096
 #, fuzzy, c-format
@@ -242,11 +247,13 @@ msgstr ""
 "som et katalog hvilket er %d %s."
 
 #: find/find.c:1115
-msgid "level higher in the filesystem hierarchy"
+#, fuzzy
+msgid "level higher in the file system hierarchy"
 msgstr "niveau højere i filsystemshierarkiet"
 
 #: find/find.c:1116
-msgid "levels higher in the filesystem hierarchy"
+#, fuzzy
+msgid "levels higher in the file system hierarchy"
 msgstr "niveauer højere i filsystemshierarkiet"
 
 #: find/find.c:1361
@@ -258,7 +265,7 @@ msgstr "advarsel: kunne ikke følge det symbolske link %s"
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
-"already saw %d subdirectories): this may be a bug in your filesystem "
+"already saw %d subdirectories): this may be a bug in your file system "
 "driver.  Automatically turning on find's -noleaf option.  Earlier results "
 "may have failed to include directories that should have been searched."
 msgstr ""
@@ -447,76 +454,76 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:1974
+#: find/parser.c:1973
 msgid "invalid null argument to -size"
 msgstr "ugyldig tom parameter til -size"
 
-#: find/parser.c:2022
+#: find/parser.c:2021
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "ugyldig -size type '%c'"
 
-#: find/parser.c:2027
+#: find/parser.c:2026
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "ugyldig parameter '%s' til '%s'"
 
-#: find/parser.c:2203
+#: find/parser.c:2202
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2313
+#: find/parser.c:2312
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "ugyldig parameter %s til %s"
 
-#: find/parser.c:2366
+#: find/parser.c:2365
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find version %s\n"
 
-#: find/parser.c:2367 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
+#: find/parser.c:2366 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils version %s\n"
 
-#: find/parser.c:2368
+#: find/parser.c:2367
 #, c-format
 msgid "Features enabled: "
 msgstr "Faciliteter aktiveret: "
 
-#: find/parser.c:2475
+#: find/parser.c:2474
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2522
+#: find/parser.c:2521
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2643
+#: find/parser.c:2642
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "advarsel: ukendt undvigetegn '\\%c'"
 
-#: find/parser.c:2659
+#: find/parser.c:2658
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2698
+#: find/parser.c:2697
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "advarsel: ukendt formatteringsdirektiv '%%%c'"
 
-#: find/parser.c:2842
+#: find/parser.c:2841
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2867
+#: find/parser.c:2866
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -529,7 +536,7 @@ msgstr ""
 "katalog fra din $PATH (dvs. fjern \".\" eller begyndende og afsluttende "
 "koloner)"
 
-#: find/parser.c:2873
+#: find/parser.c:2872
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -541,7 +548,7 @@ msgstr ""
 "katalog fra din $PATH (dvs. fjern \".\" eller begyndende og afsluttende "
 "koloner)"
 
-#: find/parser.c:2976
+#: find/parser.c:2975
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -549,26 +556,31 @@ msgstr ""
 "Det kan ikke bruge {} i programnavnet for -execdir og -okdir fordi der er et "
 "potentielt sikkerhedsproblem."
 
-#: find/parser.c:2999
+#: find/parser.c:2998
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Kun en forekomst af {} er understøttet med -exec%s ... +"
 
-#: find/parser.c:3016
+#: find/parser.c:3015
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "miljø for stort til at eksekvere"
 
-#: find/parser.c:3202
+#: find/parser.c:3201
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3356
+#: find/parser.c:3355
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3361
+#: find/parser.c:3360
 msgid "standard output"
+msgstr ""
+
+#: find/pred.c:410
+#, c-format
+msgid "cannot delete %s"
 msgstr ""
 
 #: find/pred.c:1326
@@ -732,8 +744,9 @@ msgid "days"
 msgstr "dage"
 
 #: locate/locate.c:203
-msgid "The argument argument for option --max-database-age must not be empty"
-msgstr ""
+#, fuzzy
+msgid "The argument for option --max-database-age must not be empty"
+msgstr "ugyldig parameter '%s' til '%s'"
 
 #: locate/locate.c:219 locate/locate.c:226
 #, fuzzy, c-format
@@ -921,6 +934,10 @@ msgstr "parameter til --limit"
 #: locate/locate.c:1790
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "advarsel: locate-databasen kan kun læses fra standard-ind en gang."
+
+#: locate/locate.c:1852
+msgid "time system call failed"
+msgstr ""
 
 #: locate/locate.c:1863
 #, fuzzy, c-format

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-09 18:49+0100\n"
+"POT-Creation-Date: 2007-06-25 10:26+0100\n"
 "PO-Revision-Date: 2007-05-30 18:39+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@buguner.name.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -194,32 +194,37 @@ msgid "cannot stat current directory"
 msgstr "çalışılan dizin durumlanamadı"
 
 #: find/find.c:391
-#, c-format
-msgid "Warning: filesystem %s has recently been unmounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been unmounted."
 msgstr "Uyarı: %s dosya sistemi zaten ayrılmıştı."
 
 #: find/find.c:401
-#, c-format
-msgid "Warning: filesystem %s has recently been mounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been mounted."
 msgstr "Uyarı: %s dosya sistemi zaten bağlanmıştı."
 
 #: find/find.c:497
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, filesystem type is %s) [ref %ld]"
+"number %ld, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s, %s yürütülürken değişti (eski aygıt numarası: %ld, yeni aygıt "
 "numarası: %ld, dosya sistemi türü: %s) [ref %ld]"
 
 #: find/find.c:534
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
-"ld, filesystem type is %s) [ref %ld]"
+"ld, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s, %s yürütülürken değişti (eski dosya indisi: %ld, yeni dosya indisi: %"
 "ld, dosya sistemi türü: %s) [ref %ld]"
+
+#: find/find.c:999
+#, fuzzy, c-format
+msgid "Failed to safely change directory into %s"
+msgstr "Dizin değiştirilemedi"
 
 #: find/find.c:1096
 #, c-format
@@ -240,11 +245,13 @@ msgstr ""
 "ve düğüm numarasına sahip."
 
 #: find/find.c:1115
-msgid "level higher in the filesystem hierarchy"
+#, fuzzy
+msgid "level higher in the file system hierarchy"
 msgstr "seviye, dosya sistemi hiyerarşisinde daha yüksek"
 
 #: find/find.c:1116
-msgid "levels higher in the filesystem hierarchy"
+#, fuzzy
+msgid "levels higher in the file system hierarchy"
 msgstr "seviyeler, dosya sistemi hiyerarşisinde daha yüksek"
 
 #: find/find.c:1361
@@ -253,10 +260,10 @@ msgid "warning: not following the symbolic link %s"
 msgstr "uyarı: %s sembolik bağı izlenemiyor"
 
 #: find/find.c:1405
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
-"already saw %d subdirectories): this may be a bug in your filesystem "
+"already saw %d subdirectories): this may be a bug in your file system "
 "driver.  Automatically turning on find's -noleaf option.  Earlier results "
 "may have failed to include directories that should have been searched."
 msgstr ""
@@ -456,21 +463,21 @@ msgstr ""
 "olarak  -perm -000 ile değiştirilmiş olacaktır; yani, hiçbir dosya ile "
 "eşleşmemek üzere kullanılmıştı, artık bütün dosyalarla eşleşecek."
 
-#: find/parser.c:1974
+#: find/parser.c:1973
 msgid "invalid null argument to -size"
 msgstr "-size için boş (null) argüman geçersiz"
 
-#: find/parser.c:2022
+#: find/parser.c:2021
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size türü `%c' geçersiz"
 
-#: find/parser.c:2027
+#: find/parser.c:2026
 #, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "-size için argüman olarak `%s%c' geçersiz"
 
-#: find/parser.c:2203
+#: find/parser.c:2202
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -478,57 +485,57 @@ msgstr ""
 "-show-control-chars seçeneği ya 'literal' ya da 'safe' olması gereken tek "
 "bir argüman alır"
 
-#: find/parser.c:2313
+#: find/parser.c:2312
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "-used için argüman olarak %s geçersiz"
 
-#: find/parser.c:2366
+#: find/parser.c:2365
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find sürüm %s\n"
 
-#: find/parser.c:2367 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
+#: find/parser.c:2366 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
 #, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU gnulib sürüm %s kullanarak derlenmiş\n"
 
-#: find/parser.c:2368
+#: find/parser.c:2367
 #, c-format
 msgid "Features enabled: "
 msgstr "Etkin özellikler:"
 
-#: find/parser.c:2475
+#: find/parser.c:2474
 msgid "Arguments to -type should contain only one letter"
 msgstr "-type için argümanlar tek bir harf içermemeli"
 
-#: find/parser.c:2522
+#: find/parser.c:2521
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "-type için bilinmeyen argüman: %c"
 
-#: find/parser.c:2643
+#: find/parser.c:2642
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uyarı: tanınmayan öncelem `\\%c'"
 
-#: find/parser.c:2659
+#: find/parser.c:2658
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "hata: biçim dizgesi sonunda %s"
 
-#: find/parser.c:2698
+#: find/parser.c:2697
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uyarı: tanınmayan biçem yönergesi `%%%c'"
 
-#: find/parser.c:2842
+#: find/parser.c:2841
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 "hata: biçem yönergesi `%%%c' gelecekte kullanmak üzere yedeğe ayrılmıştır"
 
-#: find/parser.c:2867
+#: find/parser.c:2866
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -541,7 +548,7 @@ msgstr ""
 "kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
 "işaretlerini kaldırın)"
 
-#: find/parser.c:2873
+#: find/parser.c:2872
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -552,7 +559,7 @@ msgstr ""
 "birlikte güvensiz oluyor. Lütfen bu girdiyi PATH ortam değişkeninizden "
 "kaldırın"
 
-#: find/parser.c:2976
+#: find/parser.c:2975
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -560,26 +567,31 @@ msgstr ""
 "-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, "
 "çünkü bu potensiyel bir güvenlik açığıdır."
 
-#: find/parser.c:2999
+#: find/parser.c:2998
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
 
-#: find/parser.c:3016
+#: find/parser.c:3015
 msgid "The environment is too large for exec()."
 msgstr "exec() için ortam çok geniş."
 
-#: find/parser.c:3202
+#: find/parser.c:3201
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "bugünün sonu bulunmaya çalışılırken aritmetiksel üstten taşma oluştu"
 
-#: find/parser.c:3356
+#: find/parser.c:3355
 msgid "standard error"
 msgstr "standart hata"
 
-#: find/parser.c:3361
+#: find/parser.c:3360
 msgid "standard output"
 msgstr "standart çıktı"
+
+#: find/pred.c:410
+#, c-format
+msgid "cannot delete %s"
+msgstr ""
 
 #: find/pred.c:1326
 #, c-format
@@ -742,7 +754,8 @@ msgid "days"
 msgstr "gün"
 
 #: locate/locate.c:203
-msgid "The argument argument for option --max-database-age must not be empty"
+#, fuzzy
+msgid "The argument for option --max-database-age must not be empty"
 msgstr "--max-database-age seçeneğinin argümanı boş olmamalı"
 
 #: locate/locate.c:219 locate/locate.c:226
@@ -940,6 +953,10 @@ msgstr "--limit argümanı"
 #: locate/locate.c:1790
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "Uyarı: locate veritabanı standart girdiden sadece bir kere okunabilir"
+
+#: locate/locate.c:1852
+msgid "time system call failed"
+msgstr ""
 
 #: locate/locate.c:1863
 #, c-format

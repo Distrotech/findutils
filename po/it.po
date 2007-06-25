@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.10\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-09 18:49+0100\n"
+"POT-Creation-Date: 2007-06-25 10:26+0100\n"
 "PO-Revision-Date: 2004-12-23 12:44+0100\n"
 "Last-Translator: Marco d'Itri <md@linux.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -193,32 +193,37 @@ msgid "cannot stat current directory"
 msgstr "impossibile ottenere la directory corrente"
 
 #: find/find.c:391
-#, c-format
-msgid "Warning: filesystem %s has recently been unmounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been unmounted."
 msgstr "Attenzione: il file system %s è stato smontato di recente."
 
 #: find/find.c:401
-#, c-format
-msgid "Warning: filesystem %s has recently been mounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been mounted."
 msgstr "Attenzione: il file system %s è stato montato di recente."
 
 #: find/find.c:497
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, filesystem type is %s) [ref %ld]"
+"number %ld, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s è cambiato durante l'esecuzione di %s (vecchio numero di dispositivo %"
 "ld, nuovo numero di dispositivo %ld, il filesystem è di tipo %s) [rif. %ld]"
 
 #: find/find.c:534
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
-"ld, filesystem type is %s) [ref %ld]"
+"ld, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s è cambiato durante l'esecuzione di %s (vecchio numero di inode %ld, "
 "nuovo numero di inode %ld, il filesystem è di tipo %s) [rif. %ld]"
+
+#: find/find.c:999
+#, c-format
+msgid "Failed to safely change directory into %s"
+msgstr ""
 
 #: find/find.c:1096
 #, fuzzy, c-format
@@ -239,11 +244,13 @@ msgstr ""
 "di inode di una directory %d %s."
 
 #: find/find.c:1115
-msgid "level higher in the filesystem hierarchy"
+#, fuzzy
+msgid "level higher in the file system hierarchy"
 msgstr "livello più in alto nella gerarchia del file system"
 
 #: find/find.c:1116
-msgid "levels higher in the filesystem hierarchy"
+#, fuzzy
+msgid "levels higher in the file system hierarchy"
 msgstr "livelli più in alto nella gerarchia del file system"
 
 #: find/find.c:1361
@@ -255,7 +262,7 @@ msgstr ""
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
-"already saw %d subdirectories): this may be a bug in your filesystem "
+"already saw %d subdirectories): this may be a bug in your file system "
 "driver.  Automatically turning on find's -noleaf option.  Earlier results "
 "may have failed to include directories that should have been searched."
 msgstr ""
@@ -446,76 +453,76 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:1974
+#: find/parser.c:1973
 msgid "invalid null argument to -size"
 msgstr "-size non può avere un argomento nullo"
 
-#: find/parser.c:2022
+#: find/parser.c:2021
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "il tipo di -size `%c' non è valido"
 
-#: find/parser.c:2027
+#: find/parser.c:2026
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "l'argomento `%s' di `%s' non è valido"
 
-#: find/parser.c:2203
+#: find/parser.c:2202
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2313
+#: find/parser.c:2312
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "l'argomento %s non è valido per %s"
 
-#: find/parser.c:2366
+#: find/parser.c:2365
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find versione %s\n"
 
-#: find/parser.c:2367 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
+#: find/parser.c:2366 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils versione %s\n"
 
-#: find/parser.c:2368
+#: find/parser.c:2367
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2475
+#: find/parser.c:2474
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2522
+#: find/parser.c:2521
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2643
+#: find/parser.c:2642
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "attenzione: sequenza di escape `\\%c' non riconosciuta"
 
-#: find/parser.c:2659
+#: find/parser.c:2658
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2698
+#: find/parser.c:2697
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "attenzione: direttiva di formattazione `%%%c' non riconosciuta"
 
-#: find/parser.c:2842
+#: find/parser.c:2841
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2867
+#: find/parser.c:2866
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -524,7 +531,7 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2873
+#: find/parser.c:2872
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -532,32 +539,37 @@ msgid ""
 "entry from $PATH"
 msgstr ""
 
-#: find/parser.c:2976
+#: find/parser.c:2975
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:2999
+#: find/parser.c:2998
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:3016
+#: find/parser.c:3015
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "l'ambiente è troppo grande per fare exec"
 
-#: find/parser.c:3202
+#: find/parser.c:3201
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3356
+#: find/parser.c:3355
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3361
+#: find/parser.c:3360
 msgid "standard output"
+msgstr ""
+
+#: find/pred.c:410
+#, c-format
+msgid "cannot delete %s"
 msgstr ""
 
 #: find/pred.c:1326
@@ -719,8 +731,9 @@ msgid "days"
 msgstr "giorni"
 
 #: locate/locate.c:203
-msgid "The argument argument for option --max-database-age must not be empty"
-msgstr ""
+#, fuzzy
+msgid "The argument for option --max-database-age must not be empty"
+msgstr "l'argomento `%s' di `%s' non è valido"
 
 #: locate/locate.c:219 locate/locate.c:226
 #, fuzzy, c-format
@@ -895,6 +908,10 @@ msgstr "argomento di --limit"
 
 #: locate/locate.c:1790
 msgid "warning: the locate database can only be read from stdin once."
+msgstr ""
+
+#: locate/locate.c:1852
+msgid "time system call failed"
 msgstr ""
 
 #: locate/locate.c:1863

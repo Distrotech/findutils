@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-09 18:49+0100\n"
+"POT-Creation-Date: 2007-06-25 10:26+0100\n"
 "PO-Revision-Date: 2005-12-06 11:30+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -191,32 +191,37 @@ msgid "cannot stat current directory"
 msgstr "無法決定當前目錄位置"
 
 #: find/find.c:391
-#, c-format
-msgid "Warning: filesystem %s has recently been unmounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been unmounted."
 msgstr "警告︰檔案系統 %s 剛剛被卸載。"
 
 #: find/find.c:401
-#, c-format
-msgid "Warning: filesystem %s has recently been mounted."
+#, fuzzy, c-format
+msgid "Warning: file system %s has recently been mounted."
 msgstr "警告︰檔案系統 %s 剛剛被掛載。"
 
 #: find/find.c:497
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, filesystem type is %s) [ref %ld]"
+"number %ld, file system type is %s) [ref %ld]"
 msgstr ""
 "執行 %3$s 時 %1$s%2$s 有所更改 (舊裝置編號為 %4$ld，新裝置編號為 %5$ld，檔案"
 "系統類型為 %6$s) [ref %7$ld]"
 
 #: find/find.c:534
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
-"ld, filesystem type is %s) [ref %ld]"
+"ld, file system type is %s) [ref %ld]"
 msgstr ""
 "執行 %3$s 時 %1$s%2$s 有所更改 (舊 inode 編號為 %4$ld，新 inode 編號為 %5"
 "$ld，檔案系統類型為 %6$s) [ref %7$ld]"
+
+#: find/find.c:999
+#, c-format
+msgid "Failed to safely change directory into %s"
+msgstr ""
 
 #: find/find.c:1096
 #, c-format
@@ -233,11 +238,11 @@ msgid ""
 msgstr ""
 
 #: find/find.c:1115
-msgid "level higher in the filesystem hierarchy"
+msgid "level higher in the file system hierarchy"
 msgstr ""
 
 #: find/find.c:1116
-msgid "levels higher in the filesystem hierarchy"
+msgid "levels higher in the file system hierarchy"
 msgstr ""
 
 #: find/find.c:1361
@@ -249,7 +254,7 @@ msgstr ""
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
-"already saw %d subdirectories): this may be a bug in your filesystem "
+"already saw %d subdirectories): this may be a bug in your file system "
 "driver.  Automatically turning on find's -noleaf option.  Earlier results "
 "may have failed to include directories that should have been searched."
 msgstr ""
@@ -428,76 +433,76 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:1974
+#: find/parser.c:1973
 msgid "invalid null argument to -size"
 msgstr "-size 後是無效的空白參數"
 
-#: find/parser.c:2022
+#: find/parser.c:2021
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size 指定的檔案大小單位 ‘%c’ 無效"
 
-#: find/parser.c:2027
+#: find/parser.c:2026
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "‘%2$s’ 的參數 ‘%1$s’ 無效"
 
-#: find/parser.c:2203
+#: find/parser.c:2202
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2313
+#: find/parser.c:2312
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "%2$s 的參數 %1$s 無效"
 
-#: find/parser.c:2366
+#: find/parser.c:2365
 #, c-format
 msgid "GNU find version %s\n"
 msgstr "GNU find %s 版本\n"
 
-#: find/parser.c:2367 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
+#: find/parser.c:2366 locate/code.c:191 locate/locate.c:1668 xargs/xargs.c:622
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils %s 版本\n"
 
-#: find/parser.c:2368
+#: find/parser.c:2367
 #, c-format
 msgid "Features enabled: "
 msgstr "啟用了的功能："
 
-#: find/parser.c:2475
+#: find/parser.c:2474
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2522
+#: find/parser.c:2521
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2643
+#: find/parser.c:2642
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "警告：無效辨認轉義控制序列 (escape sequence) ‘\\%c’"
 
-#: find/parser.c:2659
+#: find/parser.c:2658
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2698
+#: find/parser.c:2697
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr ""
 
-#: find/parser.c:2842
+#: find/parser.c:2841
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2867
+#: find/parser.c:2866
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -508,7 +513,7 @@ msgstr ""
 "PATH 環境變數中包括了當前目錄，當配合 find 的 %s 操作模式時會令系統安全產生漏"
 "洞。請在 $PATH 變數中移除當前目錄 (即是 “.”，或者最前或最後的冒號)"
 
-#: find/parser.c:2873
+#: find/parser.c:2872
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -518,7 +523,7 @@ msgstr ""
 "PATH 環境變數中包括了當前目錄，當配合 find 的 %s 操作模式時會令系統安全產生漏"
 "洞。請在 $PATH 變數中移除當前目錄 (即是 “.”，或者最前或最後的冒號)"
 
-#: find/parser.c:2976
+#: find/parser.c:2975
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -526,26 +531,31 @@ msgstr ""
 "您不應該在 -execdir 和 -okdir 中使用 {} 作為程式名稱，因為這樣做可能會造成安"
 "全漏洞。"
 
-#: find/parser.c:2999
+#: find/parser.c:2998
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
 
-#: find/parser.c:3016
+#: find/parser.c:3015
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "執行 exec 時的環境變數太大"
 
-#: find/parser.c:3202
+#: find/parser.c:3201
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3356
+#: find/parser.c:3355
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3361
+#: find/parser.c:3360
 msgid "standard output"
+msgstr ""
+
+#: find/pred.c:410
+#, c-format
+msgid "cannot delete %s"
 msgstr ""
 
 #: find/pred.c:1326
@@ -706,8 +716,9 @@ msgid "days"
 msgstr "日"
 
 #: locate/locate.c:203
-msgid "The argument argument for option --max-database-age must not be empty"
-msgstr ""
+#, fuzzy
+msgid "The argument for option --max-database-age must not be empty"
+msgstr "‘%2$s’ 的參數 ‘%1$s’ 無效"
 
 #: locate/locate.c:219 locate/locate.c:226
 #, fuzzy, c-format
@@ -892,6 +903,10 @@ msgstr ""
 #: locate/locate.c:1790
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "警告：locate 資料庫只可以由標準輸入讀取一次。"
+
+#: locate/locate.c:1852
+msgid "time system call failed"
+msgstr ""
 
 # e.g. database `%s' is more than 8 days old
 #: locate/locate.c:1863
