@@ -37,7 +37,7 @@
 #include <errno.h>
 #include <assert.h>
 
-
+#include <sys/stat.h>
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #else
@@ -198,7 +198,7 @@ main (int argc, char **argv)
       close (starting_desc);
       starting_desc = -1;
     }
-  assert(starting_desc >= 0);
+  assert (starting_desc >= 0);
 
   if (starting_desc < 0)
     {
@@ -294,8 +294,8 @@ static size_t num_mounted_devices = 0u;
 static void
 init_mounted_dev_list(int mandatory)
 {
-  assert(NULL == mounted_devices);
-  assert(0 == num_mounted_devices);
+  assert (NULL == mounted_devices);
+  assert (0 == num_mounted_devices);
   mounted_devices = get_mounted_devices(&num_mounted_devices);
   if (mandatory && (NULL == mounted_devices))
     {
@@ -779,7 +779,7 @@ safely_chdir_lstat(const char *dest,
     }
   
   *did_stat = statflag;
-  assert(rv_set);
+  assert (rv_set);
   return rv;
 }
 
@@ -1282,7 +1282,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
   
   if (dirinfo == NULL)
     {
-      assert(errno != 0);
+      assert (errno != 0);
       error (0, errno, "%s", safely_quote_err_filename(0, pathname));
       state.exit_status = 1;
     }
@@ -1509,6 +1509,6 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
       /* Make sure we hasn't used the variable subdirs_left if we knew
        * we shouldn't do so.
        */
-      assert(0 == subdirs_left || options.no_leaf_check);
+      assert (0 == subdirs_left || options.no_leaf_check);
     }
 }

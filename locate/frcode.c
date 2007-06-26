@@ -127,8 +127,8 @@ put_short (int c, FILE *fp)
    * indicates that the result of shifting a negative value right is
    * implementation defined.
    */
-  assert(c <= SHRT_MAX);
-  assert(c >= SHRT_MIN);
+  assert (c <= SHRT_MAX);
+  assert (c >= SHRT_MIN);
   return (putc (c >> 8, fp) != EOF) && (putc (c, fp) != EOF);
 }
 

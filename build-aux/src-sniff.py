@@ -58,6 +58,21 @@ def BuildIncludeList(text):
     return [m.group(1) for m in include_re.finditer(text)]
 
 
+def CheckStatHeader(filename, lines, fulltext):
+    stat_hdr_re = re.compile(r'# *include .*<sys/stat.h>')
+    # It's OK to have a pointer though.
+    stat_use_re = re.compile(r'struct stat\W *[^*]')
+    for line in lines:
+        m = stat_use_re.search(line[1])
+        if m:
+            msgfmt = "%d: If you use struct stat, you must #include <sys/stat.h> first"
+            Problem(filename, msgfmt % line[0])
+            # Diagnose only once
+            break
+        m = stat_hdr_re.search(line[1])
+        if m:
+            break
+
 def CheckFirstInclude(filename, lines, fulltext):
     includes = BuildIncludeList(fulltext)
     if includes and includes[0] != FIRST_INCLUDE:
@@ -88,7 +103,8 @@ def CheckFileSmells(filename, lines, fulltext):
 
 
 def SniffSourceFile(filename, lines, fulltext):
-    for sniffer in [CheckFirstInclude, CheckLineSmells, CheckFileSmells]:
+    for sniffer in [CheckFirstInclude, CheckStatHeader,
+                    CheckLineSmells, CheckFileSmells]:
         sniffer(filename, lines, fulltext)
 
 

@@ -125,7 +125,7 @@ insert_primary_withpred (const struct parser_table *entry, PRED_FUNC pred_func)
 struct predicate *
 insert_primary (const struct parser_table *entry)
 {
-  assert(entry->pred_func != NULL);
+  assert (entry->pred_func != NULL);
   return insert_primary_withpred(entry, entry->pred_func);
 }
 
@@ -299,7 +299,7 @@ do_complete_pending_execdirs(struct predicate *p, int dirfd)
   if (NULL == p)
     return;
   
-  assert(state.execdirs_outstanding);
+  assert (state.execdirs_outstanding);
   
   do_complete_pending_execdirs(p->pred_left, dirfd);
   
@@ -524,7 +524,7 @@ int
 optionh_stat(const char *name, struct stat *p)
 {
   if (AT_FDCWD != state.cwd_dir_fd)
-    assert(state.cwd_dir_fd >= 0);
+    assert (state.cwd_dir_fd >= 0);
   set_stat_placeholders(p);
   if (0 == state.curdepth) 
     {
@@ -555,7 +555,7 @@ optionl_stat(const char *name, struct stat *p)
 {
   int rv;
   if (AT_FDCWD != state.cwd_dir_fd)
-    assert(state.cwd_dir_fd >= 0);
+    assert (state.cwd_dir_fd >= 0);
   
   set_stat_placeholders(p);
   rv = fstatat(state.cwd_dir_fd, name, p, 0);
@@ -572,7 +572,7 @@ optionl_stat(const char *name, struct stat *p)
 int 
 optionp_stat(const char *name, struct stat *p)
 {
-  assert((state.cwd_dir_fd >= 0) || (state.cwd_dir_fd==AT_FDCWD));
+  assert ((state.cwd_dir_fd >= 0) || (state.cwd_dir_fd==AT_FDCWD));
   set_stat_placeholders(p);
   return fstatat(state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
 }
@@ -596,7 +596,7 @@ debug_stat (const char *file, struct stat *bufp)
       return optionp_stat(file, bufp);
     }
   /*NOTREACHED*/
-  assert(false);
+  assert (0);
   return -1;
 }
 
@@ -885,7 +885,7 @@ now(void)
       return retval;
     }
   t = time(NULL);
-  assert(t != (time_t)-1);
+  assert (t != (time_t)-1);
   retval.tv_sec = t;
   retval.tv_nsec = 0;
   return retval;

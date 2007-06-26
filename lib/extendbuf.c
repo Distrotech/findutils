@@ -66,7 +66,7 @@ extendbuf(void* existing, size_t wanted, size_t *allocated)
 
   saved_errno = errno;
   
-  assert(wanted > 0u);
+  assert (wanted > 0u);
   newsize = decide_size(*allocated, wanted);
   
   if ( (*allocated) == 0 )
@@ -74,7 +74,7 @@ extendbuf(void* existing, size_t wanted, size_t *allocated)
       /* Sanity check: If there is no existing allocation size, there
        * must be no existing allocated buffer.
        */
-      assert(NULL == existing);
+      assert (NULL == existing);
 
       (*allocated) = newsize;
       result = xmalloc(newsize);

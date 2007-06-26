@@ -103,7 +103,7 @@ enum BC_INIT_STATUS
   {
     BC_INIT_OK = 0,
     BC_INIT_ENV_TOO_BIG,
-    BC_INIT_CANNOT_ACCOMODATE_HEADROOM,
+    BC_INIT_CANNOT_ACCOMODATE_HEADROOM
   };
 
 extern size_t bc_size_of_environment (void);

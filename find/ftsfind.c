@@ -44,6 +44,7 @@
 #else
 #include <sys/file.h>
 #endif
+#include <sys/stat.h>
 
 #include <unistd.h>
 
@@ -106,8 +107,8 @@ int get_current_dirfd(void)
 {
   if (ftsoptions & FTS_CWDFD)
     {
-      assert(curr_fd != -1);
-      assert( (AT_FDCWD == curr_fd) || (curr_fd >= 0) );
+      assert (curr_fd != -1);
+      assert ( (AT_FDCWD == curr_fd) || (curr_fd >= 0) );
       
       if (AT_FDCWD == curr_fd)
 	return starting_desc;
@@ -145,7 +146,7 @@ static void inside_dir(int dirfd)
 {
   if (ftsoptions & FTS_CWDFD)
     {
-      assert(dirfd == AT_FDCWD || dirfd >= 0);
+      assert (dirfd == AT_FDCWD || dirfd >= 0);
       
       state.cwd_dir_fd = dirfd;
       if (curr_fd < 0)
@@ -164,7 +165,7 @@ static void inside_dir(int dirfd)
 	      /* curr_fd is invalid, but dirfd is also invalid.
 	       * This should not have happened.
 	       */
-	      assert(curr_fd >= 0 || dirfd >= 0);
+	      assert (curr_fd >= 0 || dirfd >= 0);
 	    }
 	}
     }
@@ -475,8 +476,8 @@ consider_visiting(FTS *p, FTSENT *ent)
   if (ent->fts_info == FTS_NSOK
       || ent->fts_info == FTS_NS /* e.g. symlink loop */)
     {
-      assert(!state.have_stat);
-      assert(!state.have_type);
+      assert (!state.have_stat);
+      assert (!state.have_type);
       state.type = mode = 0;
     }
   else

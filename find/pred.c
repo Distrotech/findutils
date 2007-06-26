@@ -319,7 +319,7 @@ boolean
 pred_anewer (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) &pathname;
-  assert(COMP_GT == pred_ptr->args.reftime.kind);
+  assert (COMP_GT == pred_ptr->args.reftime.kind);
   return compare_ts(get_stat_atime(stat_buf), pred_ptr->args.reftime.ts) > 0;
 }
 
@@ -352,7 +352,7 @@ pred_cnewer (const char *pathname, struct stat *stat_buf, struct predicate *pred
 {
   (void) pathname;
   
-  assert(COMP_GT == pred_ptr->args.reftime.kind);
+  assert (COMP_GT == pred_ptr->args.reftime.kind);
   return compare_ts(get_stat_ctime(stat_buf), pred_ptr->args.reftime.ts) > 0;
 }
 
@@ -1065,7 +1065,7 @@ pred_fprintf (const char *pathname, struct stat *stat_buf, struct predicate *pre
 	      valid = 1;
 	      break;
 	    default:
-	      assert(0);
+	      assert (0);
 	      abort ();
 	    }
 	  /* We trust the output of format_date not to contain 
@@ -1294,7 +1294,7 @@ pred_newer (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 {
   (void) pathname;
   
-  assert(COMP_GT == pred_ptr->args.reftime.kind);
+  assert (COMP_GT == pred_ptr->args.reftime.kind);
   return compare_ts(get_stat_mtime(stat_buf), pred_ptr->args.reftime.ts) > 0;
 }
 
@@ -1304,12 +1304,12 @@ pred_newerXY (const char *pathname, struct stat *stat_buf, struct predicate *pre
   struct timespec ts;
   boolean collected = false;
   
-  assert(COMP_GT == pred_ptr->args.reftime.kind);
+  assert (COMP_GT == pred_ptr->args.reftime.kind);
   
   switch (pred_ptr->args.reftime.xval)
     {
     case XVAL_TIME:
-      assert(pred_ptr->args.reftime.xval != XVAL_TIME);
+      assert (pred_ptr->args.reftime.xval != XVAL_TIME);
       return false;
 
     case XVAL_ATIME:
@@ -1340,7 +1340,7 @@ pred_newerXY (const char *pathname, struct stat *stat_buf, struct predicate *pre
       break;
     }
   
-  assert(collected);
+  assert (collected);
   return compare_ts(ts, pred_ptr->args.reftime.ts) > 0;
 }
 
@@ -1667,7 +1667,7 @@ pred_type (const char *pathname, struct stat *stat_buf, struct predicate *pred_p
   mode_t mode;
   mode_t type = pred_ptr->args.type;
 
-  assert(state.have_type);
+  assert (state.have_type);
 
   if (0 == state.type)
     {
@@ -1860,7 +1860,7 @@ prep_child_for_exec (boolean close_stdin, int dirfd)
    */
   if (dirfd != AT_FDCWD)
     {
-      assert(dirfd >= 0);
+      assert (dirfd >= 0);
       if (0 != fchdir(dirfd))
 	{
 	  /* If we cannot execute our command in the correct directory,
@@ -1886,8 +1886,8 @@ launch (const struct buildcmd_control *ctl,
 
   if (!execp->use_current_dir)
     {
-      assert(starting_desc >= 0);
-      assert(execp->dirfd == starting_desc);
+      assert (starting_desc >= 0);
+      assert (execp->dirfd == starting_desc);
     }
   
 	
@@ -1911,7 +1911,7 @@ launch (const struct buildcmd_control *ctl,
   if (child_pid == 0)
     {
       /* We are the child. */
-      assert(starting_desc >= 0);
+      assert (starting_desc >= 0);
       if (!prep_child_for_exec(execp->close_stdin, execp->dirfd))
 	{
 	  _exit(1);
@@ -2025,7 +2025,7 @@ format_date (struct timespec ts, int kind)
    * demonstrating that the performance difference is actually
    * measurable.
    */
-  assert(sizeof(buf) >= LONGEST_HUMAN_READABLE);
+  assert (sizeof(buf) >= LONGEST_HUMAN_READABLE);
 
   charsprinted = 0;
   need_ns_suffix = 0;
@@ -2067,7 +2067,7 @@ format_date (struct timespec ts, int kind)
        */
       ns_buf[0] = 0;
       charsprinted = snprintf(ns_buf, NS_BUF_LEN, ".%09ld0", (long int)ts.tv_nsec);
-      assert(charsprinted < NS_BUF_LEN);
+      assert (charsprinted < NS_BUF_LEN);
     }
 
   if (kind != '@'
@@ -2079,7 +2079,7 @@ format_date (struct timespec ts, int kind)
        */
       if (need_ns_suffix)
 	{
-	  assert((sizeof buf - strlen(buf)) > strlen(ns_buf));
+	  assert ((sizeof buf - strlen(buf)) > strlen(ns_buf));
 	  strcat(buf, ns_buf);
 	}
       return buf;
@@ -2094,8 +2094,8 @@ format_date (struct timespec ts, int kind)
        */
       char *p = human_readable (ts.tv_sec < 0 ? -w : w, buf + 1,
 				human_ceiling, 1, 1);
-      assert(p > buf);
-      assert(p < (buf + (sizeof buf)));
+      assert (p > buf);
+      assert (p < (buf + (sizeof buf)));
       if (ts.tv_sec < 0)
 	*--p = '-'; /* XXX: Ugh, relying on internal details of human_readable(). */
 
@@ -2108,7 +2108,7 @@ format_date (struct timespec ts, int kind)
 	{
 	  len = strlen(p);
 	  used = (p-buf) + len;	/* Offset into buf of current end */
-	  assert(sizeof buf > used); /* Ensure we can perform subtraction safely. */
+	  assert (sizeof buf > used); /* Ensure we can perform subtraction safely. */
 	  remaining = sizeof buf - used - 1u; /* allow space for NUL */
 	  
 	  if (strlen(ns_buf) >= remaining)
@@ -2117,7 +2117,7 @@ format_date (struct timespec ts, int kind)
 		    "charsprinted=%ld but remaining=%lu: ns_buf=%s",
 		    (long)charsprinted, (unsigned long)remaining, ns_buf);
 	    }
-	  assert(strlen(ns_buf) < remaining);
+	  assert (strlen(ns_buf) < remaining);
 	  strcat(p, ns_buf);
 	}
       return p;
@@ -2146,14 +2146,14 @@ ctime_format (struct timespec ts)
   ptm = localtime(&ts.tv_sec);
   if (ptm)
     {
-      assert(ptm->tm_wday >=  0);
-      assert(ptm->tm_wday <   7);
-      assert(ptm->tm_mon  >=  0);
-      assert(ptm->tm_mon  <  12);
-      assert(ptm->tm_hour >=  0);
-      assert(ptm->tm_hour <  24);
-      assert(ptm->tm_min  <  60);
-      assert(ptm->tm_sec  <= 61); /* allows 2 leap seconds. */
+      assert (ptm->tm_wday >=  0);
+      assert (ptm->tm_wday <   7);
+      assert (ptm->tm_mon  >=  0);
+      assert (ptm->tm_mon  <  12);
+      assert (ptm->tm_hour >=  0);
+      assert (ptm->tm_hour <  24);
+      assert (ptm->tm_min  <  60);
+      assert (ptm->tm_sec  <= 61); /* allows 2 leap seconds. */
       
       /* wkday mon mday hh:mm:ss.nnnnnnnnn yyyy */
       nout = snprintf(resultbuf, TIME_BUF_LEN,
@@ -2167,7 +2167,7 @@ ctime_format (struct timespec ts)
 		      (long int)ts.tv_nsec,
 		      1900 + ptm->tm_year);
       
-      assert(nout < TIME_BUF_LEN);
+      assert (nout < TIME_BUF_LEN);
       return resultbuf;
     }
   else
@@ -2294,7 +2294,7 @@ void show_success_rates(const struct predicate *p)
 void
 pred_sanity_check(const struct predicate *predicates)
 {
-  /* Do nothing, since assert() is a no-op with _NDEBUG set */
+  /* Do nothing, since assert is a no-op with _NDEBUG set */
   return;
 }
 #else
@@ -2306,10 +2306,10 @@ pred_sanity_check(const struct predicate *predicates)
   for (p=predicates; p != NULL; p=p->pred_next)
     {
       /* All predicates must do something. */
-      assert(p->pred_func != NULL);
+      assert (p->pred_func != NULL);
 
       /* All predicates must have a parser table entry. */
-      assert(p->parser_entry != NULL);
+      assert (p->parser_entry != NULL);
       
       /* If the parser table tells us that just one predicate function is 
        * possible, verify that that is still the one that is in effect.
@@ -2318,7 +2318,7 @@ pred_sanity_check(const struct predicate *predicates)
        */
       if (p->parser_entry->pred_func)
 	{
-	  assert(p->parser_entry->pred_func == p->pred_func);
+	  assert (p->parser_entry->pred_func == p->pred_func);
 	}
       
       switch (p->parser_entry->type)
@@ -2334,8 +2334,8 @@ pred_sanity_check(const struct predicate *predicates)
 	   */
 	case ARG_OPTION:
 	case ARG_POSITIONAL_OPTION:
-	  assert(p->parser_entry->type != ARG_OPTION);
-	  assert(p->parser_entry->type != ARG_POSITIONAL_OPTION);
+	  assert (p->parser_entry->type != ARG_OPTION);
+	  assert (p->parser_entry->type != ARG_POSITIONAL_OPTION);
 	  break;
 	  
 	case ARG_ACTION:
@@ -2345,7 +2345,7 @@ pred_sanity_check(const struct predicate *predicates)
 	      /* actions other than -prune and -quit should
 	       * inhibit the default -print
 	       */
-	      assert(p->no_default_print);
+	      assert (p->no_default_print);
 	    }
 	  break;
 
@@ -2359,8 +2359,8 @@ pred_sanity_check(const struct predicate *predicates)
 	  /* Punctuation and tests should have no side
 	   * effects and not inhibit default print.
 	   */
-	  assert(!p->no_default_print);
-	  assert(!p->side_effects);
+	  assert (!p->no_default_print);
+	  assert (!p->side_effects);
 	  break;
 	}
     }

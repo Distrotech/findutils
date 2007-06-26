@@ -1187,10 +1187,10 @@ search_one_database (int argc,
 	  int i;
 
 	  nread += nread2;
+	  extend (&procdata, 256u, 0u);
 	  /* Read the list of the most common bigrams in the database.  */
 	  if (nread < 256)
 	    {
-	      extend (&procdata, 256u, 0u);
 	      int more_read = fread (procdata.original_filename + nread, 1,
 				     256 - nread, procdata.fp);
 	      if ( (more_read + nread) != 256 )

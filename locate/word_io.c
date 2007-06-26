@@ -162,7 +162,7 @@ putword (FILE *fp, int word,
   /* You must decide before calling this function which 
    * endianness you want to use. 
    */
-  assert(endian_state_flag != GetwordEndianStateInitial);
+  assert (endian_state_flag != GetwordEndianStateInitial);
   if (GetwordEndianStateSwab == endian_state_flag)
     {
       word = bswap_32(word);

@@ -27,12 +27,12 @@
 
 #include <config.h>
 #include <errno.h>
-#include <assert.h>
 #include <stdbool.h>
 
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
+#include <sys/stat.h>
 
 /* The presence of unistd.h is assumed by gnulib these days, so we 
  * might as well assume it too. 

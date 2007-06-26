@@ -390,7 +390,7 @@ bc_get_arg_max(void)
 
   /* We may resort to using LONG_MAX, so check it fits. */
   /* XXX: better to do a compile-time check */
-  assert( (~(size_t)0) >= LONG_MAX);
+  assert ( (~(size_t)0) >= LONG_MAX);
 
 #ifdef _SC_ARG_MAX  
   val = sysconf(_SC_ARG_MAX);
@@ -483,7 +483,7 @@ bc_init_controlinfo(struct buildcmd_control *ctl,
   
   /* need to subtract 2 on the following line - for Linux/PPC */
   ctl->max_arg_count = (ctl->posix_arg_size_max / sizeof(char*)) - 2u;
-  assert(ctl->max_arg_count > 0);
+  assert (ctl->max_arg_count > 0);
   ctl->rplen = 0u;
   ctl->replace_pat = NULL;
   ctl->initial_argc = 0;
@@ -531,7 +531,7 @@ bc_init_state(const struct buildcmd_control *ctl,
    * LONG_MAX.   Adding one to it is safe though because earlier we
    * subtracted 2048.
    */
-  assert(ctl->arg_max <= (LONG_MAX - 2048L));
+  assert (ctl->arg_max <= (LONG_MAX - 2048L));
   state->argbuf = xmalloc (ctl->arg_max + 1u);
   
   state->cmd_argv_chars = state->cmd_initial_argv_chars = 0;

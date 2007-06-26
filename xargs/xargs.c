@@ -281,7 +281,7 @@ get_char_oct_or_hex_escape(const char *s)
   unsigned long val;
   char *endp;
 
-  assert('\\' == s[0]);
+  assert ('\\' == s[0]);
   
   if ('x' == s[1])
     {
@@ -470,17 +470,17 @@ main (int argc, char **argv)
 	  /* Note that val can in fact be greater than ARG_MAX
 	   * and bc_ctl.arg_max can also be greater than ARG_MAX.
 	   */
-	  assert(bc_ctl.arg_max <= (val-XARGS_POSIX_HEADROOM));
+	  assert (bc_ctl.arg_max <= (val-XARGS_POSIX_HEADROOM));
 	}
       else
 	{
 # if defined ARG_MAX
-	  assert(bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
+	  assert (bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
 # endif
 	}
 #else
       /* No _SC_ARG_MAX */
-      assert(bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
+      assert (bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
 #endif
 
 
@@ -489,7 +489,7 @@ main (int argc, char **argv)
        * conforms to the POSIX requirement that the default command
        * line length shall be at least LINE_MAX.
        */
-      assert(bc_ctl.arg_max >= LINE_MAX);
+      assert (bc_ctl.arg_max >= LINE_MAX);
 #endif
       
       bc_ctl.exec_callback = xargs_do_exec;
@@ -636,7 +636,7 @@ main (int argc, char **argv)
    * the environment is too large. 
    */
   act_on_init_result();
-  assert(BC_INIT_OK == bcstatus);
+  assert (BC_INIT_OK == bcstatus);
 
   if (0 == strcmp (input_file, "-"))
     {
@@ -679,7 +679,7 @@ main (int argc, char **argv)
   /* Without SIZE_MAX (i.e. limits.h) this is probably 
    * close to the best we can do.
    */
-  assert(sizeof(size_t) <= sizeof(unsigned long));
+  assert (sizeof(size_t) <= sizeof(unsigned long));
 #endif
   
   if (show_limits)

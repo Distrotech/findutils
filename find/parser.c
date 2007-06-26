@@ -56,6 +56,7 @@
  */
 /* We need <unistd.h> for isatty(). */
 #include <unistd.h> 
+#include <sys/stat.h>
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -372,8 +373,7 @@ get_stat_Ytime(const struct stat *p,
       *ret = get_stat_mtime(p);
       return 1;
     default:
-      assert(0);
-      abort();
+      assert (0);
       abort();
     }
 }
@@ -1417,7 +1417,7 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
       char x, y;
       const char validchars[] = "aBcmt";
       
-      assert(0 == strncmp("-newer", argv[*arg_ptr], 6));
+      assert (0 == strncmp("-newer", argv[*arg_ptr], 6));
       x = argv[*arg_ptr][6];
       y = argv[*arg_ptr][7];
 
@@ -1465,8 +1465,8 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 	      our_pred->args.reftime.xval = XVAL_MTIME;
 	      break;
 	    default:
-	      assert(strchr(validchars, x));
-	      assert(0);
+	      assert (strchr(validchars, x));
+	      assert (0);
 	    }
 	  
 	  if ('t' == y)
@@ -1500,9 +1500,9 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 	  our_pred->est_success_rate = estimate_timestamp_success_rate(our_pred->args.reftime.ts.tv_sec);
 	  (*arg_ptr)++;
 	  
-	  assert(our_pred->pred_func != NULL);
-	  assert(our_pred->pred_func == pred_newerXY);
-	  assert(our_pred->need_stat);
+	  assert (our_pred->pred_func != NULL);
+	  assert (our_pred->pred_func == pred_newerXY);
+	  assert (our_pred->need_stat);
 	  return true;
 	}
     }
@@ -2072,7 +2072,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
     {
       if (options.open_nofollow_available)
 	{
-	  assert(O_NOFOLLOW != 0);
+	  assert (O_NOFOLLOW != 0);
 	  openflags |= O_NOFOLLOW;
 	  fd = -1;		/* safe to open it. */
 	}
@@ -2102,7 +2102,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
       fd = -1;			/* safe to open it without O_NOFOLLOW */
     }
 
-  assert(fd != -3);		/* check we made a decision */
+  assert (fd != -3);		/* check we made a decision */
   if (fd == -1)
     {
       /* Race condition here.  The file might become a
@@ -2743,8 +2743,8 @@ make_segment (struct segment **segment,
     {
     case KIND_PLAIN:		/* Plain text string, no % conversion. */
     case KIND_STOP:		/* Terminate argument, no newline. */
-      assert(0 == format_char);
-      assert(0 == aux_format_char);
+      assert (0 == format_char);
+      assert (0 == aux_format_char);
       *fmt = '\0';
       if (mycost > pred->p_cost)
 	pred->p_cost = NeedsNothing;
@@ -2752,7 +2752,7 @@ make_segment (struct segment **segment,
       break;
     }
 
-  assert(kind == KIND_FORMAT);
+  assert (kind == KIND_FORMAT);
   switch (format_char)
     {
     case 'l':			/* object of symlink */

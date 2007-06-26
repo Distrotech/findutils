@@ -1,5 +1,45 @@
 2007-06-26  James Youngman  <jay@gnu.org>
 
+	* build-aux/src-sniff.py: Detect uses of struct stat where the
+	header file was not included.
+	* find/find.c: Fix this, and uses of assert without a following
+	space (the coding standard requires a space, but there are still
+	a number of cases where other functions are called with no
+	following space).
+	* find/fstype.c: Ditto.
+	* find/ftsfind.c: Ditto.
+	* find/parser.c: Ditto.
+	* find/pred.c: Ditto.
+	* find/tree.c: Ditto.
+	* find/util.c: Ditto.
+	* lib/buildcmd.c: Ditto.
+	* lib/buildcmd.h: Ditto.
+	* lib/extendbuf.c: Ditto.
+	* locate/frcode.c: Ditto.
+	* locate/locate.c: Ditto.
+	* locate/word_io.c: Ditto.
+	* xargs/xargs.c: Ditto.
+
+	* find/tree.c (cost_table_comparison): Avoid < comparison between
+	function pointer types.  Instead cast the function pointers to
+	(const void*).  Both alternatives are undefined C, but the former
+	actually fails to compile on some systems.   This fixes Savannah
+	bug #20263.
+	* NEWS: mention the fix
+
+	* find/tree.c (calculate_derived_rates): Removed assignment to
+	rate variable following an assert(0) call, which had been added to
+	silence a "used before initialised" warning, and replace it with a
+	call to abort, which (a) correctly halts execution if _NDEBUG is
+	defined and (b) more accurately documents what's happening.
+	
+	* find/parser.c (get_stat_Ytime): Removed redundant call to abort.
+	
+	* find/util.c (debug_stat): For consistency, use assert (0) rather
+	than assert (false).
+	
+2007-06-26  James Youngman  <jay@gnu.org>
+
 	* README-alpha: Mention the findutils-patches mailng list and the
 	archives for findutils-patches and bug-findutils.
 

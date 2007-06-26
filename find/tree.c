@@ -971,13 +971,7 @@ check_sorted(void *base, size_t members, size_t membersize,
       if (result < 0)
 	return false;
       result = cmpfn(p+(i-1)*membersize, p+i*membersize);
-      assert(result <= 0);
-    }
-  for (i=1u; i<members; ++i)
-    {
-      const struct pred_cost_lookup *pl1 = (const struct pred_cost_lookup*)(p+(i-1)*membersize);
-      const struct pred_cost_lookup *pl2 = (const struct pred_cost_lookup*)(p+(i-0)*membersize);
-      assert(pl1->fn <= pl2->fn);
+      assert (result <= 0);
     }
   return true;
 }
@@ -988,11 +982,16 @@ cost_table_comparison(const void *p1, const void *p2)
 {
   const struct pred_cost_lookup *pc1 = p1;
   const struct pred_cost_lookup *pc2 = p2;
-  
-  
+  const void* pf1 = (const void*)pc1->fn;
+  const void* pf2 = (const void*)pc2->fn;
+
+  /* We use casts to void* for > comparison because not all C
+   * compilers allow order comparison between functions.  For example,
+   * that would fail on DEC Alpha OSF/1 with native cc.
+   */
   if (pc1->fn == pc2->fn)
     return 0;
-  else if (pc1->fn > pc2->fn)
+  else if (pf1 > pf2)
     return 1;
   else
     return -1;
@@ -1103,32 +1102,32 @@ getrate(const struct predicate *p)
 float 
 calculate_derived_rates(struct predicate *p)
 {
-  assert(NULL != p);
+  assert (NULL != p);
 
   if (p->pred_right)
     calculate_derived_rates(p->pred_right);
   if (p->pred_left)
     calculate_derived_rates(p->pred_left);
 
-  assert(p->p_type != CLOSE_PAREN);
-  assert(p->p_type != OPEN_PAREN);
+  assert (p->p_type != CLOSE_PAREN);
+  assert (p->p_type != OPEN_PAREN);
 
   switch (p->p_type)
     {
     case NO_TYPE:
-      assert(NULL == p->pred_right);
-      assert(NULL == p->pred_left);
+      assert (NULL == p->pred_right);
+      assert (NULL == p->pred_left);
       return p->est_success_rate;
       
     case PRIMARY_TYPE:
-      assert(NULL == p->pred_right);
-      assert(NULL == p->pred_left);
+      assert (NULL == p->pred_right);
+      assert (NULL == p->pred_left);
       return p->est_success_rate;
 
     case UNI_OP:
       /* Unary operators must have exactly one operand */
-      assert(pred_is(p, pred_negate));
-      assert(NULL == p->pred_left);
+      assert (pred_is(p, pred_negate));
+      assert (NULL == p->pred_left);
       p->est_success_rate = (1.0 - p->pred_right->est_success_rate);
       return p->est_success_rate;
 
@@ -1151,8 +1150,8 @@ calculate_derived_rates(struct predicate *p)
 	else
 	  {
 	    /* only and, or and comma are BI_OP. */
-	    assert(0);
-	    rate = 0.0f;
+	    assert (0);
+	    abort ();
 	  }
 	p->est_success_rate = constrain_rate(rate);
       }
@@ -1174,12 +1173,12 @@ static void check_normalization(struct predicate *p, boolean at_root)
 {
   if (at_root)
     {
-      assert(BI_OP == p->p_type);
+      assert (BI_OP == p->p_type);
     }
 
   if (p->pred_left)
     {
-      assert(BI_OP == p->pred_left->p_type);
+      assert (BI_OP == p->pred_left->p_type);
       check_normalization(p->pred_left, false);
     }
   if (p->pred_right)
@@ -1212,9 +1211,9 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   entry_open  = find_parser("(");
   entry_close = find_parser(")");
   entry_print = find_parser("print");
-  assert(entry_open  != NULL);
-  assert(entry_close != NULL);
-  assert(entry_print != NULL);
+  assert (entry_open  != NULL);
+  assert (entry_close != NULL);
+  assert (entry_print != NULL);
   
   parse_openparen (entry_open, argv, &argc);
   last_pred->p_name = "(";
@@ -1410,8 +1409,8 @@ get_new_pred (const struct parser_table *entry)
   (void) entry;
 
   /* Options should not be turned into predicates. */
-  assert(entry->type != ARG_OPTION);
-  assert(entry->type != ARG_POSITIONAL_OPTION);
+  assert (entry->type != ARG_OPTION);
+  assert (entry->type != ARG_POSITIONAL_OPTION);
   
   if (predicates == NULL)
     {
@@ -1460,7 +1459,7 @@ get_new_pred_chk_op (const struct parser_table *entry)
     entry_and = find_parser("and");
 
   /* Check that it's actually there. If not, that is a bug.*/
-  assert(entry_and != NULL);	
+  assert (entry_and != NULL);	
 
   if (last_pred)
     switch (last_pred->p_type)
