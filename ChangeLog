@@ -1,3 +1,8 @@
+2007-06-26  Eric Blake  <ebb9@byu.net>
+
+	* import-gnulib.config (modules): Allow ./configure
+	--disable-assert.
+
 2007-06-26  James Youngman  <jay@gnu.org>
 
 	* build-aux/src-sniff.py: Detect uses of struct stat where the
@@ -32,12 +37,12 @@
 	silence a "used before initialised" warning, and replace it with a
 	call to abort, which (a) correctly halts execution if _NDEBUG is
 	defined and (b) more accurately documents what's happening.
-	
+
 	* find/parser.c (get_stat_Ytime): Removed redundant call to abort.
-	
+
 	* find/util.c (debug_stat): For consistency, use assert (0) rather
 	than assert (false).
-	
+
 2007-06-26  James Youngman  <jay@gnu.org>
 
 	* README-alpha: Mention the findutils-patches mailng list and the
@@ -74,37 +79,37 @@
 	Fix various lint-type complaints taken from the rules in the
 	coreutils Makefile.maint file (see build-aux/src-sniff.py).
 	* xargs/xargs.c: Removed unnecessary parentheses in "#if defined"
-	checks.   
+	checks.
 	(main): Don't cast the return value of xmalloc.
 	(add_proc): Don't cast the return value of xmalloc.
 	* lib/regextype.c: Don't include quotearg.h, we don't need it.
 	* lib/dircallback.c, lib/nextelem.c, lib/prontquoted.c,
-	lib/qmark.c, lib/strspn.c, lib/waitpid.c: Assume config.h is available.  
+	lib/qmark.c, lib/strspn.c, lib/waitpid.c: Assume config.h is available.
 	* lib/extendbuf.c: Ditto
 	* lib/listfile.c: Ditto.  Also removed unnecessary parentheses in
-	"#if defined" checks.  
+	"#if defined" checks.
 	(get_link_name): Don't cast the result of xmalloc.
 	* lib/bigram.c: Removed unnecessary parentheses in "#if defined"
-	checks.   
+	checks.
 	* lib/savedirinfo.c: Assume config.h is available.  Also removed
-	unnecessary parentheses in "#if defined" checks.   
+	unnecessary parentheses in "#if defined" checks.
 	* lib/buildcmd.c (bc_do_insert): Don'tcast the result of xmalloc().
 	* find/tree.c (build_expression_tree): Don't cast the argument to free().
 	* find/ftsfind.c (set_close_on_exec): Removed unnecessary
 	parentheses in "#if defined" checks.  Also changed "filesystem" ->
-	"file system" 
+	"file system"
 	* find/util.c (check_nofollow): Removed unnecessary parentheses in
-	"#if defined" checks. 
+	"#if defined" checks.
 	* find/parser.c (estimate_fstype_success_rate): ditto.
 	(insert_regex): Do not cast the result of xmaloc().  Removed unnecessary
 	parentheses in "#if defined" checks.  Also changed "filesystem" ->
-	"file system" 
+	"file system"
 	* find/pred.c: ditto
 	* find/find.c: "the the" -> "the", "filesystem" -> "file system"
 	* find/fstype.c: "filesystem" -> "file system" (in comments and
 	static functions)
 	* locate/frcode.c: Removed unnecessary parentheses in "#if
-	defined" checks.  
+	defined" checks.
 	* locate/locate.c (search_one_database): Don't cast the return
 	value of xmalloc.
 	(dolocate): Mark error message for translation.
