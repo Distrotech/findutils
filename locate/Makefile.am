@@ -46,7 +46,7 @@ install-data-hook:
 dblocation.texi: Makefile
 	echo '@set LOCATE_DB $(LOCATE_DB)' > $@
 
-SUBDIRS = testsuite
+SUBDIRS = . testsuite
 
 dist-hook: findutils-check-manpages
 

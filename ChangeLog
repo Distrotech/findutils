@@ -1,5 +1,10 @@
 2007-06-28  Eric Blake  <ebb9@byu.net>
 
+	Allow 'make check' to work without prior 'make all'.
+	* find/Makefile.am (SUBDIRS): Build in . before testsuite.
+	* locate/Makefile.am (SUBDIRS): Likewise.
+	* xargs/Makefile.am (SUBDIRS): Likewise.
+
 	Fix Savannah bug #20273, xargs -E with seekable stdin.
 	* import-gnulib.config (modules): Sort, add closein.
 	* xargs/testsuite/Makefile.am (EXTRA_DIST_EXP, EXTRA_DIST_XO)
