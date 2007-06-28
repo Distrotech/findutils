@@ -1,5 +1,11 @@
 2007-06-28  Eric Blake  <ebb9@byu.net>
 
+	Improve gnulib-tool usage.
+	* import-gnulib.sh (run_gnulib_tool): Speed operation when
+	updating an existing tree.
+	* import-gnulib.config (modules): Sort, remove strstr since it is
+	no longer a gnulib module.
+
 	Allow 'make check' to work without prior 'make all'.
 	* find/Makefile.am (SUBDIRS): Build in . before testsuite.
 	* locate/Makefile.am (SUBDIRS): Likewise.

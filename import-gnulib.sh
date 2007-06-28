@@ -23,7 +23,7 @@
 # This script is intended to populate the "gnulib" directory
 # with a subset of the gnulib code, as provided by "gnulib-tool".
 #
-# To use it, just run this script with the top-level sourec directory 
+# To use it, just run this script with the top-level sourec directory
 # as your working directory.
 
 # If CDPATH is set, it will sometimes print the name of the directory
@@ -57,54 +57,54 @@ do_checkout () {
     echo checking out gnulib from CVS in $cvsdir
 
     if [ -z "$gnulib_version" ] ; then
-        echo "Error: There should be a gnulib_version setting in $configfile, but there is not." >&2
-        exit 1
+	echo "Error: There should be a gnulib_version setting in $configfile, but there is not." >&2
+	exit 1
     fi
-    
-    
-    if ! [ -d "$cvsdir" ] ; then	
-        if mkdir "$cvsdir" ; then
-    	echo "Created $cvsdir"
-        else
-    	echo "Failed to create $cvsdir" >&2
-    	exit 1
-        fi
+
+
+    if ! [ -d "$cvsdir" ] ; then
+	if mkdir "$cvsdir" ; then
+	echo "Created $cvsdir"
+	else
+	echo "Failed to create $cvsdir" >&2
+	exit 1
+	fi
     fi
-    
-    # Decide if gnulib_version is probably a date or probably a tag.  
+
+    # Decide if gnulib_version is probably a date or probably a tag.
     if date -d yesterday >/dev/null ; then
-        # It looks like GNU date is available
-        if date -d "$gnulib_version" >/dev/null ; then
-    	# Looks like a date.
-    	cvs_sticky_option="-D"
-        else
-    	echo "Warning: assuming $gnulib_version is a CVS tag rather than a date" >&2
-    	cvs_sticky_option="-r"
-        fi
+	# It looks like GNU date is available
+	if date -d "$gnulib_version" >/dev/null ; then
+	# Looks like a date.
+	cvs_sticky_option="-D"
+	else
+	echo "Warning: assuming $gnulib_version is a CVS tag rather than a date" >&2
+	cvs_sticky_option="-r"
+	fi
     else
-    	# GNU date unavailable, assume the version is a date
-    	cvs_sticky_option="-D"
+	# GNU date unavailable, assume the version is a date
+	cvs_sticky_option="-D"
     fi
 
 
 
     (
-        # Change directory unconditionally (rater than  using checkout -d) so that
-        # cvs does not pick up defaults from ./CVS.  Those defaults refer to our
-        # own CVS repository for our code, not to gnulib.
-        cd $cvsdir 
-        if test -d gnulib/CVS ; then
-    	cd gnulib
-    	cmd=update
-    	root="" # use previous 
-        else
-    	root="-d :pserver:anonymous@cvs.sv.gnu.org:/sources/gnulib"
-    	cmd=checkout
-    	args=gnulib
-        fi
-        set -x
-        cvs -q -z3 $root  $cmd $cvs_sticky_option "$gnulib_version" $args
-        set +x
+	# Change directory unconditionally (rater than  using checkout -d) so that
+	# cvs does not pick up defaults from ./CVS.  Those defaults refer to our
+	# own CVS repository for our code, not to gnulib.
+	cd $cvsdir
+	if test -d gnulib/CVS ; then
+	cd gnulib
+	cmd=update
+	root="" # use previous
+	else
+	root="-d :pserver:anonymous@cvs.sv.gnu.org:/sources/gnulib"
+	cmd=checkout
+	args=gnulib
+	fi
+	set -x
+	cvs -q -z3 $root  $cmd $cvs_sticky_option "$gnulib_version" $args
+	set +x
     )
 }
 
@@ -112,37 +112,41 @@ run_gnulib_tool() {
     local tool="$1"
     if test -f "$tool"
     then
-        true
+	true
     else
-        echo "$tool does not exist, did you specify the right directory?" >&2
-        exit 1
+	echo "$tool does not exist, did you specify the right directory?" >&2
+	exit 1
     fi
-    
+
     if test -x "$tool"
     then
-        true
+	true
     else
-        echo "$tool is not executable" >&2
-        exit 1
+	echo "$tool is not executable" >&2
+	exit 1
     fi
-    
-    
+
+
     if [ -d gnulib ]
     then
-        echo "Warning: directory gnulib already exists, removing it." >&2
-        rm -rf gnulib
-    fi
-    mkdir gnulib
-    
-    set -x
-    if "$tool" --import --symlink --with-tests --dir=. --lib=libgnulib --source-base=gnulib/lib --m4-base=gnulib/m4  $modules
-    then
-        set +x
+	echo "Warning: directory gnulib already exists." >&2
     else
-        set +x
-        echo "$tool failed, exiting." >&2
-        exit 1
+	mkdir gnulib
     fi
+
+    set -x
+    if "$tool" --import --symlink --with-tests --dir=. --lib=libgnulib --source-base=gnulib/lib --m4-base=gnulib/m4 $modules
+    then
+	set +x
+    else
+	set +x
+	echo "$tool failed, exiting." >&2
+	exit 1
+    fi
+
+    # gnulib-tool does not remove broken symlinks leftover from previous runs;
+    # this assumes GNU find, but should be a safe no-op if it is not
+    find -L gnulib -lname '*' -delete 2>/dev/null || :
 }
 
 
@@ -150,8 +154,8 @@ hack_gnulib_tool_output() {
     local gnulibdir="${1}"
     for file in $extra_files; do
       case $file in
-        */mdate-sh | */texinfo.tex) dest=doc;;
-        *) dest=build-aux;;
+	*/mdate-sh | */texinfo.tex) dest=doc;;
+	*) dest=build-aux;;
       esac
       test -d "$dest" || mkdir "$dest"
       cp -fp "${gnulibdir}"/"$file" "$dest" || exit
@@ -177,10 +181,10 @@ EOF
 
 
 refresh_output_files() {
-    aclocal -I m4 -I gnulib/m4     &&     
-    autoheader                     &&     
-    autoconf                       &&     
-    automake --add-missing --copy 
+    aclocal -I m4 -I gnulib/m4     &&
+    autoheader                     &&
+    autoconf                       &&
+    automake --add-missing --copy
 }
 
 
@@ -192,7 +196,7 @@ update_version_file() {
     else
 	ver="$gnulib_version"
     fi
-    
+
 
     cat > "${outfile}".new <<EOF
 /* This file is automatically generated by $0 and simply records which version of gnulib we used. */
@@ -214,29 +218,29 @@ main() {
     while getopts "d:" opt
     do
       case "$opt" in
-          d)  gnulibdir="$OPTARG" ; need_checkout=no ;;
-          **) usage; exit 1;;
+	  d)  gnulibdir="$OPTARG" ; need_checkout=no ;;
+	  **) usage; exit 1;;
       esac
     done
 
-    # We need the config file to tell us which modules 
+    # We need the config file to tell us which modules
     # to use, even if we don't want to know the CVS version.
     . $configfile || exit 1
 
     ## If -d was not given, do CVS checkout/update
     if [ $need_checkout = yes ] ; then
-        do_checkout gnulib-cvs
+	do_checkout gnulib-cvs
 	gnulibdir=gnulib-cvs/gnulib
     else
-        echo "Warning: using gnulib code which already exists in $gnulibdir" >&2
+	echo "Warning: using gnulib code which already exists in $gnulibdir" >&2
     fi
-    
+
     ## Invoke gnulib-tool to import the code.
     local tool="${gnulibdir}"/gnulib-tool
 
-    if run_gnulib_tool "${tool}" && 
+    if run_gnulib_tool "${tool}" &&
 	hack_gnulib_tool_output "${gnulibdir}" &&
-	refresh_output_files && 
+	refresh_output_files &&
 	update_version_file   ; then
 	echo Done.
     else
