@@ -8,6 +8,11 @@ ordering comparison of function pointers.
 #20139: find -[acm]time -N (wrongly) includes files from N days ago,
 as well as (correctly) from less than N days ago.
 
+#20273: When xargs is successful without consuming all of stdin (for
+example, with the -E option), and stdin is seekable, xargs now
+correctly restores the file position, even on platforms where exit()
+does not follow the POSIX rules of doing likewise.
+
 ** Documentation Fixes
 
 Point out more explicitly that the subsecond timestamp support

@@ -1,5 +1,6 @@
 /* xargs -- build and execute command lines from standard input
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005, 2006,
+   2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -163,7 +164,7 @@ typedef int boolean;
 #endif
 
 #include <xalloc.h>
-#include "closeout.h"
+#include "closein.h"
 #include "gnulib-version.h"
 
 void error PARAMS ((int status, int errnum, char *message,...));
@@ -419,7 +420,7 @@ main (int argc, char **argv)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit (close_stdout);
+  atexit (close_stdin);
   atexit (wait_for_proc_all);
 
   /* xargs is required by POSIX to allow 2048 bytes of headroom 

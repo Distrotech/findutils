@@ -1,9 +1,23 @@
+2007-06-28  Eric Blake  <ebb9@byu.net>
+
+	Fix Savannah bug #20273, xargs -E with seekable stdin.
+	* import-gnulib.config (modules): Sort, add closein.
+	* xargs/testsuite/Makefile.am (EXTRA_DIST_EXP, EXTRA_DIST_XO)
+	(EXTRA_DIST_XI): Add new test.
+	* xargs/testsuite/config/unix.exp (xargs_start): Support optional
+	argument to allow test to run a subshell.
+	* xargs/testsuite/inputs/sv-bug-20273.xi: New file.
+	* xargs/testsuite/xargs.posix/sv-bug-20273.xo: Likewise.
+	* xargs/testsuite/xargs.posix/sv-but-20273.exp: Likewise.
+	* xargs/xargs.c (main): Use close_stdin, not close_stdout.
+	* NEWS: Document the fix.
+
 2007-06-27  James Youngman  <jay@gnu.org>
 
-    	Added a maintenance manual.
+	Added a maintenance manual.
 	* doc/find-maint.texi: New file.
-    	* doc/Makefile.am (info_TEXINFOS): Added doc/find-main.texi.
-    	* doc/find.texi (Introduction): Fixed typo.
+	* doc/Makefile.am (info_TEXINFOS): Added doc/find-main.texi.
+	* doc/find.texi (Introduction): Fixed typo.
 
 2007-06-26  Eric Blake  <ebb9@byu.net>
 

@@ -81,6 +81,7 @@ xargs.posix/space.exp \
 xargs.posix/space-I.exp \
 xargs.posix/sv-bug-18714.exp \
 xargs.posix/sv-bug-18714b.exp \
+xargs.posix/sv-bug-20273.exp \
 xargs.posix/unmatched2.exp \
 xargs.posix/unmatched.exp \
 xargs.posix/unmatched-n2-x.exp \
@@ -166,6 +167,7 @@ xargs.posix/savannah-11865.xo \
 xargs.posix/space.xo \
 xargs.posix/sv-bug-18714.xo \
 xargs.posix/sv-bug-18714b.xo \
+xargs.posix/sv-bug-20273.xo \
 xargs.posix/unmatched2.xo \
 xargs.posix/unmatched.xo \
 xargs.sysv/eEOF.xo \
@@ -233,6 +235,7 @@ inputs/stairs2-0.xi \
 inputs/stairs2.xi \
 inputs/stairs.xi \
 inputs/stt.xi \
+inputs/sv-bug-20273.xi \
 inputs/unmatched2.xi \
 inputs/unmatched.xi \
 inputs/verticaltabs.xi
