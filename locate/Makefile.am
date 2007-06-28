@@ -41,4 +41,4 @@ updatedb: updatedb.sh
 install-data-hook:
 	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(localstatedir)
 
-SUBDIRS = testsuite
+SUBDIRS = . testsuite
