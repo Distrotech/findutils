@@ -1034,8 +1034,6 @@ get_pred_cost(const struct predicate *p)
 
       if (!pred_table_sorted)
 	{
-	  size_t i;
-	  
 	  qsort(costlookup,
 		sizeof(costlookup)/sizeof(costlookup[0]),
 		sizeof(costlookup[0]),
