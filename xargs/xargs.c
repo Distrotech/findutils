@@ -96,6 +96,7 @@
 #define SIGCHLD SIGCLD
 #endif
 
+#include "verify.h"
 #include "wait.h"
 #include "quotearg.h"
 
@@ -680,7 +681,7 @@ main (int argc, char **argv)
   /* Without SIZE_MAX (i.e. limits.h) this is probably 
    * close to the best we can do.
    */
-  assert (sizeof(size_t) <= sizeof(unsigned long));
+  verify_true (sizeof(size_t) <= sizeof(unsigned long));
 #endif
   
   if (show_limits)

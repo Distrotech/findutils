@@ -47,6 +47,7 @@
 #include "stat-time.h"
 #include "dircallback.h"
 #include "error.h"
+#include "verify.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -2025,7 +2026,7 @@ format_date (struct timespec ts, int kind)
    * demonstrating that the performance difference is actually
    * measurable.
    */
-  assert (sizeof(buf) >= LONGEST_HUMAN_READABLE);
+  verify_true (sizeof(buf) >= LONGEST_HUMAN_READABLE);
 
   charsprinted = 0;
   need_ns_suffix = 0;
