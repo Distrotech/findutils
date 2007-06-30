@@ -24,6 +24,7 @@
 #include <errno.h>
 #include <stdbool.h>		/* for bool */
 #include <assert.h>
+#include <stdlib.h>
 
 #include "error.h"
 #include "quote.h"
@@ -142,9 +143,10 @@ getword (FILE *fp,
        * Either condition is fatal.
        */
       if (feof(fp))
-	error(1, 0, _("Unexpected EOF in %s"), quoted_name);
-      else 
-	error(1, errno, "error reading a word from %s", quoted_name);
+	error(1, 0, _("unexpected EOF in %s"), quoted_name);
+      else
+	error(1, errno, _("error reading a word from %s"), quoted_name);
+      abort ();
     }
   else
     {
@@ -174,4 +176,3 @@ putword (FILE *fp, int word,
   else
     return false;
 }
-

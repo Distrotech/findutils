@@ -1161,6 +1161,8 @@ calculate_derived_rates(struct predicate *p)
       p->est_success_rate = 1.0;
       return p->est_success_rate;
     }
+  assert (0);
+  abort ();
 }
 
 /* opt_expr() rearranges predicates such that each left subtree is

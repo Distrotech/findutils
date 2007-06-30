@@ -294,6 +294,8 @@ pred_timewindow(struct timespec ts, struct predicate const *pred_ptr, int window
 	return (delta >= 0.0 && delta < window);
       }
     }
+  assert (0);
+  abort ();
 }
 
 
@@ -2026,7 +2028,7 @@ format_date (struct timespec ts, int kind)
    * demonstrating that the performance difference is actually
    * measurable.
    */
-  verify_true (sizeof(buf) >= LONGEST_HUMAN_READABLE);
+  verify (sizeof(buf) >= LONGEST_HUMAN_READABLE);
 
   charsprinted = 0;
   need_ns_suffix = 0;

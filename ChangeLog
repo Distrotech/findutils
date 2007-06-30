@@ -1,3 +1,10 @@
+2007-06-30  Eric Blake  <ebb9@byu.net>
+
+	* find/pred.c (pred_timewindow): Avoid gcc warnings.
+	(format_date): Likewise.
+	* find/tree.c (calculate_derived_rates): Likewise.
+	* locate/word_io.c (getword): Likewise.
+
 2007-06-30  James Youngman  <jay@gnu.org>
 
 	* find/find.1 (EXAMPLES): Added an example of using find and cpio -p
@@ -9,7 +16,7 @@
 
 	Enhancements to the code smell detector.
 	* Makefile.am (findutils-check-smells): Automate the calling of
-	build-aux/src-sniff.py. 
+	build-aux/src-sniff.py.
 	* build-aux/src-sniff.py: Rework to use a list of regex-based
 	sniffers, to allow checking types of file other than C.  Allow
 	file-based regex sniffers to give an indication of the line number
@@ -18,7 +25,7 @@
 	for out-of-date FSF addresses.
 
 	* find/tree.c (get_pred_cost): Eliminate unused variable.
- 
+
 	Fix Savannah bug #20263 in a more portable way.
 	* find/tree.c (cost_table_comparison): Avoid casting function
 	pointers to poiter-to-object, since this is not portable (or
