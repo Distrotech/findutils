@@ -4,10 +4,69 @@
 import re
 import sys
 
+C_ISH_FILENAME = "\.(c|cc|h|cpp|cxx|hxx)$"
+C_ISH_FILENAME_RE = re.compile(C_ISH_FILENAME)
+C_MODULE_FILENAME_RE = re.compile("\.(c|cc|cpp|cxx)$")
 FIRST_INCLUDE = 'config.h'
 problems = 0
 
-LINE_SMELLS_SRC = [
+
+def Problem(**kwargs):
+    global problems
+    problems += 1
+    msg = kwargs['message']
+    if kwargs['line']:
+        location = "%(filename)s:%(line)d" % kwargs
+    else:
+        location = "%(filename)s" % kwargs
+    detail = msg % kwargs
+    print >>sys.stderr, "error: %s: %s" % (location, detail)
+
+
+class RegexSniffer(object):
+    def __init__(self, source, message):
+        super(RegexSniffer, self).__init__()
+        self._regex = re.compile(source)
+        self._msg = message
+    def Sniff(self, text, filename, line):
+        m = self._regex.search(text)
+        if m:
+            if line is None:
+                line = 1 + m.string.count('\n', 1, m.start(0))
+            args = {
+                'filename' : filename,
+                'line'     : line,
+                'fulltext' : text,
+                'matchtext': m.group(0),
+                'message'  : self._msg
+                }
+            Problem(**args)
+            
+
+class RegexChecker(object):
+    def __init__(self, regex, line_smells, file_smells):
+        super(RegexChecker, self).__init__(self)
+        self._regex = re.compile(regex)
+        self._line_sniffers = [RegexSniffer(s[0],s[1]) for s in line_smells]
+        self._file_sniffers = [RegexSniffer(s[0],s[1]) for s in file_smells]
+    def Check(self, filename, lines, fulltext):
+        if self._regex.search(filename):
+            # We recognise this type of file.
+            for line_number, line_text in lines:
+                for sniffer in self._line_sniffers:
+                    sniffer.Sniff(line_text, filename, line_number)
+            for sniffer in self._file_sniffers:
+                sniffer.Sniff(fulltext, filename, None)
+        else:
+            # We don't know how to check this file.  Skip it.
+            pass
+
+
+checkers = [
+    # Check C-like languages for C code smells.
+    RegexChecker(C_ISH_FILENAME_RE,
+    # line smells
+    [
     [r'(?<!\w)free \(\(', "don't cast the argument to free()"],
     [r'\*\) *x(m|c|re)alloc(?!\w)',"don't cast the result of x*alloc"],
     [r'\*\) *alloca(?!\w)',"don't cast the result of alloca"],
@@ -17,45 +76,65 @@ LINE_SMELLS_SRC = [
     [r'error \(EXIT_SUCCESS',"passing EXIT_SUCCESS to error is confusing"],
     [r'file[s]ystem', "prefer writing 'file system' to 'filesystem'"],
     [r'HAVE''_CONFIG_H', "Avoid checking HAVE_CONFIG_H"],
-#   [r'HAVE_FCNTL_H', "Avoid checking HAVE_FCNTL_H"],
+    #   [r'HAVE_FCNTL_H', "Avoid checking HAVE_FCNTL_H"],
     [r'O_NDELAY', "Avoid using O_NDELAY"],
     [r'the *the', "'the the' is probably not deliberate"],
     [r'(?<!\w)error \([^_"]*[^_]"[^"]*[a-z]{3}', "untranslated error message"],
     [r'^# *if\s+defined *\(', "useless parentheses in '#if defined'"],
-     
-    ]
-
-FILE_SMELLS_SRC = [
+    
+    ],
+    [
     [r'# *include <assert.h>(?!.*assert \()',
      "If you include <assert.h>, use assert()."],
     [r'# *include "quotearg.h"(?!.*(?<!\w)quotearg(_[^ ]+)? \()',
      "If you include \"quotearg.h\", use one of its functions."],
     [r'# *include "quote.h"(?!.*(?<!\w)quote(_[^ ]+)? \()',
      "If you include \"quote.h\", use one of its functions."],
-    [r'\s$', "trailing whitespace"],
+    ]),
+    # Check Makefiles for Makefile code smells.
+    RegexChecker('(^|/)[Mm]akefile(.am|.in)?', 
+                 [ [r'^ ', "Spaces at start of line"], ],
+                 []),
+    # Check everything for whitespace problems.
+    # RegexChecker('', [], [[r'\s$', "trailing whitespace"],]),
+    # Check everything for out of date addresses.
+    RegexChecker('', [], [
+    [r'675\s*Mass\s*Ave,\s*02139[^a-zA-Z]*USA',
+     "out of date FSF address"],
+    [r'59 Temple Place.*02111-?1307\s*USA',
+     "out of date FSF address"],
+    ]),
     ]
+
 
 # missing check: ChangeLog prefixes
 # missing: sc_always_defined_macros from coreutils
 # missing: sc_tight_scope
 
-COMPILED_LINE_SMELLS = [(re.compile(pong[0]), pong[1])
-                        for pong in LINE_SMELLS_SRC]
-COMPILED_FILE_SMELLS = [(re.compile(pong[0], re.DOTALL), pong[1])
-                        for pong in FILE_SMELLS_SRC]
-
-def Problem(filename, desc):
-    global problems
-    print >> sys.stderr, "error: %s: %s" % (filename, desc)
-    problems += 1
 
 def Warning(filename, desc):
     print >> sys.stderr, "warning: %s: %s" % (filename, desc)
 
 
 def BuildIncludeList(text):
+    """Build a list of included files, with line numbers.
+    Args:
+      text: the full text of the source file
+    Returns:
+      [  ('config.h',32), ('assert.h',33), ... ]
+    """
     include_re = re.compile(r'# *include +[<"](.*)[>"]')
-    return [m.group(1) for m in include_re.finditer(text)]
+    includes = []
+    last_include_pos = 1
+    line = 1
+    for m in include_re.finditer(text):
+        header = m.group(1)
+        # Count only the number of lines between the last include and
+        # this one.  Counting them from the beginning would be quadratic.
+        line += m.string.count('\n', last_include_pos, m.start(0))
+        last_include_pos = m.end()
+        includes.append( (header,line) )
+    return includes
 
 
 def CheckStatHeader(filename, lines, fulltext):
@@ -65,8 +144,8 @@ def CheckStatHeader(filename, lines, fulltext):
     for line in lines:
         m = stat_use_re.search(line[1])
         if m:
-            msgfmt = "%d: If you use struct stat, you must #include <sys/stat.h> first"
-            Problem(filename, msgfmt % line[0])
+            msg = "If you use struct stat, you must #include <sys/stat.h> first"
+            Problem(filename = filename, line = line[0], message = msg)
             # Diagnose only once
             break
         m = stat_hdr_re.search(line[1])
@@ -75,37 +154,31 @@ def CheckStatHeader(filename, lines, fulltext):
 
 def CheckFirstInclude(filename, lines, fulltext):
     includes = BuildIncludeList(fulltext)
-    if includes and includes[0] != FIRST_INCLUDE:
-        if FIRST_INCLUDE in includes:
-            fmt = "%s is first include file, but %s should be included first"
-            Problem(filename, fmt % (includes[0], FIRST_INCLUDE))
-    if FIRST_INCLUDE not in includes:
+    #print "Include map:"
+    #for name, line in includes:
+    #    print "%s:%d: %s" % (filename, line, name)
+    if includes:
+        actual_first_include = includes[0][0]
+    else:
+        actual_first_include = None
+    if actual_first_include and actual_first_include  != FIRST_INCLUDE:
+        if FIRST_INCLUDE in [inc[0] for inc in includes]:
+            msg = ("%(actual_first_include)s is the first included file, "
+                   "but %(required_first_include)s should be included first")
+            Problem(filename=filename, line=includes[0][1], message=msg,
+                    actual_first_include=actual_first_include,
+                    required_first_include = FIRST_INCLUDE)
+    if FIRST_INCLUDE not in [inc[0] for inc in includes]:
         Warning(filename,
                 "%s should be included by most files" % FIRST_INCLUDE)
 
-def CheckLineSmells(filename, lines, fulltext):
-    for line in lines:
-        for smell in COMPILED_LINE_SMELLS:
-            match = smell[0].search(line[1])
-            if match:
-                Problem(filename, '%d: "%s": %s'
-                        % (line[0], match.group(0), smell[1]))
-            
-
-def CheckFileSmells(filename, lines, fulltext):
-    for smell in COMPILED_FILE_SMELLS:
-        match = smell[0].search(fulltext)
-        if match:
-            Problem(filename, ' %s'
-                    % (smell[1],))
-            
-
-
 
 def SniffSourceFile(filename, lines, fulltext):
-    for sniffer in [CheckFirstInclude, CheckStatHeader,
-                    CheckLineSmells, CheckFileSmells]:
-        sniffer(filename, lines, fulltext)
+    if C_MODULE_FILENAME_RE.search(filename):
+        CheckFirstInclude(filename, lines, fulltext)
+        CheckStatHeader  (filename, lines, fulltext)
+    for checker in checkers:
+        checker.Check(filename, lines, fulltext)
 
 
 def main(args):
@@ -117,7 +190,7 @@ def main(args):
         for line in f.readlines():
             lines.append( (line_number, line) )
             line_number += 1
-        fulltext = '\n'.join([line[1] for line in lines])
+        fulltext = ''.join([line[1] for line in lines])
         SniffSourceFile(srcfile, lines, fulltext)
         f.close()
     if problems:

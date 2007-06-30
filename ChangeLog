@@ -1,5 +1,13 @@
 2007-06-30  James Youngman  <jay@gnu.org>
 
+	Enhancements to the code smell detector.
+	* Makefile.am (findutils-check-smells): Automate the calling of
+	build-aux/src-sniff.py. 
+	* build-aux/src-sniff.py: Rework to use a list of regex-based
+	sniffers, to allow checking types of file other than C.  Allow
+	file-based regex sniffers to give an indication of the line number
+	where they think the problem (or part of the problem) exists.
+
 	* find/tree.c (get_pred_cost): Eliminate unused variable.
  
 	Fix Savannah bug #20263 in a more portable way.

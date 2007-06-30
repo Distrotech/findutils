@@ -54,3 +54,13 @@ findutils-check-testfiles:
 	$(AUXDIR)/check-testfiles.sh "$(distdir)" "$(srcdir)" $(TESTFILE_SUFFIXES)
 
 
+findutils-check-smells:
+	find $(srcdir) \( -path $(srcdir)/autom4te.cache -o  \
+                           -path $(srcdir)/gnulib-cvs     -o  \
+                           -path $(srcdir)/gnulib         -o  \
+                           -name .git             -o  \
+                           \( -type d -name CVS \)  \
+                       \) -prune -o                  \
+	-type f \! \( -name '*~' -o -name '*.xo' -o -name '*.xi' \) \
+	-print0 | \
+	xargs -0 python $(AUXDIR)/src-sniff.py
