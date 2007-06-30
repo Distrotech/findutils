@@ -104,6 +104,13 @@ checkers = [
     [r'59 Temple Place.*02111-?1307\s*USA',
      "out of date FSF address"],
     ]),
+    # Bourne shell code smells
+    RegexChecker('\.sh$',
+                 [
+    		 ['for\s*\w+\s*in.*;\s*do',
+                  # Solaris 10 /bin/sh rejects this, see Autoconf manual
+                  "for loops should not contain a 'do' on the same line."],
+                 ], []),
     ]
 
 
