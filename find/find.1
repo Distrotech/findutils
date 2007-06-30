@@ -1369,6 +1369,45 @@ everybody (\-perm \-444 or \-perm \-a+r), have at least on write bit
 set (\-perm /222 or \-perm /a+w) but are not executable for anybody (!
 \-perm /111 and ! \-perm /a+x respectively)
 
+.P
+.nf
+.B cd /source-dir
+.B find . -name '.snapshot' \-prune \-o \e( \e! \-name '*~' \-print0 \e)|
+.B cpio -pmd0   /dest-dir
+
+.fi 
+This command copies the contents of 
+.B /source-dir
+to 
+.BR /dest-dir ,
+but omits files and directories named 
+.B .snapshot 
+(and anything in them).  It also omits files or directories whose name
+ends in
+.BR ~ ,
+but not their contents.  The construct 
+.B \-prune \-o \e( ... \-print0 \e)
+is quite common.  The idea here is that the expression before 
+.B \-prune 
+matches things which are to be pruned.  However, the 
+.B \-prune 
+action itself returns true, so the following 
+.B \-o 
+ensures that the right hand side is evaluated only for those
+directories which didn't get pruned (the contents of the pruned
+directories are not even visited, so their contents are irrelevant).
+The expression on the right hand side of the 
+.B \-o
+is in parentheses only for clarity.  It emphasises that the
+.B \-print0 
+action takes place only for things that didn't have 
+.B \-prune 
+applied to them.  Because the default 'and' condition between tests
+binds more tightly than 
+.BR \-o ,
+this is the default anyway, but the parentheses help to show
+what is going on.
+
 .SH EXIT STATUS
 .PP
 .B find
