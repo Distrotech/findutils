@@ -1,3 +1,10 @@
+2007-06-30  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #20263 in a more portable way.
+	* find/tree.c (cost_table_comparison): Avoid casting function
+	pointers to poiter-to-object, since this is not portable (or
+	of course conforming).  Instead, use memcmp().
+
 2007-06-28  Eric Blake  <ebb9@byu.net>
 
 	* import-gnulib.sh (run_gnulib_tool): Speed operation when

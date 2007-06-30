@@ -980,21 +980,20 @@ check_sorted(void *base, size_t members, size_t membersize,
 static int
 cost_table_comparison(const void *p1, const void *p2)
 {
+  /* We have to compare the function pointers with memcmp(), 
+   * because ISO C does not allow magnitude comparison of 
+   * function pointers (just equality testing).
+   */
   const struct pred_cost_lookup *pc1 = p1;
   const struct pred_cost_lookup *pc2 = p2;
-  const void* pf1 = (const void*)pc1->fn;
-  const void* pf2 = (const void*)pc2->fn;
+  union {
+    PRED_FUNC pfn;
+    char mem[sizeof (PRED_FUNC)];
+  } u1, u2;
 
-  /* We use casts to void* for > comparison because not all C
-   * compilers allow order comparison between functions.  For example,
-   * that would fail on DEC Alpha OSF/1 with native cc.
-   */
-  if (pc1->fn == pc2->fn)
-    return 0;
-  else if (pf1 > pf2)
-    return 1;
-  else
-    return -1;
+  u1.pfn = pc1->fn;
+  u2.pfn = pc2->fn;
+  return memcmp(u1.mem, u2.mem, sizeof(u1.pfn));
 }
 
 static enum EvaluationCost
@@ -1035,6 +1034,8 @@ get_pred_cost(const struct predicate *p)
 
       if (!pred_table_sorted)
 	{
+	  size_t i;
+	  
 	  qsort(costlookup,
 		sizeof(costlookup)/sizeof(costlookup[0]),
 		sizeof(costlookup[0]),
@@ -1045,7 +1046,7 @@ get_pred_cost(const struct predicate *p)
 			    sizeof(costlookup[0]),
 			    cost_table_comparison))
 	    {
-	      error(1, 0, "Failed to sort the costlookup array.");
+	      error(1, 0, "Failed to sort the costlookup array (indirect).");
 	    }
 	  pred_table_sorted = 1;
 	}
