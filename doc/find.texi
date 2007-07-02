@@ -3807,9 +3807,9 @@ performed, and compares the different ways of achieving them.
 
 @menu
 * Deleting Files::
+* Copying A Subset of Files::
 * Updating A Timestamp File::
 @end menu
-@c * Copying A Subset of Files::
 
 @node Deleting Files
 @section Deleting Files
@@ -4150,8 +4150,49 @@ portable.  The most efficient portable alternative is @samp{-exec
 @dots{}+}, but this is insecure and isn't supported by versions of GNU
 findutils prior to 4.2.12.
 
-@c @node Copying A Subset of Files
-@c @section Copying A Subset of Files
+@node Copying A Subset of Files
+@section Copying A Subset of Files
+
+Suppose you want to copy some files from @file{/source-dir} to
+@file{/dest-dir}, but there are a small number of files in
+@file{/source-dir} you don't want to copy. 
+
+One option of course is @code{cp /source-dir /dest-dir} followed by
+deletion of the unwanted material under @file{/dest-dir}.  But often
+that can be inconvenient, because for example we would have copied a
+large amount of extraneous material, or because @file{/dest-dir} is
+too small.  Naturally there are many other possible reasons why this
+strategy may be unsuitable.
+
+So we need to have some way of identifying which files we want to
+copy, and we need to have a way of copying that file list.  The second
+part of this condition is met by @code{cpio -p}.  Of course, we can
+identify the files we wish to copy by using @code{find}.  Here is a
+command that solves our problem:
+
+@example
+cd /source-dir
+find . -name '.snapshot' -prune -o \( \! -name '*~' -print0 \) | 
+cpio -pmd0   /dest-dir
+@end example
+
+The first part of the @code{find} command here identifies files or
+directoires named @file{.snapshot} and tells @code{find} not to
+recurse into them (since they do not need to be copied).  The
+combination @code{-name '.snapshot' -prune} yields false for anything
+that didn't get pruned, but it is exactly those files we want to
+copy.  Therefore we need to use an OR (@samp{-o}) condition to
+introduce the rest of our expression.  The remainder of the expression
+simply arranges for the name of any file not ending in @samp{~} to be
+printed.  
+
+Using @code{-print0} ensures that white space characters in file names
+do not pose a problem.  The @code{cpio} command does the actual work
+of copying files.  The program as a whole fails if the @code{cpio}
+program returns nonzero.  If the @code{find} command returns non-zero
+on the other hand, the Unix shell will not diagnose a problem (since
+@code{find} is not the last command in the pipeline).
+
 
 @node Updating A Timestamp File
 @section Updating A Timestamp File
