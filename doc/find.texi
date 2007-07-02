@@ -4284,36 +4284,14 @@ value of @code{$newest} if that variable is set, but to
 @file{timestamp} otherwise.  This ensures that an argument is always
 given to the @samp{-r} option of the @code{touch} command.
 
-This approach seems quite efficient, but unfortunately it has a bug.
-Many operating systems now keep file modification time information at
-a granularity which is finer than one second.  Unfortunately the
-@samp{%A@@} format for @samp{-printf} only prints a whole-number value
-currently; that is, these values are at a one-second granularity.
-This means that in our example above, @samp{$newest} will be the name
-of a file which is no more than one second older than the newest file,
-but may indeed be older.
+This approach seems quite efficient, but unfortunately it has a
+problem.  Many operating systems now keep file modification time
+information at a granularity which is finer than one second.
+Findutils version 4.3.3 and later will print a fractional part with
+%A@@, but older versions will not.
 
-It would be possible to solve this problem with some kind of loop:
 
-@smallexample
-while true; do
-        newest=$(find subdir -newer timestamp -printf "%A@@:%p\n" | 
-           sort -n | 
-           tail -1 | 
-           cut -d: -f2- ) 
-        if test -z "$newest" ; then
-                break
-        else
-                touch -r "$newest" timestamp
-        fi
-done
-@end smallexample
-
-A better fix for this problem would be to allow the @samp{%A@@} format
-to produce a result having a fractional part, too.  While this is
-planned for GNU @code{find}, it hasn't been done yet.
-
-@subsection Coping with sub-second timestamp resolution
+@subsection Solving the problem with make
 
 Another tool which often works with timestamps is @code{make}.  We can
 use @code{find} to generate a @file{Makefile} file on the fly and then
