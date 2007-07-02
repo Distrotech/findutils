@@ -1,5 +1,21 @@
 #! /usr/bin/env python
 
+# src-sniff.py: checks source code for patterns that look like common errors.
+# Copyright (C) 2007 Free Software Foundation, Inc.
+#
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
 import sys
@@ -24,11 +40,13 @@ def Problem(**kwargs):
 
 
 class RegexSniffer(object):
-    def __init__(self, source, message):
+    def __init__(self, source, message, regexflags=0):
         super(RegexSniffer, self).__init__()
-        self._regex = re.compile(source)
+        self._regex = re.compile(source, regexflags)
         self._msg = message
     def Sniff(self, text, filename, line):
+        #print >>sys.stderr, ("Matching %s against %s"
+        #                     % (text, self._regex.pattern))
         m = self._regex.search(text)
         if m:
             if line is None:
@@ -48,7 +66,7 @@ class RegexChecker(object):
         super(RegexChecker, self).__init__(self)
         self._regex = re.compile(regex)
         self._line_sniffers = [RegexSniffer(s[0],s[1]) for s in line_smells]
-        self._file_sniffers = [RegexSniffer(s[0],s[1]) for s in file_smells]
+        self._file_sniffers = [RegexSniffer(s[0],s[1],re.S|re.M) for s in file_smells]
     def Check(self, filename, lines, fulltext):
         if self._regex.search(filename):
             # We recognise this type of file.
@@ -104,6 +122,12 @@ checkers = [
     [r'59 Temple Place.*02111-?1307\s*USA',
      "out of date FSF address"],
     ]),
+    # Check everything for GPL version regression
+    RegexChecker('',
+                 [],
+                 [[r'G(nu |eneral )?P(ublic )?L(icense)?.{1,200}version [12]',
+                   "Out of date GPL version: %(matchtext)s"],
+                  ]),
     # Bourne shell code smells
     RegexChecker('\.sh$',
                  [
