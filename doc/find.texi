@@ -3809,6 +3809,7 @@ performed, and compares the different ways of achieving them.
 * Deleting Files::
 * Updating A Timestamp File::
 @end menu
+@c * Copying A Subset of Files::
 
 @node Deleting Files
 @section Deleting Files
@@ -3833,7 +3834,7 @@ We'll assume that the files we want to delete are old files underneath
 
 @subsection The Traditional Way
 
-The traditional way to delete files in @file{var/tmp/stuff} that have
+The traditional way to delete files in @file{/var/tmp/stuff} that have
 not been modified in over 90 days would have been:
 
 @smallexample
@@ -3943,7 +3944,7 @@ correctly handles all the possible characters that could appear in the
 list of files to delete.  This is good news.  However, there is, as
 I'm sure you're expecting, also more bad news.  The problem is that
 this is not a portable construct; although other versions of Unix
-(notable BSD-derived ones) support @samp{-print0}, it's not
+(notably BSD-derived ones) support @samp{-print0}, it's not
 universal.  So, is there a more universal mechanism?
 
 @subsection Going back to -exec
@@ -4149,6 +4150,8 @@ portable.  The most efficient portable alternative is @samp{-exec
 @dots{}+}, but this is insecure and isn't supported by versions of GNU
 findutils prior to 4.2.12.
 
+@c @node Copying A Subset of Files
+@c @section Copying A Subset of Files
 
 @node Updating A Timestamp File
 @section Updating A Timestamp File
