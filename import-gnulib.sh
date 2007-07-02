@@ -137,7 +137,7 @@ run_gnulib_tool() {
     fi
 
     set -x
-    if "$tool" --import --symlink --with-tests --dir=. --lib=libgnulib --source-base=gnulib/lib --m4-base=gnulib/m4 --gpl3 $modules
+    if "$tool" --import --symlink --with-tests --dir=. --lib=libgnulib --source-base=gnulib/lib --m4-base=gnulib/m4 $modules
     then
 	set +x
     else

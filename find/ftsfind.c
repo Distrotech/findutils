@@ -38,11 +38,7 @@
 #include <errno.h>
 #include <assert.h>
 
-#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
-#else
-#include <sys/file.h>
-#endif
 #include <sys/stat.h>
 
 #include <unistd.h>

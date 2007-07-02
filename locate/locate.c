@@ -79,10 +79,7 @@
 /* We need <unistd.h> for isatty(). */
 #include <unistd.h>
 
-#if HAVE_FCNTL_H
-/* We use fcntl() */
 #include <fcntl.h>
-#endif
 
 #define NDEBUG
 #include <assert.h>

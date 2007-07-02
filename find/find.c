@@ -36,11 +36,7 @@
 #include <assert.h>
 
 #include <sys/stat.h>
-#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
-#else
-#include <sys/file.h>
-#endif
 #include <openat.h>
 
 #include "xalloc.h"

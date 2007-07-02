@@ -36,10 +36,8 @@
  */
 #include <unistd.h>
 
-#ifdef HAVE_SYS_MNTIO_H
-#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
+#ifdef HAVE_SYS_MNTIO_H
 #include <sys/mntio.h>
 #endif
 #ifdef HAVE_SYS_MKDEV_H

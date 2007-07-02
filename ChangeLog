@@ -1,5 +1,9 @@
 2007-07-02  James Youngman  <jay@gnu.org>
 
+	* import-gnulib.sh: (run_gnulib_tool): Don't pass --gpl3 to
+	gnulib-tool, since the program does not have that option (that was
+	a local change which proved not to be necessary).
+
 	GPL3 migration.
 	* COPYING: Migrate to version 3 of the GNU General Public license.
 	* Makefile.am: ditto
@@ -65,6 +69,16 @@
 
 	* doc/find.texi (Updating A Timestamp File): Indicate that %A@ now
 	includes a sub-second part on many systems.
+
+	Include <fcntl.h> unconditionally.
+	* import-gnulib.config (modules): Also use the fcntl module.
+	* find/find.c: #include <fcntl.h> unconditionally, since
+	gnulib provides it if it is absent.
+	* find/fstype.c: Likewise.
+	* find/ftsfind.c: Likewise.
+	* find/parser.c: Likewise.
+	* find/util.c: Likewise.
+	* locate/locate.c: Likewise.
 
 2007-06-30  Eric Blake  <ebb9@byu.net>
 

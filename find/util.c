@@ -18,11 +18,7 @@
 #include <config.h>
 #include "defs.h"
 
-#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
-#else
-#include <sys/file.h>
-#endif
 #ifdef HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>
 #endif

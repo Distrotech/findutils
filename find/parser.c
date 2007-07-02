@@ -43,11 +43,8 @@
 #include "error.h"
 #include "gnulib-version.h"
 
-#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
-#else
-#include <sys/file.h>
-#endif
+
 
 /* The presence of unistd.h is assumed by gnulib these days, so we 
  * might as well assume it too. 
