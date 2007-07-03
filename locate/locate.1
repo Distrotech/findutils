@@ -197,11 +197,52 @@ results that vary between different versions of
 \fBfind\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1),
 \fBglob\fP(3),
 \fBFinding Files\fP (on-line in Info, or printed)
+.SH "HISTORY"
+The 
+.B locate
+program started life as the BSD fast find program, contributed to BSD
+by James A. Woods.  This was described by his paper 
+.I Finding Files Fast
+which was published in Usenix 
+.IR ;login: , 
+Vol 8, No 1, February/March, 1983, pp. 8-10.   When the 
+.B find 
+program began to assume a default
+.B -print 
+action if no action was specified, this changed the interpretation of
+.B find 
+.BR pattern .
+The BSD developers therefore moved the fast find functionality into 
+.BR locate .
+The GNU implementation of 
+.B locate
+appears to be derived from the same code.
+.P
+Significant changes to 
+.B locate
+in reverse order:
+.TS
+tab(|);
+LL.
+4.3.7 | Byte-order independent support for old database format
+4.3.3 | locate \fI\-i\fR supports multi-byte characters correctly
+      | Introduced \fI\-\-max_db_age\fR 
+4.3.2 | Support for the slocate database format
+4.2.22| Introduced the \fI\-\-all\fR option
+4.2.15| Introduced the \fI\-\-regex\fR option
+4.2.14| Introduced options \fI\-L, \-P, \-H\fR
+4.2.12| Empty items in \fBLOCATE_PATH\fR now indicate the default database
+4.2.11| Introduced the \fI\-\-statistics\fR option
+4.2.4 | Introduced \fI\-\-count\fR and \fI\-\-limit\fR
+4.2.0 | Glob characters cause matching against the whole file name
+4.0   | Introduced the LOCATE02 database format
+3.7   | Locate can search multiple databases
+.TE
 .SH "BUGS"
 .P
 The locate database correctly handles filenames containing newlines,
 but only if the system's sort command has a working
-.I \-z
+\-z
 option.  If you suspect that 
 .B locate
 may need to return filenames containing newlines, consider using its
