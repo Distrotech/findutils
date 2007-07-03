@@ -500,6 +500,9 @@ visit_old_format(struct process_data *procdata, void *context)
   register size_t i;
   (void) context;
 
+  if (EOF == procdata->c)
+    return VISIT_ABORT;
+
   /* Get the offset in the path where this path info starts.  */
   if (procdata->c == LOCATEDB_OLD_ESCAPE)
     procdata->count += getw (procdata->fp) - LOCATEDB_OLD_OFFSET;
@@ -513,6 +516,9 @@ visit_old_format(struct process_data *procdata, void *context)
   for (i=procdata->count;
        (procdata->c = getc (procdata->fp)) > LOCATEDB_OLD_ESCAPE;)
     {
+      if (EOF == procdata->c)
+	break;
+
       if (procdata->c < 0200)
 	{
 	  /* An ordinary character. */	  

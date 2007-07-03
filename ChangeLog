@@ -1,3 +1,9 @@
+2007-07-04  James Youngman  <jay@gnu.org>
+
+	* locate/locate.c (visit_old_format): Belt-and-braces: if
+	LOCATEDB_OLD_ESCAPE is less than EOF (which should never happen),
+	ensure we still terminate the fle reading loop on EOF.
+
 2007-06-28  Eric Blake  <ebb9@byu.net>
 
 	Improve gnulib-tool usage.
