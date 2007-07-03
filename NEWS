@@ -5,6 +5,14 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)*
 
 #19596: -printf %b should be compared with %s/512, not %s/1024.
 
+** Bug Fixes
+
+#20310: configure uses hosts's support status for "sort -z" when
+generating the updatedb script for use on the target.  This is not a
+reliable strategy when cross-compiling, so assume no support for -z in
+that situation.
+
+ 
 * Major changes in release 4.2.31
 
 ** Security Fixes
