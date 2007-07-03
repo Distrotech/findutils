@@ -8,8 +8,8 @@ Public License.
 
 ** Bug Fixes
 #20310: configure uses hosts's support status for "sort -z" when
-generating athe updfatedb script for use on the target.  This is not a
-reliable strategy, so assume no support for -z when cross compiling.
+generating the updatedb script for use on the target.  This is
+inappropriate when cross-compiling, so avoid doing that.
 
 #20263: Compilation fix for DEC Alpha OSF/1 cc, which forbids the
 ordering comparison of function pointers.
