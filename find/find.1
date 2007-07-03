@@ -390,7 +390,7 @@ returns false unless the symbolic link is broken.
 Like \-name, but the match is case insensitive.  For example, the
 patterns `fo*' and `F??' match the file names `Foo', `FOO', `foo',
 `fOo', etc.   In these patterns, unlike filename expansion by the
-shell, an initial '.' can be matched by '*'.  That is, 
+shell, an initial '.' can be matched by `*'.  That is, 
 .B find \-name *bar 
 will match the file `.foobar'.   Please note that you should quote
 patterns as a matter of course, otherwise the shell will expand any
@@ -495,23 +495,23 @@ See \-wholename.   The predicate \-path is also supported by HP-UX
 File's permission bits are exactly \fImode\fR (octal or symbolic).
 Since an exact match is required, if you want to use this form for
 symbolic modes, you may have to specify a rather complex mode string.
-For example '\-perm g=w' will only match files which have mode 0020
+For example `\-perm g=w' will only match files which have mode 0020
 (that is, ones for which group write permission is the only permission
-set).  It is more likely that you will want to use the '/' or '-'
-forms, for example '\-perm \-g=w', which matches any file with group
+set).  It is more likely that you will want to use the `/' or `-'
+forms, for example `\-perm \-g=w', which matches any file with group
 write permission.  See the
 .B EXAMPLES 
 section for some illustrative examples.
 .IP "\-perm \-\fImode\fR"
 All of the permission bits \fImode\fR are set for the file.
 Symbolic modes are accepted in this form, and this is usually the way
-in which would want to use them.  You must specify 'u', 'g' or 'o' if
+in which would want to use them.  You must specify `u', `g' or `o' if
 you use a symbolic mode.   See the 
 .B EXAMPLES 
 section for some illustrative examples.
 .IP "\-perm /\fImode\fR"
 Any of the permission bits \fImode\fR are set for the file.  Symbolic
-modes are accepted in this form.  You must specify 'u', 'g' or 'o' if
+modes are accepted in this form.  You must specify `u', `g' or `o' if
 you use a symbolic mode.  See the
 .B EXAMPLES 
 section for some illustrative examples.  If no permission bits in 
@@ -525,8 +525,8 @@ the behaviour of
 Deprecated, old way of searching for files with any of the permission
 bits in \fImode\fR set.  You should use
 .B \-perm \fI/mode\fR
-instead. Trying to use the '+' syntax with symbolic modes will yield
-surprising results.  For example, '+u+x' is a valid symbolic mode
+instead. Trying to use the `+' syntax with symbolic modes will yield
+surprising results.  For example, `+u+x' is a valid symbolic mode
 (equivalent to +u,+x, i.e. 0111) and will therefore not be evaluated
 as
 .B \-perm +\fImode\fR
@@ -539,8 +539,8 @@ alone - just use
 This form of the 
 .B \-perm
 test is deprecated because the POSIX specification requires the
-interpretation of a leading '+' as being part of a symbolic mode, and
-so we switched to using '/' instead.
+interpretation of a leading `+' as being part of a symbolic mode, and
+so we switched to using `/' instead.
 .IP "\-readable, \-writable, \-executable"
 Matches files which are readable, writable and executable,
 respectively.  This takes into account access control lists and other
@@ -625,17 +625,17 @@ File name matches shell pattern \fIpattern\fR.  The metacharacters do
 not treat `/' or `.' specially; so, for example,
 .br
 .in +1i
-find . \-wholename './sr*sc'
+find . \-wholename "./sr*sc"
 .br
 .in -1i
-will print an entry for a directory called './src/misc' (if one
+will print an entry for a directory called `./src/misc' (if one
 exists).  To ignore a whole directory tree, use \-prune rather than
 checking every file in the tree.  For example, to skip the
 directory `src/emacs' and all files and directories under it, and
 print the names of the other files found, do something like this:
 .br
 .in +1i
-find . \-wholename './src/emacs' \-prune \-o \-print
+find . \-wholename ./src/emacs \-prune \-o \-print
 .br
 .in -1i
 .IP "\-xtype \fIc\fR"
@@ -649,7 +649,7 @@ the type of the file that \-type does not check.
 .IP "\-delete\fR"
 Delete files; true if removal succeeded.  If the removal failed, an
 error message is issued.  Use of this action automatically turns on
-the '\-depth' option.
+the `\-depth' option.
 
 .IP "\-exec \fIcommand\fR ;"
 Execute \fIcommand\fR; true if 0 status is returned.  All following
@@ -677,7 +677,7 @@ selected file name at the end; the total number of invocations of the
 command will be much less than the number of matched files.  The
 command line is built in much the same way that
 .B xargs
-builds its command lines.  Only one instance of '{}' is allowed within
+builds its command lines.  Only one instance of `{}' is allowed within
 the command.  The command is executed in the starting directory.
 
 .IP "\-execdir \fIcommand\fR ;"
@@ -688,7 +688,7 @@ which you started
 .BR find .
 This a much more secure method for invoking commands, as it avoids
 race conditions during resolution of the paths to the matched files.
-As with the \-exec option, the '+' form of \-execdir will build a
+As with the \-exec option, the `+' form of \-execdir will build a
 command line to process more than one matched file, but any given
 invocation of
 .I command 
@@ -829,7 +829,7 @@ Second (00.00 .. 61.00).  There is a fractional part.
 .IP T
 time, 24-hour (hh:mm:ss)
 .IP +
-Date and time, separated by '+', for example
+Date and time, separated by `+', for example
 `2004\-04\-28+22:22:05.0'.  This is a GNU extension.  The time is
 given in the current timezone (which may be affected by setting the TZ
 environment variable).  The seconds field includes a fractional part.
@@ -916,14 +916,14 @@ than %s/1024, but it can also be smaller if the file is a sparse file.
 .IP %l
 Object of symbolic link (empty string if file is not a symbolic link).
 .IP %m
-File's permission bits (in octal).  This option uses the 'traditional'
+File's permission bits (in octal).  This option uses the `traditional'
 numbers which most Unix implementations use, but if your particular 
 implementation uses an unusual ordering of octal permissions bits, you
 will see a difference between the actual value of the file's mode and
 the output of %m.   Normally you will want to have a leading
 zero on this number, and to do this, you should use the 
 .B #
-flag (as in, for example, '%#m').
+flag (as in, for example, `%#m').
 .IP %M 
 File's permissions (in symbolic form, as for 
 .BR ls ).  
@@ -1027,7 +1027,7 @@ Many of the actions of
 result in the printing of data which is under the control of other
 users.  This includes file names, sizes, modification times and so
 forth.  File names are a potential problem since they can contain any
-character except '\\0' and '/'.  Unusual characters in file names can
+character except `\e0' and `/'.  Unusual characters in file names can
 do unexpected and often undesirable things to your terminal (for
 example, changing the settings of your function keys on some
 terminals).  Unusual characters are handled differently by various
@@ -1038,7 +1038,7 @@ going to a terminal.
 .IP "\-ls, \-fls"
 Unusual characters are always escaped.  White space, backslash, and
 double quote characters are printed using C-style escaping (for
-example '\\f', '\\"').  Other unusual characters are printed using an
+example `\ef', `\e"').  Other unusual characters are printed using an
 octal escape.  Other printable characters (for \-ls and \-fls these are
 the characters between octal 041 and 0176) are printed as-is.
 .IP "\-printf, \-fprintf"
@@ -1056,7 +1056,7 @@ This is not the same quoting mechanism as the one used for  \-ls and
 \-fls.   If you are able to decide what format to use for the output 
 of 
 .B find
-then it is normally better to use '\\0' as a terminator
+then it is normally better to use `\e0' as a terminator
 than to use newline, as file names can contain white space and newline
 characters.
 .IP "\-print, \-fprint"
@@ -1073,9 +1073,12 @@ may change in a future release.
 .P
 Listed in order of decreasing precedence:
 .IP "( \fIexpr\fR )"
-Force precedence.
+Force precedence.  Since parentheses are special to the shell, you
+will normally need to quote them.  Many of the examples in this manual
+page use backslashes for this purpose: `\e(...\e)' instead of `(...)'.
 .IP "! \fIexpr\fR"
-True if \fIexpr\fR is false.
+True if \fIexpr\fR is false.  This character will also usually need
+protection from interpretation by the shell.
 .IP "\-not \fIexpr\fR"
 Same as ! \fIexpr\fR, but not POSIX compliant.
 .IP "\fIexpr1 expr2\fR"
@@ -1090,12 +1093,11 @@ Or; \fIexpr2\fR is not evaluated if \fIexpr1\fR is true.
 .IP "\fIexpr1\fR \-or \fIexpr2\fR"
 Same as \fIexpr1\fR \-o \fIexpr2\fR, but not POSIX compliant.
 .IP "\fIexpr1\fR , \fIexpr2\fR"
-List; both \fIexpr1\fR and \fIexpr2\fR are always evaluated.
-The value of \fIexpr1\fR is discarded; the value of the list is the
-value of \fIexpr2\fR.	
-The comma operator can be useful for searching for several
-different types of thing, but traversing the filesystem hierarchy only
-once.   The 
+List; both \fIexpr1\fR and \fIexpr2\fR are always evaluated.  The
+value of \fIexpr1\fR is discarded; the value of the list is the value
+of \fIexpr2\fR. The comma operator can be useful for searching for
+several different types of thing, but traversing the filesystem
+hierarchy only once.  The
 .B \-fprintf  
 action can be used to list the various matched items into several
 different output files.
@@ -1113,7 +1115,7 @@ This option is supported, but POSIX conformance depends on the
 POSIX conformance of the system's 
 .BR fnmatch (3) 
 library function.  As of findutils-4.2.2, shell metacharacters
-('*'. '?' or '[]' for example) will match a leading '.', because 
+(`*'. `?' or `[]' for example) will match a leading `.', because 
 IEEE PASC interpretation 126 requires this.   This is a change from
 previous versions of findutils.
 .IP "\-type"
@@ -1229,7 +1231,9 @@ Affects the directories which are searched to find the executables
 invoked by `\-exec', `\-execdir', `\-ok' and `\-okdir'.
 .IP POSIXLY_CORRECT
 Determines the block size used by `\-ls' and `\-fls'.  
-If `POSIXLY_CORRECT' is set, blocks are units of 512 bytes.  Otherwise
+If 
+.B POSIXLY_CORRECT
+is set, blocks are units of 512 bytes.  Otherwise
 they are units of 1024 bytes.
 .IP TZ
 Affects the time zone used for some of the time-related format
@@ -1265,19 +1269,20 @@ on every file.
 
 .P
 .nf
-.B find . \-type f \-exec file '{}' \e\;
+.B find . \-type f \-exec file \(aq{}\(aq \e\;
 
 .fi
 Runs `file' on every file in or below the current directory.  Notice
 that the braces are enclosed in single quote marks to protect them
-from interpretation as shell script punctuation.   The semicolon is
-similarly protected by the use of a backslash, though ';' could have
-been used in that case also.
+from interpretation as shell script punctuation.  The semicolon is
+similarly protected by the use of a backslash, though single quotes
+could have been used in that case also.
 
 .P
 .nf
-.B find /  \t\e( \-perm \-4000 \-fprintf /root/suid.txt '%#m %u %p\en' \e) , \e
-.B       \t\t\e( \-size +100M \-fprintf /root/big.txt  '%\-10s %p\en' \e)
+.B find /  \e
+.B \e( \-perm \-4000 \-fprintf /root/suid.txt "%#m %u %p\en" \e) , \e
+.B \e( \-size +100M \-fprintf /root/big.txt  "%\-10s %p\en" \e)
 
 .fi
 Traverse the filesystem just once, listing setuid files and
@@ -1372,7 +1377,7 @@ set (\-perm /222 or \-perm /a+w) but are not executable for anybody (!
 .P
 .nf
 .B cd /source-dir
-.B find . -name '.snapshot' \-prune \-o \e( \e! \-name '*~' \-print0 \e)|
+.B find . -name .snapshot \-prune \-o \e( \e! \-name "*~" \-print0 \e)|
 .B cpio -pmd0   /dest-dir
 
 .fi 
@@ -1402,7 +1407,7 @@ is in parentheses only for clarity.  It emphasises that the
 .B \-print0 
 action takes place only for things that didn't have 
 .B \-prune 
-applied to them.  Because the default 'and' condition between tests
+applied to them.  Because the default `and' condition between tests
 binds more tightly than 
 .BR \-o ,
 this is the default anyway, but the parentheses help to show
@@ -1423,8 +1428,8 @@ on the correctness of the results of
 \fBlstat\fP(2), \fBls\fP(1), \fBprintf\fP(3), \fBstrftime\fP(3),
 \fBctime\fP(3), \fBFinding Files\fP (on-line in Info, or printed).
 .SH "HISTORY"
-As of findutils-4.2.2, shell metacharacters ('*'. '?' or '[]' for
-example) used in filename patterns will match a leading '.', because
+As of findutils-4.2.2, shell metacharacters (`*', `?' or `[]' for
+example) used in filename patterns will match a leading `.', because
 IEEE POSIX interpretation 126 requires this.
 .P
 The syntax 
