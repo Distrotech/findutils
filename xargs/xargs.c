@@ -444,7 +444,9 @@ main (int argc, char **argv)
 #if defined(ARG_MAX)
       assert(bc_ctl.arg_max <= (ARG_MAX-2048));
 #endif
+#ifdef LINE_MAX
       assert(bc_ctl.arg_max >= LINE_MAX);
+#endif
       
       bc_ctl.exec_callback = xargs_do_exec;
       
