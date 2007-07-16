@@ -1,3 +1,14 @@
+2007-07-16  Eric Blake  <ebb9@byu.net>
+
+	Ensure 'make distcheck' can pass on cygwin.
+	* configure.in: Bump version number.
+	* NEWS: Add release dates.
+	* lib/gnulib-version.sh: Don't write to $srcdir during 'make
+	distcheck'.
+	* locate/Makefile.am (AM_INSTALLCHECK_STD_OPTIONS_EXEMPT): Be
+	aware of .exe.
+	* doc/texinfo.tex: Remove generated file from CVS.
+
 2007-07-14  Eric Blake  <ebb9@byu.net>
 
 	* xargs/xargs.c (main): Fix Savannah bug #19660.
@@ -29,6 +40,8 @@
 	* NEWS: mention the fix.
 
 2007-05-30  James Youngman  <jay@gnu.org>
+
+	Release 4.2.31.
 
 	* locate/locate.c (visit_old_format, extend, toolong): Extend the
 	buffer used to build the current pathname when reading an
@@ -142,6 +155,8 @@
 	Report which version of Gnulib we were built from.
 
 2007-02-27  James Youngman  <jay@gnu.org>
+
+	Release 4.2.30.
 
 	* import-gnulib.sh, find/defs.h, find/fstype.c, find/tree.c,
 	find/util.c, find/testsuite/config/unix.exp, lib/buildcmd.c, lib/buildcmd.h

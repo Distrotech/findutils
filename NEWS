@@ -13,8 +13,8 @@ reliable strategy when cross-compiling, so assume no support for -z in
 that situation.
 
 #19660: Fix compilation failure on Cygwin.
- 
-* Major changes in release 4.2.31
+
+* Major changes in release 4.2.31, 2007-05-30
 
 ** Security Fixes
 
@@ -54,7 +54,7 @@ visible to those using the findutils binaries, except for changes to
 the output of "find --version", which should now show the version of
 Gnulib which was used.
 
-* Major changes in release 4.2.30
+* Major changes in release 4.2.30, 2007-02-27
 
 ** Bug Fixes
 
@@ -73,7 +73,7 @@ compilation failure in find.
 Some typos in the Texinfo manual and one typo in in the usage message
 for xargs have been fixed.
 
-* Major changes in release 4.2.29
+* Major changes in release 4.2.29, 2006-11-25
 
 ** Documentation Fixes
 
@@ -94,7 +94,7 @@ the shell.
 now generates an error message.
 
 
-* Major changes in release 4.2.28
+* Major changes in release 4.2.28, 2006-08-05
 
 ** Bug Fixes
 
@@ -123,7 +123,7 @@ The following translations have been updated:
  Chinese (traditional), Bulgarian
 
 
-* Major changes in release 4.2.27
+* Major changes in release 4.2.27, 2005-12-06
 
 ** Warnings of Future Changes
 
@@ -159,7 +159,7 @@ The 'find' manual page now correctly documents the fact that -regex
 defaults to using Emacs-style regular expressions (though this can be
 changed).
 
-* Major changes in release 4.2.26
+* Major changes in release 4.2.26, 2005-11-19
 
 ** Public Service Announcements
 
@@ -218,7 +218,7 @@ and -i options have been clarified (but the behaviour has not changed).
 The documentation now explains more clearly what happens when you use
 "-L -type l".
 
-* Major changes in release 4.2.25
+* Major changes in release 4.2.25, 2005-09-03
 
 ** Bug Fixes
 
@@ -241,7 +241,7 @@ also (once again) build on Cygwin.
 
 The test suite for find is now much more extensive.
 
-* Major changes in release 4.2.24
+* Major changes in release 4.2.24, 2005-07-29
 
 ** Documentation Changes
 
@@ -321,7 +321,7 @@ The "%Y" directive for the -printf action now no longer changes find's
 idea of the mode of the file, so this means among other things that
 "-printf %Y %y" now works properly.  This is Savannah bug #13973.
 
-* Major changes in release 4.2.23
+* Major changes in release 4.2.23, 2005-06-19
 
 ** Documentation Changes
 
@@ -338,7 +338,7 @@ message if the user tries to do that.  The obvious exception of course
 is "/" which does work and is not rejected.
 
 
-* Major changes in release 4.2.22
+* Major changes in release 4.2.22, 2005-06-12
 
 ** Security Fixes
 
@@ -373,7 +373,7 @@ symptoms that look like bugs but aren't.  The explanations of the "%k"
 and "%b" directives to "find -printf" have been imrpoved.
 
 
-* Major changes in release 4.2.21
+* Major changes in release 4.2.21, 2005-06-07
 ** Functional Changes to find
 
 The GNU extension "find ... -perm +MODE" has been withdrawn because it
@@ -409,7 +409,7 @@ Regular Expressions.  (Savannah bug #12999)
 The updatedb program now works on systems where "su" does not support
 the "-s" option, for example Solaris.
 
-* Major changes in release 4.2.20
+* Major changes in release 4.2.20, 2005-03-17
 ** Internationalization and Localization
 Updated Vietnamese and Dutch translations.   
 
@@ -417,7 +417,7 @@ Updated Vietnamese and Dutch translations.
 Minor bugfix affecting only those who compile from the CVS repository, 
 as opposed to those who compile from the source releases.
 
-* Major changes in release 4.2.19
+* Major changes in release 4.2.19, 2005-03-07
 ** Bug Fixes
 
 find should now no longer hang on systems which lack the O_NOFOLLOW
@@ -453,7 +453,7 @@ Fixed some typos and clarified wording in "Working with automounters".
 ** Internationalization and Localization
 New Vietnamese message translation.
 
-* Major changes in release 4.2.18
+* Major changes in release 4.2.18, 2005-02-16
 ** Bug Fixes
 *** "find -depth" was missing out non-leaf directories when they contain 
     non-directories.  This affected findutils releases 4.2.15,
@@ -463,7 +463,7 @@ New Vietnamese message translation.
 **  Documentation improvements
 *** Improvements and corrections to the find.1 manpage, including corrections to the descriptions of -H and -L.
 
-* Major changes in release 4.2.17
+* Major changes in release 4.2.17, 2005-02-08
 ** Bug Fixes
 *** bug #11861 	undefined symbol "basename" on IRIX 5.3 
 *** bug #11865 	xargs -i regression  (as compared to findutils-4.2.12)
@@ -473,7 +473,7 @@ New Vietnamese message translation.
 *** find bar/baz/ugh now works again if baz is a symbolic link (broken 
     in 4.2.15).
 
-* Major changes in release 4.2.16
+* Major changes in release 4.2.16, 2005-02-05
 **  Functionality Changes
 *** Updated the message catalogues for the translated messages.
 *** The subfs filesystem is now treated the same as the autofs
@@ -486,12 +486,12 @@ New Vietnamese message translation.
 *** The -execdir action now works correctly for files named on the 
     command line.
 
-* Major changes in release 4.2.15
+* Major changes in release 4.2.15, 2005-01-29
 **  Functionality Changes
 *** locate now supports matching regular expression (--regex).
 *** --enable-d_type-optimization (introduced in findutils 4.2.13) is now turned on by default.
 
-* Major changes in release 4.2.14
+* Major changes in release 4.2.14, 2005-01-25
 **  Functionality Changes
 *** New options -L, -P, -H for locate.  The work in the same was as the same options for find.
 **  Bug Fixes
@@ -502,7 +502,7 @@ New Vietnamese message translation.
 **  Documentation improvements
 *** All options for "locate" are now documented
 
-* Major changes in release 4.2.13
+* Major changes in release 4.2.13, 2005-01-23
 **  Performance Enhancements
 *** On Linux and some other systems, a large performance improvement, 
     because we can eliminate many of the calls to lstat() (in extreme
@@ -510,7 +510,7 @@ New Vietnamese message translation.
     filesystems.  Other systems which can make use of this enhancement
     include Mac OS X and *BSD.
 
-* Major changes in release 4.2.12
+* Major changes in release 4.2.12, 2005-01-22
 **  Functionality Changes
 *** find is now POSIX-compliant, as far as I know.
 *** -exec ... {} + now works.
@@ -524,7 +524,7 @@ New Vietnamese message translation.
     output is redirected to a file and the disk is full, the 
     relevant program will return a non-zero exit status.
 
-* Major changes in release 4.2.11
+* Major changes in release 4.2.11, 2004-12-12
 **  Bug Fixes
 *** Compilation fix for systems without EOVERFLOW.
 *** More helpful error message if you make a mistake with (, ), -o or -a.
@@ -543,13 +543,13 @@ New Vietnamese message translation.
 *** locate's options -i and -w now work with the -e option (previously a bug 
     prevented this).
 
-* Major changes in release 4.2.10
+* Major changes in release 4.2.10, 2004-12-06
 **  Bug Fixes
 *** Portability fix for fstype.c: should now compile on UNICOS, and possibly 
     also produce useful results on BeOS and Dolphin, perhaps other
     systems too.   
 
-* Major changes in release 4.2.9
+* Major changes in release 4.2.9, 2004-12-05
 **  Functionality Changes
 *** xargs no longer treats a line containing only an underscore as a logical end-of-file.   To obtain the behaviour that was previously the default, use "-E_". 
 *** xargs now supports the POSIX options -E, -I and -L.   These are synonyms 
@@ -567,12 +567,12 @@ New Vietnamese message translation.
 *** The precise interpretation of the arguments to the -atime, -ctime 
     and similar tests in find has been documented more clearly.
 
-* Major changes in release 4.2.8
+* Major changes in release 4.2.8, 2004-11-24
 *** Bugfix to the findutils 4.2.7 automount handling on Solaris.  This 
     worked to some extent in findutils-4.2.7, but is much improved in
     findutils-4.2.8.
 
-* Major changes in release 4.2.7
+* Major changes in release 4.2.7, 2004-11-21
 **  Functionality Changes
 *** xargs can now read a list of arguments from a named file, allowing 
     the invoked program to use the same stdin as xargs started with
@@ -589,7 +589,7 @@ New Vietnamese message translation.
 *** Reenabled internationalisation support (which had been accidentally 
     disabled in findutils-4.2.5).
 
-* Major changes in release 4.2.6
+* Major changes in release 4.2.6, 2004-11-21
 **  Bug Fixes
 *** find now copes rather better when a directory appears to change just as
     it is about to start examining it, which happens with automount.
@@ -597,7 +597,7 @@ New Vietnamese message translation.
     directory into them.  This should resolve Savannah bugs #3998,
     #9043.
 
-* Major changes in release 4.2.5
+* Major changes in release 4.2.5, 2004-11-11
 **  Functionality Changes
 *** The POSIX options -H and -L are supported.  These control whether or not
     find will follow symbolic links.
@@ -614,7 +614,7 @@ New Vietnamese message translation.
     warnings because we try to link with the nonexistent library
     "-lsun".  Edit $(LIBS) to work around this problem.
 
-* Major changes in release 4.2.4
+* Major changes in release 4.2.4, 2004-11-08
 **  Functionality Changes
 *** If your system sort command has a working "-z" option, updatedb will
     now correctly handle newline characters in filenames (as will
@@ -651,7 +651,7 @@ New Vietnamese message translation.
     value).
 *** Corrected section numbers of manual page cross-references
 
-* Major changes in release 4.2.3
+* Major changes in release 4.2.3, 2004-10-30
 **  Functionality Changes
 *** Added new action -delete which deletes things that find matches.
 *** Added new action -quit which causes find to exit immediately.
@@ -670,7 +670,7 @@ New Vietnamese message translation.
 ** Other Changes
 *** Non-functional code changes to silence compiler warnings.
 
-* Major changes in release 4.2.2
+* Major changes in release 4.2.2, 2004-10-24
 **  Documentation improvements
 *** "find ... -exec {}+" is not yet supported.
 ** Bug Fixes
@@ -686,13 +686,13 @@ New Vietnamese message translation.
     directory, while gnulib is in the gnulib subdirectory.
 *** Fixed a typo in the address of the FSF in many of the file headers.
 
-* Major changes in release 4.2.1
+* Major changes in release 4.2.1, 2004-10-17
 ** Bug Fixes
 *** 'find -name \*bar now matches .foobar, because the POSIX standard 
      requires it, as explained at
      http://standards.ieee.org/reading/ieee/interp/1003-2-92_int/pasc-1003.2-126.html
 
-* Major changes in release 4.2.1
+* Major changes in release 4.2.1, 2004-10-17
 ** Bug Fixes
 *** find -iname now works correctly on systems that have an fnmatch() function 
     that does not support FNM_CASEFOLD
@@ -702,7 +702,7 @@ New Vietnamese message translation.
 ** Other Changes
 **** findutils now uses a newer version of gnulib (dated 2004-10-17).
 
-* Major changes in release 4.2.0
+* Major changes in release 4.2.0, 2003-06-14
 ** Functionality Changes
 *** xargs now works better when the environment variables are very extensive.
     The xargs command used to run into difficulties if the environment 
@@ -749,7 +749,7 @@ New Vietnamese message translation.
 *** The %k format specifier for -fprintf now works
     This was broken in 4.1.20.
 
-* Major changes in release 4.1.20:
+* Major changes in release 4.1.20, 2003-06-14:
 ** New maintainer, James Youngman <jay@gnu.org>
 ** As far as I know, this is the first release after 4.1.7, but I've left 
    a gap just in case. 
@@ -760,35 +760,38 @@ New Vietnamese message translation.
    README-CVS).
 ** There are no (deliberate) functional changes in version 4.1.20.
 
-* Major changes in release 4.1.7:
+* Major changes in release 4.1.7, 2001-05-20:
 fix problem so that default "-print" is added when "-prune" is used.
 security fixes related to directories changing while find is executing.
 
-* Major changes in release 4.1.6:
+* Major changes in release 4.1.6, 2000-10-10:
 correct bug in prune.
 added --ignore-case option for locate
 
-* Major changes in release 4.1.5:
+* Major changes in release 4.1.5, 2000-04-12:
 Add support for large files
 
-* Major changes in release 4.1.4:
+* Major changes in release 4.1.4, 2000-02-26:
 bug fixes, more up-to-date languages.
 
-* Major changes in release 4.1.3:
+* Major changes in release 4.1.3, 2000-01-27:
 added internationalization and localization.
 
-* Major changes in release 4.1.1:
+* Major changes in release 4.1.2, 2000-01-18:
+None.
+
+* Major changes in release 4.1.1, 1999-08-8:
 attempt at successful compilation on many platforms after years of neglect
  "--existing" option added to locate "--prunefs" option added to updatedb
 
-* Major changes in release 4.1:
+* Major changes in release 4.1, 1994-11-3:
 
 ** Distribution renamed to findutils.
 ** updatedb is now a user command, installed in $exec_prefix/bin
   instead of $exec_prefix/libexec.
 ** A few problems in Makefiles and testsuite corrected.
 
-* Major changes in release 4.0:
+* Major changes in release 4.0, 1994-11-2:
 
 ** Documentation:
 *** Texinfo manual.
@@ -821,7 +824,7 @@ attempt at successful compilation on many platforms after years of neglect
 *** The EOF string is not used when -0 is given.
 *** Now has a test suite.  Some minor bugs fixed as a result.
 
-* Major changes in release 3.8:
+* Major changes in release 3.8, 1993-03-29:
 
 ** case insensitive versions of -lname, -name, -path, -regex:
   -ilname, -iname, -ipath, -iregex
@@ -832,6 +835,18 @@ attempt at successful compilation on many platforms after years of neglect
 ** locate can search multiple databases
 ** locate has an option to specify the database path
 ** updatedb no longer goes into an infinite loop with some versions of tail
+
+* No NEWS was kept for earlier releases.  Known release dates include:
+** release 3.2, 1991-08-28
+** release 3.1, 1991-08-21
+** release 3.0, 1991-08-21
+** release 2.2, 1991-04-05
+** release 2.1, 1991-01-01
+** release 2.0, 1990-11-20
+** release 1.2, 1990-07-03
+** release 1.1, 1990-06-24
+** release 1.0, 1990-06-22
+** beginning of findutils history, 1987-02-21
 
                         --//--
 This is used by Emacs' spell checker ispell.el:
