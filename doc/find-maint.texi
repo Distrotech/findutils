@@ -95,7 +95,7 @@ mailing list.  We'll try to improve this document too.
 
 GNU Findutils is part of the GNU Project and so there are a number of
 documents which set out standards for the maintenance of GNU
-software.  
+software.
 
 @table @file
 @item standards.texi
@@ -153,7 +153,7 @@ security.  For example, the sanity checks that @code{find} performs
 while traversing a directory tree may slow it down.   We adopt
 functional changes, and functional changes are allowed to make
 @code{find} slower, but only if there is no detectable impact on users
-who don't use the feature.  
+who don't use the feature.
 
 Backward-incompatible changes do get made in order to comply with
 standards (for example the behaviour of @code{-perm -...} changed in
@@ -173,7 +173,7 @@ pass.  Some features of the code are tested well, but the test
 coverage for other features is less good.  If you are about to modify
 the code for a predicate and aren't sure about the test coverage, use
 @code{grep} on the test directories and measure the coverage with
-@code{gcov} or another test coverage tool.  
+@code{gcov} or another test coverage tool.
 
 Lastly, we try not to depend on having a ``working system''.  The
 findutils suite is used for diagnosis of problems, and this applies
@@ -221,14 +221,14 @@ explain some idioms and practices in use in the findutils source code,
 and leave it up to the reader's engineering judgement to decide which
 considerations apply to the code they are working on, and whether or
 not there is sufficient reason to ignore the guidance in current
-circumstances.  
+circumstances.
 
 
 @menu
 * Make the Compiler Find the Bugs::
 * The File System Is Being Modified::
 * Don't Trust the File System Contents::
-* Debugging is For Users Too:: 
+* Debugging is For Users Too::
 * Factor Out Repeated Code::
 @end menu
 
@@ -247,7 +247,7 @@ The test suite is of course not the only way to find the bugs.  The
 findutils source code makes liberal use of the assert macro.  While on
 the one hand these might be a performance drain, the performance
 impact of most of these is negligible compared to the time taken to
-fetch even one sector from a disk drive.  
+fetch even one sector from a disk drive.
 
 Assertions should not be used to check the results of operations which
 may be affected by the program's external environment.  For example,
@@ -272,14 +272,14 @@ character.  In any case, there is a subset of cases where we can
 persuade the compiler to generate an error message when we make this
 mistake; this is where the equality test is with a constant.
 
-This is an example of a vulnerable piece of code.  
+This is an example of a vulnerable piece of code.
 
 @example
 if (x == 2)
  ...
 @end example
 
-A simple typo converts the above into 
+A simple typo converts the above into
 
 @example
 if (x = 2)
@@ -318,7 +318,7 @@ Consider what happens if there is an unfortunate typo:
 We have changed the meaning of our program and the compiler cannot
 diagnose this as an error.  Our string is no longer terminated.  Bad
 things will probably happen.  It would be better if the compiler could
-help us diagnose this problem.  
+help us diagnose this problem.
 
 In C, the type of @code{'\0'} is in fact int, not char.  This provides
 us with a simple way to avoid this error.  The constant @code{0} has
@@ -374,7 +374,7 @@ Solaris Doors)
 Please exercise caution when working in those areas.
 
 
-@node    Debugging is For Users Too 
+@node    Debugging is For Users Too
 @section Debugging is For Users Too
 
 Debug and diagnostic code is often used to verify that a program is
@@ -426,7 +426,7 @@ less helpful.
 Bear in mind also that it is possible for the directory @code{find} is
 currently searching could be moved to another point in the filesystem,
 and that the directory in which @code{find} was started could be
-deleted. 
+deleted.
 
 Henry Spencer's sixth commandment is also apposite here:
 @quotation
@@ -440,7 +440,7 @@ shall surely punish thee for thy arrogance.
 There are a lot of files out there.  They come in all dates and
 sizes.  There is a condition out there in the real world to exercise
 every bit of the code base.  So we try to test that code base before
-someone falls over a bug.  
+someone falls over a bug.
 
 
 @node Tools
@@ -459,7 +459,7 @@ information we can work to remove unnecessary file system operations.
 Valgrind is a tool which dynamically verifies the memory accesses a
 program makes to ensure that they are valid (for example, that the
 behaviour of the program does not in any way depend on the contents of
-uninitialised memory).  
+uninitialised memory).
 
 @item DejaGnu
 DejaGnu is the test framework used to run the findutils test suite
@@ -467,7 +467,7 @@ DejaGnu is the test framework used to run the findutils test suite
 everybody building @code{findutils} also ran the test suite, but many
 people don't have DejaGnu installed.  When changes are made to
 findutils, DejaGnu is invoked a lot. @xref{Testing}, for more
-information. 
+information.
 @end table
 
 @node Using the GNU Portability Library
@@ -483,7 +483,7 @@ GNU libc system with a bug in the regex implementation.
 @section How and Why we Import the Gnulib Code
 Gnulib does not have a release process which results in a source
 tarball you can download.  Instead, the code is simply made available
-by CVS.  
+by CVS.
 
 GNU projects vary in how they interact with Gnulib.  Many import a
 selection of code from Gnulib into the working directory and then
@@ -542,7 +542,7 @@ version skew is prevented.
 
 However, sometimes we want deliberate version skew in order to use a
 findutils-specific patched version of a Gnulib file, for example
-because we fixed a bug.  
+because we fixed a bug.
 
 Gnulib is used by quite a number of GNU projects, and this means that
 it gets plenty of testing.  Therefore there are relatively few bugs in
@@ -568,7 +568,7 @@ use to import the code from a local copy of Gnulib.
 @item Build findutils
 Build findutils and run the test suite, which should pass.  In our
 example we assume you have just noticed a bug in Gnulib, not that
-recent Gnulib changes broke the findutils regression tests.  
+recent Gnulib changes broke the findutils regression tests.
 @item Write a test case
 If in fact Gnulib did break the findutils regression tests, you can probably
 skip this step, since you already have a test case demonstrating the problem.
@@ -581,12 +581,12 @@ directory you checked out earlier.   Observe that your test now passes.
 Use @code{cvs -z3 diff -upN} to prepare the patch.  Write a ChangeLog
 entry and prepend this to the patch.  Check that the patch conforms
 with the GNU coding standards, and email it to the Gnulib mailing
-list.  
+list.
 @item Wait for the patch to be applied
 Once your bug fix has been applied, you can update your local directory
 from CVS, re-import the code into Findutils (still using the @code{-d}
 option), and re-run the tests.  This verifies that the fix the Gnulib
-team made actually fixes your problem.  
+team made actually fixes your problem.
 @item Reimport the Gnulib code
 Update the findutils file @file{import-gnulib.config} to specify a
 date which is after the point at which the bug fix was committed to
@@ -632,7 +632,7 @@ tutorial material.
 @item ABOUT-NLS
 Describes the Free Translation Project, the translation status of
 various GNU projects, and how to participate by translating an
-application.  
+application.
 @item AUTHORS
 Lists the authors of findutils.
 @item COPYING
@@ -660,6 +660,7 @@ Mainly obsolete.
 @item NEWS
 Enumerates the user-visible change in each release.  Typical changes
 are fixed bugs, functionality changes and documentation changes.
+Include the date when a release is made.
 @item ChangeLog
 This file enumerates all changes to the findutils source code (with
 the possible exception of @file{.cvsignore} and @code{.gitignore}
@@ -669,7 +670,7 @@ If a change fixes a bug, always give the bug reference number in both
 the @file{ChangeLog} and @file{NEWS} files and of course also in the
 checkin message.  In general, it should be possible to enumerate all
 material changes to a function by searching for its name in
-@file{ChangeLog}.
+@file{ChangeLog}.  Mention when each release is made.
 @end table
 
 @node Testing
@@ -693,7 +694,7 @@ life-cycle of a bug is like this:
 Someone, usually a maintainer, a distribution maintainer or a user,
 creates a bug by filling in the form.   They fill in field values as
 they see fit.  This will generate an email to
-@email{bug-findutils@@gnu.org}.  
+@email{bug-findutils@@gnu.org}.
 
 @item Triage
 The bug hangs around with @samp{Status=None} until someone begins to
@@ -738,10 +739,10 @@ we could not hope to cover them all.
 Often, bugs are raised against a distribution's bug tracker instead of
 GNU's.    Periodically (about every six months) I take a look at some
 of the more accessible bug trackers to indicate which bugs have been
-fixed upstream.  
+fixed upstream.
 
 Many distributions include both findutils and the slocate package,
-which provides a replacement @code{locate}.  
+which provides a replacement @code{locate}.
 
 
 @node Internationalisation
@@ -764,7 +765,7 @@ If someone reports a security bug publicly, we should fix this as
 rapidly as possible.  If necessary, this can mean issuing a fixed
 release containing just the one bug fix.  We try to avoid issuing
 releases which include both significant security fixes and functional
-changes.  
+changes.
 
 Where someone reports a security problem privately, we generally try
 to construct and test a patch without checking the intermediate code
@@ -772,7 +773,7 @@ in.  Once everything has been tested, this allows us to commit a patch
 and immediately make a release.   The advantage of doing things this
 way is that we avoid situations where people watching for CVS commits
 can figure out and exploit a security problem before a fixed release
-is available. 
+is available.
 
 It's important that security problems be fixed promptly, but don't
 rush so much that things go wrong.  Make sure the new release really
@@ -914,12 +915,12 @@ good: $ver"
 	  fi
        else
 	  # the regular locate failed
-	  ugly="$ugly 
+	  ugly="$ugly
 buggy, may or may not be vulnerable: $ver"
        fi
     done
     rm -f "$@{dbfile@}" "$@{vanilla_db@}"
-    # good: unaffected.  bad: affected (vulnerable).  
+    # good: unaffected.  bad: affected (vulnerable).
     # ugly: doesn't even work for a normal old-format database.
     echo "$good"
     echo "$bad"
@@ -965,7 +966,7 @@ diff -u -p -r1.58.2.2 locate.c
 --- locate/locate.c	22 Apr 2007 16:57:42 -0000	1.58.2.2
 +++ locate/locate.c	28 May 2007 10:18:16 -0000
 @@@@ -124,9 +124,9 @@@@ extern int errno;
- 
+
  #include "locatedb.h"
  #include <getline.h>
 -#include "../gnulib/lib/xalloc.h"
@@ -980,7 +981,7 @@ diff -u -p -r1.58.2.2 locate.c
 @@@@ -468,10 +468,36 @@@@ visit_justprint_unquoted(struct process_
    return VISIT_CONTINUE;
  @}
- 
+
 +static void
 +toolong (struct process_data *procdata)
 +@{
@@ -1013,17 +1014,17 @@ diff -u -p -r1.58.2.2 locate.c
 -  register char *s;
 +  register size_t i;
    (void) context;
- 
+
    /* Get the offset in the path where this path info starts.  */
 @@@@ -479,20 +505,35 @@@@ visit_old_format(struct process_data *pr
      procdata->count += getw (procdata->fp) - LOCATEDB_OLD_OFFSET;
    else
      procdata->count += procdata->c - LOCATEDB_OLD_OFFSET;
 +  assert(procdata->count > 0);
- 
+
 -  /* Overlay the old path with the remainder of the new.  */
 -  for (s = procdata->original_filename + procdata->count;
-+  /* Overlay the old path with the remainder of the new.  Read 
++  /* Overlay the old path with the remainder of the new.  Read
 +   * more data until we get to the next filename.
 +   */
 +  for (i=procdata->count;
@@ -1041,7 +1042,7 @@ diff -u -p -r1.58.2.2 locate.c
 +    @{
 +      if (procdata->c < 0200)
 +	@{
-+	  /* An ordinary character. */	  
++	  /* An ordinary character. */
 +	  extend (procdata, i, 1u);
 +	  procdata->original_filename[i++] = procdata->c;
 +	@}
@@ -1056,15 +1057,15 @@ diff -u -p -r1.58.2.2 locate.c
 +    @}
 +
 +  /* Consider the case where we executed the loop body zero times; we
-+   * still need space for the terminating null byte. 
++   * still need space for the terminating null byte.
 +   */
 +  extend (procdata, i, 1u);
 +  procdata->original_filename[i] = 0;
- 
+
    procdata->munged_filename = procdata->original_filename;
 @end verbatim
 
-   
+
 VIII. THANKS
 ============
 
@@ -1108,7 +1109,7 @@ Copy the tarball somewhere safe.
 @item Tag the release; findutils releases are tagged in CVS as
 FINDUTILS_x_y_z-1.  For example, the tag for findutils release 4.3.8
 is FINDUTILS_4_3_8-1.
-@item Prepare the upload and upload it.  
+@item Prepare the upload and upload it.
 @xref{Automated FTP Uploads, ,Automated FTP
 Uploads, maintain, Information for Maintainers of GNU Software},
 for detailed upload instructions.

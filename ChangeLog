@@ -1,3 +1,16 @@
+2007-07-17  Eric Blake  <ebb9@byu.net>
+
+	Ensure 'make distcheck' can pass on cygwin.
+	* configure.in: Rename...
+	* configure.ac: ...to this, to match automake recommendations.
+	* NEWS: Add release dates.
+	* doc/find-maint.texi (Documentation): Document where release
+	dates are usefully recorded.
+	* locate/Makefile.am (AM_INSTALLCHECK_STD_OPTIONS_EXEMPT): Be
+	aware of .exe.
+	* .cvsignore: Ignore 'make dist' files.
+	* po/.cvsignore: Ignore remove-potcdate.sed.
+
 2007-07-14  Eric Blake  <ebb9@byu.net>
 
 	* import-gnulib.config (gnulib_version): Bump date, to pick
@@ -300,6 +313,8 @@
 
 2007-06-12  James Youngman  <jay@gnu.org>
 
+	Release 4.3.8.
+
 	* find/find.1 (HISTORY): Document when the find tests -readable,
 	-writable, -executable and the option -regextype were introduced.
 
@@ -322,6 +337,8 @@
 	* find/testsuite/find.gnu/fprint-unwritable.exp: Use fs_superuser.
 
 2007-06-09  James Youngman  <jay@gnu.org>
+
+	Release 4.3.7.
 
 	Check that we can correctly read old-format databases which are
 	big-endian or little endian.
@@ -549,6 +566,8 @@
 
 2007-05-21  James Youngman  <jay@gnu.org>
 
+	Release 4.3.6.
+
 	* build-aux/Makefile.am (EXTRA_DIST): Added man-lint.sh.
 
 	* locate/locate.c (drop_privs): pass the correct list of groups to
@@ -716,6 +735,8 @@
 	(parse_fprintf): Use collect_arg().
 
 2007-05-05  James Youngman  <jay@gnu.org>
+
+	Release 4.3.5.
 
 	* find/parser.c (parse_samefile): Hold a file descriptor open on
 	the reference file in order to prevent pred_samefile getting
@@ -947,6 +968,8 @@
 
 2007-04-21  James Youngman  <jay@gnu.org>
 
+	Release 4.3.4.
+
 	* find/locate/locatedb.5: Clarifications to the description of the
 	LOCATE02 format.  Organised the material under a number of
 	headings.  Documented the slocate database format.
@@ -1035,6 +1058,8 @@
 	run "false" instead of "true".
 
 2007-04-15  James Youngman  <jay@gnu.org>
+
+	Release 4.3.3.
 
 	* find/find.1: "-printf %b": blocks are 512 bytes.   Fixes
 	Savannah bug #19596.
@@ -1565,6 +1590,8 @@
 
 2006-11-25  James Youngman  <jay@gnu.org>
 
+	Release 4.3.2.
+
 	* find/testsuite/Makefile.am: Added test case for Savannah bug #17782
 
 	* doc/textinfo.tex: Removed; we now use the version supplied
@@ -1744,6 +1771,8 @@
 	* locate/locate.c: Fixed a typo in a comment.
 
 	* NEWS, configure.in: Moving on towards 4.3.2...
+
+	Release 4.3.1.
 
 	* find/testsuite/config/unix.exp:
 	Check that we can see the find.o file in the right position relative
@@ -1939,6 +1968,8 @@
 	message
 
 2005-12-12  James Youngman <jay@gnu.org>
+
+	Release 4.3.0.
 
 	* find/testsuite/find.gnu/access.exp:
 	Don't leave junk files lying around the place
