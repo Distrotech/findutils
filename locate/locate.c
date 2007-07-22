@@ -130,7 +130,7 @@
 #include "quotearg.h"
 #include "printquoted.h"
 #include "regextype.h"
-#include "gnulib-version.h"
+#include "findutils-version.h"
 
 /* Note that this evaluates Ch many times.  */
 #ifdef _LIBC
@@ -1659,8 +1659,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
 	break;
 
       case 'v':
-	printf (_("GNU locate version %s\n"), version_string);
-	printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
+	display_findutils_version("locate");
 	return 0;
 
       case 'w':

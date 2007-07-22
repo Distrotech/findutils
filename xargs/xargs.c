@@ -97,6 +97,7 @@
 #include "verify.h"
 #include "wait.h"
 #include "quotearg.h"
+#include "findutils-version.h"
 
 
 #ifdef STDC_HEADERS
@@ -618,8 +619,7 @@ main (int argc, char **argv)
           break;
 
 	case 'v':
-	  printf (_("GNU xargs version %s\n"), version_string);
-	  printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
+	  display_findutils_version("xargs");
 	  return 0;
 
 	default:

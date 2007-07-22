@@ -13,9 +13,9 @@ noinst_PROGRAMS = regexprops
 regexprops_SOURCES = regexprops.c regextype.c
 endif
 
-libfind_a_SOURCES = gnulib-version.c
+libfind_a_SOURCES = gnulib-version.c findutils-version.c
 EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h \
-	gnulib-version.h gnulib-version.c
+	gnulib-version.h gnulib-version.c findutils-version.h
 BUILT_SOURCES = gnulib-version.c
 SUFFIXES =
 MOSTLYCLEANFILES = 

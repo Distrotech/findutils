@@ -4,7 +4,7 @@ localedir = $(datadir)/locale
 # regexprops_SOURCES = regexprops.c
 
 noinst_LIBRARIES = libfindtools.a
-libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c tree.c util.c version.c
+libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c tree.c util.c
 
 
 # We always build two versions of find, one with fts, one without.

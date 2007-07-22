@@ -75,13 +75,8 @@ proc find_version {} {
     global FINDFLAGS
 
     if {[which $FTSFIND] != 0} then {
-	set tmp [ eval exec $FTSFIND $FINDFLAGS --version </dev/null ]
-	regexp "version.*$" $tmp version
-	if [info exists version] then {
-	    clone_output "[which $FTSFIND] $version\n"
-	} else {
-	    warning "cannot get version from $tmp."
-	}
+	set tmp [ eval exec $FTSFIND $FINDFLAGS --version </dev/null | sed 1q ]
+	clone_output $tmp
     } else {
 	warning "$FTSFIND, program does not exist"
     }

@@ -185,8 +185,7 @@ main (int argc, char **argv)
     }
   else if (0 == strcmp(argv[1], "--version"))
     {
-      printf (_("GNU findutils version %s\n"), version_string);
-      printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
+      display_findutils_version("code");
       return 0;
     }
   

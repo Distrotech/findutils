@@ -41,7 +41,7 @@
 #include "fts_.h"
 #include "getdate.h"
 #include "error.h"
-#include "gnulib-version.h"
+#include "findutils-version.h"
 
 #include <fcntl.h>
 
@@ -2356,9 +2356,7 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
   (void) entry;
   
-  fflush (stderr);
-  printf (_("GNU find version %s\n"), version_string);
-  printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
+  display_findutils_version("find");
   printf (_("Features enabled: "));
   
 #if CACHE_IDS

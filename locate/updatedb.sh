@@ -21,6 +21,17 @@
 #exec 2> /tmp/updatedb-trace.txt 
 #set -x
 
+version='
+updatedb (@PACKAGE_NAME@) @VERSION@
+Copyright (C) 2007 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Eric B. Decker, James Youngman, and Kevin Dalley.
+'
+
+
 usage="\
 Usage: $0 [--findoptions='-option1 -option2...']
        [--localpaths='dir1 dir2...'] [--netpaths='dir1 dir2...']
@@ -51,8 +62,8 @@ do
     --old-format) old=yes ;;
     --changecwd)  changeto="$val" ;;
     --dbformat)   dbformat="$val" ;;
-    --version) echo "GNU updatedb version @VERSION@"; exit 0 ;;
-    --help) echo "$usage"; exit 0 ;;
+    --version) fail=0; echo "$version" || fail=1; exit $fail ;;
+    --help)    fail=0; echo "$usage"   || fail=1; exit $fail ;;
     *) echo "updatedb: invalid option $opt
 $usage" >&2
        exit 1 ;;

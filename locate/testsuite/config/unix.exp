@@ -88,13 +88,8 @@ proc locate_version {} {
     global LOCATEFLAGS
 
     if {[which $LOCATE] != 0} then {
-	set tmp [ eval exec $LOCATE $LOCATEFLAGS --version </dev/null ]
-	regexp "version.*$" $tmp version
-	if [info exists version] then {
-	    clone_output "[which $LOCATE] $version\n"
-	} else {
-	    warning "cannot get version from $tmp."
-	}
+	set tmp [ eval exec $LOCATE $LOCATEFLAGS --version </dev/null | sed 1q]
+	clone_output $tmp
     } else {
 	warning "$LOCATE, program does not exist"
     }
@@ -337,13 +332,8 @@ proc updatedb_version {} {
     global UPDATEDBFLAGS
 
     if {[which $UPDATEDB] != 0} then {
-	set tmp [ eval exec $UPDATEDB $UPDATEDBFLAGS --version </dev/null ]
-	regexp "version.*$" $tmp version
-	if [info exists version] then {
-	    clone_output "[which $UPDATEDB] $version\n"
-	} else {
-	    warning "cannot get version from $tmp."
-	}
+	set tmp [eval exec $UPDATEDB $UPDATEDBFLAGS --version </dev/null|sed 1q]
+	clone_output $tmp
     } else {
 	warning "$UPDATEDB, program does not exist"
     }

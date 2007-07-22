@@ -109,6 +109,7 @@
 #include <getopt.h>
 #include "error.h"
 #include "closeout.h"
+#include "findutils-version.h"
 
 char *xmalloc PARAMS((size_t));
 
@@ -265,7 +266,7 @@ main (int argc, char **argv)
 	return 0;
 
       case 'v':
-	printf (_("GNU locate version %s\n"), version_string);
+	display_findutils_version("frcode");
 	return 0;
 
       default:

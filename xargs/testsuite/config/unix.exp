@@ -52,13 +52,8 @@ proc xargs_version {} {
     global XARGSFLAGS
 
     if {[which $XARGS] != 0} then {
-	set tmp [ eval exec $XARGS $XARGSFLAGS --version </dev/null ]
-	regexp "version.*$" $tmp version
-	if [info exists version] then {
-	    clone_output "[which $XARGS] $version\n"
-	} else {
-	    warning "cannot get version from $tmp."
-	}
+	set tmp [ eval exec $XARGS $XARGSFLAGS --version </dev/null | sed 1q ]
+	clone_output $tmp
     } else {
 	warning "$XARGS, program does not exist"
     }

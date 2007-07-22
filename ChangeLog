@@ -1,3 +1,31 @@
+2007-07-21  James Youngman  <jay@gnu.org>
+
+	Version banners now comply with the GNU coding standard.
+	* find/parser.c (parse_version): Use display_findutils_version()
+	instead of printing the information manually.  Don't include
+	gnulib-version.h since we no longer directly use that header.
+	* lib/findutils-version.c: Added
+	* lib/findutils-version.h: Added
+	* import-gnulib.config (modules): Added version-etc and
+	version-etc-fsf.
+	* lib/Makefile.am (libfind_a_SOURCES): added findutils-version.c.
+	* find/version.c: Removed
+	* find/Makefile.am: Remove version.c
+	* locate/Makefile.am: Don't link ../find/version.o
+	* xargs/Makefile.am: Ditto
+	* xargs/xargs.c (main): Use display_findutils_version()
+	* locate/code.c (main): Ditto
+	* locate/frcode.c (main): Ditto
+	* locate/locate.c (dolocate): Ditto
+	* locate/updatedb.sh (version): Display copyright information in
+	the right format.   Also ensure that we exit with a nonzero status
+	if there was an output error for --help and --version.
+	* find/testsuite/config/unix.exp (find_version): Adjust for
+	--version format change	
+	* locate/testsuite/config/unix.exp (locate_version): Ditto
+	* xargs/testsuite/config/unix.exp (xargs_version): Ditto
+	* NEWS: Mention the change
+
 2007-07-19  Eric Blake  <ebb9@byu.net>
 
 	* po/POTFILES.in: Update to reflect current location of

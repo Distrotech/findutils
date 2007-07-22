@@ -19,9 +19,9 @@ code_SOURCES = code.c word_io.c
 
 INCLUDES = -I$(top_srcdir)/lib -I../gnulib/lib -I$(top_srcdir)/gnulib/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
 
-LDADD = ../find/version.o ../lib/libfind.a ../gnulib/lib/libgnulib.a @INTLLIBS@
+LDADD = ../lib/libfind.a ../gnulib/lib/libgnulib.a @INTLLIBS@
 
-$(PROGRAMS) $(LIBPROGRAMS): ../find/version.o ../lib/libfind.a ../gnulib/lib/libgnulib.a
+$(PROGRAMS) $(LIBPROGRAMS): ../lib/libfind.a ../gnulib/lib/libgnulib.a
 
 updatedb: updatedb.sh
 	rm -f $@
@@ -34,6 +34,7 @@ updatedb: updatedb.sh
 	-e "s,@""libexecdir""@,$(libexecdir)," \
 	-e "s,@""LOCATE_DB""@,$(LOCATE_DB)," \
 	-e "s,@""VERSION""@,@VERSION@," \
+	-e "s,@""PACKAGE_NAME""@,@PACKAGE_NAME@," \
 	-e "s,@""find""@,$${find}," \
 	-e "s,@""frcode""@,$${frcode}," \
 	-e "s,@""bigram""@,$${bigram}," \
