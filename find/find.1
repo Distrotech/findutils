@@ -3,7 +3,7 @@
 find \- search for files in a directory hierarchy
 .SH SYNOPSIS
 .B find 
-[\-H] [\-L] [\-P] [-D debugopts] [-Olevel] [path...] [expression]
+[\-H] [\-L] [\-P] [\-D debugopts] [\-Olevel] [path...] [expression]
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
@@ -40,9 +40,12 @@ used.  If no expression is given, the expression `\-print' is used
 This manual page talks about `options' within the expression list.
 These options control the behaviour of 
 .B find
-but are specified immediately after the last path name.  The three
-`real' options `\-H', `\-L' and `\-P' must appear before the first
-path name, if at all.
+but are specified immediately after the last path name.  The five
+`real' options `\-H', `\-L', `\-P', `\-D' and `\-O' must appear before
+the first path name, if at all.  A double dash `\-\-' can also be used
+to signal that any remaining arguments are not options (though
+ensuring that all start points begin with either `./' or `/' is
+generally safer if you use wildcards in the list of start points).
 .IP \-P
 Never follow symbolic links.  This is the default behaviour.  When 
 .B find
@@ -211,23 +214,27 @@ performed on all files for which the expression is true.
 
 .SS OPTIONS
 .P
-All options always return true.  Except for \-follow and \-daystart,
-the options affect all tests, including tests specified before the
-option.  This is because the options are processed when the command
-line is parsed, while the tests don't do anything until files are
-examined.  The \-follow and \-daystart options are different in this
-respect, and have an effect only on tests which appear later in the
-command line.  Therefore, for clarity, it is best to place them at the
-beginning of the expression.  A warning is issued if you don't do
-this.
+All options always return true.  Except for \-daystart, \-follow and
+\-regextype, the options affect all tests, including tests specified
+before the option.  This is because the options are processed when the
+command line is parsed, while the tests don't do anything until files
+are examined.  The \-daystart, \-follow and \-regextype options are
+different in this respect, and have an effect only on tests which
+appear later in the command line.  Therefore, for clarity, it is best
+to place them at the beginning of the expression.  A warning is issued
+if you don't do this.
+
+.IP \-d
+A synonym for \-depth, for compatibility with FreeBSD, NetBSD, MacOS X and OpenBSD.
+
 .IP \-daystart
 Measure times (for \-amin, \-atime, \-cmin, \-ctime, \-mmin, and \-mtime)
 from the beginning of today rather than from 24 hours ago.  This
 option only affects tests which appear later on the command line.
+
 .IP \-depth
 Process each directory's contents before the directory itself.
-.IP \-d
-A synonym for \-depth, for compatibility with FreeBSD, NetBSD, MacOS X and OpenBSD.
+
 .IP \-follow
 Deprecated; use the \-L option instead.  Dereference symbolic links.
 Implies \-noleaf.  The \-follow option affects only those tests which
@@ -240,10 +247,12 @@ the \-type predicate will always match against the type of the file
 that a symbolic link points to rather than the link itself.  Using
 \-follow causes the \-lname and \-ilname predicates always to return
 false.
+
 .IP "\-help, \-\-help"
 Print a summary of the command-line usage of
 .B find
 and exit.
+
 .IP \-ignore_readdir_race
 Normally, \fBfind\fR will emit an error message when it fails to stat a file.
 If you give this option and a file is deleted between the time \fBfind\fR 
@@ -254,20 +263,25 @@ effect at the time the command line is read, which means that you cannot search
 one part of the filesystem with this option on and part of it with this option
 off (if you need to do that, you will need to issue two \fBfind\fR commands
 instead, one with the option and one without it).
+
 .IP "\-maxdepth \fIlevels\fR"
 Descend at most \fIlevels\fR (a non-negative integer) levels of
 directories below the command line arguments.  `\-maxdepth 0' means
 only apply the tests and actions to the command line arguments.
+
 .IP "\-mindepth \fIlevels\fR"
 Do not apply any tests or actions at levels less than \fIlevels\fR (a
 non-negative integer).  `\-mindepth 1' means process all files except
 the command line arguments.
+
 .IP \-mount
 Don't descend directories on other filesystems.  An alternate name for
 \-xdev, for compatibility with some other versions of
 .BR find .
+
 .IP \-noignore_readdir_race
 Turns off the effect of \-ignore_readdir_race. 
+
 .IP "\-noleaf"
 Do not optimize by assuming that directories contain 2 fewer
 subdirectories than their hard link count.  This option is needed when
@@ -283,6 +297,7 @@ than the directory's link count, it knows that the rest of the entries
 in the directory are non-directories (`leaf' files in the directory
 tree).  If only the files' names need to be examined, there is no need
 to stat them; this gives a significant increase in search speed.
+
 .IP "\-regextype \fItype\fR"
 Changes the regular expression syntax understood by 
 .B \-regex
@@ -294,6 +309,7 @@ posix-egrep and posix-extended.
 
 .IP "\-version, \-\-version"
 Print the \fBfind\fR version number and exit.
+
 .IP "\-warn, \-nowarn"
 Turn warning messages on or off.  These warnings apply only to the
 command line usage, not to any conditions that 
@@ -301,6 +317,7 @@ command line usage, not to any conditions that
 might encounter when it searches directories.  The default behaviour
 corresponds to \-warn if standard input is a tty, and to \-nowarn
 otherwise.
+
 .IP \-xdev
 Don't descend directories on other filesystems.
 
@@ -316,7 +333,7 @@ options
 .BR \-H , 
 .B \-L 
 and 
-.B -P
+.B \-P
 and any previous 
 .BR \-follow ,
 but the reference file is only examined once, at the time the command
@@ -338,13 +355,16 @@ for less than
 for exactly
 .IR n .
 .P
+
 .IP "\-amin \fIn\fR"
 File was last accessed \fIn\fR minutes ago.
+
 .IP "\-anewer \fIfile\fR"
 File was last accessed more recently than \fIfile\fR was modified.  If
 \fIfile\fR is a symbolic link and the \-H option or the \-L option is
 in effect, the access time of the file it points to is always
 used.
+
 .IP "\-atime \fIn\fR"
 File was last accessed \fIn\fR*24 hours ago.  
 When find figures out how many 24-hour periods ago the file 
@@ -354,8 +374,10 @@ was last accessed, any fractional part is ignored, so to match
 a file has to have been accessed at least 
 .I two
 days ago.
+
 .IP "\-cmin \fIn\fR"
 File's status was last changed \fIn\fR minutes ago.
+
 .IP "\-cnewer \fIfile\fR"
 File's status was last changed more recently than \fIfile\fR was
 modified.  If \fIfile\fR is a symbolic link and the \-H option or the
@@ -368,24 +390,48 @@ See the comments for
 .B \-atime 
 to understand how rounding affects the interpretation of file status
 change times.
+
 .IP \-empty
 File is empty and is either a regular file or a directory.
+
+.IP \-executable
+Matches files which are executable and directories which are
+searchable (in a file name resolution sense).  This takes into account
+access control lists and other permissions artefacts which the
+.B \-perm 
+test ignores.  This test makes use of the
+.BR access (2)
+system call, and so can be fooled by NFS servers which do UID
+mapping (or root-squashing), since many systems implement 
+.BR access (2) 
+in the client's kernel and so cannot make use of the UID mapping
+information held on the server.  Because this test is based only on
+the result of the 
+.BR access (2)
+system call, there is no guarantee that a file for which this test
+succeeds can actually be executed.
+
 .IP \-false
 Always false.
+
 .IP "\-fstype \fItype\fR"
 File is on a filesystem of type \fItype\fR.  The valid filesystem
 types vary among different versions of Unix; an incomplete list of
 filesystem types that are accepted on some version of Unix or another
 is: ufs, 4.2, 4.3, nfs, tmp, mfs, S51K, S52K.  You can use \-printf
 with the %F directive to see the types of your filesystems.
+
 .IP "\-gid \fIn\fR"
 File's numeric group ID is \fIn\fR.
+
 .IP "\-group \fIgname\fR"
 File belongs to group \fIgname\fR (numeric group ID allowed).
+
 .IP "\-ilname \fIpattern\fR"
 Like \-lname, but the match is case insensitive.
 If the \-L option or the \-follow option is in effect, this test 
 returns false unless the symbolic link is broken.
+
 .IP "\-iname \fIpattern\fR"
 Like \-name, but the match is case insensitive.  For example, the
 patterns `fo*' and `F??' match the file names `Foo', `FOO', `foo',
@@ -400,28 +446,36 @@ wildcard characters in them.
 File has inode number \fIn\fR.  It is normally easier to use the 
 .B \-samefile
 test instead.
+
 .IP "\-ipath \fIpattern\fR"
 Behaves in the same way as \-iwholename.  This option is deprecated,
 so please do not use it.
+
 .IP "\-iregex \fIpattern\fR"
 Like \-regex, but the match is case insensitive.
+
 .IP "\-iwholename \fIpattern\fR"
 Like \-wholename, but the match is case insensitive.
+
 .IP "\-links \fIn\fR"
 File has \fIn\fR links.
+
 .IP "\-lname \fIpattern\fR"
 File is a symbolic link whose contents match shell pattern
 \fIpattern\fR.  The metacharacters do not treat `/' or `.' specially.
 If the \-L option or the \-follow option is in effect, this test 
 returns false unless the symbolic link is broken.
+
 .IP "\-mmin \fIn\fR"
 File's data was last modified \fIn\fR minutes ago.
+
 .IP "\-mtime \fIn\fR"
 File's data was last modified \fIn\fR*24 hours ago.
 See the comments for 
 .B \-atime 
 to understand how rounding affects the interpretation of file
 modification times.
+
 .IP "\-name \fIpattern\fR"
 Base of file name (the path with the leading directories removed)
 matches shell pattern \fIpattern\fR.  The metacharacters (`*', `?',
@@ -440,6 +494,7 @@ in order to protect it from expansion by the shell.
 File was modified more recently than \fIfile\fR.  If \fIfile\fR is a
 symbolic link and the \-H option or the \-L option is in effect, the
 modification time of the file it points to is always used.
+
 .IP "\-newerXY \fIreference\fR"
 Compares the timestamp of the current file with \fIreference\fR.  
 The 
@@ -484,13 +539,17 @@ If you try to use the birth time of a reference file, and the birth
 time cannot be determined, a fatal error message results.  If you
 specify a test which refers to the birth time of files being examined,
 this test will fail for any files where the birth time is unknown.
-.IP \-nouser
-No user corresponds to file's numeric user ID.
+
 .IP \-nogroup
 No group corresponds to file's numeric group ID.
+
+.IP \-nouser
+No user corresponds to file's numeric user ID.
+
 .IP "\-path \fIpattern\fR"
 See \-wholename.   The predicate \-path is also supported by HP-UX 
 .BR find .
+
 .IP "\-perm \fImode\fR"
 File's permission bits are exactly \fImode\fR (octal or symbolic).
 Since an exact match is required, if you want to use this form for
@@ -502,6 +561,7 @@ forms, for example `\-perm \-g=w', which matches any file with group
 write permission.  See the
 .B EXAMPLES 
 section for some illustrative examples.
+
 .IP "\-perm \-\fImode\fR"
 All of the permission bits \fImode\fR are set for the file.
 Symbolic modes are accepted in this form, and this is usually the way
@@ -509,6 +569,7 @@ in which would want to use them.  You must specify `u', `g' or `o' if
 you use a symbolic mode.   See the 
 .B EXAMPLES 
 section for some illustrative examples.
+
 .IP "\-perm /\fImode\fR"
 Any of the permission bits \fImode\fR are set for the file.  Symbolic
 modes are accepted in this form.  You must specify `u', `g' or `o' if
@@ -519,8 +580,9 @@ section for some illustrative examples.  If no permission bits in
 are set, this test currently matches no files.  However, it will soon
 be changed to match any file (the idea is to be more consistent with
 the behaviour of 
-.B perm 
+.B \-perm 
 .BR \-000 ).
+
 .IP "\-perm +\fImode\fR"
 Deprecated, old way of searching for files with any of the permission
 bits in \fImode\fR set.  You should use
@@ -541,10 +603,10 @@ This form of the
 test is deprecated because the POSIX specification requires the
 interpretation of a leading `+' as being part of a symbolic mode, and
 so we switched to using `/' instead.
-.IP "\-readable, \-writable, \-executable"
-Matches files which are readable, writable and executable,
-respectively.  This takes into account access control lists and other
-permissions artefacts which the 
+
+.IP \-readable
+Matches files which are readable.  This takes into account access
+control lists and other permissions artefacts which the
 .B \-perm 
 test ignores.  This test makes use of the
 .BR access (2)
@@ -553,6 +615,7 @@ mapping (or root-squashing), since many systems implement
 .BR access (2) 
 in the client's kernel and so cannot make use of the UID mapping
 information held on the server.
+
 .IP "\-regex \fIpattern\fR"
 File name matches regular expression \fIpattern\fR.  This is a match
 on the whole path, not a search.  For example, to match a file named
@@ -563,9 +626,11 @@ are by default Emacs Regular Expressions, but this can be
 changed with the 
 .B \-regextype 
 option.
+
 .IP "\-samefile \fIname\fR"
 File refers to the same inode as \fIname\fR.   When \-L is in effect,
 this can include symbolic links.
+
 .IP "\-size \fIn\fR[cwbkMG]"
 File uses \fIn\fP units of space.  The following suffixes 
 can be used:
@@ -592,6 +657,7 @@ differently.  The `b' suffix always denotes 512-byte blocks and never
 
 .IP \-true
 Always true.
+
 .IP "\-type \fIc\fR"
 File is of type \fIc\fR:
 .RS
@@ -616,10 +682,13 @@ door (Solaris)
 .RE
 .IP "\-uid \fIn\fR"
 File's numeric user ID is \fIn\fR.
+
 .IP "\-used \fIn\fR"
 File was last accessed \fIn\fR days after its status was last changed.
+
 .IP "\-user \fIuname\fR"
 File is owned by user \fIuname\fR (numeric user ID allowed).
+
 .IP "\-wholename \fIpattern\fR"
 File name matches shell pattern \fIpattern\fR.  The metacharacters do
 not treat `/' or `.' specially; so, for example,
@@ -638,6 +707,19 @@ print the names of the other files found, do something like this:
 find . \-wholename ./src/emacs \-prune \-o \-print
 .br
 .in -1i
+
+.IP "\-writable"
+Matches files which are writable.  This takes into account access
+control lists and other permissions artefacts which the
+.B \-perm 
+test ignores.  This test makes use of the
+.BR access (2)
+system call, and so can be fooled by NFS servers which do UID
+mapping (or root-squashing), since many systems implement 
+.BR access (2) 
+in the client's kernel and so cannot make use of the UID mapping
+information held on the server.
+
 .IP "\-xtype \fIc\fR"
 The same as \-type unless the file is a symbolic link.  For symbolic
 links: if the \-H or \-P option was specified, true if the file is a
@@ -667,11 +749,11 @@ quoted to protect them from expansion by the shell.  See the
 section for examples of the use of the `\-exec' option.  The specified
 command is run once for each matched file.
 The command is executed in the starting directory.   There are
-unavoidable security problems surrounding use of the \-exec option;
+unavoidable security problems surrounding use of the \-exec action;
 you should use the \-execdir option instead.  
 
 .IP "\-exec \fIcommand\fR {} +"
-This variant of the \-exec option runs the specified command on the
+This variant of the \-exec action runs the specified command on the
 selected files, but the command line is built by appending each
 selected file name at the end; the total number of invocations of the
 command will be much less than the number of matched files.  The
@@ -688,7 +770,7 @@ which you started
 .BR find .
 This a much more secure method for invoking commands, as it avoids
 race conditions during resolution of the paths to the matched files.
-As with the \-exec option, the `+' form of \-execdir will build a
+As with the \-exec action, the `+' form of \-execdir will build a
 command line to process more than one matched file, but any given
 invocation of
 .I command 
@@ -718,20 +800,38 @@ The output file is always created, even if the predicate is never matched.
 See the
 .B UNUSUAL FILENAMES
 section for information about how unusual characters in filenames are handled.
+
 .IP "\-fprint0 \fIfile\fR"
 True; like \-print0 but write to \fIfile\fR like \-fprint.
 The output file is always created, even if the predicate is never matched.
 See the
 .B UNUSUAL FILENAMES
 section for information about how unusual characters in filenames are handled.
+
 .IP "\-fprintf \fIfile\fR \fIformat\fR"
 True; like \-printf but write to \fIfile\fR like \-fprint.
 The output file is always created, even if the predicate is never matched.
 See the
 .B UNUSUAL FILENAMES
 section for information about how unusual characters in filenames are handled.
+
+.IP \-ls
+True; list current file in `ls \-dils' format on standard output.
+The block counts are of 1K blocks, unless the environment variable
+POSIXLY_CORRECT is set, in which case 512-byte blocks are used.
+See the
+.B UNUSUAL FILENAMES
+section for information about how unusual characters in filenames are handled.
+
 .IP "\-ok \fIcommand\fR ;"
 Like \-exec but ask the user first (on the standard input); if the
+response does not start with `y' or `Y', do not run the command, and
+return false.  If the command is run, its standard input is redirected
+from
+.BR /dev/null .
+
+.IP "\-okdir \fIcommand\fR ;"
+Like \-execdir but ask the user first (on the standard input); if the
 response does not start with `y' or `Y', do not run the command, and
 return false.  If the command is run, its standard input is redirected
 from
@@ -747,12 +847,7 @@ seriously consider using the `\-print0' option instead of `\-print'.
 See the
 .B UNUSUAL FILENAMES
 section for information about how unusual characters in filenames are handled.
-.IP "\-okdir \fIcommand\fR ;"
-Like \-execdir but ask the user first (on the standard input); if the
-response does not start with `y' or `Y', do not run the command, and
-return false.  If the command is run, its standard input is redirected
-from
-.BR /dev/null .
+
 .IP \-print0
 True; print the full file name on the standard output, followed by a
 null character (instead of the newline character that `\-print' uses).
@@ -760,6 +855,7 @@ This allows file names that contain newlines or other types of white
 space to be correctly interpreted by programs that process the
 \fBfind\fR output.  This option corresponds to the `\-0' option of
 .BR xargs .
+
 .IP "\-printf \fIformat\fR"
 True; print \fIformat\fR on the standard output, interpreting `\e'
 escapes and `%' directives.  Field widths and precisions can be
@@ -1012,15 +1108,6 @@ will be invoked before
 exits.   The exit status may or may not be zero, depending on whether
 an error has already occurred.  
 
-.IP \-ls
-True; list current file in `ls \-dils' format on standard output.
-The block counts are of 1K blocks, unless the environment variable
-POSIXLY_CORRECT is set, in which case 512-byte blocks are used.
-See the
-.B UNUSUAL FILENAMES
-section for information about how unusual characters in filenames are handled.
-
-
 .SS UNUSUAL FILENAMES
 Many of the actions of 
 .B find
@@ -1032,15 +1119,18 @@ do unexpected and often undesirable things to your terminal (for
 example, changing the settings of your function keys on some
 terminals).  Unusual characters are handled differently by various
 actions, as described below.
+
 .IP "\-print0, \-fprint0\"
 Always print the exact filename, unchanged, even if the output is
 going to a terminal.
+
 .IP "\-ls, \-fls"
 Unusual characters are always escaped.  White space, backslash, and
 double quote characters are printed using C-style escaping (for
 example `\ef', `\e"').  Other unusual characters are printed using an
 octal escape.  Other printable characters (for \-ls and \-fls these are
 the characters between octal 041 and 0176) are printed as-is.
+
 .IP "\-printf, \-fprintf"
 If the output is not going to a terminal, it is printed as-is.
 Otherwise, the result depends on which directive is in use.  The
@@ -1059,6 +1149,7 @@ of
 then it is normally better to use `\e0' as a terminator
 than to use newline, as file names can contain white space and newline
 characters.
+
 .IP "\-print, \-fprint"
 Quoting is handled in the same way as for \-printf and \-fprintf.
 If you are using 
@@ -1072,26 +1163,35 @@ may change in a future release.
 .SS OPERATORS
 .P
 Listed in order of decreasing precedence:
+
 .IP "( \fIexpr\fR )"
 Force precedence.  Since parentheses are special to the shell, you
 will normally need to quote them.  Many of the examples in this manual
 page use backslashes for this purpose: `\e(...\e)' instead of `(...)'.
+
 .IP "! \fIexpr\fR"
 True if \fIexpr\fR is false.  This character will also usually need
 protection from interpretation by the shell.
+
 .IP "\-not \fIexpr\fR"
 Same as ! \fIexpr\fR, but not POSIX compliant.
+
 .IP "\fIexpr1 expr2\fR"
 Two expressions in a row are taken to be joined with an 
 implied "and"; \fIexpr2\fR is not evaluated if \fIexpr1\fR is false.
+
 .IP "\fIexpr1\fR \-a \fIexpr2\fR"
 Same as \fIexpr1 expr2\fR.
+
 .IP "\fIexpr1\fR \-and \fIexpr2\fR"
 Same as \fIexpr1 expr2\fR, but not POSIX compliant.
+
 .IP "\fIexpr1\fR \-o \fIexpr2\fR"
 Or; \fIexpr2\fR is not evaluated if \fIexpr1\fR is true.
+
 .IP "\fIexpr1\fR \-or \fIexpr2\fR"
 Same as \fIexpr1\fR \-o \fIexpr2\fR, but not POSIX compliant.
+
 .IP "\fIexpr1\fR , \fIexpr2\fR"
 List; both \fIexpr1\fR and \fIexpr2\fR are always evaluated.  The
 value of \fIexpr1\fR is discarded; the value of the list is the value
@@ -1106,18 +1206,22 @@ different output files.
 .SH "STANDARDS CONFORMANCE"
 The following options are specified in the POSIX standard 
 (IEEE Std 1003.1, 2003 Edition):
+
 .IP "\-H"
 This option is supported.
+
 .IP "\-L"
 This option is supported.
+
 .IP "\-name"
 This option is supported, but POSIX conformance depends on the 
 POSIX conformance of the system's 
 .BR fnmatch (3) 
 library function.  As of findutils-4.2.2, shell metacharacters
-(`*'. `?' or `[]' for example) will match a leading `.', because 
+(`*', `?' or `[]' for example) will match a leading `.', because 
 IEEE PASC interpretation 126 requires this.   This is a change from
 previous versions of findutils.
+
 .IP "\-type"
 Supported.   POSIX specifies `b', `c', `d', `l', `p', `f' and `s'.
 GNU find also supports `D', representing a Door, where the OS provides these.
@@ -1159,6 +1263,8 @@ beyond the POSIX standard.  Many of these extensions are not unique to
 GNU find, however.
 .P
 The POSIX standard requires that 
+.B find 
+detects loops:
 .IP
 The 
 .B find
@@ -1168,11 +1274,13 @@ encountered. When it detects an infinite loop, find shall write a
 diagnostic message to standard error and shall either recover its
 position in the hierarchy or terminate.
 .P
-The link count of directories which contain entries which are hard
-links to an ancestor will often be lower than they otherwise should
-be.  This can mean that GNU find will sometimes optimise away the
-visiting of a subdirectory which is actually a link to an ancestor.
-Since 
+GNU 
+.B find 
+complies with these requirements.  The link count of
+directories which contain entries which are hard links to an ancestor
+will often be lower than they otherwise should be.  This can mean that
+GNU find will sometimes optimise away the visiting of a subdirectory
+which is actually a link to an ancestor.  Since
 .B find
 does not actually enter such a subdirectory, it is allowed to avoid
 emitting a diagnostic message.  Although this behaviour may be
@@ -1200,41 +1308,51 @@ The POSIXLY_CORRECT environment variable does not affect the behaviour
 of the \-regex or \-iregex tests because those tests aren't specified in
 the POSIX standard.
 .SH "ENVIRONMENT VARIABLES"
+
 .IP LANG
 Provides a default value for the internationalization variables that
 are unset or null.
+
 .IP LC_ALL
 If set to a non-empty string value, override the values of all the
 other internationalization variables.
+
 .IP LC_COLLATE
 The POSIX standard specifies that this variable affects the pattern
 matching to be used for the `\-name' option.   GNU find uses the 
 .BR fnmatch (3) 
 library function, and so support for `LC_COLLATE' depends on the
 system library.    
+
 .IP
 POSIX also specifies that the `LC_COLLATE' environment 
 variable affects the interpretation of the user's response to the 
 query issued by `\-ok', but this is not the case for GNU find.
+
 .IP LC_CTYPE 
 This variable affects the treatment of character classes used with 
 the `\-name' test, if the system's 
 .BR fnmatch (3) 
 library function supports this.   It has no effect on the behaviour 
 of the `\-ok' expression.
+
 .IP LC_MESSAGES
 Determines the locale to be used for internationalised messages.
+
 .IP NLSPATH
 Determines the location of the internationalisation message catalogues.
+
 .IP PATH
 Affects the directories which are searched to find the executables 
 invoked by `\-exec', `\-execdir', `\-ok' and `\-okdir'.
+
 .IP POSIXLY_CORRECT
 Determines the block size used by `\-ls' and `\-fls'.  
 If 
 .B POSIXLY_CORRECT
 is set, blocks are units of 512 bytes.  Otherwise
 they are units of 1024 bytes.
+
 .IP TZ
 Affects the time zone used for some of the time-related format
 directives of \-printf and \-fprintf.
@@ -1324,7 +1442,7 @@ example if someone can execute the file) will not be matched.
 
 .P
 .nf
-.B find . \-perm -664
+.B find . \-perm \-664
 
 .fi
 Search for files which have read and write permission for their owner
@@ -1356,7 +1474,7 @@ do.
 
 .P
 .nf
-.B find . \-perm -220
+.B find . \-perm \-220
 .B find . \-perm \-g+w,u+w
 
 .fi
@@ -1377,8 +1495,8 @@ set (\-perm /222 or \-perm /a+w) but are not executable for anybody (!
 .P
 .nf
 .B cd /source-dir
-.B find . -name .snapshot \-prune \-o \e( \e! \-name "*~" \-print0 \e)|
-.B cpio -pmd0   /dest-dir
+.B find . \-name .snapshot \-prune \-o \e( \e! \-name "*~" \-print0 \e)|
+.B cpio \-pmd0   /dest-dir
 
 .fi 
 This command copies the contents of 
@@ -1433,9 +1551,9 @@ example) used in filename patterns will match a leading `.', because
 IEEE POSIX interpretation 126 requires this.
 .P
 The syntax 
-\.B -perm +MODE 
+\.B \-perm +MODE 
 was deprecated in findutils-4.2.21, in favour of
-\.B -perm 
+\.B \-perm 
 .BR /MODE .
 As of findutils-4.3.3, 
 .B \-perm /000
@@ -1464,7 +1582,7 @@ Feature	Added in	Also occurs in
 \-quit	4.2.3
 \-d	4.2.3	BSD
 \-wholename	4.2.0
--\iwholename	4.2.0
+\-iwholename	4.2.0
 \-ignore_readdir_race	4.2.0
 \-fls	4.0
 \-ilname	3.8
@@ -1476,7 +1594,7 @@ Feature	Added in	Also occurs in
 .nf
 .B $ find . \-name *.c \-print
 find: paths must precede expression
-Usage: find [-H] [-L] [-P] [path...] [expression]
+Usage: find [\-H] [\-L] [\-P] [\-Olevel] [\-D help|tree|search|stat|rates|opt|exec] [path...] [expression]
 .fi
 .P
 This happens because 
