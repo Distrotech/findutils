@@ -77,6 +77,7 @@
 #include "gnulib-version.h"
 #include "progname.h"
 #include "error.h"
+#include "findutils-version.h"
 
 #ifndef ATTRIBUTE_NORETURN
 # define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))

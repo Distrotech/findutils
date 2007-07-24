@@ -2348,7 +2348,6 @@ parse_user (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  extern char *version_string;
   int features = 0;
   int flags;
   
@@ -3371,4 +3370,3 @@ open_stdout (struct format_val *p)
 {
   open_output_file("/dev/stdout", p);
 }
-
