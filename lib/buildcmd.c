@@ -500,8 +500,12 @@ bc_init_controlinfo(struct buildcmd_control *ctl,
 void
 bc_use_sensible_arg_max(struct buildcmd_control *ctl)
 {
+#ifdef DEFAULT_ARG_SIZE
+  enum { arg_size = DEFAULT_ARG_SIZE };
+#else
   enum { arg_size = (128u * 1024u) };
-  
+#endif
+
   /* Check against the upper and lower limits. */  
   if (arg_size > ctl->posix_arg_size_max)
     ctl->arg_max = ctl->posix_arg_size_max;
@@ -547,4 +551,3 @@ bc_clear_args(const struct buildcmd_control *ctl,
   state->todo = 0;
   state->dirfd = -1;
 }
-

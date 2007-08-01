@@ -7,6 +7,7 @@ Findutils version 4.3.9 is released under version 3 of the GNU General
 Public License.
 
 ** Bug Fixes
+
 #20310: configure uses hosts's support status for "sort -z" when
 generating the updatedb script for use on the target.  This is
 inappropriate when cross-compiling, so avoid doing that.
@@ -25,6 +26,11 @@ does not follow the POSIX rules of doing likewise.
 #20547: The version information printed by find, xargs, locate,
 updatedb, frcode and code now complies with the GNU Project's coding
 standards.
+
+** Enhancements
+
+#20594: Allow fine-tuning of the default argument size used by xargs
+and find at ./configure time.
 
 ** Documentation Fixes
 

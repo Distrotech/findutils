@@ -36,6 +36,13 @@ doing.  This information includes details about how the command line
 has been parsed and what files have been stat()ed.  This output is
 normally interesting only to the maintainer, and so is off by default.
 
+DEFAULT_ARG_SIZE=<value>
+  If this environment variable is defined to a numeric expression
+during configure, it determines the default argument size limits used
+by xargs without -s, and by find, when spawning child processes.
+Otherwise, the default is set at 128 kibibytes.  If the system cannot
+support the default limit, the system's limit will be used instead.
+
 
 To gain speed, GNU find avoids statting files whenever possible.
 It does this by:

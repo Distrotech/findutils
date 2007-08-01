@@ -1,3 +1,14 @@
+2007-07-31  Eric Blake  <ebb9@byu.net>
+
+	Allow choice of default arg size, Savannah bug #20594.
+	* configure.ac (DEFAULT_ARG_SIZE): Check environment for a default
+	size override.
+	* lib/buildcmd.c (bc_use_sensible_arg_max): Use default size from
+	configure, if requested.
+	* README (DEFAULT_ARG_SIZE): Mention the ability to tune this at
+	configure time.
+	* NEWS: Document the change.
+
 2007-07-29  James Youngman  <jay@gnu.org>
 
 	* tr.po: Updated from Translation Project.

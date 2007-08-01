@@ -36,7 +36,7 @@ AC_ARG_ENABLE(d_type-optimization,
 	AS_HELP_STRING(--enable-d_type-optimization,Make use of the file type data returned in struct dirent.d_type by readdir()),
 	[ac_cv_d_type=$enableval],[ac_cv_d_type=yes])
 
-dnl This one has no default, because otherwise we would have to say 
+dnl This one has no default, because otherwise we would have to say
 dnl both --enable-d_type-optimisation=no and --enable-d_type-optimization=no
 dnl to turn it off.
 AC_ARG_ENABLE(d_type-optimisation,
@@ -59,6 +59,13 @@ if test x$ac_cv_leaf_optimisation = xno; then
 else
    AC_MSG_RESULT([yes])
    AC_DEFINE(LEAF_OPTIMISATION, 1, [Define if you want to use the leaf optimisation (this can still be turned off with -noleaf)])
+fi
+
+AC_ARG_VAR([DEFAULT_ARG_SIZE], [Default size of arguments to child processes
+of find and xargs, 128k if unspecified])
+if test -n "$DEFAULT_ARG_SIZE"; then
+   AC_DEFINE_UNQUOTED([DEFAULT_ARG_SIZE], [$DEFAULT_ARG_SIZE],
+     [If defined, the default argument size used in child processes])
 fi
 
 
@@ -91,19 +98,19 @@ gl_INIT
 
 
 dnl Older versions of gnulib/m4/nls.m4 provide AM_MKINSTALLDIRS.
-dnl The current version of gnulib does not, but the version of 
+dnl The current version of gnulib does not, but the version of
 dnl po/Makefile.in.in that comes with gettext-0.14.6 expects
 dnl that @MKINSTALLDIRS@ will be expanded.
 AM_MKINSTALLDIRS
 
-dnl lib/regexprops needs to be a native program, because we need to 
+dnl lib/regexprops needs to be a native program, because we need to
 dnl run it in order to generate the documentation about the properties
 dnl of regular expressions.  See lib/Makefile.am.
 AM_CONDITIONAL(CROSS_COMPILING, [[test "x$cross_compiling" = xyes]])
 
 dnl Try to get a POSIX.1 environment.
 
-dnl Checks for libraries.  If getpwnam() isn't present in the 
+dnl Checks for libraries.  If getpwnam() isn't present in the
 dnl C library, try -lsun.
 AC_CHECK_FUNC(getpwnam, [],
 [AC_CHECK_LIB(sun, getpwnam)])
@@ -167,8 +174,8 @@ AC_FUNC_VPRINTF
 AC_FUNC_ALLOCA
 AC_FUNC_CLOSEDIR_VOID
 
-dnl We don't just use AC_FUNC_GETMNTENT directly because it 
-dnl will try to use -lsun on platforms which have getmntent() in the 
+dnl We don't just use AC_FUNC_GETMNTENT directly because it
+dnl will try to use -lsun on platforms which have getmntent() in the
 dnl C library, for example UNICOS.
 AC_CHECK_FUNC(getmntent, [], [AC_FUNC_GETMNTENT])
 AC_CHECK_FUNCS(getmntent)
@@ -218,7 +225,7 @@ jy_AC_TYPE_INTMAX_T
 jy_SORTZ
 
 
-AC_CHECK_MEMBER(struct dirent.d_type,,,[		   
+AC_CHECK_MEMBER(struct dirent.d_type,,,[
 #include <sys/types.h>
 #include <dirent.h>])
 
@@ -241,7 +248,7 @@ AC_DEFINE([ALREADY_INCLUDED_CONFIG_H], 1, [Define so that source code can verify
 ##AC_CONFIG_SUBDIRS(gnulib)
 AC_CONFIG_FILES(gnulib/Makefile gnulib/lib/Makefile)
 AC_CONFIG_FILES(m4/Makefile)
-AC_CONFIG_FILES([Makefile 
+AC_CONFIG_FILES([Makefile
          tests/Makefile build-aux/Makefile
 	find/Makefile find/testsuite/Makefile
 	xargs/Makefile xargs/testsuite/Makefile
