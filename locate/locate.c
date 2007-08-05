@@ -337,7 +337,7 @@ struct process_data
   int len;
   char *original_filename;	/* The current input database entry. */
   size_t pathsize;		/* Amount allocated for it.  */
-  char *munged_filename;	/* path or base_name(path) */
+  char *munged_filename;	/* path or basename(path) */
   FILE *fp;			/* The pathname database.  */
   const char *dbfile;		/* Its name, or "<stdin>" */
   int  slocatedb_format;	/* Allows us to cope with slocate's format variant */
@@ -641,7 +641,7 @@ static int
 visit_basename(struct process_data *procdata, void *context)
 {
   (void) context;
-  procdata->munged_filename = base_name(procdata->original_filename);
+  procdata->munged_filename = last_component (procdata->original_filename);
 
   return VISIT_CONTINUE;
 }
@@ -1929,4 +1929,3 @@ main (int argc, char **argv)
   
   return dolocate(argc, argv, dbfd);
 }
-

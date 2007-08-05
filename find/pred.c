@@ -741,7 +741,11 @@ do_fprintf(struct format_val *dest,
 	  break;
 	case 'f':		/* base name of path */
 	  /* sanitised */
-	  checked_print_quoted (dest, segment->text, base_name (pathname));
+	  {
+	    char *base = base_name (pathname);
+	    checked_print_quoted (dest, segment->text, base);
+	    free (base);
+	  }
 	  break;
 	case 'F':		/* file system type */
 	  /* trusted */
@@ -1150,20 +1154,38 @@ pred_ilname (const char *pathname, struct stat *stat_buf, struct predicate *pred
   return match_lname (pathname, stat_buf, pred_ptr, true);
 }
 
-boolean
-pred_iname (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+/* Common code between -name, -iname.  PATHNAME is being visited, STR
+   is name to compare basename against, and FLAGS are passed to
+   fnmatch.  */
+static boolean
+pred_name_common (const char *pathname, const char *str, int flags)
 {
-  const char *base;
+  /* Prefer last_component over base_name, to avoid malloc when
+     possible.  */
+  char *base = last_component (pathname);
 
-  (void) stat_buf;
-
+  /* base is empty only if pathname is a file system root.  But recall
+     that 'find / -name /' is one of the few times where a '/' in the
+     -name must actually find something.  */
+  if (!*base)
+    {
+      boolean b;
+      base = base_name (pathname);
+      b = fnmatch (str, base, flags) == 0;
+      free (base);
+      return b;
+    }
   /* FNM_PERIOD is not used here because POSIX requires that it not be.
    * See http://standards.ieee.org/reading/ieee/interp/1003-2-92_int/pasc-1003.2-126.html
    */
-  base = base_name (pathname);
-  if (fnmatch (pred_ptr->args.str, base, FNM_CASEFOLD) == 0)
-    return (true);
-  return (false);
+  return fnmatch (str, base, flags) == 0;
+}
+
+boolean
+pred_iname (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
+{
+  (void) stat_buf;
+  return pred_name_common (pathname, pred_ptr->args.str, FNM_CASEFOLD);
 }
 
 boolean
@@ -1271,17 +1293,8 @@ pred_mtime (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 boolean
 pred_name (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  const char *base;
-
   (void) stat_buf;
-  base = base_name (pathname);
-
-  /* FNM_PERIOD is not used here because POSIX requires that it not be.
-   * See http://standards.ieee.org/reading/ieee/interp/1003-2-92_int/pasc-1003.2-126.html
-   */
-  if (fnmatch (pred_ptr->args.str, base, 0) == 0)
-    return (true);
-  return (false);
+  return pred_name_common (pathname, pred_ptr->args.str, 0);
 }
 
 boolean

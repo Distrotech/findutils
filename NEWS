@@ -27,10 +27,17 @@ does not follow the POSIX rules of doing likewise.
 updatedb, frcode and code now complies with the GNU Project's coding
 standards.
 
+#20662: Avoid memory leak in find -name and other places affected by
+gnulib dirname module.  The leak had been present since 4.3.1.
+
 ** Enhancements
 
 #20594: Allow fine-tuning of the default argument size used by xargs
 and find at ./configure time.
+
+#20688: The warning printed by -name or -iname when the pattern to
+ match contains a slash can now be silenced by -nowarn.  This warning
+ was originally introduced unconditionally in 4.2.21.
 
 ** Documentation Fixes
 

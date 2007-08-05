@@ -1124,10 +1124,10 @@ fnmatch_sanitycheck(void)
 }
 
 
-static boolean 
+static boolean
 check_name_arg(const char *pred, const char *arg)
 {
-  if (strchr(arg, '/'))
+  if (options.warnings && strchr(arg, '/'))
     {
       error(0, 0,_("warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."),
 	    pred,
