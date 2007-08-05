@@ -31,6 +31,7 @@ find.gnu/iwholename.xo \
 find.gnu/lname.xo \
 find.gnu/name-opt.xo \
 find.gnu/name-period.xo \
+find.gnu/name-slash.xo \
 find.gnu/path.xo \
 find.gnu/perm.xo \
 find.gnu/perm-slash.xo \
@@ -38,6 +39,7 @@ find.gnu/posix-dflt.xo \
 find.gnu/posix-h.xo \
 find.gnu/posix-l.xo \
 find.gnu/printfHdfl.xo \
+find.gnu/printf-slash.xo \
 find.gnu/printf-symlink.xo \
 find.gnu/printf-h.xo \
 find.gnu/printf.xo \
@@ -96,6 +98,7 @@ find.gnu/iwholename.exp \
 find.gnu/lname.exp \
 find.gnu/name-opt.exp \
 find.gnu/name-period.exp \
+find.gnu/name-slash.exp \
 find.gnu/path.exp \
 find.gnu/print0.exp \
 find.gnu/perm.exp \
@@ -106,6 +109,7 @@ find.gnu/posix-l.exp \
 find.gnu/printfHdfl.exp \
 find.gnu/printf.exp \
 find.gnu/printf.exp \
+find.gnu/printf-slash.exp \
 find.gnu/printf-symlink.exp \
 find.gnu/printf-h.exp \
 find.gnu/prune-default-print.exp \

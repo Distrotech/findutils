@@ -316,7 +316,7 @@ struct process_data
   int len;
   char *original_filename;	/* The current input database entry. */
   size_t pathsize;		/* Amount allocated for it.  */
-  char *munged_filename;	/* path or base_name(path) */
+  char *munged_filename;	/* path or basename(path) */
   FILE *fp;			/* The pathname database.  */
   char *dbfile;			/* Its name, or "<stdin>" */
   /* for the old database format,
@@ -591,7 +591,7 @@ static int
 visit_basename(struct process_data *procdata, void *context)
 {
   (void) context;
-  procdata->munged_filename = base_name(procdata->original_filename);
+  procdata->munged_filename = last_component (procdata->original_filename);
 
   return VISIT_CONTINUE;
 }

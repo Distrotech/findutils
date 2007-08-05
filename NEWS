@@ -14,6 +14,15 @@ that situation.
 
 #19660: Fix compilation failure on Cygwin.
 
+#20662: Avoid memory leak in find -name and other places affected by
+gnulib dirname module.  The leak had been present since 4.2.28.
+
+** Enhancements
+
+#20688: The warning printed by -name or -iname when the pattern to
+match contains a slash can now be silenced by -nowarn.  This warning
+was originally introduced unconditionally in 4.2.21.
+
 * Major changes in release 4.2.31, 2007-05-30
 
 ** Security Fixes

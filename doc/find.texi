@@ -30,8 +30,8 @@
 This file documents the GNU utilities for finding files that match
 certain criteria and performing various operations on them.
 
-Copyright (C) 1994, 1996, 1998, 2000, 2001, 2003, 2004, 2005 Free
-Software Foundation, Inc.
+Copyright (C) 1994, 1996, 1998, 2000, 2001, 2003, 2004, 2005, 2006,
+2007 Free Software Foundation, Inc.
 
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -2711,6 +2711,11 @@ Use of the @samp{-ipath} option which is deprecated; please use
 @item
 Specifying an option (for example @samp{-mindepth}) after a non-option
 (for example @samp{-type} or @samp{-print}) on the command line.
+@item
+Use of the @samp{-name} or @samp{-iname} option with a slash character
+in the pattern.  Since the name predicates only compare against the
+basename of the visited files, the only file that can match a slash is
+the root directory itself.
 @end itemize
 
 
@@ -4677,4 +4682,3 @@ Expressions}, for more information on expressions.
 @comment LocalWords: su Timar ubins ug unstripped vf VM Weitzel
 @comment LocalWords: wildcard zlogout basename execdir wholename iwholename
 @comment LocalWords: timestamp timestamps Solaris FreeBSD OpenBSD POSIX
-

@@ -1,3 +1,24 @@
+2007-08-05  Eric Blake  <ebb9@byu.net>
+
+	Fix Savannah bugs #20662, #20688.
+	* find/find.c (at_top): Avoid memory leak.
+	* find/pred.c (do_fprintf, pred_iname, pred_name): Likewise.
+	(pred_name_common): New function, factored from pred_iname and
+	pred_name.
+	* find/parser.c (check_name_arg): Let -nowarn silence -name /.
+	* locate/locate.c (visit_basename): Avoid memory leak.
+	* NEWS: Document the changes.
+	* doc/find.texi (Warning Messages): Document -nowarn's effect on
+	-name and -iname.
+	* find/testsuite/find.gnu/name-slash.exp: New test, to ensure
+	20662 doesn't regress on '-name /', and that 20688 silences the
+	warning.
+	* find/testsuite/find.gnu/printf-slash.exp: Likewise.
+	* find/testsuite/find.gnu/name-slash.xo: Expected results.
+	* find/testsuite/find.gnu/printf-slash.xo: Likewise.
+	* find/testsuite/Makefile.am (EXTRA_DIST_XO, EXTRA_DIST_EXP):
+	Distribute new tests.
+
 2007-07-29  James Youngman  <jay@gnu.org>
 
 	* po/vi.po, po/pl.po, po/ga.po, po/nl.po: Updated from Translation

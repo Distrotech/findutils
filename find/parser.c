@@ -1,6 +1,6 @@
 /* parser.c -- convert the command line args into an expression tree.
    Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2001, 2003, 
-                 2004, 2005 Free Software Foundation, Inc.
+                 2004, 2005, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -849,10 +849,10 @@ fnmatch_sanitycheck(void)
 }
 
 
-static boolean 
+static boolean
 check_name_arg(const char *pred, const char *arg)
 {
-  if (strchr(arg, '/'))
+  if (options.warnings && strchr(arg, '/'))
     {
       error(0, 0,_("warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."),
 	    pred, arg, arg);

@@ -1,6 +1,6 @@
 /* find -- search for files in a directory hierarchy
    Copyright (C) 1990, 91, 92, 93, 94, 2000, 
-                 2003, 2004, 2005 Free Software Foundation, Inc.
+                 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1379,13 +1379,13 @@ at_top (char *pathname,
 		       struct stat *pstat))
 {
   int dirchange;
-  char *parent_dir = dir_name(pathname);
-  char *base = base_name(pathname);
-  
+  char *parent_dir = dir_name (pathname);
+  char *base = last_component (pathname);
+
   state.curdepth = 0;
   state.path_length = strlen (pathname);
 
-  if (0 == strcmp(pathname, parent_dir)
+  if (0 == *base
       || 0 == strcmp(parent_dir, "."))
     {
       dirchange = 0;
