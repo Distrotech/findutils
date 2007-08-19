@@ -196,7 +196,7 @@ list_file (const char *name,
 	   int literal_control_chars,
 	   FILE *stream)
 {
-  char modebuf[11];
+  char modebuf[12];
   struct tm const *when_local;
   char const *user_name;
   char const *group_name;
@@ -208,7 +208,6 @@ list_file (const char *name,
 #else
   strmode (statp->st_mode, modebuf);
 #endif
-  modebuf[10] = '\0';
 
   fprintf (stream, "%6s ",
 	   human_readable ((uintmax_t) statp->st_ino, hbuf,
@@ -221,9 +220,9 @@ list_file (const char *name,
 			   ST_NBLOCKSIZE, output_block_size));
 
 
-  /* The space between the mode and the number of links is the POSIX
-     "optional alternate access method flag".  */
-  fprintf (stream, "%s %3lu ", modebuf, (unsigned long) statp->st_nlink);
+  /* modebuf includes the space between the mode and the number of links,
+     as the POSIX "optional alternate access method flag".  */
+  fprintf (stream, "%s%3lu ", modebuf, (unsigned long) statp->st_nlink);
 
   user_name = getuser (statp->st_uid);
   if (user_name)
