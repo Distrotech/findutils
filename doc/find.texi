@@ -1327,11 +1327,14 @@ and returns false.
 
 @deffn Action -quit
 Exit immediately (with return value zero if no errors have occurred).
-No child processes will be left running, but no more files specified
-on the command line will be processed.  For example, @code{find
-/tmp/foo /tmp/bar -print -quit} will print only @samp{/tmp/foo}.  Any
-command lines which have been built by @samp{-exec ... \+} or
-@samp{-execdir ... \+} are invoked before the program is executed.
+This is different to @samp{-prune} because @samp{-prune} only applies
+to the contents of pruned directories, whilt @samp{-quit} simply makes
+@code{find} stop immediately.  No child processes will be left
+running, but no more files specified on the command line will be
+processed.  For example, @code{find /tmp/foo /tmp/bar -print -quit}
+will print only @samp{/tmp/foo}.  Any command lines which have been
+built by @samp{-exec ... \+} or @samp{-execdir ... \+} are invoked
+before the program is exited.
 @end deffn
 
 @deffn Option -noleaf
