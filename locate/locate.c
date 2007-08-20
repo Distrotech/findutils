@@ -1566,7 +1566,6 @@ dolocate (int argc, char **argv, int secure_db_fd)
 {
   char *dbpath;
   unsigned long int found = 0uL;
-  int optc;
   int ignore_case = 0;
   int print = 0;
   int just_count = 0;
@@ -1608,113 +1607,120 @@ dolocate (int argc, char **argv, int secure_db_fd)
 
   check_existence = ACCEPT_EITHER;
 
-  while ((optc = getopt_long (argc, argv, "Abcd:eEil:prsm0SwHPL", longopts, (int *) 0)) != -1)
-    switch (optc)
-      {
-      case '0':
-	separator = 0;
-	print_quoted_filename = false; /* print filename 'raw'. */
+  for (;;)
+    {
+      int opti = -1;
+      int optc = getopt_long (argc, argv, "Abcd:eEil:prsm0SwHPL", longopts,
+			      &opti);
+      if (optc == -1)
 	break;
 
-      case 'A':
-	op_and = 1;
-	break;
-
-      case 'b':
-	basename_only = 1;
-	break;
-
-      case 'c':
-	just_count = 1;
-	break;
-
-      case 'd':
-	dbpath = optarg;
-	they_chose_db = 1;
-	break;
-
-      case 'e':
-	check_existence = ACCEPT_EXISTING;
-	break;
-
-      case 'E':
-	check_existence = ACCEPT_NON_EXISTING;
-	break;
-
-      case 'i':
-	ignore_case = 1;
-	break;
-	
-      case 'h':
-	usage (stdout);
-	return 0;
-
-      case MAX_DB_AGE:
-	/* XXX: nothing in the test suite for this option. */
-	set_max_db_age(optarg);
-	break;
-
-      case 'p':
-	print = 1;
-	break;
-
-      case 'v':
-	display_findutils_version("locate");
-	return 0;
-
-      case 'w':
-	basename_only = 0;
-	break;
-
-      case 'r':
-	regex = 1;
-	break;
-
-      case REGEXTYPE_OPTION:
-	regex_options = get_regex_type(optarg);
-	break;
-	
-      case 'S':
-	stats = 1;
-	break;
-
-      case 'L':
-	follow_symlinks = 1;
-	break;
-
-	/* In find, -P and -H differ in the way they handle paths
-	 * given on the command line.  This is not relevant for
-	 * locate, but the -H option is supported because it is
-	 * probably more intuitive to do so.
-	 */
-      case 'P':
-      case 'H':
-	follow_symlinks = 0;
-	break;
-
-      case 'l':
+      switch (optc)
 	{
-	  char *end = optarg;
-	  strtol_error err = xstrtoumax(optarg, &end, 10, &limits.limit, NULL);
-	  if (LONGINT_OK != err)
-	    {
-	      STRTOL_FATAL_ERROR(optarg, _("argument to --limit"), err);
-	    }
-	  use_limit = 1;
+	case '0':
+	  separator = 0;
+	  print_quoted_filename = false; /* print filename 'raw'. */
+	  break;
+
+	case 'A':
+	  op_and = 1;
+	  break;
+
+	case 'b':
+	  basename_only = 1;
+	  break;
+
+	case 'c':
+	  just_count = 1;
+	  break;
+
+	case 'd':
+	  dbpath = optarg;
+	  they_chose_db = 1;
+	  break;
+
+	case 'e':
+	  check_existence = ACCEPT_EXISTING;
+	  break;
+
+	case 'E':
+	  check_existence = ACCEPT_NON_EXISTING;
+	  break;
+
+	case 'i':
+	  ignore_case = 1;
+	  break;
+
+	case 'h':
+	  usage (stdout);
+	  return 0;
+
+	case MAX_DB_AGE:
+	  /* XXX: nothing in the test suite for this option. */
+	  set_max_db_age (optarg);
+	  break;
+
+	case 'p':
+	  print = 1;
+	  break;
+
+	case 'v':
+	  display_findutils_version ("locate");
+	  return 0;
+
+	case 'w':
+	  basename_only = 0;
+	  break;
+
+	case 'r':
+	  regex = 1;
+	  break;
+
+	case REGEXTYPE_OPTION:
+	  regex_options = get_regex_type (optarg);
+	  break;
+
+	case 'S':
+	  stats = 1;
+	  break;
+
+	case 'L':
+	  follow_symlinks = 1;
+	  break;
+
+	  /* In find, -P and -H differ in the way they handle paths
+	   * given on the command line.  This is not relevant for
+	   * locate, but the -H option is supported because it is
+	   * probably more intuitive to do so.
+	   */
+	case 'P':
+	case 'H':
+	  follow_symlinks = 0;
+	  break;
+
+	case 'l':
+	  {
+	    char *end = optarg;
+	    strtol_error err = xstrtoumax (optarg, &end, 10, &limits.limit,
+					   NULL);
+	    if (LONGINT_OK != err)
+	      xstrtol_fatal (err, opti, optc, longopts, optarg);
+	    use_limit = 1;
+	  }
+	  break;
+
+	case 's':			/* use stdio */
+	case 'm':			/* use mmap  */
+	  /* These options are implemented simply for
+	   * compatibility with FreeBSD
+	   */
+	  break;
+
+	default:
+	  usage (stderr);
+	  return 1;
 	}
-	break;
-
-      case 's':			/* use stdio */
-      case 'm':			/* use mmap  */
-	/* These options are implemented simply for
-	 * compatibility with FreeBSD
-	 */ 
-	break;
-
-      default:
-	usage (stderr);
-	return 1;
-      }
+    }
 
 
   /* If the user gave the -d option or set LOCATE_PATH,
