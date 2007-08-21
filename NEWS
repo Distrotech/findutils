@@ -21,7 +21,8 @@ as well as (correctly) from less than N days ago.
 #20273: When xargs is successful without consuming all of stdin (for
 example, with the -E option), and stdin is seekable, xargs now
 correctly restores the file position, even on platforms where exit()
-does not follow the POSIX rules of doing likewise.
+does not follow the POSIX rules of doing likewise.  Likewise for find
+(for example, with the -ok action).
 
 #20547: The version information printed by find, xargs, locate,
 updatedb, frcode and code now complies with the GNU Project's coding

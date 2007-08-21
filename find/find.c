@@ -44,7 +44,7 @@
 #include "canonicalize.h"
 #include <modetype.h>
 
-#include "closeout.h"
+#include "closein.h"
 #include "savedirinfo.h"
 #include "buildcmd.h"
 #include "dirname.h"
@@ -141,7 +141,7 @@ main (int argc, char **argv)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit (close_stdout);
+  atexit (close_stdin);
 
   /* Check for -P, -H or -L options. */
   end_of_leading_options = process_leading_options(argc, argv);

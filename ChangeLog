@@ -1,3 +1,11 @@
+2007-08-21  Eric Blake  <ebb9@byu.net>
+
+	Fix for Savannah bug #20273, find -ok with seekable stdin.
+	* find/find.c (main): Use close_stdin, not close_stdout.
+	* import-gnulib.config (gnulib_version): Pick up yesno tests.
+	* NEWS: Document the change.
+	* build-aux/.cvsignore: Ignore compile.
+
 2007-08-20  Paul Eggert  <eggert@cs.ucla.edu>
 	and Eric Blake  <ebb9@byu.net>
 
