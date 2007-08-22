@@ -422,25 +422,47 @@ matches a file named @file{foo@{1,2@}}, not the files @file{foo1} and
 @node Full Name Patterns
 @subsection Full Name Patterns
 
-@deffn Test -wholename pattern
-@deffnx Test -iwholename pattern
+@deffn Test -path pattern
+@deffnx Test -wholename pattern
 True if the entire file name, starting with the command line argument
 under which the file was found, matches shell pattern @var{pattern}.
-For @samp{-iwholename}, the match is case-insensitive.  To ignore a
-whole directory tree, use @samp{-prune} rather than checking every
-file in the tree (@pxref{Directories}).  The ``entire file name'' as
-used by @code{find} starts with the starting-point specified on the
-command line, and is not converted to an absolute pathname, so for
-example @code{cd /; find tmp -wholename /tmp} will never match
-anything.
+To ignore a whole directory tree, use @samp{-prune} rather than
+checking every file in the tree (@pxref{Directories}).  The ``entire
+file name'' as used by @code{find} starts with the starting-point
+specified on the command line, and is not converted to an absolute
+pathname, so for example @code{cd /; find tmp -wholename /tmp} will
+never match anything.   The name @samp{-wholename} is GNU-specific,
+but @samp{-path} is more portable; it is supported by HP-UX
+@code{find} and will soon be part of POSIX.
 @end deffn
 
-@deffn Test -path pattern
-@deffnx Test -ipath pattern
-These tests are deprecated, but work as for @samp{-wholename} and
-@samp{-iwholename}, respectively.  The @samp{-ipath} test is a GNU
-extension, but @samp{-path} is also provided by HP-UX @code{find}.
+@deffn Test -ipath pattern
+@deffnx Test -iwholename pattern
+These tests are like @samp{-wholename} and @samp{-path}, but the match
+is case-insensitive.
 @end deffn
+
+
+In the context of the tests @samp{-path}, @samp{-wholename},
+@samp{-ipath} and @samp{-wholename}, a ``full path'' is the name of
+all the directories traversed from @code{find}'s start point to the
+file being tested, followed by the base name of the file itself.
+These paths are often not absolute paths; for example
+
+@example
+$ cd /tmp
+$ mkdir -p foo/bar/baz
+$ find foo -path foo/bar -print
+foo/bar
+$ find foo -path /tmp/foo/bar -print
+$ find /tmp/foo -path /tmp/foo/bar -print
+/tmp/foo/bar
+@end example
+
+Notice that the second @code{find} command prints nothing, even though
+@file{/tmp/foo/bar} exists and was examined by @code{find}.
+
+
 
 @deffn Test -regex expr
 @deffnx Test -iregex expr

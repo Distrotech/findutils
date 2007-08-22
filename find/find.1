@@ -482,7 +482,7 @@ matches shell pattern \fIpattern\fR.  The metacharacters (`*', `?',
 and `[]') match a `.' at the start of the base name (this is a change
 in findutils-4.2.2; see section STANDARDS CONFORMANCE below).  To ignore a
 directory and the files under it, use \-prune; see an example in the
-description of \-wholename.  Braces are not recognised as being
+description of \-path.  Braces are not recognised as being
 special, despite the fact that some shells including Bash imbue braces
 with a special meaning in shell patterns.  The filename matching is
 performed with the use of the
@@ -547,8 +547,37 @@ No group corresponds to file's numeric group ID.
 No user corresponds to file's numeric user ID.
 
 .IP "\-path \fIpattern\fR"
-See \-wholename.   The predicate \-path is also supported by HP-UX 
-.BR find .
+File name matches shell pattern \fIpattern\fR.  The metacharacters do
+not treat `/' or `.' specially; so, for example,
+.br
+.in +1i
+find . \-path "./sr*sc"
+.br
+.in -1i
+will print an entry for a directory called `./src/misc' (if one
+exists).  To ignore a whole directory tree, use \-prune rather than
+checking every file in the tree.  For example, to skip the
+directory `src/emacs' and all files and directories under it, and
+print the names of the other files found, do something like this:
+.br
+.in +1i
+find . \-path ./src/emacs \-prune \-o \-print
+.br
+.in -1i
+Note that the pattern match test applies to the whole file name,
+starting from one of the start points named on the command line.  It
+would only make sense to use an absolute path name here if the
+relevant start point is also an absolute path.  This means that this
+command will never match anything:
+.br
+.in +1i
+find bar \-path /foo/bar/myfile \-print
+.br
+.in -1i
+The predicate \-path
+is also supported by HP-UX
+.B find 
+and will be in a forthcoming version of the POSIX standard.
 
 .IP "\-perm \fImode\fR"
 File's permission bits are exactly \fImode\fR (octal or symbolic).
@@ -690,23 +719,7 @@ File was last accessed \fIn\fR days after its status was last changed.
 File is owned by user \fIuname\fR (numeric user ID allowed).
 
 .IP "\-wholename \fIpattern\fR"
-File name matches shell pattern \fIpattern\fR.  The metacharacters do
-not treat `/' or `.' specially; so, for example,
-.br
-.in +1i
-find . \-wholename "./sr*sc"
-.br
-.in -1i
-will print an entry for a directory called `./src/misc' (if one
-exists).  To ignore a whole directory tree, use \-prune rather than
-checking every file in the tree.  For example, to skip the
-directory `src/emacs' and all files and directories under it, and
-print the names of the other files found, do something like this:
-.br
-.in +1i
-find . \-wholename ./src/emacs \-prune \-o \-print
-.br
-.in -1i
+See \-path.    This alternative is less portable than \-path.
 
 .IP "\-writable"
 Matches files which are writable.  This takes into account access

@@ -160,25 +160,44 @@ static boolean parse_quit          PARAMS((const struct parser_table*, char *arg
 boolean parse_print             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 
 
-static boolean insert_type PARAMS((char **argv, int *arg_ptr, const struct parser_table *entry, PRED_FUNC which_pred));
-static boolean insert_regex PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry, int regex_options));
+static boolean insert_type PARAMS((char **argv, int *arg_ptr,
+				   const struct parser_table *entry,
+				   PRED_FUNC which_pred));
+static boolean insert_regex PARAMS((char *argv[], int *arg_ptr,
+				    const struct parser_table *entry,
+				    int regex_options));
 static boolean insert_fprintf (struct format_val *vec,
 			       const struct parser_table *entry,
 			       PRED_FUNC func,
 			       const char *format);
 
-static struct segment **make_segment PARAMS((struct segment **segment, char *format, int len,
-					     int kind, char format_char, char aux_format_char,
+static struct segment **make_segment PARAMS((struct segment **segment,
+					     char *format, int len,
+					     int kind, char format_char,
+					     char aux_format_char,
 					     struct predicate *pred));
-static boolean insert_exec_ok PARAMS((const char *action, const struct parser_table *entry, int dirfd, char *argv[], int *arg_ptr));
-static boolean get_comp_type PARAMS((const char **str, enum comparison_type *comp_type));
-static boolean get_relative_timestamp PARAMS((const char *str, struct time_val *tval, time_t origin, double sec_per_unit, const char *overflowmessage));
-static boolean get_num PARAMS((const char *str, uintmax_t *num, enum comparison_type *comp_type));
-static struct predicate* insert_num PARAMS((char *argv[], int *arg_ptr, const struct parser_table *entry));
+static boolean insert_exec_ok PARAMS((const char *action,
+				      const struct parser_table *entry,
+				      int dirfd,
+				      char *argv[],
+				      int *arg_ptr));
+static boolean get_comp_type PARAMS((const char **str,
+				     enum comparison_type *comp_type));
+static boolean get_relative_timestamp PARAMS((const char *str,
+					      struct time_val *tval,
+					      time_t origin,
+					      double sec_per_unit,
+					      const char *overflowmessage));
+static boolean get_num PARAMS((const char *str,
+			       uintmax_t *num,
+			       enum comparison_type *comp_type));
+static struct predicate* insert_num PARAMS((char *argv[], int *arg_ptr,
+					    const struct parser_table *entry));
 static void open_output_file (const char *path, struct format_val *p);
 static void open_stdout (struct format_val *p);
 static boolean stream_is_tty(FILE *fp);
-static boolean parse_noop PARAMS((const struct parser_table* entry, char **argv, int *arg_ptr));
+static boolean parse_noop PARAMS((const struct parser_table* entry,
+				  char **argv, int *arg_ptr));
 
 #define PASTE(x,y) x##y
 #define STRINGIFY(s) #s
@@ -279,7 +298,7 @@ static struct parser_table const parse_table[] =
   PARSE_PUNCTUATION("or",                    or),	     /* GNU */
   PARSE_ACTION     ("ok",                    ok),
   PARSE_ACTION     ("okdir",                 okdir), /* GNU (-execdir is BSD) */
-  PARSE_TEST       ("path",                  path), /* GNU, HP-UX, GNU prefers wholename */
+  PARSE_TEST       ("path",                  path), /* GNU, HP-UX, RMS prefers wholename, but anyway soon POSIX */
   PARSE_TEST       ("perm",                  perm),
   PARSE_ACTION     ("print",                 print),
   PARSE_ACTION     ("print0",                print0),	     /* GNU */
@@ -299,7 +318,7 @@ static struct parser_table const parse_table[] =
   PARSE_TEST       ("used",                  used),	     /* GNU */
   PARSE_TEST       ("user",                  user),
   PARSE_OPTION     ("warn",                  warn),	     /* GNU */
-  PARSE_TEST_NP    ("wholename",             wholename), /* GNU, replaces -path */
+  PARSE_TEST_NP    ("wholename",             wholename), /* GNU, replaced -path, but anyway -path will soon be in POSIX */
   {ARG_TEST,       "writable",               parse_accesscheck, pred_writable}, /* GNU, 4.3.0+ */
   PARSE_OPTION     ("xdev",                  xdev),
   PARSE_TEST       ("xtype",                 xtype),	     /* GNU */
@@ -409,7 +428,9 @@ set_follow_state(enum SymlinkOption opt)
 
 
 void
-parse_begin_user_args (char **args, int argno, const struct predicate *last, const struct predicate *predicates)
+parse_begin_user_args (char **args, int argno,
+		       const struct predicate *last,
+		       const struct predicate *predicates)
 {
   (void) args;
   (void) argno;
@@ -419,7 +440,9 @@ parse_begin_user_args (char **args, int argno, const struct predicate *last, con
 }
 
 void 
-parse_end_user_args (char **args, int argno, const struct predicate *last, const struct predicate *predicates)
+parse_end_user_args (char **args, int argno,
+		     const struct predicate *last,
+		     const struct predicate *predicates)
 {
   /* does nothing */
   (void) args;
@@ -746,7 +769,9 @@ parse_d (const struct parser_table* entry, char **argv, int *arg_ptr)
   if (options.warnings)
     {
       error (0, 0,
-	     _("warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."));
+	     _("warning: the -d option is deprecated; please use "
+	       "-depth instead, because the latter is a "
+	       "POSIX-compliant feature."));
     }
   return parse_depth(entry, argv, arg_ptr);
 }
@@ -1129,7 +1154,13 @@ check_name_arg(const char *pred, const char *arg)
 {
   if (options.warnings && strchr(arg, '/'))
     {
-      error(0, 0,_("warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."),
+      error(0, 0,_("warning: Unix filenames usually don't contain slashes "
+		   "(though pathnames do).  That means that '%s %s' will "
+		   "probably evaluate to false all the time on this system.  "
+		   "You might find the '-wholename' test more useful, or "
+		   "perhaps '-samefile'.  Alternatively, if you are using "
+		   "GNU grep, you could "
+		   "use 'find ... -print0 | grep -FzZ %s'."),
 	    pred,
 	    safely_quote_err_filename(0, arg),
 	    safely_quote_err_filename(1, arg));
@@ -1184,27 +1215,24 @@ parse_inum (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_ipath (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  error (0, 0,
-	 _("warning: the predicate -ipath is deprecated; please use -iwholename instead."));
-  
-  return parse_iwholename(entry, argv, arg_ptr);
+  const char *name;
+
+  fnmatch_sanitycheck ();
+  if (collect_arg (argv, arg_ptr, &name))
+    {
+      struct predicate *our_pred = insert_primary_withpred (entry, pred_ipath);
+      our_pred->need_stat = our_pred->need_type = false;
+      our_pred->args.str = name;
+      our_pred->est_success_rate = estimate_pattern_match_rate (name, 0);
+      return true;
+    }
+  return false;
 }
 
 static boolean
 parse_iwholename (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  const char *name;
-
-  fnmatch_sanitycheck();
-  if (collect_arg(argv, arg_ptr, &name))
-    {
-      struct predicate *our_pred = insert_primary_withpred (entry, pred_ipath);
-      our_pred->need_stat = our_pred->need_type = false;
-      our_pred->args.str = name;
-      our_pred->est_success_rate = estimate_pattern_match_rate(name, 0);
-      return true;
-    }
-  return false;
+  return parse_ipath (entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1298,7 +1326,10 @@ parse_mindepth (const struct parser_table* entry, char **argv, int *arg_ptr)
 
 
 static boolean
-do_parse_xmin (const struct parser_table* entry, char **argv, int *arg_ptr, enum xval xv)
+do_parse_xmin (const struct parser_table* entry,
+	       char **argv,
+	       int *arg_ptr,
+	       enum xval xv)
 {
   const char *minutes;
 
@@ -1652,22 +1683,18 @@ parse_or (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-/* -path is deprecated (at RMS's request) in favour of 
- * -iwholename.   See the node "GNU Manuals" in standards.texi
- * for the rationale for this (basically, GNU prefers the use 
- * of the phrase "file name" to "path name".
+/* For some time, -path was deprecated (at RMS's request) in favour of
+ * -iwholename.  See the node "GNU Manuals" in standards.texi for the
+ * rationale for this (basically, GNU prefers the use of the phrase
+ * "file name" to "path name".
  *
  * We do not issue a warning that this usage is deprecated
- * since HPUX find supports this predicate also.
+ * since
+ * (a) HPUX find supports this predicate also and 
+ * (b) it will soon be in POSIX anyway.
  */
 static boolean
 parse_path (const struct parser_table* entry, char **argv, int *arg_ptr)
-{
-  return parse_wholename(entry, argv, arg_ptr);
-}
-
-static boolean
-parse_wholename (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *name;
   if (collect_arg(argv, arg_ptr, &name))
@@ -1675,10 +1702,16 @@ parse_wholename (const struct parser_table* entry, char **argv, int *arg_ptr)
       struct predicate *our_pred = insert_primary_withpred (entry, pred_path);
       our_pred->need_stat = our_pred->need_type = false;
       our_pred->args.str = name;
-      our_pred->est_success_rate = estimate_pattern_match_rate(name, 0);
+      our_pred->est_success_rate = estimate_pattern_match_rate (name, 0);
       return true;
     }
   return false;
+}
+
+static boolean
+parse_wholename (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  return parse_path (entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1918,7 +1951,10 @@ parse_regex (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 static boolean
-insert_regex (char **argv, int *arg_ptr, const struct parser_table *entry, int regex_options)
+insert_regex (char **argv,
+	      int *arg_ptr,
+	      const struct parser_table *entry,
+	      int regex_options)
 {
   const char *rx;
   if (collect_arg(argv, arg_ptr, &rx))
@@ -2018,7 +2054,9 @@ parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
   /* TODO: accept fractional megabytes etc. ? */
   if (!get_num (argv[*arg_ptr], &num, &c_type))
     {
-      error(1, 0, _("Invalid argument `%s%c' to -size"), argv[*arg_ptr], (int)suffix);
+      error(1, 0,
+	    _("Invalid argument `%s%c' to -size"),
+	    argv[*arg_ptr], (int)suffix);
       return false;
     }
   our_pred = insert_primary (entry);
@@ -2191,10 +2229,13 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
  * uneven. 
  */
 static boolean
-parse_show_control_chars (const struct parser_table* entry, char **argv, int *arg_ptr)
+parse_show_control_chars (const struct parser_table* entry,
+			  char **argv,
+			  int *arg_ptr)
 {
   const char *arg;
-  const char *errmsg = _("The -show-control-chars option takes a single argument which "
+  const char *errmsg = _("The -show-control-chars option takes "
+			 "a single argument which "
 			 "must be 'literal' or 'safe'");
   
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
@@ -2452,7 +2493,9 @@ parse_xtype (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 static boolean
-insert_type (char **argv, int *arg_ptr, const struct parser_table *entry, PRED_FUNC which_pred)
+insert_type (char **argv, int *arg_ptr,
+	     const struct parser_table *entry,
+	     PRED_FUNC which_pred)
 {
   mode_t type_cell;
   struct predicate *our_pred;
@@ -2855,7 +2898,12 @@ check_path_safety(const char *action, char **argv)
     {
       if (0 == strcmp(s, "."))
 	{
-	  error(1, 0, _("The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\" or leading or trailing colons)"),
+	  error(1, 0, _("The current directory is included in the PATH "
+			"environment variable, which is insecure in "
+			"combination with the %s action of find.  "
+			"Please remove the current directory from your "
+			"$PATH (that is, remove \".\" or leading or trailing "
+			"colons)"),
 		action);
 	}
       else if ('/' != s[0])
@@ -2964,7 +3012,9 @@ new_insert_exec_ok (const char *action,
 	       * allowed.  We can specify this as those options are 
 	       * not defined by POSIX.
 	       */
-	      error(1, 0, _("You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."));
+	      error(1, 0, _("You may not use {} within the utility name for "
+			    "-execdir and -okdir, because this is a potential "
+			    "security problem."));
 	    }
 	}
     }
@@ -3076,7 +3126,11 @@ new_insert_exec_ok (const char *action,
 
 
 static boolean
-insert_exec_ok (const char *action, const struct parser_table *entry, int dirfd, char **argv, int *arg_ptr)
+insert_exec_ok (const char *action,
+		const struct parser_table *entry,
+		int dirfd,
+		char **argv,
+		int *arg_ptr)
 {
   return new_insert_exec_ok(action, entry, dirfd, argv, arg_ptr);
 }
@@ -3168,7 +3222,8 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
   struct time_val tval;
   enum comparison_type comp;
   const char *timearg, *orig_timearg;
-  const char *errmsg = "arithmetic overflow while converting %s days to a number of seconds";
+  const char *errmsg = "arithmetic overflow while converting %s "
+    "days to a number of seconds";
   time_t origin;
 
   if (!collect_arg(argv, arg_ptr, &timearg))
@@ -3219,7 +3274,9 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 	       (tval.kind == COMP_GT) ? " >" :
 	       ((tval.kind == COMP_LT) ? " <" : ((tval.kind == COMP_EQ) ? ">=" : " ?")));
       t = our_pred->args.reftime.ts.tv_sec;
-      fprintf (stderr, "%ju %s", (uintmax_t) our_pred->args.reftime.ts.tv_sec, ctime (&t));
+      fprintf (stderr, "%ju %s",
+	       (uintmax_t) our_pred->args.reftime.ts.tv_sec,
+	       ctime (&t));
       if (tval.kind == COMP_EQ)
 	{
 	  t = our_pred->args.reftime.ts.tv_sec + DAYSECS;
