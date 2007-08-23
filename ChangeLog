@@ -1,10 +1,14 @@
+2007-08-23  Eric Blake  <ebb9@byu.net>
+
+	* po/ChangeLog: Delete, merge into this file.
+
 2007-08-23  James Youngman  <jay@gnu.org>
 
 	* po/nl.po: Updated from Translation Project
 
 	* find/parser.c (check_path_safety): Assume the path is safe is
 	$PATH is not set.  This avoids a segfault in that situation
-	and thus fixes Savannmah bug #20834.
+	and thus fixes Savannah bug #20834.
 
 2007-08-22  Eric Blake  <ebb9@byu.net>
 
@@ -86,7 +90,7 @@
 
 2007-07-29  James Youngman  <jay@gnu.org>
 
-	* tr.po: Updated from Translation Project.
+	* po/tr.po: Updated from Translation Project.
 
 2007-07-26  Eric Blake  <ebb9@byu.net>
 
@@ -155,6 +159,10 @@
 
 	* import-gnulib.config (gnulib_version): Bump date, to pick
 	up fix in canonicalize module testing.
+
+2007-07-06  James Youngman  <jay@gnu.org>
+
+	* po/uk.po, po/nl.po, po/vi.po: Updated from Translation Project.
 
 2007-07-04  James Youngman  <jay@gnu.org>
 
@@ -364,6 +372,12 @@
 	* README-alpha: Mention the findutils-patches mailng list and the
 	archives for findutils-patches and bug-findutils.
 
+	* po/bg.po: Updated from Translation Project.
+
+2007-06-25  James Youngman  <jay@gnu.org>
+
+	* po/sv.po: Updated Swedish translation.
+
 2007-06-24  James Youngman  <jay@gnu.org>
 
 	* build-aux/.gitignore, debian/.gitignore, doc/.gitignore,
@@ -451,6 +465,10 @@
 	fixes Savannah bug #20139.
 	* NEWS: Mention the bugfix.
 
+2007-06-13  James Youngman  <jay@gnu.org>
+
+	* po/pl.po: Updated Polish translation.
+
 2007-06-12  James Youngman  <jay@gnu.org>
 
 	Release 4.3.8.
@@ -475,6 +493,9 @@
 	filesystem (taken from access.exp).
 	* find/testsuite/find.gnu/access.exp: Call fs_superuser.
 	* find/testsuite/find.gnu/fprint-unwritable.exp: Use fs_superuser.
+
+	* po/vi.po, ga.po, nl.po: Updated translations
+	* po/findutils.pot: Updated template file
 
 2007-06-09  James Youngman  <jay@gnu.org>
 
@@ -590,12 +611,17 @@
 	HAVE_SETGROUPS indicates that it is available.  This fixes
 	Savannah bug #19981.
 
+	* po/vi.po: Updated Vietnamese translation
+
 2007-05-31  James Youngman  <jay@gnu.org>
 
 	* find/parser.c (parse_time): Once we have determined the
 	comparison type, restore the original time argument since
 	get_relative_timestamp() also wants to see it.  This fixes
 	Savannah bug #20005.
+
+	* po/findutils.pot, ga.po, pt.po, tr.po, pl.po: updated from the TP
+	website.
 
 2007-05-31  Jakub Bogusz <qboosh@pld-linux.org>  (trivial change)
 
@@ -2288,6 +2314,12 @@
 	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.exp,
 	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.xo: New file.
 
+	* po/be.po, ca.po, da.po, de.po, el.po, eo.po, es.po, et.po, fi.po,
+	findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po,
+	ja.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po, pt_BR.po, ro.po,
+	ru.po, rw.po, sk.po, sl.po, sr.po, sv.po, tr.po, vi.po, zh_CN.po,
+	zh_TW.po: Updated Portuguese .po file and did update-po
+
 2005-11-18  Jim Meyering  <jim@meyering.net> (tiny change)
 
 	* lib/buildcmd.c (bc_push_arg): When exec'ing, don't exceed
@@ -2299,6 +2331,12 @@
 	list of mounted filesystems but it is not available, exit fatally
 	with a message.  If it is not available but we don't need it,
 	there is no need for an error.
+
+	* po/ro.po, ru.po, rw.po, sk.po, sl.po, sr.po, sv.po, tr.po, vi.po,
+	zh_CN.po, zh_TW.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po,
+	pt_BR.po, be.po, ca.po, da.po, de.po, el.po, eo.po, es.po, et.po,
+	fi.po, findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po,
+	it.po, ja.po: Updated Polish translation
 
 2005-10-31  James Youngman  <jay@gnu.org>
 
@@ -2367,6 +2405,13 @@
 	Work around compilation failure with GCC 4 and AIX 5.1, in which
 	open is #defined to open64
 
+	* po/be.po, ca.po, da.po, de.po, el.po, eo.po, es.po, et.po, fi.po,
+	findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po,
+	ja.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po, pt_BR.po, ro.po,
+	ru.po, rw.po, sk.po, sl.po, sr.po, sv.po, tr.po, vi.po, zh_CN.po,
+	zh_TW.po: Work around compilation failure with GCC 4 and AIX 5.1,
+	in which open is #defined to open64
+
 2005-09-03  James Youngman  <jay@gnu.org>
 
 	* find/testsuite/find.gnu/quit.exp: Fixed Savannah bug#14390, by
@@ -2382,6 +2427,11 @@
 
 	* ChangeLog, NEWS, configure.in: Released findutils-4.2.25
 
+	* po/sr.po, sv.po, tr.po, vi.po, zh_CN.po, zh_TW.po, sl.po, be.po,
+	ca.po, da.po, de.po, el.po, eo.po, es.po, et.po, fi.po,
+	findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po,
+	ja.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po, pt_BR.po, ro.po,
+	ru.po, rw.po, sk.po: Did update-po
 
 2005-09-02  James Youngman  <jay@gnu.org>
 
@@ -2410,6 +2460,10 @@
 	* find/defs.h, find/find.c, find/fstype.c, find/pred.c:
 	Attempted fix for compilation when AFS is #defined
 
+2005-08-24  James Youngman  <jay@gnu.org>
+
+	* po/sl.po: Updated from Translation Project
+
 2005-08-13  James Youngman  <jay@gnu.org>
 
 	* find/find.1: Remind the user to quote the pattern argument to -iname.
@@ -2417,6 +2471,11 @@
 2005-08-12  James Youngman  <jay@gnu.org>
 
 	* NEWS: Corrected typo.
+
+2005-08-11  James Youngman  <jay@gnu.org>
+
+	* po/fr.po: Updated French translation and added new PO file zh_TW.po
+	for Chinese (traditional)
 
 2005-08-09  James Youngman  <jay@gnu.org>
 
@@ -2479,6 +2538,17 @@
 
 	* find/ftsfind.c: Added additional diagnostics.
 
+2005-08-02  James Youngman  <jay@gnu.org>
+
+	* po/tr.po, vi.po:
+	Updated Vietnamese and Turkish translations from Translation Project
+
+	* po/sl.po, sr.po, sv.po, tr.po, vi.po, zh_CN.po, be.po, ca.po, da.po, de.po, el.po, eo.po, es.po, fi.po, findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po, ja.po, ko.po, lg.po, ms.po, pl.po, pt.po, pt_BR.po, ru.po, rw.po:
+	Did update-po
+
+	* po/et.po, sk.po, ro.po:
+	Updated Romanian, Slovak and Estonian translations from Translation Project
+
 2005-08-01  James Youngman  <jay@gnu.org>
 
 	* ABOUT-NLS, INSTALL, Makefile.am, configure.in, depcomp,
@@ -2493,6 +2563,14 @@
 	Files added by autopoint now that we are using AM_GNU_GETTEXT_VERSION
 
 	* find/testsuite/Makefile.am: Added find.gnu./perm-slash.{exp,xo}.
+
+	* po/nl.po: Updated Dutch translation from Translation Project
+
+	* po/ga.po: Updated Irish translation from the Translation Project
+
+	* po/da.po: Updated Danish translation from the Translation Project
+
+	* po/ca.po: Updated Catalan translation from Translation Project
 
 2005-07-31  James Youngman  <jay@gnu.org>
 
@@ -2869,6 +2947,18 @@
 	* locate/updatedb.1, locate/updatedb.sh: Fix Savannah bug 13411 -
 	reject trailing slashes in updatedb's --prunepaths, because these
 	will never be matched.
+
+2005-06-18  James Youngman  <jay@gnu.org>
+
+	* po/ga.po, tr.po: Updated Irish and Turkish translations.
+
+	* po/pl.po: Did update-po
+
+	* po/pl.po:
+	Updated Polish translation file from the Translation Project
+
+	* po/ca.po, da.po, de.po, el.po, eo.po, es.po, et.po, fi.po, findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po, ja.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, rw.po, sk.po, sl.po, sr.po, sv.po, tr.po, vi.po, zh_CN.po, be.po:
+	Did update-po
 
 2005-06-18  Martin Buchholz (trivial patch applied by James Youngman)
 
@@ -3497,6 +3587,11 @@
 	* find/pred.c:
 	To allow compilation on cygwin, use base_name(), not basename().
 
+	* po/tr.po: Updated Turkish translation from TP
+
+	* po/ro.po: Updated Romanian translation from TP
+
+	* po/da.po, po/et.po: Updated translations from MT project website
 
 2005-02-01  James Youngman  <jay@gnu.org>
 
@@ -3533,6 +3628,21 @@
 	which filenames are returned by readdir.  Hence sort the output of
 	'find' before comparing against the expected-output file.  We
 	therefore also have the lines in the .xo files ready-sorted.
+
+	* po/ca.po: Updated from Translation Project
+
+	* po/ChangeLog: Updated from CVS logs.
+
+	* po/de.po, es.po, et.po, fr.po, gl.po, id.po, it.po, ko.po, nl.po,
+	pl.po, pt_BR.po, ru.po, sk.po, sv.po, tr.po, da.po: Ran update-po
+
+	* po/be.po, ca.po, el.po, eo.po, fi.po, hr.po, hu.po, ja.po, lg.po,
+	ms.po, ro.po, sl.po, sr.po, zh_CN.po: Added new translation files
+	from the Translation Project web site
+
+	* po/da.po, de.po, es.po, et.po, fr.po, ga.po, gl.po, id.po, it.po,
+	ko.po, nl.po, pl.po, pt_BR.po, ru.po, sk.po, sv.po, tr.po: Updated
+	.po files from the Translation Project site
 
 2005-01-30  James Youngman  <jay@gnu.org>
 
@@ -4956,6 +5066,24 @@
 	* Makefile.am, Makefile.in, README-CVS, aclocal.m4:
 	Updated to work with current version of gnulib
 
+2003-05-26  James Youngman <jay@gnu.org>
+
+	* po/pl.po, pt_BR.po, ru.po, sv.po, tr.po, da.po, de.po, es.po,
+	et.po, findutils.pot, fr.po, gl.po, id.po, it.po, ko.po, nl.po:
+	Changes to allow compilation on non-GNU systems (i.e. for the
+	macros that gnulib decides to #define to be effective)
+
+2003-05-24  James Youngman <jay@gnu.org>
+
+	* po/da.po, de.po, es.po, et.po, findutils.pot, fr.po, gl.po,
+	id.po, it.po, ko.po, nl.po, pl.po, pt_BR.po, ru.po, sv.po, tr.po:
+	also need stpcpy (e.g. for Solaris)
+
+	* po/POTFILES.in, da.po, de.po, es.po, et.po, findutils.pot, fr.po,
+	gl.po, id.po, it.po, ko.po, nl.po, pl.po, pt_BR.po, ru.po, sv.po,
+	tr.po: Updates to the i18n files to ensure that 'make dist'
+	succeeds
+
 2001-06-09  Kevin Dalley  <kevin@seti.org>
 
 	* intl/plural.c:
@@ -5047,6 +5175,18 @@
 	created by dvips.  This should be taken care of by automake, but
 	the code is commented out.
 
+	* po/stamp-cat-id:	* stamp-cat-id: Remove file.
+
+	* po/Makefile.in.in:	* Makefile.in.in: Upgrade to gettext-0.10.38.
+
+	* po/ChangeLog:	* cat-id-tbl.c: Remove file.
+
+	* po/de.po, es.po, et.po, fr.po:
+	* po/fr.po, et.po, es.po, de.po: updated translations to
+	findutils-4.1.7.
+
+	* po/tr.po: * tr.po:  New Turkish translation.
+
 2001-06-05  Kevin Dalley  <kevin@seti.org>
 
 	* locate/updatedb.sh: replace "whoami" with "id -u" when testing
@@ -5065,6 +5205,12 @@
 
 	* doc/mdate-sh: removed file in doc directory.  It now exists only
 	in top_srcdir, but this changed required a patch to automake.
+
+2001-06-01  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.38.
+	* cat-id-tbl.c: Remove file.
+	* stamp-cat-id: Remove file.
 
 2001-05-20  Kevin Dalley  <kevin@seti.org>
 
@@ -5088,6 +5234,12 @@
 	* lib/Makefile.am (EXTRA_DIST):  getline.[ch] added
 	(libfind_a_SOURCES): getline.[ch] removed since getline.c is not
 	always needed.
+
+	* po/da.po, de.po, es.po, et.po, fr.po, gl.po, id.po, it.po, ko.po,
+	nl.po, pl.po, pt_BR.po, ru.po, sv.po: updated to reflect changes
+	in source code.
+
+	* po/id.po: New translation for Indonesia.
 
 2001-05-20  Lionel CONS <lionel.cons@cern.ch>
 
@@ -5115,6 +5267,14 @@
 
 	* configure.in: Change AC_CHECK_MEMBERS to conform to new
 	autoconf.  Add Danish.
+
+2001-04-28  Kevin Dalley  <kevind@rahul.net>
+
+	* po/sv.po, ru.po, pt_BR.po, pl.po, nl.po, ko.po, it.po, gl.po,
+	fr.po, et.po, es.po, de.po, findutils.pot:  new translations, and
+	new source code to translate.
+
+	* po/da.po: new Danish translation.
 
 2001-01-20  Kevin Dalley  <kevin@seti.org>
 
@@ -5165,6 +5325,10 @@
 
 	* depcomp, lib/depcomp: depcomp moved from lib to .
 
+	* po/sv.po, ru.po, pt_BR.po, pl.po, nl.po, ko.po, it.po, gl.po,
+	fr.po, findutils.pot, et.po, es.po, de.po: updated after addition
+	of lib/rpmatch.c
+
 2000-10-11  Kevin Dalley  <kevind@rahul.net>
 
 	* Version 4.1.6
@@ -5198,6 +5362,8 @@
 2000-10-10  Kevin Dalley  <kevind@rahul.net>
 
 	* locate/testsuite/config/unix.exp (Repository):
+
+	* po/POTFILES.in: added lib/rpmatch.c
 
 2000-10-09  Kevin Dalley  <kevind@rahul.net>
 
@@ -5577,7 +5743,7 @@
 
 2000-01-26  Kevin Dalley  <kevind@rahul.net>
 
-	* POTFILES.in: added list of files with translatable strings.
+	* po/POTFILES.in: added list of files with translatable strings.
 
 	* de.po, es.po, fr.po, it.po, ko.po, nl.po, pl.po, pt_BR.po,
 	ru.po, sv.po: New, slightly out of date, files imported from the
@@ -5614,6 +5780,8 @@
 2000-01-22  Kevin Dalley  <kevind@rahul.net>
 
 	* added intl directory.
+	* created po directory and added existing po files from
+	http://www.iro.umontreal.ca/contrib/po/HTML
 
 	* Added internationalization, only with slightly out of date po
 	files for many locales.
