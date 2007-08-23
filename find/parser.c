@@ -2888,8 +2888,17 @@ make_segment (struct segment **segment,
 static void 
 check_path_safety(const char *action, char **argv)
 {
-  const char *path = getenv("PATH");
   char *s;
+  const char *path = getenv("PATH");
+  if (NULL == path)
+    {
+      /* $PATH is not set.  Assume the OS default is safe.
+       * That may not be true on Windows, but I'm not aware 
+       * of a way to get Windows to avoid searching the 
+       * current directory anyway.
+       */
+      return;
+    }
 
   (void)argv;
   

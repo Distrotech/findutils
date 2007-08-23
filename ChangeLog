@@ -1,3 +1,9 @@
+2007-08-23  James Youngman  <jay@gnu.org>
+
+	find/parser.c (check_path_safety): Assume the path is safe is
+	$PATH is not set.  This avoids a segfault in that situation
+	and thus fixes Savannmah bug #20834.
+
 2007-08-22  Eric Blake  <ebb9@byu.net>
 
 	Fix Savannah bug #20871.

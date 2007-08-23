@@ -8,6 +8,9 @@ Public License.
 
 ** Bug Fixes
 
+#20834: Avoid segmentation violation for -execdir when $PATH is
+unset.  Assume that the PATH is safe in this situation.
+
 #20310: configure uses hosts's support status for "sort -z" when
 generating the updatedb script for use on the target.  This is
 inappropriate when cross-compiling, so avoid doing that.
