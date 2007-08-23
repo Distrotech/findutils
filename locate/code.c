@@ -1,5 +1,6 @@
 /* code -- bigram- and front-encode filenames for locate
-   Copyright (C) 1994, 2000, 2003, 2004, 2005 Free Software Foundation, Inc.
+   Copyright (C) 1994, 2000, 2003, 2004, 2005, 2007 Free Software
+   Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,13 +35,13 @@
    followed by a (partially bigram-encoded) ASCII remainder.
    The output lines have no terminating byte; the start of the next line
    is indicated by its first byte having a value <= 30.
-   
+
    The encoding of the output bytes is:
 
    0-28		likeliest differential counts + offset (14) to make nonnegative
    30		escape code for out-of-range count to follow in next halfword
-   128-255 	bigram codes (the 128 most common, as determined by `updatedb')
-   32-127  	single character (printable) ASCII remainder
+   128-255	bigram codes (the 128 most common, as determined by `updatedb')
+   32-127	single character (printable) ASCII remainder
 
    Written by James A. Woods <jwoods@adobe.com>.
    Modified by David MacKenzie <djm@gnu.org>.  */
@@ -75,7 +76,6 @@
 #endif
 
 #include "locatedb.h"
-#include <getline.h>
 #include "closeout.h"
 #include "gnulib-version.h"
 
@@ -155,7 +155,7 @@ main (int argc, char **argv)
       usage(stderr);
       return 2;
     }
-  
+
   if (0 == strcmp(argv[1], "--help"))
     {
       usage(stdout);
@@ -167,7 +167,7 @@ main (int argc, char **argv)
       printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
       return 0;
     }
-  
+
   fp = fopen (argv[1], "r");
   if (fp == NULL)
     {

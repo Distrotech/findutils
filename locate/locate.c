@@ -1,6 +1,6 @@
 /* locate -- search databases for filenames that match patterns
    Copyright (C) 1994, 1996, 1998, 1999, 2000, 2003,
-                 2004, 2005 Free Software Foundation, Inc.
+                 2004, 2005, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@
 
    0-28		likeliest differential counts + offset (14) to make nonnegative
    30		escape code for out-of-range count to follow in next halfword
-   128-255 	bigram codes (the 128 most common, as determined by `updatedb')
-   32-127  	single character (printable) ASCII remainder
+   128-255	bigram codes (the 128 most common, as determined by `updatedb')
+   32-127	single character (printable) ASCII remainder
 
    Earlier versions of GNU locate used to use a novel two-tiered
    string search technique, which was described in Usenix ;login:, Vol
@@ -123,7 +123,6 @@ extern int errno;
 #endif
 
 #include "locatedb.h"
-#include <getline.h>
 #include "xalloc.h"
 #include "error.h"
 #include "human.h"
@@ -882,7 +881,7 @@ locate (int argc,
 	int regex,
 	int regex_options)
 {
-  char *pathpart; 		/* A pattern to consider. */
+  char *pathpart;		/* A pattern to consider. */
   int argn;			/* Index to current pattern in argv. */
   int need_fold;	/* Set when folding and any pattern is non-glob. */
   int nread;		     /* number of bytes read from an entry. */
@@ -1197,7 +1196,6 @@ main (int argc, char **argv)
 {
   char *dbpath;
   unsigned long int found = 0uL;
-  int optc;
   int ignore_case = 0;
   int print = 0;
   int just_count = 0;
@@ -1230,108 +1228,115 @@ main (int argc, char **argv)
 
   check_existence = ACCEPT_EITHER;
 
-  while ((optc = getopt_long (argc, argv, "Abcd:eEil:prsm0SwHPL", longopts, (int *) 0)) != -1)
-    switch (optc)
-      {
-      case '0':
-	separator = 0;
-	print_quoted_filename = false; /* print filename 'raw'. */
+  for (;;)
+    {
+      int opti = -1;
+      int optc = getopt_long (argc, argv, "Abcd:eEil:prsm0SwHPL", longopts,
+			      &opti);
+      if (optc == -1)
 	break;
 
-      case 'A':
-	op_and = 1;
-	break;
-
-      case 'b':
-	basename_only = 1;
-	break;
-
-      case 'c':
-	just_count = 1;
-	break;
-
-      case 'd':
-	dbpath = optarg;
-	break;
-
-      case 'e':
-	check_existence = ACCEPT_EXISTING;
-	break;
-
-      case 'E':
-	check_existence = ACCEPT_NON_EXISTING;
-	break;
-
-      case 'i':
-	ignore_case = 1;
-	break;
-	
-      case 'h':
-	usage (stdout);
-	return 0;
-
-      case 'p':
-	print = 1;
-	break;
-
-      case 'v':
-	printf (_("GNU locate version %s\n"), version_string);
-	printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
-	return 0;
-
-      case 'w':
-	basename_only = 0;
-	break;
-
-      case 'r':
-	regex = 1;
-	break;
-
-      case REGEXTYPE_OPTION:
-	regex_options = get_regex_type(optarg);
-	break;
-	
-      case 'S':
-	stats = 1;
-	break;
-
-      case 'L':
-	follow_symlinks = 1;
-	break;
-
-	/* In find, -P and -H differ in the way they handle paths
-	 * given on the command line.  This is not relevant for
-	 * locate, but the -H option is supported because it is
-	 * probably more intuitive to do so.
-	 */
-      case 'P':
-      case 'H':
-	follow_symlinks = 0;
-	break;
-
-      case 'l':
+      switch (optc)
 	{
-	  char *end = optarg;
-	  strtol_error err = xstrtoumax(optarg, &end, 10, &limits.limit, NULL);
-	  if (LONGINT_OK != err)
-	    {
-	      STRTOL_FATAL_ERROR(optarg, _("argument to --limit"), err);
-	    }
-	  use_limit = 1;
+	case '0':
+	  separator = 0;
+	  print_quoted_filename = false; /* print filename 'raw'. */
+	  break;
+
+	case 'A':
+	  op_and = 1;
+	  break;
+
+	case 'b':
+	  basename_only = 1;
+	  break;
+
+	case 'c':
+	  just_count = 1;
+	  break;
+
+	case 'd':
+	  dbpath = optarg;
+	  break;
+
+	case 'e':
+	  check_existence = ACCEPT_EXISTING;
+	  break;
+
+	case 'E':
+	  check_existence = ACCEPT_NON_EXISTING;
+	  break;
+
+	case 'i':
+	  ignore_case = 1;
+	  break;
+
+	case 'h':
+	  usage (stdout);
+	  return 0;
+
+	case 'p':
+	  print = 1;
+	  break;
+
+	case 'v':
+	  printf (_("GNU locate version %s\n"), version_string);
+	  printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
+	  return 0;
+
+	case 'w':
+	  basename_only = 0;
+	  break;
+
+	case 'r':
+	  regex = 1;
+	  break;
+
+	case REGEXTYPE_OPTION:
+	  regex_options = get_regex_type (optarg);
+	  break;
+
+	case 'S':
+	  stats = 1;
+	  break;
+
+	case 'L':
+	  follow_symlinks = 1;
+	  break;
+
+	  /* In find, -P and -H differ in the way they handle paths
+	   * given on the command line.  This is not relevant for
+	   * locate, but the -H option is supported because it is
+	   * probably more intuitive to do so.
+	   */
+	case 'P':
+	case 'H':
+	  follow_symlinks = 0;
+	  break;
+
+	case 'l':
+	  {
+	    char *end = optarg;
+	    strtol_error err = xstrtoumax (optarg, &end, 10, &limits.limit,
+					   NULL);
+	    if (LONGINT_OK != err)
+	      xstrtol_fatal (err, opti, optc, longopts, optarg);
+	    use_limit = 1;
+	  }
+	  break;
+
+	case 's':			/* use stdio */
+	case 'm':			/* use mmap  */
+	  /* These options are implemented simply for
+	   * compatibility with FreeBSD
+	   */
+	  break;
+
+	default:
+	  usage (stderr);
+	  return 1;
 	}
-	break;
-
-      case 's':			/* use stdio */
-      case 'm':			/* use mmap  */
-	/* These options are implemented simply for
-	 * compatibility with FreeBSD
-	 */ 
-	break;
-
-      default:
-	usage (stderr);
-	return 1;
-      }
+    }
 
   if (!just_count && !stats)
     print = 1;
@@ -1339,7 +1344,7 @@ main (int argc, char **argv)
   if (stats)
     {
       if (optind == argc)
- 	  use_limit = 0;
+	use_limit = 0;
     }
   else
     {

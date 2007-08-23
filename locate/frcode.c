@@ -1,5 +1,5 @@
 /* frcode -- front-compress a sorted list
-   Copyright (C) 1994, 2003, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1994, 2003, 2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@
 /* We used to use (String) instead of just String, but apparentl;y ISO C
  * doesn't allow this (at least, that's what HP said when someone reported
  * this as a compiler bug).  This is HP case number 1205608192.  See
- * also http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11250 (which references 
+ * also http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11250 (which references
  * ANSI 3.5.7p14-15).  The Intel icc compiler also rejects constructs
  * like: static const char buf[] = ("string");
  */
@@ -102,7 +102,6 @@
 
 
 #include "locatedb.h"
-#include <getline.h>
 #include <getopt.h>
 #include "closeout.h"
 
@@ -116,13 +115,13 @@ char *program_name;
 static void
 put_short (int c, FILE *fp)
 {
-  /* XXX: The value may be negative, but I think ISO C doesn't 
+  /* XXX: The value may be negative, but I think ISO C doesn't
    * guarantee the assumptions we're making here will hold.
    */
   assert(c <= SHRT_MAX);
   assert(c >= SHRT_MIN);
   putc (c >> 8, fp);
-  putc (c, fp); 
+  putc (c, fp);
 }
 
 /* Return the length of the longest common prefix of strings S1 and S2. */
@@ -134,7 +133,7 @@ prefix_length (char *s1, char *s2)
   int limit = INT_MAX;
   for (start = s1; *s1 == *s2 && *s1 != '\0'; s1++, s2++)
     {
-      /* Don't emit a prefix length that will not fit into 
+      /* Don't emit a prefix length that will not fit into
        * our return type.
        */
       if (0 == --limit)
@@ -228,7 +227,7 @@ main (int argc, char **argv)
       diffcount = count - oldcount;
       if ( (diffcount > SHRT_MAX) || (diffcount < SHRT_MIN) )
 	{
-	  /* We do this to prevent overflow of the value we 
+	  /* We do this to prevent overflow of the value we
 	   * write with put_short()
 	   */
 	  count = 0;

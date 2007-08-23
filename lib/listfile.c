@@ -22,25 +22,7 @@
 # include <config.h>
 #endif
 
-#ifndef __GNUC__
-# if HAVE_ALLOCA_H
-#  include <alloca.h>
-# else
-#  ifdef _AIX
- #  pragma alloca
-#  else
-#   ifdef _WIN32
-#    include <malloc.h>
-#    include <io.h>
-#   else
-#    ifndef alloca
-char *alloca ();
-#    endif
-#   endif
-#  endif
-# endif
-#endif
-
+#include <alloca.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
@@ -53,6 +35,7 @@ char *alloca ();
 #include "pathmax.h"
 #include "error.h"
 #include "filemode.h"
+#include "idcache.h"
 
 #include "listfile.h"
 
@@ -63,8 +46,8 @@ char *alloca ();
 #endif
 
 
-/* The presence of unistd.h is assumed by gnulib these days, so we 
- * might as well assume it too. 
+/* The presence of unistd.h is assumed by gnulib these days, so we
+ * might as well assume it too.
  */
 #include <unistd.h> /* for readlink() */
 
@@ -181,9 +164,6 @@ struct group *getgrgid ();
 char * get_link_name (char *name, char *relname);
 static void print_name_with_quoting (register char *p, FILE *stream);
 
-extern char * getgroup (gid_t gid);
-extern char * getuser (uid_t uid);
-
 
 /* NAME is the name to print.
    RELNAME is the path to access it from the current directory.
@@ -251,7 +231,7 @@ list_file (char *name,
 #endif
   else
     fprintf (stream, "%8s ",
-	     human_readable ((uintmax_t) statp->st_size, hbuf, 
+	     human_readable ((uintmax_t) statp->st_size, hbuf,
 			     human_ceiling,
 			     1,
 			     output_block_size < 0 ? output_block_size : 1));
