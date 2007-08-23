@@ -5,12 +5,12 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -21,7 +21,7 @@
    see ";login:", March 1983, p. 8.
 
    The input is a sorted list of NUL-terminated strings (or
-   newline-terminated if the -0 option is not given). 
+   newline-terminated if the -0 option is not given).
 
    The output entries are in the same order as the input; each entry
    consists of a signed offset-differential count byte (the additional
@@ -96,7 +96,7 @@
 /* We used to use (String) instead of just String, but apparently ISO C
  * doesn't allow this (at least, that's what HP said when someone reported
  * this as a compiler bug).  This is HP case number 1205608192.  See
- * also http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11250 (which references 
+ * also http://gcc.gnu.org/bugzilla/show_bug.cgi?id=11250 (which references
  * ANSI 3.5.7p14-15).  The Intel icc compiler also rejects constructs
  * like: static const char buf[] = ("string");
  */
@@ -105,7 +105,6 @@
 
 
 #include "locatedb.h"
-#include <getline.h>
 #include <getopt.h>
 #include "error.h"
 #include "closeout.h"
@@ -140,7 +139,7 @@ prefix_length (char *s1, char *s2)
   int limit = INT_MAX;
   for (start = s1; *s1 == *s2 && *s1 != '\0'; s1++, s2++)
     {
-      /* Don't emit a prefix length that will not fit into 
+      /* Don't emit a prefix length that will not fit into
        * our return type.
        */
       if (0 == --limit)
@@ -177,12 +176,12 @@ get_seclevel(char *s)
 {
   long result;
   char *p;
-  
+
   /* Reset errno in oreder to be able to distinguish LONG_MAX/LONG_MIN
-   * from values whichare actually out of range 
+   * from values whichare actually out of range
    */
   errno = 0;
-  
+
   result = strtol(s, &p, 10);
   if ((0==result) && (p == optarg))
     {
@@ -191,7 +190,7 @@ get_seclevel(char *s)
       return -1;
     }
   else if ((LONG_MIN==result || LONG_MAX==result) && errno)
-    
+
     {
       error(1, 0, _("Security level %s is outside the convertible range."), s);
       /*NOTREACHED*/
@@ -286,7 +285,7 @@ main (int argc, char **argv)
     {
       fputc(slocate_seclevel ? '1' : '0', stdout);
       fputc(0, stdout);
-      
+
     }
   else
     {
@@ -297,7 +296,7 @@ main (int argc, char **argv)
 	  error(1, errno, _("Failed to write to standard output"));
 	}
     }
-  
+
 
   while ((line_len = getdelim (&path, &pathsize, delimiter, stdin)) > 0)
     {
@@ -307,7 +306,7 @@ main (int argc, char **argv)
       diffcount = count - oldcount;
       if ( (diffcount > SHRT_MAX) || (diffcount < SHRT_MIN) )
 	{
-	  /* We do this to prevent overflow of the value we 
+	  /* We do this to prevent overflow of the value we
 	   * write with put_short()
 	   */
 	  count = 0;
@@ -344,7 +343,7 @@ main (int argc, char **argv)
 	{
 	  outerr();
 	}
-      
+
       if (1)
 	{
 	  /* Swap path and oldpath and their sizes.  */

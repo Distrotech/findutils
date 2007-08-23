@@ -1,5 +1,5 @@
 /* bigram -- list bigrams for locate
-   Copyright (C) 1994 Free Software Foundation, Inc.
+   Copyright (C) 1994, 2007 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -43,7 +43,6 @@
 #endif
 #include <sys/types.h>
 
-#include <getline.h>
 #include <xalloc.h>
 #include "closeout.h"
 

@@ -118,7 +118,6 @@
 #endif
 
 #include "locatedb.h"
-#include <getline.h>
 #include "xalloc.h"
 #include "error.h"
 #include "human.h"

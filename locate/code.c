@@ -71,7 +71,6 @@
 #endif
 
 #include "locatedb.h"
-#include <getline.h>
 #include "closeout.h"
 #include "xalloc.h"
 #include "gnulib-version.h"
