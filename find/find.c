@@ -192,7 +192,6 @@ main (int argc, char **argv)
       close (starting_desc);
       starting_desc = -1;
     }
-  assert (starting_desc >= 0);
 
   if (starting_desc < 0)
     {
