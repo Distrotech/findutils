@@ -38,6 +38,7 @@
 #include "error.h"
 #include "filemode.h"
 #include "dircallback.h"
+#include "idcache.h"
 
 #include "listfile.h"
 
@@ -165,12 +166,8 @@
 
 static void print_name (register const char *p, FILE *stream, int literal_control_chars);
 
-extern char * getgroup (gid_t gid);
-extern char * getuser (uid_t uid);
 
-
-
-size_t 
+size_t
 file_blocksize(const struct stat *p)
 {
   return ST_NBLOCKSIZE;
