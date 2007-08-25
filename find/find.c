@@ -50,7 +50,7 @@
 #include "../gnulib/lib/xalloc.h"
 #include "../gnulib/lib/human.h"
 #include "../gnulib/lib/canonicalize.h"
-#include "closeout.h"
+#include "closein.h"
 #include <modetype.h>
 #include "savedirinfo.h"
 #include "buildcmd.h"
@@ -418,9 +418,9 @@ main (int argc, char **argv)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit (close_stdout);
+  atexit (close_stdin);
 
-  
+
   if (isatty(0))
     {
       options.warnings = true;

@@ -1,3 +1,13 @@
+2007-08-25  Eric Blake  <ebb9@byu.net>
+
+	Fix Savannah bug #20273, partial reads of seekable stdin.
+	* import-gnulib.config (modules): Add closein.
+	* xargs/xargs.c (main, get_input_delimiter): Fix compile
+	warnings.
+	(main): Use close_stdin, not close_stdout.
+	* find/find.c (main): Likewise.
+	* NEWS: Document the fix.
+
 2007-08-23  Eric Blake  <ebb9@byu.net>
 
 	Update to latest gnulib, fixing several bugs.
