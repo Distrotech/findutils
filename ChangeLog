@@ -1,3 +1,17 @@
+2007-09-08  James Youngman  <jay@gnu.org>
+
+	* doc/find.texi (Directories): Mention that "-prune ... -delete"
+	will not do what you want and will cause the deletion of more
+	files than you probably intended.
+	(Delete Files): Likewise, suggest using "-depth" when testing
+	command lines you plan to eventually add "-delete" to.
+	(Cleaning Up): Add -depth explicitly to an example which uses
+	-delete.  
+	* find/find.1 (-depth): Mention that -delete also implies -depth.  
+	(-delete): Warn against putting -delete first.
+	(-prune): Also warn against -prune ... -delete.
+	NEWS: Mention these changes.
+
 2007-08-23  Eric Blake  <ebb9@byu.net>
 
 	Pick up gnulib change to getline module.

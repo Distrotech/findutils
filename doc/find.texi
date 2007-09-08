@@ -1343,7 +1343,11 @@ find . -wholename './src/emacs' -prune , -print
 
 If the @samp{-depth} option is in effect, the subdirectories will have
 already been visited in any case.  Hence @samp{-prune} has no effect
-and returns false.
+and returns false.   
+
+Because @samp{-delete} implies @samp{-depth}, using @samp{-prune} in
+combination with @samp{-delete} may well result in the deletion of
+more files than you intended.
 @end deffn
 
 
@@ -2539,7 +2543,10 @@ Delete files or directories; true if removal succeeded.  If the
 removal failed, an error message is issued.
 
 The use of the @samp{-delete} action on the command line automatically
-turns on the @samp{-depth} option (@pxref{find Expressions}).
+turns on the @samp{-depth} option (@pxref{find Expressions}).  This
+can be surprising if you were previously just testing with
+@samp{-print}, so it is usually best to remember to use @samp{-depth}
+explicitly.
 @end deffn
 
 @node Adding Tests
@@ -3714,14 +3721,46 @@ Removing old files from @file{/tmp} is commonly done from @code{cron}:
 
 @c Idea from Kaveh Ghazi.
 @example
-find /tmp /var/tmp -not -type d -mtime +3 -delete
-find /tmp /var/tmp -depth -mindepth 1 -type d -empty -delete
+find /tmp /var/tmp -depth -not        -type d -mtime +3 -delete
+find /tmp /var/tmp -depth -mindepth 1 -type d -empty    -delete
 @end example
 
-The second @code{find} command above uses @samp{-depth} so it cleans
-out empty directories depth-first, hoping that the parents become
-empty and can be removed too.  It uses @samp{-mindepth} to avoid
-removing @file{/tmp} itself if it becomes totally empty.
+The second @code{find} command above cleans out empty directories
+depth-first (@samp{-delete} implies @samp{-depth} anyway), hoping that
+the parents become empty and can be removed too.  It uses
+@samp{-mindepth} to avoid removing @file{/tmp} itself if it becomes
+totally empty.
+
+
+Lastly, an example of a program that almost certainly does not do what
+the user intended:
+
+@c inspired by Savannah bug #20865 (Bruno De Fraine)
+@example
+find dirname -delete -name quux
+@end example
+
+If the user hoped to delete only files named @file{quux} they will get
+an unpleasant surprise; this command will attempt to delete everything
+at or below the starting point @file{dirname}.  This is because
+@code{find} evaluates the items on the command line as an expression.
+The @code{find} program will normally execute an action if the
+preceeding action succeeds.  Here, there is no action or test before
+the @samp{-delete} so it will always be executed.  The @samp{-name
+quux} test will be performed for files we successfully deleted, but
+that test has no effect since @samp{-delete} also disables the default
+@samp{-print} operation.   So the above example will probably delete a
+lot of files the user didn't want to delete.
+
+This command is also likely to do something you did not intend:
+@example
+find dirname -path dirname/foo -prune -o -delete
+@end example
+
+Because @samp{-delete} turns on @samp{-depth}, the @samp{-prune}
+action has no effect and files in @file{dirname/foo} will be deleted
+too.
+
 
 @node Strange File Names
 @section Strange File Names

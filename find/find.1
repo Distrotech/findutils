@@ -233,7 +233,8 @@ from the beginning of today rather than from 24 hours ago.  This
 option only affects tests which appear later on the command line.
 
 .IP \-depth
-Process each directory's contents before the directory itself.
+Process each directory's contents before the directory itself.  The
+\-delete action also implies \-depth.
 
 .IP \-follow
 Deprecated; use the \-L option instead.  Dereference symbolic links.
@@ -744,7 +745,16 @@ the type of the file that \-type does not check.
 .IP "\-delete\fR"
 Delete files; true if removal succeeded.  If the removal failed, an
 error message is issued.  Use of this action automatically turns on
-the `\-depth' option.
+the `\-depth' option.   Don't forget that the find command line is
+evaluated as an expression, so putting \-delete first will make 
+.B find
+try to delete everything below the starting points you specified.
+When testing a 
+.B find
+command line that you later intend to use with \-delete, you should
+explicitly specify \-depth in order to avoid later surprises.  Because
+\-delete implies \-depth, you cannot usefully use \-prune and \-delete
+together. 
 
 .IP "\-exec \fIcommand\fR ;"
 Execute \fIcommand\fR; true if 0 status is returned.  All following
@@ -1104,9 +1114,10 @@ section for information about how unusual characters in filenames are handled.
 .RE
 .IP \-prune
 If \-depth is not given, true; if the file is a directory, do not descend
-into it.
-.br
-If \-depth is given, false; no effect.
+into it. If \-depth is given, false; no effect.
+Because
+\-delete implies \-depth, you cannot usefully use \-prune and \-delete
+together. 
 
 .IP "\-quit"
 Exit immediately.  No child processes will be left running, but no more
