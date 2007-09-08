@@ -17,6 +17,14 @@
 	$PATH is not set.  This avoids a segfault in that situation
 	and thus fixes Savannah bug #20834.
 
+2007-08-22  James Youngman  <jay@gnu.org>
+
+	* find/parser.c (parse_path): This is the 'canonical' name once
+	again. 
+	(parse_wholename): This is not.
+	(parse_ipath): No longer deprecated.
+	* NEWS: Mention this.
+
 2007-08-22  Eric Blake  <ebb9@byu.net>
 
 	Fix Savannah bug #20871.
