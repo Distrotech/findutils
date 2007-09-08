@@ -2057,12 +2057,27 @@ find . -name '*.h' -execdir diff -u '@{@}' /tmp/master ';'
 @end example
 @end deffn
 
-If you use @samp{-execdir}, you must ensure that the current directory
-is not on @var{$PATH}, because otherwise an attacker could make
-@samp{find} run commands of their choice simply by leaving a
-suitably-named file in the right directory.  GNU find will refuse to
-run if you use @samp{-execdir} and the current directory is in
-@var{$PATH}.
+If you use @samp{-execdir}, you must ensure that the @samp{$PATH}
+variable contains only absolute directory names.  Having an empty
+element in @samp{$PATH} or explicitly including @samp{.} (or any other
+non-absolute name) is insecure.  GNU find will refuse to run if you
+use @samp{-execdir} and it thinks your @samp{$PATH} setting is
+insecure.  For example:
+
+@table @samp
+@item /bin:/usr/bin:
+Insecure; empty path element (at the end)
+@item :/bin:/usr/bin:/usr/local/bin
+Insecure; empty path element (at the start)
+@item /bin:/usr/bin::/usr/local/bin
+Insecure; empty path element (two colons in a row)
+@item /bin:/usr/bin:.:/usr/local/bin
+Insecure; @samp{.} is a path element (@file{.} is not an absolute file name)
+@item /bin:/usr/bin:sbin:/usr/local/bin
+Insecure; @samp{sbin} is not an absolute file name
+@item /bin:/usr/bin:/sbin:/usr/local/bin
+Secure (if you control the contents of those directories and any access to them)
+@end table
 
 Another similar option, @samp{-exec} is supported, but is less secure.
 @xref{Security Considerations}, for a discussion of the security

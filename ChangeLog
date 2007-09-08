@@ -1,5 +1,12 @@
 2007-09-08  James Youngman  <jay@gnu.org>
 
+	Better documentation on $PATH security checks.
+	* doc/find.texi (Single File): Better explanation of what makes
+	certain values of $PATH insecure.  This fixes Savannah bug
+	#20951.
+	* find/find.1 (-execdir): Likewise.
+
+	Document interaction of -depth/-delete/-prune.
 	* doc/find.texi (Directories): Mention that "-prune ... -delete"
 	will not do what you want and will cause the deletion of more
 	files than you probably intended.

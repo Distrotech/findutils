@@ -800,10 +800,12 @@ invocation of
 will only list files that exist in the same subdirectory.  If you use
 this option, you must ensure that your 
 .B $PATH
-environment variable does not reference the current directory;
+environment variable does not reference `.';
 otherwise, an attacker can run any commands they like by leaving an
 appropriately-named file in a directory in which you will run
-\-execdir.
+\-execdir.  The same applies to having entries in 
+.B $PATH
+which are empty or which are not absolute directory names.
 
 .IP "\-fls \fIfile\fR"
 True; like \-ls but write to \fIfile\fR like \-fprint.
