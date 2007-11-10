@@ -82,6 +82,9 @@ find manual page.
 #20529: removed spurious 'o' in description of "xargs -a" in
 doc/find.texi. 
 
+#20232: The --max-database-age option of locate was added in release
+4.3.3, but this file (NEWS) did not previously mention this fact.
+
 ** Translations
 
 Updated Dutch translation.
@@ -385,10 +388,12 @@ reference file was modified.  The -newerXY test supports subsecond
 timestamps where these are available.  The X=B variant is not yet
 implemented.
 
-If you configure the sourec code and then run the tests with "make
+If you configure the source code and then run the tests with "make
 check", the test suite fails rather than defaulting to testing the
 system binaries.
-   
+
+A new option, --max-database-age, has been added to locate.   
+
 
 * Major changes in release 4.3.2, 2006-11-25
 
