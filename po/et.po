@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.1\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-07-06 08:30+0100\n"
+"POT-Creation-Date: 2007-11-11 14:55+0000\n"
 "PO-Revision-Date: 2006-11-11 12:42+0200\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -29,7 +29,15 @@ msgstr "segane argument %s (%s)"
 msgid "Valid arguments are:"
 msgstr "Lubatud argumendid on:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closein.c:100
+msgid "error closing file"
+msgstr ""
+
+#: gnulib/lib/closeout.c:74 locate/code.c:152 locate/frcode.c:216
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Tundmatu süsteemi viga"
 
@@ -90,9 +98,14 @@ msgstr "%s: võti `-W %s' on segane\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: võti `-W %s' ei luba argumenti\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "bloki suurus"
+#: gnulib/lib/openat-die.c:34
+#, fuzzy
+msgid "unable to record current working directory"
+msgstr "ei õnnestu leida jooksvat kataloogi"
+
+#: gnulib/lib/openat-die.c:47
+msgid "failed to return to initial working directory"
+msgstr ""
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -121,6 +134,81 @@ msgstr "`"
 msgid "'"
 msgstr "'"
 
+#: gnulib/lib/regcomp.c:131
+msgid "Success"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:134
+msgid "No match"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:137
+#, fuzzy
+msgid "Invalid regular expression"
+msgstr "vigane avaldis"
+
+#: gnulib/lib/regcomp.c:140
+msgid "Invalid collation character"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:143
+msgid "Invalid character class name"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:146
+msgid "Trailing backslash"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:149
+msgid "Invalid back reference"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:152
+msgid "Unmatched [ or [^"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:155
+msgid "Unmatched ( or \\("
+msgstr ""
+
+#: gnulib/lib/regcomp.c:158
+msgid "Unmatched \\{"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:161
+msgid "Invalid content of \\{\\}"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:164
+#, fuzzy
+msgid "Invalid range end"
+msgstr "vigane argument %s (%s)"
+
+#: gnulib/lib/regcomp.c:167
+msgid "Memory exhausted"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:170
+#, fuzzy
+msgid "Invalid preceding regular expression"
+msgstr "vigane avaldis"
+
+#: gnulib/lib/regcomp.c:173
+msgid "Premature end of regular expression"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:176
+msgid "Regular expression too big"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:179
+msgid "Unmatched ) or \\)"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:680
+msgid "No previous regular expression"
+msgstr ""
+
 #: gnulib/lib/rpmatch.c:70
 msgid "^[yY]"
 msgstr "^[jJ]"
@@ -129,80 +217,45 @@ msgstr "^[jJ]"
 msgid "^[nN]"
 msgstr "^[eE]"
 
-#: find/util.c:157
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
-msgstr "Kasuta: %s [-H] [-L] [-P] [-Otase] [-D "
-
-#: find/util.c:159
-#, c-format
-msgid "] [path...] [expression]\n"
-msgstr "] [tee...] [avaldis]\n"
-
-#: find/util.c:200
-#, c-format
-msgid "Warning: file %s appears to have mode 0000"
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
 msgstr ""
 
-#: find/util.c:748
-#, c-format
-msgid "Ignoring unrecognised debug flag %s"
-msgstr "Ignoreerin tundmatut silumise võtit %s"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "vigane argument `%s' predikaadil `%s'"
 
-#: find/util.c:755
-msgid "Empty argument to the -D option."
-msgstr "Võtmel -D puudub argument."
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "vigane argument `%s' predikaadil `%s'"
 
-#: find/util.c:769
-msgid "The -O option must be immediately followed by a decimal integer"
-msgstr "Võtme -O järel peab olema numbriline argument"
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "argumendi rida on liiga pikk"
 
-#: find/util.c:778 find/util.c:788
-msgid "Please specify a decimal number immediately after -O"
-msgstr "Palun kirjutage võtme -O järel number"
-
-#: find/util.c:793 find/util.c:797
-#, c-format
-msgid "Invalid optimisation level %s"
-msgstr "Vigane optimeerimise tase %s"
-
-#: find/util.c:804
-#, c-format
-msgid ""
-"Optimisation level %lu is too high.  If you want to find files very quickly, "
-"consider using GNU locate."
-msgstr ""
-"Optimiseerimise tase %lu on liiga kõrge. Kui soovite leida faile väga "
-"kiiresti, kasutage GNU locate programmi."
-
-#: find/util.c:935
-msgid ""
-"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
-"that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr ""
-"Keskkonnamuutujat FIND_BLOCK_SIZE ei toetata, bloki suurust mõjutab ainult "
-"keskkonna muutuja POSIXLY_CORRECT"
-
-#: find/find.c:201
+#: find/find.c:200 find/ftsfind.c:730
 msgid "cannot get current directory"
 msgstr "ei õnnestu leida jooksvat kataloogi"
 
-#: find/find.c:205
+#: find/find.c:204
 #, fuzzy
 msgid "cannot stat current directory"
 msgstr "ei õnnestu leida jooksvat kataloogi"
 
-#: find/find.c:385
+#: find/find.c:384
 #, fuzzy, c-format
 msgid "Warning: file system %s has recently been unmounted."
 msgstr "Hoiatus: failisüsteem %s on just lahti haagitud."
 
-#: find/find.c:395
+#: find/find.c:394
 #, fuzzy, c-format
 msgid "Warning: file system %s has recently been mounted."
 msgstr "Hoiatus: failisüsteem %s on just haagitud."
 
-#: find/find.c:491
+#: find/find.c:490
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -211,7 +264,7 @@ msgstr ""
 "%s%s muutus %s töö ajal (vana seadme number %ld, uus seadme number %ld, "
 "failisüsteemi tüüp on %s) [viit %ld]"
 
-#: find/find.c:528
+#: find/find.c:527
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -220,12 +273,12 @@ msgstr ""
 "%s%s muutus %s töö ajal (vana i-kirje number %ld, uus i-kirje number %ld, "
 "failisüsteemi tüüp on %s) [viit %ld]"
 
-#: find/find.c:993
+#: find/find.c:992
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr ""
 
-#: find/find.c:1090
+#: find/find.c:1089 find/ftsfind.c:284
 #, fuzzy, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -234,7 +287,7 @@ msgstr ""
 "Nimeviide `%s' on osa tsüklist kataloogipuus; me oleme juba külastanad "
 "kataloogi, millele see viitab."
 
-#: find/find.c:1105
+#: find/find.c:1104
 #, fuzzy, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -243,22 +296,22 @@ msgstr ""
 "Failisüsteemis on tuvastatud tsükkel; `%s' omab sama seadme ja i-kirje "
 "numbreid kui kataloog %d %s."
 
-#: find/find.c:1109
+#: find/find.c:1108
 #, fuzzy
 msgid "level higher in the file system hierarchy"
 msgstr "samm kõrgemal failisüsteemi puus"
 
-#: find/find.c:1110
+#: find/find.c:1109
 #, fuzzy
 msgid "levels higher in the file system hierarchy"
 msgstr "sammu kõrgemal failisüsteemi puus"
 
-#: find/find.c:1355
+#: find/find.c:1354
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "hoiatus: ei järgi nimeviidet %s"
 
-#: find/find.c:1399
+#: find/find.c:1398
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -274,7 +327,25 @@ msgstr ""
 msgid "unknown"
 msgstr "tundmatu"
 
-#: find/parser.c:464
+#: find/ftsfind.c:298
+#, fuzzy, c-format
+msgid ""
+"File system loop detected; %s is part of the same file system loop as %s."
+msgstr ""
+"Failisüsteemis on tuvastatud tsükkel; `%s' omab sama seadme ja i-kirje "
+"numbreid kui kataloog %d %s."
+
+#: find/ftsfind.c:488 find/util.c:200
+#, c-format
+msgid "Warning: file %s appears to have mode 0000"
+msgstr ""
+
+#: find/ftsfind.c:610
+#, c-format
+msgid "cannot search %s"
+msgstr ""
+
+#: find/parser.c:487
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -286,7 +357,7 @@ msgstr ""
 "positsioonilised (%s mõjutab eelnevalt ja järgnevalt määratud teste).  Palun "
 "andke võtmed enne muid argumente.\n"
 
-#: find/parser.c:749
+#: find/parser.c:772
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -294,23 +365,23 @@ msgstr ""
 "hoiatus: võti -d on aegunud; kasutage palun võtit -depth, viimane on POSIX-"
 "ühilduv."
 
-#: find/parser.c:997
+#: find/parser.c:1022
 #, c-format
 msgid ""
 "%s is not the name of an existing group and it does not look like a numeric "
 "group ID because it has the unexpected suffix %s"
 msgstr ""
 
-#: find/parser.c:1010
+#: find/parser.c:1035
 #, c-format
 msgid "%s is not the name of an existing group"
 msgstr ""
 
-#: find/parser.c:1015
+#: find/parser.c:1040
 msgid "argument to -group is empty, but should be a group name"
 msgstr ""
 
-#: find/parser.c:1036
+#: find/parser.c:1061
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -320,7 +391,7 @@ msgstr ""
 "vaikimisi tee on jooksev kataloog; vaikimisi avaldis on -print\n"
 "avaldis võib koosneda: operaatorid, võtmed, testid ja tegevused:\n"
 
-#: find/parser.c:1039
+#: find/parser.c:1064
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -332,7 +403,7 @@ msgstr ""
 "      ( AVALD ) ! AVALD -not AVALD   AVALD1 -a AVALD2   AVALD1 -and AVALD2\n"
 "      AVALD1 -o AVALD2   AVALD1 -or AVALD2   AVALD1 , AVALD2\n"
 
-#: find/parser.c:1043
+#: find/parser.c:1068
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -345,7 +416,7 @@ msgstr ""
 "      -depth --help -maxdepth TASE -mindepth TASE -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:1048
+#: find/parser.c:1073
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -359,7 +430,7 @@ msgstr ""
 "MUSTER\n"
 "      -links N -lname MUSTER -mmin N -mtime N -name MUSTER -newer FAIL"
 
-#: find/parser.c:1053
+#: find/parser.c:1078
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
@@ -371,7 +442,7 @@ msgstr ""
 "      -wholename MUSTER -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NIMI -xtype [bcdpfls]\n"
 
-#: find/parser.c:1058
+#: find/parser.c:1083
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -383,7 +454,7 @@ msgstr ""
 "      -exec KÄSKLUS ; -exec KÄSKLUS {} + -ok KÄSKLUS ;\n"
 "      -execdir KÄSKLUS ; -execdir KÄSKLUS {} + -okdir KÄSKLUS ;\n"
 
-#: find/parser.c:1064
+#: find/parser.c:1089
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -393,11 +464,11 @@ msgstr ""
 "http://savannah.gnu.org/ vï kui teil puudub juurdepääs veebile, saates\n"
 "emaili aadressil <bug-findutils@gnu.org>."
 
-#: find/parser.c:1118
+#: find/parser.c:1143
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "funktsiooni fnmatch() korrektsuse kontroll ebaõnnestus."
 
-#: find/parser.c:1132
+#: find/parser.c:1157
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -412,38 +483,31 @@ msgstr ""
 "märksa kasulikum.  Alternatiivina, kui te kasutate GNU grep, võiks proovida "
 "'find ... -print0 | grep -FzZ %s'."
 
-#: find/parser.c:1188
-msgid ""
-"warning: the predicate -ipath is deprecated; please use -iwholename instead."
-msgstr ""
-"hoiatus: predikaat -ipath on aegunud; kasutage selle asemel palun -"
-"iwholename."
-
-#: find/parser.c:1277
+#: find/parser.c:1305
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
 msgstr ""
 
-#: find/parser.c:1424
+#: find/parser.c:1455
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1474
+#: find/parser.c:1505
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1490
+#: find/parser.c:1521
 #, fuzzy, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Ei õnnestu avada sisendfaili `%s'"
 
-#: find/parser.c:1755
+#: find/parser.c:1788
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "vigane mood `%s'"
 
-#: find/parser.c:1774
+#: find/parser.c:1807
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -454,76 +518,66 @@ msgstr ""
 "tähendus muudetakse varsti, et oleks kooskõlas -perm -000; see tähendab, "
 "praegu selline muster ei leia ühtegi faili, aga hakkab leidma kõiki faile. "
 
-#: find/parser.c:1968
+#: find/parser.c:2004
 msgid "invalid null argument to -size"
 msgstr "vigane tühi argument -size predikaadile"
 
-#: find/parser.c:2016
+#: find/parser.c:2052
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "vigane tüüp `%c' -size predikaadile"
 
-#: find/parser.c:2021
+#: find/parser.c:2058
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "vigane argument `%s' predikaadil `%s'"
 
-#: find/parser.c:2197
+#: find/parser.c:2237
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr "Võti -show-control-chars vajab argumenti 'literal' või 'safe'"
 
-#: find/parser.c:2307
+#: find/parser.c:2348
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "vigane argument %s (%s)"
 
-#: find/parser.c:2360
-#, c-format
-msgid "GNU find version %s\n"
-msgstr "GNU find versioon %s\n"
-
-#: find/parser.c:2361 locate/code.c:189 locate/locate.c:1663 xargs/xargs.c:622
-#, fuzzy, c-format
-msgid "Built using GNU gnulib version %s\n"
-msgstr "GNU findutils versioon %s\n"
-
-#: find/parser.c:2362
+#: find/parser.c:2400
 #, c-format
 msgid "Features enabled: "
 msgstr "Lubatud omadused: "
 
-#: find/parser.c:2469
+#: find/parser.c:2509
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2516
+#: find/parser.c:2556
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2637
+#: find/parser.c:2677
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "hoiatus: tundmatu paojada `\\%c'"
 
-#: find/parser.c:2653
+#: find/parser.c:2693
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2692
+#: find/parser.c:2732
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "hoiatus: tundmatu formaadidirektiiv `%%%c'"
 
-#: find/parser.c:2836
+#: find/parser.c:2876
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2861
+#: find/parser.c:2910
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -535,7 +589,7 @@ msgstr ""
 "korral ebaturvaline.  Palun eemaldage jooksev kataloog PATH muutujast "
 "(eemaldage \".\" või algavad või lõpetavad koolonid)"
 
-#: find/parser.c:2867
+#: find/parser.c:2921
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -546,7 +600,7 @@ msgstr ""
 "korral ebaturvaline.  Palun eemaldage jooksev kataloog PATH muutujast "
 "(eemaldage \".\" või algavad või lõpetavad koolonid)"
 
-#: find/parser.c:2970
+#: find/parser.c:3024
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -554,24 +608,24 @@ msgstr ""
 "Võtmetega -execdir ja -okdir ei ole lubatud programmi nimes kasutada {}, "
 "kuna see võib olla turvarisk."
 
-#: find/parser.c:2993
+#: find/parser.c:3049
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Predikaadiga -exec%s ... + on lubatud kasutada ainult ühte {} paari"
 
-#: find/parser.c:3010
+#: find/parser.c:3066
 msgid "The environment is too large for exec()."
 msgstr "exec() funktsioonile antud keskkond on liiga suur."
 
-#: find/parser.c:3196
+#: find/parser.c:3257
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3350
+#: find/parser.c:3413
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3355
+#: find/parser.c:3418
 msgid "standard output"
 msgstr ""
 
@@ -580,34 +634,34 @@ msgstr ""
 msgid "cannot delete %s"
 msgstr ""
 
-#: find/pred.c:1327
+#: find/pred.c:1340
 #, fuzzy, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr "Ei õnnestu avada sisendfaili `%s'"
 
-#: find/pred.c:1391
+#: find/pred.c:1404
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1835
+#: find/pred.c:1848
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1870
+#: find/pred.c:1883
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1911 xargs/xargs.c:1119
+#: find/pred.c:1924 xargs/xargs.c:1119
 msgid "cannot fork"
 msgstr "fork ebaõnnestus"
 
-#: find/pred.c:1936
+#: find/pred.c:1949
 #, c-format
 msgid "error waiting for %s"
 msgstr "viga %s oodates"
 
-#: find/pred.c:1945
+#: find/pred.c:1958
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s katkestati signaaliga %d"
@@ -709,6 +763,90 @@ msgstr "ootamatu täiendav predikaat"
 msgid "oops -- invalid default insertion of and!"
 msgstr "oops -- vigane konjunktsioonioperaatori lisamine!"
 
+#: find/util.c:157
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
+msgstr "Kasuta: %s [-H] [-L] [-P] [-Otase] [-D "
+
+#: find/util.c:159
+#, c-format
+msgid "] [path...] [expression]\n"
+msgstr "] [tee...] [avaldis]\n"
+
+#: find/util.c:748
+#, c-format
+msgid "Ignoring unrecognised debug flag %s"
+msgstr "Ignoreerin tundmatut silumise võtit %s"
+
+#: find/util.c:755
+msgid "Empty argument to the -D option."
+msgstr "Võtmel -D puudub argument."
+
+#: find/util.c:769
+msgid "The -O option must be immediately followed by a decimal integer"
+msgstr "Võtme -O järel peab olema numbriline argument"
+
+#: find/util.c:778 find/util.c:788
+msgid "Please specify a decimal number immediately after -O"
+msgstr "Palun kirjutage võtme -O järel number"
+
+#: find/util.c:793 find/util.c:797
+#, c-format
+msgid "Invalid optimisation level %s"
+msgstr "Vigane optimeerimise tase %s"
+
+#: find/util.c:804
+#, c-format
+msgid ""
+"Optimisation level %lu is too high.  If you want to find files very quickly, "
+"consider using GNU locate."
+msgstr ""
+"Optimiseerimise tase %lu on liiga kõrge. Kui soovite leida faile väga "
+"kiiresti, kasutage GNU locate programmi."
+
+#: find/util.c:935
+msgid ""
+"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
+"that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr ""
+"Keskkonnamuutujat FIND_BLOCK_SIZE ei toetata, bloki suurust mõjutab ainult "
+"keskkonna muutuja POSIXLY_CORRECT"
+
+#: lib/buildcmd.c:196
+msgid "command too long"
+msgstr ""
+
+#: lib/buildcmd.c:288
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+
+#: lib/buildcmd.c:293
+#, fuzzy
+msgid "argument list too long"
+msgstr "argumendi rida on liiga pikk"
+
+#: lib/findutils-version.c:60
+msgid "Eric B. Decker"
+msgstr ""
+
+#: lib/findutils-version.c:61
+msgid "James Youngman"
+msgstr ""
+
+#: lib/findutils-version.c:62
+msgid "Kevin Dalley"
+msgstr ""
+
+#: lib/findutils-version.c:64
+#, fuzzy, c-format
+msgid "Built using GNU gnulib version %s\n"
+msgstr "GNU findutils versioon %s\n"
+
+#: lib/regextype.c:112
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:130
 #, c-format
 msgid ""
@@ -718,7 +856,8 @@ msgstr ""
 "Kasuta: %s [--version | --help]\n"
 "või     %s enamus_bigram_koode < faili-loend > locate-andmebaas\n"
 
-#: locate/code.c:134 locate/locate.c:1419 xargs/xargs.c:1317
+#: locate/code.c:134 locate/frcode.c:171 locate/locate.c:1418
+#: xargs/xargs.c:1317
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -726,60 +865,79 @@ msgstr ""
 "\n"
 "Vigadest teatage aadressil <bug-findutils@gnu.org>.\n"
 
-#: locate/code.c:152
-msgid "write error"
+#: locate/frcode.c:169
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
 msgstr ""
 
-#: locate/code.c:188
-#, c-format
-msgid "GNU findutils version %s\n"
-msgstr "GNU findutils versioon %s\n"
+#: locate/frcode.c:188
+msgid "You need to specify a security level as a decimal integer."
+msgstr ""
 
-#: locate/locate.c:151
+#: locate/frcode.c:195
+#, c-format
+msgid "Security level %s is outside the convertible range."
+msgstr ""
+
+#: locate/frcode.c:202
+#, c-format
+msgid "Security level %s has unexpected suffix %s."
+msgstr ""
+
+#: locate/frcode.c:258
+#, c-format
+msgid "slocate security level %ld is unsupported."
+msgstr ""
+
+#: locate/frcode.c:296
+msgid "Failed to write to standard output"
+msgstr ""
+
+#: locate/locate.c:150
 msgid "days"
 msgstr "päeva"
 
-#: locate/locate.c:198
+#: locate/locate.c:197
 #, fuzzy
 msgid "The argument for option --max-database-age must not be empty"
 msgstr "vigane argument `%s' predikaadil `%s'"
 
-#: locate/locate.c:214 locate/locate.c:221
+#: locate/locate.c:213 locate/locate.c:220
 #, fuzzy, c-format
 msgid "Invalid argument %s for option --max-database-age"
 msgstr "vigane argument `%s' predikaadil `%s'"
 
-#: locate/locate.c:473
+#: locate/locate.c:472
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 
-#: locate/locate.c:608
+#: locate/locate.c:607
 #, fuzzy, c-format
 msgid "locate database %s is corrupt or invalid"
 msgstr "locate andmebaas `%s' on katki"
 
-#: locate/locate.c:895
+#: locate/locate.c:894
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Locate andmebaasi maht: %s baiti\n"
 
-#: locate/locate.c:900
+#: locate/locate.c:899
 #, fuzzy, c-format
 msgid "Matching Filenames: %s "
 msgstr "Failinimed: %s "
 
-#: locate/locate.c:901
+#: locate/locate.c:900
 #, fuzzy, c-format
 msgid "All Filenames: %s "
 msgstr "Failinimed: %s "
 
-#: locate/locate.c:904
+#: locate/locate.c:903
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "kogumahuga %s baiti"
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 #, c-format
 msgid ""
 "\n"
@@ -788,7 +946,7 @@ msgstr ""
 "\n"
 "\tmillest %s sisaldab tühemikke, "
 
-#: locate/locate.c:911
+#: locate/locate.c:910
 #, c-format
 msgid ""
 "\n"
@@ -797,7 +955,7 @@ msgstr ""
 "\n"
 "\t%s sisaldab reavahetuse sümboleid, "
 
-#: locate/locate.c:914
+#: locate/locate.c:913
 #, c-format
 msgid ""
 "\n"
@@ -806,79 +964,79 @@ msgstr ""
 "\n"
 "\tja %s sisaldab sümboleid, milles on kõrgeim bitt seatud.\n"
 
-#: locate/locate.c:922
+#: locate/locate.c:921
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
 "compression ratio.\n"
 msgstr ""
 
-#: locate/locate.c:935
+#: locate/locate.c:934
 #, fuzzy, c-format
 msgid "Compression ratio %4.2f%% (higher is better)\n"
 msgstr "Tihenduse suhe %4.2f%%\n"
 
-#: locate/locate.c:942
+#: locate/locate.c:941
 #, fuzzy, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "Tihenduse suhe %4.2f%%\n"
 
-#: locate/locate.c:997
+#: locate/locate.c:996
 #, c-format
 msgid ""
 "locate database %s looks like an slocate database but it seems to have "
 "security level %c, which GNU findutils does not currently support"
 msgstr ""
 
-#: locate/locate.c:1114
+#: locate/locate.c:1113
 #, c-format
 msgid ""
 "%s is an slocate database.  Support for these is new, expect problems for "
 "now."
 msgstr ""
 
-#: locate/locate.c:1128
+#: locate/locate.c:1127
 #, c-format
 msgid ""
 "%s is an slocate database of unsupported security level %d; skipping it."
 msgstr ""
 
-#: locate/locate.c:1145
+#: locate/locate.c:1144
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
 "format databases with a non-zero security level.  No results will be "
 "generated for this database.\n"
 msgstr ""
 
-#: locate/locate.c:1156
+#: locate/locate.c:1155
 #, c-format
 msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr ""
 
-#: locate/locate.c:1194
+#: locate/locate.c:1193
 #, fuzzy, c-format
 msgid "Old-format locate database %s is too short to be valid"
 msgstr "locate andmebaas `%s' on katki"
 
-#: locate/locate.c:1346
+#: locate/locate.c:1345
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Andmebaas %s kasutab %s vormingut.\n"
 
-#: locate/locate.c:1367
+#: locate/locate.c:1366
 msgid "The database has little-endian machine-word encoding.\n"
 msgstr ""
 
-#: locate/locate.c:1369
+#: locate/locate.c:1368
 msgid "The database has big-endian machine-word encoding.\n"
 msgstr ""
 
-#: locate/locate.c:1382
+#: locate/locate.c:1381
 #, c-format
 msgid "The database machine-word encoding order is not obvious.\n"
 msgstr ""
 
-#: locate/locate.c:1410
+#: locate/locate.c:1409
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -899,50 +1057,56 @@ msgstr ""
 "      [--version] [--help]\n"
 "      muster...\n"
 
-#: locate/locate.c:1473
+#: locate/locate.c:1472
 msgid "failed to drop group privileges"
 msgstr ""
 
-#: locate/locate.c:1491
+#: locate/locate.c:1490
 msgid "failed to drop setuid privileges"
 msgstr ""
 
-#: locate/locate.c:1505
+#: locate/locate.c:1504
 msgid "Failed to fully drop privileges"
 msgstr ""
 
-#: locate/locate.c:1523
+#: locate/locate.c:1522
 msgid "failed to drop setgid privileges"
 msgstr ""
 
-#: locate/locate.c:1662
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate versioon %s\n"
-
-#: locate/locate.c:1702
-msgid "argument to --limit"
-msgstr "võtme --limit argument"
-
-#: locate/locate.c:1785
+#: locate/locate.c:1789
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "hoiatus: locate andmebaasi saab standardsisendist ainult korra lugeda."
 
-#: locate/locate.c:1847
+#: locate/locate.c:1851
 msgid "time system call failed"
 msgstr ""
 
-#: locate/locate.c:1858
+#: locate/locate.c:1862
 #, fuzzy, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "hoiatus: andmebaas `%s' on rohkem, kui %d %s vana"
 
-#: xargs/xargs.c:302
+#: locate/word_io.c:97
+#, c-format
+msgid "Warning: locate database %s was built with a different byte order"
+msgstr ""
+
+#: locate/word_io.c:144
+#, fuzzy, c-format
+msgid "unexpected EOF in %s"
+msgstr "ootamatu täiendav predikaat '%s'"
+
+#: locate/word_io.c:146
+#, fuzzy, c-format
+msgid "error reading a word from %s"
+msgstr "viga %s oodates"
+
+#: xargs/xargs.c:303
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Sisendi eraldaja määrangus on vigane paojada %s."
 
-#: xargs/xargs.c:320
+#: xargs/xargs.c:321
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -951,7 +1115,7 @@ msgstr ""
 "Sisendi eraldaja määrangus on vigane paojada %s; sümboli väärtus ei või "
 "ületada %lx."
 
-#: xargs/xargs.c:326
+#: xargs/xargs.c:327
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -960,7 +1124,7 @@ msgstr ""
 "Sisendi eraldaja määrangus on vigane paojada %s; sümboli väärtus ei või "
 "ületada %lo."
 
-#: xargs/xargs.c:335
+#: xargs/xargs.c:336
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -969,7 +1133,7 @@ msgstr ""
 "Sisendi eraldaja määrangus on vigane paojada %s; lõpetavad sümbolid %s on "
 "tundmatud."
 
-#: xargs/xargs.c:380
+#: xargs/xargs.c:381
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -978,19 +1142,14 @@ msgstr ""
 "Vigane sisendi eraldaja määrang %s: eraldaja peab olema kas üks sümbol või "
 "sümboliga \\ algav paojada."
 
-#: xargs/xargs.c:397
+#: xargs/xargs.c:398
 msgid "environment is too large for exec"
 msgstr "exec funktsioonile antud keskkond on liiga suur"
 
-#: xargs/xargs.c:582
+#: xargs/xargs.c:583
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr "hoiatus: võtme -s väärtus %ld on liiga suur, kasutan %ld"
-
-#: xargs/xargs.c:621
-#, c-format
-msgid "GNU xargs version %s\n"
-msgstr "GNU xargs versioon %s\n"
 
 #: xargs/xargs.c:652
 #, fuzzy, c-format
@@ -1123,6 +1282,31 @@ msgstr ""
 "       [--null] [--eof[=eof-sõne]] [--replace[=asendus-sõne]]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=fail]\n"
 "       [--version] [--help] [käsk [argumendid]]\n"
+
+#~ msgid "block size"
+#~ msgstr "bloki suurus"
+
+#~ msgid ""
+#~ "warning: the predicate -ipath is deprecated; please use -iwholename "
+#~ "instead."
+#~ msgstr ""
+#~ "hoiatus: predikaat -ipath on aegunud; kasutage selle asemel palun -"
+#~ "iwholename."
+
+#~ msgid "GNU find version %s\n"
+#~ msgstr "GNU find versioon %s\n"
+
+#~ msgid "GNU findutils version %s\n"
+#~ msgstr "GNU findutils versioon %s\n"
+
+#~ msgid "GNU locate version %s\n"
+#~ msgstr "GNU locate versioon %s\n"
+
+#~ msgid "argument to --limit"
+#~ msgstr "võtme --limit argument"
+
+#~ msgid "GNU xargs version %s\n"
+#~ msgstr "GNU xargs versioon %s\n"
 
 #~ msgid "oops -- invalid expression type in mark_stat!"
 #~ msgstr "oops -- vigane avaldise tüüp mark_stat'is!"

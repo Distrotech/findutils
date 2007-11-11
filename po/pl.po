@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-07-06 08:30+0100\n"
+"POT-Creation-Date: 2007-11-11 14:55+0000\n"
 "PO-Revision-Date: 2007-06-13 07:37+0200\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -30,7 +30,15 @@ msgstr "niejednoznaczny argument %s opcji %s"
 msgid "Valid arguments are:"
 msgstr "Prawid³owe argumenty to:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closein.c:100
+msgid "error closing file"
+msgstr ""
+
+#: gnulib/lib/closeout.c:74 locate/code.c:152 locate/frcode.c:216
+msgid "write error"
+msgstr "b³±d zapisu"
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Nieznany b³±d systemowy"
 
@@ -91,9 +99,15 @@ msgstr "%s: opcja `-W %s' jest niejednoznaczna\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: opcja `-W %s' nie mo¿e mieæ argumentów\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "rozmiar bloku"
+#: gnulib/lib/openat-die.c:34
+#, fuzzy
+msgid "unable to record current working directory"
+msgstr "nie mo¿na uzyskaæ bie¿±cego katalogu"
+
+#: gnulib/lib/openat-die.c:47
+#, fuzzy
+msgid "failed to return to initial working directory"
+msgstr "Nie uda³o siê zmieniæ katalogu"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -122,6 +136,81 @@ msgstr "`"
 msgid "'"
 msgstr "'"
 
+#: gnulib/lib/regcomp.c:131
+msgid "Success"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:134
+msgid "No match"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:137
+#, fuzzy
+msgid "Invalid regular expression"
+msgstr "b³êdne wyra¿enie"
+
+#: gnulib/lib/regcomp.c:140
+msgid "Invalid collation character"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:143
+msgid "Invalid character class name"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:146
+msgid "Trailing backslash"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:149
+msgid "Invalid back reference"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:152
+msgid "Unmatched [ or [^"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:155
+msgid "Unmatched ( or \\("
+msgstr ""
+
+#: gnulib/lib/regcomp.c:158
+msgid "Unmatched \\{"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:161
+msgid "Invalid content of \\{\\}"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:164
+#, fuzzy
+msgid "Invalid range end"
+msgstr "B³êdny argument %s opcji -used"
+
+#: gnulib/lib/regcomp.c:167
+msgid "Memory exhausted"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:170
+#, fuzzy
+msgid "Invalid preceding regular expression"
+msgstr "b³êdne wyra¿enie"
+
+#: gnulib/lib/regcomp.c:173
+msgid "Premature end of regular expression"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:176
+msgid "Regular expression too big"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:179
+msgid "Unmatched ) or \\)"
+msgstr ""
+
+#: gnulib/lib/regcomp.c:680
+msgid "No previous regular expression"
+msgstr ""
+
 #: gnulib/lib/rpmatch.c:70
 msgid "^[yY]"
 msgstr "^[yYtT]"
@@ -130,79 +219,44 @@ msgstr "^[yYtT]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:157
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
-msgstr "Sk³adnia: %s [-H] [-L] [-P] [-Opoziom] [-D "
-
-#: find/util.c:159
-#, c-format
-msgid "] [path...] [expression]\n"
-msgstr "] [¶cie¿ka...] [wyra¿enie]\n"
-
-#: find/util.c:200
-#, c-format
-msgid "Warning: file %s appears to have mode 0000"
-msgstr "Uwaga: wygl±da na to, ¿e plik %s ma uprawnienia 0000"
-
-#: find/util.c:748
-#, c-format
-msgid "Ignoring unrecognised debug flag %s"
-msgstr "Zignorowano nierozpoznan± flagê diagnostyczn± %s"
-
-#: find/util.c:755
-msgid "Empty argument to the -D option."
-msgstr "Pusty argument dla opcji -D."
-
-#: find/util.c:769
-msgid "The -O option must be immediately followed by a decimal integer"
-msgstr "Bezpo¶rednio po opcji -O musi wyst±piæ liczba dziesiêtna"
-
-#: find/util.c:778 find/util.c:788
-msgid "Please specify a decimal number immediately after -O"
-msgstr "Proszê podaæ liczbê dziesiêtn± bezpo¶rednio po -O"
-
-#: find/util.c:793 find/util.c:797
-#, c-format
-msgid "Invalid optimisation level %s"
-msgstr "B³êdny poziom optymalizacji %s"
-
-#: find/util.c:804
-#, c-format
-msgid ""
-"Optimisation level %lu is too high.  If you want to find files very quickly, "
-"consider using GNU locate."
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
 msgstr ""
-"Poziom optymalizacji %lu jest zbyt du¿y. Aby odnale¼æ pliki bardzo szybko, "
-"mo¿na u¿yæ GNU locate."
 
-#: find/util.c:935
-msgid ""
-"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
-"that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr ""
-"Zmienna ¶rodowiskowa FIND_BLOCK_SIZE nie jest obs³ugiwana; jedyne, co wp³ywa "
-"na rozmiar bloku, to zmienna ¶rodowiskowa POSIXLY_CORRECT"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "b³êdny argument `%s' dla `%s'"
 
-#: find/find.c:201
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "b³êdny argument `%s' dla `%s'"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "za d³uga linia argumentów"
+
+#: find/find.c:200 find/ftsfind.c:730
 msgid "cannot get current directory"
 msgstr "nie mo¿na uzyskaæ bie¿±cego katalogu"
 
-#: find/find.c:205
+#: find/find.c:204
 msgid "cannot stat current directory"
 msgstr "nie mo¿na wykonaæ stat na bie¿±cym katalogu"
 
-#: find/find.c:385
+#: find/find.c:384
 #, fuzzy, c-format
 msgid "Warning: file system %s has recently been unmounted."
 msgstr "Uwaga: system plików %s zosta³ niedawno odmontowany."
 
-#: find/find.c:395
+#: find/find.c:394
 #, fuzzy, c-format
 msgid "Warning: file system %s has recently been mounted."
 msgstr "Uwaga: system plików %s zosta³ niedawno zamontowany."
 
-#: find/find.c:491
+#: find/find.c:490
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -211,7 +265,7 @@ msgstr ""
 "%s%s zmieni³ siê podczas wykonywania %s (stary numer urz±dzenia %ld, nowy "
 "numer urz±dzenia %ld, typ systemu plików to %s) [ref %ld]"
 
-#: find/find.c:528
+#: find/find.c:527
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %ld, new inode number %"
@@ -220,12 +274,12 @@ msgstr ""
 "%s%s zmieni³ siê podczas wykonywania %s (stary numer i-wêz³a %ld, nowy numer "
 "i-wêz³a %ld, typ systemu plików %s) [ref %ld]"
 
-#: find/find.c:993
+#: find/find.c:992
 #, fuzzy, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Nie uda³o siê zmieniæ katalogu"
 
-#: find/find.c:1090
+#: find/find.c:1089 find/ftsfind.c:284
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -234,7 +288,7 @@ msgstr ""
 "Dowi±zanie symboliczne %s jest czê¶ci± pêtli w hierarchii katalogów; katalog "
 "wskazywany przez to dowi±zanie by³ ju¿ odwiedzony."
 
-#: find/find.c:1105
+#: find/find.c:1104
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -243,22 +297,22 @@ msgstr ""
 "Wykryto pêtlê w systemie plików; %s ma ten sam numer urz±dzenia i i-wêze³ co "
 "katalog %d %s."
 
-#: find/find.c:1109
+#: find/find.c:1108
 #, fuzzy
 msgid "level higher in the file system hierarchy"
 msgstr "poziom wy¿ej w hierarchii systemu plików"
 
-#: find/find.c:1110
+#: find/find.c:1109
 #, fuzzy
 msgid "levels higher in the file system hierarchy"
 msgstr "poziomów wy¿ej w hierarchii systemu plików"
 
-#: find/find.c:1355
+#: find/find.c:1354
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "uwaga: nie pod±¿anie za dowi±zaniem symbolicznym %s"
 
-#: find/find.c:1399
+#: find/find.c:1398
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -275,7 +329,25 @@ msgstr ""
 msgid "unknown"
 msgstr "nieznany"
 
-#: find/parser.c:464
+#: find/ftsfind.c:298
+#, fuzzy, c-format
+msgid ""
+"File system loop detected; %s is part of the same file system loop as %s."
+msgstr ""
+"Wykryto pêtlê w systemie plików; %s ma ten sam numer urz±dzenia i i-wêze³ co "
+"katalog %d %s."
+
+#: find/ftsfind.c:488 find/util.c:200
+#, c-format
+msgid "Warning: file %s appears to have mode 0000"
+msgstr "Uwaga: wygl±da na to, ¿e plik %s ma uprawnienia 0000"
+
+#: find/ftsfind.c:610
+#, c-format
+msgid "cannot search %s"
+msgstr ""
+
+#: find/parser.c:487
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -287,7 +359,7 @@ msgstr ""
 "pozycyjne (%s wp³ywa na testy podane przed ni± jak i po niej). Proszê "
 "podawaæ opcje przed innymi argumentami.\n"
 
-#: find/parser.c:749
+#: find/parser.c:772
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -295,7 +367,7 @@ msgstr ""
 "uwaga: opcja -d jest przestarza³a; proszê zamiast niej u¿ywaæ -depth, "
 "poniewa¿ ta jest zgodna z POSIX."
 
-#: find/parser.c:997
+#: find/parser.c:1022
 #, c-format
 msgid ""
 "%s is not the name of an existing group and it does not look like a numeric "
@@ -304,16 +376,16 @@ msgstr ""
 "%s nie jest nazw± ¿adnej istniej±cej grupy i nie wygl±da na liczbowy "
 "identyfikator grupy, poniewa¿ ma nieznany przyrostek %s"
 
-#: find/parser.c:1010
+#: find/parser.c:1035
 #, c-format
 msgid "%s is not the name of an existing group"
 msgstr "%s nie jest nazw± ¿adnej istniej±cej grupy"
 
-#: find/parser.c:1015
+#: find/parser.c:1040
 msgid "argument to -group is empty, but should be a group name"
 msgstr "argument opcji -group jest pusty, a powinien byæ nazw± grupy"
 
-#: find/parser.c:1036
+#: find/parser.c:1061
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -323,7 +395,7 @@ msgstr ""
 "domy¶lna ¶cie¿ka to aktualny katalog; domy¶lne wyra¿enie to -print\n"
 "wyra¿enie mo¿e sk³adaæ siê z: operatorów, opcji, testów i akcji:\n"
 
-#: find/parser.c:1039
+#: find/parser.c:1064
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -334,7 +406,7 @@ msgstr ""
 "      ( WYR )    ! WYR    -not WYR    WYR1 -a WYR2     WYR1 -and WYR2\n"
 "      WYR1 -o WYR2     WYR1 -or WYR2     WYR1 , WYR2\n"
 
-#: find/parser.c:1043
+#: find/parser.c:1068
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -348,7 +420,7 @@ msgstr ""
 "      -depth --help -maxdepth POZIOMY -mindepth POZIOMY -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:1048
+#: find/parser.c:1073
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -363,7 +435,7 @@ msgstr ""
 "WZORZEC\n"
 "      -links N -lname WZORZEC -mmin N -mtime N -name WZORZEC -newer PLIK"
 
-#: find/parser.c:1053
+#: find/parser.c:1078
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
@@ -375,7 +447,7 @@ msgstr ""
 "      -wholename WZORZEC -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAZWA -xtype [bcdpfls]\n"
 
-#: find/parser.c:1058
+#: find/parser.c:1083
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -387,7 +459,7 @@ msgstr ""
 "      -exec POLECENIE ; -exec POLECENIE {} + -ok POLECENIE ;\n"
 "      -execdir POLECENIE ; -execdir POLECENIE {} + -okdir POLECENIE ;\n"
 
-#: find/parser.c:1064
+#: find/parser.c:1089
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -398,12 +470,12 @@ msgstr ""
 "w przypadku braku dostêpu do WWW, wysy³aj±c pocztê elektroniczn± pod\n"
 "adres <bug-findutils@gnu.org>."
 
-#: find/parser.c:1118
+#: find/parser.c:1143
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 "sprawdzenie poprawno¶ci funkcji bibliotecznej fnmatch() nie powiod³o siê."
 
-#: find/parser.c:1132
+#: find/parser.c:1157
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -417,40 +489,33 @@ msgstr ""
 "systemie. Przydatny mo¿e byæ test '-wholename' albo '-samefile'. "
 "Ewentualnie, maj±c GNU grepa, mo¿na u¿yæ 'find ... -print0 | grep -FzZ %s'."
 
-#: find/parser.c:1188
-msgid ""
-"warning: the predicate -ipath is deprecated; please use -iwholename instead."
-msgstr ""
-"uwaga: wyra¿enie -ipath jest przestarza³e; proszê zamiast niego u¿ywaæ -"
-"iwholename."
-
-#: find/parser.c:1277
+#: find/parser.c:1305
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
 msgstr ""
 "Dla opcji %s oczekiwano argumentu bêd±cego dodatni± liczb± ca³kowit±, a "
 "otrzymano %s"
 
-#: find/parser.c:1424
+#: find/parser.c:1455
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr "Ten system nie daje mo¿liwo¶ci sprawdzenia czasu narodzin pliku."
 
-#: find/parser.c:1474
+#: find/parser.c:1505
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr "Nie wiem jak zinterpretowaæ %s jako datê lub czas"
 
-#: find/parser.c:1490
+#: find/parser.c:1521
 #, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Nie mo¿na uzyskaæ czasu narodzin pliku %s"
 
-#: find/parser.c:1755
+#: find/parser.c:1788
 #, c-format
 msgid "invalid mode %s"
 msgstr "niew³a¶ciwe uprawnienia %s"
 
-#: find/parser.c:1774
+#: find/parser.c:1807
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -462,21 +527,21 @@ msgstr ""
 "wcze¶niej nie pasowa³o do ¿adnych plików, ale teraz pasuje do wszystkich "
 "plików."
 
-#: find/parser.c:1968
+#: find/parser.c:2004
 msgid "invalid null argument to -size"
 msgstr "b³êdny zerowy argument opcji -size"
 
-#: find/parser.c:2016
+#: find/parser.c:2052
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "b³êdny typ -size `%c'"
 
-#: find/parser.c:2021
+#: find/parser.c:2058
 #, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "B³êdny argument `%s%c' opcji -size"
 
-#: find/parser.c:2197
+#: find/parser.c:2237
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -484,58 +549,48 @@ msgstr ""
 "Opcja -show-control-chars przyjmuje jeden argument o warto¶ci 'literal' lub "
 "'safe'"
 
-#: find/parser.c:2307
+#: find/parser.c:2348
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "B³êdny argument %s opcji -used"
 
-#: find/parser.c:2360
-#, c-format
-msgid "GNU find version %s\n"
-msgstr "GNU find wersja %s\n"
-
-#: find/parser.c:2361 locate/code.c:189 locate/locate.c:1663 xargs/xargs.c:622
-#, c-format
-msgid "Built using GNU gnulib version %s\n"
-msgstr "Zbudowano przy u¿yciu GNU gnuliba w wersji %s\n"
-
-#: find/parser.c:2362
+#: find/parser.c:2400
 #, c-format
 msgid "Features enabled: "
 msgstr "W³±czone w³a¶ciwo¶ci: "
 
-#: find/parser.c:2469
+#: find/parser.c:2509
 msgid "Arguments to -type should contain only one letter"
 msgstr "Argumenty dla -type powinny zawieraæ tylko jedn± literê"
 
-#: find/parser.c:2516
+#: find/parser.c:2556
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Nieznany argument opcji -type: %c"
 
-#: find/parser.c:2637
+#: find/parser.c:2677
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uwaga: nierozpoznany znak steruj±cy `\\%c'"
 
-#: find/parser.c:2653
+#: find/parser.c:2693
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "b³±d: %s na koñcu ³añcucha formatuj±cego"
 
-#: find/parser.c:2692
+#: find/parser.c:2732
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uwaga: nierozpoznana dyrektywa formatuj±ca `%%%c'"
 
-#: find/parser.c:2836
+#: find/parser.c:2876
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 "b³±d: dyrektywa formatuj±ca `%%%c' jest zarezerwowana do przysz³ego "
 "wykorzystania"
 
-#: find/parser.c:2861
+#: find/parser.c:2910
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -548,7 +603,7 @@ msgstr ""
 "katalog ze zmiennej $PATH (tzn. usun±æ \".\" albo wiod±ce lub koñcowe "
 "dwukropki)"
 
-#: find/parser.c:2867
+#: find/parser.c:2921
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -559,7 +614,7 @@ msgstr ""
 "niebezpieczne w po³±czeniu z akcj± %s polecenia find. Proszê usun±æ ten wpis "
 "ze zmiennej $PATH"
 
-#: find/parser.c:2970
+#: find/parser.c:3024
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -567,25 +622,25 @@ msgstr ""
 "Nie mo¿na u¿ywaæ {} wewn±trz nazwy narzêdzia dla opcji -execdir i -okdir, "
 "poniewa¿ jest to potencjalny problem z bezpieczeñstwem."
 
-#: find/parser.c:2993
+#: find/parser.c:3049
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Obs³ugiwane jest tylko jedno wyst±pienie {} przy -exec%s ... +"
 
-#: find/parser.c:3010
+#: find/parser.c:3066
 msgid "The environment is too large for exec()."
 msgstr "¦rodowisko jest zbyt du¿e, aby wykonaæ exec()."
 
-#: find/parser.c:3196
+#: find/parser.c:3257
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 "przepe³nienie arytmetyczne przy próbie obliczenia koñca dnia dzisiejszego"
 
-#: find/parser.c:3350
+#: find/parser.c:3413
 msgid "standard error"
 msgstr "standardowe wyj¶cie diagnostyczne"
 
-#: find/parser.c:3355
+#: find/parser.c:3418
 msgid "standard output"
 msgstr "standardowe wyj¶cie"
 
@@ -594,34 +649,34 @@ msgstr "standardowe wyj¶cie"
 msgid "cannot delete %s"
 msgstr ""
 
-#: find/pred.c:1327
+#: find/pred.c:1340
 #, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr "Uwaga: nie mo¿na okre¶liæ czasu narodzin pliku %s"
 
-#: find/pred.c:1391
+#: find/pred.c:1404
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1835
+#: find/pred.c:1848
 msgid "Cannot close standard input"
 msgstr "Nie mo¿na zamkn±æ standardowego wej¶cia"
 
-#: find/pred.c:1870
+#: find/pred.c:1883
 msgid "Failed to change directory"
 msgstr "Nie uda³o siê zmieniæ katalogu"
 
-#: find/pred.c:1911 xargs/xargs.c:1119
+#: find/pred.c:1924 xargs/xargs.c:1119
 msgid "cannot fork"
 msgstr "nie mo¿na wykonaæ fork"
 
-#: find/pred.c:1936
+#: find/pred.c:1949
 #, c-format
 msgid "error waiting for %s"
 msgstr "b³±d podczas czekania na %s"
 
-#: find/pred.c:1945
+#: find/pred.c:1958
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s zakoñczony sygna³em %d"
@@ -721,6 +776,90 @@ msgstr "nie obs³ugiwane dodatkowe wyra¿enie"
 msgid "oops -- invalid default insertion of and!"
 msgstr "ojej -- b³êdne domy¶lne wstawienie and!"
 
+#: find/util.c:157
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
+msgstr "Sk³adnia: %s [-H] [-L] [-P] [-Opoziom] [-D "
+
+#: find/util.c:159
+#, c-format
+msgid "] [path...] [expression]\n"
+msgstr "] [¶cie¿ka...] [wyra¿enie]\n"
+
+#: find/util.c:748
+#, c-format
+msgid "Ignoring unrecognised debug flag %s"
+msgstr "Zignorowano nierozpoznan± flagê diagnostyczn± %s"
+
+#: find/util.c:755
+msgid "Empty argument to the -D option."
+msgstr "Pusty argument dla opcji -D."
+
+#: find/util.c:769
+msgid "The -O option must be immediately followed by a decimal integer"
+msgstr "Bezpo¶rednio po opcji -O musi wyst±piæ liczba dziesiêtna"
+
+#: find/util.c:778 find/util.c:788
+msgid "Please specify a decimal number immediately after -O"
+msgstr "Proszê podaæ liczbê dziesiêtn± bezpo¶rednio po -O"
+
+#: find/util.c:793 find/util.c:797
+#, c-format
+msgid "Invalid optimisation level %s"
+msgstr "B³êdny poziom optymalizacji %s"
+
+#: find/util.c:804
+#, c-format
+msgid ""
+"Optimisation level %lu is too high.  If you want to find files very quickly, "
+"consider using GNU locate."
+msgstr ""
+"Poziom optymalizacji %lu jest zbyt du¿y. Aby odnale¼æ pliki bardzo szybko, "
+"mo¿na u¿yæ GNU locate."
+
+#: find/util.c:935
+msgid ""
+"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
+"that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr ""
+"Zmienna ¶rodowiskowa FIND_BLOCK_SIZE nie jest obs³ugiwana; jedyne, co wp³ywa "
+"na rozmiar bloku, to zmienna ¶rodowiskowa POSIXLY_CORRECT"
+
+#: lib/buildcmd.c:196
+msgid "command too long"
+msgstr ""
+
+#: lib/buildcmd.c:288
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+
+#: lib/buildcmd.c:293
+#, fuzzy
+msgid "argument list too long"
+msgstr "za d³uga linia argumentów"
+
+#: lib/findutils-version.c:60
+msgid "Eric B. Decker"
+msgstr ""
+
+#: lib/findutils-version.c:61
+msgid "James Youngman"
+msgstr ""
+
+#: lib/findutils-version.c:62
+msgid "Kevin Dalley"
+msgstr ""
+
+#: lib/findutils-version.c:64
+#, c-format
+msgid "Built using GNU gnulib version %s\n"
+msgstr "Zbudowano przy u¿yciu GNU gnuliba w wersji %s\n"
+
+#: lib/regextype.c:112
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:130
 #, c-format
 msgid ""
@@ -730,7 +869,8 @@ msgstr ""
 "Sk³adnia: %s [--version | --help]\n"
 "lub       %s najpopularniejsze_bigramy < lista-plików > baza-danych-locate\n"
 
-#: locate/code.c:134 locate/locate.c:1419 xargs/xargs.c:1317
+#: locate/code.c:134 locate/frcode.c:171 locate/locate.c:1418
+#: xargs/xargs.c:1317
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -738,62 +878,82 @@ msgstr ""
 "\n"
 "B³êdy proszê zg³aszaæ na adres <bug-findutils@gnu.org>.\n"
 
-#: locate/code.c:152
-msgid "write error"
-msgstr "b³±d zapisu"
-
-#: locate/code.c:188
+#: locate/frcode.c:169
 #, c-format
-msgid "GNU findutils version %s\n"
-msgstr "GNU findutils wersja %s\n"
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
 
-#: locate/locate.c:151
+#: locate/frcode.c:188
+msgid "You need to specify a security level as a decimal integer."
+msgstr ""
+
+#: locate/frcode.c:195
+#, c-format
+msgid "Security level %s is outside the convertible range."
+msgstr ""
+
+#: locate/frcode.c:202
+#, c-format
+msgid "Security level %s has unexpected suffix %s."
+msgstr ""
+
+#: locate/frcode.c:258
+#, c-format
+msgid "slocate security level %ld is unsupported."
+msgstr ""
+
+#: locate/frcode.c:296
+#, fuzzy
+msgid "Failed to write to standard output"
+msgstr "standardowe wyj¶cie"
+
+#: locate/locate.c:150
 msgid "days"
 msgstr "dni"
 
-#: locate/locate.c:198
+#: locate/locate.c:197
 #, fuzzy
 msgid "The argument for option --max-database-age must not be empty"
 msgstr "Argument opcji --max-database-age nie mo¿e byæ pusty"
 
-#: locate/locate.c:214 locate/locate.c:221
+#: locate/locate.c:213 locate/locate.c:220
 #, c-format
 msgid "Invalid argument %s for option --max-database-age"
 msgstr "B³êdny argument %s opcji --max-database-age"
 
-#: locate/locate.c:473
+#: locate/locate.c:472
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "Baza danych locate %s zawiera nazwê pliku d³u¿sz± ni¿ locate jest w stanie "
 "obs³u¿yæ"
 
-#: locate/locate.c:608
+#: locate/locate.c:607
 #, c-format
 msgid "locate database %s is corrupt or invalid"
 msgstr "Baza danych locate %s jest uszkodzona lub niepoprawna"
 
-#: locate/locate.c:895
+#: locate/locate.c:894
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Rozmiar bazy danych locate: %s bajtów\n"
 
-#: locate/locate.c:900
+#: locate/locate.c:899
 #, c-format
 msgid "Matching Filenames: %s "
 msgstr "Pasuj±ce nazwy plików: %s "
 
-#: locate/locate.c:901
+#: locate/locate.c:900
 #, c-format
 msgid "All Filenames: %s "
 msgstr "Wszystkie nazwy plików: %s "
 
-#: locate/locate.c:904
+#: locate/locate.c:903
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "o ³±cznej d³ugo¶ci %s bajtów"
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 #, c-format
 msgid ""
 "\n"
@@ -802,7 +962,7 @@ msgstr ""
 "\n"
 "\tz których %s zawiera odstêpy, "
 
-#: locate/locate.c:911
+#: locate/locate.c:910
 #, c-format
 msgid ""
 "\n"
@@ -811,7 +971,7 @@ msgstr ""
 "\n"
 "\t%s zawiera znaki nowej linii, "
 
-#: locate/locate.c:914
+#: locate/locate.c:913
 #, c-format
 msgid ""
 "\n"
@@ -820,7 +980,7 @@ msgstr ""
 "\n"
 "\ta %s zawiera znaki z ustawionym najstarszym bitem.\n"
 
-#: locate/locate.c:922
+#: locate/locate.c:921
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
@@ -829,17 +989,17 @@ msgstr ""
 "Niektóre nazwy plików mog³y zostaæ odfiltrowane, wiêc nie mo¿na obliczyæ "
 "wspó³czynnika kompresji.\n"
 
-#: locate/locate.c:935
+#: locate/locate.c:934
 #, c-format
 msgid "Compression ratio %4.2f%% (higher is better)\n"
 msgstr "Wspó³czynnik kompresji %4.2f%% (im wiêkszy tym lepiej)\n"
 
-#: locate/locate.c:942
+#: locate/locate.c:941
 #, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "Wspó³czynnik kompresji jest nieokre¶lony\n"
 
-#: locate/locate.c:997
+#: locate/locate.c:996
 #, c-format
 msgid ""
 "locate database %s looks like an slocate database but it seems to have "
@@ -848,7 +1008,7 @@ msgstr ""
 "Baza danych locate %s wygl±da na bazê danych slocate, ale o poziomie "
 "bezpieczeñstwa %c, którego GNU findutils aktualnie nie obs³uguje"
 
-#: locate/locate.c:1114
+#: locate/locate.c:1113
 #, c-format
 msgid ""
 "%s is an slocate database.  Support for these is new, expect problems for "
@@ -857,7 +1017,7 @@ msgstr ""
 "%s to baza danych slocate. Jej obs³uga jest nowa, mo¿na siê jeszcze "
 "spodziewaæ problemów."
 
-#: locate/locate.c:1128
+#: locate/locate.c:1127
 #, c-format
 msgid ""
 "%s is an slocate database of unsupported security level %d; skipping it."
@@ -865,7 +1025,7 @@ msgstr ""
 "%s to baza danych slocate o nieobs³ugiwanym poziomie bezpieczeñstwa %d; "
 "pominiêto."
 
-#: locate/locate.c:1145
+#: locate/locate.c:1144
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
 "format databases with a non-zero security level.  No results will be "
@@ -875,38 +1035,38 @@ msgstr ""
 "slocate o niezerowym poziomie bezpieczeñstwa. Dla tej bazy danych nie "
 "zostan± wygenerowane ¿adne wyniki.\n"
 
-#: locate/locate.c:1156
+#: locate/locate.c:1155
 #, c-format
 msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr "%s to baza danych slocate. W³±czono opcjê '-e'."
 
-#: locate/locate.c:1194
+#: locate/locate.c:1193
 #, c-format
 msgid "Old-format locate database %s is too short to be valid"
 msgstr ""
 "Baza danych locale %s w starym formacie jest zbyt krótka aby by³a poprawna"
 
-#: locate/locate.c:1346
+#: locate/locate.c:1345
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Baza danych %s jest w formacie %s.\n"
 
-#: locate/locate.c:1367
+#: locate/locate.c:1366
 msgid "The database has little-endian machine-word encoding.\n"
 msgstr "Baza danych ma kodowanie ze s³owami maszynowymi little-endian.\n"
 
-#: locate/locate.c:1369
+#: locate/locate.c:1368
 msgid "The database has big-endian machine-word encoding.\n"
 msgstr "Baza danych ma kodowanie ze s³owami maszynowymi big-endian.\n"
 
-#: locate/locate.c:1382
+#: locate/locate.c:1381
 #, c-format
 msgid "The database machine-word encoding order is not obvious.\n"
 msgstr ""
 "Baza danych ma kodowanie z nieoczywist± kolejno¶ci± bajtów w s³owie "
 "maszynowym.\n"
 
-#: locate/locate.c:1410
+#: locate/locate.c:1409
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -927,53 +1087,59 @@ msgstr ""
 "      [--max-database-age D] [--version] [--help]\n"
 "      wzorzec...\n"
 
-#: locate/locate.c:1473
+#: locate/locate.c:1472
 msgid "failed to drop group privileges"
 msgstr "nie uda³o siê porzuciæ uprawnieñ grupy"
 
-#: locate/locate.c:1491
+#: locate/locate.c:1490
 msgid "failed to drop setuid privileges"
 msgstr "nie uda³o siê porzuciæ uprawnieñ setuid"
 
-#: locate/locate.c:1505
+#: locate/locate.c:1504
 msgid "Failed to fully drop privileges"
 msgstr "Nie uda³o siê w pe³ni porzuciæ uprawnieñ"
 
-#: locate/locate.c:1523
+#: locate/locate.c:1522
 msgid "failed to drop setgid privileges"
 msgstr "nie uda³o siê porzuciæ uprawnieñ setgid"
 
-#: locate/locate.c:1662
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate wersja %s\n"
-
-#: locate/locate.c:1702
-msgid "argument to --limit"
-msgstr "argument dla --limit"
-
-#: locate/locate.c:1785
+#: locate/locate.c:1789
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "uwaga: baza danych locate mo¿e byæ odczytana ze standardowego wej¶cia tylko "
 "raz."
 
-#: locate/locate.c:1847
+#: locate/locate.c:1851
 msgid "time system call failed"
 msgstr ""
 
-#: locate/locate.c:1858
+#: locate/locate.c:1862
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "uwaga: baza danych %s ma ju¿ ponad %d %s (jej wiek to %.1f %s)"
 
-#: xargs/xargs.c:302
+#: locate/word_io.c:97
+#, c-format
+msgid "Warning: locate database %s was built with a different byte order"
+msgstr ""
+
+#: locate/word_io.c:144
+#, fuzzy, c-format
+msgid "unexpected EOF in %s"
+msgstr "nieoczekiwane dodatkowe wyra¿enie '%s'"
+
+#: locate/word_io.c:146
+#, fuzzy, c-format
+msgid "error reading a word from %s"
+msgstr "b³±d podczas czekania na %s"
+
+#: xargs/xargs.c:303
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
 "Nieprawid³owa sekwencja steruj±ca %s w okre¶leniu ogranicznika wej¶cia."
 
-#: xargs/xargs.c:320
+#: xargs/xargs.c:321
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -982,7 +1148,7 @@ msgstr ""
 "Nieprawid³owa sekwencja steruj±ca %s w okre¶leniu ogranicznika wej¶cia; "
 "warto¶ci znaków nie mog± przekraczaæ %lx."
 
-#: xargs/xargs.c:326
+#: xargs/xargs.c:327
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -991,7 +1157,7 @@ msgstr ""
 "Nieprawid³owa sekwencja steruj±ca %s w okre¶leniu ogranicznika wej¶cia; "
 "warto¶ci znaków nie mog± przekraczaæ %lo."
 
-#: xargs/xargs.c:335
+#: xargs/xargs.c:336
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -1000,7 +1166,7 @@ msgstr ""
 "Nieprawid³owa sekwencja steruj±ca %s w okre¶leniu ogranicznika wej¶cia; "
 "koñcowe znaki %s nie zosta³y rozpoznane."
 
-#: xargs/xargs.c:380
+#: xargs/xargs.c:381
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -1009,19 +1175,14 @@ msgstr ""
 "Nieprawid³owe okre¶lenie ogranicznika wej¶cia %s: ogranicznik musi byæ "
 "pojedynczym znakiem lub sekwencj± steruj±c± zaczynaj±c± siê od \\."
 
-#: xargs/xargs.c:397
+#: xargs/xargs.c:398
 msgid "environment is too large for exec"
 msgstr "¶rodowisko jest zbyt du¿e, aby wykonaæ exec"
 
-#: xargs/xargs.c:582
+#: xargs/xargs.c:583
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr "uwaga: warto¶æ %ld dla opcji -s jest zbyt du¿a, u¿yto %ld"
-
-#: xargs/xargs.c:621
-#, c-format
-msgid "GNU xargs version %s\n"
-msgstr "GNU xargs wersja %s\n"
 
 #: xargs/xargs.c:652
 #, c-format
@@ -1162,3 +1323,28 @@ msgstr ""
 "       [-P maks-proc]  [--max-procs=maks-proc] [--show-limits]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=plik]\n"
 "       [--version] [--help] [polecenie [pocz±tkowe-argumenty]]\n"
+
+#~ msgid "block size"
+#~ msgstr "rozmiar bloku"
+
+#~ msgid ""
+#~ "warning: the predicate -ipath is deprecated; please use -iwholename "
+#~ "instead."
+#~ msgstr ""
+#~ "uwaga: wyra¿enie -ipath jest przestarza³e; proszê zamiast niego u¿ywaæ -"
+#~ "iwholename."
+
+#~ msgid "GNU find version %s\n"
+#~ msgstr "GNU find wersja %s\n"
+
+#~ msgid "GNU findutils version %s\n"
+#~ msgstr "GNU findutils wersja %s\n"
+
+#~ msgid "GNU locate version %s\n"
+#~ msgstr "GNU locate wersja %s\n"
+
+#~ msgid "argument to --limit"
+#~ msgstr "argument dla --limit"
+
+#~ msgid "GNU xargs version %s\n"
+#~ msgstr "GNU xargs wersja %s\n"
