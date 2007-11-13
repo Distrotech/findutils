@@ -95,17 +95,36 @@ do_checkout () {
 	# defaults refer to our own CVS repository for our code, not
 	# to gnulib.
 	cd $cvsdir
+
+	# gnulib now uses git as master repository, but used to use
+	# CVS.   Check that we are not running against an old working
+	# directory which is still pointing at the old CVS repository.
+	rootfile=gnulib/CVS/Root
+	cvs_git_root=":pserver:anonymous@pserver.git.sv.gnu.org:/gnulib.git"
+
+	if test -d gnulib/CVS
+	then
+	  if test x"$(cat $rootfile)" == x"$cvs_git_root"; then
+	      echo "Using the git repository via git-cvs-pserver..."
+	  else
+	      echo "WARNING: Migrating from old CVS repository" >&2
+	      # Force use of "cvs checkout" as opposed to update.
+	      mv gnulib gnulib.before-git-migration
+	  fi
+	fi
+
 	if test -d gnulib/CVS ; then
-	cd gnulib
-	cmd=update
-	root="" # use previous
+	  cd gnulib
+	  cmd=update
+	  root="" # use previous
+	  args=
 	else
-	root="-d :pserver:anonymous@cvs.sv.gnu.org:/sources/gnulib"
-	cmd=checkout
-	args=gnulib
+	  cmd=checkout
+	  root="-d $cvs_git_root"
+	  args="-d gnulib HEAD"
 	fi
 	set -x
-	cvs -q -z3 $root  $cmd $cvs_sticky_option "$gnulib_version" $args
+	cvs -q $root $cmd $cvs_sticky_option "$gnulib_version" $args
 	set +x
     )
 }
