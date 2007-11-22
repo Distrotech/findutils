@@ -888,6 +888,11 @@ now(void)
 void 
 set_option_defaults(struct options *p)
 {
+  if (getenv("POSIXLY_CORRECT"))
+    p->posixly_correct = true;
+  else
+    p->posixly_correct = false;
+  
   /* We call check_nofollow() before setlocale() because the numbers 
    * for which we check (in the results of uname) definitiely have "."
    * as the decimal point indicator even under locales for which that 
@@ -912,7 +917,10 @@ set_option_defaults(struct options *p)
       p->warnings = false;
       p->literal_control_chars = false; /* may change */
     }
-  
+  if (p->posixly_correct)
+    {
+      p->warnings = false;
+    }
   
   p->do_dir_first = true;
   p->maxdepth = p->mindepth = -1;
@@ -922,7 +930,7 @@ set_option_defaults(struct options *p)
   p->stay_on_filesystem = false;
   p->ignore_readdir_race = false;
 
-  if (getenv("POSIXLY_CORRECT"))
+  if (p->posixly_correct)
     p->output_block_size = 512;
   else
     p->output_block_size = 1024;

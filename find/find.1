@@ -1230,16 +1230,17 @@ different output files.
 
 
 .SH "STANDARDS CONFORMANCE"
-The following options are specified in the POSIX standard 
-(IEEE Std 1003.1, 2003 Edition):
+For closest compliance to the POSIX standard, you should set the
+POSIXLY_CORRECT environment variable.  The following options are
+specified in the POSIX standard (IEEE Std 1003.1, 2003 Edition):
 
-.IP "\-H"
+.IP \fB\-H\fR
 This option is supported.
 
-.IP "\-L"
+.IP \fB\-L\fR
 This option is supported.
 
-.IP "\-name"
+.IP \fB\-name\fR
 This option is supported, but POSIX conformance depends on the 
 POSIX conformance of the system's 
 .BR fnmatch (3) 
@@ -1248,36 +1249,41 @@ library function.  As of findutils-4.2.2, shell metacharacters
 IEEE PASC interpretation 126 requires this.   This is a change from
 previous versions of findutils.
 
-.IP "\-type"
+.IP \fB\-type\fR
 Supported.   POSIX specifies `b', `c', `d', `l', `p', `f' and `s'.
 GNU find also supports `D', representing a Door, where the OS provides these.
 
-.IP "\-ok"
+.IP \fB\-ok\fR
 Supported.   Interpretation of the response is not locale-dependent
 (see ENVIRONMENT VARIABLES).
 
-.IP "\-newer"
+.IP \fB\-newer\fR
 Supported.  If the file specified is a symbolic link, it is always
 dereferenced.  This is a change from previous behaviour, which used to 
 take the relevant time from the symbolic link; see the HISTORY section
 below.
 
+.IP \fB\-perm\fR
+Supported.  If the POSIXLY_CORRECT environment variable is not set,
+some mode arguments (for example +a+x) which are not valid in POSIX
+are supported for backward-compatibility.
+
 .IP "Other predicates"
 The predicates
-`\-atime',
-`\-ctime',
-`\-depth',
-`\-group',
-`\-links',
-`\-mtime',
-`\-nogroup',
-`\-nouser',
-`\-perm',
-`\-print',
-`\-prune',
-`\-size',
-`\-user' and 
-`\-xdev',
+.BR \-atime ,
+.BR \-ctime ,
+.BR \-depth ,
+.BR \-group ,
+.BR \-links ,
+.BR \-mtime ,
+.BR \-nogroup ,
+.BR \-nouser ,
+.BR \-print ,
+.BR \-prune ,
+.BR \-size ,
+.BR \-user  
+and 
+.B \-xdev
 are all supported.
 
 .P
@@ -1373,11 +1379,33 @@ Affects the directories which are searched to find the executables
 invoked by `\-exec', `\-execdir', `\-ok' and `\-okdir'.
 
 .IP POSIXLY_CORRECT
-Determines the block size used by `\-ls' and `\-fls'.  
+Determines the block size used by 
+.B \-ls
+and 
+.BR \-fls . 
 If 
 .B POSIXLY_CORRECT
 is set, blocks are units of 512 bytes.  Otherwise
-they are units of 1024 bytes.
+they are units of 1024 bytes.   
+.IP
+Setting this variable also turns off
+warning messages (that is, implies
+.BR \-nowarn )
+by default, because POSIX requires that apart from
+the output for 
+.BR \-ok ,
+all messages printed on stderr are diagnositcs and must result in a
+non-zero exit status.
+.IP
+When POSIXLY_CORRECT is not set, 
+.B \-perm
++zzz
+is treated just like 
+.B \-perm 
+/zzz
+if 
++zzz is not a valid symbolic mode.  When POSIXLY_CORRECT is set, such
+constructs are treated as an error.
 
 .IP TZ
 Affects the time zone used for some of the time-related format

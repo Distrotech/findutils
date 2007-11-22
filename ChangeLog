@@ -1,5 +1,34 @@
 2007-11-22  James Youngman  <jay@gnu.org>
 
+	POSIXLY_CORRECT turns off warnings.
+	* find/defs.h (struct options): Added member posixly_correct.
+	This is set when the POSIXLY_CORRECT environment variable is set.
+	* find/util.c (set_option_defaults): Set options.posixly_correct
+	if the POSIXLY_CORRECT environment variable is set.
+	(set_option_defaults): Turn off warnings when POSIXLY_CORRECT is
+	in force.
+	* find/find.1: Document this.
+	(Environment Variables): Likewise.
+	(Warning Messages): Likewise.
+
+	Non-POSIX compliant arguments to -perm generate an error when
+	POSIXLY_CORRECT is set.
+	* find/parser.c (parse_table): Indicate which primaries are
+	defined by POSIX.
+	(non_posix_mode): New function; issues an error message when a
+	non-POSIX-compliant argument to -perm is used (and POSIXLY_CORRECT
+	is in force).
+	(parse_perm): Call non_posix_mode when a non-POSIX-compliant mode
+	argument is seen.
+	* find/testsuite/find.gnu/posix-perminvalid.exp: New file; tests
+	invalid arguments to -perm.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add
+	posix-perminvalid.exp.  
+	* find/find.1: Document this.
+	* doc/find.texi (Mode Bits): Likewise
+	(Environment Variables): Likewise
+
+
 	* xargs/xargs.1: Options should be bold, not italic; filenames
 	should also be italic.  OPTIONS should be a section, not a
 	subsection.  In the description of --max-lines, "max-args" was

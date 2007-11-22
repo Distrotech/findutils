@@ -558,6 +558,12 @@ struct options
    */
   boolean warnings;
   
+  /* If true, avoid POSIX-incompatible behaviours 
+   * (this functionality is currently incomplete 
+   * and at the moment affects mainly warning messages).
+   */
+  boolean posixly_correct;
+  
   struct timespec      start_time;		/* Time at start of execution.  */
   
   /* Seconds between 00:00 1/1/70 and either one day before now

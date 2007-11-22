@@ -1,6 +1,15 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.11-CVS
 
+** Bug Fixes
+
+#21039: Setting the POSIXLY_CORRECT environment variable now turns off
+warnings by default, because POSIX requires that only diagnostic
+messages (and -ok prompts) are printed on STDERR, and diagnostic
+messages must also result in a nonzero exit status.  Some
+non-compliant arguments to -perm (for example -perm +a+x) also result
+in an error when POSIXLY_CORRECT is set.
+
 ** Documentation Fixes
 
 #21270: Formatting fixes to the xargs.1 manual page, including making

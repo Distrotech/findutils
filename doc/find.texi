@@ -1164,7 +1164,12 @@ either a symbolic or numeric @var{mode} (@pxref{File Permissions})
 optionally prefixed by @samp{-} or @samp{/}.
 
 A @var{pmode} that starts with neither @samp{-} nor @samp{/} matches
-if @var{mode} exactly matches the file mode bits.
+if @var{mode} exactly matches the file mode bits.  
+
+A @var{pmode} that starts with @samp{+} but which is not valid (for
+example @samp{+a+x}) is an error if the POSIXLY_CORRECT environment
+variable it set.  Otherwise this is treated as if the initial
+@samp{+} were a @samp{/}, for backward compatibility.
 
 A @var{pmode} that starts with @samp{-} matches if
 @emph{all} the file mode bits set in @var{mode} are set for the file;
@@ -2991,9 +2996,11 @@ symbolic links are handled.
 If there is an error on the @code{find} command line, an error message
 is normally issued.  However, there are some usages that are
 inadvisable but which @code{find} should still accept.  Under these
-circumstances, @code{find} may issue a warning message.  By default,
-warnings are enabled only if @code{find} is being run interactively
-(specifically, if the standard input is a terminal).  Warning messages
+circumstances, @code{find} may issue a warning message.  
+
+By default, warnings are enabled only if @code{find} is being run
+interactively (specifically, if the standard input is a terminal) and
+the POSIXLY_CORRECT environment variable is not set.  Warning messages
 can be controlled explicitly by the use of options on the command
 line:
 
@@ -3582,6 +3589,15 @@ more detailed discussion of security matters.
 Determines the block size used by @samp{-ls} and @samp{-fls}.  
 If @var{POSIXLY_CORRECT} is set, blocks are units of 512 bytes.  Otherwise
 they are units of 1024 bytes.
+
+Setting this variable also turns off warning messages (that is, implies
+@samp{-nowarn}) by default, because POSIX requires that apart from
+the output for @samp{-ok}, all messages printed on stderr are
+diagnositcs and must result in a non-zero exit status.
+
+Arguments to @samp{-perm} beginning with @samp{+} are treated
+differently when POSIXLY_CORRECT is set. See 
+@ref{Mode Bits,-perm,File Mode Bits}.
 
 @item TZ 
 Affects the time zone used for some of the time-related format

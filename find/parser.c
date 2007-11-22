@@ -239,23 +239,23 @@ static struct parser_table const parse_entry_newerXY =
 
 static struct parser_table const parse_table[] =
 {
-  PARSE_PUNCTUATION("!",                     negate),
+  PARSE_PUNCTUATION("!",                     negate), /* POSIX */
   PARSE_PUNCTUATION("not",                   negate),	     /* GNU */
-  PARSE_PUNCTUATION("(",                     openparen),
-  PARSE_PUNCTUATION(")",                     closeparen),
+  PARSE_PUNCTUATION("(",                     openparen), /* POSIX */
+  PARSE_PUNCTUATION(")",                     closeparen), /* POSIX */
   PARSE_PUNCTUATION(",",                     comma),	     /* GNU */
-  PARSE_PUNCTUATION("a",                     and),
+  PARSE_PUNCTUATION("a",                     and), /* POSIX */
   PARSE_TEST       ("amin",                  amin),	     /* GNU */
   PARSE_PUNCTUATION("and",                   and),		/* GNU */
   PARSE_TEST       ("anewer",                anewer),	     /* GNU */
-  {ARG_TEST,       "atime",                  parse_time, pred_atime},
+  {ARG_TEST,       "atime",                  parse_time, pred_atime}, /* POSIX */
   PARSE_TEST       ("cmin",                  cmin),	     /* GNU */
   PARSE_TEST       ("cnewer",                cnewer),	     /* GNU */
-  {ARG_TEST,       "ctime",                  parse_time, pred_ctime},
+  {ARG_TEST,       "ctime",                  parse_time, pred_ctime}, /* POSIX */
   PARSE_POSOPT     ("daystart",              daystart),	     /* GNU */
   PARSE_ACTION     ("delete",                delete), /* GNU, Mac OS, FreeBSD */
   PARSE_OPTION     ("d",                     d), /* Mac OS X, FreeBSD, NetBSD, OpenBSD, but deprecated  in favour of -depth */
-  PARSE_OPTION     ("depth",                 depth),
+  PARSE_OPTION     ("depth",                 depth), /* POSIX */
   PARSE_TEST       ("empty",                 empty),	     /* GNU */
   {ARG_ACTION,      "exec",    parse_exec, pred_exec}, /* POSIX */
   {ARG_TEST,        "executable",            parse_accesscheck, pred_executable}, /* GNU, 4.3.0+ */
@@ -267,7 +267,7 @@ static struct parser_table const parse_table[] =
   {ARG_ACTION,      "fprintf", parse_fprintf, pred_fprintf}, /* GNU */
   PARSE_TEST       ("fstype",                fstype),  /* GNU, Unix */
   PARSE_TEST       ("gid",                   gid),	     /* GNU */
-  PARSE_TEST       ("group",                 group),
+  PARSE_TEST       ("group",                 group), /* POSIX */
   PARSE_OPTION     ("ignore_readdir_race",   ignore_race),   /* GNU */
   PARSE_TEST       ("ilname",                ilname),	     /* GNU */
   PARSE_TEST       ("iname",                 iname),	     /* GNU */
@@ -275,35 +275,35 @@ static struct parser_table const parse_table[] =
   PARSE_TEST       ("ipath",                 ipath), /* GNU, deprecated in favour of iwholename */
   PARSE_TEST_NP    ("iregex",                iregex),	     /* GNU */
   PARSE_TEST_NP    ("iwholename",            iwholename),    /* GNU */
-  PARSE_TEST       ("links",                 links),
+  PARSE_TEST       ("links",                 links), /* POSIX */
   PARSE_TEST       ("lname",                 lname),	     /* GNU */
   PARSE_ACTION     ("ls",                    ls),      /* GNU, Unix */
   PARSE_OPTION     ("maxdepth",              maxdepth),	     /* GNU */
   PARSE_OPTION     ("mindepth",              mindepth),	     /* GNU */
   PARSE_TEST       ("mmin",                  mmin),	     /* GNU */
   PARSE_OPTION     ("mount",                 xdev),	    /* Unix */
-  {ARG_TEST,       "mtime",                  parse_time, pred_mtime},
+  {ARG_TEST,       "mtime",                  parse_time, pred_mtime}, /* POSIX */
   PARSE_TEST       ("name",                  name),
 #ifdef UNIMPLEMENTED_UNIX	                    
   PARSE(ARG_UNIMPLEMENTED, "ncpio",          ncpio),	    /* Unix */
 #endif				                    
-  PARSE_TEST       ("newer",                 newer),
-  {ARG_TEST,       "atime",                  parse_time, pred_atime},
+  PARSE_TEST       ("newer",                 newer), /* POSIX */
+  {ARG_TEST,       "atime",                  parse_time, pred_atime}, /* POSIX */
   PARSE_OPTION     ("noleaf",                noleaf),	     /* GNU */
-  PARSE_TEST       ("nogroup",               nogroup),
-  PARSE_TEST       ("nouser",                nouser),
+  PARSE_TEST       ("nogroup",               nogroup), /* POSIX */
+  PARSE_TEST       ("nouser",                nouser), /* POSIX */
   PARSE_OPTION     ("noignore_readdir_race", noignore_race), /* GNU */
   PARSE_POSOPT     ("nowarn",                nowarn),	     /* GNU */
-  PARSE_PUNCTUATION("o",                     or),
+  PARSE_PUNCTUATION("o",                     or), /* POSIX */
   PARSE_PUNCTUATION("or",                    or),	     /* GNU */
-  PARSE_ACTION     ("ok",                    ok),
+  PARSE_ACTION     ("ok",                    ok), /* POSIX */
   PARSE_ACTION     ("okdir",                 okdir), /* GNU (-execdir is BSD) */
   PARSE_TEST       ("path",                  path), /* GNU, HP-UX, RMS prefers wholename, but anyway soon POSIX */
-  PARSE_TEST       ("perm",                  perm),
-  PARSE_ACTION     ("print",                 print),
+  PARSE_TEST       ("perm",                  perm), /* POSIX */
+  PARSE_ACTION     ("print",                 print), /* POSIX */
   PARSE_ACTION     ("print0",                print0),	     /* GNU */
   {ARG_ACTION,      "printf",   parse_printf, NULL},	     /* GNU */
-  PARSE_ACTION     ("prune",                 prune),
+  PARSE_ACTION     ("prune",                 prune), /* POSIX */
   PARSE_ACTION     ("quit",                  quit),	     /* GNU */
   {ARG_TEST,       "readable",            parse_accesscheck, pred_readable}, /* GNU, 4.3.0+ */
   PARSE_TEST       ("regex",                 regex),	     /* GNU */
@@ -312,15 +312,15 @@ static struct parser_table const parse_table[] =
 #if 0
   PARSE_OPTION     ("show-control-chars",    show_control_chars), /* GNU, 4.3.0+ */
 #endif
-  PARSE_TEST       ("size",                  size),
-  PARSE_TEST       ("type",                  type),
+  PARSE_TEST       ("size",                  size), /* POSIX */
+  PARSE_TEST       ("type",                  type), /* POSIX */
   PARSE_TEST       ("uid",                   uid),	     /* GNU */
   PARSE_TEST       ("used",                  used),	     /* GNU */
-  PARSE_TEST       ("user",                  user),
+  PARSE_TEST       ("user",                  user), /* POSIX */
   PARSE_OPTION     ("warn",                  warn),	     /* GNU */
   PARSE_TEST_NP    ("wholename",             wholename), /* GNU, replaced -path, but anyway -path will soon be in POSIX */
   {ARG_TEST,       "writable",               parse_accesscheck, pred_writable}, /* GNU, 4.3.0+ */
-  PARSE_OPTION     ("xdev",                  xdev),
+  PARSE_OPTION     ("xdev",                  xdev), /* POSIX */
   PARSE_TEST       ("xtype",                 xtype),	     /* GNU */
 #ifdef UNIMPLEMENTED_UNIX
   /* It's pretty ugly for find to know about archive formats.
@@ -1714,6 +1714,17 @@ parse_wholename (const struct parser_table* entry, char **argv, int *arg_ptr)
   return parse_path (entry, argv, arg_ptr);
 }
 
+static void
+non_posix_mode(const char *mode)
+{
+  if (options.posixly_correct)
+    {
+      error (1, 0, _("Mode %s is not valid when POSIXLY_CORRECT is on."),
+	     quotearg_n_style(0, options.err_quoting_style, mode));
+    }
+}
+
+
 static boolean
 parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -1748,7 +1759,12 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 	    * it is incompatible with POSIX in some cases, but we
 	    * still support uses of it that are not incompatible with
 	    * POSIX.
+	    *
+	    * Example: POSIXLY_CORRECT=y find -perm +a+x
 	    */
+	   non_posix_mode(perm_expr);
+
+	   /* support the previous behaviour. */
 	   mode_start = 1;
 	   kind = PERM_ANY;
 	   rate = 0.3;
@@ -1764,11 +1780,12 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
        break;
       
     case '/':			/* GNU extension */
-       mode_start = 1;
-       kind = PERM_ANY;
-       havekind = true;
-       rate = 0.3;
-       break;
+      non_posix_mode(perm_expr);
+      mode_start = 1;
+      kind = PERM_ANY;
+      havekind = true;
+      rate = 0.3;
+      break;
        
     default:
       /* For example, '-perm 0644', which is valid and matches 

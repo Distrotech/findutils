@@ -145,6 +145,7 @@ find.gnu/perm-slash.exp \
 find.gnu/posix-dflt.exp \
 find.gnu/posix-h.exp \
 find.gnu/posix-l.exp \
+find.gnu/posix-perminvalid.exp \
 find.gnu/printfHdfl.exp \
 find.gnu/printf.exp \
 find.gnu/printf.exp \

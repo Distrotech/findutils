@@ -1088,6 +1088,9 @@ issue_loop_warning(const char *name, const char *pathname, int level)
       error(0, 0,
 	    _("Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."),
 	    safely_quote_err_filename(0, pathname));
+      /* XXX: POSIX appears to require that the exit status be non-zero if a 
+       * diagnostic is issued.  
+       */
     }
   else
     {
