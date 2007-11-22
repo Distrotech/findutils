@@ -1,14 +1,18 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.11-CVS
 
+** Functional changes
+
+When the POSIXLY_CORRECT environment variable is set, "find -perm
++a+w" is rejected as invalid.  Some other similar mode strings
+starting with '+' which are not valid in POSIX are also rejected.
+
 ** Bug Fixes
 
 #21039: Setting the POSIXLY_CORRECT environment variable now turns off
 warnings by default, because POSIX requires that only diagnostic
 messages (and -ok prompts) are printed on STDERR, and diagnostic
-messages must also result in a nonzero exit status.  Some
-non-compliant arguments to -perm (for example -perm +a+x) also result
-in an error when POSIXLY_CORRECT is set.
+messages must also result in a nonzero exit status.  
 
 ** Documentation Fixes
 
