@@ -1238,11 +1238,9 @@ As above.
 
 @quotation Warning
 If you specify @samp{-perm /000} or @samp{-perm /mode} where the
-symbolic mode @samp{mode} has no bits set, the test currently matches
-no files.  This differs from the behaviour of @samp{-perm -000}, which
-matches all files.  The behaviour of @samp{-perm /000} will be changed
-to be consistent with the behaviour of @samp{-perm -000}.  The change
-will probably be made in early 2006.
+symbolic mode @samp{mode} has no bits set, the test matches all files.
+Versions of GNU @code{find} prior to 4.3.3 matched no files in this
+situation.
 @end quotation
 
 @end deffn
