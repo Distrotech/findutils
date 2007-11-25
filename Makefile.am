@@ -18,12 +18,16 @@ TESTFILE_SUFFIXES = .exp .xo .xe .xi
 dist-hook: jy-regex-fix findutils-check-pofiles findutils-check-testfiles
 
 
-##
 ## regex.c seems to get left out if I use automake-1.9 but not 
 ## if I use automake-1.7.   Hence dist-hook has to be able to 
 ## copy regex.c into the relevant (read-only) directory if it 
 ## is not already there, but needs to avoid doing so if the 
 ## file is already in place.   Ugh.  
+## 
+## This problem appears not to apply to Automake-1.10, but since
+## gnulib only requires Automake-1.9.6, we should support that.  
+## Therefore we probably can't remove this kludge yet.
+## 
 ##                             -- James Youngman <jay@gnu.org>
 ## 
 jy-regex-fix:
