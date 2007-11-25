@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-11-13 11:10+0000\n"
+"POT-Creation-Date: 2007-11-25 11:42+0000\n"
 "PO-Revision-Date: 2006-05-20 14:54+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -288,7 +288,7 @@ msgstr ""
 "L'enllaç simbòlic «%s» és part d'un bucle a la jerarquia del directori. Ja "
 "hem visitat el directori al qual apunta."
 
-#: find/find.c:1104
+#: find/find.c:1107
 #, fuzzy, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -297,22 +297,22 @@ msgstr ""
 "S'ha detectat un bucle al sistema de fitxers; «%s» té el mateix número de "
 "dispositiu i node d'idenficació que un directori que és %d %s."
 
-#: find/find.c:1108
+#: find/find.c:1111
 #, fuzzy
 msgid "level higher in the file system hierarchy"
 msgstr "nivell més alt a la jerarquia del sistema de fitxers"
 
-#: find/find.c:1109
+#: find/find.c:1112
 #, fuzzy
 msgid "levels higher in the file system hierarchy"
 msgstr "nivells més alt a la jerarquia del sistema de fitxers"
 
-#: find/find.c:1354
+#: find/find.c:1357
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "avís: no es seguirà l'enllaç simbòlic %s"
 
-#: find/find.c:1398
+#: find/find.c:1401
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -508,12 +508,17 @@ msgstr ""
 msgid "Cannot obtain birth time of file %s"
 msgstr "No s'ha pogut obrir el fitxer d'entrada «%s»"
 
-#: find/parser.c:1788
+#: find/parser.c:1722
+#, c-format
+msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
+msgstr ""
+
+#: find/parser.c:1805
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "el mode «%s» no és vàlid"
 
-#: find/parser.c:1807
+#: find/parser.c:1824
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -525,66 +530,66 @@ msgstr ""
 "perm -000; això vol dir, de moment no concorda amb cap fitxer, però prompte "
 "canviarà per a que concorde amb tots."
 
-#: find/parser.c:2004
+#: find/parser.c:2021
 msgid "invalid null argument to -size"
 msgstr "l'argument nul no és vàlid per a -size"
 
-#: find/parser.c:2052
+#: find/parser.c:2069
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "el tipus de -size «%c» no vàlid"
 
-#: find/parser.c:2058
+#: find/parser.c:2075
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "l'argument «%s» no és vàlid per a «%s»"
 
-#: find/parser.c:2237
+#: find/parser.c:2254
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2348
+#: find/parser.c:2365
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "l'argument %s no és vàlid per a %s"
 
-#: find/parser.c:2400
+#: find/parser.c:2417
 #, c-format
 msgid "Features enabled: "
 msgstr "Funcionalitats habilitades: "
 
-#: find/parser.c:2509
+#: find/parser.c:2526
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2556
+#: find/parser.c:2573
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2677
+#: find/parser.c:2694
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "avís: seqüència d'escapament «\\%c» no reconegut"
 
-#: find/parser.c:2693
+#: find/parser.c:2710
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2732
+#: find/parser.c:2749
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "avís: directiva de format «%%%c» no reconeguda"
 
-#: find/parser.c:2876
+#: find/parser.c:2893
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2910
+#: find/parser.c:2927
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -597,7 +602,7 @@ msgstr ""
 "del vostre $PATH (és a dir, elimineu «.» o els dos punts del principi o "
 "final)"
 
-#: find/parser.c:2921
+#: find/parser.c:2938
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -609,7 +614,7 @@ msgstr ""
 "del vostre $PATH (és a dir, elimineu «.» o els dos punts del principi o "
 "final)"
 
-#: find/parser.c:3024
+#: find/parser.c:3041
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -617,25 +622,25 @@ msgstr ""
 "No pdeu utilitzar {} dins del nom de la utilitat per a -execdir i -okdir, ja "
 "que això és un problema de seguretat potencial."
 
-#: find/parser.c:3049
+#: find/parser.c:3066
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Només es suporta una instància de {} amb -exec%s ... +"
 
-#: find/parser.c:3066
+#: find/parser.c:3083
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "l'entorn és massa gran per a l'execució"
 
-#: find/parser.c:3257
+#: find/parser.c:3274
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3413
+#: find/parser.c:3430
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3418
+#: find/parser.c:3435
 msgid "standard output"
 msgstr ""
 
@@ -817,7 +822,7 @@ msgid ""
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:935
+#: find/util.c:943
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"

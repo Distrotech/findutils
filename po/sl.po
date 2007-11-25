@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-11-13 11:10+0000\n"
+"POT-Creation-Date: 2007-11-25 11:42+0000\n"
 "PO-Revision-Date: 2006-09-28 13:49+0200\n"
 "Last-Translator: Primož Peterlin <primoz.peterlin@biofiz.mf.uni-lj.si>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
@@ -287,7 +287,7 @@ msgstr ""
 "Simbolna povezava »%s« je del zanke v drevesu imenikov; imenik, na katerega "
 "kaže, smo že obiskali."
 
-#: find/find.c:1104
+#: find/find.c:1107
 #, fuzzy, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -296,22 +296,22 @@ msgstr ""
 "Odkrita zanka v datotečnem sistemu: »%s« ima isto številko enote in inoda "
 "kot imenik %d %s."
 
-#: find/find.c:1108
+#: find/find.c:1111
 #, fuzzy
 msgid "level higher in the file system hierarchy"
 msgstr "raven višje v datotečni hierarhiji"
 
-#: find/find.c:1109
+#: find/find.c:1112
 #, fuzzy
 msgid "levels higher in the file system hierarchy"
 msgstr "ravni višje v datotečni hierarhiji"
 
-#: find/find.c:1354
+#: find/find.c:1357
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "opozorilo: simbolni povezavi %s ne sledimo"
 
-#: find/find.c:1398
+#: find/find.c:1401
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -507,12 +507,17 @@ msgstr ""
 msgid "Cannot obtain birth time of file %s"
 msgstr "Vhodne datoteke »%s« ni mogoče odpreti"
 
-#: find/parser.c:1788
+#: find/parser.c:1722
+#, c-format
+msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
+msgstr ""
+
+#: find/parser.c:1805
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "neveljave način »%s«"
 
-#: find/parser.c:1807
+#: find/parser.c:1824
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -523,66 +528,66 @@ msgstr ""
 "se bo v prihodnjem spremenil, da bo skladen z -perm -000, zategadelj se za "
 "zdaj ne ujema z nobeno datoteke, v prihodnje pa se bo z vsemi."
 
-#: find/parser.c:2004
+#: find/parser.c:2021
 msgid "invalid null argument to -size"
 msgstr "neveljaven prazni argument pri -size"
 
-#: find/parser.c:2052
+#: find/parser.c:2069
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "neveljaven tip -size: »%c«"
 
-#: find/parser.c:2058
+#: find/parser.c:2075
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "neveljaven argument »%s« za »%s«"
 
-#: find/parser.c:2237
+#: find/parser.c:2254
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2348
+#: find/parser.c:2365
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "neveljaven argument %s za %s"
 
-#: find/parser.c:2400
+#: find/parser.c:2417
 #, c-format
 msgid "Features enabled: "
 msgstr "Omogočene možnosti: "
 
-#: find/parser.c:2509
+#: find/parser.c:2526
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2556
+#: find/parser.c:2573
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2677
+#: find/parser.c:2694
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "opozorilo: neprepoznano ubežno zaporedje »\\%c«"
 
-#: find/parser.c:2693
+#: find/parser.c:2710
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2732
+#: find/parser.c:2749
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "opozorilo: neprepoznano formatno določilo »%%%c»"
 
-#: find/parser.c:2876
+#: find/parser.c:2893
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2910
+#: find/parser.c:2927
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -594,7 +599,7 @@ msgstr ""
 "kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
 "iz spremenljivke $PATH - odstranite ».« ter uvodna ali zaključna dvopičja."
 
-#: find/parser.c:2921
+#: find/parser.c:2938
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -605,7 +610,7 @@ msgstr ""
 "kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
 "iz spremenljivke $PATH - odstranite ».« ter uvodna ali zaključna dvopičja."
 
-#: find/parser.c:3024
+#: find/parser.c:3041
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -613,25 +618,25 @@ msgstr ""
 "Raba {} znotraj imena pomožnega programa za -execdir in -okdir zaradi "
 "mogočih varnostnih problemov ni dovoljena."
 
-#: find/parser.c:3049
+#: find/parser.c:3066
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Podprta je le enkratna navedba {} v kombinaciji z -exec%s ... +"
 
-#: find/parser.c:3066
+#: find/parser.c:3083
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "okolje je preobsežno za klic exec"
 
-#: find/parser.c:3257
+#: find/parser.c:3274
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3413
+#: find/parser.c:3430
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3418
+#: find/parser.c:3435
 msgid "standard output"
 msgstr ""
 
@@ -808,7 +813,7 @@ msgid ""
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:935
+#: find/util.c:943
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"

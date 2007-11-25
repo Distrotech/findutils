@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-11-13 11:10+0000\n"
+"POT-Creation-Date: 2007-11-25 11:42+0000\n"
 "PO-Revision-Date: 2005-08-01 18:25+0200\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -290,7 +290,7 @@ msgstr ""
 "Symbolsk kæde '%s' er del af en løkke i kataloghierarkiet; det katalog som "
 "den peger på, er allerede blevet besøgt."
 
-#: find/find.c:1104
+#: find/find.c:1107
 #, fuzzy, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -299,22 +299,22 @@ msgstr ""
 "Filsystemsløkke fundet; '%s' har det samme enhedsnummer og indekseringsknude "
 "som et katalog hvilket er %d %s."
 
-#: find/find.c:1108
+#: find/find.c:1111
 #, fuzzy
 msgid "level higher in the file system hierarchy"
 msgstr "niveau højere i filsystemshierarkiet"
 
-#: find/find.c:1109
+#: find/find.c:1112
 #, fuzzy
 msgid "levels higher in the file system hierarchy"
 msgstr "niveauer højere i filsystemshierarkiet"
 
-#: find/find.c:1354
+#: find/find.c:1357
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "advarsel: kunne ikke følge det symbolske link %s"
 
-#: find/find.c:1398
+#: find/find.c:1401
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -506,12 +506,17 @@ msgstr ""
 msgid "Cannot obtain birth time of file %s"
 msgstr "Kan ikke åbne inddatafilen '%s'"
 
-#: find/parser.c:1788
+#: find/parser.c:1722
+#, c-format
+msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
+msgstr ""
+
+#: find/parser.c:1805
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "ugyldig tilstand '%s'"
 
-#: find/parser.c:1807
+#: find/parser.c:1824
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -519,66 +524,66 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:2004
+#: find/parser.c:2021
 msgid "invalid null argument to -size"
 msgstr "ugyldig tom parameter til -size"
 
-#: find/parser.c:2052
+#: find/parser.c:2069
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "ugyldig -size type '%c'"
 
-#: find/parser.c:2058
+#: find/parser.c:2075
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "ugyldig parameter '%s' til '%s'"
 
-#: find/parser.c:2237
+#: find/parser.c:2254
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2348
+#: find/parser.c:2365
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "ugyldig parameter %s til %s"
 
-#: find/parser.c:2400
+#: find/parser.c:2417
 #, c-format
 msgid "Features enabled: "
 msgstr "Faciliteter aktiveret: "
 
-#: find/parser.c:2509
+#: find/parser.c:2526
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2556
+#: find/parser.c:2573
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2677
+#: find/parser.c:2694
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "advarsel: ukendt undvigetegn '\\%c'"
 
-#: find/parser.c:2693
+#: find/parser.c:2710
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2732
+#: find/parser.c:2749
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "advarsel: ukendt formatteringsdirektiv '%%%c'"
 
-#: find/parser.c:2876
+#: find/parser.c:2893
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2910
+#: find/parser.c:2927
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -591,7 +596,7 @@ msgstr ""
 "katalog fra din $PATH (dvs. fjern \".\" eller begyndende og afsluttende "
 "koloner)"
 
-#: find/parser.c:2921
+#: find/parser.c:2938
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -603,7 +608,7 @@ msgstr ""
 "katalog fra din $PATH (dvs. fjern \".\" eller begyndende og afsluttende "
 "koloner)"
 
-#: find/parser.c:3024
+#: find/parser.c:3041
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -611,25 +616,25 @@ msgstr ""
 "Det kan ikke bruge {} i programnavnet for -execdir og -okdir fordi der er et "
 "potentielt sikkerhedsproblem."
 
-#: find/parser.c:3049
+#: find/parser.c:3066
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Kun en forekomst af {} er understøttet med -exec%s ... +"
 
-#: find/parser.c:3066
+#: find/parser.c:3083
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "miljø for stort til at eksekvere"
 
-#: find/parser.c:3257
+#: find/parser.c:3274
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3413
+#: find/parser.c:3430
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3418
+#: find/parser.c:3435
 msgid "standard output"
 msgstr ""
 
@@ -806,7 +811,7 @@ msgid ""
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:935
+#: find/util.c:943
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"

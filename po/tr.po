@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.8\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-11-13 11:10+0000\n"
+"POT-Creation-Date: 2007-11-25 11:42+0000\n"
 "PO-Revision-Date: 2007-07-09 11:01+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@buguner.name.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -289,7 +289,7 @@ msgstr ""
 "%s sembolik bağı dizin hiyerarşisinde bir döngünün parçası ve gösterdiği "
 "dizini zaten ziyaret etmiştik."
 
-#: find/find.c:1104
+#: find/find.c:1107
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -298,22 +298,22 @@ msgstr ""
 "Dosya sisteminde döngü saptandı; %s, bir dizin gibi %d %s olarak aynı aygıt "
 "ve düğüm numarasına sahip."
 
-#: find/find.c:1108
+#: find/find.c:1111
 #, fuzzy
 msgid "level higher in the file system hierarchy"
 msgstr "seviye, dosya sistemi hiyerarşisinde daha yüksek"
 
-#: find/find.c:1109
+#: find/find.c:1112
 #, fuzzy
 msgid "levels higher in the file system hierarchy"
 msgstr "seviyeler, dosya sistemi hiyerarşisinde daha yüksek"
 
-#: find/find.c:1354
+#: find/find.c:1357
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "uyarı: %s sembolik bağı izlenemiyor"
 
-#: find/find.c:1398
+#: find/find.c:1401
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -512,12 +512,17 @@ msgstr "%s nasıl tarih ve saat olarak yorumlanacak, bilinmiyor"
 msgid "Cannot obtain birth time of file %s"
 msgstr "%s için doğum tarihi saptanamadı"
 
-#: find/parser.c:1788
+#: find/parser.c:1722
+#, c-format
+msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
+msgstr ""
+
+#: find/parser.c:1805
 #, c-format
 msgid "invalid mode %s"
 msgstr "geçersiz kip %s"
 
-#: find/parser.c:1807
+#: find/parser.c:1824
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -528,21 +533,21 @@ msgstr ""
 "olarak  -perm -000 ile değiştirilmiş olacaktır; yani, hiçbir dosya ile "
 "eşleşmemek üzere kullanılmıştı, artık bütün dosyalarla eşleşecek."
 
-#: find/parser.c:2004
+#: find/parser.c:2021
 msgid "invalid null argument to -size"
 msgstr "-size için boş (null) argüman geçersiz"
 
-#: find/parser.c:2052
+#: find/parser.c:2069
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "-size türü `%c' geçersiz"
 
-#: find/parser.c:2058
+#: find/parser.c:2075
 #, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "-size için argüman olarak `%s%c' geçersiz"
 
-#: find/parser.c:2237
+#: find/parser.c:2254
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -550,47 +555,47 @@ msgstr ""
 "-show-control-chars seçeneği ya 'literal' ya da 'safe' olması gereken tek "
 "bir argüman alır"
 
-#: find/parser.c:2348
+#: find/parser.c:2365
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "-used için argüman olarak %s geçersiz"
 
-#: find/parser.c:2400
+#: find/parser.c:2417
 #, c-format
 msgid "Features enabled: "
 msgstr "Etkin özellikler:"
 
-#: find/parser.c:2509
+#: find/parser.c:2526
 msgid "Arguments to -type should contain only one letter"
 msgstr "-type için argümanlar tek bir harf içermemeli"
 
-#: find/parser.c:2556
+#: find/parser.c:2573
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "-type için bilinmeyen argüman: %c"
 
-#: find/parser.c:2677
+#: find/parser.c:2694
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uyarı: tanınmayan öncelem `\\%c'"
 
-#: find/parser.c:2693
+#: find/parser.c:2710
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "hata: biçim dizgesi sonunda %s"
 
-#: find/parser.c:2732
+#: find/parser.c:2749
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uyarı: tanınmayan biçem yönergesi `%%%c'"
 
-#: find/parser.c:2876
+#: find/parser.c:2893
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 "hata: biçem yönergesi `%%%c' gelecekte kullanmak üzere yedeğe ayrılmıştır"
 
-#: find/parser.c:2910
+#: find/parser.c:2927
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -603,7 +608,7 @@ msgstr ""
 "kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
 "işaretlerini kaldırın)"
 
-#: find/parser.c:2921
+#: find/parser.c:2938
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -614,7 +619,7 @@ msgstr ""
 "birlikte güvensiz oluyor. Lütfen bu girdiyi $PATH ortam değişkeninizden "
 "kaldırın"
 
-#: find/parser.c:3024
+#: find/parser.c:3041
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -622,24 +627,24 @@ msgstr ""
 "-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, "
 "çünkü bu potensiyel bir güvenlik açığıdır."
 
-#: find/parser.c:3049
+#: find/parser.c:3066
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
 
-#: find/parser.c:3066
+#: find/parser.c:3083
 msgid "The environment is too large for exec()."
 msgstr "exec() için ortam çok geniş."
 
-#: find/parser.c:3257
+#: find/parser.c:3274
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "bugünün sonu bulunmaya çalışılırken aritmetiksel üstten taşma oluştu"
 
-#: find/parser.c:3413
+#: find/parser.c:3430
 msgid "standard error"
 msgstr "standart hata"
 
-#: find/parser.c:3418
+#: find/parser.c:3435
 msgid "standard output"
 msgstr "standart çıktı"
 
@@ -818,7 +823,7 @@ msgstr ""
 "En iyileme seviyesi %lu çok büyük. Dosyaları çabucak bulmak istiyorsanız, "
 "GNU locate kullanmayı düşünebilirsiniz"
 
-#: find/util.c:935
+#: find/util.c:943
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"

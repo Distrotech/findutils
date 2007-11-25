@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-11-13 11:10+0000\n"
+"POT-Creation-Date: 2007-11-25 11:42+0000\n"
 "PO-Revision-Date: 2007-06-25 14:40+0300\n"
 "Last-Translator: Anton Zinoviev <zinoviev@debian.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -296,7 +296,7 @@ msgstr ""
 "Символната връзка „%s“ е част от цикъл в йерархията на каталозите; соченият "
 "каталог вече е бил посещаван."
 
-#: find/find.c:1104
+#: find/find.c:1107
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -305,22 +305,22 @@ msgstr ""
 "Открит бе цикъл във файловата система; „%s“ има същия номер на устройство и "
 "i-възел като каталога, който е %d %s."
 
-#: find/find.c:1108
+#: find/find.c:1111
 #, fuzzy
 msgid "level higher in the file system hierarchy"
 msgstr "ниво по-високо във йерархията на файловата система"
 
-#: find/find.c:1109
+#: find/find.c:1112
 #, fuzzy
 msgid "levels higher in the file system hierarchy"
 msgstr "нива по-високо в йерархията на файловата система"
 
-#: find/find.c:1354
+#: find/find.c:1357
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "внимание: символната връзка %s не се следва"
 
-#: find/find.c:1398
+#: find/find.c:1401
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -524,12 +524,17 @@ msgstr "Не е ясно как %s може да се интерпретира �
 msgid "Cannot obtain birth time of file %s"
 msgstr "Не може да се получи времето на раждане на файла %s"
 
-#: find/parser.c:1788
+#: find/parser.c:1722
+#, c-format
+msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
+msgstr ""
+
+#: find/parser.c:1805
 #, c-format
 msgid "invalid mode %s"
 msgstr "неправилен режим %s"
 
-#: find/parser.c:1807
+#: find/parser.c:1824
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -541,21 +546,21 @@ msgstr ""
 "000, т.е. докато в миналото на него не пасваше нито един файл, в момента му "
 "пасват всички файлове."
 
-#: find/parser.c:2004
+#: find/parser.c:2021
 msgid "invalid null argument to -size"
 msgstr "недопустим празен аргумент на -size"
 
-#: find/parser.c:2052
+#: find/parser.c:2069
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "неправилен тип „%c“ на -size"
 
-#: find/parser.c:2058
+#: find/parser.c:2075
 #, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "неправилен аргумент „%s%c“ за -size"
 
-#: find/parser.c:2237
+#: find/parser.c:2254
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -563,46 +568,46 @@ msgstr ""
 "Опцията -show-control-chars приема единствен аргумент, който трябва да бъде "
 "„literal“ или „safe“"
 
-#: find/parser.c:2348
+#: find/parser.c:2365
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Недопустим аргумент %s за -used"
 
-#: find/parser.c:2400
+#: find/parser.c:2417
 #, c-format
 msgid "Features enabled: "
 msgstr "Разрешени свойства:"
 
-#: find/parser.c:2509
+#: find/parser.c:2526
 msgid "Arguments to -type should contain only one letter"
 msgstr "Аргументите на -type трябва да съдържат само една буква"
 
-#: find/parser.c:2556
+#: find/parser.c:2573
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Непознат аргумент на -type: %c"
 
-#: find/parser.c:2677
+#: find/parser.c:2694
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "внимание: непозната обратно наклонена черта „\\%c“"
 
-#: find/parser.c:2693
+#: find/parser.c:2710
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "грешка: %s в края на форматен низ"
 
-#: find/parser.c:2732
+#: find/parser.c:2749
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "внимание: непозната форматна директива „%%%c“"
 
-#: find/parser.c:2876
+#: find/parser.c:2893
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "грешка: форматната директива „%%%c“ е запазена за бъдеща употреба"
 
-#: find/parser.c:2910
+#: find/parser.c:2927
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -614,7 +619,7 @@ msgstr ""
 "несигурно при използване на действието %s на find.  Моля, премахнете текущия "
 "каталог от $PATH (т.е. премахнете „.“ или началните или крайни двоеточия)"
 
-#: find/parser.c:2921
+#: find/parser.c:2938
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -625,7 +630,7 @@ msgstr ""
 "е несигурно при използване на действието %s на find.  Моля, премахнете този "
 "елемент от $PATH"
 
-#: find/parser.c:3024
+#: find/parser.c:3041
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -633,24 +638,24 @@ msgstr ""
 "Не може да използвате {} при името на команда за -execdir и -okdir, тъй като "
 "това създава проблем със сигурността."
 
-#: find/parser.c:3049
+#: find/parser.c:3066
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "С -exec%s ... + е позволено само едно използване на {}"
 
-#: find/parser.c:3066
+#: find/parser.c:3083
 msgid "The environment is too large for exec()."
 msgstr "Обкръжението е твърде голямо за exec()."
 
-#: find/parser.c:3257
+#: find/parser.c:3274
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "аритметично препълване при опит да се пресметне краят на днес"
 
-#: find/parser.c:3413
+#: find/parser.c:3430
 msgid "standard error"
 msgstr "стандартна грешка"
 
-#: find/parser.c:3418
+#: find/parser.c:3435
 msgid "standard output"
 msgstr "стандартен изход"
 
@@ -830,7 +835,7 @@ msgstr ""
 "Нивото за оптимизация %lu е твърде високо.  Ако желаете да намирате "
 "файловете много бързо, обмислете да използвате locate на ГНУ."
 
-#: find/util.c:935
+#: find/util.c:943
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"

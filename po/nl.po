@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.8\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-11-13 11:10+0000\n"
+"POT-Creation-Date: 2007-11-25 11:42+0000\n"
 "PO-Revision-Date: 2007-10-04 23:01+0200\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -291,7 +291,7 @@ msgstr ""
 "Symbolische koppeling %s is deel van een oneindige lus in\n"
 "de mappenhiërarchie: de map waarnaar de koppeling wijst is al bezocht."
 
-#: find/find.c:1104
+#: find/find.c:1107
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -300,22 +300,22 @@ msgstr ""
 "Oneindige lus in bestandssysteem: %s heeft hetzelfde apparaatnummer en\n"
 "inode-nummer als een map %d %s."
 
-#: find/find.c:1108
+#: find/find.c:1111
 #, fuzzy
 msgid "level higher in the file system hierarchy"
 msgstr "niveau hoger in de mappenhiërarchie"
 
-#: find/find.c:1109
+#: find/find.c:1112
 #, fuzzy
 msgid "levels higher in the file system hierarchy"
 msgstr "niveaus hoger in de mappenhiërarchie"
 
-#: find/find.c:1354
+#: find/find.c:1357
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "waarschuwing: symbolische koppeling %s wordt niet gevolgd"
 
-#: find/find.c:1398
+#: find/find.c:1401
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -517,12 +517,17 @@ msgstr "Kan %s niet als datum of tijd interpreteren"
 msgid "Cannot obtain birth time of file %s"
 msgstr "Kan ontstaanstijd van bestand %s niet bepalen"
 
-#: find/parser.c:1788
+#: find/parser.c:1722
+#, c-format
+msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
+msgstr ""
+
+#: find/parser.c:1805
 #, c-format
 msgid "invalid mode %s"
 msgstr "ongeldige modus %s"
 
-#: find/parser.c:1807
+#: find/parser.c:1824
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -534,21 +539,21 @@ msgstr ""
 "dus\n"
 "in plaats van met geen enkel bestand komt het nu overeen met alle bestanden."
 
-#: find/parser.c:2004
+#: find/parser.c:2021
 msgid "invalid null argument to -size"
 msgstr "ongeldig leeg argument van '-size'"
 
-#: find/parser.c:2052
+#: find/parser.c:2069
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "ongeldige aanduiding '%c' bij optie '-size'"
 
-#: find/parser.c:2058
+#: find/parser.c:2075
 #, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "Ongeldig argument '%s%c' van '-size'"
 
-#: find/parser.c:2237
+#: find/parser.c:2254
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -556,46 +561,46 @@ msgstr ""
 "De optie '-show-control-chars' vereist als argument ofwel 'literal' ofwel "
 "'safe'."
 
-#: find/parser.c:2348
+#: find/parser.c:2365
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Ongeldig argument '%s' van '-used'"
 
-#: find/parser.c:2400
+#: find/parser.c:2417
 #, c-format
 msgid "Features enabled: "
 msgstr "Compilatie-opties: "
 
-#: find/parser.c:2509
+#: find/parser.c:2526
 msgid "Arguments to -type should contain only one letter"
 msgstr "Argument van '-type' dient slechts één letter te zijn"
 
-#: find/parser.c:2556
+#: find/parser.c:2573
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Onbekend argument van '-type': '%c'"
 
-#: find/parser.c:2677
+#: find/parser.c:2694
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "waarschuwing: onbekende stuurcode '\\%c'"
 
-#: find/parser.c:2693
+#: find/parser.c:2710
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "fout: '%s' aan einde van opmaaktekenreeks"
 
-#: find/parser.c:2732
+#: find/parser.c:2749
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "waarschuwing: onbekende opmaakcode '%%%c'"
 
-#: find/parser.c:2876
+#: find/parser.c:2893
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "fout: opmaakcode '%%%c' is gereserveerd voor toekomstig gebruik"
 
-#: find/parser.c:2910
+#: find/parser.c:2927
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -608,7 +613,7 @@ msgstr ""
 "Verwijder de huidige map uit uw PATH-variabele (oftewel:\n"
 "haal de \".\" of dubbele punten aan begin en eind weg)."
 
-#: find/parser.c:2921
+#: find/parser.c:2938
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -619,7 +624,7 @@ msgstr ""
 "dit is onveilig in combinatie met de actie '%s' van 'find'.\n"
 "Verwijder daarom dat relatieve pad uit uw PATH-variabele."
 
-#: find/parser.c:3024
+#: find/parser.c:3041
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -627,24 +632,24 @@ msgstr ""
 "Om veiligheidsredenen mag {} bij '-execdir' en '-okdir' niet gebruikt\n"
 "worden binnen de naam van het hulpprogramma."
 
-#: find/parser.c:3049
+#: find/parser.c:3066
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Bij '-exec%s ... +' mag {} slechts één keer voorkomen."
 
-#: find/parser.c:3066
+#: find/parser.c:3083
 msgid "The environment is too large for exec()."
 msgstr "Omgeving is te groot voor exec()."
 
-#: find/parser.c:3257
+#: find/parser.c:3274
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "rekenkundige overloop tijdens berekening van het einde van vandaag"
 
-#: find/parser.c:3413
+#: find/parser.c:3430
 msgid "standard error"
 msgstr "standaardfoutuitvoer"
 
-#: find/parser.c:3418
+#: find/parser.c:3435
 msgid "standard output"
 msgstr "standaarduitvoer"
 
@@ -820,7 +825,7 @@ msgstr ""
 "Optimalisatieniveau %lu is te hoog.\n"
 "Als u bestanden heel vlug wilt vinden, gebruik dan 'locate'."
 
-#: find/util.c:935
+#: find/util.c:943
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
