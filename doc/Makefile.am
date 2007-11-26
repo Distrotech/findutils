@@ -1,6 +1,6 @@
 info_TEXINFOS = find.texi find-maint.texi
-find_TEXINFOS = perm.texi getdate.texi regexprops.texi 
-find_maint_TEXINFOS = 
+find_TEXINFOS = perm.texi getdate.texi regexprops.texi fdl.texi
+find_maint_TEXINFOS = fdl.texi
 MOSTLYCLEANFILES = find.cps 
 CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz
 
