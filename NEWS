@@ -8,11 +8,14 @@ When the POSIXLY_CORRECT environment variable is set, "find -perm
 starting with '+' which are not valid in POSIX are also rejected.
 
 ** Bug Fixes
-
 #21039: Setting the POSIXLY_CORRECT environment variable now turns off
 warnings by default, because POSIX requires that only diagnostic
 messages (and -ok prompts) are printed on STDERR, and diagnostic
 messages must also result in a nonzero exit status.  
+
+#20970: Trailing slash on directory arguments breaks -name.  "find
+foo/ -name foo" now correctly matches foo and printf foo/.  See POSIX
+interp http://www.opengroup.org/austin/interps/uploads/40/14959/AI-186.txt
 
 ** Documentation Fixes
 
