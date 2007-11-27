@@ -1581,12 +1581,16 @@ pred_prune (const char *pathname, struct stat *stat_buf, struct predicate *pred_
   (void) pathname;
   (void) pred_ptr;
 
-  if (options.do_dir_first == true &&
+  if (options.do_dir_first == true && /* no effect with -depth */
       stat_buf != NULL &&
       S_ISDIR(stat_buf->st_mode))
     state.stop_at_current_level = true;
 
-  return (options.do_dir_first); /* This is what SunOS find seems to do. */
+  /* findutils used to return options.do_dir_first here, so that -prune
+   * returns true only if -depth is not in effect.   But POSIX requires 
+   * that -prune always evaluate as true.
+   */
+  return true;
 }
 
 boolean

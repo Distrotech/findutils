@@ -7,6 +7,10 @@ When the POSIXLY_CORRECT environment variable is set, "find -perm
 +a+w" is rejected as invalid.  Some other similar mode strings
 starting with '+' which are not valid in POSIX are also rejected.
 
+The -prune action now always evaluates as true (this is also a
+bugfix).
+
+
 ** Bug Fixes
 #21039: Setting the POSIXLY_CORRECT environment variable now turns off
 warnings by default, because POSIX requires that only diagnostic
@@ -16,6 +20,9 @@ messages must also result in a nonzero exit status.
 #20970: Trailing slash on directory arguments breaks -name.  "find
 foo/ -name foo" now correctly matches foo and printf foo/.  See POSIX
 interp http://www.opengroup.org/austin/interps/uploads/40/14959/AI-186.txt
+
+#20803: POSIX requires that -prune always returns true.  Previously it
+returned false when -depth was in effect and true otherwise.
 
 ** Documentation Fixes
 
