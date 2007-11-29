@@ -12,6 +12,12 @@ bugfix).
 
 
 ** Bug Fixes
+#21568: Switch to checking the gnulib code out with native git, not
+CVS.  This affects mainly those who check findutils code out of CVS.
+This is not the first time this bug has been fixed (the previous fix
+used "cvs update -D", which git-cvspserver silently does not
+support). 
+
 #21039: Setting the POSIXLY_CORRECT environment variable now turns off
 warnings by default, because POSIX requires that only diagnostic
 messages (and -ok prompts) are printed on STDERR, and diagnostic

@@ -2,7 +2,8 @@ This file describes how to build findutils starting from a set of code
 checked out of CVS, rather than from a released source distribution.
 
 1. Prerequisites
- * CVS
+ * CVS (to check out findutils itself)
+ * git (to check out the gnulib code)
  * A C compiler, linker and software development libraries (the standard
    C library)
  * GNU Autoconf version 2.61 or later (earlier versions *may* work)
@@ -21,7 +22,7 @@ checked out of CVS, rather than from a released source distribution.
  This command will use CVS to check out the version of gnulib which is
  intended to work with the findutils source you already have, as
  configured by the file import-gnulib.config.  The gnulib code itself
- is left in the directory "gnulib-cvs".  The "gnulib" directory
+ is left in the directory "gnulib-git".  The "gnulib" directory
  contains just the gnulib files that findutils needs during the build
  process.
 

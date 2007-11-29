@@ -1,5 +1,24 @@
 2007-11-29  James Youngman  <jay@gnu.org>
 
+	Check gnulib out with native git, rather than git-cvspserver.
+	This fixes Savannah bug #21568, for the second time.
+	* import-gnulib.config (gnulib_version): Switch to using a git
+	commit id and native git, since git-cvspserver silently fails to
+	support "cvs update -D".
+	* import-gnulib.sh (do_checkout): Check gnulib out with git rather
+	than CVS.
+	(main): Require 'git' to be available.
+	(move_cvsdir): Remove any pre-existing gnulib-cvs directory.
+	* doc/find-maint.texi (Using the GNU Portability Library): Desribe
+	how we now obtain gnulib.  Update the instructions on how we patch
+	gnulib.
+	* .gitignore: Ignore gnulib-git, not gnulib-cvs
+	* .cvsignore: Ditto
+	* Makefile.am (findutils-check-smells): Change from gnulib-cvs to
+        gnulib-git.
+	* README-CVS: Mention the extra dependency on git.
+	* NEWS: Mention this change.
+
 	Add test case for Savannah bug #20803 (-prune return value).
 	* find/testsuite/find.posix/prune-result.exp: New test for
 	Savannah bug #20803.

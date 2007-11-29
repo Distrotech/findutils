@@ -484,7 +484,10 @@ GNU libc system with a bug in the regex implementation.
 @section How and Why we Import the Gnulib Code
 Gnulib does not have a release process which results in a source
 tarball you can download.  Instead, the code is simply made available
-by CVS.
+by GIT.   The code is also available via @code{git-cvspserver}, but
+we decided not to use this, since @code{import-gnulib.sh} depended on
+@code{cvs update -D}, which at the time @code{git-cvspserver} did not
+support.  
 
 GNU projects vary in how they interact with Gnulib.  Many import a
 selection of code from Gnulib into the working directory and then
@@ -507,11 +510,11 @@ there which aren't there already.
 An analogous approach is taken with Gnulib.  The Gnulib code is
 imported from the CVS repository for Gnulib with a findutils helper
 script, @code{import-gnulib.sh}.  That script fetches a copy of the
-Gnulib code into the subdirectory @file{gnulib-cvs} and then runs
+Gnulib code into the subdirectory @file{gnulib-git} and then runs
 @code{gnulib-tool}.  The @code{gnulib-tool} program copies the
 required parts of Gnulib into the findutils source tree in the
 subdirectory @file{gnulib}.  This process gives us the property that
-the code in @file{gnulib} and @code{gnulib-cvs} is not included in the
+the code in @file{gnulib} and @code{gnulib-git} is not included in the
 findutils CVS tree.   Both directories are listed in @file{.cvsignore}
 and so CVS ignores them.
 
@@ -560,9 +563,14 @@ is not already fixed in current Gnulib CVS):
 Download the Findutils source code from CVS (or use the tree you have
 already)
 @item Check out a copy of the Gnulib source
-An easy way to do this is to simply use @code{cp -ar} on the
-@file{gnulib-cvs} directory.   Have the Gnulib code checked out
-somewhere @emph{outside} your working CVS tree for findutils.
+Check out a copy of the Gnulib source tree.  The
+@code{import-gnulib.sh} script may have generated a shallow git clone
+as opposed to a normal, full clone in the directory @file{gnulib-git}.
+This means that you may not be able to clone the repository that
+@code{import-gnulib.sh} generates.  However, you can make a normal
+(full) clone with @code{git clone
+git_repo="git://git.savannah.gnu.org/gnulib.git"}.  Do this somewhere
+outside the findutils source tree.
 @item Import Gnulib from your local copy
 The @code{import-gnulib.sh} tool has a @samp{-d} option which you can
 use to import the code from a local copy of Gnulib.
@@ -585,24 +593,18 @@ with the GNU coding standards, and email it to the Gnulib mailing
 list.
 @item Wait for the patch to be applied
 Once your bug fix has been applied, you can update your local directory
-from CVS, re-import the code into Findutils (still using the @code{-d}
+from git, re-import the code into Findutils (still using the @code{-d}
 option), and re-run the tests.  This verifies that the fix the Gnulib
 team made actually fixes your problem.
 @item Reimport the Gnulib code
-Update the findutils file @file{import-gnulib.config} to specify a
-date which is after the point at which the bug fix was committed to
-Gnulib.  Finally, re-import the Gnulib code directly from CVS by using
+Update the findutils file @file{import-gnulib.config} to specify git
+commit which is after the point at which the bug fix was committed to
+Gnulib.  You can do this with @code{git rev-parse HEAD}.  Finally,
+re-import the Gnulib code directly from git by using
 @samp{import-gnulib.sh} without the @samp{-d} option, and run the
 tests again.  This verifies that there was no remaining local change
-that we were relying on to fix the bug.
-
-Be aware of the fact that the date specified in the
-@file{import-gnulib.config} file selects the latest changes for the
-given date, so if you modify @file{import-gnulib.config} as soon as
-someone tells you they they checked in a bugfix and you set
-@var{gnulib_version} to today's date, there will be some file version
-instability for the rest of the day.
-
+that we were relying on to fix the bug.   Make sure you checked
+everything in by running @code{git status}.
 @end table
 
 @node Documentation
