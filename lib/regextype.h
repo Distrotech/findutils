@@ -21,7 +21,15 @@
 
 int get_regex_type(const char *s);
 
+enum {
+  CONTEXT_FINDUTILS = 1u,
+  CONTEXT_GENERIC   = 2u,
+  CONTEXT_ALL = CONTEXT_GENERIC|CONTEXT_FINDUTILS,
+};
+
+
 
 const char * get_regex_type_name(unsigned int ix);
 int get_regex_type_flags(unsigned int ix);
 int get_regex_type_synonym(unsigned int ix);
+unsigned int get_regex_type_context(unsigned int ix);

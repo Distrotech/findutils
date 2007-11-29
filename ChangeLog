@@ -1,5 +1,32 @@
 2007-11-29  James Youngman  <jay@gnu.org>
 
+	Support the generation of regexprops-generic.texi.
+	* lib/regextype.h (get_regex_type_context): Used to indicate if a
+	particular type of regular expression is of interest for
+	regexprops.texi (which is findutils-specific) or
+	regexprops-generic.texi (which is not).   The "context" is simply
+	a flag set in a word.
+	* lib/regextype.c (get_regex_type_context): Implement this.
+	(regex_map): Assign a context to each regular expression type.
+	* lib/regexprops.c: Use the context information from regextype.c
+	to decide which regular expression types to docuemnt in the
+	output.  The selection is indicated on the command line; "generic"
+	and "findutils" are supported.
+	(copying): New function, which emits a copyright header into the
+	output.
+	(comment): New function for emitting a comment.
+	(ignore): New function which returns nonzero when the indicated
+	type of regular expression is not of interest for this version of
+	the document.
+	(menu): Miss out the non-interesteing regex types.
+	(get_next): Returns the regex type name for the "next" pointer,
+	taking into account which regex types are ignored.
+	(describe_all): Take into account which regex types are ignored,
+	and emit a copying header also.   Include a comment indicating
+	which "context" was of interest when generating the output.
+	* doc/Makefile.am: Add regexprops-generic.texi.  Generate this
+	file from regexprops.c.
+
 	Check gnulib out with native git, rather than git-cvspserver.
 	This fixes Savannah bug #21568, for the second time.
 	* import-gnulib.config (gnulib_version): Switch to using a git
