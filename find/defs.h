@@ -391,6 +391,7 @@ struct parser_table
 const struct parser_table* find_parser PARAMS((char *search_name));
 boolean parse_print PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 void pred_sanity_check PARAMS((const struct predicate *predicates));
+void check_option_combinations (const struct predicate *p);
 void parse_begin_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
 void parse_end_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
 boolean parse_openparen              PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
@@ -530,6 +531,10 @@ struct options
 {
   /* If true, process directory before contents.  True unless -depth given. */
   boolean do_dir_first;
+  /* If true, -depth was EXPLICITLY set (as opposed to having been turned 
+   * on by -delete, for example).
+   */
+   boolean explicit_depth;
   
   /* If >=0, don't descend more than this many levels of subdirectories. */
   int maxdepth;

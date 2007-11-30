@@ -1325,6 +1325,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
     }
   
   /* do a sanity check */
+  check_option_combinations(predicates);
   pred_sanity_check(predicates);
   
   /* Done parsing the predicates.  Build the evaluation tree. */

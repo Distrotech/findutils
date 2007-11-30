@@ -349,6 +349,49 @@ static const char *first_nonoption_arg = NULL;
 static const struct parser_table *noop = NULL;
 
 
+void 
+check_option_combinations(const struct predicate *p)
+{
+  enum { seen_delete=1u, seen_prune=2u };
+  unsigned int predicates = 0u;
+
+  while (p)
+    {
+      if (p->pred_func == pred_delete)
+	predicates |= seen_delete;
+      else if (p->pred_func == pred_prune)
+	predicates |= seen_prune;
+      p = p->pred_next;
+    }
+
+  if ((predicates & seen_prune) && (predicates & seen_delete))
+    {
+      /* The user specified both -delete and -prune.  One might test
+       * this by first doing
+       *    find dirs   .... -prune ..... -print
+       * to fnd out what's going to get deleted, and then switch to
+       *    find dirs   .... -prune ..... -delete
+       * once we are happy.  Unfortunately, the -delete action also
+       * implicitly turns on -depth, which will affect the behaviour
+       * of -prune (in fact, it makes it a no-op).  In this case we 
+       * would like to prevent unfortunate accidents, so we require 
+       * the user to have explicitly used -depth.
+       *
+       * We only get away with this because the -delete predicate is not 
+       * in POSIX.   If it was, we couldn't issue a fatal error here.
+       */
+      if (!options.explicit_depth) 
+	{
+	  /* This fixes Savannah bug #20865. */
+	  error (1, 0, _("The -delete action atomatically turns on -depth, "
+			 "but -prune does nothing when -depth is in effect.  "
+			 "If you want to carry on anyway, just explicitly use "
+			 "the -depth option."));
+	}
+    }
+}
+
+
 static const struct parser_table*
 get_noop(void)
 {
@@ -760,6 +803,7 @@ parse_depth (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) argv;
 
   options.do_dir_first = false;
+  options.explicit_depth = true;
   return parse_noop(entry, argv, arg_ptr);
 }
  

@@ -1,3 +1,18 @@
+2007-11-30  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #20865 (-prune -delete without an explicit
+	-depth is now an error).
+	* find/parser.c (check_option_combinations): Diagnose the
+	situation where -delete and -prune are both used, because -delete
+	turns on -depth and -depth makes -prune do nothing.
+	* find/tree.c (build_expression_tree): call
+	check_option_combinations().
+	* find/defs.h (struct options): Add new boolean field
+	explicit_depth.
+	Also declare check_option_combinations.
+	* find/util.c (set_option_defaults): Initialise explicit_depth.
+	* NEWS: Mention this fix.
+
 2007-11-29  James Youngman  <jay@gnu.org>
 
 	Support the generation of regexprops-generic.texi.

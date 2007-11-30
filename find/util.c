@@ -923,6 +923,7 @@ set_option_defaults(struct options *p)
     }
   
   p->do_dir_first = true;
+  p->explicit_depth = false;
   p->maxdepth = p->mindepth = -1;
   p->start_time = now();
   p->cur_day_start = p->start_time.tv_sec - DAYSECS;

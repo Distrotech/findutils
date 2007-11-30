@@ -27,6 +27,13 @@ messages must also result in a nonzero exit status.
 foo/ -name foo" now correctly matches foo and printf foo/.  See POSIX
 interp http://www.opengroup.org/austin/interps/uploads/40/14959/AI-186.txt
 
+#20865: Using both -delete and -prune without explicitly using -depth
+is now an error.  Traditionally, -delete has always turned -depth on
+anyway, so this is not a functional change.   However, using -depth
+(implicitly or explicitly) makes -prune a no-op.  This change is
+intended to avoid nasty surprises for people who test with
+"-print" and then change it to "-delete" when they are happy.
+
 #20803: POSIX requires that -prune always returns true.  Previously it
 returned false when -depth was in effect and true otherwise.
 
