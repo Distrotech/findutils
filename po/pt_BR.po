@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.20\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-11-25 11:42+0000\n"
+"POT-Creation-Date: 2007-12-02 13:07+0000\n"
 "PO-Revision-Date: 2004-02-08 18:00-0200\n"
 "Last-Translator: Alexandre Folle de Menezes <afmenez@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -332,7 +332,14 @@ msgstr ""
 msgid "cannot search %s"
 msgstr ""
 
-#: find/parser.c:487
+#: find/parser.c:386
+msgid ""
+"The -delete action atomatically turns on -depth, but -prune does nothing "
+"when -depth is in effect.  If you want to carry on anyway, just explicitly "
+"use the -depth option."
+msgstr ""
+
+#: find/parser.c:530
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -341,29 +348,29 @@ msgid ""
 "arguments.\n"
 msgstr ""
 
-#: find/parser.c:772
+#: find/parser.c:816
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 
-#: find/parser.c:1022
+#: find/parser.c:1066
 #, c-format
 msgid ""
 "%s is not the name of an existing group and it does not look like a numeric "
 "group ID because it has the unexpected suffix %s"
 msgstr ""
 
-#: find/parser.c:1035
+#: find/parser.c:1079
 #, c-format
 msgid "%s is not the name of an existing group"
 msgstr ""
 
-#: find/parser.c:1040
+#: find/parser.c:1084
 msgid "argument to -group is empty, but should be a group name"
 msgstr ""
 
-#: find/parser.c:1061
+#: find/parser.c:1105
 #, fuzzy
 msgid ""
 "\n"
@@ -376,7 +383,7 @@ msgstr ""
 "explícitado):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:1064
+#: find/parser.c:1108
 #, fuzzy
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
@@ -390,7 +397,7 @@ msgstr ""
 "explícitado):\n"
 "      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2\n"
 
-#: find/parser.c:1068
+#: find/parser.c:1112
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -399,7 +406,7 @@ msgid ""
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
 
-#: find/parser.c:1073
+#: find/parser.c:1117
 #, fuzzy
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
@@ -413,7 +420,7 @@ msgstr ""
 "      -ilname PADRÃO -iname PADRÃO -inum N -ipath PADRÃO -iregex PADRÃO\n"
 "      -links N -lname PADRÃO -mmin N -mtime N -name PADRÃO -newer ARQUIVO\n"
 
-#: find/parser.c:1078
+#: find/parser.c:1122
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -425,7 +432,7 @@ msgstr ""
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NOME\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:1083
+#: find/parser.c:1127
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -433,18 +440,18 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:1089
+#: find/parser.c:1133
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
 
-#: find/parser.c:1143
+#: find/parser.c:1187
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 
-#: find/parser.c:1157
+#: find/parser.c:1201
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -454,36 +461,36 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:1305
+#: find/parser.c:1349
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
 msgstr ""
 
-#: find/parser.c:1455
+#: find/parser.c:1499
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1505
+#: find/parser.c:1549
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1521
+#: find/parser.c:1565
 #, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr ""
 
-#: find/parser.c:1722
+#: find/parser.c:1766
 #, c-format
 msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 msgstr ""
 
-#: find/parser.c:1805
+#: find/parser.c:1849
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "modo inválido `%s'"
 
-#: find/parser.c:1824
+#: find/parser.c:1868
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -491,67 +498,67 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:2021
+#: find/parser.c:2065
 msgid "invalid null argument to -size"
 msgstr "argumento nulo inválido para -size"
 
-#: find/parser.c:2069
+#: find/parser.c:2113
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "tipo inválido `%c' para -size"
 
-#: find/parser.c:2075
+#: find/parser.c:2119
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "argumento inválido `%s' para `%s'"
 
-#: find/parser.c:2254
+#: find/parser.c:2298
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
 # c-format
-#: find/parser.c:2365
+#: find/parser.c:2409
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "argumento %s inválido para %s"
 
-#: find/parser.c:2417
+#: find/parser.c:2461
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2526
+#: find/parser.c:2570
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2573
+#: find/parser.c:2617
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2694
+#: find/parser.c:2738
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "aviso: controle (escape) não reconhecido `\\%c'"
 
-#: find/parser.c:2710
+#: find/parser.c:2754
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2749
+#: find/parser.c:2793
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "aviso: diretiva de formatação desconhecida `%%%c'"
 
-#: find/parser.c:2893
+#: find/parser.c:2937
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2927
+#: find/parser.c:2971
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -560,7 +567,7 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2938
+#: find/parser.c:2982
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -568,31 +575,31 @@ msgid ""
 "entry from $PATH"
 msgstr ""
 
-#: find/parser.c:3041
+#: find/parser.c:3085
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:3066
+#: find/parser.c:3110
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:3083
+#: find/parser.c:3127
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "ambiente de execução é muito grande"
 
-#: find/parser.c:3274
+#: find/parser.c:3318
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3430
+#: find/parser.c:3474
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3435
+#: find/parser.c:3479
 msgid "standard output"
 msgstr ""
 
@@ -601,34 +608,34 @@ msgstr ""
 msgid "cannot delete %s"
 msgstr ""
 
-#: find/pred.c:1340
+#: find/pred.c:1350
 #, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr ""
 
-#: find/pred.c:1404
+#: find/pred.c:1414
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1848
+#: find/pred.c:1862
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1883
+#: find/pred.c:1897
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1924 xargs/xargs.c:1119
+#: find/pred.c:1938 xargs/xargs.c:1119
 msgid "cannot fork"
 msgstr "não consigo duplicar o processo (fork())"
 
-#: find/pred.c:1949
+#: find/pred.c:1963
 #, c-format
 msgid "error waiting for %s"
 msgstr "erro esperando por %s"
 
-#: find/pred.c:1958
+#: find/pred.c:1972
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s terminado pelo sinal %d"
@@ -711,21 +718,21 @@ msgstr "argumento inválido `%s' para `%s'"
 msgid "missing argument to `%s'"
 msgstr "faltando argumento para `%s'"
 
-#: find/tree.c:1344
+#: find/tree.c:1345
 #, fuzzy
 msgid "you have too many ')'"
 msgstr "expressão inválida"
 
-#: find/tree.c:1349
+#: find/tree.c:1350
 #, fuzzy, c-format
 msgid "unexpected extra predicate '%s'"
 msgstr "predicado inválido `%s'"
 
-#: find/tree.c:1351
+#: find/tree.c:1352
 msgid "unexpected extra predicate"
 msgstr ""
 
-#: find/tree.c:1467
+#: find/tree.c:1468
 msgid "oops -- invalid default insertion of and!"
 msgstr "oops -- inserção padrão de and! inválida"
 
@@ -768,7 +775,7 @@ msgid ""
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:943
+#: find/util.c:944
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -805,7 +812,7 @@ msgstr ""
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU find versão %s\n"
 
-#: lib/regextype.c:112
+#: lib/regextype.c:106
 #, c-format
 msgid "Unknown regular expression type %s; valid types are %s."
 msgstr ""

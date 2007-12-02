@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-11-25 11:42+0000\n"
+"POT-Creation-Date: 2007-12-02 13:07+0000\n"
 "PO-Revision-Date: 2006-09-28 13:49+0200\n"
 "Last-Translator: Primož Peterlin <primoz.peterlin@biofiz.mf.uni-lj.si>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
@@ -346,7 +346,14 @@ msgstr ""
 msgid "cannot search %s"
 msgstr ""
 
-#: find/parser.c:487
+#: find/parser.c:386
+msgid ""
+"The -delete action atomatically turns on -depth, but -prune does nothing "
+"when -depth is in effect.  If you want to carry on anyway, just explicitly "
+"use the -depth option."
+msgstr ""
+
+#: find/parser.c:530
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -358,7 +365,7 @@ msgstr ""
 "niso pozicijske (%s vpliva na teste, navadene pred njo in za njo). Prosimo, "
 "navedite izbire pred drugimi argumenti.\n"
 
-#: find/parser.c:772
+#: find/parser.c:816
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -366,23 +373,23 @@ msgstr ""
 "opozorilo: raba izbire -d je odsvetovana; zaradi skladnosti s POSIX namesto "
 "nje priporočamo -depth."
 
-#: find/parser.c:1022
+#: find/parser.c:1066
 #, c-format
 msgid ""
 "%s is not the name of an existing group and it does not look like a numeric "
 "group ID because it has the unexpected suffix %s"
 msgstr ""
 
-#: find/parser.c:1035
+#: find/parser.c:1079
 #, c-format
 msgid "%s is not the name of an existing group"
 msgstr ""
 
-#: find/parser.c:1040
+#: find/parser.c:1084
 msgid "argument to -group is empty, but should be a group name"
 msgstr ""
 
-#: find/parser.c:1061
+#: find/parser.c:1105
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -392,7 +399,7 @@ msgstr ""
 "privzeta pot je trenutni imenik; privzeti izraz je -print\n"
 "izraz lahko sestavljajo: operatorji, izbire, testi in dejanja:\n"
 
-#: find/parser.c:1064
+#: find/parser.c:1108
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -405,7 +412,7 @@ msgstr ""
 "IZRAZ2\n"
 "      IZRAZ1 -o IZRAZ2   IZRAZ1 -or IZRAZ2   IZRAZ1 , IZRAZ2\n"
 
-#: find/parser.c:1068
+#: find/parser.c:1112
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -420,7 +427,7 @@ msgstr ""
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 "testi (N can be +N or -N or N): -amin N -anewer DATOTEKA -atime N -cmin N\n"
 
-#: find/parser.c:1073
+#: find/parser.c:1117
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -434,7 +441,7 @@ msgstr ""
 "VZOREC\n"
 "      -links N -lname VZOREC -mmin N -mtime N -name VZOREC -newer DATOTEKA"
 
-#: find/parser.c:1078
+#: find/parser.c:1122
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -446,7 +453,7 @@ msgstr ""
 "      -wholename VZOREC -size N[bckw] -true -type [bcdpfls] -uid N \n"
 "      -used N -user IME -xtype [bcdpfls]\n"
 
-#: find/parser.c:1083
+#: find/parser.c:1127
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -458,7 +465,7 @@ msgstr ""
 "      -exec UKAZ ; -exec UKAZ {} + -ok UKAZ ;\n"
 "      -execdir UKAZ ; -execdir UKAZ {} + -okdir UKAZ ;\n"
 
-#: find/parser.c:1089
+#: find/parser.c:1133
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -469,11 +476,11 @@ msgstr ""
 "za prijavljanje napak findutils, http://savannah.gnu.org/, ali, če nimate\n"
 "dostopa do spleta, po elektronski pošti na naslov <bug-findutils@gnu.org>."
 
-#: find/parser.c:1143
+#: find/parser.c:1187
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "preizkus koherentnosti knjižnične funkcije fnmatch() ni uspel."
 
-#: find/parser.c:1157
+#: find/parser.c:1201
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -488,36 +495,36 @@ msgstr ""
 "uporabnejša. Če uporabljate GNU grep, lahko uporabite tudi »find ... -print0 "
 "| grep -FzZ %s«."
 
-#: find/parser.c:1305
+#: find/parser.c:1349
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
 msgstr ""
 
-#: find/parser.c:1455
+#: find/parser.c:1499
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1505
+#: find/parser.c:1549
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1521
+#: find/parser.c:1565
 #, fuzzy, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Vhodne datoteke »%s« ni mogoče odpreti"
 
-#: find/parser.c:1722
+#: find/parser.c:1766
 #, c-format
 msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 msgstr ""
 
-#: find/parser.c:1805
+#: find/parser.c:1849
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "neveljave način »%s«"
 
-#: find/parser.c:1824
+#: find/parser.c:1868
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -528,66 +535,66 @@ msgstr ""
 "se bo v prihodnjem spremenil, da bo skladen z -perm -000, zategadelj se za "
 "zdaj ne ujema z nobeno datoteke, v prihodnje pa se bo z vsemi."
 
-#: find/parser.c:2021
+#: find/parser.c:2065
 msgid "invalid null argument to -size"
 msgstr "neveljaven prazni argument pri -size"
 
-#: find/parser.c:2069
+#: find/parser.c:2113
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "neveljaven tip -size: »%c«"
 
-#: find/parser.c:2075
+#: find/parser.c:2119
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "neveljaven argument »%s« za »%s«"
 
-#: find/parser.c:2254
+#: find/parser.c:2298
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2365
+#: find/parser.c:2409
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "neveljaven argument %s za %s"
 
-#: find/parser.c:2417
+#: find/parser.c:2461
 #, c-format
 msgid "Features enabled: "
 msgstr "Omogočene možnosti: "
 
-#: find/parser.c:2526
+#: find/parser.c:2570
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2573
+#: find/parser.c:2617
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2694
+#: find/parser.c:2738
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "opozorilo: neprepoznano ubežno zaporedje »\\%c«"
 
-#: find/parser.c:2710
+#: find/parser.c:2754
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2749
+#: find/parser.c:2793
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "opozorilo: neprepoznano formatno določilo »%%%c»"
 
-#: find/parser.c:2893
+#: find/parser.c:2937
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2927
+#: find/parser.c:2971
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -599,7 +606,7 @@ msgstr ""
 "kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
 "iz spremenljivke $PATH - odstranite ».« ter uvodna ali zaključna dvopičja."
 
-#: find/parser.c:2938
+#: find/parser.c:2982
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -610,7 +617,7 @@ msgstr ""
 "kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
 "iz spremenljivke $PATH - odstranite ».« ter uvodna ali zaključna dvopičja."
 
-#: find/parser.c:3041
+#: find/parser.c:3085
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -618,25 +625,25 @@ msgstr ""
 "Raba {} znotraj imena pomožnega programa za -execdir in -okdir zaradi "
 "mogočih varnostnih problemov ni dovoljena."
 
-#: find/parser.c:3066
+#: find/parser.c:3110
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Podprta je le enkratna navedba {} v kombinaciji z -exec%s ... +"
 
-#: find/parser.c:3083
+#: find/parser.c:3127
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "okolje je preobsežno za klic exec"
 
-#: find/parser.c:3274
+#: find/parser.c:3318
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3430
+#: find/parser.c:3474
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3435
+#: find/parser.c:3479
 msgid "standard output"
 msgstr ""
 
@@ -645,35 +652,35 @@ msgstr ""
 msgid "cannot delete %s"
 msgstr ""
 
-#: find/pred.c:1340
+#: find/pred.c:1350
 #, fuzzy, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr "Vhodne datoteke »%s« ni mogoče odpreti"
 
-#: find/pred.c:1404
+#: find/pred.c:1414
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1848
+#: find/pred.c:1862
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1883
+#: find/pred.c:1897
 #, fuzzy
 msgid "Failed to change directory"
 msgstr "vrnitev v začetni imenik ni možna"
 
-#: find/pred.c:1924 xargs/xargs.c:1119
+#: find/pred.c:1938 xargs/xargs.c:1119
 msgid "cannot fork"
 msgstr "vejitev ni mogoča"
 
-#: find/pred.c:1949
+#: find/pred.c:1963
 #, c-format
 msgid "error waiting for %s"
 msgstr "napaka pri čakanju na %s"
 
-#: find/pred.c:1958
+#: find/pred.c:1972
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s zaključen s signalom %d"
@@ -756,21 +763,21 @@ msgstr "neveljaven argument »%s« za »%s«"
 msgid "missing argument to `%s'"
 msgstr "manjkajoč argument k »%s«"
 
-#: find/tree.c:1344
+#: find/tree.c:1345
 #, fuzzy
 msgid "you have too many ')'"
 msgstr "neveljaven izraz; preveč zaklepajev »)«"
 
-#: find/tree.c:1349
+#: find/tree.c:1350
 #, fuzzy, c-format
 msgid "unexpected extra predicate '%s'"
 msgstr "nepričakovan dodatni predikat"
 
-#: find/tree.c:1351
+#: find/tree.c:1352
 msgid "unexpected extra predicate"
 msgstr "nepričakovan dodatni predikat"
 
-#: find/tree.c:1467
+#: find/tree.c:1468
 msgid "oops -- invalid default insertion of and!"
 msgstr "opla - neveljavno privzeto vstavljanje logičnega ALI!"
 
@@ -813,7 +820,7 @@ msgid ""
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:943
+#: find/util.c:944
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -850,7 +857,7 @@ msgstr ""
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils, različica %s\n"
 
-#: lib/regextype.c:112
+#: lib/regextype.c:106
 #, c-format
 msgid "Unknown regular expression type %s; valid types are %s."
 msgstr ""
