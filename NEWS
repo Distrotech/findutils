@@ -37,6 +37,9 @@ intended to avoid nasty surprises for people who test with
 #20803: POSIX requires that -prune always returns true.  Previously it
 returned false when -depth was in effect and true otherwise.
 
+#20802: If -delete fails, find's exit status will now be non-zero.
+However, find still skips trying to delete ".".
+
 ** Documentation Fixes
 #21635: Some of the documentation files had missing copying
 conditions.   The missing files now have copying headers, and these

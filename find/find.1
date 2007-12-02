@@ -744,16 +744,38 @@ the type of the file that \-type does not check.
 .SS ACTIONS
 .IP "\-delete\fR"
 Delete files; true if removal succeeded.  If the removal failed, an
-error message is issued.  Use of this action automatically turns on
-the `\-depth' option.   Don't forget that the find command line is
+error message is issued.  
+If 
+.B \-delete
+fails, 
+.BR find 's 
+exit status will be nonzero
+(when it eventually exits).  
+Use of 
+.B \-delete 
+automatically turns on the 
+.B \-depth 
+option.   
+
+.BR Warnings :
+Don't forget that the find command line is 
 evaluated as an expression, so putting \-delete first will make 
 .B find
 try to delete everything below the starting points you specified.
 When testing a 
 .B find
-command line that you later intend to use with \-delete, you should
-explicitly specify \-depth in order to avoid later surprises.  Because
-\-delete implies \-depth, you cannot usefully use \-prune and \-delete
+command line that you later intend to use with 
+.BR \-delete , 
+you should explicitly specify 
+.B \-depth 
+in order to avoid later surprises.  Because
+.B \-delete 
+implies 
+.BR \-depth , 
+you cannot usefully use 
+.B \-prune 
+and 
+.B \-delete
 together. 
 
 .IP "\-exec \fIcommand\fR ;"
@@ -1613,6 +1635,18 @@ now matches all files instead of none.
 .P
 Nanosecond-resolution
 timestamps were implemented in findutils-4.3.3.
+.P
+As of findutils-4.3.11, the 
+.B \-delete 
+action sets 
+.BR find 's 
+exit status to a nonzero value when it fails.
+However, 
+.B find
+will not exit immediately.  Previously, 
+.BR find 's 
+exit status was unaffected by the failure of 
+.BR \-delete .
 .TS
 l l l .
 Feature	Added in	Also occurs in 

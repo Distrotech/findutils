@@ -1,3 +1,12 @@
+2007-12-02  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #20802, find -delete anomalies
+	* find/pred.c (pred_delete): Set find's exit status to nonzero if
+	-delete fails.
+	* find/find.1 (-delete): Document this.
+	* doc/find.texi (Delete Files): Document this.
+	* NEWS: Mention the fix.
+
 2007-11-30  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #20865 (-prune -delete without an explicit

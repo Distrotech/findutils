@@ -410,6 +410,17 @@ pred_delete (const char *pathname, struct stat *stat_buf, struct predicate *pred
 	}
       error (0, errno, _("cannot delete %s"),
 	     safely_quote_err_filename(0, pathname));
+      /* Previously I had believed that having the -delete action
+       * return false provided the user with control over whether an
+       * error message is issued.  While this is true, the policy of
+       * not affecting the exit status is contrary to the POSIX
+       * requirement that diagnostic messages are accompanied by a
+       * nonzero exit status.  While -delete is not a POSIX option and
+       * we can therefore opt not to follow POSIX in this case, that
+       * seems somewhat arbitrary and confusing.  So, as of
+       * findutils-4.3.11, we also set the exit status in this case.
+       */
+      state.exit_status = 1;
       return false;
     }
   else
