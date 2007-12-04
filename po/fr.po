@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2006-05-23 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -30,7 +30,11 @@ msgstr "le paramètre %s est ambiguë pour %s"
 msgid "Valid arguments are:"
 msgstr "Les paramètres valides sont:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Erreur système inconnue"
 
@@ -91,10 +95,6 @@ msgstr "%s: l'option « -W %s » est ambiguë\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: l'option « -W %s » ne requiert pas de paramètre\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "taille des blocs"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -114,11 +114,11 @@ msgstr "taille des blocs"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "`"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "'"
 
@@ -130,14 +130,24 @@ msgstr "^[yY]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "L'insertion du paramètre par défaut « and » est invalide."
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
+msgstr "mémoire épuisée"
 
-#: find/util.c:198
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Usage: %s [-H] [-L] [-P] [CHEMIN...] [EXPRESSION]\n"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "Paramètre invalide « %s » pour « %s »"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "Paramètre invalide « %s » pour « %s »"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "La liste de paramètres est trop longue."
 
 #: find/find.c:457
 msgid ""
@@ -203,7 +213,7 @@ msgstr ""
 "%s%s a été modifié durant l'exécution de %s (ancien no d'inode %ld, nouveau "
 "no d'inode %ld, type du système de fichiers est %s) [ref %ld]"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -212,7 +222,7 @@ msgstr ""
 "Le lien symbolique `%s' fait parti d'une boucle dans la hiérarchie du "
 "répertoire; le répertoire sur lequel il pointe a déjà été visité."
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -221,20 +231,20 @@ msgstr ""
 "Boucle détecté dans le système de fichiers; `%s' a le même numéro de "
 "périphérique et d'inode que le répertoie lequel est %d %s"
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr "plus haut niveau dans la hiérarchie du système de fichiers"
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr "plus haust niveaux dans la hiérarchie du système de fichiers"
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "AVERTISSEMENT: ne lien symbolique ne sera pas suivi %s"
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -425,7 +435,7 @@ msgstr "Type invalide pour l'option -size « %c »"
 msgid "GNU find version %s\n"
 msgstr "« find » de GNU version %s\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils version %s\n"
@@ -481,21 +491,21 @@ msgstr "Une seule instance de {} est supportée avec -exec%s ... +"
 msgid "The environment is too large for exec()."
 msgstr "L'environnement est trop large pour l'exécution."
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "Ne peut faire un clonage (fork)."
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "Erreur s'attendait à %s"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s a terminé son exécution par le signal %d"
@@ -538,6 +548,34 @@ msgstr "oups -- type de l'expression est invalide dans mark_stat!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "oups -- type de l'expression est invalide dans mark_type!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "L'insertion du paramètre par défaut « and » est invalide."
+
+#: find/util.c:198
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "Usage: %s [-H] [-L] [-P] [CHEMIN...] [EXPRESSION]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr "La commande est trop longue."
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+"Ne peut inclure un paramètre simple à l'intérieur de la\n"
+"limite de taille de la liste de paramètres."
+
+#: lib/buildcmd.c:248
+msgid "argument list too long"
+msgstr "La liste de paramètres est trop longue."
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, c-format
 msgid ""
@@ -548,7 +586,8 @@ msgstr ""
 "ou     %s bigrammes_les_plus_communs < liste_de_fichiers > base-de-données-"
 "locate\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -561,38 +600,48 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils version %s\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate version %s\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "jours"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, fuzzy, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "AVERTISSEMENT: le chemin de localisation de la base de données `%s' contient "
 "un ; de tête qui n'est valide dans un nom de base de données"
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "la localisation de la base de données « %s » est corrompu ou invalide"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Taille de la base de données localisée: %s octets\n"
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr "Noms de fichiers: %s "
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "avec une longueur cumulaive de %s octets"
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
@@ -601,7 +650,7 @@ msgstr ""
 "\n"
 "\tduquel %s contient des espaces blancs, "
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
@@ -610,7 +659,7 @@ msgstr ""
 "\n"
 "\t%s contient des caractères de chariot (newline), "
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
@@ -619,32 +668,32 @@ msgstr ""
 "\n"
 "\tet %s contient des caractères avec le bit du haut mis à un.\n"
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Taux de compression %4.2f%%\n"
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "AVERTISSEMENT: la base de données des localisations peut seulement être lue "
 "une seule fois à partir de stdin."
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "AVERTISSEMENT: la base de données « %s » est plus vieille de %d %s"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "La base de données %s est dans le format %s.\n"
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr "ancien"
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -664,15 +713,6 @@ msgstr ""
 "      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n"
 "      [--version] [--help]\n"
 "      modèle...\n"
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate version %s\n"
-
-#: locate/locate.c:1318
-msgid "argument to --limit"
-msgstr "argument à --limit"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -717,48 +757,48 @@ msgstr ""
 "Spécification d'entrée de délimiteur invalide %s: le délimituer doit être "
 "soit un caractère simple ou une séquence d'échappement débutant par \\."
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "L'environnement est trop large pour l'exécution."
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs version %s\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Ne peut ouvrir le fichier d'entrée `%s'"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Vos variables d'environnement prennent %ld octets\n"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr ""
 "Les limites inférieures et supérieures de POSIX sur la longueure de "
 "l'argument: %ld, %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "La longueur maximale de la commande qui pourrait être utilisée: %ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Taille du tampon de la commande qui est actuellement utilisé: %ld\n"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -767,53 +807,53 @@ msgstr ""
 "guillemets %s non pairés; par défaut les guillemets sont particuliers à "
 "xargs à moins d'utiliser l'option -O"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "double"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "La ligne de paramètres est trop longue."
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "Erreur lors de l'attente de la fin d'exécution du processus enfant."
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: a terminé son exécution avec le statut 255; arrêt abrupt."
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: stoppé par le signal %d"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s a terminé son exécution par le signal %d"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: l'option -%c contient un nombre invalide.\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: la valeur de l'option -%c devrait être >= %ld\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: la valeur de l'option -%c devrait être < %ld\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -836,6 +876,12 @@ msgstr ""
 "       [-P nb-proc-max]  [--max-procs=nb-proc-max]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=fichier]\n"
 "       [--version] [--help] [command [arguments-initiaux]]\n"
+
+#~ msgid "block size"
+#~ msgstr "taille des blocs"
+
+#~ msgid "argument to --limit"
+#~ msgstr "argument à --limit"
 
 #~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 #~ msgstr "Réduction de arg_max (%ld) à arg_size (%ld)\n"
@@ -951,20 +997,6 @@ msgstr ""
 #~ msgstr ""
 #~ "AVERTISSEMENT: le chemin de localisation de la base de données `%s' "
 #~ "contient un ; de queue qui n'est valide dans un nom de base de données"
-
-#~ msgid "command too long"
-#~ msgstr "La commande est trop longue."
-
-#~ msgid "can not fit single argument within argument list size limit"
-#~ msgstr ""
-#~ "Ne peut inclure un paramètre simple à l'intérieur de la\n"
-#~ "limite de taille de la liste de paramètres."
-
-#~ msgid "argument list too long"
-#~ msgstr "La liste de paramètres est trop longue."
-
-#~ msgid "memory exhausted"
-#~ msgstr "mémoire épuisée"
 
 #~ msgid "%s changed during execution of %s"
 #~ msgstr "%s a été modifié durant l'exécution de %s"

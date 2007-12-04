@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.20\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2004-02-08 18:00-0200\n"
 "Last-Translator: Alexandre Folle de Menezes <afmenez@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -34,7 +34,11 @@ msgstr "argumento %s ambíguo para %s"
 msgid "Valid arguments are:"
 msgstr "Argumentos válidos são:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Erro de sistema desconhecido"
 
@@ -95,10 +99,6 @@ msgstr "%s: opção `-W %s' é ambígua\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: opção `-W %s' não permite um argumento\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "tamanho do bloco"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -118,11 +118,11 @@ msgstr "tamanho do bloco"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "`"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "'"
 
@@ -134,14 +134,24 @@ msgstr "^[sS]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "oops -- inserção padrão de and! inválida"
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
+msgstr "memória exaurida"
 
-#: find/util.c:198
+#: gnulib/lib/xstrtol-error.c:64
 #, fuzzy, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Uso: %s [caminho...] [expressão]\n"
+msgid "invalid %s%s argument `%s'"
+msgstr "argumento inválido `%s' para `%s'"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "argumento inválido `%s' para `%s'"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "lista de argumentos muito longa"
 
 #: find/find.c:457
 msgid ""
@@ -200,34 +210,34 @@ msgid ""
 "ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -383,7 +393,7 @@ msgstr "tipo inválido `%c' para -size"
 msgid "GNU find version %s\n"
 msgstr "GNU find versão %s\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU find versão %s\n"
@@ -433,21 +443,21 @@ msgstr ""
 msgid "The environment is too large for exec()."
 msgstr "ambiente de execução é muito grande"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "não consigo duplicar o processo (fork())"
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "erro esperando por %s"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s terminado pelo sinal %d"
@@ -491,6 +501,34 @@ msgstr "oops -- tipo inválido de expressão!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "oops -- tipo inválido de expressão!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "oops -- inserção padrão de and! inválida"
+
+#: find/util.c:198
+#, fuzzy, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "Uso: %s [caminho...] [expressão]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr "comando muito longo"
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+"não foi possível incluir argumento simples devido ao limite de tamanho da "
+"lista de argumentos"
+
+#: lib/buildcmd.c:248
+msgid "argument list too long"
+msgstr "lista de argumentos muito longa"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, fuzzy, c-format
 msgid ""
@@ -498,7 +536,8 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Uso: %s bigrams_mais_comuns < lista > lista_codificada\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 #, fuzzy
 msgid ""
 "\n"
@@ -512,80 +551,90 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU find versão %s\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate versão %s\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "dias"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr ""
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr ""
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr ""
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
 "\tof which %s contain whitespace, "
 msgstr ""
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
 "\t%s contain newline characters, "
 msgstr ""
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr ""
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "aviso: banco de dados `%s' é mais antigo que %d %s"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr ""
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr ""
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -597,16 +646,6 @@ msgid ""
 "      [--version] [--help]\n"
 "      pattern...\n"
 msgstr ""
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate versão %s\n"
-
-#: locate/locate.c:1318
-#, fuzzy
-msgid "argument to --limit"
-msgstr "linha com argumentos muito longa"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -641,99 +680,99 @@ msgid ""
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "ambiente de execução é muito grande"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versão %s\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr ""
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr ""
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr ""
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
 "the -0 option"
 msgstr ""
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "duplo"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "simples"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "linha com argumentos muito longa"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "erro esperando por processo filho"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: saiu com status 255; abortando"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: desativado pelo sinal %d"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminado pelo sinal %d"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: número inválido para opção -%c\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: valor para opção -%c deve ser >= %ld\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: valor para opção -%c deve ser < que %ld\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -753,6 +792,13 @@ msgstr ""
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
 "       [command [argumentos iniciais]]\n"
+
+#~ msgid "block size"
+#~ msgstr "tamanho do bloco"
+
+#, fuzzy
+#~ msgid "argument to --limit"
+#~ msgstr "linha com argumentos muito longa"
 
 #~ msgid "Success"
 #~ msgstr "Sucesso"
@@ -850,9 +896,6 @@ msgstr ""
 #~ msgid "Normalized Eval Tree:\n"
 #~ msgstr "Árvore de avaliação normalizada:\n"
 
-#~ msgid "memory exhausted"
-#~ msgstr "memória exaurida"
-
 #~ msgid "%s changed during execution of %s"
 #~ msgstr "%s alterado durante a execução de %s"
 
@@ -883,14 +926,3 @@ msgstr ""
 
 #~ msgid "unmatched %s quote"
 #~ msgstr "citação %s não encontrada"
-
-#~ msgid "command too long"
-#~ msgstr "comando muito longo"
-
-#~ msgid "can not fit single argument within argument list size limit"
-#~ msgstr ""
-#~ "não foi possível incluir argumento simples devido ao limite de tamanho da "
-#~ "lista de argumentos"
-
-#~ msgid "argument list too long"
-#~ msgstr "lista de argumentos muito longa"

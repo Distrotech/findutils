@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 1996-10-07 22:13+0900\n"
 "Last-Translator: Bang Jun-Young <bangjy@nownuri.nowcom.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -29,7 +29,11 @@ msgstr ""
 msgid "Valid arguments are:"
 msgstr "-size에 부적절한 널 인수가 주어짐"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr ""
 
@@ -90,10 +94,6 @@ msgstr ""
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr ""
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr ""
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -113,11 +113,11 @@ msgstr ""
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr ""
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr ""
 
@@ -129,14 +129,25 @@ msgstr ""
 msgid "^[nN]"
 msgstr ""
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "윽 -- and를 내정치로 부적절하게 삽입했습니다!"
+#: gnulib/lib/xalloc-die.c:35
+#, fuzzy
+msgid "memory exhausted"
+msgstr "가상 메모리가 바닥났음"
 
-#: find/util.c:198
+#: gnulib/lib/xstrtol-error.c:64
 #, fuzzy, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "사용법: %s [경로...] [수식]\n"
+msgid "invalid %s%s argument `%s'"
+msgstr "-size에 부적절한 널 인수가 주어짐"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "-size에 부적절한 널 인수가 주어짐"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "인수 명단이 너무 깁니다"
 
 #: find/find.c:457
 msgid ""
@@ -196,34 +207,34 @@ msgid ""
 "ld, filesystem type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -370,7 +381,7 @@ msgstr "부적절한 -size 형 `%c'"
 msgid "GNU find version %s\n"
 msgstr "GNU find 버전 %s\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU find 버전 %s\n"
@@ -420,21 +431,21 @@ msgstr ""
 msgid "The environment is too large for exec()."
 msgstr "환경이 실행(exec)하기에 너무 큽니다"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr ""
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr ""
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "%s를 기다리는 도중 오류 발생"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s가 신호 %d에 의해 종료됨"
@@ -478,6 +489,32 @@ msgstr "윽 -- 부적절한 수식 형입니다!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "윽 -- 부적절한 수식 형입니다!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "윽 -- and를 내정치로 부적절하게 삽입했습니다!"
+
+#: find/util.c:198
+#, fuzzy, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "사용법: %s [경로...] [수식]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr "명령이 너무 깁니다"
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr "인수 명단 길이 제한에 단일 인수를 맞출 수 없습니다"
+
+#: lib/buildcmd.c:248
+msgid "argument list too long"
+msgstr "인수 명단이 너무 깁니다"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, fuzzy, c-format
 msgid ""
@@ -485,7 +522,8 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "사용법: %s most_common_bigrams < list > coded_list\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -496,80 +534,90 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU find 버전 %s\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, fuzzy, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr "사용법: %s [-d 경로] [--database=경로] [--version] [--help] 패턴...\n"
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate 버전 %s\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr ""
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, fuzzy, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "경고: 데이터베이스 `%s'는 %s 이상 오래되었습니다"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr ""
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr ""
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
 "\tof which %s contain whitespace, "
 msgstr ""
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
 "\t%s contain newline characters, "
 msgstr ""
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr ""
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, fuzzy, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "경고: 데이터베이스 `%s'는 %s 이상 오래되었습니다"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr ""
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr ""
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -581,16 +629,6 @@ msgid ""
 "      [--version] [--help]\n"
 "      pattern...\n"
 msgstr ""
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate 버전 %s\n"
-
-#: locate/locate.c:1318
-#, fuzzy
-msgid "argument to --limit"
-msgstr "인수 행이 너무 깁니다"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -625,99 +663,99 @@ msgid ""
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "환경이 실행(exec)하기에 너무 큽니다"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs 버전 %s\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr ""
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr ""
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr ""
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
 "the -0 option"
 msgstr ""
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "두배"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "단일"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "인수 행이 너무 깁니다"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "자식 프로세스를 기다리는 도중 오류 발생"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: 상태 255을 가지고 종료됨; 중단함"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: 신호 %d에 의해 중지됨"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: 신호 %d에 의해 종료됨"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c 옵션에 부적절한 숫자가 주어짐\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c 옵션의 값은 %ld보다 크거나 같아야 합니다\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c 옵션의 값은 %ld보다 작아야 합니다\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -738,6 +776,10 @@ msgstr ""
 "스]\n"
 "       [--max-args=최대-인수] [--no-run-if-empty] [--version] [--help]\n"
 "       [명령 [초기-인수]]\n"
+
+#, fuzzy
+#~ msgid "argument to --limit"
+#~ msgstr "인수 행이 너무 깁니다"
 
 #, fuzzy
 #~ msgid "Invalid regular expression"
@@ -762,10 +804,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Invalid range end"
 #~ msgstr "부적절한 수식"
-
-#, fuzzy
-#~ msgid "Memory exhausted"
-#~ msgstr "가상 메모리가 바닥났음"
 
 #, fuzzy
 #~ msgid "Invalid preceding regular expression"
@@ -842,17 +880,3 @@ msgstr ""
 
 #~ msgid "%s stopped by signal %d"
 #~ msgstr "%s가 신호 %d에 의해 중지됨"
-
-#~ msgid "command too long"
-#~ msgstr "명령이 너무 깁니다"
-
-#~ msgid "can not fit single argument within argument list size limit"
-#~ msgstr "인수 명단 길이 제한에 단일 인수를 맞출 수 없습니다"
-
-#~ msgid "argument list too long"
-#~ msgstr "인수 명단이 너무 깁니다"
-
-#~ msgid ""
-#~ "Usage: %s [-d path] [--database=path] [--version] [--help] pattern...\n"
-#~ msgstr ""
-#~ "사용법: %s [-d 경로] [--database=경로] [--version] [--help] 패턴...\n"

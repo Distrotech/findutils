@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils_stable 4.2.31\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-05-30 20:28+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2007-07-20 00:24+0200\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -33,7 +33,11 @@ msgstr "argument %s van %s is niet eenduidig"
 msgid "Valid arguments are:"
 msgstr "Geldige argumenten zijn:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Onbekende systeemfout"
 
@@ -94,10 +98,6 @@ msgstr "%s: optie '-W %s' is niet eenduidig\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: optie '-W %s' staat geen argument toe\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "blokgrootte"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -117,11 +117,11 @@ msgstr "blokgrootte"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "'"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "'"
 
@@ -133,17 +133,29 @@ msgstr "^[jJ]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "oeps -- ongeldige standaardtussenvoeging van '-and'!"
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
+msgstr ""
 
-#: find/util.c:198
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Gebruik:  %s [-H] [-L] [-P] [pad...] [expressie]\n"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "ongeldig argument '%s' van '%s'"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "ongeldig argument '%s' van '%s'"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "argumentenregel is te lang"
 
 #: find/find.c:457
-msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
+msgid ""
+"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
+"that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
 "De omgevingsvariabele FIND_BLOCK_SIZE wordt niet ondersteund.\n"
 "Alleen de omgevingsvariabele POSIXLY_CORRECT beïnvloedt de blokgrootte."
@@ -187,41 +199,65 @@ msgstr "Waarschuwing: bestandssysteem %s is recent aangekoppeld."
 
 #: find/find.c:943
 #, c-format
-msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, filesystem type is %s) [ref %ld]"
-msgstr "%s%s is gewijzigd tijdens het uitvoeren van %s (oud apparaatnummer %ld, nieuw apparaatnummer %ld, bestandssysteemsoort %s) [regel %ld]"
+msgid ""
+"%s%s changed during execution of %s (old device number %ld, new device "
+"number %ld, filesystem type is %s) [ref %ld]"
+msgstr ""
+"%s%s is gewijzigd tijdens het uitvoeren van %s (oud apparaatnummer %ld, "
+"nieuw apparaatnummer %ld, bestandssysteemsoort %s) [regel %ld]"
 
 #: find/find.c:980
 #, c-format
-msgid "%s%s changed during execution of %s (old inode number %ld, new inode number %ld, filesystem type is %s) [ref %ld]"
-msgstr "%s%s is gewijzigd tijdens het uitvoeren van %s (oud inode-nummer %ld, nieuw inode-nummer %ld, bestandssysteemsoort %s) [regel %ld]"
+msgid ""
+"%s%s changed during execution of %s (old inode number %ld, new inode number %"
+"ld, filesystem type is %s) [ref %ld]"
+msgstr ""
+"%s%s is gewijzigd tijdens het uitvoeren van %s (oud inode-nummer %ld, nieuw "
+"inode-nummer %ld, bestandssysteemsoort %s) [regel %ld]"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
-msgid "Symbolic link `%s' is part of a loop in the directory hierarchy; we have already visited the directory to which it points."
-msgstr "Symbolische koppeling '%s' is deel van een oneindige lus in de mappenhiërarchie: de map waarnaar de koppeling wijst is al bezocht."
+msgid ""
+"Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
+"already visited the directory to which it points."
+msgstr ""
+"Symbolische koppeling '%s' is deel van een oneindige lus in de "
+"mappenhiërarchie: de map waarnaar de koppeling wijst is al bezocht."
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
-msgid "Filesystem loop detected; `%s' has the same device number and inode as a directory which is %d %s."
-msgstr "Oneindige lus in bestandssysteem: '%s' heeft hetzelfde apparaatnummer en inode-nummer als een map %d %s."
+msgid ""
+"Filesystem loop detected; `%s' has the same device number and inode as a "
+"directory which is %d %s."
+msgstr ""
+"Oneindige lus in bestandssysteem: '%s' heeft hetzelfde apparaatnummer en "
+"inode-nummer als een map %d %s."
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr "niveau hoger in de mappenhiërarchie"
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr "niveaus hoger in de mappenhiërarchie"
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "waarschuwing: symbolische koppeling %s wordt niet gevolgd"
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
-msgid "WARNING: Hard link count is wrong for %s: this may be a bug in your filesystem driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."
-msgstr "WAARSCHUWING: het aantal harde koppelingen voor %s is verkeerd.  Dit zou een fout in het bestandssysteem-stuurprogramma kunnen zijn.  De optie '-noleaf' wordt nu automatisch aangezet.  In de tot nu toe gegeven resultaten kunnen mappen ontbreken die doorzocht hadden moeten worden."
+msgid ""
+"WARNING: Hard link count is wrong for %s: this may be a bug in your "
+"filesystem driver.  Automatically turning on find's -noleaf option.  Earlier "
+"results may have failed to include directories that should have been "
+"searched."
+msgstr ""
+"WAARSCHUWING: het aantal harde koppelingen voor %s is verkeerd.  Dit zou een "
+"fout in het bestandssysteem-stuurprogramma kunnen zijn.  De optie '-noleaf' "
+"wordt nu automatisch aangezet.  In de tot nu toe gegeven resultaten kunnen "
+"mappen ontbreken die doorzocht hadden moeten worden."
 
 #: find/fstype.c:251
 msgid "unknown"
@@ -229,14 +265,20 @@ msgstr "onbekend"
 
 #: find/parser.c:373
 #, c-format
-msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
+msgid ""
+"warning: you have specified the %s option after a non-option argument %s, "
+"but options are not positional (%s affects tests specified before it as well "
+"as those specified after it).  Please specify options before other "
+"arguments.\n"
 msgstr ""
 "Waarschuwing: optie '%s' werd gegeven na het non-optie-argument '%s',\n"
 "maar opties zijn niet positioneel: '%s' beïnvloedt zowel voorgaande\n"
 "als nakomende testen.  Geef opties op vóór andere argumenten.\n"
 
 #: find/parser.c:612
-msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
+msgid ""
+"warning: the -d option is deprecated; please use -depth instead, because the "
+"latter is a POSIX-compliant feature."
 msgstr ""
 "Waarschuwing: de optie '-d' wordt afgeraden;\n"
 "gebruik liever '-depth', want dat is een POSIX-optie."
@@ -258,7 +300,8 @@ msgstr ""
 
 #: find/parser.c:787
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are given):\n"
+"operators (decreasing precedence; -and is implicit where no others are "
+"given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
@@ -285,12 +328,14 @@ msgstr ""
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
+"PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 "Testen (N kan ook +N of -N zijn): -amin N -anewer BESTAND -atime N -cmin N\n"
 "    -cnewer BESTAND -ctime N -empty -false -fstype SOORT -gid N -group NAAM\n"
-"    -ilname PATROON -iname PATROON -inum N -iwholename PATROON -iregex PATROON\n"
+"    -ilname PATROON -iname PATROON -inum N -iwholename PATROON -iregex "
+"PATROON\n"
 "    -links N -lname PATROON -mmin N -mtime N -name PATROON -newer BESTAND"
 
 #: find/parser.c:801
@@ -332,7 +377,12 @@ msgstr "de zinnigheidscontrole van de fnmatch()-systeemfunctie is mislukt"
 
 #: find/parser.c:857
 #, c-format
-msgid "warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."
+msgid ""
+"warning: Unix filenames usually don't contain slashes (though pathnames "
+"do).  That means that '%s %s' will probably evaluate to false all the time "
+"on this system.  You might find the '-wholename' test more useful, or "
+"perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
+"use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 "Waarschuwing: bestandsnamen bevatten gewoonlijk geen schuine strepen\n"
 "(padnamen wel); dit betekent dat '%s %s' op dit systeem waarschijnlijk\n"
@@ -341,8 +391,11 @@ msgstr ""
 "'find ... -print0 | grep -FzZ %s' gebruiken."
 
 #: find/parser.c:899
-msgid "warning: the predicate -ipath is deprecated; please use -iwholename instead."
-msgstr "Waarschuwing: de optie '-ipath' wordt afgeraden; gebruik liever '-iwholename'."
+msgid ""
+"warning: the predicate -ipath is deprecated; please use -iwholename instead."
+msgstr ""
+"Waarschuwing: de optie '-ipath' wordt afgeraden; gebruik liever '-"
+"iwholename'."
 
 #: find/parser.c:1339
 #, c-format
@@ -351,8 +404,16 @@ msgstr "ongeldige modus '%s'"
 
 #: find/parser.c:1375
 #, c-format
-msgid "warning: you have specified a mode pattern %s which is equivalent to 000. The meaning of -perm /000 will soon be changed to be consistent with -perm -000; that is, at the moment it matches no files but it will soon be changed to match all files."
-msgstr "Waarschuwing: het opgegeven moduspatroon %s is gelijkwaardig aan 000.  Om consistent te blijven met -perm -000 zal de betekenis van -perm /000 binnenkort veranderen.  Op dit moment komt dit patroon met geen enkel bestand overeen, maar zal binnenkort overeenkomen met alle bestanden."
+msgid ""
+"warning: you have specified a mode pattern %s which is equivalent to 000. "
+"The meaning of -perm /000 will soon be changed to be consistent with -perm -"
+"000; that is, at the moment it matches no files but it will soon be changed "
+"to match all files."
+msgstr ""
+"Waarschuwing: het opgegeven moduspatroon %s is gelijkwaardig aan 000.  Om "
+"consistent te blijven met -perm -000 zal de betekenis van -perm /000 "
+"binnenkort veranderen.  Op dit moment komt dit patroon met geen enkel "
+"bestand overeen, maar zal binnenkort overeenkomen met alle bestanden."
 
 #: find/parser.c:1528
 msgid "invalid null argument to -size"
@@ -368,7 +429,7 @@ msgstr "ongeldige aanduiding '%c' bij optie '-size'"
 msgid "GNU find version %s\n"
 msgstr "GNU find versie %s.\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1273 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "Gecompileerd met GNU gnulib versie %s.\n"
@@ -395,7 +456,11 @@ msgstr "waarschuwing: onbekende opmaakcode '%%%c'"
 
 #: find/parser.c:2098
 #, c-format
-msgid "The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\" or leading or trailing colons)"
+msgid ""
+"The current directory is included in the PATH environment variable, which is "
+"insecure in combination with the %s action of find.  Please remove the "
+"current directory from your $PATH (that is, remove \".\" or leading or "
+"trailing colons)"
 msgstr ""
 "De huidige map komt voor in de omgevingsvariabele PATH;\n"
 "dit is onveilig in combinatie met de actie '%s' van 'find'.\n"
@@ -403,7 +468,9 @@ msgstr ""
 "haal de \".\" of dubbele punten aan begin en eind weg)."
 
 #: find/parser.c:2196
-msgid "You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."
+msgid ""
+"You may not use {} within the utility name for -execdir and -okdir, because "
+"this is a potential security problem."
 msgstr ""
 "Om veiligheidsredenen mag {} bij '-execdir' en '-okdir' niet gebruikt\n"
 "worden binnen de naam van het hulpprogramma."
@@ -417,21 +484,21 @@ msgstr "Bij '-exec%s ... +' mag {} slechts één keer voorkomen."
 msgid "The environment is too large for exec()."
 msgstr "Omgeving is te groot voor exec()."
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "kan geen nieuw proces starten"
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "fout tijdens wachten op %s"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s afgebroken door signaal %d"
@@ -441,7 +508,8 @@ msgid "invalid expression"
 msgstr "ongeldige expressie"
 
 #: find/tree.c:76
-msgid "invalid expression; you have used a binary operator with nothing before it."
+msgid ""
+"invalid expression; you have used a binary operator with nothing before it."
 msgstr "ongeldige expressie: een binaire operator met niets ervoor"
 
 #: find/tree.c:80
@@ -449,7 +517,9 @@ msgid "invalid expression; you have too many ')'"
 msgstr "ongeldige expressie: er zijn te veel ')'"
 
 #: find/tree.c:99
-msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
+msgid ""
+"invalid expression; I was expecting to find a ')' somewhere but did not see "
+"one."
 msgstr "ongeldige expressie: ontbrekend ')'"
 
 #: find/tree.c:104 find/tree.c:326
@@ -469,16 +539,45 @@ msgstr "oeps -- ongeldig expressietype in mark_stat!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "oeps -- ongeldig expressietype in mark_type!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "oeps -- ongeldige standaardtussenvoeging van '-and'!"
+
+#: find/util.c:198
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "Gebruik:  %s [-H] [-L] [-P] [pad...] [expressie]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr ""
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+
+#: lib/buildcmd.c:248
+#, fuzzy
+msgid "argument list too long"
+msgstr "argumentenregel is te lang"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, c-format
 msgid ""
 "Usage: %s [--version | --help]\n"
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr ""
-"Gebruik:  %s meest_gebruikte_bigrams  < bestandenlijst  > locate-gegevensbank\n"
+"Gebruik:  %s meest_gebruikte_bigrams  < bestandenlijst  > locate-"
+"gegevensbank\n"
 "     of:  %s [ --version | --help ]\n"
 
-#: locate/code.c:132 locate/locate.c:1155 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -492,36 +591,46 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils versie %s.\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate versie %s.\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "dagen"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr "locate-gegevensbank %s bevat een te lange bestandsnaam"
 
-#: locate/locate.c:564
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "locate-gegevensbank '%s' is beschadigd of ongeldig"
 
-#: locate/locate.c:832
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Grootte van locate-gegevensbank: %s bytes\n"
 
-#: locate/locate.c:836
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr "Bestandsnamen: %s"
 
-#: locate/locate.c:839
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "met een totale lengte van %s bytes"
 
-#: locate/locate.c:843
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
@@ -530,7 +639,7 @@ msgstr ""
 "\n"
 "\twaarvan %s witruimte bevatten, "
 
-#: locate/locate.c:846
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
@@ -539,7 +648,7 @@ msgstr ""
 "\n"
 "\t%s LF-tekens bevatten, "
 
-#: locate/locate.c:849
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
@@ -548,36 +657,39 @@ msgstr ""
 "\n"
 "\ten %s tekens bevatten met het hoogste bit gezet.\n"
 
-#: locate/locate.c:854
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Compressieverhouding %4.2f%%\n"
 
-#: locate/locate.c:902
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
-msgstr "Waarschuwing: de locate-gegevensbank kan slechts één keer van standaardinvoer gelezen worden."
+msgstr ""
+"Waarschuwing: de locate-gegevensbank kan slechts één keer van "
+"standaardinvoer gelezen worden."
 
-#: locate/locate.c:923
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "waarschuwing: gegevensbank '%s' is meer dan %d %s oud"
 
-#: locate/locate.c:1100
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Gegevensbank '%s' is in de '%s' indeling.\n"
 
-#: locate/locate.c:1102
+#: locate/locate.c:1107
 msgid "old"
 msgstr "oude"
 
-#: locate/locate.c:1146
+#: locate/locate.c:1151
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
-"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n"
+"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
+"stdio ]\n"
 "      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n"
 "      [--version] [--help]\n"
 "      pattern...\n"
@@ -590,15 +702,6 @@ msgstr ""
 "          [-r | --regex]  [--regextype=SOORT]  [--version]  [--help]\n"
 "          PATROON...\n"
 
-#: locate/locate.c:1272
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate versie %s.\n"
-
-#: locate/locate.c:1312
-msgid "argument to --limit"
-msgstr "argument van '--limit'"
-
 #: xargs/xargs.c:302
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
@@ -606,125 +709,136 @@ msgstr "Ongeldige stuurcode '%s' in specificatie van scheidingsteken."
 
 #: xargs/xargs.c:320
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lx."
 msgstr ""
 "Ongeldige stuurcode '%s' in specificatie van scheidingsteken;\n"
 "tekenwaardes mogen niet groter zijn dan %lx."
 
 #: xargs/xargs.c:326
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lo."
 msgstr ""
 "Ongeldige stuurcode '%s' in specificatie van scheidingsteken;\n"
 "tekenwaardes mogen niet groter zijn dan %lo."
 
 #: xargs/xargs.c:335
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; trailing "
+"characters %s not recognised."
 msgstr ""
 "Ongeldige stuurcode '%s' in specificatie van scheidingsteken;\n"
 "onbegrepen nakomende tekens '%s'."
 
 #: xargs/xargs.c:380
 #, c-format
-msgid "Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."
+msgid ""
+"Invalid input delimiter specification %s: the delimiter must be either a "
+"single character or an escape sequence starting with \\."
 msgstr ""
 "Ongeldige specificatie '%s' van scheidingsteken; het scheidingsteken\n"
 "dient een enkel teken te zijn of een stuurcode beginnend met \\."
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "Omgeving is te groot voor exec()."
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
-msgstr "waarschuwing: waarde %ld voor optie '-s' is te groot; %ld wordt gebruikt"
+msgstr ""
+"waarschuwing: waarde %ld voor optie '-s' is te groot; %ld wordt gebruikt"
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versie %s.\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Kan invoerbestand '%s' niet openen"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "De omgevingsvariabelen nemen %lu bytes in beslag.\n"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Minimale en maximale POSIX-bovengrens aan argumentlengte: %lu, %lu\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Maximum lengte van een verwerkbaar commando: %ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Grootte van het gebruikte commandobuffer: %lu\n"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
-msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
+msgid ""
+"unmatched %s quote; by default quotes are special to xargs unless you use "
+"the -0 option"
 msgstr ""
 "Ongepaard %s aanhalingsteken; aanhalingstekens worden door 'xargs'\n"
 "speciaal behandeld tenzij u optie '-0' gebruikt."
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "dubbel"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "enkel"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "argumentenregel is te lang"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "fout tijdens wachten op dochterproces"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: eindigde met afsluitwaarde 255 -- gestopt"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: gestopt door signaal %d"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: afgebroken door signaal %d"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: ongeldig nummer bij optie '-%c'\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: waarde bij optie '-%c' moet groter of gelijk aan %ld zijn\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: waarde bij optie '-%c' moet kleiner dan %ld zijn\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -740,10 +854,17 @@ msgstr ""
 "Gebruik:  %s [-0prtx] [--interactive]  [-d|--delimiter=scheidingsteken]\n"
 "          [--null]  [-E EOF_reeks]  [-e[EOF_reeks]]  [--eof[=EOF_reeks]]\n"
 "          [-I te_vervangen_tekenreeks]  [-i[te_vervangen_tekenreeks]]\n"
-"          [--replace[=te_vervangen_reeks]]  [--max-lines[=max_aantal_regels]]\n"
+"          [--replace[=te_vervangen_reeks]]  [--max-lines"
+"[=max_aantal_regels]]\n"
 "          [-L max_aantal_regels]  [-l[max_aantal_regels]]  [--show-limits]\n"
 "          [-n max_aantal_argumenten]  [--max-args=max_aantal_argumenten]\n"
 "          [-P max_aantal_processen]  [--max-procs=max_aantal_processen]\n"
 "          [-s max_aantal_tekens]  [--max-chars=max_aantal_tekens]\n"
 "          [--exit]  [--no-run-if-empty]  [--verbose]  [--arg-file=bestand]\n"
 "          [--version]  [--help]  [COMMANDO [eerste_argumenten]]\n"
+
+#~ msgid "block size"
+#~ msgstr "blokgrootte"
+
+#~ msgid "argument to --limit"
+#~ msgstr "argument van '--limit'"

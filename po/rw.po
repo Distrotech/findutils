@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2005-04-04 10:55-0700\n"
 "Last-Translator: Steven Michael Murphy <murf@e-tools.com>\n"
 "Language-Team: Kinyarwanda <translation-team-rw@lists.sourceforge.net>\n"
@@ -39,7 +39,11 @@ msgstr "kugirango"
 msgid "Valid arguments are:"
 msgstr "ingingo"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 #, fuzzy
 msgid "Unknown system error"
 msgstr "Sisitemu Ikosa"
@@ -101,11 +105,6 @@ msgstr "%s:Ihitamo ni"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s:Ihitamo Kwemerera"
 
-#: gnulib/lib/human.c:477
-#, fuzzy
-msgid "block size"
-msgstr "Funga Ingano"
-
 # basctl/source\basicide\basidesh.src:RID_IMGBTN_REMOVEWATCH.text
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -126,12 +125,12 @@ msgstr "Funga Ingano"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 #, fuzzy
 msgid "`"
 msgstr "`"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "'"
 
@@ -143,15 +142,25 @@ msgstr ""
 msgid "^[nN]"
 msgstr ""
 
-#: find/util.c:108
+#: gnulib/lib/xalloc-die.c:35
 #, fuzzy
-msgid "oops -- invalid default insertion of and!"
-msgstr "Sibyo Mburabuzi Iyinjizamo Bya Na"
+msgid "memory exhausted"
+msgstr "Kitaboneka Ububiko"
 
-#: find/util.c:198
+#: gnulib/lib/xstrtol-error.c:64
 #, fuzzy, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "H Inzira imvugo"
+msgid "invalid %s%s argument `%s'"
+msgstr "Sibyo Kuri"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "Sibyo Kuri"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "Urutonde"
 
 #: find/find.c:457
 #, fuzzy
@@ -217,34 +226,34 @@ msgid ""
 msgstr ""
 "%s%sByahinduwe Bya ki/ bishaje Umubare Gishya Umubare Ubwoko ni indango"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -397,7 +406,7 @@ msgstr "Sibyo Ingano Ubwoko"
 msgid "GNU find version %s\n"
 msgstr "Gushaka Verisiyo"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "Verisiyo"
@@ -447,21 +456,21 @@ msgstr ""
 msgid "The environment is too large for exec()."
 msgstr "ni Binini kugirango"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, fuzzy, c-format
 msgid "< %s ... %s > ? "
 msgstr "<%s...%s>CYOSE"
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr ""
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, fuzzy, c-format
 msgid "error waiting for %s"
 msgstr "Ikosa Tegereza kugirango"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, fuzzy, c-format
 msgid "%s terminated by signal %d"
 msgstr "%sku"
@@ -509,6 +518,36 @@ msgstr "Sibyo imvugo Ubwoko"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "Sibyo imvugo Ubwoko"
 
+#: find/util.c:108
+#, fuzzy
+msgid "oops -- invalid default insertion of and!"
+msgstr "Sibyo Mburabuzi Iyinjizamo Bya Na"
+
+#: find/util.c:198
+#, fuzzy, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "H Inzira imvugo"
+
+#: lib/buildcmd.c:181
+#, fuzzy
+msgid "command too long"
+msgstr "Komandi:"
+
+#: lib/buildcmd.c:243
+#, fuzzy
+msgid "can not fit single argument within argument list size limit"
+msgstr "OYA UMWE muri Urutonde Ingano"
+
+#: lib/buildcmd.c:248
+#, fuzzy
+msgid "argument list too long"
+msgstr "Urutonde"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, fuzzy, c-format
 msgid ""
@@ -516,7 +555,8 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr "Verisiyo Ifashayobora Cyangwa IDOSIYE Urutonde"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 #, fuzzy
 msgid ""
 "\n"
@@ -528,82 +568,92 @@ msgstr "org."
 msgid "GNU findutils version %s\n"
 msgstr "Verisiyo"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, fuzzy, c-format
+msgid "GNU locate version %s\n"
+msgstr "Verisiyo"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "iminsi"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, fuzzy, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "Iburira Ububikoshingiro Inzira Kirimo a Nyobora ni OYA a Byemewe "
 "Ububikoshingiro Izina:"
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, fuzzy, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "Ububikoshingiro ni Cyangwa Sibyo"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr ""
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr ""
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
 "\tof which %s contain whitespace, "
 msgstr ""
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
 "\t%s contain newline characters, "
 msgstr ""
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr ""
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, fuzzy, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "Iburira Ububikoshingiro ni Birenzeho ki/ bishaje"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr ""
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr ""
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -617,16 +667,6 @@ msgid ""
 msgstr ""
 "D Inzira Ububikoshingiro Inzira E i Kwirengagiza L Verisiyo Ifashayobora "
 "Ishusho"
-
-#: locate/locate.c:1278
-#, fuzzy, c-format
-msgid "GNU locate version %s\n"
-msgstr "Verisiyo"
-
-#: locate/locate.c:1318
-#, fuzzy
-msgid "argument to --limit"
-msgstr "Kuri"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -661,47 +701,47 @@ msgid ""
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 #, fuzzy
 msgid "environment is too large for exec"
 msgstr "ni Binini kugirango"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, fuzzy, c-format
 msgid "GNU xargs version %s\n"
 msgstr "Verisiyo"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr ""
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Ibihinduka Hejuru"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Ntoya Na Nkuru Imbibi ku Uburebure"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, fuzzy, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Uburebure Bya Komandi: Twebwe Gukoresha"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Bya Komandi: Twebwe ikoresha"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, fuzzy, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -713,7 +753,7 @@ msgstr ""
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.UnderLine..2.text
 # #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.Strikeout..2.text
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 #, fuzzy
 msgid "double"
 msgstr "MAHARAKUBIRI"
@@ -722,52 +762,52 @@ msgstr "MAHARAKUBIRI"
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.UnderLine..1.text
 # #-#-#-#-#  officecfg.pot (PACKAGE VERSION)  #-#-#-#-#
 # officecfg/registry\schema\org\openoffice\Office\Common.xcs:....Font.Strikeout..1.text
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 #, fuzzy
 msgid "single"
 msgstr "UMWE"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 #, fuzzy
 msgid "argument line too long"
 msgstr "Umurongo"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 #, fuzzy
 msgid "error waiting for child process"
 msgstr "Ikosa Tegereza kugirango"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, fuzzy, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s:Na: Imimerere"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, fuzzy, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s:Kyahagariswe ku"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, fuzzy, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s:ku"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, fuzzy, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s:Sibyo Umubare kugirango"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s:Agaciro kugirango Ihitamo"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s:Agaciro kugirango Ihitamo"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -784,6 +824,14 @@ msgstr ""
 "Gusimbura KININI Imirongo KININI Imirongo Biganira KININI KININI Gusohoka "
 "KININI KININI KININI KININI Oya Gukoresha NIBA ubusa Verisiyo Ifashayobora "
 "Komandi: ingingo"
+
+#, fuzzy
+#~ msgid "block size"
+#~ msgstr "Funga Ingano"
+
+#, fuzzy
+#~ msgid "argument to --limit"
+#~ msgstr "Kuri"
 
 #, fuzzy
 #~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
@@ -831,10 +879,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Invalid range end"
 #~ msgstr "Urutonde Impera"
-
-#, fuzzy
-#~ msgid "Memory exhausted"
-#~ msgstr "Kitaboneka Ububiko"
 
 #, fuzzy
 #~ msgid "Invalid preceding regular expression"
@@ -889,15 +933,3 @@ msgstr ""
 #~ msgstr ""
 #~ "Iburira Ububikoshingiro Inzira Kirimo a ni OYA a Byemewe Ububikoshingiro "
 #~ "Izina:"
-
-#, fuzzy
-#~ msgid "command too long"
-#~ msgstr "Komandi:"
-
-#, fuzzy
-#~ msgid "can not fit single argument within argument list size limit"
-#~ msgstr "OYA UMWE muri Urutonde Ingano"
-
-#, fuzzy
-#~ msgid "argument list too long"
-#~ msgstr "Urutonde"

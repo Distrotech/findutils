@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2006-05-20 14:54+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -29,7 +29,11 @@ msgstr "l'argument %s és ambigu per a %s"
 msgid "Valid arguments are:"
 msgstr "Els arguments vàlids són:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "S'ha produït un error desconegut del sistema"
 
@@ -92,10 +96,6 @@ msgstr "%s: l'opció «-W %s» és ambigua\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: l'opció «-W %s» no accepta cap argument\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "mida del bloc"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -115,11 +115,11 @@ msgstr "mida del bloc"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "«"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "»"
 
@@ -131,14 +131,24 @@ msgstr "^[sS]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "oops -- inserció per defecte d'«and» no vàlida!"
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
+msgstr "memòria exhaurida"
 
-#: find/util.c:198
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Forma d'ús: %s [-H] [-L] [-P] [camí...] [expressió]\n"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "l'argument «%s» no és vàlid per a «%s»"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "l'argument «%s» no és vàlid per a «%s»"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "llista d'arguments massa llarga"
 
 #: find/find.c:457
 msgid ""
@@ -205,7 +215,7 @@ msgstr ""
 "el número del node-i nou és %ld, el tipus de sistema de fitxers és %s) [ref %"
 "ld]"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -214,7 +224,7 @@ msgstr ""
 "L'enllaç simbòlic «%s» és part d'un bucle a la jerarquia del directori. Ja "
 "hem visitat el directori al qual apunta."
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -223,20 +233,20 @@ msgstr ""
 "S'ha detectat un bucle al sistema de fitxers; «%s» té el mateix número de "
 "dispositiu i node d'idenficació que un directori que és %d %s."
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr "nivell més alt a la jerarquia del sistema de fitxers"
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr "nivells més alt a la jerarquia del sistema de fitxers"
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "avís: no es seguirà l'enllaç simbòlic %s"
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -421,7 +431,7 @@ msgstr "el tipus de -size «%c» no vàlid"
 msgid "GNU find version %s\n"
 msgstr "GNU find versió %s\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils versió %s\n"
@@ -477,22 +487,22 @@ msgstr "Només es suporta una instància de {} amb -exec%s ... +"
 msgid "The environment is too large for exec()."
 msgstr "l'entorn és massa gran per a l'execució"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ?"
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "no es pot fer «fork»"
 
 # Suggerències? jm
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "error a l'esperar al procés %s"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s finalitzat pel senyal %d"
@@ -537,6 +547,33 @@ msgstr "ep -- el tipus d'expressió no és vàlid!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "ep -- el tipus d'expressió no és vàlid!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "oops -- inserció per defecte d'«and» no vàlida!"
+
+#: find/util.c:198
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "Forma d'ús: %s [-H] [-L] [-P] [camí...] [expressió]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr "ordre massa llarga"
+
+# Açò vol dir que de tots els arguments, només un no cap, no? jm
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr "un argument no cap en el límit de mida de la  llista d'arguments"
+
+#: lib/buildcmd.c:248
+msgid "argument list too long"
+msgstr "llista d'arguments massa llarga"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, c-format
 msgid ""
@@ -546,7 +583,8 @@ msgstr ""
 "Forma d'ús: %s [--version | --help]\n"
 "            %s biagrames_més_comuns < llista-fitxers > base-de-dades-locate\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -559,38 +597,48 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils versió %s\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate versió %s\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "dies"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, fuzzy, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "avís: el camí de la base de dades de locate «%s» té dos punts al principi, i "
 "això no és un nom de base de dades vàlid"
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "la base de dades de locate «%s» és corrupta o invàlida"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Mida de la base de dades de locate: %s octets\n"
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr "Noms de fitxers: %s"
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "amb una longitud acumulada de %s octets"
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
@@ -599,7 +647,7 @@ msgstr ""
 "\n"
 "\tdels quals %s contenen espais, "
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
@@ -608,7 +656,7 @@ msgstr ""
 "\n"
 "\t%s contenen caràcters de retorn de carro, "
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
@@ -617,32 +665,32 @@ msgstr ""
 "\n"
 "\ti %s contenen caràcters amb el bit alt establert.\n"
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "El ràtio de compressió és %4.2f%%\n"
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "avís: la base de dades de locate només es pot llegir una vegada des de "
 "l'entrada estàndard."
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "avís: la base de dades «%s» té més de %d %s"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "La base de dades %s és en el format %s.\n"
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr "vella"
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -663,15 +711,6 @@ msgstr ""
 "            [-A | --all] [-p | --print] [-r | --regex] [--regextype=TIPUS]\n"
 "            [--version] [--help]\n"
 "            patró...\n"
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate versió %s\n"
-
-#: locate/locate.c:1318
-msgid "argument to --limit"
-msgstr "argument per a --limit"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -717,47 +756,47 @@ msgstr ""
 "d'entrada: el delimitador ha de ser un únic caràcter o una seqüència "
 "d'escapament que comence amb \\."
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "l'entorn és massa gran per a l'execució"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versió %s\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "No s'ha pogut obrir el fitxer d'entrada «%s»"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Les vostres variables d'entorn utilitzen %ld octets\n"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr ""
 "límits inferior i superior POSIX per a la mida dels arguments: %ld, %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "La mida màxima de l'ordre que podem utilitzar: %ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "La mida de la memòria intermèdia que s'està utilitzant: %ld\n"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -766,53 +805,53 @@ msgstr ""
 "s'ha trobat una cometa %s no emparellada. Per defecte, les cometes són "
 "especials per a xargs a no ser que s'utilitze l'opció -O"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "doble"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "línia d'arguments massa llarga"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "error a l'esperar al procés fill"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: ha acabat amb estat 255; avortant"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: interromput pel senyal %d"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminat pel senyal %d"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: número no vàlid per a l'opció -%c\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: el valor per a l'opció -%c ha de ser >= %ld\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: el valor per a l'opció -%c ha de ser < %ld\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -835,6 +874,12 @@ msgstr ""
 "       [-P màx-processos] [--max-procs=màx-processos]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=fitxer]\n"
 "       [--version] [--help] [ordre [arguments-inicials]]\n"
+
+#~ msgid "block size"
+#~ msgstr "mida del bloc"
+
+#~ msgid "argument to --limit"
+#~ msgstr "argument per a --limit"
 
 #~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 #~ msgstr "S'està reduint arg_max (%ld) a arg_size (%ld)\n"
@@ -955,19 +1000,6 @@ msgstr ""
 #~ msgstr ""
 #~ "avís: el camí de la base de dades de locate «%s» conté dos punts al "
 #~ "final, i això no és un nom de base de dades vàlid"
-
-#~ msgid "command too long"
-#~ msgstr "ordre massa llarga"
-
-# Açò vol dir que de tots els arguments, només un no cap, no? jm
-#~ msgid "can not fit single argument within argument list size limit"
-#~ msgstr "un argument no cap en el límit de mida de la  llista d'arguments"
-
-#~ msgid "argument list too long"
-#~ msgstr "llista d'arguments massa llarga"
-
-#~ msgid "memory exhausted"
-#~ msgstr "memòria exhaurida"
 
 #~ msgid "%s changed during execution of %s"
 #~ msgstr "%s ha canviat durant l'execució de %s"

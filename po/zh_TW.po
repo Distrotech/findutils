@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.26\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2005-12-06 11:30+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -29,7 +29,11 @@ msgstr "%2$s 的參數 %1$s 不明確"
 msgid "Valid arguments are:"
 msgstr "有效的參數為："
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "不明的系統錯誤"
 
@@ -90,10 +94,6 @@ msgstr "%s：選項 ‘-W %s’ 不明確\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s：選項 ‘-W %s’ 不可配合參數使用\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "區段大小"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -113,11 +113,11 @@ msgstr "區段大小"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "‘"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "’"
 
@@ -129,14 +129,24 @@ msgstr "^[yY]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
 msgstr ""
 
-#: find/util.c:198
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "用法: %s [-H] [-L] [-P] [路徑...] [表達式]\n"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "‘%2$s’ 的參數 ‘%1$s’ 無效"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "‘%2$s’ 的參數 ‘%1$s’ 無效"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "參數太長"
 
 #: find/find.c:457
 msgid ""
@@ -201,34 +211,34 @@ msgstr ""
 "執行 %3$s 時 %1$s%2$s 有所更改 (舊 inode 編號為 %4$ld，新 inode 編號為 %5"
 "$ld，檔案系統類型為 %6$s) [ref %7$ld]"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -394,7 +404,7 @@ msgstr "-size 指定的檔案大小單位 ‘%c’ 無效"
 msgid "GNU find version %s\n"
 msgstr "GNU find %s 版本\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils %s 版本\n"
@@ -448,21 +458,21 @@ msgstr "在 -exec%s ... + 裡面只可以使用一次 {}"
 msgid "The environment is too large for exec()."
 msgstr "執行 exec 時的環境變數太大"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "fork 失敗"
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "等待 %s 時出現錯誤"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s 因訊號 %d 而終止"
@@ -503,6 +513,33 @@ msgstr "mark_stat 中的表達式類型無效！"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "mark_type 中的表達式類型無效！"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr ""
+
+#: find/util.c:198
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "用法: %s [-H] [-L] [-P] [路徑...] [表達式]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr ""
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+
+#: lib/buildcmd.c:248
+#, fuzzy
+msgid "argument list too long"
+msgstr "參數太長"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, c-format
 msgid ""
@@ -512,7 +549,8 @@ msgstr ""
 "用法: %s [--version | --help]\n"
 "或     %s most_common_bigrams < 檔案清單 > locate資料庫\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -525,36 +563,46 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils %s 版本\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate %s 版本\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "日"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "locate 資料庫 ‘%s’ 內容已損壞或無效"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "locate 資料庫大小：%s 位元組\n"
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr "檔案總數: %s，"
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "總長度共 %s 位元組"
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
@@ -563,7 +611,7 @@ msgstr ""
 "\n"
 "\t其中 %s 個有空白字元，"
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
@@ -572,7 +620,7 @@ msgstr ""
 "\n"
 "\t%s 個有換行字元，"
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
@@ -581,31 +629,31 @@ msgstr ""
 "\n"
 "\t和 %s 個含有不是 7 bit 的字元。\n"
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "壓縮比率 %4.2f%%\n"
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "警告：locate 資料庫只可以由標準輸入讀取一次。"
 
 # e.g. database `%s' is more than 8 days old
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "警告：資料庫 ‘%s’ 是超過 %d %s前產生的"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "資料庫 %s 使用了%s格式。\n"
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr "舊的"
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -625,15 +673,6 @@ msgstr ""
 "      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n"
 "      [-version] [--help]\n"
 "      檔案名稱樣式...\n"
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate %s 版本\n"
-
-#: locate/locate.c:1318
-msgid "argument to --limit"
-msgstr ""
 
 #: xargs/xargs.c:302
 #, fuzzy, c-format
@@ -670,46 +709,46 @@ msgstr ""
 "分隔字元 ‘%s’ 不合法：分隔字元必須是一個 ASCII 字元或以反斜號 \\ 開始的轉義控"
 "制序列 (escape sequence)。"
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "執行 exec 時的環境變數太大"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs %s 版本\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "無法開啟檔案 ‘%s’ 作為輸入資料"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "環境變數總共用了 %ld 位元組\n"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "POSIX 標準中參數長度上下限為：%ld, %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "實際上可用的指令列長度上限：%ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "實際上使用的指令列緩衝區大小：%ld\n"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -718,53 +757,53 @@ msgstr ""
 "%s引號不配合；除非使用 -0 選項，否則在預設模式下引號對於 xargs 來說是有特別意"
 "義的"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "雙"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "單"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "參數太長"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "等待子進程時出現錯誤"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: 回傳碼為 255；中止"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: 因訊號 %d 而停止"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: 因訊號 %d 而中止"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c 選項後的數值無效\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c 選項後的數值必須不小於 %ld\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c 選項後的數值必須小於 %ld\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -786,3 +825,6 @@ msgstr ""
 "       [-P max-procs]  [--max-procs=max-procs]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 "       [--version] [--help] [指令 [指令的參數]]\n"
+
+#~ msgid "block size"
+#~ msgstr "區段大小"

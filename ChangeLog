@@ -2,12 +2,19 @@
 
 	Fix Savannah bug #15384, find misbehaves when parent directory is
 	not readable.
+	* find/find.c: Add enumeration member
+	SafeChdirFailDestUnreadable. 
+	(safely_chdir): If safely_chdir_nofollow fails with
+	SafeChdirFailDestUnreadable, fall back on safely_chdir_lstat.
+	(safely_chdir_nofollow): We we failed to open the destination,
+	fail with SafeChdirFailDestUnreadable instead of
+	SafeChdirFailChdirFailed.  
+	(process_dir): Handle SafeChdirFailDestUnreadable like
+	SafeChdirFailChdirFailed.  
 	* find/testsuite/find.posix/parent.exp: New test
 	* find/testsuite/find.posix/parent.xo: New test
 	* find/testsuite/Makefile.am (EXTRA_DIST_EXP, EXTRA_DIST_XO):
 	Added parent.exp, parent.xo.
-	* find/find.c (safely_chdir): If safely_chdir_nofollow fails with
-	SafeChdirFailDestUnreadable, fall back on safely_chdir_lstat.
 	* NEWS: Mention the fix and re-order the bugs.
 
 2007-08-25  Eric Blake  <ebb9@byu.net>

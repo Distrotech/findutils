@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2005-01-02 13:54+0200\n"
 "Last-Translator: Lefteris Dimitroulakis <edimitro@tee.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -31,7 +31,11 @@ msgstr "Το όρισμα %s είναι ασαφές για την %s"
 msgid "Valid arguments are:"
 msgstr "Έγκυρα ορίσματα είναι:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Αγνωστο σφάλμα συστήματος"
 
@@ -92,10 +96,6 @@ msgstr "%s: η επιλογή «-W %s» είναι ασαφής\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: η επιλογή «-W %s» δεν επιτρέπει όρισμα\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "μέγεθος μπλόκ"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -115,11 +115,11 @@ msgstr "μέγεθος μπλόκ"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "«"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "»"
 
@@ -131,14 +131,25 @@ msgstr "^[yY]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "oops -- η παρεμβολή της προεπιλεγμένης παραμέτρου «and» είναι άκυρη!"
+#: gnulib/lib/xalloc-die.c:35
+#, fuzzy
+msgid "memory exhausted"
+msgstr "Μνήμη εξαντλημένη"
 
-#: find/util.c:198
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Χρήση: %s [-H] [-L] [-P] [διαδρομή...] έκφραση]\n"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "Το όρισμα «%s» για την «%s» είναι άκυρο"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "Το όρισμα «%s» για την «%s» είναι άκυρο"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "λίστα ορισμάτων πολύ μεγάλη"
 
 #: find/find.c:457
 msgid ""
@@ -203,34 +214,34 @@ msgstr ""
 "%s%s άλλαξε κατά την εκτέλεση του %s (παλαιός αριθμός inode %ld, νέος "
 "αριθμός inode %ld, ο τύπος συστήματος αρχείων είναι %s) [ref %ld]"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
 "directory which is %d %s."
 msgstr ""
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr ""
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -410,7 +421,7 @@ msgstr "Ο τύπος «%c» για την επιλογή -size είναι άκ�
 msgid "GNU find version %s\n"
 msgstr "GNU find έκδοση %s\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils έκδοση %s\n"
@@ -460,21 +471,21 @@ msgstr ""
 msgid "The environment is too large for exec()."
 msgstr "το περιβάλλον είναι πολύ μεγάλο γιά την εκτέλεση"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "Δεν μπορώ να κλωνοποιήσω"
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "σφάλμα περιμένοντας γιά %s"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s τερματίστηκε από το σήμα %d"
@@ -518,6 +529,34 @@ msgstr "oops -- άκυρος τύπος έκφρασης!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "oops -- άκυρος τύπος έκφρασης!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "oops -- η παρεμβολή της προεπιλεγμένης παραμέτρου «and» είναι άκυρη!"
+
+#: find/util.c:198
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "Χρήση: %s [-H] [-L] [-P] [διαδρομή...] έκφραση]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr "διαταγή πολύ μεγάλη"
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+"δεν μπορώ να περιλάβω μοναδικό όρισμα μέσα\n"
+"στο περιορισμένο μέγεθος της λίστας ορισμάτων"
+
+#: lib/buildcmd.c:248
+msgid "argument list too long"
+msgstr "λίστα ορισμάτων πολύ μεγάλη"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, c-format
 msgid ""
@@ -527,7 +566,8 @@ msgstr ""
 "Χρήση: %s [--version | --help]\n"
 "ή     %s most_common_bigrams < file-list > locate-database\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -540,82 +580,92 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils έκδοση %s\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate έκδοση %s\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "μέρες"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, fuzzy, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "προειδοποίη: η διαδρομή «%s» της βάσεως δεδομένων locate περιέχει στην αρχή "
 "της της ένα δίστιγμο που δεν αποτελεί έγκυρο όνομα της βάσεως"
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "η βάση δεδομένων locate  «%s» δεν είναι έγκυρη ή έχει υποστεί αλλοίωση"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr ""
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr ""
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr ""
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
 "\tof which %s contain whitespace, "
 msgstr ""
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
 "\t%s contain newline characters, "
 msgstr ""
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr ""
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "προειδοποίηση: η βάση δεδομένων «%s» είναι περισσότερο από %d %s παλιά"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr ""
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr ""
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -630,15 +680,6 @@ msgstr ""
 "Χρήση: %s [-d διαδρομή | --database=διαδρομή] [-e | --existing]\n"
 "      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n"
 "      [--version] [--help] pattern...\n"
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate έκδοση %s\n"
-
-#: locate/locate.c:1318
-msgid "argument to --limit"
-msgstr "όρισμα επιλογής --limit"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -673,46 +714,46 @@ msgid ""
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "το περιβάλλον είναι πολύ μεγάλο γιά την εκτέλεση"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs έκδοση %s\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr ""
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Οι μεταβλητές περιβάλλοντος καταλαμβάνουν %ld bytes\n"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Άνω και κάτω όριο κατά POSIX για μήκος ορίσματος: %ld, %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Μέγιστο μήκος εντολής που θα μπορούσαμε να χρησιμοποιήσουμε: %ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Μέγεθος του buffer εντολών που χρησιμοποιούμε: %ld\n"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -721,53 +762,53 @@ msgstr ""
 "unmatched %s quote; εκ προεπιλογής τα εισαγωγικά έχουν ειδική σημασία για το "
 "xargs εκτός κι αν χρησιμοπείτε την επιλογή -0."
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "διπλά"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "μονά"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "γραμμή ορισμάτων πολύ μεγάλη"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "σφάλμα αναμένοντας τη θυγατρική διεργασία"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: τερματίστηκε με ένδειξη 255, απότομο σταμάτημα"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: σταμάτησε από το σήμα %d"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: τερματίστηκε από το σήμα  %d"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: άκυρος αριθμός γιά την επιλογή -%c\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s:η τιμή για την επιλογή -%c πρέπει να είναι >= %ld\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: η τιμή για την επιλογή -%c πρέπει να είναι < %ld\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -787,6 +828,12 @@ msgstr ""
 "       [--max-chars=max-chars] [--verbose] [--exit] [--max-procs=max-procs]\n"
 "       [--max-args=max-args] [--no-run-if-empty] [--version] [--help]\n"
 "       [command [initial-arguments]]\n"
+
+#~ msgid "block size"
+#~ msgstr "μέγεθος μπλόκ"
+
+#~ msgid "argument to --limit"
+#~ msgstr "όρισμα επιλογής --limit"
 
 #~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 #~ msgstr "Μείωση του arg_max (%ld) σε arg_size (%ld)\n"
@@ -826,9 +873,6 @@ msgstr ""
 
 #~ msgid "Invalid range end"
 #~ msgstr "Ακυρο τέλος περιοχής"
-
-#~ msgid "Memory exhausted"
-#~ msgstr "Μνήμη εξαντλημένη"
 
 #~ msgid "Invalid preceding regular expression"
 #~ msgstr "Η προηγούμενη κανονική έκφραση είναι άκυρη"
@@ -897,14 +941,3 @@ msgstr ""
 #~ msgstr ""
 #~ "προειδοποίη: η διαδρομή «%s» της βάσεως δεδομένων locate περιέχει στο "
 #~ "τέλος της ένα δίστιγμο που δεν αποτελεί έγκυρο όνομα της βάσεως"
-
-#~ msgid "command too long"
-#~ msgstr "διαταγή πολύ μεγάλη"
-
-#~ msgid "can not fit single argument within argument list size limit"
-#~ msgstr ""
-#~ "δεν μπορώ να περιλάβω μοναδικό όρισμα μέσα\n"
-#~ "στο περιορισμένο μέγεθος της λίστας ορισμάτων"
-
-#~ msgid "argument list too long"
-#~ msgstr "λίστα ορισμάτων πολύ μεγάλη"

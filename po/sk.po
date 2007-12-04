@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.24\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2005-08-02 05:56+0200\n"
 "Last-Translator: Marcel Telka <marcel@telka.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -29,7 +29,11 @@ msgstr "nejednoznačný parameter %s pre %s"
 msgid "Valid arguments are:"
 msgstr "Platné parametre sú:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Neznáma systémova chyba"
 
@@ -90,10 +94,6 @@ msgstr "%s: voľba `-W %s' je nejednoznačná\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: voľba `-W %s' neumožňuje použiť parameter\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "veľkosť bloku"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -113,11 +113,11 @@ msgstr "veľkosť bloku"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "`"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "'"
 
@@ -129,14 +129,24 @@ msgstr "^[yYaAáÁ]"
 msgid "^[nN]"
 msgstr "^[nN]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "chyba -- neplatné implicitné vloženie logického súčinu (and)!"
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
+msgstr ""
 
-#: find/util.c:198
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Použitie: %s [-H] [-L] [-P] [cesta...] [výraz]\n"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "neplatný parameter `%s' pre `%s'"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "neplatný parameter `%s' pre `%s'"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "riadok s parametrom je príliš dlhý"
 
 #: find/find.c:457
 msgid ""
@@ -201,7 +211,7 @@ msgstr ""
 "%s%s zmenený počas vykonávania %s (staré číslo i-uzla %ld, nové číslo i-uzla "
 "%ld, typ súborového systému je %s) [odk %ld]"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -210,7 +220,7 @@ msgstr ""
 "Symbolický odkaz `%s' je časťou slučky v hierarchii adresárov; už sme "
 "navštívili adresár, na ktorý ukazuje."
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -219,20 +229,20 @@ msgstr ""
 "Zdetekovaná slučka na súborovom systéme; `%s' má rovnaké číslo zariadenia a "
 "i-uzil ako adresár %d %s."
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr "vyššia úroveň v hierarchii súborového systému"
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr "úrovne nad hierarchiou súborového systému"
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "upozornenie: nenasledujem symbolický odkaz %s"
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -412,7 +422,7 @@ msgstr "neplatný typ -size `%c'"
 msgid "GNU find version %s\n"
 msgstr "GNU find verzia %s\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils verzia %s\n"
@@ -468,21 +478,21 @@ msgstr "Len jeden výskyt {} je podporovaný s -exec%s ... +"
 msgid "The environment is too large for exec()."
 msgstr "prostredie je príliš veľké na vykonanie"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "nemôžem vykonať fork"
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "chyba pri čakaní na %s"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s ukončený signálom %d"
@@ -523,6 +533,33 @@ msgstr "ach -- neplatný typ výrazu v mark_stat!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "ach -- neplatný typ výrazu v mark_type!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "chyba -- neplatné implicitné vloženie logického súčinu (and)!"
+
+#: find/util.c:198
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "Použitie: %s [-H] [-L] [-P] [cesta...] [výraz]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr ""
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+
+#: lib/buildcmd.c:248
+#, fuzzy
+msgid "argument list too long"
+msgstr "riadok s parametrom je príliš dlhý"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, c-format
 msgid ""
@@ -532,7 +569,8 @@ msgstr ""
 "Použitie: %s [--version | --help]\n"
 "alebo     %s most_common_bigrams < zoznam-súborov > databáza-umiestnení\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -548,36 +586,46 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils verzia %s\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locale verzia %s\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "dní"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "databáza pre locate `%s' je poškodená alebo neplatná"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Veľkosť databázy vyhľadávania: %s bajtov\n"
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr "Názvy súborov: %s "
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "s celkovou dĺžkou %s bajtov"
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
@@ -586,7 +634,7 @@ msgstr ""
 "\n"
 "\tz ktorých %s obsahuje medzery, "
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
@@ -595,7 +643,7 @@ msgstr ""
 "\n"
 "\t%s obsahuje znak konca riadku, "
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
@@ -604,32 +652,32 @@ msgstr ""
 "\n"
 "\ta %s obsahujú znaky s nastaveným najvyšším bitom.\n"
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Kompresný pomer %4.2f%%\n"
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "upozornenie: databáza umiestnení môže byť načítaná len raz zo štandardného "
 "vstupu."
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "upozornenie: databáza `%s' je staršia ako %d %s"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Databáza %s je vo formáte %s.\n"
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr "staré"
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -649,15 +697,6 @@ msgstr ""
 "      [-A | --all] [-p | --print] [-r | --regex] [--regextype=TYP]\n"
 "      [--version] [--help]\n"
 "      vzor...\n"
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locale verzia %s\n"
-
-#: locate/locate.c:1318
-msgid "argument to --limit"
-msgstr "parameter pre --limit"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -692,46 +731,46 @@ msgid ""
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "prostredie je príliš veľké na vykonanie"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs verzia %s\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Nepodarilo sa otvoriť vstupný súbor `%s'"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Vaše premenné prostredia zaberajú %ld byjtov\n"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Dolné a horné POSIX limity pre dĺžku parametrov: %ld, %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Maximálna dĺžka príkazu, ktorú môžeme momentálne používať: %ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Veľkosť vyrovnávacej pamäte príkazov, ktorú práve používame: %ld\n"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -740,53 +779,53 @@ msgstr ""
 "nezodpovedajúce úvodzovky %s; štandardne sú úvodzovky špeciálne pre xargs, "
 "pokiaľ nepoužijete voľbu -0"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "dvojitý"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "jednoduchý"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "riadok s parametrom je príliš dlhý"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "chyba pri zápise do procesu potomka"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: ukončený so stavom 255; prerušujem"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: zastavený signálom %d"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: ukončený signálom %d"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: neplatné číslo pre voľbu -%c\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: hodnota pre voľbu -%c by mala byť >= %ld\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: hodnota pre voľbu -%c by mala byť < %ld\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -806,6 +845,12 @@ msgstr ""
 "       [--max-chars=max-znakov] [--verbose] [--exit] [--max-procs=max-proc]\n"
 "       [--max-args=max-param] [--no-run-if-empty] [--arg-file=súbor]\n"
 "       [--version] [--help] [príkaz [počiatočné-parametre]]\n"
+
+#~ msgid "block size"
+#~ msgstr "veľkosť bloku"
+
+#~ msgid "argument to --limit"
+#~ msgstr "parameter pre --limit"
 
 #~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 #~ msgstr "Zmenšenie arg_max (%ld) na arg_size (%ld)\n"

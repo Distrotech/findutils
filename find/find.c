@@ -1000,7 +1000,8 @@ enum SafeChdirStatus
     SafeChdirFailStat,
     SafeChdirFailWouldBeUnableToReturn,
     SafeChdirFailChdirFailed,
-    SafeChdirFailNonexistent
+    SafeChdirFailNonexistent,
+    SafeChdirFailDestUnreadable
   };
 
 /* Safely perform a change in directory.  We do this by calling
@@ -1266,7 +1267,7 @@ safely_chdir_nofollow(const char *dest,
 	case ENOENT:
 	  return SafeChdirFailNonexistent;
 	default:
-	  return SafeChdirFailChdirFailed;
+	  return SafeChdirFailDestUnreadable;
 	}
     }
   
@@ -1315,10 +1316,9 @@ safely_chdir(const char *dest,
 #if defined(O_NOFOLLOW)
   if (options.open_nofollow_available)
     {
-      SafeChdirStatus result = safely_chdir_nofollow(dest, direction,
-						     statbuf_dest,
-						     symlink_follow_option,
-						     did_stat);
+      enum SafeChdirStatus result;
+      result = safely_chdir_nofollow(dest, direction, statbuf_dest,
+				     symlink_follow_option, did_stat);
       if (SafeChdirFailDestUnreadable != result)
 	{
 	  return result;
@@ -1915,6 +1915,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      break;
 	      
 	    case SafeChdirFailNonexistent:
+	    case SafeChdirFailDestUnreadable:
 	    case SafeChdirFailStat:
 	    case SafeChdirFailNotDir:
 	    case SafeChdirFailChdirFailed:
@@ -2037,6 +2038,7 @@ process_dir (char *pathname, char *name, int pathlen, struct stat *statp, char *
 	      return;
 	      
 	    case SafeChdirFailNonexistent:
+	    case SafeChdirFailDestUnreadable:
 	    case SafeChdirFailStat:
 	    case SafeChdirFailSymlink:
 	    case SafeChdirFailNotDir:

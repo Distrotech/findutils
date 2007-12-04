@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2006-05-23 13:22+0300\n"
 "Last-Translator: Anton Zinoviev <zinoviev@debian.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -36,7 +36,11 @@ msgstr "двусмислен аргумент %s за %s"
 msgid "Valid arguments are:"
 msgstr "Допустими аргументи са:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Непозната системна грешка"
 
@@ -97,10 +101,6 @@ msgstr "%s: опцията „-W %s“ е двусмислена\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: опцията „-W %s“ не допуска аргумент\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "блоковият размер"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -120,11 +120,11 @@ msgstr "блоковият размер"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "„"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "“"
 
@@ -138,14 +138,24 @@ msgstr "^[дДoOyY]"
 msgid "^[nN]"
 msgstr "^[нНkKnN]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "Опа! Неправилно вмъкване по подразбиране на оператор „И“!"
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
+msgstr ""
 
-#: find/util.c:198
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Използване: %s [-H] [-L] [-P] [път...] [израз]\n"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "неправилен аргумент „%s“ за „%s“"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "неправилен аргумент „%s“ за „%s“"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "реда с аргументи е твърде дълъг"
 
 #: find/find.c:457
 msgid ""
@@ -210,7 +220,7 @@ msgstr ""
 "%s%s е изменен по време на изпълнението на %s (стар номер на i-възел %ld, "
 "нов номер на i-възел %ld, типът на файловата система е %s) [ref %ld]"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -219,7 +229,7 @@ msgstr ""
 "Символната връзка „%s“ е част от цикъл в йерархията на каталозите; соченият "
 "каталог вече бе посетен."
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -228,20 +238,20 @@ msgstr ""
 "Открит бе цикъл във файловата система; „%s“ има същия номер на устройство и "
 "i-възел като каталога, който е %d %s."
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr "ниво по-високо във йерархията на файловата система"
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr "нива по-високо в йерархията на файловата система"
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "внимание: символната връзка %s не се следва"
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -430,7 +440,7 @@ msgstr "неправилен тип „%c“ на -size"
 msgid "GNU find version %s\n"
 msgstr "find на ГНУ, версия %s\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "findutils на ГНУ, версия %s\n"
@@ -485,21 +495,21 @@ msgstr "С -exec%s ... + е позволено само едно използв�
 msgid "The environment is too large for exec()."
 msgstr "обкръжението е твърде голямо за exec"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "не може да се създаде нов процес с fork"
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "изчакване на грешка за %s"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s бе прекратен със сигнал %d"
@@ -542,6 +552,33 @@ msgstr "Опа! Неправилен тип на израза в mark_stat!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "Опа! Неправилен тип на израза в mark_type!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "Опа! Неправилно вмъкване по подразбиране на оператор „И“!"
+
+#: find/util.c:198
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "Използване: %s [-H] [-L] [-P] [път...] [израз]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr ""
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+
+#: lib/buildcmd.c:248
+#, fuzzy
+msgid "argument list too long"
+msgstr "реда с аргументи е твърде дълъг"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, c-format
 msgid ""
@@ -551,7 +588,8 @@ msgstr ""
 "Използване: %s [--version | --help]\n"
 "или         %s най-чести_биграми < файлов-списък > база-данни-на-locate\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -565,36 +603,46 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "findutils на ГНУ, версия %s\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "locate на ГНУ, версия %s\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "дена"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "базата данни „%s“ на locate е повредена или грешна"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Размер на базата данни на locate: %s байта\n"
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr "Файлови имена: %s "
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "със съвкупна дължина %s байта"
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
@@ -603,7 +651,7 @@ msgstr ""
 "\n"
 "\tот които %s съдържат интервали и/или табулации, "
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
@@ -612,7 +660,7 @@ msgstr ""
 "\n"
 "\t%s съдържат знаци за нов ред, "
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
@@ -621,32 +669,32 @@ msgstr ""
 "\n"
 "\tи %s съдържат знаци и вдигнат старши бит.\n"
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Степен на компресия %4.2f%%\n"
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "внимание: базата данни на locate може да се чете от стандартния вход само "
 "веднъж."
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "внимание: базата данни „%s“ е по-стара от %d %s"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Форматът на базата данни %s е %s.\n"
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr "стар"
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -666,15 +714,6 @@ msgstr ""
 "      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=ТИП]\n"
 "      [-version] [--help]\n"
 "      образец...\n"
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "locate на ГНУ, версия %s\n"
-
-#: locate/locate.c:1318
-msgid "argument to --limit"
-msgstr "аргумент на --limit"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -719,47 +758,47 @@ msgstr ""
 "Неправилно описание на входния разделител %s: разделителят трябва да бъде "
 "или единичен знак, или поредица с обратно наклонена черта „\\“."
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "обкръжението е твърде голямо за exec"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "xargs на ГНУ, версия %s\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Не може да се отвори входният файл „%s“"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Променливите на обкръжението заемат %ld байта\n"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr ""
 "Горна и долна граница на дължината на аргументите според POSIX: %ld, %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Максимална дължина на командата, която може да се използва: %ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Размер на командния буфер, който действително се използва: %ld\n"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -769,54 +808,54 @@ msgstr ""
 "специални за xargs, освен ако използвате опцията -0"
 
 # CHECK: да се провери използва ли се другаде, освен в xargs/xargs.c
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "Двойна"
 
 # CHECK: да се провери използва ли се другаде, освен в xargs/xargs.c
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "Единична"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "реда с аргументи е твърде дълъг"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "грешка при очакване на дъщерен процес"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: завърши с код 255; прекратяване"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: спрян със сигнал %d"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: прекратен със сигнал %d"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: неправилно число за опцията -%c\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: стойността на опцията -%c трябва да бъде не по-малка от %ld\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: стойността на опцията -%c трябва да бъде по-малка от < %ld\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -839,6 +878,12 @@ msgstr ""
 "       [-P макс-брой-процеси]  [--max-procs=макс-брой-процеси]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=файл]\n"
 "       [--version] [--help] [команда [начални-аргументи]]\n"
+
+#~ msgid "block size"
+#~ msgstr "блоковият размер"
+
+#~ msgid "argument to --limit"
+#~ msgstr "аргумент на --limit"
 
 #~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 #~ msgstr "Стойността на arg_max (%ld) се намалява до arg_size (%ld)\n"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2006-07-28 09:35+0300\n"
 "Last-Translator: Toomas Soome <Toomas.Soome@microlink.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -29,7 +29,11 @@ msgstr "segane argument %s (%s)"
 msgid "Valid arguments are:"
 msgstr "Lubatud argumendid on:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Tundmatu süsteemi viga"
 
@@ -90,10 +94,6 @@ msgstr "%s: võti `-W %s' on segane\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: võti `-W %s' ei luba argumenti\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "bloki suurus"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -113,11 +113,11 @@ msgstr "bloki suurus"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "`"
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "'"
 
@@ -129,14 +129,24 @@ msgstr "^[jJ]"
 msgid "^[nN]"
 msgstr "^[eE]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "oops -- vigane konjunktsioonioperaatori lisamine!"
+#: gnulib/lib/xalloc-die.c:35
+msgid "memory exhausted"
+msgstr ""
 
-#: find/util.c:198
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Kasuta: %s [-H] [-L] [-P] [tee...] [avaldis]\n"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "vigane argument `%s' predikaadil `%s'"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "vigane argument `%s' predikaadil `%s'"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "argumendi rida on liiga pikk"
 
 #: find/find.c:457
 msgid ""
@@ -201,7 +211,7 @@ msgstr ""
 "%s%s muutus %s töö ajal (vana i-kirje number %ld, uus i-kirje number %ld, "
 "failisüsteemi tüüp on %s) [viit %ld]"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -210,7 +220,7 @@ msgstr ""
 "Nimeviide `%s' on osa tsüklist kataloogipuus; me oleme juba külastanad "
 "kataloogi, millele see viitab."
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -219,20 +229,20 @@ msgstr ""
 "Failisüsteemis on tuvastatud tsükkel; `%s' omab sama seadme ja i-kirje "
 "numbreid kui kataloog %d %s."
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr "samm kõrgemal failisüsteemi puus"
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr "sammu kõrgemal failisüsteemi puus"
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "hoiatus: ei järgi nimeviidet %s"
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -411,7 +421,7 @@ msgstr "vigane tüüp `%c' -size predikaadile"
 msgid "GNU find version %s\n"
 msgstr "GNU find versioon %s\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils versioon %s\n"
@@ -466,21 +476,21 @@ msgstr "Predikaadiga -exec%s ... + on lubatud kasutada ainult ühte {} paari"
 msgid "The environment is too large for exec()."
 msgstr "exec funktsioonile antud keskkond on liiga suur"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "fork ebaõnnestus"
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "viga %s oodates"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s katkestati signaaliga %d"
@@ -523,6 +533,33 @@ msgstr "oops -- vigane avaldise tüüp mark_stat'is!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "oops -- vigane avaldise tüüp mark_type's!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "oops -- vigane konjunktsioonioperaatori lisamine!"
+
+#: find/util.c:198
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "Kasuta: %s [-H] [-L] [-P] [tee...] [avaldis]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr ""
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr ""
+
+#: lib/buildcmd.c:248
+#, fuzzy
+msgid "argument list too long"
+msgstr "argumendi rida on liiga pikk"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, c-format
 msgid ""
@@ -532,7 +569,8 @@ msgstr ""
 "Kasuta: %s [--version | --help]\n"
 "või     %s enamus_bigram_koode < faili-loend > locate-andmebaas\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -545,36 +583,46 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils versioon %s\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate versioon %s\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "päeva"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "locate andmebaas `%s' on katki"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Locate andmebaasi maht: %s baiti\n"
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr "Failinimed: %s "
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "kogumahuga %s baiti"
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
@@ -583,7 +631,7 @@ msgstr ""
 "\n"
 "\tmillest %s sisaldab tühemikke, "
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
@@ -592,7 +640,7 @@ msgstr ""
 "\n"
 "\t%s sisaldab reavahetuse sümboleid, "
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
@@ -601,30 +649,30 @@ msgstr ""
 "\n"
 "\tja %s sisaldab sümboleid, milles on kõrgeim bitt seatud.\n"
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Tihenduse suhe %4.2f%%\n"
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "hoiatus: locate andmebaasi saab standardsisendist ainult korra lugeda."
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "hoiatus: andmebaas `%s' on rohkem, kui %d %s vana"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Andmebaas %s kasutab %s vormingut.\n"
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr "vana"
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -644,15 +692,6 @@ msgstr ""
 "      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TÜÜP]\n"
 "      [--version] [--help]\n"
 "      muster...\n"
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate versioon %s\n"
-
-#: locate/locate.c:1318
-msgid "argument to --limit"
-msgstr "võtme --limit argument"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -695,46 +734,46 @@ msgstr ""
 "Vigane sisendi eraldaja määrang %s: eraldaja peab olema kas üks sümbol või "
 "sümboliga \\ algav paojada."
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "exec funktsioonile antud keskkond on liiga suur"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs versioon %s\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Ei õnnestu avada sisendfaili `%s'"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Teie keskkonnamuutujad kasutavad %ld baiti\n"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "POSIX alumine ja ülemine piirang argumendi pikkusele on: %ld, %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Tegelikult kasutatava käsu maksimum pikkus on: %ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Tegelikult kasutatava käsupuhvri suurus on: %ld\n"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -743,53 +782,53 @@ msgstr ""
 "puudub kvoot %s; vaikimisi kasutatab xargs omi kvoote, kui just pole "
 "kasutatud võtit -O"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "dubleeritud"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "ühekordne"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "argumendi rida on liiga pikk"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "viga alamprotsessi ootamisel"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: lõpetas olekuga 255; katkestan"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: peatatud signaaliga %d"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: katkestatud signaaliga %d"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: vigane number võtmele -%c\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: võtme -%c väärtus peab olema suurem või võrdne kui %ld\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: võtme -%c väärtus peab olema väiksem kui %ld\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -812,6 +851,12 @@ msgstr ""
 "       [--null] [--eof[=eof-sõne]] [--replace[=asendus-sõne]]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=fail]\n"
 "       [--version] [--help] [käsk [argumendid]]\n"
+
+#~ msgid "block size"
+#~ msgstr "bloki suurus"
+
+#~ msgid "argument to --limit"
+#~ msgstr "võtme --limit argument"
 
 #~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 #~ msgstr "Kahandan arg_max (%ld) väärtusele arg_size (%ld)\n"

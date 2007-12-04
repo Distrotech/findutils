@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-06-29 21:51+0100\n"
+"POT-Creation-Date: 2007-12-04 23:39+0000\n"
 "PO-Revision-Date: 2006-05-20 13:06+0300\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@buguner.name.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -31,7 +31,11 @@ msgstr "%2$s için %1$s argümanı anlamsız"
 msgid "Valid arguments are:"
 msgstr "Geçerli argümanlar:"
 
-#: gnulib/lib/error.c:125
+#: gnulib/lib/closeout.c:74
+msgid "write error"
+msgstr ""
+
+#: gnulib/lib/error.c:126
 msgid "Unknown system error"
 msgstr "Bilinmeyen sistem hatası"
 
@@ -92,10 +96,6 @@ msgstr "%s: `-W %s' seçeneği belirsiz\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: `-W %s' seçeneği argümansız kullanılır\n"
 
-#: gnulib/lib/human.c:477
-msgid "block size"
-msgstr "blok uzunluğu"
-
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #.
@@ -115,11 +115,11 @@ msgstr "blok uzunluğu"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:230
+#: gnulib/lib/quotearg.c:229
 msgid "`"
 msgstr "\""
 
-#: gnulib/lib/quotearg.c:231
+#: gnulib/lib/quotearg.c:230
 msgid "'"
 msgstr "\""
 
@@ -131,14 +131,25 @@ msgstr "^[eE]"
 msgid "^[nN]"
 msgstr "^[hH]"
 
-#: find/util.c:108
-msgid "oops -- invalid default insertion of and!"
-msgstr "Hoop -- öntanımlı `and' yerleştirme geçersiz!"
+#: gnulib/lib/xalloc-die.c:35
+#, fuzzy
+msgid "memory exhausted"
+msgstr "Bellek tükendi"
 
-#: find/util.c:198
-#, c-format
-msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
-msgstr "Kullanımı: %s [-H] [-L] [-P] [dosyaYolu...] [ifade]\n"
+#: gnulib/lib/xstrtol-error.c:64
+#, fuzzy, c-format
+msgid "invalid %s%s argument `%s'"
+msgstr "`%s' argümanı `%s'de geçersiz"
+
+#: gnulib/lib/xstrtol-error.c:69
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument `%s'"
+msgstr "`%s' argümanı `%s'de geçersiz"
+
+#: gnulib/lib/xstrtol-error.c:73
+#, fuzzy, c-format
+msgid "%s%s argument `%s' too large"
+msgstr "argüman listesi çok uzun"
 
 #: find/find.c:457
 msgid ""
@@ -203,7 +214,7 @@ msgstr ""
 "%s%s, %s yürütülürken değişti (eski dosya indisi: %ld, yeni dosya indisi: %"
 "ld, dosya sistemi türü: %s) [ref %ld]"
 
-#: find/find.c:1517
+#: find/find.c:1538
 #, c-format
 msgid ""
 "Symbolic link `%s' is part of a loop in the directory hierarchy; we have "
@@ -212,7 +223,7 @@ msgstr ""
 "`%s' sembolik bağı dizin hiyerarşisinde bir döngünün parçası ve gösterdiği "
 "dizini zaten ziyaret etmiştik."
 
-#: find/find.c:1532
+#: find/find.c:1553
 #, c-format
 msgid ""
 "Filesystem loop detected; `%s' has the same device number and inode as a "
@@ -221,20 +232,20 @@ msgstr ""
 "Dosya sisteminde döngü saptandı; `%s', %d %s deki bir dizin gibi aynı aygıt "
 "ve düğüm numarasına sahip."
 
-#: find/find.c:1536
+#: find/find.c:1557
 msgid "level higher in the filesystem hierarchy"
 msgstr "seviye, dosya sistemi hiyerarşisinde daha yüksek"
 
-#: find/find.c:1537
+#: find/find.c:1558
 msgid "levels higher in the filesystem hierarchy"
 msgstr "seviyeler, dosya sistemi hiyerarşisinde daha yüksek"
 
-#: find/find.c:1906
+#: find/find.c:1928
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "uyarı: %s sembolik bağı izlenemiyor"
 
-#: find/find.c:1950
+#: find/find.c:1972
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s: this may be a bug in your "
@@ -419,7 +430,7 @@ msgstr "-size türü `%c' geçersiz"
 msgid "GNU find version %s\n"
 msgstr "GNU find sürüm %s\n"
 
-#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1279 xargs/xargs.c:576
+#: find/parser.c:1693 locate/code.c:167 locate/locate.c:1284 xargs/xargs.c:578
 #, fuzzy, c-format
 msgid "Built using GNU gnulib version %s\n"
 msgstr "GNU findutils sürüm %s\n"
@@ -475,21 +486,21 @@ msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
 msgid "The environment is too large for exec()."
 msgstr "icra edilebilir olarak ortam çok geniş"
 
-#: find/pred.c:1166
+#: find/pred.c:1179
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1568 xargs/xargs.c:1026
+#: find/pred.c:1581 xargs/xargs.c:1028
 msgid "cannot fork"
 msgstr "ayrılamaz"
 
-#: find/pred.c:1608
+#: find/pred.c:1621
 #, c-format
 msgid "error waiting for %s"
 msgstr "%s beklenirken hata oluştu"
 
-#: find/pred.c:1616
+#: find/pred.c:1629
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s, %d sinyali ile sonlandırıldı"
@@ -530,6 +541,32 @@ msgstr "hooop -- mark_stat'ta geçersiz ifade türü!"
 msgid "oops -- invalid expression type in mark_type!"
 msgstr "hooop -- mark_type'ta geçersiz ifade türü!"
 
+#: find/util.c:108
+msgid "oops -- invalid default insertion of and!"
+msgstr "Hoop -- öntanımlı `and' yerleştirme geçersiz!"
+
+#: find/util.c:198
+#, c-format
+msgid "Usage: %s [-H] [-L] [-P] [path...] [expression]\n"
+msgstr "Kullanımı: %s [-H] [-L] [-P] [dosyaYolu...] [ifade]\n"
+
+#: lib/buildcmd.c:181
+msgid "command too long"
+msgstr "komut çok uzun"
+
+#: lib/buildcmd.c:243
+msgid "can not fit single argument within argument list size limit"
+msgstr "argüman listesinin uzunluğu yanında tek argüman yeterli olmayabilir"
+
+#: lib/buildcmd.c:248
+msgid "argument list too long"
+msgstr "argüman listesi çok uzun"
+
+#: lib/regextype.c:114
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr ""
+
 #: locate/code.c:128
 #, c-format
 msgid ""
@@ -539,7 +576,8 @@ msgstr ""
 "Kullanımı: %s [--version | --help]\n"
 "veya       %s most_common_bigrams < dosya-listesi > konum-veritabanı\n"
 
-#: locate/code.c:132 locate/locate.c:1161 xargs/xargs.c:1226
+#: locate/code.c:132 locate/frcode.c:165 locate/locate.c:1160
+#: xargs/xargs.c:1228
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -553,38 +591,48 @@ msgstr ""
 msgid "GNU findutils version %s\n"
 msgstr "GNU findutils sürüm %s\n"
 
-#: locate/locate.c:155
+#: locate/frcode.c:163
+#, c-format
+msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
+msgstr ""
+
+#: locate/frcode.c:203 locate/locate.c:1283
+#, c-format
+msgid "GNU locate version %s\n"
+msgstr "GNU locate sürüm %s\n"
+
+#: locate/locate.c:154
 msgid "days"
 msgstr "gün"
 
-#: locate/locate.c:475
+#: locate/locate.c:474
 #, fuzzy, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "uyarı: `%s' konum veritabanı dosyayolunun başında `:' var ve bu onu geçersiz "
 "bir veritabanı ismi yapıyor"
 
-#: locate/locate.c:570
+#: locate/locate.c:569
 #, c-format
 msgid "locate database `%s' is corrupt or invalid"
 msgstr "`%s' veritabanı ya bozuk ya da geçersiz"
 
-#: locate/locate.c:838
+#: locate/locate.c:837
 #, c-format
 msgid "Locate database size: %s bytes\n"
 msgstr "Locate veritabanı boyu: %s bayt\n"
 
-#: locate/locate.c:842
+#: locate/locate.c:841
 #, c-format
 msgid "Filenames: %s "
 msgstr "Dosya isimleri: %s"
 
-#: locate/locate.c:845
+#: locate/locate.c:844
 #, c-format
 msgid "with a cumulative length of %s bytes"
 msgstr "%s baytlık bir birikimli uzunluk ile"
 
-#: locate/locate.c:849
+#: locate/locate.c:848
 #, c-format
 msgid ""
 "\n"
@@ -593,7 +641,7 @@ msgstr ""
 "\n"
 "\t%s boşluk içeriyor, "
 
-#: locate/locate.c:852
+#: locate/locate.c:851
 #, c-format
 msgid ""
 "\n"
@@ -602,7 +650,7 @@ msgstr ""
 "\n"
 "\t%s satırsonu karakteri içeriyor, "
 
-#: locate/locate.c:855
+#: locate/locate.c:854
 #, c-format
 msgid ""
 "\n"
@@ -611,30 +659,30 @@ msgstr ""
 "\n"
 "\tve %s yüksek bitli karakterler içeriyor.\n"
 
-#: locate/locate.c:860
+#: locate/locate.c:859
 #, c-format
 msgid "Compression ratio %4.2f%%\n"
 msgstr "Sıkıştırma oranı %%%4.2f\n"
 
-#: locate/locate.c:908
+#: locate/locate.c:907
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "Uyarı: locate veritabanı standart girdiden sadece bir kere okunabilir"
 
-#: locate/locate.c:929
+#: locate/locate.c:928
 #, c-format
 msgid "warning: database `%s' is more than %d %s old"
 msgstr "uyarı: `%s' veritabanı %d den %s daha eski"
 
-#: locate/locate.c:1106
+#: locate/locate.c:1105
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "%s veritabanı %s biçiminde.\n"
 
-#: locate/locate.c:1108
+#: locate/locate.c:1107
 msgid "old"
 msgstr "eski"
 
-#: locate/locate.c:1152
+#: locate/locate.c:1151
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -656,15 +704,6 @@ msgstr ""
 "       [ -s | --stdio ] [-A | --all] [-p | --print] [-r | --regex ]\n"
 "       [--regextype=TÜR] [--version] [--help]\n"
 "       KALIP...\n"
-
-#: locate/locate.c:1278
-#, c-format
-msgid "GNU locate version %s\n"
-msgstr "GNU locate sürüm %s\n"
-
-#: locate/locate.c:1318
-msgid "argument to --limit"
-msgstr "--limit argümanı"
 
 #: xargs/xargs.c:302
 #, c-format
@@ -707,46 +746,46 @@ msgstr ""
 "Girdi sınırlayıcı belirtimi %s geçersiz: sınırlanan şey ya tek bir karakter "
 "ya da \\ ile öncelenmiş bir dizge olmalı."
 
-#: xargs/xargs.c:395
+#: xargs/xargs.c:396
 msgid "environment is too large for exec"
 msgstr "icra edilebilir olarak ortam çok geniş"
 
-#: xargs/xargs.c:536
+#: xargs/xargs.c:538
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:575
+#: xargs/xargs.c:577
 #, c-format
 msgid "GNU xargs version %s\n"
 msgstr "GNU xargs sürüm %s\n"
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:608
 #, c-format
 msgid "Cannot open input file `%s'"
 msgstr "Girdi dosyası `%s' açılamıyor"
 
-#: xargs/xargs.c:642
+#: xargs/xargs.c:644
 #, fuzzy, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr "Ortam değişkenleriniz %ld bayt tutuyor\n"
 
-#: xargs/xargs.c:645
+#: xargs/xargs.c:647
 #, fuzzy, c-format
 msgid "POSIX lower and upper limits on argument length: %lu, %lu\n"
 msgstr "Argüman uzunluğu için POSIX alt ve üst sınırları: %ld, %ld\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:651
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr "Kullanabileceğimiz asgari komut uzunluğu: %ld\n"
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:655
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr "Kullanmakta olduğumuz komut tamponunun boyu: %ld\n"
 
-#: xargs/xargs.c:775 xargs/xargs.c:856
+#: xargs/xargs.c:777 xargs/xargs.c:858
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -755,53 +794,53 @@ msgstr ""
 "%s karşılığı ile eşleşmiyor; -0 seçeneği ile belirtilmedikçe öntanımlı "
 "olarak sarmalayıcı karakterler xarg'lara özeldir"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "double"
 msgstr "çift"
 
-#: xargs/xargs.c:776 xargs/xargs.c:857
+#: xargs/xargs.c:778 xargs/xargs.c:859
 msgid "single"
 msgstr "tek"
 
-#: xargs/xargs.c:874 xargs/xargs.c:931
+#: xargs/xargs.c:876 xargs/xargs.c:933
 msgid "argument line too long"
 msgstr "argüman satırı çok uzun"
 
-#: xargs/xargs.c:1101
+#: xargs/xargs.c:1103
 msgid "error waiting for child process"
 msgstr "ast süreç beklenirken hata oluştu"
 
-#: xargs/xargs.c:1117
+#: xargs/xargs.c:1119
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: durum 255 ile çıkıldı; bırakılıyor"
 
-#: xargs/xargs.c:1119
+#: xargs/xargs.c:1121
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: %d sinyali ile durduruldu"
 
-#: xargs/xargs.c:1121
+#: xargs/xargs.c:1123
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: %d sinyali ile sonlandırıldı"
 
-#: xargs/xargs.c:1174
+#: xargs/xargs.c:1176
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c seçeneği için geçersiz sayı\n"
 
-#: xargs/xargs.c:1181
+#: xargs/xargs.c:1183
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c seçeneği için değer >= %ld olmalı\n"
 
-#: xargs/xargs.c:1195
+#: xargs/xargs.c:1197
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c seçeneği için değer < %ld olmalı\n"
 
-#: xargs/xargs.c:1215
+#: xargs/xargs.c:1217
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -824,6 +863,12 @@ msgstr ""
 "       [-P azami-işlem-sayısı] [--max-procs=azami-işlem-sayısı]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=dosya]\n"
 "       [--version] [--help] [komut [ilk-argümanlar]]\n"
+
+#~ msgid "block size"
+#~ msgstr "blok uzunluğu"
+
+#~ msgid "argument to --limit"
+#~ msgstr "--limit argümanı"
 
 #~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
 #~ msgstr "arg_max (%ld), arg_size'a (%ld) düşürülüyor\n"
@@ -863,9 +908,6 @@ msgstr ""
 
 #~ msgid "Invalid range end"
 #~ msgstr "Kapsam sonu geçersiz"
-
-#~ msgid "Memory exhausted"
-#~ msgstr "Bellek tükendi"
 
 #~ msgid "Invalid preceding regular expression"
 #~ msgstr "düzenli ifade önceliği geçersiz"
@@ -939,15 +981,6 @@ msgstr ""
 #~ msgstr ""
 #~ "uyarı: `%s' konum veritabanı dosyayolunun sonunda `:' var ve bu onu "
 #~ "geçersiz bir veritabanı ismi yapıyor"
-
-#~ msgid "command too long"
-#~ msgstr "komut çok uzun"
-
-#~ msgid "can not fit single argument within argument list size limit"
-#~ msgstr "argüman listesinin uzunluğu yanında tek argüman yeterli olmayabilir"
-
-#~ msgid "argument list too long"
-#~ msgstr "argüman listesi çok uzun"
 
 #~ msgid "%s changed during execution of %s"
 #~ msgstr "%s %s icra edilirken değişti"
