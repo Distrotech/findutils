@@ -967,30 +967,31 @@ pred_ilname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 
 /* Common code between -name, -iname.  PATHNAME is being visited, STR
    is name to compare basename against, and FLAGS are passed to
-   fnmatch.  */
+   fnmatch.  Recall that 'find / -name /' is one of the few times where a '/' 
+   in the -name must actually find something. */ 
 static boolean
 pred_name_common (const char *pathname, const char *str, int flags)
 {
-  /* Prefer last_component over base_name, to avoid malloc when
-     possible.  */
-  char *base = last_component (pathname);
+  char *p;
+  boolean b;
+  /* We used to use last_component() here, but that would not allow us
+   * to modify the input string, which is const.  We could optimise by
+   * duplicating the string only if we need to modify it, and I'll do
+   * that if there is a measurable performance difference on a machine
+   * built after 1990...
+   */
+  char *base = base_name (pathname);
+  /* remove trailing slashes, but leave  "/" or "//foo" unchanged. */
+  strip_trailing_slashes(base);
 
-  /* base is empty only if pathname is a file system root.  But recall
-     that 'find / -name /' is one of the few times where a '/' in the
-     -name must actually find something.  */
-  if (!*base)
-    {
-      boolean b;
-      base = base_name (pathname);
-      b = fnmatch (str, base, flags) == 0;
-      free (base);
-      return b;
-    }
   /* FNM_PERIOD is not used here because POSIX requires that it not be.
    * See http://standards.ieee.org/reading/ieee/interp/1003-2-92_int/pasc-1003.2-126.html
    */
-  return fnmatch (str, base, flags) == 0;
+  b = fnmatch (str, base, flags) == 0;
+  free (base);
+  return b;
 }
+
 
 boolean
 pred_iname (char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)

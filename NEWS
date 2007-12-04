@@ -7,6 +7,10 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)*
 
 ** Bug Fixes
 
+#20970: Trailing slash on directory arguments breaks -name.  "find
+foo/ -name foo" now correctly matches foo and printf foo/.  See POSIX
+interp http://www.opengroup.org/austin/interps/uploads/40/14959/AI-186.txt
+
 #20751: Avoid memory corruption in find -ls that has been present
 since 4.2.28.
 

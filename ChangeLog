@@ -1,5 +1,16 @@
 2007-12-04  James Youngman  <jay@gnu.org>
 
+	Fix Savannah bug #20970, handling of trailing slashes with -name.
+	* find/pred.c (pred_name_common): Strip trailing slashes from the
+	pathname before applying fnmatch() to it.  This fixes Savannah bug
+	#20970.
+	* find/testsuite/find.posix/nameslash.exp: Test case for bug #20970.
+	* find/testsuite/find.posix/nameslash.xo: Expected output file for
+	same.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Added nameslash.exp.
+	(EXTRA_DIST_XO): Added nameslash.xo.
+	* NEWS: mention this fix.
+
 	Fix Savannah bug #15384, find misbehaves when parent directory is
 	not readable.
 	* find/find.c: Add enumeration member
