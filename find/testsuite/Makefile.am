@@ -81,6 +81,7 @@ find.posix/depth1.xo \
 find.posix/sizes.xo \
 find.posix/name.xo \
 find.posix/nameslash.xo \
+find.posix/parent.xo \
 find.posix/perm-X.xo \
 find.posix/perm-vanilla.xo \
 find.posix/posixnot.xo \
@@ -138,6 +139,7 @@ find.gnu/mindepth-badarg.exp \
 find.gnu/name-opt.exp \
 find.gnu/name-period.exp \
 find.gnu/name-slash.exp \
+find.posix/parent.exp \
 find.gnu/path.exp \
 find.gnu/print_stdout.exp \
 find.gnu/print0.exp \
