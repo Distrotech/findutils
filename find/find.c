@@ -1314,9 +1314,30 @@ safely_chdir(const char *dest,
 
 #if defined(O_NOFOLLOW)
   if (options.open_nofollow_available)
-    return safely_chdir_nofollow(dest, direction, statbuf_dest, symlink_follow_option, did_stat);
+    {
+      SafeChdirStatus result = safely_chdir_nofollow(dest, direction,
+						     statbuf_dest,
+						     symlink_follow_option,
+						     did_stat);
+      if (SafeChdirFailDestUnreadable != result)
+	{
+	  return result;
+	}
+      else
+	{
+	  /* Savannah bug #15384: fall through to use safely_chdir_lstat
+	   * if the directory is not readable. 
+	   */
+	  /* Do nothing. */
+	}
+    }
 #endif
-  return safely_chdir_lstat(dest, direction, statbuf_dest, symlink_follow_option, did_stat);
+  /* Even if O_NOFOLLOW is available, we may need to use the alternative 
+   * method, since parent of the start point may be executable but not 
+   * readable. 
+   */
+  return safely_chdir_lstat(dest, direction, statbuf_dest,
+			    symlink_follow_option, did_stat);
 }
 
 

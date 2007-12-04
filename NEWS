@@ -7,24 +7,26 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)*
 
 ** Bug Fixes
 
-#20310: configure uses hosts's support status for "sort -z" when
-generating the updatedb script for use on the target.  This is not a
-reliable strategy when cross-compiling, so assume no support for -z in
-that situation.
-
-#19660: Fix compilation failure on Cygwin.
+#20751: Avoid memory corruption in find -ls that has been present
+since 4.2.28.
 
 #20662: Avoid memory leak in find -name and other places affected by
 gnulib dirname module.  The leak had been present since 4.2.28.
 
-#20751: Avoid memory corruption in find -ls that has been present
-since 4.2.28.
+#20310: configure uses hosts's support status for "sort -z" when
+generating the updatedb script for use on the target.  This is not a
+reliable strategy when cross-compiling, so assume no support for -z in
+that situation.
 
 #20273: When xargs is successful without consuming all of stdin (for
 example, with the -E option), and stdin is seekable, xargs now
 correctly restores the file position, even on platforms where exit()
 does not follow the POSIX rules of doing likewise.  Likewise for find
 (for example, with the -ok action).
+
+#19660: Fix compilation failure on Cygwin.
+
+#15384: Find misbehaves when parent directory is not readable. 
 
 ** Enhancements
 
