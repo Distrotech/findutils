@@ -893,7 +893,6 @@ safely_chdir(const char *dest,
 	   */
 	  /* Do nothing. */
 	}
-      
     }
   /* Even if O_NOFOLLOW is available, we may need to use the alternative 
    * method, since parent of the start point may be executable but not 
