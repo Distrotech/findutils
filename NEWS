@@ -7,6 +7,11 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)*
 
 ** Bug Fixes
 
+#21568: When building from CVS in 4.2.x, we now check gnulib out using git
+instead of CVS.  This fixes Savannah bug 21568, the problem being that
+git-cvspserevr does not currently support -D, and the ond CVS server
+for gnulib has been frozen.
+
 #20970: Trailing slash on directory arguments breaks -name.  "find
 foo/ -name foo" now correctly matches foo and printf foo/.  See POSIX
 interp http://www.opengroup.org/austin/interps/uploads/40/14959/AI-186.txt
