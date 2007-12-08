@@ -1,5 +1,13 @@
 2007-12-08  James Youngman  <jay@gnu.org>
 
+	Distribute findutils documentation under FDL 1.2.
+	* doc/find.texi: This file is now distributed under version 1.2 of
+	the GNU Free Documentation license.   Include a copy of the
+	license document in the info and dvi files. 
+	* doc/.cvsignore: Ignore fdl.texi.
+	* import-gnulib.config (modules): Import the fdl module.
+	* NEWS: Mention this fact.
+
 	Updated to version 3 of the GNU General Public License.
 	* COPYING: Update to GPL version 3.
 	* find/defs.h, find/find.c,
@@ -28,6 +36,7 @@
 	under version 3 or later of the GNU GPL.  
 	* depcomp, missing: Update from gnulib to get the current version
 	(which is distributed under GPL v3).
+	* NEWS: Mention this change.
 
 	* import-gnulib.sh: Use git rather than cvs to check the gnulib
 	code out (typically, when building findutils from CVS).
