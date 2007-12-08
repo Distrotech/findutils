@@ -321,12 +321,45 @@ in or below the directory
 .B /tmp 
 and delete them, processing filenames in such a way that file or 
 directory names containing spaces or newlines are correctly handled.
+
+.P
+.B find /tmp \-depth \-name core \-type f \-delete
+
+.fi
+Find files named 
+.B core
+in or below the directory 
+.B /tmp 
+and delete them, but more efficiently than in the previous example
+(because we avoid the need to use 
+.BR fork (2) 
+and 
+.BR exec (2) 
+to launch 
+.B rm
+and we don't need the extra 
+.B xargs 
+process).
+
 .P
 .nf
 .B cut \-d: \-f1 < /etc/passwd | sort | xargs echo
 
 .fi
 Generates a compact listing of all the users on the system.
+
+.P
+.nf
+.B xargs sh -c 'emacs \(dq$@\(dq < /dev/tty' emacs
+
+.fi
+Launches the minumum number of copes of Emacs needed, one after the
+other, to edit the files listed on 
+.BR xargs '
+standard input.
+
+
+
 .SH "EXIT STATUS"
 .B xargs
 exits with the following status:
@@ -366,6 +399,7 @@ current system.
 
 .SH "SEE ALSO"
 \fBfind\fP(1), \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1),
+\fBfork\fP(2), \fBexecvp\fP(3), 
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
 The
