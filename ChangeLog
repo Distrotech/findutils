@@ -1,3 +1,11 @@
+2007-12-13  Eric Blake  <ebb9@byu.net>
+
+	Allow bootstrap with autoconf 2.61a.
+	* configure.in (AC_AIX, AC_ISC_POSIX): Remove, now that
+	gl_EARLY does this.
+	(jy_AC_TYPE_INTMAX_T): Delete, now that gnulib's stdint module
+	does this.
+
 2007-12-09  James Youngman  <jay@gnu.org>
 
 	* po/pt.po: Updated the Portuguese translation.
@@ -10,7 +18,7 @@
 	Distribute findutils documentation under FDL 1.2.
 	* doc/find.texi: This file is now distributed under version 1.2 of
 	the GNU Free Documentation license.   Include a copy of the
-	license document in the info and dvi files. 
+	license document in the info and dvi files.
 	* doc/.cvsignore: Ignore fdl.texi.
 	* import-gnulib.config (modules): Import the fdl module.
 	* NEWS: Mention this fact.
@@ -38,9 +46,9 @@
 	lib/waitpid.c, locate/bigram.c, locate/code.c, locate/frcode.c,
 	locate/locate.c, locate/locatedb.h, locate/updatedb.sh,
 	locate/testsuite/config/unix.exp, xargs/xargs.c,
-	xargs/testsuite/config/unix.exp: 
+	xargs/testsuite/config/unix.exp:
 	Modify copyright header to indicate that the code is distributed
-	under version 3 or later of the GNU GPL.  
+	under version 3 or later of the GNU GPL.
 	* depcomp, missing: Update from gnulib to get the current version
 	(which is distributed under GPL v3).
 	* NEWS: Mention this change.
@@ -69,14 +77,14 @@
 	Fix Savannah bug #15384, find misbehaves when parent directory is
 	not readable.
 	* find/find.c: Add enumeration member
-	SafeChdirFailDestUnreadable. 
+	SafeChdirFailDestUnreadable.
 	(safely_chdir): If safely_chdir_nofollow fails with
 	SafeChdirFailDestUnreadable, fall back on safely_chdir_lstat.
 	(safely_chdir_nofollow): We we failed to open the destination,
 	fail with SafeChdirFailDestUnreadable instead of
-	SafeChdirFailChdirFailed.  
+	SafeChdirFailChdirFailed.
 	(process_dir): Handle SafeChdirFailDestUnreadable like
-	SafeChdirFailChdirFailed.  
+	SafeChdirFailChdirFailed.
 	* find/testsuite/find.posix/parent.exp: New test
 	* find/testsuite/find.posix/parent.xo: New test
 	* find/testsuite/Makefile.am (EXTRA_DIST_EXP, EXTRA_DIST_XO):

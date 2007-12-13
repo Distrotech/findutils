@@ -31,7 +31,7 @@ AC_ARG_ENABLE(d_type-optimization,
 	AS_HELP_STRING(--enable-d_type-optimization,Make use of the file type data returned in struct dirent.d_type by readdir()),
 	[ac_cv_d_type=$enableval],[ac_cv_d_type=yes])
 
-dnl This one has no default, because otherwise we would have to say 
+dnl This one has no default, because otherwise we would have to say
 dnl both --enable-d_type-optimisation=no and --enable-d_type-optimization=no
 dnl to turn it off.
 AC_ARG_ENABLE(d_type-optimisation,
@@ -62,16 +62,9 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CPP
 
-AC_AIX
-
-
-dnl AC_MINIX
 dnl for gnulib
 gl_EARLY
-dnl gl_EARLY calls AC_GNU_SOURCE anyway.
 
-
-AC_ISC_POSIX
 AM_C_PROTOTYPES
 
 AC_PROG_INSTALL
@@ -84,20 +77,20 @@ AC_SYS_LARGEFILE
 gl_INIT
 
 dnl Older versions of gnulib/m4/nls.m4 provide AM_MKINSTALLDIRS.
-dnl The current version of gnulib does not, but the version of 
+dnl The current version of gnulib does not, but the version of
 dnl po/Makefile.in.in that comes with gettext-0.14.6 expects
 dnl that @MKINSTALLDIRS@ will be expanded.
 dnl (This change taken from findutils 4.3.x branch, Wed May 30 21:02:08 2007)
 AM_MKINSTALLDIRS
 
-dnl lib/regexprops needs to be a native program, because we need to 
+dnl lib/regexprops needs to be a native program, because we need to
 dnl run it in order to generate the documentation about the properties
 dnl of regular expressions.  See lib/Makefile.am.
 AM_CONDITIONAL(CROSS_COMPILING, [[test "x$cross_compiling" = xyes]])
 
 dnl Try to get a POSIX.1 environment.
 
-dnl Checks for libraries.  If getpwnam() isn't present in the 
+dnl Checks for libraries.  If getpwnam() isn't present in the
 dnl C library, try -lsun.
 AC_CHECK_FUNC(getpwnam, [],
 [AC_CHECK_LIB(sun, getpwnam)])
@@ -155,8 +148,8 @@ AC_FUNC_VPRINTF
 AC_FUNC_ALLOCA
 AC_FUNC_CLOSEDIR_VOID
 
-dnl We don't just use AC_FUNC_GETMNTENT directly because it 
-dnl will try to use -lsun on platforms which have getmntent() in the 
+dnl We don't just use AC_FUNC_GETMNTENT directly because it
+dnl will try to use -lsun on platforms which have getmntent() in the
 dnl C library, for example UNICOS.
 AC_CHECK_FUNC(getmntent, [], [AC_FUNC_GETMNTENT])
 AC_CHECK_FUNCS(getmntent)
@@ -179,30 +172,10 @@ gl_REGEX
 
 AC_PREREQ(2.59)
 
-# Define intmax_t to 'signed long' or 'signed long long'
-# if it is not already defined in <stdint.h> or <inttypes.h>.
-dnl Derived from gnulib's uintmax_t which was from Paul Eggert.
-AC_DEFUN([jy_AC_TYPE_INTMAX_T],
-[
-  if test $ac_cv_header_inttypes_h = no && test $ac_cv_header_stdint_h = no; then
-    AC_REQUIRE([gl_AC_TYPE_LONG_LONG])
-    test $ac_cv_type_long_long = yes \
-      && ac_type='long long' \
-      || ac_type='long'
-    AC_DEFINE_UNQUOTED(intmax_t, $ac_type,
-      [Define to signed long or signed long long
-       if <stdint.h> and <inttypes.h> don't define.])
-  else
-    AC_DEFINE(HAVE_INTMAX_T, 1,
-      [Define if you have the 'intmax_t' type in <stdint.h> or <inttypes.h>.])
-  fi
-])
-
-jy_AC_TYPE_INTMAX_T
 jy_SORTZ
 
 
-AC_CHECK_MEMBER(struct dirent.d_type,,,[		   
+AC_CHECK_MEMBER(struct dirent.d_type,,,[
 #include <sys/types.h>
 #include <dirent.h>])
 
@@ -224,7 +197,7 @@ AC_DEFINE([FINDUTILS], 1, [Define if we are compiling GNU findutils])
 ##AC_CONFIG_SUBDIRS(gnulib)
 AC_CONFIG_FILES(gnulib/Makefile gnulib/lib/Makefile)
 AC_CONFIG_FILES(m4/Makefile)
-AC_CONFIG_FILES([Makefile 
+AC_CONFIG_FILES([Makefile
 	find/Makefile find/testsuite/Makefile
 	xargs/Makefile xargs/testsuite/Makefile
 	locate/Makefile locate/testsuite/Makefile
