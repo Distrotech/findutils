@@ -1,3 +1,11 @@
+2007-12-13  Eric Blake  <ebb9@byu.net>
+
+	Allow bootstrapping with autoconf 2.61a.
+	* configure.ac (AC_AIX, AC_ISC_POSIX): Delete, now that gnulib
+	takes care of this.
+	(jy_AC_TYPE_INTMAX_T): Delete, now that gnulib stdint module takes
+	care of this.
+
 2007-12-09  James Youngman  <jay@gnu.org>
 
 	* doc/perm.texi: Updated from the upstream source.
@@ -180,7 +188,7 @@
 	* find/testsuite/find.gnu/posix-perminvalid.exp: New file; tests
 	invalid arguments to -perm.
 	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add
-	posix-perminvalid.exp.  
+	posix-perminvalid.exp.
 	* find/find.1: Document this.
 	* doc/find.texi (Mode Bits): Likewise
 	(Environment Variables): Likewise
@@ -190,7 +198,7 @@
 	should also be italic.  OPTIONS should be a section, not a
 	subsection.  In the description of --max-lines, "max-args" was
 	corrected to "max-lines".  Turn off hyphenation in the SYNOPSIS
-	section.  This fixes Savannah bug #21270. 
+	section.  This fixes Savannah bug #21270.
 
 2007-11-13  James Youngman  <jay@gnu.org>
 
@@ -200,7 +208,7 @@
 	gnulib in the source tree does not yet point at the
 	git-cvs-pserver repository, move the old gnulib working tree out
 	of the way and do a fresh checkout.  This fixes Savannah bug
-	#21568. 
+	#21568.
 
 2007-11-11  James Youngman  <jay@gnu.org>
 
@@ -211,10 +219,10 @@
 	* po/POTFILES.in: Use gnulib/lib/getdate.y rather than
 	gnulib/lib/getdate.c, because the former is the source file, and
 	because without this change the update-po target of po/Makefile
-	fails. 
+	fails.
 
 	* import-gnulib.config (gnulib_version): Move to gnulib
-	2007-11-10.  
+	2007-11-10.
 
 	* po/hu.po, po/nl.po: Updated from Translation Project.
 
@@ -233,8 +241,8 @@
 	(Delete Files): Likewise, suggest using "-depth" when testing
 	command lines you plan to eventually add "-delete" to.
 	(Cleaning Up): Add -depth explicitly to an example which uses
-	-delete.  
-	* find/find.1 (-depth): Mention that -delete also implies -depth.  
+	-delete.
+	* find/find.1 (-depth): Mention that -delete also implies -depth.
 	(-delete): Warn against putting -delete first.
 	(-prune): Also warn against -prune ... -delete.
 	NEWS: Mention these changes.
@@ -261,7 +269,7 @@
 2007-08-22  James Youngman  <jay@gnu.org>
 
 	* find/parser.c (parse_path): This is the 'canonical' name once
-	again. 
+	again.
 	(parse_wholename): This is not.
 	(parse_ipath): No longer deprecated.
 	* NEWS: Mention this.

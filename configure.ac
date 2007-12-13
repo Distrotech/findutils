@@ -74,16 +74,9 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CPP
 
-AC_AIX
-
-
-dnl AC_MINIX
 dnl for gnulib
 gl_EARLY
-dnl gl_EARLY calls AC_GNU_SOURCE anyway.
 
-
-AC_ISC_POSIX
 AM_C_PROTOTYPES
 
 AC_PROG_INSTALL
@@ -202,26 +195,6 @@ gl_REGEX
 
 AC_PREREQ(2.59)
 
-# Define intmax_t to 'signed long' or 'signed long long'
-# if it is not already defined in <stdint.h> or <inttypes.h>.
-dnl Derived from gnulib's uintmax_t which was from Paul Eggert.
-AC_DEFUN([jy_AC_TYPE_INTMAX_T],
-[
-  if test $ac_cv_header_inttypes_h = no && test $ac_cv_header_stdint_h = no; then
-    AC_REQUIRE([gl_AC_TYPE_LONG_LONG])
-    test $ac_cv_type_long_long = yes \
-      && ac_type='long long' \
-      || ac_type='long'
-    AC_DEFINE_UNQUOTED(intmax_t, $ac_type,
-      [Define to signed long or signed long long
-       if <stdint.h> and <inttypes.h> don't define.])
-  else
-    AC_DEFINE(HAVE_INTMAX_T, 1,
-      [Define if you have the 'intmax_t' type in <stdint.h> or <inttypes.h>.])
-  fi
-])
-
-jy_AC_TYPE_INTMAX_T
 jy_SORTZ
 
 
