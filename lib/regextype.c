@@ -103,7 +103,7 @@ get_regex_type(const char *s)
       p += sprintf(p, "%s", quote(regex_map[i].name));
     }
   
-  error(1, 0, _("Unknown regular expression type %s; valid types are %s."),
+  error(1, 0, _("Unknown regular expression type %1$s; valid types are %2$s."),
 	quote(s),
 	buf);
   /*NOTREACHED*/

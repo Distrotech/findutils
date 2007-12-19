@@ -527,9 +527,9 @@ found_parser(const char *original_arg, const struct parser_table *entry)
 	    {
 	      /* option which follows a non-option */
 	      error (0, 0,
-		     _("warning: you have specified the %s "
-		       "option after a non-option argument %s, "
-		       "but options are not positional (%s affects "
+		     _("warning: you have specified the %1$s "
+		       "option after a non-option argument %2$s, "
+		       "but options are not positional (%3$s affects "
 		       "tests specified before it as well as those "
 		       "specified after it).  Please specify options "
 		       "before other arguments.\n"),
@@ -1063,9 +1063,9 @@ parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 	      else
 		{
 		  /* XXX: no test in test suite for this */
-		  error(1, 0, _("%s is not the name of an existing group and"
+		  error(1, 0, _("%1$s is not the name of an existing group and"
 				" it does not look like a numeric group ID "
-				"because it has the unexpected suffix %s"),
+				"because it has the unexpected suffix %2$s"),
 			quotearg_n_style(0, options.err_quoting_style, groupname),
 			quotearg_n_style(1, options.err_quoting_style, groupname+gid_len));
 		  return false;
@@ -1346,7 +1346,7 @@ insert_depthspec(const struct parser_table* entry, char **argv, int *arg_ptr,
 	      return parse_noop(entry, argv, arg_ptr);
 	    }
 	}
-      error(1, 0, _("Expected a positive decimal integer argument to %s, but got %s"),
+      error(1, 0, _("Expected a positive decimal integer argument to %1$s, but got %2$s"),
 	    predicate,
 	    quotearg_n_style(0, options.err_quoting_style, depthstr));
       return false;
@@ -1846,7 +1846,10 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
     {
       change = mode_compile (perm_expr + mode_start);
       if (NULL == change)
-	error (1, 0, _("invalid mode %s"),
+	error (1, 0, _("invalid mode %s"
+		       /* TRANSLATORS: the argument is a 
+			* file permission string like 'u=rw,go='
+			*/),
 	       quotearg_n_style(0, options.err_quoting_style, perm_expr));
     }
   perm_val[0] = mode_adjust (0, false, 0, change, NULL);
@@ -2979,9 +2982,9 @@ check_path_safety(const char *action, char **argv)
       else if ('/' != s[0])
 	{
 	  /* Relative paths are also dangerous in $PATH. */
-	  error(1, 0, _("The relative path %s is included in the PATH "
+	  error(1, 0, _("The relative path %1$s is included in the PATH "
 			"environment variable, which is insecure in "
-			"combination with the %s action of find.  "
+			"combination with the %2$s action of find.  "
 			"Please remove that entry from $PATH"),
 		safely_quote_err_filename(0, s),
 		action);

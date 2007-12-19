@@ -1259,7 +1259,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
 		}
 	      else
 		{
-		  error (1, 0, _("invalid argument `%s' to `%s'"),
+		  error (1, 0, _("invalid argument `%1$s' to `%2$s'"),
 			 argv[i], predicate_name);
 		}
 	    }

@@ -408,7 +408,12 @@ pred_delete (const char *pathname, struct stat *stat_buf, struct predicate *pred
 		}
 	    }
 	}
-      error (0, errno, _("cannot delete %s"),
+      error (0, errno, _("cannot delete %s"
+			 /* TRANSLATORS: the argument is either a
+			  * file or a directory, but we do not know which.
+			  * Mail bug-findutils@gnu.org if you cannot correctly 
+			  * translate the string without knowing.
+			  */),
 	     safely_quote_err_filename(0, pathname));
       /* Previously I had believed that having the -delete action
        * return false provided the user with control over whether an
@@ -1411,7 +1416,11 @@ is_ok(const char *program, const char *arg)
      This standard does not have requirements for locales other than POSIX
   */
   /* XXX: printing UNTRUSTED data here. */
-  fprintf (stderr, _("< %s ... %s > ? "), program, arg);
+  fprintf (stderr, _("< %s ... %s > ? "
+		     /* TRANSLATORS: we would like, if possible, the final non-blank 
+		      * character of this string to be '?', but it is not 
+		      * wholly essential. */
+		     ), program, arg);
   fflush (stderr);
   return yesno();
 }
@@ -1969,7 +1978,7 @@ launch (const struct buildcmd_control *ctl,
   
   if (WIFSIGNALED (wait_status))
     {
-      error (0, 0, _("%s terminated by signal %d"),
+      error (0, 0, _("%1$s terminated by signal %2$d"),
 	     quotearg_n_style(0, options.err_quoting_style,
 			      buildstate->cmd_argv[0]),
 	     WTERMSIG (wait_status));

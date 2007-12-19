@@ -103,6 +103,7 @@
 # define _(Text) Text
 #define textdomain(Domain)
 #define bindtextdomain(Package, Directory)
+#define ngettext(singular,plural,n) ((1==n) ? singular : plural)
 #endif
 #ifdef gettext_noop
 # define N_(String) gettext_noop (String)
@@ -889,30 +890,34 @@ visit_count(struct process_data *procdata, void *context)
 static void
 print_stats(int argc, size_t database_file_size)
 {
-  char hbuf[LONGEST_HUMAN_READABLE + 1];
+  char hbuf1[LONGEST_HUMAN_READABLE + 1];
+  char hbuf2[LONGEST_HUMAN_READABLE + 1];
+  char hbuf3[LONGEST_HUMAN_READABLE + 1];
+  char hbuf4[LONGEST_HUMAN_READABLE + 1];
   
-  printf(_("Locate database size: %s bytes\n"),
+  printf(ngettext("Locate database size: %s byte\n",
+		  "Locate database size: %s bytes\n",
+		  database_file_size),
 	 human_readable ((uintmax_t) database_file_size,
-			 hbuf, human_ceiling, 1, 1));
+			 hbuf1, human_ceiling, 1, 1));
   
   printf( (results_were_filtered ? 
-	   _("Matching Filenames: %s ") :
-	   _("All Filenames: %s ")),
-	 human_readable (statistics.total_filename_count,
-			 hbuf, human_ceiling, 1, 1));
-  printf(_("with a cumulative length of %s bytes"),
-	 human_readable (statistics.total_filename_length,
-			 hbuf, human_ceiling, 1, 1));
-  
-  printf(_("\n\tof which %s contain whitespace, "),
-	 human_readable (statistics.whitespace_count,
-			 hbuf, human_ceiling, 1, 1));
-  printf(_("\n\t%s contain newline characters, "),
-	 human_readable (statistics.newline_count,
-			 hbuf, human_ceiling, 1, 1));
-  printf(_("\n\tand %s contain characters with the high bit set.\n"),
-	 human_readable (statistics.highbit_filename_count,
-			 hbuf, human_ceiling, 1, 1));
+	   _("Matching Filenames: %s\n") :
+	   _("All Filenames: %s\n")),
+	  human_readable (statistics.total_filename_count,
+			 hbuf1, human_ceiling, 1, 1));
+  /* XXX: We would ideally use ngettext() here, but I don't know 
+   *      how to use it to handle more than one possibly-plural thing/
+   */
+  printf(_("File names have a cumulative length of %1$s bytes.\n"
+	   "Of those file names,\n"
+	   "\n\t%2$s contain whitespace, "
+	   "\n\t%3$s contain newline characters, "
+	   "\n\tand %4$s contain characters with the high bit set.\n"),
+	 human_readable (statistics.total_filename_length,  hbuf1, human_ceiling, 1, 1),
+	 human_readable (statistics.whitespace_count,       hbuf2, human_ceiling, 1, 1),
+	 human_readable (statistics.newline_count,          hbuf3, human_ceiling, 1, 1),
+	 human_readable (statistics.highbit_filename_count, hbuf4, human_ceiling, 1, 1));
   
   if (!argc)
     {
@@ -993,8 +998,8 @@ looking_at_slocate_locatedb (const char *filename,
 		   * We don't know how to handle those.
 		   */
 		  error(0, 0,
-			_("locate database %s looks like an slocate "
-			  "database but it seems to have security level %c, "
+			_("locate database %1$s looks like an slocate "
+			  "database but it seems to have security level %2$c, "
 			  "which GNU findutils does not currently support"),
 			quotearg_n_style(0, locale_quoting_style, filename),
 			data[1]);
@@ -1124,7 +1129,7 @@ search_one_database (int argc,
 	   * so do nothing further 
 	   */
 	  error(0, 0,
-		_("%s is an slocate database of unsupported security level %d; skipping it."),
+		_("%1$s is an slocate database of unsupported security level %2$d; skipping it."),
 		quotearg_n_style(0, locale_quoting_style, procdata.dbfile),
 		slocate_seclevel);
 	  return 0;
@@ -1342,7 +1347,7 @@ search_one_database (int argc,
 
   if (stats)
     {
-      printf(_("Database %s is in the %s format.\n"),
+      printf(_("Database %1$s is in the %2$s format.\n"),
 	     procdata.dbfile,
 	     format_name);
     }
@@ -1859,10 +1864,12 @@ dolocate (int argc, char **argv, int secure_db_fd)
 		  /* For example:
 		     warning: database `fred' is more than 8 days old (actual age is 10 days)*/
 		  error (0, 0,
-			 _("warning: database %s is more than %d %s old (actual age is %.1f %s)"),
+			 _("warning: database %1$s is more than %2$d %3$s old (actual age is %4$.1f %5$s)"),
 			 quotearg_n_style(0,  locale_quoting_style, e), 
-			 warn_number_units,              _(warn_name_units),
-			 (age/(double)SECONDS_PER_UNIT), _(warn_name_units));
+			 warn_number_units,
+			 _(warn_name_units),
+			 (age/(double)SECONDS_PER_UNIT),
+			 _(warn_name_units));
 		}
 	    }
 	}
