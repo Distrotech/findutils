@@ -64,7 +64,6 @@
 # define _(Text) Text
 #define textdomain(Domain)
 #define bindtextdomain(Package, Directory)
-#define ngettext(singular,plural,n) ((1==n) ? singular : plural)
 #endif
 #ifdef gettext_noop
 # define N_(String) gettext_noop (String)
@@ -488,8 +487,7 @@ wd_sanity_check(const char *thing_to_stat,
 	  {
 	    fstype = filesystem_type(newinfo, current_dir);
 	    error (1, 0,
-		   _("%1$s%2$s changed during execution of %3$s "
-		     "(old device number %4$ld, new device number %5$ld, file system type is %6$s) [ref %7$ld]"),
+		   _("%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"),
 		   safely_quote_err_filename(0, specific_what),
 		   parent ? "/.." : "",
 		   safely_quote_err_filename(1, progname),
@@ -526,8 +524,8 @@ wd_sanity_check(const char *thing_to_stat,
       
       error ((isfatal == FATAL_IF_SANITY_CHECK_FAILS) ? 1 : 0,
 	     0,			/* no relevant errno value */
-	     _("%1$s%2$s changed during execution of %3$s "
-	       "(old inode number %4$ld, new inode number %5$ld, file system type is %6$s) [ref %7$ld]"),
+	     _("%s%s changed during execution of %s "
+	       "(old inode number %ld, new inode number %ld, file system type is %s) [ref %ld]"),
 	     safely_quote_err_filename(0, specific_what), 
 	     parent ? "/.." : "",
 	     safely_quote_err_filename(1, progname),
@@ -1124,14 +1122,12 @@ issue_loop_warning(const char *name, const char *pathname, int level)
        * to /a/b/c.
        */
       error(0, 0,
-	    ngettext(
-		     "Filesystem loop detected; %1$s has the same device number and inode as "
-		     "a directory which is %2$d level higher in the file system hierarchy",
-		     "Filesystem loop detected; %1$s has the same device number and inode as "
-		     "a directory which is %2$d levels higher in the file system hierarchy",
-		     (long)distance),
+	    _("Filesystem loop detected; %s has the same device number and inode as a directory which is %d %s."),
 	    safely_quote_err_filename(0, pathname),
-	    distance);
+	    distance,
+	    (distance == 1 ?
+	     _("level higher in the file system hierarchy") :
+	     _("levels higher in the file system hierarchy")));
     }
 }
 
@@ -1420,12 +1416,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 		   * doesn't really handle hard links with Unix semantics.
 		   * In the latter case, -noleaf should be used routinely.
 		   */
-		  error(0, 0, _("WARNING: Hard link count is wrong for %1$s "
-				"(saw only st_nlink=%2$d but we already saw %3$d subdirectories): "
-				"this may be a bug in your file system driver.  "
-				"Automatically turning on find's -noleaf option.  "
-				"Earlier results may have failed to include directories "
-				"that should have been searched."),
+		  error(0, 0, _("WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we already saw %d subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
 			safely_quote_err_filename(0, pathname),
 			statp->st_nlink,
 			dircount);

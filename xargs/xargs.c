@@ -318,15 +318,13 @@ get_char_oct_or_hex_escape(const char *s)
       if (16 == base)
 	{
 	  error(1, 0,
-		_("Invalid escape sequence %1$s in input delimiter specification; "
-		  "character values must not exceed %2$lx."),
+		_("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."),
 		s, (unsigned long)UCHAR_MAX);
 	}
       else
 	{
 	  error(1, 0,
-		_("Invalid escape sequence %1$s in input delimiter specification; "
-		  "character values must not exceed %2$lo."),
+		_("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."),
 		s, (unsigned long)UCHAR_MAX);
 	}
     }
@@ -335,8 +333,7 @@ get_char_oct_or_hex_escape(const char *s)
   if (0 != *endp)
     {
       error(1, 0,
-	    _("Invalid escape sequence %1$s in input delimiter specification; "
-	      "the trailing characters %2$s were not recognised."),
+	    _("Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."),
 	    s, endp);
     }
   
@@ -381,9 +378,7 @@ get_input_delimiter(const char *s)
       else
 	{
 	  error(1, 0,
-		_("Invalid input delimiter specification %s: "
-		  "the delimiter must be either a single character "
-		  "or an escape sequence starting with \\."),
+		_("Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."),
 		s);
 	  /*NOTREACHED*/
 	  return 0;
@@ -585,8 +580,8 @@ main (int argc, char **argv)
 	    if (arg_size > bc_ctl.posix_arg_size_max)
 	      {
 		error (0, 0,
-		       _("warning: value %1$ld for -s option is too large, "
-			 "using %2$ld instead"),
+		       _("warning: value %ld for -s option is too large, "
+			 "using %ld instead"),
 		       arg_size, bc_ctl.posix_arg_size_max);
 		arg_size = bc_ctl.posix_arg_size_max;
 	      }
@@ -843,11 +838,8 @@ read_line (void)
 	  if (state == QUOTE)
 	    {
 	      exec_if_possible ();
-	      if (quotc == '"')
-		error (1, 0, _("unmatched double quote; by default quotes are special to xargs unless you use the -0 option"));
-	      else
-		error (1, 0, _("unmatched single quote; by default quotes are special to xargs unless you use the -0 option"));
-
+	      error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
+		     quotc == '"' ? _("double") : _("single"));
 	    }
 	  if (first && EOF_STR (linebuf))
 	    return -1;
@@ -939,10 +931,8 @@ read_line (void)
 	  if (c == '\n')
 	    {
 	      exec_if_possible ();
-	      if (quotc == '"')
-		error (1, 0, _("unmatched double quote; by default quotes are special to xargs unless you use the -0 option"));
-	      else
-		error (1, 0, _("unmatched single quote; by default quotes are special to xargs unless you use the -0 option"));
+	      error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
+		     quotc == '"' ? _("double") : _("single"));
 	    }
 	  if (c == quotc)
 	    {
@@ -1274,14 +1264,14 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
   val = strtol (str, &eptr, 10);
   if (eptr == str || *eptr)
     {
-      fprintf (stderr, _("%1$s: invalid number for -%2$c option\n"),
+      fprintf (stderr, _("%s: invalid number for -%c option\n"),
 	       program_name, option);
       usage (stderr);
       exit(1);
     }
   else if (val < min)
     {
-      fprintf (stderr, _("%1$s: value for -%2$c option should be >= %3$ld\n"),
+      fprintf (stderr, _("%s: value for -%c option should be >= %ld\n"),
 	       program_name, option, min);
       if (fatal)
 	{
@@ -1295,7 +1285,7 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
     }
   else if (max >= 0 && val > max)
     {
-      fprintf (stderr, _("%1$s: value for -%2$c option should be < %3$ld\n"),
+      fprintf (stderr, _("%s: value for -%c option should be < %ld\n"),
 	       program_name, option, max);
       if (fatal)
 	{

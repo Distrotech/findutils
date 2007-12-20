@@ -296,7 +296,7 @@ issue_loop_warning(FTSENT * ent)
        */
       error(0, 0,
 	    _("File system loop detected; "
-	      "%1$s is part of the same file system loop as %2$s."),
+	      "%s is part of the same file system loop as %s."),
 	    safely_quote_err_filename(0, ent->fts_path),
 	    partial_quotearg_n(1,
 			       ent->fts_cycle->fts_path,
@@ -607,10 +607,7 @@ find(char *arg)
   p = fts_open(arglist, ftsoptions, NULL);
   if (NULL == p)
     {
-      error (0, errno, _("cannot search %s"
-			 /* TRANSLATORS: the argument is either
-			    a file or a directory. */
-			 ),
+      error (0, errno, _("cannot search %s"),
 	     safely_quote_err_filename(0, arg));
     }
   else
