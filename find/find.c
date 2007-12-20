@@ -527,7 +527,7 @@ wd_sanity_check(const char *thing_to_stat,
       error ((isfatal == FATAL_IF_SANITY_CHECK_FAILS) ? 1 : 0,
 	     0,			/* no relevant errno value */
 	     _("%1$s%2$s changed during execution of %3$s "
-	       "(old inode number %4$ld, new inode number %5$ld, file system type is %5$s) [ref %7$ld]"),
+	       "(old inode number %4$ld, new inode number %5$ld, file system type is %6$s) [ref %7$ld]"),
 	     safely_quote_err_filename(0, specific_what), 
 	     parent ? "/.." : "",
 	     safely_quote_err_filename(1, progname),
