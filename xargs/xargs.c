@@ -1281,7 +1281,7 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
     }
   else if (val < min)
     {
-      fprintf (stderr, _("%1$s: value for -%2$c option should be >= %3%ld\n"),
+      fprintf (stderr, _("%1$s: value for -%2$c option should be >= %3$ld\n"),
 	       program_name, option, min);
       if (fatal)
 	{
