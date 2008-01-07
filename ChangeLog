@@ -1,3 +1,31 @@
+2008-01-07  James Youngman  <jay@gnu.org>
+
+	* xargs/xargs.c: (main): Standardise on "Warning" instead of
+	"warning" in messages.
+
+	* xargs/xargs.c: (add_proc): Use x2nrealloc to extend the pids
+	array, rather than doubling the size of the buffer (since the old
+	aproach was vulnerable to overflow).
+
+	Reap all available child processes before every fork.  This fixes
+	Savannah bug #21960.
+	* xargs/xargs.c: (proc_max): since this is a non-negative
+	quantity, make it unsigned.
+	(procs_executing): Likewise.
+	(pids_alloc): Likewise (using size_t).
+	(procs_executed): In order to prevent possible overflow, make this
+	a boolean, not a count.  We only cared if the previous counter was
+	zero or not, anwyay.
+	(add_proc): Set procs_executed to true rather than incrementing it.
+	(wait_for_proc): When called, always reap all available children.
+	Add an extra argument which is the minimum number of children we
+	must reap before returning.
+	(wait_for_proc_all): Pass the new extra argument.
+	(xargs_do_exec): Call wait_for_proc() to reap all available
+	children before forking a new child.  Modify other calls to
+	wait_for_proc to pass the new extra argument.
+	(NEWS): Mention this change.
+
 2007-12-20  James Youngman  <jay@gnu.org>
 
 	* find/fstype.c, find/ftsfind.c, find/parser.c, find/pred.c,

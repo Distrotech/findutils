@@ -1,6 +1,6 @@
 /* xargs -- build and execute command lines from standard input
    Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005, 2006,
-   2007 Free Software Foundation, Inc.
+   2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -206,19 +206,19 @@ static boolean initial_args = true;
 
 /* If nonzero, the maximum number of child processes that can be running
    at once.  */
-static int proc_max = 1;
+static unsigned long int proc_max = 1uL;
 
-/* Total number of child processes that have been executed.  */
-static int procs_executed = 0;
+/* Did we fork a child yet? */
+static boolean procs_executed = false;
 
 /* The number of elements in `pids'.  */
-static int procs_executing = 0;
+static unsigned long int procs_executing = 0uL;
 
 /* List of child processes currently executing.  */
 static pid_t *pids = NULL;
 
 /* The number of allocated elements in `pids'. */
-static int pids_alloc = 0;
+static size_t pids_alloc = 0u;
 
 /* Exit status; nonzero if any child process exited with a
    status of 1-125.  */
@@ -267,7 +267,7 @@ static boolean print_args PARAMS ((boolean ask));
 static int xargs_do_exec (const struct buildcmd_control *cl, struct buildcmd_state *state);
 static void exec_if_possible PARAMS ((void));
 static void add_proc PARAMS ((pid_t pid));
-static void wait_for_proc PARAMS ((boolean all));
+static void wait_for_proc PARAMS ((boolean all, unsigned int minreap));
 static void wait_for_proc_all PARAMS ((void));
 static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
 static void usage PARAMS ((FILE * stream));
@@ -580,7 +580,7 @@ main (int argc, char **argv)
 	    if (arg_size > bc_ctl.posix_arg_size_max)
 	      {
 		error (0, 0,
-		       _("warning: value %ld for -s option is too large, "
+		       _("Warning: value %ld for -s option is too large, "
 			 "using %ld instead"),
 		       arg_size, bc_ctl.posix_arg_size_max);
 		arg_size = bc_ctl.posix_arg_size_max;
@@ -611,7 +611,8 @@ main (int argc, char **argv)
 	  break;
 
 	case 'P':
-	  proc_max = parse_num (optarg, 'P', 0L, -1L, 1);
+	  /* Allow only up to LONG_MAX child processes. */
+	  proc_max = parse_num (optarg, 'P', 0L, LONG_MAX, 1);
 	  break;
 
         case 'a':
@@ -747,7 +748,7 @@ main (int argc, char **argv)
       /* SYSV xargs seems to do at least one exec, even if the
          input is empty.  */
       if (bc_state.cmd_argc != bc_ctl.initial_argc
-	  || (always_run_command && procs_executed == 0))
+	  || (always_run_command && !procs_executed))
 	xargs_do_exec (&bc_ctl, &bc_state);
 
     }
@@ -951,7 +952,7 @@ read_line (void)
 	{
 	  /* This is just a warning message.  We only issue it once. */
 	  error (0, 0,
-		 _("warning: a NUL character occurred in the input.  "
+		 _("Warning: a NUL character occurred in the input.  "
 		   "It cannot be passed through in the argument list.  "
 		   "Did you mean to use the --null option?"));
 	  nullwarning_given = 1;
@@ -1105,14 +1106,31 @@ xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
   
   if (!query_before_executing || print_args (true))
     {
-      if (proc_max && procs_executing >= proc_max)
-	wait_for_proc (false);
+      if (proc_max)
+	{
+	  if (procs_executing >= proc_max)
+	    wait_for_proc (false, proc_max - procs_executing + 1);
+	  assert (procs_executing < proc_max);
+	}
       if (!query_before_executing && print_command)
 	print_args (false);
+
+      /* Before forking, reap any already-exited child. We do this so
+	 that we don't leave unreaped children around while we build a
+	 new command line.  For example this command will spend most
+	 of its time waiting for sufficient arguments to launch
+	 another command line:
+
+	 seq 1 1000 | fmt | while read x ; do echo $x; sleep 1 ; done | 
+	 ./xargs -P 200 -n 20  sh -c 'echo "$@"; sleep $((1 + $RANDOM % 5))' sleeper
+      */
+      wait_for_proc (false, 0u);
+
       /* If we run out of processes, wait for a child to return and
          try again.  */
       while ((child = fork ()) < 0 && errno == EAGAIN && procs_executing)
-	wait_for_proc (false);
+	wait_for_proc (false, 1u);
+
       switch (child)
 	{
 	case -1:
@@ -1149,60 +1167,107 @@ exec_if_possible (void)
 static void
 add_proc (pid_t pid)
 {
-  int i;
+  unsigned int i, j;
 
   /* Find an empty slot.  */
   for (i = 0; i < pids_alloc && pids[i]; i++)
     ;
+
+  /* Extend the array if we failed. */
   if (i == pids_alloc)
     {
-      if (pids_alloc == 0)
-	{
-	  pids_alloc = proc_max ? proc_max : 64;
-	  pids = xmalloc (sizeof (pid_t) * pids_alloc);
-	}
-      else
-	{
-	  pids_alloc *= 2;
-	  pids = xrealloc (pids,
-			   sizeof (pid_t) * pids_alloc);
-	}
-      memset (&pids[i], '\0', sizeof (pid_t) * (pids_alloc - i));
+      pids = x2nrealloc (pids, &pids_alloc, sizeof *pids);
+
+      /* Zero out the new slots. */
+      for (j=i; j<pids_alloc; ++j)
+	pids[j] = (pid_t)0;
     }
+  /* Verify that we are not destroying the record of some existing child. */
+  assert (0 == pids[i]);
+
+  /* Remember the child. */
   pids[i] = pid;
   procs_executing++;
-  procs_executed++;
+  procs_executed = true;
 }
 
+
 /* If ALL is true, wait for all child processes to finish;
-   otherwise, wait for one child process to finish.
+   otherwise, wait for at least MINREAP child processes to finish.
    Remove the processes that finish from the list of executing processes.  */
 
 static void
-wait_for_proc (boolean all)
+wait_for_proc (boolean all, unsigned int minreap)
 {
+  unsigned int reaped = 0;
+
   while (procs_executing)
     {
-      int i, status;
+      unsigned int i;
+      int status;
+      pid_t pid;
+      int wflags = 0;
+
+      if (!all)
+	{
+	  if (reaped >= minreap)
+	    {
+	      /* We already reaped enough children.  To save system
+	       * resources, reap any dead children anyway, but do not
+	       * wait for any currently executing children to exit.
+	       
+	       */
+	      wflags = WNOHANG;
+	    }
+	}
 
       do
 	{
-	  pid_t pid;
-
-	  while ((pid = wait (&status)) == (pid_t) -1)
-	    if (errno != EINTR)
-	      error (1, errno, _("error waiting for child process"));
-
+	  /* Wait for any child.   We used to use wait() here, but it's 
+	   * unlikely that that offers any portability advantage over 
+	   * wait these days.
+	   */
+	  while ((pid = waitpid (-1, &status, wflags)) == (pid_t) -1)
+	    {
+	      if (errno != EINTR)
+		error (1, errno, _("error waiting for child process"));
+	    }
+	  
 	  /* Find the entry in `pids' for the child process
 	     that exited.  */
-	  for (i = 0; i < pids_alloc && pid != pids[i]; i++)
-	    ;
+	  if (pid)
+	    {
+	      for (i = 0; i < pids_alloc && pid != pids[i]; i++)
+		;
+	    }
 	}
-      while (i == pids_alloc);	/* A child died that we didn't start? */
+      while (pid && i == pids_alloc);	/* A child died that we didn't start? */
 
+      if (!pid)
+	{
+	  if (!(wflags & WNOHANG))
+	    {
+	      /* Nothing remained to be reaped.  This should not
+	       * happen, because procs_executing should contain the
+	       * number of child processes still executing, so the
+	       * loop should have terminated.
+	       */
+	      error (0, 0, _("Warning: Lost track of %d child processes"),
+		     procs_executing);
+	    }
+	  else
+	    {
+	      /* Children are (probably) executing but are not ready
+	       * to be reaped at the moment.
+	       */
+	    }
+	  break;
+	}
+      
       /* Remove the child from the list.  */
       pids[i] = 0;
       procs_executing--;
+      reaped++;
 
       if (WEXITSTATUS (status) == 126 || WEXITSTATUS (status) == 127)
 	exit (WEXITSTATUS (status));	/* Can't find or run the command.  */
@@ -1214,9 +1279,6 @@ wait_for_proc (boolean all)
 	error (125, 0, _("%s: terminated by signal %d"), bc_state.cmd_argv[0], WTERMSIG (status));
       if (WEXITSTATUS (status) != 0)
 	child_error = 123;
-
-      if (!all)
-	break;
     }
 }
 
@@ -1231,7 +1293,7 @@ wait_for_proc_all (void)
     return;
 
   waiting = true;
-  wait_for_proc (true);
+  wait_for_proc (true, 0u);
   waiting = false;
   
   if (original_exit_value != child_error)
