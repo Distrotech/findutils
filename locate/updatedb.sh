@@ -289,9 +289,8 @@ fi
 # To avoid breaking locate while this script is running, put the
 # results in a temp file, then rename it atomically.
 if test -s $LOCATE_DB.n; then
-  rm -f $LOCATE_DB
-  mv $LOCATE_DB.n $LOCATE_DB
-  chmod 644 $LOCATE_DB
+  chmod 644 ${LOCATE_DB}.n
+  mv ${LOCATE_DB}.n $LOCATE_DB
 else
   echo "updatedb: new database would be empty" >&2
   rm -f $LOCATE_DB.n
@@ -359,9 +358,8 @@ rm -f $bigrams $filelist
 # To reduce the chances of breaking locate while this script is running,
 # put the results in a temp file, then rename it atomically.
 if test -s $LOCATE_DB.n; then
-  rm -f $LOCATE_DB
-  mv $LOCATE_DB.n $LOCATE_DB
-  chmod 644 $LOCATE_DB
+  chmod 644 ${LOCATE_DB}.n
+  mv ${LOCATE_DB}.n $LOCATE_DB
 else
   echo "updatedb: new database would be empty" >&2
   rm -f $LOCATE_DB.n

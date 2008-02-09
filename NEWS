@@ -3,6 +3,11 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 * Major changes in release 4.3.13-CVS
 
 ** Bug Fixes
+
+#22057: Actually rename the old locate database to the new one
+atomically, instead of just claiming the rename is atomic in a
+comment.
+
 #21960: xargs should collect the exit status of child processes even if
 the total count of unreaped children has not yet reached the maximum
 allowed. 
