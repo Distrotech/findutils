@@ -3400,7 +3400,16 @@ if some other error occurred.
 
 Exit codes greater than 128 are used by the shell to indicate that 
 a program died due to a fatal signal.
-  
+
+
+@menu
+* xargs options::               
+* Invoking the shell from xargs::  
+@end menu
+
+@node xargs options
+@subsection xargs options
+
 @table @code
 @item --arg-file@r{=@var{inputfile}}
 @itemx -a @r{@var{inputfile}}
@@ -3519,6 +3528,95 @@ Run simultaneously up to @var{max-procs} processes at once; the default is 1.  I
 @var{max-procs} is 0, @code{xargs} will run as many processes as
 possible simultaneously.
 @end table
+
+@node Invoking the shell from xargs
+@subsection Invoking the shell from xargs
+
+Normally, @code{xargs} will exec the command you specified directly,
+without invoking a shell.  This is normally the behaviour one would
+want.  It's somewhat more efficient and avoids problems with shell
+metacharacters, for example.  However, sometimes it is necessary to
+manipulate the environment of a command before it is run, in a way
+that @code{xargs} does not directly support.  
+
+Invoking a shell from @code{xargs} is a good way of performing such
+manipulations.  However, some care must be taken to prevent problems,
+for example unwanted interpretation of shell metacharacters.  
+
+This command moves a set of files into an archive directory:
+
+@example
+find /foo -maxdepth 1 -atime +366 -exec mv @{@} /archive \;
+@end example
+
+However, this will only move one file at a time.  We cannot in this
+case use @code{-exec ... +} because the matched file names are added
+at the end of the command line, while the destination directory would
+need to be specified last.  We also can't use @code{xargs} in the
+obvious way for the same reason.  One way of working around this
+problem is to make use of the special properties of GNU @code{mv}; it
+has a @code{-t} option that allows the target directory to be
+specified before the list of files to be moved.  However, while this
+technique works for GNU @code{mv}, it doesn't solve the more general
+problem.
+
+Here is a more general technique for solving this problem:
+
+@example
+find /foo -maxdepth 1 -atime +366 -print0 |
+xargs -r0 sh -c 'mv "$@@" /archive' move
+@end example
+
+Here, a shell is being invoked.  There are two shell instances to
+think about.  The first is the shell which launches the xargs command
+(this might be the shell into which you are typing, for example).  The
+second is the shell launched by @code{xargs} (in fact it will probably
+launch several, one after the other, depending on how many files need
+to be archived).  We'l refer to this second shell as a subshell.
+
+Our example uses the @code{-c} option of @code{sh}.  Its argument is a
+shell command to be executed by the subshell.  Along with the rest of
+that command, the $@@ is enclosed by single quotes to make sure it is
+passed to the subshell without being expanded by the parent shell.  It
+is also enclosed with double quotes so that the subshell will expand
+@code{$@@} correctly even if one of the file names contains a space or
+newline.
+
+The subshell will use any non-option arguments as positional
+parameters (that is, in the expansion of @code{$@@}).  Because
+@code{xargs} launches the @code{sh -c} subshell with a list of files,
+those files will end up as the expansion of @code{$@@}.
+
+You may also notice the @samp{move} at the end of the command line.
+This is used as the value of @code{$0} by the subshell.  We include it
+because otherwise the name of the first file to be moved would be used
+instead.  If that happened it would not be included in the subshell's
+expansion of @code{$@@}, and so it wouldn't actually get moved.
+
+
+Another reason to use the @code{sh -c} construct could be to
+perform redirection:
+
+@example
+find /usr/include -name '*.h' | xargs grep -wl mode_t |
+xargs -r sh -c 'exec emacs "$@@" < /dev/tty' Emacs
+@end example
+
+Notice that we use the shell builtin @code{exec} here.  That's simply
+because the subshell needs to do nothing once Emacs has been invoked.
+Therefore instead of keeping a @code{sh} process around for no reason,
+we just arrange for the subshell to exec Emacs, saving an extra
+process creation.   
+
+Sometimes, though, it can be helpful to keep the shell process around:
+
+@example
+find /foo -maxdepth 1 -atime +366 -print0 |
+xargs -r0 sh -c 'mv "$@@" /archive || exit 255' move
+@end example
+
+Here, the shell will exit with status 255 if any @code{mv} failed.
+This causes @code{xargs} to stop immediately.
 
 
 @node Regular Expressions
@@ -3641,7 +3739,23 @@ xargs --arg-file=todo emacs
 @end example
 
 Here, @code{xargs} will run @code{emacs} as many times as necessary to
-visit all of the files listed in the file @file{todo}.
+visit all of the files listed in the file @file{todo}.  Generating a
+temporary file is not always convenient, though.  This command does
+much the same thing without needing one:
+
+@example
+find /usr/include -name '*.h' | xargs grep -l mode_t |
+xargs sh -c 'emacs "$@@" < /dev/tty' Emacs
+@end example
+
+The example above illustrates a useful trick; Using @code{sh -c} you
+can invoke a shell command from @code{xargs}.  The @code{$@@} in the
+command line is expanded by the shell to a list of arguments as
+provided by @code{xargs}.  The single quotes in the command line
+protect the @code{$@@} against expansion by your interactive shell
+(which will normally have no arguments and thus expand @code{$@@} to
+nothing).  The capitalised @samp{Emacs} on the command line is used as
+@code{$0} by the shell that @code{xargs} launches.
 
 @node Archiving
 @section Archiving

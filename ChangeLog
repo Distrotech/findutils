@@ -1,5 +1,14 @@
 2008-02-09  James Youngman  <jay@gnu.org>
 
+	* doc/find.texi (xargs options): Moved documentation of xargs'
+	options into this new section.
+	(Invoking the shell from xargs): New section providing examples
+	about "xargs sh -c '...'".
+
+	* xargs/xargs.1: Indicate that the "sh -c" trick with xargs
+	achieves the same thing as BSD's "xargs -o", but in a more
+	flexible way.
+
 	* locate/updatedb.sh: Actually rename the old database to the new
 	one atomically, instead of just claiming the rename is atomic in a
 	comment :)  This fixes Savannah bug #22057.
