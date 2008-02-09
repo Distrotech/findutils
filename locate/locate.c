@@ -103,6 +103,7 @@
 # define _(Text) Text
 #define textdomain(Domain)
 #define bindtextdomain(Package, Directory)
+#define ngettext(singular,plural,n) ((1==n) ? singular : plural)
 #endif
 #ifdef gettext_noop
 # define N_(String) gettext_noop (String)
@@ -889,30 +890,34 @@ visit_count(struct process_data *procdata, void *context)
 static void
 print_stats(int argc, size_t database_file_size)
 {
-  char hbuf[LONGEST_HUMAN_READABLE + 1];
+  char hbuf1[LONGEST_HUMAN_READABLE + 1];
+  char hbuf2[LONGEST_HUMAN_READABLE + 1];
+  char hbuf3[LONGEST_HUMAN_READABLE + 1];
+  char hbuf4[LONGEST_HUMAN_READABLE + 1];
   
-  printf(_("Locate database size: %s bytes\n"),
+  printf(ngettext("Locate database size: %s byte\n",
+		  "Locate database size: %s bytes\n",
+		  database_file_size),
 	 human_readable ((uintmax_t) database_file_size,
-			 hbuf, human_ceiling, 1, 1));
+			 hbuf1, human_ceiling, 1, 1));
   
   printf( (results_were_filtered ? 
-	   _("Matching Filenames: %s ") :
-	   _("All Filenames: %s ")),
-	 human_readable (statistics.total_filename_count,
-			 hbuf, human_ceiling, 1, 1));
-  printf(_("with a cumulative length of %s bytes"),
-	 human_readable (statistics.total_filename_length,
-			 hbuf, human_ceiling, 1, 1));
-  
-  printf(_("\n\tof which %s contain whitespace, "),
-	 human_readable (statistics.whitespace_count,
-			 hbuf, human_ceiling, 1, 1));
-  printf(_("\n\t%s contain newline characters, "),
-	 human_readable (statistics.newline_count,
-			 hbuf, human_ceiling, 1, 1));
-  printf(_("\n\tand %s contain characters with the high bit set.\n"),
-	 human_readable (statistics.highbit_filename_count,
-			 hbuf, human_ceiling, 1, 1));
+	   _("Matching Filenames: %s\n") :
+	   _("All Filenames: %s\n")),
+	  human_readable (statistics.total_filename_count,
+			 hbuf1, human_ceiling, 1, 1));
+  /* XXX: We would ideally use ngettext() here, but I don't know 
+   *      how to use it to handle more than one possibly-plural thing/
+   */
+  printf(_("File names have a cumulative length of %1$s bytes.\n"
+	   "Of those file names,\n"
+	   "\n\t%s contain whitespace, "
+	   "\n\t%s contain newline characters, "
+	   "\n\tand %s contain characters with the high bit set.\n"),
+	 human_readable (statistics.total_filename_length,  hbuf1, human_ceiling, 1, 1),
+	 human_readable (statistics.whitespace_count,       hbuf2, human_ceiling, 1, 1),
+	 human_readable (statistics.newline_count,          hbuf3, human_ceiling, 1, 1),
+	 human_readable (statistics.highbit_filename_count, hbuf4, human_ceiling, 1, 1));
   
   if (!argc)
     {

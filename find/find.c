@@ -64,6 +64,7 @@
 # define _(Text) Text
 #define textdomain(Domain)
 #define bindtextdomain(Package, Directory)
+#define ngettext(singular,plural,n) ((1==n) ? singular : plural)
 #endif
 #ifdef gettext_noop
 # define N_(String) gettext_noop (String)
@@ -1122,12 +1123,14 @@ issue_loop_warning(const char *name, const char *pathname, int level)
        * to /a/b/c.
        */
       error(0, 0,
-	    _("Filesystem loop detected; %s has the same device number and inode as a directory which is %d %s."),
+	    ngettext(
+		     "Filesystem loop detected; %s has the same device number and inode as "
+		     "a directory which is %d level higher in the file system hierarchy",
+		     "Filesystem loop detected; %s has the same device number and inode as "
+		     "a directory which is %d levels higher in the file system hierarchy",
+		     (long)distance),
 	    safely_quote_err_filename(0, pathname),
-	    distance,
-	    (distance == 1 ?
-	     _("level higher in the file system hierarchy") :
-	     _("levels higher in the file system hierarchy")));
+	    distance);
     }
 }
 
