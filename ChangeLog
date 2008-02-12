@@ -1,3 +1,22 @@
+2008-02-12  James Youngman  <jay@gnu.org>
+
+        Fix Savannah bug #22056, -Xtime tests are off by one second.
+	* find/defs.h (struct options): Change cur_day_start from time_t
+	to strct timespec.
+	* find/util.c (set_option_defaults): Likewise.
+	* find/parser.c (get_relative_timestamp): Change the origin
+	argument from time_t to struct timespec.
+	(estimate_timestamp_success_rate): Ignore the nanoseconds field of
+	the timestamp when estimating the probable success rate.
+	(parse_daystart): Handle the nanoseconds field too.
+	(do_parse_xmin): The origin argument to get_relative_timestamp()
+	is of type struct timespec, not time_t.
+	(parse_used): Likewise.
+	(parse_time): Likewise.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Added test for
+	-mtime 0; find.posix/mtime0.{exp,xo}.
+	* NEWS: mention this bugfix.
+
 2008-02-09  James Youngman  <jay@gnu.org>
 
 	* doc/find.texi (xargs options): Moved documentation of xargs'

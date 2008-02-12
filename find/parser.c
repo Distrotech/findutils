@@ -185,7 +185,7 @@ static boolean get_comp_type PARAMS((const char **str,
 				     enum comparison_type *comp_type));
 static boolean get_relative_timestamp PARAMS((const char *str,
 					      struct time_val *tval,
-					      time_t origin,
+					      struct timespec origin,
 					      double sec_per_unit,
 					      const char *overflowmessage));
 static boolean get_num PARAMS((const char *str,
@@ -613,7 +613,11 @@ estimate_file_age_success_rate(float num_days)
 static float 
 estimate_timestamp_success_rate(time_t when)
 {
-  int num_days = (options.cur_day_start - when) / 86400;
+  /* This calculation ignores the nanoseconds field of the
+   * origin, but I don't think that makes much difference 
+   * to our estimate.
+   */
+  int num_days = (options.cur_day_start.tv_sec - when) / 86400;
   return estimate_file_age_success_rate(num_days);
 }
 
@@ -764,12 +768,13 @@ parse_daystart (const struct parser_table* entry, char **argv, int *arg_ptr)
 
   if (options.full_days == false)
     {
-      options.cur_day_start += DAYSECS;
-      local = localtime (&options.cur_day_start);
-      options.cur_day_start -= (local
-			? (local->tm_sec + local->tm_min * 60
-			   + local->tm_hour * 3600)
-			: options.cur_day_start % DAYSECS);
+      options.cur_day_start.tv_sec += DAYSECS;
+      options.cur_day_start.tv_nsec = 0;
+      local = localtime (&options.cur_day_start.tv_sec);
+      options.cur_day_start.tv_sec -= (local
+				       ? (local->tm_sec + local->tm_min * 60
+					  + local->tm_hour * 3600)
+				       : options.cur_day_start.tv_sec % DAYSECS);
       options.full_days = true;
     }
   return true;
@@ -1381,8 +1386,9 @@ do_parse_xmin (const struct parser_table* entry,
     {
       struct time_val tval;
       tval.xval = xv;
-      if (get_relative_timestamp(minutes, &tval,
-				 options.cur_day_start + DAYSECS, 60,
+      struct timespec origin = options.cur_day_start;
+      origin.tv_sec += DAYSECS;
+      if (get_relative_timestamp(minutes, &tval, origin, 60,
 				 "arithmetic overflow while converting %s "
 				 "minutes to a number of seconds"))
 	{
@@ -2397,7 +2403,8 @@ parse_used (const struct parser_table* entry, char **argv, int *arg_ptr)
   if (collect_arg(argv, arg_ptr, &offset_str))
     {
       /* The timespec is actually a delta value, so we use an origin of 0. */
-      if (get_relative_timestamp(offset_str, &tval, 0, DAYSECS, errmsg))
+      struct timespec zero = {0,0};
+      if (get_relative_timestamp(offset_str, &tval, zero, DAYSECS, errmsg))
 	{
 	  our_pred = insert_primary (entry);
 	  our_pred->args.reftime = tval;
@@ -3223,12 +3230,12 @@ insert_exec_ok (const char *action,
 static boolean
 get_relative_timestamp (const char *str,
 			struct time_val *result,
-			time_t origin,
+			struct timespec origin,
 			double sec_per_unit,
 			const char *overflowmessage)
 {
   uintmax_t checkval;
-  double offset, seconds, f;
+  double offset, seconds, nanosec;
   
   if (get_comp_type(&str, &result->kind))
     {
@@ -3245,15 +3252,23 @@ get_relative_timestamp (const char *str,
 	{
 	  /* Separate the floating point number the user specified
 	   * (which is a number of days, or minutes, etc) into an
-	   * integral number of seconds (SECONDS) and a fraction (F).
+	   * integral number of seconds (SECONDS) and a fraction (NANOSEC).
 	   */
-	  f = modf(offset * sec_per_unit, &seconds);
+	  nanosec = modf(offset * sec_per_unit, &seconds);
+	  nanosec *= 1.0e9;	/* convert from fractional seconds to ns. */
 	  
-	  result->ts.tv_sec  = origin - seconds;
-	  result->ts.tv_nsec = fabs(f * 1e9);
-
+	  result->ts.tv_sec  = origin.tv_sec - seconds;
+	  result->ts.tv_nsec = origin.tv_nsec - nanosec;
+	  checkval = (uintmax_t)origin.tv_sec - seconds;
+	  
+	  if (origin.tv_nsec < nanosec)	
+	    {
+	      /* Perform a carry operation */
+	      result->ts.tv_nsec += 1000000000;
+	      result->ts.tv_sec  -= 1;
+	      checkval -= 1;
+	    }
 	  /* Check for overflow. */
-	  checkval = (uintmax_t)origin - seconds;
 	  if (checkval != result->ts.tv_sec)
 	    {
 	      /* an overflow has occurred. */
@@ -3294,7 +3309,7 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
   const char *timearg, *orig_timearg;
   const char *errmsg = "arithmetic overflow while converting %s "
     "days to a number of seconds";
-  time_t origin;
+  struct timespec origin;
 
   if (!collect_arg(argv, arg_ptr, &timearg))
     return false;
@@ -3310,9 +3325,9 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
        */
       if (COMP_LT == comp)      
 	{
-	  uintmax_t expected = origin + (DAYSECS-1);
-	  origin += (DAYSECS-1);
-	  if (origin != expected)
+	  uintmax_t expected = origin.tv_sec + (DAYSECS-1);
+	  origin.tv_sec += (DAYSECS-1);
+	  if (origin.tv_sec != expected)
 	    {
 	      error(1, 0,
 		    _("arithmetic overflow when trying to calculate the end of today"));

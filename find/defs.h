@@ -571,9 +571,8 @@ struct options
   
   struct timespec      start_time;		/* Time at start of execution.  */
   
-  /* Seconds between 00:00 1/1/70 and either one day before now
-     (the default), or the start of today (if -daystart is given). */
-  time_t cur_day_start;
+  /* Either one day before now (the default), or the start of today (if -daystart is given). */
+  struct timespec      cur_day_start;
   
   /* If true, cur_day_start has been adjusted to the start of the day. */
   boolean full_days;

@@ -190,6 +190,7 @@ find.posix/grouping.exp \
 find.posix/group-empty.exp \
 find.posix/group-missing.exp \
 find.posix/links.exp \
+find.posix/mtime0.exp \
 find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \
 find.posix/depth1.exp \

@@ -8,6 +8,9 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 atomically, instead of just claiming the rename is atomic in a
 comment.
 
+#22056: -Xtime tests are off by one second (e.g. rm -f x; touch x;
+find x -mtime 0 should print x).
+
 #21960: xargs should collect the exit status of child processes even if
 the total count of unreaped children has not yet reached the maximum
 allowed. 

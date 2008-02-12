@@ -925,8 +925,11 @@ set_option_defaults(struct options *p)
   p->do_dir_first = true;
   p->explicit_depth = false;
   p->maxdepth = p->mindepth = -1;
+
   p->start_time = now();
-  p->cur_day_start = p->start_time.tv_sec - DAYSECS;
+  p->cur_day_start.tv_sec = p->start_time.tv_sec - DAYSECS;
+  p->cur_day_start.tv_nsec = p->start_time.tv_nsec;
+
   p->full_days = false;
   p->stay_on_filesystem = false;
   p->ignore_readdir_race = false;
