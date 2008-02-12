@@ -1,12 +1,12 @@
 # Finnish translation of findutils.
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Matti Koskimies <matti@apulanta.fi>, 2002.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2007-12-19 21:27+0000\n"
+"POT-Creation-Date: 2008-02-12 12:11+0000\n"
 "PO-Revision-Date: 2002-07-10 09:43+03:00\n"
 "Last-Translator: Matti Koskimies <matti@apulanta.fi>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
@@ -234,7 +234,7 @@ msgstr "\"%s\" on epäkelpo parametri \"%s\":lle"
 msgid "%s%s argument `%s' too large"
 msgstr "liian pitkä parametrilista"
 
-#: find/find.c:201 find/ftsfind.c:733
+#: find/find.c:201 find/ftsfind.c:730
 msgid "cannot get current directory"
 msgstr "työhakemiston nouto ei onnistu"
 
@@ -256,61 +256,62 @@ msgstr ""
 #: find/find.c:491
 #, c-format
 msgid ""
-"%1$s%2$s changed during execution of %3$s (old device number %4$ld, new "
-"device number %5$ld, file system type is %6$s) [ref %7$ld]"
+"%s%s changed during execution of %s (old device number %ld, new device "
+"number %ld, file system type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:529
+#: find/find.c:528
+#, c-format
 msgid ""
-"%1$s%2$s changed during execution of %3$s (old inode number %4$ld, new inode "
-"number %5$ld, file system type is %5$s) [ref %7$ld]"
+"%s%s changed during execution of %s (old inode number %ld, new inode number %"
+"ld, file system type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:1012
+#: find/find.c:1011
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr ""
 
-#: find/find.c:1109 find/ftsfind.c:284
+#: find/find.c:1108 find/ftsfind.c:284
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1128
+#: find/find.c:1127
 #, c-format
 msgid ""
-"Filesystem loop detected; %1$s has the same device number and inode as a "
-"directory which is %2$d level higher in the file system hierarchy"
+"Filesystem loop detected; %s has the same device number and inode as a "
+"directory which is %d level higher in the file system hierarchy"
 msgid_plural ""
-"Filesystem loop detected; %1$s has the same device number and inode as a "
-"directory which is %2$d levels higher in the file system hierarchy"
+"Filesystem loop detected; %s has the same device number and inode as a "
+"directory which is %d levels higher in the file system hierarchy"
 msgstr[0] ""
 msgstr[1] ""
 
-#: find/find.c:1379
+#: find/find.c:1378
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1423
+#: find/find.c:1422
 #, c-format
 msgid ""
-"WARNING: Hard link count is wrong for %1$s (saw only st_nlink=%2$d but we "
-"already saw %3$d subdirectories): this may be a bug in your file system "
+"WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
+"already saw %d subdirectories): this may be a bug in your file system "
 "driver.  Automatically turning on find's -noleaf option.  Earlier results "
 "may have failed to include directories that should have been searched."
 msgstr ""
 
-#: find/fstype.c:252
+#: find/fstype.c:250
 msgid "unknown"
 msgstr "tuntematon"
 
 #: find/ftsfind.c:298
 #, c-format
 msgid ""
-"File system loop detected; %1$s is part of the same file system loop as %2$s."
+"File system loop detected; %s is part of the same file system loop as %s."
 msgstr ""
 
 #: find/ftsfind.c:488 find/util.c:200
@@ -333,35 +334,35 @@ msgstr ""
 #: find/parser.c:530
 #, c-format
 msgid ""
-"warning: you have specified the %1$s option after a non-option argument %2"
-"$s, but options are not positional (%3$s affects tests specified before it "
-"as well as those specified after it).  Please specify options before other "
+"warning: you have specified the %s option after a non-option argument %s, "
+"but options are not positional (%s affects tests specified before it as well "
+"as those specified after it).  Please specify options before other "
 "arguments.\n"
 msgstr ""
 
-#: find/parser.c:816
+#: find/parser.c:821
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
 msgstr ""
 
-#: find/parser.c:1066
+#: find/parser.c:1071
 #, c-format
 msgid ""
-"%1$s is not the name of an existing group and it does not look like a "
-"numeric group ID because it has the unexpected suffix %2$s"
+"%s is not the name of an existing group and it does not look like a numeric "
+"group ID because it has the unexpected suffix %s"
 msgstr ""
 
-#: find/parser.c:1079
+#: find/parser.c:1084
 #, c-format
 msgid "%s is not the name of an existing group"
 msgstr ""
 
-#: find/parser.c:1084
+#: find/parser.c:1089
 msgid "argument to -group is empty, but should be a group name"
 msgstr ""
 
-#: find/parser.c:1105
+#: find/parser.c:1110
 #, fuzzy
 msgid ""
 "\n"
@@ -374,7 +375,7 @@ msgstr ""
 "ole annettuna):\n"
 "      ( LAUS ) ! LAUS -not LAUS LAUS1 -a LAUS2 LAUS1 -and LAUS2\n"
 
-#: find/parser.c:1108
+#: find/parser.c:1113
 #, fuzzy
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
@@ -388,7 +389,7 @@ msgstr ""
 "ole annettuna):\n"
 "      ( LAUS ) ! LAUS -not LAUS LAUS1 -a LAUS2 LAUS1 -and LAUS2\n"
 
-#: find/parser.c:1112
+#: find/parser.c:1117
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -397,7 +398,7 @@ msgid ""
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
 
-#: find/parser.c:1117
+#: find/parser.c:1122
 #, fuzzy
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
@@ -411,7 +412,7 @@ msgstr ""
 "      -ilname MALLI -iname MALLI -inum N -ipath MALLI -iregex MALLI\n"
 "      -links N -lname MALLI -mmin N -mtime N -name MALLI -newer TIEDOSTO\n"
 
-#: find/parser.c:1122
+#: find/parser.c:1127
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -423,7 +424,7 @@ msgstr ""
 "      -size N[bckw] -true -type [bcdpfls] -uid N -used N -user NIMI\n"
 "      -xtype [bcdpfls]\n"
 
-#: find/parser.c:1127
+#: find/parser.c:1132
 msgid ""
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
 "      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
@@ -431,18 +432,18 @@ msgid ""
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
 
-#: find/parser.c:1133
+#: find/parser.c:1138
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
 
-#: find/parser.c:1187
+#: find/parser.c:1192
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 
-#: find/parser.c:1201
+#: find/parser.c:1206
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -452,36 +453,36 @@ msgid ""
 "use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 
-#: find/parser.c:1349
+#: find/parser.c:1354
 #, c-format
-msgid "Expected a positive decimal integer argument to %1$s, but got %2$s"
+msgid "Expected a positive decimal integer argument to %s, but got %s"
 msgstr ""
 
-#: find/parser.c:1499
+#: find/parser.c:1505
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1549
+#: find/parser.c:1555
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1565
+#: find/parser.c:1571
 #, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr ""
 
-#: find/parser.c:1766
+#: find/parser.c:1772
 #, c-format
 msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 msgstr ""
 
-#: find/parser.c:1849
+#: find/parser.c:1855
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "epäkelpo tila \"%s\""
 
-#: find/parser.c:1871
+#: find/parser.c:1874
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -489,66 +490,66 @@ msgid ""
 "000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 
-#: find/parser.c:2068
+#: find/parser.c:2071
 msgid "invalid null argument to -size"
 msgstr "epäkelpo tyhjä parametri \"-size\":lle"
 
-#: find/parser.c:2116
+#: find/parser.c:2119
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "eläkelpo \"-size\"-tyyppi \"%c\""
 
-#: find/parser.c:2122
+#: find/parser.c:2125
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "\"%s\" on epäkelpo parametri \"%s\":lle"
 
-#: find/parser.c:2301
+#: find/parser.c:2304
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2412
+#: find/parser.c:2416
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "%s on epäkelpo parametri \"%s\":lle"
 
-#: find/parser.c:2464
+#: find/parser.c:2468
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2573
+#: find/parser.c:2577
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2620
+#: find/parser.c:2624
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2741
+#: find/parser.c:2745
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "varoitus: tunnistamaton ohjausmerkki \"\\%c\""
 
-#: find/parser.c:2757
+#: find/parser.c:2761
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2796
+#: find/parser.c:2800
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "varoitus: tunnistamaton muotoilumäärite \"%%%c\""
 
-#: find/parser.c:2940
+#: find/parser.c:2944
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2974
+#: find/parser.c:2978
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -557,78 +558,78 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2985
+#: find/parser.c:2989
 #, c-format
 msgid ""
-"The relative path %1$s is included in the PATH environment variable, which "
-"is insecure in combination with the %2$s action of find.  Please remove that "
+"The relative path %s is included in the PATH environment variable, which is "
+"insecure in combination with the %s action of find.  Please remove that "
 "entry from $PATH"
 msgstr ""
 
-#: find/parser.c:3088
+#: find/parser.c:3092
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:3113
+#: find/parser.c:3117
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:3130
+#: find/parser.c:3134
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "ympäristö on liian iso \"exec\":ille"
 
-#: find/parser.c:3321
+#: find/parser.c:3333
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3477
+#: find/parser.c:3489
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3482
+#: find/parser.c:3494
 msgid "standard output"
 msgstr ""
 
-#: find/pred.c:411
+#: find/pred.c:424
 #, c-format
 msgid "cannot delete %s"
 msgstr ""
 
-#: find/pred.c:1355
+#: find/pred.c:1363
 #, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr ""
 
-#: find/pred.c:1419
+#: find/pred.c:1427
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1871
+#: find/pred.c:1875
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1906
+#: find/pred.c:1910
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1947 xargs/xargs.c:1129
+#: find/pred.c:1951 xargs/xargs.c:1137
 msgid "cannot fork"
 msgstr "haarautuminen ei onnistu"
 
-#: find/pred.c:1972
+#: find/pred.c:1976
 #, c-format
 msgid "error waiting for %s"
 msgstr "%s:n odotuksenaikainen virhe"
 
-#: find/pred.c:1981
+#: find/pred.c:1985
 #, fuzzy, c-format
-msgid "%1$s terminated by signal %2$d"
-msgstr "%s keskeytettiin signaalilla %d"
+msgid "%s terminated by signal %d"
+msgstr "%s: keskeytetty signaalilla %d"
 
 #: find/tree.c:89 find/tree.c:94 find/tree.c:174 find/tree.c:213
 msgid "invalid expression"
@@ -700,7 +701,7 @@ msgstr "epäkelpo predikaatti \"%s\""
 
 #: find/tree.c:1262
 #, fuzzy, c-format
-msgid "invalid argument `%1$s' to `%2$s'"
+msgid "invalid argument `%s' to `%s'"
 msgstr "\"%s\" on epäkelpo parametri \"%s\":lle"
 
 #: find/tree.c:1269
@@ -765,7 +766,7 @@ msgid ""
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:944
+#: find/util.c:947
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -802,7 +803,7 @@ msgstr "GNU find versio %s\n"
 
 #: lib/regextype.c:106
 #, c-format
-msgid "Unknown regular expression type %1$s; valid types are %2$s."
+msgid "Unknown regular expression type %s; valid types are %s."
 msgstr ""
 
 #: locate/code.c:130
@@ -813,7 +814,7 @@ msgid ""
 msgstr "Käyttö: %s yleisimmät_bigrammit < lista > koodattu_lista\n"
 
 #: locate/code.c:134 locate/frcode.c:171 locate/locate.c:1423
-#: xargs/xargs.c:1327
+#: xargs/xargs.c:1379
 #, fuzzy
 msgid ""
 "\n"
@@ -892,14 +893,13 @@ msgid "All Filenames: %s\n"
 msgstr ""
 
 #: locate/locate.c:912
-#, c-format
 msgid ""
 "File names have a cumulative length of %1$s bytes.\n"
 "Of those file names,\n"
 "\n"
-"\t%2$s contain whitespace, \n"
-"\t%3$s contain newline characters, \n"
-"\tand %4$s contain characters with the high bit set.\n"
+"\t%s contain whitespace, \n"
+"\t%s contain newline characters, \n"
+"\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
 #: locate/locate.c:926
@@ -922,8 +922,8 @@ msgstr ""
 #: locate/locate.c:1001
 #, c-format
 msgid ""
-"locate database %1$s looks like an slocate database but it seems to have "
-"security level %2$c, which GNU findutils does not currently support"
+"locate database %s looks like an slocate database but it seems to have "
+"security level %c, which GNU findutils does not currently support"
 msgstr ""
 
 #: locate/locate.c:1118
@@ -936,7 +936,7 @@ msgstr ""
 #: locate/locate.c:1132
 #, c-format
 msgid ""
-"%1$s is an slocate database of unsupported security level %2$d; skipping it."
+"%s is an slocate database of unsupported security level %d; skipping it."
 msgstr ""
 
 #: locate/locate.c:1149
@@ -958,7 +958,7 @@ msgstr ""
 
 #: locate/locate.c:1350
 #, c-format
-msgid "Database %1$s is in the %2$s format.\n"
+msgid "Database %s is in the %s format.\n"
 msgstr ""
 
 #: locate/locate.c:1371
@@ -1013,8 +1013,7 @@ msgstr ""
 
 #: locate/locate.c:1867
 #, fuzzy, c-format
-msgid ""
-"warning: database %1$s is more than %2$d %3$s old (actual age is %4$.1f %5$s)"
+msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "varoitus: tietokanta \"%s\" on vanhempi kuin %d %s"
 
 #: locate/word_io.c:97
@@ -1040,72 +1039,72 @@ msgstr ""
 #: xargs/xargs.c:321
 #, c-format
 msgid ""
-"Invalid escape sequence %1$s in input delimiter specification; character "
-"values must not exceed %2$lx."
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lx."
 msgstr ""
 
-#: xargs/xargs.c:328
+#: xargs/xargs.c:327
 #, c-format
 msgid ""
-"Invalid escape sequence %1$s in input delimiter specification; character "
-"values must not exceed %2$lo."
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lo."
 msgstr ""
 
-#: xargs/xargs.c:338
+#: xargs/xargs.c:336
 #, c-format
 msgid ""
-"Invalid escape sequence %1$s in input delimiter specification; the trailing "
-"characters %2$s were not recognised."
+"Invalid escape sequence %s in input delimiter specification; trailing "
+"characters %s not recognised."
 msgstr ""
 
-#: xargs/xargs.c:384
+#: xargs/xargs.c:381
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:403
+#: xargs/xargs.c:398
 msgid "environment is too large for exec"
 msgstr "ympäristö on liian iso \"exec\":ille"
 
-#: xargs/xargs.c:588
+#: xargs/xargs.c:583
 #, c-format
-msgid "warning: value %1$ld for -s option is too large, using %2$ld instead"
+msgid "Warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:653
 #, c-format
 msgid "Cannot open input file %s"
 msgstr ""
 
-#: xargs/xargs.c:693
+#: xargs/xargs.c:689
 #, c-format
 msgid "Your environment variables take up %lu bytes\n"
 msgstr ""
 
-#: xargs/xargs.c:696
+#: xargs/xargs.c:692
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:699
+#: xargs/xargs.c:695
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:702
+#: xargs/xargs.c:698
 #, c-format
 msgid "Maximum length of command we could actually use: %ld\n"
 msgstr ""
 
-#: xargs/xargs.c:706
+#: xargs/xargs.c:702
 #, c-format
 msgid "Size of command buffer we are actually using: %lu\n"
 msgstr ""
 
-#: xargs/xargs.c:712
+#: xargs/xargs.c:708
 #, c-format
 msgid ""
 "\n"
@@ -1114,70 +1113,78 @@ msgid ""
 "of-file keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:720
+#: xargs/xargs.c:716
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
 "then press the interrupt keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:847 xargs/xargs.c:943
+#: xargs/xargs.c:842 xargs/xargs.c:935
+#, c-format
 msgid ""
-"unmatched double quote; by default quotes are special to xargs unless you "
-"use the -0 option"
+"unmatched %s quote; by default quotes are special to xargs unless you use "
+"the -0 option"
 msgstr ""
 
-#: xargs/xargs.c:849 xargs/xargs.c:945
-msgid ""
-"unmatched single quote; by default quotes are special to xargs unless you "
-"use the -0 option"
-msgstr ""
+#: xargs/xargs.c:843 xargs/xargs.c:936
+msgid "double"
+msgstr "kaksinkertainen"
 
-#: xargs/xargs.c:964
+#: xargs/xargs.c:843 xargs/xargs.c:936
+msgid "single"
+msgstr "yksinkertainen"
+
+#: xargs/xargs.c:955
 msgid ""
-"warning: a NUL character occurred in the input.  It cannot be passed through "
+"Warning: a NUL character occurred in the input.  It cannot be passed through "
 "in the argument list.  Did you mean to use the --null option?"
 msgstr ""
 
-#: xargs/xargs.c:974 xargs/xargs.c:1031
+#: xargs/xargs.c:965 xargs/xargs.c:1022
 msgid "argument line too long"
 msgstr "liian pitkä parametririvi"
 
-#: xargs/xargs.c:1204
+#: xargs/xargs.c:1233
 msgid "error waiting for child process"
 msgstr "lapsiprosessin oduksenaikainen virhe"
 
-#: xargs/xargs.c:1220
+#: xargs/xargs.c:1255
+#, c-format
+msgid "Warning: Lost track of %d child processes"
+msgstr ""
+
+#: xargs/xargs.c:1275
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: poistumisstatus 255; keskeytetään"
 
-#: xargs/xargs.c:1222
+#: xargs/xargs.c:1277
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: pysäytetty signaalilla %d"
 
-#: xargs/xargs.c:1224
+#: xargs/xargs.c:1279
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: keskeytetty signaalilla %d"
 
-#: xargs/xargs.c:1277
+#: xargs/xargs.c:1329
 #, fuzzy, c-format
-msgid "%1$s: invalid number for -%2$c option\n"
+msgid "%s: invalid number for -%c option\n"
 msgstr "%s: epäkelpo numero -%c -valitsimelle\n"
 
-#: xargs/xargs.c:1284
+#: xargs/xargs.c:1336
 #, fuzzy, c-format
-msgid "%1$s: value for -%2$c option should be >= %3%ld\n"
+msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c -valitsimelle annetun arvon täytyy olla >= %ld\n"
 
-#: xargs/xargs.c:1298
+#: xargs/xargs.c:1350
 #, fuzzy, c-format
-msgid "%1$s: value for -%2$c option should be < %3$ld\n"
+msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c -valitsimelle annetun arvon täytyy olla < %ld\n"
 
-#: xargs/xargs.c:1316
+#: xargs/xargs.c:1368
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -1201,11 +1208,9 @@ msgstr ""
 "param]\n"
 "       [--no-run-if-empty] [--version] [--help] [komento [alkuparametrit]]\n"
 
-#~ msgid "double"
-#~ msgstr "kaksinkertainen"
-
-#~ msgid "single"
-#~ msgstr "yksinkertainen"
+#, fuzzy
+#~ msgid "%1$s terminated by signal %2$d"
+#~ msgstr "%s keskeytettiin signaalilla %d"
 
 #~ msgid "block size"
 #~ msgstr "lohkokoko"
