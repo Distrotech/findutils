@@ -78,6 +78,7 @@ find.posix/links.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
 find.posix/depth1.xo \
+find.posix/mtime0.xo \
 find.posix/sizes.xo \
 find.posix/name.xo \
 find.posix/nameslash.xo \

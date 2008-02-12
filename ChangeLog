@@ -13,6 +13,9 @@
 	is of type struct timespec, not time_t.
 	(parse_used): Likewise.
 	(parse_time): Likewise.
+	* find/pred.c (pred_timewindow): in the COMP_EQ case, accept times
+	exactly at the end of the window and do not accept times exactly
+	at the start (reversing the previous treatment of the bounds).
 	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Added test for
 	-mtime 0; find.posix/mtime0.{exp,xo}.
 	* NEWS: mention this bugfix.

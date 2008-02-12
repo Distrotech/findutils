@@ -273,7 +273,7 @@ compare_ts(struct timespec ts1,
  * Returns true if THE_TIME is 
  * COMP_GT: after the specified time
  * COMP_LT: before the specified time
- * COMP_EQ: less than WINDOW seconds after the specified time.
+ * COMP_EQ: after the specified time but by not more than WINDOW seconds.
  */
 static boolean
 pred_timewindow(struct timespec ts, struct predicate const *pred_ptr, int window)
@@ -288,8 +288,21 @@ pred_timewindow(struct timespec ts, struct predicate const *pred_ptr, int window
       
     case COMP_EQ:
       {
+	/* consider "find . -mtime 0".
+	 * 
+	 * Here, the origin is exactly 86400 seconds before the start 
+	 * of the program (since -daystart was not specified).   This 
+	 * function will be called with window=86400 and 
+	 * pred_ptr->args.reftime.ts as the origin.  Hence a file 
+	 * created the instant the program starts will show a time 
+	 * difference (value of delta) of 86400.   Similarly, a file 
+	 * created exactly 24h ago would be the newest file which was 
+	 * _not_ created today.   So, if delta is 0.0, the file 
+	 * was not created today.  If the delta is 86400, the file 
+	 * was created this instant.
+	 */
 	double delta = ts_difference(ts, pred_ptr->args.reftime.ts);
-	return (delta >= 0.0 && delta < window);
+	return (delta > 0.0 && delta <= window);
       }
     }
   assert (0);
