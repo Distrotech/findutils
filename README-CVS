@@ -41,6 +41,9 @@ checked out of CVS, rather than from a released source distribution.
     autoconf			   && \
     automake --add-missing --copy
 
+3. (Optional) Update the translations
+
+    rsync -Lrtvz  translationproject.org::tp/latest/findutils/ po
 
 3. Run "configure" and "make" in the normal way.  
 
