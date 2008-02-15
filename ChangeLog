@@ -1,3 +1,9 @@
+2008-02-15  Eric Blake  <ebb9@byu.net>
+
+	Avoid compiler warnings.
+	* find/pred.c (pred_name_common): Remove unused variable.
+	* locate/locate.c (print_stats): Avoid undefined format string.
+
 2008-02-15  James Youngman  <jay@gnu.org>
 
 	* README-CVS: Explain how to update the translations from the
@@ -11,7 +17,7 @@
 
 	* lib/Makefile.am (LDADD): Use @LIBINTL@ instead of @INTLLIBS@.
 
-	* xargs/xargs.1: Fix a couple of typos.	
+	* xargs/xargs.1: Fix a couple of typos.
 
 2008-02-12  James Youngman  <jay@gnu.org>
 
@@ -19,7 +25,7 @@
 	* po/de.po, po/ga.po, po/nl.po, po/pl.po, po/vi.po: Updated from
 	the Translation Project.
 
-        Fix Savannah bug #22056, -Xtime tests are off by one second.
+	Fix Savannah bug #22056, -Xtime tests are off by one second.
 	* find/defs.h (struct options): Change cur_day_start from time_t
 	to strct timespec.
 	* find/util.c (set_option_defaults): Likewise.
@@ -56,7 +62,7 @@
 
 	* find/find.c (ngettext): Introduce a new macro to help with
 	internationalising plurals.   Use it to allow better
-        translations of format strings.
+	translations of format strings.
 	* locate/locate.c: Likewise.
 
 2008-01-07  James Youngman  <jay@gnu.org>
@@ -91,7 +97,7 @@
 
 	* find/fstype.c, find/ftsfind.c, find/parser.c, find/pred.c,
 	find/tree.c, lib/regextype.c, locate/locate.c, xargs/xargs.c,
-	find.c: Backed out positional paremeter change, as the use of 
+	find.c: Backed out positional paremeter change, as the use of
 	positional parameters was over-complex and unnecessary.  We'll
 	re-apply the pluralisation support change soon, but without the
 	positional parameters.
@@ -106,22 +112,22 @@
 	* find/find.c (wd_sanity_check): Corrected typo in the format
 	string for an error message, which might cause a crash in
 	"oldfind" if a directory we moved into turned out to be a symbolic
-	link that moved while we were trying to change directory. 
+	link that moved while we were trying to change directory.
 
 2007-12-20  James Youngman  <jay@gnu.org>
 
 	* configure.ac: Advance the version number, as we are moving on
-	from 4.3.12.  
+	from 4.3.12.
 	* NEWS: Likewise
 
 2007-12-19  James Youngman  <jay@gnu.org>
 
-	* find/find.c (ngettext): Introduce a new macro to help with 
+	* find/find.c (ngettext): Introduce a new macro to help with
 	internationalising plurals.   Use it with positional parameters in
 	order to allow better translations of format strings.
 	* find/fstype.c, find/ftsfind.c, find/parser.c, find/pred.c,
 	find/tree.c, lib/regextype.c, locate/locate.c, xargs/xargs.c: Likewise.
-	
+
 2007-12-19  Benno Schulenberg <coordinator@translationproject.org> (tiny change)
 
 	* find/find.1: Corrected two typos.
@@ -237,7 +243,7 @@
 	* .gitignore: Ignore gnulib-git, not gnulib-cvs
 	* .cvsignore: Ditto
 	* Makefile.am (findutils-check-smells): Change from gnulib-cvs to
-        gnulib-git.
+	gnulib-git.
 	* README-CVS: Mention the extra dependency on git.
 	* NEWS: Mention this change.
 

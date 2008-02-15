@@ -1,6 +1,6 @@
 /* locate -- search databases for filenames that match patterns
    Copyright (C) 1994, 1996, 1998, 1999, 2000, 2003,
-                 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+                 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -909,7 +909,7 @@ print_stats(int argc, size_t database_file_size)
   /* XXX: We would ideally use ngettext() here, but I don't know 
    *      how to use it to handle more than one possibly-plural thing/
    */
-  printf(_("File names have a cumulative length of %1$s bytes.\n"
+  printf(_("File names have a cumulative length of %s bytes.\n"
 	   "Of those file names,\n"
 	   "\n\t%s contain whitespace, "
 	   "\n\t%s contain newline characters, "

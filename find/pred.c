@@ -1,6 +1,6 @@
 /* pred.c -- execute the expression tree.
    Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2003, 
-                 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+                 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1185,7 +1185,6 @@ pred_ilname (const char *pathname, struct stat *stat_buf, struct predicate *pred
 static boolean
 pred_name_common (const char *pathname, const char *str, int flags)
 {
-  char *p;
   boolean b;
   /* We used to use last_component() here, but that would not allow us to modify the 
    * input string, which is const.   We could optimise by duplicating the string only
