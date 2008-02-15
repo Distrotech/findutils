@@ -40,8 +40,11 @@ checked out of CVS, rather than from a released source distribution.
     autoconf			   && \
     automake --add-missing --copy
 
+3. (Optional) Update the translations
 
-3. Run "configure" and "make" in the normal way.  
+    rsync -Lrtvz  translationproject.org::tp/latest/findutils_stable/  po
+
+4. Run "configure" and "make" in the normal way.  
 
  If you have GNU libintl installed, you can just run "configure".
  Otherwise, run "configure --disable-nls".
