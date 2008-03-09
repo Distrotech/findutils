@@ -84,12 +84,12 @@ static void process_dir PARAMS((char *pathname, char *name, int pathlen, const s
 
 
 /* Name this program was run with. */
-char *program_name;
+extern char *program_name;
 
 /* A file descriptor open to the initial working directory.
    Doing it this way allows us to work when the i.w.d. has
    unreadable parents.  */
-int starting_desc;
+extern int starting_desc;
 
 /* The stat buffer of the initial working directory. */
 static struct stat starting_stat_buf;
