@@ -450,6 +450,15 @@ $ find /tmp/foo -path /tmp/foo/bar -print
 Notice that the second @code{find} command prints nothing, even though
 @file{/tmp/foo/bar} exists and was examined by @code{find}.
 
+Unlike file name expansion on the command line, a @samp{*} in the pattern
+will match both @samp{/} and leading dots in file names:
+
+@example
+$ find .  -path '*f'
+./quux/bar/baz/f
+$ find .  -path '*/*config'
+./quux/bar/baz/.config
+@end example
 
 
 @deffn Test -regex expr
