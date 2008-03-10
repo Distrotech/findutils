@@ -2,10 +2,15 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 * Major changes in release 4.3.14-CVS
 
+** Bug Fixes
+
+#15472: Error messages that print ino_t values are no longer truncated
+on platforms with 64-bit ino_t.
+
 ** Documentation Fixes
 
 #20873: Indicate that * matches / and leading dot in filenames for
-"find -path". 
+"find -path".
 
 * Major changes in release 4.3.13, 2008-02-14
 
@@ -1398,3 +1403,12 @@ LocalWords: strncasecmp strcasecmp LIBOBJS FUNC prunefs allout libexec
 LocalWords: testsuite Texinfo chdir inode fstype afs fls ls EOF lname
 LocalWords: regex ilname iname ipath iregex printf fprintf
 
+Copyright (C) 1996, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007,
+2008 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the ``GNU Free
+Documentation License'' file as part of this distribution.

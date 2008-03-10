@@ -1,3 +1,10 @@
+2008-03-10  Eric Blake  <ebb9@byu.net>
+
+	Don't truncate printed ino values.  Fixes Savannah bug #15472.
+	* find/find.c (wd_sanity_check): Use PRIuMAX for platforms with
+	64-bit ino_t.
+	* NEWS: Document this.
+
 2008-03-10  Jim Meyering  <meyering@redhat.com>
 
 	Rename local and member "dirfd" to avoid shadowing the function.
@@ -20,7 +27,7 @@
 
 	Avoid link failure with -fno-common.
 	* locate/code.c (program_name): Declare "extern".
-	
+
 2008-03-09  James Youngman  <jay@gnu.org>
 
 	Fix (documentation) bug #20873, / and . in file names for -path.
@@ -28,14 +35,14 @@
 	-path" pattern will match both / and leading dots.
 
 2008-03-08  Jim Meyering  <meyering@redhat.com>
- 
+
 	Fix doc typos.
-	* doc/find-maint.texi (Security): s/ongest/longest/ 
-	(Making Releases): s/the the/the/ 
+	* doc/find-maint.texi (Security): s/ongest/longest/
+	(Making Releases): s/the the/the/
 
 	Avoid link failure with gcc -fno-common.
 	* find.c (program_name, starting_desc): Declare "extern".
-	
+
 2008-02-15  Eric Blake  <ebb9@byu.net>
 
 	Avoid compiler warnings.
@@ -7505,3 +7512,13 @@ Wed Mar 21 09:30:18 1990  David J. MacKenzie  (djm at pogo.ai.mit.edu)
 87/02/21  22:19:25  22:19:25  cire (Eric B. Decker)
 
 	* defs.h: added global convert_glob for name
+
+	-----
+
+	Copyright (C) 1987, 1990, 1991, 1992, 1993, 1994, 1996, 1997,
+	1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007 Free Software
+	Foundation, Inc.
+
+	Copying and distribution of this file, with or without
+	modification, are permitted provided the copyright notice
+	and this notice are preserved.

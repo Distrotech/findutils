@@ -1,6 +1,6 @@
 /* find -- search for files in a directory hierarchy
    Copyright (C) 1990, 91, 92, 93, 94, 2000, 
-                 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
+                 2003, 2004, 2005, 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -526,12 +526,13 @@ wd_sanity_check(const char *thing_to_stat,
       error ((isfatal == FATAL_IF_SANITY_CHECK_FAILS) ? 1 : 0,
 	     0,			/* no relevant errno value */
 	     _("%s%s changed during execution of %s "
-	       "(old inode number %ld, new inode number %ld, file system type is %s) [ref %ld]"),
+	       "(old inode number %" PRIuMAX ", new inode number %" PRIuMAX
+	       ", file system type is %s) [ref %ld]"),
 	     safely_quote_err_filename(0, specific_what), 
 	     parent ? "/.." : "",
 	     safely_quote_err_filename(1, progname),
-	     (long) old_ino,
-	     (long) newinfo->st_ino,
+	     (uintmax_t) old_ino,
+	     (uintmax_t) newinfo->st_ino,
 	     fstype,
 	     (long)line_no);
       free(specific_what);
