@@ -1,5 +1,5 @@
 /* code -- bigram- and front-encode filenames for locate
-   Copyright (C) 1994, 2005, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1994, 2005, 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@
 
 
 /* The name this program was run with.  */
-const char *program_name;
+extern const char *program_name;
 
 /* The 128 most common bigrams in the file list, padded with NULs
    if there are fewer.  */
