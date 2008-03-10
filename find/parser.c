@@ -1,6 +1,6 @@
 /* parser.c -- convert the command line args into an expression tree.
-   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2001, 2003, 
-                 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2001, 2003,
+                 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -178,7 +178,7 @@ static struct segment **make_segment PARAMS((struct segment **segment,
 					     struct predicate *pred));
 static boolean insert_exec_ok PARAMS((const char *action,
 				      const struct parser_table *entry,
-				      int dirfd,
+				      int dir_fd,
 				      char *argv[],
 				      int *arg_ptr));
 static boolean get_comp_type PARAMS((const char **str,
@@ -3001,7 +3001,7 @@ check_path_safety(const char *action, char **argv)
 static boolean
 new_insert_exec_ok (const char *action,
 		    const struct parser_table *entry,
-		    int dirfd,
+		    int dir_fd,
 		    char **argv,
 		    int *arg_ptr)
 {
@@ -3205,11 +3205,11 @@ new_insert_exec_ok (const char *action,
 static boolean
 insert_exec_ok (const char *action,
 		const struct parser_table *entry,
-		int dirfd,
+		int dir_fd,
 		char **argv,
 		int *arg_ptr)
 {
-  return new_insert_exec_ok(action, entry, dirfd, argv, arg_ptr);
+  return new_insert_exec_ok(action, entry, dir_fd, argv, arg_ptr);
 }
 
 

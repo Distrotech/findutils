@@ -1,5 +1,6 @@
 /* util.c -- functions for initializing new tree elements, and other things.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005,
+                 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -288,14 +289,14 @@ check_nofollow(void)
  * have no effect if there are no arguments waiting).
  */
 static void
-do_complete_pending_execdirs(struct predicate *p, int dirfd)
+do_complete_pending_execdirs(struct predicate *p, int dir_fd)
 {
   if (NULL == p)
     return;
   
   assert (state.execdirs_outstanding);
   
-  do_complete_pending_execdirs(p->pred_left, dirfd);
+  do_complete_pending_execdirs(p->pred_left, dir_fd);
   
   if (pred_is(p, pred_execdir) || pred_is(p, pred_okdir))
     {
@@ -315,15 +316,15 @@ do_complete_pending_execdirs(struct predicate *p, int dirfd)
 	}
     }
 
-  do_complete_pending_execdirs(p->pred_right, dirfd);
+  do_complete_pending_execdirs(p->pred_right, dir_fd);
 }
 
 void
-complete_pending_execdirs(int dirfd)
+complete_pending_execdirs(int dir_fd)
 {
   if (state.execdirs_outstanding)
     {
-      do_complete_pending_execdirs(get_eval_tree(), dirfd);
+      do_complete_pending_execdirs(get_eval_tree(), dir_fd);
       state.execdirs_outstanding = false;
     }
 }

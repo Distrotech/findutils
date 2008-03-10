@@ -1,5 +1,5 @@
 /* listfile.h -- display a long listing of a file
-   Copyright (C) 2007 Free Software Foundation, Inc.
+   Copyright (C) 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,6 @@
 #if !defined DIRCALLBACK_H
 # define DIRCALLBACK_H
 
-int run_in_dir (int dirfd, int (*callback)(void*), void *usercontext);
+int run_in_dir (int dir_fd, int (*callback)(void*), void *usercontext);
 
 #endif

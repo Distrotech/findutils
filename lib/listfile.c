@@ -1,5 +1,6 @@
 /* listfile.c -- display a long listing of a file
-   Copyright (C) 1991, 1993, 2000, 2004, 2005, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1991, 1993, 2000, 2004, 2005, 2007,
+                 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -185,7 +186,7 @@ file_blocksize(const struct stat *p)
 
 void
 list_file (const char *name,
-	   int dirfd, 
+	   int dir_fd,
 	   char *relname,
 	   const struct stat *statp,
 	   time_t current_time,
@@ -299,7 +300,7 @@ list_file (const char *name,
 #ifdef S_ISLNK
   if (S_ISLNK (statp->st_mode))
     {
-      char *linkname = get_link_name_at (name, dirfd, relname);
+      char *linkname = get_link_name_at (name, dir_fd, relname);
 
       if (linkname)
 	{
@@ -417,13 +418,13 @@ get_link_name_cb(void *context)
 }
 
 char *
-get_link_name_at (const char *name, int dirfd, char *relname)
+get_link_name_at (const char *name, int dir_fd, char *relname)
 {
   struct link_name_args args;
   args.result = NULL;
   args.name = name;
   args.relname = relname;
-  if (0 == run_in_dir(dirfd, get_link_name_cb, &args))
+  if (0 == run_in_dir(dir_fd, get_link_name_cb, &args))
     return args.result;
   else
     return NULL;

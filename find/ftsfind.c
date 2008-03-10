@@ -1,6 +1,6 @@
 /* find -- search for files in a directory hierarchy (fts version)
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 
-                 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005, 2006,
+                 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -133,34 +133,34 @@ static void left_dir(void)
 }
 
 /*
- * Signal that we are now inside a directory pointed to by dirfd.
+ * Signal that we are now inside a directory pointed to by dir_fd.
  * The caller can't tell if this is the first time this happens, so 
  * we have to be careful not to call dup() more than once 
  */
-static void inside_dir(int dirfd)
+static void inside_dir(int dir_fd)
 {
   if (ftsoptions & FTS_CWDFD)
     {
-      assert (dirfd == AT_FDCWD || dirfd >= 0);
+      assert (dir_fd == AT_FDCWD || dir_fd >= 0);
       
-      state.cwd_dir_fd = dirfd;
+      state.cwd_dir_fd = dir_fd;
       if (curr_fd < 0)
 	{
-	  if (AT_FDCWD == dirfd)
+	  if (AT_FDCWD == dir_fd)
 	    {
 	      curr_fd = AT_FDCWD;
 	    }
-	  else if (dirfd >= 0)
+	  else if (dir_fd >= 0)
 	    {
-	      curr_fd = dup(dirfd);
+	      curr_fd = dup(dir_fd);
 	      set_close_on_exec(curr_fd);
 	    }
 	  else 
 	    {
-	      /* curr_fd is invalid, but dirfd is also invalid.
+	      /* curr_fd is invalid, but dir_fd is also invalid.
 	       * This should not have happened.
 	       */
-	      assert (curr_fd >= 0 || dirfd >= 0);
+	      assert (curr_fd >= 0 || dir_fd >= 0);
 	    }
 	}
     }

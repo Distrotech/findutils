@@ -1,5 +1,5 @@
 /* buildcmd.[ch] -- build command lines from a stream of arguments
-   Copyright (C) 2005 Free Software Foundation, Inc.
+   Copyright (C) 2005, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ struct buildcmd_state
   int todo;
 
   /* Directory in which to perform the exec. */
-  int dirfd;
+  int dir_fd;
 };
 
 struct buildcmd_control

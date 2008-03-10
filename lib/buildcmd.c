@@ -1,5 +1,6 @@
 /* buildcmd.c -- build command lines from a list of arguments.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2005, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2005, 2006,
+                 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -538,7 +539,7 @@ bc_init_state(const struct buildcmd_control *ctl,
   
   state->cmd_argv_chars = state->cmd_initial_argv_chars = 0;
   state->todo = 0;
-  state->dirfd = -1;
+  state->dir_fd = -1;
   state->usercontext = context;
 }
 
@@ -549,5 +550,5 @@ bc_clear_args(const struct buildcmd_control *ctl,
   state->cmd_argc = ctl->initial_argc;
   state->cmd_argv_chars = state->cmd_initial_argv_chars;
   state->todo = 0;
-  state->dirfd = -1;
+  state->dir_fd = -1;
 }

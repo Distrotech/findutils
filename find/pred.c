@@ -1,5 +1,5 @@
 /* pred.c -- execute the expression tree.
-   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2003, 
+   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2003,
                  2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -499,7 +499,7 @@ pred_empty (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 }
 
 static boolean
-new_impl_pred_exec (int dirfd, const char *pathname,
+new_impl_pred_exec (int dir_fd, const char *pathname,
 		    struct stat *stat_buf,
 		    struct predicate *pred_ptr,
 		    const char *prefix, size_t pfxlen)
@@ -508,7 +508,7 @@ new_impl_pred_exec (int dirfd, const char *pathname,
   size_t len = strlen(pathname);
 
   (void) stat_buf;
-  execp->dirfd = dirfd;
+  execp->dir_fd = dir_fd;
   if (execp->multiple)
     {
       /* Push the argument onto the current list. 
@@ -1862,7 +1862,7 @@ pred_xtype (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 
 
 static boolean
-prep_child_for_exec (boolean close_stdin, int dirfd)
+prep_child_for_exec (boolean close_stdin, int dir_fd)
 {
   boolean ok = true;
   if (close_stdin)
@@ -1898,10 +1898,10 @@ prep_child_for_exec (boolean close_stdin, int dirfd)
    * announcement of a call to stat() anyway, as we're about to exec
    * something.
    */
-  if (dirfd != AT_FDCWD)
+  if (dir_fd != AT_FDCWD)
     {
-      assert (dirfd >= 0);
-      if (0 != fchdir(dirfd))
+      assert (dir_fd >= 0);
+      if (0 != fchdir(dir_fd))
 	{
 	  /* If we cannot execute our command in the correct directory,
 	   * we should not execute it at all.
@@ -1927,7 +1927,7 @@ launch (const struct buildcmd_control *ctl,
   if (!execp->use_current_dir)
     {
       assert (starting_desc >= 0);
-      assert (execp->dirfd == starting_desc);
+      assert (execp->dir_fd == starting_desc);
     }
   
 	
@@ -1952,7 +1952,7 @@ launch (const struct buildcmd_control *ctl,
     {
       /* We are the child. */
       assert (starting_desc >= 0);
-      if (!prep_child_for_exec(execp->close_stdin, execp->dirfd))
+      if (!prep_child_for_exec(execp->close_stdin, execp->dir_fd))
 	{
 	  _exit(1);
 	}

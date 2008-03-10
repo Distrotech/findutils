@@ -1,5 +1,6 @@
 /* defs.h -- data types and declarations.
-   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1990, 91, 92, 93, 94, 2000, 2004, 2005,
+                 2006, 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -196,7 +197,7 @@ struct exec_val
   int num_args;
   boolean use_current_dir;      /* If nonzero, don't chdir to start dir */
   boolean close_stdin;		/* If true, close stdin in the child. */
-  int dirfd;			/* The directory to do the exec in. */
+  int dir_fd;			/* The directory to do the exec in. */
 };
 
 /* The format string for a -printf or -fprintf is chopped into one or
@@ -489,7 +490,7 @@ struct predicate *insert_primary_withpred PARAMS((const struct parser_table *ent
 void usage PARAMS((FILE *fp, int status, char *msg));
 extern boolean check_nofollow(void);
 void complete_pending_execs(struct predicate *p);
-void complete_pending_execdirs(int dirfd); /* Passing dirfd is an unpleasant CodeSmell. */
+void complete_pending_execdirs(int dir_fd); /* Passing dir_fd is an unpleasant CodeSmell. */
 const char *safely_quote_err_filename (int n, char const *arg);
 void fatal_file_error(const char *name) ATTRIBUTE_NORETURN;
 void nonfatal_file_error(const char *name);

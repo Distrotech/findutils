@@ -1,3 +1,23 @@
+2008-03-10  Jim Meyering  <meyering@redhat.com>
+
+	Rename local and member "dirfd" to avoid shadowing the function.
+	This avoids many warnings from gcc -Wshadow:
+	* lib/buildcmd.h (struct buildcmd_state) [dir_fd]: Rename member
+	from dirfd.
+	* find/defs.h (struct exec_val) [dir_fd]: Likewise.
+	Rename parameter in prototype.
+	* find/ftsfind.c (inside_dir): Rename parameter: s/dirfd/dir_fd/
+	* find/parser.c (new_insert_exec_ok, insert_exec_ok): Likewise.
+	* find/pred.c (new_impl_pred_exec, prep_child_for_exec, launch):
+	s/dirfd/dir_fd/
+	* find/util.c (do_complete_pending_execdirs): Likewise.
+	(complete_pending_execdirs): Likewise
+	* lib/buildcmd.c (bc_init_state, bc_clear_args): Likewise.
+	* lib/dircallback.c (run_in_dir): Likewise.
+	* lib/dircallback.h (DIRCALLBACK_H): Likewise.
+	* lib/listfile.c (list_file, get_link_name_at): Likewise.
+	* lib/listfile.h (LISTFILE_H): Likewise.
+
 2008-03-09  James Youngman  <jay@gnu.org>
 
 	Fix (documentation) bug #20873, / and . in file names for -path.

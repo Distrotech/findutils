@@ -1,5 +1,5 @@
 /* listfile.c -- run a function in a specific directory
-   Copyright (C) 2007 Free Software Foundation, Inc.
+   Copyright (C) 2007, 2008 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -59,9 +59,9 @@
 
 
 int
-run_in_dir (int dirfd, int (*callback)(void*), void *usercontext)
+run_in_dir (int dir_fd, int (*callback)(void*), void *usercontext)
 {
-  if (dirfd == AT_FDCWD)
+  if (dir_fd == AT_FDCWD)
     {
       return (*callback)(usercontext);
     }
@@ -74,7 +74,7 @@ run_in_dir (int dirfd, int (*callback)(void*), void *usercontext)
       if (save_cwd (&saved_cwd) != 0)
 	openat_save_fail (errno);
       
-      if (fchdir (dirfd) != 0)
+      if (fchdir (dir_fd) != 0)
 	{
 	  saved_errno = errno;
 	  free_cwd (&saved_cwd);
