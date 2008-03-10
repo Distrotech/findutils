@@ -665,7 +665,7 @@ option is a half-way-between option which ensures that any symbolic
 links listed on the command line are dereferenced, but other symbolic
 links are not.
 
-Symbolic links are different to ``hard links'' in the sense that you
+Symbolic links are different from ``hard links'' in the sense that you
 need permission to search the directories
 in the linked-to file name to
 dereference the link.  This can mean that even if you specify the
@@ -996,7 +996,7 @@ Gigabytes (units of 1073741824 bytes)
 
 The `b' suffix always considers blocks to be 512 bytes.  This is not
 affected by the setting (or non-setting) of the POSIXLY_CORRECT
-environment variable.  This behaviour is different to the behaviour of
+environment variable.  This behaviour is different from the behaviour of
 the @samp{-ls} action).  If you want to use 1024-byte units, use the
 `k' suffix instead.
 
@@ -2499,7 +2499,7 @@ somecommand | xargs -s 50000 echo | xargs -I '@{@}' -s 100000 rm '@{@}'
 Here, the first invocation of @code{xargs} has no input line length
 limit because it doesn't use the @samp{-I} option. The second
 invocation of @code{xargs} does have such a limit, but we have ensured
-that the it never encounters a line which is longer than it can
+that it never encounters a line which is longer than it can
 handle.  
 
 This is not an ideal solution.  Instead, the @samp{-I} option should
@@ -3228,14 +3228,14 @@ compatibility with BSD's @code{locate}.
 @item --null
 @itemx -0
 Results are separated with the ASCII NUL character rather than the
-newline character.  To get the full benefit of the use of this option,
+newline character.  To get the full benefit of this option,
 use the new @code{locate} database format (that is the default
 anyway).
 
 @item --print
 @itemx -p
-Print search results when they normally would not, because of the
-presence of @samp{--statistics} (@samp{-S}) or @samp{--count}
+Print search results when they normally would not be due to
+use of @samp{--statistics} (@samp{-S}) or @samp{--count}
 (@samp{-c}).
 
 @item --wholename
@@ -4791,7 +4791,7 @@ properties of your system.
 If your system supports the O_NOFOLLOW flag @footnote{GNU/Linux
 (kernel version 2.1.126 and later) and FreeBSD (3.0-CURRENT and later)
 support this} to the @code{open(2)} system call, @code{find} uses it
-when safely changing directory.  The target directory is first opened
+to safely change directories.  The target directory is first opened
 and then @code{find} changes working directory with the
 @code{fchdir()} system call.  This ensures that symbolic links are not
 followed, preventing the sort of race condition attack in which use
@@ -5121,7 +5121,7 @@ This usually happens if you have an extra bracket on the command line
 @item Warning: filesystem /path/foo has recently been mounted
 @itemx Warning: filesystem /path/foo has recently been unmounted
 These messages might appear when @code{find} moves into a directory
-and finds that the device number and inode are different to what it
+and finds that the device number and inode are different from what it
 expected them to be.  If the directory @code{find} has moved into is
 on an network filesystem (NFS), it will not issue this message, because
 @code{automount} frequently mounts new filesystems on directories as
@@ -5161,7 +5161,7 @@ time consuming operation, somebody has moved one of the parent directories to
 another location in the same filesystem.  This may or may not have been done
 maliciously.  In any case, @code{find} stops at this point
 to avoid traversing parts of the filesystem that it wasn't
-intended.  You can use @code{ls -li} or @code{find /path -inum
+intended to.  You can use @code{ls -li} or @code{find /path -inum
 12345 -o -inum 67893} to find out more about what has happened.
 
 @item sanity check of the fnmatch() library function failed.
