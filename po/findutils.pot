@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-02-12 12:11+0000\n"
+"POT-Creation-Date: 2008-03-15 11:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -263,23 +263,23 @@ msgstr ""
 #: find/find.c:528
 #, c-format
 msgid ""
-"%s%s changed during execution of %s (old inode number %ld, new inode number %"
-"ld, file system type is %s) [ref %ld]"
+"%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
+"number %<PRIuMAX>, file system type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:1011
+#: find/find.c:1012
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr ""
 
-#: find/find.c:1108 find/ftsfind.c:284
+#: find/find.c:1109 find/ftsfind.c:284
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1127
+#: find/find.c:1128
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -290,12 +290,12 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: find/find.c:1378
+#: find/find.c:1379
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1422
+#: find/find.c:1423
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
@@ -314,7 +314,7 @@ msgid ""
 "File system loop detected; %s is part of the same file system loop as %s."
 msgstr ""
 
-#: find/ftsfind.c:488 find/util.c:200
+#: find/ftsfind.c:488 find/util.c:201
 #, c-format
 msgid "Warning: file %s appears to have mode 0000"
 msgstr ""
@@ -577,34 +577,34 @@ msgstr ""
 msgid "cannot delete %s"
 msgstr ""
 
-#: find/pred.c:1363
+#: find/pred.c:1362
 #, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr ""
 
-#: find/pred.c:1427
+#: find/pred.c:1426
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr ""
 
-#: find/pred.c:1875
+#: find/pred.c:1874
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1910
+#: find/pred.c:1909
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1951 xargs/xargs.c:1137
+#: find/pred.c:1950 xargs/xargs.c:1137
 msgid "cannot fork"
 msgstr ""
 
-#: find/pred.c:1976
+#: find/pred.c:1975
 #, c-format
 msgid "error waiting for %s"
 msgstr ""
 
-#: find/pred.c:1985
+#: find/pred.c:1984
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr ""
@@ -702,60 +702,60 @@ msgstr ""
 msgid "oops -- invalid default insertion of and!"
 msgstr ""
 
-#: find/util.c:157
+#: find/util.c:158
 #, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgstr ""
 
-#: find/util.c:159
+#: find/util.c:160
 #, c-format
 msgid "] [path...] [expression]\n"
 msgstr ""
 
-#: find/util.c:748
+#: find/util.c:749
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr ""
 
-#: find/util.c:755
+#: find/util.c:756
 msgid "Empty argument to the -D option."
 msgstr ""
 
-#: find/util.c:769
+#: find/util.c:770
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr ""
 
-#: find/util.c:778 find/util.c:788
+#: find/util.c:779 find/util.c:789
 msgid "Please specify a decimal number immediately after -O"
 msgstr ""
 
-#: find/util.c:793 find/util.c:797
+#: find/util.c:794 find/util.c:798
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr ""
 
-#: find/util.c:804
+#: find/util.c:805
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:947
+#: find/util.c:948
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
 
-#: lib/buildcmd.c:196
+#: lib/buildcmd.c:197
 msgid "command too long"
 msgstr ""
 
-#: lib/buildcmd.c:288
+#: lib/buildcmd.c:289
 msgid "can not fit single argument within argument list size limit"
 msgstr ""
 
-#: lib/buildcmd.c:293
+#: lib/buildcmd.c:294
 msgid "argument list too long"
 msgstr ""
 
@@ -864,8 +864,9 @@ msgid "All Filenames: %s\n"
 msgstr ""
 
 #: locate/locate.c:912
+#, c-format
 msgid ""
-"File names have a cumulative length of %1$s bytes.\n"
+"File names have a cumulative length of %s bytes.\n"
 "Of those file names,\n"
 "\n"
 "\t%s contain whitespace, \n"
