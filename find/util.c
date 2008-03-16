@@ -941,7 +941,7 @@ set_option_defaults(struct options *p)
     p->output_block_size = 1024;
 
   p->debug_options = 0uL;
-  p->optimisation_level = 0;
+  p->optimisation_level = 2;
   
   if (getenv("FIND_BLOCK_SIZE"))
     {
