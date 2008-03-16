@@ -1,6 +1,23 @@
 GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
-* Major changes in release 4.3.14-CVS
+* Major changes in release 4.5.0-CVS
+
+** Performance changes
+
+The default optimisation level for find is now -O2 instead of -O0,
+meaning that a number of additional optimisations are performed by
+default.   Current optimisations at each level are:
+
+0:	Perform -name, -path, -iname, -ipath before other checks.
+1:	Expressions containing only cost-free tests are evaluated
+        before expressions which contain more costly tests.  
+2: 	Bring forward all tests that need to know the type of a file 
+        but don't need to stat it.
+3: 	All tests are ordered by their estimated cost.  
+
+Cost here is simply an estimate of how time consuming the I/O
+operations needed to make a test are.
+
 
 ** Bug Fixes
 
