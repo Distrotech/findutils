@@ -465,7 +465,7 @@ PREDICATEFUNCTION pred_xtype;
 
 
 
-int launch PARAMS((const struct buildcmd_control *ctl,
+int launch PARAMS((struct buildcmd_control *ctl,
 		   struct buildcmd_state *buildstate));
 
 

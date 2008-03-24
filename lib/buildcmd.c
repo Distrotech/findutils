@@ -16,29 +16,6 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*
- XXX_SOC:
-
- One of the aspects of the SOC project is to adapt this module.
- This module currently makes an initial guess at two things:
-
-   buildcmd_control->arg_max   (The most characters we can fit in)
-   buildcmd_control->max_arg_count (most args)
-
- The nature of the SOC task is to adjust these values when exec fails.
- Optionally (if we have the time) we can make the software adjust them
- when exec succeeds.  If we do the latter, we need to ensure we don't
- get into some state where we are sitting just below the limit and
- keep trying to extend, because that would lead to every other exec
- failing.
-
- If our initial guess is successful, there is no pressing need really to
- increase our guess.  Indeed, if we are beign called by xargs (as opposed
- to find) th user may have specified a limit with "-s" and we should not
- exceed it.
-*/
-
-
 #include <config.h>
 
 # ifndef PARAMS
@@ -116,7 +93,7 @@ extern char **environ;
    Those restrictions do not exist here.  */
 
 void
-bc_do_insert (const struct buildcmd_control *ctl,
+bc_do_insert (struct buildcmd_control *ctl,
               struct buildcmd_state *state,
               char *arg, size_t arglen,
               const char *prefix, size_t pfxlen,
@@ -191,29 +168,103 @@ bc_do_insert (const struct buildcmd_control *ctl,
                initial_args);
 }
 
-static
-void do_exec(const struct buildcmd_control *ctl,
-             struct buildcmd_state *state)
+/* get the length of a zero-terminated string array */
+static unsigned int 
+get_stringv_len(char** sv)
 {
-  /* XXX_SOC:
+    char** p = sv;
 
-     Here we are calling the user's function.  Currently there is no
-     way for it to report that the argument list was too long.  We
-     should introduce an externally callable function that allows them
-     to report this.
+    while (*p++);
 
-     If the callee does report that the exec failed, we need to retry
-     the exec with a shorter argument list.  Once we have reduced the
-     argument list to the point where the exec can succeed, we need to
-     preserve the list of arguments we couldn't exec this time.
+    return (p - sv - 1);
+}
 
-     This also means that the control argument here probably needs not
-     to be const (since the limits are in the control arg).
 
-     The caller's only requirement on do_exec is that it should
-     free up enough room for at least one argument.
-   */
-  (ctl->exec_callback)(ctl, state);
+void 
+bc_do_exec(struct buildcmd_control *ctl,
+	   struct buildcmd_state *state)
+{
+    bc_push_arg (ctl, state,
+            (char *) NULL, 0,
+            NULL, 0,
+            false); /* Null terminate the arg list.  */
+   
+    /* save original argv data so we can free the memory later */
+    int argc_orig = state->cmd_argc;
+    char** argv_orig = state->cmd_argv;
+
+    if ((ctl->exec_callback)(ctl, state))
+        goto fin;
+
+    /* got E2BIG, adjust arguments */
+    char** initial_args = xmalloc(ctl->initial_argc * sizeof(char*));
+    int i;
+    for (i=0; i<ctl->initial_argc; ++i)
+        initial_args[i] = argv_orig[i];
+
+    state->cmd_argc -= ctl->initial_argc;
+    state->cmd_argv += ctl->initial_argc;
+
+
+    int pos;
+    int done = 0; /* number of argv elements we have relayed successfully */
+
+    int argc_current = state->cmd_argc;
+
+    pos = -1; /* array offset from the right end */
+
+    for (;;)
+    {
+        int divider = argc_current+pos;
+        char* swapped_out = state->cmd_argv[divider];
+        state->cmd_argv[divider] = NULL;
+        state->cmd_argc = get_stringv_len (state->cmd_argv);
+
+        if (state->cmd_argc < 1)
+            error(1, 0, "can't call exec() due to argument size restrictions");
+
+        /* prepend initial args */
+        state->cmd_argv -= ctl->initial_argc;
+        state->cmd_argc += ctl->initial_argc;
+        for (i=0; i<ctl->initial_argc; ++i)
+            state->cmd_argv[i] = initial_args[i];
+
+        ++state->cmd_argc; /* include trailing NULL */
+        int r = (ctl->exec_callback)(ctl, state);
+        state->cmd_argv += ctl->initial_argc;
+        state->cmd_argc -= ctl->initial_argc;
+        --state->cmd_argc; /* exclude trailing NULL again */
+
+        if (r)
+        {
+            /* success */
+            done += state->cmd_argc; 
+
+            /* check whether we have any left */
+            if (argc_orig - done > ctl->initial_argc)
+            {
+                state->cmd_argv[divider] = swapped_out;
+                state->cmd_argv += divider;
+
+                argc_current -= state->cmd_argc;
+                pos = -1;
+            }
+            else
+                goto fin;
+        }
+        else
+        {
+            /* failure, make smaller */
+            state->cmd_argv[divider] = swapped_out;
+            --pos;
+        }
+    }
+
+
+fin:
+    state->cmd_argv = argv_orig;
+
+    bc_clear_args(ctl, state);
 }
 
 
@@ -253,7 +304,7 @@ bc_argc_limit_reached(int initial_args,
  *      for greater clarity.
  */
 void
-bc_push_arg (const struct buildcmd_control *ctl,
+bc_push_arg (struct buildcmd_control *ctl,
              struct buildcmd_state *state,
              const char *arg, size_t len,
              const char *prefix, size_t pfxlen,
@@ -266,11 +317,6 @@ bc_push_arg (const struct buildcmd_control *ctl,
 
   if (arg)
     {
-      /* XXX_SOC: if do_exec() is only guaranteeed to free up one
-       * argument, this if statement may need to become a while loop.
-       * If it becomes a while loop, it needs not to be an infinite
-       * loop...
-       */
       if (state->cmd_argv_chars + len > ctl->arg_max)
         {
           if (initial_args || state->cmd_argc == ctl->initial_argc)
@@ -280,17 +326,10 @@ bc_push_arg (const struct buildcmd_control *ctl,
               || (ctl->exit_if_size_exceeded &&
                   (ctl->lines_per_exec || ctl->args_per_exec)))
             error (1, 0, _("argument list too long"));
-          do_exec (ctl, state);
+            bc_do_exec (ctl, state);
         }
-      /* XXX_SOC: this if may also need to become a while loop.  In
-	 fact perhaps it is best to factor this out into a separate
-	 function which ceeps calling the exec handler until there is
-	 space for our next argument.  Each exec will free one argc
-	 "slot" so the main thing to worry about repeated exec calls
-	 for would be total argument length.
-       */
       if (bc_argc_limit_reached(initial_args, ctl, state))
-	do_exec (ctl, state);
+            bc_do_exec (ctl, state);
     }
 
   if (state->cmd_argc >= state->cmd_argv_alloc)
@@ -329,7 +368,7 @@ bc_push_arg (const struct buildcmd_control *ctl,
        * actually calls bc_push_arg(ctl, state, NULL, 0, false).
        */
       if (bc_argc_limit_reached(initial_args, ctl, state))
-	do_exec (ctl, state);
+            bc_do_exec (ctl, state);
     }
 
   /* If this is an initial argument, set the high-water mark. */
@@ -408,7 +447,7 @@ bc_get_arg_max(void)
 }
 
 
-static int cb_exec_noop(const struct buildcmd_control *ctl,
+static int cb_exec_noop(struct buildcmd_control *ctl,
                          struct buildcmd_state *state)
 {
   /* does nothing. */

@@ -37,6 +37,11 @@ declarations to follow statements.
 #24342: -inum predicate shoud use dirent.d_ino instead of stat.st_ino
 (this is a performance bug).
 
+#22708: Exit status 126 and 127 from the utility invoked from xargs
+now makes xargs return 123, meaning that exit status values 126 and
+127 now unambigously mean that the utility could not be run or could
+not be found, respectively.
+
 ** Translations
 
 Updated translations for Bulgarian, German, Irish, Hungarian,
@@ -116,6 +121,12 @@ definition of "yes" and "no" responses are used to interpret the
 response to questions from -ok and -okdir.  The default is still to
 use information from the findutils message translations.
 
+** Enhancements
+
+If xargs find that exec fails because the argument size limit it
+calculated is larger than the system's actual maximum, it now adapts
+by passing fewer arguments (as opposed to failing).
+
 ** Performance changes
 
 The default optimisation level for find is now -O2 instead of -O0,
@@ -134,10 +145,11 @@ operations needed to make a test are.
 
 ** Bug Fixes
 
+
 #22662: nanoseconds wrongly appended after "PM" for find -printf %AX
 in locale en_US.UTF-8.
 
-5472: Error messages that print ino_t values are no longer truncated
+#15472: Error messages that print ino_t values are no longer truncated
 on platforms with 64-bit ino_t.
 
 On some systems without support for a boolean type (for example some

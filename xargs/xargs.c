@@ -189,6 +189,9 @@ static pid_t *pids = NULL;
 /* The number of allocated elements in `pids'. */
 static size_t pids_alloc = 0u;
 
+/* Process ID of the parent xargs process. */
+static pid_t parent;
+
 /* Exit status; nonzero if any child process exited with a
    status of 1-125.  */
 static volatile int child_error = 0;
@@ -233,7 +236,7 @@ static int read_line PARAMS ((void));
 static int read_string PARAMS ((void));
 static boolean print_args PARAMS ((boolean ask));
 /* static void do_exec PARAMS ((void)); */
-static int xargs_do_exec (const struct buildcmd_control *cl, struct buildcmd_state *state);
+static int xargs_do_exec (struct buildcmd_control *cl, struct buildcmd_state *state);
 static void exec_if_possible PARAMS ((void));
 static void add_proc PARAMS ((pid_t pid));
 static void wait_for_proc PARAMS ((boolean all, unsigned int minreap));
@@ -382,6 +385,7 @@ main (int argc, char **argv)
   enum { XARGS_POSIX_HEADROOM = 2048u };
 
   program_name = argv[0];
+  parent = getpid();
   original_exit_value = 0;
 
 #ifdef HAVE_SETLOCALE
@@ -433,7 +437,8 @@ main (int argc, char **argv)
        * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also
        * specifies that it shall be at least LINE_MAX.
        */
-#ifdef _SC_ARG_MAX
+      assert(bc_ctl.arg_max <= (ARG_MAX-2048));
+#ifdef _SC_ARG_MAX  
       long val = sysconf(_SC_ARG_MAX);
       if (val > 0)
 	{
@@ -687,19 +692,21 @@ main (int argc, char **argv)
       initial_args = false;
       bc_ctl.initial_argc = bc_state.cmd_argc;
       bc_state.cmd_initial_argv_chars = bc_state.cmd_argv_chars;
+      bc_ctl.initial_argc = bc_state.cmd_argc;
+      /*fprintf(stderr, "setting initial_argc=%d\n", bc_state.cmd_initial_argc);*/
 
       while ((*read_args) () != -1)
 	if (bc_ctl.lines_per_exec && lineno >= bc_ctl.lines_per_exec)
 	  {
-	    xargs_do_exec (&bc_ctl, &bc_state);
+	    bc_do_exec (&bc_ctl, &bc_state);
 	    lineno = 0;
 	  }
 
       /* SYSV xargs seems to do at least one exec, even if the
          input is empty.  */
       if (bc_state.cmd_argc != bc_ctl.initial_argc
-	  || (always_run_command && !procs_executed))
-	xargs_do_exec (&bc_ctl, &bc_state);
+	  || (always_run_command && procs_executed==0))
+	bc_do_exec (&bc_ctl, &bc_state);
 
     }
   else
@@ -730,7 +737,7 @@ main (int argc, char **argv)
 			  NULL, 0,
 			  linebuf, len,
 			  initial_args);
-	  xargs_do_exec (&bc_ctl, &bc_state);
+	  bc_do_exec (&bc_ctl, &bc_state);
 	}
     }
 
@@ -1039,21 +1046,24 @@ prep_child_for_exec (void)
 
 
 /* Execute the command that has been built in `cmd_argv'.  This may involve
-   waiting for processes that were previously executed.  */
-
+   waiting for processes that were previously executed. 
+   
+   There are a number of cases where we want to terminate the current (child)
+   process.  We do this by calling _exit() rather than exit() in order to 
+   avoid the invocation of wait_for_proc_all(), which was registered by the parent 
+   as an atexit() function.
+*/
 static int
-xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
+xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 {
   pid_t child;
+  int fd[2];
+  int buf;
+  int r;
 
   (void) ctl;
   (void) state;
-
-  bc_push_arg (&bc_ctl, &bc_state,
-	       (char *) NULL, 0,
-	       NULL, 0,
-	       false); /* Null terminate the arg list.  */
-
+  
   if (!query_before_executing || print_args (true))
     {
       if (proc_max)
@@ -1076,6 +1086,10 @@ xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
       */
       wait_for_proc (false, 0u);
 
+      if (pipe(fd))
+	error (1, errno, "could not create pipe before fork");
+      fcntl(fd[1], F_SETFD, FD_CLOEXEC);
+
       /* If we run out of processes, wait for a child to return and
          try again.  */
       while ((child = fork ()) < 0 && errno == EAGAIN && procs_executing)
@@ -1087,16 +1101,113 @@ xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
 	  error (1, errno, _("cannot fork"));
 
 	case 0:		/* Child.  */
-	  prep_child_for_exec();
-	  execvp (bc_state.cmd_argv[0], bc_state.cmd_argv);
-	  error (0, errno, "%s", bc_state.cmd_argv[0]);
-	  _exit (errno == ENOENT ? 127 : 126);
+	  {
+	    close(fd[0]);
+	    child_error = 0;
+	    
+	    prep_child_for_exec();
+	    
+	    execvp (bc_state.cmd_argv[0], bc_state.cmd_argv);
+	    if (errno)
+	      {
+		/* Write errno value to parent.  We do this even if
+		 * the error was not E2BIG, because we need to
+		 * distinguish successful execs from unsuccessful
+		 * ones.  The reason we need to do this is to know
+		 * whether to reap the child here (preventing the
+		 * exit status processing in wait_for_proc() from
+		 * changing the value of child_error) or leave it
+		 * for wait_for_proc() to handle.  We need to have
+		 * wait_for_proc() handle the exit values from the
+		 * utility if we run it, for POSIX compliance on the
+		 * handling of exit values.
+		 */
+		write(fd[1], &errno, sizeof(int));
+	      }
+	      
+	    close(fd[1]);
+	    if (E2BIG != errno)
+	      {
+		error (0, errno, "%s", bc_state.cmd_argv[0]);
+		/* The actual value returned here should be irrelevant,
+		 * because the parent will test our value of errno.
+		 */
+		_exit (errno == ENOENT ? 127 : 126);
+	      
+	      }
 	  /*NOTREACHED*/
-	}
-      add_proc (child);
-    }
+	  } /* child */
 
-  bc_clear_args(&bc_ctl, &bc_state);
+	default:
+	  {
+	    /* Parent */
+	    close(fd[1]);
+	  }
+	  
+	} /* switch(child) */
+      /*fprintf(stderr, "forked child (bc_state.cmd_argc=%d) -> ", bc_state.cmd_argc);*/
+      
+      switch (r = read(fd[0], &buf, sizeof(int)))
+	{
+	case -1:
+	  {
+	    close(fd[0]);
+	    error(0, errno, "errno-buffer read failed in xargs_do_exec (BUG?)");
+	    break;
+	  }
+	  
+	case sizeof(int):
+	  {
+	    /* Failure */
+	    int childstatus;
+	    
+	    close(fd[0]);
+	    
+	    /* we know the child is about to exit, so wait for that.
+	     * We have to do this so that wait_for_proc() does not 
+	     * change the value of child_error on the basis of the 
+	     * return value -- since in this case we did not launch
+	     * the utility.
+	     *
+	     * We do the wait before deciding if we failed in order to 
+	     * avoid creating a zombie, even briefly.
+	     */
+	    waitpid(child, &childstatus, 0);
+	    
+	    
+	    if (E2BIG == buf)
+	      {
+		return 0; /* Failure; caller should pass fewer args */
+	      }
+	    else if (ENOENT == buf)
+	      {
+		exit(127);	/* command cannot be found */
+	      }
+	    else
+	      {
+		exit(126);	/* command cannot be run */
+	      }
+	    break;
+	  }
+	  
+	case 0:
+	  {
+	    /* Failed to read data from pipe; the exec must have
+	     * succeeded.  We call add_proc only in this case,
+	     * because it increments procs_executing, and we only
+	     * want to do that if we didn't already wait for the
+	     * child.
+	     */
+	    add_proc (child);
+	    break;
+	  }
+	default: 
+	  {
+	    error(1, errno, "read returned unexpected value %d! BUG?", r);
+	  }
+	} /* switch on bytes read */
+      close(fd[0]);
+    }
   return 1;			/* Success */
 }
 
@@ -1108,7 +1219,7 @@ exec_if_possible (void)
   if (bc_ctl.replace_pat || initial_args ||
       bc_state.cmd_argc == bc_ctl.initial_argc || bc_ctl.exit_if_size_exceeded)
     return;
-  xargs_do_exec (&bc_ctl, &bc_state);
+  bc_do_exec (&bc_ctl, &bc_state);
 }
 
 /* Add the process with id PID to the list of processes that have
@@ -1219,8 +1330,6 @@ wait_for_proc (boolean all, unsigned int minreap)
       procs_executing--;
       reaped++;
 
-      if (WEXITSTATUS (status) == 126 || WEXITSTATUS (status) == 127)
-	exit (WEXITSTATUS (status));	/* Can't find or run the command.  */
       if (WEXITSTATUS (status) == 255)
 	error (124, 0, _("%s: exited with status 255; aborting"), bc_state.cmd_argv[0]);
       if (WIFSTOPPED (status))
@@ -1238,6 +1347,14 @@ static void
 wait_for_proc_all (void)
 {
   static boolean waiting = false;
+  
+  /* This function was registered by the original, parent, process.
+   * The child processes must not call exit() to terminate, since this
+   * will mean that their exit status will be inappropriately changed.
+   * Instead the child processes should call _exit().  If someone
+   * forgets this rule, you may see the following assert() fail.
+   */
+  assert(getpid() == parent);
 
   if (waiting)
     return;

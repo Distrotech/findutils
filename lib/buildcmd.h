@@ -22,7 +22,7 @@
 
 struct buildcmd_state
 {
-  /* Number of valid elements in `cmd_argv'.  */
+  /* Number of valid elements in `cmd_argv', including terminating NULL.  */
   int cmd_argc;			/* 0 */
 
   /* The list of args being built.  */
@@ -87,8 +87,8 @@ struct buildcmd_control
   int initial_argc;		/* 0 */
 
   /* exec callback. */
-  int (*exec_callback)(const struct buildcmd_control *, struct buildcmd_state *);
-
+  int (*exec_callback)(struct buildcmd_control *, struct buildcmd_state *);
+  
   /* If nonzero, the maximum number of nonblank lines from stdin to use
      per command line.  */
   long lines_per_exec;		/* 0 */
@@ -107,14 +107,17 @@ enum BC_INIT_STATUS
 extern size_t bc_size_of_environment (void);
 
 
-extern void bc_do_insert (const struct buildcmd_control *ctl,
+extern void bc_do_insert (struct buildcmd_control *ctl,
 			  struct buildcmd_state *state,
 			  char *arg, size_t arglen,
 			  const char *prefix, size_t pfxlen,
 			  const char *linebuf, size_t lblen,
 			  int initial_args);
 
-extern void bc_push_arg (const struct buildcmd_control *ctl,
+extern void bc_do_exec (struct buildcmd_control *ctl,
+			 struct buildcmd_state *state);
+
+extern void bc_push_arg (struct buildcmd_control *ctl,
 			 struct buildcmd_state *state,
 			 const char *arg,    size_t len,
 			 const char *prefix, size_t pfxlen,

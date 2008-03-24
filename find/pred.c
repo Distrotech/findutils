@@ -1939,7 +1939,7 @@ prep_child_for_exec (boolean close_stdin, int dir_fd)
 
 
 int
-launch (const struct buildcmd_control *ctl,
+launch (struct buildcmd_control *ctl,
 	struct buildcmd_state *buildstate)
 {
   int wait_status;
