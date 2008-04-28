@@ -1,3 +1,12 @@
+2008-04-25  Eric Blake  <ebb9@byu.net>
+
+	Support cygwin 1.7.0.
+	* find/parser.c (parse_newerXY)
+	[HAVE_STRUCT_STAT_ST_BIRTHTIM_TV_NSEC]: Add support for another
+	form of birthtime.
+	* import-gnulib.config (gnulib_version): Update to pick up change
+	necessary for cygwin fstatat.
+
 2008-03-21  James Youngman  <jay@gnu.org>
 
 	* find/testsuite/find.gnu/xtype-symlink.exp: Removed unnecessary
@@ -11,7 +20,7 @@
 
 	Find optimises at -O2 by default.
 	* find/util.c (set_option_defaults): Use a default optimisation
-	level of 2 rather than 0. 
+	level of 2 rather than 0.
 	* NEWS: Mention this change.
 
 	Begin work on findutils-4.5.x.
@@ -21,7 +30,7 @@
 
 2008-03-10  Justin Pryzby  <justinpryzby@users.sourceforge.net> (tiny change)
 
-	* doc/find.texi: Various typo corrections. 
+	* doc/find.texi: Various typo corrections.
 
 2008-03-10  Eric Blake  <ebb9@byu.net>
 
