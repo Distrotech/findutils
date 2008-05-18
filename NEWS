@@ -2,6 +2,13 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 * Major changes in release 4.5.0-CVS
 
+** Functional Enhancements to find
+
+If the POSIXLY_CORRECT environment variable is set, the system's
+definition of "yes" and "no" responses are used to interpret the
+response to questions from -ok and -okdir.  The default is still to
+use information from the findutils message translations.  
+
 ** Performance changes
 
 The default optimisation level for find is now -O2 instead of -O0,
@@ -18,16 +25,25 @@ default.   Current optimisations at each level are:
 Cost here is simply an estimate of how time consuming the I/O
 operations needed to make a test are.
 
-
 ** Bug Fixes
 
 #15472: Error messages that print ino_t values are no longer truncated
 on platforms with 64-bit ino_t.
 
-** Documentation Fixes
+On some systems without support for a boolean type (for example some
+versions of the AIX C compiler), find's regular expression
+implementation fails to support case-insensitive regular expression
+matching, causing -iregex to behave like -regex.  This is now fixed.
+
+** Documentation Changes
 
 #20873: Indicate that * matches / and leading dot in filenames for
 "find -path".
+
+Both the Texinfo manual and the find manual page now include a more
+precise description of how your locale configuration affects the
+interpretation of regular expressions and how your response to prompts
+from the -ok action are interpreted.
 
 * Major changes in release 4.3.13, 2008-02-14
 

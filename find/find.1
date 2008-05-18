@@ -1095,19 +1095,34 @@ section for information about how unusual characters in filenames are handled.
 .IP "\-ok \fIcommand\fR ;"
 Like 
 .B \-exec
-but ask the user first (on the standard input); if the
-response does not start with `y' or `Y', do not run the command, and
-return false.  If the command is run, its standard input is redirected
+but ask the user first.  If the user agrees, run the command.  Otherwise
+just return false.  If the command is run, its standard input is redirected
 from
 .BR /dev/null .
+
+.IP
+The response to the prompt is matched against a pair of regular
+expressions to determine if it is an affirmative or negative
+response.  This regular expression is obtained from the system if the
+`POSIXLY_CORRECT' environment variable is set, or otherwise from 
+.BR find 's 
+message translations.  If the system has no suitable
+definition, 
+.BR find 's 
+own definition will be used.   In either case, the interpretation of
+the regular expression itself will be affected by the environment
+variables 'LC_CTYPE' (character classes) and 'LC_COLLATE' (character
+ranges and equivalence classes).
+
+
 
 .IP "\-okdir \fIcommand\fR ;"
 Like 
 .B \-execdir
-but ask the user first (on the standard input); if the
-response does not start with `y' or `Y', do not run the command, and
-return false.  If the command is run, its standard input is redirected
-from
+but ask the user first in the same way as for 
+.BR \-ok .
+If the user does not agree, just return false.  
+If the command is run, its standard input is redirected from
 .BR /dev/null .
 
 .IP \-print
@@ -1443,7 +1458,8 @@ If you are able to decide what format to use for the output of
 .B find
 then it is normally better to use `\e0' as a terminator
 than to use newline, as file names can contain white space and newline
-characters.
+characters.  The setting of the `LC_CTYPE' environment
+variable is used to determine which characters need to be quoted.
 
 .IP "\-print, \-fprint"
 Quoting is handled in the same way as for 
@@ -1463,6 +1479,7 @@ The
 and 
 .B \-okdir
 actions print the current filename as-is.  This may change in a future release.
+
 .SS OPERATORS
 .P
 Listed in order of decreasing precedence:
@@ -1533,8 +1550,17 @@ Supported.   POSIX specifies `b', `c', `d', `l', `p', `f' and `s'.
 GNU find also supports `D', representing a Door, where the OS provides these.
 
 .IP \fB\-ok\fR
-Supported.   Interpretation of the response is not locale-dependent
-(see ENVIRONMENT VARIABLES).
+Supported.   
+Interpretation of the response is according to the "yes" and "no"
+patterns selected by setting the `LC_MESSAGES' environment variable.  
+When the `POSIXLY_CORRECT' environment variable is set, these patterns
+are taken system's definition of a positive (yes) or negative (no)
+response. See the system's
+documentation for \fBnl_langinfo\fP(3), in particular YESEXPR and
+NOEXPR.    When `POSIXLY_CORRECT' is not set, the patterns are instead
+taken from 
+.BR find 's 
+own message catalogue.
 
 .IP \fB\-newer\fR
 Supported.  If the file specified is a symbolic link, it is always
@@ -1647,28 +1673,36 @@ matching to be used for the
 option.   GNU find uses the 
 .BR fnmatch (3) 
 library function, and so support for `LC_COLLATE' depends on the
-system library.    
-
-.IP
-POSIX also specifies that the `LC_COLLATE' environment 
-variable affects the interpretation of the user's response to the 
-query issued by 
-.BR \-ok' , 
-but this is not the case for GNU find.
+system library.    This variable also affects the interpretation of
+the response to 
+.BR \-ok;
+while the `LC_MESSAGES' variable selects the actual pattern used to
+interpret the response to 
+.BR \-ok ,
+the interpretation of any bracket expressions in the pattern will be
+affected by `LC_COLLATE'.
 
 .IP LC_CTYPE 
-This variable affects the treatment of character classes used with 
+This variable affects the treatment of character classes used in
+regular expressions and also with 
 the 
 .B \-name
 test, if the system's 
 .BR fnmatch (3) 
-library function supports this.   It has no effect on the behaviour 
-of the 
-.B \-ok
-expression.
+library function supports this.  This variable also affects the 
+interpretation of any character classes in the regular expressions
+used to interpret the response to the prompt issued by 
+.BR \-ok .
+The `LC_CTYPE' environment variable will
+also affect which characters are considered to be unprintable when
+filenames are printed; see the section UNUSUAL FILENAMES.
 
 .IP LC_MESSAGES
-Determines the locale to be used for internationalised messages.
+Determines the locale to be used for internationalised messages.  If
+the `POSIXLY_CORRECT' environment variable is set, this also
+determines the interpretation of the response to the prompt made by the
+.BR \-ok
+action.
 
 .IP NLSPATH
 Determines the location of the internationalisation message catalogues.
@@ -1710,6 +1744,13 @@ is treated just like
 if 
 +zzz is not a valid symbolic mode.  When POSIXLY_CORRECT is set, such
 constructs are treated as an error.
+.IP
+When POSIXLY_CORRECT is set, the response to the prompt made by the 
+.B \-ok 
+action is interpreted according to the system's message catalogue, as
+opposed to according to 
+.BR find 's 
+own message translations.
 
 .IP TZ
 Affects the time zone used for some of the time-related format
