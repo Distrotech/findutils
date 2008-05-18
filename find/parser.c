@@ -74,7 +74,6 @@
 #endif
 
 #define ISDIGIT(c) (isascii ((unsigned char)c) && isdigit ((unsigned char)c))
-#define ISUPPER(c) (isascii ((unsigned char)c) && isupper ((unsigned char)c))
 
 #ifndef HAVE_ENDGRENT
 #define endgrent()

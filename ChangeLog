@@ -1,3 +1,34 @@
+2008-05-18  James Youngman  <jay@gnu.org>
+
+	Update gnulib.
+	* import-gnulib.config (gnulib_version): Update to current head
+	version of gnulib.
+
+	Document effect of gnulib update, mainly on yesno().
+	* doc/find.texi (Unusual Characters in File Names): Explain that
+	the LC_CTYPE variable affects which characters are considered to
+	be printable by -printf %p, -print and -fprint.
+	(Querying): Explain in more detail how environment variables
+	affect the interpretation of the response to -ok and -okdir.
+	(Regular Expressions): Indicate that the locale configuration
+	affects the interpretation of regular expressions.
+	(Environment Variables): Describe how LC_COLLATE and LC_CTYPE
+	affect the interpretation of regular expressions.  Indicate that
+	LC_MESSAGES affects the interpretation of the response to -ok.
+	* find/find.1 (-ok): Describe the effect of POSIXLY_CORRECT,
+	LC_CTYPE and LC_COLLATE.
+	(-okdir): Likewise.
+	(UNUSUAL FILENAMES): Describe how LC_CTYPE affects -printf %p,
+	-print, -fprint.
+	(STANDARDS CONFORMANCE): -ok and -okdir now obey the system's
+	defintion of yes/no if POSIXLY_CORRECT is set.  In any case,
+	LC_CTYPE and LC_COLLATE may have some effect.  Point out that
+	the setting of LC_MESSAGES deternmines what pattern is used to
+	interpret the user's response to -ok/-okdir.
+	* find/parser.c: Remove definition of ISUPPER, which we no longer
+	need.
+	* NEWS: mention these changes.
+
 2008-03-21  James Youngman  <jay@gnu.org>
 
         * find/testsuite/find.gnu/xtype-symlink.exp: Removed unnecessary

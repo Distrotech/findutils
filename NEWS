@@ -7,6 +7,30 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 Updated translations: German, Irish, Dutch, Polish, Slovenian,
 Swedish, Vietnamese. 
 
+* Major changes in release 4.4.1, YYYY-MM-DD
+
+** Bug Fixes
+
+On some systems without support for a boolean type (for example some
+versions of the AIX C compiler), find's regular expression
+implementation fails to support case-insensitive regular expression
+matching, causing -iregex to behave like -regex.  This is now fixed.
+
+** Functional Enhancements to find
+
+If the POSIXLY_CORRECT environment variable is set, the system's
+definition of "yes" and "no" responses are used to interpret the
+response to questions from -ok and -okdir.  The default is still to
+use information from the findutils message translations.  
+
+** Documentation Enhancements
+
+Both the Texinfo manual and the find manual page now include a more
+precise description of how your locale configuration affects the
+interpretation of regular expressions and how your response to prompts
+from the -ok action are interpreted.
+
+
 * Major changes in release 4.4.0, 2008-03-15
 
 The 4.4.0 release of findutils is a stable release, succeeding the
