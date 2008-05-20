@@ -32,6 +32,7 @@
 #include <fcntl.h>
 #include <locale.h>
 #include <openat.h>
+#include <ctype.h>
 #include "xalloc.h"
 #include "dirname.h"
 #include "human.h"
@@ -2018,6 +2019,133 @@ launch (const struct buildcmd_control *ctl,
 }
 
 
+static boolean
+scan_for_digit_differences(const char *p, const char *q,
+			   size_t *first, size_t *n)
+{
+  bool ok = true;
+  bool seen = false;
+  size_t i;
+  
+  for (i=0; p[i] && q[i]; i++)
+    {
+      if (p[i] != q[i]) 
+	{
+	  if (!isdigit((unsigned char)q[i]) || !isdigit ((unsigned char)q[i]))
+	    return false;
+
+	  if (!seen)
+	    {
+	      *first = i;
+	      *n = 1;
+	    }
+	  else
+	    {
+	      if (*first - i == *n) 
+		{
+		  /* Still in the first sequence of differing digits. */
+		  ++*n;
+		}
+	      else
+		{
+		  /* More than one differing contiguous character sequence. */
+		  return false;
+		}
+	    }
+	}
+    }
+  if (p[i] || q[i])
+    {
+      /* strings are different lengths. */
+      return false;
+    }
+  return true;
+}
+
+
+static char*
+do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_size)
+{
+  static char *buf = NULL;
+  static size_t buf_size = 0u;
+  char *timefmt = NULL;
+  boolean done = false;
+  struct tm altered_time;
+
+  
+  /* If the format expands to nothing (%p in some locales, for
+   * example), strftime can return 0.  We actually want to distinguish
+   * the error case where the buffer is too short, so we just prepend
+   * an otherwise uninteresting character to prevent the no-output
+   * case.
+   */
+  timefmt = xmalloc (strlen(fmt) + 2u);
+  sprintf (timefmt, "_%s", fmt);
+  
+  /* altered_time is a similar time, but in which both 
+   * digits of the seconds field are different. 
+   */
+  altered_time = *p;
+  if (altered_time.tm_sec >= 11)
+    altered_time.tm_sec -= 11;
+  else
+    altered_time.tm_sec += 11;
+
+  while (!done)
+    {
+      const size_t buf_used = strftime (buf, buf_size, timefmt, p);
+      if (0 != buf_used)
+	{
+	  char *altbuf;
+	  size_t i, n;
+	  size_t final_len = (buf_used 
+			      + 1u /* for \0 */
+			      - 1u /* because we don't need the initial underscore */
+			      + ns_size);
+	  buf = xrealloc (buf, final_len);
+	  altbuf = xmalloc (final_len);
+	  strftime (altbuf, buf_size, timefmt, &altered_time);
+	      
+	  /* Find the seconds digits; they should be the only changed part. 
+	   * In theory the result of the two formatting operations could differ in 
+	   * more than just one sequence of decimal digits (for example %X might 
+	   * in theory return a spelled-out time like "thirty seconds past noon").
+	   * When that happens, we just avoid inserting the nanoseconds field. 
+	   */
+	  if (scan_for_digit_differences (buf, altbuf, &i, &n) 
+	      && (2==n) && buf[i+n] && !isdigit((unsigned char)buf[i+n+1]))
+	    {
+	      const size_t end_of_seconds = i + n;
+
+	      /* Move the tail (including the \0).  Note that this
+	       * is a move of an overlapping memory block, so we
+	       * must use memmove instead of memcpy.  Then insert
+	       * the nanoseconds (but not its trailing \0).
+	       */
+	      memmove (buf+end_of_seconds+ns_size,
+		       buf+end_of_seconds,
+		       buf_used-(end_of_seconds)+1);
+	      memcpy (buf+i+n, ns, ns_size);
+	    }
+	  else
+	    {
+	      /* No seconds digits.  No need to insert anything. */
+	    }
+	  /* The first character of buf is the underscore, which we actually 
+	   * don't want. 
+	   */
+	  free (timefmt);
+	  return buf+1;
+	}
+      else
+	{
+	  buf = x2nrealloc (buf, &buf_size, 2u);
+	}
+    }
+}
+
+	   
+
 /* Return a static string formatting the time WHEN according to the
  * strftime format character KIND.
  *
@@ -2105,26 +2233,30 @@ format_date (struct timespec ts, int kind)
        * The reason for discouraging this is that in the future, the
        * granularity may not be nanoseconds.
        */
-      ns_buf[0] = 0;
       charsprinted = snprintf(ns_buf, NS_BUF_LEN, ".%09ld0", (long int)ts.tv_nsec);
       assert (charsprinted < NS_BUF_LEN);
     }
-
-  if (kind != '@'
-      && (tm = localtime (&ts.tv_sec))
-      && strftime (buf, sizeof buf, fmt, tm))
-    {
-      /* For %AS, %CS, %TS, add the fractional part of the seconds
-       * information.
-       */
-      if (need_ns_suffix)
-	{
-	  assert ((sizeof buf - strlen(buf)) > strlen(ns_buf));
-	  strcat(buf, ns_buf);
-	}
-      return buf;
-    }
   else
+    {
+      charsprinted = 0;
+      ns_buf[0] = 0;
+    }
+  
+  if (kind != '@')
+    {
+      tm = localtime (&ts.tv_sec);
+      if (tm) 
+	{
+	  char *s = do_time_format (fmt, tm, ns_buf, charsprinted);
+	  if (s)
+	    return s;
+	}
+    }
+
+  /* If we get to here, either the format was %@, or we have fallen back to it
+   * because strftime failed.
+   */
+  if (1)
     {
       uintmax_t w = ts.tv_sec;
       size_t used, len, remaining;
