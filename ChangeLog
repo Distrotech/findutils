@@ -1,3 +1,14 @@
+2008-05-28  James Youngman  <jay@gnu.org>
+
+	Bugfix to the code that was previously supposed to fix bug #22662
+	in 4.5.0. 
+	* find/pred.c (scan_for_digit_differences): Remember that wesaw
+	the first differing digit and also get the order of the
+	subtractionoperands right.  
+	(do_time_format): Off by one error on checking for a nondigit
+	after the sequence of changed digits. 
+	* NEWS: Mention this change.
+
 2008-05-18  James Youngman  <jay@gnu.org>
 
 	Update gnulib.
