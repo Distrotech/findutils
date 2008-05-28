@@ -2038,10 +2038,11 @@ scan_for_digit_differences(const char *p, const char *q,
 	    {
 	      *first = i;
 	      *n = 1;
+	      seen = 1;
 	    }
 	  else
 	    {
-	      if (*first - i == *n)
+	      if (i-*first == *n)
 		{
 		  /* Still in the first sequence of differing digits. */
 		  ++*n;
@@ -2113,7 +2114,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
 	   * When that happens, we just avoid inserting the nanoseconds field.
 	   */
 	  if (scan_for_digit_differences (buf, altbuf, &i, &n)
-	      && (2==n) && buf[i+n] && !isdigit((unsigned char)buf[i+n+1]))
+	      && (2==n) && !isdigit((unsigned char)buf[i+n]))
 	    {
 	      const size_t end_of_seconds = i + n;
 

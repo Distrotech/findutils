@@ -3,6 +3,16 @@
 	Backport a fix from 4.5.x.
 	* doc/find.texi (Cleaning Up): Move the note about -depth up.
 
+2009-04-10  James Youngman  <jay@gnu.org>
+
+	Fix bug #22662 (backport from 4.5.x)
+	* find/pred.c (scan_for_digit_differences): Remember that we saw
+	the first differing digit and also get the order of the
+	subtractionoperands right.
+	(do_time_format): Off by one error on checking for a nondigit
+	after the sequence of changed digits.
+	* NEWS: Mention this change.
+
 2008-12-23  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #25154: Failure to compile with GCC-2.95.4
@@ -18,7 +28,7 @@
 	fatal error message instead of returning false, because the error
 	message that results from a return of false is "invalid argument",
 	which is misleading in this case.  Similarly for a missing or an
-	empty argument.  
+	empty argument.
 
 2008-12-01  James Youngman  <jay@gnu.org>
 
@@ -27,16 +37,16 @@
 	* po/id.po: Updated Indonesian translation.
 
 2008-12-01  Geoff Gole  <geoffgole@gmail.com>
- 
+
 	* xargs/xargs.1 (STANDARDS CONFORMANCE): Fix typo.
- 
+
 2008-08-31  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #24169 (-neweraa without following arg coredumps).
 	* find/parser.c (parse_newerXY): Issue a fatal error message if
 	there is no following argument.
 	* find/testsuite/find.gnu/sv-bug-24169.exp: Test case for this
-	bug.  
+	bug.
 	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Also distribute
 	this new test file.
 	* NEWS: Mention this change.
@@ -62,7 +72,7 @@
 2008-06-19  Per Starbäck  <starback@stp.lingfil.uu.se> (tiny change)
 
 	* doc/find.texi (Unusual characters in filenames): Directory
-	separator is the slash, not the backslash.  
+	separator is the slash, not the backslash.
 
 2008-06-19  James Youngman  <jay@gnu.org>
 
@@ -117,11 +127,11 @@
 	* NEWS: Listed changes between 4.2.33 (the previous stable
 	release) and 4.4.0 (the current one).
 	* README-alpha: delete, since the 4.4.x branch is not a
-	development branch.  
+	development branch.
 
 2008-03-10  Justin Pryzby  <justinpryzby@users.sourceforge.net> (tiny change)
 
-	* doc/find.texi: Various typo corrections. 
+	* doc/find.texi: Various typo corrections.
 
 2008-03-10  Eric Blake  <ebb9@byu.net>
 
