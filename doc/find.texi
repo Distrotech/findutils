@@ -3865,10 +3865,18 @@ when an update requires a merge:
 find . -name '.#*' -print0 | xargs -0r rm -f
 @end example
 
-The command above works, but the following is safer:
+If your @code{find} command removes directories, you may find that
+you get a spurious error message when @code{find} tries to recurse
+into a directory that has now been removed.  Using the @samp{-depth}
+option will normally resolve this problem.
+
+@c What does the following sentence mean? Why is -delete safer? --kasal
+@c The command above works, but the following is safer:
+
+It is also possible to use the @samp{-delete} action:
 
 @example
-find . -name '.#*' -depth -delete
+find . -depth -name '.#*' -delete
 @end example
 
 @c Idea from Franc,ois Pinard.
@@ -3880,11 +3888,6 @@ which shell you use).
 @example
 find /tmp -depth -user "$LOGNAME" -type f -delete
 @end example
-
-If your @code{find} command removes directories, you may find that
-you get a spurious error message when @code{find} tries to recurse
-into a directory that has now been removed.  Using the @samp{-depth}
-option will normally resolve this problem.
 
 @c Idea from Noah Friedman.
 To remove old Emacs backup and auto-save files, you can use a command
