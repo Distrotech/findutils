@@ -4059,6 +4059,7 @@ performed, and compares the different ways of achieving them.
 * Deleting Files::
 * Copying A Subset of Files::
 * Updating A Timestamp File::
+* Finding the Shallowest Instance::
 @end menu
 
 @node Deleting Files
@@ -4605,6 +4606,51 @@ the original timestamp file, and which have the same timestamp as each
 other, to the nearest second.  The second @code{find} command takes
 each resulting file one at a time, and if that is newer than the
 timestamp file, the timestamp is updated.
+
+@node Finding the Shallowest Instance
+@section Finding the Shallowest Instance
+
+Suppose you maintain local copies of sources from various projects,
+each with their own choice of directory organisation and source code
+management (SCM) tool.  You need to periodically synchronize each
+project with its upstream tree.  As the number local repositories
+grows, so does the work involved in maintaining synchronization.  SCM
+utilities typically create some sort of administrative directory: .svn
+for Subversion, CVS for CVS, and so on.  These directories can be used
+as a key to search for the bases of the project source trees.  Suppose
+we have the following directory structure:
+
+@smallexample
+repo/project1/CVS
+repo/gnu/project2/.svn
+repo/gnu/project3/.svn
+repo/gnu/project3/src/.svn
+repo/gnu/project3/doc/.svn
+repo/project4/.git
+@end smallexample
+
+One would expect to update each of the @file{projectX} directories,
+but not their subdirectories (src, doc, etc.).  To locate the project
+roots, we would need to find the least deeply nested directories
+containing an SCM-related subdirectory.  The following command
+discovers those roots efficiently.  It is efficient because it avoids
+searching subdirectories inside projects whose SCM directory we
+already found.
+
+@smallexample
+find repo/ -exec test -d @{@}/.svn -o -d @{@}/.git -o -d @{@}/CVS \; -print -prune
+@end smallexample
+
+In this example, @command{test} is used to tell if we are currently
+examining a directory which appears to the a project's root directory
+(because it has an SCM subdirectory).  When we find a project root,
+there is no need to search inside it, and @code{-prune} makes sure
+that we descend no further.
+
+For large, complex trees like the Linux kernel, this will prevent
+searching a large portion of the structure, saving a good deal of
+time.  
+
 
 @node Security Considerations
 @chapter Security Considerations

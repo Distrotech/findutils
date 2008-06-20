@@ -1944,6 +1944,31 @@ binds more tightly than
 this is the default anyway, but the parentheses help to show
 what is going on.
 
+.P
+.nf
+.B find repo/ -exec test -d {}/.svn -o -d {}/.git -o -d {}/CVS \; \e
+.B -print -prune
+.fi
+
+Given the following directory of projects and their associated SCM
+administrative directories, perform an efficient search for the
+projects' roots:
+
+.nf
+.B repo/project1/CVS
+.B repo/gnu/project2/.svn
+.B repo/gnu/project3/.svn
+.B repo/gnu/project3/src/.svn
+.B repo/project4/.git
+
+.fi
+In this example,
+.B \-prune
+prevents unnecessary descent into directories that have already been
+discovered (for example we do not search project3/src because we
+already found project3/.svn), but ensures sibling directories
+(project2 and project3) are found.
+  
 .SH EXIT STATUS
 .PP
 .B find
