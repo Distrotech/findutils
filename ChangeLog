@@ -5,6 +5,12 @@
 
 2009-04-10  James Youngman  <jay@gnu.org>
 
+	Backport fix for Savannah bug #23663, crash in some locales for %AX.
+	* find/pred.c (do_time_format): Fix off-by-one error in handling
+	of the buffer used to print timestamps.   This caused a crash in
+	some locales when handling the %AX format specifier.
+	* NEWS: Mention this bugfix.
+
 	Fix bug #22662 (backport from 4.5.x)
 	* find/pred.c (scan_for_digit_differences): Remember that we saw
 	the first differing digit and also get the order of the

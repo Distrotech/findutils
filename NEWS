@@ -9,9 +9,14 @@ versions of the AIX C compiler), find's regular expression
 implementation fails to support case-insensitive regular expression
 matching, causing -iregex to behave like -regex.  This is now fixed.
 
+
 #23070: Corrected manpage description of find -perm /000 (the change
 was already made but the manpage indicated the change would happen
 "soon"). 
+
+#23663: crash in some locales for -printf %AX (this problem seems to
+have affected only the CVS code for 4.5.x, and not any public
+releases, but it was a problem with the original fix for bug #22662)
 
 #24169: find would segfault if the -newerXY test was not followed by
 any argument.
