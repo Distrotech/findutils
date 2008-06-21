@@ -2101,7 +2101,6 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
 	  size_t i, n;
 	  size_t final_len = (buf_used 
 			      + 1u /* for \0 */
-			      - 1u /* because we don't need the initial underscore */
 			      + ns_size);
 	  buf = xrealloc (buf, final_len);
 	  altbuf = xmalloc (final_len);
@@ -2117,15 +2116,17 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
 	      && (2==n) && !isdigit((unsigned char)buf[i+n]))
 	    {
 	      const size_t end_of_seconds = i + n;
+	      const size_t suffix_len = buf_used-(end_of_seconds)+1;
 
 	      /* Move the tail (including the \0).  Note that this
 	       * is a move of an overlapping memory block, so we
 	       * must use memmove instead of memcpy.  Then insert
 	       * the nanoseconds (but not its trailing \0).
 	       */
+	      assert (end_of_seconds + ns_size + suffix_len == final_len);
 	      memmove (buf+end_of_seconds+ns_size,
 		       buf+end_of_seconds,
-		       buf_used-(end_of_seconds)+1);
+		       suffix_len);
 	      memcpy (buf+i+n, ns, ns_size);
 	    }
 	  else
