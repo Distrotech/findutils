@@ -9,6 +9,11 @@ Swedish, Vietnamese, Chinese (simplified).
 
 New translation: Lithuanian. 
 
+** Documentation Enhancements
+
+Added a worked example describing how to find the shallowest instances
+of a given directory name (or names) in a directory hierarchy.
+
 * Major changes in release 4.4.1, YYYY-MM-DD
 
 ** Bug Fixes
@@ -17,6 +22,10 @@ On some systems without support for a boolean type (for example some
 versions of the AIX C compiler), find's regular expression
 implementation fails to support case-insensitive regular expression
 matching, causing -iregex to behave like -regex.  This is now fixed.
+
+#23070: Corrected manpage description of find -perm /000 (the change
+was already made but the manpage indicated the change would happen
+"soon"). 
 
 ** Functional Enhancements to find
 
