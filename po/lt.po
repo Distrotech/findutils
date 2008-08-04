@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: findutils-4.4.0\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2008-03-15 11:43+0000\n"
-"PO-Revision-Date: 2008-05-14 03:09+0300\n"
+"PO-Revision-Date: 2008-07-09 13:00+0300\n"
 "Last-Translator: Gintautas Miliauskas <gintas@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: gnulib/lib/argmatch.c:133
 #, c-format
 msgid "invalid argument %s for %s"
-msgstr ""
+msgstr "netaisyklingas argumentas %s %s"
 
 #: gnulib/lib/argmatch.c:134
 #, c-format
@@ -39,11 +39,11 @@ msgstr "klaida užveriant failą"
 
 #: gnulib/lib/closeout.c:73 locate/code.c:152 locate/frcode.c:216
 msgid "write error"
-msgstr ""
+msgstr "rašymo klaida"
 
 #: gnulib/lib/error.c:125
 msgid "Unknown system error"
-msgstr ""
+msgstr "Nežinoma sistemos klaida"
 
 #: gnulib/lib/getopt.c:530 gnulib/lib/getopt.c:546
 #, c-format
@@ -64,7 +64,7 @@ msgstr "%s: argumentas „%c%s“ neleidžia parametro\n"
 #: gnulib/lib/getopt.c:994
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
-msgstr ""
+msgstr "%s: parametrui „%s“ reikia argumento\n"
 
 #: gnulib/lib/getopt.c:697 gnulib/lib/getopt.c:700
 #, c-format
@@ -84,7 +84,7 @@ msgstr "%s: neleistinas argumentas -- %c\n"
 #: gnulib/lib/getopt.c:772 gnulib/lib/getopt.c:775
 #, c-format
 msgid "%s: invalid option -- %c\n"
-msgstr ""
+msgstr "%s: netaisyklingas argumentas -- %c\n"
 
 #: gnulib/lib/getopt.c:827 gnulib/lib/getopt.c:843 gnulib/lib/getopt.c:1047
 #: gnulib/lib/getopt.c:1065
@@ -95,12 +95,12 @@ msgstr "%s: parametrui reikia argumento -- %c\n"
 #: gnulib/lib/getopt.c:896 gnulib/lib/getopt.c:912
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
-msgstr ""
+msgstr "%s: parametras „-W %s“ dviprasmis\n"
 
 #: gnulib/lib/getopt.c:936 gnulib/lib/getopt.c:954
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
-msgstr ""
+msgstr "%s: parametras „-W %s“ neleidžia argumento\n"
 
 #: gnulib/lib/openat-die.c:33
 msgid "unable to record current working directory"
@@ -139,7 +139,7 @@ msgstr "“"
 
 #: gnulib/lib/regcomp.c:131
 msgid "Success"
-msgstr ""
+msgstr "Sėkmė"
 
 #: gnulib/lib/regcomp.c:134
 msgid "No match"
@@ -147,7 +147,7 @@ msgstr ""
 
 #: gnulib/lib/regcomp.c:137
 msgid "Invalid regular expression"
-msgstr ""
+msgstr "Netaisyklinga reguliarioji išraiška"
 
 #: gnulib/lib/regcomp.c:140
 msgid "Invalid collation character"
@@ -203,7 +203,7 @@ msgstr ""
 
 #: gnulib/lib/regcomp.c:179
 msgid "Unmatched ) or \\)"
-msgstr ""
+msgstr "Nesuderintas ) arba \\)"
 
 #: gnulib/lib/regcomp.c:680
 msgid "No previous regular expression"
@@ -294,9 +294,8 @@ msgid "WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we alr
 msgstr ""
 
 #: find/fstype.c:250
-#, fuzzy
 msgid "unknown"
-msgstr "%s: adresas nežinomas"
+msgstr "nežinomas"
 
 #: find/ftsfind.c:298
 #, c-format
@@ -346,6 +345,9 @@ msgid ""
 "default path is the current directory; default expression is -print\n"
 "expression may consist of: operators, options, tests, and actions:\n"
 msgstr ""
+"\n"
+"numatytasis kelias yra esamas aplankas; numatytoji išraiška yra -print\n"
+"išraiška gali būti sudaryta iš operatorių, opcijų, testų ir veiksmų:\n"
 
 #: find/parser.c:1113
 msgid ""
@@ -353,6 +355,9 @@ msgid ""
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
+"operatoriai (pagal mažėjantį prioritetą; -and numatytas, jei nėra kitokio):\n"
+"      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
+"      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
 #: find/parser.c:1117
 msgid ""
@@ -362,6 +367,11 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
+"pozicinės opcijos (visada teigiamos): -daystart -follow -regextype\n"
+"\n"
+"normalios opcijos (visada teigiamos, nurodytos prieš kitas išraiškas):\n"
+"      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
+"      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
 #: find/parser.c:1122
 msgid ""
@@ -370,6 +380,10 @@ msgid ""
 "      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
+"testai (N gali būti +N arba -N arba N): -amin N -anewer FILE -atime N -cmin N\n"
+"      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
+"      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 
 #: find/parser.c:1127
 msgid ""
@@ -378,6 +392,10 @@ msgid ""
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]\n"
 msgstr ""
+"      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
+"      -readable -writable -executable\n"
+"      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
+"      -used N -user NAME -xtype [bcdpfls]\n"
 
 #: find/parser.c:1132
 msgid ""
@@ -386,6 +404,10 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"veiksmai: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
+"      -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n"
+"      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
+"      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 
 #: find/parser.c:1138
 msgid ""
@@ -393,6 +415,9 @@ msgid ""
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
+"Praneškite apie klaidas (ir sekite jų taisymo eigą) per findutils klaidų\n"
+"pranešimo puslapį http://savannah.gnu.org/ arba, jei neturite prieigos prie\n"
+"žiniatinklio, išsiuntę el. laišką adresu <bug-findutils@gnu.org>."
 
 #: find/parser.c:1192
 msgid "sanity check of the fnmatch() library function failed."
@@ -406,7 +431,7 @@ msgstr ""
 #: find/parser.c:1354
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
-msgstr ""
+msgstr "Tikėtasi teigiamo dešimtainio skaičiaus argumento %s, bet gauta %s"
 
 #: find/parser.c:1505
 msgid "This system does not provide a way to find the birth time of a file."
@@ -445,7 +470,7 @@ msgstr "netaisyklingas parametras %s argumentui %s"
 #: find/parser.c:2119
 #, c-format
 msgid "invalid -size type `%c'"
-msgstr ""
+msgstr "netaisyklingas -size tipas „%c“"
 
 #: find/parser.c:2125
 #, fuzzy, c-format
@@ -531,9 +556,9 @@ msgid "standard output"
 msgstr "standartinis išvedimas"
 
 #: find/pred.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "cannot delete %s"
-msgstr "%s: nepavyko ištrinti: %s"
+msgstr "nepavyko ištrinti %s"
 
 #: find/pred.c:1362
 #, c-format
@@ -543,35 +568,33 @@ msgstr ""
 #: find/pred.c:1426
 #, c-format
 msgid "< %s ... %s > ? "
-msgstr ""
+msgstr "< %s ... %s > ? "
 
 #: find/pred.c:1874
 msgid "Cannot close standard input"
-msgstr ""
+msgstr "Nepavyko užverti standartinio įvedimo"
 
 #: find/pred.c:1909
-#, fuzzy
 msgid "Failed to change directory"
-msgstr "nėra kito aplanko"
+msgstr "Nepavyko pakeisti aplanko"
 
 #: find/pred.c:1950 xargs/xargs.c:1137
 msgid "cannot fork"
 msgstr ""
 
 #: find/pred.c:1975
-#, fuzzy, c-format
+#, c-format
 msgid "error waiting for %s"
-msgstr "rašomas %s"
+msgstr "klaida laukiant %s"
 
 #: find/pred.c:1984
-#, fuzzy, c-format
+#, c-format
 msgid "%s terminated by signal %d"
-msgstr "%s: nutrauktas signalo %d"
+msgstr "%s nutrauktas signalo %d"
 
 #: find/tree.c:89 find/tree.c:94 find/tree.c:174 find/tree.c:213
-#, fuzzy
 msgid "invalid expression"
-msgstr "netaisyklingas naudotojas"
+msgstr "netaisyklinga išraiška"
 
 #: find/tree.c:99
 #, c-format
@@ -581,16 +604,16 @@ msgstr ""
 #: find/tree.c:108
 #, c-format
 msgid "expected an expression between '%s' and ')'"
-msgstr ""
+msgstr "tikėtasi išraiškos tarp „%s“ ir „)“"
 
 #: find/tree.c:117
 #, c-format
 msgid "expected an expression after '%s'"
-msgstr ""
+msgstr "tikėtasi išraiškos po „%s“"
 
 #: find/tree.c:121
 msgid "invalid expression; you have too many ')'"
-msgstr ""
+msgstr "netaisyklinga išraiška; per daug „)“"
 
 #: find/tree.c:143
 #, c-format
@@ -599,25 +622,25 @@ msgstr ""
 
 #: find/tree.c:149
 msgid "invalid expression; empty parentheses are not allowed."
-msgstr ""
+msgstr "netaisyklinga išraiška; tušti skliausteliai neleistini."
 
 #: find/tree.c:154
 msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
-msgstr ""
+msgstr "netaisyklinga išraiška; tikėtasi rasti, bet nerasta „)“."
 
 #: find/tree.c:159 find/tree.c:788
 msgid "oops -- invalid expression type!"
-msgstr ""
+msgstr "nežinomas išraiškos tipas!"
 
 #: find/tree.c:231
 #, c-format
 msgid "oops -- invalid expression type (%d)!"
-msgstr ""
+msgstr "nežinomas išraiškos tipas (%d)!"
 
 #: find/tree.c:1228
 #, c-format
 msgid "paths must precede expression: %s"
-msgstr ""
+msgstr "keliai turi būti prieš išraišką: %s"
 
 #: find/tree.c:1237
 #, c-format
@@ -625,9 +648,9 @@ msgid "unknown predicate `%s'"
 msgstr "nežinomas predikatas „%s“"
 
 #: find/tree.c:1257
-#, fuzzy, c-format
+#, c-format
 msgid "invalid predicate `%s'"
-msgstr "nežinomas predikatas „%s“"
+msgstr "netaisyklingas predikatas „%s“"
 
 #: find/tree.c:1262
 #, fuzzy, c-format
@@ -640,9 +663,8 @@ msgid "missing argument to `%s'"
 msgstr "„%s“ trūksta parametro"
 
 #: find/tree.c:1345
-#, fuzzy
 msgid "you have too many ')'"
-msgstr "Turite laiškų $_"
+msgstr "per daug „)“"
 
 #: find/tree.c:1350
 #, fuzzy, c-format
@@ -660,12 +682,12 @@ msgstr ""
 #: find/util.c:158
 #, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
-msgstr ""
+msgstr "Naudojimas: %s  [-H] [-L] [-P] [-Olygmuo] [-D "
 
 #: find/util.c:160
 #, c-format
 msgid "] [path...] [expression]\n"
-msgstr ""
+msgstr "] [kelias...] [išraiška]\n"
 
 #: find/util.c:749
 #, c-format
@@ -687,21 +709,20 @@ msgstr ""
 #: find/util.c:794 find/util.c:798
 #, c-format
 msgid "Invalid optimisation level %s"
-msgstr ""
+msgstr "Netaisyklingas optimizacijos lygmuo %s"
 
 #: find/util.c:805
 #, c-format
 msgid "Optimisation level %lu is too high.  If you want to find files very quickly, consider using GNU locate."
-msgstr ""
+msgstr "Optimizacijos lygmuo %lu per aukštas.  Jei norite rasti failus labai greitai, išbandykite GNU locate."
 
 #: find/util.c:948
 msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
 
 #: lib/buildcmd.c:197
-#, fuzzy
 msgid "command too long"
-msgstr "%s: komanda nerasta"
+msgstr "komanda per ilga"
 
 #: lib/buildcmd.c:289
 msgid "can not fit single argument within argument list size limit"
@@ -748,6 +769,8 @@ msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
 msgstr ""
+"\n"
+"Praneškite apie klaidas adresu <bug-findutils@gnu.org>.\n"
 
 #: locate/frcode.c:169
 #, c-format
@@ -805,14 +828,14 @@ msgstr ""
 #, c-format
 msgid "Locate database size: %s byte\n"
 msgid_plural "Locate database size: %s bytes\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Locate duomenų bazės dydis: %s baitas\n"
+msgstr[1] "Locate duomenų bazės dydis: %s baitai\n"
+msgstr[2] "Locate duomenų bazės dydis: %s baitų\n"
 
 #: locate/locate.c:905
-#, fuzzy, c-format
+#, c-format
 msgid "Matching Filenames: %s\n"
-msgstr "Visi failų vardai: %s\n"
+msgstr "Atitinkantys failų vardai: %s\n"
 
 #: locate/locate.c:906
 #, c-format
@@ -853,7 +876,7 @@ msgstr ""
 #: locate/locate.c:1118
 #, c-format
 msgid "%s is an slocate database.  Support for these is new, expect problems for now."
-msgstr ""
+msgstr "%s yra slocate duomenų bazė.  Jų palaikymas atsirado neseniai, galite tikėtis nesklandumų."
 
 #: locate/locate.c:1132
 #, c-format
@@ -939,14 +962,14 @@ msgid "Warning: locate database %s was built with a different byte order"
 msgstr ""
 
 #: locate/word_io.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected EOF in %s"
-msgstr "netikėta failo pabaiga ieškant „]]“"
+msgstr "netikėta failo pabaiga %s"
 
 #: locate/word_io.c:146
 #, c-format
 msgid "error reading a word from %s"
-msgstr ""
+msgstr "klaida skaitant žodį iš %s"
 
 #: xargs/xargs.c:303
 #, c-format
@@ -1057,7 +1080,7 @@ msgstr ""
 #: xargs/xargs.c:1275
 #, c-format
 msgid "%s: exited with status 255; aborting"
-msgstr ""
+msgstr "%s: grąžino klaidos kodą 255; nutraukiama"
 
 #: xargs/xargs.c:1277
 #, c-format
