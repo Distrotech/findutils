@@ -1502,7 +1502,7 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 	{
 	  error(0, 0,
 		_("This system does not provide a way to find the birth time of a file."));
-	  return 0;
+	  return false;
 	}
 #endif
       
@@ -1520,7 +1520,15 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 	  /* Because this item is ARG_SPECIAL_PARSE, we have to advance arg_ptr
 	   * past the test name (for most other tests, this is already done)
 	   */
-	  (*arg_ptr)++;
+	  if (argv[1+*arg_ptr] == NULL)
+	    {
+	      error(1, 0, _("The %s test needs an argument"),
+		    quotearg_n_style(0, options.err_quoting_style, argv[*arg_ptr]));
+	    }
+	  else
+	    {
+	      (*arg_ptr)++;
+	    }
 	  
 	  our_pred = insert_primary (entry);
 

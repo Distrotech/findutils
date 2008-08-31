@@ -174,6 +174,7 @@ find.gnu/sv-bug-17477.exp \
 find.gnu/sv-bug-17490.exp \
 find.gnu/sv-bug-17782.exp \
 find.gnu/sv-bug-18222.exp \
+find.gnu/sv-bug-24169.exp \
 find.gnu/quit.exp \
 find.gnu/used-invarg.exp \
 find.gnu/used-missing.exp \
