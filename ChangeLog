@@ -1,3 +1,14 @@
+2008-08-31  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #24169 (-neweraa without following arg coredumps).
+	* find/parser.c (parse_newerXY): Issue a fatal error message if
+	there is no following argument.
+	* find/testsuite/find.gnu/sv-bug-24169.exp: Test case for this
+	bug.  
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Also distribute
+	this new test file.
+	* NEWS: Mention this change.
+
 2008-08-04  James Youngman  <jay@gnu.org>
 
 	* find/find.1: correct typo seach->seach (reported by Bobby
