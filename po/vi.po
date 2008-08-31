@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.13\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-05-21 00:01+0100\n"
+"POT-Creation-Date: 2008-08-31 12:40+0100\n"
 "PO-Revision-Date: 2008-02-15 17:30+1030\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
@@ -558,27 +558,32 @@ msgstr "Đợi đối số kiểu số nguyên thập phân dương tới %1$s, 
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr "Hệ thống này không cung cấp cách tìm giờ sinh của tập tin."
 
-#: find/parser.c:1554
+#: find/parser.c:1525
+#, fuzzy, c-format
+msgid "The %s test needs an argument"
+msgstr "%s: tùy chọn « %s » cần đến đối số\n"
+
+#: find/parser.c:1562
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr "Không thể tìm biết cách giải thích %s dạng ngày hay giờ"
 
-#: find/parser.c:1570
+#: find/parser.c:1578
 #, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Không thể lấy giờ sinh của tập tin %s"
 
-#: find/parser.c:1771
+#: find/parser.c:1779
 #, c-format
 msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 msgstr "Chế độ %s không hợp lệ khi POSIXLY_CORRECT hoạt động."
 
-#: find/parser.c:1854
+#: find/parser.c:1862
 #, c-format
 msgid "invalid mode %s"
 msgstr "chế độ không hợp lệ %s"
 
-#: find/parser.c:1873
+#: find/parser.c:1881
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -589,21 +594,21 @@ msgstr ""
 "perm /000 » đã được thay đổi để tương ứng với « -perm -000 »; tức là nó đã "
 "từng không khớp với tập tin nào, bây giờ nó khớp với mọi tập tin."
 
-#: find/parser.c:2070
+#: find/parser.c:2078
 msgid "invalid null argument to -size"
 msgstr "đối số rỗng không hợp lệ đối với tùy chọn « -size » (kích cỡ)"
 
-#: find/parser.c:2118
+#: find/parser.c:2126
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "kiểu « -size » (kích cỡ) không hợp lệ « %c »"
 
-#: find/parser.c:2124
+#: find/parser.c:2132
 #, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "đối số không hợp lệ « %s%c » tới kích cỡ"
 
-#: find/parser.c:2303
+#: find/parser.c:2311
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -611,46 +616,46 @@ msgstr ""
 "Tùy chọn « -show-control-chars » (hiển thị các ký tự điều khiển) chấp nhận "
 "một đối số riêng lẻ phải là « literal » (nghĩa chữ) hay « safe » (an toàn)."
 
-#: find/parser.c:2415
+#: find/parser.c:2423
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Đối số không hợp lệ %s tới « -used » (đã dùng)"
 
-#: find/parser.c:2467
+#: find/parser.c:2475
 #, c-format
 msgid "Features enabled: "
 msgstr "Các tính năng hoạt động: "
 
-#: find/parser.c:2576
+#: find/parser.c:2584
 msgid "Arguments to -type should contain only one letter"
 msgstr "Đối số tới « -type » (kiểu) nên chứa chỉ một chữ"
 
-#: find/parser.c:2623
+#: find/parser.c:2631
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Đối số không rõ tới « -type » (kiểu): %c"
 
-#: find/parser.c:2744
+#: find/parser.c:2752
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "cảnh báo : không nhận diện ký tự thoát « \\%c »"
 
-#: find/parser.c:2760
+#: find/parser.c:2768
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "lỗi: %s ở kết thúc của chuỗi định dạng"
 
-#: find/parser.c:2799
+#: find/parser.c:2807
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "cảnh báo : không nhận diện chỉ thị định dạng « %%%c »"
 
-#: find/parser.c:2943
+#: find/parser.c:2951
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "lỗĩ: chỉ thị định dạng « %%%c » dành để dùng trong tương lai"
 
-#: find/parser.c:2977
+#: find/parser.c:2985
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -663,7 +668,7 @@ msgstr ""
 "mục hiện thời ra « $PATH » của bạn (tức là hãy gỡ bỏ dấu chấm « . » hay ký tự "
 "hai chấm nào « : » nằm trước hay nằm theo)."
 
-#: find/parser.c:2988
+#: find/parser.c:2996
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -674,7 +679,7 @@ msgstr ""
 "không phải bảo mật cùng với hành động %2$s của find. Hãy gỡ bỏ mục nhập đó "
 "khỏi $PATH."
 
-#: find/parser.c:3091
+#: find/parser.c:3099
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -682,24 +687,24 @@ msgstr ""
 "Không cho phép bạn dùng ký tự « {} » bên trong tên tiện ích cho đối số « -"
 "execdir » và « -okdir », vì có thể rủi ro bảo mật."
 
-#: find/parser.c:3116
+#: find/parser.c:3124
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Hỗ trợ chỉ một thể hiện « {} » với đối số « -exec%s ... + »"
 
-#: find/parser.c:3133
+#: find/parser.c:3141
 msgid "The environment is too large for exec()."
 msgstr "Môi trường quá lớn đối với « exec() » (thì hành)"
 
-#: find/parser.c:3332
+#: find/parser.c:3340
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "tràn cộng khi thử tính kết thúc của hôm nay"
 
-#: find/parser.c:3488
+#: find/parser.c:3496
 msgid "standard error"
 msgstr "thiết bị lỗi chuẩn"
 
-#: find/parser.c:3493
+#: find/parser.c:3501
 msgid "standard output"
 msgstr "thiết bị xuất chuẩn"
 

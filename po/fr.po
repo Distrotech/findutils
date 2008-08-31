@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.27\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-05-21 00:01+0100\n"
+"POT-Creation-Date: 2008-08-31 12:40+0100\n"
 "PO-Revision-Date: 2006-05-23 08:00-0500\n"
 "Last-Translator: Michel Robitaille <robitail@IRO.UMontreal.CA>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -505,27 +505,32 @@ msgstr ""
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 
-#: find/parser.c:1554
+#: find/parser.c:1525
+#, fuzzy, c-format
+msgid "The %s test needs an argument"
+msgstr "%s: l'option « %s » requiert un paramètre\n"
+
+#: find/parser.c:1562
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr ""
 
-#: find/parser.c:1570
+#: find/parser.c:1578
 #, fuzzy, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Ne peut ouvrir le fichier d'entrée `%s'"
 
-#: find/parser.c:1771
+#: find/parser.c:1779
 #, c-format
 msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 msgstr ""
 
-#: find/parser.c:1854
+#: find/parser.c:1862
 #, fuzzy, c-format
 msgid "invalid mode %s"
 msgstr "mode invalide « %s »"
 
-#: find/parser.c:1873
+#: find/parser.c:1881
 #, fuzzy, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -537,66 +542,66 @@ msgstr ""
 "consistant avec -perm -000 pour qu'à ce moment il ne concorde avec aucun "
 "fichier mais il sera bient^t changer pour concorder avec tous les fichiers."
 
-#: find/parser.c:2070
+#: find/parser.c:2078
 msgid "invalid null argument to -size"
 msgstr "Paramètre nul invalide pour l'option -size"
 
-#: find/parser.c:2118
+#: find/parser.c:2126
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "Type invalide pour l'option -size « %c »"
 
-#: find/parser.c:2124
+#: find/parser.c:2132
 #, fuzzy, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "Paramètre invalide « %s » pour « %s »"
 
-#: find/parser.c:2303
+#: find/parser.c:2311
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr ""
 
-#: find/parser.c:2415
+#: find/parser.c:2423
 #, fuzzy, c-format
 msgid "Invalid argument %s to -used"
 msgstr "le paramètre %s est invalide pour %s"
 
-#: find/parser.c:2467
+#: find/parser.c:2475
 #, c-format
 msgid "Features enabled: "
 msgstr "Options activées: "
 
-#: find/parser.c:2576
+#: find/parser.c:2584
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2623
+#: find/parser.c:2631
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2744
+#: find/parser.c:2752
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "AVERTISSEMENT: séquence d'échappement « \\%c » inconnue."
 
-#: find/parser.c:2760
+#: find/parser.c:2768
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2799
+#: find/parser.c:2807
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "AVERTISSEMENT: directive de formatage « %%%c » inconnue."
 
-#: find/parser.c:2943
+#: find/parser.c:2951
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2977
+#: find/parser.c:2985
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -609,7 +614,7 @@ msgstr ""
 "enlever le répertoire courant de  $PATH (i.e enlver \".\" ou : en préfixe et "
 "suffixe)"
 
-#: find/parser.c:2988
+#: find/parser.c:2996
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -621,7 +626,7 @@ msgstr ""
 "enlever le répertoire courant de  $PATH (i.e enlver \".\" ou : en préfixe et "
 "suffixe)"
 
-#: find/parser.c:3091
+#: find/parser.c:3099
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -629,25 +634,25 @@ msgstr ""
 "Vous ne pouvez utiliser {} à l'intérieur du nom de l'utilitaire pour --"
 "execdir et -okdir, parce qu'il pose un problème potentiel de sécurité."
 
-#: find/parser.c:3116
+#: find/parser.c:3124
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Une seule instance de {} est supportée avec -exec%s ... +"
 
-#: find/parser.c:3133
+#: find/parser.c:3141
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "L'environnement est trop large pour l'exécution."
 
-#: find/parser.c:3332
+#: find/parser.c:3340
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3488
+#: find/parser.c:3496
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3493
+#: find/parser.c:3501
 msgid "standard output"
 msgstr ""
 

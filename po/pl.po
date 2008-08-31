@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.13\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-05-21 00:01+0100\n"
+"POT-Creation-Date: 2008-08-31 12:40+0100\n"
 "PO-Revision-Date: 2008-02-15 00:07+0100\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -506,27 +506,32 @@ msgstr ""
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr "Ten system nie daje mo¿liwo¶ci sprawdzenia czasu narodzin pliku."
 
-#: find/parser.c:1554
+#: find/parser.c:1525
+#, fuzzy, c-format
+msgid "The %s test needs an argument"
+msgstr "%s: opcja `%s' musi mieæ argument\n"
+
+#: find/parser.c:1562
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr "Nie wiem jak zinterpretowaæ %s jako datê lub czas"
 
-#: find/parser.c:1570
+#: find/parser.c:1578
 #, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Nie mo¿na uzyskaæ czasu narodzin pliku %s"
 
-#: find/parser.c:1771
+#: find/parser.c:1779
 #, c-format
 msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 msgstr "Uprawnienia %s nie s± poprawne kiedy w³±czone jest POSIXLY_CORRECT."
 
-#: find/parser.c:1854
+#: find/parser.c:1862
 #, c-format
 msgid "invalid mode %s"
 msgstr "niew³a¶ciwe uprawnienia %s"
 
-#: find/parser.c:1873
+#: find/parser.c:1881
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -538,21 +543,21 @@ msgstr ""
 "wcze¶niej nie pasowa³o do ¿adnych plików, ale teraz pasuje do wszystkich "
 "plików."
 
-#: find/parser.c:2070
+#: find/parser.c:2078
 msgid "invalid null argument to -size"
 msgstr "b³êdny zerowy argument opcji -size"
 
-#: find/parser.c:2118
+#: find/parser.c:2126
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "b³êdny typ -size `%c'"
 
-#: find/parser.c:2124
+#: find/parser.c:2132
 #, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "B³êdny argument `%s%c' opcji -size"
 
-#: find/parser.c:2303
+#: find/parser.c:2311
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -560,48 +565,48 @@ msgstr ""
 "Opcja -show-control-chars przyjmuje jeden argument o warto¶ci 'literal' lub "
 "'safe'"
 
-#: find/parser.c:2415
+#: find/parser.c:2423
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "B³êdny argument %s opcji -used"
 
-#: find/parser.c:2467
+#: find/parser.c:2475
 #, c-format
 msgid "Features enabled: "
 msgstr "W³±czone w³a¶ciwo¶ci: "
 
-#: find/parser.c:2576
+#: find/parser.c:2584
 msgid "Arguments to -type should contain only one letter"
 msgstr "Argumenty dla -type powinny zawieraæ tylko jedn± literê"
 
-#: find/parser.c:2623
+#: find/parser.c:2631
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Nieznany argument opcji -type: %c"
 
-#: find/parser.c:2744
+#: find/parser.c:2752
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "uwaga: nierozpoznany znak steruj±cy `\\%c'"
 
-#: find/parser.c:2760
+#: find/parser.c:2768
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "b³±d: %s na koñcu ³añcucha formatuj±cego"
 
-#: find/parser.c:2799
+#: find/parser.c:2807
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "uwaga: nierozpoznana dyrektywa formatuj±ca `%%%c'"
 
-#: find/parser.c:2943
+#: find/parser.c:2951
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 "b³±d: dyrektywa formatuj±ca `%%%c' jest zarezerwowana do przysz³ego "
 "wykorzystania"
 
-#: find/parser.c:2977
+#: find/parser.c:2985
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -614,7 +619,7 @@ msgstr ""
 "katalog ze zmiennej $PATH (tzn. usun±æ \".\" albo wiod±ce lub koñcowe "
 "dwukropki)"
 
-#: find/parser.c:2988
+#: find/parser.c:2996
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -625,7 +630,7 @@ msgstr ""
 "niebezpieczne w po³±czeniu z akcj± %s polecenia find. Proszê usun±æ ten wpis "
 "ze zmiennej $PATH"
 
-#: find/parser.c:3091
+#: find/parser.c:3099
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -633,25 +638,25 @@ msgstr ""
 "Nie mo¿na u¿ywaæ {} wewn±trz nazwy narzêdzia dla opcji -execdir i -okdir, "
 "poniewa¿ jest to potencjalny problem z bezpieczeñstwem."
 
-#: find/parser.c:3116
+#: find/parser.c:3124
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Obs³ugiwane jest tylko jedno wyst±pienie {} przy -exec%s ... +"
 
-#: find/parser.c:3133
+#: find/parser.c:3141
 msgid "The environment is too large for exec()."
 msgstr "¦rodowisko jest zbyt du¿e, aby wykonaæ exec()."
 
-#: find/parser.c:3332
+#: find/parser.c:3340
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 "przepe³nienie arytmetyczne przy próbie obliczenia koñca dnia dzisiejszego"
 
-#: find/parser.c:3488
+#: find/parser.c:3496
 msgid "standard error"
 msgstr "standardowe wyj¶cie diagnostyczne"
 
-#: find/parser.c:3493
+#: find/parser.c:3501
 msgid "standard output"
 msgstr "standardowe wyj¶cie"
 

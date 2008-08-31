@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.4.0\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-05-21 00:01+0100\n"
+"POT-Creation-Date: 2008-08-31 12:40+0100\n"
 "PO-Revision-Date: 2008-05-29 11:51+0800\n"
 "Last-Translator: Ji ZhengYu <zhengyuji@gmail.com>\n"
 "Language-Team: Chinese (simplified) <translation-team-zh-cn@lists."
@@ -489,27 +489,32 @@ msgstr "本应对 %s 使用一个十进制的正整数作为参数，但却使�
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr "此系统未提供查找文件生成时间的方法。"
 
-#: find/parser.c:1554
+#: find/parser.c:1525
+#, fuzzy, c-format
+msgid "The %s test needs an argument"
+msgstr "%s：选项“%s”需要一个参数\n"
+
+#: find/parser.c:1562
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr "我无法找到将 %s 解释为日期或时间的方法"
 
-#: find/parser.c:1570
+#: find/parser.c:1578
 #, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "无法获得文件 %s 的生成时间"
 
-#: find/parser.c:1771
+#: find/parser.c:1779
 #, c-format
 msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 msgstr "当开启 POSIXLY_CORRECT 时模式 %s 无效。"
 
-#: find/parser.c:1854
+#: find/parser.c:1862
 #, c-format
 msgid "invalid mode %s"
 msgstr "非法权限 %s"
 
-#: find/parser.c:1873
+#: find/parser.c:1881
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -520,66 +525,66 @@ msgstr ""
 "改至与 -perm 000 一致了；那即是说，以前它不匹配任何文件，而现在它匹配所有文"
 "件。"
 
-#: find/parser.c:2070
+#: find/parser.c:2078
 msgid "invalid null argument to -size"
 msgstr "-size 的 null 参数无效"
 
-#: find/parser.c:2118
+#: find/parser.c:2126
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "无效的 -size 类型“%c”"
 
-#: find/parser.c:2124
+#: find/parser.c:2132
 #, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "-size 的参数‘%s%c’无效"
 
-#: find/parser.c:2303
+#: find/parser.c:2311
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
 msgstr "-show-control-chars 选项仅带一个参数，它必须是‘literal’或‘safe’"
 
-#: find/parser.c:2415
+#: find/parser.c:2423
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "-used 的参数 %s 无效"
 
-#: find/parser.c:2467
+#: find/parser.c:2475
 #, c-format
 msgid "Features enabled: "
 msgstr "开启的特性: "
 
-#: find/parser.c:2576
+#: find/parser.c:2584
 msgid "Arguments to -type should contain only one letter"
 msgstr "-type 的参数应当仅包含一个字母"
 
-#: find/parser.c:2623
+#: find/parser.c:2631
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "-type 的参数未知: %c"
 
-#: find/parser.c:2744
+#: find/parser.c:2752
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "敬告：无法识别的转义字符“\\%c”"
 
-#: find/parser.c:2760
+#: find/parser.c:2768
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "错误: %s 位于格式字符串的末尾"
 
-#: find/parser.c:2799
+#: find/parser.c:2807
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "警告：不可识别的格式指令“%%%c”"
 
-#: find/parser.c:2943
+#: find/parser.c:2951
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "错误: 格式指令‘%%%c’是留给将来使用的。"
 
-#: find/parser.c:2977
+#: find/parser.c:2985
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -590,7 +595,7 @@ msgstr ""
 "当前目录包含在了 PATH 环境变量中，与 find 的 %s 动作合用时不安全。请从您的 "
 "$PATH 变量中删除当前目录(即删除“.”或冒号前面或后面的东西)"
 
-#: find/parser.c:2988
+#: find/parser.c:2996
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -600,31 +605,31 @@ msgstr ""
 "相对路径 %s 包含在了 PATH 环境变量中，与 find 的 %s 动作合用时不安全。请从 "
 "$PATH 变量中删除那个条目"
 
-#: find/parser.c:3091
+#: find/parser.c:3099
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr "您不可以在 -execdir 和 -okdir 中使用 {}，因为这会带来潜在的安全问题。"
 
-#: find/parser.c:3116
+#: find/parser.c:3124
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + 仅支持一个 {} 实例"
 
-#: find/parser.c:3133
+#: find/parser.c:3141
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "对 exec() 来说环境过大。"
 
-#: find/parser.c:3332
+#: find/parser.c:3340
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "尝试计算本日终止时刻时出现算术溢出"
 
-#: find/parser.c:3488
+#: find/parser.c:3496
 msgid "standard error"
 msgstr "标准错误"
 
-#: find/parser.c:3493
+#: find/parser.c:3501
 msgid "standard output"
 msgstr "标准输出"
 
