@@ -5,6 +5,13 @@
 
 2009-04-10  James Youngman  <jay@gnu.org>
 
+	Backport fix for Savannah bug #23996 (integer overflow when parsing "-used 3").
+	* find/parser.c (get_relative_timestamp): Check for overflow after
+	the fact by comparing the relative sizes of the result and the
+	operands.  This prevents an incorrect diagnosis of overflow when
+	the resulting tv_sec is correctly negative (as is normally the
+	case for -used).
+
 	Backport fix for Savannah bug #23663, crash in some locales for %AX.
 	* find/pred.c (do_time_format): Fix off-by-one error in handling
 	of the buffer used to print timestamps.   This caused a crash in
