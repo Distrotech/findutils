@@ -3241,9 +3241,9 @@ get_relative_timestamp (const char *str,
 			double sec_per_unit,
 			const char *overflowmessage)
 {
-  uintmax_t checkval;
   double offset, seconds, nanosec;
-  
+  static const long nanosec_per_sec = 1000000000;
+
   if (get_comp_type(&str, &result->kind))
     {
       /* Invert the sense of the comparison */
@@ -3263,23 +3263,27 @@ get_relative_timestamp (const char *str,
 	   */
 	  nanosec = modf(offset * sec_per_unit, &seconds);
 	  nanosec *= 1.0e9;	/* convert from fractional seconds to ns. */
-	  
+	  assert (nanosec < nanosec_per_sec);
+
+	  /* Perform the subtraction, and then check for overflow. 
+	   * On systems where signed aritmetic overflow does not 
+	   * wrap, this check may be unreliable.   The C standard 
+	   * does not require this approach to work, but I am aware 
+	   * of no platforms where it fails.
+	   */
 	  result->ts.tv_sec  = origin.tv_sec - seconds;
-	  result->ts.tv_nsec = origin.tv_nsec - nanosec;
-	  checkval = (uintmax_t)origin.tv_sec - seconds;
-	  
-	  if (origin.tv_nsec < nanosec)	
-	    {
-	      /* Perform a carry operation */
-	      result->ts.tv_nsec += 1000000000;
-	      result->ts.tv_sec  -= 1;
-	      checkval -= 1;
-	    }
-	  /* Check for overflow. */
-	  if (checkval != result->ts.tv_sec)
+	  if ((origin.tv_sec < result->ts.tv_sec) != (seconds < 0))
 	    {
 	      /* an overflow has occurred. */
 	      error (1, 0, overflowmessage, str);
+	    }
+
+	  result->ts.tv_nsec = origin.tv_nsec - nanosec;
+	  if (origin.tv_nsec < nanosec)	
+	    {
+	      /* Perform a carry operation */
+	      result->ts.tv_nsec += nanosec_per_sec;
+	      result->ts.tv_sec  -= 1;
 	    }
 	  return true;
 	}
