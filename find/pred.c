@@ -2068,7 +2068,7 @@ static char*
 do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_size)
 {
   static char *buf = NULL;
-  static size_t buf_size = 0u;
+  static size_t buf_size;
   char *timefmt = NULL;
   boolean done = false;
   struct tm altered_time;
@@ -2092,10 +2092,21 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
   else
     altered_time.tm_sec += 11;
 
+  /* If we call strftime() with buf_size=0, the program will coredump
+   * on Solaris, since it unconditionally writes the terminating null 
+   * character.
+   */
+  buf_size = 1u;
+  buf = xmalloc (buf_size);
   while (!done)
     {
-      const size_t buf_used = strftime (buf, buf_size, timefmt, p);
-      if (0 != buf_used)
+      /* I'm not sure that Solaris will return 0 when the buffer is too small.
+       * Therefore we do not check for (buf_used != 0) as the termination
+       * condition. 
+       */
+      size_t buf_used = strftime (buf, buf_size, timefmt, p);
+      if (buf_used		/* Conforming POSIX system */
+	  && (buf_used < buf_size)) /* Solaris workaround */
 	{
 	  char *altbuf;
 	  size_t i, n;
