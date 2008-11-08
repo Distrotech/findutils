@@ -1,3 +1,11 @@
+2008-11-08  James Youngman  <jay@gnu.org>
+
+	* import-gnulib.config (gnulib_version): Update version of gnulib,
+	mainly in order to pull in Jim Meyering's efficiency improvements
+	to fts.  See http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=commit;h=2f2978ede97205c49d3e568ccffa5a04fb53326b
+	* lib/dircallback.c: gnulib's lstat.h is now gone, instead it
+	provides <sys/stat.h> where that is needed.
+
 2008-11-08  Jim Meyering <meyering@redhat.com>
 
 	* README-CVS: tiny typo fix (s/fileutils/findutils/).

@@ -6,6 +6,15 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 #24283: find-4.5.2 -printf %TY causes NULL pointer dereference
 
+** Performance changes
+
+Changes to gnulib's fts code should provide performance improvements
+in find when processing very large directories (for example
+directories containing significantly more than 10000 filenames).
+Performance imporvements may only exist for some find command lines
+(performance testing was done for the fts implementation itself but
+we haven't done the analogous performance tests in find).
+
 * Major changes in release 4.5.2, 2008-09-07
 
 ** Bug Fixes
