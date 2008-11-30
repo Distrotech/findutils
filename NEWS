@@ -15,6 +15,11 @@ Performance imporvements may only exist for some find command lines
 (performance testing was done for the fts implementation itself but
 we haven't done the analogous performance tests in find).
 
+File type information is also passed back from fts to find, saving
+calls to the stat system call for find command lines which don't need
+the stat information.  This provides a performance improvement for
+common cases like "find . -type d".
+
 * Major changes in release 4.5.2, 2008-09-07
 
 ** Bug Fixes

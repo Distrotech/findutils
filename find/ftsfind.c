@@ -472,8 +472,8 @@ consider_visiting(FTS *p, FTSENT *ent)
       || ent->fts_info == FTS_NS /* e.g. symlink loop */)
     {
       assert (!state.have_stat);
-      assert (!state.have_type);
-      state.type = mode = 0;
+      assert (state.type != 0);
+      mode = state.type;
     }
   else
     {
@@ -615,8 +615,8 @@ find(char *arg)
       while ( (ent=fts_read(p)) != NULL )
 	{
 	  state.have_stat = false;
-	  state.have_type = false;
-	  state.type = 0;
+	  state.have_type = !!ent->fts_statp->st_mode;
+	  state.type = state.have_type ? ent->fts_statp->st_mode : 0;
 	  consider_visiting(p, ent);
 	}
       fts_close(p);

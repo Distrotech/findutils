@@ -1,3 +1,16 @@
+2008-11-30  Jim Meyering  <meyering@redhat.com>
+
+	Pass file type information in dirent.d_type from fts to find.
+	* find/ftsfind.c (consider_visiting): When fts provides usable
+	dirent.d_type information, and the only stat information required
+	by find's predicates is the file-type information normally found
+	in stat.st_mode (that is, not the permissions information), skip
+	the now-redundant stat calls.  This change is useful only with the
+	very latest version of fts.c from gnulib.  Requires gnulib version
+	d4b129b8e5f8a8d1198020fd6fc79310d305936c or later.
+	* find/ftsfind.c (find): Set state.have_type if fts returned type
+	information.
+
 2008-11-08  James Youngman  <jay@gnu.org>
 
 	* import-gnulib.config (gnulib_version): Update version of gnulib,
