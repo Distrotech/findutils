@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-09-07 14:34+0000\n"
+"POT-Creation-Date: 2008-11-30 23:17+0000\n"
 "PO-Revision-Date: 2003-11-04 05:21+0200\n"
 "Last-Translator: Ales Nyakhaychyk <nab@mail.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -34,7 +34,7 @@ msgstr "Рэчаісныя довады:"
 msgid "error closing file"
 msgstr ""
 
-#: gnulib/lib/closeout.c:73 locate/code.c:152 locate/frcode.c:216
+#: gnulib/lib/closeout.c:112 locate/code.c:152 locate/frcode.c:216
 msgid "write error"
 msgstr ""
 
@@ -99,12 +99,12 @@ msgstr "%s: выбар \"-W %s\" зьяўляецца неадназначным
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: выбар \"-W %s\" не дазваляе довад\n"
 
-#: gnulib/lib/openat-die.c:33
+#: gnulib/lib/openat-die.c:35
 #, fuzzy
 msgid "unable to record current working directory"
 msgstr "немагчыма атрымаць бягучую тэчку"
 
-#: gnulib/lib/openat-die.c:46
+#: gnulib/lib/openat-die.c:48
 msgid "failed to return to initial working directory"
 msgstr ""
 
@@ -207,11 +207,23 @@ msgstr ""
 msgid "No previous regular expression"
 msgstr "адсутнічае папярэдні сталы выраз"
 
-#: gnulib/lib/rpmatch.c:69
+#. TRANSLATORS: A regular expression testing for an affirmative answer
+#. (english: "yes").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^yesexpr='
+#: gnulib/lib/rpmatch.c:147
 msgid "^[yY]"
 msgstr "^[тТ]"
 
-#: gnulib/lib/rpmatch.c:72
+#. TRANSLATORS: A regular expression testing for a negative answer
+#. (english: "no").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^noexpr='
+#: gnulib/lib/rpmatch.c:160
 msgid "^[nN]"
 msgstr "^[нН]"
 

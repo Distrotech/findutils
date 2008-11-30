@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.20\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-09-07 14:34+0000\n"
+"POT-Creation-Date: 2008-11-30 23:17+0000\n"
 "PO-Revision-Date: 2004-02-08 18:00-0200\n"
 "Last-Translator: Alexandre Folle de Menezes <afmenez@terra.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -38,7 +38,7 @@ msgstr "Argumentos válidos são:"
 msgid "error closing file"
 msgstr ""
 
-#: gnulib/lib/closeout.c:73 locate/code.c:152 locate/frcode.c:216
+#: gnulib/lib/closeout.c:112 locate/code.c:152 locate/frcode.c:216
 msgid "write error"
 msgstr ""
 
@@ -103,12 +103,12 @@ msgstr "%s: opção `-W %s' é ambígua\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: opção `-W %s' não permite um argumento\n"
 
-#: gnulib/lib/openat-die.c:33
+#: gnulib/lib/openat-die.c:35
 #, fuzzy
 msgid "unable to record current working directory"
 msgstr "não foi possível obter o diretório atual"
 
-#: gnulib/lib/openat-die.c:46
+#: gnulib/lib/openat-die.c:48
 msgid "failed to return to initial working directory"
 msgstr ""
 
@@ -211,11 +211,23 @@ msgstr ") ou \\) não correspondido"
 msgid "No previous regular expression"
 msgstr "Não há uma expressão regular prévia"
 
-#: gnulib/lib/rpmatch.c:69
+#. TRANSLATORS: A regular expression testing for an affirmative answer
+#. (english: "yes").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^yesexpr='
+#: gnulib/lib/rpmatch.c:147
 msgid "^[yY]"
 msgstr "^[sS]"
 
-#: gnulib/lib/rpmatch.c:72
+#. TRANSLATORS: A regular expression testing for a negative answer
+#. (english: "no").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^noexpr='
+#: gnulib/lib/rpmatch.c:160
 msgid "^[nN]"
 msgstr "^[nN]"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-09-07 14:34+0000\n"
+"POT-Creation-Date: 2008-11-30 23:17+0000\n"
 "PO-Revision-Date: 2002-01-07 18:43GMT+06\n"
 "Last-Translator: Denis Perchine <dyp@perchine.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "Верные аргументы:"
 msgid "error closing file"
 msgstr ""
 
-#: gnulib/lib/closeout.c:73 locate/code.c:152 locate/frcode.c:216
+#: gnulib/lib/closeout.c:112 locate/code.c:152 locate/frcode.c:216
 msgid "write error"
 msgstr ""
 
@@ -99,12 +99,12 @@ msgstr "%s: ключ `-W %s' неоднозначен\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: ключ `-W %s' используется без аргумента\n"
 
-#: gnulib/lib/openat-die.c:33
+#: gnulib/lib/openat-die.c:35
 #, fuzzy
 msgid "unable to record current working directory"
 msgstr "не могу получить текущий каталог"
 
-#: gnulib/lib/openat-die.c:46
+#: gnulib/lib/openat-die.c:48
 msgid "failed to return to initial working directory"
 msgstr ""
 
@@ -207,11 +207,23 @@ msgstr "Несбалансированная ) или \\)"
 msgid "No previous regular expression"
 msgstr "Нет предыдущего регулярного выражения"
 
-#: gnulib/lib/rpmatch.c:69
+#. TRANSLATORS: A regular expression testing for an affirmative answer
+#. (english: "yes").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^yesexpr='
+#: gnulib/lib/rpmatch.c:147
 msgid "^[yY]"
 msgstr "^[yYдД]"
 
-#: gnulib/lib/rpmatch.c:72
+#. TRANSLATORS: A regular expression testing for a negative answer
+#. (english: "no").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^noexpr='
+#: gnulib/lib/rpmatch.c:160
 msgid "^[nN]"
 msgstr "^[nNнН]"
 

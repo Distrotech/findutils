@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-09-07 14:34+0000\n"
+"POT-Creation-Date: 2008-11-30 23:17+0000\n"
 "PO-Revision-Date: 2003-01-19 14:42+0800\n"
 "Last-Translator: Nik Ramadhan Nik Idris <toknix@yahoo.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -33,7 +33,7 @@ msgstr "Hujah yang sah ialah:"
 msgid "error closing file"
 msgstr ""
 
-#: gnulib/lib/closeout.c:73 locate/code.c:152 locate/frcode.c:216
+#: gnulib/lib/closeout.c:112 locate/code.c:152 locate/frcode.c:216
 msgid "write error"
 msgstr ""
 
@@ -98,11 +98,11 @@ msgstr "%s: pilihan `-W %s' adalah kabur\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: pilihan `-W %s' tidak mengizinkan sebarang hujah\n"
 
-#: gnulib/lib/openat-die.c:33
+#: gnulib/lib/openat-die.c:35
 msgid "unable to record current working directory"
 msgstr ""
 
-#: gnulib/lib/openat-die.c:46
+#: gnulib/lib/openat-die.c:48
 msgid "failed to return to initial working directory"
 msgstr ""
 
@@ -205,11 +205,23 @@ msgstr ") atau \\) tidak sesuai"
 msgid "No previous regular expression"
 msgstr ""
 
-#: gnulib/lib/rpmatch.c:69
+#. TRANSLATORS: A regular expression testing for an affirmative answer
+#. (english: "yes").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^yesexpr='
+#: gnulib/lib/rpmatch.c:147
 msgid "^[yY]"
 msgstr "^[yY]"
 
-#: gnulib/lib/rpmatch.c:72
+#. TRANSLATORS: A regular expression testing for a negative answer
+#. (english: "no").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^noexpr='
+#: gnulib/lib/rpmatch.c:160
 msgid "^[nN]"
 msgstr "^[nN]"
 
