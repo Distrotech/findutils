@@ -1,3 +1,10 @@
+2010-05-08  John Gilmore  <gnu@xargs.toad.com>
+
+	Control xargs parallelism with SIGUSR1/SIGUSR2.
+	* xargs/xargs.c: Increase parallelism in mid-run with SIGUSR1;
+	decrease it with SIGUSR2.
+	* doc/find.texi, xargs/xargs.1, NEWS: Document SIGUSR1/2.
+
 2010-05-09  Sergei Golovan  <sgolovan@gmail.com> (tiny change)
 
 	Fix Savannah bug #29828, test suite deadlock on FreeBSD.

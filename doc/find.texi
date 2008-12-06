@@ -2246,6 +2246,7 @@ with the @samp{--eof} option.
 * Safe File Name Handling::
 * Unusual Characters in File Names::
 * Limiting Command Size::
+* Controlling Parallelism::
 * Interspersing File Names::
 @end menu
 
@@ -2475,8 +2476,22 @@ the argument length limit for exec, less the size of your environment,
 less 2048 bytes of headroom.  If this value is more than 128KiB,
 128Kib is used as the default value; otherwise, the default value is
 the maximum.
+@end table
 
+@node Controlling Parallelism
+@subsubsection Controlling Parallelism
 
+Normally, @code{xargs} runs one command at a time.  This is called
+"serial" execution; the commands happen in a series, one after another.
+If you'd like @code{xargs} to do things in "parallel", you can ask it
+to do so, either when you invoke it, or later while it is running.
+Running several commands at one time can make the entire operation
+go more quickly, if the commands are independent, and if your system
+has enough resources to handle the load.  When parallelism works in
+your application, @code{xargs} provides an easy way to get your work
+done faster.
+
+@table @code
 @item --max-procs=@var{max-procs}
 @itemx -P @var{max-procs}
 Run up to @var{max-procs} processes at a time; the default is 1.  If
@@ -2485,6 +2500,88 @@ possible at a time.  Use the @samp{-n}, @samp{-s}, or @samp{-L} option
 with @samp{-P}; otherwise chances are that the command will be run
 only once.
 @end table
+
+For example, suppose you have a directory tree of large image files
+and a @code{makeallsizes} script that takes a single file name and
+creates various sized images from it (thumbnail-sized, web-page-sized,
+printer-sized, and the original large file).  The script is doing enough
+work that it takes significant time to run, even on a single image.
+You could run:
+
+@example
+find originals -name '*.jpg' | xargs -1 makeallsizes
+@end example
+
+This will run @code{makeallsizes @var{filename}} once for each @code{.jpg}
+file in the @code{originals} directory.  However, if your system has
+two central processors, this script will only keep one of them busy.
+Instead, you could probably finish in about half the time by running:
+
+@example
+find originals -name '*.jpg' | xargs -1 -P 2 makeallsizes
+@end example
+
+@code{xargs} will run the first two commands in parallel, and then
+whenever one of them terminates, it will start another one, until
+the entire job is done.
+
+The same idea can be generalized to as many processors as you have handy.
+It also generalizes to other resources besides processors.  For example,
+if xargs is running commands that are waiting for a response from a
+distant network connection, running a few in parallel may reduce the
+overall latency by overlapping their waiting time.
+
+@code{xargs} also allows you to "turn up" or "turn down" its parallelism
+in the middle of a run.  Suppose you are keeping your four-processor
+system busy for hours, processing thousands of images using @code{-P 4}.
+Now, in the middle of the run, you or someone else wants you to reduce
+your load on the system, so that something else will run faster.
+If you interrupt @code{xargs}, your job will be half-done, and it
+may take significant manual work to resume it only for the remaining
+images.  If you suspend @code{xargs} using your shell's job controls
+(e.g. @code{control-Z}), then it will get no work done while suspended.
+
+Find out the process ID of the @code{xargs} process, either from your
+shell or with the @code{ps} command.  After you send it the signal
+@code{SIGUSR2}, @code{xargs} will run one fewer command in parallel.
+If you send it the signal @code{SIGUSR1}, it will run one more command
+in parallel.  For example:
+
+@example
+shell$ xargs <allimages -1 -P 4 makeallsizes &
+[4] 27643
+   ... at some later point ...
+shell$ kill -USR2 27643
+shell$ kill -USR2 %4
+@end example
+
+The first @code{kill} command will cause @code{xargs} to wait for
+two commands to terminate before starting the next command (reducing
+the parallelism from 4 to 3).  The second @code{kill} will reduce it from
+3 to 2.  (@code{%4} works in some shells as a shorthand for the process
+ID of the background job labeled @code{[4]}.)
+
+Similarly, if you started a long xargs job without parallelism, you
+can easily switch it to start running two commands in parallel by sending
+it a @code{SIGUSR1}.
+
+@code{xargs} will never terminate any existing commands when you ask it
+to run fewer processes.  It merely waits for the excess commands to
+finish.  If you ask it to run more commands, it will start the next
+one immediately (if it has more work to do).
+
+If you send several identical signals quickly, the operating system
+does not guarantee that each of them will be delivered to @code{xargs}.
+This means that you can't rapidly increase or decrease the parallelism by
+more than one command at a time.  You can avoid this problem by sending
+a signal, observing the result, then sending the next one; or merely by
+delaying for a few seconds between signals (unless your system is very
+heavily loaded).
+
+Whether or not parallel execution will work well for you depends on
+the nature of the commmand you are running in parallel, on the
+configuration of the system on which you are running the command, and
+on the other work being done on the system at the time.
 
 @node Interspersing File Names
 @subsubsection Interspersing File Names
@@ -5353,6 +5450,13 @@ return status 255.
 
 @item <program>: terminated by signal 99
 See the description of the similar message for @code{find}.
+
+@item cannot set SIGUSR1 signal handler
+@code{xargs} is having trouble preparing for you to be able to send it
+signals to increase or decrease the parallelism of its processing.
+If you don't plan to send it those signals, this warning can be ignored
+(though if you're a programmer, you may want to help us figure out
+why @code{xargs} is confused by your operating system).
 @end table
 
 @node Error Messages From locate

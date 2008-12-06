@@ -35,6 +35,11 @@ removed, but find still does not issue the maximum possible number of
 arguments, since an exec will occur each time find encounters a
 subdirectory (if at least one argument is pending).
 
+** Functional enhancements to xargs
+
+You can now increase the parallelism of xargs in mid-run by sending
+it SIGUSR1, and decrease the parallelism with SIGUSR2.
+
 * Major changes in release 4.5.8, 2010-04-07
 
 ** Bug Fixes

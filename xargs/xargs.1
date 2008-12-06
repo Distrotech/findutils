@@ -323,6 +323,16 @@ option or the
 option with
 .BR \-P ;
 otherwise chances are that only one exec will be done.
+While
+.B xargs
+is running, you can
+send its process
+a SIGUSR1 signal to increase the number of commands to run simultaneously,
+or a SIGUSR2 to decrease the number.  You cannot decrease it below 1.
+.B xargs
+never terminates its commands; when asked to decrease, it merely
+waits for more than one existing command to terminate before starting
+another.
 .SH "EXAMPLES"
 .nf
 .B find /tmp \-name core \-type f \-print | xargs /bin/rm \-f
@@ -424,7 +434,8 @@ current system.
 
 .SH "SEE ALSO"
 \fBfind\fP(1), \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1),
-\fBfork\fP(2), \fBexecvp\fP(3),
+\fBfork\fP(2), \fBexecvp\fP(3), 
+\fBkill\fP(1), \fBsignal\fP(2),
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
 The

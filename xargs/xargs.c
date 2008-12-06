@@ -136,7 +136,8 @@ static bool initial_args = true;
 
 /* If nonzero, the maximum number of child processes that can be running
    at once.  */
-static unsigned long int proc_max = 1uL;
+/* TODO: check conversion safety (i.e. range) for -P option. */
+static volatile sig_atomic_t proc_max = 1;
 
 /* Did we fork a child yet? */
 static bool procs_executed = false;
@@ -152,6 +153,9 @@ static size_t pids_alloc = 0u;
 
 /* Process ID of the parent xargs process. */
 static pid_t parent;
+
+/* If nonzero, we've been signaled that we can start more child processes. */
+static volatile sig_atomic_t stop_waiting = 0;
 
 /* Exit status; nonzero if any child process exited with a
    status of 1-125.  */
@@ -208,8 +212,6 @@ enum  ClientStatusValues {
   CHILD_EXIT_PLEASE_STOP_IMMEDIATELY = 255
 };
 
-
-
 static int read_line (void);
 static int read_string (void);
 static bool print_args (bool ask);
@@ -219,6 +221,8 @@ static void exec_if_possible (void);
 static void add_proc (pid_t pid);
 static void wait_for_proc (bool all, unsigned int minreap);
 static void wait_for_proc_all (void);
+static void increment_proc_max (int);
+static void decrement_proc_max (int);
 static long parse_num (char *str, int option, long min, long max, int fatal);
 static void usage (FILE * stream);
 
@@ -371,6 +375,7 @@ main (int argc, char **argv)
   void (*act_on_init_result)(void) = noop;
   enum BC_INIT_STATUS bcstatus;
   enum { XARGS_POSIX_HEADROOM = 2048u };
+  struct sigaction sigact;
 
   if (argv[0])
     set_program_name (argv[0]);
@@ -610,6 +615,26 @@ main (int argc, char **argv)
    */
   act_on_init_result ();
   assert (BC_INIT_OK == bcstatus);
+
+#ifdef SIGUSR1
+#ifdef SIGUSR2
+  /* Accept signals to increase or decrease the number of running
+     child processes.  Do this as early as possible after setting
+     proc_max.  */
+  sigact.sa_handler = increment_proc_max;
+  sigemptyset(&sigact.sa_mask);
+  sigact.sa_flags = 0;
+  if (0 != sigaction (SIGUSR1, &sigact, (struct sigaction *)NULL))
+	  error (0, errno, _("Cannot set SIGUSR1 signal handler"));
+
+  sigact.sa_handler = decrement_proc_max;
+  sigemptyset(&sigact.sa_mask);
+  sigact.sa_flags = 0;
+  if (0 != sigaction (SIGUSR2, &sigact, (struct sigaction *)NULL))
+	  error (0, errno, _("Cannot set SIGUSR2 signal handler"));
+#endif /* SIGUSR2 */
+#endif /* SIGUSR1 */
+
 
   if (0 == strcmp (input_file, "-"))
     {
@@ -1259,7 +1284,8 @@ add_proc (pid_t pid)
 
 
 /* If ALL is true, wait for all child processes to finish;
-   otherwise, wait for at least MINREAP child processes to finish.
+   otherwise, wait for one child process to finish, or for another signal
+   that tells us that we can run more child processes.
    Remove the processes that finish from the list of executing processes.  */
 
 static void
@@ -1287,6 +1313,7 @@ wait_for_proc (bool all, unsigned int minreap)
 	    }
 	}
 
+      stop_waiting = 0;
       do
 	{
 	  /* Wait for any child.   We used to use wait () here, but it's
@@ -1298,6 +1325,17 @@ wait_for_proc (bool all, unsigned int minreap)
 	      if (errno != EINTR)
 		error (EXIT_FAILURE, errno,
 		       _("error waiting for child process"));
+
+	      if (stop_waiting && !all)
+		{
+		  /* Receipt of SIGUSR1 gave us an extra slot and we
+		   * don't need to wait for all processes to finish.
+		   * We can stop reaping now, but in any case check for 
+		   * further dead children without waiting for another 
+		   * to exit.
+		   */
+		  wflags = WNOHANG;
+		}
 	    }
 
 	  /* Find the entry in `pids' for the child process
@@ -1386,6 +1424,30 @@ wait_for_proc_all (void)
     }
 
 }
+
+
+/* Increment or decrement the number of processes we can start simultaneously,
+   when we receive a signal from the outside world.
+   
+   We must take special care around proc_max == 0 (unlimited children),
+   proc_max == 1 (don't decrement to zero).  */
+static void
+increment_proc_max (int ignore)
+{
+	/* If user increments from 0 to 1, we'll take it and serialize. */
+	proc_max++;
+	/* If we're waiting for a process to die before doing something,
+	   no need to wait any more. */
+	stop_waiting = 1;
+}
+
+static void
+decrement_proc_max (int ignore)
+{
+	if (proc_max > 1)
+		proc_max--;
+}
+
 
 /* Return the value of the number represented in STR.
    OPTION is the command line option to which STR is the argument.
