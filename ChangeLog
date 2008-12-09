@@ -2755,7 +2755,7 @@
 	Run every test twice, once with the old (non-fts) binary and once with
 	the new (fts-enabled) binary.
 
-2005-12-19 Eric Blake <ebb9@byu.net>
+2005-12-19  Eric Blake <ebb9@byu.net>
 
 	* find/testsuite/Makefile.am,
 	find/testsuite/find.posix/sv-bug-15235.xo,
@@ -6605,7 +6605,7 @@
 	greater than 0; set *n to a large enough number, stops some core
 	dumping
 
-Thu Nov  3 09:23:33 1994  David J. MacKenzie  <djm@duality.gnu.ai.mit.edu>
+1994-11-03  David J. MacKenzie  <djm@gnu.org>
 
 	* Version 4.1.
 
@@ -6618,7 +6618,7 @@ Thu Nov  3 09:23:33 1994  David J. MacKenzie  <djm@duality.gnu.ai.mit.edu>
 
 	* locate/Makefile.am (CLEANFILES): Fix typo.
 
-Wed Nov  2 15:11:52 1994  David J. MacKenzie  <djm@duality.gnu.ai.mit.edu>
+1994-11-02  David J. MacKenzie  <djm@gnu.org>
 
 	* The big 4 0.
 
@@ -6626,7 +6626,7 @@ Wed Nov  2 15:11:52 1994  David J. MacKenzie  <djm@duality.gnu.ai.mit.edu>
 	* find/pred.c (pred_ls): pass it.
 	* find/parser.c pred.c defs.h (parse_fls, pred_fls): New functions.
 
-Tue Oct 25 16:09:04 1994  David J. MacKenzie  <djm@duality.gnu.ai.mit.edu>
+1994-10-25  David J. MacKenzie  <djm@gnu.org>
 
 	* find/pred.c (pred_fprintf): Flush output after \c.  From Chapman
 	Flack.
@@ -6634,7 +6634,7 @@ Tue Oct 25 16:09:04 1994  David J. MacKenzie  <djm@duality.gnu.ai.mit.edu>
 	* find/parser.c (insert_fprintf): Warn about unrecognized \ and %
 	sequences.
 
-Tue Oct 18 00:03:10 1994  David J. MacKenzie  <djm@duality.gnu.ai.mit.edu>
+1994-10-18  David J. MacKenzie  <djm@gnu.org>
 
 	* find/defs.h parser.c pred.c tree.c util.c: Globally change
 	"victim" to "primary".
@@ -6648,12 +6648,7 @@ Tue Oct 18 00:03:10 1994  David J. MacKenzie  <djm@duality.gnu.ai.mit.edu>
 	* find/pred.c (pred_regex): Check that the regex matched the whole
 	file name.
 
-Wed Oct 12 17:13:47 1994  David J. MacKenzie  (djm@duality.gnu.ai.mit.edu)
-
-	* find/find.c (main): Tell what the invalid arg is.
-	From Kaveh Ghazi.
-
-Fri Oct  7 12:33:24 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
+1994-10-12  David J. MacKenzie  (djm@gnu.org>
 
 	* find/parser.c: Add -mount as an alias for -xdev.
 	From Klaus.Steinberger@physik.uni-muenchen.de (Klaus Steinberger).
@@ -6663,7 +6658,7 @@ Fri Oct  7 12:33:24 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
 	* xargs/xargs.c: Use symbolic constants in longopts.
 	From Chapman Flack.
 
-Wed Oct  5 11:23:09 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
+1994-10-05  David MacKenzie  <djm@gnu.org>
 
 	* xargs/xargs.c (main, read_line, read_string, do_exec): Pass
 	  along the lengths of the args.
@@ -6671,7 +6666,7 @@ Wed Oct  5 11:23:09 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
 	  (push_arg, do_insert): Use those lengths instead of calculating
 	  them.
 
-Tue Oct  4 10:02:05 1994  David MacKenzie  <djm@churchy.gnu.ai.mit.edu>
+1994-10-04  David MacKenzie  <djm@gnu.org>
 
 	* locate/updatedb.sh Makefile.in: Add substitutions to get
 	  the transformed program names.
@@ -6683,7 +6678,7 @@ Tue Oct  4 10:02:05 1994  David MacKenzie  <djm@churchy.gnu.ai.mit.edu>
 	(read_string): Don't check EOF string.
 	(read_line, read_string): Take initial args size into account.
 
-Sat Oct  1 17:43:13 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
+1994-10-01  David MacKenzie  <djm@gnu.org>
 
 	* find/pred.c (launch): Use pid_t.
 
@@ -6703,22 +6698,14 @@ Sat Oct  1 17:43:13 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
 	  buffer and re-implementing the child pid list as an expandable
 	  array.  From tsi@gpu.srv.ualberta.ca (Marc Aurele La France).
 
-Thu Sep 29 11:38:07 1994  David J. MacKenzie  (djm@geech.gnu.ai.mit.edu)
-
-	* xargs/xargs.c [__STDC__]: Prototype declarations.
-
-Wed Sep 28 11:25:53 1994  David J. MacKenzie  (djm@duality.gnu.ai.mit.edu)
-
-	* find/fstype.c [AFS, __STDC__]: Fix definition of _VICEIOCTL.
-
-Tue Sep 27 08:14:27 1994  David MacKenzie  <djm@churchy.gnu.ai.mit.edu>
+1994-09-29  David J. MacKenzie  (djm@gnu.org>
 
 	* find/fstype.c (fstype_to_string): Add more cases.  Use
 	  INITMOUNTNAMES if defined.
 	* find/defs.h: Change boolean typedef from char to int.
 	* configure.in: Check for mktime.
 
-Tue Sep 27 01:20:28 1994  Kaveh R. Ghazi  (ghazi@noc.rutgers.edu)
+1994-09-27  Kaveh R. Ghazi  (ghazi@noc.rutgers.edu)
 
 	* configure.in: Add AC_HEADER_STAT.
 	* lib/listfile.c, lib/modetype.h: Add STAT_MACROS_BROKEN.
@@ -6728,13 +6715,13 @@ Tue Sep 27 01:20:28 1994  Kaveh R. Ghazi  (ghazi@noc.rutgers.edu)
 
 	* lib/xgetcwd.c: Remove _POSIX_VERSION, rely only on HAVE_GETCWD.
 
-Mon Sep 26 16:43:01 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
+1994-09-26  David MacKenzie  <djm@gnu.org>
 
 	* configure.in: Add AC_CONFIG_HEADER.
 	* find/*.c locate/*.c xargs/*.c: Include config.h.
 	* locate/updatedb.sh: Add --version; --old -> --old-format.
 
-Sun Sep 25 23:43:37 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
+1994-09-25  David MacKenzie  <djm@gnu.org>
 
 	* find/* [__STDC__]: Prototype declarations.
 
@@ -6751,17 +6738,17 @@ Sun Sep 25 23:43:37 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
 	* defs.h [HAVE_FCHDIR]: Declare starting_desc instead of starting_dir.
 	* configure.in: Check for dev_t, ino_t, fchdir, fcntl.h.
 
-Fri Sep 23 11:55:38 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
+1994-09-23  David MacKenzie  <djm@gnu.org>
 
 	* lib/listfile.c: Change #ifdef S_IFLNK to #ifdef S_ISLNK.
 	From Andreas Luik <luik@isa.de>.
 
-Thu Sep 22 11:42:40 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
+1994-09-22  David MacKenzie  <djm@gnu.org>
 
 	* locate/locate.c (last_literal_end): Dynamically allocate enough
 	  memory for the subpattern.
 
-Wed Sep 21 06:12:56 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
+1994-09-21  David MacKenzie  <djm@gnu.org>
 
 	* locate/locate.c (locate): Warn if database is >8 days old.
 	From Ian Lance Taylor.
@@ -6799,55 +6786,17 @@ Wed Sep 21 06:12:56 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
 	old-format databases.
 	* locate/updatedb.sh: Take --old option to use them.
 
-Tue Sep 20 15:41:11 1994  David MacKenzie  <djm@geech.gnu.ai.mit.edu>
+1994-09-20  David MacKenzie  <djm@gnu.org>
 
 	* configure.in: Update for Autoconf v2.
 	* find/pred.c lib/savedir.c: Use new symbols for dir header.
 	* locate/updatedb.sh: Add --help option.
 
-Sun Feb 13 11:21:58 1994  Jim Meyering  (meyering@comco.com)
+1994-02-13  Jim Meyering  (meyering@comco.com)
 
 	* man/Makefile.in [man1ext, man5ext]: Set man5ext (not man1ext) to 5.
 
-Sun Aug  1 22:30:55 1993  David J. MacKenzie  (djm@goldman.gnu.ai.mit.edu)
-
-	* bigram.c: File removed.
-	* getline.c, memcmp.c, locatedb.h, updatedb.1, locatedb.5: New files.
-	* updatedb.sh: Take command line options.
-	Don't do bigram compression.
-	* code.c, locate.c: Don't do bigram compression.
-	Write and read counts in network byte order.
-	Handle arbitrarily long paths.
-	Use a magic number at the start of the databases.
-
-Thu Jul 29 20:44:53 1993  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
-
-	* Makefile.in (config.status): Run config.status --recheck, not
-	configure, to get the right args passed.
-
-Thu Jul 22 12:53:12 1993  David J. MacKenzie  (djm@goldman.gnu.ai.mit.edu)
-
-	* listfile.c (list_file): Print inode as a long.
-
-Wed Jul 14 14:14:45 1993  David J. MacKenzie  (djm@goldman.gnu.ai.mit.edu)
-
-	* fstype.c [STDC_HEADERS]: Include stdlib.h.
-
-	* Move unistd.h include from parser.c and pred.c to defs.h.
-
-Wed Jun 30 14:14:47 1993  David J. MacKenzie  (djm@goldman.gnu.ai.mit.edu)
-
-	* updatedb.sh: Construct PRUNEREGEX from PRUNEPATHS with sed.
-	Prune /afs.  Change NFSUSER to NETUSER and NFSPATHS to NETPATHS.
-
-Tue Jun 29 12:19:58 1993  David J. MacKenzie  (djm@goldman.gnu.ai.mit.edu)
-
-	* pred.c (pred_fprintf): Abort in switch if `c' is not A, C, or T.
-
-Mon Jun 28 00:18:52 1993  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
-
-	* fstype.c (in_afs) [AFS]: New function, derived from code by
-	Sanjay Ramamurthy <ramams@rpi.edu>.
+1993-08-01  David J. MacKenzie  (djm@gnu.org>.
 	(filesystem_type_uncached) [AFS]: Call it if the fs type is
 	otherwise unknown.
 
@@ -6904,129 +6853,68 @@ Mon Jun 28 00:18:52 1993  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
 	* xargs.c, locate.c (main, usage): Add --version and --help
 	options.
 
-Wed Mar 31 22:39:57 1993  Jim Meyering  (meyering@comco.com)
+1993-03-31  Jim Meyering  (meyering@comco.com)
 
 	* parser.c: Define isascii macro to be 1 also if STDC_HEADERS.
 	* xargs.c: Ditto.
 
-Wed Mar 31 16:04:07 1993  David J. MacKenzie  (djm@kropotkin.gnu.ai.mit.edu)
+1993-03-31  David J. MacKenzie  (djm@gnu.org>text; nuke cp.
 
-	* pred.c (pred_fprintf): If curdepth is 0, don't nuke
-	segment->text; nuke cp.
-
-Mon Mar 29 15:57:20 1993  David J. MacKenzie  (djm@kropotkin.gnu.ai.mit.edu)
-
-	* Version 3.8.
-
-Fri Mar 26 16:36:59 1993  David J. MacKenzie  (djm@hal.gnu.ai.mit.edu)
-
-	* pred.c (pred_ilname, pred_iname, pred_ipath): New functions.
-	(pred_table): Add them.
-	(insert_lname): New function.
-	(pred_lname): Call it.
-	* parser.c (parse_ilname, parse_iname, parse_ipath,
-	parse_iregex): New functions.
-	(parse_table): Add them.
-	(insert_regex): New function.
-	(parse_regex): Call it.
-
-	* fstype.c (filesystem_type): Cache previous result.
-	(filesystem_type_uncached): New function.
-	pred.c (pred_fstype, pred_fprintf): Adjust callers to not cache.
-
-	* parser.c: Don't define const.
-
-	* fstype.c [FSTYPE_STATFS] (fstype_to_string): #ifdef
-	MOUNT_PC for 386bsd.
-
-Thu Mar 25 18:32:24 1993  David J. MacKenzie  (djm@goldman.gnu.ai.mit.edu)
-
-	* parser.c (parse_regex): If ignore_case, set up a translate
-	table for the regex.
-
-	* defs.h: Include string.h or strings.h.
-	* find.c fstype.c parser.c pred.c util.c: Don't.
-
-	* nextelem.c [index]: Don't redefine.
-
-Wed Mar 24 17:47:10 1993  David J. MacKenzie  (djm@kropotkin.gnu.ai.mit.edu)
-
-	* xargs.c (wait_for_proc): Exit with a nonrunnable command's exit
-	status, not the wait status value.  From
-	Andreas Schwab <schwab@lamothe.informatik.uni-dortmund.de>.
+1993-03-29  David J. MacKenzie  (djm@gnu.org>.
 
 	* parser.c (make_segment, insert_fprintf), pred.c
 	(pred_fprintf): Add '%F' to print filesystem type.
 
 	* parser.c (parse_fprintf): Check if second arg is missing.
 
-Tue Mar 23 13:18:08 1993  David J. MacKenzie  (djm@kropotkin.gnu.ai.mit.edu)
-
-	* pred.c (pred_fprintf): For %P, don't move past an assumed
-	slash if the ARGV element ends with one, because in that case
-	we didn't add one.
-
-	* parser.c (parse_printf): Check for missing arg.
-	From smj@cats.com (Steve James).
-
-	* parser.c: Add #ifdef around atol decl for Linux.
-
-Fri Dec 11 08:17:07 1992  Jim Meyering  (meyering@comco.com)
-
-	* defs.h: Remove dcl of process_path.
-	* find.c: Put dcl of p
-
-	* pred.c (pred_fprintf): Don't print "\n" unless it's in the
-	format string.
-
-Mon Oct 21 22:30:35 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+1993-03-23  David J. MacKenzie  (djm@gnu.org>
 
 	* defs.h, parser.c, pred.c: Rename some types that conflict
 	with reserved POSIX.1 namespace (ended in _t).
 
 
 
-Thu Oct 17 22:39:06 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+1991-10-17  David J. MacKenzie  <djm@gnu.org>
 
 	* xargs.c: Don't determine memory.h based on POSIX, which
 	doesn't mention it.
 
-Sat Oct  5 16:11:05 1991  Jim Meyering (meyering at churchy.gnu.ai.mit.edu)
+1991-10-05  Jim Meyering <meyering@churchy.gnu.ai.mit.edu>
 
 	* parser.c (parse_perm): Parse new `-perm +mode' notation.
 	* pred.c (pred_perm): Interpret same.
 
-Fri Sep 13 14:58:27 1991  David J. MacKenzie  (djm at churchy.gnu.ai.mit.edu)
+1991-09-13  David J. MacKenzie  <djm@gnu.org>
 
 	* xargs.c [POSIX]: Always use sysconf to get ARG_MAX.
 
-Thu Sep  5 23:57:06 1991  David J. MacKenzie  (djm at apple-gunkies)
+1991-09-05  David J. MacKenzie  <djm@gnu.org>
 
 	* bigram.c, code.c (main): Make path_max int, not unsigned.
 	* locate.c (main): Check for pathconf failure.
 
-Thu Sep  5 11:54:44 1991 Jim Meyering (meyering at churchy.gnu.ai.mit.edu)
+1991-09-05  Jim Meyering <meyering@churchy.gnu.ai.mit.edu>
 
 	* parser.c (insert_fprintf): Add `\\' escape and fixed `%%'
 	interpretation.
 	* pred.c (pred_fprintf): fixed off-by-one indexing problem
 	when handling [gGuU] printf formats.
 
-Wed Aug 28 20:53:57 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+1991-08-28  David J. MacKenzie  <djm@gnu.org>
 
 	* Version 3.2.
 
-Mon Aug 26 18:57:32 1991  David J. MacKenzie  (djm at pogo.gnu.ai.mit.edu)
+1991-08-26  David J. MacKenzie  <djm@gnu.org>
 
 	* bigram.c, code.c: Fix handling of PATH_MAX.
 	Check for anomalous input line lengths.
 	From Bruce Evans.
 
-Fri Aug 23 11:00:18 1991  David J. MacKenzie  (djm at apple-gunkies)
+1991-08-23  David J. MacKenzie  <djm@gnu.org>
 
 	* pred.c (pred_fprintf): Round block number up to get K.
 
-Thu Aug 22 10:46:30 1991  David J. MacKenzie  (djm at apple-gunkies)
+1991-08-22  David J. MacKenzie  <djm@gnu.org>
 
 	* pred.c (pred_fprintf, pred_lname) [_AIX]: Allocate PATH_MAX
 	byte for link object since st_size is wrong.
@@ -7042,7 +6930,7 @@ Thu Aug 22 10:46:30 1991  David J. MacKenzie  (djm at apple-gunkies)
 	* listfile.c (list_file): Add 1 to number of 512-byte blocks
 	before dividing to get 1K blocks (so we round up, not down).
 
-Wed Aug 21 13:02:46 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+1991-08-21  David J. MacKenzie  <djm@gnu.org>
 
 	* Version 3.1.
 
@@ -7058,7 +6946,7 @@ Wed Aug 21 13:02:46 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
 	which returns void on some systems, like Sequents.
 	* configure: Check sys/dir.h for 'void closedir'.
 
-Thu Aug 15 16:07:46 1991  David J. MacKenzie  (djm at frob)
+1991-08-15  David J. MacKenzie  <djm@gnu.org>
 
 	* modetype.h: Define POSIX.1 stat stuff if missing.
 	* pred.c, parser.c, find.c, fstype.c: Don't define it.
@@ -7071,14 +6959,14 @@ Thu Aug 15 16:07:46 1991  David J. MacKenzie  (djm at frob)
 	* defs.h, find.c, parser.c, pred.c: Add many new predicates
 	from Jay Plett (jay@princeton.edu).
 
-Wed Aug 14 14:37:06 1991  David J. MacKenzie  (djm at bleen)
+1991-08-14  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (parse_size), pred.c (pred_size), defs.h (struct
 	size_t): Allow `k' to follow number to measure size in Kbytes.
 	* parser.c (parse_size, get_num, insert_num), defs.h (struct
 	size_t): Use enum comparison_type instead of short.
 
-Fri Aug  9 00:49:32 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+1991-08-09  David J. MacKenzie  <djm@gnu.org>
 
 	* xargs.c (read_line): Use isblank, to support POSIX locales.
 
@@ -7092,17 +6980,17 @@ Fri Aug  9 00:49:32 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
 	Use S_ISLNK instead of S_IFLNK.
 	* fileblocks.c: New file, from fileutils.
 
-Thu Aug  8 17:20:19 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+1991-08-08  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c, pred.c [CACHE_IDS]: Optional code to turn uid and
 	gid lookups into table lookups.
 
-Wed Aug  7 00:22:29 1991  David J. MacKenzie  (djm at wheat-chex)
+1991-08-07  David J. MacKenzie  <djm@gnu.org>
 
 	* configure, Makefile.in's: Support +srcdir option via VPATH.
 	Clean up clean targets.
 
-Sat Jul 20 01:11:51 1991  David J. MacKenzie  (djm at apple-gunkies)
+1991-07-20  David J. MacKenzie  <djm@gnu.org>
 
 	* configure: Filter /etc and /usr/etc from path.
 
@@ -7114,7 +7002,7 @@ Sat Jul 20 01:11:51 1991  David J. MacKenzie  (djm at apple-gunkies)
 	* fstype.c (filesystem_type) [FS_MNTENT]: Skip entries of
 	type "ignore".
 
-Fri Jul 19 22:53:42 1991  David J. MacKenzie  (djm at bleen)
+1991-07-19  David J. MacKenzie  <djm@gnu.org>
 
 	* pred.c, locate.c: Use fnmatch instead of glob_match.
 	* fnmatch.c, fnmatch.h: New files.
@@ -7139,16 +7027,16 @@ Fri Jul 19 22:53:42 1991  David J. MacKenzie  (djm at bleen)
 	* Replace Makefile and lib/Makefile with Makefile.in,
 	lib/Makefile.in and configure.  Update README.
 
-Fri Apr  5 12:49:09 1991  David J. MacKenzie  (djm at apple-gunkies)
+1991-04-05  David J. MacKenzie  <djm@gnu.org>
 
 	* Version 2.2.
 
-Fri Mar 15 20:44:45 1991  David J. MacKenzie  (djm at geech.ai.mit.edu)
+1991-03-15  David J. MacKenzie  <djm@gnu.org>
 
 	* xargs.c (main): Always run the command if some args are left over.
 	Rename some variables.
 
-Fri Jan 18 03:35:57 1991  David J. MacKenzie  (djm at geech.ai.mit.edu)
+1991-01-18  David J. MacKenzie  <djm@gnu.org>
 
 	* bigram.c, code.c, locate.c: Use LIMITS_MISSING, not
 	_POSIX_SOURCE, to decide whether to include limits.h.
@@ -7159,22 +7047,22 @@ Fri Jan 18 03:35:57 1991  David J. MacKenzie  (djm at geech.ai.mit.edu)
 	* xargs.c: Use POSIX, not _POSIX_SOURCE, to determine whether
 	to include memory.h.
 
-Sat Jan 12 04:12:34 1991  David J. MacKenzie  (djm at wookumz.ai.mit.edu)
+1991-01-12  David J. MacKenzie  <djm@gnu.org>
 
 	* defs.h, find.c, parser.c, pred.c: Remove -permmask option.
 
-Thu Jan 10 04:32:52 1991  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1991-01-10  David J. MacKenzie  <djm@gnu.org>
 
 	* wait.h: Include sys/types.h to get pid_t.
 
 	* xargs.c [USG && !STDC_HEADERS]: Only include memory.h if not
 	_POSIX_SOURCE.
 
-Tue Jan  1 23:53:32 1991  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1991-01-01  David J. MacKenzie  <djm@gnu.org>
 
 	* Version 2.1.
 
-Wed Dec 26 03:25:51 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-12-26  David J. MacKenzie  <djm@gnu.org>
 
 	* locate.c, bigram.c, code.c: Attempt to get max. path length
 	on more kinds of systems, incl. POSIX.
@@ -7184,7 +7072,7 @@ Wed Dec 26 03:25:51 1990  David J. MacKenzie  (djm at apple-gunkies)
 
 	* find.c, defs.h: Make `cur_day_start' a time_t, not long.
 
-Fri Dec 21 01:49:12 1990  David J. MacKenzie  (djm at egypt)
+1990-12-21  David J. MacKenzie  <djm@gnu.org>
 
 	* defs.h, parser.c: Remove unused field from `struct exec_t'.
 
@@ -7199,22 +7087,22 @@ Fri Dec 21 01:49:12 1990  David J. MacKenzie  (djm at egypt)
 	* pred.c (pred_exec): Add code to substitute "{}" within args.
 	(pred_ok): After prompting, just run pred_exec.
 
-Thu Dec 20 02:32:09 1990  David J. MacKenzie  (djm at egypt)
+1990-12-20  David J. MacKenzie  <djm@gnu.org>
 
 	* fstype.c (filesystem_type) [FS_MNTENT]: Allow for optional
 	"0x" at front of "dev=" mount option, which amd puts there but
 	Sun automounter doesn't.
 
-Sat Dec 15 19:01:12 1990  David J. MacKenzie  (djm at egypt)
+1990-12-15  David J. MacKenzie  <djm@gnu.org>
 
 	* find.c (main), util.c (usage): Make directory args optional,
 	defaulting to ".".
 
-Sat Dec 15 18:36:29 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-12-15  David J. MacKenzie  <djm@gnu.org>
 
 	* listfile.c: Define major and minor if not defined (as in POSIX).
 
-Mon Dec  3 01:04:35 1990  David J. MacKenzie  (djm at alborz)
+1990-12-03  David J. MacKenzie  <djm@gnu.org>
 
 	* find.c, fstype.c, parser.c, pred.c, util.c: Flush stdout before
 	writing to stderr, in case they have been redirected to the
@@ -7224,7 +7112,7 @@ Mon Dec  3 01:04:35 1990  David J. MacKenzie  (djm at alborz)
 
 	* xargs.c (print_xargs): Read from tty_stream, not stdin.
 
-Tue Nov 20 16:48:24 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-11-20  David J. MacKenzie  <djm@gnu.org>
 
 	* Version 2.0.
 
@@ -7234,12 +7122,12 @@ Tue Nov 20 16:48:24 1990  David J. MacKenzie  (djm at apple-gunkies)
 	* Various files: Conditionalize some declarations on
 	STDC_HEADERS or _POSIX_SOURCE.
 
-Fri Nov 16 12:24:43 1990  David J. MacKenzie  (djm at egypt)
+1990-11-16  David J. MacKenzie  <djm@gnu.org>
 
 	* modetype.h: New file.
 	parser.c, pred.c: Use it.
 
-Thu Nov 15 18:05:54 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-11-15  David J. MacKenzie  <djm@gnu.org>
 
 	* xmalloc.c: New file from fileutils.
 
@@ -7250,7 +7138,7 @@ Thu Nov 15 18:05:54 1990  David J. MacKenzie  (djm at apple-gunkies)
 	* pred.c (pred_fstype): Pass the pathname.  Set current_dev.
 	* find.c (process_path): Make root_dev local again.
 
-Mon Nov 12 02:54:00 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-11-12  David J. MacKenzie  <djm@gnu.org>
 
 	* pred.c (pred_fstype): Free old fs type.
 
@@ -7268,7 +7156,7 @@ Mon Nov 12 02:54:00 1990  David J. MacKenzie  (djm at apple-gunkies)
 	* xargs.c: Make limits.h vs. sys/param.h conditional on
 	LIMITS_MISSING instead of USG, to accomodate SVR2.
 
-Thu Nov  8 11:52:22 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-11-08  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c, pred.c, listfile.c: If not _POSIX_SOURCE, declare
 	getpwuid and getgrgid.  Use them.
@@ -7284,7 +7172,7 @@ Thu Nov  8 11:52:22 1990  David J. MacKenzie  (djm at apple-gunkies)
 
 	* xargs.c (WIFSIGNALED): Redefine so it works.
 
-Mon Nov  5 00:02:01 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-11-05  David J. MacKenzie  <djm@gnu.org>
 
 	* find.c (process_path): For -xdev, process filesystem
 	mountpoints (but don't descend them), instead of skipping them
@@ -7294,12 +7182,12 @@ Mon Nov  5 00:02:01 1990  David J. MacKenzie  (djm at apple-gunkies)
 
 	* xargs.c: Change ifdefs to support STDC POSIX systems.
 
-Sat Nov  3 20:18:05 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-11-03  David J. MacKenzie  <djm@gnu.org>
 
 	* xargs.c (do_exec): Child process exits with status 255, not
 	127, if command can't be run.
 
-Fri Nov  2 02:11:42 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-11-02  David J. MacKenzie  <djm@gnu.org>
 
 	* xargs.c: Exit with status 127 if running commmand fails, as
 	required by POSIX.
@@ -7307,7 +7195,7 @@ Fri Nov  2 02:11:42 1990  David J. MacKenzie  (djm at apple-gunkies)
 	* fstype.c: Support -fstype for Ultrix (-DFS_GETMNT).
 	Sun/BSD code is now -DFS_MNTENT.
 
-Thu Nov  1 13:06:01 1990  David J. MacKenzie  (djm at egypt)
+1990-11-01  David J. MacKenzie  <djm@gnu.org>
 
 	* Reorganize into subdirectories and add xargs.  Rewrite Makefiles.
 
@@ -7322,31 +7210,31 @@ Thu Nov  1 13:06:01 1990  David J. MacKenzie  (djm at egypt)
 	status from wait.
 	(read_string): New function.
 
-Fri Sep 21 10:21:09 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-09-21  David J. MacKenzie  <djm@gnu.org>
 
 	* find.c (process_path): Take DEPTH as an arg instead of ROOT,
 	and change callers.
 
-Thu Sep 20 23:58:47 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-09-20  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (parse_maxdepth): New function.
 	* find.c (process_path): If -maxdepth was given, don't go
 	more than that many levels deep.
 	* defs.h: Declare maxdepth.
 
-Wed Sep 12 02:12:31 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-09-12  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c: Add -not as synonym for !.
 
-Sun Aug 26 06:16:08 1990  Jim Kingdon  (kingdon at pogo.ai.mit.edu)
+1990-08-26  Jim Kingdon  <kingdon@pogo.ai.mit.edu>
 
 	* Makefile (TAGS): New target.
 
-Sun Aug 12 00:32:01 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-08-12  David J. MacKenzie  <djm@gnu.org>
 
 	* xargs.c (main): Tell getopt to not permute.
 
-Sat Aug  4 21:43:45 1990  David J. MacKenzie  (djm at pogo.ai.mit.edu)
+1990-08-04  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (parse_perm), pred.c (pred_perm): Always compare
 	bits 07777.
@@ -7354,26 +7242,26 @@ Sat Aug  4 21:43:45 1990  David J. MacKenzie  (djm at pogo.ai.mit.edu)
 	* locate.c, Makefile: Rename 'fastfind' program to 'locate',
 	following comment in POSIX.2 draft 10 rationale for find.
 
-Wed Jul 25 18:45:03 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-07-25  David J. MacKenzie  <djm@gnu.org>
 
 	* listfile.c (getuser, getgroup): Make uid and gid unsigned
 	short, not int.
 
-Mon Jul 16 13:40:13 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-07-16  David J. MacKenzie  <djm@gnu.org>
 
 	* defs.h: Don't declare fprintf and printf, in case they have
 	prototypes in stdio.h (important for functions that use stdarg).
 
-Sun Jul 15 23:39:39 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-07-15  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (parse_and): New function, for compatibility.
 
-Wed Jul  4 00:17:57 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-07-04  David J. MacKenzie  <djm@gnu.org>
 
 	* find.c (main): Only enclose expressions that produce no side
 	effects within `( ... )'.
 
-Tue Jul  3 01:59:39 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-07-03  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (strspn): Stop when end of string reached.
 
@@ -7387,17 +7275,17 @@ Tue Jul  3 01:59:39 1990  David J. MacKenzie  (djm at apple-gunkies)
 	just the last part of an alternation.
 	* Print the names of predicates with invalid arguments.
 
-Mon Jul  2 23:48:17 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-07-02  David J. MacKenzie  <djm@gnu.org>
 
 	* pred.c: Don't check for invalid comparison types in numeric
 	predicate functions.
 
-Thu Jun 28 00:34:57 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-06-28  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (parse_regex): Set fastmap and translate before
 	compiling regex.
 
-Mon Jun 25 18:08:59 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-06-25  David J. MacKenzie  <djm@gnu.org>
 
 	* fastfind.c (fastfind): Initialize count to 0.
 
@@ -7406,17 +7294,17 @@ Mon Jun 25 18:08:59 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
 
 	* listfile.c (list_file): Truncate user and group name to 8 chars.
 
-Sun Jun 24 13:51:27 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-06-24  David J. MacKenzie  <djm@gnu.org>
 
 	* Version 1.1.
 
 	* Makefile [DISTFILES]: Add COPYING.
 
-Fri Jun 22 03:54:27 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-06-22  David J. MacKenzie  <djm@gnu.org>
 
 	* Version 1.0.
 
-Tue Jun 19 03:55:28 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-06-19  David J. MacKenzie  <djm@gnu.org>
 
 	* lib/updatedb.sh: Prune entries that match PRUNEREGEX.
 	Split up finding files from computing bigrams.
@@ -7430,11 +7318,11 @@ Tue Jun 19 03:55:28 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
 
 	* find.c (process_path): Fix error in handling "/" directory.
 
-Mon Jun 18 01:49:16 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-06-18  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c [STRSPN_MISSING] (strspn): New function.
 
-Sun Jun 17 13:54:09 1990  David J. MacKenzie  (djm at apple-gunkies)
+1990-06-17  David J. MacKenzie  <djm@gnu.org>
 
 	* listfile.c: New file.
 	* parser.c (parse_ls): New function.
@@ -7452,18 +7340,18 @@ Sun Jun 17 13:54:09 1990  David J. MacKenzie  (djm at apple-gunkies)
 	* parser.c (insert_exec_ok): Make args that start with a ';' but
 	contain other characters not terminate the command.
 
-Fri Jun 15 00:33:45 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-06-15  David J. MacKenzie  <djm@gnu.org>
 
 	* fstype.c: If MOUNTED isn't defined but MNT_MNTTAB is, use it
 	instead.  True for HP/UX, at least.
 
-Thu Jun 14 10:10:25 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-06-14  David J. MacKenzie  <djm@gnu.org>
 
 	* savedir.c: New file; now find won't run out of file
 	descriptors in deep trees.
 	* find.c (process_path): Use savedir.
 
-Sat Jun  9 03:15:21 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-06-09  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (parse_permmask): Allow symbolic mode masks.
 	(parse_perm): Free 'struct change' when done with it.
@@ -7473,12 +7361,12 @@ Sat Jun  9 03:15:21 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
 	More efficient string copying.  Initialize perm_mask to 07777
 	instead of -1.
 
-Thu Jun  7 04:22:42 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-06-07  David J. MacKenzie  <djm@gnu.org>
 
 	* Makefile, find.c: Use DIRENT to control whether <dirent.h>
 	is used.
 
-Thu May 31 04:46:11 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-05-31  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (parse_regex): New function.
 	* pred.c (pred_regex): New function.
@@ -7488,7 +7376,7 @@ Thu May 31 04:46:11 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
 	special file later on.
 	(xatoi, strstr): New functions.
 
-Mon May 21 01:04:42 1990  David J. MacKenzie  (djm at abyss)
+1990-05-21  David J. MacKenzie  <djm@gnu.org>
 
 	* lib/updatedb.sh: Put BINDIR in PATH.
 
@@ -7508,18 +7396,18 @@ Mon May 21 01:04:42 1990  David J. MacKenzie  (djm at abyss)
 	* find.c: Apply the predicates to the dir when -depth and
 	-prune are given.
 
-Sun May 20 19:55:30 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-05-20  David J. MacKenzie  <djm@gnu.org>
 
 	* pred.c (pred_prune): Set new global var `stop_at_current_level'.
 	* find.c (process_path): Test and reset it.
 
-Fri May 18 01:56:17 1990  David J. MacKenzie  (djm at abyss)
+1990-05-18  David J. MacKenzie  <djm@gnu.org>
 
 	* modechange.c, modechange.h: New files.
 	* parser.c (parse_perm): Use mode_compile and mode_adjust to
 	parse arg, to allow symbolic mode for POSIX.
 
-Thu May 17 02:07:44 1990  David J. MacKenzie  (djm at abyss)
+1990-05-17  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (get_oct): Don't consider an empty string a valid number.
 
@@ -7538,12 +7426,12 @@ Thu May 17 02:07:44 1990  David J. MacKenzie  (djm at abyss)
 	* lib/{Makefile,updatedb.sh,bigram.c,code.c}: New files.
 	* Makefile: Add 'all' and 'install' targets.
 
-Wed May 16 23:23:35 1990  David J. MacKenzie  (djm at abyss)
+1990-05-16  David J. MacKenzie  <djm@gnu.org>
 
 	* parser.c (parse_nogroup, parse_nouser): Implement.
 	* pred.c (pred_nogroup, pred_nouser): Implement.
 
-Mon May 14 00:09:35 1990  David J. MacKenzie  (djm at abyss)
+1990-05-14  David J. MacKenzie  <djm@gnu.org>
 
 	* find.c: Add variable `stay_on_filesystem' for -xdev.
 	(process_path): Take an arg determining whether this call is
@@ -7572,18 +7460,18 @@ Mon May 14 00:09:35 1990  David J. MacKenzie  (djm at abyss)
 	Add code to check for missing arguments to many parse_* functions.
 	* pred.c (pred_name): Use glob_match instead of regex.
 
-Sun May 13 17:45:09 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-05-13  David J. MacKenzie  <djm@gnu.org>
 
 	* Replace fprintf, simple_error, and mem_error with error and
 	usage.
 
 	* Fix string header includes for USG.
 
-Tue Mar 27 12:40:29 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-03-27  David J. MacKenzie  <djm@gnu.org>
 
 	* defs.h: Change some #defines to enums.
 
-Sun Mar 25 22:08:58 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
+1990-03-25  David J. MacKenzie  <djm@gnu.org>
 
 	* find.c (main): Don't take basename of argv[0].
 
@@ -7599,7 +7487,7 @@ Sun Mar 25 22:08:58 1990  David J. MacKenzie  (djm at albert.ai.mit.edu)
 
 	* Indent source code.  Move RCS logs to this file.
 
-Wed Mar 21 09:30:18 1990  David J. MacKenzie  (djm at pogo.ai.mit.edu)
+1990-03-21  David J. MacKenzie  <djm@gnu.org>
 
 	* xargs.c: Indent.  Comment and rename some global variables.
 	(main): Use getopt to parse options.  Open new global var
@@ -7609,95 +7497,95 @@ Wed Mar 21 09:30:18 1990  David J. MacKenzie  (djm at pogo.ai.mit.edu)
 	Global: Use xmalloc instead of malloc.
 	(usage): Revise message.
 
-87/02/22  20:01:20  20:01:20  cire (Eric B. Decker)
+1987-02-22  Eric B. Decker <cire@deckerstone.net>
 
 	* pred.c: added guts to pred_size
 
-87/02/22  00:59:42  00:59:42  cire (Eric B. Decker)
+1987-02-22  Eric B. Decker <cire@deckerstone.net>
 
 	* pred.c: added guts to perm and permmask.
 
-87/02/21  23:02:21  23:02:21  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* pred.c: made pred_name only look at the last component of
 	the path.
 
-87/02/21  22:26:47  22:26:47  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* pred.c: added guts to name.  useds regex and regcmp to do
 	regular expression handling.
 
-87/02/21  00:17:21  00:17:21  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* pred.c: added predicate newer
 
-87/02/20  11:40:07  11:40:07  cire (Eric B. Decker)
+1987-02-20  Eric B. Decker <cire@deckerstone.net>
 
 	* pred.c: added guts to pred_ok
 
-87/02/19  23:52:37  23:52:37  cire (Eric B. Decker)
+1987-02-19  Eric B. Decker <cire@deckerstone.net>
 
 	* pred.c: finished exec.
 
-87/02/22  20:01:09  20:01:09  cire (Eric B. Decker)
+1987-02-22  Eric B. Decker <cire@deckerstone.net>
 
 	* parser.c: added guts to parse_size
 
-87/02/22  00:59:16  00:59:16  cire (Eric B. Decker)
+1987-02-22  Eric B. Decker <cire@deckerstone.net>
 
 	* parser.c: added guts of perm and permmask.  added getoct
 	routine for perm and permmask
 
-87/02/21  23:32:50  23:32:50  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* parser.c: added -fre, -fullregex predicate to turn off
 	globbing conversion
 
-87/02/21  23:01:01  23:01:01  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* parser.c: reworked name so the regexpr pattern includes $ at
 	the end to force globbing to work correctly.  End of the
 	pattern refers to the end of the filename.
 
-87/02/21  22:25:34  22:25:34  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* parser.c: added guts to name.  uses a conversion from
 	globbing to regexp format.  uses regex and regcmp to actually
 	to the comparison.
 
-87/02/21  00:17:11  00:17:11  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* parser.c: added predicate newer
 
-87/02/20  11:39:35  11:39:35  cire (Eric B. Decker)
+1987-02-20  Eric B. Decker <cire@deckerstone.net>
 
 	* parser.c: added ok guts.  consolidated exec and ok to using
 	insert_exec_ok
 
-87/02/19  00:20:54  00:20:54  cire (Eric B. Decker)
+1987-02-19  Eric B. Decker <cire@deckerstone.net>
 
 	* parser.c: minor bug in -fulldays predicate parser.  It
 	should have set the flag full_days to true.
 
-87/02/22  00:58:32  00:58:32  cire (Eric B. Decker)
+1987-02-22  Eric B. Decker <cire@deckerstone.net>
 
 	* find.c: changed where we are setting perm_mask to -1.  need
 	to make sure that this happens before every apply_predicate.
 
-87/02/21  23:32:11  23:32:11  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* find.c: added error checking for no paths.  better error
 	message if illegal ordering.
 
-87/02/21  22:19:58  22:19:58  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* find.c: added global convert_glob
 
-87/02/22  20:00:12  20:00:12  cire (Eric B. Decker)
+1987-02-22  Eric B. Decker <cire@deckerstone.net>
 
 	* defs.h: added definition of BLKSIZE for size
 
-87/02/21  22:19:25  22:19:25  cire (Eric B. Decker)
+1987-02-21  Eric B. Decker <cire@deckerstone.net>
 
 	* defs.h: added global convert_glob for name
 
