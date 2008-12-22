@@ -5,6 +5,16 @@
 	timespec origin before the statements; declarations after
 	statements are a GCC extension we were accidentally relying on.
 
+2008-12-21  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #25144: Misleading message for find -user unknown.
+	* find/parser.c (parse_user): If there is no known group for the
+	specified user (and it does not appear to be a uid), issue a
+	fatal error message instead of returning false, because the error
+	message that results from a return of false is "invalid argument",
+	which is misleading in this case.  Similarly for a missing or an
+	empty argument.  
+
 2008-12-01  James Youngman  <jay@gnu.org>
 
 	* po/fr.po: Updated French translation.
