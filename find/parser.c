@@ -2447,11 +2447,29 @@ parse_user (const struct parser_table* entry, char **argv, int *arg_ptr)
 	}
       else
 	{
-	  int uid_len = strspn (username, "0123456789");
+	  const size_t uid_len = strspn (username, "0123456789");
 	  if (uid_len && (username[uid_len]==0))
-	    uid = safe_atoi (username);
+	    {
+	      uid = safe_atoi (username);
+	    }
 	  else
-	    return false;
+	    {
+	      /* This is a fatal error (if we just return false, the caller
+	       * will say "invalid argument `username' to -user", which is 
+	       * not as helpful). */
+	      if (username[0])
+		{
+		  error (1, 0, _("%s is not the name of a known user"),
+			 quotearg_n_style (0, options.err_quoting_style,
+					   username));
+		}
+	      else
+		{
+		  error (1, 0, _("The argument to -user should not be empty"));
+		}
+	      /*NOTREACHED*/
+	      return false;
+	    }
 	}
       our_pred = insert_primary (entry);
       our_pred->args.uid = uid;
