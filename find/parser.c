@@ -1384,8 +1384,8 @@ do_parse_xmin (const struct parser_table* entry,
   if (collect_arg(argv, arg_ptr, &minutes))
     {
       struct time_val tval;
-      tval.xval = xv;
       struct timespec origin = options.cur_day_start;
+      tval.xval = xv;
       origin.tv_sec += DAYSECS;
       if (get_relative_timestamp(minutes, &tval, origin, 60,
 				 "arithmetic overflow while converting %s "
