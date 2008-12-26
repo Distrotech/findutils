@@ -1,5 +1,24 @@
 2009-02-21  Jim Meyering  <meyering@redhat.com>
 
+	find: take advantage of new gnulib/fts leaf-optimization
+	* find/ftsfind.c (ftsoptions): Set the FTS_CWDFD bit.
+	This is required in order to take advantage of fts' leaf-optimization.
+	* find/ftsfind.c (consider_visiting): Allow state.type to be 0
+	when fts_info is FTS_NSOK;
+	
+	This allows find to process an fts entry for which fts_read returns
+	FTS_NSOK (no stat) but for which find requires only type info.
+	This happens on file systems that lack dirent.dtype information.
+	Currently, only reiserfs is handled this way.  Until the recent
+	gnulib/fts change, [97d5b66] "fts: arrange not to stat non-directories
+	in more cases" this change was not necessary, because fts would always
+	stat non-dir entries on a file system with no dirent.dtype information.
+	
+	However, combined with the gnulib change, this change lets find
+	avoid many per-non-directory stat-like syscalls (i.e. fstatat)
+	in some very common cases, like "find . -print" on reiserfs --
+	which can be a huge performance savings.
+	
 	find: avoid warning about unused local
 	* find/pred.c (scan_for_digit_differences): Remove declaration of
 	unused local, "ok". (second time, really applying that patch).
