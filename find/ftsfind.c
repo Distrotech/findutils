@@ -498,7 +498,7 @@ consider_visiting(FTS *p, FTSENT *ent)
 
   /* examine this item. */
   ignore = 0;
-  isdir = S_ISDIR(statbuf.st_mode)
+  isdir = S_ISDIR(mode)
     || (FTS_D  == ent->fts_info)
     || (FTS_DP == ent->fts_info)
     || (FTS_DC == ent->fts_info);
