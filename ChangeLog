@@ -1,3 +1,9 @@
+2008-12-26  Jim Meyering  <meyering@redhat.com>
+
+	find: avoid using undefined statbuf
+	* /ftsfind.c (consider_visiting): Use local variable, mode, 
+	rather than possibly undefined statbuf.st_mode.
+
 2008-12-23  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #25154: Failure to compile with GCC-2.95.4
