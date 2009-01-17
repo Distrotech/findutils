@@ -306,7 +306,7 @@ static struct parser_table const parse_table[] =
   PARSE_ACTION     ("quit",                  quit),	     /* GNU */
   {ARG_TEST,       "readable",            parse_accesscheck, pred_readable}, /* GNU, 4.3.0+ */
   PARSE_TEST       ("regex",                 regex),	     /* GNU */
-  PARSE_OPTION     ("regextype",             regextype),     /* GNU */
+  PARSE_POSOPT     ("regextype",             regextype),     /* GNU */
   PARSE_TEST       ("samefile",              samefile),	     /* GNU */
 #if 0
   PARSE_OPTION     ("show-control-chars",    show_control_chars), /* GNU, 4.3.0+ */
