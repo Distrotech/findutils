@@ -1,3 +1,13 @@
+2009-03-07  James Youngman  <jay@gnu.org>
+
+	Update the code to better reflect the semantics of digest_mode().
+	* find/defs.h: Pass the file mode to digest_mode() by reference
+	(as a pointer) rather than by value to make it unnecessary for the
+	caller to know that the value passed should become dead.
+	* find/util.c (digest_mode): Change the implementation.
+	* find/find.c (process_path): Update caller.
+	* find/ftsfind.c (consider_visiting): Update caller.
+
 2009-03-10  James Youngman  <jay@gnu.org>
 
 	Remove "lib/wait.h", since gnulib provides <sys/wait.h>.

@@ -1168,7 +1168,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
   state.have_stat = false;
   state.have_type = false;
 
-  if (!digest_mode(mode, pathname, name, &stat_buf, leaf))
+  if (!digest_mode(&mode, pathname, name, &stat_buf, leaf))
     return 0;
 
   if (!S_ISDIR (state.type))
@@ -1237,7 +1237,7 @@ process_path (char *pathname, char *name, boolean leaf, char *parent,
     {
       /* The fields in 'state' are now out of date.  Correct them.
        */
-      if (!digest_mode(mode, pathname, name, &stat_buf, leaf))
+      if (!digest_mode(&mode, pathname, name, &stat_buf, leaf))
 	return 0;
 
       if (0 == dir_curr)

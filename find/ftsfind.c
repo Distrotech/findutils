@@ -496,7 +496,7 @@ consider_visiting(FTS *p, FTSENT *ent)
   state.curdepth = ent->fts_level;
   if (mode)
     {
-      if (!digest_mode(mode, ent->fts_path, ent->fts_name, &statbuf, 0))
+      if (!digest_mode(&mode, ent->fts_path, ent->fts_name, &statbuf, 0))
 	return;
     }
 

@@ -514,7 +514,7 @@ boolean apply_predicate(const char *pathname, struct stat *stat_buf, struct pred
 /* find.c. */
 int get_info PARAMS((const char *pathname, struct stat *p, struct predicate *pred_ptr));
 int following_links PARAMS((void));
-int digest_mode PARAMS((mode_t mode, const char *pathname, const char *name, struct stat *pstat, boolean leaf));
+int digest_mode PARAMS((mode_t *mode, const char *pathname, const char *name, struct stat *pstat, boolean leaf));
 boolean default_prints PARAMS((struct predicate *pred));
 boolean looks_like_expression PARAMS((const char *arg, boolean leading));
 

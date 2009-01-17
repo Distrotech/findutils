@@ -650,7 +650,7 @@ following_links(void)
 /* Take a "mode" indicator and fill in the files of 'state'.
  */
 int
-digest_mode(mode_t mode,
+digest_mode(mode_t *mode,
 	    const char *pathname,
 	    const char *name,
 	    struct stat *pstat,
@@ -659,20 +659,20 @@ digest_mode(mode_t mode,
   /* If we know the type of the directory entry, and it is not a
    * symbolic link, we may be able to avoid a stat() or lstat() call.
    */
-  if (mode)
+  if (*mode)
     {
-      if (S_ISLNK(mode) && following_links())
+      if (S_ISLNK(*mode) && following_links())
 	{
 	  /* mode is wrong because we should have followed the symlink. */
 	  if (get_statinfo(pathname, name, pstat) != 0)
 	    return 0;
-	  mode = state.type = pstat->st_mode;
+	  *mode = state.type = pstat->st_mode;
 	  state.have_type = true;
 	}
       else
 	{
 	  state.have_type = true;
-	  pstat->st_mode = state.type = mode;
+	  pstat->st_mode = state.type = *mode;
 	}
     }
   else
@@ -697,7 +697,7 @@ digest_mode(mode_t mode,
 	   * the mode of the directory entry (S_IFLNK).  Hence now
 	   * that we have the stat information, override "mode".
 	   */
-	  state.type = pstat->st_mode;
+	  state.type = *mode = pstat->st_mode;
 	  state.have_type = true;
 	}
     }
