@@ -1,5 +1,5 @@
 /* listfile.c -- run a function in a specific directory
-   Copyright (C) 2007, 2008 Free Software Foundation, Inc.
+   Copyright (C) 2007, 2008, 2009 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,11 +31,6 @@
 #include "lstat.h"
 #include "save-cwd.h"
 
-
-/* The presence of unistd.h is assumed by gnulib these days, so we 
- * might as well assume it too. 
- */
-#include <unistd.h> /* for readlink() */
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>

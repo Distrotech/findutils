@@ -2070,7 +2070,6 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
   static char *buf = NULL;
   static size_t buf_size;
   char *timefmt = NULL;
-  boolean done = false;
   struct tm altered_time;
 
 
@@ -2098,7 +2097,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
    */
   buf_size = 1u;
   buf = xmalloc (buf_size);
-  while (!done)
+  while (true)
     {
       /* I'm not sure that Solaris will return 0 when the buffer is too small.
        * Therefore we do not check for (buf_used != 0) as the termination
@@ -2109,7 +2108,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
 	  && (buf_used < buf_size)) /* Solaris workaround */
 	{
 	  char *altbuf;
-	  size_t i, n;
+	  size_t i = 0, n = 0;
 	  size_t final_len = (buf_used
 			      + 1u /* for \0 */
 			      + ns_size);
