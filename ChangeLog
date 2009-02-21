@@ -1,3 +1,25 @@
+2009-02-21  James Youngman  <jay@gnu.org>
+
+	Update gnulib version.
+	* import-gnulib.config (gpl3_update_files): No longer need to
+	update the licenses of build-aux/mdate-sh, build-aux/texinfo.tex
+	or build-aux/ylwrap as they are already GPLv3+.
+	(modules): Use the strdup-posix module instead of strdup, and stop
+	using the obsolete modules memcmp and memset, since we now assume
+	those functions will already be present on the host system.
+	* import-gnulib.sh (rehack): Be more verbose about which files
+	actually needed a license edit and which did not.
+	
+	Follow gnulib-tool's Makefile.am edit suggestions.
+	* find/Makefile.am (LDADD): Use $(LIBINTL) instead of @INTLLIBS@
+	and use $(LIB_CLOCK_GETTIME) instead of @LIB_CLOCK_GETTIME@.
+	* lib/Makefile.am: Likewise.
+	* locate/Makefile.am: Likewise.
+	* xargs/Makefile.am: Likewise.
+	* import-gnulib.sh (hack_gnulib_tool_output): Add
+	m4/gnulib-cache.m4 to EXTRA_DIST in gnulib/Makefile.am, as
+	gnulib-tool suggests.
+
 2009-02-21  Jim Meyering  <meyering@redhat.com>
 
 	find: avoid warning about unused local, remove unnecessary include.
