@@ -2,6 +2,16 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 * Major changes in release 4.5.4-CVS, YYYY-MM-DD
 
+** Performance changes
+
+The ftsfind executable (which is built by default as "find") now calls
+fts() in such a way that it avoids calling stat() on directory
+entries, if it doesn't need the information.  This can produce a
+significant speedup on filesystems which don't populate the d_type
+element of struct dirent, for example reiserfs.  Anecdotal evidence
+suggests this can speed updatedb up from about 30 minutes to 3-4
+minutes.
+
 ** Bug Fixes
 
 #25144: Misleading error message when argument to find -user is an
