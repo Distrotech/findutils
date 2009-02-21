@@ -1,6 +1,6 @@
 /* pred.c -- execute the expression tree.
    Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2003,
-                 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+                 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -2023,7 +2023,6 @@ static boolean
 scan_for_digit_differences(const char *p, const char *q,
 			   size_t *first, size_t *n)
 {
-  bool ok = true;
   bool seen = false;
   size_t i;
   
