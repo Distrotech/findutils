@@ -1,6 +1,21 @@
 2009-02-21  James Youngman  <jay@gnu.org>
 
 	Update gnulib version.
+	* import-gnulib.config (gnulib_version): Update from 
+	d4b129b8e5f8a8d1198020fd6fc79310d305936c to
+	df70a4bf4a1e84171918db09b639ae1a14c2a9b2.  This pulls in the
+	following relevant changes:
+	fts: correct internal computation of nlinks (optimization-related)
+	fts: move a function definition "up" (no semantic change)
+	fts: arrange not to stat non-directories in more cases
+	fts: add #if guards so that the fts_lgpl module still builds
+	fts: avoid used-uninitialized error due to recent change
+	regex: avoid compilation failure with upcoming gcc-4.4
+	regex: fix glibc bug 697
+	regex: fix glibc bug 9697
+	Other changes may also be relevant; for details please check gnulib/ChangeLog.
+
+	Improvements to import-gnulib.config, import-gnulib.sh.
 	* import-gnulib.config (gpl3_update_files): No longer need to
 	update the licenses of build-aux/mdate-sh, build-aux/texinfo.tex
 	or build-aux/ylwrap as they are already GPLv3+.
