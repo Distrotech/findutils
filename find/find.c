@@ -15,7 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* GNU find was written by Eric Decker <cire@cisco.com>,
+/* GNU find was written by Eric Decker <cire@soe.ucsc.edu>,
    with enhancements by David MacKenzie <djm@gnu.org>,
    Jay Plett <jay@silence.princeton.nj.us>,
    and Tim Wood <axolotl!tim@toad.com>.

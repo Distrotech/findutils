@@ -18,7 +18,7 @@
 
 /* This file was written by James Youngman, based on find.c.
    
-   GNU find was written by Eric Decker <cire@cisco.com>,
+   GNU find was written by Eric Decker <cire@soe.ucsc.edu>,
    with enhancements by David MacKenzie <djm@gnu.org>,
    Jay Plett <jay@silence.princeton.nj.us>,
    and Tim Wood <axolotl!tim@toad.com>.
