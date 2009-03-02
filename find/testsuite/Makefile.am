@@ -77,6 +77,7 @@ find.posix/grouping.xo \
 find.posix/links.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
+find.posix/sv-bug-25359.xo \
 find.posix/depth1.xo \
 find.posix/mtime0.xo \
 find.posix/sizes.xo \
@@ -195,6 +196,7 @@ find.posix/links.exp \
 find.posix/mtime0.exp \
 find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \
+find.posix/sv-bug-25359.exp \
 find.posix/depth1.exp \
 find.posix/sizes.exp \
 find.posix/name.exp \

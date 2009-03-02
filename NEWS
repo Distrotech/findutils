@@ -14,6 +14,10 @@ minutes.
 
 ** Bug Fixes
 
+#25359: find -H wrongly behaves like -L sometimes; this bug affects
+only filesystems which populate d_type and affects -type and -printf
+%y.   This does not affect the default behaviour of find or find -P.
+
 #25144: Misleading error message when argument to find -user is an
 unknown user or is missing.
 

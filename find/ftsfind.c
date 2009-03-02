@@ -472,8 +472,22 @@ consider_visiting(FTS *p, FTSENT *ent)
       || ent->fts_info == FTS_NS /* e.g. symlink loop */)
     {
       assert (!state.have_stat);
-      assert (ent->fts_info == FTS_NSOK || state.type != 0);
-      mode = state.type;
+      if ((options.symlink_handling == SYMLINK_DEREF_ARGSONLY)
+	  && (S_ISLNK(mode)))
+	{
+	  /* Force whichever stat version we should be using; the file
+	   * type information from fts doesn't take account of -H.
+	   * This conditional fixes Savannah bug 25359, but the bug
+	   * only manifests on filesystems which populate d_type.
+	   */
+	  state.have_type = 0;
+	  state.type = mode = 0;	  
+	}
+      else
+	{
+	  assert (ent->fts_info == FTS_NSOK || state.type != 0);
+	  mode = state.type;
+	}
     }
   else
     {
@@ -615,8 +629,16 @@ find(char *arg)
       while ( (ent=fts_read(p)) != NULL )
 	{
 	  state.have_stat = false;
-	  state.have_type = !!ent->fts_statp->st_mode;
-	  state.type = state.have_type ? ent->fts_statp->st_mode : 0;
+	  if (options.symlink_handling == SYMLINK_DEREF_ARGSONLY)
+	    {
+	      state.have_type = false;
+	      state.type = 0;
+	    }
+	  else
+	    {
+	      state.have_type = !!ent->fts_statp->st_mode;
+	      state.type = state.have_type ? ent->fts_statp->st_mode : 0;
+	    }
 	  consider_visiting(p, ent);
 	}
       fts_close(p);

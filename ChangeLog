@@ -1,3 +1,15 @@
+2009-03-02  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #25359.
+	* find/ftsfind.c (consider_visiting): discard mode information
+	from fts when the -H option is in effect and the current file is a
+	symbolic link.
+	(find): don't decode the mode information that find is trying to
+	pass to us in that case, since we don't want to use it.
+	* find.posix/sv-bug-25359.exp: new test for this bug.
+	* find.posix/sv-bug-25359.xo: expected output for the test.
+	* NEWS: Mention this bugfix.
+	
 2009-02-21  James Youngman  <jay@gnu.org>
 
 	Updated the email address for Eric B. Decker.
