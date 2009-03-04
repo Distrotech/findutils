@@ -227,7 +227,6 @@ visit(FTS *p, FTSENT *ent, struct stat *pstat)
 {
   struct predicate *eval_tree;
   
-  state.curdepth = ent->fts_level;
   state.have_stat = (ent->fts_info != FTS_NS) && (ent->fts_info != FTS_NSOK);
   state.rel_pathname = ent->fts_accpath;
   state.cwd_dir_fd   = p->fts_cwd_fd;
@@ -472,22 +471,8 @@ consider_visiting(FTS *p, FTSENT *ent)
       || ent->fts_info == FTS_NS /* e.g. symlink loop */)
     {
       assert (!state.have_stat);
-      if ((options.symlink_handling == SYMLINK_DEREF_ARGSONLY)
-	  && (S_ISLNK(mode)))
-	{
-	  /* Force whichever stat version we should be using; the file
-	   * type information from fts doesn't take account of -H.
-	   * This conditional fixes Savannah bug 25359, but the bug
-	   * only manifests on filesystems which populate d_type.
-	   */
-	  state.have_type = 0;
-	  state.type = mode = 0;	  
-	}
-      else
-	{
-	  assert (ent->fts_info == FTS_NSOK || state.type != 0);
-	  mode = state.type;
-	}
+      assert (ent->fts_info == FTS_NSOK || state.type != 0);
+      mode = state.type;
     }
   else
     {
@@ -504,6 +489,10 @@ consider_visiting(FTS *p, FTSENT *ent)
 	}
     }
 
+  /* update state.curdepth before calling digest_mode(), because digest_mode
+   * may call following_links().
+   */
+  state.curdepth = ent->fts_level;
   if (mode)
     {
       if (!digest_mode(mode, ent->fts_path, ent->fts_name, &statbuf, 0))
@@ -629,16 +618,8 @@ find(char *arg)
       while ( (ent=fts_read(p)) != NULL )
 	{
 	  state.have_stat = false;
-	  if (options.symlink_handling == SYMLINK_DEREF_ARGSONLY)
-	    {
-	      state.have_type = false;
-	      state.type = 0;
-	    }
-	  else
-	    {
-	      state.have_type = !!ent->fts_statp->st_mode;
-	      state.type = state.have_type ? ent->fts_statp->st_mode : 0;
-	    }
+	  state.have_type = !!ent->fts_statp->st_mode;
+	  state.type = state.have_type ? ent->fts_statp->st_mode : 0;
 	  consider_visiting(p, ent);
 	}
       fts_close(p);

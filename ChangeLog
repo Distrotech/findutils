@@ -1,3 +1,14 @@
+2009-03-03  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #25359, more efficiently (suggestion by Nick Fortino).
+	* find/ftsfind.c (consider_visiting): revert the previous change
+	which discarded type information, and instead simply ensure that
+	state.curdepth holds the correct value before digest_mode() is
+	called.
+	(find): revert the previous change.
+	(visit): we no longer need to set state.curdepth here, since it
+	will have been set already in consider_visiting().
+
 2009-03-02  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #25359.
