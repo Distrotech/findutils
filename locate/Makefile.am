@@ -19,7 +19,7 @@ code_SOURCES = code.c word_io.c
 
 INCLUDES = -I$(top_srcdir)/lib -I../gnulib/lib -I$(top_srcdir)/gnulib/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
 
-LDADD = ../lib/libfind.a ../gnulib/lib/libgnulib.a $(LIBINTL)
+LDADD = ../lib/libfind.a ../gnulib/lib/libgnulib.a $(LIB_CLOSE) $(LIBINTL)
 
 $(PROGRAMS) $(LIBPROGRAMS): ../lib/libfind.a ../gnulib/lib/libgnulib.a
 
