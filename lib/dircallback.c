@@ -5,17 +5,17 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* This file was written by James Youngman, based on gnulib'c at-func.c. 
+/* This file was written by James Youngman, based on gnulib'c at-func.c.
  */
 
 
@@ -65,10 +65,10 @@ run_in_dir (int dir_fd, int (*callback)(void*), void *usercontext)
       struct saved_cwd saved_cwd;
       int saved_errno;
       int err;
-      
+
       if (save_cwd (&saved_cwd) != 0)
 	openat_save_fail (errno);
-      
+
       if (fchdir (dir_fd) != 0)
 	{
 	  saved_errno = errno;
@@ -76,15 +76,15 @@ run_in_dir (int dir_fd, int (*callback)(void*), void *usercontext)
 	  errno = saved_errno;
       return -1;
 	}
-      
+
       err = (*callback)(usercontext);
       saved_errno = (err < 0 ? errno : 0);
-      
+
       if (restore_cwd (&saved_cwd) != 0)
 	openat_restore_fail (errno);
-      
+
       free_cwd (&saved_cwd);
-      
+
       if (saved_errno)
 	errno = saved_errno;
       return err;

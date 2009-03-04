@@ -7,12 +7,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
@@ -75,7 +75,7 @@ do_checkout () {
 
     (
 	# Change directory unconditionally.  We used to do this to avoid
-	# the cvs client picking up defaults from findutils' ./CVS/*, but 
+	# the cvs client picking up defaults from findutils' ./CVS/*, but
 	# now we just do it for the sake of a minimum change.
 	cd $gitdir
 
@@ -83,7 +83,7 @@ do_checkout () {
 	  echo "Git repository was already initialised."
 	else
 	  echo "Cloning the git repository..."
-	  # In the future we may use a shallow clone to 
+	  # In the future we may use a shallow clone to
 	  # save bandwidth.
 	  git clone "$git_repo"
 	fi
@@ -158,7 +158,7 @@ copyhack() {
     src="$1"
     dst="$2"
     shift 2
-    if test -d "$dst" 
+    if test -d "$dst"
     then
 	dst="$dst"/"$(basename $src)"
     fi
@@ -167,7 +167,7 @@ copyhack() {
 
 
 update_licenses() {
-    for f in $gpl3_update_files 
+    for f in $gpl3_update_files
     do
       rehack "$f" || exit
     done
@@ -206,7 +206,7 @@ refresh_output_files() {
     aclocal -I m4 -I gnulib/m4     &&
     autoheader                     &&
     autoconf                       &&
-    automake --add-missing --copy 
+    automake --add-missing --copy
 }
 
 
@@ -240,7 +240,7 @@ move_cvsdir() {
     if test -d gnulib-cvs/gnulib/CVS
     then
       if test x"$(cat gnulib-cvs/gnulib/CVS/Root)" == x"$cvs_git_root"; then
-          # We cannot use the git-cvspserver interface because 
+          # We cannot use the git-cvspserver interface because
           # "update -D" doesn't work.
           echo "WARNING: Migrating from git-cvs-pserver to native git..." >&2
           savedir=gnulib-cvs.before-nativegit-migration

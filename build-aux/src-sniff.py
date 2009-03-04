@@ -59,7 +59,7 @@ class RegexSniffer(object):
                 'message'  : self._msg
                 }
             Problem(**args)
-            
+
 
 class RegexChecker(object):
     def __init__(self, regex, line_smells, file_smells):
@@ -99,7 +99,7 @@ checkers = [
     [r'the *the', "'the the' is probably not deliberate"],
     [r'(?<!\w)error \([^_"]*[^_]"[^"]*[a-z]{3}', "untranslated error message"],
     [r'^# *if\s+defined *\(', "useless parentheses in '#if defined'"],
-    
+
     ],
     [
     [r'# *include <assert.h>(?!.*assert \()',
@@ -110,7 +110,7 @@ checkers = [
      "If you include \"quote.h\", use one of its functions."],
     ]),
     # Check Makefiles for Makefile code smells.
-    RegexChecker('(^|/)[Mm]akefile(.am|.in)?', 
+    RegexChecker('(^|/)[Mm]akefile(.am|.in)?',
                  [ [r'^ ', "Spaces at start of line"], ],
                  []),
     # Check everything for whitespace problems.

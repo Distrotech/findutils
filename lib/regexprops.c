@@ -1,4 +1,4 @@
-/* regexprops.c -- document the properties of the regular expressions 
+/* regexprops.c -- document the properties of the regular expressions
                    understood by gnulib.
 
    Copyright 2005, 2007 Free Software Foundation, Inc.
@@ -7,20 +7,20 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
 /*
-   The output of this program is included in the GNU findutils source 
-   distribution.  The copying conditions for that file are generated 
+   The output of this program is included in the GNU findutils source
+   distribution.  The copying conditions for that file are generated
    by the copying() function below.
 */
 
@@ -44,7 +44,7 @@ char *program_name;
 static void output(const char *s, int escape)
 {
   (void) escape;
-  
+
   fputs(s, stdout);
 }
 
@@ -92,14 +92,14 @@ static void begin_subsection(const char *name,
   (void) next;
   (void) prev;
   (void) up;
-  
+
   newline();
-  
+
   directive("@node ");
   content(name);
   content(" regular expression syntax");
   newline();
-  
+
   directive("@subsection ");
   output("@samp{", 0);
   content(name);
@@ -163,7 +163,7 @@ describe_regex_syntax(int options)
     }
   content(".  ");
   newpara();
-  
+
   if (!(options & RE_LIMITED_OPS))
     {
       begintable_markup("@samp");
@@ -193,7 +193,7 @@ describe_regex_syntax(int options)
 	}
       endtable();
     }
-  
+
   newpara();
 
   content("Bracket expressions are used to match ranges of characters.  ");
@@ -203,7 +203,7 @@ describe_regex_syntax(int options)
   else
     content("ignored");
   content(".  ");
-  
+
   if (options &  RE_BACKSLASH_ESCAPE_IN_LISTS)
     literal("Within square brackets, @samp{\\} can be used to quote "
 	    "the following character.  ");
@@ -251,7 +251,7 @@ describe_regex_syntax(int options)
   if (options & RE_NO_BK_PARENS)
     {
       literal("Grouping is performed with parentheses @samp{()}.  ");
-      
+
       if (options & RE_UNMATCHED_RIGHT_PAREN_ORD)
 	literal("An unmatched @samp{)} matches just itself.  ");
     }
@@ -259,7 +259,7 @@ describe_regex_syntax(int options)
     {
       literal("Grouping is performed with backslashes followed by parentheses @samp{\\(}, @samp{\\)}.  ");
     }
-  
+
   if (options & RE_NO_BK_REFS)
     {
       content("A backslash followed by a digit matches that digit.  ");
@@ -273,7 +273,7 @@ describe_regex_syntax(int options)
 	literal("@samp{\\(}");
       content(".  ");
     }
-  
+
 
   newpara();
   if (!(options & RE_LIMITED_OPS))
@@ -308,7 +308,7 @@ describe_regex_syntax(int options)
 	{
 	  if (options & RE_NEWLINE_ALT)
 	    enum_item("After a newline");
-	  
+
 	  if (options & RE_NO_BK_VBAR )
 	    enum_item("After the alternation operator @samp{|}");
 	  else
@@ -333,7 +333,7 @@ describe_regex_syntax(int options)
 	{
 	  if (options & RE_NEWLINE_ALT)
 	    enum_item("Before a newline");
-	  
+
 	  if (options & RE_NO_BK_VBAR)
 	    enum_item("Before the alternation operator @samp{|}");
 	  else
@@ -355,7 +355,7 @@ describe_regex_syntax(int options)
 	    literal("@samp{\\*}, @samp{\\+} and @samp{\\?} ");
 	  else
 	    literal("@samp{*}, @samp{+} and @samp{?} ");
-	  
+
 	  if (options & RE_CONTEXT_INVALID_OPS)
 	    {
 	      content("are special at any point in a regular expression except the following places, where they are not allowed:");
@@ -364,7 +364,7 @@ describe_regex_syntax(int options)
 	    {
 	      content("are special at any point in a regular expression except:");
 	    }
-	  
+
 	  beginenum();
 	  enum_item("At the beginning of a regular expression");
 	  enum_item("After an open-group, signified by ");
@@ -380,7 +380,7 @@ describe_regex_syntax(int options)
 	    {
 	      if (options & RE_NEWLINE_ALT)
 		enum_item("After a newline");
-	      
+
 	      if (options & RE_NO_BK_VBAR)
 		enum_item("After the alternation operator @samp{|}");
 	      else
@@ -389,10 +389,10 @@ describe_regex_syntax(int options)
 	  endenum();
 	}
     }
-  
+
 
   newpara();
-  if (options & RE_INTERVALS) 
+  if (options & RE_INTERVALS)
     {
       if (options & RE_NO_BK_BRACES)
 	{
@@ -418,7 +418,7 @@ describe_regex_syntax(int options)
 	      literal("Invalid intervals such as @samp{a\\@{1z} are not accepted.  ");
 	    }
 	}
-      
+
     }
 
   newpara();
@@ -466,7 +466,7 @@ menu(unsigned int context)
 {
   int i, options;
   const char *name;
-  
+
   output("@menu\n", 0);
   for (i=0;
        options = get_regex_type_flags(i),
@@ -498,7 +498,7 @@ get_next(unsigned int ix, unsigned int context)
 	  next = get_regex_type_name(ix);
 	  if (NULL == next)
 	    return "";
-	  else 
+	  else
 	    return next;
 	}
       ++ix;
@@ -523,9 +523,9 @@ describe_all(const char *contextname,
   newline();
   newline();
   menu(context);
-  
+
   previous = "";
-  
+
   for (i=0;
        options = get_regex_type_flags(i),
 	 name=get_regex_type_name(i);
@@ -567,7 +567,7 @@ int main (int argc, char *argv[])
   unsigned int context = CONTEXT_ALL;
   const char *contextname = "all";
   program_name = argv[0];
-  
+
   if (argc > 1)
     {
       up = argv[1];
@@ -588,7 +588,7 @@ int main (int argc, char *argv[])
 	  return 1;
 	}
     }
-  
+
   describe_all(contextname, context, up);
   return 0;
 }

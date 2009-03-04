@@ -7,12 +7,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
@@ -69,10 +69,10 @@ v_update_needed() {
 
 d_update_needed() {
     # Determine if an update is neeededon the basis of the version numbers.
-    cat "$@" | 
-		tr -d '"' | 
-		grep "^PO-Revision-Date: " | 
-		sed -e 's/PO-Revision-Date: //' -e 's/\\n$//' | 
+    cat "$@" |
+		tr -d '"' |
+		grep "^PO-Revision-Date: " |
+		sed -e 's/PO-Revision-Date: //' -e 's/\\n$//' |
 		LANG=C sort -c >/dev/null
 }
 
@@ -80,19 +80,19 @@ d_update_needed() {
 
 getversion() {
 	grep Project-Id-Version: < "$1" |
-		tr -d '"' | 
+		tr -d '"' |
 		sed -e 's/^.*'$PACKAGE' //' -e 's/\\n$//'
 }
 
 
 check_versions() {
 	if vnew=$(getversion "$1"); then
-		if vexisting=$(getversion "$2"); then 
+		if vexisting=$(getversion "$2"); then
 			if v_update_needed "$vnew" "$vexisting"; then
 				true
 			else
 				d_update_needed "$2" "$1" && \
-			        info "Timestamp fields indicate $1 is newer than $2" 
+			        info "Timestamp fields indicate $1 is newer than $2"
 			fi
 		else
 			false
@@ -124,7 +124,7 @@ update_required() {
 
 
 possible_update() {
-	
+
 	debug "Possible update of $3/$1"
 
 	new="$2/$1"
@@ -151,16 +151,16 @@ main () {
 	fi
 	tmpdir=`mktemp -d`
 
-	
+
 	# set -x
 	printf "Fetching .po files..."
 	wget --quiet --recursive --directory-prefix="$tmpdir" --level=1 --accept "*.po" --no-directories "$URLBASE"/"$PACKAGE"
 	echo done
 	# cp /tmp/po-updates/$PACKAGE/*.po "$tmpdir"
-	# touch "$tmpdir"/*.po 
+	# touch "$tmpdir"/*.po
 
 	for f in $(cd $tmpdir && ls *.po ); do
-		possible_update "$f" "$tmpdir" "$DESTDIR" 	
+		possible_update "$f" "$tmpdir" "$DESTDIR"
 	done
 	cd /
 	rm -rf "$tmpdir"
@@ -171,7 +171,7 @@ main () {
 # update_needed 4.1.5 4.1.5
 # update_needed 4.1.15 4.1.5
 # update_needed 5.0 4.1.5
-# update_needed 4.2.6 5.0 
+# update_needed 4.2.6 5.0
 # exit 0
 
 main "$@"

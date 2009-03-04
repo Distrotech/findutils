@@ -1,12 +1,12 @@
 ## Process this file with automake to produce Makefile.in.
 
-AUTOMAKE_OPTIONS = 1.5 gnits 
+AUTOMAKE_OPTIONS = 1.5 gnits
 # no-dependencies
 
 noinst_LIBRARIES = libfind.a
 
 if CROSS_COMPILING
-# The regexprops program needs to be a native executable, so we 
+# The regexprops program needs to be a native executable, so we
 # can't build it with a cross-compiler.
 else
 noinst_PROGRAMS = regexprops
@@ -18,13 +18,13 @@ EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h \
 	gnulib-version.h gnulib-version.c findutils-version.h
 BUILT_SOURCES = gnulib-version.c
 SUFFIXES =
-MOSTLYCLEANFILES = 
-CLEANFILES = 
+MOSTLYCLEANFILES =
+CLEANFILES =
 DISTCLEANFILES =
 MAINTAINERCLEANFILES =
 
 
-INCLUDES = -I../gnulib/lib -I$(top_srcdir)/gnulib/lib 
+INCLUDES = -I../gnulib/lib -I$(top_srcdir)/gnulib/lib
 LDADD = ../gnulib/lib/libgnulib.a $(LIBINTL)
 
 libfind_a_SOURCES += modetype.h nextelem.h printquoted.h listfile.h \

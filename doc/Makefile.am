@@ -1,12 +1,12 @@
 info_TEXINFOS = find.texi find-maint.texi
 find_TEXINFOS = perm.texi getdate.texi regexprops.texi fdl.texi
 find_maint_TEXINFOS = fdl.texi
-MOSTLYCLEANFILES = find.cps 
+MOSTLYCLEANFILES = find.cps
 CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz
 
-# To build regexprops.texi, we need to build the regexprops program and 
+# To build regexprops.texi, we need to build the regexprops program and
 # run it on the host.  If we are cross compiling, we may not have a native
-# binary.  When this is the case, we use a workaround; don't delete the 
+# binary.  When this is the case, we use a workaround; don't delete the
 # file for 'make clean'.  This fixes Savannah bug #19658.
 if !CROSS_COMPILING
 CLEANFILES += regexprops.texi regexprops-generic.texi
@@ -16,7 +16,7 @@ MAKEINFOTXT = $(MAKEINFO) --plaintext
 
 find.txt: find.texi $(srcdir)/version.texi $(find_TEXINFOS)
 
-# find.txt is a file which we need to know how to build 
+# find.txt is a file which we need to know how to build
 # because it gets put on the www.gnu.org website.
 # This rule is derived from the .texi.html rule.
 .texi.txt:
@@ -34,7 +34,7 @@ find.txt: find.texi $(srcdir)/version.texi $(find_TEXINFOS)
 	fi
 
 
-# find_mono.html is a file which we need to know how to build 
+# find_mono.html is a file which we need to know how to build
 # because it gets put on the www.gnu.org website.
 # This rule is derived from the generic .texi.html rule.
 find_mono.html: find.texi
@@ -54,8 +54,8 @@ find_mono.html: find.texi
 
 # findutils.texi_html_node.tar.gz is a file which we need to know
 # how to build because it gets put on the www.gnu.org website.
-# This rule depends on GNU tar, but it's principally used 
-# by the maintainer, and we don't need to build the file 
+# This rule depends on GNU tar, but it's principally used
+# by the maintainer, and we don't need to build the file
 # for "make all" or "make install" (or even "make check").
 findutils.texi_html_node.tar.gz: find.html
 	tar zcf $@ $<

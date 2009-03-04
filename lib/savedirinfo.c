@@ -7,12 +7,12 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -29,8 +29,8 @@
 # include <sys/types.h>
 #endif
 
-/* The presence of unistd.h is assumed by gnulib these days, so we 
- * might as well assume it too. 
+/* The presence of unistd.h is assumed by gnulib these days, so we
+ * might as well assume it too.
  */
 #include <unistd.h>
 
@@ -67,7 +67,7 @@
 #include "savedirinfo.h"
 
 /* In order to use struct dirent.d_type, it has to be enabled on the
- * configure command line, and we have to have a d_type member in 
+ * configure command line, and we have to have a d_type member in
  * 'struct dirent'.
  */
 #if !defined(USE_STRUCT_DIRENT_D_TYPE)
@@ -81,7 +81,7 @@
 
 
 #if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
-/* Convert the value of struct dirent.d_type into a value for 
+/* Convert the value of struct dirent.d_type into a value for
  * struct stat.st_mode (at least the file type bits), or zero
  * if the type is DT_UNKNOWN or is a value we don't know about.
  */
@@ -95,17 +95,17 @@ type_to_mode(unsigned type)
 #endif
 #ifdef DT_CHR
     case DT_CHR:  return S_IFCHR;
-#endif		  
-#ifdef DT_DIR	  
+#endif
+#ifdef DT_DIR
     case DT_DIR:  return S_IFDIR;
-#endif		  
-#ifdef DT_BLK	  
+#endif
+#ifdef DT_BLK
     case DT_BLK:  return S_IFBLK;
-#endif		  
-#ifdef DT_REG	  
+#endif
+#ifdef DT_REG
     case DT_REG:  return S_IFREG;
-#endif		  
-#ifdef DT_LNK	  
+#endif
+#ifdef DT_LNK
     case DT_LNK:  return S_IFLNK;
 #endif
 #ifdef DT_SOCK
@@ -148,10 +148,10 @@ convertentries(const struct savedir_dirinfo *info,
 
 
   result = xmalloc(sizeof(*result) * info->size);
-  
+
   for (i=0; i<n; ++i)
     {
-      result[i].flags = internal[i].flags;   
+      result[i].flags = internal[i].flags;
       result[i].type_info = internal[i].type_info;
       result[i].name = &p[internal[i].buffer_offset];
     }
@@ -166,7 +166,7 @@ xsavedir(const char *dir, int flags)
   struct dirent *dp;
   struct savedir_dirinfo *result = NULL;
   struct new_savedir_direntry_internal *internal;
-  
+
   size_t namebuf_allocated = 0u, namebuf_used = 0u;
   size_t entrybuf_allocated = 0u;
   int save_errno;
@@ -181,7 +181,7 @@ xsavedir(const char *dir, int flags)
   result->size = 0u;
   result->entries = NULL;
   internal = NULL;
-  
+
   while ((dp = readdir (dirp)) != NULL)
     {
       /* Skip "", ".", and "..".  "" is returned by at least one buggy
@@ -193,11 +193,11 @@ xsavedir(const char *dir, int flags)
 	  size_t entry_size = strlen (entry) + 1;
 	  result->buffer = extendbuf(result->buffer, namebuf_used+entry_size, &namebuf_allocated);
 	  memcpy ((result->buffer) + namebuf_used, entry, entry_size);
-	  
+
 	  /* Remember the other stuff. */
 	  internal = extendbuf(internal, (1+result->size)*sizeof(*internal), &entrybuf_allocated);
 	  internal[result->size].flags = 0;
-	  
+
 #if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
 	  internal[result->size].type_info = type_to_mode(dp->d_type);
 	  if (dp->d_type != DT_UNKNOWN)
@@ -212,7 +212,7 @@ xsavedir(const char *dir, int flags)
 	  namebuf_used += entry_size;
 	}
     }
-  
+
   result->buffer = extendbuf(result->buffer, namebuf_used+1, &namebuf_allocated);
   result->buffer[namebuf_used] = '\0';
 
@@ -228,7 +228,7 @@ xsavedir(const char *dir, int flags)
 	    result->size, sizeof(*result->entries),
 	    savedir_cmp);
     }
-  
+
 
   save_errno = errno;
   if (CLOSEDIR (dirp) != 0)
@@ -262,7 +262,7 @@ new_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
   char *buf, *s;
   size_t bufbytes = 0;
   unsigned int i;
-  
+
   if (p)
     {
       struct savedir_extrainfo *pex = xmalloc(p->size * sizeof(*extra));
@@ -284,10 +284,10 @@ new_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 	  ++s;			/* Skip the NUL. */
 	}
       *s = 0;			/* final (doubled) terminating NUL */
-      
+
       if (extra)
 	*extra = pex;
-      else 
+      else
 	free (pex);
       return buf;
     }
@@ -319,7 +319,7 @@ old_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 
   if (extra)
     *extra = NULL;
-  
+
   dirp = opendir (dir);
   if (dirp == NULL)
     return NULL;
@@ -353,10 +353,10 @@ old_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 #endif
 	}
     }
-  
+
   name_space = extendbuf(name_space, namebuf_used+1, &namebuf_allocated);
   name_space[namebuf_used] = '\0';
-  
+
   save_errno = errno;
   if (CLOSEDIR (dirp) != 0)
     save_errno = errno;
@@ -366,12 +366,12 @@ old_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
       errno = save_errno;
       return NULL;
     }
-  
+
 #if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
   if (extra && info)
     *extra = info;
 #endif
-  
+
   return name_space;
 }
 #endif

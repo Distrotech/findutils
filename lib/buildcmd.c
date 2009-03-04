@@ -18,23 +18,23 @@
 
 /*
  XXX_SOC:
- 
- One of the aspects of the SOC project is to adapt this module.  
+
+ One of the aspects of the SOC project is to adapt this module.
  This module currently makes an initial guess at two things:
-  
+
    buildcmd_control->arg_max   (The most characters we can fit in)
    buildcmd_control->max_arg_count (most args)
 
  The nature of the SOC task is to adjust these values when exec fails.
- Optionally (if we have the time) we can make the software adjust them 
+ Optionally (if we have the time) we can make the software adjust them
  when exec succeeds.  If we do the latter, we need to ensure we don't
- get into some state where we are sitting just below the limit and 
+ get into some state where we are sitting just below the limit and
  keep trying to extend, because that would lead to every other exec
- failing. 
+ failing.
 
- If our initial guess is successful, there is no pressing need really to 
+ If our initial guess is successful, there is no pressing need really to
  increase our guess.  Indeed, if we are beign called by xargs (as opposed
- to find) th user may have specified a limit with "-s" and we should not 
+ to find) th user may have specified a limit with "-s" and we should not
  exceed it.
 */
 
@@ -88,8 +88,8 @@
 #include <limits.h>
 #endif
 
-/* The presence of unistd.h is assumed by gnulib these days, so we 
- * might as well assume it too. 
+/* The presence of unistd.h is assumed by gnulib these days, so we
+ * might as well assume it too.
  */
 /* for sysconf() */
 #include <unistd.h>
@@ -162,7 +162,7 @@ bc_do_insert (const struct buildcmd_control *ctl,
         {
           len = arglen;
         }
-      
+
       if (bytes_left <= len)
         break;
       else
@@ -179,7 +179,7 @@ bc_do_insert (const struct buildcmd_control *ctl,
 	    break;
 	  else
 	    bytes_left -= (lblen + pfxlen);
-	  
+
 	  if (prefix)
 	    {
 	      strcpy (p, prefix);
@@ -196,7 +196,7 @@ bc_do_insert (const struct buildcmd_control *ctl,
   if (*arg)
     error (1, 0, _("command too long"));
   *p++ = '\0';
-  
+
   bc_push_arg (ctl, state,
 	       insertbuf, p - insertbuf,
                NULL, 0,
@@ -208,7 +208,7 @@ void do_exec(const struct buildcmd_control *ctl,
              struct buildcmd_state *state)
 {
   /* XXX_SOC:
-   
+
      Here we are calling the user's function.  Currently there is no
      way for it to report that the argument list was too long.  We
      should introduce an externally callable function that allows them
@@ -216,14 +216,14 @@ void do_exec(const struct buildcmd_control *ctl,
 
      If the callee does report that the exec failed, we need to retry
      the exec with a shorter argument list.  Once we have reduced the
-     argument list to the point where the exec can succeed, we need to 
-     preserve the list of arguments we couldn't exec this time. 
+     argument list to the point where the exec can succeed, we need to
+     preserve the list of arguments we couldn't exec this time.
 
-     This also means that the control argument here probably needs not 
+     This also means that the control argument here probably needs not
      to be const (since the limits are in the control arg).
 
-     The caller's only requirement on do_exec is that it should 
-     free up enough room for at least one argument.   
+     The caller's only requirement on do_exec is that it should
+     free up enough room for at least one argument.
    */
   (ctl->exec_callback)(ctl, state);
 }
@@ -236,8 +236,8 @@ void do_exec(const struct buildcmd_control *ctl,
  * If we return zero, there still may not be enough room for the next
  * argument, depending on its length.
  */
-static int 
-bc_argc_limit_reached(int initial_args, 
+static int
+bc_argc_limit_reached(int initial_args,
 		      const struct buildcmd_control *ctl,
 		      struct buildcmd_state *state)
 {
@@ -257,9 +257,9 @@ bc_argc_limit_reached(int initial_args,
 /* Add ARG to the end of the list of arguments `cmd_argv' to pass
    to the command.
    LEN is the length of ARG, including the terminating null.
-   If this brings the list up to its maximum size, execute the command.  
+   If this brings the list up to its maximum size, execute the command.
 */
-/* XXX: sometimes this function is called (internally) 
+/* XXX: sometimes this function is called (internally)
  *      just to push a NULL onto the and of the arg list.
  *      We should probably do that with a separate function
  *      for greater clarity.
@@ -275,7 +275,7 @@ bc_push_arg (const struct buildcmd_control *ctl,
     {
       state->todo = 1;
     }
-  
+
   if (arg)
     {
       /* XXX_SOC: if do_exec() is only guaranteeed to free up one
@@ -331,13 +331,13 @@ bc_push_arg (const struct buildcmd_control *ctl,
           strcpy (state->argbuf + state->cmd_argv_chars, prefix);
           state->cmd_argv_chars += pfxlen;
         }
-      
+
       strcpy (state->argbuf + state->cmd_argv_chars, arg);
       state->cmd_argv_chars += len;
-      
+
       /* If we have now collected enough arguments,
-       * do the exec immediately.  This must be 
-       * conditional on arg!=NULL, since do_exec() 
+       * do the exec immediately.  This must be
+       * conditional on arg!=NULL, since do_exec()
        * actually calls bc_push_arg(ctl, state, NULL, 0, false).
        */
       if (bc_argc_limit_reached(initial_args, ctl, state))
@@ -352,23 +352,23 @@ bc_push_arg (const struct buildcmd_control *ctl,
 }
 
 #if 0
-/* We used to set posix_arg_size_min to the LINE_MAX limit, but 
+/* We used to set posix_arg_size_min to the LINE_MAX limit, but
  * currently we use _POSIX_ARG_MAX (which is the minimum value).
  */
 static size_t
 get_line_max(void)
 {
   long val;
-#ifdef _SC_LINE_MAX  
+#ifdef _SC_LINE_MAX
   val = sysconf(_SC_LINE_MAX);
 #else
   val = -1;
 #endif
-  
+
   if (val > 0)
     return val;
 
-  /* either _SC_LINE_MAX was not available or 
+  /* either _SC_LINE_MAX was not available or
    * there is no particular limit.
    */
 #ifdef LINE_MAX
@@ -391,7 +391,7 @@ bc_get_arg_max(void)
   /* XXX: better to do a compile-time check */
   assert ( (~(size_t)0) >= LONG_MAX);
 
-#ifdef _SC_ARG_MAX  
+#ifdef _SC_ARG_MAX
   val = sysconf(_SC_ARG_MAX);
 #else
   val = -1;
@@ -400,7 +400,7 @@ bc_get_arg_max(void)
   if (val > 0)
     return val;
 
-  /* either _SC_ARG_MAX was not available or 
+  /* either _SC_ARG_MAX was not available or
    * there is no particular limit.
    */
 #ifdef ARG_MAX
@@ -409,11 +409,11 @@ bc_get_arg_max(void)
 
   if (val > 0)
     return val;
-  
+
   /* The value returned by this function bounds the
    * value applied as the ceiling for the -s option.
    * Hence it the system won't tell us what its limit
-   * is, we allow the user to specify more or less 
+   * is, we allow the user to specify more or less
    * whatever value they like.
    */
   return LONG_MAX;
@@ -457,7 +457,7 @@ bc_init_controlinfo(struct buildcmd_control *ctl,
    */
   ctl->posix_arg_size_min = _POSIX_ARG_MAX;
   ctl->posix_arg_size_max = bc_get_arg_max();
-  
+
   ctl->exit_if_size_exceeded = 0;
 
   /* Take the size of the environment into account.  */
@@ -479,7 +479,7 @@ bc_init_controlinfo(struct buildcmd_control *ctl,
       ctl->posix_arg_size_max -= size_of_environment;
       ctl->posix_arg_size_max -= headroom;
     }
-  
+
   /* need to subtract 2 on the following line - for Linux/PPC */
   ctl->max_arg_count = (ctl->posix_arg_size_max / sizeof(char*)) - 2u;
   assert (ctl->max_arg_count > 0);
@@ -507,12 +507,12 @@ bc_use_sensible_arg_max(struct buildcmd_control *ctl)
   enum { arg_size = (128u * 1024u) };
 #endif
 
-  /* Check against the upper and lower limits. */  
+  /* Check against the upper and lower limits. */
   if (arg_size > ctl->posix_arg_size_max)
     ctl->arg_max = ctl->posix_arg_size_max;
   else if (arg_size < ctl->posix_arg_size_min)
     ctl->arg_max = ctl->posix_arg_size_min;
-  else 
+  else
     ctl->arg_max = arg_size;
 }
 
@@ -528,22 +528,22 @@ bc_init_state(const struct buildcmd_control *ctl,
   state->cmd_argv_chars = 0;
   state->cmd_argv = NULL;
   state->cmd_argv_alloc = 0;
-  
+
   /* XXX: the following memory allocation is inadvisable on systems
-   * with no ARG_MAX, because ctl->arg_max may actually be close to 
+   * with no ARG_MAX, because ctl->arg_max may actually be close to
    * LONG_MAX.   Adding one to it is safe though because earlier we
    * subtracted 2048.
    */
   assert (ctl->arg_max <= (LONG_MAX - 2048L));
   state->argbuf = xmalloc (ctl->arg_max + 1u);
-  
+
   state->cmd_argv_chars = state->cmd_initial_argv_chars = 0;
   state->todo = 0;
   state->dir_fd = -1;
   state->usercontext = context;
 }
 
-void 
+void
 bc_clear_args(const struct buildcmd_control *ctl,
               struct buildcmd_state *state)
 {

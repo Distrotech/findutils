@@ -18,11 +18,11 @@ entries.  Normally, file name databases are updated by running the
 \fBupdatedb\fP(1).
 
 .SH GNU LOCATE02 database format
-This is the default format of databases produced by 
+This is the default format of databases produced by
 .BR updatedb .
-The 
-.B updatedb 
-program runs 
+The
+.B updatedb
+program runs
 .B frcode
 to compress the list of file names using front-compression, which
 reduces the database size by a factor of 4 to 5.  Front-compression
@@ -51,27 +51,27 @@ correct format; it ignores the entry in doing the search.
 Databases can not be concatenated together, even if the first
 (dummy) entry is trimmed from all but the first database.  This
 is because the offset-differential count in the first entry of the
-second and following databases will be wrong.  
+second and following databases will be wrong.
 .P
 In the future, the data within the locate database may not be sorted
 in any particular order.  To obtain sorted results, pipe the output of
-.B locate 
-through 
+.B locate
+through
 .BR "sort -f" .
 .SH slocate database format
-The 
+The
 .B slocate
-program uses a database format similar to, but not quite the same as, 
-GNU 
+program uses a database format similar to, but not quite the same as,
+GNU
 .BR locate .
 The first byte of the database specifies its
-.I security 
+.I security
 .IR level .
-If the security level is 0, 
+If the security level is 0,
 .B slocate
 will read, match and print filenames on the basis of the information
-in the database only.  However, if the security level byte is 1, 
-.B slocate 
+in the database only.  However, if the security level byte is 1,
+.B slocate
 omits entries from its output if the invoking user is unable to access
 them.  The second byte of the database is zero.  The second byte is
 followed by the first database entry.  The first entry in the database
@@ -144,10 +144,10 @@ and count bytes made printable:
 .SH "BUGS"
 .P
 The best way to report a bug is to use the form at
-http://savannah.gnu.org/bugs/?group=findutils.  
+http://savannah.gnu.org/bugs/?group=findutils.
 The reason for this is that you will then be able to track progress in
 fixing the problem.   Other comments about \fBlocate\fP(1) and about
-the findutils package in general can be sent to the 
+the findutils package in general can be sent to the
 .I bug-findutils
-mailing list.  To join the list, send email to 
+mailing list.  To join the list, send email to
 .IR bug-findutils-request@gnu.org .

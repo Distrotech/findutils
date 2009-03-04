@@ -50,8 +50,8 @@ char *version_string = VERSION;
 void
 display_findutils_version(const char *official_name)
 {
-  /* We use official_name rather than program name in the version 
-   * information.  This is deliberate, it is specified by the 
+  /* We use official_name rather than program name in the version
+   * information.  This is deliberate, it is specified by the
    * GNU coding standard.
    */
   fflush (stderr);

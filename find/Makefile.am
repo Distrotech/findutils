@@ -13,7 +13,7 @@ libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c tree.c util.c
 # --with-fts		find 		extra binary
 #	yes		with fts	'oldfind', without fts
 #        no             without fts     'ftsfind', with fts
-# 
+#
 if WITH_FTS
 bin_PROGRAMS     = find oldfind
 find_SOURCES     = ftsfind.c

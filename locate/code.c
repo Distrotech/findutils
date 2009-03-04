@@ -5,12 +5,12 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -32,7 +32,7 @@
    followed by a (partially bigram-encoded) ASCII remainder.
    The output lines have no terminating byte; the start of the next line
    is indicated by its first byte having a value <= 30.
-   
+
    The encoding of the output bytes is:
 
    0-28		likeliest differential counts + offset (14) to make nonnegative
@@ -139,7 +139,7 @@ static void inerr (const char *filename) ATTRIBUTE_NORETURN;
 static void outerr(void)                 ATTRIBUTE_NORETURN;
 
 static void
-inerr(const char *filename) 
+inerr(const char *filename)
 {
   error(1, errno, "%s", filename);
   /*NOTREACHED*/
@@ -147,7 +147,7 @@ inerr(const char *filename)
 }
 
 static void
-outerr(void) 
+outerr(void)
 {
   error(1, errno, _("write error"));
   /*NOTREACHED*/
@@ -177,7 +177,7 @@ main (int argc, char **argv)
       usage(stderr);
       return 2;
     }
-  
+
   if (0 == strcmp(argv[1], "--help"))
     {
       usage(stdout);
@@ -188,7 +188,7 @@ main (int argc, char **argv)
       display_findutils_version("code");
       return 0;
     }
-  
+
   fp = fopen (argv[1], "r");
   if (fp == NULL)
     {
@@ -196,7 +196,7 @@ main (int argc, char **argv)
       perror (argv[1]);
       return 1;
     }
-  
+
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
   path = xmalloc (pathsize);
   oldpath = xmalloc (oldpathsize);
@@ -209,7 +209,7 @@ main (int argc, char **argv)
      padding with NULs if there are <128 of them.  */
   if (NULL == fgets (bigrams, 257, fp))
     inerr(argv[1]);
-  
+
   if (256 != fwrite (bigrams, 1, 256, stdout))
      outerr();
 

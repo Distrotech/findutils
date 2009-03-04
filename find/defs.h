@@ -6,12 +6,12 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -175,19 +175,19 @@ struct size_val
 };
 
 
-enum xval 
+enum xval
   {
     XVAL_ATIME, XVAL_BIRTHTIME, XVAL_CTIME, XVAL_MTIME, XVAL_TIME
   };
 
 struct time_val
 {
-  enum xval            xval; 
+  enum xval            xval;
   enum comparison_type kind;
   struct timespec      ts;
 };
 
-    
+
 struct exec_val
 {
   boolean multiple;		/* -exec {} \+ denotes multiple argument. */
@@ -206,7 +206,7 @@ struct exec_val
    each \c and `%' conversion is a segment. */
 
 /* Special values for the `kind' field of `struct segment'. */
-enum SegmentKind 
+enum SegmentKind
   {
     KIND_PLAIN=0,		/* Segment containing just plain text. */
     KIND_STOP=1,		/* \c -- stop printing and flush output. */
@@ -253,7 +253,7 @@ enum EvaluationCost
   NeedsUnknown,
   NumEvaluationCosts
 };
-    
+
 struct predicate
 {
   /* Pointer to the function that implements this predicate.  */
@@ -289,7 +289,7 @@ struct predicate
 
   /* est_success_rate is a number between 0.0 and 1.0 */
   float est_success_rate;
-  
+
   /* True if this predicate should display control characters literally */
   boolean literal_control_chars;
 
@@ -298,7 +298,7 @@ struct predicate
 
   /* The raw text of the argument of this predicate. */
   char *arg_text;
-  
+
   /* Information needed by the predicate processor.
      Next to each member are listed the predicates that use it. */
   union
@@ -329,7 +329,7 @@ struct predicate
   struct predicate *pred_right;
 
   struct predicate_performance_info perf;
-  
+
   const struct parser_table* parser_entry;
 };
 
@@ -343,10 +343,10 @@ int get_current_dirfd(void);
 /* find global function declarations.  */
 
 /* find.c */
-/* SymlinkOption represents the choice of 
+/* SymlinkOption represents the choice of
  * -P, -L or -P (default) on the command line.
  */
-enum SymlinkOption 
+enum SymlinkOption
   {
     SYMLINK_NEVER_DEREF,	/* Option -P */
     SYMLINK_ALWAYS_DEREF,	/* Option -L */
@@ -532,25 +532,25 @@ struct options
 {
   /* If true, process directory before contents.  True unless -depth given. */
   boolean do_dir_first;
-  /* If true, -depth was EXPLICITLY set (as opposed to having been turned 
+  /* If true, -depth was EXPLICITLY set (as opposed to having been turned
    * on by -delete, for example).
    */
    boolean explicit_depth;
-  
+
   /* If >=0, don't descend more than this many levels of subdirectories. */
   int maxdepth;
-  
+
   /* If >=0, don't process files above this level. */
   int mindepth;
-  
+
   /* If true, do not assume that files in directories with nlink == 2
      are non-directories. */
   boolean no_leaf_check;
-  
+
   /* If true, don't cross filesystem boundaries. */
   boolean stay_on_filesystem;
-  
-  /* If true, we ignore the problem where we find that a directory entry 
+
+  /* If true, we ignore the problem where we find that a directory entry
    * no longer exists by the time we get around to processing it.
    */
   boolean ignore_readdir_race;
@@ -559,49 +559,49 @@ struct options
    * or turn them into harmless things.
    */
   boolean literal_control_chars;
-  
+
   /* If true, we issue warning messages
    */
   boolean warnings;
-  
-  /* If true, avoid POSIX-incompatible behaviours 
-   * (this functionality is currently incomplete 
+
+  /* If true, avoid POSIX-incompatible behaviours
+   * (this functionality is currently incomplete
    * and at the moment affects mainly warning messages).
    */
   boolean posixly_correct;
-  
+
   struct timespec      start_time;		/* Time at start of execution.  */
-  
+
   /* Either one day before now (the default), or the start of today (if -daystart is given). */
   struct timespec      cur_day_start;
-  
+
   /* If true, cur_day_start has been adjusted to the start of the day. */
   boolean full_days;
-  
+
   int output_block_size;	/* Output block size.  */
 
   /* bitmask for debug options */
   unsigned long debug_options;
-  
+
   enum SymlinkOption symlink_handling;
-  
-  
+
+
   /* Pointer to the function used to stat files. */
   int (*xstat) (const char *name, struct stat *statbuf);
 
 
-  /* Indicate if we can implement safely_chdir() using the O_NOFOLLOW 
-   * flag to open(2). 
+  /* Indicate if we can implement safely_chdir() using the O_NOFOLLOW
+   * flag to open(2).
    */
   boolean open_nofollow_available;
 
   /* The variety of regular expression that we support.
-   * The default is POSIX Basic Regular Expressions, but this 
+   * The default is POSIX Basic Regular Expressions, but this
    * can be changed with the positional option, -regextype.
    */
   int regex_options;
 
-  /* Optimisation level.  One is the default. 
+  /* Optimisation level.  One is the default.
    */
   unsigned short optimisation_level;
 
@@ -617,14 +617,14 @@ struct state
 {
   /* Current depth; 0 means current path is a command line arg. */
   int curdepth;
-  
+
   /* If true, we have called stat on the current path. */
   boolean have_stat;
-  
+
   /* If true, we know the type of the current path. */
   boolean have_type;
   mode_t type;			/* this is the actual type */
-  
+
   /* The file being operated on, relative to the current directory.
      Used for stat, readlink, remove, and opendir.  */
   char *rel_pathname;
@@ -639,7 +639,7 @@ struct state
   /* If true, don't descend past current directory.
      Can be set by -prune, -maxdepth, and -xdev/-mount. */
   boolean stop_at_current_level;
-  
+
   /* Status value to return to system. */
   int exit_status;
 

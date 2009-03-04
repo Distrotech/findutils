@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS=gnits
 EXTRA_DIST = COPYING ChangeLog TODO config.h.in stamp-h.in \
 		THANKS import-gnulib.sh import-gnulib.config
 # "tests" is the gnulib unit test dir.
-SUBDIRS = gnulib tests build-aux lib find xargs locate doc po m4 
+SUBDIRS = gnulib tests build-aux lib find xargs locate doc po m4
 
 ACLOCAL_AMFLAGS = -I gnulib/m4 -I m4
 
@@ -18,18 +18,18 @@ TESTFILE_SUFFIXES = .exp .xo .xe .xi
 dist-hook: jy-regex-fix findutils-check-pofiles findutils-check-testfiles
 
 
-## regex.c seems to get left out if I use automake-1.9 but not 
-## if I use automake-1.7.   Hence dist-hook has to be able to 
-## copy regex.c into the relevant (read-only) directory if it 
-## is not already there, but needs to avoid doing so if the 
-## file is already in place.   Ugh.  
-## 
+## regex.c seems to get left out if I use automake-1.9 but not
+## if I use automake-1.7.   Hence dist-hook has to be able to
+## copy regex.c into the relevant (read-only) directory if it
+## is not already there, but needs to avoid doing so if the
+## file is already in place.   Ugh.
+##
 ## This problem appears not to apply to Automake-1.10, but since
-## gnulib only requires Automake-1.9.6, we should support that.  
+## gnulib only requires Automake-1.9.6, we should support that.
 ## Therefore we probably can't remove this kludge yet.
-## 
+##
 ##                             -- James Youngman <jay@gnu.org>
-## 
+##
 jy-regex-fix:
 	if test -f $(distdir)/gnulib/lib/regex.c ; then \
 		echo regex.c is already in place.  Great. ; \
@@ -41,7 +41,7 @@ jy-regex-fix:
 	fi
 #	ls -ld $(srcdir)/gnulib/lib/regex.c $(distdir)/gnulib/lib
 
-## Check that we actually shipped all the .po files.  If this rule fails, 
+## Check that we actually shipped all the .po files.  If this rule fails,
 ## check ALL_LINGUAS in configure.in against the po files in the source
 ## directory (their names, not their contents)
 findutils-check-pofiles:
@@ -50,7 +50,7 @@ findutils-check-pofiles:
 	@echo All .po files distributed OK.
 
 ## Check that we actually shipped all the test files that exist in the source.
-## runtest will run all the .exp files it finds, and so if we don't ship all 
+## runtest will run all the .exp files it finds, and so if we don't ship all
 ## of them, there will be some tests which people using the CVS code will be
 ## running, but people using the source distribution will not.
 findutils-check-testfiles:

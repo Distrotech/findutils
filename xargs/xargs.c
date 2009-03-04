@@ -6,19 +6,19 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* Written by Mike Rendell <michael@cs.mun.ca>
-   and David MacKenzie <djm@gnu.org>.  
-   Modifications by 
+   and David MacKenzie <djm@gnu.org>.
+   Modifications by
         James Youngman
 	Dmitry V. Levin
 */
@@ -83,8 +83,8 @@
 #define LONG_MAX (~(1 << (sizeof (long) * 8 - 1)))
 #endif
 
-/* The presence of unistd.h is assumed by gnulib these days, so we 
- * might as well assume it too. 
+/* The presence of unistd.h is assumed by gnulib these days, so we
+ * might as well assume it too.
  */
 #include <unistd.h>
 
@@ -233,7 +233,7 @@ static boolean print_command = false; /* Option -t */
    execute the command if the user responds affirmatively.  */
 static boolean query_before_executing = false;
 
-/* The delimiter for input arguments.   This is only consulted if the 
+/* The delimiter for input arguments.   This is only consulted if the
  * -0 or -d option had been given.
  */
 static char input_delimiter = '\0';
@@ -274,7 +274,7 @@ static void usage PARAMS ((FILE * stream));
 
 
 
-static char 
+static char
 get_char_oct_or_hex_escape(const char *s)
 {
   const char * p;
@@ -283,7 +283,7 @@ get_char_oct_or_hex_escape(const char *s)
   char *endp;
 
   assert ('\\' == s[0]);
-  
+
   if ('x' == s[1])
     {
       /* hex */
@@ -306,9 +306,9 @@ get_char_oct_or_hex_escape(const char *s)
   errno = 0;
   endp = (char*)p;
   val = strtoul(p, &endp, base);
-  
-  /* This if condition is carefully constructed to do 
-   * the right thing if UCHAR_MAX has the same 
+
+  /* This if condition is carefully constructed to do
+   * the right thing if UCHAR_MAX has the same
    * value as ULONG_MAX.   IF UCHAR_MAX==ULONG_MAX,
    * then val can never be greater than UCHAR_MAX.
    */
@@ -328,7 +328,7 @@ get_char_oct_or_hex_escape(const char *s)
 		s, (unsigned long)UCHAR_MAX);
 	}
     }
-  
+
   /* check for trailing garbage */
   if (0 != *endp)
     {
@@ -336,12 +336,12 @@ get_char_oct_or_hex_escape(const char *s)
 	    _("Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."),
 	    s, endp);
     }
-  
+
   return (char) val;
 }
 
 
-static char 
+static char
 get_input_delimiter(const char *s)
 {
   if (1 == strlen(s))
@@ -386,13 +386,13 @@ get_input_delimiter(const char *s)
     }
 }
 
-static void 
+static void
 noop (void)
 {
   /* does nothing. */
 }
 
-static void 
+static void
 fail_due_to_env_size (void)
 {
   error (1, 0, _("environment is too large for exec"));
@@ -411,10 +411,10 @@ main (int argc, char **argv)
   void (*act_on_init_result)(void) = noop;
   enum BC_INIT_STATUS bcstatus;
   enum { XARGS_POSIX_HEADROOM = 2048u };
-  
+
   program_name = argv[0];
   original_exit_value = 0;
-  
+
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
 #endif
@@ -423,19 +423,19 @@ main (int argc, char **argv)
   atexit (close_stdin);
   atexit (wait_for_proc_all);
 
-  /* xargs is required by POSIX to allow 2048 bytes of headroom 
-   * for extra environment variables (that perhaps the utliity might 
+  /* xargs is required by POSIX to allow 2048 bytes of headroom
+   * for extra environment variables (that perhaps the utliity might
    * want to set before execing something else).
    */
   bcstatus = bc_init_controlinfo(&bc_ctl, XARGS_POSIX_HEADROOM);
-  
-  /* The bc_init_controlinfo call may have determined that the 
-   * environment is too big.  In that case, we will fail with 
+
+  /* The bc_init_controlinfo call may have determined that the
+   * environment is too big.  In that case, we will fail with
    * an error message after processing the command-line options,
-   * as "xargs --help" should still work even if the environment is 
+   * as "xargs --help" should still work even if the environment is
    * too big.
    *
-   * Some of the argument processing depends on the contents of 
+   * Some of the argument processing depends on the contents of
    * bc_ctl, which will be in an undefined state if bc_init_controlinfo()
    * failed.
    */
@@ -449,7 +449,7 @@ main (int argc, char **argv)
        * 4096.  For everything to work the total of (command line +
        * headroom + environment) must fit into this.  POSIX requires
        * that we use a headroom of 2048 bytes.  The user is in control
-       * of the size of the environment.  
+       * of the size of the environment.
        *
        * In general if bc_init_controlinfo() returns
        * BC_INIT_CANNOT_ACCOMODATE_HEADROOM, its caller can try again
@@ -460,11 +460,11 @@ main (int argc, char **argv)
     }
   else
     {
-      /* IEEE Std 1003.1, 2003 specifies that the combined argument and 
-       * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also 
+      /* IEEE Std 1003.1, 2003 specifies that the combined argument and
+       * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also
        * specifies that it shall be at least LINE_MAX.
        */
-#ifdef _SC_ARG_MAX  
+#ifdef _SC_ARG_MAX
       long val = sysconf(_SC_ARG_MAX);
       if (val > 0)
 	{
@@ -492,15 +492,15 @@ main (int argc, char **argv)
        */
       assert (bc_ctl.arg_max >= LINE_MAX);
 #endif
-      
+
       bc_ctl.exec_callback = xargs_do_exec;
-      
+
       /* Start with a reasonable default size, though this can be
        * adjusted via the -s option.
        */
       bc_use_sensible_arg_max(&bc_ctl);
     }
-  
+
   while ((optc = getopt_long (argc, argv, "+0a:E:e::i::I:l::L:n:prs:txP:d:",
 			      longopts, (int *) 0)) != -1)
     {
@@ -567,8 +567,8 @@ main (int argc, char **argv)
 	    bc_ctl.replace_pat = NULL;
 	  break;
 
-	  /* The POSIX standard specifies that it is not an error 
-	   * for the -s option to specify a size that the implementation 
+	  /* The POSIX standard specifies that it is not an error
+	   * for the -s option to specify a size that the implementation
 	   * cannot support - in that case, the relevant limit is used.
 	   */
 	case 's':
@@ -632,9 +632,9 @@ main (int argc, char **argv)
   /* If we had deferred failing due to problems in bc_init_controlinfo(),
    * do it now.
    *
-   * We issue this error message after processing command line 
+   * We issue this error message after processing command line
    * arguments so that it is possible to use "xargs --help" even if
-   * the environment is too large. 
+   * the environment is too large.
    */
   act_on_init_result();
   assert (BC_INIT_OK == bcstatus);
@@ -677,12 +677,12 @@ main (int argc, char **argv)
 # error "I'm not sure how to print size_t values on your system"
 # endif
 #else
-  /* Without SIZE_MAX (i.e. limits.h) this is probably 
+  /* Without SIZE_MAX (i.e. limits.h) this is probably
    * close to the best we can do.
    */
   verify_true (sizeof(size_t) <= sizeof(unsigned long));
 #endif
-  
+
   if (show_limits)
     {
       fprintf(stderr,
@@ -701,7 +701,7 @@ main (int argc, char **argv)
       fprintf(stderr,
 	      _("Size of command buffer we are actually using: %lu\n"),
 	      (unsigned long)bc_ctl.arg_max);
-      
+
       if (isatty(STDIN_FILENO))
 	{
 	  fprintf(stderr,
@@ -720,7 +720,7 @@ main (int argc, char **argv)
 	    }
 	}
     }
-  
+
   linebuf = xmalloc (bc_ctl.arg_max + 1);
   bc_state.argbuf = xmalloc (bc_ctl.arg_max + 1);
 
@@ -766,14 +766,14 @@ main (int argc, char **argv)
 	  /* Don't do insert on the command name.  */
 	  bc_clear_args(&bc_ctl, &bc_state);
 	  bc_state.cmd_argv_chars = 0; /* begin at start of buffer */
-	  
+
 	  bc_push_arg (&bc_ctl, &bc_state,
 		       argv[optind], arglen[optind] + 1,
 		       NULL, 0,
 		       initial_args);
 	  len--;
 	  initial_args = false;
-	  
+
 	  for (i = optind + 1; i < argc; i++)
 	    bc_do_insert (&bc_ctl, &bc_state,
 			  argv[i], arglen[i],
@@ -800,7 +800,7 @@ static int
 read_line (void)
 {
 /* States for read_line. */
-  enum read_line_state 
+  enum read_line_state
     {
       NORM = 0,
       SPACE = 1,
@@ -819,14 +819,14 @@ read_line (void)
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
   char *endbuf = linebuf + bc_ctl.arg_max - bc_state.cmd_initial_argv_chars - 1;
-  
+
   if (eof)
     return -1;
   while (1)
     {
       prevc = c;
       c = getc (input_stream);
-      
+
       if (c == EOF)
 	{
 	  /* COMPAT: SYSV seems to ignore stuff on a line that
@@ -894,7 +894,7 @@ read_line (void)
 	  seen_arg = true;
 
 	  /* POSIX: In the POSIX locale, the separators are <SPC> and
-	   * <TAB>, but not <FF> or <VT>. 
+	   * <TAB>, but not <FF> or <VT>.
 	   */
 	  if (!bc_ctl.replace_pat && ISBLANK (c))
 	    {
@@ -947,7 +947,7 @@ read_line (void)
 	  state = NORM;
 	  break;
 	}
-      
+
       if ( (0 == c) && !nullwarning_given )
 	{
 	  /* This is just a warning message.  We only issue it once. */
@@ -1073,11 +1073,11 @@ prep_child_for_exec (void)
     {
       const char inputfile[] = "/dev/null";
       /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
-      
+
       close(0);
       if (open(inputfile, O_RDONLY) < 0)
 	{
-	  /* This is not entirely fatal, since 
+	  /* This is not entirely fatal, since
 	   * executing the child with a closed
 	   * stdin is almost as good as executing it
 	   * with its stdin attached to /dev/null.
@@ -1098,12 +1098,12 @@ xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
 
   (void) ctl;
   (void) state;
-  
+
   bc_push_arg (&bc_ctl, &bc_state,
 	       (char *) NULL, 0,
 	       NULL, 0,
 	       false); /* Null terminate the arg list.  */
-  
+
   if (!query_before_executing || print_args (true))
     {
       if (proc_max)
@@ -1121,7 +1121,7 @@ xargs_do_exec (const struct buildcmd_control *ctl, struct buildcmd_state *state)
 	 of its time waiting for sufficient arguments to launch
 	 another command line:
 
-	 seq 1 1000 | fmt | while read x ; do echo $x; sleep 1 ; done | 
+	 seq 1 1000 | fmt | while read x ; do echo $x; sleep 1 ; done |
 	 ./xargs -P 200 -n 20  sh -c 'echo "$@"; sleep $((1 + $RANDOM % 5))' sleeper
       */
       wait_for_proc (false, 0u);
@@ -1215,7 +1215,7 @@ wait_for_proc (boolean all, unsigned int minreap)
 	      /* We already reaped enough children.  To save system
 	       * resources, reap any dead children anyway, but do not
 	       * wait for any currently executing children to exit.
-	       
+
 	       */
 	      wflags = WNOHANG;
 	    }
@@ -1223,8 +1223,8 @@ wait_for_proc (boolean all, unsigned int minreap)
 
       do
 	{
-	  /* Wait for any child.   We used to use wait() here, but it's 
-	   * unlikely that that offers any portability advantage over 
+	  /* Wait for any child.   We used to use wait() here, but it's
+	   * unlikely that that offers any portability advantage over
 	   * wait these days.
 	   */
 	  while ((pid = waitpid (-1, &status, wflags)) == (pid_t) -1)
@@ -1232,7 +1232,7 @@ wait_for_proc (boolean all, unsigned int minreap)
 	      if (errno != EINTR)
 		error (1, errno, _("error waiting for child process"));
 	    }
-	  
+
 	  /* Find the entry in `pids' for the child process
 	     that exited.  */
 	  if (pid)
@@ -1263,7 +1263,7 @@ wait_for_proc (boolean all, unsigned int minreap)
 	    }
 	  break;
 	}
-      
+
       /* Remove the child from the list.  */
       pids[i] = 0;
       procs_executing--;
@@ -1288,14 +1288,14 @@ static void
 wait_for_proc_all (void)
 {
   static boolean waiting = false;
-  
+
   if (waiting)
     return;
 
   waiting = true;
   wait_for_proc (true, 0u);
   waiting = false;
-  
+
   if (original_exit_value != child_error)
     {
       /* wait_for_proc() changed the value of child_error().  This
@@ -1308,13 +1308,13 @@ wait_for_proc_all (void)
        */
       _exit(child_error);
     }
-  
+
 }
 
 /* Return the value of the number represented in STR.
    OPTION is the command line option to which STR is the argument.
    If the value does not fall within the boundaries MIN and MAX,
-   Print an error message mentioning OPTION.  If FATAL is true, 
+   Print an error message mentioning OPTION.  If FATAL is true,
    we also exit. */
 
 static long

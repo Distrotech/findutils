@@ -5,12 +5,12 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -27,13 +27,13 @@ struct buildcmd_state
 
   /* The list of args being built.  */
   char **cmd_argv; /* NULL */
-  
+
   /* Number of elements allocated for `cmd_argv'.  */
   int cmd_argv_alloc;
-  
+
   /* Storage for elements of `cmd_argv'.  */
   char *argbuf;
-  
+
   /* Number of chars being used in `cmd_argv'.  */
   size_t cmd_argv_chars;
 
@@ -58,7 +58,7 @@ struct buildcmd_control
   /* POSIX limits on the argument length. */
   size_t posix_arg_size_max;
   size_t posix_arg_size_min;
-  
+
   /* The maximum number of characters that can be used per command line.  */
   size_t arg_max;
 
@@ -73,31 +73,31 @@ struct buildcmd_control
    */
   long max_arg_count;
 
-  
+
   /* The length of `replace_pat'.  */
   size_t rplen;
-  
+
   /* If nonzero, then instead of putting the args from stdin at
    the end of the command argument list, they are each stuck into the
    initial args, replacing each occurrence of the `replace_pat' in the
    initial args.  */
   char *replace_pat;
-  
+
   /* Number of initial arguments given on the command line.  */
   int initial_argc;		/* 0 */
-  
+
   /* exec callback. */
   int (*exec_callback)(const struct buildcmd_control *, struct buildcmd_state *);
-  
+
   /* If nonzero, the maximum number of nonblank lines from stdin to use
      per command line.  */
   long lines_per_exec;		/* 0 */
-  
+
   /* The maximum number of arguments to use per command line.  */
   long args_per_exec;
 };
 
-enum BC_INIT_STATUS 
+enum BC_INIT_STATUS
   {
     BC_INIT_OK = 0,
     BC_INIT_ENV_TOO_BIG,

@@ -6,12 +6,12 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -83,7 +83,7 @@
 #define	S_ISDOOR(m) (((m) & S_IFMT) == S_IFDOOR)
 #endif
 #if !defined(S_ISMPB) && defined(S_IFMPB) /* V7 */
-/* Also available on Coherent, according to 
+/* Also available on Coherent, according to
  * Albert D. Cahalan (acahalan@cs.uml.edu)
  */
 #define S_ISMPB(m) (((m) & S_IFMT) == S_IFMPB) /* multiplexed block device */
@@ -98,7 +98,7 @@
 
 #endif
 
-/* The above macros don't handle 
+/* The above macros don't handle
  * /bin/ls letters     Mode    What is it?
  *                     S_IFNAM (Xenix "name files")
  *  H                  S_ISCDF (HPUX Context Dependent Files)

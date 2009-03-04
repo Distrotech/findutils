@@ -6,12 +6,12 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -238,13 +238,13 @@ struct pred_assoc pred_table[] =
 static double ts_difference(struct timespec ts1,
 			    struct timespec ts2)
 {
-  double d =  difftime(ts1.tv_sec, ts2.tv_sec) 
+  double d =  difftime(ts1.tv_sec, ts2.tv_sec)
     + (1.0e-9 * (ts1.tv_nsec - ts2.tv_nsec));
   return d;
 }
 
 
-static int 
+static int
 compare_ts(struct timespec ts1,
 	   struct timespec ts2)
 {
@@ -261,17 +261,17 @@ compare_ts(struct timespec ts1,
 }
 
 /* Predicate processing routines.
- 
+
    PATHNAME is the full pathname of the file being checked.
    *STAT_BUF contains information about PATHNAME.
    *PRED_PTR contains information for applying the predicate.
- 
+
    Return true if the file passes this predicate, false if not. */
 
 
 /* pred_timewindow
  *
- * Returns true if THE_TIME is 
+ * Returns true if THE_TIME is
  * COMP_GT: after the specified time
  * COMP_LT: before the specified time
  * COMP_EQ: after the specified time but by not more than WINDOW seconds.
@@ -283,23 +283,23 @@ pred_timewindow(struct timespec ts, struct predicate const *pred_ptr, int window
     {
     case COMP_GT:
       return compare_ts(ts, pred_ptr->args.reftime.ts) > 0;
-      
+
     case COMP_LT:
       return compare_ts(ts, pred_ptr->args.reftime.ts) < 0;
-      
+
     case COMP_EQ:
       {
 	/* consider "find . -mtime 0".
-	 * 
-	 * Here, the origin is exactly 86400 seconds before the start 
-	 * of the program (since -daystart was not specified).   This 
-	 * function will be called with window=86400 and 
-	 * pred_ptr->args.reftime.ts as the origin.  Hence a file 
-	 * created the instant the program starts will show a time 
-	 * difference (value of delta) of 86400.   Similarly, a file 
-	 * created exactly 24h ago would be the newest file which was 
-	 * _not_ created today.   So, if delta is 0.0, the file 
-	 * was not created today.  If the delta is 86400, the file 
+	 *
+	 * Here, the origin is exactly 86400 seconds before the start
+	 * of the program (since -daystart was not specified).   This
+	 * function will be called with window=86400 and
+	 * pred_ptr->args.reftime.ts as the origin.  Hence a file
+	 * created the instant the program starts will show a time
+	 * difference (value of delta) of 86400.   Similarly, a file
+	 * created exactly 24h ago would be the newest file which was
+	 * _not_ created today.   So, if delta is 0.0, the file
+	 * was not created today.  If the delta is 86400, the file
 	 * was created this instant.
 	 */
 	double delta = ts_difference(ts, pred_ptr->args.reftime.ts);
@@ -351,7 +351,7 @@ pred_closeparen (const char *pathname, struct stat *stat_buf, struct predicate *
   (void) &pathname;
   (void) &stat_buf;
   (void) &pred_ptr;
-  
+
   return true;
 }
 
@@ -366,7 +366,7 @@ boolean
 pred_cnewer (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  
+
   assert (COMP_GT == pred_ptr->args.reftime.kind);
   return compare_ts(get_stat_ctime(stat_buf), pred_ptr->args.reftime.ts) > 0;
 }
@@ -449,7 +449,7 @@ pred_empty (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 {
   (void) pathname;
   (void) pred_ptr;
-  
+
   if (S_ISDIR (stat_buf->st_mode))
     {
       int fd;
@@ -512,8 +512,8 @@ new_impl_pred_exec (int dir_fd, const char *pathname,
   execp->dir_fd = dir_fd;
   if (execp->multiple)
     {
-      /* Push the argument onto the current list. 
-       * The command may or may not be run at this point, 
+      /* Push the argument onto the current list.
+       * The command may or may not be run at this point,
        * depending on the command line length limits.
        */
       bc_push_arg(&execp->ctl,
@@ -524,7 +524,7 @@ new_impl_pred_exec (int dir_fd, const char *pathname,
 
       /* remember that there are pending execdirs. */
       state.execdirs_outstanding = true;
-      
+
       /* POSIX: If the primary expression is punctuated by a plus
        * sign, the primary shall always evaluate as true
        */
@@ -576,7 +576,7 @@ pred_false (const char *pathname, struct stat *stat_buf, struct predicate *pred_
   (void) &stat_buf;
   (void) &pred_ptr;
 
-  
+
   return (false);
 }
 
@@ -596,7 +596,7 @@ pred_fprint (const char *pathname, struct stat *stat_buf, struct predicate *pred
 {
   (void) &pathname;
   (void) &stat_buf;
-  
+
   print_quoted(pred_ptr->args.printf_vec.stream,
 	       pred_ptr->args.printf_vec.quote_opts,
 	       pred_ptr->args.printf_vec.dest_is_tty,
@@ -611,7 +611,7 @@ pred_fprint0 (const char *pathname, struct stat *stat_buf, struct predicate *pre
   FILE * fp = pred_ptr->args.printf_vec.stream;
 
   (void) &stat_buf;
-  
+
   fputs (pathname, fp);
   putc (0, fp);
   return true;
@@ -650,7 +650,7 @@ mode_to_filetype(mode_t m)
   return "U";			/* Unknown */
 }
 
-static double 
+static double
 file_sparseness(const struct stat *p)
 {
 #if defined HAVE_STRUCT_STAT_ST_BLOCKS
@@ -666,7 +666,7 @@ file_sparseness(const struct stat *p)
       double blklen = file_blocksize(p) * (double)p->st_blocks;
       return blklen / p->st_size;
     }
-#else  
+#else
   return 1.0;
 #endif
 }
@@ -729,13 +729,13 @@ do_fprintf(struct format_val *dest,
       /* trusted */
       checked_fwrite(segment->text, 1, segment->text_len, dest);
       break;
-	  
+
     case KIND_STOP:		/* Terminate argument and flush output. */
       /* trusted */
       checked_fwrite(segment->text, 1, segment->text_len, dest);
       checked_fflush(dest);
       break;
-	  
+
     case KIND_FORMAT:
       switch (segment->format_char[0])
 	{
@@ -760,7 +760,7 @@ do_fprintf(struct format_val *dest,
 	  break;
 	case 'D':		/* Device on which file exists (stat.st_dev) */
 	  /* trusted */
-	  checked_fprintf (dest, segment->text, 
+	  checked_fprintf (dest, segment->text,
 			   human_readable ((uintmax_t) stat_buf->st_dev, hbuf,
 					   human_ceiling, 1, 1));
 	  break;
@@ -850,7 +850,7 @@ do_fprintf(struct format_val *dest,
 	  checked_fprintf (dest, segment->text,
 			   human_readable ((uintmax_t) ST_NBLOCKS (*stat_buf),
 					   hbuf, human_ceiling,
-					   ST_NBLOCKSIZE, 1024)); 
+					   ST_NBLOCKSIZE, 1024));
 	  break;
 	case 'l':		/* object of symlink */
 	  /* sanitised */
@@ -920,7 +920,7 @@ do_fprintf(struct format_val *dest,
 			 | (m & S_IXOTH ? 00001 : 0))));
 	  }
 	  break;
-	  
+
 	case 'n':		/* number of links */
 	  /* UNTRUSTED, probably unexploitable */
 	  checked_fprintf (dest, segment->text,
@@ -953,25 +953,25 @@ do_fprintf(struct format_val *dest,
 	    }
 	  checked_print_quoted (dest, segment->text, cp);
 	  break;
-	  
+
 	case 's':		/* size in bytes */
 	  /* UNTRUSTED, probably unexploitable */
 	  checked_fprintf (dest, segment->text,
 		   human_readable ((uintmax_t) stat_buf->st_size,
 				   hbuf, human_ceiling, 1, 1));
 	  break;
-	  
+
 	case 'S':		/* sparseness */
 	  /* UNTRUSTED, probably unexploitable */
 	  checked_fprintf (dest, segment->text, file_sparseness(stat_buf));;
 	  break;
-	  
+
 	case 't':		/* mtime in `ctime' format */
 	  /* UNTRUSTED, probably unexploitable */
 	  checked_fprintf (dest, segment->text,
 			   ctime_format (get_stat_mtime(stat_buf)));
 	  break;
-	  
+
 	case 'u':		/* user name */
 	  /* trusted */
 	  /* (well, the actual user is selected by the user on systems
@@ -991,7 +991,7 @@ do_fprintf(struct format_val *dest,
 	    /* else fallthru */
 	  }
 	  /* FALLTHROUGH*/ /* .. to case U */
-	  
+
 	case 'U':		/* UID number */
 	  /* UNTRUSTED, probably unexploitable */
 	  checked_fprintf (dest, segment->text,
@@ -999,8 +999,8 @@ do_fprintf(struct format_val *dest,
 					   human_ceiling, 1, 1));
 	  break;
 
-	  /* %Y: type of file system entry like `ls -l`: 
-	   *     (d,-,l,s,p,b,c,n) n=nonexistent(symlink) 
+	  /* %Y: type of file system entry like `ls -l`:
+	   *     (d,-,l,s,p,b,c,n) n=nonexistent(symlink)
 	   */
 	case 'Y':		/* in case of symlink */
 	  /* trusted */
@@ -1025,7 +1025,7 @@ do_fprintf(struct format_val *dest,
 			checked_fprintf (dest, segment->text, "L");
 			break;
 		      }
-		    else 
+		    else
 		      {
 			checked_fprintf (dest, segment->text, "?");
 			error (0, errno, "%s",
@@ -1072,7 +1072,7 @@ pred_fprintf (const char *pathname, struct stat *stat_buf, struct predicate *pre
 	{
 	  struct timespec ts;
 	  int valid = 0;
-	  
+
 	  switch (segment->format_char[0])
 	    {
 	    case 'A':
@@ -1098,7 +1098,7 @@ pred_fprintf (const char *pathname, struct stat *stat_buf, struct predicate *pre
 	      assert (0);
 	      abort ();
 	    }
-	  /* We trust the output of format_date not to contain 
+	  /* We trust the output of format_date not to contain
 	   * nasty characters, though the value of the date
 	   * is itself untrusted data.
 	   */
@@ -1132,7 +1132,7 @@ boolean
 pred_fstype (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  
+
   if (strcmp (filesystem_type (stat_buf, pathname), pred_ptr->args.str) == 0)
     return true;
   else
@@ -1143,7 +1143,7 @@ boolean
 pred_gid (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  
+
   switch (pred_ptr->args.numinfo.kind)
     {
     case COMP_GT:
@@ -1166,7 +1166,7 @@ boolean
 pred_group (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  
+
   if (pred_ptr->args.gid == stat_buf->st_gid)
     return (true);
   else
@@ -1181,15 +1181,15 @@ pred_ilname (const char *pathname, struct stat *stat_buf, struct predicate *pred
 
 /* Common code between -name, -iname.  PATHNAME is being visited, STR
    is name to compare basename against, and FLAGS are passed to
-   fnmatch.  Recall that 'find / -name /' is one of the few times where a '/' 
-   in the -name must actually find something. */ 
+   fnmatch.  Recall that 'find / -name /' is one of the few times where a '/'
+   in the -name must actually find something. */
 static boolean
 pred_name_common (const char *pathname, const char *str, int flags)
 {
   boolean b;
-  /* We used to use last_component() here, but that would not allow us to modify the 
+  /* We used to use last_component() here, but that would not allow us to modify the
    * input string, which is const.   We could optimise by duplicating the string only
-   * if we need to modify it, and I'll do that if there is a measurable 
+   * if we need to modify it, and I'll do that if there is a measurable
    * performance difference on a machine built after 1990...
    */
   char *base = base_name (pathname);
@@ -1215,7 +1215,7 @@ boolean
 pred_inum (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  
+
   switch (pred_ptr->args.numinfo.kind)
     {
     case COMP_GT:
@@ -1238,7 +1238,7 @@ boolean
 pred_ipath (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) stat_buf;
-  
+
   if (fnmatch (pred_ptr->args.str, pathname, FNM_CASEFOLD) == 0)
     return (true);
   return (false);
@@ -1248,7 +1248,7 @@ boolean
 pred_links (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  
+
   switch (pred_ptr->args.numinfo.kind)
     {
     case COMP_GT:
@@ -1330,7 +1330,7 @@ boolean
 pred_newer (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   (void) pathname;
-  
+
   assert (COMP_GT == pred_ptr->args.reftime.kind);
   return compare_ts(get_stat_mtime(stat_buf), pred_ptr->args.reftime.ts) > 0;
 }
@@ -1340,9 +1340,9 @@ pred_newerXY (const char *pathname, struct stat *stat_buf, struct predicate *pre
 {
   struct timespec ts;
   boolean collected = false;
-  
+
   assert (COMP_GT == pred_ptr->args.reftime.kind);
-  
+
   switch (pred_ptr->args.reftime.xval)
     {
     case XVAL_TIME:
@@ -1353,7 +1353,7 @@ pred_newerXY (const char *pathname, struct stat *stat_buf, struct predicate *pre
       ts = get_stat_atime(stat_buf);
       collected = true;
       break;
-      
+
     case XVAL_BIRTHTIME:
       ts = get_stat_birthtime(stat_buf);
       collected = true;
@@ -1365,18 +1365,18 @@ pred_newerXY (const char *pathname, struct stat *stat_buf, struct predicate *pre
 	  return false;
 	}
       break;
-      
+
     case XVAL_CTIME:
       ts = get_stat_ctime(stat_buf);
       collected = true;
       break;
-      
+
     case XVAL_MTIME:
       ts = get_stat_mtime(stat_buf);
       collected = true;
       break;
     }
-  
+
   assert (collected);
   return compare_ts(ts, pred_ptr->args.reftime.ts) > 0;
 }
@@ -1386,7 +1386,7 @@ pred_nogroup (const char *pathname, struct stat *stat_buf, struct predicate *pre
 {
   (void) pathname;
   (void) pred_ptr;
-  
+
 #ifdef CACHE_IDS
   extern char *gid_unused;
 
@@ -1402,10 +1402,10 @@ pred_nouser (const char *pathname, struct stat *stat_buf, struct predicate *pred
 #ifdef CACHE_IDS
   extern char *uid_unused;
 #endif
-  
+
   (void) pathname;
   (void) pred_ptr;
-  
+
 #ifdef CACHE_IDS
   return uid_unused[(unsigned) stat_buf->st_uid];
 #else
@@ -1445,7 +1445,7 @@ pred_okdir (const char *pathname, struct stat *stat_buf, struct predicate *pred_
   const char *prefix = (state.rel_pathname[0] == '/') ? NULL : "./";
   if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
     return new_impl_pred_exec (get_current_dirfd(),
-			       state.rel_pathname, stat_buf, pred_ptr, 
+			       state.rel_pathname, stat_buf, pred_ptr,
 			       prefix, (prefix ? 2 : 0));
   else
     return false;
@@ -1501,8 +1501,8 @@ pred_perm (const char *pathname, struct stat *stat_buf, struct predicate *pred_p
        * evaluate as true if at least all of the bits specified in
        * onum that are also set in the octal mask 07777 are set.
        *
-       * Eric Blake's interpretation is that the mode argument is zero, 
-       
+       * Eric Blake's interpretation is that the mode argument is zero,
+
        */
       if (0 == perm_val)
 	return true;		/* Savannah bug 14748; we used to return false */
@@ -1556,7 +1556,7 @@ pred_executable (const char *pathname, struct stat *stat_buf, struct predicate *
   (void) pathname;
   (void) stat_buf;
   (void) pred_ptr;
-  
+
   return can_access(X_OK);
 }
 
@@ -1566,7 +1566,7 @@ pred_readable (const char *pathname, struct stat *stat_buf, struct predicate *pr
   (void) pathname;
   (void) stat_buf;
   (void) pred_ptr;
-  
+
   return can_access(R_OK);
 }
 
@@ -1576,7 +1576,7 @@ pred_writable (const char *pathname, struct stat *stat_buf, struct predicate *pr
   (void) pathname;
   (void) stat_buf;
   (void) pred_ptr;
-  
+
   return can_access(W_OK);
 }
 
@@ -1611,7 +1611,7 @@ pred_prune (const char *pathname, struct stat *stat_buf, struct predicate *pred_
     state.stop_at_current_level = true;
 
   /* findutils used to return options.do_dir_first here, so that -prune
-   * returns true only if -depth is not in effect.   But POSIX requires 
+   * returns true only if -depth is not in effect.   But POSIX requires
    * that -prune always evaluate as true.
    */
   return true;
@@ -1624,12 +1624,12 @@ pred_quit (const char *pathname, struct stat *stat_buf, struct predicate *pred_p
   (void) stat_buf;
   (void) pred_ptr;
 
-  /* Run any cleanups.  This includes executing any command lines 
+  /* Run any cleanups.  This includes executing any command lines
    * we have partly built but not executed.
    */
   cleanup();
-  
-  /* Since -exec and friends don't leave child processes running in the 
+
+  /* Since -exec and friends don't leave child processes running in the
    * background, there is no need to wait for them here.
    */
   exit(state.exit_status);	/* 0 for success, etc. */
@@ -1686,7 +1686,7 @@ pred_samefile (const char *pathname, struct stat *stat_buf, struct predicate *pr
   (void) pathname;
 
   /* We will often still have an fd open on the file under consideration,
-   * but that's just to ensure inode number stability by maintaining 
+   * but that's just to ensure inode number stability by maintaining
    * a reference to it; we don't need the file for anything else.
    */
   return stat_buf->st_ino == pred_ptr->args.samefileid.ino
@@ -1712,12 +1712,12 @@ pred_type (const char *pathname, struct stat *stat_buf, struct predicate *pred_p
 
   if (0 == state.type)
     {
-      /* This can sometimes happen with broken NFS servers. 
+      /* This can sometimes happen with broken NFS servers.
        * See Savannah bug #16378.
        */
       return false;
     }
-  
+
   (void) pathname;
 
   if (state.have_stat)
@@ -1812,20 +1812,20 @@ pred_xtype (const char *pathname, struct stat *stat_buf, struct predicate *pred_
   int (*ystat) (const char*, struct stat *p);
 
   /* If we would normally stat the link itself, stat the target instead.
-   * If we would normally follow the link, stat the link itself instead. 
+   * If we would normally follow the link, stat the link itself instead.
    */
   if (following_links())
     ystat = optionp_stat;
   else
     ystat = optionl_stat;
-  
+
   set_stat_placeholders(&sbuf);
   if ((*ystat) (state.rel_pathname, &sbuf) != 0)
     {
       if (following_links() && errno == ENOENT)
 	{
 	  /* If we failed to follow the symlink,
-	   * fall back on looking at the symlink itself. 
+	   * fall back on looking at the symlink itself.
 	   */
 	  /* Mimic behavior of ls -lL. */
 	  return (pred_type (pathname, stat_buf, pred_ptr));
@@ -1837,7 +1837,7 @@ pred_xtype (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 	}
       return false;
     }
-  /* Now that we have our stat() information, query it in the same 
+  /* Now that we have our stat() information, query it in the same
    * way that -type does.
    */
   return (pred_type (pathname, &sbuf, pred_ptr));
@@ -1869,13 +1869,13 @@ prep_child_for_exec (boolean close_stdin, int dir_fd)
   if (close_stdin)
     {
       const char inputfile[] = "/dev/null";
-      
+
       if (close(0) < 0)
 	{
 	  error(0, errno, _("Cannot close standard input"));
 	  ok = false;
 	}
-      else 
+      else
 	{
 	  if (open(inputfile, O_RDONLY
 #if defined O_LARGEFILE
@@ -1883,7 +1883,7 @@ prep_child_for_exec (boolean close_stdin, int dir_fd)
 #endif
 		   ) < 0)
 	    {
-	      /* This is not entirely fatal, since 
+	      /* This is not entirely fatal, since
 	       * executing the child with a closed
 	       * stdin is almost as good as executing it
 	       * with its stdin attached to /dev/null.
@@ -1930,15 +1930,15 @@ launch (const struct buildcmd_control *ctl,
       assert (starting_desc >= 0);
       assert (execp->dir_fd == starting_desc);
     }
-  
-	
+
+
   /* Null terminate the arg list.  */
-  bc_push_arg (ctl, buildstate, (char *) NULL, 0, NULL, 0, false); 
-  
+  bc_push_arg (ctl, buildstate, (char *) NULL, 0, NULL, 0, false);
+
   /* Make sure output of command doesn't get mixed with find output. */
   fflush (stdout);
   fflush (stderr);
-  
+
   /* Make sure to listen for the kids.  */
   if (first_time)
     {
@@ -1957,7 +1957,7 @@ launch (const struct buildcmd_control *ctl,
 	{
 	  _exit(1);
 	}
-      
+
       execvp (buildstate->cmd_argv[0], buildstate->cmd_argv);
       error (0, errno, "%s",
 	     safely_quote_err_filename(0, buildstate->cmd_argv[0]));
@@ -1968,7 +1968,7 @@ launch (const struct buildcmd_control *ctl,
   /* In parent; set up for next time. */
   bc_clear_args(ctl, buildstate);
 
-  
+
   while (waitpid (child_pid, &wait_status, 0) == (pid_t) -1)
     {
       if (errno != EINTR)
@@ -1979,23 +1979,23 @@ launch (const struct buildcmd_control *ctl,
 	  return 0;		/* FAIL */
 	}
     }
-  
+
   if (WIFSIGNALED (wait_status))
     {
       error (0, 0, _("%s terminated by signal %d"),
 	     quotearg_n_style(0, options.err_quoting_style,
 			      buildstate->cmd_argv[0]),
 	     WTERMSIG (wait_status));
-      
+
       if (execp->multiple)
 	{
-	  /* -exec   \; just returns false if the invoked command fails. 
+	  /* -exec   \; just returns false if the invoked command fails.
 	   * -exec {} + returns true if the invoked command fails, but
 	   *            sets the program exit status.
 	   */
 	  state.exit_status = 1;
 	}
-      
+
       return 1;			/* OK */
     }
 
@@ -2007,7 +2007,7 @@ launch (const struct buildcmd_control *ctl,
     {
       if (execp->multiple)
 	{
-	  /* -exec   \; just returns false if the invoked command fails. 
+	  /* -exec   \; just returns false if the invoked command fails.
 	   * -exec {} + returns true if the invoked command fails, but
 	   *            sets the program exit status.
 	   */
@@ -2015,7 +2015,7 @@ launch (const struct buildcmd_control *ctl,
 	}
       return 0;			/* FAIL */
     }
-  
+
 }
 
 
@@ -2025,10 +2025,10 @@ scan_for_digit_differences(const char *p, const char *q,
 {
   bool seen = false;
   size_t i;
-  
+
   for (i=0; p[i] && q[i]; i++)
     {
-      if (p[i] != q[i]) 
+      if (p[i] != q[i])
 	{
 	  if (!isdigit((unsigned char)q[i]) || !isdigit ((unsigned char)q[i]))
 	    return false;
@@ -2041,7 +2041,7 @@ scan_for_digit_differences(const char *p, const char *q,
 	    }
 	  else
 	    {
-	      if (i-*first == *n) 
+	      if (i-*first == *n)
 		{
 		  /* Still in the first sequence of differing digits. */
 		  ++*n;
@@ -2071,7 +2071,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
   char *timefmt = NULL;
   struct tm altered_time;
 
-  
+
   /* If the format expands to nothing (%p in some locales, for
    * example), strftime can return 0.  We actually want to distinguish
    * the error case where the buffer is too short, so we just prepend
@@ -2080,9 +2080,9 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
    */
   timefmt = xmalloc (strlen(fmt) + 2u);
   sprintf (timefmt, "_%s", fmt);
-  
-  /* altered_time is a similar time, but in which both 
-   * digits of the seconds field are different. 
+
+  /* altered_time is a similar time, but in which both
+   * digits of the seconds field are different.
    */
   altered_time = *p;
   if (altered_time.tm_sec >= 11)
@@ -2091,7 +2091,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
     altered_time.tm_sec += 11;
 
   /* If we call strftime() with buf_size=0, the program will coredump
-   * on Solaris, since it unconditionally writes the terminating null 
+   * on Solaris, since it unconditionally writes the terminating null
    * character.
    */
   buf_size = 1u;
@@ -2100,7 +2100,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
     {
       /* I'm not sure that Solaris will return 0 when the buffer is too small.
        * Therefore we do not check for (buf_used != 0) as the termination
-       * condition. 
+       * condition.
        */
       size_t buf_used = strftime (buf, buf_size, timefmt, p);
       if (buf_used		/* Conforming POSIX system */
@@ -2108,20 +2108,20 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
 	{
 	  char *altbuf;
 	  size_t i = 0, n = 0;
-	  size_t final_len = (buf_used 
+	  size_t final_len = (buf_used
 			      + 1u /* for \0 */
 			      + ns_size);
 	  buf = xrealloc (buf, final_len);
 	  altbuf = xmalloc (final_len);
 	  strftime (altbuf, buf_size, timefmt, &altered_time);
-	      
-	  /* Find the seconds digits; they should be the only changed part. 
-	   * In theory the result of the two formatting operations could differ in 
-	   * more than just one sequence of decimal digits (for example %X might 
+
+	  /* Find the seconds digits; they should be the only changed part.
+	   * In theory the result of the two formatting operations could differ in
+	   * more than just one sequence of decimal digits (for example %X might
 	   * in theory return a spelled-out time like "thirty seconds past noon").
-	   * When that happens, we just avoid inserting the nanoseconds field. 
+	   * When that happens, we just avoid inserting the nanoseconds field.
 	   */
-	  if (scan_for_digit_differences (buf, altbuf, &i, &n) 
+	  if (scan_for_digit_differences (buf, altbuf, &i, &n)
 	      && (2==n) && !isdigit((unsigned char)buf[i+n]))
 	    {
 	      const size_t end_of_seconds = i + n;
@@ -2142,8 +2142,8 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
 	    {
 	      /* No seconds digits.  No need to insert anything. */
 	    }
-	  /* The first character of buf is the underscore, which we actually 
-	   * don't want. 
+	  /* The first character of buf is the underscore, which we actually
+	   * don't want.
 	   */
 	  free (timefmt);
 	  return buf+1;
@@ -2155,7 +2155,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
     }
 }
 
-	   
+
 
 /* Return a static string formatting the time WHEN according to the
  * strftime format character KIND.
@@ -2177,16 +2177,16 @@ format_date (struct timespec ts, int kind)
    * For example, some systems return junk in the tv_nsec part of
    * st_birthtime.  An example of this is the NetBSD-4.0-RELENG kernel
    * (at Sat Mar 24 18:46:46 2007) running a NetBSD-3.1-RELEASE
-   * runtime and examining files on an msdos filesytem.  So for that 
-   * reason we set NS_BUF_LEN to 32, which is simply "long enough" as 
-   * opposed to "exactly the right size".  Note that the behaviour of 
-   * NetBSD appears to be a result of the use of uninitialised data, 
+   * runtime and examining files on an msdos filesytem.  So for that
+   * reason we set NS_BUF_LEN to 32, which is simply "long enough" as
+   * opposed to "exactly the right size".  Note that the behaviour of
+   * NetBSD appears to be a result of the use of uninitialised data,
    * as it's not 100% reproducible (more like 25%).
    */
   enum {
     NS_BUF_LEN = 32,
     DATE_LEN_PERCENT_APLUS=21	/* length of result of %A+ (it's longer than %c)*/
-  };	  
+  };
   static char buf[128u+10u + MAX(DATE_LEN_PERCENT_APLUS,
 			    MAX (LONGEST_HUMAN_READABLE + 2, NS_BUF_LEN+64+200))];
   char ns_buf[NS_BUF_LEN]; /* -.9999999990 (- sign can happen!)*/
@@ -2208,7 +2208,7 @@ format_date (struct timespec ts, int kind)
 
   charsprinted = 0;
   need_ns_suffix = 0;
-  
+
   /* Format the main part of the time. */
   if (kind == '+')
     {
@@ -2252,11 +2252,11 @@ format_date (struct timespec ts, int kind)
       charsprinted = 0;
       ns_buf[0] = 0;
     }
-  
+
   if (kind != '@')
     {
       tm = localtime (&ts.tv_sec);
-      if (tm) 
+      if (tm)
 	{
 	  char *s = do_time_format (fmt, tm, ns_buf, charsprinted);
 	  if (s)
@@ -2293,7 +2293,7 @@ format_date (struct timespec ts, int kind)
 	  used = (p-buf) + len;	/* Offset into buf of current end */
 	  assert (sizeof buf > used); /* Ensure we can perform subtraction safely. */
 	  remaining = sizeof buf - used - 1u; /* allow space for NUL */
-	  
+
 	  if (strlen(ns_buf) >= remaining)
 	    {
 	      error(0, 0,
@@ -2307,11 +2307,11 @@ format_date (struct timespec ts, int kind)
     }
 }
 
-static const char *weekdays[] = 
+static const char *weekdays[] =
   {
     "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
   };
-static char * months[] = 
+static char * months[] =
   {
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -2325,7 +2325,7 @@ ctime_format (struct timespec ts)
 #define TIME_BUF_LEN 1024u
   static char resultbuf[TIME_BUF_LEN];
   int nout;
-  
+
   ptm = localtime(&ts.tv_sec);
   if (ptm)
     {
@@ -2337,7 +2337,7 @@ ctime_format (struct timespec ts)
       assert (ptm->tm_hour <  24);
       assert (ptm->tm_min  <  60);
       assert (ptm->tm_sec  <= 61); /* allows 2 leap seconds. */
-      
+
       /* wkday mon mday hh:mm:ss.nnnnnnnnn yyyy */
       nout = snprintf(resultbuf, TIME_BUF_LEN,
 		      "%3s %3s %2d %02d:%02d:%02d.%010ld %04d",
@@ -2349,7 +2349,7 @@ ctime_format (struct timespec ts)
 		      ptm->tm_sec,
 		      (long int)ts.tv_nsec,
 		      1900 + ptm->tm_year);
-      
+
       assert (nout < TIME_BUF_LEN);
       return resultbuf;
     }
@@ -2470,9 +2470,9 @@ void show_success_rates(const struct predicate *p)
 
 
 #ifdef _NDEBUG
-/* If _NDEBUG is defined, the assertions will do nothing.   Hence 
+/* If _NDEBUG is defined, the assertions will do nothing.   Hence
  * there is no point in having a function body for pred_sanity_check()
- * if that preprocessor macro is defined. 
+ * if that preprocessor macro is defined.
  */
 void
 pred_sanity_check(const struct predicate *predicates)
@@ -2485,7 +2485,7 @@ void
 pred_sanity_check(const struct predicate *predicates)
 {
   const struct predicate *p;
-  
+
   for (p=predicates; p != NULL; p=p->pred_next)
     {
       /* All predicates must do something. */
@@ -2493,17 +2493,17 @@ pred_sanity_check(const struct predicate *predicates)
 
       /* All predicates must have a parser table entry. */
       assert (p->parser_entry != NULL);
-      
-      /* If the parser table tells us that just one predicate function is 
+
+      /* If the parser table tells us that just one predicate function is
        * possible, verify that that is still the one that is in effect.
-       * If the parser has NULL for the predicate function, that means that 
+       * If the parser has NULL for the predicate function, that means that
        * the parse_xxx function fills it in, so we can't check it.
        */
       if (p->parser_entry->pred_func)
 	{
 	  assert (p->parser_entry->pred_func == p->pred_func);
 	}
-      
+
       switch (p->parser_entry->type)
 	{
 	  /* Options all take effect during parsing, so there should
@@ -2520,7 +2520,7 @@ pred_sanity_check(const struct predicate *predicates)
 	  assert (p->parser_entry->type != ARG_OPTION);
 	  assert (p->parser_entry->type != ARG_POSITIONAL_OPTION);
 	  break;
-	  
+
 	case ARG_ACTION:
 	  assert(p->side_effects); /* actions have side effects. */
 	  if (!pred_is(p, pred_prune) && !pred_is(p, pred_quit))

@@ -45,10 +45,10 @@ m4_define([jy_FINDLIBOBJ],
 ])
 
 
-# _jy_FINDLIBOBJS_NORMALIZE 
+# _jy_FINDLIBOBJS_NORMALIZE
 # ---------------------
 # Adapted from autoconf's general.m4.
-# Clean up FINDLIBOBJS abd LTFINDLIBOBJS 
+# Clean up FINDLIBOBJS abd LTFINDLIBOBJS
 # Used with AC_CONFIG_COMMANDS_PRE.
 AC_DEFUN([_jy_FINDLIBOBJS_NORMALIZE],
 [ac_findlibobjs=

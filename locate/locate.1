@@ -40,10 +40,10 @@ choose the file name of the default database, the frequency with which
 the databases are updated, and the directories for which they contain
 entries; see \fBupdatedb\fP(1).
 .P
-If 
-.BR locate 's 
-output is going to a terminal, unusual characters in the output are 
-escaped in the same way as for the \-print action of the 
+If
+.BR locate 's
+output is going to a terminal, unusual characters in the output are
+escaped in the same way as for the \-print action of the
 .B find
 command.  If the output is not going to a terminal, file names are
 printed exactly as-is.
@@ -51,7 +51,7 @@ printed exactly as-is.
 .SH OPTIONS
 .TP
 .I "\-0, \-\-null"
-Use ASCII NUL as a separator, instead of newline.   
+Use ASCII NUL as a separator, instead of newline.
 .TP
 .I "\-A, \-\-all"
 Print only names which match all non-option arguments, not those matching
@@ -63,7 +63,7 @@ final component of the name of a file as listed in the database.
 This final component is usually referred to as the `base name'.
 .TP
 .I "\-c, \-\-count"
-Instead of printing the matched filenames, just print the total 
+Instead of printing the matched filenames, just print the total
 number of matches we found, unless \-\-\fIprint\fP (\-p) is also present.
 .TP
 .I "\-d \fIpath\fP, \-\-database=\fIpath\fP"
@@ -101,8 +101,8 @@ Only print out such names that currently exist (instead of such names
 that existed when the database was created).
 Note that this may slow down the program a lot, if there are many matches
 in the database.  If you are using this option within a program,
-please note that it is possible for the file to be deleted after 
-.B locate 
+please note that it is possible for the file to be deleted after
+.B locate
 has checked that it exists, but before you use it.
 .TP
 .I "\-E, \-\-non\-existing"
@@ -129,14 +129,14 @@ If testing for the existence of files (with the \-e or \-E options),
 consider broken symbolic links to be non-existing.   This is the default.
 .TP
 .I "\-\-max-database-age D"
-Normally, 
+Normally,
 .B locate
 will issue a warning message when it searches a database which is more
 than 8 days old.  This option changes that value to something other
 than 8.  The effect of specifying a negative value is undefined.
 .TP
 .I "\-m, \-\-mmap"
-Accepted but does nothing, for compatibility with BSD 
+Accepted but does nothing, for compatibility with BSD
 .BR locate .
 .TP
 .I "\-P, \-H, \-\-nofollow"
@@ -153,28 +153,28 @@ of \-\-statistics (\-S) or \-\-count (\-c).
 .I "\-r, \-\-regex "
 The pattern specified on the command line is understood to be a
 regular expression, as opposed to a glob pattern.  The Regular
-expressions work in the same was as in 
+expressions work in the same was as in
 .B emacs
-and 
+and
 .BR find ,
 except for the fact that "." will match a newline.
 Filenames whose full paths match the specified regular expression are
 printed (or, in the case of the \-c option, counted).  If you wish to
 anchor your regular expression at the ends of the full path name, then
 as is usual with regular expressions, you should use the characters ^
-and $ to signify this.  
+and $ to signify this.
 .TP
 .I "\-s, \-\-stdio"
-Accepted but does nothing, for compatibility with BSD 
+Accepted but does nothing, for compatibility with BSD
 .BR locate .
 .TP
 .I "\-S, \-\-statistics"
 Print various statistics about each locate database and then exit
 without performing a search, unless non-option arguments are given.
 For compatibility with BSD, \-S is accepted as a synonym
-for \-\-statistics.  However, the ouptut of 
-.B locate \-S 
-is different for the GNU and BSD implementations of 
+for \-\-statistics.  However, the ouptut of
+.B locate \-S
+is different for the GNU and BSD implementations of
 .BR locate .
 .TP
 .I "\-\-version"
@@ -190,7 +190,7 @@ This is the default.
 .B LOCATE_PATH
 Colon-separated list of databases to search.  If the value has a
 leading or trailing colon, or has two colons in a row, you may get
-results that vary between different versions of 
+results that vary between different versions of
 .BR locate .
 
 .SH "SEE ALSO"
@@ -198,27 +198,27 @@ results that vary between different versions of
 \fBglob\fP(3),
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "HISTORY"
-The 
+The
 .B locate
 program started life as the BSD fast find program, contributed to BSD
-by James A. Woods.  This was described by his paper 
+by James A. Woods.  This was described by his paper
 .I Finding Files Fast
-which was published in Usenix 
-.IR ;login: , 
-Vol 8, No 1, February/March, 1983, pp. 8-10.   When the 
-.B find 
+which was published in Usenix
+.IR ;login: ,
+Vol 8, No 1, February/March, 1983, pp. 8-10.   When the
+.B find
 program began to assume a default
-.B -print 
+.B -print
 action if no action was specified, this changed the interpretation of
-.B find 
+.B find
 .BR pattern .
-The BSD developers therefore moved the fast find functionality into 
+The BSD developers therefore moved the fast find functionality into
 .BR locate .
-The GNU implementation of 
+The GNU implementation of
 .B locate
 appears to be derived from the same code.
 .P
-Significant changes to 
+Significant changes to
 .B locate
 in reverse order:
 .TS
@@ -226,7 +226,7 @@ tab(|);
 LL.
 4.3.7 | Byte-order independent support for old database format
 4.3.3 | locate \fI\-i\fR supports multi-byte characters correctly
-      | Introduced \fI\-\-max_db_age\fR 
+      | Introduced \fI\-\-max_db_age\fR
 4.3.2 | Support for the slocate database format
 4.2.22| Introduced the \fI\-\-all\fR option
 4.2.15| Introduced the \fI\-\-regex\fR option
@@ -243,17 +243,17 @@ LL.
 The locate database correctly handles filenames containing newlines,
 but only if the system's sort command has a working
 \-z
-option.  If you suspect that 
+option.  If you suspect that
 .B locate
 may need to return filenames containing newlines, consider using its
-.I \-\-null 
+.I \-\-null
 option.
 .P
 The best way to report a bug is to use the form at
-http://savannah.gnu.org/bugs/?group=findutils.  
+http://savannah.gnu.org/bugs/?group=findutils.
 The reason for this is that you will then be able to track progress in
 fixing the problem.   Other comments about \fBlocate\fP(1) and about
-the findutils package in general can be sent to the 
+the findutils package in general can be sent to the
 .I bug-findutils
-mailing list.  To join the list, send email to 
+mailing list.  To join the list, send email to
 .IR bug-findutils-request@gnu.org .

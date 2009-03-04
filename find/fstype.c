@@ -17,7 +17,7 @@
 /* Written by David MacKenzie <djm@gnu.org>.
  *
  * Converted to use gnulib's read_file_system_list()
- * by James Youngman <jay@gnu.org> (which saves a lot 
+ * by James Youngman <jay@gnu.org> (which saves a lot
  * of manual hacking of configure.in).
  */
 
@@ -31,8 +31,8 @@
 #endif
 #include <sys/stat.h>
 
-/* The presence of unistd.h is assumed by gnulib these days, so we 
- * might as well assume it too. 
+/* The presence of unistd.h is assumed by gnulib these days, so we
+ * might as well assume it too.
  */
 #include <unistd.h>
 
@@ -99,10 +99,10 @@ free_file_system_list(struct mount_entry *p)
   while (p)
     {
       struct mount_entry *pnext = p->me_next;
-      
+
       free(p->me_devname);
       free(p->me_mountdir);
-      
+
       if(p->me_type_malloced)
 	free(p->me_type);
       p->me_next = NULL;
@@ -173,7 +173,7 @@ static int
 set_fstype_devno(struct mount_entry *p)
 {
   struct stat stbuf;
-  
+
   if (p->me_dev == (dev_t)-1)
     {
       set_stat_placeholders(&stbuf);
@@ -197,7 +197,7 @@ must_read_fs_list(bool need_fs_type)
   if (NULL == entries)
     {
       /* We cannot determine for sure which file we were trying to
-       * use because gnulib has extracted all that stuff away. 
+       * use because gnulib has extracted all that stuff away.
        * Hence we cannot issue a specific error message here.
        */
       error(1, 0, "Cannot read mounted file system list");
@@ -219,15 +219,15 @@ file_system_type_uncached (const struct stat *statp, const char *path)
   char *type;
 
   (void) path;
-  
+
 #ifdef AFS
   if (in_afs(path))
     {
       fstype_known = 1;
       return xstrdup("afs");
     }
-#endif 
-  
+#endif
+
   entries = must_read_fs_list(true);
   for (type=NULL, entry=entries; entry; entry=entry->me_next)
     {
@@ -246,7 +246,7 @@ file_system_type_uncached (const struct stat *statp, const char *path)
 
   /* Don't cache unknown values. */
   fstype_known = (type != NULL);
-  
+
   return type ? type : xstrdup(_("unknown"));
 }
 
@@ -258,12 +258,12 @@ get_mounted_filesystems (void)
   size_t alloc_size = 0u;
   size_t used = 0u;
   struct mount_entry *entries, *entry;
-  
+
   entries = must_read_fs_list(false);
   for (entry=entries; entry; entry=entry->me_next)
     {
       size_t len;
-      
+
 #ifdef MNTTYPE_IGNORE
       if (!strcmp (entry->me_type, MNTTYPE_IGNORE))
 	continue;
@@ -291,8 +291,8 @@ get_mounted_devices (size_t *n)
 
   /* Use read_file_system_list() rather than must_read_fs_list()
    * because on some system this is always called at startup,
-   * and find should only exit fatally if it needs to use the 
-   * result of this operation.   If we can't get the fs list 
+   * and find should only exit fatally if it needs to use the
+   * result of this operation.   If we can't get the fs list
    * but we never need the information, there is no need to fail.
    */
   for (entry = entries = read_file_system_list(false);

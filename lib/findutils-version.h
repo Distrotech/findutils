@@ -16,13 +16,13 @@
 */
 
 /*
- * display_findutils_version displays GNU coding standard compliant 
- * version information.   
+ * display_findutils_version displays GNU coding standard compliant
+ * version information.
  *
  * official_name   Official name of the program, for example
  *                 "find" or "xargs" (as opposed to "/bin/find"
  *                 or gfind).
- *                       
+ *
  */
 void display_findutils_version(const char *official_name);
 

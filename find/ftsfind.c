@@ -17,13 +17,13 @@
 */
 
 /* This file was written by James Youngman, based on find.c.
-   
+
    GNU find was written by Eric Decker <cire@soe.ucsc.edu>,
    with enhancements by David MacKenzie <djm@gnu.org>,
    Jay Plett <jay@silence.princeton.nj.us>,
    and Tim Wood <axolotl!tim@toad.com>.
    The idea for -print0 and xargs -0 came from
-   Dan Bernstein <brnstnd@kramden.acf.nyu.edu>.  
+   Dan Bernstein <brnstnd@kramden.acf.nyu.edu>.
 */
 
 
@@ -104,7 +104,7 @@ int get_current_dirfd(void)
     {
       assert (curr_fd != -1);
       assert ( (AT_FDCWD == curr_fd) || (curr_fd >= 0) );
-      
+
       if (AT_FDCWD == curr_fd)
 	return starting_desc;
       else
@@ -134,15 +134,15 @@ static void left_dir(void)
 
 /*
  * Signal that we are now inside a directory pointed to by dir_fd.
- * The caller can't tell if this is the first time this happens, so 
- * we have to be careful not to call dup() more than once 
+ * The caller can't tell if this is the first time this happens, so
+ * we have to be careful not to call dup() more than once
  */
 static void inside_dir(int dir_fd)
 {
   if (ftsoptions & FTS_CWDFD)
     {
       assert (dir_fd == AT_FDCWD || dir_fd >= 0);
-      
+
       state.cwd_dir_fd = dir_fd;
       if (curr_fd < 0)
 	{
@@ -155,7 +155,7 @@ static void inside_dir(int dir_fd)
 	      curr_fd = dup(dir_fd);
 	      set_close_on_exec(curr_fd);
 	    }
-	  else 
+	  else
 	    {
 	      /* curr_fd is invalid, but dir_fd is also invalid.
 	       * This should not have happened.
@@ -166,7 +166,7 @@ static void inside_dir(int dir_fd)
     }
   else
     {
-      /* FTS_CWDFD is not in use.  We can always assume that 
+      /* FTS_CWDFD is not in use.  We can always assume that
        * AT_FDCWD refers to the directory we are currentl searching.
        *
        * Therefore there is nothing to do.
@@ -182,7 +182,7 @@ static void init_mounted_dev_list(void);
 
 /* We have encountered an error which should affect the exit status.
  * This is normally used to change the exit status from 0 to 1.
- * However, if the exit status is already 2 for example, we don't want to 
+ * However, if the exit status is already 2 for example, we don't want to
  * reduce it to 1.
  */
 static void
@@ -226,7 +226,7 @@ static void
 visit(FTS *p, FTSENT *ent, struct stat *pstat)
 {
   struct predicate *eval_tree;
-  
+
   state.have_stat = (ent->fts_info != FTS_NS) && (ent->fts_info != FTS_NSOK);
   state.rel_pathname = ent->fts_accpath;
   state.cwd_dir_fd   = p->fts_cwd_fd;
@@ -253,7 +253,7 @@ partial_quotearg_n(int n, char *s, size_t len, enum quoting_style style)
     {
       char saved;
       const char *result;
-      
+
       saved = s[len];
       s[len] = 0;
       result = quotearg_n_style(n, style, s);
@@ -263,14 +263,14 @@ partial_quotearg_n(int n, char *s, size_t len, enum quoting_style style)
 }
 
 
-/* We've detected a file system loop.   This is caused by one of 
+/* We've detected a file system loop.   This is caused by one of
  * two things:
  *
- * 1. Option -L is in effect and we've hit a symbolic link that 
- *    points to an ancestor.  This is harmless.  We won't traverse the 
+ * 1. Option -L is in effect and we've hit a symbolic link that
+ *    points to an ancestor.  This is harmless.  We won't traverse the
  *    symbolic link.
  *
- * 2. We have hit a real cycle in the directory hierarchy.  In this 
+ * 2. We have hit a real cycle in the directory hierarchy.  In this
  *    case, we issue a diagnostic message (POSIX requires this) and we
  *    skip that directory entry.
  */
@@ -304,13 +304,13 @@ issue_loop_warning(FTSENT * ent)
     }
 }
 
-/* 
- * Return true if NAME corresponds to a file which forms part of a 
- * symbolic link loop.  The command 
- *      rm -f a b; ln -s a b; ln -s b a 
+/*
+ * Return true if NAME corresponds to a file which forms part of a
+ * symbolic link loop.  The command
+ *      rm -f a b; ln -s a b; ln -s b a
  * produces such a loop.
  */
-static boolean 
+static boolean
 symlink_loop(const char *name)
 {
   struct stat stbuf;
@@ -322,7 +322,7 @@ symlink_loop(const char *name)
   return (0 != rv) && (ELOOP == errno);
 }
 
-  
+
 static int
 complete_execdirs_cb(void *context)
 {
@@ -345,7 +345,7 @@ show_outstanding_execdirs(FILE *fp)
       while (p)
 	{
 	  const char *pfx;
-	  
+
 	  if (pred_is(p, pred_execdir))
 	    pfx = "-execdir";
 	  else if (pred_is(p, pred_okdir))
@@ -357,7 +357,7 @@ show_outstanding_execdirs(FILE *fp)
 	      int i;
 	      const struct exec_val *execp = &p->args.exec_vec;
 	      ++seen;
-	      
+
 	      fprintf(fp, "%s ", pfx);
 	      if (execp->multiple)
 		fprintf(fp, "multiple ");
@@ -388,7 +388,7 @@ consider_visiting(FTS *p, FTSENT *ent)
   struct stat statbuf;
   mode_t mode;
   int ignore, isdir;
-  
+
   if (options.debug_options & DebugSearch)
     fprintf(stderr,
 	    "consider_visiting: fts_info=%-6s, fts_level=%2d, prev_depth=%d "
@@ -397,7 +397,7 @@ consider_visiting(FTS *p, FTSENT *ent)
             (int)ent->fts_level, prev_depth,
 	    quotearg_n_style(0, options.err_quoting_style, ent->fts_path),
 	    quotearg_n_style(1, options.err_quoting_style, ent->fts_accpath));
-  
+
   if (ent->fts_info == FTS_DP)
     {
       left_dir();
@@ -409,7 +409,7 @@ consider_visiting(FTS *p, FTSENT *ent)
   inside_dir(p->fts_cwd_fd);
   prev_depth = ent->fts_level;
 
-  
+
   /* Cope with various error conditions. */
   if (ent->fts_info == FTS_ERR
       || ent->fts_info == FTS_DNR)
@@ -430,8 +430,8 @@ consider_visiting(FTS *p, FTSENT *ent)
       /* fts_read() claims that ent->fts_accpath is a broken symbolic
        * link.  That would be fine, but if this is part of a symbolic
        * link loop, we diagnose the problem and also ensure that the
-       * eventual return value is nonzero.   Note that while the path 
-       * we stat is local (fts_accpath), we print the full path name 
+       * eventual return value is nonzero.   Note that while the path
+       * we stat is local (fts_accpath), we print the full path name
        * of the file (fts_path) in the error message.
        */
       if (symlink_loop(ent->fts_accpath))
@@ -465,7 +465,7 @@ consider_visiting(FTS *p, FTSENT *ent)
 	    }
 	}
     }
-  
+
   /* Cope with the usual cases. */
   if (ent->fts_info == FTS_NSOK
       || ent->fts_info == FTS_NS /* e.g. symlink loop */)
@@ -480,7 +480,7 @@ consider_visiting(FTS *p, FTSENT *ent)
       state.have_type = true;
       statbuf = *(ent->fts_statp);
       state.type = mode = statbuf.st_mode;
-      
+
       if (00000 == mode)
 	{
 	  /* Savannah bug #16378. */
@@ -522,20 +522,20 @@ consider_visiting(FTS *p, FTSENT *ent)
       if (ent->fts_level >= options.maxdepth)
 	{
 	  fts_set(p, ent, FTS_SKIP); /* descend no further */
-	  
-	  if (ent->fts_level > options.maxdepth) 
+
+	  if (ent->fts_level > options.maxdepth)
 	    ignore = 1;		/* don't even look at this one */
 	}
     }
 
   if ( (ent->fts_info == FTS_D) && !options.do_dir_first )
     {
-      /* this is the preorder visit, but user said -depth */ 
+      /* this is the preorder visit, but user said -depth */
       ignore = 1;
     }
   else if ( (ent->fts_info == FTS_DP) && options.do_dir_first )
     {
-      /* this is the postorder visit, but user didn't say -depth */ 
+      /* this is the postorder visit, but user didn't say -depth */
       ignore = 1;
     }
   else if (ent->fts_level < options.mindepth)
@@ -548,16 +548,16 @@ consider_visiting(FTS *p, FTSENT *ent)
       visit(p, ent, &statbuf);
     }
 
-  /* XXX: if we allow a build-up of pending arguments for "-execdir foo {} +" 
-   * we need to execute them in the same directory as we found the item.  
-   * If we are trying to do "find a -execdir echo {} +", we will need to 
-   * echo 
+  /* XXX: if we allow a build-up of pending arguments for "-execdir foo {} +"
+   * we need to execute them in the same directory as we found the item.
+   * If we are trying to do "find a -execdir echo {} +", we will need to
+   * echo
    *      a while in the original working directory
    *      b while in a
    *      c while in b (just before leaving b)
    *
    * These restrictions are hard to satisfy while using fts().   The reason is
-   * that it doesn't tell us just before we leave a directory.  For the moment, 
+   * that it doesn't tell us just before we leave a directory.  For the moment,
    * we punt and don't allow the arguments to build up.
    */
   if (state.execdirs_outstanding)
@@ -581,24 +581,24 @@ find(char *arg)
   char * arglist[2];
   FTS *p;
   FTSENT *ent;
-  
+
 
   state.starting_path_length = strlen(arg);
   inside_dir(AT_FDCWD);
 
   arglist[0] = arg;
   arglist[1] = NULL;
-  
+
   switch (options.symlink_handling)
     {
     case SYMLINK_ALWAYS_DEREF:
       ftsoptions |= FTS_COMFOLLOW|FTS_LOGICAL;
       break;
-	  
+
     case SYMLINK_DEREF_ARGSONLY:
       ftsoptions |= FTS_COMFOLLOW|FTS_PHYSICAL;
       break;
-	  
+
     case SYMLINK_NEVER_DEREF:
       ftsoptions |= FTS_PHYSICAL;
       break;
@@ -606,7 +606,7 @@ find(char *arg)
 
   if (options.stay_on_filesystem)
     ftsoptions |= FTS_XDEV;
-      
+
   p = fts_open(arglist, ftsoptions, NULL);
   if (NULL == p)
     {
@@ -628,7 +628,7 @@ find(char *arg)
 }
 
 
-static void 
+static void
 process_all_startpoints(int argc, char *argv[])
 {
   int i;
@@ -642,10 +642,10 @@ process_all_startpoints(int argc, char *argv[])
 
   if (i == 0)
     {
-      /* 
-       * We use a temporary variable here because some actions modify 
-       * the path temporarily.  Hence if we use a string constant, 
-       * we get a coredump.  The best example of this is if we say 
+      /*
+       * We use a temporary variable here because some actions modify
+       * the path temporarily.  Hence if we use a string constant,
+       * we get a coredump.  The best example of this is if we say
        * "find -printf %H" (note, not "find . -printf %H").
        */
       char defaultpath[2] = ".";
@@ -671,7 +671,7 @@ main (int argc, char **argv)
    * check_nofollow() needs to be executed in the POSIX locale.
    */
   set_option_defaults(&options);
-  
+
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
 #endif
@@ -680,11 +680,11 @@ main (int argc, char **argv)
   textdomain (PACKAGE);
   atexit (close_stdout);
 
-  /* Check for -P, -H or -L options.  Also -D and -O, which are 
+  /* Check for -P, -H or -L options.  Also -D and -O, which are
    * both GNU extensions.
    */
   end_of_leading_options = process_leading_options(argc, argv);
-  
+
   if (options.debug_options & DebugStat)
     options.xstat = debug_stat;
 
@@ -693,20 +693,20 @@ main (int argc, char **argv)
 #endif /* DEBUG */
 
 
-  /* We are now processing the part of the "find" command line 
+  /* We are now processing the part of the "find" command line
    * after the -H/-L options (if any).
    */
   eval_tree = build_expression_tree(argc, argv, end_of_leading_options);
 
-  /* safely_chdir() needs to check that it has ended up in the right place. 
-   * To avoid bailing out when something gets automounted, it checks if 
+  /* safely_chdir() needs to check that it has ended up in the right place.
+   * To avoid bailing out when something gets automounted, it checks if
    * the target directory appears to have had a directory mounted on it as
-   * we chdir()ed.  The problem with this is that in order to notice that 
+   * we chdir()ed.  The problem with this is that in order to notice that
    * a file system was mounted, we would need to lstat() all the mount points.
    * That strategy loses if our machine is a client of a dead NFS server.
    *
-   * Hence if safely_chdir() and wd_sanity_check() can manage without needing 
-   * to know the mounted device list, we do that.  
+   * Hence if safely_chdir() and wd_sanity_check() can manage without needing
+   * to know the mounted device list, we do that.
    */
   if (!options.open_nofollow_available)
     {
@@ -714,7 +714,7 @@ main (int argc, char **argv)
       init_mounted_dev_list();
 #endif
     }
-  
+
 
   starting_desc = open (".", O_RDONLY
 #if defined O_LARGEFILE
@@ -735,9 +735,9 @@ main (int argc, char **argv)
 
 
   process_all_startpoints(argc-end_of_leading_options, argv+end_of_leading_options);
-  
-  /* If "-exec ... {} +" has been used, there may be some 
-   * partially-full command lines which have been built, 
+
+  /* If "-exec ... {} +" has been used, there may be some
+   * partially-full command lines which have been built,
    * but which are not yet complete.   Execute those now.
    */
   show_success_rates(eval_tree);

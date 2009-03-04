@@ -57,7 +57,7 @@ Default is none.
 .TP
 .B \-\-prunepaths='\fIpath1 path2...\fP'
 Directories to not put in the database, which would otherwise be.
-Remove any trailing slashes from the path names, otherwise 
+Remove any trailing slashes from the path names, otherwise
 .B updatedb
 won\'t recognise the paths you want to omit (because it uses them as
 regular expression patterns).
@@ -89,23 +89,23 @@ Default is \fBdaemon\fP.
 You can also use the environment variable \fBNETUSER\fP to set this user.
 .TP
 .B \-\-old\-format
-Create the database in the old format.  This is a synonym for 
+Create the database in the old format.  This is a synonym for
 .BR \-\-dbformat=old .
 .TP
 .B \-\-dbformat=F
 Create the database in format F.  The default format is called LOCATE02.
-F can be 
+F can be
 .B old
 to select the old database format (this is the same as specifying
 .BR \-\-old\-format ).
-Alternatively the 
+Alternatively the
 .B slocate
-format is also supported.  When the 
-.B slocate 
+format is also supported.  When the
+.B slocate
 format is in use, the database produced is marked as having security
 level 1.  If you want to build a system-wide
 .B slocate
-database, you may want to run 
+database, you may want to run
 .B updatedb
 as root.
 .TP
@@ -123,22 +123,22 @@ and exit.
 \fBFinding Files\fP (on-line in Info, or printed)
 .SH "BUGS"
 .P
-The 
+The
 .B updatedb
 program correctly handles filenames containing newlines,
 but only if the system's sort command has a working
 .I \-z
-option.  If you suspect that 
+option.  If you suspect that
 .B locate
 may need to return filenames containing newlines, consider using its
-.I \-\-null 
+.I \-\-null
 option.
 .P
 The best way to report a bug is to use the form at
-http://savannah.gnu.org/bugs/?group=findutils.  
+http://savannah.gnu.org/bugs/?group=findutils.
 The reason for this is that you will then be able to track progress in
 fixing the problem.   Other comments about \fBupdatedb\fP(1) and about
-the findutils package in general can be sent to the 
+the findutils package in general can be sent to the
 .I bug-findutils
-mailing list.  To join the list, send email to 
+mailing list.  To join the list, send email to
 .IR bug-findutils-request@gnu.org .

@@ -1,19 +1,19 @@
 /* qmark.c -- quote 'dangerous' filenames
 
-   Copyright (C) 2005 Free Software Foundation, Inc.  
+   Copyright (C) 2005 Free Software Foundation, Inc.
    Derived from courutils' ls.c:
-   Copyright (C) 85, 88, 90, 91, 1995-2005 Free Software Foundation, Inc.  
+   Copyright (C) 85, 88, 90, 91, 1995-2005 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -39,8 +39,8 @@
 #include "printquoted.h"
 
 
-/* 
-   This comment, IN_CTYPE_DOMAIN and ISPRINT were borrowed from 
+/*
+   This comment, IN_CTYPE_DOMAIN and ISPRINT were borrowed from
    coreutils at Sun Jun  5 21:17:40 2005 UTC.
 
    Jim Meyering writes:
@@ -81,9 +81,9 @@
 
 /* Convert a possibly-signed character to an unsigned character.  This is
  * a bit safer than casting to unsigned char, since it catches some type
- * errors that the cast doesn't.  
+ * errors that the cast doesn't.
  *
- * This code taken from coreutils' system.h header at 
+ * This code taken from coreutils' system.h header at
  * Sun Jun  5 21:05:21 2005 UTC.
  */
 static inline unsigned char to_uchar (char ch)
@@ -98,7 +98,7 @@ unibyte_qmark_chars(char *buf, size_t len)
 {
   char *p = buf;
   char const *plimit = buf + len;
-  
+
   while (p < plimit)
     {
       if (! ISPRINT (to_uchar (*p)))
@@ -219,7 +219,7 @@ multibyte_qmark_chars(char *buf, size_t len)
 
 
 /* Scan BUF, replacing any dangerous-looking characters with question
- * marks.  This code is taken from the ls.c file in coreutils as at 
+ * marks.  This code is taken from the ls.c file in coreutils as at
  * Sun Jun  5 20:51:54 2005 UTC.
  *
  * This function may shrink the buffer.   Either way, the new length
@@ -232,6 +232,6 @@ qmark_chars(char *buf, size_t len)
   return multibyte_qmark_chars(buf, len);
 #else
   return unibyte_qmark_chars(buf, len);
-#endif  
+#endif
 }
 

@@ -8,12 +8,12 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -54,7 +54,7 @@ struct tagRegexTypeMap
   int   option_val;
 };
 
-struct tagRegexTypeMap regex_map[] = 
+struct tagRegexTypeMap regex_map[] =
   {
    { "findutils-default",     CONTEXT_FINDUTILS, RE_SYNTAX_EMACS|RE_DOT_NEWLINE  },
    { "awk",                   CONTEXT_ALL,       RE_SYNTAX_AWK                   },
@@ -79,7 +79,7 @@ get_regex_type(const char *s)
   unsigned i;
   size_t msglen;
   char *buf, *p;
-  
+
   msglen = 0u;
   for (i=0u; i<N_REGEX_MAP_ENTRIES; ++i)
     {
@@ -89,7 +89,7 @@ get_regex_type(const char *s)
 	msglen += strlen(quote(regex_map[i].name)) + 2u;
     }
 
-  /* We didn't find a match for the type of regular expression that the 
+  /* We didn't find a match for the type of regular expression that the
    * user indicated they wanted.  Tell them what the options are.
    */
   p = buf = xmalloc(1u + msglen);
@@ -102,7 +102,7 @@ get_regex_type(const char *s)
 	}
       p += sprintf(p, "%s", quote(regex_map[i].name));
     }
-  
+
   error(1, 0, _("Unknown regular expression type %s; valid types are %s."),
 	quote(s),
 	buf);
@@ -110,7 +110,7 @@ get_regex_type(const char *s)
   return -1;
 }
 
-  
+
 const char *
 get_regex_type_name(unsigned int ix)
 {
@@ -141,10 +141,10 @@ int get_regex_type_synonym(unsigned int ix)
 {
   unsigned i;
   int flags;
-  
+
   if (ix >= N_REGEX_MAP_ENTRIES)
     return -1;
-  
+
   flags = regex_map[ix].option_val;
   for (i=0u; i<ix; ++i)
     {
