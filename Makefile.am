@@ -1,5 +1,6 @@
 AUTOMAKE_OPTIONS=gnits
 # readme-alpha
+AM_CFLAGS = $(WARN_CFLAGS)
 
 EXTRA_DIST = COPYING ChangeLog TODO config.h.in stamp-h.in \
 		THANKS import-gnulib.sh import-gnulib.config

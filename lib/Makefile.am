@@ -2,6 +2,7 @@
 
 AUTOMAKE_OPTIONS = 1.5 gnits
 # no-dependencies
+AM_CFLAGS = $(WARN_CFLAGS)
 
 noinst_LIBRARIES = libfind.a
 

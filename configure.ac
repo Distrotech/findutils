@@ -88,6 +88,8 @@ AC_SYS_LARGEFILE
 
 gl_INIT
 
+dnl Enable various GCC warnings.
+gl_WARN_ADD([-Wdeclaration-after-statement])
 
 
 dnl Older versions of gnulib/m4/nls.m4 provide AM_MKINSTALLDIRS.

@@ -27,6 +27,15 @@
 	Likewise.
 	* m4/nullsort.m4: Removed occurrences of space followed by tab.
 
+	Enabled GCC warnings for declarations after statements.
+
+	Enabled GCC warnings for declarations after statements.
+	* import-gnulib.config: Import the gnulib module 'warnings'
+	* configure.ac: Add GCC warning -Wdeclaration-after-statement.
+	* Makefile.am: Add AM_CFLAGS and set it to $(WARN_CFLAGS).
+	* find/Makefile.am, doc/Makefile.am, lib/Makefile.am: Likewise.
+	* locate/Makefile.am, xargs/Makefile.am: Likewise.
+
 2009-03-03  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #25359, more efficiently (suggestion by Nick Fortino).

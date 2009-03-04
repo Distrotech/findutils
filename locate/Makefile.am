@@ -1,5 +1,6 @@
 # The default database to build and search.
 AUTOMAKE_OPTIONS = std-options
+AM_CFLAGS = $(WARN_CFLAGS)
 LOCATE_DB = $(localstatedir)/locatedb
 localedir = $(datadir)/locale
 

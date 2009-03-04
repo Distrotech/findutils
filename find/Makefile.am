@@ -1,4 +1,5 @@
 AUTOMAKE_OPTIONS = std-options
+AM_CFLAGS = $(WARN_CFLAGS)
 localedir = $(datadir)/locale
 # noinst_PROGRAMS = regexprops
 # regexprops_SOURCES = regexprops.c

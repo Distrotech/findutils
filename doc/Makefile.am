@@ -1,3 +1,5 @@
+AM_CFLAGS = $(WARN_CFLAGS)
+
 info_TEXINFOS = find.texi find-maint.texi
 find_TEXINFOS = perm.texi getdate.texi regexprops.texi fdl.texi
 find_maint_TEXINFOS = fdl.texi

@@ -1,4 +1,5 @@
 AUTOMAKE_OPTIONS = std-options
+AM_CFLAGS = $(WARN_CFLAGS)
 localedir = $(datadir)/locale
 bin_PROGRAMS = xargs
 man_MANS = xargs.1
