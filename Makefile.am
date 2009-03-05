@@ -3,7 +3,9 @@ AUTOMAKE_OPTIONS=gnits
 AM_CFLAGS = $(WARN_CFLAGS)
 
 EXTRA_DIST = COPYING ChangeLog TODO config.h.in stamp-h.in \
-		THANKS import-gnulib.sh import-gnulib.config
+		THANKS import-gnulib.sh import-gnulib.config \
+		tool-versions.txt README-hacking
+
 # "tests" is the gnulib unit test dir.
 SUBDIRS = gnulib tests build-aux lib find xargs locate doc po m4
 
@@ -12,6 +14,15 @@ ACLOCAL_AMFLAGS = -I gnulib/m4 -I m4
 TESTFILE_SUFFIXES = .exp .xo .xe .xi
 
 # CONFIG_CLEAN_FILES = gnulib/lib/regex.c
+
+tool-versions.txt: Makefile
+	( automake --version ; echo ; \
+	autoconf --version ; echo ; \
+	$(CC) --version ; echo ; \
+	m4 --version ; echo ; \
+	gettext --version ; echo ; \
+	runtest --version ; echo ; \
+	makeinfo --version ) > $@
 
 
 # DISTCLEANFILES = intl/libintl.h
