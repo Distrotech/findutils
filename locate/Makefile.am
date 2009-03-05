@@ -24,7 +24,10 @@ LDADD = ../lib/libfind.a ../gnulib/lib/libgnulib.a $(LIB_CLOSE) $(LIBINTL)
 
 $(PROGRAMS) $(LIBPROGRAMS): ../lib/libfind.a ../gnulib/lib/libgnulib.a
 
-updatedb: updatedb.sh
+# We generate updatedb from the Makefile rather than with AC_OUTPUT in
+# configure.ac in order to allow the user better control of what goes
+# into it by setting Makefile variables.
+updatedb: updatedb.sh Makefile
 	rm -f $@
 	find=`echo find|sed '$(transform)'`; \
 	frcode=`echo frcode|sed '$(transform)'`; \
