@@ -19,6 +19,12 @@
 
 2009-04-10  James Youngman  <jay@gnu.org>
 
+	Change suffix for non-release versions from -CVS to -git.
+	* configure.ac(AC_INIT): Change the suffix used to indicate that
+	the version number doesn't correspond to a source release from
+	-CVS to -git.
+	* NEWS: Likewise.
+
 	Backport fix from 4.5. for Savannah bug #25764, duplicate entry for proc in PRUNEFS.
 	* locate/updatedb.sh (PRUNEFS): Remove duplicate entry for proc.
 	* locate/Makefile.am (updatedb): add dependency on Makefile, and
