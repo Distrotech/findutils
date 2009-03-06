@@ -1,20 +1,21 @@
 # Swedish messages for findutils.
-# Copyright (C) 1996, 2001, 2004, 2006, 2007 Free Software Foundation, Inc.
+# Copyright (C) 1996, 2001, 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
 # Johan Linde <jl@theophys.kth.se>, 1996.
 # Christian Rose <menthos@menthos.com>, 2001, 2004.
-# Daniel Nylander <po@danielnylander.se>, 2006, 2007.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.3.11\n"
+"Project-Id-Version: findutils 4.4.0\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2009-03-04 11:08+0000\n"
-"PO-Revision-Date: 2007-12-16 22:33+0100\n"
+"PO-Revision-Date: 2008-03-16 09:55+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: gnulib/lib/argmatch.c:133
 #, c-format
@@ -274,13 +275,13 @@ msgstr ""
 "enhetsnummer %ld, filsystemstypen är %s) [ref %ld]"
 
 #: find/find.c:528
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
 "number %<PRIuMAX>, file system type is %s) [ref %ld]"
 msgstr ""
-"%s%s ändrades under körning av %s (gammalt inodsnummer %ld, nytt inodsnummer "
-"%ld, filsystemstypen är %s) [ref %ld]"
+"%s%s ändrades under körning av %s (gammalt inodsnummer %<PRIuMAX>, nytt "
+"inodsnummer %<PRIuMAX>, filsystemstyp är %s) [ref %ld]"
 
 #: find/find.c:1012
 #, c-format
@@ -296,9 +297,8 @@ msgstr ""
 "Symboliska länken %s är en del av en slinga i kataloghierarkin; vi har redan "
 "besökt katalogen till vilken den pekar."
 
-# Osäker på %d %s
 #: find/find.c:1128
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
 "directory which is %d level higher in the file system hierarchy"
@@ -307,10 +307,10 @@ msgid_plural ""
 "directory which is %d levels higher in the file system hierarchy"
 msgstr[0] ""
 "Filsystemsslinga upptäcktes; %s har samma enhetsnummer och inod som en "
-"katalog vilken är %d %s."
+"katalog vilken är %d nivå högre upp i filsystemshierarkin"
 msgstr[1] ""
 "Filsystemsslinga upptäcktes; %s har samma enhetsnummer och inod som en "
-"katalog vilken är %d %s."
+"katalog vilken är %d nivåer högre upp i filsystemshierarkin"
 
 #: find/find.c:1379
 #, c-format
@@ -974,21 +974,21 @@ msgid "locate database %s is corrupt or invalid"
 msgstr "locate-databasen %s är skadad eller ogiltig"
 
 #: locate/locate.c:898
-#, fuzzy, c-format
+#, c-format
 msgid "Locate database size: %s byte\n"
 msgid_plural "Locate database size: %s bytes\n"
 msgstr[0] "Storlek på locate-databasen: %s byte\n"
 msgstr[1] "Storlek på locate-databasen: %s byte\n"
 
 #: locate/locate.c:905
-#, fuzzy, c-format
+#, c-format
 msgid "Matching Filenames: %s\n"
-msgstr "Matchande filnamn: %s "
+msgstr "Matchande filnamn: %s\n"
 
 #: locate/locate.c:906
-#, fuzzy, c-format
+#, c-format
 msgid "All Filenames: %s\n"
-msgstr "Alla filnamn: %s "
+msgstr "Alla filnamn: %s\n"
 
 #: locate/locate.c:912
 #, c-format
@@ -1000,6 +1000,12 @@ msgid ""
 "\t%s contain newline characters, \n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
+"Filnamnen har en kumulativ längd på %s byte.\n"
+"Av dessa filnamn innehåller\n"
+"\n"
+"\t%s tomrum, \n"
+"\t%s nyradstecken och \n"
+"\t%s tecken med den höga biten satt.\n"
 
 #: locate/locate.c:926
 #, c-format
@@ -1196,9 +1202,9 @@ msgid "environment is too large for exec"
 msgstr "miljön är för stor för exec"
 
 #: xargs/xargs.c:583
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: value %ld for -s option is too large, using %ld instead"
-msgstr "varning: värdet %ld för flaggan -s är för stort, använder %ld istället"
+msgstr "Varning: värdet %ld för flaggan -s är för stort, använder %ld istället"
 
 #: xargs/xargs.c:653
 #, c-format
@@ -1272,13 +1278,12 @@ msgid "single"
 msgstr "enkelt"
 
 #: xargs/xargs.c:955
-#, fuzzy
 msgid ""
 "Warning: a NUL character occurred in the input.  It cannot be passed through "
 "in the argument list.  Did you mean to use the --null option?"
 msgstr ""
-"varning: ett NUL-tecken förekommer i inmatningen.  Det kan inte skickas "
-"genom till argumentlistan.  Ville du använda flaggan --null?"
+"Varning: ett NUL-tecken förekommer i inmatningen.  Det kan inte skickas "
+"vidare i argumentlistan.  Tänkte du använda flaggan --null?"
 
 #: xargs/xargs.c:965 xargs/xargs.c:1022
 msgid "argument line too long"
@@ -1291,7 +1296,7 @@ msgstr "fel vid väntande på barnprocess"
 #: xargs/xargs.c:1255
 #, c-format
 msgid "Warning: Lost track of %d child processes"
-msgstr ""
+msgstr "Varning: Förlorade kontrollen över %d barnprocesser"
 
 #: xargs/xargs.c:1275
 #, c-format
