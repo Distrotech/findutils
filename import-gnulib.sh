@@ -203,6 +203,7 @@ EOF
 
 
 refresh_output_files() {
+    autopoint -f &&
     aclocal -I m4 -I gnulib/m4     &&
     autoheader                     &&
     autoconf                       &&
