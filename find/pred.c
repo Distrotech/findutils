@@ -1216,6 +1216,8 @@ pred_inum (const char *pathname, struct stat *stat_buf, struct predicate *pred_p
 {
   (void) pathname;
 
+  assert (stat_buf->st_ino != 0);
+
   switch (pred_ptr->args.numinfo.kind)
     {
     case COMP_GT:
@@ -2434,9 +2436,10 @@ print_optlist (FILE *fp, const struct predicate *p)
     {
       print_parenthesised(fp, p->pred_left);
       fprintf (fp,
-	       "%s%s",
+	       "%s%s%s",
 	       p->need_stat ? "[call stat] " : "",
-	       p->need_type ? "[need type] " : "");
+	       p->need_type ? "[need type] " : "",
+	       p->need_inum ? "[need inum] " : "");
       print_predicate(fp, p);
       fprintf(fp, " [%g] ", p->est_success_rate);
       if (options.debug_options & DebugSuccessRates)

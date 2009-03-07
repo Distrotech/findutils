@@ -12,6 +12,12 @@ element of struct dirent, for example reiserfs.  Anecdotal evidence
 suggests this can speed updatedb up from about 30 minutes to 3-4
 minutes.
 
+The ftsfind executable also now avoids calling stat() functions to
+discover the inode number of a file, if we already read this
+information from the directory.  This does provide a speed-up, but
+only for a restricted set of commands such as "find . -inum 4001".
+This fix is listed below as bug #24342.
+
 ** Bug Fixes
 
 #25764: remove duplicate entry for 'proc' in updatedb's $PRUNEFS.
@@ -25,6 +31,9 @@ unknown user or is missing.
 
 #25154: Allow compilation with C compilers that don't allow
 declarations to follow statements.
+
+#24342: -inum predicate shoud use dirent.d_ino instead of stat.st_ino
+(this is a performance bug).
 
 ** Translations
 

@@ -1247,6 +1247,9 @@ parse_inum (const struct parser_table* entry, char **argv, int *arg_ptr)
        * files match
        */
       p->est_success_rate = 1e-6;
+      p->need_inum = true;
+      p->need_stat = false;
+      p->need_type = false;
       return true;
     }
   else
@@ -2293,6 +2296,8 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
   our_pred->args.samefileid.dev = st.st_dev;
   our_pred->args.samefileid.fd  = fd;
   our_pred->need_type = false;
+  /* smarter way: compare type and inode number first. */
+  /* TODO: maybe optimise this away by being optimistic */
   our_pred->need_stat = true;
   our_pred->est_success_rate = 0.01f;
   return true;
@@ -2895,6 +2900,12 @@ make_segment (struct segment **segment,
       *fmt++ = 's';
       break;
 
+    case 'i':			/* inode number */
+      pred->need_inum = true;
+      mycost = NeedsInodeNumber;
+      *fmt++ = 's';
+      break;
+
     case 'a':			/* atime in `ctime' format */
     case 'A':			/* atime in user-specified strftime format */
     case 'B':			/* birth time in user-specified strftime format */
@@ -2902,7 +2913,6 @@ make_segment (struct segment **segment,
     case 'C':			/* ctime in user-specified strftime format */
     case 'F':			/* file system type */
     case 'g':			/* group name */
-    case 'i':			/* inode number */
     case 'M':			/* mode in `ls -l' format (eg., "drwxr-xr-x") */
     case 's':			/* size in bytes */
     case 't':			/* mtime in `ctime' format */

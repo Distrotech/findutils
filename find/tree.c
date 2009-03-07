@@ -748,8 +748,9 @@ opt_expr (struct predicate **eval_treep)
 		}
 
 	      reorder = ((options.optimisation_level > 1)
-			  && (NeedsType == curr->pred_right->p_cost)
-			  && !curr->pred_right->need_stat) ||
+			 && (NeedsType == curr->pred_right->p_cost
+			     || NeedsInodeNumber == curr->pred_right->p_cost)
+			 && !curr->pred_right->need_stat) ||
 		(options.optimisation_level > 2);
 
 	      if (reorder)
@@ -831,6 +832,7 @@ set_new_parent (struct predicate *curr, enum predicate_precedence high_prec, str
   new_parent->p_prec = high_prec;
   new_parent->need_stat = false;
   new_parent->need_type = false;
+  new_parent->need_inum = false;
   new_parent->p_cost = NeedsNothing;
 
   switch (high_prec)
@@ -919,7 +921,7 @@ static struct pred_cost_lookup costlookup[] =
     { pred_group     ,  NeedsStatInfo        },
     { pred_ilname    ,  NeedsLinkName        },
     { pred_iname     ,  NeedsNothing         },
-    { pred_inum      ,  NeedsStatInfo        },
+    { pred_inum      ,  NeedsInodeNumber     },
     { pred_ipath     ,  NeedsNothing         },
     { pred_links     ,  NeedsStatInfo        },
     { pred_lname     ,  NeedsLinkName        },
@@ -1003,6 +1005,10 @@ get_pred_cost(const struct predicate *p)
   if (p->need_stat)
     {
       data_requirement_cost = NeedsStatInfo;
+    }
+  else if (p->need_inum)
+    {
+      data_requirement_cost = NeedsInodeNumber;
     }
   else if (p->need_type)
     {
@@ -1433,6 +1439,7 @@ get_new_pred (const struct parser_table *entry)
   last_pred->no_default_print = false;
   last_pred->need_stat = true;
   last_pred->need_type = true;
+  last_pred->need_inum = false;
   last_pred->args.str = NULL;
   last_pred->pred_next = NULL;
   last_pred->pred_left = NULL;
@@ -1478,6 +1485,7 @@ get_new_pred_chk_op (const struct parser_table *entry)
 	new_pred->p_prec = AND_PREC;
 	new_pred->need_stat = false;
 	new_pred->need_type = false;
+	new_pred->need_inum = false;
 	new_pred->args.str = NULL;
 	new_pred->side_effects = false;
 	new_pred->no_default_print = false;
@@ -1500,15 +1508,16 @@ struct cost_assoc
 struct cost_assoc cost_table[] =
   {
     { NeedsNothing,         "Nothing" },
-    { NeedsType,	    "Type" },
-    { NeedsStatInfo,	    "StatInfo" },
-    { NeedsLinkName,	    "LinkName" },
-    { NeedsAccessInfo,	    "AccessInfo" },
-    { NeedsSyncDiskHit,	    "SyncDiskHit" },
+    { NeedsInodeNumber,     "InodeNumber" },
+    { NeedsType,            "Type" },
+    { NeedsStatInfo,        "StatInfo" },
+    { NeedsLinkName,        "LinkName" },
+    { NeedsAccessInfo,      "AccessInfo" },
+    { NeedsSyncDiskHit,     "SyncDiskHit" },
     { NeedsEventualExec,    "EventualExec" },
     { NeedsImmediateExec,   "ImmediateExec" },
     { NeedsUserInteraction, "UserInteraction" },
-    { NeedsUnknown,	    "Unknown" }
+    { NeedsUnknown,         "Unknown" }
   };
 
 struct prec_assoc
@@ -1604,7 +1613,7 @@ print_tree (FILE *fp, struct predicate *node, int indent)
 	   node->est_success_rate,
 	   (node->side_effects ? "" : "no "));
 
-  if (node->need_stat || node->need_type)
+  if (node->need_stat || node->need_type || node->need_inum)
     {
       int comma = 0;
 
@@ -1612,6 +1621,11 @@ print_tree (FILE *fp, struct predicate *node, int indent)
       if (node->need_stat)
 	{
 	  fprintf (fp, "stat");
+	  comma = 1;
+	}
+      if (node->need_inum)
+	{
+	  fprintf (fp, "%sinode", comma ? "," : "");
 	  comma = 1;
 	}
       if (node->need_type)

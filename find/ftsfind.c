@@ -409,6 +409,7 @@ consider_visiting(FTS *p, FTSENT *ent)
   inside_dir(p->fts_cwd_fd);
   prev_depth = ent->fts_level;
 
+  statbuf.st_ino = ent->fts_statp->st_ino;
 
   /* Cope with various error conditions. */
   if (ent->fts_info == FTS_ERR

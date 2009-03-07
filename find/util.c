@@ -220,9 +220,8 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
   return 0;
 }
 
-
-/* Get the stat/type information for a file, if it is
- * not already known.
+/* Get the stat/type/inode information for a file, if it is not
+ * already known.
  */
 int
 get_info (const char *pathname,
@@ -235,14 +234,50 @@ get_info (const char *pathname,
    * already have it, stat the file now.
    */
   if (pred_ptr->need_stat)
-    todo = true;
-  else if ((pred_ptr->need_type && (0 == state.have_type)))
-    todo = true;
-
+    {
+      todo = true;		/* need full stat info */
+    }
+  else if (pred_ptr->need_type && !state.have_type)
+    {
+      todo = true;		/* need to stat to get the type */
+    }
+  else if (pred_ptr->need_inum)
+    {
+      if (!p->st_ino)
+	{
+	  todo = true;		/* need to stat to get the inode number */
+	}
+      else if ((!state.have_type) || S_ISDIR(p->st_mode))
+	{
+	  /* For now we decide not to trust struct dirent.d_ino for
+	   * directory entries that are subdirectories, in case this
+	   * subdirectory is a mount point.  We also need to call a
+	   * stat function if we don't have st_ino (i.e. it is zero).
+	   */
+	  todo = true;
+	}
+    }
   if (todo)
-    return get_statinfo(pathname, state.rel_pathname, p);
+    {
+      int result = get_statinfo(pathname, state.rel_pathname, p);
+      if (result != 0)
+	{
+	  /* Verify some postconditions.  We can't check st_mode for
+	     non-zero-ness because of Savannah bug #16378. */
+	  if (pred_ptr->need_type)
+	    {
+	      assert (state.have_type);
+	    }
+	  if (pred_ptr->need_inum)
+	    {
+	      assert (p->st_ino);
+	    }
+	}
+    }
   else
-    return 0;
+    {
+      return 0;
+    }
 }
 
 /* Determine if we can use O_NOFOLLOW.
@@ -979,7 +1014,7 @@ apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p
 {
   ++p->perf.visits;
 
-  if (p->need_stat || p->need_type)
+  if (p->need_stat || p->need_type || p->need_inum)
     {
       /* We may need a stat here. */
       if (get_info(pathname, stat_buf, p) != 0)

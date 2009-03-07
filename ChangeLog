@@ -1,3 +1,34 @@
+2009-03-08  James Youngman  <jay@gnu.org>
+
+	Optimise away calls to stat if all we need is the inode number.
+	This fixes Savannah bug #24342.
+	* find/util.c (get_info): call get_statinfo if need_inum and we
+	don't already have the inode number.
+	(apply_predicate): Call get_info if need_inum.
+	* find/defs.h (enum EvaluationCost): Add NeedsInodeNumber.
+	(struct predicate): Add need_inum.
+	* find/tree.c (get_new_pred): Default need_inum to false.
+	(get_new_pred_chk_op): Likewise.
+	* find/ftsfind.c (consider_visiting): Copy the value of st_ino
+	into statbuf.st_ino.
+	* find/parser.c (parse_inum): Set need_inum=true.
+	(parse_samefile): Set need_inum=false, but add a comment
+	indicating that there is an optimisation opportunity.
+	(make_segment): For -printf %i, set NeedsInodeNumber rather than
+	NeedsStat.
+	* find/pred.c (pred_inum): assert that the inode number is known
+	(i.e. non-zero).
+	(print_optlist): Print "[need inum]" when need_inum is  true.
+	* find/tree.c (opt_expr): Also reorder expressions if the right
+	hand expression is -inum (that is, consider that test to be no
+	more expensive than -type).
+	(set_new_parent): Default need_inum to false.
+	(costlookup): Set pred_inum=NeedsInodeNumber.
+	(get_pred_cost): need_inum implies a data cost of
+	NeedsInodeNumber.
+	(cost_table): Add NeedsInodeNumber.
+	(print_tree): Handle need_inum.
+
 2009-03-06  James Youngman  <jay@gnu.org>
 
 	Change suffix for non-release versions from -CVS to -git.

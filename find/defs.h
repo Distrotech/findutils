@@ -242,6 +242,7 @@ struct predicate_performance_info
 enum EvaluationCost
 {
   NeedsNothing,
+  NeedsInodeNumber,
   NeedsType,
   NeedsStatInfo,
   NeedsLinkName,
@@ -284,6 +285,9 @@ struct predicate
 
   /* True if this predicate node requires knowledge of the file type. */
   boolean need_type;
+
+  /* True if this predicate node requires knowledge of the inode number. */
+  boolean need_inum;
 
   enum EvaluationCost p_cost;
 
