@@ -27,31 +27,8 @@ tool-versions.txt: Makefile
 	makeinfo --version ) > $@
 
 
-dist-hook: jy-regex-fix findutils-check-pofiles findutils-check-testfiles
+dist-hook: findutils-check-pofiles findutils-check-testfiles
 
-
-## regex.c seems to get left out if I use automake-1.9 but not
-## if I use automake-1.7.   Hence dist-hook has to be able to
-## copy regex.c into the relevant (read-only) directory if it
-## is not already there, but needs to avoid doing so if the
-## file is already in place.   Ugh.
-##
-## This problem appears not to apply to Automake-1.10, but since
-## gnulib only requires Automake-1.9.6, we should support that.
-## Therefore we probably can't remove this kludge yet.
-##
-##                             -- James Youngman <jay@gnu.org>
-##
-jy-regex-fix:
-	if test -f $(distdir)/gnulib/lib/regex.c ; then \
-		echo regex.c is already in place.  Great. ; \
-	else \
-		echo Making $(distdir)/gnulib/lib writable ... ; \
-		chmod +w $(distdir)/gnulib/lib ; \
-		echo Copying $(srcdir)/gnulib/lib/regex.c to $(distdir)/gnulib/lib ; \
-		cp $(srcdir)/gnulib/lib/regex.c $(distdir)/gnulib/lib/regex.c ; \
-	fi
-#	ls -ld $(srcdir)/gnulib/lib/regex.c $(distdir)/gnulib/lib
 
 ## Check that we actually shipped all the .po files.  If this rule fails,
 ## check ALL_LINGUAS in configure.in against the po files in the source
