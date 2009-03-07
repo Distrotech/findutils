@@ -1684,6 +1684,11 @@ pred_samefile (const char *pathname, struct stat *stat_buf, struct predicate *pr
    * same as the device number of the current directory, this
    * predicate cannot return true.  Hence there would be no need to
    * stat the file we're looking at.
+   *
+   * For the moment, we simply compare inode numbers, which should cut
+   * down greatly on the number of calls to stat.  Some of the
+   * remainder will be unnecessary, but the additional complexity
+   * probably isn't worthwhile.
    */
   (void) pathname;
 
@@ -1691,8 +1696,23 @@ pred_samefile (const char *pathname, struct stat *stat_buf, struct predicate *pr
    * but that's just to ensure inode number stability by maintaining
    * a reference to it; we don't need the file for anything else.
    */
-  return stat_buf->st_ino == pred_ptr->args.samefileid.ino
-    &&   stat_buf->st_dev == pred_ptr->args.samefileid.dev;
+  if (stat_buf->st_ino)
+    {
+      if (stat_buf->st_ino != pred_ptr->args.samefileid.ino)
+	return false;
+    }
+  /* Now stat the file to check the device number. */
+  if (0 == get_statinfo (pathname, state.rel_pathname, stat_buf))
+    {
+      /* the repeated test here is necessary in case stat_buf.st_ino had been zero. */
+      return stat_buf->st_ino == pred_ptr->args.samefileid.ino
+	&& stat_buf->st_dev == pred_ptr->args.samefileid.dev;
+    }
+  else
+    {
+      /* get_statinfo will already have emitted an error message. */
+      return false;
+    }
 }
 
 boolean

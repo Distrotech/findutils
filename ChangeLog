@@ -29,6 +29,10 @@
 	(cost_table): Add NeedsInodeNumber.
 	(print_tree): Handle need_inum.
 
+	For -samefile, skip stat if inode numbers differ.
+	* find/pred.c (pred_samefile): Skip stat if the inode numbers are
+	different.
+
 2009-03-06  James Youngman  <jay@gnu.org>
 
 	Change suffix for non-release versions from -CVS to -git.
