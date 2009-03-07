@@ -4,6 +4,8 @@ AUTOMAKE_OPTIONS=gnits
 EXTRA_DIST = COPYING ChangeLog TODO config.h.in stamp-h.in \
 		THANKS import-gnulib.sh import-gnulib.config \
 		tool-versions.txt README-hacking
+DISTCLEANFILES = tool-versions.txt
+
 
 # "tests" is the gnulib unit test dir.
 SUBDIRS = gnulib tests build-aux lib find xargs locate doc po m4 
@@ -23,8 +25,6 @@ tool-versions.txt: Makefile
 	runtest --version ; echo ; \
 	makeinfo --version ) > $@
 
-
-# DISTCLEANFILES = intl/libintl.h
 
 dist-hook: jy-regex-fix findutils-check-pofiles findutils-check-testfiles
 
