@@ -58,6 +58,13 @@
 	For -samefile, skip stat if inode numbers differ.
 	* find/pred.c (pred_samefile): Skip stat if the inode numbers are
 	different.
+	Enable -Wall compiler warnings and fix them.
+	* configure.ac: Turn on -Wall warnings.
+	* find/find.c (process_dir): Print unsigned values of unspecified
+	width as uintmax_t.
+	* xargs/xargs.c: Include <inttypes.h> and <stdint.h>, but without
+	the include guards (since we assume an ISO C platform anyway).
+	* import-gnulib.config (modules): Add modules inttypes and stdint.
 
 2009-03-07  James Youngman  <jay@gnu.org>
 

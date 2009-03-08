@@ -51,9 +51,13 @@
 #define ISSPACE(c) (ISBLANK (c) || (c) == '\n' || (c) == '\r' \
 		    || (c) == '\f' || (c) == '\v')
 
-#include <sys/types.h>
 #include <stdio.h>
 #include <errno.h>
+#include <limits.h>
+#include <stdint.h>
+#include <inttypes.h>
+
+#include <sys/types.h>
 #include <getopt.h>
 #include <fcntl.h>
 
@@ -71,13 +75,7 @@
 #define memcpy(dest, source, count) (bcopy((source), (dest), (count)))
 #endif
 
-#ifndef _POSIX_SOURCE
 #include <sys/param.h>
-#endif
-
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
 
 #ifndef LONG_MAX
 #define LONG_MAX (~(1 << (sizeof (long) * 8 - 1)))
@@ -665,42 +663,23 @@ main (int argc, char **argv)
       argv = &default_cmd;
     }
 
-  /* We want to be able to print size_t values as unsigned long, so if
-   * the cast isn't value-preserving, we have a problem.  This isn't a
-   * problem in C89, because size_t was known to be no wider than
-   * unsigned long.  In C99 this is no longer the case, but there are
-   * special C99 ways to print such values.  Unfortunately this
-   * program tries to work on both C89 and C99 systems.
-   */
-#if defined SIZE_MAX
-# if SIZE_MAX > ULONG_MAX
-# error "I'm not sure how to print size_t values on your system"
-# endif
-#else
-  /* Without SIZE_MAX (i.e. limits.h) this is probably
-   * close to the best we can do.
-   */
-  verify_true (sizeof(size_t) <= sizeof(unsigned long));
-#endif
-
   if (show_limits)
     {
       fprintf(stderr,
-	      _("Your environment variables take up %lu bytes\n"),
-	      (unsigned long)bc_size_of_environment());
+	      _("Your environment variables take up %" PRIuMAX " bytes\n"),
+	      (uintmax_t)bc_size_of_environment());
       fprintf(stderr,
-	      _("POSIX upper limit on argument length (this system): %lu\n"),
-	      (unsigned long)bc_ctl.posix_arg_size_max);
+	      _("POSIX upper limit on argument length (this system): %" PRIuMAX "\n"),
+	      (uintmax_t)bc_ctl.posix_arg_size_max);
       fprintf(stderr,
-	      _("POSIX smallest allowable upper limit on argument length (all systems): %lu\n"),
-	      (unsigned long)bc_ctl.posix_arg_size_min);
+	      _("POSIX smallest allowable upper limit on argument length (all systems): %" PRIuMAX "\n"),
+	      (uintmax_t)bc_ctl.posix_arg_size_min);
       fprintf(stderr,
-	      _("Maximum length of command we could actually use: %ld\n"),
-	      (unsigned long)(bc_ctl.posix_arg_size_max -
-			      bc_size_of_environment()));
+	      _("Maximum length of command we could actually use: %" PRIuMAX "\n"),
+	      (uintmax_t)(bc_ctl.posix_arg_size_max - bc_size_of_environment()));
       fprintf(stderr,
-	      _("Size of command buffer we are actually using: %lu\n"),
-	      (unsigned long)bc_ctl.arg_max);
+	      _("Size of command buffer we are actually using: %" PRIuMAX "\n"),
+	      (uintmax_t)bc_ctl.arg_max);
 
       if (isatty(STDIN_FILENO))
 	{

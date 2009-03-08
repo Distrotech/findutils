@@ -90,6 +90,7 @@ gl_INIT
 
 dnl Enable various GCC warnings.
 gl_WARN_ADD([-Wdeclaration-after-statement])
+gl_WARN_ADD([-Wall])
 
 
 dnl Older versions of gnulib/m4/nls.m4 provide AM_MKINSTALLDIRS.

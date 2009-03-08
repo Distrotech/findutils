@@ -1420,10 +1420,10 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 		   * doesn't really handle hard links with Unix semantics.
 		   * In the latter case, -noleaf should be used routinely.
 		   */
-		  error(0, 0, _("WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we already saw %d subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
+		  error(0, 0, _("WARNING: Hard link count is wrong for %s (saw only st_nlink=%" PRIuMAX  " but we already saw %" PRIuMAX " subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."),
 			safely_quote_err_filename(0, pathname),
-			statp->st_nlink,
-			dircount);
+			(uintmax_t) statp->st_nlink,
+			(uintmax_t) dircount);
 		  state.exit_status = 1; /* We know the result is wrong, now */
 		  options.no_leaf_check = true;	/* Don't make same
 						   mistake again */
