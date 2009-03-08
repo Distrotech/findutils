@@ -234,6 +234,73 @@ EOF
 }
 
 
+check_merge_driver() {
+    local config_file=".git/config"
+    fixmsg="
+
+We recommend that you use a git merge driver for the ChangeLog file.
+This simplifies the task of merging branches.
+Please see the README section in gnulib-git/gnulib/lib/git-merge-changelog.c
+
+If you've read that and don't want to use it, just set the environment variable
+DO_NOT_WANT_CHANGELOG_DRIVER.
+
+Example:
+  git config merge.cl-merge.name 'GNU-style ChangeLog merge driver'
+  git config merge.cl-merge.driver /usr/local/bin/git-merge-changelog
+  echo 'ChangeLog    merge=cl-merge' >> .gitattributes
+"
+    if [[ -z "$DO_NOT_WANT_CHANGELOG_DRIVER" ]] ; then
+	if git branch | egrep -q '\* *(master|rel-)'; then
+	# We are on the master branch or a release branch.
+	# Perhaps the user is simply building from git sources.
+	# Issue our message as a warning rather than an error.
+	    fatal=false
+	    label="Warning"
+	else
+	    fatal=true
+	    label="ERROR"
+	fi
+    else
+	fatal=false
+	label="Warning"
+    fi
+    if git config --get  merge.cl-merge.name >/dev/null ; then
+	driver="$(git config --get merge.cl-merge.driver)"
+	if [[ $? -eq 0 ]]; then
+	    if ! [[ -x "$driver" ]]; then
+		echo "ERROR: Merge driver $driver is not executable." >&2
+		echo "ERROR: Please fix $config_file or install $driver" >&2
+		# Always fatal - if configured, the merge driver should work.
+		exit 1
+	    else
+		if [[ -f .gitattributes ]] ; then
+		    echo "The ChangeLog merge driver configuration seems OK."
+		else
+		    echo "$label"': you have no .gitattributes file' >&2
+		    echo "$fixmsg" >&2
+		    if $fatal; then
+			exit 1
+		    fi
+		fi
+	    fi
+	else
+	    echo "$label"': There is no driver specified in [merge "cl-merge"] in' "$config_file" >&2
+	    echo "$fixmsg" >&2
+	    if $fatal; then
+		exit 1
+	    fi
+	fi
+    else
+	echo "$label"': There is no name specified in [merge "cl-merge"] in' "$config_file" >&2
+	echo "$fixmsg" >&2
+	if $fatal; then
+	    exit 1
+	fi
+    fi
+}
+
+
 move_cvsdir() {
     local cvs_git_root=":pserver:anonymous@pserver.git.sv.gnu.org:/gnulib.git"
 
@@ -281,6 +348,7 @@ EOF
 	fi
 	move_cvsdir
 	do_checkout gnulib-git
+	check_merge_driver
 	gnulibdir=gnulib-git/gnulib
     else
 	echo "Warning: using gnulib code which already exists in $gnulibdir" >&2
@@ -293,7 +361,8 @@ EOF
 	hack_gnulib_tool_output "${gnulibdir}" &&
 	refresh_output_files &&
 	update_licenses &&
-	update_version_file   ; then
+	update_version_file
+    then
 	echo Done.
     else
 	echo FAILED >&2

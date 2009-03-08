@@ -1,5 +1,14 @@
 2009-03-08  James Youngman  <jay@gnu.org>
 
+	Switch to using a merge driver for the ChangeLog file.
+	* import-gnulib.sh (check_merge_driver): New function; verifies
+	that we have a merge driver installed for the ChangeLog file (if
+	we're on the master or release branch, the check is skipped).
+	Also check that the .gitattributes file exists.
+	* README-hacking: Point out that using a merge driver for
+	ChangeLog is a good idea.
+	* .gitattributes: New file
+
 	Optimise away calls to stat if all we need is the inode number.
 	This fixes Savannah bug #24342.
 	* find/util.c (get_info): call get_statinfo if need_inum and we
