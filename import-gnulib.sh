@@ -266,8 +266,9 @@ Example:
 	fatal=false
 	label="Warning"
     fi
-    if git config --get  merge.cl-merge.name >/dev/null ; then
-	driver="$(git config --get merge.cl-merge.driver)"
+    if git config --get  merge.merge-changelog.name >/dev/null ; then
+	driver="$(git config --get merge.merge-changelog.driver |
+                  sed -e 's/[ 	].*//')"
 	if [[ $? -eq 0 ]]; then
 	    if ! [[ -x "$driver" ]]; then
 		echo "ERROR: Merge driver $driver is not executable." >&2
@@ -286,14 +287,14 @@ Example:
 		fi
 	    fi
 	else
-	    echo "$label"': There is no driver specified in [merge "cl-merge"] in' "$config_file" >&2
+	    echo "$label"': There is no driver specified in [merge "merge-changelog"] in' "$config_file" >&2
 	    echo "$fixmsg" >&2
 	    if $fatal; then
 		exit 1
 	    fi
 	fi
     else
-	echo "$label"': There is no name specified in [merge "cl-merge"] in' "$config_file" >&2
+	echo "$label"': There is no name specified in [merge "merge-changelog"] in' "$config_file" >&2
 	echo "$fixmsg" >&2
 	if $fatal; then
 	    exit 1
