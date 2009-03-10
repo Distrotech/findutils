@@ -246,9 +246,9 @@ If you've read that and don't want to use it, just set the environment variable
 DO_NOT_WANT_CHANGELOG_DRIVER.
 
 Example:
-  git config merge.cl-merge.name 'GNU-style ChangeLog merge driver'
-  git config merge.cl-merge.driver /usr/local/bin/git-merge-changelog
-  echo 'ChangeLog    merge=cl-merge' >> .gitattributes
+  git config merge.merge-changelog.name 'GNU-style ChangeLog merge driver'
+  git config merge.merge-changelog.driver /usr/local/bin/git-merge-changelog  %O %A %B
+  echo 'ChangeLog    merge=merge-changelog' >> .gitattributes
 "
     if [[ -z "$DO_NOT_WANT_CHANGELOG_DRIVER" ]] ; then
 	if git branch | egrep -q '\* *(master|rel-)'; then
