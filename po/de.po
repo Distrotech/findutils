@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.4.0\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2009-03-04 11:08+0000\n"
+"POT-Creation-Date: 2009-03-10 01:08+0000\n"
 "PO-Revision-Date: 2008-03-17 22:13+0100\n"
 "Last-Translator: Nils Naumann <nnau@gmx.net>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
@@ -38,6 +38,7 @@ msgid "error closing file"
 msgstr "Fehler beim Datei schließen."
 
 #: gnulib/lib/closeout.c:112 locate/code.c:152 locate/frcode.c:216
+#, c-format
 msgid "write error"
 msgstr "Schreibfehler."
 
@@ -103,10 +104,12 @@ msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: Die Option \"-W %s\" gestattet kein Argument.\n"
 
 #: gnulib/lib/openat-die.c:35
+#, c-format
 msgid "unable to record current working directory"
 msgstr ""
 
 #: gnulib/lib/openat-die.c:48
+#, c-format
 msgid "failed to return to initial working directory"
 msgstr "Das Wechseln zum Ursprungsverzeichnis schlug fehl."
 
@@ -248,11 +251,13 @@ msgstr "Ungültiger Suffix im %s%s Argument `%s'."
 msgid "%s%s argument `%s' too large"
 msgstr "%s%s Argument `%s' ist zu groß."
 
-#: find/find.c:201 find/ftsfind.c:733
+#: find/find.c:201 find/ftsfind.c:734
+#, c-format
 msgid "cannot get current directory"
 msgstr "Kann nicht in das aktuelle Verzeichnis wechseln."
 
 #: find/find.c:205
+#, c-format
 msgid "cannot stat current directory"
 msgstr "Kann nicht den Status des aktuellen Verzeichnis ermitteln."
 
@@ -316,12 +321,13 @@ msgid "warning: not following the symbolic link %s"
 msgstr "Warnung: Dem symbolischen Verweis %s wird nicht gefolgt."
 
 #: find/find.c:1423
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"WARNING: Hard link count is wrong for %s (saw only st_nlink=%d but we "
-"already saw %d subdirectories): this may be a bug in your file system "
-"driver.  Automatically turning on find's -noleaf option.  Earlier results "
-"may have failed to include directories that should have been searched."
+"WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
+"we already saw %<PRIuMAX> subdirectories): this may be a bug in your file "
+"system driver.  Automatically turning on find's -noleaf option.  Earlier "
+"results may have failed to include directories that should have been "
+"searched."
 msgstr ""
 "Warnung: Die Anzahl der harten Links ist für %s falsch (Erkannte nur "
 "st_nlink=%d aber es wurden bereits %d Unterverzeichnisse erkannt):  Das "
@@ -339,17 +345,18 @@ msgid ""
 "File system loop detected; %s is part of the same file system loop as %s."
 msgstr "Dateisystemschleife erkannt; %s ist ein Teil der Schleife %s."
 
-#: find/ftsfind.c:487 find/util.c:201
+#: find/ftsfind.c:488 find/util.c:201
 #, c-format
 msgid "Warning: file %s appears to have mode 0000"
 msgstr "Warnung: Die Datei %s scheint die Zugriffsrechte 0000 zu haben."
 
-#: find/ftsfind.c:613
+#: find/ftsfind.c:614
 #, c-format
 msgid "cannot search %s"
 msgstr ""
 
 #: find/parser.c:385
+#, c-format
 msgid ""
 "The -delete action atomatically turns on -depth, but -prune does nothing "
 "when -depth is in effect.  If you want to carry on anyway, just explicitly "
@@ -369,6 +376,7 @@ msgid ""
 msgstr ""
 
 #: find/parser.c:820
+#, c-format
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
 "latter is a POSIX-compliant feature."
@@ -391,6 +399,7 @@ msgid "%s is not the name of an existing group"
 msgstr "%s ist kein existierender Gruppenname."
 
 #: find/parser.c:1088
+#, c-format
 msgid "argument to -group is empty, but should be a group name"
 msgstr "Das Argument zu -group fehlt. Es muss ein Gruppenname sein."
 
@@ -481,6 +490,7 @@ msgstr ""
 "eingegeben oder per Email an <bug-findutils@gnu.org> gesendet werden."
 
 #: find/parser.c:1191
+#, c-format
 msgid "sanity check of the fnmatch() library function failed."
 msgstr ""
 "Die Plausibilitätsprüfung der fnmatch() Bibiliotheksfunktion schlug fehl."
@@ -500,45 +510,46 @@ msgstr ""
 "samefile' bessere Tests.  Alternativ kann auch GNU grep verwendet werden:  "
 "'find ... -print0 | grep -FzZ %s'."
 
-#: find/parser.c:1353
+#: find/parser.c:1356
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
 msgstr ""
 "Eine positive dezimale Ganzzahl wird als Argument von %s erwartet, aber %s "
 "erhalten."
 
-#: find/parser.c:1504
+#: find/parser.c:1507
+#, c-format
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr ""
 "Dieses System stellt keine Funktion zum Ermitteln der Erzeugungszeit der "
 "Datei bereit."
 
-#: find/parser.c:1525
+#: find/parser.c:1528
 #, fuzzy, c-format
 msgid "The %s test needs an argument"
 msgstr "%s: Die Option \"%s\" erfordert ein Argument.\n"
 
-#: find/parser.c:1562
+#: find/parser.c:1565
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr "Konnte %s nicht als Datum oder Zeit interpretieren."
 
-#: find/parser.c:1578
+#: find/parser.c:1581
 #, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Kann die Erzeugungszeit der Datei %s nicht ermitteln."
 
-#: find/parser.c:1779
+#: find/parser.c:1782
 #, c-format
 msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 msgstr "Der Modus %s ist ungültig wenn POSIXLY_CORRECT gesetzt ist."
 
-#: find/parser.c:1862
+#: find/parser.c:1865
 #, c-format
 msgid "invalid mode %s"
 msgstr "Ungültiger Modus %s."
 
-#: find/parser.c:1881
+#: find/parser.c:1884
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -550,21 +561,22 @@ msgstr ""
 "um mit der Verwendung von -perm -000 konsistent zu sein.  Deshalb trifft es "
 "jetzt auf alle Dateien zu, vorher auf keine."
 
-#: find/parser.c:2078
+#: find/parser.c:2081
+#, c-format
 msgid "invalid null argument to -size"
 msgstr "\"-size\" erfordert ein Argument."
 
-#: find/parser.c:2126
+#: find/parser.c:2129
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "Ungültige Einheit \"%c\" für \"-size\"."
 
-#: find/parser.c:2132
+#: find/parser.c:2135
 #, c-format
 msgid "Invalid argument `%s%c' to -size"
 msgstr "Ungültiges Argument `%s%c' für -size."
 
-#: find/parser.c:2311
+#: find/parser.c:2316
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -572,58 +584,59 @@ msgstr ""
 "Die -show-control-chars Option erfordert entweder 'literal' oder 'safe' als "
 "Argument."
 
-#: find/parser.c:2423
+#: find/parser.c:2428
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Ungültiges Argument %s für -used."
 
-#: find/parser.c:2462
+#: find/parser.c:2467
 #, fuzzy, c-format
 msgid "%s is not the name of a known user"
 msgstr "%s ist kein existierender Gruppenname."
 
-#: find/parser.c:2468
-#, fuzzy
+#: find/parser.c:2473
+#, fuzzy, c-format
 msgid "The argument to -user should not be empty"
 msgstr "Das Argument der Option --max-database-age darf nicht leer sein."
 
-#: find/parser.c:2493
+#: find/parser.c:2498
 #, c-format
 msgid "Features enabled: "
 msgstr "Aktivierte Eigenschaften:"
 
-#: find/parser.c:2602
+#: find/parser.c:2607
+#, c-format
 msgid "Arguments to -type should contain only one letter"
 msgstr "Das Argument von -type muss ein eizelner Buchstabe sein."
 
-#: find/parser.c:2649
+#: find/parser.c:2654
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Unbekanntes Argument von -type: %c"
 
-#: find/parser.c:2770
+#: find/parser.c:2775
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "Warnung: Unerkanntes Fluchtsymbol \"\\%c\"."
 
-#: find/parser.c:2786
+#: find/parser.c:2791
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "Fehler: %s am Ende der Formatzeichenkette."
 
-#: find/parser.c:2825
+#: find/parser.c:2830
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "Warnung: Unerkannte Formatanweisung \"%%%c\"."
 
-#: find/parser.c:2969
+#: find/parser.c:2979
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 "Fehler:  Die Formatanweisung `%%%c' ist für zukünftige Anwendungen "
 "reserviert."
 
-#: find/parser.c:3003
+#: find/parser.c:3013
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -636,7 +649,7 @@ msgstr ""
 "bitte das aktuelle Verzeichnis aus der $PATH Variable, indem \".\" oder "
 "führende oder abschließende Doppelpunkte gelöscht werden."
 
-#: find/parser.c:3014
+#: find/parser.c:3024
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -647,7 +660,8 @@ msgstr ""
 "bei Verwendung der %s Aktion von find unsicher.  Entfernen Sie bitte diesen "
 "Eintrag aus $PATH."
 
-#: find/parser.c:3117
+#: find/parser.c:3127
+#, c-format
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -655,24 +669,26 @@ msgstr ""
 "Innerhalb eines Kommandonames für -execdir und -okdir sollte {} nicht "
 "verwendet werden, da es ein mögliches Sicherheitsrisiko ist."
 
-#: find/parser.c:3142
+#: find/parser.c:3152
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Es wird nur eine Verwendung von {} unterstützt mit -exec%s ... +"
 
-#: find/parser.c:3159
+#: find/parser.c:3169
+#, c-format
 msgid "The environment is too large for exec()."
 msgstr "Der benötigte Umgebungsspeicher ist für exec() zu groß."
 
-#: find/parser.c:3362
+#: find/parser.c:3372
+#, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "Überlauf beim Berechnen des Tagesendes."
 
-#: find/parser.c:3518
+#: find/parser.c:3528
 msgid "standard error"
 msgstr "standard error"
 
-#: find/parser.c:3523
+#: find/parser.c:3533
 msgid "standard output"
 msgstr "standard output"
 
@@ -681,40 +697,44 @@ msgstr "standard output"
 msgid "cannot delete %s"
 msgstr "Kann %s nicht löschen."
 
-#: find/pred.c:1363
+#: find/pred.c:1365
 #, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr ""
 "Warnung: Die Erstellungszeit der Datei %s konnte nicht ermittelt werden."
 
-#: find/pred.c:1427
+#: find/pred.c:1429
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1875
+#: find/pred.c:1897
+#, c-format
 msgid "Cannot close standard input"
 msgstr "Kann die Standardausgabe nicht schließen."
 
-#: find/pred.c:1910
+#: find/pred.c:1932
+#, c-format
 msgid "Failed to change directory"
 msgstr "Konnte das Verzeichnis nicht wechseln."
 
-#: find/pred.c:1951 xargs/xargs.c:1137
+#: find/pred.c:1973 xargs/xargs.c:1116
+#, c-format
 msgid "cannot fork"
 msgstr "Konnte keinen neuen Prozess starten."
 
-#: find/pred.c:1976
+#: find/pred.c:1998
 #, c-format
 msgid "error waiting for %s"
 msgstr "Fehler beim Warten auf das Prozeßende von %s."
 
-#: find/pred.c:1985
+#: find/pred.c:2007
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "Prozeß %s wurde durch das Signal %d abgebrochen."
 
 #: find/tree.c:89 find/tree.c:94 find/tree.c:174 find/tree.c:213
+#, c-format
 msgid "invalid expression"
 msgstr "Ungültiger Ausdruck."
 
@@ -738,6 +758,7 @@ msgid "expected an expression after '%s'"
 msgstr "Erwarte eine Ausdruck nach '%s'."
 
 #: find/tree.c:121
+#, c-format
 msgid "invalid expression; you have too many ')'"
 msgstr "Ungültiger Ausdruck; zu viele ')'."
 
@@ -751,16 +772,19 @@ msgstr ""
 "ein zusätzliches Argument benötigt."
 
 #: find/tree.c:149
+#, c-format
 msgid "invalid expression; empty parentheses are not allowed."
 msgstr "ungültiger Ausdruck; leere Klammern sind nicht erlaubt."
 
 #: find/tree.c:154
+#, c-format
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
 "one."
 msgstr "ungültiger Ausdruck; ')' wird erwartet, aber nicht gefunden."
 
-#: find/tree.c:159 find/tree.c:788
+#: find/tree.c:159 find/tree.c:789
+#, c-format
 msgid "oops -- invalid expression type!"
 msgstr "Oops -- ungültiger Ausdruckstyp!"
 
@@ -769,45 +793,48 @@ msgstr "Oops -- ungültiger Ausdruckstyp!"
 msgid "oops -- invalid expression type (%d)!"
 msgstr "Oops -- ungültiger Ausdruckstyp (%d)!"
 
-#: find/tree.c:1228
+#: find/tree.c:1234
 #, c-format
 msgid "paths must precede expression: %s"
 msgstr "Der Pfad muß vor dem Suchkriterium stehen: %s"
 
-#: find/tree.c:1237
+#: find/tree.c:1243
 #, c-format
 msgid "unknown predicate `%s'"
 msgstr "unbekannte Option `%s'"
 
-#: find/tree.c:1257
+#: find/tree.c:1263
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "ungültige Option `%s'"
 
-#: find/tree.c:1262
+#: find/tree.c:1268
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "Ungültiges Argument %s für \"%s\"."
 
-#: find/tree.c:1269
+#: find/tree.c:1275
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "Fehlendes Argument für \"%s\"."
 
-#: find/tree.c:1345
+#: find/tree.c:1351
+#, c-format
 msgid "you have too many ')'"
 msgstr "zu viele ')'"
 
-#: find/tree.c:1350
+#: find/tree.c:1356
 #, c-format
 msgid "unexpected extra predicate '%s'"
 msgstr "ungültige zusätzliche Option `%s'"
 
-#: find/tree.c:1352
+#: find/tree.c:1358
+#, c-format
 msgid "unexpected extra predicate"
 msgstr "Ungültige zusätzliche Option."
 
-#: find/tree.c:1468
+#: find/tree.c:1475
+#, c-format
 msgid "oops -- invalid default insertion of and!"
 msgstr "Oops -- Das automatische Einfügen von \"-and\" ist ungültig!"
 
@@ -821,29 +848,32 @@ msgstr "Aufruf: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [Pfad...] [Suchkriterium]\n"
 
-#: find/util.c:749
+#: find/util.c:784
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Ignoriere unerkanntes Debugsymbol %s."
 
-#: find/util.c:756
+#: find/util.c:791
+#, c-format
 msgid "Empty argument to the -D option."
 msgstr "Fehlendes Argument zur -D Option."
 
-#: find/util.c:770
+#: find/util.c:805
+#, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "Auf die -O Option muss eine Ganzzahl folgen."
 
-#: find/util.c:779 find/util.c:789
+#: find/util.c:814 find/util.c:824
+#, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Bitte eine Dezimalzahl unmittelbar nach -O angeben."
 
-#: find/util.c:794 find/util.c:798
+#: find/util.c:829 find/util.c:833
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Ungültige Optimierungsstufe %s."
 
-#: find/util.c:805
+#: find/util.c:840
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -852,7 +882,8 @@ msgstr ""
 "Die Optimierungsstufe %lu ist zu hoch.  Um schnell Dateien zu finden, ist "
 "GNU locate das bessere Werkzeug."
 
-#: find/util.c:948
+#: find/util.c:983
+#, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
 "that affects the block size is the POSIXLY_CORRECT environment variable"
@@ -862,14 +893,17 @@ msgstr ""
 "Umgebungsvariable."
 
 #: lib/buildcmd.c:197
+#, c-format
 msgid "command too long"
 msgstr "Das Kommando ist zu lang."
 
 #: lib/buildcmd.c:289
+#, c-format
 msgid "can not fit single argument within argument list size limit"
 msgstr "Kann ein Argument nicht innerhalb der Argumentliste einfügen."
 
 #: lib/buildcmd.c:294
+#, c-format
 msgid "argument list too long"
 msgstr "Die Argumentliste ist zu lang."
 
@@ -905,7 +939,7 @@ msgstr ""
 "oder    %s most_common_bigrams < Dateiliste > Locate-Datenbank\n"
 
 #: locate/code.c:134 locate/frcode.c:171 locate/locate.c:1423
-#: xargs/xargs.c:1379
+#: xargs/xargs.c:1358
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -920,6 +954,7 @@ msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
 msgstr "Aufruf: %s [-0 | --null] [--version] [--help]\n"
 
 #: locate/frcode.c:188
+#, c-format
 msgid "You need to specify a security level as a decimal integer."
 msgstr ""
 
@@ -939,6 +974,7 @@ msgid "slocate security level %ld is unsupported."
 msgstr ""
 
 #: locate/frcode.c:296
+#, c-format
 msgid "Failed to write to standard output"
 msgstr ""
 
@@ -947,6 +983,7 @@ msgid "days"
 msgstr "Tage"
 
 #: locate/locate.c:198
+#, c-format
 msgid "The argument for option --max-database-age must not be empty"
 msgstr "Das Argument der Option --max-database-age darf nicht leer sein."
 
@@ -1031,6 +1068,7 @@ msgid ""
 msgstr ""
 
 #: locate/locate.c:1149
+#, c-format
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
 "format databases with a non-zero security level.  No results will be "
@@ -1103,10 +1141,12 @@ msgid "failed to drop setgid privileges"
 msgstr ""
 
 #: locate/locate.c:1794
+#, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 
 #: locate/locate.c:1856
+#, c-format
 msgid "time system call failed"
 msgstr ""
 
@@ -1132,80 +1172,82 @@ msgstr "Unerwartetes EOF in %s."
 msgid "error reading a word from %s"
 msgstr "Fehler beim Lesen eines Worts von %s."
 
-#: xargs/xargs.c:303
+#: xargs/xargs.c:301
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
 
-#: xargs/xargs.c:321
+#: xargs/xargs.c:319
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lx."
 msgstr ""
 
-#: xargs/xargs.c:327
+#: xargs/xargs.c:325
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
 "values must not exceed %lo."
 msgstr ""
 
-#: xargs/xargs.c:336
+#: xargs/xargs.c:334
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
 "characters %s not recognised."
 msgstr ""
 
-#: xargs/xargs.c:381
+#: xargs/xargs.c:379
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
 "single character or an escape sequence starting with \\."
 msgstr ""
 
-#: xargs/xargs.c:398
+#: xargs/xargs.c:396
+#, c-format
 msgid "environment is too large for exec"
 msgstr "Der Umgebungsspeicher ist für \"exec\" nicht ausreichend."
 
-#: xargs/xargs.c:583
+#: xargs/xargs.c:581
 #, c-format
 msgid "Warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 
-#: xargs/xargs.c:653
+#: xargs/xargs.c:651
 #, c-format
 msgid "Cannot open input file %s"
 msgstr ""
 
-#: xargs/xargs.c:689
+#: xargs/xargs.c:669
 #, c-format
-msgid "Your environment variables take up %lu bytes\n"
+msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr ""
 
-#: xargs/xargs.c:692
+#: xargs/xargs.c:672
 #, c-format
-msgid "POSIX upper limit on argument length (this system): %lu\n"
+msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr ""
 
-#: xargs/xargs.c:695
+#: xargs/xargs.c:675
 #, c-format
 msgid ""
-"POSIX smallest allowable upper limit on argument length (all systems): %lu\n"
+"POSIX smallest allowable upper limit on argument length (all systems): %"
+"<PRIuMAX>\n"
 msgstr ""
 
-#: xargs/xargs.c:698
+#: xargs/xargs.c:678
 #, c-format
-msgid "Maximum length of command we could actually use: %ld\n"
+msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr ""
 
-#: xargs/xargs.c:702
+#: xargs/xargs.c:681
 #, c-format
-msgid "Size of command buffer we are actually using: %lu\n"
+msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr ""
 
-#: xargs/xargs.c:708
+#: xargs/xargs.c:687
 #, c-format
 msgid ""
 "\n"
@@ -1214,78 +1256,81 @@ msgid ""
 "of-file keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:716
+#: xargs/xargs.c:695
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
 "then press the interrupt keystroke.\n"
 msgstr ""
 
-#: xargs/xargs.c:842 xargs/xargs.c:935
+#: xargs/xargs.c:821 xargs/xargs.c:914
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
 "the -0 option"
 msgstr ""
 
-#: xargs/xargs.c:843 xargs/xargs.c:936
+#: xargs/xargs.c:822 xargs/xargs.c:915
 msgid "double"
 msgstr "doppelte"
 
-#: xargs/xargs.c:843 xargs/xargs.c:936
+#: xargs/xargs.c:822 xargs/xargs.c:915
 msgid "single"
 msgstr "einfache"
 
-#: xargs/xargs.c:955
+#: xargs/xargs.c:934
+#, c-format
 msgid ""
 "Warning: a NUL character occurred in the input.  It cannot be passed through "
 "in the argument list.  Did you mean to use the --null option?"
 msgstr ""
 
-#: xargs/xargs.c:965 xargs/xargs.c:1022
+#: xargs/xargs.c:944 xargs/xargs.c:1001
+#, c-format
 msgid "argument line too long"
 msgstr "Die Argumentzeile ist zu lang."
 
-#: xargs/xargs.c:1233
+#: xargs/xargs.c:1212
+#, c-format
 msgid "error waiting for child process"
 msgstr "Fehler beim Warten auf das Ende des Kindsprozesses."
 
-#: xargs/xargs.c:1255
+#: xargs/xargs.c:1234
 #, c-format
 msgid "Warning: Lost track of %d child processes"
 msgstr ""
 
-#: xargs/xargs.c:1275
+#: xargs/xargs.c:1254
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "Prozeß %s mit Rückgabewert 255 beendet. Abbruch!"
 
-#: xargs/xargs.c:1277
+#: xargs/xargs.c:1256
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "Prozeß %s wurde durch das Signal %d angehalten."
 
-#: xargs/xargs.c:1279
+#: xargs/xargs.c:1258
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "Prozeß %s wurde durch das Signal %d abgebrochen."
 
-#: xargs/xargs.c:1329
+#: xargs/xargs.c:1308
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: Ungültiger Wert für die \"-%c\" Option.\n"
 
-#: xargs/xargs.c:1336
+#: xargs/xargs.c:1315
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: Der Wert für die \"-%c\" Option muß >= %ld sein.\n"
 
-#: xargs/xargs.c:1350
+#: xargs/xargs.c:1329
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: Der Wert für die \"-%c\" Option muß kleiner als %ld sein.\n"
 
-#: xargs/xargs.c:1368
+#: xargs/xargs.c:1347
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
