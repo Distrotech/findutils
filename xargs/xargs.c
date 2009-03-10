@@ -85,28 +85,21 @@
  * might as well assume it too.
  */
 #include <unistd.h>
-
 #include <signal.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <wchar.h>
 
 #if !defined(SIGCHLD) && defined(SIGCLD)
 #define SIGCHLD SIGCLD
 #endif
 
 #include "verify.h"
-#include "wait.h"
 #include "quotearg.h"
 #include "findutils-version.h"
 
 
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#else
-extern int errno;
-#endif
-
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
 #if ENABLE_NLS
 # include <libintl.h>
 # define _(Text) gettext (Text)
@@ -127,28 +120,6 @@ extern int errno;
 
 /* Return nonzero if S is the EOF string.  */
 #define EOF_STR(s) (eof_str && *eof_str == *s && !strcmp (eof_str, s))
-
-/* Do multibyte processing if multibyte characters are supported,
-   unless multibyte sequences are search safe.  Multibyte sequences
-   are search safe if searching for a substring using the byte
-   comparison function 'strstr' gives no false positives.  All 8-bit
-   encodings and the UTF-8 multibyte encoding are search safe, but
-   the EUC encodings are not.
-   BeOS uses the UTF-8 encoding exclusively, so it is search safe. */
-#if defined __BEOS__
-# define MULTIBYTE_IS_SEARCH_SAFE 1
-#endif
-#define DO_MULTIBYTE (HAVE_MBLEN && ! MULTIBYTE_IS_SEARCH_SAFE)
-
-#if DO_MULTIBYTE
-# if HAVE_MBRLEN
-#  include <wchar.h>
-# else
-   /* Simulate mbrlen with mblen as best we can.  */
-#  define mbstate_t int
-#  define mbrlen(s, n, ps) mblen (s, n)
-# endif
-#endif
 
 /* Not char because of type promotion; NeXT gcc can't handle it.  */
 typedef int boolean;

@@ -1,7 +1,7 @@
 /* printquoted.c -- print a specified string with any necessary quoting.
 
    Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000,
-                 2003, 2004, 2005 Free Software Foundation, Inc.
+                 2003, 2004, 2005, 2007, 2009 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,12 +23,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-/* Get mbstate_t, mbrtowc(), mbsinit(), wcwidth().  */
-#if HAVE_WCHAR_H
-# include <wchar.h>
-#endif
-
 
 
 #include "xalloc.h"

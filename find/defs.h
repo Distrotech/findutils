@@ -55,9 +55,8 @@ Please stop compiling the program now
 # define CHAR_BIT 8
 #endif
 
-#if HAVE_INTTYPES_H
 # include <inttypes.h>
-#endif
+
 typedef bool boolean;
 
 #include "regex.h"

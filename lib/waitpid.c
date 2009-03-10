@@ -28,7 +28,7 @@ extern int errno;
 #include <process.h>
 #else
 /* Unix API.  */
-#include "wait.h"
+#include <sys/wait.h>
 #endif
 
 #define WAITPID_CHILDREN 8

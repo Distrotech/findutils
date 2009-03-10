@@ -32,6 +32,7 @@
 #include <string.h>
 #include <unistd.h> /* for readlink() */
 #include <openat.h>
+#include <locale.h>
 
 #include "human.h"
 #include "xalloc.h"
@@ -55,11 +56,6 @@
 
 
 
-
-
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
 
 #if ENABLE_NLS
 # include <libintl.h>

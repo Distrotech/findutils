@@ -1,6 +1,6 @@
 /* qmark.c -- quote 'dangerous' filenames
 
-   Copyright (C) 2005 Free Software Foundation, Inc.
+   Copyright (C) 2005, 2007, 2009 Free Software Foundation, Inc.
    Derived from courutils' ls.c:
    Copyright (C) 85, 88, 90, 91, 1995-2005 Free Software Foundation, Inc.
 
@@ -20,23 +20,14 @@
 
 #include <config.h>
 
-# include <stddef.h>
-# include <stdlib.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include <ctype.h>
-
-#if HAVE_STRING_H || STDC_HEADERS
 #include <string.h>
-#else
-#include <strings.h>
-#endif
-
-
-/* Get mbstate_t, mbrtowc(), mbsinit(), wcwidth().  */
-#if HAVE_WCHAR_H
-# include <wchar.h>
-#endif
+#include <wchar.h>
 
 #include "printquoted.h"
+
 
 
 /*
@@ -92,7 +83,6 @@ static inline unsigned char to_uchar (char ch)
 }
 
 
-
 static size_t
 unibyte_qmark_chars(char *buf, size_t len)
 {
@@ -109,9 +99,18 @@ unibyte_qmark_chars(char *buf, size_t len)
 }
 
 
-#if HAVE_MBRTOWC
-static size_t
-multibyte_qmark_chars(char *buf, size_t len)
+
+
+
+/* Scan BUF, replacing any dangerous-looking characters with question
+ * marks.  This code is taken from the ls.c file in coreutils as at
+ * Sun Jun  5 20:51:54 2005 UTC.
+ *
+ * This function may shrink the buffer.   Either way, the new length
+ * is returned.
+ */
+size_t
+qmark_chars(char *buf, size_t len)
 {
   if (MB_CUR_MAX <= 1)
     {
@@ -215,23 +214,3 @@ multibyte_qmark_chars(char *buf, size_t len)
       return len;
     }
 }
-#endif
-
-
-/* Scan BUF, replacing any dangerous-looking characters with question
- * marks.  This code is taken from the ls.c file in coreutils as at
- * Sun Jun  5 20:51:54 2005 UTC.
- *
- * This function may shrink the buffer.   Either way, the new length
- * is returned.
- */
-size_t
-qmark_chars(char *buf, size_t len)
-{
-#if HAVE_MBRTOWC
-  return multibyte_qmark_chars(buf, len);
-#else
-  return unibyte_qmark_chars(buf, len);
-#endif
-}
-

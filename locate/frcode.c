@@ -71,16 +71,9 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <stdbool.h>
-
-#if defined HAVE_STRING_H || defined STDC_HEADERS
 #include <string.h>
-#else
-#include <strings.h>
-#endif
-
-#ifdef STDC_HEADERS
 #include <stdlib.h>
-#endif
+
 
 #if ENABLE_NLS
 # include <libintl.h>

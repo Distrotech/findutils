@@ -21,9 +21,7 @@
 
 #include <config.h>
 
-#if HAVE_SYS_STAT_H
-# include <sys/stat.h>
-#endif
+#include <sys/stat.h>
 
 #if HAVE_SYS_TYPES_H
 # include <sys/types.h>

@@ -38,7 +38,6 @@
 #include "human.h"
 #include "modetype.h"
 #include "filemode.h"
-#include "wait.h"
 #include "printquoted.h"
 #include "buildcmd.h"
 #include "yesno.h"
@@ -66,6 +65,7 @@
 #endif
 
 
+#include <sys/wait.h>
 
 #if HAVE_DIRENT_H
 # include <dirent.h>

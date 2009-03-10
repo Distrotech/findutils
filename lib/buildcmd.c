@@ -50,21 +50,9 @@
 # endif
 
 #include <string.h>
-
-
-#if DO_MULTIBYTE
-# if HAVE_MBRLEN
-#  include <wchar.h>
-# else
-   /* Simulate mbrlen with mblen as best we can.  */
-#  define mbstate_t int
-#  define mbrlen(s, n, ps) mblen (s, n)
-# endif
-#endif
-
-#ifdef HAVE_LOCALE_H
+#include <wchar.h>
 #include <locale.h>
-#endif
+
 #if ENABLE_NLS
 # include <libintl.h>
 # define _(Text) gettext (Text)

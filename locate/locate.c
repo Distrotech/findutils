@@ -91,10 +91,8 @@
 #endif
 
 #include <errno.h>
-
-#ifdef HAVE_LOCALE_H
 #include <locale.h>
-#endif
+
 
 #if ENABLE_NLS
 # include <libintl.h>

@@ -22,17 +22,9 @@
 
 
 #include <stdio.h>
-#if defined HAVE_STRING_H || defined STDC_HEADERS
 #include <string.h>
-#else
-#include <strings.h>
-#ifndef strchr
-#define strchr index
-#endif
-#endif
-#if defined STDC_HEADERS
 #include <stdlib.h>
-#endif
+
 
 #include "nextelem.h"
 

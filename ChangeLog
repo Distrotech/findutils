@@ -1,5 +1,37 @@
 2009-03-10  James Youngman  <jay@gnu.org>
 
+	Remove "lib/wait.h", since gnulib provides <sys/wait.h>.
+	* lib/Makefile.am (EXTRA_DIST): Remove wait.h, since gnulib
+	provides it.
+	* lib/wait.h: Not needed.
+	* find/pred.c: Include <sys/wait.h> instead of "wait.h".
+	* lib/waitpid.c: Likewise.
+	* xargs/xargs.c: Likewise.
+
+	Remove unnecessary include guards.
+	* lib/dircallback.c: gnulib provides <locale.h>, so no need for
+	include guards.
+	* locate/locate.c: Likewise.
+	* lib/listfile.c: Likewise.
+	* lib/savedirinfo.c: Likewise with <sys/stat.h>
+	* find/defs.h: gnulib provides <inttypes.h>, so no need for
+	include guards.
+	* lib/nextelem.c: Likewise with <string.h> and <stdlib.h>.
+	* locate/bigram.c: Likewise.
+	* locate/frcode.c: Likewise.
+	* lib/buildcmd.c: Likewise with <locale.h> and <wchar.h>
+	* xargs/xargs.c: Likewise with <locale.h>, <wchar.h> and <stdlib.h>
+	* import-gnulib.config (modules): Import the mbrtowc and whchar
+	modules.
+	* lib/qmark.c (multibyte_qmark_chars):  Don't surround with
+	HAVE_MBRTOWC, since we now have a replacement for mbrtowc.
+	Likewise, don't protect inclusion of <string.h> with
+	HAVE_STRING_H.  Likewise with <wchar.h>.
+	(multibyte_qmark_chars): Rename to qmark_chars.
+	(qmark_chars): Remove old version (since it is replaced by the
+	function that used to be multibyte_qmark_chars).
+	* lib/printquoted.c: Don't include <wchar.h>, we don't need it.
+
 	Prepare for release of findutils-4.5.4.
 	* configure.ac (AC_INIT): Set version number to 4.5.4.
 	* NEWS: Likewise.
