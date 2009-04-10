@@ -9,26 +9,24 @@ versions of the AIX C compiler), find's regular expression
 implementation fails to support case-insensitive regular expression
 matching, causing -iregex to behave like -regex.  This is now fixed.
 
+#25154: Allow compilation with C compilers that don't allow
+declarations to follow statements.
+
+#25144: Misleading error message when argument to find -user is an
+unknown user or is missing.
+
+#24169: find would segfault if the -newerXY test was not followed by
+any argument.
+
 #23996: integer overflow on some platforms when parsing "-used 3".
-
-** Documentation Enhancements
-
-#23070: Corrected manpage description of find -perm /000 (the change
-was already made but the manpage indicated the change would happen
-"soon"). 
 
 #23663: crash in some locales for -printf %AX (this problem seems to
 have affected only the CVS code for 4.5.x, and not any public
 releases, but it was a problem with the original fix for bug #22662)
 
-#24169: find would segfault if the -newerXY test was not followed by
-any argument.
+#22662: find -printf %AX appends nanoseconds in the right place now.
 
-#25144: Misleading error message when argument to find -user is an
-unknown user or is missing.
-
-#25154: Allow compilation with C compilers that don't allow
-declarations to follow statements.
+** Documentation Enhancements
 
 #22662: find -printf %AX appends nanoseconds in the right place now.
 
