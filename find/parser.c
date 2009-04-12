@@ -3150,7 +3150,12 @@ make_segment (struct segment **segment,
     case 'f':			/* basename of path */
     case 'h':			/* leading directories part of path */
     case 'p':			/* pathname */
+    case 'P':			/* pathname with ARGV element stripped */
+      *fmt++ = 's';
+      break;
+
     case 'Z':			/* SELinux security context */
+      mycost = NeedsAccessInfo;
       *fmt++ = 's';
       break;
 

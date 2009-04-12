@@ -1,3 +1,12 @@
+2009-08-16  James Youngman  <jay@gnu.org>
+
+	Bugfixes to the handling of %Z in the Red Hat SELinux patch.
+	* find/pred.c (do_fprintf): If getfilecon fails, print the
+	relevant segment anyway, with the file context expanding to an
+	empty string.
+	* find/parser.c (make_segment): For %Z, set the cost to
+	NeedsAccessInfo.
+
 2009-08-11  Kamil Dudka  <kdudka@redhat.com>
 
 	find: add SELinux support

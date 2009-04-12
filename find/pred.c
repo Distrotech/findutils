@@ -1068,6 +1068,7 @@ do_fprintf(struct format_val *dest,
 			     mode_to_filetype(stat_buf->st_mode & S_IFMT));
 	  }
 	  break;
+
 	case 'Z':               /* SELinux security context */
 	  {
 	    security_context_t scontext;
@@ -1075,8 +1076,14 @@ do_fprintf(struct format_val *dest,
 					      &scontext);
 	    if (rv < 0)
 	      {
+		/* If getfilecon fails, there will in the general case
+		   still be some text to print.   We just make %Z expand
+		   to an empty string. */
+		checked_fprintf (dest, segment->text, "");
+
 		error (0, errno, "getfilecon: %s",
 		    safely_quote_err_filename (0, pathname));
+		state.exit_status = 1;
 	      }
 	    else
 	      {
