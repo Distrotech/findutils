@@ -596,9 +596,9 @@ File has inode number \fIn\fR.  It is normally easier to use the
 test instead.
 
 .IP "\-ipath \fIpattern\fR"
-Behaves in the same way as
-.BR \-iwholename .
-This option is deprecated, so please do not use it.
+Like
+.BR \-path .
+but the match is case insensitive.
 
 .IP "\-iregex \fIpattern\fR"
 Like
@@ -606,9 +606,8 @@ Like
 but the match is case insensitive.
 
 .IP "\-iwholename \fIpattern\fR"
-Like
-.BR \-wholename ,
-but the match is case insensitive.
+See \-ipath.    This alternative is less portable than
+.BR \-ipath .
 
 .IP "\-links \fIn\fR"
 File has \fIn\fR links.
