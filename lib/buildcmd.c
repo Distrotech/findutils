@@ -184,21 +184,25 @@ void
 bc_do_exec(struct buildcmd_control *ctl,
 	   struct buildcmd_state *state)
 {
+    int argc_orig;
+    char** argv_orig;
+    char** initial_args;
+    int i, pos, done, argc_current;
+
     bc_push_arg (ctl, state,
             (char *) NULL, 0,
             NULL, 0,
             false); /* Null terminate the arg list.  */
    
     /* save original argv data so we can free the memory later */
-    int argc_orig = state->cmd_argc;
-    char** argv_orig = state->cmd_argv;
+    argc_orig = state->cmd_argc;
+    argv_orig = state->cmd_argv;
 
     if ((ctl->exec_callback)(ctl, state))
         goto fin;
 
     /* got E2BIG, adjust arguments */
-    char** initial_args = xmalloc(ctl->initial_argc * sizeof(char*));
-    int i;
+    initial_args = xmalloc(ctl->initial_argc * sizeof(char*));
     for (i=0; i<ctl->initial_argc; ++i)
         initial_args[i] = argv_orig[i];
 
@@ -206,15 +210,14 @@ bc_do_exec(struct buildcmd_control *ctl,
     state->cmd_argv += ctl->initial_argc;
 
 
-    int pos;
-    int done = 0; /* number of argv elements we have relayed successfully */
-
-    int argc_current = state->cmd_argc;
+    done = 0; /* number of argv elements we have relayed successfully */
+    argc_current = state->cmd_argc;
 
     pos = -1; /* array offset from the right end */
 
     for (;;)
     {
+        int r;
         int divider = argc_current+pos;
         char* swapped_out = state->cmd_argv[divider];
         state->cmd_argv[divider] = NULL;
@@ -230,7 +233,7 @@ bc_do_exec(struct buildcmd_control *ctl,
             state->cmd_argv[i] = initial_args[i];
 
         ++state->cmd_argc; /* include trailing NULL */
-        int r = (ctl->exec_callback)(ctl, state);
+        r = (ctl->exec_callback)(ctl, state);
         state->cmd_argv += ctl->initial_argc;
         state->cmd_argc -= ctl->initial_argc;
         --state->cmd_argc; /* exclude trailing NULL again */

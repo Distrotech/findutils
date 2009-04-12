@@ -1,3 +1,49 @@
+2009-04-12  James Youngman  <jay@gnu.org>
+
+	* NEWS: Mention the fix for bug #22708 in the correct section.
+
+	Avoid mixing declarations and statements.
+	* lib/buildcmd.c (bc_do_exec): Declare variables at the top of the
+	relevant block, in order to avoid mixing declarations and
+	statements.
+	* xargs/xargs.c (main): Likewise.
+
+2009-04-12  Leslie Polzer  <leslie.polzer@gmx.net>
+
+        Merge Leslie Polzer's ARG_MAX enhancements to xargs which were
+        produced as part of the Google Summer of Code 2007.
+        These changes fix Savannah bug #22708.
+        * find/pred.c (launch): The struct buildcmd_control* argument is
+        no longer const.
+        * find/defs.h: Likewise
+        * lib/buildcmd.c (bc_do_insert): The struct buildcmd_control*
+        argument is no longer const.
+        (bc_push_arg): Likewise.
+        (cb_exec_noop): Likewise.
+        (get_stringv_len): New function; measures the length of
+        a NULL-terminated argv sequence.
+        (bc_do_exec): Rename from do_exec, and make global.  Modify the
+        function to react to exec failing with E2BIG by trying again
+        with fewer arguments.
+        * xargs/xargs.1: Mention that xargs automatically adopts to the
+        situation where exec fails with E2BIG.
+        * xargs/xargs.c: (parent): New variable, the PID of the parent
+        process.
+        (main): initialise the variable 'parent'.   Don't fail immediately
+        due to lack of space when the environment is large.  Call
+        xargs_do_exec via bc_do_exec.
+        (xargs_do_exec): The struct buildcmd_control* argument is no
+        longer const.   When exec fails in the child, communicate the
+        errno value back to the parent through a pipe which is
+        close-on-exec; this allows us to accurately determine the cause of
+        the failure and also to distinguish exec failures from all
+        possible exit codes in the child.
+        (wait_for_proc): If the utility cannot be found or cannot be run,
+        we now find out about this by reading an errno value from the
+        pipe, so this means that exit codes 126 and 127 in the child no
+        longer have a special interpretation.
+        * NEWS: mention these changes.
+
 2009-04-13  James Youngman  <jay@gnu.org>
 
 	* import-gnulib.config (gnulib_version): Update to current head

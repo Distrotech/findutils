@@ -2,6 +2,18 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 * Major changes in release 4.5.5-git, YYYY-MM-DD
 
+xargs now handles the case where the system's actual exec limits are
+smaller than the value of ARG_MAX at compile time.  Very few platforms
+normally have this property, but it is possible to configure some Unix
+systems this way.
+
+** Bug Fixes
+
+#22708: Exit status 126 and 127 from the utility invoked from xargs
+now makes xargs return 123, meaning that exit status values 126 and
+127 now unambigously mean that the utility could not be run or could
+not be found, respectively.
+
 * Major changes in release 4.5.4, 2009-03-10
 
 ** Performance changes
@@ -36,11 +48,6 @@ declarations to follow statements.
 
 #24342: -inum predicate shoud use dirent.d_ino instead of stat.st_ino
 (this is a performance bug).
-
-#22708: Exit status 126 and 127 from the utility invoked from xargs
-now makes xargs return 123, meaning that exit status values 126 and
-127 now unambigously mean that the utility could not be run or could
-not be found, respectively.
 
 ** Translations
 

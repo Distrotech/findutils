@@ -437,9 +437,10 @@ main (int argc, char **argv)
        * environment list shall not exceed {ARG_MAX}-2048 bytes.  It also
        * specifies that it shall be at least LINE_MAX.
        */
+      long val;
       assert(bc_ctl.arg_max <= (ARG_MAX-2048));
 #ifdef _SC_ARG_MAX  
-      long val = sysconf(_SC_ARG_MAX);
+      val = sysconf(_SC_ARG_MAX);
       if (val > 0)
 	{
 	  /* Note that val can in fact be greater than ARG_MAX
