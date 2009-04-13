@@ -439,7 +439,7 @@ main (int argc, char **argv)
        */
       long val;
       assert(bc_ctl.arg_max <= (ARG_MAX-2048));
-#ifdef _SC_ARG_MAX  
+#ifdef _SC_ARG_MAX
       val = sysconf(_SC_ARG_MAX);
       if (val > 0)
 	{
@@ -1047,11 +1047,11 @@ prep_child_for_exec (void)
 
 
 /* Execute the command that has been built in `cmd_argv'.  This may involve
-   waiting for processes that were previously executed. 
-   
+   waiting for processes that were previously executed.
+
    There are a number of cases where we want to terminate the current (child)
-   process.  We do this by calling _exit() rather than exit() in order to 
-   avoid the invocation of wait_for_proc_all(), which was registered by the parent 
+   process.  We do this by calling _exit() rather than exit() in order to
+   avoid the invocation of wait_for_proc_all(), which was registered by the parent
    as an atexit() function.
 */
 static int
@@ -1064,7 +1064,7 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 
   (void) ctl;
   (void) state;
-  
+
   if (!query_before_executing || print_args (true))
     {
       if (proc_max)
@@ -1105,9 +1105,9 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 	  {
 	    close(fd[0]);
 	    child_error = 0;
-	    
+
 	    prep_child_for_exec();
-	    
+
 	    execvp (bc_state.cmd_argv[0], bc_state.cmd_argv);
 	    if (errno)
 	      {
@@ -1125,7 +1125,7 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 		 */
 		write(fd[1], &errno, sizeof(int));
 	      }
-	      
+
 	    close(fd[1]);
 	    if (E2BIG != errno)
 	      {
@@ -1134,7 +1134,7 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 		 * because the parent will test our value of errno.
 		 */
 		_exit (errno == ENOENT ? 127 : 126);
-	      
+
 	      }
 	  /*NOTREACHED*/
 	  } /* child */
@@ -1144,10 +1144,10 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 	    /* Parent */
 	    close(fd[1]);
 	  }
-	  
+
 	} /* switch(child) */
       /*fprintf(stderr, "forked child (bc_state.cmd_argc=%d) -> ", bc_state.cmd_argc);*/
-      
+
       switch (r = read(fd[0], &buf, sizeof(int)))
 	{
 	case -1:
@@ -1156,26 +1156,26 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 	    error(0, errno, "errno-buffer read failed in xargs_do_exec (BUG?)");
 	    break;
 	  }
-	  
+
 	case sizeof(int):
 	  {
 	    /* Failure */
 	    int childstatus;
-	    
+
 	    close(fd[0]);
-	    
+
 	    /* we know the child is about to exit, so wait for that.
-	     * We have to do this so that wait_for_proc() does not 
-	     * change the value of child_error on the basis of the 
+	     * We have to do this so that wait_for_proc() does not
+	     * change the value of child_error on the basis of the
 	     * return value -- since in this case we did not launch
 	     * the utility.
 	     *
-	     * We do the wait before deciding if we failed in order to 
+	     * We do the wait before deciding if we failed in order to
 	     * avoid creating a zombie, even briefly.
 	     */
 	    waitpid(child, &childstatus, 0);
-	    
-	    
+
+
 	    if (E2BIG == buf)
 	      {
 		return 0; /* Failure; caller should pass fewer args */
@@ -1190,7 +1190,7 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 	      }
 	    break;
 	  }
-	  
+
 	case 0:
 	  {
 	    /* Failed to read data from pipe; the exec must have
@@ -1202,7 +1202,7 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 	    add_proc (child);
 	    break;
 	  }
-	default: 
+	default:
 	  {
 	    error(1, errno, "read returned unexpected value %d! BUG?", r);
 	  }
@@ -1348,7 +1348,7 @@ static void
 wait_for_proc_all (void)
 {
   static boolean waiting = false;
-  
+
   /* This function was registered by the original, parent, process.
    * The child processes must not call exit() to terminate, since this
    * will mean that their exit status will be inappropriately changed.

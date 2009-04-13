@@ -88,7 +88,7 @@ struct buildcmd_control
 
   /* exec callback. */
   int (*exec_callback)(struct buildcmd_control *, struct buildcmd_state *);
-  
+
   /* If nonzero, the maximum number of nonblank lines from stdin to use
      per command line.  */
   long lines_per_exec;		/* 0 */

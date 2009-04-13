@@ -169,7 +169,7 @@ bc_do_insert (struct buildcmd_control *ctl,
 }
 
 /* get the length of a zero-terminated string array */
-static unsigned int 
+static unsigned int
 get_stringv_len(char** sv)
 {
     char** p = sv;
@@ -180,7 +180,7 @@ get_stringv_len(char** sv)
 }
 
 
-void 
+void
 bc_do_exec(struct buildcmd_control *ctl,
 	   struct buildcmd_state *state)
 {
@@ -193,7 +193,7 @@ bc_do_exec(struct buildcmd_control *ctl,
             (char *) NULL, 0,
             NULL, 0,
             false); /* Null terminate the arg list.  */
-   
+
     /* save original argv data so we can free the memory later */
     argc_orig = state->cmd_argc;
     argv_orig = state->cmd_argv;
@@ -241,7 +241,7 @@ bc_do_exec(struct buildcmd_control *ctl,
         if (r)
         {
             /* success */
-            done += state->cmd_argc; 
+            done += state->cmd_argc;
 
             /* check whether we have any left */
             if (argc_orig - done > ctl->initial_argc)
