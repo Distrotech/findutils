@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.1.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-08-31 01:52+0100\n"
+"POT-Creation-Date: 2009-04-21 21:36+0100\n"
 "PO-Revision-Date: 2001-11-05 00:45+0900\n"
 "Last-Translator: GOTO Masanori <gotom@debian.or.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -41,59 +41,59 @@ msgstr ""
 msgid "Unknown system error"
 msgstr "未知のシステムエラー"
 
-#: gnulib/lib/getopt.c:526 gnulib/lib/getopt.c:542
+#: gnulib/lib/getopt.c:530 gnulib/lib/getopt.c:546
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: オプション`%s'は曖昧です\n"
 
-#: gnulib/lib/getopt.c:575 gnulib/lib/getopt.c:579
+#: gnulib/lib/getopt.c:579 gnulib/lib/getopt.c:583
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: オプション`--%s'は引数をとりません\n"
 
-#: gnulib/lib/getopt.c:588 gnulib/lib/getopt.c:593
+#: gnulib/lib/getopt.c:592 gnulib/lib/getopt.c:597
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: オプション`%c%s'は引数をとりません\n"
 
-#: gnulib/lib/getopt.c:636 gnulib/lib/getopt.c:655 gnulib/lib/getopt.c:971
-#: gnulib/lib/getopt.c:990
+#: gnulib/lib/getopt.c:640 gnulib/lib/getopt.c:659 gnulib/lib/getopt.c:975
+#: gnulib/lib/getopt.c:994
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: オプション`%s'には引数が必要です\n"
 
-#: gnulib/lib/getopt.c:693 gnulib/lib/getopt.c:696
+#: gnulib/lib/getopt.c:697 gnulib/lib/getopt.c:700
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: 認識できないオプション`--%s'です\n"
 
-#: gnulib/lib/getopt.c:704 gnulib/lib/getopt.c:707
+#: gnulib/lib/getopt.c:708 gnulib/lib/getopt.c:711
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: 認識できないオプション`%c%s'です\n"
 
-#: gnulib/lib/getopt.c:759 gnulib/lib/getopt.c:762
+#: gnulib/lib/getopt.c:763 gnulib/lib/getopt.c:766
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: 不正なオプションです -- %c\n"
 
-#: gnulib/lib/getopt.c:768 gnulib/lib/getopt.c:771
+#: gnulib/lib/getopt.c:772 gnulib/lib/getopt.c:775
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: オプションが違います -- %c\n"
 
-#: gnulib/lib/getopt.c:823 gnulib/lib/getopt.c:839 gnulib/lib/getopt.c:1043
-#: gnulib/lib/getopt.c:1061
+#: gnulib/lib/getopt.c:827 gnulib/lib/getopt.c:843 gnulib/lib/getopt.c:1047
+#: gnulib/lib/getopt.c:1065
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: オプションには引数が必要です -- %c\n"
 
-#: gnulib/lib/getopt.c:892 gnulib/lib/getopt.c:908
+#: gnulib/lib/getopt.c:896 gnulib/lib/getopt.c:912
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: オプション `-W %s' が曖昧です\n"
 
-#: gnulib/lib/getopt.c:932 gnulib/lib/getopt.c:950
+#: gnulib/lib/getopt.c:936 gnulib/lib/getopt.c:954
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: オプション`-W %s'は引数をとりません\n"
@@ -126,11 +126,11 @@ msgstr ""
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:266
+#: gnulib/lib/quotearg.c:228
 msgid "`"
 msgstr "`"
 
-#: gnulib/lib/quotearg.c:267
+#: gnulib/lib/quotearg.c:229
 msgid "'"
 msgstr "'"
 
@@ -519,41 +519,50 @@ msgstr ""
 msgid "Invalid argument %s to -used"
 msgstr "不正な引数 `%s' から `%s'"
 
-#: find/parser.c:2475
+#: find/parser.c:2462
+#, c-format
+msgid "%s is not the name of a known user"
+msgstr ""
+
+#: find/parser.c:2468
+msgid "The argument to -user should not be empty"
+msgstr ""
+
+#: find/parser.c:2493
 #, c-format
 msgid "Features enabled: "
 msgstr ""
 
-#: find/parser.c:2584
+#: find/parser.c:2602
 msgid "Arguments to -type should contain only one letter"
 msgstr ""
 
-#: find/parser.c:2631
+#: find/parser.c:2649
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr ""
 
-#: find/parser.c:2752
+#: find/parser.c:2770
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "警告: 認識できないエスケープ `\\%c' です"
 
-#: find/parser.c:2768
+#: find/parser.c:2786
 #, c-format
 msgid "error: %s at end of format string"
 msgstr ""
 
-#: find/parser.c:2807
+#: find/parser.c:2825
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "警告: 認識できないフォーマットの指示 `%%%c' です"
 
-#: find/parser.c:2951
+#: find/parser.c:2969
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 
-#: find/parser.c:2985
+#: find/parser.c:3003
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -562,7 +571,7 @@ msgid ""
 "trailing colons)"
 msgstr ""
 
-#: find/parser.c:2996
+#: find/parser.c:3014
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -570,67 +579,67 @@ msgid ""
 "entry from $PATH"
 msgstr ""
 
-#: find/parser.c:3099
+#: find/parser.c:3117
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
 msgstr ""
 
-#: find/parser.c:3124
+#: find/parser.c:3142
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr ""
 
-#: find/parser.c:3141
+#: find/parser.c:3159
 #, fuzzy
 msgid "The environment is too large for exec()."
 msgstr "実行するには環境が大きすぎます"
 
-#: find/parser.c:3340
+#: find/parser.c:3362
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3496
+#: find/parser.c:3518
 msgid "standard error"
 msgstr ""
 
-#: find/parser.c:3501
+#: find/parser.c:3523
 msgid "standard output"
 msgstr ""
 
-#: find/pred.c:424
+#: find/pred.c:425
 #, c-format
 msgid "cannot delete %s"
 msgstr ""
 
-#: find/pred.c:1362
+#: find/pred.c:1363
 #, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr ""
 
-#: find/pred.c:1426
+#: find/pred.c:1427
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1874
+#: find/pred.c:1875
 msgid "Cannot close standard input"
 msgstr ""
 
-#: find/pred.c:1909
+#: find/pred.c:1910
 msgid "Failed to change directory"
 msgstr ""
 
-#: find/pred.c:1950 xargs/xargs.c:1137
+#: find/pred.c:1951 xargs/xargs.c:1137
 msgid "cannot fork"
 msgstr "fork できません"
 
-#: find/pred.c:1975
+#: find/pred.c:1976
 #, c-format
 msgid "error waiting for %s"
 msgstr "%s への待ちでエラー"
 
-#: find/pred.c:1984
+#: find/pred.c:1985
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s はシグナル %d で終了"

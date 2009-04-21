@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.4.0\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2008-08-31 01:52+0100\n"
+"POT-Creation-Date: 2009-04-21 21:36+0100\n"
 "PO-Revision-Date: 2008-03-21 13:25+0100\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -47,59 +47,59 @@ msgstr "schrijffout"
 msgid "Unknown system error"
 msgstr "Onbekende systeemfout"
 
-#: gnulib/lib/getopt.c:526 gnulib/lib/getopt.c:542
+#: gnulib/lib/getopt.c:530 gnulib/lib/getopt.c:546
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: optie '%s' is niet eenduidig\n"
 
-#: gnulib/lib/getopt.c:575 gnulib/lib/getopt.c:579
+#: gnulib/lib/getopt.c:579 gnulib/lib/getopt.c:583
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: optie '--%s' staat geen argument toe\n"
 
-#: gnulib/lib/getopt.c:588 gnulib/lib/getopt.c:593
+#: gnulib/lib/getopt.c:592 gnulib/lib/getopt.c:597
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: optie '%c%s' staat geen argument toe\n"
 
-#: gnulib/lib/getopt.c:636 gnulib/lib/getopt.c:655 gnulib/lib/getopt.c:971
-#: gnulib/lib/getopt.c:990
+#: gnulib/lib/getopt.c:640 gnulib/lib/getopt.c:659 gnulib/lib/getopt.c:975
+#: gnulib/lib/getopt.c:994
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: optie '%s' vereist een argument\n"
 
-#: gnulib/lib/getopt.c:693 gnulib/lib/getopt.c:696
+#: gnulib/lib/getopt.c:697 gnulib/lib/getopt.c:700
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: onbekende optie '--%s'\n"
 
-#: gnulib/lib/getopt.c:704 gnulib/lib/getopt.c:707
+#: gnulib/lib/getopt.c:708 gnulib/lib/getopt.c:711
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: onbekende optie '%c%s'\n"
 
-#: gnulib/lib/getopt.c:759 gnulib/lib/getopt.c:762
+#: gnulib/lib/getopt.c:763 gnulib/lib/getopt.c:766
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: ongeldige optie -- %c\n"
 
-#: gnulib/lib/getopt.c:768 gnulib/lib/getopt.c:771
+#: gnulib/lib/getopt.c:772 gnulib/lib/getopt.c:775
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: ongeldige optie -- %c\n"
 
-#: gnulib/lib/getopt.c:823 gnulib/lib/getopt.c:839 gnulib/lib/getopt.c:1043
-#: gnulib/lib/getopt.c:1061
+#: gnulib/lib/getopt.c:827 gnulib/lib/getopt.c:843 gnulib/lib/getopt.c:1047
+#: gnulib/lib/getopt.c:1065
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: optie vereist een argument -- %c\n"
 
-#: gnulib/lib/getopt.c:892 gnulib/lib/getopt.c:908
+#: gnulib/lib/getopt.c:896 gnulib/lib/getopt.c:912
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: optie '-W %s' is niet eenduidig\n"
 
-#: gnulib/lib/getopt.c:932 gnulib/lib/getopt.c:950
+#: gnulib/lib/getopt.c:936 gnulib/lib/getopt.c:954
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: optie '-W %s' staat geen argument toe\n"
@@ -131,11 +131,11 @@ msgstr "kan niet terugkeren naar de initiële werkmap"
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnulib/lib/quotearg.c:266
+#: gnulib/lib/quotearg.c:228
 msgid "`"
 msgstr "‘"
 
-#: gnulib/lib/quotearg.c:267
+#: gnulib/lib/quotearg.c:229
 msgid "'"
 msgstr "’"
 
@@ -576,41 +576,51 @@ msgstr ""
 msgid "Invalid argument %s to -used"
 msgstr "Ongeldig argument '%s' van '-used'"
 
-#: find/parser.c:2475
+#: find/parser.c:2462
+#, fuzzy, c-format
+msgid "%s is not the name of a known user"
+msgstr "%s is geen bestaande groepsnaam"
+
+#: find/parser.c:2468
+#, fuzzy
+msgid "The argument to -user should not be empty"
+msgstr "Het argument van optie '--max-database-age' mag niet leeg zijn"
+
+#: find/parser.c:2493
 #, c-format
 msgid "Features enabled: "
 msgstr "Compilatie-opties: "
 
-#: find/parser.c:2584
+#: find/parser.c:2602
 msgid "Arguments to -type should contain only one letter"
 msgstr "Argument van '-type' dient slechts één letter te zijn"
 
-#: find/parser.c:2631
+#: find/parser.c:2649
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Onbekend argument van '-type': '%c'"
 
-#: find/parser.c:2752
+#: find/parser.c:2770
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "waarschuwing: onbekende stuurcode '\\%c'"
 
-#: find/parser.c:2768
+#: find/parser.c:2786
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "fout: '%s' aan einde van opmaaktekenreeks"
 
-#: find/parser.c:2807
+#: find/parser.c:2825
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "waarschuwing: onbekende opmaakcode '%%%c'"
 
-#: find/parser.c:2951
+#: find/parser.c:2969
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "fout: opmaakcode '%%%c' is gereserveerd voor toekomstig gebruik"
 
-#: find/parser.c:2985
+#: find/parser.c:3003
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -623,7 +633,7 @@ msgstr ""
 "Verwijder de huidige map uit uw PATH-variabele (oftewel:\n"
 "haal de \".\" of dubbele punten aan begin en eind weg)."
 
-#: find/parser.c:2996
+#: find/parser.c:3014
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -634,7 +644,7 @@ msgstr ""
 "dit is onveilig in combinatie met de actie '%s' van 'find'.\n"
 "Verwijder daarom dat relatieve pad uit uw PATH-variabele."
 
-#: find/parser.c:3099
+#: find/parser.c:3117
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
 "this is a potential security problem."
@@ -642,60 +652,60 @@ msgstr ""
 "Om veiligheidsredenen mag {} bij '-execdir' en '-okdir' niet gebruikt\n"
 "worden binnen de naam van het hulpprogramma."
 
-#: find/parser.c:3124
+#: find/parser.c:3142
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Bij '-exec%s ... +' mag {} slechts één keer voorkomen."
 
-#: find/parser.c:3141
+#: find/parser.c:3159
 msgid "The environment is too large for exec()."
 msgstr "Omgeving is te groot voor exec()."
 
-#: find/parser.c:3340
+#: find/parser.c:3362
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "rekenkundige overloop tijdens berekening van het einde van vandaag"
 
-#: find/parser.c:3496
+#: find/parser.c:3518
 msgid "standard error"
 msgstr "standaardfoutuitvoer"
 
-#: find/parser.c:3501
+#: find/parser.c:3523
 msgid "standard output"
 msgstr "standaarduitvoer"
 
-#: find/pred.c:424
+#: find/pred.c:425
 #, c-format
 msgid "cannot delete %s"
 msgstr "kan %s niet verwijderen"
 
-#: find/pred.c:1362
+#: find/pred.c:1363
 #, c-format
 msgid "Warning: cannot determine birth time of file %s"
 msgstr "Waarschuwing: kan ontstaanstijd van bestand %s niet bepalen"
 
-#: find/pred.c:1426
+#: find/pred.c:1427
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1874
+#: find/pred.c:1875
 msgid "Cannot close standard input"
 msgstr "Kan standaardinvoer niet sluiten"
 
-#: find/pred.c:1909
+#: find/pred.c:1910
 msgid "Failed to change directory"
 msgstr "Kan niet van map wijzigen"
 
-#: find/pred.c:1950 xargs/xargs.c:1137
+#: find/pred.c:1951 xargs/xargs.c:1137
 msgid "cannot fork"
 msgstr "kan geen nieuw proces starten"
 
-#: find/pred.c:1975
+#: find/pred.c:1976
 #, c-format
 msgid "error waiting for %s"
 msgstr "fout tijdens wachten op %s"
 
-#: find/pred.c:1984
+#: find/pred.c:1985
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s: afgebroken door signaal %d"
