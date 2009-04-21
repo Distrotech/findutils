@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([GNU findutils], 4.4.1-git, [bug-findutils@gnu.org])
+AC_INIT([GNU findutils], 4.4.1, [bug-findutils@gnu.org])
 AC_CONFIG_AUX_DIR(build-aux)
 AM_INIT_AUTOMAKE
 
