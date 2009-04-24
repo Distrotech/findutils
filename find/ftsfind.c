@@ -391,12 +391,14 @@ consider_visiting(FTS *p, FTSENT *ent)
 
   if (options.debug_options & DebugSearch)
     fprintf(stderr,
-	    "consider_visiting: fts_info=%-6s, fts_level=%2d, prev_depth=%d "
+	    "consider_visiting (early): %s: "
+	    "fts_info=%-6s, fts_level=%2d, prev_depth=%d "
             "fts_path=%s, fts_accpath=%s\n",
+	    quotearg_n_style(0, options.err_quoting_style, ent->fts_path),
 	    get_fts_info_name(ent->fts_info),
             (int)ent->fts_level, prev_depth,
-	    quotearg_n_style(0, options.err_quoting_style, ent->fts_path),
-	    quotearg_n_style(1, options.err_quoting_style, ent->fts_accpath));
+	    quotearg_n_style(1, options.err_quoting_style, ent->fts_path),
+	    quotearg_n_style(2, options.err_quoting_style, ent->fts_accpath));
 
   if (ent->fts_info == FTS_DP)
     {
@@ -543,6 +545,14 @@ consider_visiting(FTS *p, FTSENT *ent)
     {
       ignore = 1;
     }
+
+  if (options.debug_options & DebugSearch)
+    fprintf (stderr,
+	     "consider_visiting (late): %s: "
+	     "fts_info=%-6s, isdir=%d ignore=%d have_stat=%d have_type=%d \n",
+	     quotearg_n_style(0, options.err_quoting_style, ent->fts_path),
+	     get_fts_info_name(ent->fts_info),
+	     isdir, ignore, state.have_stat, state.have_type);
 
   if (!ignore)
     {
