@@ -181,7 +181,7 @@ set_stat_placeholders(struct stat *p)
 
 
 /* Get the stat information for a file, if it is
- * not already known.
+ * not already known.  Returns 0 on success.
  */
 int
 get_statinfo (const char *pathname, const char *name, struct stat *p)
@@ -221,7 +221,7 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
 }
 
 /* Get the stat/type/inode information for a file, if it is not
- * already known.
+ * already known.   Returns 0 on success (or if we did nothing).
  */
 int
 get_info (const char *pathname,
@@ -263,7 +263,8 @@ get_info (const char *pathname,
       if (result != 0)
 	{
 	  /* Verify some postconditions.  We can't check st_mode for
-	     non-zero-ness because of Savannah bug #16378. */
+	     non-zero-ness because of Savannah bug #16378 (which is
+	     that broken NFS servers can return st_mode==0). */
 	  if (pred_ptr->need_type)
 	    {
 	      assert (state.have_type);
@@ -272,11 +273,16 @@ get_info (const char *pathname,
 	    {
 	      assert (p->st_ino);
 	    }
+	  return -1;		/* failure. */
+	}
+      else
+	{
+	  return 0;		/* success. */
 	}
     }
   else
     {
-      return 0;
+      return 0;			/* success; nothing to do. */
     }
 }
 
