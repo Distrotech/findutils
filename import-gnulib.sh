@@ -34,6 +34,10 @@ unset CDPATH
 git_repo="git://git.savannah.gnu.org/gnulib.git"
 configfile="./import-gnulib.config"
 need_checkout=yes
+gnulib_changed=false
+
+# If $GIT_CLONE_DEPTH is not set, apply a default.
+: ${GIT_CLONE_DEPTH:=4}
 
 
 # Remember arguments for comments we inject into output files
@@ -73,26 +77,31 @@ do_checkout () {
 	fi
     fi
 
-    (
-	# Change directory unconditionally.  We used to do this to avoid
-	# the cvs client picking up defaults from findutils' ./CVS/*, but
-	# now we just do it for the sake of a minimum change.
-	cd $gitdir
+    # Change directory unconditionally before issuing git commands, because
+    # we're dealing with two git repositories; the gnulib one and the
+    # findutils one.
 
-	if test -d gnulib/.git ; then
-	  echo "Git repository was already initialised."
-	else
-	  echo "Cloning the git repository..."
-	  # In the future we may use a shallow clone to
-	  # save bandwidth.
-	  git clone "$git_repo"
-	fi
-	cd gnulib
-	set -x
-	git fetch origin
-	git checkout "$gnulib_version"
-	set +x
-    )
+    if ( cd $gitdir && test -d gnulib/.git ; ) ; then
+      echo "Git repository was already initialised."
+    else
+      echo "Cloning the git repository..."
+      ( cd $gitdir && git clone --depth="${GIT_CLONE_DEPTH}" "$git_repo" ; )
+    fi
+
+    if ( cd $gitdir/gnulib &&
+	    git diff --name-only --exit-code "$gnulib_version" ; ) ; then
+        # We are already at the correct version.
+        # Nothing to do
+        gnulib_changed=false
+        echo "Already at gnulib version $gnulib_version; no change"
+    else
+        gnulib_changed=true
+        set -x
+        ( cd $gitdir/gnulib &&
+	    git fetch origin &&
+	    git checkout "$gnulib_version" ; )
+        set +x
+    fi
 }
 
 run_gnulib_tool() {
@@ -323,6 +332,18 @@ move_cvsdir() {
     fi
 }
 
+
+record_config_change() {
+    # $1: name of the import-gnulib.config file
+    # $2: name of the last.config file
+    echo "Recording current config from $1 in $2"
+    if ! cp  "$1" "$2"; then
+	rm -f "$2"
+	false
+    fi
+}
+
+
 main() {
     ## Option parsing
     local gnulibdir=/doesnotexist
@@ -356,19 +377,45 @@ EOF
 	echo "Warning: using gnulib code which already exists in $gnulibdir" >&2
     fi
 
+    ## If the config file changed since we last imported, or the gnulib
+    ## code itself changed, we will need to re-run gnulib-tool.
+    lastconfig="./gnulib/last.config"
+    config_changed=false
+    if "$gnulib_changed" ; then
+	echo "The gnulib code changed, we need to re-import it."
+    else
+	if test -e "$lastconfig" ; then
+	    if cmp "$lastconfig" "$configfile" ; then
+		echo "Both gnulib and the import config are unchanged."
+	    else
+		echo "The gnulib import config was changed."
+		echo "We need to re-run gnulib-tool."
+		config_changed=true
+	    fi
+	else
+	    echo "$lastconfig does not exist, we need to run gnulib-tool."
+	    config_changed=true
+	fi
+    fi
+
     ## Invoke gnulib-tool to import the code.
     local tool="${gnulibdir}"/gnulib-tool
-
-    if run_gnulib_tool "${tool}" &&
-	hack_gnulib_tool_output "${gnulibdir}" &&
-	refresh_output_files &&
-	update_licenses &&
-	update_version_file
-    then
-	echo Done.
+    if $gnulib_changed || $config_changed ; then
+	if run_gnulib_tool "${tool}" &&
+	    hack_gnulib_tool_output "${gnulibdir}" &&
+	    refresh_output_files &&
+	    update_licenses &&
+	    update_version_file &&
+	    record_config_change "$configfile" "$lastconfig"
+	then
+	    echo Done.
+	else
+	    echo FAILED >&2
+	    exit 1
+	fi
     else
-	echo FAILED >&2
-	exit 1
+	echo "No change to the gnulib code or configuration."
+	echo "Therefore, no need to run gnulib-tool."
     fi
 }
 

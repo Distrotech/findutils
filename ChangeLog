@@ -1,3 +1,15 @@
+2009-05-07  James Youngman  <jay@gnu.org>
+
+	Make import-gnulib.sh faster in the common case where neither
+	import-gnulib.config nor gnulib itself changed.
+	* import-gnulib.sh (gnulib_changed): New variable.
+	(do_checkout): set gnulib_changed=true if the gnulib code didn't
+	already correspond to our configured version.  Don't use a large
+	subshell, because we need to set $gnulib_changed and don't want
+	the value to be discarded.
+	(main): Run gnulib-tool if gnulib was not at the correct version
+	or the import-gnulib.config file has changed.
+
 2009-07-10  Reuben Thomas  <rrt@sc3d.org>
 
     Fix quotation punctuation in find manual page, fixing bug #19120.
