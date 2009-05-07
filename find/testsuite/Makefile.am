@@ -88,6 +88,7 @@ find.posix/perm-vanilla.xo \
 find.posix/posixnot.xo \
 find.posix/prune.xo \
 find.posix/prune-result.xo \
+find.posix/prune-stat.xo \
 find.posix/sizes.xo \
 find.posix/sizetype.xo \
 find.posix/sv-bug-11175.xo \
@@ -205,6 +206,7 @@ find.posix/perm-vanilla.exp \
 find.posix/posixnot.exp \
 find.posix/prune.exp \
 find.posix/prune-result.exp \
+find.posix/prune-stat.exp \
 find.posix/size-invalid.exp \
 find.posix/size-missing.exp \
 find.posix/sizes.exp \

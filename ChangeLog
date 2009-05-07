@@ -1,3 +1,15 @@
+2009-05-07  Colin Watson  <cjwatson@ubuntu.com>
+
+	* find/parser.c (parse_prune): -prune needs stat information if
+	-depth is not in use.
+	* find/pred.c (pred_prune): Assert that stat information is
+	available if needed.
+	* find/testsuite/find.posix/prune-stat.exp: New test.
+	* find/testsuite/find.posix/prune-stat.xo: New test.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP, EXTRA_DIST_XO): Added
+	prune-stat.exp, prune-stat.xo.
+	* NEWS: Mention this bugfix.
+
 2009-04-25  James Youngman  <jay@gnu.org>
 
 	* AUTHORS: Add Andreas Metzler.

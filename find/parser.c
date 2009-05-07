@@ -1982,7 +1982,8 @@ parse_prune (const struct parser_table* entry, char **argv, int *arg_ptr)
   (void) arg_ptr;
 
   our_pred = insert_primary (entry);
-  our_pred->need_stat = our_pred->need_type = false;
+  if (options.do_dir_first == false)
+    our_pred->need_stat = our_pred->need_type = false;
   /* -prune has a side effect that it does not descend into
      the current directory. */
   our_pred->side_effects = true;
