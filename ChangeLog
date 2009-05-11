@@ -1,3 +1,9 @@
+2009-05-12  Eric Blake  <ebb9@byu.net>
+
+	xargs: avoid compiler warning
+	* xargs/xargs.c (get_char_oct_or_hex_escape): Pass correct type to
+	ctype macro.
+
 2009-05-04  James Youngman  <jay@gnu.org>
 
 	* find/util.c (get_info): Don't fall off the end of the function
@@ -35,39 +41,39 @@
 
 2009-04-12  Leslie Polzer  <leslie.polzer@gmx.net>
 
-        Merge Leslie Polzer's ARG_MAX enhancements to xargs which were
-        produced as part of the Google Summer of Code 2007.
-        These changes fix Savannah bug #22708.
-        * find/pred.c (launch): The struct buildcmd_control* argument is
-        no longer const.
-        * find/defs.h: Likewise
-        * lib/buildcmd.c (bc_do_insert): The struct buildcmd_control*
-        argument is no longer const.
-        (bc_push_arg): Likewise.
-        (cb_exec_noop): Likewise.
-        (get_stringv_len): New function; measures the length of
-        a NULL-terminated argv sequence.
-        (bc_do_exec): Rename from do_exec, and make global.  Modify the
-        function to react to exec failing with E2BIG by trying again
-        with fewer arguments.
-        * xargs/xargs.1: Mention that xargs automatically adopts to the
-        situation where exec fails with E2BIG.
-        * xargs/xargs.c: (parent): New variable, the PID of the parent
-        process.
-        (main): initialise the variable 'parent'.   Don't fail immediately
-        due to lack of space when the environment is large.  Call
-        xargs_do_exec via bc_do_exec.
-        (xargs_do_exec): The struct buildcmd_control* argument is no
-        longer const.   When exec fails in the child, communicate the
-        errno value back to the parent through a pipe which is
-        close-on-exec; this allows us to accurately determine the cause of
-        the failure and also to distinguish exec failures from all
-        possible exit codes in the child.
-        (wait_for_proc): If the utility cannot be found or cannot be run,
-        we now find out about this by reading an errno value from the
-        pipe, so this means that exit codes 126 and 127 in the child no
-        longer have a special interpretation.
-        * NEWS: mention these changes.
+	Merge Leslie Polzer's ARG_MAX enhancements to xargs which were
+	produced as part of the Google Summer of Code 2007.
+	These changes fix Savannah bug #22708.
+	* find/pred.c (launch): The struct buildcmd_control* argument is
+	no longer const.
+	* find/defs.h: Likewise
+	* lib/buildcmd.c (bc_do_insert): The struct buildcmd_control*
+	argument is no longer const.
+	(bc_push_arg): Likewise.
+	(cb_exec_noop): Likewise.
+	(get_stringv_len): New function; measures the length of
+	a NULL-terminated argv sequence.
+	(bc_do_exec): Rename from do_exec, and make global.  Modify the
+	function to react to exec failing with E2BIG by trying again
+	with fewer arguments.
+	* xargs/xargs.1: Mention that xargs automatically adopts to the
+	situation where exec fails with E2BIG.
+	* xargs/xargs.c: (parent): New variable, the PID of the parent
+	process.
+	(main): initialise the variable 'parent'.   Don't fail immediately
+	due to lack of space when the environment is large.  Call
+	xargs_do_exec via bc_do_exec.
+	(xargs_do_exec): The struct buildcmd_control* argument is no
+	longer const.   When exec fails in the child, communicate the
+	errno value back to the parent through a pipe which is
+	close-on-exec; this allows us to accurately determine the cause of
+	the failure and also to distinguish exec failures from all
+	possible exit codes in the child.
+	(wait_for_proc): If the utility cannot be found or cannot be run,
+	we now find out about this by reading an errno value from the
+	pipe, so this means that exit codes 126 and 127 in the child no
+	longer have a special interpretation.
+	* NEWS: mention these changes.
 
 2009-04-13  James Youngman  <jay@gnu.org>
 
@@ -8026,8 +8032,8 @@
 	-----
 
 	Copyright (C) 1987, 1990, 1991, 1992, 1993, 1994, 1996, 1997,
-	1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007 Free Software
-	Foundation, Inc.
+	1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007, 2008,
+	2009 Free Software Foundation, Inc.
 
 	Copying and distribution of this file, with or without
 	modification, are permitted provided the copyright notice
