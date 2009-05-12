@@ -438,7 +438,9 @@ main (int argc, char **argv)
        * specifies that it shall be at least LINE_MAX.
        */
       long val;
+#ifdef ARG_MAX
       assert(bc_ctl.arg_max <= (ARG_MAX-2048));
+#endif
 #ifdef _SC_ARG_MAX
       val = sysconf(_SC_ARG_MAX);
       if (val > 0)

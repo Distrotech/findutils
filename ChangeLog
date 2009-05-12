@@ -1,5 +1,8 @@
 2009-05-12  Eric Blake  <ebb9@byu.net>
 
+	xargs: fix compilation on cygwin
+	* xargs/xargs.c (main): Check that ARG_MAX is defined.
+
 	xargs: avoid compiler warning
 	* xargs/xargs.c (get_char_oct_or_hex_escape): Pass correct type to
 	ctype macro.
