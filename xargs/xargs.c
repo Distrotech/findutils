@@ -1,6 +1,6 @@
 /* xargs -- build and execute command lines from standard input
    Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2004, 2005, 2006,
-   2007, 2008 Free Software Foundation, Inc.
+   2007, 2008, 2009 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -290,7 +290,7 @@ get_char_oct_or_hex_escape(const char *s)
       p = s+2;
       base = 16;
     }
-  else if (isdigit(s[1]))
+  else if (isdigit ((unsigned char) s[1]))
     {
       /* octal */
       p = s+1;

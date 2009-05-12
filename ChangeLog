@@ -1,3 +1,9 @@
+2009-05-12  Eric Blake  <ebb9@byu.net>
+
+	xargs: avoid compiler warning
+	* xargs/xargs.c (get_char_oct_or_hex_escape): Pass correct type to
+	ctype macro.
+
 2009-05-12  James Youngman  <jay@gnu.org>
 
 	* po/sl.po: Updated Slovenian translation.
@@ -242,8 +248,8 @@
 
 2008-03-21  James Youngman  <jay@gnu.org>
 
-        * find/testsuite/find.gnu/xtype-symlink.exp: Removed unnecessary
-        test code which created a insecure tempfile.
+	* find/testsuite/find.gnu/xtype-symlink.exp: Removed unnecessary
+	test code which created a insecure tempfile.
 
 	* NEWS: Update version number to 4.4.1-CVS now that the CVS rep no
 	longer matches the last release.
@@ -7779,8 +7785,8 @@ Wed Mar 21 09:30:18 1990  David J. MacKenzie  (djm at pogo.ai.mit.edu)
 	-----
 
 	Copyright (C) 1987, 1990, 1991, 1992, 1993, 1994, 1996, 1997,
-	1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007 Free Software
-	Foundation, Inc.
+	1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007, 2008,
+	2009 Free Software Foundation, Inc.
 
 	Copying and distribution of this file, with or without
 	modification, are permitted provided the copyright notice
