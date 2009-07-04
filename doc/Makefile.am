@@ -6,14 +6,6 @@ find_maint_TEXINFOS = fdl.texi
 MOSTLYCLEANFILES = find.cps
 CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz
 
-# To build regexprops.texi, we need to build the regexprops program and
-# run it on the host.  If we are cross compiling, we may not have a native
-# binary.  When this is the case, we use a workaround; don't delete the
-# file for 'make clean'.  This fixes Savannah bug #19658.
-if !CROSS_COMPILING
-CLEANFILES += regexprops.texi regexprops-generic.texi
-endif
-
 MAKEINFOTXT = $(MAKEINFO) --plaintext
 
 find.txt: find.texi $(srcdir)/version.texi $(find_TEXINFOS)
@@ -62,16 +54,3 @@ find_mono.html: find.texi
 findutils.texi_html_node.tar.gz: find.html
 	tar zcf $@ $<
 
-if CROSS_COMPILING
-regexprops.texi regexprops-generic.texi: ../gnulib/lib/regex.h
-	echo "WARNING: $? is newer than $@ but $@ cannot be rebuilt because we are cross-compiling.   Continuing anyway." >&2
-else
-regexprops.texi: ../gnulib/lib/regex.h ../lib/regexprops.c
-	cd ../lib && $(MAKE) $(AM_MAKEFLAGS) regexprops$(EXEEXT)
-	../lib/regexprops$(EXEEXT) "Regular Expressions" findutils > $@
-	rm ../lib/regexprops$(EXEEXT)
-regexprops-generic.texi: ../gnulib/lib/regex.h ../lib/regexprops.c
-	cd ../lib && $(MAKE) $(AM_MAKEFLAGS) regexprops$(EXEEXT)
-	../lib/regexprops$(EXEEXT) "Regular Expressions" generic > $@
-	rm ../lib/regexprops$(EXEEXT)
-endif
