@@ -53,4 +53,3 @@ find_mono.html: find.texi
 # for "make all" or "make install" (or even "make check").
 findutils.texi_html_node.tar.gz: find.html
 	tar zcf $@ $<
-
