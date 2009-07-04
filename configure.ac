@@ -209,7 +209,7 @@ jy_AC_ATTRIBUTE_NORETURN
 
 dnl internationalization macros
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION(0.17)
+AM_GNU_GETTEXT_VERSION([0.17])
 
 dnl regextype.c and regexprops.c are designed to be usable outside findutils,
 dnl but findutils doesn't want to support all the regex types in gnulib,
@@ -221,16 +221,27 @@ AC_DEFINE([ALREADY_INCLUDED_CONFIG_H], 1, [Define so that source code can verify
 # This is necessary so that .o files in LIBOBJS are also built via
 # the ANSI2KNR-filtering rules.
 #LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
-##AC_CONFIG_SUBDIRS(gnulib)
-AC_CONFIG_FILES(gnulib/Makefile gnulib/lib/Makefile)
-AC_CONFIG_FILES(m4/Makefile)
-AC_CONFIG_FILES([Makefile
-         tests/Makefile build-aux/Makefile
-	find/Makefile find/testsuite/Makefile
-	xargs/Makefile xargs/testsuite/Makefile
-	locate/Makefile locate/testsuite/Makefile
-	 po/Makefile.in po/Makefile
-	doc/Makefile lib/Makefile
-	])
+
+# Note that in the list below, po/Makefile.in should appear before
+# po/Makefile, so that po/Makefile can be created even if po/Makefile.in
+# starts off missing.
+AC_CONFIG_FILES([
+Makefile
+build-aux/Makefile
+doc/Makefile
+find/Makefile
+find/testsuite/Makefile
+gnulib/Makefile
+gnulib/lib/Makefile
+lib/Makefile
+locate/Makefile
+locate/testsuite/Makefile
+m4/Makefile
+po/Makefile.in
+po/Makefile
+tests/Makefile
+xargs/Makefile
+xargs/testsuite/Makefile
+])
 AC_OUTPUT
 dnl intl/Makefile
