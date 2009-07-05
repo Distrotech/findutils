@@ -1,15 +1,3 @@
-2009-07-04  James Youngman  <jay@gnu.org>
-
-	* configure.ac (AC_CONFIG_FILES): order the entries alphabetically
-	and remove duplicates.  Put po/Makefile.in before
-	po/Makefile, since the former is required in order to
-	config.status to generate the latter.
-
-2009-07-04  gettextize  <bug-gnu-gettext@gnu.org>
-
-	* configure.ac (AC_CONFIG_FILES): Add po/Makefile.in.
-	(AM_GNU_GETTEXT_VERSION): Bump to 0.17.
-
 2009-05-12  James Youngman  <jay@gnu.org>
 
 	#26537: find -prune now makes sure it has valid stat() information.
@@ -26,15 +14,6 @@
 	* find/testsuite/Makefile.am (EXTRA_DIST_EXP, EXTRA_DIST_XO): Added
 	prune-stat.exp, prune-stat.xo.
 	* NEWS: Mention this bugfix.
-
-2009-07-05  James Youngman  <jay@gnu.org>
-
-	* lib/check-regexprops.sh: New test.  Run regexprops as a check,
-	and compare its output against the contents of doc/regexprops.texi.
-	* lib/Makefile.am: Run check-regexprops.sh for 'make check'.
-	* doc/Makefile.am: don't clean regexprops.texi, and don't generate
-	it automatically.
-	* doc/.gitignore: don't ignore regexprops.texi
 
 2009-07-05  James Youngman  <jay@gnu.org>
 
