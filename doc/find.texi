@@ -825,7 +825,7 @@ modify (change the file's contents)
 @end enumerate
 
 Some systems also provide a timestamp that indicates when a file was
-@emph{created}.   For example, the UFS2 fileystem under NetBSD-3.1
+@emph{created}.   For example, the UFS2 filesystem under NetBSD-3.1
 records the @emph{birth time} of each file.  This information is also
 available under other versions of BSD and some versions of Cygwin.
 However, even on systems which support file birth time, files may
@@ -894,7 +894,7 @@ command line.
 
 @deffn Test -newerXY reference
 Succeeds if timestamp @samp{X} of the file being considered is newer
-than timestamp @samp{Y} of the file @file{reference}.   The latters
+than timestamp @samp{Y} of the file @file{reference}.   The letters
 @samp{X} and @samp{Y} can be any of the following letters:
 
 @table @samp
@@ -1354,7 +1354,7 @@ more files than you intended.
 @deffn Action -quit
 Exit immediately (with return value zero if no errors have occurred).
 This is different to @samp{-prune} because @samp{-prune} only applies
-to the contents of pruned directories, whilt @samp{-quit} simply makes
+to the contents of pruned directories, while @samp{-quit} simply makes
 @code{find} stop immediately.  No child processes will be left
 running, but no more files specified on the command line will be
 processed.  For example, @code{find /tmp/foo /tmp/bar -print -quit}
@@ -2140,9 +2140,9 @@ loops).
 
 At first sight, it looks like the list of filenames to be processed
 can only be at the end of the command line, and that this might be a
-problem for some comamnds (@code{cp} and @code{rsync} for example).
+problem for some commands (@code{cp} and @code{rsync} for example).
 
-However, there is a slightly obscure but powerful workarouund for this
+However, there is a slightly obscure but powerful workaround for this
 problem which takes advantage of the behaviour of @code{sh -c}:-
 
 @example
@@ -2853,7 +2853,7 @@ internationalised environments.  That is, most installations should
 not use it.
 
 Because the long counts are stored by the @code{code} program as
-native-order machine words, the database format is not eaily used in
+native-order machine words, the database format is not easily used in
 environments which differ in terms of byte order.  If locate databases
 are to be shared between machines, the LOCATE02 database format should
 be used.  This has other benefits as discussed above.  However, the
@@ -3595,7 +3595,7 @@ think about.  The first is the shell which launches the xargs command
 (this might be the shell into which you are typing, for example).  The
 second is the shell launched by @code{xargs} (in fact it will probably
 launch several, one after the other, depending on how many files need
-to be archived).  We'l refer to this second shell as a subshell.
+to be archived).  We'll refer to this second shell as a subshell.
 
 Our example uses the @code{-c} option of @code{sh}.  Its argument is a
 shell command to be executed by the subshell.  Along with the rest of
@@ -3929,7 +3929,7 @@ an unpleasant surprise; this command will attempt to delete everything
 at or below the starting point @file{dirname}.  This is because
 @code{find} evaluates the items on the command line as an expression.
 The @code{find} program will normally execute an action if the
-preceeding action succeeds.  Here, there is no action or test before
+preceding action succeeds.  Here, there is no action or test before
 the @samp{-delete} so it will always be executed.  The @samp{-name
 quux} test will be performed for files we successfully deleted, but
 that test has no effect since @samp{-delete} also disables the default
@@ -4431,7 +4431,7 @@ cpio -pmd0   /dest-dir
 @end example
 
 The first part of the @code{find} command here identifies files or
-directoires named @file{.snapshot} and tells @code{find} not to
+directories named @file{.snapshot} and tells @code{find} not to
 recurse into them (since they do not need to be copied).  The
 combination @code{-name '.snapshot' -prune} yields false for anything
 that didn't get pruned, but it is exactly those files we want to
