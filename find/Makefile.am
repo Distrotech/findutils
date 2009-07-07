@@ -5,7 +5,7 @@ localedir = $(datadir)/locale
 # regexprops_SOURCES = regexprops.c
 
 noinst_LIBRARIES = libfindtools.a
-libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c tree.c util.c
+libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c tree.c util.c sharefile.c
 
 
 # We always build two versions of find, one with fts, one without.
@@ -25,7 +25,7 @@ find_SOURCES      = find.c
 ftsfind_SOURCES   = ftsfind.c
 endif
 
-EXTRA_DIST = defs.h $(man_MANS)
+EXTRA_DIST = defs.h sharefile.h $(man_MANS)
 INCLUDES = -I../gnulib/lib -I$(top_srcdir)/lib -I$(top_srcdir)/gnulib/lib -I../intl -DLOCALEDIR=\"$(localedir)\"
 LDADD = ./libfindtools.a ../lib/libfind.a ../gnulib/lib/libgnulib.a $(LIBINTL) $(LIB_CLOCK_GETTIME) $(LIB_CLOSE) @FINDLIBS@
 man_MANS = find.1

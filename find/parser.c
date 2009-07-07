@@ -3535,16 +3535,16 @@ open_output_file (const char *path, struct format_val *p)
     }
   else
     {
-      p->stream = fopen_safer (path, "w");
+      p->stream = sharefile_fopen (state.shared_files, path);
       p->filename = path;
 
       if (p->stream == NULL)
 	{
-	  fatal_file_error(path);
+	  fatal_file_error (path);
 	}
     }
 
-  p->dest_is_tty = stream_is_tty(p->stream);
+  p->dest_is_tty = stream_is_tty (p->stream);
 }
 
 static void

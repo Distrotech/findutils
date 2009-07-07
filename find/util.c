@@ -419,55 +419,45 @@ traverse_tree(struct predicate *tree,
   if (tree->pred_right)
     traverse_tree(tree->pred_right, callback);
 }
-
+
+/* After sharefile_destroy is called, our output file
+ * pointers will be dangling (fclose will already have
+ * been called on them).  NULL these out.
+ */
 static void
-flush_and_close_output_files(struct predicate *p)
+undangle_file_pointers (struct predicate *p)
 {
-  if (pred_is(p, pred_fprint)
-      || pred_is(p, pred_fprintf)
-      || pred_is(p, pred_fls)
-      || pred_is(p, pred_fprint0))
+  if (pred_is (p, pred_fprint)
+      || pred_is (p, pred_fprintf)
+      || pred_is (p, pred_fls)
+      || pred_is (p, pred_fprint0))
     {
-      FILE *f = p->args.printf_vec.stream;
-      bool failed;
-
-      if (f == stdout || f == stderr)
-	failed = fflush(p->args.printf_vec.stream) == EOF;
-      else
-	failed = fclose(p->args.printf_vec.stream) == EOF;
-
-      if (failed)
-	  nonfatal_file_error(p->args.printf_vec.filename);
-    }
-  else if (pred_is(p, pred_print))
-    {
-      if (fflush(p->args.printf_vec.stream) == EOF)
-	{
-	  nonfatal_file_error(p->args.printf_vec.filename);
-	}
-    }
-  else if (pred_is(p, pred_ls) || pred_is(p, pred_print0))
-    {
-      if (fflush(stdout) == EOF)
-	{
-	  /* XXX: migrate to printf_vec. */
-	  nonfatal_file_error("standard output");
-	}
+      /* The file was already fclose()d by sharefile_destroy. */
+      p->args.printf_vec.stream = NULL;
     }
 }
+
 
 /* Complete any outstanding commands.
+ * Flush and close any open files.
  */
 void
-cleanup(void)
+cleanup (void)
 {
   struct predicate *eval_tree = get_eval_tree();
   if (eval_tree)
     {
       traverse_tree(eval_tree, complete_pending_execs);
       complete_pending_execdirs(get_current_dirfd());
-      traverse_tree(eval_tree, flush_and_close_output_files);
     }
+
+  /* Close ouptut files and NULL out references to them. */
+  sharefile_destroy (state.shared_files);
+  if (eval_tree)
+    traverse_tree(eval_tree, undangle_file_pointers);
+
+  if (fflush (stdout) == EOF)
+    nonfatal_file_error ("standard output");
 }
 
 /* Savannah bug #16378 manifests as an assertion failure in pred_type()

@@ -1,0 +1,26 @@
+# This test was added as part of the fix for Savannah bug #24873, but it
+# does not exercise the relevant condition (which is a race).  While making
+# the fix I found that there were no tests for -fprintf at all, so I added
+# one.
+exec rm -rf tmp
+exec mkdir tmp
+exec touch tmp/file tmp/top
+exec ln -s file tmp/same
+# This command line should exercise the case where sharefile_fopen
+# Detects that two destination files are actually the same.
+find_start p {tmp/top -fprintf tmp/file "1: %p\n" -fprintf tmp/same "2: %p\n" }
+
+# We get here after the final iteration through the various
+# find binaries and -O option.  However -fprintf truncates the
+# output file, so there should be just one set of output in there
+# from
+
+# Check that we got the right output in tmp/file.
+set f [open "tmp/file" "r"]
+set data [read $f]
+close $f
+set expected "1: tmp/top\n2: tmp/top\n"
+if { [string compare $data $expected] } {
+    fail "fprintf-samefile: expected output:\n$expected\nbut got:\n$data"
+}
+exec rm -rf tmp

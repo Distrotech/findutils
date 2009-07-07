@@ -126,6 +126,7 @@ find.gnu/false.exp \
 find.gnu/follow-arg-parent-symlink.exp \
 find.gnu/follow-basic.exp \
 find.gnu/fprint0_stdout.exp \
+find.gnu/fprintf-samefile.exp \
 find.gnu/fprint-unwritable.exp \
 find.gnu/gnuand.exp \
 find.gnu/gnunot.exp \

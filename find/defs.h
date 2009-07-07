@@ -63,6 +63,7 @@ typedef bool boolean;
 #include "timespec.h"
 #include "buildcmd.h"
 #include "quotearg.h"
+#include "sharefile.h"
 
 /* These days we will assume ANSI/ISO C protootypes work on our compiler. */
 #define PARAMS(Args) Args
@@ -651,6 +652,9 @@ struct state
    * an optimisation.  Set to true if you want to be conservative.
    */
   boolean execdirs_outstanding;
+
+  /* Shared files, opened via the interface in sharefile.h. */
+  sharefile_handle shared_files;
 };
 
 /* finddata.c */

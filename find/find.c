@@ -131,6 +131,12 @@ main (int argc, char **argv)
   program_name = argv[0];
   state.exit_status = 0;
 
+  state.shared_files = sharefile_init("w");
+  if (NULL == state.shared_files)
+    {
+      error (1, errno, _("Failed initialise shared-file hash table"));
+    }
+
   /* Set the option defaults before we do the locale
    * initialisation as check_nofollow() needs to be executed in the
    * POSIX locale.
