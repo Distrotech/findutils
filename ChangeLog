@@ -1,3 +1,34 @@
+2009-07-10  James Youngman  <jay@gnu.org>
+
+    Fix Savannah bug #24873, Duplicate fprint option corrupts output
+    by opening each output file only once.
+    * find/sharefile.c: New file; keeps a mapping from dev/inode to
+    FILE*, allowing us to determine when the file we just opened is
+    the same as something else we already opened.
+    * import-gnulib.config (modules): Import the hash module, used by
+    sharefile.c.
+    * find/sharefile.h: Function declarations for same.
+    * find/find.c (main): Call sharefile_init().
+    * find/ftsfind.c (main): Likewise.
+    * find/parser.c (open_output_file): Call sharfile_fopen to open an
+    output file, instead of fopen_safer.
+    * find/util.c (cleanup): Close any shared output files that are
+    open.  Also fflush stdout.
+    (undangle_file_pointers): Set the relevant FILE* pointers to
+    NULL.
+    (flush_and_close_output_files): Remove (since sharefile_destroy
+    has the desired effect).
+    * find/Makefile.am (libfindtools_a_SOURCES): Add sharefile.c.
+    (EXTRA_DIST): Add sharefile.h.
+    * find/defs.h: #include sharefile.h.
+    (struct state): Add member shared_files, holding a handle to the
+    shared-file hash table implemented in sharefile.[ch].
+    * find/testsuite/find.gnu/fprintf-samefile.exp: New test,
+    exercising -fprintf (though it is not able to detect bug #24873).
+    * find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add
+    find.gnu/fprintf-samefile.exp.
+    * NEWS: Mention the bugfix.
+
 2009-07-07  James Youngman  <jay@gnu.org>
 
 	* NEWS: Indicate that -wholename is no longer preferred over -ipath.
