@@ -578,13 +578,14 @@ option or the
 option is in effect, this test returns false unless the symbolic link
 is broken.
 
+
 .IP "\-iname \fIpattern\fR"
 Like
 .BR \-name ,
 but the match is case insensitive.  For example, the
 patterns `fo*' and `F??' match the file names `Foo', `FOO', `foo',
 `fOo', etc.   In these patterns, unlike filename expansion by the
-shell, an initial '.' can be matched by `*'.  That is,
+shell, an initial `.' can be matched by `*'.  That is,
 .B find \-name *bar
 will match the file `.foobar'.   Please note that you should quote
 patterns as a matter of course, otherwise the shell will expand any
@@ -752,14 +753,11 @@ and will be in a forthcoming version of the POSIX standard.
 File's permission bits are exactly \fImode\fR (octal or symbolic).
 Since an exact match is required, if you want to use this form for
 symbolic modes, you may have to specify a rather complex mode string.
-For example
-.B \-perm g=w
-will only match files which have mode 0020
+For example `\-perm g=w' will only match files which have mode 0020
 (that is, ones for which group write permission is the only permission
 set).  It is more likely that you will want to use the `/' or `-'
-forms, for example
-.BR "\-perm \-g=w" ,
-which matches any file with group write permission.  See the
+forms, for example `\-perm \-g=w', which matches any file with group
+write permission.  See the
 .B EXAMPLES
 section for some illustrative examples.
 
@@ -946,7 +944,7 @@ exit status will be nonzero
 Use of
 .B \-delete
 automatically turns on the
-.B \-depth
+.RB ` \-depth '
 option.
 
 .BR Warnings :
@@ -1052,8 +1050,8 @@ section for information about how unusual characters in filenames are handled.
 .IP "\-fprint \fIfile\fR"
 True; print the full file name into file \fIfile\fR.  If \fIfile\fR
 does not exist when \fBfind\fR is run, it is created; if it does
-exist, it is truncated.  The file names ``/dev/stdout'' and
-``/dev/stderr'' are handled specially; they refer to the standard
+exist, it is truncated.  The file names `/dev/stdout' and
+`/dev/stderr' are handled specially; they refer to the standard
 output and standard error output, respectively.
 The output file is always created, even if the predicate is never matched.
 See the
@@ -1587,6 +1585,20 @@ The predicates
 .BR \-user
 and
 .B \-xdev
+`\-atime',
+`\-ctime',
+`\-depth',
+`\-group',
+`\-links',
+`\-mtime',
+`\-nogroup',
+`\-nouser',
+`\-perm',
+`\-print',
+`\-prune',
+`\-size',
+`\-user' and
+`\-xdev',
 are all supported.
 
 .P
@@ -1721,8 +1733,7 @@ and
 .BR \-fls .
 If
 .B POSIXLY_CORRECT
-is set, blocks are units of 512 bytes.  Otherwise
-they are units of 1024 bytes.
+is set, blocks are units of 512 bytes.  Otherwise they are units of 1024 bytes.
 .IP
 Setting this variable also turns off
 warning messages (that is, implies
@@ -1798,9 +1809,8 @@ could have been used in that case also.
 
 .P
 .nf
-.B find /  \e
-.B \e( \-perm \-4000 \-fprintf /root/suid.txt "%#m %u %p\en" \e) , \e
-.B \e( \-size +100M \-fprintf /root/big.txt  "%\-10s %p\en" \e)
+.B find / \e( \-perm \-4000 \-fprintf /root/suid.txt \(aq%#m %u %p\en\(aq \e) , \e
+.B  \e( \-size +100M \-fprintf /root/big.txt  \(aq%\-10s %p\en\(aq \e)
 
 .fi
 Traverse the filesystem just once, listing setuid files and
@@ -2059,6 +2069,7 @@ actually receiving a command line like this:
 That command is of course not going to work.  Instead of doing things
 this way, you should enclose the pattern in quotes or escape the wildcard:
 .nf
+.B $ find . \-name \(aq*.c\(aq \-print
 .B $ find . \-name \e*.c \-print
 .fi
 
