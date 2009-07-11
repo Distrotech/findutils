@@ -269,10 +269,14 @@ predicate_is_cost_free(const struct predicate *p)
 /* Prints a predicate */
 void print_predicate(FILE *fp, const struct predicate *p)
 {
-  fprintf (fp, "%s%s%s",
-	   p->p_name,
-	   p->arg_text ? " " : "",
-	   p->arg_text ? p->arg_text : "");
+  if (p->arg_text)
+    {
+      fprintf (fp, "%s %s", p->p_name, p->arg_text);
+    }
+  else
+    {
+      fprintf (fp, "%s", p->p_name);
+    }
 }
 
 
@@ -832,7 +836,8 @@ set_new_parent (struct predicate *curr, enum predicate_precedence high_prec, str
   new_parent->need_stat = false;
   new_parent->need_type = false;
   new_parent->p_cost = NeedsNothing;
-  
+  new_parent->arg_text = NULL;
+
   switch (high_prec)
     {
     case COMMA_PREC:
@@ -1393,6 +1398,18 @@ init_pred_perf(struct predicate *pred)
   p->visits = p->successes = 0;
 }
 
+
+struct predicate *
+get_new_pred_noarg (const struct parser_table *entry)
+{
+  struct predicate *p = get_new_pred(entry);
+  if (p)
+    {
+      p->arg_text = NULL;
+    }
+  return p;
+}
+
 
 /* Return a pointer to a new predicate structure, which has been
    linked in as the last one in the predicates list.
@@ -1433,6 +1450,8 @@ get_new_pred (const struct parser_table *entry)
   last_pred->no_default_print = false;
   last_pred->need_stat = true;
   last_pred->need_type = true;
+  last_pred->p_cost = NeedsUnknown;
+  last_pred->arg_text = "ThisShouldBeSetToSomethingElse";
   last_pred->args.str = NULL;
   last_pred->pred_next = NULL;
   last_pred->pred_left = NULL;
@@ -1449,7 +1468,8 @@ get_new_pred (const struct parser_table *entry)
    predicate is an operator.  If it isn't, the AND operator is inserted. */
 
 struct predicate *
-get_new_pred_chk_op (const struct parser_table *entry)
+get_new_pred_chk_op (const struct parser_table *entry,
+		     const char *arg)
 {
   struct predicate *new_pred;
   static const struct parser_table *entry_and = NULL;
@@ -1471,13 +1491,14 @@ get_new_pred_chk_op (const struct parser_table *entry)
       case PRIMARY_TYPE:
       case CLOSE_PAREN:
 	/* We need to interpose the and operator. */
-	new_pred = get_new_pred (entry_and);
+	new_pred = get_new_pred_noarg (entry_and);
 	new_pred->pred_func = pred_and;
 	new_pred->p_name = "-a";
 	new_pred->p_type = BI_OP;
 	new_pred->p_prec = AND_PREC;
 	new_pred->need_stat = false;
 	new_pred->need_type = false;
+	new_pred->arg_text = NULL;
 	new_pred->args.str = NULL;
 	new_pred->side_effects = false;
 	new_pred->no_default_print = false;
@@ -1488,6 +1509,7 @@ get_new_pred_chk_op (const struct parser_table *entry)
       }
   
   new_pred = get_new_pred (entry);
+  new_pred->arg_text = arg;
   new_pred->parser_entry = entry;
   return new_pred;
 }

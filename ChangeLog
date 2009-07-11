@@ -1,3 +1,48 @@
+2009-07-11  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #27017: find -D opt / -fstype ext3 -print , -quit
+	coredumps.
+	* find/tree.c (set_new_parent): Initialise struct
+	predicate->arg_text to NULL (instead of leaving it uninitialised).
+	(get_new_pred_noarg): Likewise.
+	(get_new_pred): Initialise predicate->arg_text to
+	"ThisShouldBeSetToSomethingElse" to make it easier to notice
+	bugs.
+	(get_new_pred_chk_op): Use get_new_pred_noarg.
+	(print_predicate): Use an if statement instead of
+	two ternary operators.
+	* find/util.c (insert_primary_withpred): Accept new argument, arg,
+	being the argument (if any) of this predicate.  Pass it to
+	get_new_pred_chk_op.
+	(insert_primary): Likewise (pass arg to insert_primary_withpred).
+	(insert_primary_noarg): New function; calls insert_primary with
+	arg=NULL.
+	* find/parser.c (collect_arg_stat_info): Add an output parameter;
+	the filename from which we collected the stat information.
+	(parse_closeparen, parse_delete, parse_and, parse_or,
+	parse_comma): Use get_new_pred_noarg.
+	(parse_cnewer, parse_newer, parse_anewer): Use new
+	collect_arg_stat_info and insert_primary interface.
+	(parse_print, parse_prune, parse_nouser, parse_empty): Use
+	insert_primary_noarg.
+	(parse_accesscheck, parse_false): Use insert_primary_noarg.
+	(parse_used, parse_iname, parse_fprint, insert_fprint,
+	parse_fstype, parse_ilname): Use new collect_arg and
+	insert_primary interfaces.
+	(parse_ipath, parse_lname, do_parse_xmin, parse_name, parse_path,
+	parse_perm, parse_size, parse_user, parse_time): Use new
+	collect_arg and insert_primary_withpred interface.
+	(parse_negate, parse_openparen): Use new get_new_pred_chk_op interface.
+	(parse_newerXY, parse_nogroup): Use new insert_primary interface.
+	(insert_regex, parse_samefile): Use new insert_primary_withpred
+	interface.
+	(insert_type, insert_fprintf, new_insert_exec_ok, insert_num): Use
+	new insert_primary_withpred interface.
+	* find/defs.h (struct predicate.arg_text): make const.
+	Add declarations for new function get_new_pred_noarg and
+	insert_primary_noarg.  Add 'arg' parameter to get_new_pred_chk_op
+	and insert_primary_withpred.
+
 2009-07-10  James Youngman  <jay@gnu.org>
 
 	Updated various translations.

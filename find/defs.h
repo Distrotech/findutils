@@ -297,7 +297,7 @@ struct predicate
   boolean artificial;
 
   /* The raw text of the argument of this predicate. */
-  char *arg_text;
+  const char *arg_text;
   
   /* Information needed by the predicate processor.
      Next to each member are listed the predicates that use it. */
@@ -480,13 +480,16 @@ void show_success_rates(const struct predicate *node);
 /* tree.c */
 struct predicate * build_expression_tree PARAMS((int argc, char *argv[], int end_of_leading_options));
 struct predicate * get_eval_tree PARAMS((void));
+struct predicate *get_new_pred_noarg (const struct parser_table *entry);
 struct predicate *get_new_pred PARAMS((const struct parser_table *entry));
-struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry));
+struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry,
+					      const char *arg));
 float  calculate_derived_rates PARAMS((struct predicate *p));
 
 /* util.c */
-struct predicate *insert_primary PARAMS((const struct parser_table *entry));
-struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr));
+struct predicate *insert_primary PARAMS((const struct parser_table *entry, const char *arg));
+struct predicate *insert_primary_noarg PARAMS((const struct parser_table *entry));
+struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr, const char *arg));
 void usage PARAMS((FILE *fp, int status, char *msg));
 extern boolean check_nofollow(void);
 void complete_pending_execs(struct predicate *p);

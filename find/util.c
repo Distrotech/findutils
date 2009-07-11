@@ -89,11 +89,13 @@ static struct debug_option_assoc debugassoc[] =
    operator. */
 
 struct predicate *
-insert_primary_withpred (const struct parser_table *entry, PRED_FUNC pred_func)
+insert_primary_withpred (const struct parser_table *entry,
+			 PRED_FUNC pred_func,
+			 const char *arg)
 {
   struct predicate *new_pred;
 
-  new_pred = get_new_pred_chk_op (entry);
+  new_pred = get_new_pred_chk_op (entry, arg);
   new_pred->pred_func = pred_func;
   new_pred->p_name = entry->parser_name;
   new_pred->args.str = NULL;
@@ -118,10 +120,16 @@ insert_primary_withpred (const struct parser_table *entry, PRED_FUNC pred_func)
    either not there at all (we are the very first node) or is an
    operator. */
 struct predicate *
-insert_primary (const struct parser_table *entry)
+insert_primary (const struct parser_table *entry, const char *arg)
 {
   assert (entry->pred_func != NULL);
-  return insert_primary_withpred(entry, entry->pred_func);
+  return insert_primary_withpred(entry, entry->pred_func, arg);
+}
+
+struct predicate *
+insert_primary_noarg (const struct parser_table *entry)
+{
+  return insert_primary(entry, NULL);
 }
 
 
