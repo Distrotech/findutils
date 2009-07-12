@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.2.6\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2009-07-06 23:13+0100\n"
+"POT-Creation-Date: 2009-07-12 13:00+0100\n"
 "PO-Revision-Date: 2004-12-23 16:57+0100\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -251,27 +251,32 @@ msgstr "argumento `%s' inválido para la opción `%s'"
 msgid "%s%s argument `%s' too large"
 msgstr "lista de argumentos demasiado larga"
 
-#: find/find.c:201 find/ftsfind.c:744
+#: find/find.c:137 find/ftsfind.c:684
+#, c-format
+msgid "Failed initialise shared-file hash table"
+msgstr ""
+
+#: find/find.c:207 find/ftsfind.c:750
 #, c-format
 msgid "cannot get current directory"
 msgstr "no se puede obtener el directorio actual"
 
-#: find/find.c:205
+#: find/find.c:211
 #, fuzzy, c-format
 msgid "cannot stat current directory"
 msgstr "no se puede obtener el directorio actual"
 
-#: find/find.c:385
+#: find/find.c:391
 #, fuzzy, c-format
 msgid "Warning: file system %s has recently been unmounted."
 msgstr "El sistema de ficheros %s ha sido desmontado recientemente."
 
-#: find/find.c:395
+#: find/find.c:401
 #, fuzzy, c-format
 msgid "Warning: file system %s has recently been mounted."
 msgstr "El sistema de ficheros %s ha sido montado recientemente."
 
-#: find/find.c:491
+#: find/find.c:497
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -282,7 +287,7 @@ msgstr ""
 "número de dispositivo nuevo %ld, el tipo de sistema de ficheros es %s [ref %"
 "ld]"
 
-#: find/find.c:528
+#: find/find.c:534
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -291,19 +296,19 @@ msgstr ""
 "%s%s ha cambiado durante la ejecución de %s (número de nodo-i antiguo %ld,\n"
 "número de nodo-i nuevo %ld, tipo de sistema de ficheros %s) [ref %ld]"
 
-#: find/find.c:1012
+#: find/find.c:1018
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr ""
 
-#: find/find.c:1109 find/ftsfind.c:283
+#: find/find.c:1115 find/ftsfind.c:283
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1128
+#: find/find.c:1134
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -314,12 +319,12 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: find/find.c:1379
+#: find/find.c:1385
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1423
+#: find/find.c:1429
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -1000,39 +1005,39 @@ msgstr "Modo de empleo: %s [-H] [-L] [-P] [ruta-de-acceso...] [expresión]\n"
 msgid "] [path...] [expression]\n"
 msgstr "Modo de empleo: %s [ruta-de-acceso...] [expresión]\n"
 
-#: find/util.c:790
+#: find/util.c:780
 #, fuzzy, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "atención: secuencia de escape `\\%c' no reconocida"
 
-#: find/util.c:797
+#: find/util.c:787
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr ""
 
-#: find/util.c:811
+#: find/util.c:801
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr ""
 
-#: find/util.c:820 find/util.c:830
+#: find/util.c:810 find/util.c:820
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr ""
 
-#: find/util.c:835 find/util.c:839
+#: find/util.c:825 find/util.c:829
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr ""
 
-#: find/util.c:846
+#: find/util.c:836
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:989
+#: find/util.c:979
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "

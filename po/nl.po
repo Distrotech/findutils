@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.4.0\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2009-07-06 23:13+0100\n"
+"POT-Creation-Date: 2009-07-12 13:00+0100\n"
 "PO-Revision-Date: 2008-03-21 13:25+0100\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -253,27 +253,32 @@ msgstr "ongeldige suffix in argument van %s%s: '%s'"
 msgid "%s%s argument `%s' too large"
 msgstr "argument van %s%s is te lang: '%s'"
 
-#: find/find.c:201 find/ftsfind.c:744
+#: find/find.c:137 find/ftsfind.c:684
+#, c-format
+msgid "Failed initialise shared-file hash table"
+msgstr ""
+
+#: find/find.c:207 find/ftsfind.c:750
 #, c-format
 msgid "cannot get current directory"
 msgstr "kan huidige map niet opvragen"
 
-#: find/find.c:205
+#: find/find.c:211
 #, c-format
 msgid "cannot stat current directory"
 msgstr "kan status van huidige map niet opvragen"
 
-#: find/find.c:385
+#: find/find.c:391
 #, c-format
 msgid "Warning: file system %s has recently been unmounted."
 msgstr "Waarschuwing: bestandssysteem %s is recent ontkoppeld."
 
-#: find/find.c:395
+#: find/find.c:401
 #, c-format
 msgid "Warning: file system %s has recently been mounted."
 msgstr "Waarschuwing: bestandssysteem %s is recent aangekoppeld."
 
-#: find/find.c:491
+#: find/find.c:497
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -283,7 +288,7 @@ msgstr ""
 "(oud apparaatnummer is %ld, nieuw apparaatnummer is %ld,\n"
 "bestandssysteemsoort is %s) [regel %ld]"
 
-#: find/find.c:528
+#: find/find.c:534
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -293,12 +298,12 @@ msgstr ""
 "(oud inode-nummer is %<PRIuMAX>, nieuw inode-nummer is %<PRIuMAX>,\n"
 "bestandssysteemsoort is %s) [regel %ld]"
 
-#: find/find.c:1012
+#: find/find.c:1018
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Het veilig wijzigen van de huidige map naar %s is mislukt"
 
-#: find/find.c:1109 find/ftsfind.c:283
+#: find/find.c:1115 find/ftsfind.c:283
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -307,7 +312,7 @@ msgstr ""
 "Symbolische koppeling %s is deel van een oneindige lus in\n"
 "de mappenhiërarchie: de map waarnaar de koppeling wijst is al bezocht."
 
-#: find/find.c:1128
+#: find/find.c:1134
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -322,12 +327,12 @@ msgstr[1] ""
 "Oneindige lus in bestandssysteem: %s heeft hetzelfde apparaatnummer en\n"
 "inode-nummer als een map %d niveaus hoger in de mappenhiërarchie."
 
-#: find/find.c:1379
+#: find/find.c:1385
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "waarschuwing: symbolische koppeling %s wordt niet gevolgd"
 
-#: find/find.c:1423
+#: find/find.c:1429
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -853,32 +858,32 @@ msgstr "Gebruik:  %s [-PLH] [-Oniveau] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [pad...] [expressie]\n"
 
-#: find/util.c:790
+#: find/util.c:780
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Onbekende debugvlag '%s' wordt genegeerd."
 
-#: find/util.c:797
+#: find/util.c:787
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Argument van optie '-D' is leeg"
 
-#: find/util.c:811
+#: find/util.c:801
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "Direct na optie '-O' dient een cijfer te staan"
 
-#: find/util.c:820 find/util.c:830
+#: find/util.c:810 find/util.c:820
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Geef direct na optie '-O' een cijfer op"
 
-#: find/util.c:835 find/util.c:839
+#: find/util.c:825 find/util.c:829
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Ongeldig optimalisatieniveau %s"
 
-#: find/util.c:846
+#: find/util.c:836
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -887,7 +892,7 @@ msgstr ""
 "Optimalisatieniveau %lu is te hoog.\n"
 "Als u bestanden heel vlug wilt vinden, gebruik dan 'locate'."
 
-#: find/util.c:989
+#: find/util.c:979
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "

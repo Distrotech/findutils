@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU findutils 4.5.5\n"
+"Project-Id-Version: GNU findutils 4.5.6-git\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2009-07-06 23:13+0100\n"
+"POT-Creation-Date: 2009-07-12 13:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -250,53 +250,58 @@ msgstr ""
 msgid "%s%s argument `%s' too large"
 msgstr ""
 
-#: find/find.c:201 find/ftsfind.c:744
+#: find/find.c:137 find/ftsfind.c:684
+#, c-format
+msgid "Failed initialise shared-file hash table"
+msgstr ""
+
+#: find/find.c:207 find/ftsfind.c:750
 #, c-format
 msgid "cannot get current directory"
 msgstr ""
 
-#: find/find.c:205
+#: find/find.c:211
 #, c-format
 msgid "cannot stat current directory"
 msgstr ""
 
-#: find/find.c:385
+#: find/find.c:391
 #, c-format
 msgid "Warning: file system %s has recently been unmounted."
 msgstr ""
 
-#: find/find.c:395
+#: find/find.c:401
 #, c-format
 msgid "Warning: file system %s has recently been mounted."
 msgstr ""
 
-#: find/find.c:491
+#: find/find.c:497
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, file system type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:528
+#: find/find.c:534
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
 "number %<PRIuMAX>, file system type is %s) [ref %ld]"
 msgstr ""
 
-#: find/find.c:1012
+#: find/find.c:1018
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr ""
 
-#: find/find.c:1109 find/ftsfind.c:283
+#: find/find.c:1115 find/ftsfind.c:283
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
 "already visited the directory to which it points."
 msgstr ""
 
-#: find/find.c:1128
+#: find/find.c:1134
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -307,12 +312,12 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: find/find.c:1379
+#: find/find.c:1385
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr ""
 
-#: find/find.c:1423
+#: find/find.c:1429
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -766,39 +771,39 @@ msgstr ""
 msgid "] [path...] [expression]\n"
 msgstr ""
 
-#: find/util.c:790
+#: find/util.c:780
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr ""
 
-#: find/util.c:797
+#: find/util.c:787
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr ""
 
-#: find/util.c:811
+#: find/util.c:801
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr ""
 
-#: find/util.c:820 find/util.c:830
+#: find/util.c:810 find/util.c:820
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr ""
 
-#: find/util.c:835 find/util.c:839
+#: find/util.c:825 find/util.c:829
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr ""
 
-#: find/util.c:846
+#: find/util.c:836
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr ""
 
-#: find/util.c:989
+#: find/util.c:979
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "

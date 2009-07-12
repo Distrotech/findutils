@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.4.0\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2009-07-06 23:13+0100\n"
+"POT-Creation-Date: 2009-07-12 13:00+0100\n"
 "PO-Revision-Date: 2008-05-29 11:51+0800\n"
 "Last-Translator: Ji ZhengYu <zhengyuji@gmail.com>\n"
 "Language-Team: Chinese (simplified) <translation-team-zh-cn@lists."
@@ -251,27 +251,32 @@ msgstr "%s%s 的参数“%s”有无效后缀"
 msgid "%s%s argument `%s' too large"
 msgstr "%s%s 的参数“%s”过长"
 
-#: find/find.c:201 find/ftsfind.c:744
+#: find/find.c:137 find/ftsfind.c:684
+#, c-format
+msgid "Failed initialise shared-file hash table"
+msgstr ""
+
+#: find/find.c:207 find/ftsfind.c:750
 #, c-format
 msgid "cannot get current directory"
 msgstr "无法获取当前目录"
 
-#: find/find.c:205
+#: find/find.c:211
 #, fuzzy, c-format
 msgid "cannot stat current directory"
 msgstr "无法获取当前目录"
 
-#: find/find.c:385
+#: find/find.c:391
 #, c-format
 msgid "Warning: file system %s has recently been unmounted."
 msgstr "警告: 文件系统 %s 最近已被卸载过了。"
 
-#: find/find.c:395
+#: find/find.c:401
 #, c-format
 msgid "Warning: file system %s has recently been mounted."
 msgstr "警告: 文件系统 %s 最近已被挂载过了。"
 
-#: find/find.c:491
+#: find/find.c:497
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -280,7 +285,7 @@ msgstr ""
 "%3$s 执行期间 %1$s%2$s 改变了(原来的设备号 %4$ld，新的设备号 %5$ld，文件系统"
 "类型 %6$s) [ref %7$ld]"
 
-#: find/find.c:528
+#: find/find.c:534
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -289,12 +294,12 @@ msgstr ""
 "%3$s 执行期间 %1$s%2$s 改变了(原来的索引节点号 %4$<PRIuMAX>，新的索引节点号 %"
 "5$<PRIuMAX>，文件系统类型 %6$s) [ref %7$ld]"
 
-#: find/find.c:1012
+#: find/find.c:1018
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "无法安全的更改目录至 %s"
 
-#: find/find.c:1109 find/ftsfind.c:283
+#: find/find.c:1115 find/ftsfind.c:283
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -302,7 +307,7 @@ msgid ""
 msgstr ""
 "符号链接 %s 是目录层级体系中一个循环的一部分；我们已经浏览过它所指向的目录。"
 
-#: find/find.c:1128
+#: find/find.c:1134
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -314,12 +319,12 @@ msgstr[0] ""
 "探测到文件系统循环；%s 拥有与文件系统体系中 %d 级深度的目录一样的设备号和索引"
 "节点"
 
-#: find/find.c:1379
+#: find/find.c:1385
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "警告: 符号链接 %s 无法检索"
 
-#: find/find.c:1423
+#: find/find.c:1429
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -820,39 +825,39 @@ msgstr "用法: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [path...] [expression]\n"
 
-#: find/util.c:790
+#: find/util.c:780
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "忽略不可识别的调试标记 %s"
 
-#: find/util.c:797
+#: find/util.c:787
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "-D 选项的参数列表为空"
 
-#: find/util.c:811
+#: find/util.c:801
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "-O 选项后面必须立即带上一个十进制整数"
 
-#: find/util.c:820 find/util.c:830
+#: find/util.c:810 find/util.c:820
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "请在 -O 选项后面立即指定一个十进制数"
 
-#: find/util.c:835 find/util.c:839
+#: find/util.c:825 find/util.c:829
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "无效的优化级 %s"
 
-#: find/util.c:846
+#: find/util.c:836
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr "优化级别 %lu 太高了。如果您想很快地找到文件，考虑使用 GNU locate。"
 
-#: find/util.c:989
+#: find/util.c:979
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "

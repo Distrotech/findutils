@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.12\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2009-07-06 23:13+0100\n"
+"POT-Creation-Date: 2009-07-12 13:00+0100\n"
 "PO-Revision-Date: 2007-12-20 00:18+0100\n"
 "Last-Translator: Helder Correia <helder.pereira.correia@gmail.com>\n"
 "Language-Team: Portuguese <translation-team-pt@lists.sourceforge.net>\n"
@@ -249,27 +249,32 @@ msgstr "sufixo inválido em %s%s argumento '%s'"
 msgid "%s%s argument `%s' too large"
 msgstr "%s%s argumento '%s' demasiado grande"
 
-#: find/find.c:201 find/ftsfind.c:744
+#: find/find.c:137 find/ftsfind.c:684
+#, c-format
+msgid "Failed initialise shared-file hash table"
+msgstr ""
+
+#: find/find.c:207 find/ftsfind.c:750
 #, c-format
 msgid "cannot get current directory"
 msgstr "não é possível obter a pasta corrente"
 
-#: find/find.c:205
+#: find/find.c:211
 #, c-format
 msgid "cannot stat current directory"
 msgstr "não é possível analisar a pasta actual"
 
-#: find/find.c:385
+#: find/find.c:391
 #, c-format
 msgid "Warning: file system %s has recently been unmounted."
 msgstr "Aviso: o sistema de ficheiros %s foi desmontado recentemente."
 
-#: find/find.c:395
+#: find/find.c:401
 #, c-format
 msgid "Warning: file system %s has recently been mounted."
 msgstr "Aviso: o sistema de ficheiros %s foi montado recentemente."
 
-#: find/find.c:491
+#: find/find.c:497
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -278,7 +283,7 @@ msgstr ""
 "%1$s%2$s alterado durante execução de %3$s (número do disposito antigo %4"
 "$ld, novo número %5$ld, tipo do sistema de ficheiros é %6$s) [ref %7$ld]"
 
-#: find/find.c:528
+#: find/find.c:534
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -287,12 +292,12 @@ msgstr ""
 "%1$s%2$s alterado durante execução de %3$s ('inode' antigo %4$ld, novo %5"
 "$ld, tipo do sistema de ficheiros é %5$s) [ref %7$ld]"
 
-#: find/find.c:1012
+#: find/find.c:1018
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Erro ao entrar de forma segura na pasta %s"
 
-#: find/find.c:1109 find/ftsfind.c:283
+#: find/find.c:1115 find/ftsfind.c:283
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -301,7 +306,7 @@ msgstr ""
 "A ligação simbólica %s é parte de um ciclo na hierarquia de pastas; a pasta "
 "para a qual aponta já foi visitada."
 
-#: find/find.c:1128
+#: find/find.c:1134
 #, fuzzy, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -316,12 +321,12 @@ msgstr[1] ""
 "Detectado um ciclo no sistema de ficheiros; %1$s tem o mesmo número de "
 "dispositivo e 'inode' que uma pasta que é %2$d níveis acima na hierarquia."
 
-#: find/find.c:1379
+#: find/find.c:1385
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "aviso: a não seguir a ligação simbólica %s"
 
-#: find/find.c:1423
+#: find/find.c:1429
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -845,32 +850,32 @@ msgstr "Utilização: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [caminho...] [expressão]\n"
 
-#: find/util.c:790
+#: find/util.c:780
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "A ignorar opção de depuração %s não reconhecida"
 
-#: find/util.c:797
+#: find/util.c:787
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Parâmetro vazio para o opção -D."
 
-#: find/util.c:811
+#: find/util.c:801
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "A opção -O deve ser imediatamente seguida por um inteiro decimal"
 
-#: find/util.c:820 find/util.c:830
+#: find/util.c:810 find/util.c:820
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Por favor especifique um number decimal imediatamente após -O"
 
-#: find/util.c:835 find/util.c:839
+#: find/util.c:825 find/util.c:829
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Nível deoptimização %s inválido"
 
-#: find/util.c:846
+#: find/util.c:836
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -879,7 +884,7 @@ msgstr ""
 "O nível de optimização %lu é muito elevado. Se deseja encontrar ficheiros "
 "rapidamente, considere a utilização do GNU locate."
 
-#: find/util.c:989
+#: find/util.c:979
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "

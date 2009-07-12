@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.8\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2009-07-06 23:13+0100\n"
+"POT-Creation-Date: 2009-07-12 13:00+0100\n"
 "PO-Revision-Date: 2007-07-03 13:55+0300\n"
 "Last-Translator: Maxim V. Dziumanenko <dziumanenko@gmail.com>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
@@ -251,27 +251,32 @@ msgstr "неправильний аргумент `%s' у `%s'"
 msgid "%s%s argument `%s' too large"
 msgstr "рядок аргументів надто великий"
 
-#: find/find.c:201 find/ftsfind.c:744
+#: find/find.c:137 find/ftsfind.c:684
+#, c-format
+msgid "Failed initialise shared-file hash table"
+msgstr ""
+
+#: find/find.c:207 find/ftsfind.c:750
 #, c-format
 msgid "cannot get current directory"
 msgstr "не вдається отримати поточний каталог"
 
-#: find/find.c:205
+#: find/find.c:211
 #, c-format
 msgid "cannot stat current directory"
 msgstr "не вдається отримати інформацію про поточний каталог"
 
-#: find/find.c:385
+#: find/find.c:391
 #, fuzzy, c-format
 msgid "Warning: file system %s has recently been unmounted."
 msgstr "Попередження: файлову систему %s відключено."
 
-#: find/find.c:395
+#: find/find.c:401
 #, fuzzy, c-format
 msgid "Warning: file system %s has recently been mounted."
 msgstr "Попередження: файлову систему %s підключено."
 
-#: find/find.c:491
+#: find/find.c:497
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -280,7 +285,7 @@ msgstr ""
 "%s%s змінено під час виконання %s (старий номер пристрою %ld, новий номер "
 "пристрою %ld, файлова система %s) [посилань %ld]"
 
-#: find/find.c:528
+#: find/find.c:534
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -289,12 +294,12 @@ msgstr ""
 "%s%s змінено під час виконання %s (старий inode %ld, новий inode %ld, "
 "файлова система %s) [посилань %ld]"
 
-#: find/find.c:1012
+#: find/find.c:1018
 #, fuzzy, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Помилка при зміні каталогу"
 
-#: find/find.c:1109 find/ftsfind.c:283
+#: find/find.c:1115 find/ftsfind.c:283
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -303,7 +308,7 @@ msgstr ""
 "Символічне посилання %s є частиною циклу в ієрархії каталогів; у каталозі на "
 "який воно вказує, пошук вже відбувався."
 
-#: find/find.c:1128
+#: find/find.c:1134
 #, fuzzy, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -318,12 +323,12 @@ msgstr[1] ""
 "Зациклення у файловій системі; `%s' має той самий номер пристрою та inode, "
 "що й каталог %d %s."
 
-#: find/find.c:1379
+#: find/find.c:1385
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "попередження: не відбувся перехід за символічним посиланням %s"
 
-#: find/find.c:1423
+#: find/find.c:1429
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -846,32 +851,32 @@ msgstr "Використання: %s [-H] [-L] [-P] [-Oрівень] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [шлях...] [вираз]\n"
 
-#: find/util.c:790
+#: find/util.c:780
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Невідома ознака налагодження %s проігнорована"
 
-#: find/util.c:797
+#: find/util.c:787
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Не вказаний аргумент ключа -D"
 
-#: find/util.c:811
+#: find/util.c:801
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "За ключем -O одразу має йти десяткове ціле число"
 
-#: find/util.c:820 find/util.c:830
+#: find/util.c:810 find/util.c:820
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Вкажіть десяткове ціле число після ключа -O"
 
-#: find/util.c:835 find/util.c:839
+#: find/util.c:825 find/util.c:829
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Некоректний рівень оптимізації %s"
 
-#: find/util.c:846
+#: find/util.c:836
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -880,7 +885,7 @@ msgstr ""
 "Рівень оптимізації %lu надто високий.  Якщо треба дуже швидко шукати файли, "
 "скористайтесь GNU locate."
 
-#: find/util.c:989
+#: find/util.c:979
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
