@@ -1,5 +1,24 @@
 2009-07-12  James Youngman  <jay@gnu.org>
 
+	Savannah bug #23920: warn about -path arguments ending in /.
+	* find/parser.c (insert_path_check): new function; abstracts the
+	common functionality of parse_path, parse_ipath, parse_wholename,
+	parse_iwholename.  Also check for a trailing slash and warn about
+	it (unless $POSIXLY_CORRECT is set).  Don't warn if the pattern
+	also happens to be a start_point, because those could be matched.
+	(parse_path, parse_ipath, parse_wholename, parse_iwholename): Use
+	insert_path_check.
+	* find/tree.c (is_start_point): new function; returns true if the
+	indidated string matches a start point.
+	(num_start_points, start_points): new variables, storing the
+	starting points listed on the command line.
+	(build_expression_tree): Set num_start_points and start_points.
+	* find/defs.h: Declare is_start_point.
+	* doc/find.texi (Full Name Patterns): Explain that candidate names
+	for -path, -regex etc. will never end in a slash, so "-path /tmp/"
+	will never match anything.
+	* find/find.1: Likewise.
+
 	Fix Savannah bug #26327: xargs man page is vague about the number
 	of times command is executed.
 	* xargs/xargs.1 (DESCRIPTION): Explain more clearly that the

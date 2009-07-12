@@ -1258,34 +1258,6 @@ parse_inum (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
 }
 
-/* -ipath is deprecated (at RMS's request) in favour of
- * -iwholename.   See the node "GNU Manuals" in standards.texi
- * for the rationale for this (basically, GNU prefers the use
- * of the phrase "file name" to "path name"
- */
-static boolean
-parse_ipath (const struct parser_table* entry, char **argv, int *arg_ptr)
-{
-  const char *name;
-
-  fnmatch_sanitycheck ();
-  if (collect_arg (argv, arg_ptr, &name))
-    {
-      struct predicate *our_pred = insert_primary_withpred (entry, pred_ipath);
-      our_pred->need_stat = our_pred->need_type = false;
-      our_pred->args.str = name;
-      our_pred->est_success_rate = estimate_pattern_match_rate (name, 0);
-      return true;
-    }
-  return false;
-}
-
-static boolean
-parse_iwholename (const struct parser_table* entry, char **argv, int *arg_ptr)
-{
-  return parse_ipath (entry, argv, arg_ptr);
-}
-
 static boolean
 parse_iregex (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -1743,6 +1715,59 @@ parse_or (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
+static boolean
+is_feasible_path_argument(const char *arg, boolean foldcase)
+{
+  const char *last = strrchr (arg, '/');
+  if (last && !last[1])
+    {
+      /* The name ends with "/". */
+      if (matches_start_point (arg, foldcase))
+	{
+	  /* "-path foo/" can succeed if one of the start points is "foo/". */
+	  return true;
+	}
+      else
+	{
+	  return false;
+	}
+    }
+  return true;
+}
+
+
+static boolean
+insert_path_check (const struct parser_table* entry, char **argv, int *arg_ptr,
+		   const char *pred_name, PREDICATEFUNCTION pred)
+{
+  const char *name;
+  boolean foldcase = false;
+
+  if (pred == pred_ipath)
+    foldcase = true;
+
+  fnmatch_sanitycheck ();
+
+  if (collect_arg (argv, arg_ptr, &name))
+    {
+      struct predicate *our_pred = insert_primary_withpred (entry, pred);
+      our_pred->need_stat = our_pred->need_type = false;
+      our_pred->args.str = name;
+      our_pred->est_success_rate = estimate_pattern_match_rate (name, 0);
+
+      if (!options.posixly_correct
+	  && !is_feasible_path_argument(name, foldcase))
+	{
+	  error (0, 0, _("warning: -%s %s will not match anything "
+			 "because it ends with /."),
+		 pred_name, name);
+	  our_pred->est_success_rate = 1.0e-8;
+	}
+      return true;
+    }
+  return false;
+}
+
 /* For some time, -path was deprecated (at RMS's request) in favour of
  * -iwholename.  See the node "GNU Manuals" in standards.texi for the
  * rationale for this (basically, GNU prefers the use of the phrase
@@ -1756,22 +1781,31 @@ parse_or (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_path (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  const char *name;
-  if (collect_arg(argv, arg_ptr, &name))
-    {
-      struct predicate *our_pred = insert_primary_withpred (entry, pred_path);
-      our_pred->need_stat = our_pred->need_type = false;
-      our_pred->args.str = name;
-      our_pred->est_success_rate = estimate_pattern_match_rate (name, 0);
-      return true;
-    }
-  return false;
+  return insert_path_check (entry, argv, arg_ptr, "path", pred_path);
 }
 
 static boolean
 parse_wholename (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return parse_path (entry, argv, arg_ptr);
+  return insert_path_check (entry, argv, arg_ptr, "wholename", pred_path);
+}
+
+/* -ipath was deprecated (at RMS's request) in favour of
+ * -iwholename.   See the node "GNU Manuals" in standards.texi
+ * for the rationale for this (basically, GNU prefers the use
+ * of the phrase "file name" to "path name".
+ * However, -path is now standardised so I un-deprecated -ipath.
+ */
+static boolean
+parse_ipath (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  return insert_path_check (entry, argv, arg_ptr, "ipath", pred_ipath);
+}
+
+static boolean
+parse_iwholename (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  return insert_path_check (entry, argv, arg_ptr, "iwholename", pred_ipath);
 }
 
 static void

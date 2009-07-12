@@ -20,6 +20,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include <fnmatch.h>
 
 #include "xalloc.h"
 #include "error.h"
@@ -49,6 +50,11 @@ static struct predicate *eval_tree  = NULL;
 /* The last predicate allocated. */
 static struct predicate *last_pred = NULL;
 
+/* The starting points. */
+static char **start_points;
+static size_t num_start_points = 0;
+
+
 
 static struct predicate *scan_rest PARAMS((struct predicate **input,
 				       struct predicate *head,
@@ -56,6 +62,34 @@ static struct predicate *scan_rest PARAMS((struct predicate **input,
 static void merge_pred PARAMS((struct predicate *beg_list, struct predicate *end_list, struct predicate **last_p));
 static struct predicate *set_new_parent PARAMS((struct predicate *curr, enum predicate_precedence high_prec, struct predicate **prevp));
 static const char *cost_name PARAMS((enum EvaluationCost cost));
+
+
+/* Return true if the indicated path name is a start
+   point or not.   If no start points were given on the
+   command line, we return true for ".".
+*/
+boolean
+matches_start_point(const char *glob, bool foldcase)
+{
+  int fnmatch_flags = 0;
+  if (foldcase)
+    fnmatch_flags |= FNM_CASEFOLD;
+
+  if (num_start_points)
+    {
+      size_t i;
+      for (i=0; i<num_start_points; i++)
+	{
+	  if (fnmatch (glob, start_points[i], fnmatch_flags) == 0)
+	    return true;
+	}
+      return false;
+    }
+  else
+    {
+      return fnmatch (glob, ".", fnmatch_flags) == 0;
+    }
+}
 
 
 /* Return a pointer to a tree that represents the
@@ -1204,11 +1238,13 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   predicates = NULL;
 
   /* Find where in ARGV the predicates begin by skipping the list of
-   * start points.
+   * start points.  As a side effect, also figure out which is the
+   * first and last start point.
    */
+  start_points = argv + end_of_leading_options;
   for (i = end_of_leading_options; i < argc && !looks_like_expression(argv[i], true); i++)
     {
-      /* Do nothing. */ ;
+      ++num_start_points;
     }
 
   /* Enclose the expression in `( ... )' so a default -print will

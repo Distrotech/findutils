@@ -419,9 +419,18 @@ checking every file in the tree (@pxref{Directories}).  The ``entire
 file name'' as used by @code{find} starts with the starting-point
 specified on the command line, and is not converted to an absolute
 pathname, so for example @code{cd /; find tmp -wholename /tmp} will
-never match anything.   The name @samp{-wholename} is GNU-specific,
-but @samp{-path} is more portable; it is supported by HP-UX
-@code{find} and will soon be part of POSIX.
+never match anything.
+
+Find compares the @samp{-path} argument with the concatenation of a
+directory name and the base name of the file it's considering.
+Since the concatenation will never end with a slash, @samp{-path}
+arguments ending in @samp{/} will match nothing (except perhaps a
+start point specified on the command line).
+
+The name @samp{-wholename} is GNU-specific, but @samp{-path} is more
+portable; it is supported by HP-UX @code{find} and is of the POSIX
+2008 standard.
+
 @end deffn
 
 @deffn Test -ipath pattern
@@ -469,10 +478,15 @@ match a file named @file{./fubar3}, you can use the regular expression
 @samp{.*bar.} or @samp{.*b.*3}, but not @samp{f.*r3}.  @xref{Regexps,
 , Syntax of Regular Expressions, emacs, The GNU Emacs Manual}, for a
 description of the syntax of regular expressions.  For @samp{-iregex},
-the match is case-insensitive.  There are several varieties of regular
-expressions; by default this test uses POSIX basic regular
-expressions, but this can be changed with the option
-@samp{-regextype}.
+the match is case-insensitive.
+
+As for @samp{-path}, the candidate file name never ends with a slash,
+so regular expressions which only match something that ends in slash
+will always fail.
+
+There are several varieties of regular expressions; by default this
+test uses POSIX basic regular expressions, but this can be changed
+with the option @samp{-regextype}.
 @end deffn
 
 @deffn Option -regextype name

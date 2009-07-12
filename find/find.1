@@ -743,6 +743,14 @@ command will never match anything:
 find bar \-path /foo/bar/myfile \-print
 .br
 .in -1i
+Find compares the
+.B \-path
+argument with the concatenation of a directory name and the base name
+of the file it's examining.  Since the concatenation will never end
+with a slash,
+.B \-path
+arguments ending in a slash will match nothing (except perhaps a start
+point specified on the command line).
 The predicate
 .B \-path
 is also supported by HP-UX

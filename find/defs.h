@@ -482,6 +482,7 @@ void show_success_rates(const struct predicate *node);
 
 
 /* tree.c */
+boolean matches_start_point(const char * glob, boolean foldcase);
 struct predicate * build_expression_tree PARAMS((int argc, char *argv[], int end_of_leading_options));
 struct predicate * get_eval_tree PARAMS((void));
 struct predicate *get_new_pred PARAMS((const struct parser_table *entry));
