@@ -49,6 +49,23 @@ one or more times with any
 followed by items read from standard input.  Blank lines on the
 standard input are ignored.
 .P
+The command line for
+.I command
+is built up until it reaches a system-defined limit (unless the
+.B \-n
+and
+.B \-L
+options are used).  The specified
+.I command
+will be invoked as many times as necessary to use up the list of input
+items.  In general, there will be many fewer invocations of
+.I command
+than there were items in the input.  This will normally have
+significant performance benefits.  Some commands can usefully be
+executed in prarallel too; see the
+.B \-P
+option.
+.P
 Because Unix filenames can contain blanks and newlines, this default
 behaviour is often problematic; filenames containing blanks
 and/or newlines are incorrectly processed by
@@ -299,6 +316,8 @@ is 0,
 will run as many processes as
 possible at a time.  Use the
 .B \-n
+option or the
+.B \-L
 option with
 .BR \-P ;
 otherwise chances are that only one exec will be done.
