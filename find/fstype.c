@@ -197,7 +197,7 @@ must_read_fs_list(bool need_fs_type)
   if (NULL == entries)
     {
       /* We cannot determine for sure which file we were trying to
-       * use because gnulib has extracted all that stuff away.
+       * use because gnulib has abstracted all that stuff away.
        * Hence we cannot issue a specific error message here.
        */
       error(1, 0, "Cannot read mounted file system list");
