@@ -1263,34 +1263,6 @@ parse_inum (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
 }
 
-/* -ipath is deprecated (at RMS's request) in favour of
- * -iwholename.   See the node "GNU Manuals" in standards.texi
- * for the rationale for this (basically, GNU prefers the use
- * of the phrase "file name" to "path name"
- */
-static boolean
-parse_ipath (const struct parser_table* entry, char **argv, int *arg_ptr)
-{
-  const char *name;
-
-  fnmatch_sanitycheck ();
-  if (collect_arg (argv, arg_ptr, &name))
-    {
-      struct predicate *our_pred = insert_primary_withpred (entry, pred_ipath, name);
-      our_pred->need_stat = our_pred->need_type = false;
-      our_pred->args.str = name;
-      our_pred->est_success_rate = estimate_pattern_match_rate (name, 0);
-      return true;
-    }
-  return false;
-}
-
-static boolean
-parse_iwholename (const struct parser_table* entry, char **argv, int *arg_ptr)
-{
-  return parse_ipath (entry, argv, arg_ptr);
-}
-
 static boolean
 parse_iregex (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -1784,7 +1756,7 @@ insert_path_check (const struct parser_table* entry, char **argv, int *arg_ptr,
 
   if (collect_arg (argv, arg_ptr, &name))
     {
-      struct predicate *our_pred = insert_primary_withpred (entry, pred);
+      struct predicate *our_pred = insert_primary_withpred (entry, pred, name);
       our_pred->need_stat = our_pred->need_type = false;
       our_pred->args.str = name;
       our_pred->est_success_rate = estimate_pattern_match_rate (name, 0);
