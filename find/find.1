@@ -253,6 +253,15 @@ modern versions of Unix, file types are returned by
 .B readdir()
 and so these predicates are faster to evaluate than predicates which
 need to stat the file first.
+If you use the
+.B \-fstype
+.I FOO
+predicate and specify a filsystem type
+.I FOO
+which is not known (that is, present in `/etc/mtab') at the time
+.B find
+starts, that predicate is equivalent to
+.BR \-false .
 .IP 3
 At this optimisation level, the full cost-based query optimiser is
 enabled.  The order of tests is modified so that cheap (i.e. fast)

@@ -3123,6 +3123,12 @@ information from the inode.  On many modern versions of Unix, file
 types are returned by @code{readdir()} and so these predicates are
 faster to evaluate than predicates which need to stat the file first.
 
+If you use the @samp{-fstype FOO} predicate and specify a filsystem
+type @samp{FOO} which is not known (that is, present in
+@file{/etc/mtab}) at the time @code{find} starts, that predicate is
+equivalent to @samp{-false}.
+
+
 @item 3
 At this optimisation level, the full cost-based query optimiser is
 enabled.  The order of tests is modified so that cheap (i.e., fast)

@@ -13,6 +13,13 @@ since it contains Makefiles which are vulnerable to CVE-2009-4029.
 
 patch #4848: Patch - Support for SELinux
 
+** Performance changes
+
+If you use the -fstype FOO predicate and specify a filsystem type FOO
+which is not known (e.g. present in /etc/mtab) at the time find
+starts, that predicate is now equivalent to -false.  This substitution
+currently occurs at optimisation level 2 and above.
+
 ** Bug Fixes
 
 #29089: SELinux --context and %Z options

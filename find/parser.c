@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <grp.h>
 #include <fnmatch.h>
+#include "mountlist.h"
 #include "modechange.h"
 #include "modetype.h"
 #include "xstrtol.h"
@@ -941,18 +942,24 @@ parse_execdir (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 static boolean
-parse_false (const struct parser_table* entry, char **argv, int *arg_ptr)
+insert_false(void)
 {
   struct predicate *our_pred;
+  const struct parser_table *entry_false;
 
-  (void) argv;
-  (void) arg_ptr;
-
-  our_pred = insert_primary_noarg (entry);
+  entry_false = find_parser("false");
+  our_pred = insert_primary_noarg (entry_false);
   our_pred->need_stat = our_pred->need_type = false;
   our_pred->side_effects = our_pred->no_default_print = false;
   our_pred->est_success_rate = 0.0f;
   return true;
+}
+
+
+static boolean
+parse_false (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  return insert_false ();
 }
 
 static boolean
@@ -1056,22 +1063,70 @@ static float estimate_fstype_success_rate (const char *fsname)
 }
 
 
+
+static boolean
+is_used_fs_type(const char *name)
+{
+  if (0 == strcmp("afs", name))
+    {
+      /* I guess AFS may not appear in /etc/mtab (or equivalent) but still be in use,
+	 so assume we always need to check for AFS.  */
+      return true;
+    }
+  else
+    {
+      const struct mount_entry *entries = read_file_system_list(false);
+      if (entries)
+	{
+	  const struct mount_entry *entry;
+	  for (entry = entries; entry; entry = entry->me_next)
+	    {
+	      if (0 == strcmp(name, entry->me_type))
+		return true;
+	    }
+	}
+      else
+	{
+	  return true;
+	}
+    }
+  return false;
+}
+
+
 static boolean
 parse_fstype (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *typename;
   if (collect_arg (argv, arg_ptr, &typename))
     {
-      struct predicate *our_pred = insert_primary (entry, typename);
-      our_pred->args.str = typename;
+      if (options.optimisation_level < 2 || is_used_fs_type (typename))
+	{
+	  struct predicate *our_pred = insert_primary (entry, typename);
+	  our_pred->args.str = typename;
 
-      /* This is an expensive operation, so although there are
-       * circumstances where it is selective, we ignore this fact
-       * because we probably don't want to promote this test to the
-       * front anyway.
-       */
-      our_pred->est_success_rate = estimate_fstype_success_rate (typename);
-      return true;
+	  /* This is an expensive operation, so although there are
+	   * circumstances where it is selective, we ignore this fact
+	   * because we probably don't want to promote this test to the
+	   * front anyway.
+	   */
+	  our_pred->est_success_rate = estimate_fstype_success_rate (typename);
+	  return true;
+	}
+      else
+	{
+	  /* This filesystem type is not listed in the mount table.
+	   * Hence this predicate will always return false (with this argument).
+	   * Substitute a predicate with the same effect as -false.
+	   */
+	  if (options.debug_options & DebugTreeOpt)
+	    {
+	      fprintf (stderr,
+		       "-fstype %s can never succeed, substituting -false\n",
+		       typename);
+	    }
+	  return insert_false ();
+	}
     }
   else
     {

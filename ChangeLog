@@ -1,5 +1,17 @@
 2010-04-01  James Youngman  <jay@gnu.org>
 
+	Optimise -fstype NOTUSED to -false at -O2.
+	* find/parser.c: Include mountlist.h.
+	(insert_false): New function, inserts a -false predicate.
+	(parse_false): Use insert_false.
+	(is_used_fs_type): New function, determines if any mounted
+	filesystem is of the named type.
+	(parse_fstype): At optimisation level 2 and above, -fstpe FOO
+	is converted to -false if no mounted filesytem is of type FOO.
+	* find/find.1: Document this optimisation.
+	* doc/find.texi (Optimisation Options): Likewise.
+	* NEWS: Mention this change.
+
 	Updated copyright years to add 2010.
 	* find/find.c: Add 2010.
 	* find/fstype.c: Add 2010.
