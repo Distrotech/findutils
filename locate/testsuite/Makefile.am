@@ -17,6 +17,7 @@ locate.gnu/regex1.exp \
 locate.gnu/exists1.exp \
 locate.gnu/exists2.exp \
 locate.gnu/exists3.exp \
+locate.gnu/slocate.exp \
 locate.gnu/notexists1.exp \
 locate.gnu/notexists2.exp \
 locate.gnu/notexists3.exp \
@@ -39,6 +40,7 @@ locate.gnu/ignore_case3.xo \
 locate.gnu/exists1.xo \
 locate.gnu/exists2.xo \
 locate.gnu/exists3.xo \
+locate.gnu/slocate.xo \
 locate.gnu/notexists1.xo \
 locate.gnu/notexists2.xo \
 locate.gnu/notexists3.xo \

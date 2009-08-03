@@ -1,5 +1,13 @@
 2009-08-03  Peter Breitenlohner  <peb@mppmu.mpg.de>
 
+	* locate/locate.c: Simplify handling of slocate databases.
+	Fix the bug assuming second path extends the first one.
+	* locate/testsuite/locate.gnu/slocate.{exp,xo}: New testcase
+	for slocate databse, exposing this bug.
+	* locate/testsuite/Makefile.am: Add new test case.
+
+2009-08-03  Peter Breitenlohner  <peb@mppmu.mpg.de>
+
 	* locate/locate.c: Enable assertions and fix the off-by-one
 	bugs that prevented this.
 

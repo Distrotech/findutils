@@ -322,7 +322,6 @@ struct regular_expression
 struct process_data
 {
   int c;                        /* An input byte.  */
-  char itemcount;               /* Indicates we're at the beginning of an slocate db. */
   int count; /* The length of the prefix shared with the previous database entry.  */
   int len;
   char *original_filename;      /* The current input database entry. */
@@ -330,7 +329,6 @@ struct process_data
   char *munged_filename;        /* path or basename(path) */
   FILE *fp;                     /* The pathname database.  */
   const char *dbfile;           /* Its name, or "<stdin>" */
-  int  slocatedb_format;        /* Allows us to cope with slocate's format variant */
   GetwordEndianState endian_state;
   /* for the old database format,
      the first and second characters of the most common bigrams.  */
@@ -557,41 +555,16 @@ visit_locate02_format (struct process_data *procdata, void *context)
   int nread;
   (void) context;
 
-  if (procdata->slocatedb_format)
-    {
-      if (procdata->itemcount == 0)
-        {
-          ungetc (procdata->c, procdata->fp);
-          procdata->count = 0;
-          procdata->len = 0;
-        }
-      else if (procdata->itemcount == 1)
-        {
-          procdata->count = procdata->len-1;
-        }
-      else
-        {
-          if (procdata->c == LOCATEDB_ESCAPE)
-            procdata->count += (short)get_short (procdata->fp);
-          else if (procdata->c > 127)
-            procdata->count += procdata->c - 256;
-          else
-            procdata->count += procdata->c;
-        }
-    }
+  if (procdata->c == LOCATEDB_ESCAPE)
+    procdata->count += (short)get_short (procdata->fp);
+  else if (procdata->c > 127)
+    procdata->count += procdata->c - 256;
   else
-    {
-      if (procdata->c == LOCATEDB_ESCAPE)
-        procdata->count += (short)get_short (procdata->fp);
-      else if (procdata->c > 127)
-        procdata->count += procdata->c - 256;
-      else
-        procdata->count += procdata->c;
-    }
+    procdata->count += procdata->c;
 
   if (procdata->count > procdata->len || procdata->count < 0)
     {
-      /* This should not happen generally , but since we're
+      /* This should not happen generally, but since we're
        * reading in data which is outside our control, we
        * cannot prevent it.
        */
@@ -624,16 +597,6 @@ visit_locate02_format (struct process_data *procdata, void *context)
   assert (s[2] == '\0'); /* Added by locate_read_str.  */
 
   procdata->munged_filename = procdata->original_filename;
-
-  if (procdata->slocatedb_format)
-    {
-      /* Don't increment indefinitely, it might overflow. */
-      if (procdata->itemcount < 6)
-        {
-          ++(procdata->itemcount);
-        }
-    }
-
 
   return VISIT_CONTINUE;
 }
@@ -1068,6 +1031,7 @@ search_one_database (int argc,
   struct process_data procdata; /* Storage for data shared with visitors. */
   int slocate_seclevel;
   int oldformat;
+  int slocatedb_format;
   struct visitor* pvis; /* temp for determining past_pat_inspector. */
   const char *format_name;
   enum ExistenceCheckType do_check_existence;
@@ -1088,8 +1052,6 @@ search_one_database (int argc,
   oldformat = 0;
   procdata.endian_state = GetwordEndianStateInitial;
   procdata.len = procdata.count = 0;
-  procdata.slocatedb_format = 0;
-  procdata.itemcount = 0;
 
   procdata.dbfile = dbfile;
   procdata.fp = fp;
@@ -1163,13 +1125,13 @@ search_one_database (int argc,
         }
       add_visitor (visit_locate02_format, NULL);
       format_name = "slocate";
-      procdata.slocatedb_format = 1;
+      slocatedb_format = 1;
     }
   else
     {
       int nread2;
 
-      procdata.slocatedb_format = 0;
+      slocatedb_format = 0;
       extend (&procdata, sizeof (LOCATEDB_MAGIC), 0u);
       nread2 = fread (procdata.original_filename+nread, 1, sizeof (LOCATEDB_MAGIC)-nread,
                       procdata.fp);
@@ -1351,6 +1313,12 @@ search_one_database (int argc,
 
 
   procdata.c = getc (procdata.fp);
+  if (slocatedb_format  && (procdata.c != EOF))
+    {
+      /* Make slocate database look like GNU locate database. */
+      ungetc(procdata.c, procdata.fp);
+      procdata.c = 0;
+    }
   /* If we are searching for filename patterns, the inspector list
    * will contain an entry for each pattern for which we are searching.
    */

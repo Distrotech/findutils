@@ -1,0 +1,9 @@
+# tests an slocate database, string1 (tmp/subdia) is not prefix of string2 (tmp/subdir).
+set tmp "tmp"
+exec rm -rf $tmp
+exec mkdir $tmp
+exec touch $tmp/subdia
+exec mkdir $tmp/subdir
+exec touch $tmp/subdir/fred
+locate_start p "--changecwd=. --output=$tmp/locatedb --dbformat=slocate --localpaths=$tmp/subdi*" "--database=$tmp/locatedb -e subdi 2>/dev/null" {}
+
