@@ -286,8 +286,8 @@ locate_read_str (char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
               *buf = pnew;
             }
         }
-      memcpy ((*buf)+offs, p, nread);
-      free (p);
+      memcpy((*buf)+offs, p, nread + 1);
+      free(p);
     }
   return nread;
 }
@@ -603,10 +603,21 @@ visit_locate02_format (struct process_data *procdata, void *context)
   nread = locate_read_str (&procdata->original_filename,
                            &procdata->pathsize,
                            procdata->fp, 0, procdata->count);
-  if (nread < 0)
+  if (nread < 1)
     return VISIT_ABORT;
   procdata->c = getc (procdata->fp);
-  procdata->len = procdata->count + nread;
+  procdata->len = procdata->count + nread - 1; /* Number of chars in path. */
+
+  if (procdata->len < 1)
+    {
+      /* This should not happen generally, but since we're
+       * reading in data which is outside our control, we
+       * cannot prevent it.
+       */
+      error(1, 0, _("locate database %s is corrupt or invalid"),
+	    quotearg_n_style(0, locale_quoting_style, procdata->dbfile));
+    }
+
   s = procdata->original_filename + procdata->len - 1; /* Move to the last char in path.  */
   assert (s[0] != '\0');
   assert (s[1] == '\0'); /* Our terminator.  */
