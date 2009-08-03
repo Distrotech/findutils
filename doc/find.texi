@@ -2971,7 +2971,7 @@ database is zero.  The second byte is immediately followed by the
 first database entry.  The first entry in the database is not preceded
 by any differential count or dummy entry.  Instead the differential
 count for the first item is assumed to be zero.
-.P
+
 Starting with the second entry (if any) in the database, data is
 interpreted as for the GNU LOCATE02 format.
 
@@ -3533,16 +3533,6 @@ Print the version number of @code{locate} and exit.
 @example
 updatedb @r{[}@var{option}@dots{}@r{]}
 @end example
-
-@code{updatedb} creates and updates the database of file names used by
-@code{locate}.  @code{updatedb} generates a list of files similar to
-the output of @code{find} and then uses utilities for optimizing the
-database for performance.  @code{updatedb} is often run periodically
-as a @code{cron} job and configured with environment variables or
-command options.  Typically, operating systems have a shell script
-that ``exports'' configurations for variable definitions and uses
-another shell script that ``sources'' the configuration file into the
-environment and then executes @code{updatedb} in the environment.
 
 @code{updatedb} creates and updates the database of file names used by
 @code{locate}.  @code{updatedb} generates a list of files similar to
