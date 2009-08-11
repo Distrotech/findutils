@@ -1261,6 +1261,14 @@ situation.
 
 @end deffn
 
+@deffn Test -context pattern
+True if file's SELinux context matches the pattern @var{pattern}.
+The pattern uses shell glob matching.
+
+This predicate is supported only on @code{find} versions compiled with
+SELinux support and only when SELinux is enabled.
+@end deffn
+
 @node Contents
 @section Contents
 
@@ -1752,6 +1760,7 @@ from the novel you are reading.
 * Size Directives::
 * Location Directives::
 * Time Directives::
+* Other Directives::
 * Formatting Flags::
 @end menu
 
@@ -1907,6 +1916,14 @@ File's last modification time in the format returned by the C
 @item %T@var{k}
 File's last modification time in the format specified by @var{k}
 (@pxref{Time Formats}).
+@end table
+
+@node Other Directives
+@subsubsection Other Directives
+
+@table @code
+@item %Z
+File's SELinux context, or empty string if the file has no SELinux context.
 @end table
 
 @node Time Formats

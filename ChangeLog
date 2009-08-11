@@ -1,3 +1,16 @@
+2009-08-11  Kamil Dudka  <kdudka@redhat.com>
+
+	find: add SELinux support
+	* find/defs.h: Add SELinux related definitions.
+	* find/tree.c: Add -context predicate to lookup.
+	* find/pred.c: Handle %Z printf directive.
+	* find/parser.c: Parse -context predicate and %Z printf directive.
+	* find/find.1: Mention -context predicate and %Z printf directive.
+	* doc/find.texi: Mention -context predicate and %Z printf directive.
+	* find/Makefile.am: Add SELinux libraries.
+	* import-gnulib.config: Require module selinux-at and the corresponding
+	version of gnulib.
+
 2010-03-29  James Youngman  <jay@gnu.org>
 
 	Fix file descriptor leaks.  This fixes Savannah bug bug #27375.

@@ -53,6 +53,8 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
+#include "selinux-at.h"
+
 #if ENABLE_NLS
 # include <libintl.h>
 # define _(Text) gettext (Text)
@@ -155,6 +157,7 @@ static boolean parse_noignore_race PARAMS((const struct parser_table*, char *arg
 static boolean parse_warn          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_xtype         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static boolean parse_quit          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static boolean parse_context       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 
 boolean parse_print             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 
@@ -251,6 +254,7 @@ static struct parser_table const parse_table[] =
   PARSE_TEST       ("cmin",                  cmin),	     /* GNU */
   PARSE_TEST       ("cnewer",                cnewer),	     /* GNU */
   {ARG_TEST,       "ctime",                  parse_time, pred_ctime}, /* POSIX */
+  PARSE_TEST       ("context",               context),      /* GNU */
   PARSE_POSOPT     ("daystart",              daystart),	     /* GNU */
   PARSE_ACTION     ("delete",                delete), /* GNU, Mac OS, FreeBSD */
   PARSE_OPTION     ("d",                     d), /* Mac OS X, FreeBSD, NetBSD, OpenBSD, but deprecated  in favour of -depth */
@@ -347,6 +351,86 @@ static struct parser_table const parse_table[] =
 static const char *first_nonoption_arg = NULL;
 static const struct parser_table *noop = NULL;
 
+static int
+fallback_getfilecon (int fd, const char *name, security_context_t *p,
+		     int prev_rv)
+{
+  /* Our original getfilecon () call failed.  Perhaps we can't follow a
+   * symbolic link.  If that might be the problem, lgetfilecon () the link.
+   * Otherwise, admit defeat. */
+  switch (errno)
+    {
+      case ENOENT:
+      case ENOTDIR:
+#ifdef DEBUG_STAT
+	fprintf (stderr, "fallback_getfilecon(): getfilecon(%s) failed; falling "
+			"back on lgetfilecon()\n", name);
+#endif
+	return lgetfileconat (fd, name, p);
+
+      case EACCES:
+      case EIO:
+      case ELOOP:
+      case ENAMETOOLONG:
+#ifdef EOVERFLOW
+      case EOVERFLOW:        /* EOVERFLOW is not #defined on UNICOS. */
+#endif
+      default:
+	return prev_rv;
+    }
+}
+
+/* optionh_getfilecon () implements the getfilecon operation when the
+ * -H option is in effect.
+ *
+ * If the item to be examined is a command-line argument, we follow
+ * symbolic links.  If the getfilecon () call fails on the command-line
+ * item, we fall back on the properties of the symbolic link.
+ *
+ * If the item to be examined is not a command-line argument, we
+ * examine the link itself. */
+int
+optionh_getfilecon (int fd, const char *name, security_context_t *p)
+{
+  int rv;
+  if (0 == state.curdepth)
+    {
+      /* This file is from the command line; dereference the link (if it is
+	 a link). */
+      rv = getfileconat (fd, name, p);
+      if (0 == rv)
+	return 0;               /* success */
+      else
+	return fallback_getfilecon (fd, name, p, rv);
+    }
+  else
+    {
+      /* Not a file on the command line; do not dereference the link. */
+      return lgetfileconat (fd, name, p);
+    }
+}
+
+/* optionl_getfilecon () implements the getfilecon operation when the
+ * -L option is in effect.  That option makes us examine the thing the
+ * symbolic link points to, not the symbolic link itself. */
+int
+optionl_getfilecon (int fd, const char *name, security_context_t *p)
+{
+  int rv = getfileconat (fd, name, p);
+  if (0 == rv)
+    return 0;                  /* normal case. */
+  else
+    return fallback_getfilecon (fd, name, p, rv);
+}
+
+/* optionp_getfilecon () implements the stat operation when the -P
+ * option is in effect (this is also the default).  That option makes
+ * us examine the symbolic link itself, not the thing it points to. */
+int
+optionp_getfilecon (int fd, const char *name, security_context_t *p)
+{
+  return lgetfileconat (fd, name, p);
+}
 
 void
 check_option_combinations(const struct predicate *p)
@@ -450,11 +534,13 @@ set_follow_state(enum SymlinkOption opt)
 	{
 	case SYMLINK_ALWAYS_DEREF:  /* -L */
 	  options.xstat = optionl_stat;
+	  options.x_getfilecon = optionl_getfilecon;
 	  options.no_leaf_check = true;
 	  break;
 
 	case SYMLINK_NEVER_DEREF:	/* -P (default) */
 	  options.xstat = optionp_stat;
+	  options.x_getfilecon = optionp_getfilecon;
 	  /* Can't turn no_leaf_check off because the user might have specified
 	   * -noleaf anyway
 	   */
@@ -462,6 +548,7 @@ set_follow_state(enum SymlinkOption opt)
 
 	case SYMLINK_DEREF_ARGSONLY: /* -H */
 	  options.xstat = optionh_stat;
+	  options.x_getfilecon = optionh_getfilecon;
 	  options.no_leaf_check = true;
 	}
     }
@@ -1146,8 +1233,10 @@ tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n\
       -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n\
       -readable -writable -executable\n\
       -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n\
-      -used N -user NAME -xtype [bcdpfls]\n"));
+      -used N -user NAME -xtype [bcdpfls]"));
   puts (_("\
+      -context CONTEXT\n"));
+  puts (_("\n\
 actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n\
       -fprint0 FILE -fprint FILE -ls -fls FILE -prune -quit\n\
       -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n\
@@ -2613,6 +2702,11 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   printf("LEAF_OPTIMISATION ");
   ++features;
 #endif
+  if (0 < is_selinux_enabled ())
+    {
+      printf ("SELINUX ");
+      ++features;
+    }
 
   flags = 0;
   if (is_fts_enabled(&flags))
@@ -2645,6 +2739,31 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   printf("\n");
 
   exit (0);
+}
+
+static boolean
+parse_context (const struct parser_table* entry, char **argv, int *arg_ptr)
+{
+  struct predicate *our_pred;
+
+  if ((argv == NULL) || (argv[*arg_ptr] == NULL))
+    return false;
+
+  if (is_selinux_enabled () <= 0)
+    {
+      error (1, 0, _("invalid predicate -context: SELinux is not enabled."));
+      return false;
+    }
+  our_pred = insert_primary (entry, NULL);
+  our_pred->est_success_rate = 0.01f;
+  our_pred->need_stat = false;
+#ifdef DEBUG
+  our_pred->p_name = find_pred_name (pred_context);
+#endif /*DEBUG*/
+  our_pred->args.scontext = argv[*arg_ptr];
+
+  (*arg_ptr)++;
+  return true;
 }
 
 static boolean
@@ -2900,7 +3019,7 @@ insert_fprintf (struct format_val *vec,
 	  if (*scan2 == '.')
 	    for (scan2++; ISDIGIT (*scan2); scan2++)
 	      /* Do nothing. */ ;
-	  if (strchr ("abcdDfFgGhHiklmMnpPsStuUyY", *scan2))
+	  if (strchr ("abcdDfFgGhHiklmMnpPsStuUyYZ", *scan2))
 	    {
 	      segmentp = make_segment (segmentp, format, scan2 - format,
 				       KIND_FORMAT, *scan2, 0,
@@ -3031,7 +3150,7 @@ make_segment (struct segment **segment,
     case 'f':			/* basename of path */
     case 'h':			/* leading directories part of path */
     case 'p':			/* pathname */
-    case 'P':			/* pathname with ARGV element stripped */
+    case 'Z':			/* SELinux security context */
       *fmt++ = 's';
       break;
 

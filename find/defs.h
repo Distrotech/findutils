@@ -48,6 +48,7 @@ Please stop compiling the program now
 #include <stdbool.h>		/* for bool/boolean */
 #include <stdint.h>		/* for uintmax_t */
 #include <sys/stat.h> /* S_ISUID etc. */
+#include <selinux/selinux.h>
 
 
 
@@ -320,6 +321,7 @@ struct predicate
     struct samefile_file_id samefileid; /* samefile */
     mode_t type;		/* type */
     struct format_val printf_vec; /* printf fprintf fprint ls fls print0 fprint0 print */
+    security_context_t scontext; /* security context */
   } args;
 
   /* The next predicate in the user input sequence,
@@ -464,6 +466,7 @@ PREDICATEFUNCTION pred_used;
 PREDICATEFUNCTION pred_user;
 PREDICATEFUNCTION pred_writable;
 PREDICATEFUNCTION pred_xtype;
+PREDICATEFUNCTION pred_context;
 
 
 
@@ -609,6 +612,9 @@ struct options
    * can be changed with the positional option, -regextype.
    */
   int regex_options;
+
+  /* function used to get file context */
+  int (*x_getfilecon) (int, const char *, security_context_t *);
 
   /* Optimisation level.  One is the default.
    */

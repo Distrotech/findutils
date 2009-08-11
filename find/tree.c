@@ -945,6 +945,7 @@ static struct pred_cost_lookup costlookup[] =
     { pred_cmin      ,  NeedsStatInfo,       },
     { pred_cnewer    ,  NeedsStatInfo,       },
     { pred_comma     ,  NeedsNothing,        },
+    { pred_context   ,  NeedsAccessInfo      },
     { pred_ctime     ,  NeedsStatInfo,       },
     { pred_delete    ,  NeedsSyncDiskHit     },
     { pred_empty     ,  NeedsStatInfo        },
@@ -1496,6 +1497,7 @@ get_new_pred (const struct parser_table *entry)
   last_pred->p_cost = NeedsUnknown;
   last_pred->arg_text = "ThisShouldBeSetToSomethingElse";
   last_pred->args.str = NULL;
+  last_pred->args.scontext = NULL;
   last_pred->pred_next = NULL;
   last_pred->pred_left = NULL;
   last_pred->pred_right = NULL;

@@ -48,6 +48,8 @@
 #include "verify.h"
 #include "fdleak.h"
 
+#include <selinux/selinux.h>
+
 #if ENABLE_NLS
 # include <libintl.h>
 # define _(Text) gettext (Text)
@@ -231,6 +233,7 @@ struct pred_assoc pred_table[] =
   {pred_user, "user    "},
   {pred_writable, "writable "},
   {pred_xtype, "xtype   "},
+  {pred_context, "context"},
   {0, "none    "}
 };
 #endif
@@ -1065,6 +1068,23 @@ do_fprintf(struct format_val *dest,
 			     mode_to_filetype(stat_buf->st_mode & S_IFMT));
 	  }
 	  break;
+	case 'Z':               /* SELinux security context */
+	  {
+	    security_context_t scontext;
+	    int rv = (*options.x_getfilecon) (state.cwd_dir_fd, state.rel_pathname,
+					      &scontext);
+	    if (rv < 0)
+	      {
+		error (0, errno, "getfilecon: %s",
+		    safely_quote_err_filename (0, pathname));
+	      }
+	    else
+	      {
+		checked_fprintf (dest, segment->text, scontext);
+		freecon (scontext);
+	      }
+	  }
+	  break;
 	}
       /* end of KIND_FORMAT case */
       break;
@@ -1877,6 +1897,26 @@ pred_xtype (const char *pathname, struct stat *stat_buf, struct predicate *pred_
    */
   return (pred_type (pathname, &sbuf, pred_ptr));
 }
+
+
+boolean
+pred_context (const char *pathname, struct stat *stat_buf,
+	      struct predicate *pred_ptr)
+{
+  security_context_t scontext;
+  int rv = (*options.x_getfilecon) (state.cwd_dir_fd, state.rel_pathname,
+				    &scontext);
+  if (rv < 0)
+    {
+      error (0, errno, "getfilecon: %s", safely_quote_err_filename (0, pathname));
+      return false;
+    }
+
+  rv = (fnmatch (pred_ptr->args.scontext, scontext, 0) == 0);
+  freecon (scontext);
+  return rv;
+}
+
 
 /*  1) fork to get a child; parent remembers the child pid
     2) child execs the command requested

@@ -940,6 +940,8 @@ if \fIc\fR is `l'.  In other words, for symbolic links,
 checks the type of the file that
 .B \-type
 does not check.
+.IP "\-context \fIpattern\fR"
+(SELinux only) Security context of the file matches glob \fIpattern\fR.
 
 .SS ACTIONS
 .IP "\-delete\fR"
@@ -1361,6 +1363,8 @@ File's type (like in
 U=unknown type (shouldn't happen)
 .IP %Y
 File's type (like %y), plus follow symlinks: L=loop, N=nonexistent
+.IP %Z
+(SELinux only) file's security context.
 .PP
 A `%' character followed by any other character is discarded, but the
 other character is printed (don't rely on this, as further format
