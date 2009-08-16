@@ -12,10 +12,10 @@ esac
 save_output="regexprops.texi.new"
 
 rv=1
-if output_file=`mktemp`
+if output_file=`mktemp ${TMPDIR:-/tmp}/check-regexprops.XXXXXX`
 then
     ${REGEXPROPS} "Regular Expressions" findutils |
-    sed -e 's/[	 ]\+$//' >| "${output_file}"
+    sed -e 's/[     ][      ]*$//' >| "${output_file}"
     if cmp "${existing}" "${output_file}" ; then
 	echo "${existing} is up to date."
 	rv=0
