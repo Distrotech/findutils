@@ -459,6 +459,23 @@ consider_visiting (FTS *p, FTSENT *ent)
 	      error_severity (1);
 	      return;
 	    }
+	  else
+	    {
+	      error(0, ent->fts_errno, "%s",
+		    safely_quote_err_filename(0, ent->fts_path));
+	      error_severity(1);
+	      /* Continue despite the error, as file name without stat info
+	       * might be better than not even processing the file name. This
+	       * can lead to repeated error messages later on, though, if a
+	       * predicate requires stat information.
+	       *
+	       * Not printing an error message here would be even more wrong,
+	       * though, as this could cause the contents of a directory to be
+	       * silently ignored, as the directory wouldn't be identified as
+	       * such.
+	       */
+	    }
+	  
 	}
     }
 
@@ -467,7 +484,7 @@ consider_visiting (FTS *p, FTSENT *ent)
       || ent->fts_info == FTS_NS /* e.g. symlink loop */)
     {
       assert (!state.have_stat);
-      assert (ent->fts_info == FTS_NSOK || state.type != 0);
+      assert (ent->fts_info == FTS_NSOK || state.type == 0);
       mode = state.type;
     }
   else

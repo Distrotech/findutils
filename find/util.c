@@ -216,6 +216,9 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
 	{
 	  if (!options.ignore_readdir_race || (errno != ENOENT) )
 	    {
+              /* FIXME: this error message might repeat the one from
+               * the FTS_NS case in consider_visiting. How to avoid this?
+               */
 	      error (0, errno, "%s",
 		     safely_quote_err_filename (0, pathname));
 	      state.exit_status = 1;
@@ -272,6 +275,10 @@ get_info (const char *pathname,
       int result = get_statinfo (pathname, state.rel_pathname, p);
       if (result != 0)
 	{
+	  return -1;		/* failure. */
+	}
+      else
+	{
 	  /* Verify some postconditions.  We can't check st_mode for
 	     non-zero-ness because of Savannah bug #16378 (which is
 	     that broken NFS servers can return st_mode==0). */
@@ -283,10 +290,6 @@ get_info (const char *pathname,
 	    {
 	      assert (p->st_ino);
 	    }
-	  return -1;		/* failure. */
-	}
-      else
-	{
 	  return 0;		/* success. */
 	}
     }
