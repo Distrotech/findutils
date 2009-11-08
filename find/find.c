@@ -37,7 +37,6 @@
 
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <openat.h>
 
 #include "xalloc.h"
 #include "human.h"

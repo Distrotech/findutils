@@ -49,7 +49,6 @@
 #include "quotearg.h"
 #include "quote.h"
 #include "fts_.h"
-#include "openat.h"
 #include "save-cwd.h"
 #include "xgetcwd.h"
 #include "error.h"

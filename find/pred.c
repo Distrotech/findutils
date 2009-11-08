@@ -31,8 +31,8 @@
 #include <stdarg.h>
 #include <fcntl.h>
 #include <locale.h>
-#include <openat.h>
 #include <ctype.h>
+#include <unistd.h> /* for unlinkat() */
 #include "xalloc.h"
 #include "dirname.h"
 #include "human.h"

@@ -1,5 +1,12 @@
 2010-02-21  James Youngman  <jay@gnu.org>
 
+	Update #include directives for the openat module, to comply with
+	recent POSIX-compliance changes.
+	* find/find.c: Don't include <openat.h>.
+	* find./ftsfind.c: Likewise.
+	* find/pred.c: Likewise; include <unistd.h>.
+	* find/util.c: Don't include <openat.h>; include <sys/stat.h>.
+
 	* import-gnulib.config (gnulib_version): Update to current version
 	of gnulib.
 	* build-aux/.cvsignore: Ignore new files built by gnulib.

@@ -24,6 +24,7 @@
 #include <sys/utsname.h>
 #endif
 #include <sys/time.h>
+#include <sys/stat.h> /* for fstatat() */
 #include <ctype.h>
 #include <string.h>
 #include <limits.h>
@@ -35,7 +36,7 @@
 #include "timespec.h"
 #include "error.h"
 #include "verify.h"
-#include "openat.h"
+
 
 #if ENABLE_NLS
 # include <libintl.h>
