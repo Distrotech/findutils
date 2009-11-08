@@ -1032,7 +1032,7 @@ safe_atoi (const char *s)
     }
   else if (*end)
     {
-      error(1, errno, "Unexpected suffix %s on %s",
+      error(1, errno, _("Unexpected suffix %s on %s"),
 	    quotearg_n_style(0, options.err_quoting_style, end),
 	    quotearg_n_style(1, options.err_quoting_style, s));
     }
@@ -3390,8 +3390,8 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
   struct time_val tval;
   enum comparison_type comp;
   const char *timearg, *orig_timearg;
-  const char *errmsg = "arithmetic overflow while converting %s "
-    "days to a number of seconds";
+  const char *errmsg = _("arithmetic overflow while converting %s "
+			 "days to a number of seconds");
   struct timespec origin;
 
   if (!collect_arg(argv, arg_ptr, &timearg))

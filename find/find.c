@@ -299,7 +299,7 @@ init_mounted_dev_list(int mandatory)
   mounted_devices = get_mounted_devices(&num_mounted_devices);
   if (mandatory && (NULL == mounted_devices))
     {
-      error(1, 0, "Cannot read list of mounted devices.");
+      error(1, 0, _("Cannot read list of mounted devices."));
     }
 }
 
@@ -696,7 +696,7 @@ safely_chdir_lstat(const char *dest,
 			   * is fatal.
 			   */
 			  error(1, errno,
-				"failed to return to parent directory");
+				_("failed to return to parent directory"));
 			}
 		    }
 		  else
