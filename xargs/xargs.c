@@ -1006,7 +1006,7 @@ print_args (boolean ask)
 	{
 	  tty_stream = fopen ("/dev/tty", "r");
 	  if (!tty_stream)
-	    error (1, errno, "/dev/tty");
+	    error (1, errno, _("failed to open /dev/tty for reading"));
 	}
       fputs ("?...", stderr);
       fflush (stderr);
@@ -1090,7 +1090,7 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
       wait_for_proc (false, 0u);
 
       if (pipe(fd))
-	error (1, errno, "could not create pipe before fork");
+	error (1, errno, _("could not create pipe before fork"));
       fcntl(fd[1], F_SETFD, FD_CLOEXEC);
 
       /* If we run out of processes, wait for a child to return and
