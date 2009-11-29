@@ -1,0 +1,34 @@
+exec rm -rf tmp
+exec mkdir tmp tmp/a
+
+set testbase [file rootname [info script]]
+set outfile "$testbase.xo"
+send_log "outfile is $outfile\n"
+set file_list {}
+
+set f [open $outfile]
+while {[gets $f filename] >= 0} {
+    lappend flie_list $filename
+    set ftmp [open "$filename" "w"]
+    close $ftmp
+}
+close $f
+
+set script [open tmp/list.sh "w"]
+puts $script {#! /bin/sh
+for f; do echo "$f"; done
+}
+close $script
+exec chmod 0500 tmp/list.sh
+
+send_log "creeating files $file_list\n"
+foreach filename $file_list {
+}
+
+
+find_start p { tmp/a/ -type f -exec echo \{\} \; }
+
+find_start p { tmp/a/ -type f -exec sh tmp/list.sh \{\} \+ }
+
+exec rm -rf tmp/a tmp/list.sh
+exec rmdir tmp

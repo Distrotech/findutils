@@ -1,5 +1,11 @@
 2009-11-29  James Youngman  <jay@gnu.org>
 
+	* find/testsuite/find.posix/exec-nogaps.exp: New test for find
+	-exec 	... {} ; and find -exec ... {} +, both of which simply
+	ensure that all exec arguments are processed exactly once each.
+	* find/testsuite/find.posix/exec-nogaps.xo: Expected output file
+	for the test in exec-nogaps.exp.
+
 	Fix Savannah bug#27328, segfault if the initial exec for "find
 	-exec" fails.  Also Savennah bug #27975: Infinite loop
 	for -exec [..] {} +.
