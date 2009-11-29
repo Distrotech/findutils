@@ -360,7 +360,7 @@ do_complete_pending_execdirs(struct predicate *p, int dir_fd)
 	  if (execp->state.todo)
 	    {
 	      /* There are not-yet-executed arguments. */
-	      launch (&execp->ctl, &execp->state);
+	      bc_do_exec (&execp->ctl, &execp->state);
 	    }
 	}
     }
@@ -408,7 +408,7 @@ complete_pending_execs(struct predicate *p)
       if (execp->state.todo)
 	{
 	  /* There are not-yet-executed arguments. */
-	  launch (&execp->ctl, &execp->state);
+	  bc_do_exec (&execp->ctl, &execp->state);
 	}
     }
 
@@ -800,6 +800,7 @@ process_debug_options(char *arg)
       exit(0);
     }
 }
+
 
 static void
 process_optimisation_option(const char *arg)

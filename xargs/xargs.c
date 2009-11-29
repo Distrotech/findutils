@@ -236,7 +236,7 @@ static int read_line PARAMS ((void));
 static int read_string PARAMS ((void));
 static boolean print_args PARAMS ((boolean ask));
 /* static void do_exec PARAMS ((void)); */
-static int xargs_do_exec (struct buildcmd_control *cl, struct buildcmd_state *state);
+static int xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv);
 static void exec_if_possible PARAMS ((void));
 static void add_proc PARAMS ((pid_t pid));
 static void wait_for_proc PARAMS ((boolean all, unsigned int minreap));
@@ -1057,7 +1057,7 @@ prep_child_for_exec (void)
    as an atexit() function.
 */
 static int
-xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
+xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv)
 {
   pid_t child;
   int fd[2];
@@ -1065,7 +1065,6 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
   int r;
 
   (void) ctl;
-  (void) state;
 
   if (!query_before_executing || print_args (true))
     {
@@ -1110,7 +1109,10 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 
 	    prep_child_for_exec();
 
-	    execvp (bc_state.cmd_argv[0], bc_state.cmd_argv);
+	    if (bc_args_exceed_testing_limit (argv))
+	      errno = E2BIG;
+	    else
+	      execvp (argv[0], argv);
 	    if (errno)
 	      {
 		/* Write errno value to parent.  We do this even if
@@ -1131,13 +1133,13 @@ xargs_do_exec (struct buildcmd_control *ctl, struct buildcmd_state *state)
 	    close(fd[1]);
 	    if (E2BIG != errno)
 	      {
-		error (0, errno, "%s", bc_state.cmd_argv[0]);
-		/* The actual value returned here should be irrelevant,
-		 * because the parent will test our value of errno.
-		 */
-		_exit (errno == ENOENT ? 127 : 126);
-
+		error (0, errno, "%s", argv[0]);
 	      }
+	    /* The actual value returned here should be irrelevant,
+	     * because the parent will test our value of errno.
+	     */
+	    _exit (errno == ENOENT ? 127 : 126);
+
 	  /*NOTREACHED*/
 	  } /* child */
 

@@ -48,6 +48,10 @@ struct buildcmd_state
 
   /* Directory in which to perform the exec. */
   int dir_fd;
+
+  /* Summary of what we think the argv limits are. */
+  int largest_successful_arg_count;
+  int smallest_failed_arg_count;
 };
 
 struct buildcmd_control
@@ -87,7 +91,7 @@ struct buildcmd_control
   int initial_argc;		/* 0 */
 
   /* exec callback. */
-  int (*exec_callback)(struct buildcmd_control *, struct buildcmd_state *);
+  int (*exec_callback)(struct buildcmd_control *, void *usercontext, int argc, char **argv);
 
   /* If nonzero, the maximum number of nonblank lines from stdin to use
      per command line.  */
@@ -132,6 +136,7 @@ extern size_t bc_get_arg_max(void);
 extern void bc_use_sensible_arg_max(struct buildcmd_control *ctl);
 extern void bc_clear_args(const struct buildcmd_control *ctl,
 			  struct buildcmd_state *state);
+extern int bc_args_exceed_testing_limit(const char **argv);
 
 
 #endif

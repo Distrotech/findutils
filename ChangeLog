@@ -1,3 +1,51 @@
+2009-11-29  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug#27328, segfault if the initial exec for "find
+	-exec" fails.  Also Savennah bug #27975: Infinite loop
+	for -exec [..] {} +.
+	* lib/buildcmd.h (struct buildcmd_state): Introduce
+	largest_successful_arg_count and smallest_failed_arg_count in
+	order to avoid an assumption that we understand how the operatingn
+	system interprets ARG_MAX and the assumption that the compile-time
+	ARG_MAX value (or the equivalent from sysconf()) is avtually
+	correct.
+	(struct buildcmd_control): Change the calling convention of the
+	exec callback to allow us to pass the argument list separately.
+	(bc_args_exceed_testing_limit): declare this new funciton.
+	* lib/buildcmd.c (bc_args_complete): New function, NULL-terminates
+	the argv list.   We use this instead of passing NULL to
+	bc_push_arg().
+	(update_limit): New function.  Decides how many arguments to
+	pass to the invoked command on the next attempt.
+	(copy_args): Build an argument list containing all the initial
+	arguments plus some of the other args (the number to be used is
+	decided by update_limit).
+	(bc_do_exec): Avoid special-casing the first call to exec.  Use
+	update_limit to decide how many arguments to pass and copy_args to
+	build the argument list.  The new form of the loop should fix
+	Savannah bug #27328.
+	(bc_push_arg): Drop support for passing NULL as an argument (to
+	terminate the arg list we just pass in a special argument instead).
+	(bc_args_exceed_testing_limit): New function, returns nonzero if
+	the argument list exceeds a testing limit (used for failure
+	injection by tests).
+	(exceeds): New support function, implementing part of
+	bc_args_exceed_testing_limit.
+	(bc_init_state): Initialise largest_successful_arg_count and
+	smallest_failed_arg_count.
+	* find/defs.h (struct exec_val): New member last_child_status.
+	This stores the status of the most recently completed child.
+	* find/pred.c (new_impl_pred_exec): Use last_child_status.
+	(launch): Use the new calling convention for the exec callback.
+	Set last_child_status.  Call bc_args_exceed_testing_limit() to do
+	failure injection for unit tests.
+	* find/util.c (do_complete_pending_execdirs): Call bc_do_exec
+	rather than calling launch directly in order to allow for breaking
+	the argument list up if it's too long.
+	* xargs/xargs.c (xargs_do_exec): Update to use the new caling
+	convention for the exec callback.
+	* NEWS: Mention these fixes.
+
 2009-11-09  Jim Meyering  <meyering@redhat.com>
 
 	Adjust two xargs diagnostics.

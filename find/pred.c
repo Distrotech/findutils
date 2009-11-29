@@ -546,8 +546,18 @@ new_impl_pred_exec (int dir_fd, const char *pathname,
 	}
 
       /* Actually invoke the command. */
-      return  execp->ctl.exec_callback(&execp->ctl,
-					&execp->state);
+      bc_do_exec (&execp->ctl, &execp->state);
+      if (WIFEXITED(execp->last_child_status))
+	{
+	  if (0 == WEXITSTATUS(execp->last_child_status))
+	    return true;	/* The child succeeded. */
+	  else
+	    return false;
+	}
+      else
+	{
+	  return false;
+	}
     }
 }
 
@@ -1940,24 +1950,21 @@ prep_child_for_exec (boolean close_stdin, int dir_fd)
 
 
 
+
+
+
 int
-launch (struct buildcmd_control *ctl,
-	struct buildcmd_state *buildstate)
+launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv)
 {
-  int wait_status;
   pid_t child_pid;
   static int first_time = 1;
-  const struct exec_val *execp = buildstate->usercontext;
+  struct exec_val *execp = usercontext;
 
   if (!execp->use_current_dir)
     {
       assert (starting_desc >= 0);
       assert (execp->dir_fd == starting_desc);
     }
-
-
-  /* Null terminate the arg list.  */
-  bc_push_arg (ctl, buildstate, (char *) NULL, 0, NULL, 0, false);
 
   /* Make sure output of command doesn't get mixed with find output. */
   fflush (stdout);
@@ -1981,35 +1988,32 @@ launch (struct buildcmd_control *ctl,
 	{
 	  _exit(1);
 	}
-
-      execvp (buildstate->cmd_argv[0], buildstate->cmd_argv);
+      if (bc_args_exceed_testing_limit (argv))
+	errno = E2BIG;
+      else
+	execvp (argv[0], argv);
+      /* TODO: use a pipe to pass back the errno value, like xargs does */
       error (0, errno, "%s",
-	     safely_quote_err_filename(0, buildstate->cmd_argv[0]));
+	     safely_quote_err_filename(0, argv[0]));
       _exit (1);
     }
 
-
-  /* In parent; set up for next time. */
-  bc_clear_args(ctl, buildstate);
-
-
-  while (waitpid (child_pid, &wait_status, 0) == (pid_t) -1)
+  while (waitpid (child_pid, &(execp->last_child_status), 0) == (pid_t) -1)
     {
       if (errno != EINTR)
 	{
 	  error (0, errno, _("error waiting for %s"),
-		 safely_quote_err_filename(0, buildstate->cmd_argv[0]));
+		 safely_quote_err_filename(0, argv[0]));
 	  state.exit_status = 1;
 	  return 0;		/* FAIL */
 	}
     }
 
-  if (WIFSIGNALED (wait_status))
+  if (WIFSIGNALED (execp->last_child_status))
     {
       error (0, 0, _("%s terminated by signal %d"),
-	     quotearg_n_style(0, options.err_quoting_style,
-			      buildstate->cmd_argv[0]),
-	     WTERMSIG (wait_status));
+	     quotearg_n_style(0, options.err_quoting_style, argv[0]),
+	     WTERMSIG (execp->last_child_status));
 
       if (execp->multiple)
 	{
@@ -2023,7 +2027,7 @@ launch (struct buildcmd_control *ctl,
       return 1;			/* OK */
     }
 
-  if (0 == WEXITSTATUS (wait_status))
+  if (0 == WEXITSTATUS (execp->last_child_status))
     {
       return 1;			/* OK */
     }
@@ -2037,7 +2041,10 @@ launch (struct buildcmd_control *ctl,
 	   */
 	  state.exit_status = 1;
 	}
-      return 0;			/* FAIL */
+      /* The child failed, but this is the exec callback.  We
+       * don't want to run the child again in this case anwyay.
+       */
+      return 1;			/* FAIL (but don't try again) */
     }
 
 }

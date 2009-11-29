@@ -198,6 +198,7 @@ struct exec_val
   boolean use_current_dir;      /* If nonzero, don't chdir to start dir */
   boolean close_stdin;		/* If true, close stdin in the child. */
   int dir_fd;			/* The directory to do the exec in. */
+  int last_child_status;	/* Status of the most recent child. */
 };
 
 /* The format string for a -printf or -fprintf is chopped into one or
@@ -466,8 +467,7 @@ PREDICATEFUNCTION pred_xtype;
 
 
 
-int launch PARAMS((struct buildcmd_control *ctl,
-		   struct buildcmd_state *buildstate));
+int launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv);
 
 
 char *find_pred_name PARAMS((PRED_FUNC pred_func));
