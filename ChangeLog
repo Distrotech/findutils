@@ -1,5 +1,12 @@
 2010-02-20  James Youngman  <jay@gnu.org>
 
+	Fix Savannah bug #27846: assertion failure in xargs.c on AIX.
+	* xargs/xargs.c (smaller_of): New function, returns the smaller of
+	its two size_t arguments.
+	(main): Instead of asserting that the value of bc_ctl.arg_max is
+	smaller than some value, simply adjust the value if necessary.
+	* NEWS: Mention this change.
+
 	Fix Savannah bug#28872, Mistake in "Problems with -exec and filenames"
 	* doc/find.texi (Problems with -exec and filenames): Add missing
 	$0 argument in example for sh -c 'something "$@" sh ...

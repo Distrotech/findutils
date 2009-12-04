@@ -370,6 +370,16 @@ fail_due_to_env_size (void)
   error (1, 0, _("environment is too large for exec"));
 }
 
+static size_t
+smaller_of (size_t a, size_t b)
+{
+  if (a < b)
+    return a;
+  else
+    return b;
+}
+
+
 
 int
 main (int argc, char **argv)
@@ -438,27 +448,30 @@ main (int argc, char **argv)
        * specifies that it shall be at least LINE_MAX.
        */
       long val;
-#ifdef ARG_MAX
-      assert(bc_ctl.arg_max <= (ARG_MAX-2048));
-#endif
 #ifdef _SC_ARG_MAX
-      val = sysconf(_SC_ARG_MAX);
+      val = sysconf (_SC_ARG_MAX);
       if (val > 0)
 	{
+	  assert (val > XARGS_POSIX_HEADROOM);
 	  /* Note that val can in fact be greater than ARG_MAX
 	   * and bc_ctl.arg_max can also be greater than ARG_MAX.
 	   */
-	  assert (bc_ctl.arg_max <= (val-XARGS_POSIX_HEADROOM));
+	  bc_ctl.arg_max = smaller_of (bc_ctl.arg_max,
+				       (size_t)val-XARGS_POSIX_HEADROOM);
 	}
       else
 	{
 # if defined ARG_MAX
-	  assert (bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
+	  assert (ARG_MAX > XARGS_POSIX_HEADROOM);
+	  bc_ctl.arg_max = smaller_of (bc_ctl.arg_max,
+				       (ARG_MAX - XARGS_POSIX_HEADROOM));
 # endif
 	}
 #else
       /* No _SC_ARG_MAX */
-      assert (bc_ctl.arg_max <= (ARG_MAX-XARGS_POSIX_HEADROOM));
+      assert (ARG_MAX > XARGS_POSIX_HEADROOM);
+      bc_ctl.arg_max = smaller_of (bc_ctl.arg_max,
+				   (ARG_MAX - XARGS_POSIX_HEADROOM));
 #endif
 
 
