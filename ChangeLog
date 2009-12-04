@@ -1,3 +1,11 @@
+2009-12-04  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #26868: compilation error in pred.c on Solaris
+	x86_64.
+	* import-gnulib.config (modules): Include gnulib's math module, to
+	avoid a compilation error for "-HUGE_VAL" on Solaris x86_64.
+	* NEWS: Mention this change.
+
 2009-11-29  James Youngman  <jay@gnu.org>
 
 	* find/testsuite/find.posix/exec-nogaps.exp: New test for find
