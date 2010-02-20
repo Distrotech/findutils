@@ -4844,8 +4844,8 @@ problem:
 
 @example
 # safer
-find -exec sh -c 'something "$@@"' @{@} \;
-find -execdir sh -c 'something "$@@"' @{@}\;
+find -exec sh -c 'something "$@@"' sh @{@} \;
+find -execdir sh -c 'something "$@@"' sh @{@}\;
 @end example
 
 This approach is not guaranteed to avoid every problem, but it is much
