@@ -1,3 +1,22 @@
+2010-02-20  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug# 28824: "-ctime x" yields "missing argument to
+	`-ctime'".
+	* find/parser.c (parse_fls): If the argument is invalid, reverse
+	the change that collect_arg() made to *arg_ptr (that is, don't
+	consume the argument).
+	(parse_fprint0): Likewise.
+	(parse_gid): Likewise.
+	(parse_group): Likewise.
+	(parse_inum): Likewise.
+	(parse_links): Likewise.
+	(do_parse_xmin): Likewise.
+	(parse_name): Likewise.
+	(parse_printf): Likewise.
+	(parse_uid): Likewise.
+	(parse_used): Likewise.
+	(parse_time): Likewise.
+
 2009-07-14  James Youngman  <jay@gnu.org>
 
 	* NEWS: Indicate that bug #27017 is fixed.
