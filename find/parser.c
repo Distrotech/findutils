@@ -886,8 +886,14 @@ static boolean
 parse_fls (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *filename;
-  return collect_arg(argv, arg_ptr, &filename)
-    &&  insert_fls(entry, filename);
+  if (collect_arg(argv, arg_ptr, &filename))
+    {
+      if (insert_fls(entry, filename))
+	return true;
+      else
+	--*arg_ptr;		/* don't consume the invalid arg. */
+    }
+  return false;
 }
 
 static boolean
@@ -937,9 +943,13 @@ parse_fprint0 (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *filename;
   if (collect_arg(argv, arg_ptr, &filename))
-    return insert_fprint(entry, filename);
-  else
-    return false;
+    {
+      if (insert_fprint(entry, filename))
+	return true;
+      else
+	--*arg_ptr;		/* don't consume the bad arg. */
+    }
+  return false;
 }
 
 static float estimate_fstype_success_rate(const char *fsname)
@@ -993,6 +1003,7 @@ parse_gid (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
   else
     {
+      --*arg_ptr;		/* don't consume the invalid argument. */
       return false;
     }
 }
@@ -1049,6 +1060,7 @@ static boolean
 parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *groupname;
+  const int saved_argc = *arg_ptr;
 
   if (collect_arg(argv, arg_ptr, &groupname))
     {
@@ -1077,6 +1089,7 @@ parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 				"because it has the unexpected suffix %s"),
 			quotearg_n_style(0, options.err_quoting_style, groupname),
 			quotearg_n_style(1, options.err_quoting_style, groupname+gid_len));
+		  *arg_ptr = saved_argc; /* don't consume the invalid argument. */
 		  return false;
 		}
 	    }
@@ -1092,6 +1105,7 @@ parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 		{
 		  error(1, 0, _("argument to -group is empty, but should be a group name"));
 		}
+	      *arg_ptr = saved_argc; /* don't consume the invalid argument. */
 	      return false;
 	    }
 	}
@@ -1259,6 +1273,7 @@ parse_inum (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
   else
     {
+      --*arg_ptr;		/* don't consume the invalid argument. */
       return false;
     }
 }
@@ -1285,6 +1300,7 @@ parse_links (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
   else
     {
+      --*arg_ptr;		/* don't consume the invalid argument. */
       return false;
     }
 }
@@ -1333,6 +1349,7 @@ insert_depthspec(const struct parser_table* entry, char **argv, int *arg_ptr,
       error(1, 0, _("Expected a positive decimal integer argument to %s, but got %s"),
 	    predicate,
 	    quotearg_n_style(0, options.err_quoting_style, depthstr));
+      /* NOTREACHED */
       return false;
     }
   /* missing argument */
@@ -1360,6 +1377,7 @@ do_parse_xmin (const struct parser_table* entry,
 	       enum xval xv)
 {
   const char *minutes;
+  const int saved_argc = *arg_ptr;
 
   if (collect_arg(argv, arg_ptr, &minutes))
     {
@@ -1375,6 +1393,11 @@ do_parse_xmin (const struct parser_table* entry,
 	  our_pred->args.reftime = tval;
 	  our_pred->est_success_rate = estimate_timestamp_success_rate(tval.ts.tv_sec);
 	  return true;
+	}
+      else
+	{
+	  /* Don't consume the invalid argument. */
+	  *arg_ptr = saved_argc;
 	}
     }
   return false;
@@ -1402,6 +1425,8 @@ static boolean
 parse_name (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *name;
+  const int saved_argc = *arg_ptr;
+
   if (collect_arg(argv, arg_ptr, &name))
     {
       fnmatch_sanitycheck();
@@ -1412,6 +1437,10 @@ parse_name (const struct parser_table* entry, char **argv, int *arg_ptr)
 	  our_pred->args.str = name;
 	  our_pred->est_success_rate = estimate_pattern_match_rate(name, 0);
 	  return true;
+	}
+      else
+	{
+	  *arg_ptr = saved_argc; /* don't consume the invalid argument. */
 	}
     }
   return false;
@@ -1991,11 +2020,21 @@ static boolean
 parse_printf (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *format;
+  const int saved_argc = *arg_ptr;
+
   if (collect_arg(argv, arg_ptr, &format))
     {
       struct format_val fmt;
       open_stdout(&fmt);
-      return insert_fprintf (&fmt, entry, pred_fprintf, format);
+      if (insert_fprintf (&fmt, entry, pred_fprintf, format))
+	{
+	  return true;
+	}
+      else
+	{
+	  *arg_ptr = saved_argc; /* don't consume the invalid argument. */
+	  return false;
+	}
     }
   return false;
 }
@@ -2004,15 +2043,21 @@ static boolean
 parse_fprintf (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *format, *filename;
+  int saved_argc = *arg_ptr;
+
   if (collect_arg(argv, arg_ptr, &filename))
     {
       if (collect_arg(argv, arg_ptr, &format))
 	{
 	  struct format_val fmt;
 	  open_output_file (filename, &fmt);
-	  return insert_fprintf (&fmt, entry, pred_fprintf, format);
+	  saved_argc = *arg_ptr;
+
+	  if (insert_fprintf (&fmt, entry, pred_fprintf, format))
+	    return true;
 	}
     }
+  *arg_ptr = saved_argc; /* don't consume the invalid argument. */
   return false;
 }
 
@@ -2444,6 +2489,7 @@ parse_uid (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
   else
     {
+      --*arg_ptr;		/* don't consume the invalid argument. */
       return false;
     }
 }
@@ -2470,6 +2516,7 @@ parse_used (const struct parser_table* entry, char **argv, int *arg_ptr)
       else
 	{
 	  error(1, 0, _("Invalid argument %s to -used"), offset_str);
+	  /*NOTREACHED*/
 	  return false;
 	}
     }
@@ -2649,6 +2696,7 @@ insert_type (char **argv, int *arg_ptr,
       if (strlen(typeletter) != 1u)
 	{
 	  error(1, 0, _("Arguments to -type should contain only one letter"));
+	  /*NOTREACHED*/
 	  return false;
 	}
 
@@ -2696,6 +2744,7 @@ insert_type (char **argv, int *arg_ptr,
 #endif
 	default:			/* None of the above ... nuke 'em. */
 	  error(1, 0, _("Unknown argument to -type: %c"), (*typeletter));
+	  /*NOTREACHED*/
 	  return false;
 	}
       our_pred = insert_primary_withpred (entry, which_pred, typeletter);
@@ -3393,6 +3442,7 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
   const char *errmsg = _("arithmetic overflow while converting %s "
 			 "days to a number of seconds");
   struct timespec origin;
+  const int saved_argc = *arg_ptr;
 
   if (!collect_arg(argv, arg_ptr, &timearg))
     return false;
@@ -3425,7 +3475,10 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
   timearg = orig_timearg;
 
   if (!get_relative_timestamp(timearg, &tval, origin, DAYSECS, errmsg))
-    return false;
+    {
+      *arg_ptr = saved_argc;	/* don't consume the invalid argument */
+      return false;
+    }
 
   our_pred = insert_primary (entry, orig_timearg);
   our_pred->args.reftime = tval;

@@ -4,7 +4,13 @@ GNU findutils NEWS - User visible changes.	-*- outline -*- (allout)
 
 ** Bug Fixes
 
+#28824: Corrected error message for "-ctime x".
+        Likewise for -gid, -inum, -links, -mmin, -cmin, -amin,
+	-uid, -used, -atime, -mtime, -ctime.
+
 #27975: Infinite loop for -exec [..] {} +.
+
+#27017: find -D opt / -fstype ext3 -print , -quit coredumps
 
 #27328: segfault if the initial exec for "find -exec" fails.
 
