@@ -404,6 +404,11 @@ example the command @samp{find /tmp -name \*bar} will match the file
 considered to be special (that is, @code{find . -name 'foo@{1,2@}'}
 matches a file named @file{foo@{1,2@}}, not the files @file{foo1} and
 @file{foo2}.
+
+Because the leading directories are removed, the file names considered
+for a match with @samp{-name} will never include a slash, so
+@samp{-name a/b} will never match anything (you probably need to use
+@samp{-path} instead).
 @end deffn
 
 
@@ -428,8 +433,8 @@ arguments ending in @samp{/} will match nothing (except perhaps a
 start point specified on the command line).
 
 The name @samp{-wholename} is GNU-specific, but @samp{-path} is more
-portable; it is supported by HP-UX @code{find} and is of the POSIX
-2008 standard.
+portable; it is supported by HP-UX @code{find} and is part of the
+POSIX 2008 standard.
 
 @end deffn
 

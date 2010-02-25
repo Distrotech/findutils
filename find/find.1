@@ -584,12 +584,8 @@ Like
 .BR \-name ,
 but the match is case insensitive.  For example, the
 patterns `fo*' and `F??' match the file names `Foo', `FOO', `foo',
-`fOo', etc.   In these patterns, unlike filename expansion by the
-shell, an initial `.' can be matched by `*'.  That is,
-.B find \-name *bar
-will match the file `.foobar'.   Please note that you should quote
-patterns as a matter of course, otherwise the shell will expand any
-wildcard characters in them.
+`fOo', etc.   The pattern `*foo*` will also match a file
+called '.foobar'.
 
 .IP "\-inum \fIn\fR"
 File has inode number \fIn\fR.  It is normally easier to use the
@@ -635,7 +631,13 @@ modification times.
 
 .IP "\-name \fIpattern\fR"
 Base of file name (the path with the leading directories removed)
-matches shell pattern \fIpattern\fR.  The metacharacters (`*', `?',
+matches shell pattern \fIpattern\fR.  Because the leading directories
+are removed, the file names considered for a match with
+.B \-name
+will never include a slash, so `-name a/b' will never match anything
+(you probably need to use
+.B \-path
+instead).  The metacharacters (`*', `?',
 and `[]') match a `.' at the start of the base name (this is a change
 in findutils-4.2.2; see section STANDARDS CONFORMANCE below).  To ignore a
 directory and the files under it, use

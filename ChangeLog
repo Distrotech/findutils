@@ -1,3 +1,13 @@
+2010-02-25  James Youngman  <jay@gnu.org>
+
+	Explain the problems with "-name a/b" and "-path foo/".
+	* find/find.1 (-iname): We already refer to -name, so duplicate
+	less text.
+	(-name): Explain that -name a/b will never match anything.
+	* doc/find.texi (Base Name Patterns): Explain that -name a/b will
+	never match anything.
+	(Full Name Patterns): Fix typo.
+
 2010-02-22  James Youngman  <jay@gnu.org>
 
 	* xargs/xargs.1: Simplify the wording in the description of "xargs
