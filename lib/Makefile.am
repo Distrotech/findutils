@@ -21,7 +21,7 @@ endif
 libfind_a_SOURCES = gnulib-version.c findutils-version.c
 EXTRA_DIST = modetype.h extendbuf.h savedirinfo.h buildcmd.h \
 	gnulib-version.h gnulib-version.c findutils-version.h \
-	check-regexprops.sh
+	fdleak.h check-regexprops.sh
 BUILT_SOURCES = gnulib-version.c
 SUFFIXES =
 MOSTLYCLEANFILES =
@@ -36,7 +36,7 @@ LDADD = ../gnulib/lib/libgnulib.a $(LIBINTL)
 libfind_a_SOURCES += modetype.h nextelem.h printquoted.h listfile.h \
 	regextype.h dircallback.h
 libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c \
-	forcefindlib.c qmark.c printquoted.c regextype.c dircallback.c
+	forcefindlib.c qmark.c printquoted.c regextype.c dircallback.c fdleak.c
 
 EXTRA_DIST += waitpid.c forcefindlib.c
 TESTS_ENVIRONMENT = REGEXPROPS=regexprops$(EXEEXT)

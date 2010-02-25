@@ -51,6 +51,7 @@
 #include "quotearg.h"
 #include "xgetcwd.h"
 #include "error.h"
+#include "fdleak.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -130,6 +131,8 @@ main (int argc, char **argv)
   program_name = argv[0];
   state.exit_status = 0;
 
+  remember_non_cloexec_fds ();
+
   state.shared_files = sharefile_init("w");
   if (NULL == state.shared_files)
     {
@@ -188,11 +191,11 @@ main (int argc, char **argv)
     }
 
 
-  starting_desc = open (".", O_RDONLY
+  starting_desc = open_cloexec (".", O_RDONLY
 #if defined O_LARGEFILE
-			|O_LARGEFILE
+				|O_LARGEFILE
 #endif
-			);
+				);
   if (0 <= starting_desc && fchdir (starting_desc) != 0)
     {
       close (starting_desc);
@@ -205,6 +208,7 @@ main (int argc, char **argv)
       if (! starting_dir)
 	error (1, errno, _("cannot get current directory"));
     }
+
   set_stat_placeholders(&starting_stat_buf);
   if ((*options.xstat) (".", &starting_stat_buf) != 0)
     error (1, errno, _("cannot stat current directory"));
@@ -583,11 +587,11 @@ safely_chdir_lstat(const char *dest,
 
   saved_errno = errno = 0;
 
-  dotfd = open(".", O_RDONLY
+  dotfd = open_cloexec (".", O_RDONLY
 #if defined O_LARGEFILE
-	       |O_LARGEFILE
+			|O_LARGEFILE
 #endif
-	       );
+			);
 
   /* We jump back to here if wd_sanity_check()
    * recoverably triggers an alert.
@@ -824,6 +828,9 @@ safely_chdir_nofollow(const char *dest,
   fd = open(dest, O_RDONLY
 #if defined O_LARGEFILE
 	    |O_LARGEFILE
+#endif
+#if defined O_CLOEXEC
+	    |O_CLOEXEC
 #endif
 	    |extraflags);
   if (fd < 0)

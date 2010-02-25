@@ -71,7 +71,7 @@ run_in_dir (int dir_fd, int (*callback)(void*), void *usercontext)
 	  saved_errno = errno;
 	  free_cwd (&saved_cwd);
 	  errno = saved_errno;
-      return -1;
+	  return -1;
 	}
 
       err = (*callback)(usercontext);

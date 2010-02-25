@@ -46,6 +46,7 @@
 #include "dircallback.h"
 #include "error.h"
 #include "verify.h"
+#include "fdleak.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -1988,6 +1989,11 @@ launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv)
 	{
 	  _exit(1);
 	}
+      else
+	{
+	  complain_about_leaky_fds ();
+	}
+
       if (bc_args_exceed_testing_limit (argv))
 	errno = E2BIG;
       else

@@ -53,6 +53,8 @@
 #include "xgetcwd.h"
 #include "error.h"
 #include "dircallback.h"
+#include "cloexec.h"
+#include "fdleak.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -72,21 +74,6 @@
 /* See locate.c for explanation as to why not use (String) */
 # define N_(String) String
 #endif
-
-
-static void set_close_on_exec(int fd)
-{
-#if defined F_GETFD && defined FD_CLOEXEC
-  int flags;
-  flags = fcntl(fd, F_GETFD);
-  if (flags >= 0)
-    {
-      flags |= FD_CLOEXEC;
-      fcntl(fd, F_SETFD, flags);
-    }
-#endif
-}
-
 
 
 /* FTS_TIGHT_CYCLE_CHECK tries to work around Savannah bug #17877
@@ -151,8 +138,7 @@ static void inside_dir(int dir_fd)
 	    }
 	  else if (dir_fd >= 0)
 	    {
-	      curr_fd = dup(dir_fd);
-	      set_close_on_exec(curr_fd);
+	      curr_fd = dup_cloexec (dir_fd);
 	    }
 	  else
 	    {
@@ -586,12 +572,11 @@ consider_visiting(FTS *p, FTSENT *ent)
 
 
 static void
-find(char *arg)
+find (char *arg)
 {
   char * arglist[2];
   FTS *p;
   FTSENT *ent;
-
 
   state.starting_path_length = strlen(arg);
   inside_dir(AT_FDCWD);
@@ -617,7 +602,7 @@ find(char *arg)
   if (options.stay_on_filesystem)
     ftsoptions |= FTS_XDEV;
 
-  p = fts_open(arglist, ftsoptions, NULL);
+  p = fts_open (arglist, ftsoptions, NULL);
   if (NULL == p)
     {
       error (0, errno, _("cannot search %s"),
@@ -647,7 +632,7 @@ process_all_startpoints(int argc, char *argv[])
   for (i = 0; i < argc && !looks_like_expression(argv[i], true); i++)
     {
       state.starting_path_length = strlen(argv[i]); /* TODO: is this redundant? */
-      find(argv[i]);
+      find (argv[i]);
     }
 
   if (i == 0)
@@ -676,6 +661,9 @@ main (int argc, char **argv)
   state.exit_status = 0;
   state.execdirs_outstanding = false;
   state.cwd_dir_fd = AT_FDCWD;
+
+  remember_non_cloexec_fds ();
+
 
   state.shared_files = sharefile_init("w");
   if (NULL == state.shared_files)
@@ -732,11 +720,11 @@ main (int argc, char **argv)
     }
 
 
-  starting_desc = open (".", O_RDONLY
+  starting_desc = open_cloexec (".", O_RDONLY
 #if defined O_LARGEFILE
-			|O_LARGEFILE
+				|O_LARGEFILE
 #endif
-			);
+				);
   if (0 <= starting_desc && fchdir (starting_desc) != 0)
     {
       close (starting_desc);
@@ -748,7 +736,6 @@ main (int argc, char **argv)
       if (! starting_dir)
 	error (1, errno, _("cannot get current directory"));
     }
-
 
   process_all_startpoints(argc-end_of_leading_options, argv+end_of_leading_options);
 

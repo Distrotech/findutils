@@ -465,6 +465,9 @@ cleanup (void)
   if (eval_tree)
     traverse_tree(eval_tree, undangle_file_pointers);
 
+  complain_about_leaky_fds ();
+  forget_non_cloexec_fds ();
+
   if (fflush (stdout) == EOF)
     nonfatal_file_error ("standard output");
 }

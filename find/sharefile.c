@@ -28,6 +28,7 @@
 #include "stdio-safer.h"
 #include "hash.h"
 #include "sharefile.h"
+#include "cloexec.h"
 #include "defs.h"
 
 
@@ -160,6 +161,7 @@ sharefile_fopen (sharefile_handle h, const char *filename)
       const int fd = fileno (new_entry->fp);
       assert (fd >= 0);
 
+      set_cloexec_flag (fd, true);
       if (fstat (fd, &st) < 0)
         {
 	  entry_free (new_entry);

@@ -1,0 +1,21 @@
+diff --git a/lib/save-cwd.c b/lib/save-cwd.c
+index 7394d50..cf43a35 100644
+--- a/lib/save-cwd.c
++++ b/lib/save-cwd.c
+@@ -31,6 +31,7 @@
+ #include "chdir-long.h"
+ #include "unistd--.h"
+ #include "xgetcwd.h"
++#include "cloexec.h"
+
+ #if GNULIB_FCNTL_SAFER
+ # include "fcntl--.h"
+@@ -84,6 +85,7 @@ save_cwd (struct saved_cwd *cwd)
+       return cwd->name ? 0 : -1;
+     }
+
++  set_cloexec_flag (cwd->desc, true);
+   return 0;
+ }
+
+

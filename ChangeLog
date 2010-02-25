@@ -1,3 +1,34 @@
+2010-03-29  James Youngman  <jay@gnu.org>
+
+	Fix file descriptor leaks.  This fixes Savannah bug bug #27375.
+	* import-gnulib.config (gnulib_version): Update to more recent
+	version of gnulib.  Import the cloexec module too.
+	* lib/fdleak.c: New file; a module for detecting file descriptor
+	leaks.   Also define an open_cloexec() function.
+	* lib/fdleak.h: Declare the global functions defined in fdleak.c.
+	* lib/Makefile.am (libfind_a_SOURCES): Add fdleak.c.
+	* find/find.c (main): Call remember_non_cloexec_fds in order to
+	detect file descriptor leaks.
+	(main): set FD_CLOEXEC on starting_desc.
+	(safely_chdir_lstat): Likewise for dotfd.
+	(safely_chdir_nofollow): Likewise for fd.
+	* find/ftsfind.c (inside_dir): set FD_CLOEXEC on curr_fd.
+	(main): Call remember_non_cloexec_fds in order to detect file
+	descriptor leaks.
+	(main): set FD_CLOEXEC on starting_desc.
+	* find/pred.c (launch): before we exec the child, call
+	complain_about_leaky_fds in order to complain about non-FD_CLOEXEC
+	file descriptors that weren't open when the program was run.
+	* find/sharefile.c (sharefile_fopen): Set FD_CLOEXEC on the files
+	we open.
+	* gnulib-local/lib/save-cwd.c.diff: Patch gnulib to set FD_CLOEXEC
+	on the file descriptors opened by save_cwd.
+	* gnulib-local/modules/save-cwd.diff: Hence the save-cwd module
+	depends on the cloexec module.
+	* import-gnulib.sh (run_gnulib_tool): Pass the --local-dir option
+	in order to apply these patches.
+	* NEWS: Mention this change.
+
 2010-03-30  James Youngman  <jay@gnu.org>
 
 	Add missing exec-nogaps.{exp,xo}.
