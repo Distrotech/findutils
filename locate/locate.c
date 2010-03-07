@@ -1413,8 +1413,8 @@ usage (FILE *stream)
 Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n\
       [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n\
       [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n\
-      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n\
-      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n\
+      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap] [-s | --stdio]\n\
+      [-A | --all] [-p | --print] [-r | --regex] [--regextype=TYPE]\n\
       [--max-database-age D] [--version] [--help]\n\
       pattern...\n"),
 	   program_name);
