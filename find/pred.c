@@ -1991,7 +1991,10 @@ launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv)
 	}
       else
 	{
-	  complain_about_leaky_fds ();
+	  if (fd_leak_check_is_enabled ())
+	    {
+	      complain_about_leaky_fds ();
+	    }
 	}
 
       if (bc_args_exceed_testing_limit (argv))

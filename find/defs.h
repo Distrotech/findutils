@@ -492,6 +492,7 @@ struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry,
 float  calculate_derived_rates PARAMS((struct predicate *p));
 
 /* util.c */
+int fd_leak_check_is_enabled (void);
 struct predicate *insert_primary PARAMS((const struct parser_table *entry, const char *arg));
 struct predicate *insert_primary_noarg PARAMS((const struct parser_table *entry));
 struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr, const char *arg));

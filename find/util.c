@@ -446,6 +446,13 @@ undangle_file_pointers (struct predicate *p)
     }
 }
 
+/* Return nonzero if file descriptor leak-checking is enabled.
+ */
+int
+fd_leak_check_is_enabled (void)
+{
+  return getenv ("GNU_FINDUTILS_FD_LEAK_CHECK");
+}
 
 /* Complete any outstanding commands.
  * Flush and close any open files.
@@ -465,8 +472,11 @@ cleanup (void)
   if (eval_tree)
     traverse_tree(eval_tree, undangle_file_pointers);
 
-  complain_about_leaky_fds ();
-  forget_non_cloexec_fds ();
+  if (fd_leak_check_is_enabled ())
+    {
+      complain_about_leaky_fds ();
+      forget_non_cloexec_fds ();
+    }
 
   if (fflush (stdout) == EOF)
     nonfatal_file_error ("standard output");

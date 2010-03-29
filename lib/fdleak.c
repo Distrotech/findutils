@@ -324,10 +324,12 @@ forget_non_cloexec_fds (void)
 void
 complain_about_leaky_fds (void)
 {
+  int no_leaks = 1;
   const int leaking_fd = find_first_leaked_fd (non_cloexec_fds, num_cloexec_fds);
 
   if (leaking_fd >= 0)
     {
+      no_leaks = 0;
       error (0, 0,
 	     _("File descriptor %d will leak; please report this as a bug, "
 	       "remembering to include a detailed description of the simplest "
@@ -340,7 +342,7 @@ complain_about_leaky_fds (void)
 	  execv("/bin/ls", args);
 	  perror("exec");
 	}
-      assert (0);
     }
+  assert (no_leaks);
 }
 

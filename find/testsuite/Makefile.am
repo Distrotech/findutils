@@ -38,6 +38,7 @@ find.gnu/mindepth-arg.xo \
 find.gnu/name-opt.xo \
 find.gnu/name-period.xo \
 find.gnu/name-slash.xo \
+find.gnu/no-fdleak-test.xo \
 find.gnu/path.xo \
 find.gnu/print_stdout.xo \
 find.gnu/perm.xo \
@@ -144,6 +145,7 @@ find.gnu/mindepth-badarg.exp \
 find.gnu/name-opt.exp \
 find.gnu/name-period.exp \
 find.gnu/name-slash.exp \
+find.gnu/no-fdleak-test.exp \
 find.posix/parent.exp \
 find.gnu/path.exp \
 find.gnu/print_stdout.exp \

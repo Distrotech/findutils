@@ -24,6 +24,8 @@ global OLDFIND
 global FTSFIND
 
 verbose "base_dir is $base_dir" 2
+global env;
+set env(GNU_FINDUTILS_FD_LEAK_CHECK) "1"
 
 # look for OLDFIND and FTSFIND
 if { ![info exists OLDFIND] || ![info exists FTSFIND] } {

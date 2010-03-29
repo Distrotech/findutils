@@ -131,7 +131,10 @@ main (int argc, char **argv)
   program_name = argv[0];
   state.exit_status = 0;
 
-  remember_non_cloexec_fds ();
+  if (fd_leak_check_is_enabled ())
+    {
+      remember_non_cloexec_fds ();
+    }
 
   state.shared_files = sharefile_init("w");
   if (NULL == state.shared_files)

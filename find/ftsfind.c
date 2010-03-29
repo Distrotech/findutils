@@ -662,8 +662,10 @@ main (int argc, char **argv)
   state.execdirs_outstanding = false;
   state.cwd_dir_fd = AT_FDCWD;
 
-  remember_non_cloexec_fds ();
-
+  if (fd_leak_check_is_enabled ())
+    {
+      remember_non_cloexec_fds ();
+    }
 
   state.shared_files = sharefile_init("w");
   if (NULL == state.shared_files)

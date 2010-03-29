@@ -1,0 +1,13 @@
+# Test with the FD leak check turned off.  We make this test, just to
+# avoid failing to detect problems that only occur when the leak check
+# is turned off.
+set oldval $env(GNU_FINDUTILS_FD_LEAK_CHECK)
+unset env(GNU_FINDUTILS_FD_LEAK_CHECK)
+
+if { [ safe_path ] } {
+    exec rm -rf tmp
+    exec mkdir tmp tmp/fred tmp/jim
+    find_start p {tmp -name fred -execdir echo \{\} \; }
+    exec rm -rf tmp
+}
+set env(GNU_FINDUTILS_FD_LEAK_CHECK) $oldval

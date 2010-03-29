@@ -1,6 +1,11 @@
 2010-03-29  James Youngman  <jay@gnu.org>
 
 	Fix file descriptor leaks.  This fixes Savannah bug bug #27375.
+	* find/util.c (fd_leak_check_is_enabled): New funciton; returns
+	nonzero if the environment variable GNU_FINDUTILS_FD_LEAK_CHECK is
+	enabled.  Setting this variable enables the file descriptor leak
+	checker.
+	* find/defs.h: Declare fd_leak_check_is_enabled.
 	* import-gnulib.config (gnulib_version): Update to more recent
 	version of gnulib.  Import the cloexec module too.
 	* lib/fdleak.c: New file; a module for detecting file descriptor
@@ -23,6 +28,17 @@
 	we open.
 	* import-gnulib.sh (run_gnulib_tool): Pass the --local-dir option
 	in order to apply any required patches (none needed right now).
+	* find/testsuite/config/unix.exp: Set environment variable
+	$GNU_FINDUTILS_FD_LEAK_CHECK to enable the file descriptor leak
+	check for all tests.
+	* find/testsuite/find.gnu/no-fdleak-test.exp: New test; runs find
+	with the fd leak detector turned off, in order to make sure there
+	are no (e.g.) crashing bugs when that happens.
+	* find/testsuite/find.gnu/no-fdleak-test.xo: Expected output for
+	the new test.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add no-fdleak-test.exp
+	(EXTRA_DIST_XO): Add no-fdleak-test.xo.
+
 	* NEWS: Mention these changes.
 
 2010-03-30  James Youngman  <jay@gnu.org>
