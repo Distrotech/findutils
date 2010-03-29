@@ -69,6 +69,7 @@ find.gnu/quit.xo \
 find.gnu/xtype.xo \
 find.posix/and.xo \
 find.posix/depth1.xo \
+find.posix/exec-nogaps.xo \
 find.posix/exec-one.xo \
 find.posix/files-not-expressions1.xo \
 find.posix/files-not-expressions2.xo \
@@ -187,6 +188,7 @@ find.posix/and.exp \
 find.posix/bracket-depth.exp \
 find.posix/depth1.exp \
 find.posix/empty-parens.exp \
+find.posix/exec-nogaps.exp \
 find.posix/exec-one.exp \
 find.posix/files-not-expressions1.exp \
 find.posix/files-not-expressions2.exp \
