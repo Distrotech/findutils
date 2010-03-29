@@ -21,13 +21,9 @@
 	file descriptors that weren't open when the program was run.
 	* find/sharefile.c (sharefile_fopen): Set FD_CLOEXEC on the files
 	we open.
-	* gnulib-local/lib/save-cwd.c.diff: Patch gnulib to set FD_CLOEXEC
-	on the file descriptors opened by save_cwd.
-	* gnulib-local/modules/save-cwd.diff: Hence the save-cwd module
-	depends on the cloexec module.
 	* import-gnulib.sh (run_gnulib_tool): Pass the --local-dir option
-	in order to apply these patches.
-	* NEWS: Mention this change.
+	in order to apply any required patches (none needed right now).
+	* NEWS: Mention these changes.
 
 2010-03-30  James Youngman  <jay@gnu.org>
 
