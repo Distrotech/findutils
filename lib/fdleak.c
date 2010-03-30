@@ -1,5 +1,5 @@
 /* fdleak.c -- detect file descriptor leaks
-   Copyright (C) 2010, Free Software Foundation, Inc.
+   Copyright (C) 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,9 @@
 #include <unistd.h>
 #include <poll.h>
 #include <fcntl.h>
+#if defined (HAVE_SYS_RESOURCE_H)
 #include <sys/resource.h>
+#endif
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,7 +62,7 @@ get_proc_max_fd ()
 {
   const char *path = "/proc/self/fd";
   int maxfd = -1;
-  /* We don't use readdir, because we cannot trust pathconf
+  /* We don't use readdir_r, because we cannot trust pathconf
    * to tell us the maximum possible length of a path in
    * a given directory (the manpage for readdir_r claims this
    * is the approved method, but the manpage for pathconf indicates
@@ -106,6 +108,8 @@ get_max_fd (void)
   if (open_max == -1)
     open_max = _POSIX_OPEN_MAX;	/* underestimate */
 
+  /* We assume if RLIMIT_NOFILE is defined, all the related macros are, too. */
+#if defined (HAVE_GETRUSAGE) && defined (RLIMIT_NOFILE)
   /* There are really only two cases here for the return value,
      but we keep the conditions separate because a different thing is
      going on in each case.
@@ -121,11 +125,9 @@ get_max_fd (void)
       else
 	return (int) fd_limit.rlim_cur;
     }
-  else
-    {
-      /* cannot determine the limit's value */
-      return open_max;
-    }
+#endif
+  /* cannot determine the limit's value */
+  return open_max;
 }
 
 
@@ -227,7 +229,7 @@ remember_non_cloexec_fds (void)
 
   if (max_fd < INT_MAX)
     ++max_fd;
-  visit_open_fds (3, max_fd, remember_fd_if_non_cloexec, &cb_data);
+  visit_open_fds (0, max_fd, remember_fd_if_non_cloexec, &cb_data);
 
   non_cloexec_fds = cb_data.buf;
   num_cloexec_fds = cb_data.used;
@@ -289,7 +291,7 @@ find_first_leaked_fd (const int* prev_non_cloexec_fds, size_t n)
   context.used = n;
   context.lookup_pos = 0;
   context.leaked_fd = -1;
-  visit_open_fds (3, max_fd, find_first_leak_callback, &context);
+  visit_open_fds (0, max_fd, find_first_leak_callback, &context);
   return context.leaked_fd;
 }
 
@@ -297,6 +299,10 @@ int
 open_cloexec (const char *path, int flags)
 {
   int fd;
+
+  /* Make sure we don't accidentally create a file, since we
+   * aren't passing a mode argument. */
+  assert ((flags & O_CREAT) == 0);
 
   fd = open (path, flags
 #if defined O_CLOEXEC

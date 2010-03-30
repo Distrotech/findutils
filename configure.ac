@@ -125,6 +125,8 @@ AC_CHECK_HEADERS(unistd.h sys/types.h inttypes.h fcntl.h locale.h stdint.h)
 AC_CHECK_HEADERS(sys/param.h mntent.h sys/mnttab.h sys/mntio.h sys/mkdev.h)
 dnl find.c needs sys/utsname.h because it calls uname(2).
 AC_CHECK_HEADERS(sys/utsname.h)
+dnl fdleak.c needs sys/resource.h because it calls getrlimit(2).
+AC_CHECK_HEADERS(sys/resource.h)
 AC_HEADER_MAJOR
 AC_HEADER_DIRENT
 AC_HEADER_STAT
@@ -166,6 +168,7 @@ dnl Checks for library functions that are provided by gnulib.
 AC_FUNC_STRFTIME
 AC_REPLACE_FUNCS(memcmp memset stpcpy strdup strstr strtol strtoul)
 AC_CHECK_FUNCS(fchdir getcwd strerror endgrent endpwent setlocale)
+AC_CHECK_FUNCS(getrusage)
 AC_FUNC_VPRINTF
 AC_FUNC_ALLOCA
 AC_FUNC_CLOSEDIR_VOID

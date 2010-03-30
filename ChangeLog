@@ -1,3 +1,16 @@
+2010-03-30  James Youngman  <jay@gnu.org>
+
+	* configure.ac: Check for <sys/resource.h> and the getrusage
+	function.
+	* lib/fdleak.c: Don't #include <sys/resource.h> if we don't have it.
+	(get_max_fd): If neither /proc/self/fd not getrusage is available,
+	return _POSIX_OPEN_MAX.
+	(remember_non_cloexec_fds): Also check for leaks in file
+	descriptors 0, 1, 2, just in case the caller closed them.
+	(find_first_leaked_fd): Likewise.
+	(open_cloexec): Make sure we are not creating a file (for some odd
+	system where O_CREAT is 0).
+
 2009-08-16  James Youngman  <jay@gnu.org>
 
 	Bugfixes to the handling of %Z in the Red Hat SELinux patch.
