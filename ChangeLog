@@ -1,15 +1,26 @@
 2010-03-30  James Youngman  <jay@gnu.org>
 
+	Support O_CREAT in open_cloexec.
+	* lib/fdleak.c: Include <stdarg.h> and "cloexec.h".
+	(open_cloexec): Support O_CREAT.  Use O_CLOEXEC if it is available.
+	(O_CLOEXEC): #define to 0 if not already #defined.
+	* lib/fdleak.h: Update prototype of open_cloexec to allow mode to
+	be passed.
+
+	* import-gnulib.config (modules): Import modules open (for
+	PROMOTED_MODE_T) and stdbool (for 'true').
+
+	Tolerate the absence of getrusage.
 	* configure.ac: Check for <sys/resource.h> and the getrusage
 	function.
 	* lib/fdleak.c: Don't #include <sys/resource.h> if we don't have it.
 	(get_max_fd): If neither /proc/self/fd not getrusage is available,
 	return _POSIX_OPEN_MAX.
-	(remember_non_cloexec_fds): Also check for leaks in file
-	descriptors 0, 1, 2, just in case the caller closed them.
+
+	Detect leaks in file descriptors 0, 1, 2.
+	* lib/fdleak.c: (remember_non_cloexec_fds): Also check for leaks
+	in file descriptors 0, 1, 2, just in case the caller closed them.
 	(find_first_leaked_fd): Likewise.
-	(open_cloexec): Make sure we are not creating a file (for some odd
-	system where O_CREAT is 0).
 
 2009-08-16  James Youngman  <jay@gnu.org>
 

@@ -145,6 +145,9 @@ AC_TYPE_MODE_T
 AC_STRUCT_ST_BLOCKS
 AC_CHECK_MEMBERS([struct stat.st_rdev])
 
+dnl fdleak.c uses PROMOTED_MODE_T, which is defined by gnulib.
+gl_PROMOTED_TYPE_MODE_T
+
 AC_MSG_CHECKING([whether we should use struct dirent.d_type, if available])
 if test x$ac_cv_d_type = xno; then
    AC_MSG_RESULT([no])

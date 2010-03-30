@@ -25,10 +25,13 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #include "dirent-safer.h"
 #include "extendbuf.h"
+#include "cloexec.h"
 #include "fdleak.h"
 #include "error.h"
 
@@ -54,6 +57,9 @@ static int *non_cloexec_fds;
 static size_t num_cloexec_fds;
 
 
+#if !defined(O_CLOEXEC)
+#define O_CLOEXEC 0
+#endif
 
 /* Determine the value of the largest open fd, on systems that
  * offer /proc/self/fd. */
@@ -296,25 +302,29 @@ find_first_leaked_fd (const int* prev_non_cloexec_fds, size_t n)
 }
 
 int
-open_cloexec (const char *path, int flags)
+open_cloexec (const char *path, int flags, ...)
 {
   int fd;
+  mode_t mode = 0;
 
-  /* Make sure we don't accidentally create a file, since we
-   * aren't passing a mode argument. */
-  assert ((flags & O_CREAT) == 0);
+  if (flags & O_CREAT)
+    {
+      /* this code is copied from gnulib's open-safer.c. */
+      va_list ap;
+      va_start (ap, flags);
 
-  fd = open (path, flags
-#if defined O_CLOEXEC
-	     |O_CLOEXEC
-#endif
-	     );
-  if (fd < 0)
-    return fd;
+      /* We have to use PROMOTED_MODE_T instead of mode_t, otherwise GCC 4
+         creates crashing code when 'mode_t' is smaller than 'int'.  */
+      mode = va_arg (ap, PROMOTED_MODE_T);
 
-#if !defined O_CLOEXEC
-  make_fd_cloexec (fd);
-#endif
+      va_end (ap);
+    }
+
+  fd = open (path, flags|O_CLOEXEC, mode);
+  if ((fd >= 0) && !O_CLOEXEC)
+    {
+      set_cloexec_flag (fd, true);
+    }
   return fd;
 }
 
