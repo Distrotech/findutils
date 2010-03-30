@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS=gnits
+AUTOMAKE_OPTIONS=gnu
 # readme-alpha
 AM_CFLAGS = $(WARN_CFLAGS)
 
