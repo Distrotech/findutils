@@ -35,7 +35,7 @@
 
 #include <ctype.h>
 
-#if !defined (isascii) || defined (STDC_HEADERS)
+#if !defined(isascii) || defined(STDC_HEADERS)
 #ifdef isascii
 #undef isascii
 #endif
@@ -72,7 +72,7 @@
 #endif
 #else
 #include <strings.h>
-#define memcpy(dest, source, count) (bcopy((source), (dest), (count)))
+#define memcpy (dest, source, count) (bcopy ((source), (dest), (count)))
 #endif
 
 #include <sys/param.h>
@@ -109,7 +109,7 @@
 #define bindtextdomain(Package, Directory)
 #endif
 #ifdef gettext_noop
-# define N_(String) gettext_noop (String)
+# define N_(String) gettext_noop(String)
 #else
 /* See locate.c for explanation as to why not use (String) */
 # define N_(String) String
@@ -247,7 +247,7 @@ static void usage PARAMS ((FILE * stream));
 
 
 static char
-get_char_oct_or_hex_escape(const char *s)
+get_char_oct_or_hex_escape (const char *s)
 {
   const char * p;
   int base = 8;
@@ -271,13 +271,13 @@ get_char_oct_or_hex_escape(const char *s)
   else
     {
       p = NULL;			/* Silence compiler warning. */
-      error(1, 0,
-	    _("Invalid escape sequence %s in input delimiter specification."),
-	    s);
+      error (1, 0,
+	     _("Invalid escape sequence %s in input delimiter specification."),
+	     s);
     }
   errno = 0;
   endp = (char*)p;
-  val = strtoul(p, &endp, base);
+  val = strtoul (p, &endp, base);
 
   /* This if condition is carefully constructed to do
    * the right thing if UCHAR_MAX has the same
@@ -289,24 +289,24 @@ get_char_oct_or_hex_escape(const char *s)
     {
       if (16 == base)
 	{
-	  error(1, 0,
-		_("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."),
-		s, (unsigned long)UCHAR_MAX);
+	  error (1, 0,
+		 _("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."),
+		 s, (unsigned long)UCHAR_MAX);
 	}
       else
 	{
-	  error(1, 0,
-		_("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."),
-		s, (unsigned long)UCHAR_MAX);
+	  error (1, 0,
+		 _("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."),
+		 s, (unsigned long)UCHAR_MAX);
 	}
     }
 
   /* check for trailing garbage */
   if (0 != *endp)
     {
-      error(1, 0,
-	    _("Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."),
-	    s, endp);
+      error (1, 0,
+	     _("Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."),
+	     s, endp);
     }
 
   return (char) val;
@@ -314,9 +314,9 @@ get_char_oct_or_hex_escape(const char *s)
 
 
 static char
-get_input_delimiter(const char *s)
+get_input_delimiter (const char *s)
 {
-  if (1 == strlen(s))
+  if (1 == strlen (s))
     {
       return s[0];
     }
@@ -344,14 +344,14 @@ get_input_delimiter(const char *s)
 	    case '\\':
 	      return '\\';
 	    default:
-	      return get_char_oct_or_hex_escape(s);
+	      return get_char_oct_or_hex_escape (s);
 	    }
 	}
       else
 	{
-	  error(1, 0,
-		_("Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."),
-		s);
+	  error (1, 0,
+		 _("Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."),
+		 s);
 	  /*NOTREACHED*/
 	  return 0;
 	}
@@ -395,7 +395,7 @@ main (int argc, char **argv)
   enum { XARGS_POSIX_HEADROOM = 2048u };
 
   program_name = argv[0];
-  parent = getpid();
+  parent = getpid ();
   original_exit_value = 0;
 
 #ifdef HAVE_SETLOCALE
@@ -410,7 +410,7 @@ main (int argc, char **argv)
    * for extra environment variables (that perhaps the utliity might
    * want to set before execing something else).
    */
-  bcstatus = bc_init_controlinfo(&bc_ctl, XARGS_POSIX_HEADROOM);
+  bcstatus = bc_init_controlinfo (&bc_ctl, XARGS_POSIX_HEADROOM);
 
   /* The bc_init_controlinfo call may have determined that the
    * environment is too big.  In that case, we will fail with
@@ -419,7 +419,7 @@ main (int argc, char **argv)
    * too big.
    *
    * Some of the argument processing depends on the contents of
-   * bc_ctl, which will be in an undefined state if bc_init_controlinfo()
+   * bc_ctl, which will be in an undefined state if bc_init_controlinfo ()
    * failed.
    */
   if (BC_INIT_ENV_TOO_BIG == bcstatus)
@@ -434,7 +434,7 @@ main (int argc, char **argv)
        * that we use a headroom of 2048 bytes.  The user is in control
        * of the size of the environment.
        *
-       * In general if bc_init_controlinfo() returns
+       * In general if bc_init_controlinfo () returns
        * BC_INIT_CANNOT_ACCOMODATE_HEADROOM, its caller can try again
        * with a smaller headroom.  However, in the case of xargs, this
        * would not be POSIX-compliant.
@@ -488,7 +488,7 @@ main (int argc, char **argv)
       /* Start with a reasonable default size, though this can be
        * adjusted via the -s option.
        */
-      bc_use_sensible_arg_max(&bc_ctl);
+      bc_use_sensible_arg_max (&bc_ctl);
     }
 
   while ((optc = getopt_long (argc, argv, "+0a:E:e::i::I:l::L:n:prs:txP:d:",
@@ -503,12 +503,12 @@ main (int argc, char **argv)
 
 	case 'd':
 	  read_args = read_string;
-	  input_delimiter = get_input_delimiter(optarg);
+	  input_delimiter = get_input_delimiter (optarg);
 	  break;
 
 	case 'E':		/* POSIX */
 	case 'e':		/* deprecated */
-	  if (optarg && (strlen(optarg) > 0))
+	  if (optarg && (strlen (optarg) > 0))
 	    eof_str = optarg;
 	  else
 	    eof_str = 0;
@@ -564,7 +564,7 @@ main (int argc, char **argv)
 	case 's':
 	  {
 	    size_t arg_size;
-	    act_on_init_result();
+	    act_on_init_result ();
 	    arg_size = parse_num (optarg, 's', 1L,
 				  bc_ctl.posix_arg_size_max, 0);
 	    if (arg_size > bc_ctl.posix_arg_size_max)
@@ -610,7 +610,7 @@ main (int argc, char **argv)
           break;
 
 	case 'v':
-	  display_findutils_version("xargs");
+	  display_findutils_version ("xargs");
 	  return 0;
 
 	default:
@@ -619,14 +619,14 @@ main (int argc, char **argv)
 	}
     }
 
-  /* If we had deferred failing due to problems in bc_init_controlinfo(),
+  /* If we had deferred failing due to problems in bc_init_controlinfo (),
    * do it now.
    *
    * We issue this error message after processing command line
    * arguments so that it is possible to use "xargs --help" even if
    * the environment is too large.
    */
-  act_on_init_result();
+  act_on_init_result ();
   assert (BC_INIT_OK == bcstatus);
 
   if (0 == strcmp (input_file, "-"))
@@ -635,13 +635,13 @@ main (int argc, char **argv)
     }
   else
     {
-      keep_stdin = 1;		/* see prep_child_for_exec() */
+      keep_stdin = 1;		/* see prep_child_for_exec () */
       input_stream = fopen (input_file, "r");
       if (NULL == input_stream)
 	{
 	  error (1, errno,
 		 _("Cannot open input file %s"),
-		 quotearg_n_style(0, locale_quoting_style, input_file));
+		 quotearg_n_style (0, locale_quoting_style, input_file));
 	}
     }
 
@@ -657,25 +657,25 @@ main (int argc, char **argv)
 
   if (show_limits)
     {
-      fprintf(stderr,
+      fprintf (stderr,
 	      _("Your environment variables take up %" PRIuMAX " bytes\n"),
-	      (uintmax_t)bc_size_of_environment());
-      fprintf(stderr,
+	      (uintmax_t)bc_size_of_environment ());
+      fprintf (stderr,
 	      _("POSIX upper limit on argument length (this system): %" PRIuMAX "\n"),
 	      (uintmax_t)bc_ctl.posix_arg_size_max);
-      fprintf(stderr,
+      fprintf (stderr,
 	      _("POSIX smallest allowable upper limit on argument length (all systems): %" PRIuMAX "\n"),
 	      (uintmax_t)bc_ctl.posix_arg_size_min);
-      fprintf(stderr,
+      fprintf (stderr,
 	      _("Maximum length of command we could actually use: %" PRIuMAX "\n"),
-	      (uintmax_t)(bc_ctl.posix_arg_size_max - bc_size_of_environment()));
-      fprintf(stderr,
+	      (uintmax_t)(bc_ctl.posix_arg_size_max - bc_size_of_environment ()));
+      fprintf (stderr,
 	      _("Size of command buffer we are actually using: %" PRIuMAX "\n"),
 	      (uintmax_t)bc_ctl.arg_max);
 
-      if (isatty(STDIN_FILENO))
+      if (isatty (STDIN_FILENO))
 	{
-	  fprintf(stderr,
+	  fprintf (stderr,
 		  _("\n"
 		    "Execution of xargs will continue now, and it will "
 		    "try to read its input and run commands; if this is "
@@ -683,7 +683,7 @@ main (int argc, char **argv)
 		    "end-of-file keystroke.\n"));
 	  if (always_run_command)
 	    {
-	      fprintf(stderr,
+	      fprintf (stderr,
 		      _("Warning: %s will be run at least once.  "
 			"If you do not want that to happen, then press "
 			"the interrupt keystroke.\n"),
@@ -709,7 +709,7 @@ main (int argc, char **argv)
       bc_ctl.initial_argc = bc_state.cmd_argc;
       bc_state.cmd_initial_argv_chars = bc_state.cmd_argv_chars;
       bc_ctl.initial_argc = bc_state.cmd_argc;
-      /*fprintf(stderr, "setting initial_argc=%d\n", bc_state.cmd_initial_argc);*/
+      /*fprintf (stderr, "setting initial_argc=%d\n", bc_state.cmd_initial_argc);*/
 
       while ((*read_args) () != -1)
 	if (bc_ctl.lines_per_exec && lineno >= bc_ctl.lines_per_exec)
@@ -732,12 +732,12 @@ main (int argc, char **argv)
       size_t *arglen = xmalloc (sizeof (size_t) * argc);
 
       for (i = optind; i < argc; i++)
-	arglen[i] = strlen(argv[i]);
+	arglen[i] = strlen (argv[i]);
       bc_ctl.rplen = strlen (bc_ctl.replace_pat);
       while ((len = (*read_args) ()) != -1)
 	{
 	  /* Don't do insert on the command name.  */
-	  bc_clear_args(&bc_ctl, &bc_state);
+	  bc_clear_args (&bc_ctl, &bc_state);
 	  bc_state.cmd_argv_chars = 0; /* begin at start of buffer */
 
 	  bc_push_arg (&bc_ctl, &bc_state,
@@ -939,7 +939,7 @@ read_line (void)
 	}
       *p++ = c;
 #else
-      append_char_to_buf(&linebuf, &endbuf, &p, c);
+      append_char_to_buf (&linebuf, &endbuf, &p, c);
 #endif
     }
 }
@@ -1045,17 +1045,17 @@ prep_child_for_exec (void)
   if (!keep_stdin)
     {
       const char inputfile[] = "/dev/null";
-      /* fprintf(stderr, "attaching stdin to /dev/null\n"); */
+      /* fprintf (stderr, "attaching stdin to /dev/null\n"); */
 
-      close(0);
-      if (open(inputfile, O_RDONLY) < 0)
+      close (0);
+      if (open (inputfile, O_RDONLY) < 0)
 	{
 	  /* This is not entirely fatal, since
 	   * executing the child with a closed
 	   * stdin is almost as good as executing it
 	   * with its stdin attached to /dev/null.
 	   */
-	  error (0, errno, "%s", quotearg_n_style(0, locale_quoting_style, inputfile));
+	  error (0, errno, "%s", quotearg_n_style (0, locale_quoting_style, inputfile));
 	}
     }
 }
@@ -1065,9 +1065,9 @@ prep_child_for_exec (void)
    waiting for processes that were previously executed.
 
    There are a number of cases where we want to terminate the current (child)
-   process.  We do this by calling _exit() rather than exit() in order to
-   avoid the invocation of wait_for_proc_all(), which was registered by the parent
-   as an atexit() function.
+   process.  We do this by calling _exit () rather than exit () in order to
+   avoid the invocation of wait_for_proc_all (), which was registered by the parent
+   as an atexit () function.
 */
 static int
 xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv)
@@ -1101,9 +1101,9 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
       */
       wait_for_proc (false, 0u);
 
-      if (pipe(fd))
+      if (pipe (fd))
 	error (1, errno, _("could not create pipe before fork"));
-      fcntl(fd[1], F_SETFD, FD_CLOEXEC);
+      fcntl (fd[1], F_SETFD, FD_CLOEXEC);
 
       /* If we run out of processes, wait for a child to return and
          try again.  */
@@ -1117,10 +1117,10 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 
 	case 0:		/* Child.  */
 	  {
-	    close(fd[0]);
+	    close (fd[0]);
 	    child_error = 0;
 
-	    prep_child_for_exec();
+	    prep_child_for_exec ();
 
 	    if (bc_args_exceed_testing_limit (argv))
 	      errno = E2BIG;
@@ -1133,17 +1133,17 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 		 * distinguish successful execs from unsuccessful
 		 * ones.  The reason we need to do this is to know
 		 * whether to reap the child here (preventing the
-		 * exit status processing in wait_for_proc() from
+		 * exit status processing in wait_for_proc () from
 		 * changing the value of child_error) or leave it
-		 * for wait_for_proc() to handle.  We need to have
-		 * wait_for_proc() handle the exit values from the
+		 * for wait_for_proc () to handle.  We need to have
+		 * wait_for_proc () handle the exit values from the
 		 * utility if we run it, for POSIX compliance on the
 		 * handling of exit values.
 		 */
-		write(fd[1], &errno, sizeof(int));
+		write (fd[1], &errno, sizeof (int));
 	      }
 
-	    close(fd[1]);
+	    close (fd[1]);
 	    if (E2BIG != errno)
 	      {
 		error (0, errno, "%s", argv[0]);
@@ -1159,30 +1159,30 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	default:
 	  {
 	    /* Parent */
-	    close(fd[1]);
+	    close (fd[1]);
 	  }
 
-	} /* switch(child) */
-      /*fprintf(stderr, "forked child (bc_state.cmd_argc=%d) -> ", bc_state.cmd_argc);*/
+	} /* switch (child) */
+      /*fprintf (stderr, "forked child (bc_state.cmd_argc=%d) -> ", bc_state.cmd_argc);*/
 
-      switch (r = read(fd[0], &buf, sizeof(int)))
+      switch (r = read (fd[0], &buf, sizeof (int)))
 	{
 	case -1:
 	  {
-	    close(fd[0]);
-	    error(0, errno, "errno-buffer read failed in xargs_do_exec (BUG?)");
+	    close (fd[0]);
+	    error (0, errno, "errno-buffer read failed in xargs_do_exec (BUG?)");
 	    break;
 	  }
 
-	case sizeof(int):
+	case sizeof (int):
 	  {
 	    /* Failure */
 	    int childstatus;
 
-	    close(fd[0]);
+	    close (fd[0]);
 
 	    /* we know the child is about to exit, so wait for that.
-	     * We have to do this so that wait_for_proc() does not
+	     * We have to do this so that wait_for_proc () does not
 	     * change the value of child_error on the basis of the
 	     * return value -- since in this case we did not launch
 	     * the utility.
@@ -1190,7 +1190,7 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	     * We do the wait before deciding if we failed in order to
 	     * avoid creating a zombie, even briefly.
 	     */
-	    waitpid(child, &childstatus, 0);
+	    waitpid (child, &childstatus, 0);
 
 
 	    if (E2BIG == buf)
@@ -1199,11 +1199,11 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	      }
 	    else if (ENOENT == buf)
 	      {
-		exit(127);	/* command cannot be found */
+		exit (127);	/* command cannot be found */
 	      }
 	    else
 	      {
-		exit(126);	/* command cannot be run */
+		exit (126);	/* command cannot be run */
 	      }
 	    break;
 	  }
@@ -1221,10 +1221,10 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	  }
 	default:
 	  {
-	    error(1, errno, "read returned unexpected value %d! BUG?", r);
+	    error (1, errno, "read returned unexpected value %d! BUG?", r);
 	  }
 	} /* switch on bytes read */
-      close(fd[0]);
+      close (fd[0]);
     }
   return 1;			/* Success */
 }
@@ -1302,7 +1302,7 @@ wait_for_proc (boolean all, unsigned int minreap)
 
       do
 	{
-	  /* Wait for any child.   We used to use wait() here, but it's
+	  /* Wait for any child.   We used to use wait () here, but it's
 	   * unlikely that that offers any portability advantage over
 	   * wait these days.
 	   */
@@ -1367,12 +1367,12 @@ wait_for_proc_all (void)
   static boolean waiting = false;
 
   /* This function was registered by the original, parent, process.
-   * The child processes must not call exit() to terminate, since this
+   * The child processes must not call exit () to terminate, since this
    * will mean that their exit status will be inappropriately changed.
-   * Instead the child processes should call _exit().  If someone
-   * forgets this rule, you may see the following assert() fail.
+   * Instead the child processes should call _exit ().  If someone
+   * forgets this rule, you may see the following assert () fail.
    */
-  assert(getpid() == parent);
+  assert (getpid () == parent);
 
   if (waiting)
     return;
@@ -1383,15 +1383,15 @@ wait_for_proc_all (void)
 
   if (original_exit_value != child_error)
     {
-      /* wait_for_proc() changed the value of child_error().  This
-       * function is registered via atexit(), and so may have been
-       * called from exit().  We now know that the original value
-       * passed to exit() is no longer the exit status we require.
-       * The POSIX standard states that the behaviour if exit() is
+      /* wait_for_proc () changed the value of child_error ().  This
+       * function is registered via atexit (), and so may have been
+       * called from exit ().  We now know that the original value
+       * passed to exit () is no longer the exit status we require.
+       * The POSIX standard states that the behaviour if exit () is
        * called more than once is undefined.  Therefore we now have to
-       * exit with _exit() instead of exit().
+       * exit with _exit () instead of exit ().
        */
-      _exit(child_error);
+      _exit (child_error);
     }
 
 }
@@ -1414,7 +1414,7 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
       fprintf (stderr, _("%s: invalid number for -%c option\n"),
 	       program_name, option);
       usage (stderr);
-      exit(1);
+      exit (1);
     }
   else if (val < min)
     {
@@ -1423,7 +1423,7 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
       if (fatal)
 	{
 	  usage (stderr);
-	  exit(1);
+	  exit (1);
 	}
       else
 	{
@@ -1437,7 +1437,7 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
       if (fatal)
 	{
 	  usage (stderr);
-	  exit(1);
+	  exit (1);
 	}
       else
 	{
