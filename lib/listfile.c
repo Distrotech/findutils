@@ -1,6 +1,6 @@
 /* listfile.c -- display a long listing of a file
    Copyright (C) 1991, 1993, 2000, 2004, 2005, 2007,
-                 2008 Free Software Foundation, Inc.
+                 2008, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -165,7 +165,7 @@ static void print_name (register const char *p, FILE *stream, int literal_contro
 
 
 size_t
-file_blocksize(const struct stat *p)
+file_blocksize (const struct stat *p)
 {
   return ST_NBLOCKSIZE;
 }
@@ -313,7 +313,7 @@ list_file (const char *name,
 static void
 print_name_without_quoting (const char *p, FILE *stream)
 {
-  fprintf(stream, "%s", p);
+  fprintf (stream, "%s", p);
 }
 
 
@@ -370,9 +370,9 @@ print_name_with_quoting (register const char *p, FILE *stream)
 static void print_name (register const char *p, FILE *stream, int literal_control_chars)
 {
   if (literal_control_chars)
-    print_name_without_quoting(p, stream);
+    print_name_without_quoting (p, stream);
   else
-    print_name_with_quoting(p, stream);
+    print_name_with_quoting (p, stream);
 }
 
 #ifdef S_ISLNK
@@ -406,10 +406,10 @@ struct link_name_args
 };
 
 static int
-get_link_name_cb(void *context)
+get_link_name_cb (void *context)
 {
   struct link_name_args *args = context;
-  args->result = get_link_name(args->name, args->relname);
+  args->result = get_link_name (args->name, args->relname);
   return 0;
 }
 
@@ -420,7 +420,7 @@ get_link_name_at (const char *name, int dir_fd, char *relname)
   args.result = NULL;
   args.name = name;
   args.relname = relname;
-  if (0 == run_in_dir(dir_fd, get_link_name_cb, &args))
+  if (0 == run_in_dir (dir_fd, get_link_name_cb, &args))
     return args.result;
   else
     return NULL;

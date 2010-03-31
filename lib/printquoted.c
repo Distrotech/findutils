@@ -1,7 +1,7 @@
 /* printquoted.c -- print a specified string with any necessary quoting.
 
-   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000,
-                 2003, 2004, 2005, 2007, 2009 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2003, 2004, 2005,
+                 2007, 2009, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -62,19 +62,19 @@ print_quoted (FILE *fp,
 	}
 
       /* Replace any remaining funny characters with '?'. */
-      len = qmark_chars(buf, len);
+      len = qmark_chars (buf, len);
 
-      rv = fprintf(fp, format, buf);	/* Print the quoted version */
+      rv = fprintf (fp, format, buf);	/* Print the quoted version */
       if (buf != smallbuf)
 	{
-	  free(buf);
+	  free (buf);
 	  buf = NULL;
 	}
     }
   else
     {
       /* no need to quote things. */
-      rv = fprintf(fp, format, s);
+      rv = fprintf (fp, format, s);
     }
   return rv;
 }

@@ -1,5 +1,5 @@
 /* Ensures that the FINDLIB_REPLACE_FUNCS macro in configure.in works
-   Copyright (C) 2004 Free Software Foundation, Inc.
+   Copyright (C) 2004, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include <config.h>
 
 
-extern void forcefindlib(void);	/* prevent GCC warning... */
+extern void forcefindlib (void);	/* prevent GCC warning... */
 
 
 
@@ -41,7 +41,7 @@ extern void forcefindlib(void);	/* prevent GCC warning... */
  * is forcefindlib().
  */
 void
-forcefindlib(void)
+forcefindlib (void)
 {
   /* does nothing, exists only to ensure that FINDLIB_REPLACE_FUNCS works. */
 }

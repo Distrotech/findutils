@@ -1,7 +1,7 @@
 /* savedirinfo.c -- Save the list of files in a directory, with additional information.
 
-   Copyright 1990, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005 Free
-   Software Foundation, Inc.
+   Copyright 1990, 1997, 1998, 1999, 2000, 2001, 2003, 2004,
+             2005, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@
  * if the type is DT_UNKNOWN or is a value we don't know about.
  */
 static mode_t
-type_to_mode(unsigned type)
+type_to_mode (unsigned type)
 {
   switch (type)
     {
@@ -126,18 +126,18 @@ struct new_savedir_direntry_internal
 
 
 static int
-savedir_cmp(const void *p1, const void *p2)
+savedir_cmp (const void *p1, const void *p2)
 {
   const struct savedir_direntry *de1, *de2;
   de1 = p1;
   de2 = p2;
-  return strcmp(de1->name, de2->name); /* POSIX order, not locale order. */
+  return strcmp (de1->name, de2->name); /* POSIX order, not locale order. */
 }
 
 
 static struct savedir_direntry*
-convertentries(const struct savedir_dirinfo *info,
-	       struct new_savedir_direntry_internal *internal)
+convertentries (const struct savedir_dirinfo *info,
+		struct new_savedir_direntry_internal *internal)
 {
   char *p = info->buffer;
   struct savedir_direntry *result;
@@ -145,7 +145,7 @@ convertentries(const struct savedir_dirinfo *info,
   int i;
 
 
-  result = xmalloc(sizeof(*result) * info->size);
+  result = xmalloc (sizeof (*result) * info->size);
 
   for (i=0; i<n; ++i)
     {
@@ -158,7 +158,7 @@ convertentries(const struct savedir_dirinfo *info,
 
 
 struct savedir_dirinfo *
-xsavedir(const char *dir, int flags)
+xsavedir (const char *dir, int flags)
 {
   DIR *dirp;
   struct dirent *dp;
@@ -174,7 +174,7 @@ xsavedir(const char *dir, int flags)
     return NULL;
 
   errno = 0;
-  result = xmalloc(sizeof(*result));
+  result = xmalloc (sizeof (*result));
   result->buffer = NULL;
   result->size = 0u;
   result->entries = NULL;
@@ -189,15 +189,15 @@ xsavedir(const char *dir, int flags)
 	{
 	  /* Remember the name. */
 	  size_t entry_size = strlen (entry) + 1;
-	  result->buffer = extendbuf(result->buffer, namebuf_used+entry_size, &namebuf_allocated);
+	  result->buffer = extendbuf (result->buffer, namebuf_used+entry_size, &namebuf_allocated);
 	  memcpy ((result->buffer) + namebuf_used, entry, entry_size);
 
 	  /* Remember the other stuff. */
-	  internal = extendbuf(internal, (1+result->size)*sizeof(*internal), &entrybuf_allocated);
+	  internal = extendbuf (internal, (1+result->size)*sizeof (*internal), &entrybuf_allocated);
 	  internal[result->size].flags = 0;
 
 #if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
-	  internal[result->size].type_info = type_to_mode(dp->d_type);
+	  internal[result->size].type_info = type_to_mode (dp->d_type);
 	  if (dp->d_type != DT_UNKNOWN)
 	    internal[result->size].flags |= SavedirHaveFileType;
 #else
@@ -211,20 +211,20 @@ xsavedir(const char *dir, int flags)
 	}
     }
 
-  result->buffer = extendbuf(result->buffer, namebuf_used+1, &namebuf_allocated);
+  result->buffer = extendbuf (result->buffer, namebuf_used+1, &namebuf_allocated);
   result->buffer[namebuf_used] = '\0';
 
   /* convert the result to its externally-usable form. */
-  result->entries = convertentries(result, internal);
-  free(internal);
+  result->entries = convertentries (result, internal);
+  free (internal);
   internal = NULL;
 
 
   if (flags & SavedirSort)
     {
-      qsort(result->entries,
-	    result->size, sizeof(*result->entries),
-	    savedir_cmp);
+      qsort (result->entries,
+	     result->size, sizeof (*result->entries),
+	     savedir_cmp);
     }
 
 
@@ -242,13 +242,13 @@ xsavedir(const char *dir, int flags)
   return result;
 }
 
-void free_dirinfo(struct savedir_dirinfo *p)
+void free_dirinfo (struct savedir_dirinfo *p)
 {
-  free(p->entries);
+  free (p->entries);
   p->entries = NULL;
-  free(p->buffer);
+  free (p->buffer);
   p->buffer = NULL;
-  free(p);
+  free (p);
 }
 
 
@@ -256,27 +256,27 @@ void free_dirinfo(struct savedir_dirinfo *p)
 static char *
 new_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 {
-  struct savedir_dirinfo *p = xsavedir(dir, SavedirSort);
+  struct savedir_dirinfo *p = xsavedir (dir, SavedirSort);
   char *buf, *s;
   size_t bufbytes = 0;
   unsigned int i;
 
   if (p)
     {
-      struct savedir_extrainfo *pex = xmalloc(p->size * sizeof(*extra));
+      struct savedir_extrainfo *pex = xmalloc (p->size * sizeof (*extra));
       for (i=0; i<p->size; ++i)
 	{
-	  bufbytes += strlen(p->entries[i].name);
+	  bufbytes += strlen (p->entries[i].name);
 	  ++bufbytes;		/* the \0 */
 
 	  pex[i].type_info = p->entries[i].type_info;
 	}
 
-      s = buf = xmalloc(bufbytes+1);
+      s = buf = xmalloc (bufbytes+1);
       for (i=0; i<p->size; ++i)
 	{
-	  size_t len = strlen(p->entries[i].name);
-	  memcpy(s, p->entries[i].name, len);
+	  size_t len = strlen (p->entries[i].name);
+	  memcpy (s, p->entries[i].name, len);
 	  s += len;
 	  *s = 0;		/* Place a NUL */
 	  ++s;			/* Skip the NUL. */
@@ -333,7 +333,7 @@ old_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 	{
 	  /* Remember the name. */
 	  size_t entry_size = strlen (entry) + 1;
-	  name_space = extendbuf(name_space, namebuf_used+entry_size, &namebuf_allocated);
+	  name_space = extendbuf (name_space, namebuf_used+entry_size, &namebuf_allocated);
 	  memcpy (name_space + namebuf_used, entry, entry_size);
 	  namebuf_used += entry_size;
 
@@ -342,17 +342,17 @@ old_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 	  /* Remember the type. */
 	  if (extra)
 	    {
-	      info = extendbuf(info,
-			       (extra_used+1) * sizeof(struct savedir_dirinfo),
-			       &extra_allocated);
-	      info[extra_used].type_info = type_to_mode(dp->d_type);
+	      info = extendbuf (info,
+				(extra_used+1) * sizeof (struct savedir_dirinfo),
+				&extra_allocated);
+	      info[extra_used].type_info = type_to_mode (dp->d_type);
 	      ++extra_used;
 	    }
 #endif
 	}
     }
 
-  name_space = extendbuf(name_space, namebuf_used+1, &namebuf_allocated);
+  name_space = extendbuf (name_space, namebuf_used+1, &namebuf_allocated);
   name_space[namebuf_used] = '\0';
 
   save_errno = errno;
@@ -378,5 +378,5 @@ old_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 char *
 savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 {
-  return new_savedirinfo(dir, extra);
+  return new_savedirinfo (dir, extra);
 }

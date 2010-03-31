@@ -1,5 +1,5 @@
 /* findutils-version.c -- show version information for findutils
-   Copyright (C) 2007 Free Software Foundation, Inc.
+   Copyright (C) 2007, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -48,18 +48,18 @@ char *version_string = VERSION;
 
 
 void
-display_findutils_version(const char *official_name)
+display_findutils_version (const char *official_name)
 {
   /* We use official_name rather than program name in the version
    * information.  This is deliberate, it is specified by the
    * GNU coding standard.
    */
   fflush (stderr);
-  version_etc(stdout,
-	      official_name, PACKAGE_NAME, version_string,
-	      _("Eric B. Decker"),
-	      _("James Youngman"),
-	      _("Kevin Dalley"),
-	      (const char*) NULL);
+  version_etc (stdout,
+	       official_name, PACKAGE_NAME, version_string,
+	       _("Eric B. Decker"),
+	       _("James Youngman"),
+	       _("Kevin Dalley"),
+	       (const char*) NULL);
   printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
 }

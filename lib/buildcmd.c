@@ -1,6 +1,6 @@
 /* buildcmd.c -- build command lines from a list of arguments.
    Copyright (C) 1990, 91, 92, 93, 94, 2000, 2003, 2005, 2006,
-                 2007, 2008 Free Software Foundation, Inc.
+                 2007, 2008, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -281,8 +281,8 @@ copy_args (struct buildcmd_control *ctl,
 
 /* Execute the program with the currently-built list of arguments. */
 void
-bc_do_exec(struct buildcmd_control *ctl,
-	   struct buildcmd_state *state)
+bc_do_exec (struct buildcmd_control *ctl,
+	    struct buildcmd_state *state)
 {
     char** working_args;
     size_t limit, done;
@@ -293,7 +293,7 @@ bc_do_exec(struct buildcmd_control *ctl,
     assert (state->cmd_argc > 0);
     assert (state->cmd_argv[state->cmd_argc-1] == NULL);
 
-    working_args = xmalloc((1+state->cmd_argc) * sizeof(char*));
+    working_args = xmalloc ((1+state->cmd_argc) * sizeof (char*));
     done = 0;
     limit = state->cmd_argc;
 
@@ -312,8 +312,8 @@ bc_do_exec(struct buildcmd_control *ctl,
 	      {
 		/* No room to reduce the length of the argument list.
 		   Issue an error message and give up. */
-		error(1, 0,
-		      _("can't call exec() due to argument size restrictions"));
+		error (1, 0,
+		       _("can't call exec() due to argument size restrictions"));
 	      }
 	    else
 	      {
@@ -328,7 +328,7 @@ bc_do_exec(struct buildcmd_control *ctl,
 
     if (working_args)
       free (working_args);
-    bc_clear_args(ctl, state);
+    bc_clear_args (ctl, state);
 }
 
 
@@ -340,9 +340,9 @@ bc_do_exec(struct buildcmd_control *ctl,
  * argument, depending on its length.
  */
 static int
-bc_argc_limit_reached(int initial_args,
-		      const struct buildcmd_control *ctl,
-		      struct buildcmd_state *state)
+bc_argc_limit_reached (int initial_args,
+		       const struct buildcmd_control *ctl,
+		       struct buildcmd_state *state)
 {
   /* Check to see if we about to exceed a limit set by xargs' -n option */
   if (!initial_args && ctl->args_per_exec &&
@@ -391,7 +391,7 @@ bc_push_arg (struct buildcmd_control *ctl,
             error (1, 0, _("argument list too long"));
             bc_do_exec (ctl, state);
         }
-      if (bc_argc_limit_reached(initial_args, ctl, state))
+      if (bc_argc_limit_reached (initial_args, ctl, state))
             bc_do_exec (ctl, state);
     }
 
@@ -428,7 +428,7 @@ bc_push_arg (struct buildcmd_control *ctl,
       /* If we have now collected enough arguments,
        * do the exec immediately.
        */
-      if (bc_argc_limit_reached(initial_args, ctl, state))
+      if (bc_argc_limit_reached (initial_args, ctl, state))
 	{
 	  bc_do_exec (ctl, state);
 	}
@@ -446,11 +446,11 @@ bc_push_arg (struct buildcmd_control *ctl,
  * currently we use _POSIX_ARG_MAX (which is the minimum value).
  */
 static size_t
-get_line_max(void)
+get_line_max (void)
 {
   long val;
 #ifdef _SC_LINE_MAX
-  val = sysconf(_SC_LINE_MAX);
+  val = sysconf (_SC_LINE_MAX);
 #else
   val = -1;
 #endif
@@ -473,7 +473,7 @@ get_line_max(void)
 #endif
 
 size_t
-bc_get_arg_max(void)
+bc_get_arg_max (void)
 {
   long val;
 
@@ -482,7 +482,7 @@ bc_get_arg_max(void)
   assert ( (~(size_t)0) >= LONG_MAX);
 
 #ifdef _SC_ARG_MAX
-  val = sysconf(_SC_ARG_MAX);
+  val = sysconf (_SC_ARG_MAX);
 #else
   val = -1;
 #endif
@@ -511,10 +511,10 @@ bc_get_arg_max(void)
 
 
 static int
-cb_exec_noop(struct buildcmd_control * ctl,
-	     void *usercontext,
-	     int argc,
-	     char **argv)
+cb_exec_noop (struct buildcmd_control * ctl,
+	      void *usercontext,
+	      int argc,
+	      char **argv)
 {
   /* does nothing. */
   (void) ctl;
@@ -541,17 +541,17 @@ bc_size_of_environment (void)
 
 
 enum BC_INIT_STATUS
-bc_init_controlinfo(struct buildcmd_control *ctl,
-		    size_t headroom)
+bc_init_controlinfo (struct buildcmd_control *ctl,
+		     size_t headroom)
 {
-  size_t size_of_environment = bc_size_of_environment();
+  size_t size_of_environment = bc_size_of_environment ();
 
   /* POSIX requires that _POSIX_ARG_MAX is 4096.  That is the lowest
    * possible value for ARG_MAX on a POSIX compliant system.  See
    * http://www.opengroup.org/onlinepubs/009695399/basedefs/limits.h.html
    */
   ctl->posix_arg_size_min = _POSIX_ARG_MAX;
-  ctl->posix_arg_size_max = bc_get_arg_max();
+  ctl->posix_arg_size_max = bc_get_arg_max ();
 
   ctl->exit_if_size_exceeded = 0;
 
@@ -576,7 +576,7 @@ bc_init_controlinfo(struct buildcmd_control *ctl,
     }
 
   /* need to subtract 2 on the following line - for Linux/PPC */
-  ctl->max_arg_count = (ctl->posix_arg_size_max / sizeof(char*)) - 2u;
+  ctl->max_arg_count = (ctl->posix_arg_size_max / sizeof (char*)) - 2u;
   assert (ctl->max_arg_count > 0);
   ctl->rplen = 0u;
   ctl->replace_pat = NULL;
@@ -594,7 +594,7 @@ bc_init_controlinfo(struct buildcmd_control *ctl,
 }
 
 void
-bc_use_sensible_arg_max(struct buildcmd_control *ctl)
+bc_use_sensible_arg_max (struct buildcmd_control *ctl)
 {
 #ifdef DEFAULT_ARG_SIZE
   enum { arg_size = DEFAULT_ARG_SIZE };
@@ -615,9 +615,9 @@ bc_use_sensible_arg_max(struct buildcmd_control *ctl)
 
 
 void
-bc_init_state(const struct buildcmd_control *ctl,
-              struct buildcmd_state *state,
-              void *context)
+bc_init_state (const struct buildcmd_control *ctl,
+	       struct buildcmd_state *state,
+	       void *context)
 {
   state->cmd_argc = 0;
   state->cmd_argv_chars = 0;
@@ -641,8 +641,8 @@ bc_init_state(const struct buildcmd_control *ctl,
 }
 
 void
-bc_clear_args(const struct buildcmd_control *ctl,
-              struct buildcmd_state *state)
+bc_clear_args (const struct buildcmd_control *ctl,
+	       struct buildcmd_state *state)
 {
   state->cmd_argc = ctl->initial_argc;
   state->cmd_argv_chars = state->cmd_initial_argv_chars;

@@ -1,6 +1,6 @@
 /* extendbuf.c -- manage a dynamically-allocated buffer
 
-   Copyright 2004 Free Software Foundation, Inc.
+   Copyright 2004, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@
 #endif
 
 static size_t
-decide_size(size_t current, size_t wanted)
+decide_size (size_t current, size_t wanted)
 {
   size_t newsize;
 
@@ -57,7 +57,7 @@ decide_size(size_t current, size_t wanted)
 
 
 void *
-extendbuf(void* existing, size_t wanted, size_t *allocated)
+extendbuf (void* existing, size_t wanted, size_t *allocated)
 {
   int saved_errno;
   size_t newsize;
@@ -66,7 +66,7 @@ extendbuf(void* existing, size_t wanted, size_t *allocated)
   saved_errno = errno;
 
   assert (wanted > 0u);
-  newsize = decide_size(*allocated, wanted);
+  newsize = decide_size (*allocated, wanted);
 
   if ( (*allocated) == 0 )
     {
@@ -76,7 +76,7 @@ extendbuf(void* existing, size_t wanted, size_t *allocated)
       assert (NULL == existing);
 
       (*allocated) = newsize;
-      result = xmalloc(newsize);
+      result = xmalloc (newsize);
     }
   else
     {
@@ -94,7 +94,7 @@ extendbuf(void* existing, size_t wanted, size_t *allocated)
 
   if (result)
     {
-      /* xmalloc() or xrealloc() may have changed errno, but in the
+      /* xmalloc () or xrealloc () may have changed errno, but in the
 	 success case we want to preserve the previous value.
       */
       errno = saved_errno;

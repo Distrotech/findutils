@@ -138,8 +138,8 @@ get_max_fd (void)
 
 
 static int
-visit_open_fds(int fd_min, int fd_max,
-	       int (*callback)(int, void*), void *cb_context)
+visit_open_fds (int fd_min, int fd_max,
+		int (*callback)(int, void*), void *cb_context)
 {
   enum { MAX_POLL = 64 };
   struct pollfd pf[MAX_POLL];
@@ -158,7 +158,7 @@ visit_open_fds(int fd_min, int fd_max,
 	  pf[i].revents = 0;
 	  pf[i].fd = fd_min + i;
 	}
-      rv = poll(pf, limit, 0);
+      rv = poll (pf, limit, 0);
       if (-1 == rv)
 	{
 	  return -1;
@@ -209,7 +209,7 @@ remember_fd_if_non_cloexec (int fd, void *context)
     {
       struct remember_fd_context * const p = context;
       void *newbuf = extendbuf (p->buf,
-				sizeof(p->buf[0])*(p->used+1),
+				sizeof (p->buf[0])*(p->used+1),
 				&(p->allocated));
       if (newbuf)
 	{
@@ -355,8 +355,8 @@ complain_about_leaky_fds (void)
 	{
 	  char * const args[] = {"/bin/ls", "-l", "/proc/self/fd",
 				 (char*)NULL };
-	  execv("/bin/ls", args);
-	  perror("exec");
+	  execv ("/bin/ls", args);
+	  perror ("exec");
 	}
     }
   assert (no_leaks);

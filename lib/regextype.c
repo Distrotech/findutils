@@ -2,7 +2,7 @@
 /* regextype.c -- Decode the name of a regular expression syntax into am
                   option name.
 
-   Copyright 2005 Free Software Foundation, Inc.
+   Copyright 2005, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -71,10 +71,10 @@ struct tagRegexTypeMap regex_map[] =
    { "sed",                   CONTEXT_GENERIC,   RE_SYNTAX_SED                   },
    /*    ,{ "posix-common",   CONTEXT_GENERIC,  _RE_SYNTAX_POSIX_COMMON   } */
   };
-enum { N_REGEX_MAP_ENTRIES = sizeof(regex_map)/sizeof(regex_map[0]) };
+enum { N_REGEX_MAP_ENTRIES = sizeof (regex_map)/sizeof (regex_map[0]) };
 
 int
-get_regex_type(const char *s)
+get_regex_type (const char *s)
 {
   unsigned i;
   size_t msglen;
@@ -83,28 +83,28 @@ get_regex_type(const char *s)
   msglen = 0u;
   for (i=0u; i<N_REGEX_MAP_ENTRIES; ++i)
     {
-      if (0 == strcmp(regex_map[i].name, s))
+      if (0 == strcmp (regex_map[i].name, s))
 	return regex_map[i].option_val;
       else
-	msglen += strlen(quote(regex_map[i].name)) + 2u;
+	msglen += strlen (quote (regex_map[i].name)) + 2u;
     }
 
   /* We didn't find a match for the type of regular expression that the
    * user indicated they wanted.  Tell them what the options are.
    */
-  p = buf = xmalloc(1u + msglen);
+  p = buf = xmalloc (1u + msglen);
   for (i=0u; i<N_REGEX_MAP_ENTRIES; ++i)
     {
       if (i > 0u)
 	{
-	  strcpy(p, ", ");
+	  strcpy (p, ", ");
 	  p += 2;
 	}
-      p += sprintf(p, "%s", quote(regex_map[i].name));
+      p += sprintf (p, "%s", quote (regex_map[i].name));
     }
 
-  error(1, 0, _("Unknown regular expression type %s; valid types are %s."),
-	quote(s),
+  error (1, 0, _("Unknown regular expression type %s; valid types are %s."),
+	quote (s),
 	buf);
   /*NOTREACHED*/
   return -1;
@@ -112,7 +112,7 @@ get_regex_type(const char *s)
 
 
 const char *
-get_regex_type_name(unsigned int ix)
+get_regex_type_name (unsigned int ix)
 {
   if (ix < N_REGEX_MAP_ENTRIES)
     return regex_map[ix].name;
@@ -121,7 +121,7 @@ get_regex_type_name(unsigned int ix)
 }
 
 int
-get_regex_type_flags(unsigned int ix)
+get_regex_type_flags (unsigned int ix)
 {
   if (ix < N_REGEX_MAP_ENTRIES)
     return regex_map[ix].option_val;
@@ -129,7 +129,7 @@ get_regex_type_flags(unsigned int ix)
     return -1;
 }
 
-unsigned int get_regex_type_context(unsigned int ix)
+unsigned int get_regex_type_context (unsigned int ix)
 {
   if (ix < N_REGEX_MAP_ENTRIES)
     return regex_map[ix].context;
@@ -137,7 +137,7 @@ unsigned int get_regex_type_context(unsigned int ix)
     return 0u;
 }
 
-int get_regex_type_synonym(unsigned int ix)
+int get_regex_type_synonym (unsigned int ix)
 {
   unsigned i;
   int flags;

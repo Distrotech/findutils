@@ -1,6 +1,6 @@
 /* qmark.c -- quote 'dangerous' filenames
 
-   Copyright (C) 2005, 2007, 2009 Free Software Foundation, Inc.
+   Copyright (C) 2005, 2007, 2009, 2010 Free Software Foundation, Inc.
    Derived from courutils' ls.c:
    Copyright (C) 85, 88, 90, 91, 1995-2005 Free Software Foundation, Inc.
 
@@ -84,7 +84,7 @@ static inline unsigned char to_uchar (char ch)
 
 
 static size_t
-unibyte_qmark_chars(char *buf, size_t len)
+unibyte_qmark_chars (char *buf, size_t len)
 {
   char *p = buf;
   char const *plimit = buf + len;
@@ -110,11 +110,11 @@ unibyte_qmark_chars(char *buf, size_t len)
  * is returned.
  */
 size_t
-qmark_chars(char *buf, size_t len)
+qmark_chars (char *buf, size_t len)
 {
   if (MB_CUR_MAX <= 1)
     {
-      return unibyte_qmark_chars(buf, len);
+      return unibyte_qmark_chars (buf, len);
     }
   else
     {
