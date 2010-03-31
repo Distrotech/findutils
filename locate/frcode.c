@@ -165,7 +165,7 @@ usage (FILE *stream)
 }
 
 static long
-get_seclevel(char *s)
+get_seclevel (char *s)
 {
   long result;
   char *p;
@@ -175,24 +175,24 @@ get_seclevel(char *s)
    */
   errno = 0;
 
-  result = strtol(s, &p, 10);
+  result = strtol (s, &p, 10);
   if ((0==result) && (p == optarg))
     {
-      error(1, 0, _("You need to specify a security level as a decimal integer."));
+      error (1, 0, _("You need to specify a security level as a decimal integer."));
       /*NOTREACHED*/
       return -1;
     }
   else if ((LONG_MIN==result || LONG_MAX==result) && errno)
 
     {
-      error(1, 0, _("Security level %s is outside the convertible range."), s);
+      error (1, 0, _("Security level %s is outside the convertible range."), s);
       /*NOTREACHED*/
       return -1;
     }
   else if (*p)
     {
       /* Some suffix exists */
-      error(1, 0, _("Security level %s has unexpected suffix %s."), s, p);
+      error (1, 0, _("Security level %s has unexpected suffix %s."), s, p);
       /*NOTREACHED*/
       return -1;
     }
@@ -203,10 +203,10 @@ get_seclevel(char *s)
 }
 
 static void
-outerr(void)
+outerr (void)
 {
-  /* Issue the same error message as closeout() would. */
-  error(1, errno, _("write error"));
+  /* Issue the same error message as closeout () would. */
+  error (1, errno, _("write error"));
 }
 
 int
@@ -244,12 +244,12 @@ main (int argc, char **argv)
 
       case 'S':
 	slocate_compat = 1;
-	slocate_seclevel = get_seclevel(optarg);
+	slocate_seclevel = get_seclevel (optarg);
 	if (slocate_seclevel < 0 || slocate_seclevel > 1)
 	  {
-	    error(1, 0,
-		  _("slocate security level %ld is unsupported."),
-		  slocate_seclevel);
+	    error (1, 0,
+		   _("slocate security level %ld is unsupported."),
+		   slocate_seclevel);
 	  }
 	break;
 
@@ -258,7 +258,7 @@ main (int argc, char **argv)
 	return 0;
 
       case 'v':
-	display_findutils_version("frcode");
+	display_findutils_version ("frcode");
 	return 0;
 
       default:
@@ -276,17 +276,17 @@ main (int argc, char **argv)
 
   if (slocate_compat)
     {
-      fputc(slocate_seclevel ? '1' : '0', stdout);
-      fputc(0, stdout);
+      fputc (slocate_seclevel ? '1' : '0', stdout);
+      fputc (0, stdout);
 
     }
   else
     {
       /* GNU LOCATE02 format */
       if (fwrite (LOCATEDB_MAGIC, 1, sizeof (LOCATEDB_MAGIC), stdout)
-	  != sizeof(LOCATEDB_MAGIC))
+	  != sizeof (LOCATEDB_MAGIC))
 	{
-	  error(1, errno, _("Failed to write to standard output"));
+	  error (1, errno, _("Failed to write to standard output"));
 	}
     }
 
@@ -300,7 +300,7 @@ main (int argc, char **argv)
       if ( (diffcount > SHRT_MAX) || (diffcount < SHRT_MIN) )
 	{
 	  /* We do this to prevent overflow of the value we
-	   * write with put_short()
+	   * write with put_short ()
 	   */
 	  count = 0;
 	  diffcount = (-oldcount);
@@ -320,21 +320,21 @@ main (int argc, char **argv)
 	      || diffcount > LOCATEDB_ONEBYTE_MAX)
 	    {
 	      if (EOF == putc (LOCATEDB_ESCAPE, stdout))
-		outerr();
+		outerr ();
 	      if (!put_short (diffcount, stdout))
-		outerr();
+		outerr ();
 	    }
 	  else
 	    {
 	      if (EOF == putc (diffcount, stdout))
-		outerr();
+		outerr ();
 	    }
 	}
 
       if ( (EOF == fputs (path + count, stdout))
 	   || (EOF == putc ('\0', stdout)))
 	{
-	  outerr();
+	  outerr ();
 	}
 
       if (1)

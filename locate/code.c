@@ -1,5 +1,5 @@
 /* code -- bigram- and front-encode filenames for locate
-   Copyright (C) 1994, 2005, 2007, 2008 Free Software Foundation, Inc.
+   Copyright (C) 1994, 2005, 2007, 2008, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -136,22 +136,22 @@ or     %s most_common_bigrams < file-list > locate-database\n"),
 
 
 static void inerr (const char *filename) ATTRIBUTE_NORETURN;
-static void outerr(void)                 ATTRIBUTE_NORETURN;
+static void outerr (void)                 ATTRIBUTE_NORETURN;
 
 static void
-inerr(const char *filename)
+inerr (const char *filename)
 {
-  error(1, errno, "%s", filename);
+  error (1, errno, "%s", filename);
   /*NOTREACHED*/
-  abort();
+  abort ();
 }
 
 static void
-outerr(void)
+outerr (void)
 {
-  error(1, errno, _("write error"));
+  error (1, errno, _("write error"));
   /*NOTREACHED*/
-  abort();
+  abort ();
 }
 
 
@@ -167,25 +167,25 @@ main (int argc, char **argv)
   FILE *fp;			/* Most common bigrams file.  */
   int line_len;			/* Length of input line.  */
 
-  set_program_name(argv[0]);
+  set_program_name (argv[0]);
   atexit (close_stdout);
 
   bigram[2] = '\0';
 
   if (argc != 2)
     {
-      usage(stderr);
+      usage (stderr);
       return 2;
     }
 
-  if (0 == strcmp(argv[1], "--help"))
+  if (0 == strcmp (argv[1], "--help"))
     {
-      usage(stdout);
+      usage (stdout);
       return 0;
     }
-  else if (0 == strcmp(argv[1], "--version"))
+  else if (0 == strcmp (argv[1], "--version"))
     {
-      display_findutils_version("code");
+      display_findutils_version ("code");
       return 0;
     }
 
@@ -208,13 +208,13 @@ main (int argc, char **argv)
   /* Copy the list of most common bigrams to the output,
      padding with NULs if there are <128 of them.  */
   if (NULL == fgets (bigrams, 257, fp))
-    inerr(argv[1]);
+    inerr (argv[1]);
 
   if (256 != fwrite (bigrams, 1, 256, stdout))
-     outerr();
+     outerr ();
 
   if (EOF == fclose (fp))
-     inerr(argv[1]);
+     inerr (argv[1]);
 
   while ((line_len = getline (&path, &pathsize, stdin)) > 0)
     {

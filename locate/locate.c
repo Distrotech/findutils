@@ -1,6 +1,7 @@
 /* locate -- search databases for filenames that match patterns
    Copyright (C) 1994, 1996, 1998, 1999, 2000, 2003,
-                 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+                 2004, 2005, 2006, 2007, 2008,
+		 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -184,7 +185,7 @@ static const char *selected_secure_db = NULL;
  * before we complain about it.
  */
 static void
-set_max_db_age(const char *s)
+set_max_db_age (const char *s)
 {
   char *end;
   unsigned long int val;
@@ -192,7 +193,7 @@ set_max_db_age(const char *s)
 
   if (0 == *s)
     {
-      error(1, 0,
+      error (1, 0,
 	    _("The argument for option --max-database-age must not be empty"));
     }
 
@@ -202,22 +203,22 @@ set_max_db_age(const char *s)
    * signifies an error.
    */
   errno = 0;
-  val = strtoul(s, &end, 10);
+  val = strtoul (s, &end, 10);
 
   /* Diagnose number too large, non-numbes and trailing junk. */
   if ((ULONG_MAX == val && ERANGE == errno) ||
       (0 == val && EINVAL == errno))
     {
-      error(1, errno,
+      error (1, errno,
 	    _("Invalid argument %s for option --max-database-age"),
-	    quotearg_n_style(0, locale_quoting_style, s));
+	    quotearg_n_style (0, locale_quoting_style, s));
     }
   else if (*end)
     {
       /* errno wasn't set, don't print its message */
-      error(1, 0,
+      error (1, 0,
 	    _("Invalid argument %s for option --max-database-age"),
-	    quotearg_n_style(0, locale_quoting_style, s));
+	    quotearg_n_style (0, locale_quoting_style, s));
     }
   else
     {
@@ -245,9 +246,9 @@ const char * const metacharacters = "*?[]\\";
 /* Return nonzero if S contains any shell glob characters.
  */
 static int
-contains_metacharacter(const char *s)
+contains_metacharacter (const char *s)
 {
-  if (NULL == strpbrk(s, metacharacters))
+  if (NULL == strpbrk (s, metacharacters))
     return 0;
   else
     return 1;
@@ -268,22 +269,22 @@ contains_metacharacter(const char *s)
  * function getstr().
  */
 static int
-locate_read_str(char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
+locate_read_str (char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
 {
   char * p = NULL;
   size_t sz = 0;
   int nread;
   size_t needed;
 
-  nread = getdelim(&p, &sz, delimiter, fp);
+  nread = getdelim (&p, &sz, delimiter, fp);
   if (nread >= 0)
     {
-      assert(p != NULL);
+      assert (p != NULL);
 
       needed = offs + nread + 1u;
       if (needed > (*siz))
 	{
-	  char *pnew = realloc(*buf, needed);
+	  char *pnew = realloc (*buf, needed);
 	  if (NULL == pnew)
 	    {
 	      return -1;	/* FAIL */
@@ -294,8 +295,8 @@ locate_read_str(char **buf, size_t *siz, FILE *fp, int delimiter, int offs)
 	      *buf = pnew;
 	    }
 	}
-      memcpy((*buf)+offs, p, nread);
-      free(p);
+      memcpy ((*buf)+offs, p, nread);
+      free (p);
     }
   return nread;
 }
@@ -362,10 +363,10 @@ static struct visitor *inspectors = NULL;
 static struct visitor *lastinspector = NULL;
 static struct visitor *past_pat_inspector = NULL;
 
-static inline int visit(const struct visitor *p,
-			int accept_flags,
-			struct process_data *procdata,
-			const struct visitor * const stop)
+static inline int visit (const struct visitor *p,
+			 int accept_flags,
+			 struct process_data *procdata,
+			 const struct visitor * const stop)
 {
   register int result = accept_flags;
   while ( (accept_flags & result) && (stop != p) )
@@ -378,9 +379,9 @@ static inline int visit(const struct visitor *p,
 
 /* 0 or 1 pattern(s) */
 static int
-process_simple(struct process_data *procdata)
+process_simple (struct process_data *procdata)
 {
-  return visit(inspectors, (VISIT_CONTINUE|VISIT_ACCEPTED), procdata, NULL);
+  return visit (inspectors, (VISIT_CONTINUE|VISIT_ACCEPTED), procdata, NULL);
 }
 
 /* Accept if any pattern matches. */
@@ -389,13 +390,13 @@ process_or (struct process_data *procdata)
 {
   int result;
 
-  result = visit(inspectors, (VISIT_CONTINUE|VISIT_REJECTED), procdata, past_pat_inspector);
+  result = visit (inspectors, (VISIT_CONTINUE|VISIT_REJECTED), procdata, past_pat_inspector);
   if (result == VISIT_CONTINUE)
     result = VISIT_REJECTED;
   if (result & (VISIT_ABORT | VISIT_REJECTED))
     return result;
 
-  result = visit(past_pat_inspector, VISIT_CONTINUE, procdata, NULL);
+  result = visit (past_pat_inspector, VISIT_CONTINUE, procdata, NULL);
   if (VISIT_CONTINUE == result)
     return VISIT_ACCEPTED;
   else
@@ -408,13 +409,13 @@ process_and (struct process_data *procdata)
 {
   int result;
 
-  result = visit(inspectors, (VISIT_CONTINUE|VISIT_ACCEPTED), procdata, past_pat_inspector);
+  result = visit (inspectors, (VISIT_CONTINUE|VISIT_ACCEPTED), procdata, past_pat_inspector);
   if (result == VISIT_CONTINUE)
     result = VISIT_REJECTED;
   if (result & (VISIT_ABORT | VISIT_REJECTED))
     return result;
 
-  result = visit(past_pat_inspector, VISIT_CONTINUE, procdata, NULL);
+  result = visit (past_pat_inspector, VISIT_CONTINUE, procdata, NULL);
   if (VISIT_CONTINUE == result)
     return VISIT_ACCEPTED;
   else
@@ -426,9 +427,9 @@ typedef int (*processfunc)(struct process_data *procdata);
 static processfunc mainprocessor = NULL;
 
 static void
-add_visitor(visitfunc fn, void *context)
+add_visitor (visitfunc fn, void *context)
 {
-  struct visitor *p = xmalloc(sizeof(struct visitor));
+  struct visitor *p = xmalloc (sizeof (struct visitor));
   p->inspector = fn;
   p->context   = context;
   p->next = NULL;
@@ -445,22 +446,22 @@ add_visitor(visitfunc fn, void *context)
 }
 
 static int
-visit_justprint_quoted(struct process_data *procdata, void *context)
+visit_justprint_quoted (struct process_data *procdata, void *context)
 {
   (void) context;
   print_quoted (stdout, quote_opts, stdout_is_a_tty,
 		"%s",
 		procdata->original_filename);
-  putchar(separator);
+  putchar (separator);
   return VISIT_CONTINUE;
 }
 
 static int
-visit_justprint_unquoted(struct process_data *procdata, void *context)
+visit_justprint_unquoted (struct process_data *procdata, void *context)
 {
   (void) context;
-  fputs(procdata->original_filename, stdout);
-  putchar(separator);
+  fputs (procdata->original_filename, stdout);
+  putchar (separator);
   return VISIT_CONTINUE;
 }
 
@@ -491,7 +492,7 @@ extend (struct process_data *procdata, size_t siz1, size_t siz2)
 }
 
 static int
-visit_old_format(struct process_data *procdata, void *context)
+visit_old_format (struct process_data *procdata, void *context)
 {
   register size_t i;
   (void) context;
@@ -511,15 +512,15 @@ visit_old_format(struct process_data *procdata, void *context)
 	maxval = (procdata->len - procdata->count);
       else
 	maxval = (procdata->len - 0);
-      word = getword(procdata->fp, procdata->dbfile,
-		     minval, maxval, &procdata->endian_state);
+      word = getword (procdata->fp, procdata->dbfile,
+		      minval, maxval, &procdata->endian_state);
       procdata->count += word;
-      assert(procdata->count >= 0);
+      assert (procdata->count >= 0);
     }
   else
     {
       procdata->count += (procdata->c - LOCATEDB_OLD_OFFSET);
-      assert(procdata->count >= 0);
+      assert (procdata->count >= 0);
     }
 
   /* Overlay the old path with the remainder of the new.  Read
@@ -559,7 +560,7 @@ visit_old_format(struct process_data *procdata, void *context)
 }
 
 static int
-visit_locate02_format(struct process_data *procdata, void *context)
+visit_locate02_format (struct process_data *procdata, void *context)
 {
   register char *s;
   int nread;
@@ -569,7 +570,7 @@ visit_locate02_format(struct process_data *procdata, void *context)
     {
       if (procdata->itemcount == 0)
 	{
-	  ungetc(procdata->c, procdata->fp);
+	  ungetc (procdata->c, procdata->fp);
 	  procdata->count = 0;
 	  procdata->len = 0;
 	}
@@ -603,8 +604,8 @@ visit_locate02_format(struct process_data *procdata, void *context)
        * reading in data which is outside our control, we
        * cannot prevent it.
        */
-      error(1, 0, _("locate database %s is corrupt or invalid"),
-	    quotearg_n_style(0, locale_quoting_style, procdata->dbfile));
+      error (1, 0, _("locate database %s is corrupt or invalid"),
+	     quotearg_n_style (0, locale_quoting_style, procdata->dbfile));
     }
 
   /* Overlay the old path with the remainder of the new.  */
@@ -636,7 +637,7 @@ visit_locate02_format(struct process_data *procdata, void *context)
 }
 
 static int
-visit_basename(struct process_data *procdata, void *context)
+visit_basename (struct process_data *procdata, void *context)
 {
   (void) context;
   procdata->munged_filename = last_component (procdata->original_filename);
@@ -647,7 +648,7 @@ visit_basename(struct process_data *procdata, void *context)
 
 /* visit_existing_follow implements -L -e */
 static int
-visit_existing_follow(struct process_data *procdata, void *context)
+visit_existing_follow (struct process_data *procdata, void *context)
 {
   struct stat st;
   (void) context;
@@ -657,7 +658,7 @@ visit_existing_follow(struct process_data *procdata, void *context)
    * Hence only original_filename is still actually the name of the file
    * whose existence we would need to check.
    */
-  if (stat(procdata->original_filename, &st) != 0)
+  if (stat (procdata->original_filename, &st) != 0)
     {
       return VISIT_REJECTED;
     }
@@ -669,7 +670,7 @@ visit_existing_follow(struct process_data *procdata, void *context)
 
 /* visit_non_existing_follow implements -L -E */
 static int
-visit_non_existing_follow(struct process_data *procdata, void *context)
+visit_non_existing_follow (struct process_data *procdata, void *context)
 {
   struct stat st;
   (void) context;
@@ -679,7 +680,7 @@ visit_non_existing_follow(struct process_data *procdata, void *context)
    * Hence only original_filename is still actually the name of the file
    * whose existence we would need to check.
    */
-  if (stat(procdata->original_filename, &st) == 0)
+  if (stat (procdata->original_filename, &st) == 0)
     {
       return VISIT_REJECTED;
     }
@@ -691,7 +692,7 @@ visit_non_existing_follow(struct process_data *procdata, void *context)
 
 /* visit_existing_nofollow implements -P -e */
 static int
-visit_existing_nofollow(struct process_data *procdata, void *context)
+visit_existing_nofollow (struct process_data *procdata, void *context)
 {
   struct stat st;
   (void) context;
@@ -701,7 +702,7 @@ visit_existing_nofollow(struct process_data *procdata, void *context)
    * Hence only original_filename is still actually the name of the file
    * whose existence we would need to check.
    */
-  if (lstat(procdata->original_filename, &st) != 0)
+  if (lstat (procdata->original_filename, &st) != 0)
     {
       return VISIT_REJECTED;
     }
@@ -713,7 +714,7 @@ visit_existing_nofollow(struct process_data *procdata, void *context)
 
 /* visit_non_existing_nofollow implements -P -E */
 static int
-visit_non_existing_nofollow(struct process_data *procdata, void *context)
+visit_non_existing_nofollow (struct process_data *procdata, void *context)
 {
   struct stat st;
   (void) context;
@@ -723,7 +724,7 @@ visit_non_existing_nofollow(struct process_data *procdata, void *context)
    * Hence only original_filename is still actually the name of the file
    * whose existence we would need to check.
    */
-  if (lstat(procdata->original_filename, &st) == 0)
+  if (lstat (procdata->original_filename, &st) == 0)
     {
       return VISIT_REJECTED;
     }
@@ -734,46 +735,33 @@ visit_non_existing_nofollow(struct process_data *procdata, void *context)
 }
 
 static int
-visit_substring_match_nocasefold_wide(struct process_data *procdata, void *context)
+visit_substring_match_nocasefold_wide (struct process_data *procdata, void *context)
 {
   const char *pattern = context;
 
-  if (NULL != mbsstr(procdata->munged_filename, pattern))
+  if (NULL != mbsstr (procdata->munged_filename, pattern))
     return VISIT_ACCEPTED;
   else
     return VISIT_REJECTED;
 }
 
 static int
-visit_substring_match_nocasefold_narrow(struct process_data *procdata, void *context)
+visit_substring_match_nocasefold_narrow (struct process_data *procdata, void *context)
 {
   const char *pattern = context;
-  assert(MB_CUR_MAX == 1);
-  if (NULL != strstr(procdata->munged_filename, pattern))
+  assert (MB_CUR_MAX == 1);
+  if (NULL != strstr (procdata->munged_filename, pattern))
     return VISIT_ACCEPTED;
   else
     return VISIT_REJECTED;
 }
 
 static int
-visit_substring_match_casefold_wide(struct process_data *procdata, void *context)
+visit_substring_match_casefold_wide (struct process_data *procdata, void *context)
 {
   const char *pattern = context;
 
-  if (NULL != mbscasestr(procdata->munged_filename, pattern))
-    return VISIT_ACCEPTED;
-  else
-    return VISIT_REJECTED;
-}
-
-
-static int
-visit_substring_match_casefold_narrow(struct process_data *procdata, void *context)
-{
-  const char *pattern = context;
-
-  assert(MB_CUR_MAX == 1);
-  if (NULL != strcasestr(procdata->munged_filename, pattern))
+  if (NULL != mbscasestr (procdata->munged_filename, pattern))
     return VISIT_ACCEPTED;
   else
     return VISIT_REJECTED;
@@ -781,10 +769,23 @@ visit_substring_match_casefold_narrow(struct process_data *procdata, void *conte
 
 
 static int
-visit_globmatch_nofold(struct process_data *procdata, void *context)
+visit_substring_match_casefold_narrow (struct process_data *procdata, void *context)
+{
+  const char *pattern = context;
+
+  assert (MB_CUR_MAX == 1);
+  if (NULL != strcasestr (procdata->munged_filename, pattern))
+    return VISIT_ACCEPTED;
+  else
+    return VISIT_REJECTED;
+}
+
+
+static int
+visit_globmatch_nofold (struct process_data *procdata, void *context)
 {
   const char *glob = context;
-  if (fnmatch(glob, procdata->munged_filename, 0) != 0)
+  if (fnmatch (glob, procdata->munged_filename, 0) != 0)
     return VISIT_REJECTED;
   else
     return VISIT_ACCEPTED;
@@ -792,10 +793,10 @@ visit_globmatch_nofold(struct process_data *procdata, void *context)
 
 
 static int
-visit_globmatch_casefold(struct process_data *procdata, void *context)
+visit_globmatch_casefold (struct process_data *procdata, void *context)
 {
   const char *glob = context;
-  if (fnmatch(glob, procdata->munged_filename, FNM_CASEFOLD) != 0)
+  if (fnmatch (glob, procdata->munged_filename, FNM_CASEFOLD) != 0)
     return VISIT_REJECTED;
   else
     return VISIT_ACCEPTED;
@@ -803,10 +804,10 @@ visit_globmatch_casefold(struct process_data *procdata, void *context)
 
 
 static int
-visit_regex(struct process_data *procdata, void *context)
+visit_regex (struct process_data *procdata, void *context)
 {
   struct regular_expression *p = context;
-  const size_t len = strlen(procdata->munged_filename);
+  const size_t len = strlen (procdata->munged_filename);
 
   int rv = re_search (&p->regex, procdata->munged_filename,
 		      len, 0, len,
@@ -823,10 +824,10 @@ visit_regex(struct process_data *procdata, void *context)
 
 
 static int
-visit_stats(struct process_data *procdata, void *context)
+visit_stats (struct process_data *procdata, void *context)
 {
   struct locate_stats *p = context;
-  size_t len = strlen(procdata->original_filename);
+  size_t len = strlen (procdata->original_filename);
   const char *s;
   int highbit, whitespace, newline;
 
@@ -842,7 +843,7 @@ visit_stats(struct process_data *procdata, void *context)
 	{
 	  newline = whitespace = 1;
 	}
-      else if (isspace((unsigned char)*s))
+      else if (isspace ((unsigned char)*s))
 	{
 	  whitespace = 1;
 	}
@@ -860,7 +861,7 @@ visit_stats(struct process_data *procdata, void *context)
 
 
 static int
-visit_limit(struct process_data *procdata, void *context)
+visit_limit (struct process_data *procdata, void *context)
 {
   struct locate_limits *p = context;
 
@@ -873,7 +874,7 @@ visit_limit(struct process_data *procdata, void *context)
 }
 
 static int
-visit_count(struct process_data *procdata, void *context)
+visit_count (struct process_data *procdata, void *context)
 {
   struct locate_limits *p = context;
 
@@ -886,28 +887,28 @@ visit_count(struct process_data *procdata, void *context)
 /* Emit the statistics.
  */
 static void
-print_stats(int argc, size_t database_file_size)
+print_stats (int argc, size_t database_file_size)
 {
   char hbuf1[LONGEST_HUMAN_READABLE + 1];
   char hbuf2[LONGEST_HUMAN_READABLE + 1];
   char hbuf3[LONGEST_HUMAN_READABLE + 1];
   char hbuf4[LONGEST_HUMAN_READABLE + 1];
 
-  printf(ngettext("Locate database size: %s byte\n",
+  printf (ngettext ("Locate database size: %s byte\n",
 		  "Locate database size: %s bytes\n",
 		  database_file_size),
 	 human_readable ((uintmax_t) database_file_size,
 			 hbuf1, human_ceiling, 1, 1));
 
-  printf( (results_were_filtered ?
+  printf ( (results_were_filtered ?
 	   _("Matching Filenames: %s\n") :
 	   _("All Filenames: %s\n")),
 	  human_readable (statistics.total_filename_count,
 			 hbuf1, human_ceiling, 1, 1));
-  /* XXX: We would ideally use ngettext() here, but I don't know
+  /* XXX: We would ideally use ngettext () here, but I don't know
    *      how to use it to handle more than one possibly-plural thing/
    */
-  printf(_("File names have a cumulative length of %s bytes.\n"
+  printf (_("File names have a cumulative length of %s bytes.\n"
 	   "Of those file names,\n"
 	   "\n\t%s contain whitespace, "
 	   "\n\t%s contain newline characters, "
@@ -921,7 +922,7 @@ print_stats(int argc, size_t database_file_size)
     {
       if (results_were_filtered)
 	{
-	  printf(_("Some filenames may have been filtered out, "
+	  printf (_("Some filenames may have been filtered out, "
 		   "so we cannot compute the compression ratio.\n"));
 	}
       else
@@ -934,18 +935,18 @@ print_stats(int argc, size_t database_file_size)
 	       * old-format databases containing a small list of short
 	       * filenames, because the bigram list is 256 bytes.
 	       */
-	      printf(_("Compression ratio %4.2f%% (higher is better)\n"),
+	      printf (_("Compression ratio %4.2f%% (higher is better)\n"),
 		     100.0 * ((double)statistics.total_filename_length
 			      - (double) database_file_size)
 		     / (double) statistics.total_filename_length);
 	    }
 	  else
 	    {
-	      printf(_("Compression ratio is undefined\n"));
+	      printf (_("Compression ratio is undefined\n"));
 	    }
 	}
     }
-  printf("\n");
+  printf ("\n");
 }
 
 /*
@@ -973,7 +974,7 @@ looking_at_slocate_locatedb (const char *filename,
 			     size_t len,
 			     int *seclevel)
 {
-  assert(len <= 2);
+  assert (len <= 2);
 
   if (len < 2)
     {
@@ -984,7 +985,7 @@ looking_at_slocate_locatedb (const char *filename,
       /* Check that the magic number is a one-byte string */
       if (0 == data[1])
 	{
-	  if (isdigit((unsigned char)data[0]))
+	  if (isdigit ((unsigned char)data[0]))
 	    {
 	      /* looks promising. */
 	      *seclevel = (data[0] - '0');
@@ -995,12 +996,12 @@ looking_at_slocate_locatedb (const char *filename,
 		   * of some awsomely huge security level, like 2.
 		   * We don't know how to handle those.
 		   */
-		  error(0, 0,
-			_("locate database %s looks like an slocate "
-			  "database but it seems to have security level %c, "
-			  "which GNU findutils does not currently support"),
-			quotearg_n_style(0, locale_quoting_style, filename),
-			data[1]);
+		  error (0, 0,
+			 _("locate database %s looks like an slocate "
+			   "database but it seems to have security level %c, "
+			   "which GNU findutils does not currently support"),
+			 quotearg_n_style (0, locale_quoting_style, filename),
+			 data[1]);
 		  return 1;
 		}
 	      else
@@ -1024,7 +1025,7 @@ looking_at_slocate_locatedb (const char *filename,
 
 
 static int
-i_am_little_endian(void)
+i_am_little_endian (void)
 {
   union
   {
@@ -1107,15 +1108,15 @@ search_one_database (int argc,
   nread = fread (procdata.original_filename, 1, SLOCATE_DB_MAGIC_LEN,
 		 procdata.fp);
   slocate_seclevel = 0;
-  if (looking_at_slocate_locatedb(procdata.dbfile,
-				  procdata.original_filename,
-				  nread,
-				  &slocate_seclevel))
+  if (looking_at_slocate_locatedb (procdata.dbfile,
+				   procdata.original_filename,
+				   nread,
+				   &slocate_seclevel))
     {
-      error(0, 0,
-	    _("%s is an slocate database.  "
-	      "Support for these is new, expect problems for now."),
-	    quotearg_n_style(0, locale_quoting_style, procdata.dbfile));
+      error (0, 0,
+	     _("%s is an slocate database.  "
+	       "Support for these is new, expect problems for now."),
+	     quotearg_n_style (0, locale_quoting_style, procdata.dbfile));
 
       /* slocate also uses frcode, but with a different header.
        * We handle the header here and then work with the data
@@ -1126,10 +1127,10 @@ search_one_database (int argc,
 	  /* We don't know what those security levels mean,
 	   * so do nothing further
 	   */
-	  error(0, 0,
-		_("%s is an slocate database of unsupported security level %d; skipping it."),
-		quotearg_n_style(0, locale_quoting_style, procdata.dbfile),
-		slocate_seclevel);
+	  error (0, 0,
+		 _("%s is an slocate database of unsupported security level %d; skipping it."),
+		 quotearg_n_style (0, locale_quoting_style, procdata.dbfile),
+		 slocate_seclevel);
 	  return 0;
 	}
       else if (slocate_seclevel > 0)
@@ -1143,26 +1144,26 @@ search_one_database (int argc,
 	      /* Do not allow the user to see a list of filenames that they
 	       * cannot stat().
 	       */
-	      error(0, 0,
-		    _("You specified the -E option, but that option "
-		      "cannot be used with slocate-format databases "
-		      "with a non-zero security level.  No results will be "
-		      "generated for this database.\n"));
+	      error (0, 0,
+		     _("You specified the -E option, but that option "
+		       "cannot be used with slocate-format databases "
+		       "with a non-zero security level.  No results will be "
+		       "generated for this database.\n"));
 	      return 0;
 	    }
 	  if (ACCEPT_EXISTING != do_check_existence)
 	    {
 	      if (enable_print || stats)
 		{
-		  error(0, 0,
-			_("%s is an slocate database.  "
-			  "Turning on the '-e' option."),
-			quotearg_n_style(0, locale_quoting_style, procdata.dbfile));
+		  error (0, 0,
+			 _("%s is an slocate database.  "
+			   "Turning on the '-e' option."),
+			 quotearg_n_style (0, locale_quoting_style, procdata.dbfile));
 		}
 	      do_check_existence = ACCEPT_EXISTING;
 	    }
 	}
-      add_visitor(visit_locate02_format, NULL);
+      add_visitor (visit_locate02_format, NULL);
       format_name = "slocate";
       procdata.slocatedb_format = 1;
     }
@@ -1171,12 +1172,12 @@ search_one_database (int argc,
       int nread2;
 
       procdata.slocatedb_format = 0;
-      extend (&procdata, sizeof(LOCATEDB_MAGIC), 0u);
+      extend (&procdata, sizeof (LOCATEDB_MAGIC), 0u);
       nread2 = fread (procdata.original_filename+nread, 1, sizeof (LOCATEDB_MAGIC)-nread,
 		      procdata.fp);
-      if (looking_at_gnu_locatedb(procdata.original_filename, nread+nread2))
+      if (looking_at_gnu_locatedb (procdata.original_filename, nread+nread2))
 	{
-	  add_visitor(visit_locate02_format, NULL);
+	  add_visitor (visit_locate02_format, NULL);
 	  format_name = "GNU LOCATE02";
 	}
       else				/* Use the old format */
@@ -1192,10 +1193,10 @@ search_one_database (int argc,
 				     256 - nread, procdata.fp);
 	      if ( (more_read + nread) != 256 )
 		{
-		  error(1, 0,
-			_("Old-format locate database %s is "
-			  "too short to be valid"),
-			quotearg_n_style(0, locale_quoting_style, dbfile));
+		  error (1, 0,
+			 _("Old-format locate database %s is "
+			   "too short to be valid"),
+			 quotearg_n_style (0, locale_quoting_style, dbfile));
 
 		}
 	    }
@@ -1207,12 +1208,12 @@ search_one_database (int argc,
 	    }
 	  format_name = "old";
 	  oldformat = 1;
-	  add_visitor(visit_old_format, NULL);
+	  add_visitor (visit_old_format, NULL);
 	}
     }
 
   if (basename_only)
-    add_visitor(visit_basename, NULL);
+    add_visitor (visit_basename, NULL);
 
   /* Add an inspector for each pattern we're looking for. */
   for ( argn = 0; argn < argc; argn++ )
@@ -1221,12 +1222,12 @@ search_one_database (int argc,
       pathpart = argv[argn];
       if (regex)
 	{
-	  struct regular_expression *p = xmalloc(sizeof(*p));
+	  struct regular_expression *p = xmalloc (sizeof (*p));
 	  const char *error_message = NULL;
 
 	  memset (&p->regex, 0, sizeof (p->regex));
 
-	  re_set_syntax(regex_options);
+	  re_set_syntax (regex_options);
 	  p->regex.allocated = 100;
 	  p->regex.buffer = xmalloc (p->regex.allocated);
 	  p->regex.fastmap = NULL;
@@ -1241,15 +1242,15 @@ search_one_database (int argc,
 	    }
 	  else
 	    {
-	      add_visitor(visit_regex, p);
+	      add_visitor (visit_regex, p);
 	    }
 	}
-      else if (contains_metacharacter(pathpart))
+      else if (contains_metacharacter (pathpart))
 	{
 	  if (ignore_case)
-	    add_visitor(visit_globmatch_casefold, pathpart);
+	    add_visitor (visit_globmatch_casefold, pathpart);
 	  else
-	    add_visitor(visit_globmatch_nofold, pathpart);
+	    add_visitor (visit_globmatch_nofold, pathpart);
 	}
       else
 	{
@@ -1262,11 +1263,11 @@ search_one_database (int argc,
 	  visitfunc matcher;
 	  if (1 == MB_CUR_MAX)
 	    {
-	      /* As an optimisation, use a strstr() matcher if we are
+	      /* As an optimisation, use a strstr () matcher if we are
 	       * in a unibyte locale.  This can give a x2 speedup in
 	       * the C locale.  Some light testing reveals that
-	       * glibc's strstr() is somewhere around 40% faster than
-	       * gnulib's, so we just use strstr().
+	       * glibc's strstr () is somewhere around 40% faster than
+	       * gnulib's, so we just use strstr ().
 	       */
 	      matcher = ignore_case ?
 		visit_substring_match_casefold_narrow  :
@@ -1278,7 +1279,7 @@ search_one_database (int argc,
 		visit_substring_match_casefold_wide  :
 		visit_substring_match_nocasefold_wide;
 	    }
-	  add_visitor(matcher, pathpart);
+	  add_visitor (matcher, pathpart);
 	}
     }
 
@@ -1292,17 +1293,17 @@ search_one_database (int argc,
       case ACCEPT_EXISTING:
 	results_were_filtered = true;
 	if (follow_symlinks)	/* -L, default */
-	  add_visitor(visit_existing_follow, NULL);
+	  add_visitor (visit_existing_follow, NULL);
 	else			/* -P */
-	  add_visitor(visit_existing_nofollow, NULL);
+	  add_visitor (visit_existing_nofollow, NULL);
 	break;
 
       case ACCEPT_NON_EXISTING:
 	results_were_filtered = true;
 	if (follow_symlinks)	/* -L, default */
-	  add_visitor(visit_non_existing_follow, NULL);
+	  add_visitor (visit_non_existing_follow, NULL);
 	else			/* -P */
-	  add_visitor(visit_non_existing_nofollow, NULL);
+	  add_visitor (visit_non_existing_nofollow, NULL);
 	break;
 
       case ACCEPT_EITHER:	/* Default, neither -E nor -e */
@@ -1315,21 +1316,21 @@ search_one_database (int argc,
    * leak information about files that the caller cannot see.
    */
   if (stats)
-    add_visitor(visit_stats, &statistics);
+    add_visitor (visit_stats, &statistics);
 
   if (enable_print)
     {
       if (print_quoted_filename)
-	add_visitor(visit_justprint_quoted,   NULL);
+	add_visitor (visit_justprint_quoted,   NULL);
       else
-	add_visitor(visit_justprint_unquoted, NULL);
+	add_visitor (visit_justprint_unquoted, NULL);
     }
 
 
   if (use_limit)
-    add_visitor(visit_limit, plimit);
+    add_visitor (visit_limit, plimit);
   else
-    add_visitor(visit_count, plimit);
+    add_visitor (visit_count, plimit);
 
 
   if (argc > 1)
@@ -1345,9 +1346,9 @@ search_one_database (int argc,
 
   if (stats)
     {
-      printf(_("Database %s is in the %s format.\n"),
-	     procdata.dbfile,
-	     format_name);
+      printf (_("Database %s is in the %s format.\n"),
+	      procdata.dbfile,
+	      format_name);
     }
 
 
@@ -1365,7 +1366,7 @@ search_one_database (int argc,
     {
       if (oldformat)
 	{
-	  int host_little_endian = i_am_little_endian();
+	  int host_little_endian = i_am_little_endian ();
 	  const char *little = _("The database has little-endian "
 				 "machine-word encoding.\n");
 	  const char *big    = _("The database has big-endian "
@@ -1373,26 +1374,26 @@ search_one_database (int argc,
 
 	  if (GetwordEndianStateNative == procdata.endian_state)
 	    {
-	      printf("%s", (host_little_endian ? little : big));
+	      printf ("%s", (host_little_endian ? little : big));
 	    }
 	  else if (GetwordEndianStateSwab == procdata.endian_state)
 	    {
-	      printf("%s", (host_little_endian ? big : little));
+	      printf ("%s", (host_little_endian ? big : little));
 	    }
 	  else
 	    {
-	      printf(_("The database machine-word encoding order "
+	      printf (_("The database machine-word encoding order "
 		       "is not obvious.\n"));
 	    }
 	}
       if (filesize)
-	print_stats(argc, filesize);
+	print_stats (argc, filesize);
     }
 
   if (ferror (procdata.fp))
     {
       error (0, errno, "%s",
-	     quotearg_n_style(0, locale_quoting_style, procdata.dbfile));
+	     quotearg_n_style (0, locale_quoting_style, procdata.dbfile));
       return 0;
     }
   return plimit->items_accepted;
@@ -1456,21 +1457,21 @@ static struct option const longopts[] =
 
 
 static int
-drop_privs(void)
+drop_privs (void)
 {
   const char * what = "failed";
-  const uid_t orig_euid = geteuid();
-  const uid_t uid       = getuid();
-  const gid_t gid       = getgid();
+  const uid_t orig_euid = geteuid ();
+  const uid_t uid       = getuid ();
+  const gid_t gid       = getgid ();
 
 #if HAVE_SETGROUPS
-  /* Use of setgroups() is restricted to root only. */
+  /* Use of setgroups () is restricted to root only. */
   if (0 == orig_euid)
     {
       /* We're either root or running setuid-root. */
       gid_t groups[1];
       groups[0] = gid;
-      if (0 != setgroups(1u, groups))
+      if (0 != setgroups (1u, groups))
 	{
 	  what = _("failed to drop group privileges");
 	  goto fail;
@@ -1488,27 +1489,27 @@ drop_privs(void)
       else
 	{
 	  errno = 0;
-	  if (0 != setuid(getuid()))
+	  if (0 != setuid (getuid ()))
 	    {
 	      what = _("failed to drop setuid privileges");
 	      goto fail;
 	    }
 
 	  /* Defend against the case where the attacker runs us with the
-	   * capability to call setuid() turned off, which on some systems
+	   * capability to call setuid () turned off, which on some systems
 	   * will cause the above attempt to drop privileges fail (leaving us
 	   * privileged).
 	   */
 	  else
 	    {
 	      /* Check that we can no longer switch bask to root */
-	      if (0 == setuid(0))
+	      if (0 == setuid (0))
 		{
 		  what = _("Failed to fully drop privileges");
 		  /* The errno value here is not interesting (since
 		   * the system call we are complaining about
 		   * succeeded when we wanted it to fail).  Arrange
-		   * for the call to error() not to print the errno
+		   * for the call to error () not to print the errno
 		   * value by setting errno=0.
 		   */
 		  errno = 0;
@@ -1520,7 +1521,7 @@ drop_privs(void)
 
   /* Drop any setgid privileges */
   errno = 0;
-  if (0 != setgid(gid))
+  if (0 != setgid (gid))
     {
       what = _("failed to drop setgid privileges");
       goto fail;
@@ -1530,11 +1531,11 @@ drop_privs(void)
   return 0;
 
  fail:
-  error(1, errno, "%s",
-	quotearg_n_style(0, locale_quoting_style, what));
-  abort();
-  kill(0, SIGKILL);
-  _exit(1);
+  error (1, errno, "%s",
+	 quotearg_n_style (0, locale_quoting_style, what));
+  abort ();
+  kill (0, SIGKILL);
+  _exit (1);
   /*NOTREACHED*/
   /* ... we hope. */
   for (;;)
@@ -1544,9 +1545,9 @@ drop_privs(void)
 }
 
 static int
-opendb(const char *name)
+opendb (const char *name)
 {
-  int fd = open(name, O_RDONLY
+  int fd = open (name, O_RDONLY
 #if defined O_LARGEFILE
 		|O_LARGEFILE
 #endif
@@ -1554,9 +1555,9 @@ opendb(const char *name)
   if (fd >= 0)
     {
       /* Make sure it won't survive an exec */
-      if (0 != fcntl(fd, F_SETFD, FD_CLOEXEC))
+      if (0 != fcntl (fd, F_SETFD, FD_CLOEXEC))
 	{
-	  close(fd);
+	  close (fd);
 	  fd = -1;
 	}
     }
@@ -1732,7 +1733,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
     {
       if (secure_db_fd >= 0)
 	{
-	  close(secure_db_fd);
+	  close (secure_db_fd);
 	  secure_db_fd = -1;
 	}
     }
@@ -1755,7 +1756,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
     }
 
 
-  if (1 == isatty(STDOUT_FILENO))
+  if (1 == isatty (STDOUT_FILENO))
     stdout_is_a_tty = true;
   else
     stdout_is_a_tty = false;
@@ -1801,17 +1802,17 @@ dolocate (int argc, char **argv, int secure_db_fd)
 	    }
 	  else
 	    {
-	      if (0 == strlen(e) || 0 == strcmp(e, "."))
+	      if (0 == strlen (e) || 0 == strcmp (e, "."))
 		{
 		  e = LOCATE_DB;
 		}
 
 	      /* open the database */
-	      fd = opendb(e);
+	      fd = opendb (e);
 	      if (fd < 0)
 		{
 		  error (0, errno, "%s",
-			 quotearg_n_style(0, locale_quoting_style, e));
+			 quotearg_n_style (0, locale_quoting_style, e));
 		  return 0;
 		}
 	    }
@@ -1832,10 +1833,10 @@ dolocate (int argc, char **argv, int secure_db_fd)
 	}
 
       /* Check the database to see if it is old. */
-      if (fstat(fd, &st))
+      if (fstat (fd, &st))
 	{
 	  error (0, errno, "%s",
-		 quotearg_n_style(0, locale_quoting_style, e));
+		 quotearg_n_style (0, locale_quoting_style, e));
 	  /* continue anyway */
 	  filesize = (off_t)0;
 	}
@@ -1845,7 +1846,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
 
 	  filesize = st.st_size;
 
-	  if ((time_t)-1 == time(&now))
+	  if ((time_t)-1 == time (&now))
 	    {
 	      /* If we can't tell the time, we don't know how old the
 	       * database is.  But since the message is just advisory,
@@ -1855,7 +1856,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
 	    }
 	  else
 	    {
-	      double age          = difftime(now, st.st_mtime);
+	      double age          = difftime (now, st.st_mtime);
 	      double warn_seconds = SECONDS_PER_UNIT * warn_number_units;
 	      if (age > warn_seconds)
 		{
@@ -1863,18 +1864,18 @@ dolocate (int argc, char **argv, int secure_db_fd)
 		     warning: database `fred' is more than 8 days old (actual age is 10 days)*/
 		  error (0, 0,
 			 _("warning: database %s is more than %d %s old (actual age is %.1f %s)"),
-			 quotearg_n_style(0,  locale_quoting_style, e),
+			 quotearg_n_style (0,  locale_quoting_style, e),
 			 warn_number_units,              _(warn_name_units),
 			 (age/(double)SECONDS_PER_UNIT), _(warn_name_units));
 		}
 	    }
 	}
 
-      fp = fdopen(fd, "r");
+      fp = fdopen (fd, "r");
       if (NULL == fp)
 	{
 	  error (0, errno, "%s",
-		 quotearg_n_style(0, locale_quoting_style, e));
+		 quotearg_n_style (0, locale_quoting_style, e));
 	  return 0;
 	}
 
@@ -1889,14 +1890,14 @@ dolocate (int argc, char **argv, int secure_db_fd)
       if (fclose (fp) == EOF)
 	{
 	  error (0, errno, "%s",
-		 quotearg_n_style(0, locale_quoting_style, e));
+		 quotearg_n_style (0, locale_quoting_style, e));
 	  return 0;
 	}
     }
 
   if (just_count)
     {
-      printf("%ld\n", found);
+      printf ("%ld\n", found);
     }
 
   if (found || (use_limit && (limits.limit==0)) || stats )
@@ -1905,9 +1906,9 @@ dolocate (int argc, char **argv, int secure_db_fd)
     return 1;
 }
 
-#define ARRAYSIZE(a) (sizeof(a)/sizeof(a[0]))
+#define ARRAYSIZE(a) (sizeof (a)/sizeof (a[0]))
 static int
-open_secure_db(void)
+open_secure_db (void)
 {
   int fd, i;
 
@@ -1919,7 +1920,7 @@ open_secure_db(void)
     };
   for (i=0; secure_db_list[i]; ++i)
     {
-      fd = opendb(secure_db_list[i]);
+      fd = opendb (secure_db_list[i]);
       if (fd >= 0)
 	{
 	  selected_secure_db = secure_db_list[i];
@@ -1932,8 +1933,8 @@ open_secure_db(void)
 int
 main (int argc, char **argv)
 {
-  int dbfd = open_secure_db();
-  drop_privs();
+  int dbfd = open_secure_db ();
+  drop_privs ();
 
-  return dolocate(argc, argv, dbfd);
+  return dolocate (argc, argv, dbfd);
 }

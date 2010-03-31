@@ -1,5 +1,5 @@
 /* word_io.c -- word oriented I/O
-   Copyright (C) 2007 Free Software Foundation, Inc.
+   Copyright (C) 2007, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -59,10 +59,10 @@
 enum { WORDBYTES=4 };
 
 static int
-decode_value(const unsigned char data[],
-	     int limit,
-	     GetwordEndianState *endian_state_flag,
-	     const char *filename)
+decode_value (const unsigned char data[],
+	      int limit,
+	      GetwordEndianState *endian_state_flag,
+	      const char *filename)
 {
   int swapped;
   union
@@ -71,7 +71,7 @@ decode_value(const unsigned char data[],
     unsigned char data[WORDBYTES];
   } u;
   u.ival = 0;
-  memcpy(&u.data, data, WORDBYTES);
+  memcpy (&u.data, data, WORDBYTES);
   swapped = bswap_32(u.ival);	/* byteswapped */
 
   if (*endian_state_flag == GetwordEndianStateInitial)
@@ -93,10 +93,10 @@ decode_value(const unsigned char data[],
 	  if (swapped <= limit)
 	    {
 	      /* Aha, now we know we have to byte-swap. */
-	      error(0, 0,
-		    _("Warning: locate database %s was "
-		      "built with a different byte order"),
-		    quotearg_n_style(0, locale_quoting_style, filename));
+	      error (0, 0,
+		     _("Warning: locate database %s was "
+		       "built with a different byte order"),
+		     quotearg_n_style (0, locale_quoting_style, filename));
 	      *endian_state_flag = GetwordEndianStateSwab;
 	      return swapped;
 	    }
@@ -131,24 +131,24 @@ getword (FILE *fp,
   unsigned char data[4];
   size_t bytes_read;
 
-  clearerr(fp);
-  bytes_read = fread(data, WORDBYTES, 1, fp);
+  clearerr (fp);
+  bytes_read = fread (data, WORDBYTES, 1, fp);
   if (bytes_read != 1)
     {
-      const char * quoted_name = quotearg_n_style(0, locale_quoting_style,
-						  filename);
+      const char * quoted_name = quotearg_n_style (0, locale_quoting_style,
+						   filename);
       /* Distinguish between a truncated database and an I/O error.
        * Either condition is fatal.
        */
-      if (feof(fp))
-	error(1, 0, _("unexpected EOF in %s"), quoted_name);
+      if (feof (fp))
+	error (1, 0, _("unexpected EOF in %s"), quoted_name);
       else
-	error(1, errno, _("error reading a word from %s"), quoted_name);
+	error (1, errno, _("error reading a word from %s"), quoted_name);
       abort ();
     }
   else
     {
-      return decode_value(data, maxvalue, endian_state_flag, filename);
+      return decode_value (data, maxvalue, endian_state_flag, filename);
     }
 }
 
@@ -168,7 +168,7 @@ putword (FILE *fp, int word,
       word = bswap_32(word);
     }
 
-  items_written = fwrite(&word, sizeof(word), 1, fp);
+  items_written = fwrite (&word, sizeof (word), 1, fp);
   if (1 == items_written)
     return true;
   else
