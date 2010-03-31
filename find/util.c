@@ -124,36 +124,36 @@ struct predicate *
 insert_primary (const struct parser_table *entry, const char *arg)
 {
   assert (entry->pred_func != NULL);
-  return insert_primary_withpred(entry, entry->pred_func, arg);
+  return insert_primary_withpred (entry, entry->pred_func, arg);
 }
 
 struct predicate *
 insert_primary_noarg (const struct parser_table *entry)
 {
-  return insert_primary(entry, NULL);
+  return insert_primary (entry, NULL);
 }
 
 
 
 static void
-show_valid_debug_options(FILE *fp, int full)
+show_valid_debug_options (FILE *fp, int full)
 {
   int i;
   if (full)
     {
-      fprintf(fp, "Valid arguments for -D:\n");
+      fprintf (fp, "Valid arguments for -D:\n");
       for (i=0; i<N_DEBUGASSOC; ++i)
 	{
-	  fprintf(fp, "%-10s %s\n",
-		  debugassoc[i].name,
-		  debugassoc[i].docstring);
+	  fprintf (fp, "%-10s %s\n",
+		   debugassoc[i].name,
+		   debugassoc[i].docstring);
 	}
     }
   else
     {
       for (i=0; i<N_DEBUGASSOC; ++i)
 	{
-	  fprintf(fp, "%s%s", (i>0 ? "|" : ""), debugassoc[i].name);
+	  fprintf (fp, "%s%s", (i>0 ? "|" : ""), debugassoc[i].name);
 	}
     }
 }
@@ -165,14 +165,14 @@ usage (FILE *fp, int status, char *msg)
     fprintf (fp, "%s: %s\n", program_name, msg);
 
   fprintf (fp, _("Usage: %s [-H] [-L] [-P] [-Olevel] [-D "), program_name);
-  show_valid_debug_options(fp, 0);
+  show_valid_debug_options (fp, 0);
   fprintf (fp, _("] [path...] [expression]\n"));
   if (0 != status)
     exit (status);
 }
 
 void
-set_stat_placeholders(struct stat *p)
+set_stat_placeholders (struct stat *p)
 {
 #if HAVE_STRUCT_STAT_ST_BIRTHTIME
   p->st_birthtime = 0;
@@ -201,14 +201,14 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
    */
   if (!state.have_stat)
     {
-      set_stat_placeholders(p);
+      set_stat_placeholders (p);
       if (0 == (*options.xstat) (name, p))
 	{
 	  if (00000 == p->st_mode)
 	    {
 	      /* Savannah bug #16378. */
-	      error(0, 0, _("Warning: file %s appears to have mode 0000"),
-		    quotearg_n_style(0, options.err_quoting_style, name));
+	      error (0, 0, _("Warning: file %s appears to have mode 0000"),
+		     quotearg_n_style (0, options.err_quoting_style, name));
 	    }
 	}
       else
@@ -216,7 +216,7 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
 	  if (!options.ignore_readdir_race || (errno != ENOENT) )
 	    {
 	      error (0, errno, "%s",
-		     safely_quote_err_filename(0, pathname));
+		     safely_quote_err_filename (0, pathname));
 	      state.exit_status = 1;
 	    }
 	  return -1;
@@ -268,7 +268,7 @@ get_info (const char *pathname,
     }
   if (todo)
     {
-      int result = get_statinfo(pathname, state.rel_pathname, p);
+      int result = get_statinfo (pathname, state.rel_pathname, p);
       if (result != 0)
 	{
 	  /* Verify some postconditions.  We can't check st_mode for
@@ -299,7 +299,7 @@ get_info (const char *pathname,
  */
 #if defined O_NOFOLLOW
 boolean
-check_nofollow(void)
+check_nofollow (void)
 {
   struct utsname uts;
   float  release;
@@ -309,17 +309,17 @@ check_nofollow(void)
       return false;
     }
 
-  if (0 == uname(&uts))
+  if (0 == uname (&uts))
     {
       /* POSIX requires that atof() ignore "unrecognised suffixes". */
-      release = atof(uts.release);
+      release = atof (uts.release);
 
-      if (0 == strcmp("Linux", uts.sysname))
+      if (0 == strcmp ("Linux", uts.sysname))
 	{
 	  /* Linux kernels 2.1.126 and earlier ignore the O_NOFOLLOW flag. */
 	  return release >= 2.2; /* close enough */
 	}
-      else if (0 == strcmp("FreeBSD", uts.sysname))
+      else if (0 == strcmp ("FreeBSD", uts.sysname))
 	{
 	  /* FreeBSD 3.0-CURRENT and later support it */
 	  return release >= 3.1;
@@ -339,16 +339,16 @@ check_nofollow(void)
  * have no effect if there are no arguments waiting).
  */
 static void
-do_complete_pending_execdirs(struct predicate *p, int dir_fd)
+do_complete_pending_execdirs (struct predicate *p, int dir_fd)
 {
   if (NULL == p)
     return;
 
   assert (state.execdirs_outstanding);
 
-  do_complete_pending_execdirs(p->pred_left, dir_fd);
+  do_complete_pending_execdirs (p->pred_left, dir_fd);
 
-  if (pred_is(p, pred_execdir) || pred_is(p, pred_okdir))
+  if (pred_is (p, pred_execdir) || pred_is(p, pred_okdir))
     {
       /* It's an exec-family predicate.  p->args.exec_val is valid. */
       if (p->args.exec_vec.multiple)
@@ -366,15 +366,15 @@ do_complete_pending_execdirs(struct predicate *p, int dir_fd)
 	}
     }
 
-  do_complete_pending_execdirs(p->pred_right, dir_fd);
+  do_complete_pending_execdirs (p->pred_right, dir_fd);
 }
 
 void
-complete_pending_execdirs(int dir_fd)
+complete_pending_execdirs (int dir_fd)
 {
   if (state.execdirs_outstanding)
     {
-      do_complete_pending_execdirs(get_eval_tree(), dir_fd);
+      do_complete_pending_execdirs (get_eval_tree(), dir_fd);
       state.execdirs_outstanding = false;
     }
 }
@@ -387,18 +387,18 @@ complete_pending_execdirs(int dir_fd)
  * there are no arguments waiting).
  */
 void
-complete_pending_execs(struct predicate *p)
+complete_pending_execs (struct predicate *p)
 {
   if (NULL == p)
     return;
 
-  complete_pending_execs(p->pred_left);
+  complete_pending_execs (p->pred_left);
 
   /* It's an exec-family predicate then p->args.exec_val is valid
    * and we can check it.
    */
   /* XXX: what about pred_ok() ? */
-  if (pred_is(p, pred_exec) && p->args.exec_vec.multiple)
+  if (pred_is (p, pred_exec) && p->args.exec_vec.multiple)
     {
       struct exec_val *execp = &p->args.exec_vec;
 
@@ -413,20 +413,20 @@ complete_pending_execs(struct predicate *p)
 	}
     }
 
-  complete_pending_execs(p->pred_right);
+  complete_pending_execs (p->pred_right);
 }
 
 static void
-traverse_tree(struct predicate *tree,
+traverse_tree (struct predicate *tree,
 			  void (*callback)(struct predicate*))
 {
   if (tree->pred_left)
-    traverse_tree(tree->pred_left, callback);
+    traverse_tree (tree->pred_left, callback);
 
-  callback(tree);
+  callback (tree);
 
   if (tree->pred_right)
-    traverse_tree(tree->pred_right, callback);
+    traverse_tree (tree->pred_right, callback);
 }
 
 /* After sharefile_destroy is called, our output file
@@ -460,17 +460,17 @@ fd_leak_check_is_enabled (void)
 void
 cleanup (void)
 {
-  struct predicate *eval_tree = get_eval_tree();
+  struct predicate *eval_tree = get_eval_tree ();
   if (eval_tree)
     {
-      traverse_tree(eval_tree, complete_pending_execs);
-      complete_pending_execdirs(get_current_dirfd());
+      traverse_tree (eval_tree, complete_pending_execs);
+      complete_pending_execdirs (get_current_dirfd());
     }
 
   /* Close ouptut files and NULL out references to them. */
   sharefile_destroy (state.shared_files);
   if (eval_tree)
-    traverse_tree(eval_tree, undangle_file_pointers);
+    traverse_tree (eval_tree, undangle_file_pointers);
 
   if (fd_leak_check_is_enabled ())
     {
@@ -488,23 +488,23 @@ cleanup (void)
  */
 #undef DEBUG_SV_BUG_16378
 #if defined DEBUG_SV_BUG_16378
-static int hook_fstatat(int fd, const char *name, struct stat *p, int flags)
+static int hook_fstatat (int fd, const char *name, struct stat *p, int flags)
 {
   static int warned = 0;
 
   if (!warned)
     {
       /* No use of _() here; no point asking translators to translate a debug msg */
-      error(0, 0,
-	    "Warning: some debug code is enabled for Savannah bug #16378; "
-	    "this should not occur in released versions of findutils!");
+      error (0, 0,
+	     "Warning: some debug code is enabled for Savannah bug #16378; "
+	     "this should not occur in released versions of findutils!");
       warned = 1;
     }
 
-  if (0 == strcmp(name, "./mode0file")
-      || 0 == strcmp(name, "mode0file"))
+  if (0 == strcmp (name, "./mode0file")
+      || 0 == strcmp (name, "mode0file"))
     {
-      time_t now = time(NULL);
+      time_t now = time (NULL);
       long day = 86400;
 
       p->st_rdev = 0;
@@ -512,7 +512,7 @@ static int hook_fstatat(int fd, const char *name, struct stat *p, int flags)
       p->st_ino = 0;
       p->st_mode = 0;		/* SV bug #16378 */
       p->st_nlink = 1;
-      p->st_uid = geteuid();
+      p->st_uid = geteuid ();
       p->st_gid = 0;
       p->st_size = 42;
       p->st_blksize = 32768;
@@ -522,16 +522,16 @@ static int hook_fstatat(int fd, const char *name, struct stat *p, int flags)
 
       return 0;
     }
-  return fstatat(fd, name, p, flags);
+  return fstatat (fd, name, p, flags);
 }
 
 # undef  fstatat
-# define fstatat(fd,name,p,flags) hook_fstatat((fd),(name),(p),(flags))
+# define fstatat (fd,name,p,flags) hook_fstatat((fd),(name),(p),(flags))
 #endif
 
 
 static int
-fallback_stat(const char *name, struct stat *p, int prev_rv)
+fallback_stat (const char *name, struct stat *p, int prev_rv)
 {
   /* Our original stat() call failed.  Perhaps we can't follow a
    * symbolic link.  If that might be the problem, lstat() the link.
@@ -569,28 +569,28 @@ fallback_stat(const char *name, struct stat *p, int prev_rv)
  * examine the link itself.
  */
 int
-optionh_stat(const char *name, struct stat *p)
+optionh_stat (const char *name, struct stat *p)
 {
   if (AT_FDCWD != state.cwd_dir_fd)
     assert (state.cwd_dir_fd >= 0);
-  set_stat_placeholders(p);
+  set_stat_placeholders (p);
   if (0 == state.curdepth)
     {
       /* This file is from the command line; deference the link (if it
        * is a link).
        */
       int rv;
-      rv = fstatat(state.cwd_dir_fd, name, p, 0);
+      rv = fstatat (state.cwd_dir_fd, name, p, 0);
       if (0 == rv)
 	return 0;		/* success */
       else
-	return fallback_stat(name, p, rv);
+	return fallback_stat (name, p, rv);
     }
   else
     {
       /* Not a file on the command line; do not dereference the link.
        */
-      return fstatat(state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
+      return fstatat (state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
     }
 }
 
@@ -605,12 +605,12 @@ optionl_stat(const char *name, struct stat *p)
   if (AT_FDCWD != state.cwd_dir_fd)
     assert (state.cwd_dir_fd >= 0);
 
-  set_stat_placeholders(p);
-  rv = fstatat(state.cwd_dir_fd, name, p, 0);
+  set_stat_placeholders (p);
+  rv = fstatat (state.cwd_dir_fd, name, p, 0);
   if (0 == rv)
     return 0;			/* normal case. */
   else
-    return fallback_stat(name, p, rv);
+    return fallback_stat (name, p, rv);
 }
 
 /* optionp_stat() implements the stat operation when the -P option is
@@ -618,11 +618,11 @@ optionl_stat(const char *name, struct stat *p)
  * the symbolic link itself, not the thing it points to.
  */
 int
-optionp_stat(const char *name, struct stat *p)
+optionp_stat (const char *name, struct stat *p)
 {
   assert ((state.cwd_dir_fd >= 0) || (state.cwd_dir_fd==AT_FDCWD));
-  set_stat_placeholders(p);
-  return fstatat(state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
+  set_stat_placeholders (p);
+  return fstatat (state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
 }
 
 
@@ -637,11 +637,11 @@ debug_stat (const char *file, struct stat *bufp)
   switch (options.symlink_handling)
     {
     case SYMLINK_ALWAYS_DEREF:
-      return optionl_stat(file, bufp);
+      return optionl_stat (file, bufp);
     case SYMLINK_DEREF_ARGSONLY:
-      return optionh_stat(file, bufp);
+      return optionh_stat (file, bufp);
     case SYMLINK_NEVER_DEREF:
-      return optionp_stat(file, bufp);
+      return optionp_stat (file, bufp);
     }
   /*NOTREACHED*/
   assert (0);
@@ -668,11 +668,11 @@ following_links(void)
 /* Take a "mode" indicator and fill in the files of 'state'.
  */
 int
-digest_mode(mode_t *mode,
-	    const char *pathname,
-	    const char *name,
-	    struct stat *pstat,
-	    boolean leaf)
+digest_mode (mode_t *mode,
+	     const char *pathname,
+	     const char *name,
+	     struct stat *pstat,
+	     boolean leaf)
 {
   /* If we know the type of the directory entry, and it is not a
    * symbolic link, we may be able to avoid a stat() or lstat() call.
@@ -682,7 +682,7 @@ digest_mode(mode_t *mode,
       if (S_ISLNK(*mode) && following_links())
 	{
 	  /* mode is wrong because we should have followed the symlink. */
-	  if (get_statinfo(pathname, name, pstat) != 0)
+	  if (get_statinfo (pathname, name, pstat) != 0)
 	    return 0;
 	  *mode = state.type = pstat->st_mode;
 	  state.have_type = true;
@@ -707,7 +707,7 @@ digest_mode(mode_t *mode,
 	}
       else
 	{
-	  if (get_statinfo(pathname, name, pstat) != 0)
+	  if (get_statinfo (pathname, name, pstat) != 0)
 	    return 0;
 
 	  /* If -L is in effect and we are dealing with a symlink,
@@ -742,7 +742,7 @@ default_prints (struct predicate *pred)
 }
 
 boolean
-looks_like_expression(const char *arg, boolean leading)
+looks_like_expression (const char *arg, boolean leading)
 {
   switch (arg[0])
     {
@@ -776,7 +776,7 @@ looks_like_expression(const char *arg, boolean leading)
 }
 
 static void
-process_debug_options(char *arg)
+process_debug_options (char *arg)
 {
   const char *p;
   char *token_context = NULL;
@@ -784,14 +784,14 @@ process_debug_options(char *arg)
   boolean empty = true;
   size_t i;
 
-  p = strtok_r(arg, delimiters, &token_context);
+  p = strtok_r (arg, delimiters, &token_context);
   while (p)
     {
       empty = false;
 
       for (i=0; i<N_DEBUGASSOC; ++i)
 	{
-	  if (0 == strcmp(debugassoc[i].name, p))
+	  if (0 == strcmp (debugassoc[i].name, p))
 	    {
 	      options.debug_options |= debugassoc[i].val;
 	      break;
@@ -799,10 +799,10 @@ process_debug_options(char *arg)
 	}
       if (i >= N_DEBUGASSOC)
 	{
-	  error(0, 0, _("Ignoring unrecognised debug flag %s"),
-		quotearg_n_style(0, options.err_quoting_style, arg));
+	  error (0, 0, _("Ignoring unrecognised debug flag %s"),
+		 quotearg_n_style (0, options.err_quoting_style, arg));
 	}
-      p = strtok_r(NULL, delimiters, &token_context);
+      p = strtok_r (NULL, delimiters, &token_context);
     }
   if (empty)
     {
@@ -810,55 +810,55 @@ process_debug_options(char *arg)
     }
   else if (options.debug_options & DebugHelp)
     {
-      show_valid_debug_options(stdout, 1);
-      exit(0);
+      show_valid_debug_options (stdout, 1);
+      exit (0);
     }
 }
 
 
 static void
-process_optimisation_option(const char *arg)
+process_optimisation_option (const char *arg)
 {
   if (0 == arg[0])
     {
-      error(1, 0, _("The -O option must be immediately followed by a decimal integer"));
+      error (1, 0, _("The -O option must be immediately followed by a decimal integer"));
     }
   else
     {
       unsigned long opt_level;
       char *end;
 
-      if (!isdigit( (unsigned char) arg[0] ))
+      if (!isdigit ( (unsigned char) arg[0] ))
 	{
-	  error(1, 0, _("Please specify a decimal number immediately after -O"));
+	  error (1, 0, _("Please specify a decimal number immediately after -O"));
 	}
       else
 	{
 	  int prev_errno = errno;
 	  errno  = 0;
 
-	  opt_level = strtoul(arg, &end, 10);
+	  opt_level = strtoul (arg, &end, 10);
 	  if ( (0==opt_level) && (end==arg) )
 	    {
-	      error(1, 0, _("Please specify a decimal number immediately after -O"));
+	      error (1, 0, _("Please specify a decimal number immediately after -O"));
 	    }
 	  else if (*end)
 	    {
 	      /* unwanted trailing characters. */
-	      error(1, 0, _("Invalid optimisation level %s"), arg);
+	      error (1, 0, _("Invalid optimisation level %s"), arg);
 	    }
 	  else if ( (ULONG_MAX==opt_level) && errno)
 	    {
-	      error(1, errno, _("Invalid optimisation level %s"), arg);
+	      error (1, errno, _("Invalid optimisation level %s"), arg);
 	    }
 	  else if (opt_level > USHRT_MAX)
 	    {
 	      /* tricky to test, as on some platforms USHORT_MAX and ULONG_MAX
 	       * can have the same value, though this is unusual.
 	       */
-	      error(1, 0, _("Optimisation level %lu is too high.  "
-			    "If you want to find files very quickly, "
-			    "consider using GNU locate."),
+	      error (1, 0, _("Optimisation level %lu is too high.  "
+			     "If you want to find files very quickly, "
+			     "consider using GNU locate."),
 		    opt_level);
 	    }
 	  else
@@ -871,41 +871,41 @@ process_optimisation_option(const char *arg)
 }
 
 int
-process_leading_options(int argc, char *argv[])
+process_leading_options (int argc, char *argv[])
 {
   int i, end_of_leading_options;
 
   for (i=1; (end_of_leading_options = i) < argc; ++i)
     {
-      if (0 == strcmp("-H", argv[i]))
+      if (0 == strcmp ("-H", argv[i]))
 	{
 	  /* Meaning: dereference symbolic links on command line, but nowhere else. */
-	  set_follow_state(SYMLINK_DEREF_ARGSONLY);
+	  set_follow_state (SYMLINK_DEREF_ARGSONLY);
 	}
-      else if (0 == strcmp("-L", argv[i]))
+      else if (0 == strcmp ("-L", argv[i]))
 	{
 	  /* Meaning: dereference all symbolic links. */
-	  set_follow_state(SYMLINK_ALWAYS_DEREF);
+	  set_follow_state (SYMLINK_ALWAYS_DEREF);
 	}
-      else if (0 == strcmp("-P", argv[i]))
+      else if (0 == strcmp ("-P", argv[i]))
 	{
 	  /* Meaning: never dereference symbolic links (default). */
-	  set_follow_state(SYMLINK_NEVER_DEREF);
+	  set_follow_state (SYMLINK_NEVER_DEREF);
 	}
-      else if (0 == strcmp("--", argv[i]))
+      else if (0 == strcmp ("--", argv[i]))
 	{
 	  /* -- signifies the end of options. */
 	  end_of_leading_options = i+1;	/* Next time start with the next option */
 	  break;
 	}
-      else if (0 == strcmp("-D", argv[i]))
+      else if (0 == strcmp ("-D", argv[i]))
 	{
-	  process_debug_options(argv[i+1]);
+	  process_debug_options (argv[i+1]);
 	  ++i;			/* skip the argument too. */
 	}
-      else if (0 == strncmp("-O", argv[i], 2))
+      else if (0 == strncmp ("-O", argv[i], 2))
 	{
-	  process_optimisation_option(argv[i]+2);
+	  process_optimisation_option (argv[i]+2);
 	}
       else
 	{
@@ -927,13 +927,13 @@ now(void)
   struct timeval tv;
   time_t t;
 
-  if (0 == gettimeofday(&tv, NULL))
+  if (0 == gettimeofday (&tv, NULL))
     {
       retval.tv_sec  = tv.tv_sec;
       retval.tv_nsec = tv.tv_usec * 1000; /* convert unit from microseconds to nanoseconds */
       return retval;
     }
-  t = time(NULL);
+  t = time (NULL);
   assert (t != (time_t)-1);
   retval.tv_sec = t;
   retval.tv_nsec = 0;
@@ -941,9 +941,9 @@ now(void)
 }
 
 void
-set_option_defaults(struct options *p)
+set_option_defaults (struct options *p)
 {
-  if (getenv("POSIXLY_CORRECT"))
+  if (getenv ("POSIXLY_CORRECT"))
     p->posixly_correct = true;
   else
     p->posixly_correct = false;
@@ -955,14 +955,14 @@ set_option_defaults(struct options *p)
    * if we call it after setlocale().
    */
 #ifdef O_NOFOLLOW
-  p->open_nofollow_available = check_nofollow();
+  p->open_nofollow_available = check_nofollow ();
 #else
   p->open_nofollow_available = false;
 #endif
 
   p->regex_options = RE_SYNTAX_EMACS;
 
-  if (isatty(0))
+  if (isatty (0))
     {
       p->warnings = true;
       p->literal_control_chars = false;
@@ -981,7 +981,7 @@ set_option_defaults(struct options *p)
   p->explicit_depth = false;
   p->maxdepth = p->mindepth = -1;
 
-  p->start_time = now();
+  p->start_time = now ();
   p->cur_day_start.tv_sec = p->start_time.tv_sec - DAYSECS;
   p->cur_day_start.tv_nsec = p->start_time.tv_nsec;
 
@@ -997,7 +997,7 @@ set_option_defaults(struct options *p)
   p->debug_options = 0uL;
   p->optimisation_level = 2;
 
-  if (getenv("FIND_BLOCK_SIZE"))
+  if (getenv ("FIND_BLOCK_SIZE"))
     {
       error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
     }
@@ -1010,7 +1010,7 @@ set_option_defaults(struct options *p)
   p->no_leaf_check = true;
 #endif
 
-  set_follow_state(SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
+  set_follow_state (SYMLINK_NEVER_DEREF); /* The default is equivalent to -P. */
 
   p->err_quoting_style = locale_quoting_style;
 }
@@ -1020,7 +1020,7 @@ set_option_defaults(struct options *p)
  *
  * Returns the fd for the directory we started in.
  */
-int get_start_dirfd(void)
+int get_start_dirfd (void)
 {
   return starting_desc;
 }
@@ -1072,7 +1072,7 @@ report_file_err(int exitval, int errno_value, const char *name)
   if (state.exit_status < 1)
     state.exit_status = 1;
 
-  error (exitval, errno_value, "%s", safely_quote_err_filename(0, name));
+  error (exitval, errno_value, "%s", safely_quote_err_filename (0, name));
 }
 
 /* fatal_file_error
@@ -1081,14 +1081,14 @@ report_file_err(int exitval, int errno_value, const char *name)
 void
 fatal_file_error(const char *name)
 {
-  report_file_err(1, errno, name);
+  report_file_err (1, errno, name);
   /*NOTREACHED*/
-  abort();
+  abort ();
 }
 
 void
-nonfatal_file_error(const char *name)
+nonfatal_file_error (const char *name)
 {
-  report_file_err(0, errno, name);
+  report_file_err (0, errno, name);
 }
 

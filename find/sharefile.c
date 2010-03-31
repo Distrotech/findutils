@@ -96,7 +96,7 @@ sharefile_init (const char *mode)
 {
   struct Hash_tuning;
 
-  struct sharefile *p = malloc (sizeof(struct sharefile));
+  struct sharefile *p = malloc (sizeof (struct sharefile));
   if (p)
     {
       p->mode = strdup (mode);

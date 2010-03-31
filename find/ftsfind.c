@@ -84,7 +84,8 @@ static int ftsoptions = FTS_NOSTAT|FTS_TIGHT_CYCLE_CHECK|FTS_CWDFD;
 static int prev_depth = INT_MIN; /* fts_level can be < 0 */
 static int curr_fd = -1;
 
-int get_current_dirfd(void)
+int
+get_current_dirfd (void)
 {
   if (ftsoptions & FTS_CWDFD)
     {
@@ -102,13 +103,14 @@ int get_current_dirfd(void)
     }
 }
 
-static void left_dir(void)
+static void
+left_dir (void)
 {
   if (ftsoptions & FTS_CWDFD)
     {
       if (curr_fd >= 0)
 	{
-	  close(curr_fd);
+	  close (curr_fd);
 	  curr_fd = -1;
 	}
     }
@@ -123,7 +125,8 @@ static void left_dir(void)
  * The caller can't tell if this is the first time this happens, so
  * we have to be careful not to call dup() more than once
  */
-static void inside_dir(int dir_fd)
+static void
+inside_dir (int dir_fd)
 {
   if (ftsoptions & FTS_CWDFD)
     {
@@ -162,7 +165,7 @@ static void inside_dir(int dir_fd)
 
 
 #ifdef STAT_MOUNTPOINTS
-static void init_mounted_dev_list(void);
+static void init_mounted_dev_list (void);
 #endif
 
 /* We have encountered an error which should affect the exit status.
@@ -171,7 +174,7 @@ static void init_mounted_dev_list(void);
  * reduce it to 1.
  */
 static void
-error_severity(int level)
+error_severity (int level)
 {
   if (state.exit_status < level)
     state.exit_status = level;
@@ -182,7 +185,7 @@ error_severity(int level)
 #define HANDLECASE(N) case N: return #N;
 
 static char *
-get_fts_info_name(int info)
+get_fts_info_name (int info)
 {
   static char buf[10];
   switch (info)
@@ -202,13 +205,13 @@ get_fts_info_name(int info)
       HANDLECASE(FTS_SLNONE);
       HANDLECASE(FTS_W);
     default:
-      sprintf(buf, "[%d]", info);
+      sprintf (buf, "[%d]", info);
       return buf;
     }
 }
 
 static void
-visit(FTS *p, FTSENT *ent, struct stat *pstat)
+visit (FTS *p, FTSENT *ent, struct stat *pstat)
 {
   struct predicate *eval_tree;
 
@@ -217,22 +220,22 @@ visit(FTS *p, FTSENT *ent, struct stat *pstat)
   state.cwd_dir_fd   = p->fts_cwd_fd;
 
   /* Apply the predicates to this path. */
-  eval_tree = get_eval_tree();
-  apply_predicate(ent->fts_path, pstat, eval_tree);
+  eval_tree = get_eval_tree ();
+  apply_predicate (ent->fts_path, pstat, eval_tree);
 
   /* Deal with any side effects of applying the predicates. */
   if (state.stop_at_current_level)
     {
-      fts_set(p, ent, FTS_SKIP);
+      fts_set (p, ent, FTS_SKIP);
     }
 }
 
 static const char*
-partial_quotearg_n(int n, char *s, size_t len, enum quoting_style style)
+partial_quotearg_n (int n, char *s, size_t len, enum quoting_style style)
 {
   if (0 == len)
     {
-      return quotearg_n_style(n, style, "");
+      return quotearg_n_style (n, style, "");
     }
   else
     {
@@ -241,7 +244,7 @@ partial_quotearg_n(int n, char *s, size_t len, enum quoting_style style)
 
       saved = s[len];
       s[len] = 0;
-      result = quotearg_n_style(n, style, s);
+      result = quotearg_n_style (n, style, s);
       s[len] = saved;
       return result;
     }
@@ -260,13 +263,13 @@ partial_quotearg_n(int n, char *s, size_t len, enum quoting_style style)
  *    skip that directory entry.
  */
 static void
-issue_loop_warning(FTSENT * ent)
+issue_loop_warning (FTSENT * ent)
 {
   if (S_ISLNK(ent->fts_statp->st_mode))
     {
-      error(0, 0,
-	    _("Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."),
-	    safely_quote_err_filename(0, ent->fts_path));
+      error (0, 0,
+	     _("Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."),
+	     safely_quote_err_filename (0, ent->fts_path));
     }
   else
     {
@@ -278,14 +281,14 @@ issue_loop_warning(FTSENT * ent)
        * because the ".." entry of /a/b/c/d points to /a, not
        * to /a/b/c.
        */
-      error(0, 0,
-	    _("File system loop detected; "
-	      "%s is part of the same file system loop as %s."),
-	    safely_quote_err_filename(0, ent->fts_path),
-	    partial_quotearg_n(1,
-			       ent->fts_cycle->fts_path,
-			       ent->fts_cycle->fts_pathlen,
-			       options.err_quoting_style));
+      error (0, 0,
+	     _("File system loop detected; "
+	       "%s is part of the same file system loop as %s."),
+	     safely_quote_err_filename (0, ent->fts_path),
+	     partial_quotearg_n (1,
+				 ent->fts_cycle->fts_path,
+				 ent->fts_cycle->fts_pathlen,
+				 options.err_quoting_style));
     }
 }
 
@@ -296,44 +299,44 @@ issue_loop_warning(FTSENT * ent)
  * produces such a loop.
  */
 static boolean
-symlink_loop(const char *name)
+symlink_loop (const char *name)
 {
   struct stat stbuf;
   int rv;
-  if (following_links())
-    rv = stat(name, &stbuf);
+  if (following_links ())
+    rv = stat (name, &stbuf);
   else
-    rv = lstat(name, &stbuf);
+    rv = lstat (name, &stbuf);
   return (0 != rv) && (ELOOP == errno);
 }
 
 
 static int
-complete_execdirs_cb(void *context)
+complete_execdirs_cb (void *context)
 {
   (void) context;
   /* By the tme this callback is called, the current directory is correct. */
-  complete_pending_execdirs(AT_FDCWD);
+  complete_pending_execdirs (AT_FDCWD);
   return 0;
 }
 
 static void
-show_outstanding_execdirs(FILE *fp)
+show_outstanding_execdirs (FILE *fp)
 {
   if (options.debug_options & DebugExec)
     {
       int seen=0;
       struct predicate *p;
-      p = get_eval_tree();
-      fprintf(fp, "Outstanding execdirs:");
+      p = get_eval_tree ();
+      fprintf (fp, "Outstanding execdirs:");
 
       while (p)
 	{
 	  const char *pfx;
 
-	  if (pred_is(p, pred_execdir))
+	  if (pred_is (p, pred_execdir))
 	    pfx = "-execdir";
-	  else if (pred_is(p, pred_okdir))
+	  else if (pred_is (p, pred_okdir))
 	    pfx = "-okdir";
 	  else
 	    pfx = NULL;
@@ -343,20 +346,20 @@ show_outstanding_execdirs(FILE *fp)
 	      const struct exec_val *execp = &p->args.exec_vec;
 	      ++seen;
 
-	      fprintf(fp, "%s ", pfx);
+	      fprintf (fp, "%s ", pfx);
 	      if (execp->multiple)
-		fprintf(fp, "multiple ");
-	      fprintf(fp, "%d args: ", execp->state.cmd_argc);
+		fprintf (fp, "multiple ");
+	      fprintf (fp, "%d args: ", execp->state.cmd_argc);
 	      for (i=0; i<execp->state.cmd_argc; ++i)
 		{
-		  fprintf(fp, "%s ", execp->state.cmd_argv[i]);
+		  fprintf (fp, "%s ", execp->state.cmd_argv[i]);
 		}
-	      fprintf(fp, "\n");
+	      fprintf (fp, "\n");
 	    }
 	  p = p->pred_next;
 	}
       if (!seen)
-	fprintf(fp, " none\n");
+	fprintf (fp, " none\n");
     }
   else
     {
@@ -368,32 +371,32 @@ show_outstanding_execdirs(FILE *fp)
 
 
 static void
-consider_visiting(FTS *p, FTSENT *ent)
+consider_visiting (FTS *p, FTSENT *ent)
 {
   struct stat statbuf;
   mode_t mode;
   int ignore, isdir;
 
   if (options.debug_options & DebugSearch)
-    fprintf(stderr,
-	    "consider_visiting (early): %s: "
-	    "fts_info=%-6s, fts_level=%2d, prev_depth=%d "
-            "fts_path=%s, fts_accpath=%s\n",
-	    quotearg_n_style(0, options.err_quoting_style, ent->fts_path),
-	    get_fts_info_name(ent->fts_info),
-            (int)ent->fts_level, prev_depth,
-	    quotearg_n_style(1, options.err_quoting_style, ent->fts_path),
-	    quotearg_n_style(2, options.err_quoting_style, ent->fts_accpath));
+    fprintf (stderr,
+	     "consider_visiting (early): %s: "
+	     "fts_info=%-6s, fts_level=%2d, prev_depth=%d "
+	     "fts_path=%s, fts_accpath=%s\n",
+	     quotearg_n_style (0, options.err_quoting_style, ent->fts_path),
+	     get_fts_info_name (ent->fts_info),
+	     (int)ent->fts_level, prev_depth,
+	     quotearg_n_style (1, options.err_quoting_style, ent->fts_path),
+	     quotearg_n_style (2, options.err_quoting_style, ent->fts_accpath));
 
   if (ent->fts_info == FTS_DP)
     {
-      left_dir();
+      left_dir ();
     }
   else if (ent->fts_level > prev_depth || ent->fts_level==0)
     {
-      left_dir();
+      left_dir ();
     }
-  inside_dir(p->fts_cwd_fd);
+  inside_dir (p->fts_cwd_fd);
   prev_depth = ent->fts_level;
 
   statbuf.st_ino = ent->fts_statp->st_ino;
@@ -402,15 +405,15 @@ consider_visiting(FTS *p, FTSENT *ent)
   if (ent->fts_info == FTS_ERR
       || ent->fts_info == FTS_DNR)
     {
-      error(0, ent->fts_errno, "%s",
-	    safely_quote_err_filename(0, ent->fts_path));
-      error_severity(1);
+      error (0, ent->fts_errno, "%s",
+	     safely_quote_err_filename (0, ent->fts_path));
+      error_severity (1);
       return;
     }
   else if (ent->fts_info == FTS_DC)
     {
-      issue_loop_warning(ent);
-      error_severity(1);
+      issue_loop_warning (ent);
+      error_severity (1);
       return;
     }
   else if (ent->fts_info == FTS_SLNONE)
@@ -422,10 +425,10 @@ consider_visiting(FTS *p, FTSENT *ent)
        * we stat is local (fts_accpath), we print the full path name
        * of the file (fts_path) in the error message.
        */
-      if (symlink_loop(ent->fts_accpath))
+      if (symlink_loop (ent->fts_accpath))
 	{
-	  error(0, ELOOP, "%s", safely_quote_err_filename(0, ent->fts_path));
-	  error_severity(1);
+	  error (0, ELOOP, "%s", safely_quote_err_filename (0, ent->fts_path));
+	  error_severity (1);
 	  return;
 	}
     }
@@ -434,9 +437,9 @@ consider_visiting(FTS *p, FTSENT *ent)
       if (ent->fts_level == 0)
 	{
 	  /* e.g., nonexistent starting point */
-	  error(0, ent->fts_errno, "%s",
-		safely_quote_err_filename(0, ent->fts_path));
-	  error_severity(1);	/* remember problem */
+	  error (0, ent->fts_errno, "%s",
+		 safely_quote_err_filename (0, ent->fts_path));
+	  error_severity (1);	/* remember problem */
 	  return;
 	}
       else
@@ -444,11 +447,11 @@ consider_visiting(FTS *p, FTSENT *ent)
 	  /* The following if statement fixes Savannah bug #19605
 	   * (failure to diagnose a symbolic link loop)
 	   */
-	  if (symlink_loop(ent->fts_accpath))
+	  if (symlink_loop (ent->fts_accpath))
 	    {
-	      error(0, ELOOP, "%s",
-		    safely_quote_err_filename(0, ent->fts_path));
-	      error_severity(1);
+	      error (0, ELOOP, "%s",
+		     safely_quote_err_filename (0, ent->fts_path));
+	      error_severity (1);
 	      return;
 	    }
 	}
@@ -472,8 +475,8 @@ consider_visiting(FTS *p, FTSENT *ent)
       if (00000 == mode)
 	{
 	  /* Savannah bug #16378. */
-	  error(0, 0, _("Warning: file %s appears to have mode 0000"),
-		quotearg_n_style(0, options.err_quoting_style, ent->fts_path));
+	  error (0, 0, _("Warning: file %s appears to have mode 0000"),
+		 quotearg_n_style (0, options.err_quoting_style, ent->fts_path));
 	}
     }
 
@@ -483,7 +486,7 @@ consider_visiting(FTS *p, FTSENT *ent)
   state.curdepth = ent->fts_level;
   if (mode)
     {
-      if (!digest_mode(&mode, ent->fts_path, ent->fts_name, &statbuf, 0))
+      if (!digest_mode (&mode, ent->fts_path, ent->fts_name, &statbuf, 0))
 	return;
     }
 
@@ -501,7 +504,7 @@ consider_visiting(FTS *p, FTSENT *ent)
        * children.  Force a stat of the file so that the
        * children can be checked.
        */
-      fts_set(p, ent, FTS_AGAIN);
+      fts_set (p, ent, FTS_AGAIN);
       return;
     }
 
@@ -509,7 +512,7 @@ consider_visiting(FTS *p, FTSENT *ent)
     {
       if (ent->fts_level >= options.maxdepth)
 	{
-	  fts_set(p, ent, FTS_SKIP); /* descend no further */
+	  fts_set (p, ent, FTS_SKIP); /* descend no further */
 
 	  if (ent->fts_level > options.maxdepth)
 	    ignore = 1;		/* don't even look at this one */
@@ -535,13 +538,13 @@ consider_visiting(FTS *p, FTSENT *ent)
     fprintf (stderr,
 	     "consider_visiting (late): %s: "
 	     "fts_info=%-6s, isdir=%d ignore=%d have_stat=%d have_type=%d \n",
-	     quotearg_n_style(0, options.err_quoting_style, ent->fts_path),
-	     get_fts_info_name(ent->fts_info),
+	     quotearg_n_style (0, options.err_quoting_style, ent->fts_path),
+	     get_fts_info_name (ent->fts_info),
 	     isdir, ignore, state.have_stat, state.have_type);
 
   if (!ignore)
     {
-      visit(p, ent, &statbuf);
+      visit (p, ent, &statbuf);
     }
 
   /* XXX: if we allow a build-up of pending arguments for "-execdir foo {} +"
@@ -558,8 +561,8 @@ consider_visiting(FTS *p, FTSENT *ent)
    */
   if (state.execdirs_outstanding)
     {
-      show_outstanding_execdirs(stderr);
-      run_in_dir(p->fts_cwd_fd, complete_execdirs_cb, NULL);
+      show_outstanding_execdirs (stderr);
+      run_in_dir (p->fts_cwd_fd, complete_execdirs_cb, NULL);
     }
 
   if (ent->fts_info == FTS_DP)
@@ -578,8 +581,8 @@ find (char *arg)
   FTS *p;
   FTSENT *ent;
 
-  state.starting_path_length = strlen(arg);
-  inside_dir(AT_FDCWD);
+  state.starting_path_length = strlen (arg);
+  inside_dir (AT_FDCWD);
 
   arglist[0] = arg;
   arglist[1] = NULL;
@@ -606,32 +609,32 @@ find (char *arg)
   if (NULL == p)
     {
       error (0, errno, _("cannot search %s"),
-	     safely_quote_err_filename(0, arg));
+	     safely_quote_err_filename (0, arg));
     }
   else
     {
-      while ( (ent=fts_read(p)) != NULL )
+      while ( (ent=fts_read (p)) != NULL )
 	{
 	  state.have_stat = false;
 	  state.have_type = !!ent->fts_statp->st_mode;
 	  state.type = state.have_type ? ent->fts_statp->st_mode : 0;
-	  consider_visiting(p, ent);
+	  consider_visiting (p, ent);
 	}
-      fts_close(p);
+      fts_close (p);
       p = NULL;
     }
 }
 
 
 static void
-process_all_startpoints(int argc, char *argv[])
+process_all_startpoints (int argc, char *argv[])
 {
   int i;
 
   /* figure out how many start points there are */
-  for (i = 0; i < argc && !looks_like_expression(argv[i], true); i++)
+  for (i = 0; i < argc && !looks_like_expression (argv[i], true); i++)
     {
-      state.starting_path_length = strlen(argv[i]); /* TODO: is this redundant? */
+      state.starting_path_length = strlen (argv[i]); /* TODO: is this redundant? */
       find (argv[i]);
     }
 
@@ -644,7 +647,7 @@ process_all_startpoints(int argc, char *argv[])
        * "find -printf %H" (note, not "find . -printf %H").
        */
       char defaultpath[2] = ".";
-      find(defaultpath);
+      find (defaultpath);
     }
 }
 
@@ -667,7 +670,7 @@ main (int argc, char **argv)
       remember_non_cloexec_fds ();
     }
 
-  state.shared_files = sharefile_init("w");
+  state.shared_files = sharefile_init ("w");
   if (NULL == state.shared_files)
     {
       error (1, errno, _("Failed initialise shared-file hash table"));
@@ -676,7 +679,7 @@ main (int argc, char **argv)
   /* Set the option defaults before we do the locale initialisation as
    * check_nofollow() needs to be executed in the POSIX locale.
    */
-  set_option_defaults(&options);
+  set_option_defaults (&options);
 
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
@@ -689,7 +692,7 @@ main (int argc, char **argv)
   /* Check for -P, -H or -L options.  Also -D and -O, which are
    * both GNU extensions.
    */
-  end_of_leading_options = process_leading_options(argc, argv);
+  end_of_leading_options = process_leading_options (argc, argv);
 
   if (options.debug_options & DebugStat)
     options.xstat = debug_stat;
@@ -702,7 +705,7 @@ main (int argc, char **argv)
   /* We are now processing the part of the "find" command line
    * after the -H/-L options (if any).
    */
-  eval_tree = build_expression_tree(argc, argv, end_of_leading_options);
+  eval_tree = build_expression_tree (argc, argv, end_of_leading_options);
 
   /* safely_chdir() needs to check that it has ended up in the right place.
    * To avoid bailing out when something gets automounted, it checks if
@@ -717,7 +720,7 @@ main (int argc, char **argv)
   if (!options.open_nofollow_available)
     {
 #ifdef STAT_MOUNTPOINTS
-      init_mounted_dev_list();
+      init_mounted_dev_list ();
 #endif
     }
 
@@ -739,19 +742,19 @@ main (int argc, char **argv)
 	error (1, errno, _("cannot get current directory"));
     }
 
-  process_all_startpoints(argc-end_of_leading_options, argv+end_of_leading_options);
+  process_all_startpoints (argc-end_of_leading_options, argv+end_of_leading_options);
 
   /* If "-exec ... {} +" has been used, there may be some
    * partially-full command lines which have been built,
    * but which are not yet complete.   Execute those now.
    */
-  show_success_rates(eval_tree);
-  cleanup();
+  show_success_rates (eval_tree);
+  cleanup ();
   return state.exit_status;
 }
 
 boolean
-is_fts_enabled(int *fts_options)
+is_fts_enabled (int *fts_options)
 {
   /* this version of find (i.e. this main()) uses fts. */
   *fts_options = ftsoptions;

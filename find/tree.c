@@ -57,8 +57,8 @@ static size_t num_start_points = 0;
 
 
 static struct predicate *scan_rest PARAMS((struct predicate **input,
-				       struct predicate *head,
-				       short int prev_prec));
+					   struct predicate *head,
+					   short int prev_prec));
 static void merge_pred PARAMS((struct predicate *beg_list, struct predicate *end_list, struct predicate **last_p));
 static struct predicate *set_new_parent PARAMS((struct predicate *curr, enum predicate_precedence high_prec, struct predicate **prevp));
 static const char *cost_name PARAMS((enum EvaluationCost cost));
@@ -69,7 +69,7 @@ static const char *cost_name PARAMS((enum EvaluationCost cost));
    command line, we return true for ".".
 */
 boolean
-matches_start_point(const char *glob, bool foldcase)
+matches_start_point (const char *glob, bool foldcase)
 {
   int fnmatch_flags = 0;
   if (foldcase)
@@ -139,8 +139,8 @@ get_expr (struct predicate **input,
 	  && !this_pred->artificial)
 	{
 	  /* e.g. "find \( -not \)" or "find \( -true -a \" */
-	  error(1, 0, _("expected an expression between '%s' and ')'"),
-		prev_pred->p_name);
+	  error (1, 0, _("expected an expression between '%s' and ')'"),
+		 prev_pred->p_name);
 	}
       else if ( (*input)->artificial )
 	{
@@ -272,7 +272,7 @@ scan_rest (struct predicate **input,
 
 /* Returns true if the specified predicate is reorderable. */
 static boolean
-predicate_is_cost_free(const struct predicate *p)
+predicate_is_cost_free (const struct predicate *p)
 {
   if (pred_is(p, pred_name) ||
       pred_is(p, pred_path) ||
@@ -301,7 +301,7 @@ predicate_is_cost_free(const struct predicate *p)
 }
 
 /* Prints a predicate */
-void print_predicate(FILE *fp, const struct predicate *p)
+void print_predicate (FILE *fp, const struct predicate *p)
 {
   if (p->arg_text)
     {
@@ -321,15 +321,15 @@ struct predlist
 };
 
 static void
-predlist_init(struct predlist *p)
+predlist_init (struct predlist *p)
 {
   p->head = p->tail = NULL;
 }
 
 static void
-predlist_insert(struct predlist *list,
-		struct predicate *curr,
-		struct predicate **pprev)
+predlist_insert (struct predlist *list,
+		 struct predicate *curr,
+		 struct predicate **pprev)
 {
   struct predicate **insertpos = &(list->head);
 
@@ -352,7 +352,7 @@ predlist_insert(struct predlist *list,
 }
 
 static int
-pred_cost_compare(const struct predicate *p1, const struct predicate *p2, boolean wantfailure)
+pred_cost_compare (const struct predicate *p1, const struct predicate *p2, boolean wantfailure)
 {
   if (p1->p_cost == p2->p_cost)
     {
@@ -371,8 +371,8 @@ pred_cost_compare(const struct predicate *p1, const struct predicate *p2, boolea
 
 
 static void
-predlist_merge_sort(struct predlist *list,
-		    struct predicate **last)
+predlist_merge_sort (struct predlist *list,
+		     struct predicate **last)
 {
   struct predlist new_list;
   struct predicate *p, *q;
@@ -382,12 +382,12 @@ predlist_merge_sort(struct predlist *list,
 
   if (options.debug_options & DebugTreeOpt)
     {
-      fprintf(stderr, "%s:\n", "predlist before merge sort");
-      print_tree(stderr, list->head, 2);
+      fprintf (stderr, "%s:\n", "predlist before merge sort");
+      print_tree (stderr, list->head, 2);
     }
 
-  calculate_derived_rates(list->head);
-  predlist_init(&new_list);
+  calculate_derived_rates (list->head);
+  predlist_init (&new_list);
   while (list->head)
     {
       /* remove head of source list */
@@ -408,7 +408,7 @@ predlist_merge_sort(struct predlist *list,
 	   * pass a flag into pred_cost_compare().
 	   */
 	  boolean wantfailure = (OR_PREC != p->p_prec);
-	  if (pred_cost_compare(p->pred_right, q->pred_right, wantfailure) >= 0)
+	  if (pred_cost_compare (p->pred_right, q->pred_right, wantfailure) >= 0)
 	    break;
 	}
       if (p)
@@ -429,43 +429,43 @@ predlist_merge_sort(struct predlist *list,
     }
   if (options.debug_options & DebugTreeOpt)
     {
-      fprintf(stderr, "%s:\n", "predlist after merge sort");
-      print_tree(stderr, new_list.head, 2);
+      fprintf (stderr, "%s:\n", "predlist after merge sort");
+      print_tree (stderr, new_list.head, 2);
     }
 
   calculate_derived_rates(new_list.head);
-  merge_pred(new_list.head, new_list.tail, last);
-  predlist_init(list);
+  merge_pred (new_list.head, new_list.tail, last);
+  predlist_init (list);
 }
 
 static void
-merge_lists(struct predlist lists[], int nlists,
-	    struct predlist *name_list,
-	    struct predlist *regex_list,
-	    struct predicate **last)
+merge_lists (struct predlist lists[], int nlists,
+	     struct predlist *name_list,
+	     struct predlist *regex_list,
+	     struct predicate **last)
 {
   int i;
   static void (*mergefn)(struct predlist *, struct predicate**);
 
   mergefn = predlist_merge_sort;
 
-  mergefn(name_list,   last);
-  mergefn(regex_list,  last);
+  mergefn (name_list,   last);
+  mergefn (regex_list,  last);
 
   for (i=0; i<nlists; i++)
-    mergefn(&lists[i], last);
+    mergefn (&lists[i], last);
 }
 
 
 
 static boolean
-subtree_has_side_effects(const struct predicate *p)
+subtree_has_side_effects (const struct predicate *p)
 {
   if (p)
     {
       return p->side_effects
-	|| subtree_has_side_effects(p->pred_left)
-	|| subtree_has_side_effects(p->pred_right);
+	|| subtree_has_side_effects (p->pred_left)
+	|| subtree_has_side_effects (p->pred_right);
     }
   else
     {
@@ -480,8 +480,8 @@ worst_cost (const struct predicate *p)
   if (p)
     {
       unsigned int cost_r, cost_l, worst;
-      cost_l = worst_cost(p->pred_left);
-      cost_r = worst_cost(p->pred_right);
+      cost_l = worst_cost (p->pred_left);
+      cost_r = worst_cost (p->pred_right);
       worst = (cost_l > cost_r) ? cost_l : cost_r;
       if (worst < p->p_cost)
 	worst = p->p_cost;
@@ -496,7 +496,7 @@ worst_cost (const struct predicate *p)
 
 
 static void
-perform_arm_swap(struct predicate *p)
+perform_arm_swap (struct predicate *p)
 {
   struct predicate *tmp = p->pred_left->pred_right;
   p->pred_left->pred_right = p->pred_right;
@@ -520,7 +520,7 @@ perform_arm_swap(struct predicate *p)
  * as we assume that 95% of inodes are vanilla files.
  */
 static boolean
-consider_arm_swap(struct predicate *p)
+consider_arm_swap (struct predicate *p)
 {
   int left_cost, right_cost;
   const char *reason = NULL;
@@ -546,19 +546,19 @@ consider_arm_swap(struct predicate *p)
 
   if (!reason)
     {
-      if (subtree_has_side_effects(*pl))
+      if (subtree_has_side_effects (*pl))
 	reason = "Left subtree has side-effects";
     }
   if (!reason)
     {
-      if (subtree_has_side_effects(*pr))
+      if (subtree_has_side_effects (*pr))
 	reason = "Right subtree has side-effects";
     }
 
   if (!reason)
     {
-      left_cost = worst_cost(*pl);
-      right_cost = worst_cost(*pr);
+      left_cost = worst_cost (*pl);
+      right_cost = worst_cost (*pr);
 
       if (left_cost < right_cost)
 	{
@@ -577,16 +577,16 @@ consider_arm_swap(struct predicate *p)
 
 	  if (options.debug_options & DebugTreeOpt)
 	    {
-	      fprintf(stderr, "Success rates: l=%f, r=%f\n", succ_rate_l, succ_rate_r);
+	      fprintf (stderr, "Success rates: l=%f, r=%f\n", succ_rate_l, succ_rate_r);
 	    }
 
-	  if (pred_is(p, pred_or))
+	  if (pred_is (p, pred_or))
 	    {
 	      want_swap = succ_rate_r < succ_rate_l;
 	      if (!want_swap)
 		reason = "Operation is OR and right success rate >= left";
 	    }
-	  else if (pred_is(p, pred_and))
+	  else if (pred_is (p, pred_and))
 	    {
 	      want_swap = succ_rate_r > succ_rate_l;
 	      if (!want_swap)
@@ -607,10 +607,10 @@ consider_arm_swap(struct predicate *p)
 	{
 	  if (options.debug_options & DebugTreeOpt)
 	    {
-	      fprintf(stderr, "Performing arm swap on:\n");
+	      fprintf (stderr, "Performing arm swap on:\n");
 	      print_tree (stderr, p, 0);
 	    }
-	  perform_arm_swap(p);
+	  perform_arm_swap (p);
 	  return true;
 	}
     }
@@ -618,14 +618,14 @@ consider_arm_swap(struct predicate *p)
 
   if (options.debug_options & DebugTreeOpt)
     {
-      fprintf(stderr, "Not an arm swap candidate (%s):\n", reason);
+      fprintf (stderr, "Not an arm swap candidate (%s):\n", reason);
       print_tree (stderr, p, 0);
     }
   return false;
 }
 
 static boolean
-do_arm_swaps(struct predicate *p)
+do_arm_swaps (struct predicate *p)
 {
   if (p)
     {
@@ -633,9 +633,9 @@ do_arm_swaps(struct predicate *p)
       do
 	{
 	  swapped = false;
-	  if (consider_arm_swap(p)
-	      || do_arm_swaps(p->pred_left)
-	      || do_arm_swaps(p->pred_right))
+	  if (consider_arm_swap (p)
+	      || do_arm_swaps (p->pred_left)
+	      || do_arm_swaps (p->pred_right))
 	    {
 	      swapped = true;
 	    }
@@ -700,7 +700,7 @@ opt_expr (struct predicate **eval_treep)
     return (false);
 
   for (i=0; i<NumEvaluationCosts; i++)
-    predlist_init(&cbo_list[i]);
+    predlist_init (&cbo_list[i]);
 
   /* Set up to normalize tree as a left-linked list of ANDs or ORs.
      Set `curr' to the leftmost node, `prevp' to its address, and
@@ -742,7 +742,7 @@ opt_expr (struct predicate **eval_treep)
       if (curr->p_type == BI_OP)
 	{
           if (curr->p_prec != biop_prec)
-	    curr = set_new_parent(curr, biop_prec, prevp);
+	    curr = set_new_parent (curr, biop_prec, prevp);
 	}
 
       /* See which predicate type we have. */
@@ -766,22 +766,22 @@ opt_expr (struct predicate **eval_treep)
 
 	      /* If it's one of our special primaries, move it to the
 		 front of the list for that primary. */
-	      if (predicate_is_cost_free(curr->pred_right))
+	      if (predicate_is_cost_free (curr->pred_right))
 		{
 		  if (options.debug_options & DebugTreeOpt)
 		    {
-		      fprintf(stderr, "-O%d: promoting cheap predicate ",
-			      (int)options.optimisation_level);
-		      print_predicate(stderr, curr->pred_right);
-		      fprintf(stderr, " into name_list\n");
+		      fprintf (stderr, "-O%d: promoting cheap predicate ",
+			       (int)options.optimisation_level);
+		      print_predicate (stderr, curr->pred_right);
+		      fprintf (stderr, " into name_list\n");
 		    }
-		  predlist_insert(&name_list, curr, prevp);
+		  predlist_insert (&name_list, curr, prevp);
 		  continue;
 		}
 
 	      if (pred_func == pred_regex)
 		{
-		  predlist_insert(&regex_list, curr, prevp);
+		  predlist_insert (&regex_list, curr, prevp);
 		  continue;
 		}
 
@@ -795,13 +795,13 @@ opt_expr (struct predicate **eval_treep)
 		{
 		  if (options.debug_options & DebugTreeOpt)
 		    {
-		      fprintf(stderr, "-O%d: categorising predicate ",
-			      (int)options.optimisation_level);
-		      print_predicate(stderr, curr->pred_right);
-		      fprintf(stderr, " by cost (%s)\n",
-			      cost_name(curr->pred_right->p_cost));
+		      fprintf (stderr, "-O%d: categorising predicate ",
+			       (int)options.optimisation_level);
+		      print_predicate (stderr, curr->pred_right);
+		      fprintf (stderr, " by cost (%s)\n",
+			       cost_name(curr->pred_right->p_cost));
 		    }
-		  predlist_insert(&cbo_list[curr->pred_right->p_cost], curr, prevp);
+		  predlist_insert (&cbo_list[curr->pred_right->p_cost], curr, prevp);
 		  continue;
 		}
 	    }
@@ -833,7 +833,7 @@ opt_expr (struct predicate **eval_treep)
 	  last_sidep = prevp;
 
 	  /* Incorporate lists and reset list pointers for this group.  */
-	  merge_lists(cbo_list, NumEvaluationCosts, &name_list, &regex_list, last_sidep);
+	  merge_lists (cbo_list, NumEvaluationCosts, &name_list, &regex_list, last_sidep);
 	  has_side_effects = true;
 	}
 
@@ -842,12 +842,12 @@ opt_expr (struct predicate **eval_treep)
 
   /* Do final list merges. */
   last_sidep = prevp;
-  merge_lists(cbo_list, NumEvaluationCosts, &name_list, &regex_list, last_sidep);
+  merge_lists (cbo_list, NumEvaluationCosts, &name_list, &regex_list, last_sidep);
   return has_side_effects;
 }
 
 static float
-constrain_rate(float rate)
+constrain_rate (float rate)
 {
   if (rate > 1.0f)
     return 1.0;
@@ -884,12 +884,12 @@ set_new_parent (struct predicate *curr, enum predicate_precedence high_prec, str
     case OR_PREC:
       new_parent->pred_func = pred_or;
       new_parent->p_name = "-o";
-      new_parent->est_success_rate = constrain_rate(curr->est_success_rate);
+      new_parent->est_success_rate = constrain_rate (curr->est_success_rate);
       break;
     case AND_PREC:
       new_parent->pred_func = pred_and;
       new_parent->p_name = "-a";
-      new_parent->est_success_rate = constrain_rate(curr->est_success_rate);
+      new_parent->est_success_rate = constrain_rate (curr->est_success_rate);
       break;
     default:
       ;				/* empty */
@@ -1000,17 +1000,17 @@ static struct pred_cost_lookup costlookup[] =
 static int pred_table_sorted = 0;
 
 static boolean
-check_sorted(void *base, size_t members, size_t membersize,
-	     int (*cmpfn)(const void*, const void*))
+check_sorted (void *base, size_t members, size_t membersize,
+	      int (*cmpfn)(const void*, const void*))
 {
   const char *p = base;
   size_t i;
   for (i=1u; i<members; ++i)
     {
-      int result = cmpfn(p+i*membersize, p+(i-1)*membersize);
+      int result = cmpfn (p+i*membersize, p+(i-1)*membersize);
       if (result < 0)
 	return false;
-      result = cmpfn(p+(i-1)*membersize, p+i*membersize);
+      result = cmpfn (p+(i-1)*membersize, p+i*membersize);
       assert (result <= 0);
     }
   return true;
@@ -1018,7 +1018,7 @@ check_sorted(void *base, size_t members, size_t membersize,
 
 
 static int
-cost_table_comparison(const void *p1, const void *p2)
+cost_table_comparison (const void *p1, const void *p2)
 {
   /* We have to compare the function pointers with memcmp(),
    * because ISO C does not allow magnitude comparison of
@@ -1033,11 +1033,11 @@ cost_table_comparison(const void *p1, const void *p2)
 
   u1.pfn = pc1->fn;
   u2.pfn = pc2->fn;
-  return memcmp(u1.mem, u2.mem, sizeof(u1.pfn));
+  return memcmp (u1.mem, u2.mem, sizeof(u1.pfn));
 }
 
 static enum EvaluationCost
-get_pred_cost(const struct predicate *p)
+get_pred_cost (const struct predicate *p)
 {
   enum EvaluationCost data_requirement_cost = NeedsNothing;
   enum EvaluationCost inherent_cost = NeedsUnknown;
@@ -1059,14 +1059,14 @@ get_pred_cost(const struct predicate *p)
       data_requirement_cost = NeedsNothing;
     }
 
-  if (pred_is(p, pred_exec) || pred_is(p, pred_execdir))
+  if (pred_is (p, pred_exec) || pred_is(p, pred_execdir))
     {
       if (p->args.exec_vec.multiple)
 	inherent_cost = NeedsEventualExec;
       else
 	inherent_cost = NeedsImmediateExec;
     }
-  else if (pred_is(p, pred_fprintf))
+  else if (pred_is (p, pred_fprintf))
     {
       /* the parser calculated the cost for us. */
       inherent_cost = p->p_cost;
@@ -1078,25 +1078,25 @@ get_pred_cost(const struct predicate *p)
 
       if (!pred_table_sorted)
 	{
-	  qsort(costlookup,
-		sizeof(costlookup)/sizeof(costlookup[0]),
-		sizeof(costlookup[0]),
-		cost_table_comparison);
+	  qsort (costlookup,
+		 sizeof(costlookup)/sizeof(costlookup[0]),
+		 sizeof(costlookup[0]),
+		 cost_table_comparison);
 
-	  if (!check_sorted(costlookup,
-			    sizeof(costlookup)/sizeof(costlookup[0]),
-			    sizeof(costlookup[0]),
-			    cost_table_comparison))
+	  if (!check_sorted (costlookup,
+			     sizeof(costlookup)/sizeof(costlookup[0]),
+			     sizeof(costlookup[0]),
+			     cost_table_comparison))
 	    {
 	      error(1, 0, "Failed to sort the costlookup array (indirect).");
 	    }
 	  pred_table_sorted = 1;
 	}
       key.fn = p->pred_func;
-      entry = bsearch(&key, costlookup,
-		      sizeof(costlookup)/sizeof(costlookup[0]),
-		      sizeof(costlookup[0]),
-		      cost_table_comparison);
+      entry = bsearch (&key, costlookup,
+		       sizeof(costlookup)/sizeof(costlookup[0]),
+		       sizeof(costlookup[0]),
+		       cost_table_comparison);
       if (entry)
 	{
 	  inherent_cost = ((const struct pred_cost_lookup*)entry)->cost;
@@ -1119,21 +1119,21 @@ estimate_costs (struct predicate *tree)
 {
   if (tree)
     {
-      estimate_costs(tree->pred_right);
-      estimate_costs(tree->pred_left);
+      estimate_costs (tree->pred_right);
+      estimate_costs (tree->pred_left);
 
       tree->p_cost = get_pred_cost(tree);
     }
 }
 
 struct predicate*
-get_eval_tree(void)
+get_eval_tree (void)
 {
   return eval_tree;
 }
 
 static float
-getrate(const struct predicate *p)
+getrate (const struct predicate *p)
 {
   if (p)
     return p->est_success_rate;
@@ -1143,14 +1143,14 @@ getrate(const struct predicate *p)
 
 
 float
-calculate_derived_rates(struct predicate *p)
+calculate_derived_rates (struct predicate *p)
 {
   assert (NULL != p);
 
   if (p->pred_right)
-    calculate_derived_rates(p->pred_right);
+    calculate_derived_rates (p->pred_right);
   if (p->pred_left)
-    calculate_derived_rates(p->pred_left);
+    calculate_derived_rates (p->pred_left);
 
   assert (p->p_type != CLOSE_PAREN);
   assert (p->p_type != OPEN_PAREN);
@@ -1169,7 +1169,7 @@ calculate_derived_rates(struct predicate *p)
 
     case UNI_OP:
       /* Unary operators must have exactly one operand */
-      assert (pred_is(p, pred_negate));
+      assert (pred_is (p, pred_negate));
       assert (NULL == p->pred_left);
       p->est_success_rate = (1.0 - p->pred_right->est_success_rate);
       return p->est_success_rate;
@@ -1178,17 +1178,17 @@ calculate_derived_rates(struct predicate *p)
       {
 	float rate;
 	/* Binary operators must have two operands */
-	if (pred_is(p, pred_and))
+	if (pred_is (p, pred_and))
 	  {
-	    rate = getrate(p->pred_right) * getrate(p->pred_left);
+	    rate = getrate (p->pred_right) * getrate(p->pred_left);
 	  }
-	else if (pred_is(p, pred_comma))
+	else if (pred_is (p, pred_comma))
 	  {
 	    rate = 1.0f;
 	  }
-	else if (pred_is(p, pred_or))
+	else if (pred_is (p, pred_or))
 	  {
-	    rate = getrate(p->pred_right) + getrate(p->pred_left);
+	    rate = getrate (p->pred_right) + getrate(p->pred_left);
 	  }
 	else
 	  {
@@ -1196,7 +1196,7 @@ calculate_derived_rates(struct predicate *p)
 	    assert (0);
 	    abort ();
 	  }
-	p->est_success_rate = constrain_rate(rate);
+	p->est_success_rate = constrain_rate (rate);
       }
       return p->est_success_rate;
 
@@ -1214,7 +1214,7 @@ calculate_derived_rates(struct predicate *p)
  * asserts that this property still holds.
  *
  */
-static void check_normalization(struct predicate *p, boolean at_root)
+static void check_normalization (struct predicate *p, boolean at_root)
 {
   if (at_root)
     {
@@ -1228,12 +1228,12 @@ static void check_normalization(struct predicate *p, boolean at_root)
     }
   if (p->pred_right)
     {
-      check_normalization(p->pred_right, false);
+      check_normalization (p->pred_right, false);
     }
 }
 
 struct predicate*
-build_expression_tree(int argc, char *argv[], int end_of_leading_options)
+build_expression_tree (int argc, char *argv[], int end_of_leading_options)
 {
   const struct parser_table *parse_entry; /* Pointer to the parsing table entry for this expression. */
   char *predicate_name;		/* Name of predicate being parsed. */
@@ -1255,9 +1255,9 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
 
   /* Enclose the expression in `( ... )' so a default -print will
      apply to the whole expression. */
-  entry_open  = find_parser("(");
-  entry_close = find_parser(")");
-  entry_print = find_parser("print");
+  entry_open  = find_parser ("(");
+  entry_close = find_parser (")");
+  entry_print = find_parser ("print");
   assert (entry_open  != NULL);
   assert (entry_close != NULL);
   assert (entry_print != NULL);
@@ -1265,16 +1265,16 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   parse_openparen (entry_open, argv, &argc);
   last_pred->p_name = "(";
   predicates->artificial = true;
-  parse_begin_user_args(argv, argc, last_pred, predicates);
-  pred_sanity_check(last_pred);
+  parse_begin_user_args (argv, argc, last_pred, predicates);
+  pred_sanity_check (last_pred);
 
   /* Build the input order list. */
   while (i < argc )
     {
-      if (!looks_like_expression(argv[i], false))
+      if (!looks_like_expression (argv[i], false))
 	{
 	  error (0, 0, _("paths must precede expression: %s"), argv[i]);
-	  usage(stderr, 1, NULL);
+	  usage (stderr, 1, NULL);
 	}
 
       predicate_name = argv[i];
@@ -1330,7 +1330,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
       pred_sanity_check(last_pred);
       pred_sanity_check(predicates); /* XXX: expensive */
     }
-  parse_end_user_args(argv, argc, last_pred, predicates);
+  parse_end_user_args (argv, argc, last_pred, predicates);
   if (predicates->pred_next == NULL)
     {
       /* No predicates that do something other than set a global variable
@@ -1349,7 +1349,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
 	 remove the unneeded initial `('. */
       cur_pred = predicates;
       predicates = predicates->pred_next;
-      pred_sanity_check(predicates); /* XXX: expensive */
+      pred_sanity_check (predicates); /* XXX: expensive */
       free (cur_pred);
     }
   else
@@ -1358,12 +1358,12 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
       parse_closeparen (entry_close, argv, &argc);
       last_pred->p_name = ")";
       last_pred->artificial = true;
-      pred_sanity_check(last_pred);
+      pred_sanity_check (last_pred);
       parse_print (entry_print, argv, &argc);
       last_pred->p_name = "-print";
       last_pred->artificial = true;
-      pred_sanity_check(last_pred);
-      pred_sanity_check(predicates); /* XXX: expensive */
+      pred_sanity_check (last_pred);
+      pred_sanity_check (predicates); /* XXX: expensive */
     }
 
   if (options.debug_options & (DebugExpressionTree|DebugTreeOpt))
@@ -1373,13 +1373,13 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
     }
 
   /* do a sanity check */
-  check_option_combinations(predicates);
-  pred_sanity_check(predicates);
+  check_option_combinations (predicates);
+  pred_sanity_check (predicates);
 
   /* Done parsing the predicates.  Build the evaluation tree. */
   cur_pred = predicates;
   eval_tree = get_expr (&cur_pred, NO_PREC, NULL);
-  calculate_derived_rates(eval_tree);
+  calculate_derived_rates (eval_tree);
 
   /* Check if we have any left-over predicates (this fixes
    * Debian bug #185202).
@@ -1387,7 +1387,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
   if (cur_pred != NULL)
     {
       /* cur_pred->p_name is often NULL here */
-      if (pred_is(cur_pred, pred_closeparen))
+      if (pred_is (cur_pred, pred_closeparen))
 	{
 	  /* e.g. "find \( -true \) \)" */
 	  error (1, 0, _("you have too many ')'"));
@@ -1407,26 +1407,26 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
       print_tree (stderr, eval_tree, 0);
     }
 
-  estimate_costs(eval_tree);
+  estimate_costs (eval_tree);
 
   /* Rearrange the eval tree in optimal-predicate order. */
   opt_expr (&eval_tree);
 
   /* Check that the tree is in normalised order (opt_expr does this) */
-  check_normalization(eval_tree, true);
+  check_normalization (eval_tree, true);
 
-  do_arm_swaps(eval_tree);
+  do_arm_swaps (eval_tree);
 
   /* Check that the tree is still in normalised order */
-  check_normalization(eval_tree, true);
+  check_normalization (eval_tree, true);
 
   if (options.debug_options & (DebugExpressionTree|DebugTreeOpt))
     {
       fprintf (stderr, "Optimized Eval Tree:\n");
       print_tree (stderr, eval_tree, 0);
       fprintf (stderr, "Optimized command line:\n");
-      print_optlist(stderr, eval_tree);
-      fprintf(stderr, "\n");
+      print_optlist (stderr, eval_tree);
+      fprintf (stderr, "\n");
     }
 
   return eval_tree;
@@ -1435,7 +1435,7 @@ build_expression_tree(int argc, char *argv[], int end_of_leading_options)
 /* Initialise the performance data for a predicate.
  */
 static void
-init_pred_perf(struct predicate *pred)
+init_pred_perf (struct predicate *pred)
 {
   struct predicate_performance_info *p = &pred->perf;
   p->visits = p->successes = 0;
@@ -1445,7 +1445,7 @@ init_pred_perf(struct predicate *pred)
 struct predicate *
 get_new_pred_noarg (const struct parser_table *entry)
 {
-  struct predicate *p = get_new_pred(entry);
+  struct predicate *p = get_new_pred (entry);
   if (p)
     {
       p->arg_text = NULL;
@@ -1504,7 +1504,7 @@ get_new_pred (const struct parser_table *entry)
   last_pred->literal_control_chars = options.literal_control_chars;
   last_pred->artificial = false;
   last_pred->est_success_rate = 1.0;
-  init_pred_perf(last_pred);
+  init_pred_perf (last_pred);
   return last_pred;
 }
 
@@ -1521,7 +1521,7 @@ get_new_pred_chk_op (const struct parser_table *entry,
 
   /* Locate the entry in the parser table for the "and" operator */
   if (NULL == entry_and)
-    entry_and = find_parser("and");
+    entry_and = find_parser ("and");
 
   /* Check that it's actually there. If not, that is a bug.*/
   assert (entry_and != NULL);
@@ -1618,7 +1618,7 @@ static const char *
 cost_name (enum EvaluationCost cost)
 {
   unsigned int i;
-  unsigned int n = sizeof(cost_table)/sizeof(cost_table[0]);
+  unsigned int n = sizeof (cost_table)/sizeof(cost_table[0]);
 
   for (i = 0; i<n; ++i)
     if (cost_table[i].cost == cost)
@@ -1665,11 +1665,11 @@ print_tree (FILE *fp, struct predicate *node, int indent)
   for (i = 0; i < indent; i++)
     fprintf (fp, "    ");
   fprintf (fp, "pred=[");
-  print_predicate(fp, node);
+  print_predicate (fp, node);
   fprintf (fp, "] type=%s prec=%s",
 	  type_name (node->p_type), prec_name (node->p_prec));
   fprintf (fp, " cost=%s rate=%#03.2g %sside effects ",
-	   cost_name(node->p_cost),
+	   cost_name (node->p_cost),
 	   node->est_success_rate,
 	   (node->side_effects ? "" : "no "));
 

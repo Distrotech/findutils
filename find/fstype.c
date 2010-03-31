@@ -94,19 +94,19 @@ static char *file_system_type_uncached PARAMS((const struct stat *statp, const c
 
 
 static void
-free_file_system_list(struct mount_entry *p)
+free_file_system_list (struct mount_entry *p)
 {
   while (p)
     {
       struct mount_entry *pnext = p->me_next;
 
-      free(p->me_devname);
-      free(p->me_mountdir);
+      free (p->me_devname);
+      free (p->me_mountdir);
 
-      if(p->me_type_malloced)
-	free(p->me_type);
+      if (p->me_type_malloced)
+	free (p->me_type);
       p->me_next = NULL;
-      free(p);
+      free (p);
       p = pnext;
     }
 }
@@ -170,13 +170,13 @@ filesystem_type (const struct stat *statp, const char *path)
 }
 
 static int
-set_fstype_devno(struct mount_entry *p)
+set_fstype_devno (struct mount_entry *p)
 {
   struct stat stbuf;
 
   if (p->me_dev == (dev_t)-1)
     {
-      set_stat_placeholders(&stbuf);
+      set_stat_placeholders (&stbuf);
       if (0 == (options.xstat)(p->me_mountdir, &stbuf))
 	{
 	  p->me_dev = stbuf.st_dev;
@@ -191,16 +191,16 @@ set_fstype_devno(struct mount_entry *p)
 }
 
 static struct mount_entry *
-must_read_fs_list(bool need_fs_type)
+must_read_fs_list (bool need_fs_type)
 {
-  struct mount_entry *entries = read_file_system_list(need_fs_type);
+  struct mount_entry *entries = read_file_system_list (need_fs_type);
   if (NULL == entries)
     {
       /* We cannot determine for sure which file we were trying to
        * use because gnulib has abstracted all that stuff away.
        * Hence we cannot issue a specific error message here.
        */
-      error(1, 0, _("Cannot read mounted file system list"));
+      error (1, 0, _("Cannot read mounted file system list"));
     }
   return entries;
 }
@@ -221,33 +221,33 @@ file_system_type_uncached (const struct stat *statp, const char *path)
   (void) path;
 
 #ifdef AFS
-  if (in_afs(path))
+  if (in_afs (path))
     {
       fstype_known = 1;
-      return xstrdup("afs");
+      return xstrdup ("afs");
     }
 #endif
 
-  entries = must_read_fs_list(true);
+  entries = must_read_fs_list (true);
   for (type=NULL, entry=entries; entry; entry=entry->me_next)
     {
 #ifdef MNTTYPE_IGNORE
       if (!strcmp (entry->me_type, MNTTYPE_IGNORE))
 	continue;
 #endif
-      set_fstype_devno(entry);
+      set_fstype_devno (entry);
       if (entry->me_dev == statp->st_dev)
 	{
-	  type = xstrdup(entry->me_type);
+	  type = xstrdup (entry->me_type);
 	  break;
 	}
     }
-  free_file_system_list(entries);
+  free_file_system_list (entries);
 
   /* Don't cache unknown values. */
   fstype_known = (type != NULL);
 
-  return type ? type : xstrdup(_("unknown"));
+  return type ? type : xstrdup (_("unknown"));
 }
 
 
@@ -259,7 +259,7 @@ get_mounted_filesystems (void)
   size_t used = 0u;
   struct mount_entry *entries, *entry;
 
-  entries = must_read_fs_list(false);
+  entries = must_read_fs_list (false);
   for (entry=entries; entry; entry=entry->me_next)
     {
       size_t len;
@@ -268,15 +268,15 @@ get_mounted_filesystems (void)
       if (!strcmp (entry->me_type, MNTTYPE_IGNORE))
 	continue;
 #endif
-      set_fstype_devno(entry);
+      set_fstype_devno (entry);
 
-      len = strlen(entry->me_mountdir) + 1;
-      result = extendbuf(result, used+len, &alloc_size);
-      strcpy(&result[used], entry->me_mountdir);
+      len = strlen (entry->me_mountdir) + 1;
+      result = extendbuf (result, used+len, &alloc_size);
+      strcpy (&result[used], entry->me_mountdir);
       used += len;		/* len already includes one for the \0 */
     }
 
-  free_file_system_list(entries);
+  free_file_system_list (entries);
   return result;
 }
 
@@ -289,22 +289,22 @@ get_mounted_devices (size_t *n)
   struct mount_entry *entries, *entry;
   dev_t *result = NULL;
 
-  /* Use read_file_system_list() rather than must_read_fs_list()
+  /* Use read_file_system_list () rather than must_read_fs_list()
    * because on some system this is always called at startup,
    * and find should only exit fatally if it needs to use the
    * result of this operation.   If we can't get the fs list
    * but we never need the information, there is no need to fail.
    */
-  for (entry = entries = read_file_system_list(false);
+  for (entry = entries = read_file_system_list (false);
        entry;
        entry = entry->me_next)
     {
-      result = extendbuf(result, sizeof(dev_t)*(used+1), &alloc_size);
-      set_fstype_devno(entry);
+      result = extendbuf (result, sizeof(dev_t)*(used+1), &alloc_size);
+      set_fstype_devno (entry);
       result[used] = entry->me_dev;
       ++used;
     }
-  free_file_system_list(entries);
+  free_file_system_list (entries);
   *n = used;
   return result;
 }
