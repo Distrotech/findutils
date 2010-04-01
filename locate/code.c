@@ -141,7 +141,7 @@ static void outerr (void)                 ATTRIBUTE_NORETURN;
 static void
 inerr (const char *filename)
 {
-  error (1, errno, "%s", filename);
+  error (EXIT_FAILURE, errno, "%s", filename);
   /*NOTREACHED*/
   abort ();
 }
@@ -149,7 +149,7 @@ inerr (const char *filename)
 static void
 outerr (void)
 {
-  error (1, errno, _("write error"));
+  error (EXIT_FAILURE, errno, _("write error"));
   /*NOTREACHED*/
   abort ();
 }

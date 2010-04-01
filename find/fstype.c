@@ -201,7 +201,7 @@ must_read_fs_list (bool need_fs_type)
        * use because gnulib has abstracted all that stuff away.
        * Hence we cannot issue a specific error message here.
        */
-      error (1, 0, _("Cannot read mounted file system list"));
+      error (EXIT_FAILURE, 0, _("Cannot read mounted file system list"));
     }
   return entries;
 }

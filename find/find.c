@@ -139,7 +139,8 @@ main (int argc, char **argv)
   state.shared_files = sharefile_init ("w");
   if (NULL == state.shared_files)
     {
-      error (1, errno, _("Failed initialise shared-file hash table"));
+      error (EXIT_FAILURE, errno,
+	     _("Failed initialise shared-file hash table"));
     }
 
   /* Set the option defaults before we do the locale
@@ -209,12 +210,12 @@ main (int argc, char **argv)
     {
       starting_dir = xgetcwd ();
       if (! starting_dir)
-	error (1, errno, _("cannot get current directory"));
+	error (EXIT_FAILURE, errno, _("cannot get current directory"));
     }
 
   set_stat_placeholders (&starting_stat_buf);
   if ((*options.xstat) (".", &starting_stat_buf) != 0)
-    error (1, errno, _("cannot stat current directory"));
+    error (EXIT_FAILURE, errno, _("cannot stat current directory"));
 
   /* If no paths are given, default to ".".  */
   for (i = end_of_leading_options; i < argc && !looks_like_expression (argv[i], true); i++)
@@ -305,7 +306,7 @@ init_mounted_dev_list (int mandatory)
   mounted_devices = get_mounted_devices (&num_mounted_devices);
   if (mandatory && (NULL == mounted_devices))
     {
-      error (1, 0, _("Cannot read list of mounted devices."));
+      error (EXIT_FAILURE, 0, _("Cannot read list of mounted devices."));
     }
 }
 
@@ -499,7 +500,7 @@ wd_sanity_check (const char *thing_to_stat,
 	case FATAL_IF_SANITY_CHECK_FAILS:
 	  {
 	    fstype = filesystem_type (newinfo, current_dir);
-	    error (1, 0,
+	    error (EXIT_FAILURE, 0,
 		   _("%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"),
 		   safely_quote_err_filename (0, specific_what),
 		   parent ? "/.." : "",
@@ -701,7 +702,7 @@ safely_chdir_lstat (const char *dest,
 			   * can't recover from this and so this error
 			   * is fatal.
 			   */
-			  error (1, errno,
+			  error (EXIT_FAILURE, errno,
 				 _("failed to return to parent directory"));
 			}
 		    }
@@ -1508,7 +1509,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	      break;
 
 	    case SafeChdirFailWouldBeUnableToReturn:
-	      error (1, errno, ".");
+	      error (EXIT_FAILURE, errno, ".");
 	      return;
 
 	    case SafeChdirFailNonexistent:
@@ -1517,7 +1518,8 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	    case SafeChdirFailSymlink:
 	    case SafeChdirFailNotDir:
 	    case SafeChdirFailChdirFailed:
-	      error (1, errno, "%s", safely_quote_err_filename (0, pathname));
+	      error (EXIT_FAILURE, errno,
+		     "%s", safely_quote_err_filename (0, pathname));
 	      return;
 	    }
 

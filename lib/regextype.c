@@ -23,6 +23,7 @@
 # include <config.h>
 #endif
 
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -103,9 +104,10 @@ get_regex_type (const char *s)
       p += sprintf (p, "%s", quote (regex_map[i].name));
     }
 
-  error (1, 0, _("Unknown regular expression type %s; valid types are %s."),
-	quote (s),
-	buf);
+  error (EXIT_FAILURE, 0,
+	 _("Unknown regular expression type %s; valid types are %s."),
+	 quote (s),
+	 buf);
   /*NOTREACHED*/
   return -1;
 }

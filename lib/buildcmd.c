@@ -26,6 +26,7 @@
 #  endif
 # endif
 
+#include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
 #include <locale.h>
@@ -173,7 +174,7 @@ bc_do_insert (struct buildcmd_control *ctl,
     }
   while (*arg);
   if (*arg)
-    error (1, 0, _("command too long"));
+    error (EXIT_FAILURE, 0, _("command too long"));
   *p++ = '\0';
 
   bc_push_arg (ctl, state,
@@ -312,7 +313,7 @@ bc_do_exec (struct buildcmd_control *ctl,
 	      {
 		/* No room to reduce the length of the argument list.
 		   Issue an error message and give up. */
-		error (1, 0,
+		error (EXIT_FAILURE, 0,
 		       _("can't call exec() due to argument size restrictions"));
 	      }
 	    else
@@ -383,12 +384,13 @@ bc_push_arg (struct buildcmd_control *ctl,
       if (state->cmd_argv_chars + len > ctl->arg_max)
         {
           if (initial_args || state->cmd_argc == ctl->initial_argc)
-            error (1, 0, _("can not fit single argument within argument list size limit"));
+            error (EXIT_FAILURE, 0,
+		   _("can not fit single argument within argument list size limit"));
           /* xargs option -i (replace_pat) implies -x (exit_if_size_exceeded) */
           if (ctl->replace_pat
               || (ctl->exit_if_size_exceeded &&
                   (ctl->lines_per_exec || ctl->args_per_exec)))
-            error (1, 0, _("argument list too long"));
+            error (EXIT_FAILURE, 0, _("argument list too long"));
             bc_do_exec (ctl, state);
         }
       if (bc_argc_limit_reached (initial_args, ctl, state))
@@ -670,8 +672,8 @@ exceeds (const char *env_var_name, size_t quantity)
 	}
       else
 	{
-	  error (1, errno, "Environment variable %s "
-		 "is not set to a valid decimal number",
+	  error (EXIT_FAILURE, errno,
+		 "Environment variable %s is not set to a valid decimal number",
 		 env_var_name);
 	  return 0;
 	}

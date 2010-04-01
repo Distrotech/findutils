@@ -2028,7 +2028,7 @@ launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv)
 
   child_pid = fork ();
   if (child_pid == -1)
-    error (1, errno, _("cannot fork"));
+    error (EXIT_FAILURE, errno, _("cannot fork"));
   if (child_pid == 0)
     {
       /* We are the child. */

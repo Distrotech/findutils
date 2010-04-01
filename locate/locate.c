@@ -193,8 +193,8 @@ set_max_db_age (const char *s)
 
   if (0 == *s)
     {
-      error (1, 0,
-	    _("The argument for option --max-database-age must not be empty"));
+      error (EXIT_FAILURE, 0,
+	     _("The argument for option --max-database-age must not be empty"));
     }
 
 
@@ -209,16 +209,16 @@ set_max_db_age (const char *s)
   if ((ULONG_MAX == val && ERANGE == errno) ||
       (0 == val && EINVAL == errno))
     {
-      error (1, errno,
-	    _("Invalid argument %s for option --max-database-age"),
-	    quotearg_n_style (0, locale_quoting_style, s));
+      error (EXIT_FAILURE, errno,
+	     _("Invalid argument %s for option --max-database-age"),
+	     quotearg_n_style (0, locale_quoting_style, s));
     }
   else if (*end)
     {
       /* errno wasn't set, don't print its message */
-      error (1, 0,
-	    _("Invalid argument %s for option --max-database-age"),
-	    quotearg_n_style (0, locale_quoting_style, s));
+      error (EXIT_FAILURE, 0,
+	     _("Invalid argument %s for option --max-database-age"),
+	     quotearg_n_style (0, locale_quoting_style, s));
     }
   else
     {
@@ -468,7 +468,7 @@ visit_justprint_unquoted (struct process_data *procdata, void *context)
 static void
 toolong (struct process_data *procdata)
 {
-  error (1, 0,
+  error (EXIT_FAILURE, 0,
 	 _("locate database %s contains a "
 	   "filename longer than locate can handle"),
 	 procdata->dbfile);
@@ -604,7 +604,7 @@ visit_locate02_format (struct process_data *procdata, void *context)
        * reading in data which is outside our control, we
        * cannot prevent it.
        */
-      error (1, 0, _("locate database %s is corrupt or invalid"),
+      error (EXIT_FAILURE, 0, _("locate database %s is corrupt or invalid"),
 	     quotearg_n_style (0, locale_quoting_style, procdata->dbfile));
     }
 
@@ -1193,7 +1193,7 @@ search_one_database (int argc,
 				     256 - nread, procdata.fp);
 	      if ( (more_read + nread) != 256 )
 		{
-		  error (1, 0,
+		  error (EXIT_FAILURE, 0,
 			 _("Old-format locate database %s is "
 			   "too short to be valid"),
 			 quotearg_n_style (0, locale_quoting_style, dbfile));
@@ -1238,7 +1238,7 @@ search_one_database (int argc,
 					      &p->regex);
 	  if (error_message)
 	    {
-	      error (1, 0, "%s", error_message);
+	      error (EXIT_FAILURE, 0, "%s", error_message);
 	    }
 	  else
 	    {
@@ -1531,7 +1531,7 @@ drop_privs (void)
   return 0;
 
  fail:
-  error (1, errno, "%s",
+  error (EXIT_FAILURE, errno, "%s",
 	 quotearg_n_style (0, locale_quoting_style, what));
   abort ();
   kill (0, SIGKILL);

@@ -806,7 +806,7 @@ process_debug_options (char *arg)
     }
   if (empty)
     {
-      error(1, 0, _("Empty argument to the -D option."));
+      error(EXIT_FAILURE, 0, _("Empty argument to the -D option."));
     }
   else if (options.debug_options & DebugHelp)
     {
@@ -821,7 +821,8 @@ process_optimisation_option (const char *arg)
 {
   if (0 == arg[0])
     {
-      error (1, 0, _("The -O option must be immediately followed by a decimal integer"));
+      error (EXIT_FAILURE, 0,
+	     _("The -O option must be immediately followed by a decimal integer"));
     }
   else
     {
@@ -830,7 +831,8 @@ process_optimisation_option (const char *arg)
 
       if (!isdigit ( (unsigned char) arg[0] ))
 	{
-	  error (1, 0, _("Please specify a decimal number immediately after -O"));
+	  error (EXIT_FAILURE, 0,
+		 _("Please specify a decimal number immediately after -O"));
 	}
       else
 	{
@@ -840,26 +842,29 @@ process_optimisation_option (const char *arg)
 	  opt_level = strtoul (arg, &end, 10);
 	  if ( (0==opt_level) && (end==arg) )
 	    {
-	      error (1, 0, _("Please specify a decimal number immediately after -O"));
+	      error (EXIT_FAILURE, 0,
+		     _("Please specify a decimal number immediately after -O"));
 	    }
 	  else if (*end)
 	    {
 	      /* unwanted trailing characters. */
-	      error (1, 0, _("Invalid optimisation level %s"), arg);
+	      error (EXIT_FAILURE, 0, _("Invalid optimisation level %s"), arg);
 	    }
 	  else if ( (ULONG_MAX==opt_level) && errno)
 	    {
-	      error (1, errno, _("Invalid optimisation level %s"), arg);
+	      error (EXIT_FAILURE, errno,
+		     _("Invalid optimisation level %s"), arg);
 	    }
 	  else if (opt_level > USHRT_MAX)
 	    {
 	      /* tricky to test, as on some platforms USHORT_MAX and ULONG_MAX
 	       * can have the same value, though this is unusual.
 	       */
-	      error (1, 0, _("Optimisation level %lu is too high.  "
-			     "If you want to find files very quickly, "
-			     "consider using GNU locate."),
-		    opt_level);
+	      error (EXIT_FAILURE, 0,
+		     _("Optimisation level %lu is too high.  "
+		       "If you want to find files very quickly, "
+		       "consider using GNU locate."),
+		     opt_level);
 	    }
 	  else
 	    {
@@ -999,7 +1004,8 @@ set_option_defaults (struct options *p)
 
   if (getenv ("FIND_BLOCK_SIZE"))
     {
-      error (1, 0, _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
+      error (EXIT_FAILURE, 0,
+	     _("The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"));
     }
 
 #if LEAF_OPTIMISATION

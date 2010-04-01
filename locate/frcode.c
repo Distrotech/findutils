@@ -178,21 +178,24 @@ get_seclevel (char *s)
   result = strtol (s, &p, 10);
   if ((0==result) && (p == optarg))
     {
-      error (1, 0, _("You need to specify a security level as a decimal integer."));
+      error (EXIT_FAILURE, 0,
+	     _("You need to specify a security level as a decimal integer."));
       /*NOTREACHED*/
       return -1;
     }
   else if ((LONG_MIN==result || LONG_MAX==result) && errno)
 
     {
-      error (1, 0, _("Security level %s is outside the convertible range."), s);
+      error (EXIT_FAILURE, 0,
+	     _("Security level %s is outside the convertible range."), s);
       /*NOTREACHED*/
       return -1;
     }
   else if (*p)
     {
       /* Some suffix exists */
-      error (1, 0, _("Security level %s has unexpected suffix %s."), s, p);
+      error (EXIT_FAILURE, 0,
+	     _("Security level %s has unexpected suffix %s."), s, p);
       /*NOTREACHED*/
       return -1;
     }
@@ -206,7 +209,7 @@ static void
 outerr (void)
 {
   /* Issue the same error message as closeout () would. */
-  error (1, errno, _("write error"));
+  error (EXIT_FAILURE, errno, _("write error"));
 }
 
 int
@@ -247,7 +250,7 @@ main (int argc, char **argv)
 	slocate_seclevel = get_seclevel (optarg);
 	if (slocate_seclevel < 0 || slocate_seclevel > 1)
 	  {
-	    error (1, 0,
+	    error (EXIT_FAILURE, 0,
 		   _("slocate security level %ld is unsupported."),
 		   slocate_seclevel);
 	  }
@@ -286,7 +289,7 @@ main (int argc, char **argv)
       if (fwrite (LOCATEDB_MAGIC, 1, sizeof (LOCATEDB_MAGIC), stdout)
 	  != sizeof (LOCATEDB_MAGIC))
 	{
-	  error (1, errno, _("Failed to write to standard output"));
+	  error (EXIT_FAILURE, errno, _("Failed to write to standard output"));
 	}
     }
 

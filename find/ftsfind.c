@@ -674,7 +674,8 @@ main (int argc, char **argv)
   state.shared_files = sharefile_init ("w");
   if (NULL == state.shared_files)
     {
-      error (1, errno, _("Failed initialise shared-file hash table"));
+      error (EXIT_FAILURE, errno,
+	     _("Failed initialise shared-file hash table"));
     }
 
   /* Set the option defaults before we do the locale initialisation as
@@ -740,7 +741,7 @@ main (int argc, char **argv)
     {
       starting_dir = xgetcwd ();
       if (! starting_dir)
-	error (1, errno, _("cannot get current directory"));
+	error (EXIT_FAILURE, errno, _("cannot get current directory"));
     }
 
   process_all_startpoints (argc-end_of_leading_options, argv+end_of_leading_options);

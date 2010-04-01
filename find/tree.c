@@ -121,17 +121,19 @@ get_expr (struct predicate **input,
   struct predicate *this_pred = (*input);
 
   if (*input == NULL)
-    error (1, 0, _("invalid expression"));
+    error (EXIT_FAILURE, 0, _("invalid expression"));
 
   switch ((*input)->p_type)
     {
     case NO_TYPE:
-      error (1, 0, _("invalid expression"));
+      error (EXIT_FAILURE, 0, _("invalid expression"));
       break;
 
     case BI_OP:
       /* e.g. "find . -a" */
-      error (1, 0, _("invalid expression; you have used a binary operator '%s' with nothing before it."), this_pred->p_name);
+      error (EXIT_FAILURE, 0,
+	     _("invalid expression; you have used a binary operator '%s' with nothing before it."),
+	     this_pred->p_name);
       break;
 
     case CLOSE_PAREN:
@@ -140,7 +142,8 @@ get_expr (struct predicate **input,
 	  && !this_pred->artificial)
 	{
 	  /* e.g. "find \( -not \)" or "find \( -true -a \" */
-	  error (1, 0, _("expected an expression between '%s' and ')'"),
+	  error (EXIT_FAILURE, 0,
+		 _("expected an expression between '%s' and ')'"),
 		 prev_pred->p_name);
 	}
       else if ( (*input)->artificial )
@@ -149,11 +152,13 @@ get_expr (struct predicate **input,
 	   * unexpectedly.
 	   */
 	  /* e.g. "find . -true -a" */
-	  error (1, 0, _("expected an expression after '%s'"), prev_pred->p_name);
+	  error (EXIT_FAILURE, 0,
+		 _("expected an expression after '%s'"), prev_pred->p_name);
 	}
       else
 	{
-	  error (1, 0, _("invalid expression; you have too many ')'"));
+	  error (EXIT_FAILURE, 0,
+		 _("invalid expression; you have too many ')'"));
 	}
       break;
 
@@ -175,23 +180,27 @@ get_expr (struct predicate **input,
 	   * looking at is from the artificial "( ) -print" that we
 	   * add.
 	   */
-	  error (1, 0, _("invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"), this_pred->p_name);
+	  error (EXIT_FAILURE, 0,
+		 _("invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"),
+		 this_pred->p_name);
 	}
       prev_pred = (*input);
       *input = (*input)->pred_next;
       if ( (*input)->p_type == CLOSE_PAREN )
 	{
-	  error (1, 0, _("invalid expression; empty parentheses are not allowed."));
+	  error (EXIT_FAILURE, 0,
+		 _("invalid expression; empty parentheses are not allowed."));
 	}
       next = get_expr (input, NO_PREC, prev_pred);
       if ((*input == NULL)
 	  || ((*input)->p_type != CLOSE_PAREN))
-	error (1, 0, _("invalid expression; I was expecting to find a ')' somewhere but did not see one."));
+	error (EXIT_FAILURE, 0,
+	       _("invalid expression; I was expecting to find a ')' somewhere but did not see one."));
       *input = (*input)->pred_next;	/* move over close */
       break;
 
     default:
-      error (1, 0, _("oops -- invalid expression type!"));
+      error (EXIT_FAILURE, 0, _("oops -- invalid expression type!"));
       break;
     }
 
@@ -206,7 +215,7 @@ get_expr (struct predicate **input,
     {
       next = scan_rest (input, next, prev_prec);
       if (next == NULL)
-	error (1, 0, _("invalid expression"));
+	error (EXIT_FAILURE, 0, _("invalid expression"));
     }
   return (next);
 }
@@ -245,7 +254,7 @@ scan_rest (struct predicate **input,
 	  /* I'm not sure how we get here, so it is not obvious what
 	   * sort of mistakes might give rise to this condition.
 	   */
-	  error (1, 0, _("invalid expression"));
+	  error (EXIT_FAILURE, 0, _("invalid expression"));
 	  break;
 
 	case BI_OP:
@@ -262,7 +271,7 @@ scan_rest (struct predicate **input,
 	  return tree;
 
 	default:
-	  error (1, 0,
+	  error (EXIT_FAILURE, 0,
 		 _("oops -- invalid expression type (%d)!"),
 		 (int)(*input)->p_type);
 	  break;
@@ -825,7 +834,7 @@ opt_expr (struct predicate **eval_treep)
 	     all of the user's parentheses. */
 
 	default:
-	  error (1, 0, _("oops -- invalid expression type!"));
+	  error (EXIT_FAILURE, 0, _("oops -- invalid expression type!"));
 	  break;
 	}
 
@@ -1089,7 +1098,8 @@ get_pred_cost (const struct predicate *p)
 			     sizeof(costlookup[0]),
 			     cost_table_comparison))
 	    {
-	      error(1, 0, "Failed to sort the costlookup array (indirect).");
+	      error (EXIT_FAILURE, 0,
+		     "Failed to sort the costlookup array (indirect).");
 	    }
 	  pred_table_sorted = 1;
 	}
@@ -1283,7 +1293,7 @@ build_expression_tree (int argc, char *argv[], int end_of_leading_options)
       if (parse_entry == NULL)
 	{
 	  /* Command line option not recognized */
-	  error (1, 0, _("unknown predicate `%s'"), predicate_name);
+	  error (EXIT_FAILURE, 0, _("unknown predicate `%s'"), predicate_name);
 	}
 
       /* We have recognised a test of the form -foo.  Eat that,
@@ -1303,19 +1313,20 @@ build_expression_tree (int argc, char *argv[], int end_of_leading_options)
 		  /* The special parse function spat out the
 		   * predicate.  It must be invalid, or not tasty.
 		   */
-		  error (1, 0, _("invalid predicate `%s'"),
+		  error (EXIT_FAILURE, 0, _("invalid predicate `%s'"),
 			 predicate_name);
 		}
 	      else
 		{
-		  error (1, 0, _("invalid argument `%s' to `%s'"),
+		  error (EXIT_FAILURE, 0, _("invalid argument `%s' to `%s'"),
 			 argv[i], predicate_name);
 		}
 	    }
 	  else
 	    {
 	      /* Command line option requires an argument */
-	      error (1, 0, _("missing argument to `%s'"), predicate_name);
+	      error (EXIT_FAILURE, 0,
+		     _("missing argument to `%s'"), predicate_name);
 	    }
 	}
       else
@@ -1391,14 +1402,15 @@ build_expression_tree (int argc, char *argv[], int end_of_leading_options)
       if (pred_is (cur_pred, pred_closeparen))
 	{
 	  /* e.g. "find \( -true \) \)" */
-	  error (1, 0, _("you have too many ')'"));
+	  error (EXIT_FAILURE, 0, _("you have too many ')'"));
 	}
       else
 	{
 	  if (cur_pred->p_name)
-	    error (1, 0, _("unexpected extra predicate '%s'"), cur_pred->p_name);
+	    error (EXIT_FAILURE, 0,
+		   _("unexpected extra predicate '%s'"), cur_pred->p_name);
 	  else
-	    error (1, 0, _("unexpected extra predicate"));
+	    error (EXIT_FAILURE, 0, _("unexpected extra predicate"));
 	}
     }
 
@@ -1531,7 +1543,7 @@ get_new_pred_chk_op (const struct parser_table *entry,
     switch (last_pred->p_type)
       {
       case NO_TYPE:
-	error (1, 0, _("oops -- invalid default insertion of and!"));
+	error (EXIT_FAILURE, 0, _("oops -- invalid default insertion of and!"));
 	break;
 
       case PRIMARY_TYPE:

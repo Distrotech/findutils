@@ -245,7 +245,7 @@ get_char_oct_or_hex_escape (const char *s)
   else
     {
       p = NULL;			/* Silence compiler warning. */
-      error (1, 0,
+      error (EXIT_FAILURE, 0,
 	     _("Invalid escape sequence %s in input delimiter specification."),
 	     s);
     }
@@ -263,13 +263,13 @@ get_char_oct_or_hex_escape (const char *s)
     {
       if (16 == base)
 	{
-	  error (1, 0,
+	  error (EXIT_FAILURE, 0,
 		 _("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."),
 		 s, (unsigned long)UCHAR_MAX);
 	}
       else
 	{
-	  error (1, 0,
+	  error (EXIT_FAILURE, 0,
 		 _("Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."),
 		 s, (unsigned long)UCHAR_MAX);
 	}
@@ -278,7 +278,7 @@ get_char_oct_or_hex_escape (const char *s)
   /* check for trailing garbage */
   if (0 != *endp)
     {
-      error (1, 0,
+      error (EXIT_FAILURE, 0,
 	     _("Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."),
 	     s, endp);
     }
@@ -323,7 +323,7 @@ get_input_delimiter (const char *s)
 	}
       else
 	{
-	  error (1, 0,
+	  error (EXIT_FAILURE, 0,
 		 _("Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."),
 		 s);
 	  /*NOTREACHED*/
@@ -341,7 +341,7 @@ noop (void)
 static void
 fail_due_to_env_size (void)
 {
-  error (1, 0, _("environment is too large for exec"));
+  error (EXIT_FAILURE, 0, _("environment is too large for exec"));
 }
 
 static size_t
@@ -613,7 +613,7 @@ main (int argc, char **argv)
       input_stream = fopen (input_file, "r");
       if (NULL == input_stream)
 	{
-	  error (1, errno,
+	  error (EXIT_FAILURE, errno,
 		 _("Cannot open input file %s"),
 		 quotearg_n_style (0, locale_quoting_style, input_file));
 	}
@@ -786,7 +786,7 @@ read_line (void)
 	  if (state == QUOTE)
 	    {
 	      exec_if_possible ();
-	      error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
+	      error (EXIT_FAILURE, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
 		     quotc == '"' ? _("double") : _("single"));
 	    }
 	  if (first && EOF_STR (linebuf))
@@ -879,7 +879,7 @@ read_line (void)
 	  if (c == '\n')
 	    {
 	      exec_if_possible ();
-	      error (1, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
+	      error (EXIT_FAILURE, 0, _("unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"),
 		     quotc == '"' ? _("double") : _("single"));
 	    }
 	  if (c == quotc)
@@ -909,7 +909,7 @@ read_line (void)
       if (p >= endbuf)
         {
 	  exec_if_possible ();
-	  error (1, 0, _("argument line too long"));
+	  error (EXIT_FAILURE, 0, _("argument line too long"));
 	}
       *p++ = c;
 #else
@@ -966,7 +966,7 @@ read_string (void)
       if (p >= endbuf)
         {
 	  exec_if_possible ();
-	  error (1, 0, _("argument line too long"));
+	  error (EXIT_FAILURE, 0, _("argument line too long"));
 	}
       *p++ = c;
     }
@@ -993,7 +993,8 @@ print_args (boolean ask)
 	{
 	  tty_stream = fopen ("/dev/tty", "r");
 	  if (!tty_stream)
-	    error (1, errno, _("failed to open /dev/tty for reading"));
+	    error (EXIT_FAILURE, errno,
+		   _("failed to open /dev/tty for reading"));
 	}
       fputs ("?...", stderr);
       fflush (stderr);
@@ -1076,7 +1077,7 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
       wait_for_proc (false, 0u);
 
       if (pipe (fd))
-	error (1, errno, _("could not create pipe before fork"));
+	error (EXIT_FAILURE, errno, _("could not create pipe before fork"));
       fcntl (fd[1], F_SETFD, FD_CLOEXEC);
 
       /* If we run out of processes, wait for a child to return and
@@ -1087,7 +1088,7 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
       switch (child)
 	{
 	case -1:
-	  error (1, errno, _("cannot fork"));
+	  error (EXIT_FAILURE, errno, _("cannot fork"));
 
 	case 0:		/* Child.  */
 	  {
@@ -1195,7 +1196,8 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	  }
 	default:
 	  {
-	    error (1, errno, "read returned unexpected value %d! BUG?", r);
+	    error (EXIT_FAILURE, errno,
+		   "read returned unexpected value %d! BUG?", r);
 	  }
 	} /* switch on bytes read */
       close (fd[0]);
@@ -1283,7 +1285,8 @@ wait_for_proc (boolean all, unsigned int minreap)
 	  while ((pid = waitpid (-1, &status, wflags)) == (pid_t) -1)
 	    {
 	      if (errno != EINTR)
-		error (1, errno, _("error waiting for child process"));
+		error (EXIT_FAILURE, errno,
+		       _("error waiting for child process"));
 	    }
 
 	  /* Find the entry in `pids' for the child process
