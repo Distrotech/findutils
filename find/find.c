@@ -1415,8 +1415,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	    {
 	      while (file_len > cur_path_size)
 		cur_path_size += 1024;
-	      if (cur_path)
-		free (cur_path);
+	      free (cur_path);
 	      cur_path = xmalloc (cur_path_size);
 	      strcpy (cur_path, pathname);
 	      cur_path[pathname_len - 2] = '/';
@@ -1535,8 +1534,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	    }
 	}
 
-      if (cur_path)
-	free (cur_path);
+      free (cur_path);
       free_dirinfo (dirinfo);
     }
 

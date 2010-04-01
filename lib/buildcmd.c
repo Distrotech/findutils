@@ -327,8 +327,7 @@ bc_do_exec (struct buildcmd_control *ctl,
     /* (state->cmd_argc - ctl->initial_argc) includes the terminating NULL,
      * which is why we add 1 to done in the test above. */
 
-    if (working_args)
-      free (working_args);
+    free (working_args);
     bc_clear_args (ctl, state);
 }
 

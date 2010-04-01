@@ -46,8 +46,7 @@ next_element (const char *new_path, int curdir_ok)
 
   if (new_path)
     {
-      if (path)
-	free (path);
+      free (path);
       end = path = strdup (new_path);
       final_colon = 0;
       return NULL;
