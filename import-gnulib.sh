@@ -150,7 +150,7 @@ rehack() {
     # Use cp to get the permissions right first
     cp -fp "$1" "$1".new
     sed -e  \
-'s/Free Software Foundation\([;,]\) either version [2]/Free Software Foundation\1 either version 3/' < "$1" > "$1".new
+'s/Free Software Foundation\([;,]\) either ''version [2]/Free Software Foundation\1 either version 3/' < "$1" > "$1".new
     if cmp "$1" "$1".new >/dev/null
     then
 	echo "no change needed."
