@@ -207,7 +207,7 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
 	  if (00000 == p->st_mode)
 	    {
 	      /* Savannah bug #16378. */
-	      error (0, 0, _("Warning: file %s appears to have mode 0000"),
+	      error (0, 0, _("WARNING: file %s appears to have mode 0000"),
 		     quotearg_n_style (0, options.err_quoting_style, name));
 	    }
 	}
@@ -496,7 +496,7 @@ static int hook_fstatat (int fd, const char *name, struct stat *p, int flags)
     {
       /* No use of _() here; no point asking translators to translate a debug msg */
       error (0, 0,
-	     "Warning: some debug code is enabled for Savannah bug #16378; "
+	     "WARNING: some debug code is enabled for Savannah bug #16378; "
 	     "this should not occur in released versions of findutils!");
       warned = 1;
     }

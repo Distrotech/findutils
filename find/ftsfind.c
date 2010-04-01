@@ -476,7 +476,7 @@ consider_visiting (FTS *p, FTSENT *ent)
       if (00000 == mode)
 	{
 	  /* Savannah bug #16378. */
-	  error (0, 0, _("Warning: file %s appears to have mode 0000"),
+	  error (0, 0, _("WARNING: file %s appears to have mode 0000"),
 		 quotearg_n_style (0, options.err_quoting_style, ent->fts_path));
 	}
     }

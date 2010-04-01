@@ -395,7 +395,7 @@ dirchange_is_fatal (const char *specific_what,
       if (!silent)
 	{
 	  error (0, 0,
-		 _("Warning: file system %s has recently been unmounted."),
+		 _("WARNING: file system %s has recently been unmounted."),
 		 safely_quote_err_filename (0, specific_what));
 	}
       break;
@@ -405,7 +405,7 @@ dirchange_is_fatal (const char *specific_what,
       if (!silent)
 	{
 	  error (0, 0,
-		 _("Warning: file system %s has recently been mounted."),
+		 _("WARNING: file system %s has recently been mounted."),
 		 safely_quote_err_filename (0, specific_what));
 	}
       break;

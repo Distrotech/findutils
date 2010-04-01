@@ -544,7 +544,7 @@ main (int argc, char **argv)
 	    if (arg_size > bc_ctl.posix_arg_size_max)
 	      {
 		error (0, 0,
-		       _("Warning: value %ld for -s option is too large, "
+		       _("warning: value %ld for -s option is too large, "
 			 "using %ld instead"),
 		       arg_size, bc_ctl.posix_arg_size_max);
 		arg_size = bc_ctl.posix_arg_size_max;
@@ -899,7 +899,7 @@ read_line (void)
 	{
 	  /* This is just a warning message.  We only issue it once. */
 	  error (0, 0,
-		 _("Warning: a NUL character occurred in the input.  "
+		 _("WARNING: a NUL character occurred in the input.  "
 		   "It cannot be passed through in the argument list.  "
 		   "Did you mean to use the --null option?"));
 	  nullwarning_given = 1;
@@ -1308,7 +1308,7 @@ wait_for_proc (boolean all, unsigned int minreap)
 	       * number of child processes still executing, so the
 	       * loop should have terminated.
 	       */
-	      error (0, 0, _("Warning: Lost track of %d child processes"),
+	      error (0, 0, _("WARNING: Lost track of %d child processes"),
 		     procs_executing);
 	    }
 	  else

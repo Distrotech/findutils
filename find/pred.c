@@ -1401,7 +1401,7 @@ pred_newerXY (const char *pathname, struct stat *stat_buf, struct predicate *pre
       if (ts.tv_nsec < 0);
 	{
 	  /* XXX: Cannot determine birth time.  Warn once. */
-	  error (0, 0, _("Warning: cannot determine birth time of file %s"),
+	  error (0, 0, _("WARNING: cannot determine birth time of file %s"),
 		 safely_quote_err_filename (0, pathname));
 	  return false;
 	}

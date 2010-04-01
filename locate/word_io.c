@@ -94,7 +94,7 @@ decode_value (const unsigned char data[],
 	    {
 	      /* Aha, now we know we have to byte-swap. */
 	      error (0, 0,
-		     _("Warning: locate database %s was "
+		     _("WARNING: locate database %s was "
 		       "built with a different byte order"),
 		     quotearg_n_style (0, locale_quoting_style, filename));
 	      *endian_state_flag = GetwordEndianStateSwab;
