@@ -2,11 +2,15 @@
 
 	* import-gnulib.config (modules): Add maintainer-makefile.
 
-2010-04-02  James Youngman  <jay@gnu.org>
-
 	* NEWS: Update copyright years.
 
 2010-04-01  James Youngman  <jay@gnu.org>
+
+	Assume C89 (or C99) C headers.  Assume working <ctype.h>.
+	* xargs/xargs.c: Unconditionally include <ctype.h>.  Assume
+	isblank(c) is defined.  Assume memcpy() has a prototype in
+	<string.h>.
+	* import-gnulib.config (modules): Import gnulib's ctype module.
 
 	Optimise -fstype NOTUSED to -false at -O2.
 	* find/parser.c: Include mountlist.h.

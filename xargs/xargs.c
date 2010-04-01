@@ -34,23 +34,6 @@
 # endif
 
 #include <ctype.h>
-
-#if !defined(isascii) || defined(STDC_HEADERS)
-#ifdef isascii
-#undef isascii
-#endif
-#define isascii(c) 1
-#endif
-
-#ifdef isblank
-#define ISBLANK(c) (isascii (c) && isblank (c))
-#else
-#define ISBLANK(c) ((c) == ' ' || (c) == '\t')
-#endif
-
-#define ISSPACE(c) (ISBLANK (c) || (c) == '\n' || (c) == '\r' \
-		    || (c) == '\f' || (c) == '\v')
-
 #include <stdio.h>
 #include <errno.h>
 #include <limits.h>
@@ -60,26 +43,17 @@
 #include <sys/types.h>
 #include <getopt.h>
 #include <fcntl.h>
-
-#if defined STDC_HEADERS
 #include <assert.h>
-#endif
-
-#if defined HAVE_STRING_H || defined STDC_HEADERS
 #include <string.h>
-#if !defined STDC_HEADERS
-#include <memory.h>
-#endif
-#else
-#include <strings.h>
-#define memcpy (dest, source, count) (bcopy ((source), (dest), (count)))
-#endif
-
 #include <sys/param.h>
 
 #ifndef LONG_MAX
 #define LONG_MAX (~(1 << (sizeof (long) * 8 - 1)))
 #endif
+
+#define ISBLANK(c) (isascii (c) && isblank (c))
+#define ISSPACE(c) (ISBLANK (c) || (c) == '\n' || (c) == '\r' \
+		    || (c) == '\f' || (c) == '\v')
 
 /* The presence of unistd.h is assumed by gnulib these days, so we
  * might as well assume it too.
