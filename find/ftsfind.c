@@ -44,6 +44,7 @@
 
 #include <unistd.h>
 
+#include "progname.h"
 #include "closeout.h"
 #include "quotearg.h"
 #include "quote.h"
@@ -678,7 +679,11 @@ main (int argc, char **argv)
   int end_of_leading_options = 0; /* First arg after any -H/-L etc. */
   struct predicate *eval_tree;
 
-  program_name = argv[0];
+  if (argv[0])
+    set_program_name (argv[0]);
+  else
+    set_program_name ("find");
+
   state.exit_status = 0;
   state.execdirs_outstanding = false;
   state.cwd_dir_fd = AT_FDCWD;

@@ -118,6 +118,7 @@
 #endif
 
 #include "locatedb.h"
+#include "progname.h"
 #include "xalloc.h"
 #include "error.h"
 #include "human.h"
@@ -1400,12 +1401,7 @@ search_one_database (int argc,
 }
 
 
-
-
 extern char *version_string;
-
-/* The name this program was run with. */
-char *program_name;
 
 static void
 usage (FILE *stream)
@@ -1583,7 +1579,10 @@ dolocate (int argc, char **argv, int secure_db_fd)
   int they_chose_db = 0;
   bool did_stdin = false;	/* Set to prevent rereading stdin. */
 
-  program_name = argv[0];
+  if (argv[0])
+    set_program_name (argv[0]);
+  else
+    set_program_name ("locate");
 
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");

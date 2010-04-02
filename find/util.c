@@ -31,6 +31,7 @@
 #include <errno.h>
 #include <assert.h>
 
+#include "progname.h"
 #include "quotearg.h"
 #include "timespec.h"
 #include "error.h"

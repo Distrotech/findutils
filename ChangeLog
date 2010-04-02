@@ -1,5 +1,27 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Use set_program_name() to remember the programs' names.
+	* cfg.mk *skip(defer): Enable sc_program_name.  Remove the
+	now-unused variable skip_defer.
+	* find/ftsfind.c: Include "program_name.h".
+	(main): Call set_program_name.
+	* find/find.c: Include "program_name.h".
+	(main): Call set_program_name.
+	* locate/locate.c: Include "program_name.h".
+	(dolocate): Call set_program_name.
+	Remove global variable program_name.
+	* locate/bigram.c: Include "program_name.h".
+	Remove global variable "program_name".
+	(main): Call set_program_name.
+	* locate/frcode.c: Include "program_name.h".
+	(main): Call set_program_name.
+	* xargs/xargs.c (main): Call set_program_name.
+	Include "program_name.h".
+	Remove global variable program_name.
+	* find/finddata.c: Remove global variable program_name.
+	* find/defs.h: No longer need declaration of program_name.
+	* find/util.c: Include "program_name.h".
+
 	Use named constants for xargs exit codes.
 	* xargs/xargs.c (child_error): Use EXIT_SUCCESS instead of 0.
 	(enum XargsStatusValues): introduce named constants for the

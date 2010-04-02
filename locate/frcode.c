@@ -225,9 +225,11 @@ main (int argc, char **argv)
   int slocate_compat = 0;
   long slocate_seclevel = 0L;
 
-  program_name = argv[0];
-  if (!program_name)
-    program_name = "frcode";
+  if (argv[0])
+    set_program_name (argv[0]);
+  else
+    set_program_name ("frcode");
+
   atexit (close_stdout);
 
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */

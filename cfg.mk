@@ -22,9 +22,6 @@ skip_too_picky = sc_error_message_period sc_error_message_uppercase \
 skip_dunno = sc_immutable_NEWS sc_makefile_at_at_check \
 	sc_prohibit_quote_without_use sc_prohibit_quotearg_without_use
 
-# Understand, but fix later.
-skip_defer = sc_program_name
-
 # False positives I don't have a workaround for yet.
 # sc_space_tab: several .xo test output files contain this sequence
 #               for testing xargs's handling of white space.
@@ -51,5 +48,5 @@ skip_blocked_notours = \
 skip_broken_checks = sc_prohibit_strcmp sc_prohibit_stat_st_blocks
 
 local-checks-to-skip = \
-	$(skip_too_picky) $(skip_dunno) $(false_positives) $(skip_defer) \
+	$(skip_too_picky) $(skip_dunno) $(false_positives) \
 	$(mix_positives) $(skip_blocked_patch) $(skip_blocked_notours) $(skip_broken_checks)

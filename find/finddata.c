@@ -21,9 +21,6 @@
 #include "defs.h"
 
 
-/* Name this program was run with. */
-char *program_name;
-
 struct options options;
 struct state state;
 

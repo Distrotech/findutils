@@ -70,6 +70,8 @@
 #endif
 
 #include "verify.h"
+
+#include "progname.h"
 #include "quotearg.h"
 #include "findutils-version.h"
 
@@ -113,9 +115,6 @@ typedef int boolean;
 void error PARAMS ((int status, int errnum, char *message,...));
 
 extern char *version_string;
-
-/* The name this program was run with.  */
-char *program_name;
 
 static FILE *input_stream;
 
@@ -385,7 +384,11 @@ main (int argc, char **argv)
   enum BC_INIT_STATUS bcstatus;
   enum { XARGS_POSIX_HEADROOM = 2048u };
 
-  program_name = argv[0];
+  if (argv[0])
+    set_program_name (argv[0]);
+  else
+    set_program_name ("xargs");
+
   parent = getpid ();
   original_exit_value = EXIT_SUCCESS;
 

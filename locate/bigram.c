@@ -38,10 +38,8 @@
 #include <sys/types.h>
 
 #include <xalloc.h>
+#include "progname.h"
 #include "closeout.h"
-
-/* The name this program was run with.  */
-char *program_name;
 
 /* Return the length of the longest common prefix of strings S1 and S2. */
 
@@ -63,7 +61,11 @@ main (int argc, char **argv)
   size_t pathsize, oldpathsize;	/* Amounts allocated for them.  */
   int line_len;			/* Length of input line.  */
 
-  program_name = argv[0];
+  if (argv[0])
+    set_program_name (argv[0]);
+  else
+    set_program_name ("bigram");
+
   (void) argc;
   atexit (close_stdout);
 

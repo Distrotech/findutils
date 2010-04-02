@@ -672,7 +672,5 @@ struct state
 extern struct state state;
 extern char const *starting_dir;
 extern int starting_desc;
-extern char *program_name;
-
 
 #endif

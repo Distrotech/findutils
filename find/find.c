@@ -51,6 +51,7 @@
 #include "xgetcwd.h"
 #include "error.h"
 #include "fdleak.h"
+#include "progname.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -81,9 +82,6 @@ static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, const struct stat *statp, char *parent));
 
 
-
-/* Name this program was run with. */
-extern char *program_name;
 
 /* A file descriptor open to the initial working directory.
    Doing it this way allows us to work when the i.w.d. has
@@ -127,7 +125,11 @@ main (int argc, char **argv)
   int end_of_leading_options = 0; /* First arg after any -H/-L etc. */
   struct predicate *eval_tree;
 
-  program_name = argv[0];
+  if (argv[0])
+    set_program_name (argv[0]);
+  else
+    set_program_name ("find");
+
   state.exit_status = 0;
 
   if (fd_leak_check_is_enabled ())
