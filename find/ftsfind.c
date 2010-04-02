@@ -47,7 +47,6 @@
 #include "progname.h"
 #include "closeout.h"
 #include "quotearg.h"
-#include "quote.h"
 #include "fts_.h"
 #include "save-cwd.h"
 #include "xgetcwd.h"

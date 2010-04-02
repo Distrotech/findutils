@@ -31,7 +31,6 @@
 #include "modechange.h"
 #include "xstrtol.h"
 #include "xalloc.h"
-#include "quote.h"
 #include "quotearg.h"
 #include "buildcmd.h"
 #include "nextelem.h"

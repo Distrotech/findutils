@@ -19,8 +19,7 @@ skip_too_picky = sc_error_message_period sc_error_message_uppercase \
 	sc_file_system
 
 # Errors I have not investigated; diagnose and fix later.
-skip_dunno = sc_immutable_NEWS sc_makefile_at_at_check \
-	sc_prohibit_quote_without_use sc_prohibit_quotearg_without_use
+skip_dunno = sc_immutable_NEWS sc_makefile_at_at_check
 
 # False positives I don't have a workaround for yet.
 # sc_space_tab: several .xo test output files contain this sequence

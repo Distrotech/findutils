@@ -1,5 +1,15 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Don't include quote.h/quotearg.h where it is not used.
+	* find/find.c: Don't include "quote.h", it's not used.
+	* find/ftsfind.c: Likewise.
+	* find/parser.c: Likewise.
+	* locate/locate.c: Likewise.
+	* locate/word_io.c: Likewise.
+	* cfg.mk (skip_dunno): Enable check sc_prohibit_quote_without_use.
+	* find/find.c: Don't include "quotearg.h", it's not used.
+	* lib/fdleak.c: Likewise.
+
 	Use set_program_name() to remember the programs' names.
 	* cfg.mk *skip(defer): Enable sc_program_name.  Remove the
 	now-unused variable skip_defer.

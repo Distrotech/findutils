@@ -126,7 +126,6 @@
 #include "closeout.h"
 #include "nextelem.h"
 #include "regex.h"
-#include "quote.h"
 #include "quotearg.h"
 #include "printquoted.h"
 #include "regextype.h"
