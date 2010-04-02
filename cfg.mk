@@ -24,8 +24,7 @@ skip_dunno = sc_immutable_NEWS sc_makefile_at_at_check \
 
 # Understand, but fix later.
 skip_defer = sc_program_name \
-	sc_prohibit_magic_number_exit sc_prohibit_stat_st_blocks \
-	sc_prohibit_strcmp
+	sc_prohibit_magic_number_exit sc_prohibit_stat_st_blocks
 
 # False positives I don't have a workaround for yet.
 # sc_space_tab: several .xo test output files contain this sequence
@@ -47,6 +46,10 @@ skip_blocked_patch = sc_useless_cpp_parens
 skip_blocked_notours = \
 	sc_texinfo_acronym
 
+# sc_prohibit_strcmp is broken because it gives false positives for cases
+# where neither argument is a string literal.
+skip_broken_checks = sc_prohibit_strcmp
+
 local-checks-to-skip = \
 	$(skip_too_picky) $(skip_dunno) $(false_positives) $(skip_defer) \
-	$(mix_positives) $(skip_blocked_patch) $(skip_blocked_notours)
+	$(mix_positives) $(skip_blocked_patch) $(skip_blocked_notours) $(skip_broken_checks)
