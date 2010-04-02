@@ -83,16 +83,3 @@ next_element (const char *new_path, int curdir_ok)
 
   return start;
 }
-
-#ifdef TEST
-int
-main ()
-{
-  char *p;
-
-  next_element (getenv ("PATH"));
-  while (p = next_element (NULL))
-    puts (p);
-  exit (0);
-}
-#endif /* TEST */

@@ -23,7 +23,7 @@ skip_dunno = sc_immutable_NEWS sc_makefile_at_at_check \
 	sc_prohibit_quote_without_use sc_prohibit_quotearg_without_use
 
 # Understand, but fix later.
-skip_defer = sc_program_name sc_prohibit_magic_number_exit
+skip_defer = sc_program_name
 
 # False positives I don't have a workaround for yet.
 # sc_space_tab: several .xo test output files contain this sequence

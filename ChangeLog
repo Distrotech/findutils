@@ -1,5 +1,92 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Use named constants for xargs exit codes.
+	* xargs/xargs.c (child_error): Use EXIT_SUCCESS instead of 0.
+	(enum XargsStatusValues): introduce named constants for the
+	various things that cause speicific exit codes.
+	(enum  ClientStatusValues): Also introduce named constants for the
+	child's exit status.
+	(get_char_oct_or_hex_escape): Use EXIT_FAILURE instead of 1.
+	(get_input_delimiter): Likewise.
+	(main): Likewise.
+	(read_line): Likewise.
+	(read_string): Likewise.
+	(print_args): Likewise.
+	(xargs_do_exec): Likewise.
+	(wait_for_proc): Likewise.
+	(wait_for_proc): Use enum XargsStatusValues for exit codes.
+	(parse_num): Use EXIT_FAILURE instead of 1.
+
+	Avoid using magic numbers as exit statuses.
+	* cfg.mk (skip_defer): Enable sc_prohibit_magic_number_exit.
+	* doc/find-maint.texi (Security): Avoid error (1, ...) in the
+	example patch.
+	* find/find.c (main): Use exit status EXIT_FAILURE instead of 1.
+	(wd_sanity_check): Likewise.
+	(safely_chdir_lstat): Likewise.
+	(process_dir): Likewise.
+	* find/fstype.c (must_read_fs_list): Likewise.
+	* find/ftsfind.c (main): Likewise.
+	(main): Likewise.
+	* find/parser.c (check_option_combinations): Use exit status
+	EXIT_FAILURE instead of 1.
+	(parse_group): Likewise.
+	(parse_help): Use exit status EXIT_SUCCESS instead of 0.
+	(parse_version): Likewise.
+	(fnmatch_sanitycheck): Use exit status EXIT_FAILURE instead of 1.
+	(insert_depthspec): Likewise.
+	(parse_newerXY): Likewise.
+	(non_posix_mode): Likewise.
+	(parse_perm): Likewise.
+	(insert_regex): Likewise.
+	(parse_size): Likewise.
+	(parse_show_control_chars): Likewise.
+	(parse_used): Likewise.
+	(parse_user): Likewise.
+	(parse_context): Likewise.
+	(insert_type): Likewise.
+	(insert_fprintf): Likewise.
+	(make_segment): Likewise.
+	(check_path_safety): Likewise.
+	(new_insert_exec_ok): Likewise.
+	(get_relative_timestamp): Likewise.
+	(parse_time): Likewise.
+	* find/tree.c (get_expr): Use exit status EXIT_FAILURE instead of 1.
+	(scan_rest): Likewise.
+	(get_pred_cost): Likewise.
+	(get_pred_cost): Likewise.
+	(build_expression_tree): Likewise.
+	(get_new_pred_chk_op): Likewise.
+	* find/pred.c (launch): Use exit status EXIT_FAILURE instead of 1.
+	* find/util.c (process_debug_options): Use exit status
+	EXIT_SUCCESS instead of 0.
+	(process_optimisation_option): Use exit status EXIT_FAILURE
+	instead of 1.
+	(set_option_defaults): Likewise.
+	* lib/buildcmd.c (exceeds): Likewise.
+	(bc_do_exec): Likewise.
+	(bc_push_arg): Likewise.
+	* lib/nextelem.c: Remove test code.
+	* lib/safe-atoi.c (safe_atoi): Use exit status EXIT_FAILURE
+	instead of 1.
+	* lib/regextype.c (get_regex_type): Use exit status EXIT_FAILURE
+	instead of 1.  Include <stdlib.h>, for EXIT_FAILURE.
+	* locate/locate.c (set_max_db_age): Use exit status EXIT_FAILURE
+	instead of 1.
+	(set_max_db_age): Likewise.
+	(toolong): Likewise.
+	(visit_locate02_format): Likewise.
+	(search_one_database): Likewise.
+	(drop_privs): Likewise.
+	* locate/frcode.c (get_seclevel): Use exit status EXIT_FAILURE
+	instead of 1.
+	(outerr): Likewise.
+	(main): Likewise.
+	* locate/code.c (inerr): Use exit status EXIT_FAILURE instead of
+	1.
+	(outerr): Likewise.
+	* locate/word_io.c (getword): Use exit status EXIT_FAILURE instead of 1.
+
 	Avoid sc_prohibit_stat_st_blocks check, since it is broken.
 	* cfg.mk (skip_broken_checks): Skip sc_prohibit_stat_st_blocks.
 

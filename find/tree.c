@@ -196,6 +196,7 @@ get_expr (struct predicate **input,
 	  || ((*input)->p_type != CLOSE_PAREN))
 	error (EXIT_FAILURE, 0,
 	       _("invalid expression; I was expecting to find a ')' somewhere but did not see one."));
+
       *input = (*input)->pred_next;	/* move over close */
       break;
 

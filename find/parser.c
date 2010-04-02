@@ -1258,7 +1258,7 @@ actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n\
   puts (_("Report (and track progress on fixing) bugs via the findutils bug-reporting\n\
 page at http://savannah.gnu.org/ or, if you have no web access, by sending\n\
 email to <bug-findutils@gnu.org>."));
-  exit (0);
+  exit (EXIT_SUCCESS);
 }
 
 static float
@@ -2759,7 +2759,7 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
   printf ("\n");
 
-  exit (0);
+  exit (EXIT_SUCCESS);
 }
 
 static boolean
@@ -3259,7 +3259,7 @@ check_path_safety (const char *action, char **argv)
 		   "Please remove the current directory from your "
 		   "$PATH (that is, remove \".\" or leading or trailing "
 		   "colons)"),
-		action);
+		 action);
 	}
       else if ('/' != s[0])
 	{

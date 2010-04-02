@@ -53,12 +53,12 @@ safe_atoi (const char *s, enum quoting_style style)
       if (errno == ERANGE)
 	{
 	  /* too big, or too small. */
-	  error (1, errno, "%s", s);
+	  error (EXIT_FAILURE, errno, "%s", s);
 	}
       else
 	{
 	  /* not a valid number */
-	  error (1, errno, "%s", s);
+	  error (EXIT_FAILURE, errno, "%s", s);
 	}
       /* Otherwise, we do a range chack against INT_MAX and INT_MIN
        * below.
@@ -69,17 +69,17 @@ safe_atoi (const char *s, enum quoting_style style)
     {
       /* The number was in range for long, but not int. */
       errno = ERANGE;
-      error (1, errno, "%s", s);
+      error (EXIT_FAILURE, errno, "%s", s);
     }
   else if (*end)
     {
-      error (1, errno, _("Unexpected suffix %s on %s"),
+      error (EXIT_FAILURE, errno, _("Unexpected suffix %s on %s"),
 	     quotearg_n_style (0, style, end),
 	     quotearg_n_style (1, style, s));
     }
   else if (end == s)
     {
-      error (1, errno, _("Expected an integer: %s"),
+      error (EXIT_FAILURE, errno, _("Expected an integer: %s"),
 	     quotearg_n_style (0, style, s));
     }
   return (int)lval;

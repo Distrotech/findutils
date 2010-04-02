@@ -817,7 +817,7 @@ process_debug_options (char *arg)
   else if (options.debug_options & DebugHelp)
     {
       show_valid_debug_options (stdout, 1);
-      exit (0);
+      exit (EXIT_SUCCESS);
     }
 }
 

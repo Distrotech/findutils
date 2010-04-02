@@ -385,6 +385,7 @@ bc_push_arg (struct buildcmd_control *ctl,
           if (initial_args || state->cmd_argc == ctl->initial_argc)
             error (EXIT_FAILURE, 0,
 		   _("can not fit single argument within argument list size limit"));
+
           /* xargs option -i (replace_pat) implies -x (exit_if_size_exceeded) */
           if (ctl->replace_pat
               || (ctl->exit_if_size_exceeded &&

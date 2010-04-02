@@ -168,7 +168,7 @@ static pid_t parent;
 
 /* Exit status; nonzero if any child process exited with a
    status of 1-125.  */
-static volatile int child_error = 0;
+static volatile int child_error = EXIT_SUCCESS;
 
 static volatile int original_exit_value;
 
@@ -205,6 +205,23 @@ static struct option const longopts[] =
   {"help", no_argument, NULL, 'h'},
   {NULL, no_argument, NULL, 0}
 };
+
+/* xargs exits with status values with specific meanings (this is a POSIX requirement).
+   These are the values.
+*/
+enum XargsStatusValues {
+  XARGS_EXIT_CLIENT_EXIT_NONZERO = 123, /* utility exited with nonzero status */
+  XARGS_EXIT_CLIENT_EXIT_255 = 124,     /* utility exites with status 255 */
+  XARGS_EXIT_CLIENT_FATAL_SIG = 125,    /* utility died from a fatal signal */
+  XARGS_EXIT_COMMAND_CANNOT_BE_RUN = 126, /* canot run the command */
+  XARGS_EXIT_COMMAND_NOT_FOUND = 127,	  /* cannot find the command */
+};
+/* Exit status values the child might use. */
+enum  ClientStatusValues {
+  CHILD_EXIT_PLEASE_STOP_IMMEDIATELY = 255
+};
+
+
 
 static int read_line PARAMS ((void));
 static int read_string PARAMS ((void));
@@ -370,7 +387,7 @@ main (int argc, char **argv)
 
   program_name = argv[0];
   parent = getpid ();
-  original_exit_value = 0;
+  original_exit_value = EXIT_SUCCESS;
 
 #ifdef HAVE_SETLOCALE
   setlocale (LC_ALL, "");
@@ -1093,7 +1110,7 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	case 0:		/* Child.  */
 	  {
 	    close (fd[0]);
-	    child_error = 0;
+	    child_error = EXIT_SUCCESS;
 
 	    prep_child_for_exec ();
 
@@ -1126,7 +1143,7 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	    /* The actual value returned here should be irrelevant,
 	     * because the parent will test our value of errno.
 	     */
-	    _exit (errno == ENOENT ? 127 : 126);
+	    _exit (errno == ENOENT ? XARGS_EXIT_COMMAND_NOT_FOUND : XARGS_EXIT_COMMAND_CANNOT_BE_RUN);
 
 	  /*NOTREACHED*/
 	  } /* child */
@@ -1176,11 +1193,11 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	      }
 	    else if (ENOENT == buf)
 	      {
-		exit (127);	/* command cannot be found */
+		exit (XARGS_EXIT_COMMAND_NOT_FOUND); /* command cannot be found */
 	      }
 	    else
 	      {
-		exit (126);	/* command cannot be run */
+		exit (XARGS_EXIT_COMMAND_CANNOT_BE_RUN); /* command cannot be run */
 	      }
 	    break;
 	  }
@@ -1328,14 +1345,17 @@ wait_for_proc (boolean all, unsigned int minreap)
       procs_executing--;
       reaped++;
 
-      if (WEXITSTATUS (status) == 255)
-	error (124, 0, _("%s: exited with status 255; aborting"), bc_state.cmd_argv[0]);
+      if (WEXITSTATUS (status) == CHILD_EXIT_PLEASE_STOP_IMMEDIATELY)
+	error (XARGS_EXIT_CLIENT_EXIT_255, 0,
+	       _("%s: exited with status 255; aborting"), bc_state.cmd_argv[0]);
       if (WIFSTOPPED (status))
-	error (125, 0, _("%s: stopped by signal %d"), bc_state.cmd_argv[0], WSTOPSIG (status));
+	error (XARGS_EXIT_CLIENT_FATAL_SIG, 0,
+	       _("%s: stopped by signal %d"), bc_state.cmd_argv[0], WSTOPSIG (status));
       if (WIFSIGNALED (status))
-	error (125, 0, _("%s: terminated by signal %d"), bc_state.cmd_argv[0], WTERMSIG (status));
+	error (XARGS_EXIT_CLIENT_FATAL_SIG, 0,
+	       _("%s: terminated by signal %d"), bc_state.cmd_argv[0], WTERMSIG (status));
       if (WEXITSTATUS (status) != 0)
-	child_error = 123;
+	child_error = XARGS_EXIT_CLIENT_EXIT_NONZERO;
     }
 }
 
@@ -1394,7 +1414,7 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
       fprintf (stderr, _("%s: invalid number for -%c option\n"),
 	       program_name, option);
       usage (stderr);
-      exit (1);
+      exit (EXIT_FAILURE);
     }
   else if (val < min)
     {
@@ -1403,7 +1423,7 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
       if (fatal)
 	{
 	  usage (stderr);
-	  exit (1);
+	  exit (EXIT_FAILURE);
 	}
       else
 	{
@@ -1417,7 +1437,7 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
       if (fatal)
 	{
 	  usage (stderr);
-	  exit (1);
+	  exit (EXIT_FAILURE);
 	}
       else
 	{
