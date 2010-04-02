@@ -44,7 +44,6 @@
 
 #include <unistd.h>
 
-#include "xalloc.h"
 #include "closeout.h"
 #include "quotearg.h"
 #include "quote.h"

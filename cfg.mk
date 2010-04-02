@@ -25,8 +25,7 @@ skip_dunno = sc_immutable_NEWS sc_makefile_at_at_check \
 # Understand, but fix later.
 skip_defer = sc_program_name sc_prohibit_atoi_atof \
 	sc_prohibit_magic_number_exit sc_prohibit_stat_st_blocks \
-	sc_prohibit_strcmp sc_prohibit_test_minus_ao \
-	sc_prohibit_xalloc_without_use
+	sc_prohibit_strcmp sc_prohibit_test_minus_ao
 
 # False positives I don't have a workaround for yet.
 # sc_space_tab: several .xo test output files contain this sequence
