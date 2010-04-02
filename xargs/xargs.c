@@ -1145,7 +1145,9 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	case -1:
 	  {
 	    close (fd[0]);
-	    error (0, errno, "errno-buffer read failed in xargs_do_exec (BUG?)");
+	    error (0, errno,
+		   _("errno-buffer read failed in xargs_do_exec "
+		     "(this is probably a bug, please report it)"));
 	    break;
 	  }
 
@@ -1197,7 +1199,8 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	default:
 	  {
 	    error (EXIT_FAILURE, errno,
-		   "read returned unexpected value %d! BUG?", r);
+		   _("read returned unexpected value %d; "
+		     "this is probably a bug, please report it"), r);
 	  }
 	} /* switch on bytes read */
       close (fd[0]);

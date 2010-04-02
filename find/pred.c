@@ -1081,7 +1081,7 @@ do_fprintf (struct format_val *dest,
 		   to an empty string. */
 		checked_fprintf (dest, segment->text, "");
 
-		error (0, errno, "getfilecon: %s",
+		error (0, errno, _("getfilecon failed: %s"),
 		    safely_quote_err_filename (0, pathname));
 		state.exit_status = 1;
 	      }
@@ -1915,7 +1915,8 @@ pred_context (const char *pathname, struct stat *stat_buf,
 				    &scontext);
   if (rv < 0)
     {
-      error (0, errno, "getfilecon: %s", safely_quote_err_filename (0, pathname));
+      error (0, errno, _("getfilecon failed: %s"),
+	     safely_quote_err_filename (0, pathname));
       return false;
     }
 

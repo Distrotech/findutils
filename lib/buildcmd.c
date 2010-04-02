@@ -672,7 +672,8 @@ exceeds (const char *env_var_name, size_t quantity)
       else
 	{
 	  error (EXIT_FAILURE, errno,
-		 "Environment variable %s is not set to a valid decimal number",
+		 _("Environment variable %s is not set to a "
+		   "valid decimal number"),
 		 env_var_name);
 	  return 0;
 	}

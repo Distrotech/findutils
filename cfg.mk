@@ -27,7 +27,7 @@ skip_defer = sc_program_name sc_prohibit_atoi_atof \
 	sc_prohibit_magic_number_exit sc_prohibit_stat_st_blocks \
 	sc_prohibit_strcmp sc_prohibit_test_minus_ao \
 	sc_prohibit_xalloc_without_use sc_space_tab \
-	sc_texinfo_acronym sc_unmarked_diagnostics
+	sc_texinfo_acronym
 
 # False positives I don't have a workaround for yet.
 false_positives = sc_obsolete_symbols sc_prohibit_cvs_keyword sc_the_the \

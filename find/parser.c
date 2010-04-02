@@ -1192,7 +1192,7 @@ safe_atoi (const char *s)
     }
   else if (end == s)
     {
-      error (EXIT_FAILURE, errno, "Expected an integer: %s",
+      error (EXIT_FAILURE, errno, _("Expected an integer: %s"),
 	     quotearg_n_style (0, options.err_quoting_style, s));
     }
   return (int)lval;
