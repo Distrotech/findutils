@@ -1,5 +1,10 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Check for accidental modifications to the wrong section of the
+	NEWS file.
+	* cfg.mk (local-checks-to-skip): Remove sc_immutable_news.
+	(old_NEWS_hash): add existing hash (from "make update-NEWS-hash").
+
 	* cfg.mk: Append the names of checks to skip to
 	local-checks-to-skip rather than inventing 7 new variables.
 

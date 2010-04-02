@@ -21,7 +21,7 @@ local-checks-to-skip += sc_error_message_period sc_error_message_uppercase \
 	sc_file_system
 
 # Errors I have not investigated; diagnose and fix later.
-local-checks-to-skip += sc_immutable_NEWS sc_makefile_at_at_check
+local-checks-to-skip += sc_makefile_at_at_check
 
 # False positives I don't have a workaround for yet.
 # sc_space_tab: several .xo test output files contain this sequence
@@ -47,3 +47,9 @@ local-checks-to-skip += \
 # where neither argument is a string literal.
 # sc_prohibit_stat_st_blocks produces a false positive on definition of ST_NBLOCKS.
 local-checks-to-skip += sc_prohibit_strcmp sc_prohibit_stat_st_blocks
+
+
+# NEWS hash.  We use this to detect unintended edits to bits of the NEWS file
+# other than the most recent section.   If you do need to retrospectively update
+# a historic section, run "make update-NEWS-hash", which will then edit this file.
+old_NEWS_hash := d41d8cd98f00b204e9800998ecf8427e
