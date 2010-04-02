@@ -31,11 +31,11 @@
 #include <errno.h>
 #include <assert.h>
 
-#include "xalloc.h"
 #include "quotearg.h"
 #include "timespec.h"
 #include "error.h"
 #include "verify.h"
+#include "fdleak.h"
 
 
 #if ENABLE_NLS
@@ -451,7 +451,11 @@ undangle_file_pointers (struct predicate *p)
 int
 fd_leak_check_is_enabled (void)
 {
-  return getenv ("GNU_FINDUTILS_FD_LEAK_CHECK");
+  if (getenv ("GNU_FINDUTILS_FD_LEAK_CHECK"))
+    return 1;
+  else
+    return 0;
+
 }
 
 /* Complete any outstanding commands.

@@ -1,5 +1,21 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Eliminate some unused function result warnings.
+	* lib/unused-result.h: New file, defines function attribute macro
+	__attribute_warn_unused_result__.
+	* lib/Makefile.am (EXTRA_DIST): Add unused-result.h.
+	* find/ftsfind.c (find): Issue a diagnostic if fts_close fails,
+	change return type to bool and return false for this case.  Add
+	__warn_unused_result__ attribute.
+	(process_all_startpoints): Likewise (except no need for second
+	diagnostic).
+	(main): If process_all_startpoints failed, don't do the cleanup
+	operations because we don't know what subdirectory we're in.
+
+	* find/util.c (fd_leak_check_is_enabled): Avoid implicit
+	pointer-to-int conversion.
+	* lib/buildcmd.c: #include <stdlib.h> for declaration of free.
+
 	Avoid false positives for the sc_prohibit_test_minus_ao syntax check.
 	* doc/find.texi (Updating A Timestamp File): Work around a syntax
 	check designed to prevent the use of "test X -a Y".

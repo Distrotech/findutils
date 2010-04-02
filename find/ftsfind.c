@@ -55,6 +55,7 @@
 #include "dircallback.h"
 #include "cloexec.h"
 #include "fdleak.h"
+#include "unused-result.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -83,6 +84,11 @@ static int ftsoptions = FTS_NOSTAT|FTS_TIGHT_CYCLE_CHECK|FTS_CWDFD;
 
 static int prev_depth = INT_MIN; /* fts_level can be < 0 */
 static int curr_fd = -1;
+
+
+static bool find (char *arg) __attribute_warn_unused_result__;
+static bool process_all_startpoints (int argc, char *argv[]) __attribute_warn_unused_result__;
+
 
 int
 get_current_dirfd (void)
@@ -574,7 +580,7 @@ consider_visiting (FTS *p, FTSENT *ent)
 
 
 
-static void
+static bool
 find (char *arg)
 {
   char * arglist[2];
@@ -620,13 +626,24 @@ find (char *arg)
 	  state.type = state.have_type ? ent->fts_statp->st_mode : 0;
 	  consider_visiting (p, ent);
 	}
-      fts_close (p);
+      if (0 != fts_close (p))
+	{
+	  /* Here we break the abstraction of fts_close a bit, because we
+	   * are going to skip the rest of the start points, and return with
+	   * nonzero exit status.  Hence we need to issue a diagnostic on
+	   * stderr. */
+	  error (0, errno,
+		 _("failed to restore working directory after searching %s"),
+		 arg);
+	  return false;
+	}
       p = NULL;
     }
+  return true;
 }
 
 
-static void
+static bool
 process_all_startpoints (int argc, char *argv[])
 {
   int i;
@@ -635,7 +652,8 @@ process_all_startpoints (int argc, char *argv[])
   for (i = 0; i < argc && !looks_like_expression (argv[i], true); i++)
     {
       state.starting_path_length = strlen (argv[i]); /* TODO: is this redundant? */
-      find (argv[i]);
+      if (!find (argv[i]))
+	return false;
     }
 
   if (i == 0)
@@ -647,8 +665,9 @@ process_all_startpoints (int argc, char *argv[])
        * "find -printf %H" (note, not "find . -printf %H").
        */
       char defaultpath[2] = ".";
-      find (defaultpath);
+      return find (defaultpath);
     }
+  return true;
 }
 
 
@@ -743,14 +762,22 @@ main (int argc, char **argv)
 	error (EXIT_FAILURE, errno, _("cannot get current directory"));
     }
 
-  process_all_startpoints (argc-end_of_leading_options, argv+end_of_leading_options);
-
-  /* If "-exec ... {} +" has been used, there may be some
-   * partially-full command lines which have been built,
-   * but which are not yet complete.   Execute those now.
+  /* process_all_startpoints processes the starting points named on
+   * the command line.  A false return value from it means that we
+   * failed to restore the original context.  That means it would not
+   * be safe to call cleanup() since we might complete an execdir in
+   * the wrong directory for example.
    */
-  show_success_rates (eval_tree);
-  cleanup ();
+  if (process_all_startpoints (argc-end_of_leading_options,
+			       argv+end_of_leading_options))
+    {
+      /* If "-exec ... {} +" has been used, there may be some
+       * partially-full command lines which have been built,
+       * but which are not yet complete.   Execute those now.
+       */
+      show_success_rates (eval_tree);
+      cleanup ();
+    }
   return state.exit_status;
 }
 
