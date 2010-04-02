@@ -1977,7 +1977,8 @@ what is going on.
 
 .P
 .nf
-.B find repo/ -exec test -d {}/.svn -o -d {}/.git -o -d {}/CVS \; \e
+.B find repo/ -exec test -d {}/.svn \e; -or \e
+.B -exec test -d {}/.git \e; -or -exec test  -d {}/CVS \e; \e
 .B -print -prune
 .fi
 

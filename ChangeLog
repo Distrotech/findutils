@@ -1,5 +1,10 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Avoid false positives for the sc_prohibit_test_minus_ao syntax check.
+	* doc/find.texi (Updating A Timestamp File): Work around a syntax
+	check designed to prevent the use of "test X -a Y".
+	* find/find.1: Likewise.
+
 	* find/ftsfind.c: We don't use anything from xalloc.h, so don't
 	#include it.
 

@@ -4543,8 +4543,8 @@ We can of course still use @samp{-newer} to cut down on the number of
 calls to @code{test}:
 
 @smallexample
-find subdir -newer timestamp -a \
-     -exec test @{@} -nt timestamp \; -a \
+find subdir -newer timestamp -and \
+     -exec test @{@} -nt timestamp \; -and \
      -exec touch -r @{@} timestamp \;
 @end smallexample
 
@@ -4683,7 +4683,10 @@ searching subdirectories inside projects whose SCM directory we
 already found.
 
 @smallexample
-find repo/ -exec test -d @{@}/.svn -o -d @{@}/.git -o -d @{@}/CVS \; -print -prune
+find repo/ \
+-exec test -d @{@}/.svn \; -or \
+-exec test -d @{@}/.git \; -or \
+-exec test -d @{@}/CVS \; -print -prune
 @end smallexample
 
 In this example, @command{test} is used to tell if we are currently
