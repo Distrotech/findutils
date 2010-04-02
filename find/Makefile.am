@@ -11,8 +11,8 @@ libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c tree.c util.c share
 # We always build two versions of find, one with fts, one without.
 # Their names depend on whether the user specified --with-fts.
 #
-# --with-fts		find 		extra binary
-#	yes		with fts	'oldfind', without fts
+# --with-fts            find            extra binary
+#       yes             with fts        'oldfind', without fts
 #        no             without fts     'ftsfind', with fts
 #
 if WITH_FTS

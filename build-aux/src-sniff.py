@@ -131,7 +131,7 @@ checkers = [
     # Bourne shell code smells
     RegexChecker('\.sh$',
                  [
-    		 ['for\s*\w+\s*in.*;\s*do',
+                 ['for\s*\w+\s*in.*;\s*do',
                   # Solaris 10 /bin/sh rejects this, see Autoconf manual
                   "for loops should not contain a 'do' on the same line."],
                  ], []),

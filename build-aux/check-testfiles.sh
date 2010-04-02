@@ -32,15 +32,15 @@ diagnose () {
 
 
 check_shipfiles () {
-	distcount=`ls ${distdir}/*/testsuite/*/*${suffix} | wc -l`
-	srccount=`ls ${srcdir}/*/testsuite/*/*${suffix} | wc -l`
-	if test $distcount -eq $srccount ; then
-	    echo "All $srccount of the $suffix files are accounted for"
-	else
-	    echo "ERROR: Missing $suffix files: source $srccount distributed $distcount" >&2
-	    rv=1
-	    diagnose "${suffix}"
-	fi
+        distcount=`ls ${distdir}/*/testsuite/*/*${suffix} | wc -l`
+        srccount=`ls ${srcdir}/*/testsuite/*/*${suffix} | wc -l`
+        if test $distcount -eq $srccount ; then
+            echo "All $srccount of the $suffix files are accounted for"
+        else
+            echo "ERROR: Missing $suffix files: source $srccount distributed $distcount" >&2
+            rv=1
+            diagnose "${suffix}"
+        fi
 }
 
 
@@ -50,12 +50,12 @@ main () {
     shift 2
     if test "$#" -gt 0 ; then
         for suffix ; do
-        	check_shipfiles "$suffix"
+                check_shipfiles "$suffix"
         done
-	exit $rv
+        exit $rv
     else
-	echo "You did not specify any test file suffixes." >&2
-	exit 1
+        echo "You did not specify any test file suffixes." >&2
+        exit 1
     fi
 }
 

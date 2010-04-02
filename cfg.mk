@@ -26,11 +26,14 @@ skip_dunno = sc_immutable_NEWS sc_makefile_at_at_check \
 skip_defer = sc_program_name sc_prohibit_atoi_atof \
 	sc_prohibit_magic_number_exit sc_prohibit_stat_st_blocks \
 	sc_prohibit_strcmp sc_prohibit_test_minus_ao \
-	sc_prohibit_xalloc_without_use sc_space_tab \
+	sc_prohibit_xalloc_without_use
 
 # False positives I don't have a workaround for yet.
+# sc_space_tab: several .xo test output files contain this sequence
+#               for testing xargs's handling of white space.
 false_positives = sc_obsolete_symbols sc_prohibit_cvs_keyword sc_the_the \
-	sc_two_space_separator_in_usage
+	sc_two_space_separator_in_usage \
+	sc_space_tab
 
 # Problems that have some false positives and some real ones; tease
 # apart later.

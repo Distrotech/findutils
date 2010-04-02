@@ -276,8 +276,8 @@ Example:
 	label="Warning"
     fi
     if git config --get  merge.merge-changelog.name >/dev/null ; then
-	driver="$(git config --get merge.merge-changelog.driver |
-                  sed -e 's/[ 	].*//')"
+        driver="$(git config --get merge.merge-changelog.driver |
+                  sed -e 's/[   ].*//')"
 	if [[ $? -eq 0 ]]; then
 	    if ! [[ -x "$driver" ]]; then
 		echo "ERROR: Merge driver $driver is not executable." >&2
