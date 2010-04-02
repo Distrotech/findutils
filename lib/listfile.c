@@ -56,24 +56,6 @@
 
 
 
-
-#if ENABLE_NLS
-# include <libintl.h>
-# define _(Text) gettext (Text)
-#else
-# define _(Text) Text
-#define textdomain(Domain)
-#define bindtextdomain(Package, Directory)
-#endif
-#ifdef gettext_noop
-# define N_(String) gettext_noop (String)
-#else
-/* See locate.c for explanation as to why not use (String) */
-# define N_(String) String
-#endif
-
-
-
 /* Get or fake the disk device blocksize.
    Usually defined by sys/param.h (if at all).  */
 #ifndef DEV_BSIZE

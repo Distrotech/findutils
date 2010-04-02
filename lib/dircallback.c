@@ -33,23 +33,6 @@
 #include "save-cwd.h"
 
 
-#if ENABLE_NLS
-# include <libintl.h>
-# define _(Text) gettext (Text)
-#else
-# define _(Text) Text
-#define textdomain(Domain)
-#define bindtextdomain(Package, Directory)
-#endif
-#ifdef gettext_noop
-# define N_(String) gettext_noop (String)
-#else
-/* See locate.c for explanation as to why not use (String) */
-# define N_(String) String
-#endif
-
-
-
 int
 run_in_dir (int dir_fd, int (*callback)(void*), void *usercontext)
 {
