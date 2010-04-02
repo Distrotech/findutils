@@ -29,7 +29,7 @@ skip_defer = sc_program_name \
 # False positives I don't have a workaround for yet.
 # sc_space_tab: several .xo test output files contain this sequence
 #               for testing xargs's handling of white space.
-false_positives = sc_obsolete_symbols sc_prohibit_cvs_keyword sc_the_the \
+false_positives = sc_obsolete_symbols sc_prohibit_cvs_keyword \
 	sc_two_space_separator_in_usage \
 	sc_space_tab
 

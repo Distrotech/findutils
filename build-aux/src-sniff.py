@@ -96,7 +96,7 @@ checkers = [
     [r'HAVE''_CONFIG_H', "Avoid checking HAVE_CONFIG_H"],
     #   [r'HAVE_FCNTL_H', "Avoid checking HAVE_FCNTL_H"],
     [r'O_NDELAY', "Avoid using O_NDELAY"],
-    [r'the *the', "'the the' is probably not deliberate"],
+    [r'the *the', "'the"+" the' is probably not deliberate"],
     [r'(?<!\w)error \([^_"]*[^_]"[^"]*[a-z]{3}', "untranslated error message"],
     [r'^# *if\s+defined *\(', "useless parentheses in '#if defined'"],
 
