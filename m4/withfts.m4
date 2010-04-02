@@ -8,6 +8,6 @@ AC_DEFUN([FIND_WITH_FTS],
   esac
   AM_CONDITIONAL(WITH_FTS, [[test x"${with_fts-no}" != xno]])
   if test x"${with_fts-no}" != xno ; then
-  	AC_DEFINE(WITH_FTS, 1, [Define if you want to use fts() to do the filesystem search.])
+        AC_DEFINE([WITH_FTS], 1, [Define if you want to use fts() to do the filesystem search.])
   fi
 ])
