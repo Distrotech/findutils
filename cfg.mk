@@ -27,7 +27,6 @@ skip_defer = sc_program_name sc_prohibit_atoi_atof \
 	sc_prohibit_magic_number_exit sc_prohibit_stat_st_blocks \
 	sc_prohibit_strcmp sc_prohibit_test_minus_ao \
 	sc_prohibit_xalloc_without_use sc_space_tab \
-	sc_texinfo_acronym
 
 # False positives I don't have a workaround for yet.
 false_positives = sc_obsolete_symbols sc_prohibit_cvs_keyword sc_the_the \
@@ -38,8 +37,14 @@ false_positives = sc_obsolete_symbols sc_prohibit_cvs_keyword sc_the_the \
 mix_positives = sc_trailing_blank
 
 # Problems partly fixed in other patches which aren't merged yet.
-skip_blocked = sc_useless_cpp_parens
+skip_blocked_patch = sc_useless_cpp_parens
+
+# Problems we can't esaily fixed because they apply to files which we need
+# to keep in sync, so can't easily make a local change to.
+# sc_texinfo_acronym: perms.texi from coreutils uses @acronym{GNU}.
+skip_blocked_notours = \
+	sc_texinfo_acronym
 
 local-checks-to-skip = \
 	$(skip_too_picky) $(skip_dunno) $(false_positives) $(skip_defer) \
-	$(mix_positives) $(skip_blocked)
+	$(mix_positives) $(skip_blocked_patch) $(skip_blocked_notours)
