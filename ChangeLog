@@ -1,5 +1,8 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Avoid sc_prohibit_stat_st_blocks check, since it is broken.
+	* cfg.mk (skip_broken_checks): Skip sc_prohibit_stat_st_blocks.
+
 	Enable syntax checker sc_the_the, detecting doubled 'the'.
 	* cfg.mk (false_positives): Enable syntax checker sc_the_the
 	* build-aux/src-sniff.py (checkers): Avoid false positive with
