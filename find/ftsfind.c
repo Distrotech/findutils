@@ -46,7 +46,6 @@
 
 #include "xalloc.h"
 #include "closeout.h"
-#include <modetype.h>
 #include "quotearg.h"
 #include "quote.h"
 #include "fts_.h"

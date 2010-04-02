@@ -26,9 +26,9 @@
 #include <errno.h>
 #include <grp.h>
 #include <fnmatch.h>
+#include <sys/stat.h>
 #include "mountlist.h"
 #include "modechange.h"
-#include "modetype.h"
 #include "xstrtol.h"
 #include "xalloc.h"
 #include "quote.h"

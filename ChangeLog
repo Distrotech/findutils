@@ -1,5 +1,15 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Don't define S_IS*; include <sys/stat.h> instead.
+	* lib/modetype.h: Remove (all it does is define S_IS*).
+	* lib/Makefile.am (EXTRA_DIST): Remove modetype.h.
+	* lib/listfile.c: Don't define S_IS* macros.
+	* find/pred.c: Don't include "modetype.h".
+	* find/parser.c: Likewise.
+	* find/ftsfind.c: Likewise.
+	* find/fstype.c: Likewise.
+	* find/find.c: Likewise.
+
 	* m4/withfts.m4: Quote the first argument of AC_DEFINE.
 
 	Coding standard fix: "Warning" should be "WARNING".

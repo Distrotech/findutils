@@ -54,7 +54,6 @@ extern int errno;
 #include "defs.h"
 #include "../gnulib/lib/dirname.h"
 #include "xalloc.h"
-#include "modetype.h"
 
 /* Need declaration of function `xstrtoumax' */
 #include "../gnulib/lib/xstrtol.h"

@@ -37,7 +37,6 @@
 #include "xalloc.h"
 #include "dirname.h"
 #include "human.h"
-#include "modetype.h"
 #include "filemode.h"
 #include "printquoted.h"
 #include "buildcmd.h"

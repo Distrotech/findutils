@@ -41,7 +41,6 @@
 #include "xalloc.h"
 #include "human.h"
 #include "canonicalize.h"
-#include <modetype.h>
 
 #include "closein.h"
 #include "savedirinfo.h"

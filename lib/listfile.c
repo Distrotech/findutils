@@ -74,22 +74,6 @@
 
 
 
-#ifdef STAT_MACROS_BROKEN
-#undef S_ISCHR
-#undef S_ISBLK
-#undef S_ISLNK
-#endif
-
-#ifndef S_ISCHR
-#define S_ISCHR(m) (((m) & S_IFMT) == S_IFCHR)
-#endif
-#ifndef S_ISBLK
-#define S_ISBLK(m) (((m) & S_IFMT) == S_IFBLK)
-#endif
-#if defined S_IFLNK && !defined S_ISLNK
-#define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
-#endif
-
 /* Get or fake the disk device blocksize.
    Usually defined by sys/param.h (if at all).  */
 #ifndef DEV_BSIZE
