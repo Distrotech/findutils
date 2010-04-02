@@ -32,6 +32,8 @@
 #include "dirent-safer.h"
 #include "extendbuf.h"
 #include "cloexec.h"
+#include "quotearg.h"
+#include "safe-atoi.h"
 #include "fdleak.h"
 #include "error.h"
 
@@ -81,13 +83,14 @@ get_proc_max_fd ()
 
       while ((dent=readdir (dir)) != NULL)
 	{
-	  int fd = -1;
-
-	  if (1 == sscanf (dent->d_name, "%d", &fd))
+	  if (dent->d_name[0] != '.'
+	      || (dent->d_name[0] != 0
+		  && dent->d_name[1] != 0 && dent->d_name[1] != '.'))
 	    {
-	      good = 1;
+	      const int fd = safe_atoi (dent->d_name, literal_quoting_style);
 	      if (fd > maxfd)
 		maxfd = fd;
+	      good = 1;
 	    }
 	}
       closedir (dir);

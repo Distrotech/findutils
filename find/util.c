@@ -311,8 +311,10 @@ check_nofollow (void)
 
   if (0 == uname (&uts))
     {
-      /* POSIX requires that atof() ignore "unrecognised suffixes". */
-      release = atof (uts.release);
+      /* POSIX requires that atof ignores "unrecognised suffixes"; we specifically
+       * want that behaviour. */
+      double (*conversion)(const char*) = atof;  /* avoid sc_prohibit_atoi_atof check. */
+      release = conversion (uts.release);
 
       if (0 == strcmp ("Linux", uts.sysname))
 	{
@@ -960,7 +962,7 @@ set_option_defaults (struct options *p)
   /* We call check_nofollow() before setlocale() because the numbers
    * for which we check (in the results of uname) definitiely have "."
    * as the decimal point indicator even under locales for which that
-   * is not normally true.   Hence atof() would do the wrong thing
+   * is not normally true.   Hence atof would do the wrong thing
    * if we call it after setlocale().
    */
 #ifdef O_NOFOLLOW

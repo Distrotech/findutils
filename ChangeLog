@@ -1,5 +1,15 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Avoid false positives for sc_prohibit_atoi_atof.
+	* find/util.c (set_option_defaults): Avoid false positive with
+	sc_prohibit_atoi_atof.
+	(check_nofollow): Likewise.
+
+	Avoid sscanf.
+	* lib/fdleak.c (get_proc_max_fd): Use safe_atoi to do string to
+	int conversion, instead of sscanf.  Skip '.' and '..'.
+	* cfg.mk (skip_defer): Enable the sc_prohibit_atoi_atof check.
+
 	* po/POTFILES.in: Remove source files we don't maintain any more.
 	Also remove files which exist but have no translated messages
 	(dircallback.c, listfile.c).

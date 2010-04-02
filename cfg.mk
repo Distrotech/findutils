@@ -23,7 +23,7 @@ skip_dunno = sc_immutable_NEWS sc_makefile_at_at_check \
 	sc_prohibit_quote_without_use sc_prohibit_quotearg_without_use
 
 # Understand, but fix later.
-skip_defer = sc_program_name sc_prohibit_atoi_atof \
+skip_defer = sc_program_name \
 	sc_prohibit_magic_number_exit sc_prohibit_stat_st_blocks \
 	sc_prohibit_strcmp
 
