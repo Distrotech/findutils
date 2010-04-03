@@ -18,7 +18,7 @@ FIND_WITH_FTS
 
 AC_ARG_ENABLE(id-cache,
 [  --enable-id-cache       cache all UIDs & GIDs; avoid if using NIS or Hesiod],
-  AC_DEFINE(CACHE_IDS, 1, [Define if you want find -nouser and -nogroup to make tables of
+  AC_DEFINE([CACHE_IDS], 1, [Define if you want find -nouser and -nogroup to make tables of
    used UIDs and GIDs at startup instead of using getpwuid or
    getgrgid when needed.  Speeds up -nouser and -nogroup unless you
    are running NIS or Hesiod, which make password and group calls
@@ -49,8 +49,8 @@ if test x$ac_cv_debug = xno; then
    AC_MSG_RESULT([no])
 else
    AC_MSG_RESULT([yes])
-   AC_DEFINE(DEBUG, 1, [Define if you want to see find's innards])
-   AC_DEFINE(DEBUG_STAT, 1, [Define if you want to see a message every time find calls the stat() system call])
+   AC_DEFINE([DEBUG], 1, [Define if you want to see find's innards])
+   AC_DEFINE([DEBUG_STAT], 1, [Define if you want to see a message every time find calls the stat() system call])
 fi
 
 AC_MSG_CHECKING([for leaf optimisation])
@@ -58,7 +58,7 @@ if test x$ac_cv_leaf_optimisation = xno; then
    AC_MSG_RESULT([no])
 else
    AC_MSG_RESULT([yes])
-   AC_DEFINE(LEAF_OPTIMISATION, 1, [Define if you want to use the leaf optimisation (this can still be turned off with -noleaf)])
+   AC_DEFINE([LEAF_OPTIMISATION], 1, [Define if you want to use the leaf optimisation (this can still be turned off with -noleaf)])
 fi
 
 AC_ARG_VAR([DEFAULT_ARG_SIZE], [Default size of arguments to child processes
@@ -112,9 +112,9 @@ AC_CHECK_FUNC(getpwnam, [],
 [AC_CHECK_LIB(sun, getpwnam)])
 
 AC_CHECK_LIB([m],[modf],[FINDLIBS="-lm $FINDLIBS"]
-  AC_DEFINE_UNQUOTED(HAVE_MODF_IN_LIBM,1,[modf is defined in -lm]))
+  AC_DEFINE_UNQUOTED([HAVE_MODF_IN_LIBM],1,[modf is defined in -lm]))
 AC_CHECK_LIB([m],[fabs],[FINDLIBS="-lm $FINDLIBS"]
-  AC_DEFINE_UNQUOTED(HAVE_FABS_IN_LIBM,1,[fabs is defined in -lm]))
+  AC_DEFINE_UNQUOTED([HAVE_FABS_IN_LIBM],1,[fabs is defined in -lm]))
 AC_SUBST([FINDLIBS])
 
 dnl Checks for header files.
@@ -153,10 +153,10 @@ if test x$ac_cv_d_type = xno; then
    AC_MSG_RESULT([no])
 else
    AC_MSG_RESULT([yes])
-   AC_DEFINE(USE_STRUCT_DIRENT_D_TYPE, 1,
+   AC_DEFINE([USE_STRUCT_DIRENT_D_TYPE], 1,
    [Defined if you specify --enable-d_type-optimisation to configure.])
    AC_CHECK_MEMBERS([struct dirent.d_type],[
-   AC_DEFINE(HAVE_STRUCT_DIRENT_D_TYPE, 1,
+   AC_DEFINE([HAVE_STRUCT_DIRENT_D_TYPE], 1,
    [Define to 1 if your 'struct dirent' has a d_type member])],
    [],[
 #include <sys/types.h>
