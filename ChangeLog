@@ -1,5 +1,16 @@
 2010-04-02  James Youngman  <jay@gnu.org>
 
+	Move safe_atoi out into a separate module.
+	* find/parser.c: Include "safe-atoi.h".  Remove the body of safe_atoi.
+	(parse_group): pass options.err_quoting_style to safe_atoi.
+	(insert_depthspec): Likewise.
+	(parse_user): Likewise.
+	* lib/safe-atoi.h: New file.
+	* lib/safe-atoi.c: New file.  Add parameter for quoting style (to
+	avoid an external reference to the "options"struct).
+	* lib/Makefile.am (libfind_a_SOURCES): Add safe-atoi.c and
+	safe-atoi.h.
+
 	Avoid false positives for the sc_prohibit_test_minus_ao syntax check.
 	* doc/find.texi (Updating A Timestamp File): Work around a syntax
 	check designed to prevent the use of "test X -a Y".

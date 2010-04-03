@@ -43,6 +43,7 @@
 #include "getdate.h"
 #include "error.h"
 #include "findutils-version.h"
+#include "safe-atoi.h"
 
 #include <fcntl.h>
 
@@ -1152,53 +1153,6 @@ parse_gid (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 
-static int
-safe_atoi (const char *s)
-{
-  long lval;
-  char *end;
-
-  errno = 0;
-  lval = strtol (s, &end, 10);
-  if ( (LONG_MAX == lval) || (LONG_MIN == lval) )
-    {
-      /* max/min possible value, or an error. */
-      if (errno == ERANGE)
-	{
-	  /* too big, or too small. */
-	  error (EXIT_FAILURE, errno, "%s", s);
-	}
-      else
-	{
-	  /* not a valid number */
-	  error (EXIT_FAILURE, errno, "%s", s);
-	}
-      /* Otherwise, we do a range chack against INT_MAX and INT_MIN
-       * below.
-       */
-    }
-
-  if (lval > INT_MAX || lval < INT_MIN)
-    {
-      /* The number was in range for long, but not int. */
-      errno = ERANGE;
-      error (EXIT_FAILURE, errno, "%s", s);
-    }
-  else if (*end)
-    {
-      error (EXIT_FAILURE, errno, _("Unexpected suffix %s on %s"),
-	     quotearg_n_style (0, options.err_quoting_style, end),
-	     quotearg_n_style (1, options.err_quoting_style, s));
-    }
-  else if (end == s)
-    {
-      error (EXIT_FAILURE, errno, _("Expected an integer: %s"),
-	     quotearg_n_style (0, options.err_quoting_style, s));
-    }
-  return (int)lval;
-}
-
-
 static boolean
 parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -1222,7 +1176,7 @@ parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 	    {
 	      if (groupname[gid_len] == 0)
 		{
-		  gid = safe_atoi (groupname);
+		  gid = safe_atoi (groupname, options.err_quoting_style);
 		}
 	      else
 		{
@@ -1489,7 +1443,7 @@ insert_depthspec (const struct parser_table* entry, char **argv, int *arg_ptr,
       depth_len = strspn (depthstr, "0123456789");
       if ((depth_len > 0) && (depthstr[depth_len] == 0))
 	{
-	  (*limitptr) = safe_atoi (depthstr);
+	  (*limitptr) = safe_atoi (depthstr, options.err_quoting_style);
 	  if (*limitptr >= 0)
 	    {
 	      return parse_noop (entry, argv, arg_ptr);
@@ -2700,7 +2654,7 @@ parse_user (const struct parser_table* entry, char **argv, int *arg_ptr)
 	  const size_t uid_len = strspn (username, "0123456789");
 	  if (uid_len && (username[uid_len]==0))
 	    {
-	      uid = safe_atoi (username);
+	      uid = safe_atoi (username, options.err_quoting_style);
 	    }
 	  else
 	    {

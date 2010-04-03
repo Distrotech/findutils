@@ -36,7 +36,8 @@ LDADD = ../gnulib/lib/libgnulib.a $(LIBINTL)
 libfind_a_SOURCES += nextelem.h printquoted.h listfile.h \
 	regextype.h dircallback.h safe-atoi.h
 libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c \
-	forcefindlib.c qmark.c printquoted.c regextype.c dircallback.c fdleak.c
+	forcefindlib.c qmark.c printquoted.c regextype.c dircallback.c fdleak.c \
+	safe-atoi.c
 
 EXTRA_DIST += waitpid.c forcefindlib.c
 TESTS_ENVIRONMENT = REGEXPROPS=regexprops$(EXEEXT)
