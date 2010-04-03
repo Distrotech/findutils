@@ -1,6 +1,7 @@
 /* Save the list of files in a directory, with additional information.
 
-   Copyright 1997, 1999, 2001, 2003, 2005 Free Software Foundation, Inc.
+   Copyright 1997, 1999, 2001, 2003, 2005, 2010 Free Software
+   Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
