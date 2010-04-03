@@ -1,5 +1,15 @@
 2010-04-03  James Youngman  <jay@gnu.org>
 
+	Accelerate find/testsuite/find.posix/exec-nogaps.exp.
+	* find/testsuite/config/unix.exp (optimisation_levels_to_test):
+	New function, decides which optimisation levels we shuld run find
+	at for the current test.  Set $OPTIMISATION_LEVELS to control
+	this.
+	(find_start): Call optimisation_levels_to_test to determine which
+	optimisation levels to run find at.
+	* find/testsuite/find.posix/exec-nogaps.exp: Run the test only at
+	-O3 (but for both oldfind and ftsfind).
+
 	Correct the format of copyright statements, and add 2010.
 	* lib/fdleak.h: Correct the format of the copyright statement.
 	* po/vi.po: Likewise.

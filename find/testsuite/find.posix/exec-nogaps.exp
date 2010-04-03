@@ -25,7 +25,7 @@ send_log "creeating files $file_list\n"
 foreach filename $file_list {
 }
 
-
+set OPTIMISATION_LEVELS {3}
 find_start p { tmp/a/ -type f -exec echo \{\} \; }
 
 find_start p { tmp/a/ -type f -exec sh tmp/list.sh \{\} \+ }

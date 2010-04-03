@@ -194,6 +194,16 @@ proc do_find_start { suffix findprogram flags passfail options infile output } {
     pass "$testname"
 }
 
+proc optimisation_levels_to_test {} {
+    global OPTIMISATION_LEVELS
+    if [info exists OPTIMISATION_LEVELS] {
+	send_log "Running find at optimisation levels $OPTIMISATION_LEVELS\n"
+	return $OPTIMISATION_LEVELS
+    } else {
+	send_log "Running find at default optimisation levels\n"
+	return {0 1 2 3}
+    }
+}
 
 proc find_start { passfail options {infile ""} {output ""} {setup ""}} {
     global OLDFIND
@@ -218,7 +228,7 @@ proc find_start { passfail options {infile ""} {output ""} {setup ""}} {
     }
 
     # Now run the test with each binary, once with each optimisation level.
-    foreach optlevel {0 1 2 3} {
+    foreach optlevel [optimisation_levels_to_test] {
 	set flags "$FINDFLAGS -O$optlevel"
 	if { ![info exists SKIP_OLD] || ! $SKIP_OLD } {
 	    eval $setup
