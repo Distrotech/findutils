@@ -38,7 +38,6 @@
 	nonzero status if we issue a diagnostic.
 	(cleanup): Call nonfatal_nontarget_file_error instead of
 	nonfatal_file_error.
-	* find/ftsfind.c (error_severity): Move to util.c.
 	* find/tree.c (build_expression_tree): Initialise
 	state.already_issued_stat_error_msg.
 	* find/find.c (main): Initialise state.already_issued_stat_error_msg.
@@ -52,6 +51,7 @@
 	(find): Call error_severity to ensure exit status is nonzero after
 	a call to error.
 	(main): Initialise state.already_issued_stat_error_msg.
+	(error_severity): Move to util.c.
 	* find/parser.c (collect_arg_stat_info): Call
 	fatal_target_file_error instead of fatal_file_error.
 	(parse_newerXY): Likewise.
@@ -64,6 +64,20 @@
 	(checked_fwrite): Likewise.
 	(checked_fflush): Likewise.
 	* find/sharefile.c (entry_free): Likewise.
+
+2010-04-04  Martin von Gagern  <Martin.vGagern@gmx.net>
+
+	Fix Savannah bug #27213: avoid failed assertions for
+	non-executable directories.
+	(consider_visiting): Continue (after issuing an error message)
+	even if ent->fts_info == FTS_NS.
+	* find/util.c (get_statinfo): If we cannot stat the file, issue a
+	diagnostic, but continue anyway.
+	* find/ftsfind.c (consider_visiting): Don't assert-fail if
+	ent->fts_info == FTS_NSOK.  Don't assert-fail if state.type is
+	nonzero.
+
+2010-04-04  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #29435: fd_is_cloexec does not work on Fedora
 	buildhosts.
