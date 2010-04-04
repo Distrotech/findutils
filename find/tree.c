@@ -1284,6 +1284,7 @@ build_expression_tree (int argc, char *argv[], int end_of_leading_options)
   /* Build the input order list. */
   while (i < argc )
     {
+      state.already_issued_stat_error_msg = false;
       if (!looks_like_expression (argv[i], false))
 	{
 	  error (0, 0, _("paths must precede expression: %s"), argv[i]);

@@ -742,7 +742,7 @@ collect_arg_stat_info (char **argv, int *arg_ptr, struct stat *p,
 	}
       else
 	{
-	  fatal_file_error (filename);
+	  fatal_target_file_error (errno, filename);
 	}
     }
   else
@@ -1683,7 +1683,7 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 	      /* Stat the named file. */
 	      set_stat_placeholders (&stat_newer);
 	      if ((*options.xstat) (argv[*arg_ptr], &stat_newer))
-		fatal_file_error (argv[*arg_ptr]);
+		fatal_target_file_error (errno, argv[*arg_ptr]);
 
 	      if (!get_stat_Ytime (&stat_newer, y, &our_pred->args.reftime.ts))
 		{
@@ -2423,7 +2423,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
 	   */
 	  if (0 != fstat (fd, &fst))
 	    {
-	      fatal_file_error (argv[*arg_ptr]);
+	      fatal_target_file_error (errno, argv[*arg_ptr]);
 	    }
 	  else
 	    {
@@ -2433,7 +2433,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
 	       * destination of the link, not the link itself.
 	       */
 	      if ((*options.xstat) (argv[*arg_ptr], &st))
-		fatal_file_error (argv[*arg_ptr]);
+		fatal_target_file_error (errno, argv[*arg_ptr]);
 
 	      if ((options.symlink_handling == SYMLINK_NEVER_DEREF)
 		  && (!options.open_nofollow_available))
@@ -3787,7 +3787,7 @@ open_output_file (const char *path, struct format_val *p)
 
       if (p->stream == NULL)
 	{
-	  fatal_file_error (path);
+	  fatal_nontarget_file_error (errno, path);
 	}
     }
 

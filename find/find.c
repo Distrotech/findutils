@@ -136,6 +136,7 @@ main (int argc, char **argv)
       remember_non_cloexec_fds ();
     }
 
+  state.already_issued_stat_error_msg = false;
   state.shared_files = sharefile_init ("w");
   if (NULL == state.shared_files)
     {
@@ -473,7 +474,7 @@ wd_sanity_check (const char *thing_to_stat,
 
   set_stat_placeholders (newinfo);
   if ((*options.xstat) (current_dir, newinfo) != 0)
-    fatal_file_error (thing_to_stat);
+    fatal_target_file_error (errno, thing_to_stat);
 
   if (old_dev != newinfo->st_dev)
     {
@@ -944,7 +945,7 @@ chdir_back (void)
 #endif
 
       if (chdir (starting_dir) != 0)
-	fatal_file_error (starting_dir);
+	fatal_nontarget_file_error (errno, starting_dir);
 
       wd_sanity_check (starting_dir,
 		       program_name,
@@ -963,7 +964,7 @@ chdir_back (void)
 
       if (fchdir (starting_desc) != 0)
 	{
-	  fatal_file_error (starting_dir);
+	  fatal_nontarget_file_error (errno, starting_dir);
 	}
     }
 }
@@ -1184,6 +1185,7 @@ process_path (char *pathname, char *name, bool leaf, char *parent,
   state.type = 0;
   state.have_stat = false;
   state.have_type = false;
+  state.already_issued_stat_error_msg = false;
 
   if (!digest_mode (&mode, pathname, name, &stat_buf, leaf))
     return 0;

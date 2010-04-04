@@ -502,11 +502,16 @@ extern bool check_nofollow(void);
 void complete_pending_execs(struct predicate *p);
 void complete_pending_execdirs(int dir_fd); /* Passing dir_fd is an unpleasant CodeSmell. */
 const char *safely_quote_err_filename (int n, char const *arg);
-void fatal_file_error(const char *name) ATTRIBUTE_NORETURN;
-void nonfatal_file_error(const char *name);
+
+void fatal_target_file_error (int errno_value, const char *name) ATTRIBUTE_NORETURN;
+void fatal_nontarget_file_error (int errno_value, const char *name) ATTRIBUTE_NORETURN;
+void nonfatal_target_file_error (int erron_value, const char *name);
+void nonfatal_nontarget_file_error (int erron_value, const char *name);
+
 
 int process_leading_options PARAMS((int argc, char *argv[]));
 void set_option_defaults PARAMS((struct options *p));
+void error_severity PARAMS((int level));
 
 #if 0
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
@@ -664,6 +669,9 @@ struct state
 
   /* Shared files, opened via the interface in sharefile.h. */
   sharefile_handle shared_files;
+
+  /* Avoid multiple error messages for the same file. */
+  boolean already_issued_stat_error_msg;
 };
 
 /* finddata.c */

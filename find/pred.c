@@ -696,7 +696,7 @@ checked_fprintf (struct format_val *dest, const char *fmt, ...)
   va_start (ap, fmt);
   rv = vfprintf (dest->stream, fmt, ap);
   if (rv < 0)
-    nonfatal_file_error (dest->filename);
+    nonfatal_nontarget_file_error (errno, dest->filename);
 }
 
 
@@ -707,7 +707,7 @@ checked_print_quoted (struct format_val *dest,
   int rv = print_quoted (dest->stream, dest->quote_opts, dest->dest_is_tty,
 			 format, s);
   if (rv < 0)
-    nonfatal_file_error (dest->filename);
+    nonfatal_nontarget_file_error (errno, dest->filename);
 }
 
 
@@ -716,7 +716,7 @@ checked_fwrite (void *p, size_t siz, size_t nmemb, struct format_val *dest)
 {
   int items_written = fwrite (p, siz, nmemb, dest->stream);
   if (items_written < nmemb)
-    nonfatal_file_error (dest->filename);
+    nonfatal_nontarget_file_error (errno, dest->filename);
 }
 
 static void
@@ -724,7 +724,7 @@ checked_fflush (struct format_val *dest)
 {
   if (0 != fflush (dest->stream))
     {
-      nonfatal_file_error (dest->filename);
+      nonfatal_nontarget_file_error (errno, dest->filename);
     }
 }
 

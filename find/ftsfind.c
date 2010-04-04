@@ -173,19 +173,6 @@ inside_dir (int dir_fd)
 static void init_mounted_dev_list (void);
 #endif
 
-/* We have encountered an error which should affect the exit status.
- * This is normally used to change the exit status from 0 to 1.
- * However, if the exit status is already 2 for example, we don't want to
- * reduce it to 1.
- */
-static void
-error_severity (int level)
-{
-  if (state.exit_status < level)
-    state.exit_status = level;
-}
-
-
 #define STRINGIFY(X) #X
 #define HANDLECASE(N) case N: return #N;
 
@@ -372,9 +359,6 @@ show_outstanding_execdirs (FILE *fp)
     }
 }
 
-
-
-
 static void
 consider_visiting (FTS *p, FTSENT *ent)
 {
@@ -410,15 +394,13 @@ consider_visiting (FTS *p, FTSENT *ent)
   if (ent->fts_info == FTS_ERR
       || ent->fts_info == FTS_DNR)
     {
-      error (0, ent->fts_errno, "%s",
-	     safely_quote_err_filename (0, ent->fts_path));
-      error_severity (1);
+      nonfatal_target_file_error (ent->fts_errno, ent->fts_path);
       return;
     }
   else if (ent->fts_info == FTS_DC)
     {
       issue_loop_warning (ent);
-      error_severity (1);
+      error_severity (EXIT_FAILURE);
       return;
     }
   else if (ent->fts_info == FTS_SLNONE)
@@ -432,8 +414,7 @@ consider_visiting (FTS *p, FTSENT *ent)
        */
       if (symlink_loop (ent->fts_accpath))
 	{
-	  error (0, ELOOP, "%s", safely_quote_err_filename (0, ent->fts_path));
-	  error_severity (1);
+	  nonfatal_target_file_error (ELOOP, ent->fts_path);
 	  return;
 	}
     }
@@ -442,9 +423,7 @@ consider_visiting (FTS *p, FTSENT *ent)
       if (ent->fts_level == 0)
 	{
 	  /* e.g., nonexistent starting point */
-	  error (0, ent->fts_errno, "%s",
-		 safely_quote_err_filename (0, ent->fts_path));
-	  error_severity (1);	/* remember problem */
+	  nonfatal_target_file_error (ent->fts_errno, ent->fts_path);
 	  return;
 	}
       else
@@ -454,16 +433,12 @@ consider_visiting (FTS *p, FTSENT *ent)
 	   */
 	  if (symlink_loop (ent->fts_accpath))
 	    {
-	      error (0, ELOOP, "%s",
-		     safely_quote_err_filename (0, ent->fts_path));
-	      error_severity (1);
+	      nonfatal_target_file_error (ELOOP, ent->fts_path);
 	      return;
 	    }
 	  else
 	    {
-	      error(0, ent->fts_errno, "%s",
-		    safely_quote_err_filename(0, ent->fts_path));
-	      error_severity(1);
+	      nonfatal_target_file_error (ent->fts_errno, ent->fts_path);
 	      /* Continue despite the error, as file name without stat info
 	       * might be better than not even processing the file name. This
 	       * can lead to repeated error messages later on, though, if a
@@ -475,7 +450,7 @@ consider_visiting (FTS *p, FTSENT *ent)
 	       * such.
 	       */
 	    }
-	  
+
 	}
     }
 
@@ -632,11 +607,13 @@ find (char *arg)
     {
       error (0, errno, _("cannot search %s"),
 	     safely_quote_err_filename (0, arg));
+      error_severity (EXIT_FAILURE);
     }
   else
     {
       while ( (ent=fts_read (p)) != NULL )
 	{
+	  state.already_issued_stat_error_msg = false;
 	  state.have_stat = false;
 	  state.have_type = !!ent->fts_statp->st_mode;
 	  state.type = state.have_type ? ent->fts_statp->st_mode : 0;
@@ -651,6 +628,7 @@ find (char *arg)
 	  error (0, errno,
 		 _("failed to restore working directory after searching %s"),
 		 arg);
+	  error_severity (EXIT_FAILURE);
 	  return false;
 	}
       p = NULL;
@@ -700,6 +678,7 @@ main (int argc, char **argv)
   else
     set_program_name ("find");
 
+  state.already_issued_stat_error_msg = false;
   state.exit_status = 0;
   state.execdirs_outstanding = false;
   state.cwd_dir_fd = AT_FDCWD;

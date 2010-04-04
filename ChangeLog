@@ -15,6 +15,66 @@
 
 2010-04-05  James Youngman  <jay@gnu.org>
 
+	Don't issue an error message twice for the same target file.
+	* find/defs.h (struct state): New member,
+	already_issued_stat_error_msg, used to de-duplicate error
+	messages.  If it is true, we already issued an error message for
+	the current target file.
+	Declare fatal_target_file_error, fatal_nontarget_file_error,
+	nonfatal_target_file_error, nonfatal_nontarget_file_error.
+	Between them, they replace fatal_file_error and
+	nonfatal_file_error.  The *target_file_error versions are
+	de-duplicated and the nontarget_file_error_versions are not.
+	* find/util.c (nonfatal_nontarget_file_error): Implement.
+	(fatal_nontarget_file_error): Implement.
+	(nonfatal_target_file_error): Implement.
+	(fatal_target_file_error): Implement.
+	(fatal_file_error): Remove.
+	(nonfatal_file_error): Remove.
+	(error_severity): Define error_severity (moved from ftsfind.c)
+	(get_statinfo): Call nonfatal_target_file_error in order to avoid
+	a duplicate message.  ALso call error_severity after a different
+	call to error to preserve the constraint that we exit with a
+	nonzero status if we issue a diagnostic.
+	(cleanup): Call nonfatal_nontarget_file_error instead of
+	nonfatal_file_error.
+	* find/ftsfind.c (error_severity): Move to util.c.
+	* find/tree.c (build_expression_tree): Initialise
+	state.already_issued_stat_error_msg.
+	* find/find.c (main): Initialise state.already_issued_stat_error_msg.
+	(wd_sanity_check): Call fatal_target_file_error instead of
+	fatal_file_error.
+	(chdir_back): Call fatal_nontarget_file_error instead of
+	fatal_file_error.
+	(process_path): Initialise state.already_issued_stat_error_msg.
+	* find/ftsfind.c (consider_visiting): Call
+	nonfatal_target_file_error instead of calling error directly.
+	(find): Call error_severity to ensure exit status is nonzero after
+	a call to error.
+	(main): Initialise state.already_issued_stat_error_msg.
+	* find/parser.c (collect_arg_stat_info): Call
+	fatal_target_file_error instead of fatal_file_error.
+	(parse_newerXY): Likewise.
+	(parse_samefile): Likewise.
+	(parse_samefile): Likewise.
+	(open_output_file): Call fatal_nontarget_file_error instead of
+	fatal_file_error.
+	* find/pred.c (checked_fprintf): Likewise.
+	(checked_print_quoted): Likewise.
+	(checked_fwrite): Likewise.
+	(checked_fflush): Likewise.
+	* find/sharefile.c (entry_free): Likewise.
+
+	Fix Savannah bug #29435: fd_is_cloexec does not work on Fedora
+	buildhosts.
+	Fix open_cloexec on hosts which ignore O_CLOEXEC (i.e. old kernels).
+	* lib/fdleak.c (o_cloexec_works): New function, detects whether
+	the open flag O_CLOEXEC has any effect.
+	(open_cloexec): Call o_cloexec_works, just once, to find out
+	whether O_CLOEXEC is effective.  If not, set the close-on-exec
+	flag on fds by calling set_cloexec_flag.
+	* NEWS: Mention this bugfix.
+
 	Use bool instead of the previous typedef boolean.
 	* find/defs.h: Don't create typedef "boolean"; use the standard
 	type bool.  Update other declarations accordingly.

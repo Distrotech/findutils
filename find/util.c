@@ -210,18 +210,14 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
 	      /* Savannah bug #16378. */
 	      error (0, 0, _("WARNING: file %s appears to have mode 0000"),
 		     quotearg_n_style (0, options.err_quoting_style, name));
+	      error_severity (1);
 	    }
 	}
       else
 	{
 	  if (!options.ignore_readdir_race || (errno != ENOENT) )
 	    {
-              /* FIXME: this error message might repeat the one from
-               * the FTS_NS case in consider_visiting. How to avoid this?
-               */
-	      error (0, errno, "%s",
-		     safely_quote_err_filename (0, pathname));
-	      state.exit_status = 1;
+	      nonfatal_target_file_error (errno, pathname);
 	    }
 	  return -1;
 	}
@@ -489,7 +485,7 @@ cleanup (void)
     }
 
   if (fflush (stdout) == EOF)
-    nonfatal_file_error ("standard output");
+    nonfatal_nontarget_file_error (errno, "standard output");
 }
 
 /* Savannah bug #16378 manifests as an assertion failure in pred_type()
@@ -1077,35 +1073,83 @@ safely_quote_err_filename (int n, char const *arg)
   return quotearg_n_style (n, options.err_quoting_style, arg);
 }
 
+/* We have encountered an error which should affect the exit status.
+ * This is normally used to change the exit status from 0 to 1.
+ * However, if the exit status is already 2 for example, we don't want to
+ * reduce it to 1.
+ */
+void
+error_severity (int level)
+{
+  if (state.exit_status < level)
+    state.exit_status = level;
+}
+
+
 /* report_file_err
  */
 static void
-report_file_err(int exitval, int errno_value, const char *name)
+report_file_err(int exitval, int errno_value,
+		boolean is_target_file, const char *name)
 {
   /* It is important that the errno value is passed in as a function
    * argument before we call safely_quote_err_filename(), because otherwise
    * we might find that safely_quote_err_filename() changes errno.
    */
-  if (state.exit_status < 1)
-    state.exit_status = 1;
-
-  error (exitval, errno_value, "%s", safely_quote_err_filename (0, name));
+  if (!is_target_file || !state.already_issued_stat_error_msg)
+    {
+      error (exitval, errno_value, "%s", safely_quote_err_filename (0, name));
+      error_severity (1);
+    }
+  if (is_target_file)
+    {
+      state.already_issued_stat_error_msg = true;
+    }
 }
 
-/* fatal_file_error
+/* nonfatal_target_file_error
+ */
+void
+nonfatal_target_file_error (int errno_value, const char *name)
+{
+  report_file_err (0, errno_value, true, name);
+}
+
+/* fatal_target_file_error
+ *
+ * Report an error on a target file (i.e. a file we are searching).
+ * Such errors are only reported once per searched file.
  *
  */
 void
-fatal_file_error(const char *name)
+fatal_target_file_error(int errno_value, const char *name)
 {
-  report_file_err (1, errno, name);
+  report_file_err (1, errno_value, true, name);
   /*NOTREACHED*/
   abort ();
 }
 
+/* nonfatal_nontarget_file_error
+ *
+ */
 void
-nonfatal_file_error (const char *name)
+nonfatal_nontarget_file_error (int errno_value, const char *name)
 {
-  report_file_err (0, errno, name);
+  report_file_err (0, errno_value, false, name);
 }
 
+/* fatal_nontarget_file_error
+ *
+ */
+void
+fatal_nontarget_file_error(int errno_value, const char *name)
+{
+  /* We're going to exit fatally, so make sure we always isssue the error
+   * message, even if it will be duplicate.   Motivation: otherwise it may
+   * not be clear what went wrong.
+   */
+  state.already_issued_stat_error_msg = false;
+  report_file_err (1, errno_value, false, name);
+  /*NOTREACHED*/
+  abort ();
+}

@@ -76,7 +76,7 @@ entry_free (void *pv)
   if (p->fp)
     {
       if (0 != fclose (p->fp))
-	fatal_file_error (p->name);
+	fatal_nontarget_file_error (errno, p->name);
     }
   free (p->name);
   free (p);
