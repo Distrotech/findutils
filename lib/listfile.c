@@ -35,12 +35,11 @@
 #include <locale.h>
 
 #include "human.h"
-#include "xalloc.h"
 #include "pathmax.h"
 #include "error.h"
 #include "filemode.h"
-#include "dircallback.h"
 #include "idcache.h"
+#include "areadlink.h"
 
 #include "listfile.h"
 
@@ -259,19 +258,26 @@ list_file (const char *name,
 
   print_name (name, stream, literal_control_chars);
 
-#ifdef S_ISLNK
   if (S_ISLNK (statp->st_mode))
     {
-      char *linkname = get_link_name_at (name, dir_fd, relname);
-
+      char *linkname = areadlinkat (dir_fd, relname);
       if (linkname)
 	{
 	  fputs (" -> ", stream);
 	  print_name (linkname, stream, literal_control_chars);
-	  free (linkname);
 	}
+      else
+	{
+	  /* POSIX requires in the case of find that if we issue a
+	   * diagnostic we should have a nonzero status.  However,
+	   * this function doesn't have a way of telling the caller to
+	   * do that.  However, since this function is only used when
+	   * processing "-ls", we're already using an extension.
+	   */
+	  error (0, errno, "%s", name);
+	}
+      free (linkname);
     }
-#endif
   putc ('\n', stream);
 }
 
@@ -340,57 +346,3 @@ static void print_name (register const char *p, FILE *stream, int literal_contro
   else
     print_name_with_quoting (p, stream);
 }
-
-#ifdef S_ISLNK
-static char *
-get_link_name (const char *name, char *relname)
-{
-  register char *linkname;
-  register int linklen;
-
-  /* st_size is wrong for symlinks on AIX, and on
-     mount points with some automounters.
-     So allocate a pessimistic PATH_MAX + 1 bytes.  */
-#define LINK_BUF PATH_MAX
-  linkname = xmalloc (LINK_BUF + 1);
-  linklen = readlink (relname, linkname, LINK_BUF);
-  if (linklen < 0)
-    {
-      error (0, errno, "%s", name);
-      free (linkname);
-      return 0;
-    }
-  linkname[linklen] = '\0';
-  return linkname;
-}
-
-struct link_name_args
-{
-  const char *name;
-  char *relname;
-  char *result;
-};
-
-static int
-get_link_name_cb (void *context)
-{
-  struct link_name_args *args = context;
-  args->result = get_link_name (args->name, args->relname);
-  return 0;
-}
-
-char *
-get_link_name_at (const char *name, int dir_fd, char *relname)
-{
-  struct link_name_args args;
-  args.result = NULL;
-  args.name = name;
-  args.relname = relname;
-  if (0 == run_in_dir (dir_fd, get_link_name_cb, &args))
-    return args.result;
-  else
-    return NULL;
-}
-
-
-#endif

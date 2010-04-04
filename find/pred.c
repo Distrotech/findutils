@@ -874,14 +874,16 @@ do_fprintf (struct format_val *dest,
 
 	    if (S_ISLNK (stat_buf->st_mode))
 	      {
-		linkname = get_link_name_at (pathname, state.cwd_dir_fd, state.rel_pathname);
-		if (linkname == 0)
-		  state.exit_status = 1;
+		linkname = areadlinkat (state.cwd_dir_fd, state.rel_pathname);
+		if (linkname == NULL)
+		  {
+		    nonfatal_file_error (pathname);
+		    state.exit_status = 1;
+		  }
 	      }
 	    if (linkname)
 	      {
 		checked_print_quoted (dest, segment->text, linkname);
-		free (linkname);
 	      }
 	    else
 	      {
@@ -890,6 +892,7 @@ do_fprintf (struct format_val *dest,
 		 */
 		checked_print_quoted (dest, segment->text, "");
 	      }
+	    free (linkname);
 	  }
 #endif				/* S_ISLNK */
 	  break;
@@ -1320,14 +1323,19 @@ match_lname (const char *pathname, struct stat *stat_buf, struct predicate *pred
 #ifdef S_ISLNK
   if (S_ISLNK (stat_buf->st_mode))
     {
-      char *linkname = get_link_name_at (pathname, state.cwd_dir_fd, state.rel_pathname);
+      char *linkname = areadlinkat (state.cwd_dir_fd, state.rel_pathname);
       if (linkname)
 	{
 	  if (fnmatch (pred_ptr->args.str, linkname,
 		       ignore_case ? FNM_CASEFOLD : 0) == 0)
 	    ret = true;
-	  free (linkname);
 	}
+      else
+	{
+	  nonfatal_file_error (pathname);
+	  state.exit_status = 1;
+	}
+      free (linkname);
     }
 #endif /* S_ISLNK */
   return ret;

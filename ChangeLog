@@ -15,6 +15,43 @@
 
 2010-04-05  James Youngman  <jay@gnu.org>
 
+	Use bool instead of the previous typedef boolean.
+	* find/defs.h: Don't create typedef "boolean"; use the standard
+	type bool.  Update other declarations accordingly.
+	* find/find.c: Update declarations and function definitions to use
+	bool.
+	* find/ftsfind.c: Likewise.
+	* find/parser.c: Likewise.
+	* find/pred.c: Likewise.
+	* find/tree.c: Likewise.
+	* find/util.c: Likewise.
+	* locate/locate.c: Likewise.
+	* xargs/xargs.c: Likewise.
+
+	Make use of gnulib's areadlinkat.
+	* lib/listfile.c: #include "areadlink.h" but not "dircallback.h",
+	since we no longer need to use get_link_name_at.
+	Don't include xalloc.h, since we don't need it.
+	(get_link_name_at): Delete.
+	(get_link_name_cb): Delete.
+	(get_link_name): Delete.
+	* lib/listfile.h: Remove declaration of get_link_name_at.
+	* find/pred.c (match_lname): Use areadlinkat instead of
+	get_link_name_at.
+
+	Use bool instead of the previous typedef boolean.
+	* find/defs.h: Don't create typedef "boolean"; use the standard
+	type bool.  Update other declarations accordingly.
+	* find/find.c: Update declarations and function definitions to use
+	bool.
+	* find/ftsfind.c: Likewise.
+	* find/parser.c: Likewise.
+	* find/pred.c: Likewise.
+	* find/tree.c: Likewise.
+	* find/util.c: Likewise.
+	* locate/locate.c: Likewise.
+	* xargs/xargs.c: Likewise.
+
 	Don't issue an error message twice for the same target file.
 	* find/defs.h (struct state): New member,
 	already_issued_stat_error_msg, used to de-duplicate error
