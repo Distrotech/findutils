@@ -303,11 +303,30 @@ find_first_leaked_fd (const int* prev_non_cloexec_fds, size_t n)
   return context.leaked_fd;
 }
 
+/* Determine if O_CLOEXEC actually works (Savannah bug #29435:
+   fd_is_cloexec () does not work on Fedora buildhosts).
+ */
+static bool
+o_cloexec_works (void)
+{
+  bool result = false;
+  int fd = open ("/", O_RDONLY|O_CLOEXEC);
+  if (fd >= 0)
+    {
+      result = fd_is_cloexec (fd);
+      close (fd);
+    }
+  return result;
+}
+
+
 int
 open_cloexec (const char *path, int flags, ...)
 {
   int fd;
   mode_t mode = 0;
+  static bool cloexec_works = false;
+  static bool cloexec_status_known = false;
 
   if (flags & O_CREAT)
     {
@@ -322,8 +341,19 @@ open_cloexec (const char *path, int flags, ...)
       va_end (ap);
     }
 
+  /* Kernels usually ignore open flags they don't recognise, so it
+   * is possible this program was built against a library which
+   * defines O_CLOEXEC, but is running on a kernel that (silently)
+   * does not recognise it.   We figure this out by just trying it,
+   * once.
+   */
+  if (!cloexec_status_known)
+    {
+      cloexec_works = o_cloexec_works ();
+      cloexec_status_known = true;
+    }
   fd = open (path, flags|O_CLOEXEC, mode);
-  if ((fd >= 0) && !O_CLOEXEC)
+  if ((fd >= 0) && !(O_CLOEXEC && cloexec_works))
     {
       set_cloexec_flag (fd, true);
     }

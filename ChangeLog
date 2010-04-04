@@ -1,3 +1,15 @@
+2010-04-04  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #29435: fd_is_cloexec does not work on Fedora
+	buildhosts.
+	Fix open_cloexec on hosts which ignore O_CLOEXEC (i.e. old kernels).
+	* lib/fdleak.c (o_cloexec_works): New function, detects whether
+	the open flag O_CLOEXEC has any effect.
+	(open_cloexec): Call o_cloexec_works, just once, to find out
+	whether O_CLOEXEC is effective.  If not, set the close-on-exec
+	flag on fds by calling set_cloexec_flag.
+	* NEWS: Mention this bugfix.
+
 2010-04-03  James Youngman  <jay@gnu.org>
 
 	Move on from 4.5.7.
