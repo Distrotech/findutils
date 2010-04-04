@@ -189,11 +189,11 @@ xsavedir (const char *dir, int flags)
 	{
 	  /* Remember the name. */
 	  size_t entry_size = strlen (entry) + 1;
-	  result->buffer = extendbuf (result->buffer, namebuf_used+entry_size, &namebuf_allocated);
+	  result->buffer = xextendbuf (result->buffer, namebuf_used+entry_size, &namebuf_allocated);
 	  memcpy ((result->buffer) + namebuf_used, entry, entry_size);
 
 	  /* Remember the other stuff. */
-	  internal = extendbuf (internal, (1+result->size)*sizeof (*internal), &entrybuf_allocated);
+	  internal = xextendbuf (internal, (1+result->size)*sizeof (*internal), &entrybuf_allocated);
 	  internal[result->size].flags = 0;
 
 #if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
@@ -211,7 +211,7 @@ xsavedir (const char *dir, int flags)
 	}
     }
 
-  result->buffer = extendbuf (result->buffer, namebuf_used+1, &namebuf_allocated);
+  result->buffer = xextendbuf (result->buffer, namebuf_used+1, &namebuf_allocated);
   result->buffer[namebuf_used] = '\0';
 
   /* convert the result to its externally-usable form. */

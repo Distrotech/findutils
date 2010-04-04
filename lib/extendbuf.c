@@ -49,7 +49,7 @@ decide_size (size_t current, size_t wanted)
   while (newsize < wanted)
     {
       if (2 * newsize < newsize)
-	xalloc_die ();
+	return wanted;
       newsize *= 2;
     }
   return newsize;
@@ -76,15 +76,18 @@ extendbuf (void* existing, size_t wanted, size_t *allocated)
       assert (NULL == existing);
 
       (*allocated) = newsize;
-      result = xmalloc (newsize);
+      result = malloc (newsize);
     }
   else
     {
       if (newsize != (*allocated) )
 	{
 	  (*allocated) = newsize;
-	  result = xrealloc (existing, newsize);
-
+	  result = realloc (existing, newsize);
+	  if (NULL == result)
+	    {
+	      saved_errno = errno;
+	    }
 	}
       else
 	{
@@ -94,10 +97,24 @@ extendbuf (void* existing, size_t wanted, size_t *allocated)
 
   if (result)
     {
-      /* xmalloc () or xrealloc () may have changed errno, but in the
+      /* malloc () or realloc () may have changed errno, but in the
 	 success case we want to preserve the previous value.
       */
       errno = saved_errno;
     }
   return result;
 }
+
+
+void *
+xextendbuf (void* existing, size_t wanted, size_t *allocated)
+{
+  void *p = extendbuf (existing, wanted, allocated);
+  if (NULL == p)
+    {
+      free (existing);
+      xalloc_die ();
+    }
+  return p;
+}
+

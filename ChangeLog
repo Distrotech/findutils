@@ -1,5 +1,19 @@
 2010-04-07  James Youngman  <jay@gnu.org>
 
+	Support extendbuf buffers larger than SIZE_MAX/2.
+	* lib/extendbuf.c (xextendbuf): New function; extends the buffer,
+	but calls xalloc_die on failure.  On the the other hand, extendbuf
+	returns NULL on failure.
+	(decide_size): If wanted>SIZE_MAX/2, return wanted.  This means
+	that for very large buffers, performance on repeated extension
+	degrades from linear to quadratic (instead of just failing at that
+	point, as before).
+	* lib/savedirinfo.c (xsavedir): Use xextendbuf rather than
+	extendbuf, now that there is a difference in semantics.
+	* find/fstype.c (get_mounted_filesystems): If extendbuf returns
+	NULL, fail (by returning NULL ourselves).
+	(get_mounted_devices): 	Likewise.
+
 	* po/vi.po: Update Vietnamese translation.
 
 2010-04-05  James Youngman  <jay@gnu.org>

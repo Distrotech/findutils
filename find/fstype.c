@@ -258,6 +258,7 @@ get_mounted_filesystems (void)
   size_t alloc_size = 0u;
   size_t used = 0u;
   struct mount_entry *entries, *entry;
+  void *p;
 
   entries = must_read_fs_list (false);
   for (entry=entries; entry; entry=entry->me_next)
@@ -271,9 +272,17 @@ get_mounted_filesystems (void)
       set_fstype_devno (entry);
 
       len = strlen (entry->me_mountdir) + 1;
-      result = extendbuf (result, used+len, &alloc_size);
-      strcpy (&result[used], entry->me_mountdir);
-      used += len;		/* len already includes one for the \0 */
+      p = extendbuf (result, used+len, &alloc_size);
+      if (p)
+	{
+	  result = p;
+	  strcpy (&result[used], entry->me_mountdir);
+	  used += len;		/* len already includes one for the \0 */
+	}
+      else
+	{
+	  break;
+	}
     }
 
   free_file_system_list (entries);
@@ -299,13 +308,25 @@ get_mounted_devices (size_t *n)
        entry;
        entry = entry->me_next)
     {
-      result = extendbuf (result, sizeof(dev_t)*(used+1), &alloc_size);
-      set_fstype_devno (entry);
-      result[used] = entry->me_dev;
-      ++used;
+      void *p = extendbuf (result, sizeof(dev_t)*(used+1), &alloc_size);
+      if (p)
+	{
+	  result = p;
+	  set_fstype_devno (entry);
+	  result[used] = entry->me_dev;
+	  ++used;
+	}
+      else
+	{
+	  free (result);
+	  result = NULL;
+	}
     }
   free_file_system_list (entries);
-  *n = used;
+  if (result)
+    {
+      *n = used;
+    }
   return result;
 }
 
