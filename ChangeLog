@@ -7,6 +7,18 @@
 
 2010-04-04  James Youngman  <jay@gnu.org>
 
+	Don't return int to represent a boolean value.
+	* find/defs.h: fd_leak_check_is_enabled should return boolean, not
+	int.  Likewise following_links and digest_mode.
+	* lib/buildcmd.h: Likewise for bc_args_exceed_testing_limit.
+	Also #include <stdbool.h>.
+	* find/util.c (fd_leak_check_is_enabled): Now returns boolean.
+	* find/util.c (following_links): Likewise.
+	* find/util.c (digest_mode): Likewise.
+	* lib/buildcmd.c (bc_args_exceed_testing_limit): Likewise.
+	* find/find.c (get_current_dirfd): Indent definition correctly.
+	* find/util.c (get_start_dirfd): Likewise.
+
 	Fix Savannah bug #29435: fd_is_cloexec does not work on Fedora
 	buildhosts.
 	Fix open_cloexec on hosts which ignore O_CLOEXEC (i.e. old kernels).

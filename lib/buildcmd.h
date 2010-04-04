@@ -20,6 +20,8 @@
 #ifndef INC_BUILDCMD_H
 #define INC_BUILDCMD_H 1
 
+#include <stdbool.h>
+
 struct buildcmd_state
 {
   /* Number of valid elements in `cmd_argv', including terminating NULL.  */
@@ -136,7 +138,7 @@ extern size_t bc_get_arg_max(void);
 extern void bc_use_sensible_arg_max(struct buildcmd_control *ctl);
 extern void bc_clear_args(const struct buildcmd_control *ctl,
 			  struct buildcmd_state *state);
-extern int bc_args_exceed_testing_limit(const char **argv);
+bool bc_args_exceed_testing_limit(const char **argv);
 
 
 #endif

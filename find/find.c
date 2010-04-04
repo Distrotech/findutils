@@ -110,7 +110,8 @@ enum WdSanityCheckFatality
   };
 
 
-int get_current_dirfd (void)
+int
+get_current_dirfd (void)
 {
   return AT_FDCWD;
 }

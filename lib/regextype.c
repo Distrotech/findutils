@@ -138,7 +138,8 @@ unsigned int get_regex_type_context (unsigned int ix)
     return 0u;
 }
 
-int get_regex_type_synonym (unsigned int ix)
+int
+get_regex_type_synonym (unsigned int ix)
 {
   unsigned i;
   int flags;

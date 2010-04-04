@@ -495,7 +495,7 @@ struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry,
 float  calculate_derived_rates PARAMS((struct predicate *p));
 
 /* util.c */
-int fd_leak_check_is_enabled (void);
+boolean fd_leak_check_is_enabled (void);
 struct predicate *insert_primary PARAMS((const struct parser_table *entry, const char *arg));
 struct predicate *insert_primary_noarg PARAMS((const struct parser_table *entry));
 struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr, const char *arg));
@@ -522,8 +522,8 @@ boolean apply_predicate(const char *pathname, struct stat *stat_buf, struct pred
 
 /* find.c. */
 int get_info PARAMS((const char *pathname, struct stat *p, struct predicate *pred_ptr));
-int following_links PARAMS((void));
-int digest_mode PARAMS((mode_t *mode, const char *pathname, const char *name, struct stat *pstat, boolean leaf));
+boolean following_links PARAMS((void));
+boolean digest_mode PARAMS((mode_t *mode, const char *pathname, const char *name, struct stat *pstat, boolean leaf));
 boolean default_prints PARAMS((struct predicate *pred));
 boolean looks_like_expression PARAMS((const char *arg, boolean leading));
 

@@ -451,13 +451,13 @@ undangle_file_pointers (struct predicate *p)
 
 /* Return nonzero if file descriptor leak-checking is enabled.
  */
-int
+boolean
 fd_leak_check_is_enabled (void)
 {
   if (getenv ("GNU_FINDUTILS_FD_LEAK_CHECK"))
-    return 1;
+    return true;
   else
-    return 0;
+    return false;
 
 }
 
@@ -656,25 +656,25 @@ debug_stat (const char *file, struct stat *bufp)
 }
 
 
-int
+boolean
 following_links(void)
 {
   switch (options.symlink_handling)
     {
     case SYMLINK_ALWAYS_DEREF:
-      return 1;
+      return true;
     case SYMLINK_DEREF_ARGSONLY:
       return (state.curdepth == 0);
     case SYMLINK_NEVER_DEREF:
     default:
-      return 0;
+      return false;
     }
 }
 
 
 /* Take a "mode" indicator and fill in the files of 'state'.
  */
-int
+boolean
 digest_mode (mode_t *mode,
 	     const char *pathname,
 	     const char *name,
@@ -690,7 +690,7 @@ digest_mode (mode_t *mode,
 	{
 	  /* mode is wrong because we should have followed the symlink. */
 	  if (get_statinfo (pathname, name, pstat) != 0)
-	    return 0;
+	    return false;
 	  *mode = state.type = pstat->st_mode;
 	  state.have_type = true;
 	}
@@ -715,7 +715,7 @@ digest_mode (mode_t *mode,
       else
 	{
 	  if (get_statinfo (pathname, name, pstat) != 0)
-	    return 0;
+	    return false;
 
 	  /* If -L is in effect and we are dealing with a symlink,
 	   * st_mode is the mode of the pointed-to file, while mode is
@@ -728,7 +728,7 @@ digest_mode (mode_t *mode,
     }
 
   /* success. */
-  return 1;
+  return true;
 }
 
 
@@ -1033,7 +1033,8 @@ set_option_defaults (struct options *p)
  *
  * Returns the fd for the directory we started in.
  */
-int get_start_dirfd (void)
+int
+get_start_dirfd (void)
 {
   return starting_desc;
 }

@@ -30,6 +30,7 @@
 #include <string.h>
 #include <wchar.h>
 #include <locale.h>
+#include <stdbool.h>
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -683,7 +684,7 @@ exceeds (const char *env_var_name, size_t quantity)
 }
 
 /* Return nonzero if the indicated argument list exceeds a testing limit. */
-int
+bool
 bc_args_exceed_testing_limit (const char **argv)
 {
   size_t chars, args;

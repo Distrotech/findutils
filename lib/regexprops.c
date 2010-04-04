@@ -561,7 +561,8 @@ describe_all (const char *contextname,
 
 
 
-int main (int argc, char *argv[])
+int
+main (int argc, char *argv[])
 {
   const char *up = "";
   unsigned int context = CONTEXT_ALL;
