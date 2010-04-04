@@ -253,8 +253,8 @@ void free_dirinfo (struct savedir_dirinfo *p)
 
 
 
-static char *
-new_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
+char *
+savedirinfo (const char *dir, struct savedir_extrainfo **extra)
 {
   struct savedir_dirinfo *p = xsavedir (dir, SavedirSort);
   char *buf, *s;
@@ -293,90 +293,4 @@ new_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
     {
       return NULL;
     }
-}
-
-
-#if 0
-/* Return a freshly allocated string containing the filenames
-   in directory DIR, separated by '\0' characters;
-   the end is marked by two '\0' characters in a row.
-   Return NULL (setting errno) if DIR cannot be opened, read, or closed.  */
-
-static char *
-old_savedirinfo (const char *dir, struct savedir_extrainfo **extra)
-{
-  DIR *dirp;
-  struct dirent *dp;
-  char *name_space;
-  size_t namebuf_allocated = 0u, namebuf_used = 0u;
-#if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
-  size_t extra_allocated = 0u, extra_used = 0u;
-  struct savedir_extrainfo *info = NULL;
-#endif
-  int save_errno;
-
-  if (extra)
-    *extra = NULL;
-
-  dirp = opendir (dir);
-  if (dirp == NULL)
-    return NULL;
-
-  errno = 0;
-  name_space = NULL;
-  while ((dp = readdir (dirp)) != NULL)
-    {
-      /* Skip "", ".", and "..".  "" is returned by at least one buggy
-         implementation: Solaris 2.4 readdir on NFS file systems.  */
-      char const *entry = dp->d_name;
-      if (entry[entry[0] != '.' ? 0 : entry[1] != '.' ? 1 : 2] != '\0')
-	{
-	  /* Remember the name. */
-	  size_t entry_size = strlen (entry) + 1;
-	  name_space = extendbuf (name_space, namebuf_used+entry_size, &namebuf_allocated);
-	  memcpy (name_space + namebuf_used, entry, entry_size);
-	  namebuf_used += entry_size;
-
-
-#if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
-	  /* Remember the type. */
-	  if (extra)
-	    {
-	      info = extendbuf (info,
-				(extra_used+1) * sizeof (struct savedir_dirinfo),
-				&extra_allocated);
-	      info[extra_used].type_info = type_to_mode (dp->d_type);
-	      ++extra_used;
-	    }
-#endif
-	}
-    }
-
-  name_space = extendbuf (name_space, namebuf_used+1, &namebuf_allocated);
-  name_space[namebuf_used] = '\0';
-
-  save_errno = errno;
-  if (CLOSEDIR (dirp) != 0)
-    save_errno = errno;
-  if (save_errno != 0)
-    {
-      free (name_space);
-      errno = save_errno;
-      return NULL;
-    }
-
-#if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
-  if (extra && info)
-    *extra = info;
-#endif
-
-  return name_space;
-}
-#endif
-
-
-char *
-savedirinfo (const char *dir, struct savedir_extrainfo **extra)
-{
-  return new_savedirinfo (dir, extra);
 }

@@ -1,5 +1,10 @@
 2010-04-07  James Youngman  <jay@gnu.org>
 
+	Remove obsolete code from savedirinfo.c.
+	* lib/savedirinfo.c (new_savedirinfo): Rename new_savedirinfo to
+	savedirinfo.
+	(old_savedirinfo): Remove obsolete function body.
+
 	Support extendbuf buffers larger than SIZE_MAX/2.
 	* lib/extendbuf.c (xextendbuf): New function; extends the buffer,
 	but calls xalloc_die on failure.  On the the other hand, extendbuf
