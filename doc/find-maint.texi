@@ -174,23 +174,29 @@ pass.  Some features of the code are tested well, but the test
 coverage for other features is less good.  If you are about to modify
 the code for a predicate and aren't sure about the test coverage, use
 @code{grep} on the test directories and measure the coverage with
-@code{gcov} or another test coverage tool.
+@code{lcov} or another test coverage tool.
+
+You should be able to use the @code{coverage} Makefile target (it's
+defined in @code{maint.mk} to generate a test coverage report for
+findutils.   Due to limitations in @code{lcov}, this only works if
+your build directory is the same asthe source directory (that is,
+you're not using a VPATH build configuration).
 
 Lastly, we try not to depend on having a ``working system''.  The
 findutils suite is used for diagnosis of problems, and this applies
 especially to @code{find}.  We should ensure that @code{find} still
 works on relatively broken systems, for example systems with damaged
-@file{/etc/passwd} files.  Another interesting example is the case
-where a system is a client of one or more unresponsive NFS servers.
-On such a system, if you try to stat all mount points, your program
-will hang indefinitely, waiting for the remote NFS server to respond.
+@file{/etc/passwd} or @code{/etc/fstab} files.  Another interesting
+example is the case where a system is a client of one or more
+unresponsive NFS servers.  On such a system, if you try to stat all
+mount points, your program will hang indefinitely, waiting for the
+remote NFS server to respond.
 
+Another interesting but unusual case is broken NFS servers and corrupt
+filesystems; sometimes they return `impossible' file modes.  It's
+important that find does not entirely fail when encountering such a
+file.
 
-
-@c Installed on many systems
-@c Often part of base
-@c Needs to work on broken systems (e.g. unresponsive NFS servers,
-@c mode-0 files)
 
 @node Coding Conventions
 @chapter Coding Conventions
@@ -256,6 +262,10 @@ never assert that a file could be opened successfully.  Errors
 relating to problems with the program's execution environment should
 be diagnosed with a user-oriented error message.  An assertion failure
 should always denote a bug in the program.
+
+Don't use @code{assert} to catch not-fuly-implemented features of your
+code.  Finish the implementation, disable the code, or leave the
+unfinished version on a local branch.
 
 Several programs in the findutils suite perform self-checks.  See for
 example the function @code{pred_sanity_check} in @file{find/pred.c}.
@@ -447,7 +457,7 @@ someone falls over a bug.
 @node Tools
 @chapter Tools
 Most of the tools required to build findutils are mentioned in the
-file @file{README-CVS}.  We also use some other tools:
+file @file{README-hacking}.  We also use some other tools:
 
 @table @asis
 @item System call traces
@@ -491,8 +501,8 @@ support.
 
 GNU projects vary in how they interact with Gnulib.  Many import a
 selection of code from Gnulib into the working directory and then
-check the updated files into the CVS repository for their project.
-The coreutils project does this, for example.
+check the updated files into the repository for their project.  The
+coreutils project does this, for example.
 
 At the last maintainer changeover for findutils (2003) it turned out
 that there was a lot of material in findutils in common with Gnulib,
@@ -508,38 +518,36 @@ findutils source tree.  When Automake is run with @code{automake
 there which aren't there already.
 
 An analogous approach is taken with Gnulib.  The Gnulib code is
-imported from the CVS repository for Gnulib with a findutils helper
+imported from the git repository for Gnulib with a findutils helper
 script, @code{import-gnulib.sh}.  That script fetches a copy of the
 Gnulib code into the subdirectory @file{gnulib-git} and then runs
 @code{gnulib-tool}.  The @code{gnulib-tool} program copies the
 required parts of Gnulib into the findutils source tree in the
 subdirectory @file{gnulib}.  This process gives us the property that
 the code in @file{gnulib} and @code{gnulib-git} is not included in the
-findutils CVS tree.   Both directories are listed in @file{.cvsignore}
-and so CVS ignores them.
+findutils git tree.   Both directories are listed in @file{.gitignore}
+and so git ignores them.
 
 Findutils does not use all the Gnulib code.  The modules we need are
 listed in the file @file{import-gnulib.config}.  The same file also
 indicates the version of Gnulib that we want to use.  Since Gnulib has
 no actual release process, we just use a date.  Both
 @file{import-gnulib.sh} and @file{import-gnulib.config} are in the
-findutils CVS repository.
+findutils git repository.
 
-The upshot of all this is that we can use the findutils CVS repository
+The upshot of all this is that we can use the findutils git repository
 to track which version of Gnulib every findutils release uses.  That
 information is also provided when the user invokes a findutils program
-with the @samp{--version} option.  It also means that if a file exists
-in the Findutils CVS repository, you can be certain that the file
-exists in the CVS repository and is different from a similar file
-elsewhere, it's for a reason.
+with the @samp{--version} option.
 
-There are a small number of exceptions to this; the standard
-boiler-plate GNU files such as @file{ABOUT-NLS}, @file{INSTALL} and
-@file{COPYING}.
+A small number of files are installed by automake and will therefore
+vary according to which version of automake was used to generate a
+release.  This includes for example boiler-plate GNU files such as
+@file{ABOUT-NLS}, @file{INSTALL} and @file{COPYING}.
 
 
 @section How We Fix Gnulib Bugs
-If we always directly import the Gnulib code directly from the CVS
+If we always directly import the Gnulib code directly from the git
 repository in this way, it is impossible to maintain a locally
 different copy of Gnulib.  This is often a benefit in that accidental
 version skew is prevented.
@@ -555,12 +563,12 @@ the Gnulib code, but it does happen from time to time.
 However, since there is no waiting around for a Gnulib source release
 tarball, Gnulib bugs are generally fixed quickly.  Here is an outline
 of the way we would contribute a fix to Gnulib (assuming you know it
-is not already fixed in current Gnulib CVS):
+is not already fixed in the current Gnulib git tree):
 
 @table @asis
 @item Check you already completed a copyright assignment for Gnulib
-@item Begin with a vanilla CVS tree
-Download the Findutils source code from CVS (or use the tree you have
+@item Begin with a vanilla git tree
+Download the Findutils source code from git (or use the tree you have
 already)
 @item Check out a copy of the Gnulib source
 Check out a copy of the Gnulib source tree.  The
@@ -584,13 +592,13 @@ skip this step, since you already have a test case demonstrating the problem.
 Otherwise, write a findutils test case for the bug and/or a Gnulib test case.
 @item Fix the Gnulib bug
 Make sure your editor follows symbolic links so that your changes to
-@file{gnulib/...} actually affect the files in the CVS working
+@file{gnulib/...} actually affect the files in the git working
 directory you checked out earlier.   Observe that your test now passes.
 @item Prepare a Gnulib patch
-Use @code{cvs -z3 diff -upN} to prepare the patch.  Write a ChangeLog
-entry and prepend this to the patch.  Check that the patch conforms
-with the GNU coding standards, and email it to the Gnulib mailing
-list.
+Use @code{git format-patch} to prepare the patch.  Follow the normal
+usage for checkin comments (take a look at the output of @code{git
+log}).  Check that the patch conforms with the GNU coding standards,
+and email it to the Gnulib mailing list.
 @item Wait for the patch to be applied
 Once your bug fix has been applied, you can update your local directory
 from git, re-import the code into Findutils (still using the @code{-d}
@@ -607,10 +615,16 @@ that we were relying on to fix the bug.   Make sure you checked
 everything in by running @code{git status}.
 @end table
 
+There is an alternative to the method above; it is possible to store
+local diffs to be patched into gnulib beneath the
+@file{gnulib-local}.  Normally however, there is no need for this,
+since gnulib updates are very prompt.
+
+
 @node Documentation
 @chapter Documentation
 
-The findutils CVS tree includes several different types of
+The findutils git tree includes several different types of
 documentation.
 
 @section User Documentation
@@ -647,8 +661,8 @@ Generic installation instructions for installing GNU programs.
 Information about how to compile findutils in particular
 @item README-alpha
 A README file which is included with testing releases of findutils.
-@item README-CVS
-Describes how to build findutils from the code in CVS.
+@item README-hacking
+Describes how to build findutils from the code in git.
 @item THANKS
 Thanks for people who contributed to findutils.  Generally, if
 someone's contribution was significant enough to need a copyright
@@ -712,7 +726,7 @@ to @samp{Invalid} and close the bug.   Make sure you set the
 @samp{Assigned to} field to yourself before closing the bug.
 
 @item Fixing
-When you commit a bug fix into CVS (or in the case of a contributed
+When you commit a bug fix into git (or in the case of a contributed
 patch, commit the change), mark the bug as @samp{Fixed}.  Make sure
 you include a new test case where this is relevant.  If you can figure
 out which releases are affected, please also set the @samp{Release}
@@ -753,8 +767,8 @@ which provides a replacement @code{locate}.
 Translation is essentially automated from the maintainer's point of
 view.  The TP mails the maintainer when a new PO file is available,
 and we just download it and check it in.  We copy the @file{.po} files
-into the CVS repository.  For more information, please see
-@url{http://www.iro.umontreal.ca/translation/HTML/domain-findutils.html}.
+into the git repository.  For more information, please see
+@url{http://translationproject.org/domain/findutils.html}.
 
 
 @node Security
@@ -771,12 +785,13 @@ releases which include both significant security fixes and functional
 changes.
 
 Where someone reports a security problem privately, we generally try
-to construct and test a patch without checking the intermediate code
-in.  Once everything has been tested, this allows us to commit a patch
-and immediately make a release.   The advantage of doing things this
-way is that we avoid situations where people watching for CVS commits
-can figure out and exploit a security problem before a fixed release
-is available.
+to construct and test a patch without pushing the intermediate code to
+the public repository.
+
+Once everything has been tested, this allows us to make a release and
+push the patch.  The advantage of doing things this way is that we
+avoid situations where people watching for git commits can figure out
+and exploit a security problem before a fixed release is available.
 
 It's important that security problems be fixed promptly, but don't
 rush so much that things go wrong.  Make sure the new release really
@@ -1108,9 +1123,10 @@ are fixed.
 with the new release number (and checked in).
 @item Build the release tarball; do this with @code{make distcheck}.
 Copy the tarball somewhere safe.
-@item Tag the release; findutils releases are tagged in CVS as
-FINDUTILS_x_y_z-1.  For example, the tag for findutils release 4.3.8
-is FINDUTILS_4_3_8-1.
+@item Tag the release; findutils releases are tagged like this for
+example: v4.5.5.  Previously a different format was in use:
+FINDUTILS_4_3_8-1.  You can create a tag with the a command like this:
+@code{git tag -s -m "Findutils release v4.5.7" v4.5.7}.
 @item Prepare the upload and upload it.
 @xref{Automated FTP Uploads, ,Automated FTP
 Uploads, maintain, Information for Maintainers of GNU Software},
@@ -1119,11 +1135,11 @@ for detailed upload instructions.
 file which explains what's changed.  Announcements for test releases
 should just go to @email{bug-findutils@@gnu.org}.  Announcements for
 stable releases should go to @email{info-gnu@@gnu.org} as well.
-@item Bump the release numbers in CVS; edit the @file{configure.in}
+@item Bump the release numbers in git; edit the @file{configure.in}
 and @file{NEWS} files to advance the release numbers.   For example,
 if you have just released @samp{4.6.2}, bump the release number to
-@samp{4.6.3-CVS}.  The point of the @samp{-CVS} suffix here is that a
-findutils binary built from CVS will bear a release number indicating
+@samp{4.6.3-git}.  The point of the @samp{-git} suffix here is that a
+findutils binary built from git will bear a release number indicating
 it's not built from the ``official'' source release.
 @item Close bugs; any bugs recorded on Savannah which were fixed in this
 release should now be marked as closed.   Update the @samp{Fixed
