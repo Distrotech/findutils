@@ -45,7 +45,7 @@ Please stop compiling the program now
 #include <unistd.h>
 #include <time.h>
 #include <limits.h>		/* for CHAR_BIT */
-#include <stdbool.h>		/* for bool/boolean */
+#include <stdbool.h>		/* for bool */
 #include <stdint.h>		/* for uintmax_t */
 #include <sys/stat.h> /* S_ISUID etc. */
 #include <selinux/selinux.h>
@@ -57,8 +57,6 @@ Please stop compiling the program now
 #endif
 
 # include <inttypes.h>
-
-typedef bool boolean;
 
 #include "regex.h"
 #include "timespec.h"
@@ -97,7 +95,7 @@ struct predicate;
 struct options;
 
 /* Pointer to a predicate function. */
-typedef boolean (*PRED_FUNC)(const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr);
+typedef bool (*PRED_FUNC)(const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr);
 
 /* The number of seconds in a day. */
 #define		DAYSECS	    86400
@@ -141,7 +139,7 @@ enum predicate_precedence
 struct long_val
 {
   enum comparison_type kind;
-  boolean negative;		/* Defined only when representing time_t.  */
+  bool negative;	 /* Defined only when representing time_t.  */
   uintmax_t l_val;
 };
 
@@ -191,13 +189,13 @@ struct time_val
 
 struct exec_val
 {
-  boolean multiple;		/* -exec {} \+ denotes multiple argument. */
+  bool multiple;		/* -exec {} \+ denotes multiple argument. */
   struct buildcmd_control ctl;
   struct buildcmd_state   state;
   char **replace_vec;		/* Command arguments (for ";" style) */
   int num_args;
-  boolean use_current_dir;      /* If nonzero, don't chdir to start dir */
-  boolean close_stdin;		/* If true, close stdin in the child. */
+  bool use_current_dir;	        /* If nonzero, don't chdir to start dir */
+  bool close_stdin;		/* If true, close stdin in the child. */
   int dir_fd;			/* The directory to do the exec in. */
   int last_child_status;	/* Status of the most recent child. */
 };
@@ -229,7 +227,7 @@ struct format_val
   struct segment *segment;	/* Linked list of segments. */
   FILE *stream;			/* Output stream to print on. */
   const char *filename;		/* We need the filename for error messages. */
-  boolean dest_is_tty;		/* True if the destination is a terminal. */
+  bool dest_is_tty;		/* True if the destination is a terminal. */
   struct quoting_options *quote_opts;
 };
 
@@ -277,19 +275,19 @@ struct predicate
   /* True if this predicate node produces side effects.
      If side_effects are produced
      then optimization will not be performed */
-  boolean side_effects;
+  bool side_effects;
 
   /* True if this predicate node requires default print be turned off. */
-  boolean no_default_print;
+  bool no_default_print;
 
   /* True if this predicate node requires a stat system call to execute. */
-  boolean need_stat;
+  bool need_stat;
 
   /* True if this predicate node requires knowledge of the file type. */
-  boolean need_type;
+  bool need_type;
 
   /* True if this predicate node requires knowledge of the inode number. */
-  boolean need_inum;
+  bool need_inum;
 
   enum EvaluationCost p_cost;
 
@@ -297,10 +295,10 @@ struct predicate
   float est_success_rate;
 
   /* True if this predicate should display control characters literally */
-  boolean literal_control_chars;
+  bool literal_control_chars;
 
   /* True if this predicate didn't originate from the user. */
-  boolean artificial;
+  bool artificial;
 
   /* The raw text of the argument of this predicate. */
   const char *arg_text;
@@ -341,7 +339,7 @@ struct predicate
 };
 
 /* find.c, ftsfind.c */
-boolean is_fts_enabled(int *ftsoptions);
+bool is_fts_enabled(int *ftsoptions);
 int get_start_dirfd(void);
 int get_current_dirfd(void);
 
@@ -385,8 +383,8 @@ enum arg_type
 
 struct parser_table;
 /* Pointer to a parser function. */
-typedef boolean (*PARSE_FUNC)(const struct parser_table *p,
-			      char *argv[], int *arg_ptr);
+typedef bool (*PARSE_FUNC)(const struct parser_table *p,
+			   char *argv[], int *arg_ptr);
 struct parser_table
 {
   enum arg_type type;
@@ -397,17 +395,17 @@ struct parser_table
 
 /* parser.c */
 const struct parser_table* find_parser PARAMS((char *search_name));
-boolean parse_print PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+bool parse_print PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 void pred_sanity_check PARAMS((const struct predicate *predicates));
 void check_option_combinations (const struct predicate *p);
 void parse_begin_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
 void parse_end_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
-boolean parse_openparen              PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
-boolean parse_closeparen             PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
+bool parse_openparen  PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
+bool parse_closeparen PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
 
 /* pred.c */
 
-typedef boolean PREDICATEFUNCTION(const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr);
+typedef bool PREDICATEFUNCTION(const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr);
 PREDICATEFUNCTION pred_amin;
 PREDICATEFUNCTION pred_and;
 PREDICATEFUNCTION pred_anewer;
@@ -485,7 +483,7 @@ void show_success_rates(const struct predicate *node);
 
 
 /* tree.c */
-boolean matches_start_point(const char * glob, boolean foldcase);
+bool matches_start_point(const char * glob, bool foldcase);
 struct predicate * build_expression_tree PARAMS((int argc, char *argv[], int end_of_leading_options));
 struct predicate * get_eval_tree PARAMS((void));
 struct predicate *get_new_pred_noarg (const struct parser_table *entry);
@@ -495,12 +493,12 @@ struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry,
 float  calculate_derived_rates PARAMS((struct predicate *p));
 
 /* util.c */
-boolean fd_leak_check_is_enabled (void);
+bool fd_leak_check_is_enabled (void);
 struct predicate *insert_primary PARAMS((const struct parser_table *entry, const char *arg));
 struct predicate *insert_primary_noarg PARAMS((const struct parser_table *entry));
 struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr, const char *arg));
 void usage PARAMS((FILE *fp, int status, char *msg));
-extern boolean check_nofollow(void);
+extern bool check_nofollow(void);
 void complete_pending_execs(struct predicate *p);
 void complete_pending_execdirs(int dir_fd); /* Passing dir_fd is an unpleasant CodeSmell. */
 const char *safely_quote_err_filename (int n, char const *arg);
@@ -514,7 +512,7 @@ void set_option_defaults PARAMS((struct options *p));
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
   (*(node)->pred_func)((pathname), (stat_buf_ptr), (node))
 #else
-boolean apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p);
+bool apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p);
 #endif
 
 #define pred_is(node, fn) ( ((node)->pred_func) == (fn) )
@@ -522,10 +520,10 @@ boolean apply_predicate(const char *pathname, struct stat *stat_buf, struct pred
 
 /* find.c. */
 int get_info PARAMS((const char *pathname, struct stat *p, struct predicate *pred_ptr));
-boolean following_links PARAMS((void));
-boolean digest_mode PARAMS((mode_t *mode, const char *pathname, const char *name, struct stat *pstat, boolean leaf));
-boolean default_prints PARAMS((struct predicate *pred));
-boolean looks_like_expression PARAMS((const char *arg, boolean leading));
+bool following_links PARAMS((void));
+bool digest_mode PARAMS((mode_t *mode, const char *pathname, const char *name, struct stat *pstat, bool leaf));
+bool default_prints PARAMS((struct predicate *pred));
+bool looks_like_expression PARAMS((const char *arg, bool leading));
 
 
 enum DebugOption
@@ -543,11 +541,11 @@ enum DebugOption
 struct options
 {
   /* If true, process directory before contents.  True unless -depth given. */
-  boolean do_dir_first;
+  bool do_dir_first;
   /* If true, -depth was EXPLICITLY set (as opposed to having been turned
    * on by -delete, for example).
    */
-   boolean explicit_depth;
+   bool explicit_depth;
 
   /* If >=0, don't descend more than this many levels of subdirectories. */
   int maxdepth;
@@ -557,30 +555,30 @@ struct options
 
   /* If true, do not assume that files in directories with nlink == 2
      are non-directories. */
-  boolean no_leaf_check;
+  bool no_leaf_check;
 
   /* If true, don't cross filesystem boundaries. */
-  boolean stay_on_filesystem;
+  bool stay_on_filesystem;
 
   /* If true, we ignore the problem where we find that a directory entry
    * no longer exists by the time we get around to processing it.
    */
-  boolean ignore_readdir_race;
+  bool ignore_readdir_race;
 
   /* If true, pass control characters through.  If false, escape them
    * or turn them into harmless things.
    */
-  boolean literal_control_chars;
+  bool literal_control_chars;
 
   /* If true, we issue warning messages
    */
-  boolean warnings;
+  bool warnings;
 
   /* If true, avoid POSIX-incompatible behaviours
    * (this functionality is currently incomplete
    * and at the moment affects mainly warning messages).
    */
-  boolean posixly_correct;
+  bool posixly_correct;
 
   struct timespec      start_time;		/* Time at start of execution.  */
 
@@ -588,7 +586,7 @@ struct options
   struct timespec      cur_day_start;
 
   /* If true, cur_day_start has been adjusted to the start of the day. */
-  boolean full_days;
+  bool full_days;
 
   int output_block_size;	/* Output block size.  */
 
@@ -605,7 +603,7 @@ struct options
   /* Indicate if we can implement safely_chdir() using the O_NOFOLLOW
    * flag to open(2).
    */
-  boolean open_nofollow_available;
+  bool open_nofollow_available;
 
   /* The variety of regular expression that we support.
    * The default is POSIX Basic Regular Expressions, but this
@@ -634,10 +632,10 @@ struct state
   int curdepth;
 
   /* If true, we have called stat on the current path. */
-  boolean have_stat;
+  bool have_stat;
 
   /* If true, we know the type of the current path. */
-  boolean have_type;
+  bool have_type;
   mode_t type;			/* this is the actual type */
 
   /* The file being operated on, relative to the current directory.
@@ -653,7 +651,7 @@ struct state
 
   /* If true, don't descend past current directory.
      Can be set by -prune, -maxdepth, and -xdev/-mount. */
-  boolean stop_at_current_level;
+  bool stop_at_current_level;
 
   /* Status value to return to system. */
   int exit_status;
@@ -662,7 +660,7 @@ struct state
    * calls for every directory we leave if it is false.  This is just
    * an optimisation.  Set to true if you want to be conservative.
    */
-  boolean execdirs_outstanding;
+  bool execdirs_outstanding;
 
   /* Shared files, opened via the interface in sharefile.h. */
   sharefile_handle shared_files;

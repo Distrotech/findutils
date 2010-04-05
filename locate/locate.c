@@ -70,7 +70,7 @@
 #include <getopt.h>
 #include <xstrtol.h>
 
-#include <stdbool.h>		/* for bool/boolean */
+#include <stdbool.h>
 
 /* The presence of unistd.h is assumed by gnulib these days, so we
  * might as well assume it too.
@@ -137,8 +137,6 @@
 # define TOUPPER(Ch) (islower (Ch) ? toupper (Ch) : (Ch))
 # define TOLOWER(Ch) (isupper (Ch) ? tolower (Ch) : (Ch))
 #endif
-
-/* typedef enum {false, true} boolean; */
 
 /* Warn if a database is older than this.  8 days allows for a weekly
    update that takes up to a day to perform.  */

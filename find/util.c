@@ -238,7 +238,7 @@ get_info (const char *pathname,
 	  struct stat *p,
 	  struct predicate *pred_ptr)
 {
-  boolean todo = false;
+  bool todo = false;
 
   /* If we need the full stat info, or we need the type info but don't
    * already have it, stat the file now.
@@ -299,7 +299,7 @@ get_info (const char *pathname,
 /* Determine if we can use O_NOFOLLOW.
  */
 #if defined O_NOFOLLOW
-boolean
+bool
 check_nofollow (void)
 {
   struct utsname uts;
@@ -451,7 +451,7 @@ undangle_file_pointers (struct predicate *p)
 
 /* Return nonzero if file descriptor leak-checking is enabled.
  */
-boolean
+bool
 fd_leak_check_is_enabled (void)
 {
   if (getenv ("GNU_FINDUTILS_FD_LEAK_CHECK"))
@@ -656,7 +656,7 @@ debug_stat (const char *file, struct stat *bufp)
 }
 
 
-boolean
+bool
 following_links(void)
 {
   switch (options.symlink_handling)
@@ -674,12 +674,12 @@ following_links(void)
 
 /* Take a "mode" indicator and fill in the files of 'state'.
  */
-boolean
+bool
 digest_mode (mode_t *mode,
 	     const char *pathname,
 	     const char *name,
 	     struct stat *pstat,
-	     boolean leaf)
+	     bool leaf)
 {
   /* If we know the type of the directory entry, and it is not a
    * symbolic link, we may be able to avoid a stat() or lstat() call.
@@ -736,7 +736,7 @@ digest_mode (mode_t *mode,
    predicate list PRED, false if there are any.
    Returns true if default print should be performed */
 
-boolean
+bool
 default_prints (struct predicate *pred)
 {
   while (pred != NULL)
@@ -748,8 +748,8 @@ default_prints (struct predicate *pred)
   return (true);
 }
 
-boolean
-looks_like_expression (const char *arg, boolean leading)
+bool
+looks_like_expression (const char *arg, bool leading)
 {
   switch (arg[0])
     {
@@ -788,7 +788,7 @@ process_debug_options (char *arg)
   const char *p;
   char *token_context = NULL;
   const char delimiters[] = ",";
-  boolean empty = true;
+  bool empty = true;
   size_t i;
 
   p = strtok_r (arg, delimiters, &token_context);
@@ -1042,7 +1042,7 @@ get_start_dirfd (void)
 /* apply_predicate
  *
  */
-boolean
+bool
 apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p)
 {
   ++p->perf.visits;

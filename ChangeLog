@@ -1,3 +1,18 @@
+2010-04-05  James Youngman  <jay@gnu.org>
+
+	Use bool instead of the previous typedef boolean.
+	* find/defs.h: Don't create typedef "boolean"; use the standard
+	type bool.  Update other declarations accordingly.
+	* find/find.c: Update declarations and function definitions to use
+	bool.
+	* find/ftsfind.c: Likewise.
+	* find/parser.c: Likewise.
+	* find/pred.c: Likewise.
+	* find/tree.c: Likewise.
+	* find/util.c: Likewise.
+	* locate/locate.c: Likewise.
+	* xargs/xargs.c: Likewise.
+
 2010-04-05  Jim Meyering  <meyering@redhat.com>
 
 	frcode: avoid link failure due to multiple program_name definition

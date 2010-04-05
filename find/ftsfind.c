@@ -303,7 +303,7 @@ issue_loop_warning (FTSENT * ent)
  *      rm -f a b; ln -s a b; ln -s b a
  * produces such a loop.
  */
-static boolean
+static bool
 symlink_loop (const char *name)
 {
   struct stat stbuf;
@@ -784,7 +784,7 @@ main (int argc, char **argv)
   return state.exit_status;
 }
 
-boolean
+bool
 is_fts_enabled (int *fts_options)
 {
   /* this version of find (i.e. this main()) uses fts. */

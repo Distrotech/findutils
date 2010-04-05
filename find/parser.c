@@ -85,91 +85,91 @@
 #define endpwent ()
 #endif
 
-static boolean parse_accesscheck   PARAMS((const struct parser_table* entry, char **argv, int *arg_ptr));
-static boolean parse_amin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_and           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_anewer        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_cmin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_cnewer        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_comma         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_daystart      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_delete        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_d             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_depth         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_empty         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_exec          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_execdir       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_false         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_fls           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_fprintf       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_follow        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_fprint        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_fprint0       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_fstype        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_gid           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_group         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_help          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_ilname        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_iname         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_inum          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_ipath         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_iregex        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_iwholename    PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_links         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_lname         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_ls            PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_maxdepth      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_mindepth      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_mmin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_name          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_negate        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_newer         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_newerXY       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_noleaf        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_nogroup       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_nouser        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_nowarn        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_ok            PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_okdir         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_or            PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_path          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_perm          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_print0        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_printf        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_prune         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_regex         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_regextype     PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_samefile      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_accesscheck   PARAMS((const struct parser_table* entry, char **argv, int *arg_ptr));
+static bool parse_amin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_and           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_anewer        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_cmin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_cnewer        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_comma         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_daystart      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_delete        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_d             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_depth         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_empty         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_exec          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_execdir       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_false         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_fls           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_fprintf       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_follow        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_fprint        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_fprint0       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_fstype        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_gid           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_group         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_help          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_ilname        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_iname         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_inum          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_ipath         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_iregex        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_iwholename    PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_links         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_lname         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_ls            PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_maxdepth      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_mindepth      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_mmin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_name          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_negate        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_newer         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_newerXY       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_noleaf        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_nogroup       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_nouser        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_nowarn        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_ok            PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_okdir         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_or            PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_path          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_perm          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_print0        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_printf        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_prune         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_regex         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_regextype     PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_samefile      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 #if 0
-static boolean parse_show_control_chars PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_show_control_chars PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 #endif
-static boolean parse_size          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_time          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_true          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_type          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_uid           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_used          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_user          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_version       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_wholename     PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_xdev          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_ignore_race   PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_noignore_race PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_warn          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_xtype         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_quit          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static boolean parse_context       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_size          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_time          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_true          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_type          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_uid           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_used          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_user          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_version       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_wholename     PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_xdev          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_ignore_race   PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_noignore_race PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_warn          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_xtype         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_quit          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_context       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 
-boolean parse_print             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+bool parse_print             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 
 
-static boolean insert_type PARAMS((char **argv, int *arg_ptr,
+static bool insert_type PARAMS((char **argv, int *arg_ptr,
 				   const struct parser_table *entry,
 				   PRED_FUNC which_pred));
-static boolean insert_regex PARAMS((char *argv[], int *arg_ptr,
+static bool insert_regex PARAMS((char *argv[], int *arg_ptr,
 				    const struct parser_table *entry,
 				    int regex_options));
-static boolean insert_fprintf (struct format_val *vec,
+static bool insert_fprintf (struct format_val *vec,
 			       const struct parser_table *entry,
 			       PRED_FUNC func,
 			       const char *format);
@@ -179,27 +179,27 @@ static struct segment **make_segment PARAMS((struct segment **segment,
 					     int kind, char format_char,
 					     char aux_format_char,
 					     struct predicate *pred));
-static boolean insert_exec_ok PARAMS((const char *action,
+static bool insert_exec_ok PARAMS((const char *action,
 				      const struct parser_table *entry,
 				      int dir_fd,
 				      char *argv[],
 				      int *arg_ptr));
-static boolean get_comp_type PARAMS((const char **str,
+static bool get_comp_type PARAMS((const char **str,
 				     enum comparison_type *comp_type));
-static boolean get_relative_timestamp PARAMS((const char *str,
+static bool get_relative_timestamp PARAMS((const char *str,
 					      struct time_val *tval,
 					      struct timespec origin,
 					      double sec_per_unit,
 					      const char *overflowmessage));
-static boolean get_num PARAMS((const char *str,
+static bool get_num PARAMS((const char *str,
 			       uintmax_t *num,
 			       enum comparison_type *comp_type));
 static struct predicate* insert_num PARAMS((char *argv[], int *arg_ptr,
 					    const struct parser_table *entry));
 static void open_output_file (const char *path, struct format_val *p);
 static void open_stdout (struct format_val *p);
-static boolean stream_is_tty(FILE *fp);
-static boolean parse_noop PARAMS((const struct parser_table* entry,
+static bool stream_is_tty(FILE *fp);
+static bool parse_noop PARAMS((const struct parser_table* entry,
 				  char **argv, int *arg_ptr));
 
 #define PASTE(x,y) x##y
@@ -712,7 +712,7 @@ estimate_timestamp_success_rate (time_t when)
 /* Collect an argument from the argument list, or
  * return false.
  */
-static boolean
+static bool
 collect_arg (char **argv, int *arg_ptr, const char **collected_arg)
 {
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
@@ -728,7 +728,7 @@ collect_arg (char **argv, int *arg_ptr, const char **collected_arg)
     }
 }
 
-static boolean
+static bool
 collect_arg_stat_info (char **argv, int *arg_ptr, struct stat *p,
 		       const char **argument)
 {
@@ -763,7 +763,7 @@ collect_arg_stat_info (char **argv, int *arg_ptr, struct stat *p,
    The predicate structure is updated with the new information. */
 
 
-static boolean
+static bool
 parse_and (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -779,7 +779,7 @@ parse_and (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_anewer (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct stat stat_newer;
@@ -798,7 +798,7 @@ parse_anewer (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-boolean
+bool
 parse_closeparen (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -814,7 +814,7 @@ parse_closeparen (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_cnewer (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct stat stat_newer;
@@ -833,7 +833,7 @@ parse_cnewer (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-static boolean
+static bool
 parse_comma (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -850,7 +850,7 @@ parse_comma (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_daystart (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct tm *local;
@@ -873,7 +873,7 @@ parse_daystart (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_delete (const struct parser_table* entry, char *argv[], int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -894,7 +894,7 @@ parse_delete (const struct parser_table* entry, char *argv[], int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_depth (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   (void) entry;
@@ -905,7 +905,7 @@ parse_depth (const struct parser_table* entry, char **argv, int *arg_ptr)
   return parse_noop (entry, argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_d (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   if (options.warnings)
@@ -918,7 +918,7 @@ parse_d (const struct parser_table* entry, char **argv, int *arg_ptr)
   return parse_depth (entry, argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_empty (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -930,19 +930,19 @@ parse_empty (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_exec (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_exec_ok ("-exec", entry, get_start_dirfd (), argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_execdir (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_exec_ok ("-execdir", entry, -1, argv, arg_ptr);
 }
 
-static boolean
+static bool
 insert_false(void)
 {
   struct predicate *our_pred;
@@ -957,13 +957,13 @@ insert_false(void)
 }
 
 
-static boolean
+static bool
 parse_false (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_false ();
 }
 
-static boolean
+static bool
 insert_fls (const struct parser_table* entry, const char *filename)
 {
   struct predicate *our_pred = insert_primary_noarg (entry);
@@ -977,7 +977,7 @@ insert_fls (const struct parser_table* entry, const char *filename)
 }
 
 
-static boolean
+static bool
 parse_fls (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *filename;
@@ -991,14 +991,14 @@ parse_fls (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-static boolean
+static bool
 parse_follow (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   set_follow_state (SYMLINK_ALWAYS_DEREF);
   return parse_noop (entry, argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_fprint (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -1018,7 +1018,7 @@ parse_fprint (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
 }
 
-static boolean
+static bool
 insert_fprint (const struct parser_table* entry, const char *filename)
 {
   struct predicate *our_pred = insert_primary (entry, filename);
@@ -1033,7 +1033,7 @@ insert_fprint (const struct parser_table* entry, const char *filename)
 }
 
 
-static boolean
+static bool
 parse_fprint0 (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *filename;
@@ -1065,7 +1065,7 @@ static float estimate_fstype_success_rate (const char *fsname)
 
 
 
-static boolean
+static bool
 is_used_fs_type(const char *name)
 {
   if (0 == strcmp("afs", name))
@@ -1095,7 +1095,7 @@ is_used_fs_type(const char *name)
 }
 
 
-static boolean
+static bool
 parse_fstype (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *typename;
@@ -1135,7 +1135,7 @@ parse_fstype (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
 }
 
-static boolean
+static bool
 parse_gid (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p = insert_num (argv, arg_ptr, entry);
@@ -1152,7 +1152,7 @@ parse_gid (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 
-static boolean
+static bool
 parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *groupname;
@@ -1216,7 +1216,7 @@ parse_group (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-static boolean
+static bool
 parse_help (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   (void) entry;
@@ -1274,7 +1274,7 @@ estimate_pattern_match_rate (const char *pattern, int is_regex)
     }
 }
 
-static boolean
+static bool
 parse_ilname (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *name;
@@ -1298,10 +1298,10 @@ parse_ilname (const struct parser_table* entry, char **argv, int *arg_ptr)
 /* sanity check the fnmatch() function to make sure that case folding
  * is supported (as opposed to just having the flag ignored).
  */
-static boolean
+static bool
 fnmatch_sanitycheck (void)
 {
-  static boolean checked = false;
+  static bool checked = false;
   if (!checked)
     {
       if (0 != fnmatch ("foo", "foo", 0)
@@ -1318,7 +1318,7 @@ fnmatch_sanitycheck (void)
 }
 
 
-static boolean
+static bool
 check_name_arg (const char *pred, const char *arg)
 {
   if (options.warnings && strchr (arg, '/'))
@@ -1339,7 +1339,7 @@ check_name_arg (const char *pred, const char *arg)
 
 
 
-static boolean
+static bool
 parse_iname (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *name;
@@ -1358,7 +1358,7 @@ parse_iname (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-static boolean
+static bool
 parse_inum (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p =  insert_num (argv, arg_ptr, entry);
@@ -1380,13 +1380,13 @@ parse_inum (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
 }
 
-static boolean
+static bool
 parse_iregex (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_regex (argv, arg_ptr, entry, RE_ICASE|options.regex_options);
 }
 
-static boolean
+static bool
 parse_links (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p = insert_num (argv, arg_ptr, entry);
@@ -1407,7 +1407,7 @@ parse_links (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
 }
 
-static boolean
+static bool
 parse_lname (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *name;
@@ -1422,7 +1422,7 @@ parse_lname (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-static boolean
+static bool
 parse_ls (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   (void) &argv;
@@ -1430,7 +1430,7 @@ parse_ls (const struct parser_table* entry, char **argv, int *arg_ptr)
   return insert_fls (entry, NULL);
 }
 
-static boolean
+static bool
 insert_depthspec (const struct parser_table* entry, char **argv, int *arg_ptr,
 		  int *limitptr)
 {
@@ -1460,20 +1460,20 @@ insert_depthspec (const struct parser_table* entry, char **argv, int *arg_ptr,
 }
 
 
-static boolean
+static bool
 parse_maxdepth (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_depthspec (entry, argv, arg_ptr, &options.maxdepth);
 }
 
-static boolean
+static bool
 parse_mindepth (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_depthspec (entry, argv, arg_ptr, &options.mindepth);
 }
 
 
-static boolean
+static bool
 do_parse_xmin (const struct parser_table* entry,
 	       char **argv,
 	       int *arg_ptr,
@@ -1505,26 +1505,26 @@ do_parse_xmin (const struct parser_table* entry,
     }
   return false;
 }
-static boolean
+static bool
 parse_amin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return do_parse_xmin (entry, argv, arg_ptr, XVAL_ATIME);
 }
 
-static boolean
+static bool
 parse_cmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return do_parse_xmin (entry, argv, arg_ptr, XVAL_CTIME);
 }
 
 
-static boolean
+static bool
 parse_mmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return do_parse_xmin (entry, argv, arg_ptr, XVAL_MTIME);
 }
 
-static boolean
+static bool
 parse_name (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *name;
@@ -1549,7 +1549,7 @@ parse_name (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-static boolean
+static bool
 parse_negate (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -1565,7 +1565,7 @@ parse_negate (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_newer (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -1586,7 +1586,7 @@ parse_newer (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 
-static boolean
+static bool
 parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   (void) argv;
@@ -1706,7 +1706,7 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 
-static boolean
+static bool
 parse_noleaf (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   options.no_leaf_check = true;
@@ -1729,7 +1729,7 @@ char *gid_unused = NULL;
 unsigned gid_allocated;
 #endif
 
-static boolean
+static bool
 parse_nogroup (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -1766,7 +1766,7 @@ parse_nogroup (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_nouser (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -1803,26 +1803,26 @@ parse_nouser (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_nowarn (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   options.warnings = false;
   return parse_noop (entry, argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_ok (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_exec_ok ("-ok", entry, get_start_dirfd (), argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_okdir (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_exec_ok ("-okdir", entry, -1, argv, arg_ptr);
 }
 
-boolean
+bool
 parse_openparen (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -1838,7 +1838,7 @@ parse_openparen (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_or (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -1854,8 +1854,8 @@ parse_or (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
-is_feasible_path_argument (const char *arg, boolean foldcase)
+static bool
+is_feasible_path_argument (const char *arg, bool foldcase)
 {
   const char *last = strrchr (arg, '/');
   if (last && !last[1])
@@ -1875,12 +1875,12 @@ is_feasible_path_argument (const char *arg, boolean foldcase)
 }
 
 
-static boolean
+static bool
 insert_path_check (const struct parser_table* entry, char **argv, int *arg_ptr,
 		   const char *pred_name, PREDICATEFUNCTION pred)
 {
   const char *name;
-  boolean foldcase = false;
+  bool foldcase = false;
 
   if (pred == pred_ipath)
     foldcase = true;
@@ -1917,13 +1917,13 @@ insert_path_check (const struct parser_table* entry, char **argv, int *arg_ptr,
  * (a) HPUX find supports this predicate also and
  * (b) it will soon be in POSIX anyway.
  */
-static boolean
+static bool
 parse_path (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_path_check (entry, argv, arg_ptr, "path", pred_path);
 }
 
-static boolean
+static bool
 parse_wholename (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_path_check (entry, argv, arg_ptr, "wholename", pred_path);
@@ -1935,13 +1935,13 @@ parse_wholename (const struct parser_table* entry, char **argv, int *arg_ptr)
  * of the phrase "file name" to "path name".
  * However, -path is now standardised so I un-deprecated -ipath.
  */
-static boolean
+static bool
 parse_ipath (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_path_check (entry, argv, arg_ptr, "ipath", pred_ipath);
 }
 
-static boolean
+static bool
 parse_iwholename (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_path_check (entry, argv, arg_ptr, "iwholename", pred_ipath);
@@ -1959,13 +1959,13 @@ non_posix_mode (const char *mode)
 }
 
 
-static boolean
+static bool
 parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   mode_t perm_val[2];
   float rate;
   int mode_start = 0;
-  boolean havekind = false;
+  bool havekind = false;
   enum permissions_type kind = PERM_EXACT;
   struct mode_change *change = NULL;
   struct predicate *our_pred;
@@ -2097,7 +2097,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-boolean
+bool
 parse_print (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -2115,13 +2115,13 @@ parse_print (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_print0 (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_fprint (entry, NULL);
 }
 
-static boolean
+static bool
 parse_printf (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *format;
@@ -2144,7 +2144,7 @@ parse_printf (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-static boolean
+static bool
 parse_fprintf (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *format, *filename;
@@ -2166,7 +2166,7 @@ parse_fprintf (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-static boolean
+static bool
 parse_prune (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -2184,7 +2184,7 @@ parse_prune (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_quit  (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred = insert_primary_noarg (entry);
@@ -2198,7 +2198,7 @@ parse_quit  (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 
-static boolean
+static bool
 parse_regextype (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *type_name;
@@ -2212,13 +2212,13 @@ parse_regextype (const struct parser_table* entry, char **argv, int *arg_ptr)
 }
 
 
-static boolean
+static bool
 parse_regex (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_regex (argv, arg_ptr, entry, options.regex_options);
 }
 
-static boolean
+static bool
 insert_regex (char **argv,
 	      int *arg_ptr,
 	      const struct parser_table *entry,
@@ -2250,7 +2250,7 @@ insert_regex (char **argv,
   return false;
 }
 
-static boolean
+static bool
 parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -2349,7 +2349,7 @@ our_pred = insert_primary (entry, arg);
 }
 
 
-static boolean
+static bool
 parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   /* General idea: stat the file, remember device and inode numbers.
@@ -2502,7 +2502,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
 /* This function is commented out partly because support for it is
  * uneven.
  */
-static boolean
+static bool
 parse_show_control_chars (const struct parser_table* entry,
 			  char **argv,
 			  int *arg_ptr)
@@ -2541,7 +2541,7 @@ parse_show_control_chars (const struct parser_table* entry,
 #endif
 
 
-static boolean
+static bool
 parse_true (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -2555,14 +2555,14 @@ parse_true (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_noop (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   (void) entry;
   return parse_true (get_noop (), argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_accesscheck (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -2578,13 +2578,13 @@ parse_accesscheck (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_type (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_type (argv, arg_ptr, entry, pred_type);
 }
 
-static boolean
+static bool
 parse_uid (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *p = insert_num (argv, arg_ptr, entry);
@@ -2600,7 +2600,7 @@ parse_uid (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
 }
 
-static boolean
+static bool
 parse_used (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -2633,7 +2633,7 @@ parse_used (const struct parser_table* entry, char **argv, int *arg_ptr)
     }
 }
 
-static boolean
+static bool
 parse_user (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   const char *username;
@@ -2684,7 +2684,7 @@ parse_user (const struct parser_table* entry, char **argv, int *arg_ptr)
   return false;
 }
 
-static boolean
+static bool
 parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   int features = 0;
@@ -2761,7 +2761,7 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   exit (EXIT_SUCCESS);
 }
 
-static boolean
+static bool
 parse_context (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -2787,41 +2787,41 @@ parse_context (const struct parser_table* entry, char **argv, int *arg_ptr)
   return true;
 }
 
-static boolean
+static bool
 parse_xdev (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   options.stay_on_filesystem = true;
   return parse_noop (entry, argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_ignore_race (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   options.ignore_readdir_race = true;
   return parse_noop (entry, argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_noignore_race (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   options.ignore_readdir_race = false;
   return parse_noop (entry, argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_warn (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   options.warnings = true;
   return parse_noop (entry, argv, arg_ptr);
 }
 
-static boolean
+static bool
 parse_xtype (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_type (argv, arg_ptr, entry, pred_xtype);
 }
 
-static boolean
+static bool
 insert_type (char **argv, int *arg_ptr,
 	     const struct parser_table *entry,
 	     PRED_FUNC which_pred)
@@ -2915,7 +2915,7 @@ insert_type (char **argv, int *arg_ptr,
 
 /* Return true if the file accessed via FP is a terminal.
  */
-static boolean
+static bool
 stream_is_tty (FILE *fp)
 {
   int fd = fileno (fp);
@@ -2934,7 +2934,7 @@ stream_is_tty (FILE *fp)
 
 
 /* XXX: do we need to pass FUNC to this function? */
-static boolean
+static bool
 insert_fprintf (struct format_val *vec,
 		const struct parser_table *entry, PRED_FUNC func,
 		const char *format_const)
@@ -3276,7 +3276,7 @@ check_path_safety (const char *action, char **argv)
 
 
 /* handles both exec and ok predicate */
-static boolean
+static bool
 new_insert_exec_ok (const char *action,
 		    const struct parser_table *entry,
 		    int dir_fd,
@@ -3286,7 +3286,7 @@ new_insert_exec_ok (const char *action,
   int start, end;		/* Indexes in ARGV of start & end of cmd. */
   int i;			/* Index into cmd args */
   int saw_braces;		/* True if previous arg was '{}'. */
-  boolean allow_plus;		/* True if + is a valid terminator */
+  bool allow_plus;		/* True if + is a valid terminator */
   int brace_count;		/* Number of instances of {}. */
   PRED_FUNC func = entry->pred_func;
   enum BC_INIT_STATUS bcstatus;
@@ -3481,7 +3481,7 @@ new_insert_exec_ok (const char *action,
 
 
 
-static boolean
+static bool
 insert_exec_ok (const char *action,
 		const struct parser_table *entry,
 		int dir_fd,
@@ -3506,7 +3506,7 @@ insert_exec_ok (const char *action,
    Used by -atime, -ctime and -mtime (parsers) to
    get the appropriate information for a time predicate processor. */
 
-static boolean
+static bool
 get_relative_timestamp (const char *str,
 			struct time_val *result,
 			struct timespec origin,
@@ -3583,7 +3583,7 @@ get_relative_timestamp (const char *str,
 
    Used by -atime, -ctime, and -mtime parsers. */
 
-static boolean
+static bool
 parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 {
   struct predicate *our_pred;
@@ -3666,7 +3666,7 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
    Advance *STR beyond any initial comparison prefix.
 
    Return true if all okay, false if input error.  */
-static boolean
+static bool
 get_comp_type (const char **str, enum comparison_type *comp_type)
 {
   switch (**str)
@@ -3700,7 +3700,7 @@ get_comp_type (const char **str, enum comparison_type *comp_type)
 
    Return true if all okay, false if input error.  */
 
-static boolean
+static bool
 get_num (const char *str,
 	 uintmax_t *num,
 	 enum comparison_type *comp_type)

@@ -69,7 +69,7 @@ static const char *cost_name PARAMS((enum EvaluationCost cost));
    point or not.   If no start points were given on the
    command line, we return true for ".".
 */
-boolean
+bool
 matches_start_point (const char *glob, bool foldcase)
 {
   int fnmatch_flags = 0;
@@ -282,7 +282,7 @@ scan_rest (struct predicate **input,
 }
 
 /* Returns true if the specified predicate is reorderable. */
-static boolean
+static bool
 predicate_is_cost_free (const struct predicate *p)
 {
   if (pred_is(p, pred_name) ||
@@ -363,7 +363,7 @@ predlist_insert (struct predlist *list,
 }
 
 static int
-pred_cost_compare (const struct predicate *p1, const struct predicate *p2, boolean wantfailure)
+pred_cost_compare (const struct predicate *p1, const struct predicate *p2, bool wantfailure)
 {
   if (p1->p_cost == p2->p_cost)
     {
@@ -418,7 +418,7 @@ predlist_merge_sort (struct predlist *list,
 	   * rate comparison, not the operation cost comparison.  Hence we
 	   * pass a flag into pred_cost_compare().
 	   */
-	  boolean wantfailure = (OR_PREC != p->p_prec);
+	  const bool wantfailure = (OR_PREC != p->p_prec);
 	  if (pred_cost_compare (p->pred_right, q->pred_right, wantfailure) >= 0)
 	    break;
 	}
@@ -469,7 +469,7 @@ merge_lists (struct predlist lists[], int nlists,
 
 
 
-static boolean
+static bool
 subtree_has_side_effects (const struct predicate *p)
 {
   if (p)
@@ -530,7 +530,7 @@ perform_arm_swap (struct predicate *p)
  * Here, the ! -type f should be evaluated first,
  * as we assume that 95% of inodes are vanilla files.
  */
-static boolean
+static bool
 consider_arm_swap (struct predicate *p)
 {
   int left_cost, right_cost;
@@ -578,7 +578,7 @@ consider_arm_swap (struct predicate *p)
     }
   if (!reason)
     {
-      boolean want_swap;
+      bool want_swap;
 
       if (left_cost == right_cost)
 	{
@@ -635,12 +635,12 @@ consider_arm_swap (struct predicate *p)
   return false;
 }
 
-static boolean
+static bool
 do_arm_swaps (struct predicate *p)
 {
   if (p)
     {
-      boolean swapped;
+      bool swapped;
       do
 	{
 	  swapped = false;
@@ -692,7 +692,7 @@ do_arm_swaps (struct predicate *p)
      to be rearranged.  opt_expr may return a new root pointer there.
      Return true if the tree contains side effects, false if not. */
 
-static boolean
+static bool
 opt_expr (struct predicate **eval_treep)
 {
   struct predlist regex_list={NULL,NULL}, name_list={NULL,NULL};
@@ -703,7 +703,7 @@ opt_expr (struct predicate **eval_treep)
   struct predicate **last_sidep; /* Last predicate with side effects. */
   PRED_FUNC pred_func;
   enum predicate_type p_type;
-  boolean has_side_effects = false; /* Return value. */
+  bool has_side_effects = false; /* Return value. */
   enum predicate_precedence prev_prec, /* precedence of last BI_OP in branch */
 			    biop_prec; /* topmost BI_OP precedence in branch */
 
@@ -773,7 +773,7 @@ opt_expr (struct predicate **eval_treep)
 	  /* If this predicate has no side effects, consider reordering it. */
 	  if (!curr->pred_right->side_effects)
 	    {
-	      boolean reorder;
+	      bool reorder;
 
 	      /* If it's one of our special primaries, move it to the
 		 front of the list for that primary. */
@@ -1010,7 +1010,7 @@ static struct pred_cost_lookup costlookup[] =
   };
 static int pred_table_sorted = 0;
 
-static boolean
+static bool
 check_sorted (void *base, size_t members, size_t membersize,
 	      int (*cmpfn)(const void*, const void*))
 {
@@ -1226,7 +1226,8 @@ calculate_derived_rates (struct predicate *p)
  * asserts that this property still holds.
  *
  */
-static void check_normalization (struct predicate *p, boolean at_root)
+static void
+check_normalization (struct predicate *p, bool at_root)
 {
   if (at_root)
     {

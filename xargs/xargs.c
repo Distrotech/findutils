@@ -64,6 +64,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <wchar.h>
+#include <stdint.h>
 
 #if !defined(SIGCHLD) && defined(SIGCLD)
 #define SIGCHLD SIGCLD
@@ -96,11 +97,6 @@
 
 /* Return nonzero if S is the EOF string.  */
 #define EOF_STR(s) (eof_str && *eof_str == *s && !strcmp (eof_str, s))
-
-/* Not char because of type promotion; NeXT gcc can't handle it.  */
-typedef int boolean;
-#define		true    1
-#define		false	0
 
 #if __STDC__
 #define VOID void
@@ -144,14 +140,14 @@ static char *eof_str = NULL;
 /* static int initial_argv_chars = 0; */
 
 /* true when building up initial arguments in `cmd_argv'.  */
-static boolean initial_args = true;
+static bool initial_args = true;
 
 /* If nonzero, the maximum number of child processes that can be running
    at once.  */
 static unsigned long int proc_max = 1uL;
 
 /* Did we fork a child yet? */
-static boolean procs_executed = false;
+static bool procs_executed = false;
 
 /* The number of elements in `pids'.  */
 static unsigned long int procs_executing = 0uL;
@@ -172,11 +168,11 @@ static volatile int child_error = EXIT_SUCCESS;
 static volatile int original_exit_value;
 
 /* If true, print each command on stderr before executing it.  */
-static boolean print_command = false; /* Option -t */
+static bool print_command = false; /* Option -t */
 
 /* If true, query the user before executing each command, and only
    execute the command if the user responds affirmatively.  */
-static boolean query_before_executing = false;
+static bool query_before_executing = false;
 
 /* The delimiter for input arguments.   This is only consulted if the
  * -0 or -d option had been given.
@@ -224,12 +220,12 @@ enum  ClientStatusValues {
 
 static int read_line PARAMS ((void));
 static int read_string PARAMS ((void));
-static boolean print_args PARAMS ((boolean ask));
+static bool print_args PARAMS ((bool ask));
 /* static void do_exec PARAMS ((void)); */
 static int xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv);
 static void exec_if_possible PARAMS ((void));
 static void add_proc PARAMS ((pid_t pid));
-static void wait_for_proc PARAMS ((boolean all, unsigned int minreap));
+static void wait_for_proc PARAMS ((bool all, unsigned int minreap));
 static void wait_for_proc_all PARAMS ((void));
 static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
 static void usage PARAMS ((FILE * stream));
@@ -774,14 +770,14 @@ read_line (void)
       QUOTE = 2,
       BACKSLASH = 3
     };
-  static boolean eof = false;
+  static bool eof = false;
   /* Start out in mode SPACE to always strip leading spaces (even with -i).  */
   enum read_line_state state = SPACE; /* The type of character we last read.  */
   int prevc;			/* The previous value of c.  */
   int quotc = 0;		/* The last quote character read.  */
   int c = EOF;
-  boolean first = true;		/* true if reading first arg on line.  */
-  boolean seen_arg = false;      /* true if we have seen any arg (or part of one) yet */
+  bool first = true;		/* true if reading first arg on line.  */
+  bool seen_arg = false;      /* true if we have seen any arg (or part of one) yet */
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
@@ -946,7 +942,7 @@ read_line (void)
 static int
 read_string (void)
 {
-  static boolean eof = false;
+  static bool eof = false;
   int len;
   char *p = linebuf;
   /* Including the NUL, the args must not grow past this point.  */
@@ -997,8 +993,8 @@ read_string (void)
    if the user responds affirmatively, return true;
    otherwise, return false.  */
 
-static boolean
-print_args (boolean ask)
+static bool
+print_args (bool ask)
 {
   int i;
 
@@ -1275,7 +1271,7 @@ add_proc (pid_t pid)
    Remove the processes that finish from the list of executing processes.  */
 
 static void
-wait_for_proc (boolean all, unsigned int minreap)
+wait_for_proc (bool all, unsigned int minreap)
 {
   unsigned int reaped = 0;
 
@@ -1367,7 +1363,7 @@ wait_for_proc (boolean all, unsigned int minreap)
 static void
 wait_for_proc_all (void)
 {
-  static boolean waiting = false;
+  static bool waiting = false;
 
   /* This function was registered by the original, parent, process.
    * The child processes must not call exit () to terminate, since this

@@ -76,7 +76,7 @@ static void init_mounted_dev_list (int mandatory);
 #endif
 
 static void process_top_path PARAMS((char *pathname, mode_t mode));
-static int process_path PARAMS((char *pathname, char *name, boolean leaf, char *parent, mode_t type));
+static int process_path PARAMS((char *pathname, char *name, bool leaf, char *parent, mode_t type));
 static void process_dir PARAMS((char *pathname, char *name, int pathlen, const struct stat *statp, char *parent));
 
 
@@ -245,7 +245,7 @@ main (int argc, char **argv)
   return state.exit_status;
 }
 
-boolean is_fts_enabled (int *ftsoptions)
+bool is_fts_enabled (int *ftsoptions)
 {
   /* this version of find (i.e. this main ()) does not use fts. */
   *ftsoptions = 0;
@@ -451,7 +451,7 @@ dirchange_is_fatal (const char *specific_what,
  * Hence we print a warning message to indicate that the output of find
  * might be inconsistent due to the change in the file system.
  */
-static boolean
+static bool
 wd_sanity_check (const char *thing_to_stat,
 		const char *progname,
 		const char *what,
@@ -462,7 +462,7 @@ wd_sanity_check (const char *thing_to_stat,
 		int line_no,
 		enum TraversalDirection direction,
 		enum WdSanityCheckFatality isfatal,
-		boolean *changed) /* output parameter */
+		bool *changed) /* output parameter */
 {
   const char *fstype;
   char *specific_what = NULL;
@@ -579,13 +579,13 @@ safely_chdir_lstat (const char *dest,
 		    enum TraversalDirection direction,
 		    struct stat *statbuf_dest,
 		    enum ChdirSymlinkHandling symlink_follow_option,
-		    boolean *did_stat)
+		    bool *did_stat)
 {
   struct stat statbuf_arrived;
   int rv, dotfd=-1;
   int saved_errno;		/* specific_dirname() changes errno. */
-  boolean rv_set = false;
-  boolean statflag = false;
+  bool rv_set = false;
+  bool statflag = false;
   int tries = 0;
   enum WdSanityCheckFatality isfatal = RETRY_IF_SANITY_CHECK_FAILS;
 
@@ -676,7 +676,7 @@ safely_chdir_lstat (const char *dest,
 	  if (0 == chdir (dest))
 	    {
 	      /* check we ended up where we wanted to go */
-	      boolean changed = false;
+	      bool changed = false;
 	      if (!wd_sanity_check (".", program_name, ".",
 				    statbuf_dest->st_dev,
 				    statbuf_dest->st_ino,
@@ -804,7 +804,7 @@ safely_chdir_nofollow (const char *dest,
 		       enum TraversalDirection direction,
 		       struct stat *statbuf_dest,
 		       enum ChdirSymlinkHandling symlink_follow_option,
-		       boolean *did_stat)
+		       bool *did_stat)
 {
   int extraflags, fd;
 
@@ -883,7 +883,7 @@ safely_chdir (const char *dest,
 	      enum TraversalDirection direction,
 	      struct stat *statbuf_dest,
 	      enum ChdirSymlinkHandling symlink_follow_option,
-	      boolean *did_stat)
+	      bool *did_stat)
 {
   enum SafeChdirStatus result;
 
@@ -928,7 +928,7 @@ static void
 chdir_back (void)
 {
   struct stat stat_buf;
-  boolean dummy;
+  bool dummy;
 
   if (starting_desc < 0)
     {
@@ -999,7 +999,7 @@ at_top (char *pathname,
       enum TraversalDirection direction;
       enum SafeChdirStatus chdir_status;
       struct stat st;
-      boolean did_stat = false;
+      bool did_stat = false;
 
       dirchange = 1;
       if (0 == strcmp (base, ".."))
@@ -1169,7 +1169,7 @@ issue_loop_warning (const char *name, const char *pathname, int level)
    Return nonzero iff PATHNAME is a directory. */
 
 static int
-process_path (char *pathname, char *name, boolean leaf, char *parent,
+process_path (char *pathname, char *name, bool leaf, char *parent,
 	      mode_t mode)
 {
   struct stat stat_buf;
@@ -1288,7 +1288,7 @@ static void
 process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, char *parent)
 {
   int subdirs_left;		/* Number of unexamined subdirs in PATHNAME. */
-  boolean subdirs_unreliable;	/* if true, cannot use dir link count as subdir limif (if false, it may STILL be unreliable) */
+  bool subdirs_unreliable;	/* if true, cannot use dir link count as subdir limif (if false, it may STILL be unreliable) */
   unsigned int idx;		/* Which entry are we on? */
   struct stat stat_buf;
   size_t dircount = 0u;
@@ -1329,7 +1329,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
       unsigned cur_path_size;	/* Bytes allocated for `cur_path'. */
       register unsigned file_len; /* Length of each path to process. */
       register unsigned pathname_len; /* PATHLEN plus trailing '/'. */
-      boolean did_stat = false;
+      bool did_stat = false;
 
       if (pathname[pathlen - 1] == '/')
 	pathname_len = pathlen + 1; /* For '\0'; already have '/'. */
@@ -1490,7 +1490,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	  /* We could go back and do the next command-line arg
 	     instead, maybe using longjmp.  */
 	  char const *dir;
-	  boolean deref = following_links () ? true : false;
+	  bool deref = following_links () ? true : false;
 
 	  if ( (state.curdepth>0) && !deref)
 	    dir = "..";
