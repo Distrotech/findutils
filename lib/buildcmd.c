@@ -444,36 +444,6 @@ bc_push_arg (struct buildcmd_control *ctl,
     }
 }
 
-#if 0
-/* We used to set posix_arg_size_min to the LINE_MAX limit, but
- * currently we use _POSIX_ARG_MAX (which is the minimum value).
- */
-static size_t
-get_line_max (void)
-{
-  long val;
-#ifdef _SC_LINE_MAX
-  val = sysconf (_SC_LINE_MAX);
-#else
-  val = -1;
-#endif
-
-  if (val > 0)
-    return val;
-
-  /* either _SC_LINE_MAX was not available or
-   * there is no particular limit.
-   */
-#ifdef LINE_MAX
-  val = LINE_MAX;
-#endif
-
-  if (val > 0)
-    return val;
-
-  return 2048L;			/* a reasonable guess. */
-}
-#endif
 
 size_t
 bc_get_arg_max (void)

@@ -1093,11 +1093,7 @@ search_one_database (int argc,
   lastinspector = NULL;
   past_pat_inspector = NULL;
   results_were_filtered = false;
-#if 0
-  procdata.pathsize = 1026;	/* Increased as necessary by locate_read_str.  */
-#else
   procdata.pathsize = 128;	/* Increased as necessary by locate_read_str.  */
-#endif
   procdata.original_filename = xmalloc (procdata.pathsize);
 
 
