@@ -36,12 +36,11 @@
 
 #include "regex.h"
 #include "regextype.h"
+#include "progname.h"
 
 
-/* Name this program was run with. */
-char *program_name;
-
-static void output (const char *s, int escape)
+static void
+output (const char *s, int escape)
 {
   (void) escape;
 
@@ -49,34 +48,40 @@ static void output (const char *s, int escape)
 }
 
 
-static void newline (void)
+static void
+newline (void)
 {
   output ("\n", 0);
 }
 
-static void content (const char *s)
+static void
+content (const char *s)
 {
   output (s, 1);
 }
 
-static void literal (const char *s)
+static void
+literal (const char *s)
 {
   output (s, 0);
 }
 
-static void directive (const char *s)
+static void
+directive (const char *s)
 {
   output (s, 0);
 }
 
-static void comment (const char *s)
+static void
+comment (const char *s)
 {
   directive ("@c ");
   literal (s);
   newline ();
 }
 
-static void enum_item (const char *s)
+static void
+enum_item (const char *s)
 {
   newline ();
   directive ("@item ");
@@ -84,10 +89,11 @@ static void enum_item (const char *s)
   newline ();
 }
 
-static void begin_subsection (const char *name,
-			      const char *next,
-			      const char *prev,
-			      const char *up)
+static void
+begin_subsection (const char *name,
+		  const char *next,
+		  const char *prev,
+		  const char *up)
 {
   (void) next;
   (void) prev;
@@ -108,7 +114,8 @@ static void begin_subsection (const char *name,
   newline ();
 }
 
-static void begintable_markup (char const *markup)
+static void
+begintable_markup (char const *markup)
 {
   newline ();
   directive ("@table ");
@@ -116,28 +123,32 @@ static void begintable_markup (char const *markup)
   newline ();
 }
 
-static void endtable ()
+static void
+endtable ()
 {
   newline ();
   directive ("@end table");
   newline ();
 }
 
-static void beginenum ()
+static void
+beginenum ()
 {
   newline ();
   directive ("@enumerate");
   newline ();
 }
 
-static void endenum ()
+static void
+endenum ()
 {
   newline ();
   directive ("@end enumerate");
   newline ();
 }
 
-static void newpara ()
+static void
+newpara ()
 {
   content ("\n\n");
 }
@@ -434,7 +445,8 @@ describe_regex_syntax (int options)
 }
 
 
-static void copying (void)
+static void
+copying (void)
 {
   static const char *copy_para[]=
     {
@@ -567,7 +579,11 @@ main (int argc, char *argv[])
   const char *up = "";
   unsigned int context = CONTEXT_ALL;
   const char *contextname = "all";
-  program_name = argv[0];
+
+  if (argc)
+    set_program_name (argv[0]);
+  else
+    set_program_name ("regexprops");
 
   if (argc > 1)
     {
