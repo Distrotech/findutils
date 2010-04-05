@@ -102,11 +102,9 @@
 #include "error.h"
 #include "closeout.h"
 #include "findutils-version.h"
+#include "progname.h"
 
 char *xmalloc PARAMS((size_t));
-
-/* The name this program was run with.  */
-char *program_name;
 
 /* Write out a 16-bit int, high byte first (network byte order).
  * Return true iff all went well.
@@ -150,10 +148,6 @@ static struct option const longopts[] =
 };
 
 extern char *version_string;
-
-/* The name this program was run with. */
-char *program_name;
-
 
 static void
 usage (FILE *stream)
