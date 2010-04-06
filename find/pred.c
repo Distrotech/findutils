@@ -47,6 +47,7 @@
 #include "error.h"
 #include "verify.h"
 #include "fdleak.h"
+#include "areadlink.h"
 
 #include <selinux/selinux.h>
 
@@ -877,7 +878,7 @@ do_fprintf (struct format_val *dest,
 		linkname = areadlinkat (state.cwd_dir_fd, state.rel_pathname);
 		if (linkname == NULL)
 		  {
-		    nonfatal_file_error (pathname);
+		    nonfatal_target_file_error (errno, pathname);
 		    state.exit_status = 1;
 		  }
 	      }
@@ -1332,7 +1333,7 @@ match_lname (const char *pathname, struct stat *stat_buf, struct predicate *pred
 	}
       else
 	{
-	  nonfatal_file_error (pathname);
+	  nonfatal_target_file_error (errno, pathname);
 	  state.exit_status = 1;
 	}
       free (linkname);

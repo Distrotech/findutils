@@ -1090,7 +1090,7 @@ error_severity (int level)
  */
 static void
 report_file_err(int exitval, int errno_value,
-		boolean is_target_file, const char *name)
+		bool is_target_file, const char *name)
 {
   /* It is important that the errno value is passed in as a function
    * argument before we call safely_quote_err_filename(), because otherwise

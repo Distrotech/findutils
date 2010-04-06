@@ -1,5 +1,15 @@
 2010-04-06  James Youngman  <jay@gnu.org>
 
+	Fix several merge errors.
+	* find/defs.h (struct state): Correct type of
+	already_issued_stat_error_msg from boolean to bool.
+	* find/util.c (report_file_err): Likewise with parameter
+	is_target_file.
+	* find/pred.c: Include "areadlink.h".
+	(do_fprintf): nonfatal_file_error should be
+	nonfatal_target_file_error.
+	(match_lname): Likewise.
+
 	Update some translations.
 	* po/cs.po: Update Czech translation.
 	* po/nl.po: Update Dutch translation.

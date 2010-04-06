@@ -505,8 +505,8 @@ const char *safely_quote_err_filename (int n, char const *arg);
 
 void fatal_target_file_error (int errno_value, const char *name) ATTRIBUTE_NORETURN;
 void fatal_nontarget_file_error (int errno_value, const char *name) ATTRIBUTE_NORETURN;
-void nonfatal_target_file_error (int erron_value, const char *name);
-void nonfatal_nontarget_file_error (int erron_value, const char *name);
+void nonfatal_target_file_error (int errno_value, const char *name);
+void nonfatal_nontarget_file_error (int errno_value, const char *name);
 
 
 int process_leading_options PARAMS((int argc, char *argv[]));
@@ -671,7 +671,7 @@ struct state
   sharefile_handle shared_files;
 
   /* Avoid multiple error messages for the same file. */
-  boolean already_issued_stat_error_msg;
+  bool already_issued_stat_error_msg;
 };
 
 /* finddata.c */
