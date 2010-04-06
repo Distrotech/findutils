@@ -84,7 +84,7 @@
 #ifndef HAVE_ENDPWENT
 #define endpwent ()
 #endif
-
+
 static bool parse_accesscheck   PARAMS((const struct parser_table* entry, char **argv, int *arg_ptr));
 static bool parse_amin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 static bool parse_and           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
@@ -347,7 +347,7 @@ static struct parser_table const parse_table[] =
   {ARG_TEST, "-version",              parse_version, NULL},	  /* GNU */
   {0, 0, 0, 0}
 };
-
+
 
 static const char *first_nonoption_arg = NULL;
 static const struct parser_table *noop = NULL;
@@ -494,7 +494,7 @@ get_noop (void)
     }
   return noop;
 }
-
+
 static int
 get_stat_Ytime (const struct stat *p,
 		char what,
@@ -519,7 +519,7 @@ get_stat_Ytime (const struct stat *p,
       abort ();
     }
 }
-
+
 void
 set_follow_state (enum SymlinkOption opt)
 {
@@ -672,7 +672,7 @@ find_parser (char *search_name)
     }
   return NULL;
 }
-
+
 static float
 estimate_file_age_success_rate (float num_days)
 {
@@ -697,7 +697,7 @@ estimate_file_age_success_rate (float num_days)
       return 0.39f;
     }
 }
-
+
 static float
 estimate_timestamp_success_rate (time_t when)
 {
@@ -762,7 +762,7 @@ collect_arg_stat_info (char **argv, int *arg_ptr, struct stat *p,
 
    The predicate structure is updated with the new information. */
 
-
+
 static bool
 parse_and (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -1471,7 +1471,7 @@ parse_mindepth (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_depthspec (entry, argv, arg_ptr, &options.mindepth);
 }
-
+
 
 static bool
 do_parse_xmin (const struct parser_table* entry,
@@ -1510,14 +1510,14 @@ parse_amin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return do_parse_xmin (entry, argv, arg_ptr, XVAL_ATIME);
 }
-
+
 static bool
 parse_cmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return do_parse_xmin (entry, argv, arg_ptr, XVAL_CTIME);
 }
 
-
+
 static bool
 parse_mmin (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -2820,7 +2820,7 @@ parse_xtype (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
   return insert_type (argv, arg_ptr, entry, pred_xtype);
 }
-
+
 static bool
 insert_type (char **argv, int *arg_ptr,
 	     const struct parser_table *entry,
@@ -3228,7 +3228,7 @@ make_segment (struct segment **segment,
     pred->p_cost = mycost;
   return &(*segment)->next;
 }
-
+
 static void
 check_path_safety (const char *action, char **argv)
 {
@@ -3274,7 +3274,7 @@ check_path_safety (const char *action, char **argv)
     }
 }
 
-
+
 /* handles both exec and ok predicate */
 static bool
 new_insert_exec_ok (const char *action,
@@ -3492,7 +3492,7 @@ insert_exec_ok (const char *action,
 }
 
 
-
+
 /* Get a timestamp and comparison type.
 
    STR is the ASCII representation.
@@ -3570,7 +3570,7 @@ get_relative_timestamp (const char *str,
       return false;
     }
 }
-
+
 /* Insert a time predicate based on the information in ENTRY.
    ARGV is a pointer to the argument array.
    ARG_PTR is a pointer to an index into the array, incremented if
@@ -3659,7 +3659,7 @@ parse_time (const struct parser_table* entry, char *argv[], int *arg_ptr)
 
   return true;
 }
-
+
 /* Get the comparison type prefix (if any) from a number argument.
    The prefix is at *STR.
    Set *COMP_TYPE to the kind of comparison that is requested.
@@ -3689,7 +3689,7 @@ get_comp_type (const char **str, enum comparison_type *comp_type)
 
 
 
-
+
 /* Get a number with comparison information.
    The sense of the comparison information is 'normal'; that is,
    '+' looks for a count > than the number and '-' less than.
@@ -3719,7 +3719,7 @@ get_num (const char *str,
 
   return xstrtoumax (str, &pend, 10, num, "") == LONGINT_OK;
 }
-
+
 /* Insert a number predicate.
    ARGV is a pointer to the argument array.
    *ARG_PTR is an index into ARGV, incremented if all went well.

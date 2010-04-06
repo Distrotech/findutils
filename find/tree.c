@@ -220,7 +220,7 @@ get_expr (struct predicate **input,
     }
   return (next);
 }
-
+
 /* Scan across the remainder of a predicate input list starting
    at *INPUT, building the rest of the expression tree to return.
    Stop at the first close parenthesis or the end of the input list.
@@ -280,7 +280,7 @@ scan_rest (struct predicate **input,
     }
   return tree;
 }
-
+
 /* Returns true if the specified predicate is reorderable. */
 static bool
 predicate_is_cost_free (const struct predicate *p)
@@ -310,7 +310,7 @@ predicate_is_cost_free (const struct predicate *p)
       return false;
     }
 }
-
+
 /* Prints a predicate */
 void print_predicate (FILE *fp, const struct predicate *p)
 {
@@ -324,13 +324,13 @@ void print_predicate (FILE *fp, const struct predicate *p)
     }
 }
 
-
+
 struct predlist
 {
   struct predicate *head;
   struct predicate *tail;
 };
-
+
 static void
 predlist_init (struct predlist *p)
 {
@@ -361,7 +361,7 @@ predlist_insert (struct predlist *list,
   if (NULL == list->tail)
     list->tail = list->head;
 }
-
+
 static int
 pred_cost_compare (const struct predicate *p1, const struct predicate *p2, bool wantfailure)
 {
@@ -380,7 +380,7 @@ pred_cost_compare (const struct predicate *p1, const struct predicate *p2, bool 
     }
 }
 
-
+
 static void
 predlist_merge_sort (struct predlist *list,
 		     struct predicate **last)
@@ -448,7 +448,7 @@ predlist_merge_sort (struct predlist *list,
   merge_pred (new_list.head, new_list.tail, last);
   predlist_init (list);
 }
-
+
 static void
 merge_lists (struct predlist lists[], int nlists,
 	     struct predlist *name_list,
@@ -468,7 +468,7 @@ merge_lists (struct predlist lists[], int nlists,
 }
 
 
-
+
 static bool
 subtree_has_side_effects (const struct predicate *p)
 {
@@ -484,7 +484,7 @@ subtree_has_side_effects (const struct predicate *p)
       return false;
     }
 }
-
+
 static int
 worst_cost (const struct predicate *p)
 {
@@ -505,7 +505,7 @@ worst_cost (const struct predicate *p)
 }
 
 
-
+
 static void
 perform_arm_swap (struct predicate *p)
 {
@@ -513,7 +513,7 @@ perform_arm_swap (struct predicate *p)
   p->pred_left->pred_right = p->pred_right;
   p->pred_right = tmp;
 }
-
+
 /* Consider swapping p->pred_left->pred_right with p->pred_right,
  * if that yields a faster evaluation.   Normally the left predicate is
  * evaluated first.
@@ -634,7 +634,7 @@ consider_arm_swap (struct predicate *p)
     }
   return false;
 }
-
+
 static bool
 do_arm_swaps (struct predicate *p)
 {
@@ -660,7 +660,7 @@ do_arm_swaps (struct predicate *p)
 }
 
 
-
+
 /* Optimize the ordering of the predicates in the tree.  Rearrange
    them to minimize work.  Strategies:
    * Evaluate predicates that don't need inode information first;
@@ -856,7 +856,7 @@ opt_expr (struct predicate **eval_treep)
   merge_lists (cbo_list, NumEvaluationCosts, &name_list, &regex_list, last_sidep);
   return has_side_effects;
 }
-
+
 static float
 constrain_rate (float rate)
 {
@@ -867,7 +867,7 @@ constrain_rate (float rate)
   else
     return rate;
 }
-
+
 /* Link in a new parent BI_OP node for CURR, at *PREVP, with precedence
    HIGH_PREC. */
 
@@ -929,7 +929,7 @@ merge_pred (struct predicate *beg_list, struct predicate *end_list, struct predi
   end_list->pred_left = *last_p;
   *last_p = beg_list;
 }
-
+
 /* Find the first node in expression tree TREE that requires
    a stat call and mark the operator above it as needing a stat
    before calling the node.   Since the expression precedences
@@ -940,7 +940,7 @@ merge_pred (struct predicate *beg_list, struct predicate *end_list, struct predi
    that a stat is made as late as possible.  Return true if the top node
    in TREE requires a stat, false if not. */
 
-
+
 struct pred_cost_lookup
 {
   PRED_FUNC             fn;
@@ -1009,7 +1009,7 @@ static struct pred_cost_lookup costlookup[] =
     { pred_xtype     ,  NeedsType            } /* roughly correct unless most files are symlinks */
   };
 static int pred_table_sorted = 0;
-
+
 static bool
 check_sorted (void *base, size_t members, size_t membersize,
 	      int (*cmpfn)(const void*, const void*))
@@ -1027,7 +1027,7 @@ check_sorted (void *base, size_t members, size_t membersize,
   return true;
 }
 
-
+
 static int
 cost_table_comparison (const void *p1, const void *p2)
 {
@@ -1046,7 +1046,7 @@ cost_table_comparison (const void *p1, const void *p2)
   u2.pfn = pc2->fn;
   return memcmp (u1.mem, u2.mem, sizeof(u1.pfn));
 }
-
+
 static enum EvaluationCost
 get_pred_cost (const struct predicate *p)
 {
@@ -1125,7 +1125,7 @@ get_pred_cost (const struct predicate *p)
   else
     return data_requirement_cost;
 }
-
+
 static void
 estimate_costs (struct predicate *tree)
 {
@@ -1220,7 +1220,7 @@ calculate_derived_rates (struct predicate *p)
   assert (0);
   abort ();
 }
-
+
 /* opt_expr() rearranges predicates such that each left subtree is
  * rooted at a logical predicate (e.g. and or or).  check_normalization()
  * asserts that this property still holds.
@@ -1244,7 +1244,7 @@ check_normalization (struct predicate *p, bool at_root)
       check_normalization (p->pred_right, false);
     }
 }
-
+
 struct predicate*
 build_expression_tree (int argc, char *argv[], int end_of_leading_options)
 {
@@ -1446,7 +1446,7 @@ build_expression_tree (int argc, char *argv[], int end_of_leading_options)
 
   return eval_tree;
 }
-
+
 /* Initialise the performance data for a predicate.
  */
 static void
@@ -1468,7 +1468,7 @@ get_new_pred_noarg (const struct parser_table *entry)
   return p;
 }
 
-
+
 /* Return a pointer to a new predicate structure, which has been
    linked in as the last one in the predicates list.
 
@@ -1522,7 +1522,7 @@ get_new_pred (const struct parser_table *entry)
   init_pred_perf (last_pred);
   return last_pred;
 }
-
+
 /* Return a pointer to a new predicate, with operator check.
    Like get_new_pred, but it checks to make sure that the previous
    predicate is an operator.  If it isn't, the AND operator is inserted. */
@@ -1574,7 +1574,7 @@ get_new_pred_chk_op (const struct parser_table *entry,
   new_pred->parser_entry = entry;
   return new_pred;
 }
-
+
 struct cost_assoc
 {
   enum EvaluationCost cost;
@@ -1594,7 +1594,7 @@ struct cost_assoc cost_table[] =
     { NeedsUserInteraction, "UserInteraction" },
     { NeedsUnknown,         "Unknown" }
   };
-
+
 struct prec_assoc
 {
   short prec;
@@ -1611,7 +1611,7 @@ static struct prec_assoc prec_table[] =
   {MAX_PREC, "max"},
   {-1, "unknown "}
 };
-
+
 struct op_assoc
 {
   short type;
@@ -1628,7 +1628,7 @@ static struct op_assoc type_table[] =
   {CLOSE_PAREN,  "close_paren "},
   {-1,           "unknown"}
 };
-
+
 static const char *
 cost_name (enum EvaluationCost cost)
 {
@@ -1640,7 +1640,7 @@ cost_name (enum EvaluationCost cost)
       return cost_table[i].name;
   return "unknown";
 }
-
+
 
 static char *
 type_name (type)
@@ -1653,7 +1653,7 @@ type_name (type)
       break;
   return (type_table[i].type_name);
 }
-
+
 static char *
 prec_name (prec)
      short prec;
@@ -1666,7 +1666,7 @@ prec_name (prec)
   return (prec_table[i].prec_name);
 }
 
-
+
 /* Walk the expression tree NODE to stdout.
    INDENT is the number of levels to indent the left margin. */
 

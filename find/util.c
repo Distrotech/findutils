@@ -52,7 +52,7 @@
 # define N_(String) String
 #endif
 
-
+
 struct debug_option_assoc
 {
   char *name;
@@ -73,7 +73,7 @@ static struct debug_option_assoc debugassoc[] =
 
 
 
-
+
 /* Add a primary of predicate type PRED_FUNC (described by ENTRY) to the predicate input list.
 
    Return a pointer to the predicate node just inserted.
@@ -135,7 +135,7 @@ insert_primary_noarg (const struct parser_table *entry)
 }
 
 
-
+
 static void
 show_valid_debug_options (FILE *fp, int full)
 {
@@ -158,7 +158,7 @@ show_valid_debug_options (FILE *fp, int full)
 	}
     }
 }
-
+
 void
 usage (FILE *fp, int status, char *msg)
 {
@@ -171,7 +171,7 @@ usage (FILE *fp, int status, char *msg)
   if (0 != status)
     exit (status);
 }
-
+
 void
 set_stat_placeholders (struct stat *p)
 {
@@ -189,7 +189,7 @@ set_stat_placeholders (struct stat *p)
 #endif
 }
 
-
+
 /* Get the stat information for a file, if it is
  * not already known.  Returns 0 on success.
  */
@@ -229,7 +229,7 @@ get_statinfo (const char *pathname, const char *name, struct stat *p)
 
   return 0;
 }
-
+
 /* Get the stat/type/inode information for a file, if it is not
  * already known.   Returns 0 on success (or if we did nothing).
  */
@@ -295,7 +295,7 @@ get_info (const char *pathname,
       return 0;			/* success; nothing to do. */
     }
 }
-
+
 /* Determine if we can use O_NOFOLLOW.
  */
 #if defined O_NOFOLLOW
@@ -335,7 +335,7 @@ check_nofollow (void)
 #endif
 
 
-
+
 /* Examine the predicate list for instances of -execdir or -okdir
  * which have been terminated with '+' (build argument list) rather
  * than ';' (singles only).  If there are any, run them (this will
@@ -383,7 +383,7 @@ complete_pending_execdirs (int dir_fd)
 }
 
 
-
+
 /* Examine the predicate list for instances of -exec which have been
  * terminated with '+' (build argument list) rather than ';' (singles
  * only).  If there are any, run them (this will have no effect if
@@ -418,7 +418,7 @@ complete_pending_execs (struct predicate *p)
 
   complete_pending_execs (p->pred_right);
 }
-
+
 static void
 traverse_tree (struct predicate *tree,
 			  void (*callback)(struct predicate*))
@@ -460,7 +460,7 @@ fd_leak_check_is_enabled (void)
     return false;
 
 }
-
+
 /* Complete any outstanding commands.
  * Flush and close any open files.
  */
@@ -536,7 +536,7 @@ static int hook_fstatat (int fd, const char *name, struct stat *p, int flags)
 # define fstatat (fd,name,p,flags) hook_fstatat((fd),(name),(p),(flags))
 #endif
 
-
+
 static int
 fallback_stat (const char *name, struct stat *p, int prev_rv)
 {
@@ -564,7 +564,7 @@ fallback_stat (const char *name, struct stat *p, int prev_rv)
     }
 }
 
-
+
 /* optionh_stat() implements the stat operation when the -H option is
  * in effect.
  *
@@ -600,7 +600,7 @@ optionh_stat (const char *name, struct stat *p)
       return fstatat (state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
     }
 }
-
+
 /* optionl_stat() implements the stat operation when the -L option is
  * in effect.  That option makes us examine the thing the symbolic
  * link points to, not the symbolic link itself.
@@ -619,7 +619,7 @@ optionl_stat(const char *name, struct stat *p)
   else
     return fallback_stat (name, p, rv);
 }
-
+
 /* optionp_stat() implements the stat operation when the -P option is
  * in effect (this is also the default).  That option makes us examine
  * the symbolic link itself, not the thing it points to.
@@ -631,7 +631,7 @@ optionp_stat (const char *name, struct stat *p)
   set_stat_placeholders (p);
   return fstatat (state.cwd_dir_fd, name, p, AT_SYMLINK_NOFOLLOW);
 }
-
+
 
 static uintmax_t stat_count = 0u;
 
@@ -655,7 +655,7 @@ debug_stat (const char *file, struct stat *bufp)
   return -1;
 }
 
-
+
 bool
 following_links(void)
 {
@@ -671,7 +671,7 @@ following_links(void)
     }
 }
 
-
+
 /* Take a "mode" indicator and fill in the files of 'state'.
  */
 bool
@@ -731,7 +731,7 @@ digest_mode (mode_t *mode,
   return true;
 }
 
-
+
 /* Return true if there are no predicates with no_default_print in
    predicate list PRED, false if there are any.
    Returns true if default print should be performed */
@@ -781,7 +781,7 @@ looks_like_expression (const char *arg, bool leading)
       return false;
     }
 }
-
+
 static void
 process_debug_options (char *arg)
 {
@@ -822,7 +822,7 @@ process_debug_options (char *arg)
     }
 }
 
-
+
 static void
 process_optimisation_option (const char *arg)
 {
@@ -881,7 +881,7 @@ process_optimisation_option (const char *arg)
 	}
     }
 }
-
+
 int
 process_leading_options (int argc, char *argv[])
 {
@@ -931,7 +931,7 @@ process_leading_options (int argc, char *argv[])
     }
   return end_of_leading_options;
 }
-
+
 static struct timespec
 now(void)
 {
@@ -951,7 +951,7 @@ now(void)
   retval.tv_nsec = 0;
   return retval;
 }
-
+
 void
 set_option_defaults (struct options *p)
 {
@@ -1028,7 +1028,7 @@ set_option_defaults (struct options *p)
   p->err_quoting_style = locale_quoting_style;
 }
 
-
+
 /* get_start_dirfd
  *
  * Returns the fd for the directory we started in.
@@ -1038,7 +1038,7 @@ get_start_dirfd (void)
 {
   return starting_desc;
 }
-
+
 /* apply_predicate
  *
  */
@@ -1064,7 +1064,7 @@ apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p
     }
 }
 
-
+
 /* safely_quote_err_filename
  *
  */
@@ -1073,7 +1073,7 @@ safely_quote_err_filename (int n, char const *arg)
 {
   return quotearg_n_style (n, options.err_quoting_style, arg);
 }
-
+
 /* report_file_err
  */
 static void
@@ -1088,7 +1088,7 @@ report_file_err(int exitval, int errno_value, const char *name)
 
   error (exitval, errno_value, "%s", safely_quote_err_filename (0, name));
 }
-
+
 /* fatal_file_error
  *
  */

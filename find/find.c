@@ -116,7 +116,7 @@ get_current_dirfd (void)
   return AT_FDCWD;
 }
 
-
+
 int
 main (int argc, char **argv)
 {
@@ -244,7 +244,7 @@ main (int argc, char **argv)
   cleanup ();
   return state.exit_status;
 }
-
+
 bool is_fts_enabled (int *ftsoptions)
 {
   /* this version of find (i.e. this main ()) does not use fts. */
@@ -252,7 +252,7 @@ bool is_fts_enabled (int *ftsoptions)
   return false;
 }
 
-
+
 static char *
 specific_dirname (const char *dir)
 {
@@ -281,7 +281,7 @@ specific_dirname (const char *dir)
 }
 
 
-
+
 /* Return non-zero if FS is the name of a file system that is likely to
  * be automounted
  */
@@ -554,7 +554,7 @@ wd_sanity_check (const char *thing_to_stat,
 
   return true;
 }
-
+
 enum SafeChdirStatus
   {
     SafeChdirOK,
@@ -922,7 +922,7 @@ safely_chdir (const char *dest,
 }
 
 
-
+
 /* Safely go back to the starting directory. */
 static void
 chdir_back (void)
@@ -967,7 +967,7 @@ chdir_back (void)
 	}
     }
 }
-
+
 /* Move to the parent of a given directory and then call a function,
  * restoring the cwd.  Don't bother changing directory if the
  * specified directory is a child of "." or is the root directory.
@@ -1071,7 +1071,7 @@ do_process_predicate (char *pathname,
 
 
 
-
+
 /* Descend PATHNAME, which is a command-line argument.
 
    Actions like -execdir assume that we are in the
@@ -1101,7 +1101,7 @@ static int dir_curr = -1;
 #define DIR_ALLOC_STEP 32
 
 
-
+
 /* We've detected a file system loop.   This is caused by one of
  * two things:
  *
@@ -1272,7 +1272,7 @@ process_path (char *pathname, char *name, bool leaf, char *parent,
   return 1;
 }
 
-
+
 /* Scan directory PATHNAME and recurse through process_path for each entry.
 
    PATHLEN is the length of PATHNAME.

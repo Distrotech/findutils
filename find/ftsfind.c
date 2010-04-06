@@ -172,7 +172,7 @@ inside_dir (int dir_fd)
 #ifdef STAT_MOUNTPOINTS
 static void init_mounted_dev_list (void);
 #endif
-
+
 /* We have encountered an error which should affect the exit status.
  * This is normally used to change the exit status from 0 to 1.
  * However, if the exit status is already 2 for example, we don't want to
@@ -184,7 +184,7 @@ error_severity (int level)
   if (state.exit_status < level)
     state.exit_status = level;
 }
-
+
 
 #define STRINGIFY(X) #X
 #define HANDLECASE(N) case N: return #N;
@@ -214,7 +214,7 @@ get_fts_info_name (int info)
       return buf;
     }
 }
-
+
 static void
 visit (FTS *p, FTSENT *ent, struct stat *pstat)
 {
@@ -234,7 +234,7 @@ visit (FTS *p, FTSENT *ent, struct stat *pstat)
       fts_set (p, ent, FTS_SKIP);
     }
 }
-
+
 static const char*
 partial_quotearg_n (int n, char *s, size_t len, enum quoting_style style)
 {
@@ -255,7 +255,7 @@ partial_quotearg_n (int n, char *s, size_t len, enum quoting_style style)
     }
 }
 
-
+
 /* We've detected a file system loop.   This is caused by one of
  * two things:
  *
@@ -296,7 +296,7 @@ issue_loop_warning (FTSENT * ent)
 				 options.err_quoting_style));
     }
 }
-
+
 /*
  * Return true if NAME corresponds to a file which forms part of a
  * symbolic link loop.  The command
@@ -314,7 +314,7 @@ symlink_loop (const char *name)
     rv = lstat (name, &stbuf);
   return (0 != rv) && (ELOOP == errno);
 }
-
+
 
 static int
 complete_execdirs_cb (void *context)
@@ -374,7 +374,7 @@ show_outstanding_execdirs (FILE *fp)
 
 
 
-
+
 static void
 consider_visiting (FTS *p, FTSENT *ent)
 {
@@ -578,7 +578,7 @@ consider_visiting (FTS *p, FTSENT *ent)
 }
 
 
-
+
 static bool
 find (char *arg)
 {
@@ -671,7 +671,7 @@ process_all_startpoints (int argc, char *argv[])
 
 
 
-
+
 int
 main (int argc, char **argv)
 {

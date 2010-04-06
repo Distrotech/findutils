@@ -1534,7 +1534,7 @@ drop_privs (void)
       /* deliberate infinite loop */
     }
 }
-
+
 static int
 opendb (const char *name)
 {
@@ -1554,7 +1554,7 @@ opendb (const char *name)
     }
   return fd;
 }
-
+
 int
 dolocate (int argc, char **argv, int secure_db_fd)
 {
@@ -1899,7 +1899,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
   else
     return 1;
 }
-
+
 #define ARRAYSIZE(a) (sizeof (a)/sizeof (a[0]))
 static int
 open_secure_db (void)

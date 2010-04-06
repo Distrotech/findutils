@@ -237,7 +237,7 @@ struct pred_assoc pred_table[] =
   {0, "none    "}
 };
 #endif
-
+
 /* Returns ts1 - ts2 */
 static double ts_difference (struct timespec ts1,
 			     struct timespec ts2)
@@ -247,7 +247,7 @@ static double ts_difference (struct timespec ts1,
   return d;
 }
 
-
+
 static int
 compare_ts (struct timespec ts1,
 	    struct timespec ts2)
@@ -263,7 +263,7 @@ compare_ts (struct timespec ts1,
       return diff < 0.0 ? -1 : +1;
     }
 }
-
+
 /* Predicate processing routines.
 
    PATHNAME is the full pathname of the file being checked.
@@ -1925,7 +1925,7 @@ pred_context (const char *pathname, struct stat *stat_buf,
   return rv;
 }
 
-
+
 /*  1) fork to get a child; parent remembers the child pid
     2) child execs the command requested
     3) parent waits for child; checks for proper pid of child
@@ -2448,7 +2448,7 @@ ctime_format (struct timespec ts)
       return format_date (ts, '@');
     }
 }
-
+
 /* Copy STR into BUF and trim blanks from the end of BUF.
    Return BUF. */
 
@@ -2468,7 +2468,7 @@ blank_rtrim (str, buf)
   buf[++i] = '\0';
   return (buf);
 }
-
+
 /* Print out the predicate list starting at NODE. */
 void
 print_list (FILE *fp, struct predicate *node)
@@ -2484,7 +2484,7 @@ print_list (FILE *fp, struct predicate *node)
     }
   fprintf (fp, "\n");
 }
-
+
 /* Print out the predicate list starting at NODE. */
 static void
 print_parenthesised (FILE *fp, struct predicate *node)
@@ -2514,7 +2514,7 @@ print_parenthesised (FILE *fp, struct predicate *node)
 	}
     }
 }
-
+
 void
 print_optlist (FILE *fp, const struct predicate *p)
 {
@@ -2544,7 +2544,7 @@ print_optlist (FILE *fp, const struct predicate *p)
       print_parenthesised (fp, p->pred_right);
     }
 }
-
+
 void show_success_rates (const struct predicate *p)
 {
   if (options.debug_options & DebugSuccessRates)
@@ -2557,7 +2557,7 @@ void show_success_rates (const struct predicate *p)
 
 
 
-
+
 #ifdef _NDEBUG
 /* If _NDEBUG is defined, the assertions will do nothing.   Hence
  * there is no point in having a function body for pred_sanity_check()
