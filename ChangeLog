@@ -1,5 +1,15 @@
 2010-04-07  James Youngman  <jay@gnu.org>
 
+	Depend on gnulib modules appropriate to features we already use.
+	* import-gnulib.config (modules): Add c-casestr, errno, fdopendir,
+	fflush, getdelim, gettimeofday, locale, modf, perror, snprintf,
+	stat, stdarg, stddef, stdio, stdlib, string, strpbrk, sys_time,
+	sys_wait.
+	Also add comments about other modules we may also want to use
+	which would require other code changes (for example dirent-safer).
+	* find/Makefile.am (LDADD): Add  $(LIB_EACCESS) $(LIB_SELINUX)
+	$(MODF_LIBM) which are needed by gnulib modules we now depend on.
+
 	More stat/xstat cleanup.
 	* find/parser.c (estimate_fstype_success_rate): Change the name of
 	the variable "dir" to "the_root_dir" to emphasise that it doesn't
