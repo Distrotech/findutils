@@ -48,6 +48,7 @@ find.gnu/posix-dflt.xo \
 find.gnu/posix-h.xo \
 find.gnu/posix-l.xo \
 find.gnu/printfHdfl.xo \
+find.gnu/printf-nonlocal-symlink.xo \
 find.gnu/printf-slash.xo \
 find.gnu/printf-symlink.xo \
 find.gnu/printf-h.xo \
@@ -160,6 +161,7 @@ find.gnu/posix-perminvalid.exp \
 find.gnu/printfHdfl.exp \
 find.gnu/printf.exp \
 find.gnu/printf.exp \
+find.gnu/printf-nonlocal-symlink.exp \
 find.gnu/printf-slash.exp \
 find.gnu/printf-symlink.exp \
 find.gnu/printf-h.exp \

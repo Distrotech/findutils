@@ -1,5 +1,26 @@
 2010-04-07  James Youngman  <jay@gnu.org>
 
+	More stat/xstat cleanup.
+	* find/parser.c (estimate_fstype_success_rate): Change the name of
+	the variable "dir" to "the_root_dir" to emphasise that it doesn't
+	matter that we're calling stat rather than options.xstat.
+	* find/ftsfind.c (symlink_loop): Call options.xstat instead of
+	stat/lstat, because options.xstat takes account of
+	state.cwd_dir_fd.
+
+	Fix Savannah bug 29460, -printf %Y fails in $CWD-dependent way
+	* find/pred.c (do_fprintf): Use optionl_stat and optionp_stat
+	instead of stat and lstat, because the first two functions are
+	aware of state.cwd_dir_fd.
+	* find/testsuite/find.gnu/printf-nonlocal-symlink.exp: A new test
+	case for this bug.
+	* find/testsuite/find.gnu/printf-nonlocal-symlink.xo: Expected
+	output for this test.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add the new test
+	case.
+	(EXTRA_DIST_XO): Add the expected-output file.
+	* NEWS: Mention this fix.
+
 	* lib/strspn.c: Delete this unused file.
 
 	Update the maintenance manual.

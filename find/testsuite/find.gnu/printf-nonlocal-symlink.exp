@@ -1,0 +1,7 @@
+exec rm -rf tmp
+exec mkdir tmp
+exec mkdir tmp/foo
+exec touch tmp/foo/file
+exec ln -s file tmp/foo/LINK
+find_start p {tmp  -type l -printf "%p: %Y %y\n" }
+exec rm -rf tmp

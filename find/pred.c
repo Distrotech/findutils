@@ -1030,7 +1030,7 @@ do_fprintf (struct format_val *dest,
 		/* If we would normally follow links, do not do so.
 		 * If we would normally not follow links, do so.
 		 */
-		if ((following_links () ? lstat : stat)
+		if ((following_links () ? optionp_stat : optionl_stat)
 		    (state.rel_pathname, &sbuf) != 0)
 		  {
 		    if ( errno == ENOENT )
