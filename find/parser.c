@@ -1050,10 +1050,10 @@ parse_fprint0 (const struct parser_table* entry, char **argv, int *arg_ptr)
 static float estimate_fstype_success_rate (const char *fsname)
 {
   struct stat dir_stat;
-  const char *dir = "/";
-  if (0 == stat (dir, &dir_stat))
+  const char *the_root_dir = "/";
+  if (0 == stat (the_root_dir, &dir_stat)) /* it's an absolute path anyway */
     {
-      const char *fstype = filesystem_type (&dir_stat, dir);
+      const char *fstype = filesystem_type (&dir_stat, the_root_dir);
       /* Assume most files are on the same file system type as the root fs. */
       if (0 == strcmp (fsname, fstype))
 	  return 0.7f;
@@ -2411,7 +2411,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
   if (fd == -1)
     {
       /* Race condition here.  The file might become a
-       * symbolic link in between out call to stat and
+       * symbolic link in between our call to stat and
        * the call to open.
        */
       fd = open (argv[*arg_ptr], openflags);

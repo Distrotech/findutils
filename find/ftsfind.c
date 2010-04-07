@@ -294,11 +294,7 @@ static bool
 symlink_loop (const char *name)
 {
   struct stat stbuf;
-  int rv;
-  if (following_links ())
-    rv = stat (name, &stbuf);
-  else
-    rv = lstat (name, &stbuf);
+  const int rv = options.xstat (name, &stbuf);
   return (0 != rv) && (ELOOP == errno);
 }
 
