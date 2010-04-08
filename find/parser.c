@@ -2710,7 +2710,7 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   printf ("DEBUG_STAT ");
   ++features;
 #endif
-#if defined USE_STRUCT_DIRENT_D_TYPE && defined HAVE_STRUCT_DIRENT_D_TYPE
+#if defined HAVE_STRUCT_DIRENT_D_TYPE
   printf ("D_TYPE ");
   ++features;
 #endif

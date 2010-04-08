@@ -148,21 +148,6 @@ AC_CHECK_MEMBERS([struct stat.st_rdev])
 dnl fdleak.c uses PROMOTED_MODE_T, which is defined by gnulib.
 gl_PROMOTED_TYPE_MODE_T
 
-AC_MSG_CHECKING([whether we should use struct dirent.d_type, if available])
-if test x$ac_cv_d_type = xno; then
-   AC_MSG_RESULT([no])
-else
-   AC_MSG_RESULT([yes])
-   AC_DEFINE([USE_STRUCT_DIRENT_D_TYPE], 1,
-   [Defined if you specify --enable-d_type-optimisation to configure.])
-   AC_CHECK_MEMBERS([struct dirent.d_type],[
-   AC_DEFINE([HAVE_STRUCT_DIRENT_D_TYPE], 1,
-   [Define to 1 if your 'struct dirent' has a d_type member])],
-   [],[
-#include <sys/types.h>
-#include <dirent.h>])
-fi
-
 
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE

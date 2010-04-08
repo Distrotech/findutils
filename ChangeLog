@@ -26,6 +26,21 @@
 
 2010-04-08  James Youngman  <jay@gnu.org>
 
+	Adopt the use of the gnulib module d-type.
+	* import-gnulib.config (modules): Import the d-type module.
+	* configure.ac: Remove old struct dirent.d_type detection logic
+	(since we now use the gnulib macro from the d-type module for
+	this).
+	* find/parser.c (parse_version): Use HAVE_STRUCT_DIRENT_D_TYPE
+	(since the d-ino module still defines it) but remove references to
+	the macro USE_STRUCT_DIRENT_D_TYPE, since it's not defined and not
+	needed.
+	* lib/savedirinfo.c: Use HAVE_STRUCT_DIRENT_D_TYPE but ignore
+	USE_STRUCT_DIRENT_D_TYPE.
+	(xsavedir): Unconditionally initialise
+	internal[result->size].type_info so that we don't have untested
+	code (HAVE_STRUCT_DIRENT_D_TYPE is defined on my system).
+
 	Move on from 4.5.8.
 	* configure.ac: Bump the version number to 4.5.9-git.
 	* NEWS: Likewise.

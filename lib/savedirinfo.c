@@ -64,21 +64,7 @@
 #include "extendbuf.h"
 #include "savedirinfo.h"
 
-/* In order to use struct dirent.d_type, it has to be enabled on the
- * configure command line, and we have to have a d_type member in
- * 'struct dirent'.
- */
-#if !defined(USE_STRUCT_DIRENT_D_TYPE)
-/* Not enabled, hence pretend it is absent. */
-#undef HAVE_STRUCT_DIRENT_D_TYPE
-#endif
-#if !defined(HAVE_STRUCT_DIRENT_D_TYPE)
-/* Not present, so cannot use it. */
-#undef USE_STRUCT_DIRENT_D_TYPE
-#endif
-
-
-#if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
+#if defined HAVE_STRUCT_DIRENT_D_TYPE
 /* Convert the value of struct dirent.d_type into a value for
  * struct stat.st_mode (at least the file type bits), or zero
  * if the type is DT_UNKNOWN or is a value we don't know about.
@@ -113,7 +99,6 @@ type_to_mode (unsigned type)
       return 0;			/* Unknown. */
     }
 }
-
 #endif
 
 struct new_savedir_direntry_internal
@@ -196,12 +181,11 @@ xsavedir (const char *dir, int flags)
 	  internal = xextendbuf (internal, (1+result->size)*sizeof (*internal), &entrybuf_allocated);
 	  internal[result->size].flags = 0;
 
-#if defined HAVE_STRUCT_DIRENT_D_TYPE && defined USE_STRUCT_DIRENT_D_TYPE
+	  internal[result->size].type_info = 0;
+#if defined HAVE_STRUCT_DIRENT_D_TYPE
 	  internal[result->size].type_info = type_to_mode (dp->d_type);
 	  if (dp->d_type != DT_UNKNOWN)
 	    internal[result->size].flags |= SavedirHaveFileType;
-#else
-	  internal[result->size].type_info = 0;
 #endif
 	  internal[result->size].buffer_offset = namebuf_used;
 
