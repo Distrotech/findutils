@@ -62,6 +62,7 @@
 
 #include "xalloc.h"
 #include "extendbuf.h"
+#include "dirent-safer.h"
 #include "savedirinfo.h"
 
 #if defined HAVE_STRUCT_DIRENT_D_TYPE
@@ -154,7 +155,7 @@ xsavedir (const char *dir, int flags)
   size_t entrybuf_allocated = 0u;
   int save_errno;
 
-  dirp = opendir (dir);
+  dirp = opendir_safer (dir);
   if (dirp == NULL)
     return NULL;
 
