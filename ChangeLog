@@ -26,6 +26,15 @@
 
 2010-04-08  James Youngman  <jay@gnu.org>
 
+	Adopt the use of the gnulib module faccessat.
+	* import-gnulib.config (modules): Add faccessat.
+	* find/pred.c (struct access_check_args): Delete.
+	(access_callback): Delete.
+	(can_access): Delete.
+	(pred_executable): Use faccessat.
+	(pred_readable): Likewise.
+	(pred_writable): Likewise.
+
 	Adopt (explicitly) the use of the gnulib module dirent-safer.
 	* import-gnulib.config (modules): Add dirent-safer; we were
 	previously transitively importing this module, but we are now

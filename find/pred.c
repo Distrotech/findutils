@@ -1570,35 +1570,6 @@ pred_perm (const char *pathname, struct stat *stat_buf, struct predicate *pred_p
 }
 
 
-struct access_check_args
-{
-  const char *filename;
-  int access_type;
-  int cb_errno;
-};
-
-
-static int
-access_callback (void *context)
-{
-  int rv;
-  struct access_check_args *args = context;
-  if ((rv = access (args->filename, args->access_type)) < 0)
-    args->cb_errno = errno;
-  return rv;
-}
-
-static int
-can_access (int access_type)
-{
-  struct access_check_args args;
-  args.filename = state.rel_pathname;
-  args.access_type = access_type;
-  args.cb_errno = 0;
-  return 0 == run_in_dir (state.cwd_dir_fd, access_callback, &args);
-}
-
-
 bool
 pred_executable (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
@@ -1606,7 +1577,8 @@ pred_executable (const char *pathname, struct stat *stat_buf, struct predicate *
   (void) stat_buf;
   (void) pred_ptr;
 
-  return can_access (X_OK);
+  /* As for access, the check is performed with the real user id. */
+  return 0 == faccessat (state.cwd_dir_fd, state.rel_pathname, X_OK, 0);
 }
 
 bool
@@ -1616,7 +1588,8 @@ pred_readable (const char *pathname, struct stat *stat_buf, struct predicate *pr
   (void) stat_buf;
   (void) pred_ptr;
 
-  return can_access (R_OK);
+  /* As for access, the check is performed with the real user id. */
+  return 0 == faccessat (state.cwd_dir_fd, state.rel_pathname, R_OK, 0);
 }
 
 bool
@@ -1626,7 +1599,8 @@ pred_writable (const char *pathname, struct stat *stat_buf, struct predicate *pr
   (void) stat_buf;
   (void) pred_ptr;
 
-  return can_access (W_OK);
+  /* As for access, the check is performed with the real user id. */
+  return 0 == faccessat (state.cwd_dir_fd, state.rel_pathname, W_OK, 0);
 }
 
 bool
