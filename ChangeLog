@@ -1,3 +1,17 @@
+2010-04-09  James Youngman  <jay@gnu.org>
+
+	* find/parser.c (parse_samefile): Use open_cloexec to open the
+	reference file, so that we don't leak a file descriptor.
+
+2010-04-09  Roberto Reale  <rreale@iol.it> (tiny change)
+
+	* find/parser.c (parse_samefile): Since collect_arg_stat_info
+	increments *arg_ptr, argv[*arg_ptr] is often NULL.   Use filename
+	instead, as that's the variable in which we store the name of our
+	file.  The purpose of the fd was only to attempt to keep the inode
+	number stable on systems that don't really have inode numbers, so
+	this change should have no functional effect on POSIX systems.
+
 2010-04-08  James Youngman  <jay@gnu.org>
 
 	Move on from 4.5.8.

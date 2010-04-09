@@ -43,6 +43,7 @@
 #include "error.h"
 #include "findutils-version.h"
 #include "safe-atoi.h"
+#include "fdleak.h"
 
 #include <fcntl.h>
 
@@ -2412,9 +2413,9 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
     {
       /* Race condition here.  The file might become a
        * symbolic link in between our call to stat and
-       * the call to open.
+       * the call to open_cloexec.
        */
-      fd = open (argv[*arg_ptr], openflags);
+      fd = open_cloexec (filename, openflags);
 
       if (fd >= 0)
 	{
@@ -2423,7 +2424,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
 	   */
 	  if (0 != fstat (fd, &fst))
 	    {
-	      fatal_target_file_error (errno, argv[*arg_ptr]);
+	      fatal_target_file_error (errno, filename);
 	    }
 	  else
 	    {
@@ -2432,8 +2433,8 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
 	       * open, fst may contain the stat information for the
 	       * destination of the link, not the link itself.
 	       */
-	      if ((*options.xstat) (argv[*arg_ptr], &st))
-		fatal_target_file_error (errno, argv[*arg_ptr]);
+	      if ((*options.xstat) (filename, &st))
+		fatal_target_file_error (errno, filename);
 
 	      if ((options.symlink_handling == SYMLINK_NEVER_DEREF)
 		  && (!options.open_nofollow_available))
