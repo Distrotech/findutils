@@ -50,6 +50,7 @@
 #include "error.h"
 #include "fdleak.h"
 #include "progname.h"
+#include "save-cwd.h"
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -136,6 +137,8 @@ main (int argc, char **argv)
       remember_non_cloexec_fds ();
     }
 
+  record_initial_cwd ();
+
   state.already_issued_stat_error_msg = false;
   state.shared_files = sharefile_init ("w");
   if (NULL == state.shared_files)
@@ -195,24 +198,6 @@ main (int argc, char **argv)
 #endif
     }
 
-
-  starting_desc = open_cloexec (".", O_RDONLY
-#if defined O_LARGEFILE
-				|O_LARGEFILE
-#endif
-				);
-  if (0 <= starting_desc && fchdir (starting_desc) != 0)
-    {
-      close (starting_desc);
-      starting_desc = -1;
-    }
-
-  if (starting_desc < 0)
-    {
-      starting_dir = xgetcwd ();
-      if (! starting_dir)
-	error (EXIT_FAILURE, errno, _("cannot get current directory"));
-    }
 
   set_stat_placeholders (&starting_stat_buf);
   if ((*options.xstat) (".", &starting_stat_buf) != 0)
@@ -893,7 +878,7 @@ safely_chdir (const char *dest,
    * processed, do them now because they must be done in the same
    * directory.
    */
-  complete_pending_execdirs (get_current_dirfd ());
+  complete_pending_execdirs ();
 
 #if !defined(O_NOFOLLOW)
   options.open_nofollow_available = false;
@@ -928,45 +913,10 @@ safely_chdir (const char *dest,
 static void
 chdir_back (void)
 {
-  struct stat stat_buf;
-  bool dummy;
+  if (options.debug_options & DebugSearch)
+    fprintf (stderr, "chdir_back(): chdir to start point\n");
 
-  if (starting_desc < 0)
-    {
-      if (options.debug_options & DebugSearch)
-	fprintf (stderr, "chdir_back(): chdir(\"%s\")\n", starting_dir);
-
-#ifdef STAT_MOUNTPOINTS
-      /* We will need the mounted device list.  Get it now if we don't
-       * already have it.
-       */
-      if (NULL == mounted_devices)
-	init_mounted_dev_list (1);
-#endif
-
-      if (chdir (starting_dir) != 0)
-	fatal_nontarget_file_error (errno, starting_dir);
-
-      wd_sanity_check (starting_dir,
-		       program_name,
-		       starting_dir,
-		       starting_stat_buf.st_dev,
-		       starting_stat_buf.st_ino,
-		       &stat_buf, 0, __LINE__,
-		       TraversingUp,
-		       FATAL_IF_SANITY_CHECK_FAILS,
-		       &dummy);
-    }
-  else
-    {
-      if (options.debug_options & DebugSearch)
-	fprintf (stderr, "chdir_back(): chdir(<starting-point>)\n");
-
-      if (fchdir (starting_desc) != 0)
-	{
-	  fatal_nontarget_file_error (errno, starting_dir);
-	}
-    }
+  restore_cwd (initial_wd);
 }
 
 /* Move to the parent of a given directory and then call a function,
@@ -1055,7 +1005,7 @@ static void do_process_top_dir (char *pathname,
   (void) pstat;
 
   process_path (pathname, base, false, ".", mode);
-  complete_pending_execdirs (get_current_dirfd ());
+  complete_pending_execdirs ();
 }
 
 static void
@@ -1345,7 +1295,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
        * yet been processed, do them now because they must be done in
        * the same directory.
        */
-      complete_pending_execdirs (get_current_dirfd ());
+      complete_pending_execdirs ();
 
       if (strcmp (name, "."))
 	{
@@ -1482,7 +1432,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
        * yet been processed, do them now because they must be done in
        * the same directory.
        */
-      complete_pending_execdirs (get_current_dirfd ());
+      complete_pending_execdirs ();
 
       if (strcmp (name, "."))
 	{

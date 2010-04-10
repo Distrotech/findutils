@@ -19,16 +19,9 @@
 #include <config.h>
 
 #include "defs.h"
+#include "save-cwd.h"
 
 
 struct options options;
 struct state state;
-
-/* The full path of the initial working directory, or "." if
-   STARTING_DESC is nonnegative.  */
-char const *starting_dir = ".";
-
-/* A file descriptor open to the initial working directory.
-   Doing it this way allows us to work when the i.w.d. has
-   unreadable parents.  */
-int starting_desc;
+struct saved_cwd *initial_wd = NULL;

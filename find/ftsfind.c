@@ -89,24 +89,6 @@ static bool find (char *arg) __attribute_warn_unused_result__;
 static bool process_all_startpoints (int argc, char *argv[]) __attribute_warn_unused_result__;
 
 
-int
-get_current_dirfd (void)
-{
-  if (ftsoptions & FTS_CWDFD)
-    {
-      assert (curr_fd != -1);
-      assert ( (AT_FDCWD == curr_fd) || (curr_fd >= 0) );
-
-      if (AT_FDCWD == curr_fd)
-	return starting_desc;
-      else
-	return curr_fd;
-    }
-  else
-    {
-      return AT_FDCWD;
-    }
-}
 
 static void
 left_dir (void)
@@ -298,15 +280,6 @@ symlink_loop (const char *name)
   return (0 != rv) && (ELOOP == errno);
 }
 
-
-static int
-complete_execdirs_cb (void *context)
-{
-  (void) context;
-  /* By the tme this callback is called, the current directory is correct. */
-  complete_pending_execdirs (AT_FDCWD);
-  return 0;
-}
 
 static void
 show_outstanding_execdirs (FILE *fp)
@@ -555,7 +528,7 @@ consider_visiting (FTS *p, FTSENT *ent)
   if (state.execdirs_outstanding)
     {
       show_outstanding_execdirs (stderr);
-      run_in_dir (p->fts_cwd_fd, complete_execdirs_cb, NULL);
+      complete_pending_execdirs ();
     }
 
   if (ent->fts_info == FTS_DP)
@@ -674,6 +647,8 @@ main (int argc, char **argv)
   else
     set_program_name ("find");
 
+  record_initial_cwd ();
+
   state.already_issued_stat_error_msg = false;
   state.exit_status = 0;
   state.execdirs_outstanding = false;
@@ -739,23 +714,6 @@ main (int argc, char **argv)
 #endif
     }
 
-
-  starting_desc = open_cloexec (".", O_RDONLY
-#if defined O_LARGEFILE
-				|O_LARGEFILE
-#endif
-				);
-  if (0 <= starting_desc && fchdir (starting_desc) != 0)
-    {
-      close (starting_desc);
-      starting_desc = -1;
-    }
-  if (starting_desc < 0)
-    {
-      starting_dir = xgetcwd ();
-      if (! starting_dir)
-	error (EXIT_FAILURE, errno, _("cannot get current directory"));
-    }
 
   /* process_all_startpoints processes the starting points named on
    * the command line.  A false return value from it means that we

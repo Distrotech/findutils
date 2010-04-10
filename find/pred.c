@@ -48,6 +48,8 @@
 #include "verify.h"
 #include "fdleak.h"
 #include "areadlink.h"
+#include "cloexec.h"
+#include "save-cwd.h"
 
 #include <selinux/selinux.h>
 
@@ -504,8 +506,31 @@ pred_empty (const char *pathname, struct stat *stat_buf, struct predicate *pred_
     return (false);
 }
 
+
 static bool
-new_impl_pred_exec (int dir_fd, const char *pathname,
+record_exec_dir (struct exec_val *execp)
+{
+  if (!execp->wd_for_exec)
+    {
+      /* working directory not already known, so must be a *dir variant,
+	 and this must be the first arg we added.   However, this may
+	 be -execdir foo {} \; (i.e. not multiple).  */
+      assert (!execp->state.todo);
+
+      /* Record the WD. */
+      execp->wd_for_exec = xmalloc (sizeof (*execp->wd_for_exec));
+      execp->wd_for_exec->name = NULL;
+      execp->wd_for_exec->desc = openat (state.cwd_dir_fd, ".", O_RDONLY);
+      if (execp->wd_for_exec->desc < 0)
+	return false;
+      set_cloexec_flag (execp->wd_for_exec->desc, true);
+    }
+  return true;
+}
+
+
+static bool
+new_impl_pred_exec (const char *pathname,
 		    struct stat *stat_buf,
 		    struct predicate *pred_ptr,
 		    const char *prefix, size_t pfxlen)
@@ -514,7 +539,32 @@ new_impl_pred_exec (int dir_fd, const char *pathname,
   size_t len = strlen (pathname);
 
   (void) stat_buf;
-  execp->dir_fd = dir_fd;
+
+  if (is_exec_in_local_dir (pred_ptr->pred_func))
+    {
+      /* For -execdir/-okdir predicates, the parser did not fill in
+	 the wd_for_exec member of sturct exec_val.  So for those
+	 predicates, we do so now.
+      */
+      if (!record_exec_dir (execp))
+	{
+	  error (EXIT_FAILURE, errno,
+		 _("Failed to save working directory in order to "
+		   "run a command on %s"),
+		 safely_quote_err_filename (0, pathname));
+	  /*NOTREACHED*/
+	}
+    }
+  else
+    {
+      /* For the others (-exec, -ok), the parder should
+	 have set wd_for_exec to initial_wd, indicating
+	 that the exec should take place from find's initial
+	 working directory.
+      */
+      assert (execp->wd_for_exec == initial_wd);
+    }
+
   if (execp->multiple)
     {
       /* Push the argument onto the current list.
@@ -570,8 +620,7 @@ new_impl_pred_exec (int dir_fd, const char *pathname,
 bool
 pred_exec (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  return new_impl_pred_exec (get_start_dirfd(),
-			     pathname, stat_buf, pred_ptr, NULL, 0);
+  return new_impl_pred_exec (pathname, stat_buf, pred_ptr, NULL, 0);
 }
 
 bool
@@ -579,8 +628,7 @@ pred_execdir (const char *pathname, struct stat *stat_buf, struct predicate *pre
 {
    const char *prefix = (state.rel_pathname[0] == '/') ? NULL : "./";
    (void) &pathname;
-   return new_impl_pred_exec (get_current_dirfd (),
-			      state.rel_pathname, stat_buf, pred_ptr,
+   return new_impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr,
 			      prefix, (prefix ? 2 : 0));
 }
 
@@ -1482,8 +1530,7 @@ bool
 pred_ok (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (is_ok (pred_ptr->args.exec_vec.replace_vec[0], pathname))
-    return new_impl_pred_exec (get_start_dirfd (),
-			       pathname, stat_buf, pred_ptr, NULL, 0);
+    return new_impl_pred_exec (pathname, stat_buf, pred_ptr, NULL, 0);
   else
     return false;
 }
@@ -1493,8 +1540,7 @@ pred_okdir (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 {
   const char *prefix = (state.rel_pathname[0] == '/') ? NULL : "./";
   if (is_ok (pred_ptr->args.exec_vec.replace_vec[0], pathname))
-    return new_impl_pred_exec (get_current_dirfd (),
-			       state.rel_pathname, stat_buf, pred_ptr,
+    return new_impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr,
 			       prefix, (prefix ? 2 : 0));
   else
     return false;
@@ -1929,7 +1975,7 @@ pred_context (const char *pathname, struct stat *stat_buf,
 
 
 static bool
-prep_child_for_exec (bool close_stdin, int dir_fd)
+prep_child_for_exec (bool close_stdin, const struct saved_cwd *wd)
 {
   bool ok = true;
   if (close_stdin)
@@ -1965,17 +2011,10 @@ prep_child_for_exec (bool close_stdin, int dir_fd)
    * announcement of a call to stat() anyway, as we're about to exec
    * something.
    */
-  if (dir_fd != AT_FDCWD)
+  if (0 != restore_cwd (wd))
     {
-      assert (dir_fd >= 0);
-      if (0 != fchdir (dir_fd))
-	{
-	  /* If we cannot execute our command in the correct directory,
-	   * we should not execute it at all.
-	   */
-	  error (0, errno, _("Failed to change directory"));
-	  ok = false;
-	}
+      error (0, errno, _("Failed to change directory"));
+      ok = false;
     }
   return ok;
 }
@@ -1991,12 +2030,6 @@ launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv)
   pid_t child_pid;
   static int first_time = 1;
   struct exec_val *execp = usercontext;
-
-  if (!execp->use_current_dir)
-    {
-      assert (starting_desc >= 0);
-      assert (execp->dir_fd == starting_desc);
-    }
 
   /* Make sure output of command doesn't get mixed with find output. */
   fflush (stdout);
@@ -2015,8 +2048,8 @@ launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv)
   if (child_pid == 0)
     {
       /* We are the child. */
-      assert (starting_desc >= 0);
-      if (!prep_child_for_exec (execp->close_stdin, execp->dir_fd))
+      assert (NULL != execp->wd_for_exec);
+      if (!prep_child_for_exec (execp->close_stdin, execp->wd_for_exec))
 	{
 	  _exit (1);
 	}

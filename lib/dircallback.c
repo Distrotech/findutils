@@ -34,7 +34,36 @@
 
 
 int
-run_in_dir (int dir_fd, int (*callback)(void*), void *usercontext)
+run_in_dir (const struct saved_cwd *there,
+	    int (*callback)(void*), void *usercontext)
+{
+  int err, saved_errno;
+  struct saved_cwd here;
+  if (0 == save_cwd (&here))
+    {
+      if (0 == restore_cwd (there))
+	{
+	  err = callback(usercontext);
+	  saved_errno = (err < 0 ? errno : 0);
+	}
+      else
+	{
+	  openat_restore_fail (errno);
+	}
+      free_cwd (&here);
+    }
+  else
+    {
+      openat_save_fail (errno);
+    }
+  if (saved_errno)
+    errno = saved_errno;
+  return err;
+}
+
+
+int
+run_in_dirfd (int dir_fd, int (*callback)(void*), void *usercontext)
 {
   if (dir_fd == AT_FDCWD)
     {

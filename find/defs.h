@@ -194,9 +194,8 @@ struct exec_val
   struct buildcmd_state   state;
   char **replace_vec;		/* Command arguments (for ";" style) */
   int num_args;
-  bool use_current_dir;	        /* If nonzero, don't chdir to start dir */
   bool close_stdin;		/* If true, close stdin in the child. */
-  int dir_fd;			/* The directory to do the exec in. */
+  struct saved_cwd *wd_for_exec; /* What directory to perform the exec in. */
   int last_child_status;	/* Status of the most recent child. */
 };
 
@@ -340,8 +339,6 @@ struct predicate
 
 /* find.c, ftsfind.c */
 bool is_fts_enabled(int *ftsoptions);
-int get_start_dirfd(void);
-int get_current_dirfd(void);
 
 /* find library function declarations.  */
 
@@ -500,8 +497,10 @@ struct predicate *insert_primary_withpred PARAMS((const struct parser_table *ent
 void usage PARAMS((FILE *fp, int status, char *msg));
 extern bool check_nofollow(void);
 void complete_pending_execs(struct predicate *p);
-void complete_pending_execdirs(int dir_fd); /* Passing dir_fd is an unpleasant CodeSmell. */
+void complete_pending_execdirs (void);
 const char *safely_quote_err_filename (int n, char const *arg);
+void record_initial_cwd (void);
+bool is_exec_in_local_dir(const PRED_FUNC pred_func);
 
 void fatal_target_file_error (int errno_value, const char *name) ATTRIBUTE_NORETURN;
 void fatal_nontarget_file_error (int errno_value, const char *name) ATTRIBUTE_NORETURN;
@@ -675,8 +674,8 @@ struct state
 };
 
 /* finddata.c */
+extern struct options options;
 extern struct state state;
-extern char const *starting_dir;
-extern int starting_desc;
+extern struct saved_cwd *initial_wd;
 
 #endif

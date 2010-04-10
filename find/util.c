@@ -37,6 +37,9 @@
 #include "error.h"
 #include "verify.h"
 #include "fdleak.h"
+#include "dircallback.h"
+#include "xalloc.h"
+#include "save-cwd.h"
 
 
 #if ENABLE_NLS
@@ -334,6 +337,26 @@ check_nofollow (void)
 #endif
 
 
+static int
+exec_cb (void *context)
+{
+  struct exec_val *execp = context;
+  bc_do_exec (&execp->ctl, &execp->state);
+  return 0;
+}
+
+static void
+do_exec (struct exec_val *execp)
+{
+  run_in_dir (execp->wd_for_exec, exec_cb, execp);
+  if (execp->wd_for_exec != initial_wd)
+    {
+      free_cwd (execp->wd_for_exec);
+      free (execp->wd_for_exec);
+      execp->wd_for_exec = NULL;
+    }
+}
+
 
 /* Examine the predicate list for instances of -execdir or -okdir
  * which have been terminated with '+' (build argument list) rather
@@ -341,14 +364,14 @@ check_nofollow (void)
  * have no effect if there are no arguments waiting).
  */
 static void
-do_complete_pending_execdirs (struct predicate *p, int dir_fd)
+do_complete_pending_execdirs (struct predicate *p)
 {
   if (NULL == p)
     return;
 
   assert (state.execdirs_outstanding);
 
-  do_complete_pending_execdirs (p->pred_left, dir_fd);
+  do_complete_pending_execdirs (p->pred_left);
 
   if (pred_is (p, pred_execdir) || pred_is(p, pred_okdir))
     {
@@ -363,20 +386,20 @@ do_complete_pending_execdirs (struct predicate *p, int dir_fd)
 	  if (execp->state.todo)
 	    {
 	      /* There are not-yet-executed arguments. */
-	      bc_do_exec (&execp->ctl, &execp->state);
+	      do_exec (execp);
 	    }
 	}
     }
 
-  do_complete_pending_execdirs (p->pred_right, dir_fd);
+  do_complete_pending_execdirs (p->pred_right);
 }
 
 void
-complete_pending_execdirs (int dir_fd)
+complete_pending_execdirs (void)
 {
   if (state.execdirs_outstanding)
     {
-      do_complete_pending_execdirs (get_eval_tree(), dir_fd);
+      do_complete_pending_execdirs (get_eval_tree());
       state.execdirs_outstanding = false;
     }
 }
@@ -417,6 +440,36 @@ complete_pending_execs (struct predicate *p)
 
   complete_pending_execs (p->pred_right);
 }
+
+void
+record_initial_cwd (void)
+{
+  initial_wd = xmalloc (sizeof (*initial_wd));
+  if (0 != save_cwd (initial_wd))
+    {
+      error (EXIT_FAILURE, errno,
+	     _("failed to save initial working directory"));
+    }
+}
+
+static void
+cleanup_initial_cwd (void)
+{
+  if (0 == restore_cwd (initial_wd))
+    {
+      free_cwd (initial_wd);
+      free (initial_wd);
+      initial_wd = NULL;
+    }
+  else
+    {
+      /* since we may already be in atexit, die with _exit(). */
+      error (0, errno,
+	     _("failed to restore initial working directory"));
+      _exit (EXIT_FAILURE);
+    }
+}
+
 
 static void
 traverse_tree (struct predicate *tree,
@@ -470,13 +523,15 @@ cleanup (void)
   if (eval_tree)
     {
       traverse_tree (eval_tree, complete_pending_execs);
-      complete_pending_execdirs (get_current_dirfd());
+      complete_pending_execdirs ();
     }
 
   /* Close ouptut files and NULL out references to them. */
   sharefile_destroy (state.shared_files);
   if (eval_tree)
     traverse_tree (eval_tree, undangle_file_pointers);
+
+  cleanup_initial_cwd ();
 
   if (fd_leak_check_is_enabled ())
     {
@@ -1028,16 +1083,6 @@ set_option_defaults (struct options *p)
 }
 
 
-/* get_start_dirfd
- *
- * Returns the fd for the directory we started in.
- */
-int
-get_start_dirfd (void)
-{
-  return starting_desc;
-}
-
 /* apply_predicate
  *
  */
@@ -1063,6 +1108,15 @@ apply_predicate(const char *pathname, struct stat *stat_buf, struct predicate *p
     }
 }
 
+
+/* is_exec_in_local_dir
+ *
+ */
+bool
+is_exec_in_local_dir (const PRED_FUNC pred_func)
+{
+  return pred_execdir == pred_func || pred_okdir == pred_func;
+}
 
 /* safely_quote_err_filename
  *

@@ -19,6 +19,9 @@
 #if !defined DIRCALLBACK_H
 # define DIRCALLBACK_H
 
-int run_in_dir (int dir_fd, int (*callback)(void*), void *usercontext);
+struct saved_cwd;
+
+int run_in_dirfd (int fd, int (*callback)(void*), void *usercontext);
+int run_in_dir (struct saved_cwd*, int (*callback)(void*), void *usercontext);
 
 #endif
