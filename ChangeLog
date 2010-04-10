@@ -1,5 +1,13 @@
 2010-04-11  James Youngman  <jay@gnu.org>
 
+	Fix Savannah bug #29511: fails to build on kfreebsd-*
+	* lib/fdleak.c (get_max_fd): Don't use RLIM_SAVED_MAX or
+	RLIM_SAVED_CUR.  Not only are they non-portable, they aren't
+	useful.
+	* NEWS: Mention this bugfix.
+
+2010-04-11  James Youngman  <jay@gnu.org>
+
 	Remove some unused or dead code.
 	* find/util.c (hook_fstatat): This has been disabled and unused
 	for a long time, delete it.

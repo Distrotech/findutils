@@ -118,17 +118,9 @@ get_max_fd (void)
 
   /* We assume if RLIMIT_NOFILE is defined, all the related macros are, too. */
 #if defined (HAVE_GETRUSAGE) && defined (RLIMIT_NOFILE)
-  /* There are really only two cases here for the return value,
-     but we keep the conditions separate because a different thing is
-     going on in each case.
-  */
   if (0 == getrlimit (RLIMIT_NOFILE, &fd_limit))
     {
-      if (fd_limit.rlim_cur == RLIM_SAVED_MAX)
-	return open_max;
-      else if (fd_limit.rlim_cur == RLIM_SAVED_CUR)
-	return open_max;
-      else if (fd_limit.rlim_cur == RLIM_INFINITY)
+      if (fd_limit.rlim_cur == RLIM_INFINITY)
 	return open_max;
       else
 	return (int) fd_limit.rlim_cur;
