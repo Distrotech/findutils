@@ -805,7 +805,7 @@
 2010-03-29  James Youngman  <jay@gnu.org>
 
 	Fix file descriptor leaks.  This fixes Savannah bug bug #27375.
-	* find/util.c (fd_leak_check_is_enabled): New funciton; returns
+	* find/util.c (fd_leak_check_is_enabled): New function; returns
 	nonzero if the environment variable GNU_FINDUTILS_FD_LEAK_CHECK is
 	enabled.  Setting this variable enables the file descriptor leak
 	checker.
@@ -939,7 +939,7 @@
 	correct.
 	(struct buildcmd_control): Change the calling convention of the
 	exec callback to allow us to pass the argument list separately.
-	(bc_args_exceed_testing_limit): declare this new funciton.
+	(bc_args_exceed_testing_limit): declare this new function.
 	* lib/buildcmd.c (bc_args_complete): New function, NULL-terminates
 	the argv list.   We use this instead of passing NULL to
 	bc_push_arg().
