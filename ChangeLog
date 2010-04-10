@@ -13,7 +13,7 @@
         Exec predicates now store which directory they want to run in.
         * lib/dircallback.c (run_in_dirfd): New name for old run_in_dir
         function.
-        (run_in_dir): Like the old funciton of the same name, but now
+        (run_in_dir): Like the old function of the same name, but now
         takes an argument const struct saved_cwd *.
         * lib/dircallback.h: Update declarations of run_in_dirfd and
         run_in_dir.
@@ -32,7 +32,7 @@
         initial_wd.
         (cleanup): Call cleanup_initial_cwd.
         (get_start_dirfd): Remove.
-        (is_exec_in_local_dir): New funciton; true for predicates -execdir
+        (is_exec_in_local_dir): New function; true for predicates -execdir
         and -okdir.
         * find/pred.c: Include cloexec.h and save-cwd.h.
         (record_exec_dir): New function, sets the value of
