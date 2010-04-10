@@ -272,6 +272,15 @@ proc touch args {
     }
 }
 
+proc mkdir { dirname } {
+    # Not all versions of Tcl offer 'file mkdir'.
+    set failed [ catch "file mkdir $dirname" result ]
+    if $failed {
+	# Fall back on the external command.
+	send_log "file mkdir does not work, falling back on exec mkdir\n"
+	exec mkdir "$dirname"
+    }
+}
 
 
 proc safe_path [ ] {

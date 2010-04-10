@@ -1,0 +1,55 @@
+# tests for -execdir ... \+
+
+# Create 4 empty files in each of 6 directories.
+# Also create a shell script in each of those 6 directories.
+# Run a find command which runs the shell script for each empty file.
+# Check to make sure that each file is mentioned exactly once, and that
+# the command was run with the correct working directory.
+#
+# The output is a sequence of lines of this form:
+#
+# cwd ./basename
+#
+# cmd is the basename of the current directory at the time the command
+# is run by -execidr.   ./basename is the name of the file that was matched
+# (that is, it's the value passed in {}).
+
+# $body is the body of a shell script we use for testing.
+# It prints a series of lines of the form described above.
+# One line is printed for each command-line argument.
+set body {#! /bin/sh
+set -e
+here=`pwd`
+d=`basename $here`
+
+for arg;
+do
+  echo "$d" "$arg"
+done | LC_ALL=C sort
+}
+
+
+if { [ safe_path ] } {
+    global SKIP_OLD
+
+    exec rm -rf tmp
+    mkdir tmp
+
+    # Put a copy of our shell script in each
+    # directory, plus some files.
+    foreach dir { a b c d e f } {
+	mkdir "tmp/$dir"
+	set script_name "tmp/$dir/runme"
+	set f [open "$script_name" "w" 0700 ]
+	puts $f "$body"
+	close $f
+	foreach item { one two three four } {
+	    touch "tmp/$dir/$item"
+	}
+    }
+
+    set SKIP_OLD 1
+    find_start p {tmp -type f -empty -execdir sh ./runme  \{\} + } ""
+    set SKIP_OLD 0
+    exec rm -rf tmp
+}
