@@ -2,6 +2,19 @@ GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
 * Major changes in release 4.5.9-git, YYYY-MM-DD
 
+** Bug Fixes
+
+#19593, -execdir .... {} + has suboptimal performance (see below)
+
+** Performance changes
+
+The find program will once again build argument lists longer than 1
+with "-execdir ...+".  The upper limit of 1 argument for execdir was
+introduced as a workaround in findutils-4.3.4.   The limit is now
+removed, but find still does not issue the maximum possible number of
+arguments, since an exec will occur each time find encounters a
+subdirectory (if at least one argument is pending).
+
 * Major changes in release 4.5.8, 2010-04-07
 
 ** Bug Fixes
