@@ -1100,7 +1100,7 @@ get_pred_cost (const struct predicate *p)
 			     cost_table_comparison))
 	    {
 	      error (EXIT_FAILURE, 0,
-		     "Failed to sort the costlookup array (indirect).");
+		     "failed to sort the costlookup array");
 	    }
 	  pred_table_sorted = 1;
 	}
@@ -1115,7 +1115,16 @@ get_pred_cost (const struct predicate *p)
 	}
       else
 	{
-	  error(0, 0, "warning: no cost entry for predicate %s", p->p_name);
+	  /* This message indicates a bug.  If we issue the message, we
+	     actually have two bugs: if find emits a diagnostic, its result
+	     should be nonzero.  However, not having an entry for a predicate
+	     will not affect the output (just the performance) so I think it
+	     would be confusing to exit with a nonzero status.
+	  */
+	  error (0, 0,
+		 _("warning: there is no entry in the predicate evaluation "
+		   "cost table for predicate %s; please report this as a bug"),
+		 p->p_name);
 	  inherent_cost = NeedsUnknown;
 	}
     }
