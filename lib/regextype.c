@@ -157,6 +157,3 @@ get_regex_type_synonym (unsigned int ix)
     }
   return -1;
 }
-
-
-

@@ -32,4 +32,3 @@ char const *starting_dir = ".";
    Doing it this way allows us to work when the i.w.d. has
    unreadable parents.  */
 int starting_desc;
-

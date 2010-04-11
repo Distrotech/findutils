@@ -16,4 +16,3 @@
 */
 
 extern const char * const gnulib_version;
-

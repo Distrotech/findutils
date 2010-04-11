@@ -78,4 +78,3 @@ print_quoted (FILE *fp,
     }
   return rv;
 }
-

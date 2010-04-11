@@ -84,5 +84,3 @@ safe_atoi (const char *s, enum quoting_style style)
     }
   return (int)lval;
 }
-
-

@@ -329,6 +329,3 @@ get_mounted_devices (size_t *n)
     }
   return result;
 }
-
-
-

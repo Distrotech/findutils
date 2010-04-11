@@ -42,4 +42,3 @@ else
         AC_SUBST(SORT_SUPPORTS_Z,[false])
 fi
 ])
-

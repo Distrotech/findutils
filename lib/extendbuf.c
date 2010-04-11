@@ -117,4 +117,3 @@ xextendbuf (void* existing, size_t wanted, size_t *allocated)
     }
   return p;
 }
-

@@ -393,4 +393,3 @@ complain_about_leaky_fds (void)
     }
   assert (no_leaks);
 }
-

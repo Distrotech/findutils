@@ -12,4 +12,3 @@ if { ! [ fs_superuser ] } {
     find_start p {tmp -readable -printf "r %p\n" , -writable -printf "w %p\n" , -executable  -printf "x %p\n"}
     exec rm -rf tmp
 }
-
