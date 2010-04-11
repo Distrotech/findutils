@@ -65,6 +65,7 @@ find.gnu/samefile-same.xo \
 find.gnu/samefile-symlink.xo \
 find.gnu/sv-bug-17782.xo \
 find.gnu/sv-bug-18222.xo \
+find.gnu/sv-bug-27563-execdir.xo \
 find.gnu/true.xo \
 find.gnu/wholename.xo \
 find.gnu/xtype-symlink.xo \
@@ -82,6 +83,7 @@ find.posix/links.xo \
 find.posix/sv-bug-11175.xo \
 find.posix/sv-bug-12181.xo \
 find.posix/sv-bug-25359.xo \
+find.posix/sv-bug-27563-exec.xo \
 find.posix/depth1.xo \
 find.posix/mtime0.xo \
 find.posix/sizes.xo \
@@ -186,6 +188,7 @@ find.gnu/sv-bug-17490.exp \
 find.gnu/sv-bug-17782.exp \
 find.gnu/sv-bug-18222.exp \
 find.gnu/sv-bug-24169.exp \
+find.gnu/sv-bug-25359-execdir.exp \
 find.gnu/quit.exp \
 find.gnu/used-invarg.exp \
 find.gnu/used-missing.exp \
@@ -208,6 +211,7 @@ find.posix/mtime0.exp \
 find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \
 find.posix/sv-bug-25359.exp \
+find.posix/sv-bug-25359-exec.exp \
 find.posix/depth1.exp \
 find.posix/sizes.exp \
 find.posix/name.exp \

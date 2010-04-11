@@ -1,0 +1,6 @@
+# tests for Savannah bug 27563 (result of find -L -exec ls {} \;)
+exec rm -rf tmp
+exec mkdir tmp
+exec touch tmp/yyyy
+find_start p {-L tmp -name yyyy -exec ls \{\} \; }
+exec rm -rf tmp

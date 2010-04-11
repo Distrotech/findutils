@@ -1,5 +1,18 @@
 2010-04-11  James Youngman  <jay@gnu.org>
 
+	Add a test case for Savannah bug 27563 (-L breaks -execdir).
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add
+	find.gnu/sv-bug-27563-execdir.exp and
+	find.posix/sv-bug-27563-exec.exp.
+	(EXTRA_DIST_XO): Add find.gnu/sv-bug-27563-execdir.xo and
+	find.posix/sv-bug-27563-exec.xo.
+	* find/testsuite/find.gnu/sv-bug-27563-execdir.exp: New test.
+	* find/testsuite/find.posix/sv-bug-27563-exec.exp: New test.
+	* find/testsuite/find.gnu/sv-bug-27563-execdir.xo: Expected output.
+	* find/testsuite/find.posix/sv-bug-27563-exec.xo: Expected output.
+
+2010-04-11  James Youngman  <jay@gnu.org>
+
 	Fix Savannah bug #27563, -L breaks -execdir.
 	* find/pred.c (initialise_wd_for_exec): New function, factoring
 	out part of the body of record_exec_dir.
