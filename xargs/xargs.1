@@ -23,6 +23,7 @@ xargs \- build and execute command lines from standard input
 [\fB\-\-max\-chars\fR=\fImax-chars\fR]
 [\fB\-P \fImax-procs\fR]
 [\fB\-\-max\-procs\fR=\fImax-procs\fR]
+[\fB\-\-process\-slot\-var\fR=\fIname\fR]
 [\fB\-\-interactive\fR]
 [\fB\-\-verbose\fR]
 [\fB\-\-exit\fR]
@@ -241,6 +242,14 @@ Prompt the user about whether to run each command line and read a line
 from the terminal.  Only run the command line if the response starts
 with `y' or `Y'.  Implies
 .BR -t .
+.TP
+.PD
+.BR \-\-process\-slot\-var "=\fIname\fR"
+Set the environment variable
+.I name
+to a unique value in each running child process.  Values are reused
+once child processes exit.  This can be used in a rudimentary load
+distribution scheme, for example.
 .TP
 .PD
 .B \-r, \-\-no\-run\-if\-empty

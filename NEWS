@@ -10,6 +10,14 @@ GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
 #32043: find -name [ doesn't obey posix
 
+** Functional Enhancements to xargs
+
+A new option is provided, --process-slot-var.  If you set this, xargs
+will set the indicated environment variable in each child.  The values
+are re-used, but no executing child process will have the same value
+as another executing child process.  This wishlist item was Savannah
+bug #29512.
+
 * Major changes in release 4.5.10, 2011-05-11
 
 ** Documentation Changes

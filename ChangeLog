@@ -1,5 +1,25 @@
 2011-05-15  James Youngman  <jay@gnu.org>
 
+	Implement xargs --process-slot-var.
+	* xargs/xargs.c (set_slot_var): New function; sets an environment
+	variable to the index of the entry in pids[] that represents the
+	relevant child process.  This can be used in rudimentary load
+	distribution systems.
+	(slot_var_name): the name of the variable to use (selected by
+	--process-slot-var).
+	(enum LongOptionIdentifier): Unique identifiers for long options
+	with no short option equivalent (--process-slot-var is the first).
+	(longopts): Add --process-slot-var.
+	(add_proc): return the index within pids[] that we selected.
+	(main): Pass &option_index to getopt_long (option_index is a new
+	variable) in order to identify which long option was passed.
+	Handle --process-slot-var.
+	(prep_child_for_exec): Call set_slot_var.
+	(usage): Mention --process-slot-var.
+	* doc/find.texi (xargs options): Document --process-slot-var.
+	* xargs/xargs.1: Likewise.
+	* NEWS: Mention this change and that it was Savannah bug #29512.
+
 	Describe xargs options in alphabetical order.
 	* xargs/xargs.1: Re-order the options to place them in
 	alphabetical order.  Put --help and --version at the end.

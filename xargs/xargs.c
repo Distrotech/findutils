@@ -177,6 +177,18 @@ static bool query_before_executing = false;
 static char input_delimiter = '\0';
 
 
+/* Name of the environment variable which indicates which 'slot'
+ * the child process is in.   This can be used to do some kind of basic
+ * load distribution.   We guarantee not to allow two processes to run
+ * at the same time with the same value of this variable.
+ */
+static char* slot_var_name = NULL;
+
+enum LongOptionIdentifier
+  {
+    PROCESS_SLOT_VAR = CHAR_MAX+1
+  };
+
 static struct option const longopts[] =
 {
   {"null", no_argument, NULL, '0'},
@@ -193,6 +205,7 @@ static struct option const longopts[] =
   {"show-limits", no_argument, NULL, 'S'},
   {"exit", no_argument, NULL, 'x'},
   {"max-procs", required_argument, NULL, 'P'},
+  {"process-slot-var", required_argument, NULL, PROCESS_SLOT_VAR},
   {"version", no_argument, NULL, 'v'},
   {"help", no_argument, NULL, 'h'},
   {NULL, no_argument, NULL, 0}
@@ -219,14 +232,13 @@ static bool print_args (bool ask);
 /* static void do_exec (void); */
 static int xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv);
 static void exec_if_possible (void);
-static void add_proc (pid_t pid);
+static unsigned int add_proc (pid_t pid);
 static void wait_for_proc (bool all, unsigned int minreap);
 static void wait_for_proc_all (void);
 static void increment_proc_max (int);
 static void decrement_proc_max (int);
 static long parse_num (char *str, int option, long min, long max, int fatal);
 static void usage (FILE * stream);
-
 
 
 static char
@@ -367,7 +379,7 @@ smaller_of (size_t a, size_t b)
 int
 main (int argc, char **argv)
 {
-  int optc;
+  int optc, option_index;
   int show_limits = 0;			/* --show-limits */
   int always_run_command = 1;
   char *input_file = "-"; /* "-" is stdin */
@@ -480,7 +492,7 @@ main (int argc, char **argv)
     }
 
   while ((optc = getopt_long (argc, argv, "+0a:E:e::i::I:l::L:n:prs:txP:d:",
-			      longopts, (int *) 0)) != -1)
+			      longopts, &option_index)) != -1)
     {
       switch (optc)
 	{
@@ -600,6 +612,27 @@ main (int argc, char **argv)
 	case 'v':
 	  display_findutils_version ("xargs");
 	  return 0;
+
+	case PROCESS_SLOT_VAR:
+	  if (strchr (optarg, '='))
+	    {
+	      error (EXIT_FAILURE, 0,
+		     _("option --%s may not be set to a value which includes `='"),
+		     longopts[option_index]);
+	    }
+	  slot_var_name = optarg;
+	  if (0 != unsetenv (slot_var_name))
+	    {
+	      /* This is a fatal error, otherwise some child process
+		 may not be able to guarantee that no two children
+		 have the same value for this variable; see
+		 set_slot_var.
+	      */
+	      error (EXIT_FAILURE, errno,
+		     _("failed to unset environment variable %s"),
+		     slot_var_name);
+	    }
+	  break;
 
 	default:
 	  usage (stderr);
@@ -1044,6 +1077,55 @@ print_args (bool ask)
   return false;
 }
 
+/* Set SOME_ENVIRONMENT_VARIABLE=n in the environment. */
+static void
+set_slot_var (unsigned int n)
+{
+  static const char *fmt = "%u";
+  int size;
+  char *buf;
+
+
+  /* Determine the length of the buffer we need.
+
+     If the result would be zero-length or have length (not value) >
+     INT_MAX, the assumptions we made about how snprintf behaves (or
+     what UINT_MAX is) are wrong.  Hence we have a design error (not
+     an environmental error).
+  */
+  size = snprintf (NULL, 0u, fmt, n);
+  assert (size > 0);
+
+
+  /* Failures here are undesirable but not fatal, since we can still
+     guarantee that this child does not have a duplicate value of the
+     indicated environment variable set (since the parent unset it on
+     startup).
+  */
+  if (NULL == (buf = malloc (size+1)))
+    {
+      error (0, errno, _("unable to allocate memory"));
+    }
+  else
+    {
+      snprintf (buf, size+1, fmt, n);
+
+      /* If the user doesn't want us to set the variable, there is
+	 nothing to do.  However, we defer the bail-out until this
+	 point in order to get better test coverage.
+      */
+      if (slot_var_name)
+	{
+	  if (setenv (slot_var_name, buf, 1) < 0)
+	    {
+	      error (0, errno,
+		     _("failed to set environment variable %s"), slot_var_name);
+	    }
+	}
+      free (buf);
+    }
+}
+
 
 /* Close stdin and attach /dev/null to it.
  * This resolves Savannah bug #3992.
@@ -1051,6 +1133,14 @@ print_args (bool ask)
 static void
 prep_child_for_exec (void)
 {
+  /* The parent will call add_proc to allocate a slot.  We do the same in the
+     child to make sure we get the same value.
+
+     We use 0 here in order to avoid generating a data structure that appears
+     to indicate that we (the child) have a child. */
+  unsigned int slot = add_proc (0);
+  set_slot_var (slot);
+
   if (!keep_stdin)
     {
       const char inputfile[] = "/dev/null";
@@ -1257,7 +1347,7 @@ exec_if_possible (void)
 /* Add the process with id PID to the list of processes that have
    been executed.  */
 
-static void
+static unsigned int
 add_proc (pid_t pid)
 {
   unsigned int i, j;
@@ -1282,6 +1372,7 @@ add_proc (pid_t pid)
   pids[i] = pid;
   procs_executing++;
   procs_executed = true;
+  return i;
 }
 
 
@@ -1535,6 +1626,8 @@ Non-mandatory arguments are indicated by [square brackets]\n\
                                line\n\
   -P, --max-procs=MAX-PROCS    Run up to max-procs processes at a time\n\
   -p, --interactive            Prompt before running commands\n\
+  --process-slot-var=VAR       Set environment variable VAR in child\n\
+                               processes\n\
   -r, --no-run-if-empty        If there are no arguments, run no command.\n\
                                If this option is not given, COMMAND will be\n\
                                run at least once.\n\

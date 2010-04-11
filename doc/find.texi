@@ -3689,6 +3689,12 @@ Exit if the size (see the @samp{-s} option) is exceeded.
 Run simultaneously up to @var{max-procs} processes at once; the default is 1.  If
 @var{max-procs} is 0, @code{xargs} will run as many processes as
 possible simultaneously.
+
+@item --process-slot-var=@var{environment-variable-name}
+Set the environment variable @var{environment-variable-name} to a
+unique value in each running child process.  Each value is a decimal
+integer.  Values are reused once child processes exit.  This can be
+used in a rudimentary load distribution scheme, for example.
 @end table
 
 @node Invoking the shell from xargs
