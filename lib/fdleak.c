@@ -383,13 +383,6 @@ complain_about_leaky_fds (void)
 	       "remembering to include a detailed description of the simplest "
 	       "way to reproduce this problem."),
 	     leaking_fd);
-      if (0)
-	{
-	  char * const args[] = {"/bin/ls", "-l", "/proc/self/fd",
-				 (char*)NULL };
-	  execv ("/bin/ls", args);
-	  perror ("exec");
-	}
     }
   assert (no_leaks);
 }

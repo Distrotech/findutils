@@ -543,53 +543,6 @@ cleanup (void)
     nonfatal_nontarget_file_error (errno, "standard output");
 }
 
-/* Savannah bug #16378 manifests as an assertion failure in pred_type()
- * when an NFS server returns st_mode with value 0 (of course the stat(2)
- * system call is itself returning 0 in this case).
- */
-#undef DEBUG_SV_BUG_16378
-#if defined DEBUG_SV_BUG_16378
-static int hook_fstatat (int fd, const char *name, struct stat *p, int flags)
-{
-  static int warned = 0;
-
-  if (!warned)
-    {
-      /* No use of _() here; no point asking translators to translate a debug msg */
-      error (0, 0,
-	     "WARNING: some debug code is enabled for Savannah bug #16378; "
-	     "this should not occur in released versions of findutils!");
-      warned = 1;
-    }
-
-  if (0 == strcmp (name, "./mode0file")
-      || 0 == strcmp (name, "mode0file"))
-    {
-      time_t now = time (NULL);
-      long day = 86400;
-
-      p->st_rdev = 0;
-      p->st_dev = 0x300;
-      p->st_ino = 0;
-      p->st_mode = 0;		/* SV bug #16378 */
-      p->st_nlink = 1;
-      p->st_uid = geteuid ();
-      p->st_gid = 0;
-      p->st_size = 42;
-      p->st_blksize = 32768;
-      p->st_atime = now-1*day;
-      p->st_mtime = now-2*day;
-      p->st_ctime = now-3*day;
-
-      return 0;
-    }
-  return fstatat (fd, name, p, flags);
-}
-
-# undef  fstatat
-# define fstatat (fd,name,p,flags) hook_fstatat((fd),(name),(p),(flags))
-#endif
-
 
 static int
 fallback_stat (const char *name, struct stat *p, int prev_rv)

@@ -1245,13 +1245,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
   struct stat stat_buf;
   size_t dircount = 0u;
   struct savedir_dirinfo *dirinfo;
-#if 0
-  printf ("process_dir: pathname=%s name=%s statp->st_nlink=%d st_ino=%d\n",
-	  pathname,
-	  name,
-	  (int)statp->st_nlink,
-	  (int)statp->st_ino);
-#endif
+
   if (statp->st_nlink < 2)
     {
       subdirs_unreliable = true;

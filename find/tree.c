@@ -345,17 +345,6 @@ predlist_insert (struct predlist *list,
   struct predicate **insertpos = &(list->head);
 
   *pprev = curr->pred_left;
-  if (options.optimisation_level > 2)
-    {
-      /* Insert the new node in the list after any other entries which
-       * are more selective.
-       */
-      if (0)
-	while ( (*insertpos) && ((*insertpos)->est_success_rate < curr->est_success_rate) )
-	  {
-	    insertpos = &((*insertpos)->pred_left);
-	  }
-    }
   curr->pred_left = (*insertpos);
   (*insertpos) = curr;
   if (NULL == list->tail)
