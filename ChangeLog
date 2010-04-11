@@ -1,5 +1,10 @@
 2010-04-11  James Youngman  <jay@gnu.org>
 
+	Fix false positives for syntax check sc_prohibit_test_minus_ao.
+	* .x-sc_prohibit_test_minus_ao: Add all the DejaGnu scripts to the
+	list of exceptions to the 'test C1 -a C2' syntax check, since they
+	are not actually shell scripts.
+
 	Remove trailing blank lines.
 	* .x-sc_prohibit_empty_lines_at_EOF: Add list of exceptions to the
 	no-blank-lines-at-EOF syntax check.
