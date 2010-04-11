@@ -29,6 +29,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
+#include "fcntl--.h"
 #include "dirent-safer.h"
 #include "extendbuf.h"
 #include "cloexec.h"

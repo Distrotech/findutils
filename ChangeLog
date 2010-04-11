@@ -1,5 +1,17 @@
 2010-04-11  James Youngman  <jay@gnu.org>
 
+	Make sure we don't open a file on a standard fd (that is, 0/1/2).
+	* lib/fdleak.c: Include fcntl--.h to turn calls to open into calls
+	to open_safer.
+	* find/find.c: Likewise.
+
+	After-the-fact change to NEWS for 4.5.8: fixed bug 27974.
+	* NEWS: Mention that release 4.5.8 also fixed bug #27974 (Use
+	gnulib's xreadlinkat support), though the NEWS file in that
+	release omitted to say so.
+
+2010-04-11  James Youngman  <jay@gnu.org>
+
 	Fix Savannah bug #29511: fails to build on kfreebsd-*
 	* lib/fdleak.c (get_max_fd): Don't use RLIM_SAVED_MAX or
 	RLIM_SAVED_CUR.  Not only are they non-portable, they aren't

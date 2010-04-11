@@ -38,6 +38,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include "fcntl--.h"
 #include "xalloc.h"
 #include "human.h"
 #include "canonicalize.h"
