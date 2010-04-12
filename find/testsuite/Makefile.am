@@ -188,7 +188,7 @@ find.gnu/sv-bug-17490.exp \
 find.gnu/sv-bug-17782.exp \
 find.gnu/sv-bug-18222.exp \
 find.gnu/sv-bug-24169.exp \
-find.gnu/sv-bug-25359-execdir.exp \
+find.gnu/sv-bug-27563-execdir.exp \
 find.gnu/quit.exp \
 find.gnu/used-invarg.exp \
 find.gnu/used-missing.exp \
@@ -211,7 +211,7 @@ find.posix/mtime0.exp \
 find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \
 find.posix/sv-bug-25359.exp \
-find.posix/sv-bug-25359-exec.exp \
+find.posix/sv-bug-27563-exec.exp \
 find.posix/depth1.exp \
 find.posix/sizes.exp \
 find.posix/name.exp \
