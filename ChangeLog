@@ -1,3 +1,8 @@
+2010-04-13  James Youngman  <jay@gnu.org>
+
+	* .x-sc_prohibit_empty_lines_at_EOF: New file; exceptions for the
+	sc_prohibit_empty_lines_at_EOF syntax check.
+
 2010-04-11  James Youngman  <jay@gnu.org>
 
 	Make sure we don't open a file on a standard fd (that is, 0/1/2).
@@ -10,15 +15,11 @@
 	gnulib's xreadlinkat support), though the NEWS file in that
 	release omitted to say so.
 
-2010-04-11  James Youngman  <jay@gnu.org>
-
 	Fix Savannah bug #29511: fails to build on kfreebsd-*
 	* lib/fdleak.c (get_max_fd): Don't use RLIM_SAVED_MAX or
 	RLIM_SAVED_CUR.  Not only are they non-portable, they aren't
 	useful.
 	* NEWS: Mention this bugfix.
-
-2010-04-11  James Youngman  <jay@gnu.org>
 
 	Remove some unused or dead code.
 	* find/util.c (hook_fstatat): This has been disabled and unused
@@ -27,13 +28,6 @@
 	* find/tree.c (predlist_insert): Remove some dead code.
 	* lib/fdleak.c (complain_about_leaky_fds): Remove some unused
 	debug code.
-
-2010-04-13  James Youngman  <jay@gnu.org>
-
-	* .x-sc_prohibit_empty_lines_at_EOF: New file; exceptions for the
-	sc_prohibit_empty_lines_at_EOF syntax check.
-
-2010-04-11  James Youngman  <jay@gnu.org>
 
 	Add a test case for Savannah bug 27563 (-L breaks -execdir).
 	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add
@@ -45,8 +39,6 @@
 	* find/testsuite/find.posix/sv-bug-27563-exec.exp: New test.
 	* find/testsuite/find.gnu/sv-bug-27563-execdir.xo: Expected output.
 	* find/testsuite/find.posix/sv-bug-27563-exec.xo: Expected output.
-
-2010-04-11  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #27563, -L breaks -execdir.
 	* find/pred.c (initialise_wd_for_exec): New function, factoring
