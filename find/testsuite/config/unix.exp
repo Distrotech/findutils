@@ -2,7 +2,7 @@
 # Test-specific TCL procedures required by DejaGNU.
 # Copyright (C) 2000, 2003, 2004, 2005, 2006,
 #               2010 Free Software Foundation, Inc.
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -56,7 +56,7 @@ if { [ string equal $FTSFIND $OLDFIND ] } {
 }
 
 if [file exists $FTSFIND] then {
-    if [file exists $OLDFIND] then { 
+    if [file exists $OLDFIND] then {
 	verbose "FTSFIND=$FTSFIND and OLDFIND=$OLDFIND both exist." 2
     } else {
 	error "OLDFIND=$OLDFIND, but that program does not exist"
@@ -64,7 +64,7 @@ if [file exists $FTSFIND] then {
 } else {
     error "FTSFIND=$FTSFIND, but that program does not exist (base_dir is $base_dir)"
 }
-    
+
 
 global FINDFLAGS
 if ![info exists FINDFLAGS] then {
@@ -85,14 +85,14 @@ proc find_version {} {
     }
 }
 
-# Run find 
+# Run find
 # Called by individual test scripts.
 proc do_find_start { suffix findprogram flags passfail options infile output } {
     global verbose
 
     set scriptname [uplevel {info script}]
     set testbase [file rootname $scriptname]
-    
+
 
     if { [string match "f*" $passfail] } {
 	set fail_good 1
@@ -116,7 +116,7 @@ proc do_find_start { suffix findprogram flags passfail options infile output } {
 	}
     }
 
-    set test [file tail $testbase] 
+    set test [file tail $testbase]
     set testname "$test.$suffix"
 
     # set compareprog "cmp"
@@ -145,7 +145,7 @@ proc do_find_start { suffix findprogram flags passfail options infile output } {
     } else {
 	send_log "Hoping for this command to return 0\n"
     }
-    set failed [ catch "exec $cmd" result ] 
+    set failed [ catch "exec $cmd" result ]
     send_log "return value is $failed, result is '$result'\n"
     if $failed {
 	# The command failed.
@@ -172,9 +172,9 @@ proc do_find_start { suffix findprogram flags passfail options infile output } {
 	# Because in the general case the person compiling and running
 	# "make check" will have a different collating order to the
 	# maintainer, we can't guarantee that our "correct" answer
-	# is already sorted in the correct order.  To avoid trying 
-	# to figure out how to select a POSIX environment on a 
-	# random system, we just sort the data again here, using 
+	# is already sorted in the correct order.  To avoid trying
+	# to figure out how to select a POSIX environment on a
+	# random system, we just sort the data again here, using
 	# the local user's environment.
 	exec sort < $outfile > cmp.out
 	set cmp_cmd "$compareprog find.out cmp.out"
@@ -285,7 +285,7 @@ proc mkdir { dirname } {
 
 proc safe_path [ ] {
     if { [ path_setting_is_unsafe ] } {
-	warning { Cannot perform test as your $PATH environment variable includes a reference to the current directory or a directory name which is not absolute } 
+	warning { Cannot perform test as your $PATH environment variable includes a reference to the current directory or a directory name which is not absolute }
 	untested { skipping this test because your $PATH variable is wrongly set }
 	return 0
     } else {
@@ -302,7 +302,7 @@ proc fs_superuser [ ] {
     set retval 0
 
     if [ file readable $tmpfile ] {
-	# On Cygwin, a user with admin rights can read all files, and 
+	# On Cygwin, a user with admin rights can read all files, and
 	# access(foo,R_OK) correctly returns 1 for all files.
 	warning "You have superuser privileges, skipping this test."
 	untested {skipping this test because you have superuser privileges}
