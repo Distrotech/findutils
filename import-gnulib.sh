@@ -261,7 +261,7 @@ Example:
   git config merge.merge-changelog.driver /usr/local/bin/git-merge-changelog  %O %A %B
   echo 'ChangeLog    merge=merge-changelog' >> .gitattributes
 "
-    if [[ -z "$DO_NOT_WANT_CHANGELOG_DRIVER" ]] ; then
+    if [ -z "$DO_NOT_WANT_CHANGELOG_DRIVER" ] ; then
 	if git branch | egrep -q '\* *(master|rel-)'; then
 	# We are on the master branch or a release branch.
 	# Perhaps the user is simply building from git sources.
@@ -279,14 +279,14 @@ Example:
     if git config --get  merge.merge-changelog.name >/dev/null ; then
         driver="$(git config --get merge.merge-changelog.driver |
                   sed -e 's/[   ].*//')"
-	if [[ $? -eq 0 ]]; then
-	    if ! [[ -x "$driver" ]]; then
+	if [ $? -eq 0 ]; then
+	    if ! [ -x "$driver" ]; then
 		echo "ERROR: Merge driver $driver is not executable." >&2
 		echo "ERROR: Please fix $config_file or install $driver" >&2
 		# Always fatal - if configured, the merge driver should work.
 		exit 1
 	    else
-		if [[ -f .gitattributes ]] ; then
+		if [ -f .gitattributes ] ; then
 		    echo "The ChangeLog merge driver configuration seems OK."
 		else
 		    echo "$label"': you have no .gitattributes file' >&2
