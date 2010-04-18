@@ -1,5 +1,10 @@
 2010-04-18  James Youngman  <jay@gnu.org>
 
+	Remove redundant declarations.
+	* locate/frcode.c: Don't declare xmalloc, include xalloc.h instead.
+	* locate/code.c: Don't declare program_name, we already included
+	progname.h.
+
 	Remove support for compilers lacking prototypes.
 	* find/defs.h: Don't define or use the PARAMS macro.
 	* xargs/xargs.c: Likewise.

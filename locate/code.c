@@ -83,9 +83,6 @@
 #endif
 
 
-/* The name this program was run with.  */
-extern const char *program_name;
-
 /* The 128 most common bigrams in the file list, padded with NULs
    if there are fewer.  */
 static char bigrams[257] = {0};
