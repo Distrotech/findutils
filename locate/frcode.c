@@ -104,7 +104,7 @@
 #include "findutils-version.h"
 #include "progname.h"
 
-char *xmalloc PARAMS((size_t));
+char *xmalloc (size_t);
 
 /* Write out a 16-bit int, high byte first (network byte order).
  * Return true iff all went well.

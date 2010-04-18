@@ -77,7 +77,7 @@ extern int errno;
 # define N_(String) String
 #endif
 
-static char *file_system_type_uncached PARAMS((const struct stat *statp, const char *path));
+static char *file_system_type_uncached (const struct stat *statp, const char *path);
 
 
 /* Get MNTTYPE_IGNORE if it is available. */

@@ -57,12 +57,12 @@ static size_t num_start_points = 0;
 
 
 
-static struct predicate *scan_rest PARAMS((struct predicate **input,
-					   struct predicate *head,
-					   short int prev_prec));
-static void merge_pred PARAMS((struct predicate *beg_list, struct predicate *end_list, struct predicate **last_p));
-static struct predicate *set_new_parent PARAMS((struct predicate *curr, enum predicate_precedence high_prec, struct predicate **prevp));
-static const char *cost_name PARAMS((enum EvaluationCost cost));
+static struct predicate *scan_rest (struct predicate **input,
+				    struct predicate *head,
+				    short int prev_prec);
+static void merge_pred (struct predicate *beg_list, struct predicate *end_list, struct predicate **last_p);
+static struct predicate *set_new_parent (struct predicate *curr, enum predicate_precedence high_prec, struct predicate **prevp);
+static const char *cost_name (enum EvaluationCost cost);
 
 
 /* Return true if the indicated path name is a start

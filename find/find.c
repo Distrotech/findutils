@@ -77,9 +77,9 @@
 static void init_mounted_dev_list (int mandatory);
 #endif
 
-static void process_top_path PARAMS((char *pathname, mode_t mode));
-static int process_path PARAMS((char *pathname, char *name, bool leaf, char *parent, mode_t type));
-static void process_dir PARAMS((char *pathname, char *name, int pathlen, const struct stat *statp, char *parent));
+static void process_top_path (char *pathname, mode_t mode);
+static int process_path (char *pathname, char *name, bool leaf, char *parent, mode_t type);
+static void process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, char *parent);
 
 
 

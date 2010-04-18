@@ -25,14 +25,6 @@
 
 #include <config.h>
 
-# ifndef PARAMS
-#  if defined PROTOTYPES || (defined __STDC__ && __STDC__)
-#   define PARAMS(Args) Args
-#  else
-#   define PARAMS(Args) ()
-#  endif
-# endif
-
 #include <ctype.h>
 #include <stdio.h>
 #include <errno.h>
@@ -108,7 +100,7 @@
 #include "closein.h"
 #include "gnulib-version.h"
 
-void error PARAMS ((int status, int errnum, char *message,...));
+void error (int status, int errnum, char *message,...);
 
 extern char *version_string;
 
@@ -218,17 +210,17 @@ enum  ClientStatusValues {
 
 
 
-static int read_line PARAMS ((void));
-static int read_string PARAMS ((void));
-static bool print_args PARAMS ((bool ask));
-/* static void do_exec PARAMS ((void)); */
+static int read_line (void);
+static int read_string (void);
+static bool print_args (bool ask);
+/* static void do_exec (void); */
 static int xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv);
-static void exec_if_possible PARAMS ((void));
-static void add_proc PARAMS ((pid_t pid));
-static void wait_for_proc PARAMS ((bool all, unsigned int minreap));
-static void wait_for_proc_all PARAMS ((void));
-static long parse_num PARAMS ((char *str, int option, long min, long max, int fatal));
-static void usage PARAMS ((FILE * stream));
+static void exec_if_possible (void);
+static void add_proc (pid_t pid);
+static void wait_for_proc (bool all, unsigned int minreap);
+static void wait_for_proc_all (void);
+static long parse_num (char *str, int option, long min, long max, int fatal);
+static void usage (FILE * stream);
 
 
 
@@ -375,7 +367,7 @@ main (int argc, char **argv)
   int always_run_command = 1;
   char *input_file = "-"; /* "-" is stdin */
   char *default_cmd = "/bin/echo";
-  int (*read_args) PARAMS ((void)) = read_line;
+  int (*read_args) (void) = read_line;
   void (*act_on_init_result)(void) = noop;
   enum BC_INIT_STATUS bcstatus;
   enum { XARGS_POSIX_HEADROOM = 2048u };

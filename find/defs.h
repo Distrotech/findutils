@@ -64,9 +64,6 @@ Please stop compiling the program now
 #include "quotearg.h"
 #include "sharefile.h"
 
-/* These days we will assume ANSI/ISO C protootypes work on our compiler. */
-#define PARAMS(Args) Args
-
 #ifndef ATTRIBUTE_NORETURN
 # if HAVE_ATTRIBUTE_NORETURN
 #  define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
@@ -75,13 +72,13 @@ Please stop compiling the program now
 # endif
 #endif
 
-int optionl_stat PARAMS((const char *name, struct stat *p));
-int optionp_stat PARAMS((const char *name, struct stat *p));
-int optionh_stat PARAMS((const char *name, struct stat *p));
-int debug_stat   PARAMS((const char *file, struct stat *bufp));
+int optionl_stat (const char *name, struct stat *p);
+int optionp_stat (const char *name, struct stat *p);
+int optionh_stat (const char *name, struct stat *p);
+int debug_stat   (const char *file, struct stat *bufp);
 
-void set_stat_placeholders PARAMS((struct stat *p));
-int get_statinfo PARAMS((const char *pathname, const char *name, struct stat *p));
+void set_stat_placeholders (struct stat *p);
+int get_statinfo (const char *pathname, const char *name, struct stat *p);
 
 
 #define MODE_WXUSR	(S_IWUSR | S_IXUSR)
@@ -356,13 +353,13 @@ enum SymlinkOption
   };
 extern enum SymlinkOption symlink_handling; /* defined in find.c. */
 
-void set_follow_state PARAMS((enum SymlinkOption opt));
+void set_follow_state (enum SymlinkOption opt);
 void cleanup(void);
 
 /* fstype.c */
-char *filesystem_type PARAMS((const struct stat *statp, const char *path));
+char *filesystem_type (const struct stat *statp, const char *path);
 char * get_mounted_filesystems (void);
-dev_t * get_mounted_devices PARAMS((size_t *));
+dev_t * get_mounted_devices (size_t *);
 
 
 
@@ -391,14 +388,14 @@ struct parser_table
 };
 
 /* parser.c */
-const struct parser_table* find_parser PARAMS((char *search_name));
-bool parse_print PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-void pred_sanity_check PARAMS((const struct predicate *predicates));
+const struct parser_table* find_parser (char *search_name);
+bool parse_print (const struct parser_table*, char *argv[], int *arg_ptr);
+void pred_sanity_check (const struct predicate *predicates);
 void check_option_combinations (const struct predicate *p);
-void parse_begin_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
-void parse_end_user_args PARAMS((char **args, int argno, const struct predicate *last, const struct predicate *predicates));
-bool parse_openparen  PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
-bool parse_closeparen PARAMS((const struct parser_table* entry, char *argv[], int *arg_ptr));
+void parse_begin_user_args (char **args, int argno, const struct predicate *last, const struct predicate *predicates);
+void parse_end_user_args (char **args, int argno, const struct predicate *last, const struct predicate *predicates);
+bool parse_openparen  (const struct parser_table* entry, char *argv[], int *arg_ptr);
+bool parse_closeparen (const struct parser_table* entry, char *argv[], int *arg_ptr);
 
 /* pred.c */
 
@@ -468,33 +465,33 @@ PREDICATEFUNCTION pred_context;
 int launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv);
 
 
-char *find_pred_name PARAMS((PRED_FUNC pred_func));
+char *find_pred_name (PRED_FUNC pred_func);
 
 
 
-void print_predicate PARAMS((FILE *fp, const struct predicate *p));
-void print_tree PARAMS((FILE*, struct predicate *node, int indent));
-void print_list PARAMS((FILE*, struct predicate *node));
-void print_optlist PARAMS((FILE *fp, const struct predicate *node));
+void print_predicate (FILE *fp, const struct predicate *p);
+void print_tree (FILE*, struct predicate *node, int indent);
+void print_list (FILE*, struct predicate *node);
+void print_optlist (FILE *fp, const struct predicate *node);
 void show_success_rates(const struct predicate *node);
 
 
 /* tree.c */
 bool matches_start_point(const char * glob, bool foldcase);
-struct predicate * build_expression_tree PARAMS((int argc, char *argv[], int end_of_leading_options));
-struct predicate * get_eval_tree PARAMS((void));
+struct predicate * build_expression_tree (int argc, char *argv[], int end_of_leading_options);
+struct predicate * get_eval_tree (void);
 struct predicate *get_new_pred_noarg (const struct parser_table *entry);
-struct predicate *get_new_pred PARAMS((const struct parser_table *entry));
-struct predicate *get_new_pred_chk_op PARAMS((const struct parser_table *entry,
-					      const char *arg));
-float  calculate_derived_rates PARAMS((struct predicate *p));
+struct predicate *get_new_pred (const struct parser_table *entry);
+struct predicate *get_new_pred_chk_op (const struct parser_table *entry,
+					      const char *arg);
+float  calculate_derived_rates (struct predicate *p);
 
 /* util.c */
 bool fd_leak_check_is_enabled (void);
-struct predicate *insert_primary PARAMS((const struct parser_table *entry, const char *arg));
-struct predicate *insert_primary_noarg PARAMS((const struct parser_table *entry));
-struct predicate *insert_primary_withpred PARAMS((const struct parser_table *entry, PRED_FUNC fptr, const char *arg));
-void usage PARAMS((FILE *fp, int status, char *msg));
+struct predicate *insert_primary (const struct parser_table *entry, const char *arg);
+struct predicate *insert_primary_noarg (const struct parser_table *entry);
+struct predicate *insert_primary_withpred (const struct parser_table *entry, PRED_FUNC fptr, const char *arg);
+void usage (FILE *fp, int status, char *msg);
 extern bool check_nofollow(void);
 void complete_pending_execs(struct predicate *p);
 void complete_pending_execdirs (void);
@@ -508,9 +505,9 @@ void nonfatal_target_file_error (int errno_value, const char *name);
 void nonfatal_nontarget_file_error (int errno_value, const char *name);
 
 
-int process_leading_options PARAMS((int argc, char *argv[]));
-void set_option_defaults PARAMS((struct options *p));
-void error_severity PARAMS((int level));
+int process_leading_options (int argc, char *argv[]);
+void set_option_defaults (struct options *p);
+void error_severity (int level);
 
 #if 0
 #define apply_predicate(pathname, stat_buf_ptr, node)	\
@@ -523,11 +520,11 @@ bool apply_predicate(const char *pathname, struct stat *stat_buf, struct predica
 
 
 /* find.c. */
-int get_info PARAMS((const char *pathname, struct stat *p, struct predicate *pred_ptr));
-bool following_links PARAMS((void));
-bool digest_mode PARAMS((mode_t *mode, const char *pathname, const char *name, struct stat *pstat, bool leaf));
-bool default_prints PARAMS((struct predicate *pred));
-bool looks_like_expression PARAMS((const char *arg, bool leading));
+int get_info (const char *pathname, struct stat *p, struct predicate *pred_ptr);
+bool following_links (void);
+bool digest_mode (mode_t *mode, const char *pathname, const char *name, struct stat *pstat, bool leaf);
+bool default_prints (struct predicate *pred);
+bool looks_like_expression (const char *arg, bool leading);
 
 
 enum DebugOption

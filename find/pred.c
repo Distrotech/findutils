@@ -165,10 +165,10 @@
 #undef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-static bool match_lname PARAMS((const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, bool ignore_case));
+static bool match_lname (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr, bool ignore_case);
 
-static char *format_date PARAMS((struct timespec ts, int kind));
-static char *ctime_format PARAMS((struct timespec ts));
+static char *format_date (struct timespec ts, int kind);
+static char *ctime_format (struct timespec ts);
 
 #ifdef	DEBUG
 struct pred_assoc

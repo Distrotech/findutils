@@ -86,121 +86,121 @@
 #define endpwent ()
 #endif
 
-static bool parse_accesscheck   PARAMS((const struct parser_table* entry, char **argv, int *arg_ptr));
-static bool parse_amin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_and           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_anewer        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_cmin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_cnewer        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_comma         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_daystart      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_delete        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_d             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_depth         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_empty         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_exec          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_execdir       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_false         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_fls           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_fprintf       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_follow        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_fprint        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_fprint0       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_fstype        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_gid           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_group         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_help          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_ilname        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_iname         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_inum          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_ipath         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_iregex        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_iwholename    PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_links         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_lname         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_ls            PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_maxdepth      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_mindepth      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_mmin          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_name          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_negate        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_newer         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_newerXY       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_noleaf        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_nogroup       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_nouser        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_nowarn        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_ok            PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_okdir         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_or            PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_path          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_perm          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_print0        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_printf        PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_prune         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_regex         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_regextype     PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_samefile      PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_accesscheck   (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_amin          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_and           (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_anewer        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_cmin          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_cnewer        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_comma         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_daystart      (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_delete        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_d             (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_depth         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_empty         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_exec          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_execdir       (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_false         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_fls           (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_fprintf       (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_follow        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_fprint        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_fprint0       (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_fstype        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_gid           (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_group         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_help          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_ilname        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_iname         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_inum          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_ipath         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_iregex        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_iwholename    (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_links         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_lname         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_ls            (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_maxdepth      (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_mindepth      (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_mmin          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_name          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_negate        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_newer         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_newerXY       (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_noleaf        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_nogroup       (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_nouser        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_nowarn        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_ok            (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_okdir         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_or            (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_path          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_perm          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_print0        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_printf        (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_prune         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_regex         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_regextype     (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_samefile      (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_size          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_time          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_true          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_type          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_uid           (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_used          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_user          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_version       (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_wholename     (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_xdev          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_ignore_race   (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_noignore_race (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_warn          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_xtype         (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_quit          (const struct parser_table*, char *argv[], int *arg_ptr);
+static bool parse_context       (const struct parser_table*, char *argv[], int *arg_ptr);
+bool   parse_print              (const struct parser_table*, char *argv[], int *arg_ptr);
 #if 0
-static bool parse_show_control_chars PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
+static bool parse_show_control_chars (const struct parser_table*, char *argv[], int *arg_ptr);
 #endif
-static bool parse_size          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_time          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_true          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_type          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_uid           PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_used          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_user          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_version       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_wholename     PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_xdev          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_ignore_race   PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_noignore_race PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_warn          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_xtype         PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_quit          PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-static bool parse_context       PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
-
-bool parse_print             PARAMS((const struct parser_table*, char *argv[], int *arg_ptr));
 
 
-static bool insert_type PARAMS((char **argv, int *arg_ptr,
-				   const struct parser_table *entry,
-				   PRED_FUNC which_pred));
-static bool insert_regex PARAMS((char *argv[], int *arg_ptr,
-				    const struct parser_table *entry,
-				    int regex_options));
+
+static bool insert_type (char **argv, int *arg_ptr,
+			 const struct parser_table *entry,
+			 PRED_FUNC which_pred);
+static bool insert_regex (char *argv[], int *arg_ptr,
+			  const struct parser_table *entry,
+			  int regex_options);
 static bool insert_fprintf (struct format_val *vec,
-			       const struct parser_table *entry,
-			       PRED_FUNC func,
-			       const char *format);
+			    const struct parser_table *entry,
+			    PRED_FUNC func,
+			    const char *format);
 
-static struct segment **make_segment PARAMS((struct segment **segment,
-					     char *format, int len,
-					     int kind, char format_char,
-					     char aux_format_char,
-					     struct predicate *pred));
-static bool insert_exec_ok PARAMS((const char *action,
-				   const struct parser_table *entry,
-				   char *argv[],
-				   int *arg_ptr));
-static bool get_comp_type PARAMS((const char **str,
-				     enum comparison_type *comp_type));
-static bool get_relative_timestamp PARAMS((const char *str,
-					      struct time_val *tval,
-					      struct timespec origin,
-					      double sec_per_unit,
-					      const char *overflowmessage));
-static bool get_num PARAMS((const char *str,
-			       uintmax_t *num,
-			       enum comparison_type *comp_type));
-static struct predicate* insert_num PARAMS((char *argv[], int *arg_ptr,
-					    const struct parser_table *entry));
+static struct segment **make_segment (struct segment **segment,
+				      char *format, int len,
+				      int kind, char format_char,
+				      char aux_format_char,
+				      struct predicate *pred);
+static bool insert_exec_ok (const char *action,
+			    const struct parser_table *entry,
+			    char *argv[],
+			    int *arg_ptr);
+static bool get_comp_type (const char **str,
+			   enum comparison_type *comp_type);
+static bool get_relative_timestamp (const char *str,
+				    struct time_val *tval,
+				    struct timespec origin,
+				    double sec_per_unit,
+				    const char *overflowmessage);
+static bool get_num (const char *str,
+		     uintmax_t *num,
+		     enum comparison_type *comp_type);
+static struct predicate* insert_num (char *argv[], int *arg_ptr,
+				     const struct parser_table *entry);
 static void open_output_file (const char *path, struct format_val *p);
 static void open_stdout (struct format_val *p);
 static bool stream_is_tty(FILE *fp);
-static bool parse_noop PARAMS((const struct parser_table* entry,
-				  char **argv, int *arg_ptr));
+static bool parse_noop (const struct parser_table* entry,
+			char **argv, int *arg_ptr);
 
 #define PASTE(x,y) x##y
 #define STRINGIFY(s) #s

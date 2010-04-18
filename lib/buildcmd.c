@@ -18,14 +18,6 @@
 
 #include <config.h>
 
-# ifndef PARAMS
-#  if defined PROTOTYPES || (defined __STDC__ && __STDC__)
-#   define PARAMS(Args) Args
-#  else
-#   define PARAMS(Args) ()
-#  endif
-# endif
-
 #include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
