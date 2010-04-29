@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2010-04-07 23:44+0100\n"
+"POT-Creation-Date: 2010-04-29 22:27+0100\n"
 "PO-Revision-Date: 2010-04-06 22:28+0200\n"
 "Last-Translator: Petr Pisar <petr.pisar@atlas.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -16,37 +16,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: find/find.c:144 find/ftsfind.c:691
+#: find/find.c:148 find/ftsfind.c:667
 #, c-format
 msgid "Failed initialise shared-file hash table"
 msgstr "Inicializace hash tabulky sdílených souborů selhala"
 
-#: find/find.c:214 find/ftsfind.c:757
-#, c-format
-msgid "cannot get current directory"
-msgstr "současný adresář nelze zjistit"
-
-#: find/find.c:219
+#: find/find.c:205
 #, c-format
 msgid "cannot stat current directory"
 msgstr "na současný adresář nelze provést stat(2)"
 
-#: find/find.c:310
+#: find/find.c:296
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "Nelze načíst seznam připojených zařízení."
 
-#: find/find.c:399
+#: find/find.c:385
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "POZOR: systém souborů %s byl nedávno odpojen."
 
-#: find/find.c:409
+#: find/find.c:395
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "POZOR: systém souborů %s byl nedávno připojen."
 
-#: find/find.c:505
+#: find/find.c:491
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -55,7 +50,7 @@ msgstr ""
 "během provádění %3$s změněn %1$s%2$s (staré číslo zařízení %4$ld, nové číslo "
 "zařízení %5$ld, druh souborového systému je %6$s) [odkaz %7$ld]"
 
-#: find/find.c:542
+#: find/find.c:528
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -64,17 +59,17 @@ msgstr ""
 "během provádění %3$s změněn %1$s%2$s (staré číslo i-uzlu %4$<PRIuMAX>, nové "
 "číslo i-uzlu %5$<PRIuMAX>, druh souborového systému je %6$s) [odkaz %7$ld]"
 
-#: find/find.c:707
+#: find/find.c:693
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "návrat do nadřazeného adresáře selhal"
 
-#: find/find.c:1029
+#: find/find.c:980
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Bezpečný přechod do adresáře %s se nezdařil"
 
-#: find/find.c:1127 find/ftsfind.c:263
+#: find/find.c:1078 find/ftsfind.c:245
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -83,7 +78,7 @@ msgstr ""
 "Symbolický odkaz %s je součástí smyčky v hierarchii adresářů. Adresář, na "
 "který ukazuje, jsme již navštívili."
 
-#: find/find.c:1146
+#: find/find.c:1097
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -104,12 +99,12 @@ msgstr[2] ""
 "jako adresář, který se nachází o %d úrovní výše v hierarchii souborového "
 "systému"
 
-#: find/find.c:1398
+#: find/find.c:1343
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "varování: nenásleduji symbolický odkaz %s"
 
-#: find/find.c:1441
+#: find/find.c:1386
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -133,7 +128,7 @@ msgstr "Seznam připojených souborových systémů nemohl být načten"
 msgid "unknown"
 msgstr "neznámý"
 
-#: find/ftsfind.c:277
+#: find/ftsfind.c:259
 #, c-format
 msgid ""
 "File system loop detected; %s is part of the same file system loop as %s."
@@ -141,17 +136,17 @@ msgstr ""
 "Odhalena smyčka souborových systémů: %s je součástí stejné smyčky "
 "souborových systémů jako %s."
 
-#: find/ftsfind.c:471 find/util.c:211
+#: find/ftsfind.c:444 find/util.c:214
 #, c-format
 msgid "WARNING: file %s appears to have mode 0000"
 msgstr "POZOR: zdá se, že soubor %s má mód 0000"
 
-#: find/ftsfind.c:604
+#: find/ftsfind.c:559
 #, c-format
 msgid "cannot search %s"
 msgstr "%s nelze prohledat"
 
-#: find/ftsfind.c:625
+#: find/ftsfind.c:599
 #, c-format
 msgid "failed to restore working directory after searching %s"
 msgstr "návrat do prvotního pracovního adresáře po prohledání %s selhal"
@@ -472,7 +467,7 @@ msgstr ""
 "Relativní cesta %s je obsažena v proměnné prostředí PATH, což je nebezpečné "
 "ve spojení s akcí findu %s. Prosím, odstraňte tuto položku z $PATH."
 
-#: find/parser.c:3371
+#: find/parser.c:3372
 #, c-format
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
@@ -481,75 +476,80 @@ msgstr ""
 "Neměli byste používat {} uvnitř názvu nástroje u -execdir a -okdir, protože "
 "to představuje možný bezpečnostní problém."
 
-#: find/parser.c:3396
+#: find/parser.c:3397
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "U -exec%s … + je podporována jen jedna instance {}."
 
-#: find/parser.c:3413
+#: find/parser.c:3414
 #, c-format
 msgid "The environment is too large for exec()."
 msgstr "Prostředí je příliš veliké na exec()."
 
-#: find/parser.c:3593
+#: find/parser.c:3582
 #, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
 msgstr "aritmetické přetečení při pokusu převést %s dnů na počet sekund"
 
-#: find/parser.c:3617
+#: find/parser.c:3606
 #, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "aritmetické přetečení při pokusu vypočítat konec dnešního dne"
 
-#: find/parser.c:3776
+#: find/parser.c:3765
 msgid "standard error"
 msgstr "standardní chybový výstup"
 
-#: find/parser.c:3781
+#: find/parser.c:3770
 msgid "standard output"
 msgstr "standardní výstup"
 
-#: find/pred.c:430
+#: find/pred.c:432
 #, c-format
 msgid "cannot delete %s"
 msgstr "%s není možné smazat"
 
-#: find/pred.c:1088 find/pred.c:1927
+#: find/pred.c:585
+#, fuzzy, c-format
+msgid "Failed to save working directory in order to run a command on %s"
+msgstr "návrat do prvotního pracovního adresáře po prohledání %s selhal"
+
+#: find/pred.c:1188 find/pred.c:1997
 #, c-format
 msgid "getfilecon failed: %s"
 msgstr "getfilecon selhala: %s"
 
-#: find/pred.c:1412
+#: find/pred.c:1512
 #, c-format
 msgid "WARNING: cannot determine birth time of file %s"
 msgstr "POZOR: čas vytvoření souboru %s není možné určit"
 
-#: find/pred.c:1476
+#: find/pred.c:1576
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s … %s > ? "
 
-#: find/pred.c:1967
+#: find/pred.c:2037
 #, c-format
 msgid "Cannot close standard input"
 msgstr "Standardní vstup nelze uzavřít"
 
-#: find/pred.c:2002
+#: find/pred.c:2066
 #, c-format
 msgid "Failed to change directory"
 msgstr "Změna adresáře se nezdařila"
 
-#: find/pred.c:2040 xargs/xargs.c:1107
+#: find/pred.c:2097 xargs/xargs.c:1099
 #, c-format
 msgid "cannot fork"
 msgstr "nelze vykonat fork()"
 
-#: find/pred.c:2071
+#: find/pred.c:2128
 #, c-format
 msgid "error waiting for %s"
 msgstr "chyba při čekání na %s"
 
-#: find/pred.c:2080
+#: find/pred.c:2137
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s ukončen signálem %d"
@@ -605,7 +605,7 @@ msgid ""
 msgstr ""
 "neplatný výraz: Čekal jsem, že někde naleznu „)“, ale nenašel jsem ani jednu."
 
-#: find/tree.c:204 find/tree.c:838
+#: find/tree.c:204 find/tree.c:827
 #, c-format
 msgid "oops -- invalid expression type!"
 msgstr "ajaj – neplatný typ výrazu!"
@@ -615,87 +615,104 @@ msgstr "ajaj – neplatný typ výrazu!"
 msgid "oops -- invalid expression type (%d)!"
 msgstr "ajaj – neplatný typ výrazu (%d)!"
 
-#: find/tree.c:1290
+#: find/tree.c:1114
+#, c-format
+msgid ""
+"warning: there is no entry in the predicate evaluation cost table for "
+"predicate %s; please report this as a bug"
+msgstr ""
+
+#: find/tree.c:1288
 #, c-format
 msgid "paths must precede expression: %s"
 msgstr "cesty musí předcházet výraz: %s"
 
-#: find/tree.c:1299
+#: find/tree.c:1297
 #, c-format
 msgid "unknown predicate `%s'"
 msgstr "neznámý predikát „%s“"
 
-#: find/tree.c:1319
+#: find/tree.c:1317
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "neplatný predikát „%s“"
 
-#: find/tree.c:1324
+#: find/tree.c:1322
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "neplatný argument „%s“ u „%s“"
 
-#: find/tree.c:1332
+#: find/tree.c:1330
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "u „%s“ chybí argument"
 
-#: find/tree.c:1408
+#: find/tree.c:1406
 #, c-format
 msgid "you have too many ')'"
 msgstr "máte moc „)“"
 
-#: find/tree.c:1414
+#: find/tree.c:1412
 #, c-format
 msgid "unexpected extra predicate '%s'"
 msgstr "neočekávaný nadbytečný predikát „%s“"
 
-#: find/tree.c:1416
+#: find/tree.c:1414
 #, c-format
 msgid "unexpected extra predicate"
 msgstr "neočekávaný nadbytečný predikát"
 
-#: find/tree.c:1549
+#: find/tree.c:1547
 #, c-format
 msgid "oops -- invalid default insertion of and!"
 msgstr "ajaj – neplatné implicitní vložení operátoru and!"
 
-#: find/util.c:168
+#: find/util.c:171
 #, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgstr "Užití: %s [-H] [-L] [-P] [-Oúroveň] [-D "
 
-#: find/util.c:170
+#: find/util.c:173
 #, c-format
 msgid "] [path...] [expression]\n"
 msgstr "] [cesta…] [výraz]\n"
 
-#: find/util.c:808
+#: find/util.c:451
+#, fuzzy, c-format
+msgid "failed to save initial working directory"
+msgstr "současný pracovní adresář nelze zaznamenat"
+
+#: find/util.c:468
+#, fuzzy, c-format
+msgid "failed to restore initial working directory"
+msgstr "současný pracovní adresář nelze zaznamenat"
+
+#: find/util.c:816
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Ignoruji nerozpoznaný ladicí příznak %s"
 
-#: find/util.c:815
+#: find/util.c:823
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Prázdný argument přepínače -D."
 
-#: find/util.c:831
+#: find/util.c:839
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "Přepínač -D musí být bezprostředně následován desítkovým celým číslem."
 
-#: find/util.c:841 find/util.c:852
+#: find/util.c:849 find/util.c:860
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Prosím, zadejte desítkové číslo okamžitě po -O"
 
-#: find/util.c:857 find/util.c:862
+#: find/util.c:865 find/util.c:870
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Neplatná úroveň optimalizace %s"
 
-#: find/util.c:870
+#: find/util.c:878
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -704,7 +721,7 @@ msgstr ""
 "Úroveň optimalizace %lu je příliš vysoká. Potřebujte-li hledat soubory velmi "
 "rychle, zvažte použití GNU locate."
 
-#: find/util.c:1014
+#: find/util.c:1022
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
@@ -713,28 +730,28 @@ msgstr ""
 "Proměnná prostředí FIND_BLOCK_SIZE není podporována. Jediná věc, která "
 "ovlivňuje velikost bloku je proměnná prostředí POSIXLY_CORRECT."
 
-#: lib/buildcmd.c:178
+#: lib/buildcmd.c:170
 #, c-format
 msgid "command too long"
 msgstr "příkaz je příliš dlouhý"
 
-#: lib/buildcmd.c:318
+#: lib/buildcmd.c:310
 #, c-format
 msgid "can't call exec() due to argument size restrictions"
 msgstr "kvůli omezením velikosti argumentů není možné zavolat exec()"
 
-#: lib/buildcmd.c:388
+#: lib/buildcmd.c:380
 #, c-format
 msgid "can not fit single argument within argument list size limit"
 msgstr ""
 "s jediným argumentem se nemůžu vejít do limitu velikosti seznamu argumentů"
 
-#: lib/buildcmd.c:394
+#: lib/buildcmd.c:386
 #, c-format
 msgid "argument list too long"
 msgstr "seznam argumentů je příliš dlouhý"
 
-#: lib/buildcmd.c:647
+#: lib/buildcmd.c:639
 #, c-format
 msgid "Environment variable %s is not set to a valid decimal number"
 msgstr "Proměnná prostředí %s není nastavena na platné desítkové číslo"
@@ -771,7 +788,7 @@ msgstr "Očekáváno celé číslo: %s"
 msgid "Unknown regular expression type %s; valid types are %s."
 msgstr "Neznámý typ regulárního výrazu %s, platné typy jsou %s."
 
-#: locate/code.c:130
+#: locate/code.c:127
 #, c-format
 msgid ""
 "Usage: %s [--version | --help]\n"
@@ -780,8 +797,8 @@ msgstr ""
 "Užití: %s [--version | --help]\n"
 "nebo   %s nejčastější_dvojhlásky < soubor_se_seznamem > databáze_locate\n"
 
-#: locate/code.c:134 locate/frcode.c:158 locate/locate.c:1409
-#: xargs/xargs.c:1463
+#: locate/code.c:131 locate/frcode.c:159 locate/locate.c:1409
+#: xargs/xargs.c:1455
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -791,37 +808,37 @@ msgstr ""
 "k překladu zasílejte na <translation-team-cs@lists.sourceforge.net> "
 "(česky).\n"
 
-#: locate/code.c:152 locate/frcode.c:206
+#: locate/code.c:149 locate/frcode.c:207
 #, c-format
 msgid "write error"
 msgstr "chyba zápisu"
 
-#: locate/frcode.c:156
+#: locate/frcode.c:157
 #, c-format
 msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
 msgstr "Užití: %s [-0 | --null] [--version] [--help]\n"
 
-#: locate/frcode.c:176
+#: locate/frcode.c:177
 #, c-format
 msgid "You need to specify a security level as a decimal integer."
 msgstr "Úroveň zabezpečení je třeba zadat jako desítkové celé číslo."
 
-#: locate/frcode.c:184
+#: locate/frcode.c:185
 #, c-format
 msgid "Security level %s is outside the convertible range."
 msgstr "Úroveň zabezpečení %s je mimo převoditelný rozsah."
 
-#: locate/frcode.c:192
+#: locate/frcode.c:193
 #, c-format
 msgid "Security level %s has unexpected suffix %s."
 msgstr "úroveň zabezpečení %s má neočekávanou příponu %s."
 
-#: locate/frcode.c:250
+#: locate/frcode.c:251
 #, c-format
 msgid "slocate security level %ld is unsupported."
 msgstr "Úroveň zabezpečení slocate %ld není podporována."
 
-#: locate/frcode.c:288
+#: locate/frcode.c:289
 #, c-format
 msgid "Failed to write to standard output"
 msgstr "Zápis na standardní výstup selhal"
@@ -1038,12 +1055,12 @@ msgstr "neočekávaný EOF v %s"
 msgid "error reading a word from %s"
 msgstr "chyba při čtení slova z %s"
 
-#: xargs/xargs.c:261
+#: xargs/xargs.c:253
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Neplatná escape posloupnost %s v zadání oddělovače vstupu."
 
-#: xargs/xargs.c:279
+#: xargs/xargs.c:271
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1052,7 +1069,7 @@ msgstr ""
 "Neplatná escape posloupnost %s v zadání oddělovače vstupu, hodnoty znaků "
 "nesmí přesáhnout %lx."
 
-#: xargs/xargs.c:285
+#: xargs/xargs.c:277
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1061,7 +1078,7 @@ msgstr ""
 "Neplatná escape posloupnost %s v zadání oddělovače vstupu, hodnoty znaků "
 "nesmí přesáhnout %lo."
 
-#: xargs/xargs.c:294
+#: xargs/xargs.c:286
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -1070,7 +1087,7 @@ msgstr ""
 "Neplatná escape posloupnost %s v zadání oddělovače vstupu, závěrečné znaky %"
 "s nebyly rozeznány."
 
-#: xargs/xargs.c:339
+#: xargs/xargs.c:331
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -1079,33 +1096,33 @@ msgstr ""
 "Neplatné určení oddělovače vstupu %s: oddělovač musí být buď jediný znak, "
 "nebo escape posloupnost začínající \\."
 
-#: xargs/xargs.c:356
+#: xargs/xargs.c:348
 #, c-format
 msgid "environment is too large for exec"
 msgstr "prostředí je na exec() příliš velké"
 
-#: xargs/xargs.c:563
+#: xargs/xargs.c:555
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "pozor: hodnota %ld přepínače -s je příliš velká, místo toho se použije %ld"
 
-#: xargs/xargs.c:633
+#: xargs/xargs.c:625
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Vstupní soubor %s nelze otevřít."
 
-#: xargs/xargs.c:651
+#: xargs/xargs.c:643
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Vaše proměnné prostředí zabírají %'<PRIuMAX> bajtů\n"
 
-#: xargs/xargs.c:654
+#: xargs/xargs.c:646
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "Horní mez délky argumentů dle POSIXU (tento sytém): %'<PRIuMAX>\n"
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:649
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): %"
@@ -1114,17 +1131,17 @@ msgstr ""
 "Nejmenší možná horní mez délky argumentů dle POSIXU (všechny systémy): "
 "%'<PRIuMAX>\n"
 
-#: xargs/xargs.c:660
+#: xargs/xargs.c:652
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "Maximální délka příkazu, který tedy můžeme použít: %'<PRIuMAX>\n"
 
-#: xargs/xargs.c:663
+#: xargs/xargs.c:655
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Velikost bufferu příkazu, který tedy používáme: %'<PRIuMAX>\n"
 
-#: xargs/xargs.c:669
+#: xargs/xargs.c:661
 #, c-format
 msgid ""
 "\n"
@@ -1137,7 +1154,7 @@ msgstr ""
 "spouštět příkazy. Pokud to není to, co chcete, aby se dělo, prosím, "
 "stiskněte klávesy konce souboru.\n"
 
-#: xargs/xargs.c:677
+#: xargs/xargs.c:669
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1147,7 +1164,7 @@ msgstr ""
 "stiskněte klávesy přerušení.\n"
 
 # XXX: unmatched {single|double} quote
-#: xargs/xargs.c:805 xargs/xargs.c:898
+#: xargs/xargs.c:797 xargs/xargs.c:890
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1156,15 +1173,15 @@ msgstr ""
 "neodpovídající %s uvozovka; implicitně jsou pro xargs uvozovky zvláštními "
 "znaky, dokud nepoužijete přepínač -0"
 
-#: xargs/xargs.c:806 xargs/xargs.c:899
+#: xargs/xargs.c:798 xargs/xargs.c:891
 msgid "double"
 msgstr "dvojitá"
 
-#: xargs/xargs.c:806 xargs/xargs.c:899
+#: xargs/xargs.c:798 xargs/xargs.c:891
 msgid "single"
 msgstr "jednoduchá"
 
-#: xargs/xargs.c:918
+#: xargs/xargs.c:910
 #, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1173,22 +1190,22 @@ msgstr ""
 "POZOR: Na vstupu se objevil znak NULL. Není možné jej předat do seznamu "
 "argumentů. Nezamýšleli jste použít přepínač --null?"
 
-#: xargs/xargs.c:928 xargs/xargs.c:985
+#: xargs/xargs.c:920 xargs/xargs.c:977
 #, c-format
 msgid "argument line too long"
 msgstr "řádka s argumenty je příliš dlouhá"
 
-#: xargs/xargs.c:1013
+#: xargs/xargs.c:1005
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "/dev/tty nebylo možné otevřít pro čtení"
 
-#: xargs/xargs.c:1096
+#: xargs/xargs.c:1088
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "před fork() nebylo možné vyrobit rouru"
 
-#: xargs/xargs.c:1165
+#: xargs/xargs.c:1157
 #, c-format
 msgid ""
 "errno-buffer read failed in xargs_do_exec (this is probably a bug, please "
@@ -1197,7 +1214,7 @@ msgstr ""
 "čtení bufferu errna selhalo v xargs_do_exec (pravděpodobně se jedná o chybu, "
 "prosím, ohlašte to)"
 
-#: xargs/xargs.c:1218
+#: xargs/xargs.c:1210
 #, c-format
 msgid ""
 "read returned unexpected value %d; this is probably a bug, please report it"
@@ -1205,48 +1222,48 @@ msgstr ""
 "read vrátilo neočekávanou hodnotu %d; pravděpodobně se jedná o chybu, "
 "prosím, ohlašte to"
 
-#: xargs/xargs.c:1308
+#: xargs/xargs.c:1300
 #, c-format
 msgid "error waiting for child process"
 msgstr "chyba při čekání na proces potomka"
 
 # TODO: plural
-#: xargs/xargs.c:1330
+#: xargs/xargs.c:1322
 #, c-format
 msgid "WARNING: Lost track of %d child processes"
 msgstr "POZOR: Ztracena stopa %d potomků"
 
-#: xargs/xargs.c:1349
+#: xargs/xargs.c:1341
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: ukončen s kódem 255, končím"
 
-#: xargs/xargs.c:1352
+#: xargs/xargs.c:1344
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: pozastaven signálem %d"
 
-#: xargs/xargs.c:1355
+#: xargs/xargs.c:1347
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: ukončen signálem %d"
 
-#: xargs/xargs.c:1413
+#: xargs/xargs.c:1405
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: neplatné číslo u přepínače -%c\n"
 
-#: xargs/xargs.c:1420
+#: xargs/xargs.c:1412
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: hodnota přepínače -%c by měla být >= %ld\n"
 
-#: xargs/xargs.c:1434
+#: xargs/xargs.c:1426
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: hodnota přepínače -%c by měla být < %ld\n"
 
-#: xargs/xargs.c:1452
+#: xargs/xargs.c:1444
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
@@ -1268,6 +1285,9 @@ msgstr ""
 "       [-P max-procesů]  [--max-procs=max-procesů] [--show-limits]\n"
 "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=soubor]\n"
 "       [--version] [--help] [příkaz [zahajující-argumenty]]\n"
+
+#~ msgid "cannot get current directory"
+#~ msgstr "současný adresář nelze zjistit"
 
 #~ msgid "invalid argument %s for %s"
 #~ msgstr "neplatný argument %s u %s"
@@ -1316,9 +1336,6 @@ msgstr ""
 
 #~ msgid "%s: option `-W %s' doesn't allow an argument\n"
 #~ msgstr "%s: přepínač „-W %s“ nepovoluje argument\n"
-
-#~ msgid "unable to record current working directory"
-#~ msgstr "současný pracovní adresář nelze zaznamenat"
 
 #~ msgid "`"
 #~ msgstr "„"
