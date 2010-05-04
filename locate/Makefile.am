@@ -13,7 +13,7 @@ libexec_PROGRAMS = frcode code bigram
 bin_SCRIPTS = updatedb
 man_MANS = locate.1 updatedb.1 locatedb.5
 BUILT_SOURCES = dblocation.texi
-EXTRA_DIST = locatedb.h updatedb.sh $(man_MANS)
+EXTRA_DIST = dblocation.texi locatedb.h updatedb.sh $(man_MANS)
 CLEANFILES = updatedb
 DISTCLEANFILES = dblocation.texi
 locate_SOURCES = locate.c word_io.c
@@ -53,8 +53,14 @@ updatedb: updatedb.sh Makefile
 install-data-hook:
 	$(top_srcdir)/build-aux/mkinstalldirs $(DESTDIR)$(localstatedir)
 
-dblocation.texi: Makefile
-	echo '@set LOCATE_DB $(LOCATE_DB)' > $@
+dblocation.texi:
+	echo '@set LOCATE_DB $(LOCATE_DB)' > $@.tmp
+	if test -f $@ && cmp $@.tmp $@ >/dev/null ; then \
+		rm $@.tmp ; 		\
+	else				\
+		mv $@.tmp $@ ;		\
+	fi
+.PHONY: dblocation.texi
 
 SUBDIRS = . testsuite
 
@@ -62,3 +68,4 @@ dist-hook: findutils-check-manpages
 
 findutils-check-manpages:
 	$(top_srcdir)/build-aux/man-lint.sh $(srcdir) $(man_MANS)
+

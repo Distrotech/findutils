@@ -1,3 +1,10 @@
+2010-05-04  James Youngman  <jay@gnu.org>
+
+	Bugfix: make sure make distdir works in VPATH directly after configure
+	* locate/Makefile.am (EXTRA_DIST): Add dblocation.texi.
+	(dblocation.texi): Always rebuild, but don't replace the existing
+	version if the content would not change.
+
 2010-04-30  James Youngman  <jay@gnu.org>
 
 	Update Finnish and Italian translations.
