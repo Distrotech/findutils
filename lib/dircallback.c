@@ -37,7 +37,8 @@ int
 run_in_dir (const struct saved_cwd *there,
 	    int (*callback)(void*), void *usercontext)
 {
-  int err, saved_errno;
+  int err = -1;
+  int saved_errno = 0;
   struct saved_cwd here;
   if (0 == save_cwd (&here))
     {
@@ -50,6 +51,10 @@ run_in_dir (const struct saved_cwd *there,
 	{
 	  openat_restore_fail (errno);
 	}
+
+      if (restore_cwd (&here) != 0)
+	openat_restore_fail (errno);
+
       free_cwd (&here);
     }
   else

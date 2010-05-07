@@ -1,3 +1,12 @@
+2010-05-07  Kamil Dudka  <kdudka@redhat.com>
+
+	* lib/dircallback.c (run_in_dir): Make sure that if the callback
+	doesn't get run, the return value is nonzero.  Make sure that if
+	the directory save/restore fails, we don't overwrite errno with a
+	random value (and hence report some unrelated and nonexistent
+	error, instead of the real problem).  Restore the previous current
+	directory.
+
 2010-05-04  James Youngman  <jay@gnu.org>
 
 	Bugfix: make sure make distdir works in VPATH directly after configure
