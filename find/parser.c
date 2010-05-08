@@ -468,7 +468,7 @@ check_option_combinations (const struct predicate *p)
 	{
 	  /* This fixes Savannah bug #20865. */
 	  error (EXIT_FAILURE, 0,
-		 _("The -delete action atomatically turns on -depth, "
+		 _("The -delete action automatically turns on -depth, "
 		   "but -prune does nothing when -depth is in effect.  "
 		   "If you want to carry on anyway, just explicitly use "
 		   "the -depth option."));
