@@ -91,7 +91,7 @@ programs called \fBbigram\fP and \fBcode\fP to produce old-format
 databases.  The old format differs from the above description in the
 following ways.  Instead of each entry starting with an
 offset-differential count byte and ending with a null, byte values
-from 0 through 28 indicate offset-differential counts from -14 through
+from 0 through 28 indicate offset-differential counts from \-14 through
 14.  The byte value indicating that a long offset-differential count
 follows is 0x1e (30), not 0x80.  The long counts are stored in host
 byte order, which is not necessarily network byte order, and host
