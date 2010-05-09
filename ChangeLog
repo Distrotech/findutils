@@ -1,3 +1,9 @@
+2010-05-09  Sergei Golovan  <sgolovan@gmail.com> (tiny change)
+
+	Fix Savannah bug #29828, test suite deadlock on FreeBSD.
+	* find/testsuite/find.gnu/sv-bug-24169.exp: Read find output until
+	eof before calling wait, in order to avoid a deadlock on FreeBSD.
+
 2010-05-08  Andreas Metzler  <gnu@downhill.at.eu.org>
 
 	Fix a typo.  Use "\-" in nroff, rather than a naked "-".

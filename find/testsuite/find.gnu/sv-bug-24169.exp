@@ -23,7 +23,9 @@ set expected 1
 
 send_log "$cmd\n"
 eval spawn -noecho $cmd
-set result [wait]
+expect {
+    eof { set result [wait] }
+}
 send_log "result is '$result'\n"
 if { [ lindex $result 2 ] == 0  } then {
     set status [ lindex $result 3]
