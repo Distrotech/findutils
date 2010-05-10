@@ -1,3 +1,10 @@
+2010-05-11  John Gilmore  <gnu@xargs.toad.com>
+
+	Fix bug arising when we receive SIGUSR2.
+	* xargs/xargs.c (xargs_do_exec): Don't assume that proc_max won't
+	decrease while we are waiting for a process to exit.  This happens
+	if we receive SIGUSR2.
+
 2010-05-09  James Youngman  <jay@gnu.org>
 
 	* xargs/xargs.1: Refer to signal(7) rather than signal(2).
