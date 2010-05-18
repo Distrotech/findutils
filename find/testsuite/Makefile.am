@@ -14,6 +14,7 @@ find.gnu/depth.xo \
 find.gnu/depth-d.xo \
 find.gnu/empty.xo \
 find.gnu/execdir-hier.xo   \
+find.gnu/execdir-multiple.xo \
 find.gnu/execdir-one.xo   \
 find.gnu/execdir-root-only.xo   \
 find.gnu/exec-many-rtn-failure.xo   \
@@ -114,8 +115,10 @@ find.gnu/depth-d.exp \
 find.gnu/empty.exp \
 find.gnu/execdir-hier.exp \
 find.gnu/execdir-in-unreadable.exp \
+find.gnu/execdir-multiple.exp \
 find.gnu/execdir-one.exp \
 find.gnu/execdir-pwd.exp \
+find.gnu/execdir-pwd1.exp \
 find.gnu/execdir-root-only.exp \
 find.gnu/exec-many-rtn-failure.exp  \
 find.gnu/exec-many-rtn-success.exp  \

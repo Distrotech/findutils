@@ -1,3 +1,19 @@
+2010-04-10  James Youngman  <jay@gnu.org>
+
+	Add a test which checks $CWD for find -execdir {} +/;
+	* find/testsuite/find.gnu/execdir-multiple.exp: New test; verifies
+	that for -execdir +, all the execs occur with the correct working
+	directory.
+	* find/testsuite/find.gnu/execdir-multiple.xo: Expected output for
+	this test.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add the new test.
+	(EXTRA_DIST_XO): Add the expected output file.
+	* find/testsuite/config/unix.exp (mkdir): Create proc "mkdir"
+	which creates a directory.
+	* find/testsuite/find.gnu/execdir-pwd1.exp: New test.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add
+	execdir-pwd1.exp.
+
 2010-04-06  James Youngman  <jay@gnu.org>
 
 	* po/nl.po: Updated Dutch translation.
