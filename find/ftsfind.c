@@ -518,24 +518,6 @@ consider_visiting(FTS *p, FTSENT *ent)
       visit(p, ent, &statbuf);
     }
 
-  /* XXX: if we allow a build-up of pending arguments for "-execdir foo {} +" 
-   * we need to execute them in the same directory as we found the item.  
-   * If we are trying to do "find a -execdir echo {} +", we will need to 
-   * echo 
-   *      a while in the original working directory
-   *      b while in a
-   *      c while in b (just before leaving b)
-   *
-   * These restrictions are hard to satisfy while using fts().   The reason is
-   * that it doesn't tell us just before we leave a directory.  For the moment, 
-   * we punt and don't allow the arguments to build up.
-   */
-  if (state.execdirs_outstanding)
-    {
-      show_outstanding_execdirs(stderr);
-      complete_pending_execdirs ();
-    }
-
   if (ent->fts_info == FTS_DP)
     {
       /* we're leaving a directory. */
@@ -585,8 +567,27 @@ find(char *arg)
     }
   else
     {
+      int level = INT_MIN;
+
       while ( (ent=fts_read(p)) != NULL )
 	{
+	  if (state.execdirs_outstanding)
+	    {
+	      /* If we changed level, perform any outstanding
+	       * execdirs.  If we see a sequence of directory entries
+	       * like this: fffdfffdfff, we could build a command line
+	       * of 9 files, but this simple-minded implementation
+	       * builds a command line for only 3 files at a time
+	       * (since fts descends into the directories).
+	       */
+	      if ((int)ent->fts_level != level)
+		{
+		  show_outstanding_execdirs (stderr);
+		  complete_pending_execdirs ();
+		}
+	    }
+	  level = (int)ent->fts_level;
+
 	  state.have_stat = false;
 	  state.have_type = false;
 	  state.type = 0;

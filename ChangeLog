@@ -1,5 +1,15 @@
 2010-04-10  James Youngman  <jay@gnu.org>
 
+	Fix Savannah bug #19593, -execdir .... {} + has suboptimal performance
+	* find/ftsfind.c (consider_visiting): Don't call
+	complete_pending_execdirs for every file we visit.
+	(find): Instead, call complete_pending_execdirs every time we
+	see a file which isn't at the same nesting level as the previous
+	file we saw.  This is an improvement but not optimal (since
+	descending into a subdirectory will cause us to issue an exec
+	before we've finished with the current directory).
+	* NEWS: Mention this change.
+
 	Exec predicates now store which directory they want to run in.
 	* lib/dircallback.c (run_in_dirfd): New name for old run_in_dir
 	function.
