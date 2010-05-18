@@ -1,3 +1,24 @@
+2010-04-11  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #27563, -L breaks -execdir.
+	* find/pred.c (mdir_name): New function, taken from newer gnulib.
+	(initialise_wd_for_exec): New function, factoring out part of the body
+	of record_exec_dir.
+	(record_exec_dir): If state.rel_pathname contains a /, extract the
+	directory part and initialise execp->wd_for_exec to point at that
+	directory.
+	(impl_pred_exec): Rename new_impl_pred_exec to impl_pred_exec.
+	Drop the prefix and pfxlen parameters.  Compute the base name of
+	the target and pass that to the bc_push_arg function instead of
+	state.rel_pathname.  Deal with state.rel_pathname being an
+	absolute path (e.g. find / -execdir...).  Introduce a new
+	variable, result, allowing us to free the buffer used for the base
+	name in the return path.
+	(pred_exec): Don't pass the prefix and the prefix length any more.
+	(pred_execdir): Likewise.
+	(pred_ok): Likewise.
+	(pred_okdir): Likewise.
+
 2010-04-10  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #19593, -execdir .... {} + has suboptimal performance

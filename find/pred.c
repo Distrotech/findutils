@@ -501,6 +501,57 @@ pred_empty (const char *pathname, struct stat *stat_buf, struct predicate *pred_
 }
 
 
+/* In general, we can't use the builtin `dirname' function if available,
+   since it has different meanings in different environments.
+   In some environments the builtin `dirname' modifies its argument.
+
+   Return the leading directories part of FILE, allocated with malloc.
+   Works properly even if there are trailing slashes (by effectively
+   ignoring them).  Return NULL on failure.
+
+   If lstat (FILE) would succeed, then { chdir (dir_name (FILE));
+   lstat (base_name (FILE)); } will access the same file.  Likewise,
+   if the sequence { chdir (dir_name (FILE));
+   rename (base_name (FILE), "foo"); } succeeds, you have renamed FILE
+   to "foo" in the same directory FILE was in.  */
+
+static char *
+mdir_name (char const *file)
+{
+  size_t length = dir_len (file);
+  bool append_dot = (length == 0
+                     || (FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE
+                         && length == FILE_SYSTEM_PREFIX_LEN (file)
+                         && file[2] != '\0' && ! ISSLASH (file[2])));
+  char *dir = malloc (length + append_dot + 1);
+  if (!dir)
+    return NULL;
+  memcpy (dir, file, length);
+  if (append_dot)
+    dir[length++] = '.';
+  dir[length] = '\0';
+  return dir;
+}
+
+
+/* Initialise exec->wd_for_exec.
+
+   We save in exec->wd_for_exec the directory whose path relative to
+   cwd_df is dir.
+ */
+static boolean
+initialise_wd_for_exec (struct exec_val *execp, int cwd_fd, const char *dir)
+{
+  execp->wd_for_exec = xmalloc (sizeof (*execp->wd_for_exec));
+  execp->wd_for_exec->name = NULL;
+  execp->wd_for_exec->desc = openat (cwd_fd, dir, O_RDONLY);
+  if (execp->wd_for_exec->desc < 0)
+    return false;
+
+  return true;
+}
+
+
 static boolean
 record_exec_dir (struct exec_val *execp)
 {
@@ -511,29 +562,46 @@ record_exec_dir (struct exec_val *execp)
 	 be -execdir foo {} \; (i.e. not multiple).  */
       assert (!execp->state.todo);
 
-      /* Record the WD. */
-      execp->wd_for_exec = xmalloc (sizeof (*execp->wd_for_exec));
-      execp->wd_for_exec->name = NULL;
-      execp->wd_for_exec->desc = openat (state.cwd_dir_fd, ".", O_RDONLY);
-      if (execp->wd_for_exec->desc < 0)
-	return false;
+      /* Record the WD. If we're using -L or fts chooses to do so for
+	 any other reason, state.cwd_dir_fd may in fact not be the
+	 directory containing the target file.  When this happens,
+	 rel_path will contain directory components (since it is the
+	 path from state.cwd_dir_fd to the target file).
+
+	 We deal with this by extracting any directory part and using
+	 that to adjust what goes into execp->wd_for_exec.
+      */
+      if (strchr (state.rel_pathname, '/'))
+	{
+	  char *dir = mdir_name (state.rel_pathname);
+	  bool result = initialise_wd_for_exec (execp, state.cwd_dir_fd, dir);
+	  free (dir);
+	  return result;
+	}
+      else
+	{
+	  return initialise_wd_for_exec (execp, state.cwd_dir_fd, ".");
+	}
     }
   return true;
 }
 
 
 static boolean
-new_impl_pred_exec (const char *pathname,
-		    struct stat *stat_buf,
-		    struct predicate *pred_ptr,
-		    const char *prefix, size_t pfxlen)
+impl_pred_exec (const char *pathname,
+		struct stat *stat_buf,
+		struct predicate *pred_ptr)
 {
   struct exec_val *execp = &pred_ptr->args.exec_vec;
-  size_t len = strlen(pathname);
+  char *target;
+  bool result;
+  const bool local = is_exec_in_local_dir (pred_ptr->pred_func);
+  char *prefix;
+  size_t pfxlen;
 
   (void) stat_buf;
 
-  if (is_exec_in_local_dir (pred_ptr->pred_func))
+  if (local)
     {
       /* For -execdir/-okdir predicates, the parser did not fill in
 	 the wd_for_exec member of sturct exec_val.  So for those
@@ -547,6 +615,18 @@ new_impl_pred_exec (const char *pathname,
 		 safely_quote_err_filename (0, pathname));
 	  /*NOTREACHED*/
 	}
+      target = base_name (state.rel_pathname);
+      if ('/' == target[0])
+	{
+	  /* find / execdir ls -d {} \; */
+	  prefix = NULL;
+	  pfxlen = 0;
+	}
+      else
+	{
+	  prefix = "./";
+	  pfxlen = 2u;
+	}
     }
   else
     {
@@ -556,6 +636,9 @@ new_impl_pred_exec (const char *pathname,
 	 working directory.
       */
       assert (execp->wd_for_exec == initial_wd);
+      target = (char *) pathname;
+      prefix = NULL;
+      pfxlen = 0u;
     }
 
   if (execp->multiple)
@@ -566,7 +649,7 @@ new_impl_pred_exec (const char *pathname,
        */
       bc_push_arg(&execp->ctl,
 		  &execp->state,
-		  pathname, len+1,
+		  target, strlen (target)+1,
 		  prefix, pfxlen,
 		  0);
 
@@ -576,7 +659,7 @@ new_impl_pred_exec (const char *pathname,
       /* POSIX: If the primary expression is punctuated by a plus
        * sign, the primary shall always evaluate as true
        */
-      return true;
+      result = true;
     }
   else
     {
@@ -589,30 +672,34 @@ new_impl_pred_exec (const char *pathname,
 		       execp->replace_vec[i],
 		       strlen(execp->replace_vec[i]),
 		       prefix, pfxlen,
-		       pathname, len,
+		       target, strlen (target),
 		       0);
 	}
 
       /* Actually invoke the command. */
-      return  execp->ctl.exec_callback(&execp->ctl,
+      result = execp->ctl.exec_callback(&execp->ctl,
 					&execp->state);
     }
+  if (target != pathname)
+    {
+      assert (local);
+      free (target);
+    }
+  return result;
 }
 
 
 boolean
 pred_exec (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  return new_impl_pred_exec(pathname, stat_buf, pred_ptr, NULL, 0);
+  return impl_pred_exec(pathname, stat_buf, pred_ptr);
 }
 
 boolean
 pred_execdir (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-   const char *prefix = (state.rel_pathname[0] == '/') ? NULL : "./";
    (void) &pathname;
-   return new_impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr,
-			      prefix, (prefix ? 2 : 0));
+   return impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr);
 }
 
 boolean
@@ -1479,7 +1566,7 @@ boolean
 pred_ok (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
   if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
-    return new_impl_pred_exec (pathname, stat_buf, pred_ptr, NULL, 0);
+    return impl_pred_exec (pathname, stat_buf, pred_ptr);
   else
     return false;
 }
@@ -1487,10 +1574,8 @@ pred_ok (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr
 boolean
 pred_okdir (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-  const char *prefix = (state.rel_pathname[0] == '/') ? NULL : "./";
   if (is_ok(pred_ptr->args.exec_vec.replace_vec[0], pathname))
-    return new_impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr,
-			       prefix, (prefix ? 2 : 0));
+    return impl_pred_exec (state.rel_pathname, stat_buf, pred_ptr);
   else
     return false;
 }
