@@ -1,5 +1,88 @@
 2010-04-10  James Youngman  <jay@gnu.org>
 
+	Exec predicates now store which directory they want to run in.
+	* lib/dircallback.c (run_in_dirfd): New name for old run_in_dir
+	function.
+	(run_in_dir): Like the old function of the same name, but now
+	takes an argument const struct saved_cwd *.
+	* lib/dircallback.h: Update declarations of run_in_dirfd and
+	run_in_dir.
+	* find/util.c: Include dircallback.h, xalloc.h, save-cwd.h.
+	(do_complete_pending_execdirs): Remove dir_fd parameter, since the
+	per-predicate data structures now indicate what directory they
+	need to be run in.  Instead of calling bc_do_exec directly, use a
+	callback 'exec_cb' that uses run_in_dir (which now takes a
+	saved_cwd* parameter instead of a file descriptor).
+	(do_exec): Called by do_complete_pending_execdirs, and simply uses
+	run_in_dir to call exec_cb, restoring the working directory
+	afterward.
+	(record_initial_cwd): New function, initialises the global
+	variable initial_wd.
+	(cleanup_initial_cwd): New function, cleans up the global variable
+	initial_wd.
+	(cleanup): Call cleanup_initial_cwd.
+	(get_start_dirfd): Remove.
+	(is_exec_in_local_dir): New function; true for predicates -execdir
+	and -okdir.
+	* find/pred.c: Include save-cwd.h.
+	(record_exec_dir): New function, sets the value of
+	execp->wd_for_exec if needed.
+	(new_impl_pred_exec): Remove the obsolete dir_fd parameter.  Call
+	record_exec_dir.
+	(pred_exec): Don't pass the dir_fd parameter.
+	(pred_execdir): Likewise.
+	(pred_ok): Likewise.
+	(pred_okdir): Likewise.
+	(can_access): Call run_in_dirfd rather than run_in_dir (the
+	function was renamed).
+	(prep_child_for_exec): Remove dir_fd parameter; don't fchdir to
+	that.  Call restore_cwd instead (passing a saved_cwd* parameter
+	which replaced dir_fd).
+	(launch): Remove references to execp->use_current_dir.
+	(launch): Change references to execp->dir_fd to execp->wd_for_exec.
+	* find/parser.c: Correct indentiation of declaration of
+	insert_exec_ok and remove the obsolete dir_fd parameter.
+	(parse_exec): Don't pass the dir_fd parameter to insert_exec_ok.
+	(parse_execdir): Likewise.
+	(parse_ok): Likewise.
+	(parse_okdir): Likewise.
+	(insert_exec_ok): Remove obsolete dir_fd paramter.  Initialise
+	execp->wd_for_exec, either to NULL (for -*dir) or to the
+	initial_wd.
+	* find/ftsfind.c: Remove get_current_dirfd.  Remove
+	complete_execdirs_cb.
+	(consider_visiting): Call complete_pending_execdirs directly.
+	(main): Call record_initial_cwd to record the initial working
+	directory, early on.  Don't initialise starting_dir or
+	starting_desc, they have been removed.
+	* find/finddata.c: Include save-cwd.h.  Remove starting_dir and
+	starting_desc. Add new global variable initial_wd.  It is a struct
+	saved_wd* and represents find's initial working directory.
+	* find/find.c: Include save-cwd.h.
+	(main): Call record_initial_cwd in order to initialise the
+	global variable initial_wd  Don't set starting_desc and
+	starting_dir, since those variables have been removed.
+	(safely_chdir): Don't pass an fd to complete_pending_execdirs.
+	(chdir_back): Remove the safety check (since we are using fchdir
+	and in any case no longer have all the data that the existing
+	wd_sanity_check function wants).
+	(do_process_top_dir): Don't pass an fd to
+	complete_pending_execdirs.
+	(process_dir): Likewise.
+	* find/defs.h (struct exec_val): Remove use_current_dir and
+	dir_fd.  Replace with wd_for_exec, which is a struct saved_wd*.
+	(get_start_dirfd): Remove prototype.
+	(get_current_dirfd): Remove prototype.
+	(complete_pending_execdirs): No longer takes dir_fd parameter.
+	(record_initial_cwd): Add prototype.
+	(is_exec_in_local_dir): Add prototype.
+	(options): Declare.
+	(initial_wd): Add declaration.  It is a struct saved_wd* and
+	represents find's initial working directory.
+	(starting_dir): Remove declaration of global variable.
+	(starting_desc): Remove declaration of global variable.
+	* import-gnulib.config (modules): Import module save-cwd.
+
 	Add a test which checks $CWD for find -execdir {} +/;
 	* find/testsuite/find.gnu/execdir-multiple.exp: New test; verifies
 	that for -execdir +, all the execs occur with the correct working

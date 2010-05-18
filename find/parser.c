@@ -177,7 +177,6 @@ static struct segment **make_segment PARAMS((struct segment **segment,
 					     struct predicate *pred));
 static boolean insert_exec_ok PARAMS((const char *action,
 				      const struct parser_table *entry,
-				      int dir_fd,
 				      char *argv[],
 				      int *arg_ptr));
 static boolean get_comp_type PARAMS((const char **str,
@@ -844,13 +843,13 @@ parse_empty (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_exec (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return insert_exec_ok ("-exec", entry, get_start_dirfd(), argv, arg_ptr);
+  return insert_exec_ok ("-exec", entry, argv, arg_ptr);
 }
 
 static boolean
 parse_execdir (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return insert_exec_ok ("-execdir", entry, -1, argv, arg_ptr);
+  return insert_exec_ok ("-execdir", entry, argv, arg_ptr);
 }
 
 static boolean
@@ -1734,13 +1733,13 @@ parse_nowarn (const struct parser_table* entry, char **argv, int *arg_ptr)
 static boolean
 parse_ok (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return insert_exec_ok ("-ok", entry, get_start_dirfd(), argv, arg_ptr);
+  return insert_exec_ok ("-ok", entry, argv, arg_ptr);
 }
 
 static boolean
 parse_okdir (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  return insert_exec_ok ("-okdir", entry, -1, argv, arg_ptr);
+  return insert_exec_ok ("-okdir", entry, argv, arg_ptr);
 }
 
 boolean
@@ -3083,11 +3082,10 @@ check_path_safety(const char *action, char **argv)
 
 /* handles both exec and ok predicate */
 static boolean
-new_insert_exec_ok (const char *action,
-		    const struct parser_table *entry,
-		    int dir_fd,
-		    char **argv,
-		    int *arg_ptr)
+insert_exec_ok (const char *action,
+		const struct parser_table *entry,
+		char **argv,
+		int *arg_ptr)
 {
   int start, end;		/* Indexes in ARGV of start & end of cmd. */
   int i;			/* Index into cmd args */
@@ -3108,6 +3106,7 @@ new_insert_exec_ok (const char *action,
   our_pred->need_type = our_pred->need_stat = false;
 
   execp = &our_pred->args.exec_vec;
+  execp->wd_for_exec = NULL;
 
   if ((func != pred_okdir) && (func != pred_ok))
     {
@@ -3127,13 +3126,14 @@ new_insert_exec_ok (const char *action,
 
   if ((func == pred_execdir) || (func == pred_okdir))
     {
+      execp->wd_for_exec = NULL;
       options.ignore_readdir_race = false;
       check_path_safety(action, argv);
-      execp->use_current_dir = true;
     }
   else
     {
-      execp->use_current_dir = false;
+      assert (NULL != initial_wd);
+      execp->wd_for_exec = initial_wd;
     }
 
   our_pred->args.exec_vec.multiple = 0;
@@ -3284,17 +3284,6 @@ new_insert_exec_ok (const char *action,
   return true;
 }
 
-
-
-static boolean
-insert_exec_ok (const char *action,
-		const struct parser_table *entry,
-		int dir_fd,
-		char **argv,
-		int *arg_ptr)
-{
-  return new_insert_exec_ok(action, entry, dir_fd, argv, arg_ptr);
-}
 
 
 

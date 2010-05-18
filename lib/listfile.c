@@ -424,7 +424,7 @@ get_link_name_at (const char *name, int dir_fd, char *relname)
   args.result = NULL;
   args.name = name;
   args.relname = relname;
-  if (0 == run_in_dir(dir_fd, get_link_name_cb, &args))
+  if (0 == run_in_dirfd (dir_fd, get_link_name_cb, &args))
     return args.result;
   else
     return NULL;
