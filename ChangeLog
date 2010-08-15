@@ -13,6 +13,11 @@
 
 2010-08-15  James Youngman  <jay@gnu.org>
 
+	Fix Savannah bug #30180, wrong error message for -size b300
+	* find/parser.c (parse_size): Don't print a suffix in the error
+	message if no suffix was specified.
+	* NEWS: Mention this change.
+
 	* po/da.po: Update Danish translation.
 
 2010-05-11  John Gilmore  <gnu@xargs.toad.com>

@@ -2316,6 +2316,7 @@ parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
     case '7':
     case '8':
     case '9':
+      suffix = 0;
       break;
 
     default:
@@ -2325,12 +2326,16 @@ parse_size (const struct parser_table* entry, char **argv, int *arg_ptr)
   /* TODO: accept fractional megabytes etc. ? */
   if (!get_num (arg, &num, &c_type))
     {
+      char tail[2];
+      tail[0] = suffix;
+      tail[1] = 0;
+
       error (EXIT_FAILURE, 0,
-	     _("Invalid argument `%s%c' to -size"),
-	     arg, (int)suffix);
+	     _("Invalid argument `%s%s' to -size"),
+	     arg, tail);
       return false;
     }
-our_pred = insert_primary (entry, arg);
+  our_pred = insert_primary (entry, arg);
   our_pred->args.size.kind = c_type;
   our_pred->args.size.blocksize = blksize;
   our_pred->args.size.size = num;
