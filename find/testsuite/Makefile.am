@@ -212,6 +212,7 @@ find.posix/sv-bug-11175.exp \
 find.posix/sv-bug-12181.exp \
 find.posix/sv-bug-25359.exp \
 find.posix/sv-bug-27563-exec.exp \
+find.posix/sv-bug-30777.exp \
 find.posix/depth1.exp \
 find.posix/sizes.exp \
 find.posix/name.exp \

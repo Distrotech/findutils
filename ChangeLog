@@ -1,3 +1,16 @@
+2010-08-16  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #30777.
+	* find/parser.c (insert_exec_ok): Fail if {} appears in an
+	argument between -exec ... \+ but it's not the whole argument
+	(that is, reject "FOO{}").  Previously the FOO prefix was accepted
+	but ignored, which is probably POSIX-incompliant and certainly
+	surprising.
+	* find/testsuite/find.posix/sv-bug-30777.exp: New test case for
+	Savannah bug #30777.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add
+	find.posix/sv-bug-30777.exp.
+
 2010-08-15  James Youngman  <jay@gnu.org>
 
 	* po/da.po: Update Danish translation.

@@ -3287,6 +3287,7 @@ insert_exec_ok (const char *action,
   int saw_braces;		/* True if previous arg was '{}'. */
   bool allow_plus;		/* True if + is a valid terminator */
   int brace_count;		/* Number of instances of {}. */
+  const char *brace_arg;	/* Which arg did {} appear in? */
   PRED_FUNC func = entry->pred_func;
   enum BC_INIT_STATUS bcstatus;
 
@@ -3337,7 +3338,7 @@ insert_exec_ok (const char *action,
    * Also figure out if the command is terminated by ";" or by "+".
    */
   start = *arg_ptr;
-  for (end = start, saw_braces=0, brace_count=0;
+  for (end = start, saw_braces=0, brace_count=0, brace_arg=NULL;
        (argv[end] != NULL)
        && ((argv[end][0] != ';') || (argv[end][1] != '\0'));
        end++)
@@ -3355,6 +3356,7 @@ insert_exec_ok (const char *action,
       if (mbsstr (argv[end], "{}"))
 	{
 	  saw_braces = 1;
+	  brace_arg = argv[end];
 	  ++brace_count;
 
 	  if (0 == end && (func == pred_execdir || func == pred_okdir))
@@ -3384,18 +3386,32 @@ insert_exec_ok (const char *action,
       return false;
     }
 
-  if (our_pred->args.exec_vec.multiple && brace_count > 1)
+  if (our_pred->args.exec_vec.multiple)
     {
-
       const char *suffix;
       if (func == pred_execdir)
 	suffix = "dir";
       else
 	suffix = "";
 
-      error (EXIT_FAILURE, 0,
-	     _("Only one instance of {} is supported with -exec%s ... +"),
-	     suffix);
+      if (brace_count > 1)
+	{
+	  error (EXIT_FAILURE, 0,
+		 _("Only one instance of {} is supported with -exec%s ... +"),
+		 suffix);
+	}
+      else if (strlen (brace_arg) != 2u)
+	{
+	  enum { MsgBufSize = 19 };
+	  char buf[MsgBufSize];
+	  const size_t needed = snprintf (buf, MsgBufSize, "-exec%s ... {} +", suffix);
+	  assert (needed <= MsgBufSize);  /* If this assertion fails, correct the value of MsgBufSize. */
+	  error (EXIT_FAILURE, 0,
+		 _("In %s the %s must appear by itself, but you specified %s"),
+		 quotearg_n_style (0, options.err_quoting_style, buf),
+		 quotearg_n_style (1, options.err_quoting_style, "{}"),
+		 quotearg_n_style (2, options.err_quoting_style, brace_arg));
+	}
     }
 
   /* We use a switch statement here so that the compiler warns us when

@@ -1,0 +1,6 @@
+# tests for Savannah bug 30777 (we accept find -exec ls BLAH{} \+ but the result lacks BLAH)
+# The correct behaviour is to reject this.
+exec rm -rf tmp
+exec mkdir tmp
+find_start f {tmp -exec ls FOO{} \+ }
+exec rm -rf tmp
