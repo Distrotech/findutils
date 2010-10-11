@@ -4824,6 +4824,7 @@ on what the system is going to do with the files found by @code{find}.
 * Security Considerations for xargs:: Security problems with xargs
 * Security Considerations for locate:: Security problems with locate
 * Security Summary:: That was all very complex, what does it boil down to?
+* Further Reading on Security::
 @end menu
 
 
@@ -5297,6 +5298,33 @@ which meet specified criteria
 Use of the @samp{-execdir} action with @code{find} where the
 @env{PATH} environment variable contains directories which contain
 only trusted programs.
+@end table
+
+
+@node Further Reading on Security
+@section Further Reading on Security
+
+While there are a number of books on computer security, there are also
+useful articles on the web that touch on the issues described above:
+
+@table @url
+@item http://goo.gl/DAvh
+@c https://www.securecoding.cert.org/confluence/display/seccode/MSC09-C.+Character+Encoding+-+Use+Subset+of+ASCII+for+Safety
+This article describes some of the unfortunate effects of allowing
+free choice of file names.
+@item http://cwe.mitre.org/data/definitions/78.html
+Describes OS Command Injection
+@item https://cwe.mitre.org/data/definitions/73.html
+Describes problems arising from allowing remote computers to send
+requests which specify file names of their choice
+@item http://cwe.mitre.org/data/definitions/116.html
+Describes problems relating to encoding file names and escaping
+characters.  This article is relevant to findutils because for command
+lines processed via the shell, the encoding and escaping rules are
+already set by the shell.   For example command lines like @code{find
+... -print | some-shell-script} require specific care.
+@item http://xkcd.com/327/
+A humorous and pithy summary of the broader problem.
 @end table
 
 @comment  node-name,  next,  previous,  up
