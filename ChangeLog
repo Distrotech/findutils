@@ -1,3 +1,14 @@
+2010-10-23  James Youngman  <jay@gnu.org>
+
+	Savannah bug #31424: Work around Interix bug in _SC_ARG_MAX,
+	in which execve will fail with ENOMEM if we use a command line
+	somewhere between ARG_MAX and _SC_ARG_MAX.
+	* lib/arg-max.h: New file: undefine _SC_ARG_MAX if we cannot rely
+	on the value that sysconf produces.
+	* lib/Makefile.am (libfind_a_SOURCES): Add arg-max.h.
+	* lib/buildcmd.c: #include arg-max.h.
+	* xargs/xargs.c: Likewise.
+
 2010-10-21  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #31359: FAIL: test-strstr on alpha.

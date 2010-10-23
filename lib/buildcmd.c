@@ -71,6 +71,7 @@
 
 #include "xstrtol.h"
 #include "buildcmd.h"
+#include "arg-max.h"		/* must include after unistd.h. */
 
 
 extern char **environ;
