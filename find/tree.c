@@ -105,7 +105,7 @@ matches_start_point (const char *glob, bool foldcase)
    (arbitrary expression)
    <uni_op>(arbitrary expression)
 
-   In other words, you can not start out with a bi_op or close_paren.
+   In other words, you cannot start out with a bi_op or close_paren.
 
    If the following operator (if any) is of a higher precedence than
    PREV_PREC, the expression just nabbed is part of a following
