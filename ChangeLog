@@ -1,3 +1,20 @@
+2011-04-02  James Youngman  <jay@gnu.org>
+
+	Update to the current version of gnulib.
+	* import-gnulib.config (gnulib_version): Update to the current
+	version of gnulib.
+	* configure.ac: Update to gettext 0.18.1.
+	* po/Rules-quot: Update this file from gettext.
+
+	Use parse-datetime instead of the obsolete module getdate.
+	* import-gnulib.config (modules): Import the gnulib module
+	parse-datetime instead of the obsolete module getdate.
+	* find/parser.c: Include parse-datetime.h instead of getdate.h.
+	* doc/find.texi: Include parse-datetime.texi instead of
+	getdate.texi.
+	* doc/Makefile.am (find_TEXINFOS): Use parse-datetime.texi instead
+	of getdate.texi.
+
 2010-10-23  James Youngman  <jay@gnu.org>
 
 	Savannah bug #31424: Work around Interix bug in _SC_ARG_MAX,
