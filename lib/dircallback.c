@@ -28,7 +28,7 @@
 #include <errno.h>
 
 #include "fcntl--.h"
-#include "lstat.h"
+#include "dircallback.h"
 #include "save-cwd.h"
 
 
