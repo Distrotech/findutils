@@ -39,7 +39,7 @@
 #include "stat-time.h"
 #include "xstrtod.h"
 #include "fts_.h"
-#include "getdate.h"
+#include "parse-datetime.h"
 #include "error.h"
 #include "findutils-version.h"
 
@@ -1588,9 +1588,9 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 
 	  if ('t' == y)
 	    {
-	      if (!get_date(&our_pred->args.reftime.ts,
-			    argv[*arg_ptr],
-			    &options.start_time))
+	      if (!parse_datetime(&our_pred->args.reftime.ts,
+				  argv[*arg_ptr],
+				  &options.start_time))
 		{
 		  error(1, 0,
 			_("I cannot figure out how to interpret %s as a date or time"),
