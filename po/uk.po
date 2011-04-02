@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.8\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2010-04-29 22:27+0100\n"
+"POT-Creation-Date: 2011-04-02 17:09+0100\n"
 "PO-Revision-Date: 2007-07-03 13:55+0300\n"
 "Last-Translator: Maxim V. Dziumanenko <dziumanenko@gmail.com>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -147,7 +148,7 @@ msgstr "Помилка при зміні каталогу"
 #: find/parser.c:471
 #, c-format
 msgid ""
-"The -delete action atomatically turns on -depth, but -prune does nothing "
+"The -delete action automatically turns on -depth, but -prune does nothing "
 "when -depth is in effect.  If you want to carry on anyway, just explicitly "
 "use the -depth option."
 msgstr ""
@@ -350,8 +351,8 @@ msgstr "неправильний режим %s"
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
-"The meaning of -perm /000 has now been changed to be consistent with -perm -"
-"000; that is, while it used to match no files, it now matches all files."
+"The meaning of -perm /000 has now been changed to be consistent with -perm "
+"-000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 "попередження: ви вказати шаблон прав доступу %s, який еквівалентний /000. "
 "Значення -perm /000 скоро буде змінено, для сумісності з -perm -000; тобто, "
@@ -363,17 +364,17 @@ msgstr ""
 msgid "invalid null argument to -size"
 msgstr "відсутній аргумент у -size"
 
-#: find/parser.c:2323
+#: find/parser.c:2324
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "неправильний тип '%c' для -size"
 
-#: find/parser.c:2329
-#, c-format
-msgid "Invalid argument `%s%c' to -size"
+#: find/parser.c:2334
+#, fuzzy, c-format
+msgid "Invalid argument `%s%s' to -size"
 msgstr "Неправильний аргумент `%s%c' для -size"
 
-#: find/parser.c:2511
+#: find/parser.c:2516
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -381,63 +382,63 @@ msgstr ""
 "Параметр -show-control-chars приймає один аргумент, який має бути 'literal' "
 "чи 'safe'"
 
-#: find/parser.c:2625
+#: find/parser.c:2630
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Некоректний аргумент %s для -used"
 
-#: find/parser.c:2666
+#: find/parser.c:2671
 #, fuzzy, c-format
 msgid "%s is not the name of a known user"
 msgstr "%s не є назвою існуючої групи"
 
-#: find/parser.c:2673
+#: find/parser.c:2678
 #, fuzzy, c-format
 msgid "The argument to -user should not be empty"
 msgstr "Аргументи до -type мають містити лише одну літеру"
 
-#: find/parser.c:2698
+#: find/parser.c:2703
 #, c-format
 msgid "Features enabled: "
 msgstr "Увімкнені функції: "
 
-#: find/parser.c:2775
+#: find/parser.c:2780
 #, c-format
 msgid "invalid predicate -context: SELinux is not enabled."
 msgstr ""
 
-#: find/parser.c:2839
+#: find/parser.c:2844
 #, c-format
 msgid "Arguments to -type should contain only one letter"
 msgstr "Аргументи до -type мають містити лише одну літеру"
 
-#: find/parser.c:2888
+#: find/parser.c:2893
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Невідомий аргумент для -type: %c"
 
-#: find/parser.c:3010
+#: find/parser.c:3015
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "попередження: невідома послідовність '\\%c'"
 
-#: find/parser.c:3027
+#: find/parser.c:3032
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "помилка: %s наприкінці рядка формату"
 
-#: find/parser.c:3066
+#: find/parser.c:3071
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "попередження: невідомий формат директиви '%%%c'"
 
-#: find/parser.c:3220
+#: find/parser.c:3225
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 "помилка: директива формату `%%%c' зарезервована для майбутнього використання"
 
-#: find/parser.c:3255
+#: find/parser.c:3260
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -449,7 +450,7 @@ msgstr ""
 "створює небезпеку. Видаліть поточний каталог із змінної $PATH (тобто, "
 "видаліть \".\", або двокрапку попереду чи позаду)"
 
-#: find/parser.c:3267
+#: find/parser.c:3272
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -459,7 +460,7 @@ msgstr ""
 "Відносний шлях %s включений в змінну оточення PATH, що у комбінації з дією "
 "пошуку %s створює небезпеку. Видаліть цей шлях із змінної $PATH"
 
-#: find/parser.c:3372
+#: find/parser.c:3379
 #, c-format
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
@@ -468,33 +469,38 @@ msgstr ""
 "Не можна використовувати {} у назві утиліти для -execdir та -okdir, оскільки "
 "це - потенційна проблема безпеки."
 
-#: find/parser.c:3397
+#: find/parser.c:3405
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "У виразі -exec%s ... + підтримується лише один екземпляр {}"
 
-#: find/parser.c:3414
+#: find/parser.c:3415
+#, c-format
+msgid "In %s the %s must appear by itself, but you specified %s"
+msgstr ""
+
+#: find/parser.c:3435
 #, c-format
 msgid "The environment is too large for exec()."
 msgstr "Оточення надто велике для виконання."
 
-#: find/parser.c:3582
+#: find/parser.c:3603
 #, fuzzy, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
 msgstr ""
 "арифметичне переповнення при спробі обчислення кінця сьогоднішнього дня"
 
-#: find/parser.c:3606
+#: find/parser.c:3627
 #, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 "арифметичне переповнення при спробі обчислення кінця сьогоднішнього дня"
 
-#: find/parser.c:3765
+#: find/parser.c:3786
 msgid "standard error"
 msgstr "стандартний потік помилок"
 
-#: find/parser.c:3770
+#: find/parser.c:3791
 msgid "standard output"
 msgstr "стандартний потів виводу"
 
@@ -533,7 +539,7 @@ msgstr "Не вдається закрити стандартний потік �
 msgid "Failed to change directory"
 msgstr "Помилка при зміні каталогу"
 
-#: find/pred.c:2097 xargs/xargs.c:1099
+#: find/pred.c:2097 xargs/xargs.c:1126
 #, c-format
 msgid "cannot fork"
 msgstr "не вдається створити процес"
@@ -723,27 +729,27 @@ msgstr ""
 "Змінна оточення FIND_BLOCK_SIZE не підтримується, на розмір блоку впливає "
 "лише змінна оточення POSIXLY_CORRECT"
 
-#: lib/buildcmd.c:170
+#: lib/buildcmd.c:171
 #, c-format
 msgid "command too long"
 msgstr ""
 
-#: lib/buildcmd.c:310
+#: lib/buildcmd.c:311
 #, c-format
 msgid "can't call exec() due to argument size restrictions"
 msgstr ""
 
-#: lib/buildcmd.c:380
+#: lib/buildcmd.c:381
 #, c-format
 msgid "can not fit single argument within argument list size limit"
 msgstr ""
 
-#: lib/buildcmd.c:386
+#: lib/buildcmd.c:387
 #, fuzzy, c-format
 msgid "argument list too long"
 msgstr "рядок аргументів надто великий"
 
-#: lib/buildcmd.c:639
+#: lib/buildcmd.c:640
 #, c-format
 msgid "Environment variable %s is not set to a valid decimal number"
 msgstr ""
@@ -790,7 +796,7 @@ msgstr ""
 "чи     %s most_common_bigrams < список-файлів > база-даних-locate\n"
 
 #: locate/code.c:131 locate/frcode.c:159 locate/locate.c:1409
-#: xargs/xargs.c:1455
+#: xargs/xargs.c:1519
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -1043,12 +1049,12 @@ msgstr "неочікуваний зайвий ключ `%s'"
 msgid "error reading a word from %s"
 msgstr "помилка очікування %s"
 
-#: xargs/xargs.c:253
+#: xargs/xargs.c:258
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Некоректна escape-послідовність %s у визначенні роздільника для входу."
 
-#: xargs/xargs.c:271
+#: xargs/xargs.c:276
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1057,7 +1063,7 @@ msgstr ""
 "Некоректна escape-послідовність %s у визначенні роздільника для входу; "
 "значення символів не можуть перевищувати %lx."
 
-#: xargs/xargs.c:277
+#: xargs/xargs.c:282
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1066,7 +1072,7 @@ msgstr ""
 "Некоректна escape-послідовність %s у визначенні роздільника для входу; "
 "значення символів не можуть перевищувати %lo."
 
-#: xargs/xargs.c:286
+#: xargs/xargs.c:291
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -1075,7 +1081,7 @@ msgstr ""
 "Некоректна escape-послідовність %s у визначенні роздільника для входу; "
 "невідомі символи %s наприкінці."
 
-#: xargs/xargs.c:331
+#: xargs/xargs.c:336
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -1084,51 +1090,61 @@ msgstr ""
 "Некоректне визначення роздільника входу %s: роздільник має бути або символом "
 "або escape-послідовністю, що починається з \\."
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:353
 #, c-format
 msgid "environment is too large for exec"
 msgstr "оточення надто велике для виконання"
 
-#: xargs/xargs.c:555
+#: xargs/xargs.c:561
 #, fuzzy, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "попередження: значення %ld для ключа -s надто велике, натомість "
 "використовується %ld"
 
-#: xargs/xargs.c:625
+#: xargs/xargs.c:629
+#, c-format
+msgid "Cannot set SIGUSR1 signal handler"
+msgstr ""
+
+#: xargs/xargs.c:635
+#, c-format
+msgid "Cannot set SIGUSR2 signal handler"
+msgstr ""
+
+#: xargs/xargs.c:651
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Не вдається відкрити вхідний файл `%s'"
 
-#: xargs/xargs.c:643
+#: xargs/xargs.c:669
 #, fuzzy, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Змінні оточення займають %lu байтів\n"
 
-#: xargs/xargs.c:646
+#: xargs/xargs.c:672
 #, fuzzy, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "Верхня межа POSIX довжини аргументу (на цій системі): %lu\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:675
 #, fuzzy, c-format
 msgid ""
-"POSIX smallest allowable upper limit on argument length (all systems): %"
-"<PRIuMAX>\n"
+"POSIX smallest allowable upper limit on argument length (all systems): "
+"%<PRIuMAX>\n"
 msgstr "Нижня допустима межа POSIX довжини аргументу (для всіх систем): %lu\n"
 
-#: xargs/xargs.c:652
+#: xargs/xargs.c:678
 #, fuzzy, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "Максимальна довжина команди, яку можна використовувати: %ld\n"
 
-#: xargs/xargs.c:655
+#: xargs/xargs.c:681
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Розмір буфера команд, який використовується: %lu\n"
 
-#: xargs/xargs.c:661
+#: xargs/xargs.c:687
 #, c-format
 msgid ""
 "\n"
@@ -1140,7 +1156,7 @@ msgstr ""
 "Виконання xargs буде продовжено, команда спробує прочитати потік вводу та "
 "виконати команди; якщо ви цього не бажаєте, введіть символ кінця файлу.\n"
 
-#: xargs/xargs.c:669
+#: xargs/xargs.c:695
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1149,7 +1165,7 @@ msgstr ""
 "Попередження: %s запуститься принаймні один раз. Якщо ви цього не бажаєте, "
 "введіть символ кінця файлу.\n"
 
-#: xargs/xargs.c:797 xargs/xargs.c:890
+#: xargs/xargs.c:823 xargs/xargs.c:916
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1158,15 +1174,15 @@ msgstr ""
 "непарні лапки %s quote; зазвичай лапки мають спеціальне значення, якщо не "
 "вказано ключ -0"
 
-#: xargs/xargs.c:798 xargs/xargs.c:891
+#: xargs/xargs.c:824 xargs/xargs.c:917
 msgid "double"
 msgstr "подвійна"
 
-#: xargs/xargs.c:798 xargs/xargs.c:891
+#: xargs/xargs.c:824 xargs/xargs.c:917
 msgid "single"
 msgstr "одинарна"
 
-#: xargs/xargs.c:910
+#: xargs/xargs.c:936
 #, fuzzy, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1175,75 +1191,75 @@ msgstr ""
 "попередження: у потоці вводу виявлено символ NUL.  Він не може передаватись "
 "у список аргументів.  Ви забули вказати ключ --null ?"
 
-#: xargs/xargs.c:920 xargs/xargs.c:977
+#: xargs/xargs.c:946 xargs/xargs.c:1003
 #, c-format
 msgid "argument line too long"
 msgstr "рядок аргументів надто великий"
 
-#: xargs/xargs.c:1005
+#: xargs/xargs.c:1031
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr ""
 
-#: xargs/xargs.c:1088
+#: xargs/xargs.c:1115
 #, c-format
 msgid "could not create pipe before fork"
 msgstr ""
 
-#: xargs/xargs.c:1157
+#: xargs/xargs.c:1184
 #, c-format
 msgid ""
 "errno-buffer read failed in xargs_do_exec (this is probably a bug, please "
 "report it)"
 msgstr ""
 
-#: xargs/xargs.c:1210
+#: xargs/xargs.c:1237
 #, c-format
 msgid ""
 "read returned unexpected value %d; this is probably a bug, please report it"
 msgstr ""
 
-#: xargs/xargs.c:1300
+#: xargs/xargs.c:1329
 #, c-format
 msgid "error waiting for child process"
 msgstr "помилка очікування дочірнього процесу"
 
-#: xargs/xargs.c:1322
+#: xargs/xargs.c:1362
 #, c-format
 msgid "WARNING: Lost track of %d child processes"
 msgstr ""
 
-#: xargs/xargs.c:1341
+#: xargs/xargs.c:1381
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: завершився зі статусом 255; переривання роботи"
 
-#: xargs/xargs.c:1344
+#: xargs/xargs.c:1384
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: зупинено сигналом %d"
 
-#: xargs/xargs.c:1347
+#: xargs/xargs.c:1387
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: завершений сигналом %d"
 
-#: xargs/xargs.c:1405
+#: xargs/xargs.c:1469
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: некоректне число для ключа -%c\n"
 
-#: xargs/xargs.c:1412
+#: xargs/xargs.c:1476
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: значення для ключа -%c має бути >= %ld\n"
 
-#: xargs/xargs.c:1426
+#: xargs/xargs.c:1490
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: значення для ключа -%c має бути < %ld\n"
 
-#: xargs/xargs.c:1444
+#: xargs/xargs.c:1508
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"

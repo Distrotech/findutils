@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.12\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2010-04-29 22:27+0100\n"
+"POT-Creation-Date: 2011-04-02 17:09+0100\n"
 "PO-Revision-Date: 2007-12-20 00:18+0100\n"
 "Last-Translator: Helder Correia <helder.pereira.correia@gmail.com>\n"
 "Language-Team: Portuguese <translation-team-pt@lists.sourceforge.net>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,8 +48,8 @@ msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
 "number %ld, file system type is %s) [ref %ld]"
 msgstr ""
-"%1$s%2$s alterado durante execução de %3$s (número do disposito antigo %4"
-"$ld, novo número %5$ld, tipo do sistema de ficheiros é %6$s) [ref %7$ld]"
+"%1$s%2$s alterado durante execução de %3$s (número do disposito antigo "
+"%4$ld, novo número %5$ld, tipo do sistema de ficheiros é %6$s) [ref %7$ld]"
 
 #: find/find.c:528
 #, fuzzy, c-format
@@ -56,8 +57,8 @@ msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
 "number %<PRIuMAX>, file system type is %s) [ref %ld]"
 msgstr ""
-"%1$s%2$s alterado durante execução de %3$s ('inode' antigo %4$ld, novo %5"
-"$ld, tipo do sistema de ficheiros é %5$s) [ref %7$ld]"
+"%1$s%2$s alterado durante execução de %3$s ('inode' antigo %4$ld, novo "
+"%5$ld, tipo do sistema de ficheiros é %5$s) [ref %7$ld]"
 
 #: find/find.c:693
 #, fuzzy, c-format
@@ -127,8 +128,8 @@ msgstr "desconhecido"
 msgid ""
 "File system loop detected; %s is part of the same file system loop as %s."
 msgstr ""
-"Detectado um ciclo no sistema de ficheiros; %1$s é parte do mesmo ciclo de %2"
-"$s."
+"Detectado um ciclo no sistema de ficheiros; %1$s é parte do mesmo ciclo de "
+"%2$s."
 
 #: find/ftsfind.c:444 find/util.c:214
 #, fuzzy, c-format
@@ -146,9 +147,9 @@ msgid "failed to restore working directory after searching %s"
 msgstr "erro ao regressar à pasta de trabalho inicial"
 
 #: find/parser.c:471
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"The -delete action atomatically turns on -depth, but -prune does nothing "
+"The -delete action automatically turns on -depth, but -prune does nothing "
 "when -depth is in effect.  If you want to carry on anyway, just explicitly "
 "use the -depth option."
 msgstr ""
@@ -312,8 +313,8 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
 msgstr ""
-"Esperava-se um argumento inteiro decimal positivo para %1$s, mas obteve-se %2"
-"$s"
+"Esperava-se um argumento inteiro decimal positivo para %1$s, mas obteve-se "
+"%2$s"
 
 #: find/parser.c:1617
 #, c-format
@@ -356,8 +357,8 @@ msgstr "modo %s inválido"
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
-"The meaning of -perm /000 has now been changed to be consistent with -perm -"
-"000; that is, while it used to match no files, it now matches all files."
+"The meaning of -perm /000 has now been changed to be consistent with -perm "
+"-000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 "aviso: especificou um padrão de modo %s (equivalente a /000). O significado "
 "de -perm /000 foi alterado para ser consistente com -perm -000; isto é, "
@@ -368,17 +369,17 @@ msgstr ""
 msgid "invalid null argument to -size"
 msgstr "argumento vazio para -size inválido"
 
-#: find/parser.c:2323
+#: find/parser.c:2324
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "Tipo -size '%c' inválido"
 
-#: find/parser.c:2329
-#, c-format
-msgid "Invalid argument `%s%c' to -size"
+#: find/parser.c:2334
+#, fuzzy, c-format
+msgid "Invalid argument `%s%s' to -size"
 msgstr "Argumento '%s%c' inválido para -size'"
 
-#: find/parser.c:2511
+#: find/parser.c:2516
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -386,62 +387,62 @@ msgstr ""
 "A opção -show-control-chars requere um único parâmetro que deve ser "
 "'literal' ou 'seguro'"
 
-#: find/parser.c:2625
+#: find/parser.c:2630
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Argumento %s inválido para -used"
 
-#: find/parser.c:2666
+#: find/parser.c:2671
 #, fuzzy, c-format
 msgid "%s is not the name of a known user"
 msgstr "%s não é o nome de um grupo existente"
 
-#: find/parser.c:2673
+#: find/parser.c:2678
 #, fuzzy, c-format
 msgid "The argument to -user should not be empty"
 msgstr "O argumento para a opção --max-database-age não pode ser vazio"
 
-#: find/parser.c:2698
+#: find/parser.c:2703
 #, c-format
 msgid "Features enabled: "
 msgstr "Funcionalidades activadas: "
 
-#: find/parser.c:2775
+#: find/parser.c:2780
 #, c-format
 msgid "invalid predicate -context: SELinux is not enabled."
 msgstr ""
 
-#: find/parser.c:2839
+#: find/parser.c:2844
 #, c-format
 msgid "Arguments to -type should contain only one letter"
 msgstr "Argumentos para -type devem conter apenas uma letra"
 
-#: find/parser.c:2888
+#: find/parser.c:2893
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Argumento desconhecido para -type: %c"
 
-#: find/parser.c:3010
+#: find/parser.c:3015
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "aviso: escape '\\%c' não reconhecido"
 
-#: find/parser.c:3027
+#: find/parser.c:3032
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "erro: %s no fim de expressão de formato"
 
-#: find/parser.c:3066
+#: find/parser.c:3071
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "aviso: directiva de formatação '%%%c' não reconhecida"
 
-#: find/parser.c:3220
+#: find/parser.c:3225
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "erro: a directiva de formato '%%%c' está reservada para uso futuro"
 
-#: find/parser.c:3255
+#: find/parser.c:3260
 #, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -453,7 +454,7 @@ msgstr ""
 "inseguro quando combinado com a acção %s do 'find'. Por favor, remova a "
 "pasta corrente do seu '$PATH' (isto é, remova \".\")"
 
-#: find/parser.c:3267
+#: find/parser.c:3272
 #, fuzzy, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -464,7 +465,7 @@ msgstr ""
 "inseguro quando combinado com a acção %2$s do find. Por favor, remova o "
 "caminho da variável $PATH"
 
-#: find/parser.c:3372
+#: find/parser.c:3379
 #, c-format
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
@@ -473,31 +474,36 @@ msgstr ""
 "Pode não usar {} no nome do utilitário para '-execdir' e '-okdir', uma vez "
 "que se trata de um potencial problema de segurança."
 
-#: find/parser.c:3397
+#: find/parser.c:3405
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Apenas uma instância de {} é suportada com -exec%s ... +"
 
-#: find/parser.c:3414
+#: find/parser.c:3415
+#, c-format
+msgid "In %s the %s must appear by itself, but you specified %s"
+msgstr ""
+
+#: find/parser.c:3435
 #, c-format
 msgid "The environment is too large for exec()."
 msgstr "O ambiente é demasiado grande para exec()."
 
-#: find/parser.c:3582
+#: find/parser.c:3603
 #, fuzzy, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
 msgstr "transbordo aritmético ao tentar calcular o fim de hoje"
 
-#: find/parser.c:3606
+#: find/parser.c:3627
 #, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "transbordo aritmético ao tentar calcular o fim de hoje"
 
-#: find/parser.c:3765
+#: find/parser.c:3786
 msgid "standard error"
 msgstr "saída padrão de erro"
 
-#: find/parser.c:3770
+#: find/parser.c:3791
 msgid "standard output"
 msgstr "saída padrão"
 
@@ -536,7 +542,7 @@ msgstr "Não é possível fechar a entrada padrão"
 msgid "Failed to change directory"
 msgstr "Erro ao mudar de pasta"
 
-#: find/pred.c:2097 xargs/xargs.c:1099
+#: find/pred.c:2097 xargs/xargs.c:1126
 #, c-format
 msgid "cannot fork"
 msgstr "não é possível bifurcar (fork)"
@@ -724,29 +730,29 @@ msgstr ""
 "A variável de ambiente FIND_BLOCK_SIZE não é suportada, a única coisa que "
 "afecta o tamanho de bloco é a variável de ambiente POSIXLY_CORRECT"
 
-#: lib/buildcmd.c:170
+#: lib/buildcmd.c:171
 #, c-format
 msgid "command too long"
 msgstr "comando demasiado longo"
 
-#: lib/buildcmd.c:310
+#: lib/buildcmd.c:311
 #, c-format
 msgid "can't call exec() due to argument size restrictions"
 msgstr ""
 
-#: lib/buildcmd.c:380
+#: lib/buildcmd.c:381
 #, c-format
 msgid "can not fit single argument within argument list size limit"
 msgstr ""
 "impossível aceitar único argumento dentro do limite de tamanho de lista de "
 "argumentos"
 
-#: lib/buildcmd.c:386
+#: lib/buildcmd.c:387
 #, c-format
 msgid "argument list too long"
 msgstr "lista de argumentos demasiado longa"
 
-#: lib/buildcmd.c:639
+#: lib/buildcmd.c:640
 #, c-format
 msgid "Environment variable %s is not set to a valid decimal number"
 msgstr ""
@@ -794,7 +800,7 @@ msgstr ""
 "locate\n"
 
 #: locate/code.c:131 locate/frcode.c:159 locate/locate.c:1409
-#: xargs/xargs.c:1455
+#: xargs/xargs.c:1519
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -1034,8 +1040,8 @@ msgstr "erro na chamada de tempo de sistema"
 #, fuzzy, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr ""
-"aviso: a base de dados %1$s tem mais de %2$d %3$s (idade actual é %4$.1f %5"
-"$s)"
+"aviso: a base de dados %1$s tem mais de %2$d %3$s (idade actual é %4$.1f "
+"%5$s)"
 
 #: locate/word_io.c:96
 #, fuzzy, c-format
@@ -1054,13 +1060,13 @@ msgstr "EOF inesperado em %s"
 msgid "error reading a word from %s"
 msgstr "erro ao ler uma palavra de %s"
 
-#: xargs/xargs.c:253
+#: xargs/xargs.c:258
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
 "Sequência de escape %s inválida na especificação de delimitador de entrada."
 
-#: xargs/xargs.c:271
+#: xargs/xargs.c:276
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1069,7 +1075,7 @@ msgstr ""
 "Sequência de escape %1$s inválida na especificação de delimitador de "
 "entrada; os caracteres não devem exceder %2$lx."
 
-#: xargs/xargs.c:277
+#: xargs/xargs.c:282
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1078,7 +1084,7 @@ msgstr ""
 "Sequência de escape %1$s inválida na especificação de delimitador de "
 "entrada; os caracteres não devem exceder %2$lo."
 
-#: xargs/xargs.c:286
+#: xargs/xargs.c:291
 #, fuzzy, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -1087,7 +1093,7 @@ msgstr ""
 "Sequência de escape %1$s inválida na especificação de delimitador de "
 "entrada; caracteres finais %2$s não reconhecidos."
 
-#: xargs/xargs.c:331
+#: xargs/xargs.c:336
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -1096,53 +1102,63 @@ msgstr ""
 "Especificação de delimitador de entrada %s inválida: o delimitador deve ser "
 "um carácter simples ou uma sequência de escape iniciada por \\."
 
-#: xargs/xargs.c:348
+#: xargs/xargs.c:353
 #, c-format
 msgid "environment is too large for exec"
 msgstr "o ambiente é demasiado grande para o exec"
 
-#: xargs/xargs.c:555
+#: xargs/xargs.c:561
 #, fuzzy, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "aviso: o valor %1$ld para a opção -s é demasiado grande, a usar %2$ld ao "
 "invés"
 
-#: xargs/xargs.c:625
+#: xargs/xargs.c:629
+#, c-format
+msgid "Cannot set SIGUSR1 signal handler"
+msgstr ""
+
+#: xargs/xargs.c:635
+#, c-format
+msgid "Cannot set SIGUSR2 signal handler"
+msgstr ""
+
+#: xargs/xargs.c:651
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Não é possível abrir o ficheiro de entrada %s"
 
-#: xargs/xargs.c:643
+#: xargs/xargs.c:669
 #, fuzzy, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "As suas variáveis de ambiente ocupam %lu bytes\n"
 
-#: xargs/xargs.c:646
+#: xargs/xargs.c:672
 #, fuzzy, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "Limite superior POSIX de tamanho de argumento (neste sistema): %lu\n"
 
-#: xargs/xargs.c:649
+#: xargs/xargs.c:675
 #, fuzzy, c-format
 msgid ""
-"POSIX smallest allowable upper limit on argument length (all systems): %"
-"<PRIuMAX>\n"
+"POSIX smallest allowable upper limit on argument length (all systems): "
+"%<PRIuMAX>\n"
 msgstr ""
 "Limite superior POSIX mais pequeno permitido de tamanho de argumento (todos "
 "os sistemas): %lu\n"
 
-#: xargs/xargs.c:652
+#: xargs/xargs.c:678
 #, fuzzy, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "tamanho máximo do comando possível de usar: %ld\n"
 
-#: xargs/xargs.c:655
+#: xargs/xargs.c:681
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Tamanho da memória de comandos actualmente em uso: %lu\n"
 
-#: xargs/xargs.c:661
+#: xargs/xargs.c:687
 #, c-format
 msgid ""
 "\n"
@@ -1155,7 +1171,7 @@ msgstr ""
 "executar comandos; se isto não é o que desejado, por favor insira a "
 "sequência de fim-de-ficheiro.\n"
 
-#: xargs/xargs.c:669
+#: xargs/xargs.c:695
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1164,7 +1180,7 @@ msgstr ""
 "Aviso: %s será executado pelo menos uma vez. Se não o desejar, pressione a "
 "sequência de interrupção.\n"
 
-#: xargs/xargs.c:797 xargs/xargs.c:890
+#: xargs/xargs.c:823 xargs/xargs.c:916
 #, fuzzy, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1173,15 +1189,15 @@ msgstr ""
 "plica não correspondida; por omissão, as citações são especiais para o "
 "xargs, a menos que use a opção -0"
 
-#: xargs/xargs.c:798 xargs/xargs.c:891
+#: xargs/xargs.c:824 xargs/xargs.c:917
 msgid "double"
 msgstr "duplo"
 
-#: xargs/xargs.c:798 xargs/xargs.c:891
+#: xargs/xargs.c:824 xargs/xargs.c:917
 msgid "single"
 msgstr "simples"
 
-#: xargs/xargs.c:910
+#: xargs/xargs.c:936
 #, fuzzy, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1190,75 +1206,75 @@ msgstr ""
 "aviso: ocorreu um carácter NUL na entrada. Não pode ser especificado na "
 "lista de argumentos. Pretendia usar a opção --null?"
 
-#: xargs/xargs.c:920 xargs/xargs.c:977
+#: xargs/xargs.c:946 xargs/xargs.c:1003
 #, c-format
 msgid "argument line too long"
 msgstr "linha de argumentos demasiado longa"
 
-#: xargs/xargs.c:1005
+#: xargs/xargs.c:1031
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr ""
 
-#: xargs/xargs.c:1088
+#: xargs/xargs.c:1115
 #, c-format
 msgid "could not create pipe before fork"
 msgstr ""
 
-#: xargs/xargs.c:1157
+#: xargs/xargs.c:1184
 #, c-format
 msgid ""
 "errno-buffer read failed in xargs_do_exec (this is probably a bug, please "
 "report it)"
 msgstr ""
 
-#: xargs/xargs.c:1210
+#: xargs/xargs.c:1237
 #, c-format
 msgid ""
 "read returned unexpected value %d; this is probably a bug, please report it"
 msgstr ""
 
-#: xargs/xargs.c:1300
+#: xargs/xargs.c:1329
 #, c-format
 msgid "error waiting for child process"
 msgstr "erro ao esperar pelo processo filho"
 
-#: xargs/xargs.c:1322
+#: xargs/xargs.c:1362
 #, c-format
 msgid "WARNING: Lost track of %d child processes"
 msgstr ""
 
-#: xargs/xargs.c:1341
+#: xargs/xargs.c:1381
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: saída com estado 255; a abortar"
 
-#: xargs/xargs.c:1344
+#: xargs/xargs.c:1384
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: parado pelo sinal %d"
 
-#: xargs/xargs.c:1347
+#: xargs/xargs.c:1387
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminado pelo sinal %d"
 
-#: xargs/xargs.c:1405
+#: xargs/xargs.c:1469
 #, fuzzy, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%1$s: número inválido para a opção -%2$c\n"
 
-#: xargs/xargs.c:1412
+#: xargs/xargs.c:1476
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%1$s: valor para a opção -%2$c deveria ser >= %3%ld\n"
 
-#: xargs/xargs.c:1426
+#: xargs/xargs.c:1490
 #, fuzzy, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%1$s: vaor para a opção -%2$c deveria ser < %3$ld\n"
 
-#: xargs/xargs.c:1444
+#: xargs/xargs.c:1508
 #, c-format
 msgid ""
 "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
