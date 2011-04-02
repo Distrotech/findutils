@@ -50,6 +50,9 @@ if { [ safe_path ] } {
 
     set SKIP_OLD 1
     find_start p {tmp -type f -empty -execdir sh ./runme  \{\} + } ""
+    # We also repeat this test (with the same expected output) for the
+    # non-multiple case (this detects Savannah bug #29949).
+    find_start p {tmp -type f -empty -execdir sh ./runme  \{\} \; } ""
     set SKIP_OLD 0
     exec rm -rf tmp
 }

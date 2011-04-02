@@ -528,13 +528,8 @@ initialise_wd_for_exec (struct exec_val *execp, int cwd_fd, const char *dir)
 static bool
 record_exec_dir (struct exec_val *execp)
 {
-  if (!execp->wd_for_exec)
+  if (!execp->state.todo)
     {
-      /* working directory not already known, so must be a *dir variant,
-	 and this must be the first arg we added.   However, this may
-	 be -execdir foo {} \; (i.e. not multiple).  */
-      assert (!execp->state.todo);
-
       /* Record the WD. If we're using -L or fts chooses to do so for
 	 any other reason, state.cwd_dir_fd may in fact not be the
 	 directory containing the target file.  When this happens,
