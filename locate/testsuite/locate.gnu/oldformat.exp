@@ -1,0 +1,12 @@
+# A basic test for the old database format.  We need this test because (among
+# other reasons) the updatedb script only uses our mktemp replacement when
+# it needs to run bigram/code.
+set tmp "tmp"
+exec rm -rf $tmp
+exec mkdir $tmp
+exec mkdir $tmp/subdir
+exec touch $tmp/subdir/fred
+# Redirect stderr to /dev/null to throw away the warning message about using
+# the old format, because otherwise the presence of the error message would
+# cause locate_start to signal a test case failure.
+locate_start p "--changecwd=. --output=$tmp/locatedb --old-format  --localpaths=tmp/subdir/ 2>/dev/null" "--database=$tmp/locatedb -e fred" {}

@@ -23,7 +23,7 @@
 
 version='
 updatedb (@PACKAGE_NAME@) @VERSION@
-Copyright (C) 2007 Free Software Foundation, Inc.
+Copyright (C) 2007,2008,2009,2010 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -210,6 +210,26 @@ fi
 : ${bigram:=${LIBEXECDIR}/@bigram@}
 : ${code:=${LIBEXECDIR}/@code@}
 
+make_tempdir () {
+    # This implementation is adapted from the GNU Autoconf manual.
+    {
+        tmp=`
+    (umask 077 && mktemp -d "$TMPDIR/updatedbXXXXXX") 2>/dev/null
+    ` &&
+        test -n "$tmp" && test -d "$tmp"
+    } || {
+	# This method is less secure than mktemp -d, but it's a fallback.
+	#
+	# We use $$ as well as $RANDOM since $RANDOM may not be available.
+	# We also add a time-dependent suffix.  This is actually somewhat
+	# predictable, but then so is $$.  POSIX does not require date to
+	# support +%N.
+	ts=`date +%N%S || date +%S 2>/dev/null`
+        tmp="$TMPDIR"/updatedb"$$"-"${RANDOM:-}${ts}"
+        (umask 077 && mkdir "$tmp")
+    }
+    echo "$tmp"
+}
 
 checkbinary () {
     if test -x "$1" ; then
@@ -298,18 +318,16 @@ fi
 
 else # old
 
-if ! bigrams=`mktemp -t updatedbXXXXXXXXX`; then
-    echo mktemp failed >&2
-    exit 1
-fi
-
-if ! filelist=`mktemp -t updatedbXXXXXXXXX`; then
-    echo mktemp failed >&2
+if temp_directory="`make_tempdir`"; then
+    bigrams="${temp_directory}"/bigrams
+    filelist="${temp_directory}"/filelist
+else
+    echo "failed to create temporary directory" >&2
     exit 1
 fi
 
 rm -f $LOCATE_DB.n
-trap 'rm -f $bigrams $filelist $LOCATE_DB.n; exit' HUP TERM
+trap 'rm -f $LOCATE_DB.n; rm -rf "${temp_directory}"; exit' HUP TERM
 
 # Alphabetize subdirectories before file entries using tr.  James Woods says:
 # "to get everything in monotonic collating sequence, to avoid some
@@ -344,16 +362,16 @@ if test -n "$NETPATHS"; then
     exit $?
   fi
 fi
-} | tr / '\001' | $sort -f | tr '\001' / > $filelist
+} | tr / '\001' | $sort -f | tr '\001' / > "$filelist"
 
 # Compute the (at most 128) most common bigrams in the file list.
 $bigram $bigram_opts < $filelist | sort | uniq -c | sort -nr |
-  awk '{ if (NR <= 128) print $2 }' | tr -d '\012' > $bigrams
+  awk '{ if (NR <= 128) print $2 }' | tr -d '\012' > "$bigrams"
 
 # Code the file list.
-$code $bigrams < $filelist > $LOCATE_DB.n
+$code "$bigrams" < "$filelist" > $LOCATE_DB.n
 
-rm -f $bigrams $filelist
+rm -rf "${temp_directory}"
 
 # To reduce the chances of breaking locate while this script is running,
 # put the results in a temp file, then rename it atomically.

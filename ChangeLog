@@ -1,3 +1,21 @@
+2011-05-15  James Youngman  <jay@gnu.org>
+
+	Fix bug #14386: updatedb relies on mktemp, which is not portable.
+	* locate/updatedb.sh (make_tempdir): new function, works around
+	the possible absence of mktemp.  We now create the file list and
+	the bigrams file in a temporary directory.  Also add some quoting
+	for a few shell variables.  Update the copyright years.
+	* locate/testsuite/locate.gnu/oldformat.exp: Add a test case which
+	uses the old database format, in order to exercise our mktemp
+	replacement.
+	* locate/testsuite/Makefile.am (EXTRA_DIST_EXP): Ship this new
+	file.
+	* locate/testsuite/locate.gnu/oldformat.xo: The expected output
+	for the new test.
+	* locate/testsuite/Makefile.am (EXTRA_DIST_XO): Ship this new
+	file.
+	* NEWS: Mention this bugfix.
+
 2011-05-14  James Youngman  <jay@gnu.org>
 
 	Fix bug #32043 (fnmatch should treat unquoted [ literally).
