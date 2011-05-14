@@ -1,3 +1,16 @@
+2011-05-14  James Youngman  <jay@gnu.org>
+
+	Fix bug #32043 (fnmatch should treat unquoted [ literally).
+	* import-gnulib.config (gnulib_version): Update gnulib to the
+	version which includes the fnmatch fix (a backport of glibc bug
+	#12378).  This fixes our bug too.
+	* find/testsuite/sv-bug-32043.sh: New (non-DejaGnu) test script.
+	Tests Savannah bug #32043 (POSIX requires that an unquoted [
+	should be matched literally).
+	* find/testsuite/Makefile.am (TESTS): Add sv-bug-32043.sh.
+	(EXTRA_DIST): Distribute sv-bug-32043.sh.
+	* NEWS: Mention this bugfix.
+
 2011-05-11  James Youngman  <jay@gnu.org>
 
 	Move on from 4.5.10, to 4.5.11-git.

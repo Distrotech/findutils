@@ -242,12 +242,14 @@ find.posix/exec-one.exp \
 find.posix/user-empty.exp \
 find.posix/user-missing.exp
 
-EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO)
+EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO) sv-bug-32043.sh
 
 CLEANFILES = *.log *.sum site.exp site.bak
 
 #DIST_SUBDIRS = config
 
+
+TESTS = sv-bug-32043.sh
 
 checklists:
 	cd $(srcdir) && \
