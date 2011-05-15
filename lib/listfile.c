@@ -196,7 +196,7 @@ list_file (const char *name,
     fprintf (stream, "%-8lu ", (unsigned long) statp->st_gid);
 
   if (S_ISCHR (statp->st_mode) || S_ISBLK (statp->st_mode))
-#ifdef HAVE_ST_RDEV
+#ifdef HAVE_STRUCT_STAT_ST_RDEV
     fprintf (stream, "%3lu, %3lu ",
 	     (unsigned long) major (statp->st_rdev),
 	     (unsigned long) minor (statp->st_rdev));

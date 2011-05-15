@@ -1,5 +1,13 @@
 2011-05-15  James Youngman  <jay@gnu.org>
 
+	Fix Savannah bug #18227 (-ls doesn't print device major/minor).
+	* lib/listfile.c (list_file): check HAVE_STRUCT_STAT_ST_RDEV
+	instead of HAVE_ST_RDEV, fixing this bug.  HAVE_ST_RDEV was
+	defined by the obsolete Autoconf macro AC_STRUCT_ST_RDEV, but
+	findutils hasn't actually called AC_STRUCT_ST_RDEV since Apr 5
+	2000.
+	* NEWS: Mention this bugfix.
+
 	#29698: Correct and clarify documentation of xargs -d option
 	* xargs/xargs.1: Update documentation for -d option to more
 	clearly distinguish the treatment of backslashes in the input and
