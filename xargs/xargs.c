@@ -1506,15 +1506,43 @@ static void
 usage (FILE *stream)
 {
   fprintf (stream, _("\
-Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n\
-       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n\
-       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n\
-       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n\
-       [-n max-args] [--max-args=max-args]\n\
-       [-s max-chars] [--max-chars=max-chars]\n\
-       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n\
-       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n\
-       [--version] [--help] [command [initial-arguments]]\n"),
+Usage: %s [OPTION]... COMMAND INITIAL-ARGS...\n\
+Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"),
 	   program_name);
+  fprintf (stream, _("\n\
+Mandatory arguments to long options are mandatory for short options too.\n\
+Non-mandatory arguments are indicated by [square brackets]\n\
+  -0, --null                   Items are separated by a null, not whitespace.\n\
+                               Disables quote and backslash processing\n\
+  -a, --arg-file=FILE          Read arguments from FILE, not standard input\n\
+  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, not by\n\
+                               blank space. Disables quote and backslash\n\
+                               processing\n\
+  -E END                       If END occurs as a line of input, the rest of\n\
+                               the input is ignored.\n\
+  -e [END], --eof[=END]        Equivalent to -E END if END is specified.\n\
+                               Otherwise, there is no end-of-file string\n\
+  --help                       Print a summary of the options to xargs.\n\
+  -I R                         same as --replace=R (R must be specified)\n\
+  -i,--replace=[R]             Replace R in initial arguments with names\n\
+                               read from standard input. If R is\n\
+                               unspecified, assume {}\n\
+  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines per\n\
+                               command line\n\
+  -l                           Use at most one nonblank input line per\n\
+                               command line\n\
+  -n, --max-args=MAX-ARGS      Use at most MAX-ARGS arguments per command\n\
+                               line\n\
+  -P, --max-procs=MAX-PROCS    Run up to max-procs processes at a time\n\
+  -p, --interactive            Prompt before running commands\n\
+  -r, --no-run-if-empty        If there are no arguments, run no command.\n\
+                               If this option is not given, COMMAND will be\n\
+                               run at least once.\n\
+  -s, --max-chars=MAX-CHARS    Limit commands to MAX-CHARS at most\n\
+  --show-limits                Show limits on command-line length.\n\
+  -t, --verbose                Print commands before executing them\n\
+  --version                    Print the version number\n\
+  -x, --exit                   Exit if the size (see -s) is exceeded\n\
+"));
   fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
 }
