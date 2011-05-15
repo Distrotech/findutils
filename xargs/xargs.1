@@ -112,14 +112,7 @@ from
 .TP
 .PD
 .BI "\-\-delimiter=" delim ", \-d" " delim"
-Input items are terminated by the specified character.  Quotes and
-backslash are not special; every character in the input is taken
-literally.  Disables the end-of-file string, which is treated like any
-other argument.  This can be used when the input consists of simply
-newline-separated items, although it is almost always better to design
-your program to use
-.B \-\-null
-where this is possible.  The specified
+Input items are terminated by the specified character.  The specified
 delimiter may be a single character, a C-style character escape such
 as
 .BR \en ,
@@ -127,6 +120,15 @@ or an octal or hexadecimal escape code.  Octal and hexadecimal
 escape codes are understood as for the
 .B printf
 command.   Multibyte characters are not supported.
+When processing the input, quotes and backslash are not special; every
+character in the input is taken literally.  The
+.B \-d
+option disables any end-of-file string, which is treated like any
+other argument.  You can use this option when the input consists of
+simply newline-separated items, although it is almost always better to
+design your program to use
+.B \-\-null
+where this is possible.
 
 .TP
 .BI \-E " eof-str"
