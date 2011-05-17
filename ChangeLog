@@ -1,3 +1,20 @@
+2011-05-17  James Youngman  <jay@gnu.org>
+
+	Document ftsfind/oldfind and configure options.
+	* doc/find.texi (Configuration): New section documenting the
+	important configuration options that can be passed to configure,
+	including --without-fts.
+	* find/find.1 (BINARIES): New section explaining why two binaries
+	are installed.
+	* find/oldfind.1: New manual page explaining how 'oldfind' is
+	different to 'find'.
+	* find/ftsfind.1: New manual page explaining how 'ftsfind' is
+	different to 'find'.
+	* find/Makefile.am (man_MANS): As well as find.1, install one of
+	ftsfind.1 or oldfind.1, depending on whether --without-fts was
+	specified to configure.
+	* NEWS: Mention this change.
+
 2011-05-15  James Youngman  <jay@gnu.org>
 
 	Add lib/fdleak.c to translatable files.

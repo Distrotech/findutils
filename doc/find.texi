@@ -77,6 +77,7 @@ This is edition @value{EDITION}, for @code{find} version @value{VERSION}.
 * File Permissions::            How to control access to files.
 * Date input formats::          Specifying literal times.
 * Reference::                   Summary of how to invoke the programs.
+* Configuration::               Options you can select at compile time.
 * Common Tasks::                Solutions to common real-world problems.
 * Worked Examples::             Examples demonstrating more complex points.
 * Security Considerations::     Security issues relating to findutils.
@@ -3043,6 +3044,70 @@ at all times.  Otherwise, newlines may not be correctly handled.
 @include perm.texi
 
 @include parse-datetime.texi
+
+@node Configuration
+@chapter Configuration
+
+The findutils source distribution includes a @code{configure} script
+which examines the system and generates files required to build
+findutils.  See the files @file{README} and @file{INSTALL}.
+
+A number of options can be specified on the @code{configure} command
+line, and many of these are straightforward, adequately documented in
+the @code{--help} output, or not normally useful.   Options which are
+useful or which are not obvious are explained here.
+
+@menu
+* Leaf Optimisation::        Take advantage of Unix file system semantics.
+* d_type Optimisation::      Take advantage of file type information.
+* fts::                      A non-recursive file system search.
+@end menu
+
+@node Leaf Optimisation
+@section Leaf Optimisation
+
+Files in Unix file systems have a link count which indicates how many
+names point to the same inode.  Directories in Unix filssytems have a
+@file{..} entry which functions as a hard link to the parent directory
+and a @file{.} entry which functions as a link to the directory itself.
+The @file{..} entry of the root directory also points to the root.
+This means that @code{find} can deduce the number of subdirectories a
+directory has, simply by subtracting 2 from the directory's link
+count.  This allows @file{find} the calls to @code{stat} which would
+otherwise be needed to discover which directory entries are
+subdirectories.
+
+File systems which don't have these semantics should simply return a
+value less than 2 in the @code{st_nlinks} member of @code{struct stat}
+in response to a successful call to @code{stat}.
+
+If you are building @code{find} for a system on which the value of
+@code{st_nlinks} is unreliable, you can specify
+@code{--disable-leaf-optimisation} to @code{configure} to prevent this
+assumption being made.
+
+@node d_type Optimisation
+@section d_type Optimisation
+
+When this feature is enabled, @code{find} takes advantage of the fact
+that on some systems @code{readdir} will return the type of a file in
+@code{struct dirent}.
+
+@node fts
+@section fts
+
+The findutils source distribution contains two different implementations of
+@code{find}.  The older implementation descends the file system
+recursively, while the newer one uses @code{fts}.  Both are normally
+installed.
+
+If the option @code{--without-fts} was passed to @code{configure}, the
+recursive implementation is installed as @code{find} and the fts-based
+implementation is installed as @code{ftsfind}. Otherwise, the
+fts-based implementation is installed as @code{find} and the recursive
+implementation is installed as @code{oldfind}.
+
+
 
 @node Reference
 @chapter Reference

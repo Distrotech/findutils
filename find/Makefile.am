@@ -19,16 +19,19 @@ if WITH_FTS
 bin_PROGRAMS     = find oldfind
 find_SOURCES     = ftsfind.c
 oldfind_SOURCES  = find.c
+man_MANS         = find.1 oldfind.1
 else
 bin_PROGRAMS      = find ftsfind
 find_SOURCES      = find.c
 ftsfind_SOURCES   = ftsfind.c
+man_MANS          = find.1 ftsfind.1
 endif
 
-EXTRA_DIST = defs.h sharefile.h $(man_MANS)
+# We don't just include man_MANS in EXTRA_DIST because while the value of
+# man_MANS is not always the same, we want to distribute all of those files.
+EXTRA_DIST = defs.h sharefile.h find.1 ftsfind.1 oldfind.1
 INCLUDES = -I../gnulib/lib -I$(top_srcdir)/lib -I$(top_srcdir)/gnulib/lib -I../intl -DLOCALEDIR=\"$(localedir)\"
 LDADD = ./libfindtools.a ../lib/libfind.a ../gnulib/lib/libgnulib.a $(LIBINTL) $(LIB_CLOCK_GETTIME) $(LIB_EACCESS) $(LIB_SELINUX) $(LIB_CLOSE) $(MODF_LIBM) @FINDLIBS@
-man_MANS = find.1
 SUBDIRS = . testsuite
 
 #$(PROGRAMS): ../lib/libfind.a
