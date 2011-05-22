@@ -383,7 +383,7 @@ main (int argc, char **argv)
   int show_limits = 0;			/* --show-limits */
   int always_run_command = 1;
   char *input_file = "-"; /* "-" is stdin */
-  char *default_cmd = "/bin/echo";
+  char *default_cmd = "echo";
   int (*read_args) (void) = read_line;
   void (*act_on_init_result)(void) = noop;
   enum BC_INIT_STATUS bcstatus;

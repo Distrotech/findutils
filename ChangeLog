@@ -1,3 +1,62 @@
+2011-05-22  James Youngman  <jay@gnu.org>
+
+	Don't assume that "echo" lives in /bin.
+	* xargs/xargs.c (main): Change default_cmd from "/bin/echo" (which
+	may not be present on some POSIX systems) to "echo" (which must
+	exist somewhere on $PATH on any POSIX system).
+	* doc/find.texi (Multiple Files): document this.
+	* NEWS: Describe this change.
+	* xargs/testsuite/xargs.sysv/empty_def-t.xe: Change /bin/echo to
+	echo.
+	* xargs/testsuite/xargs.gnu/n2-s26-x-0.exp: Change -s26 to -s21 to
+	keep the expected test result the same.  Rename the test to
+	reflect the updated arguments.
+	* xargs/testsuite/xargs.gnu/n2-s26-x-0.xo: Rename to
+	n2-s21-x-0.xo.
+	* xargs/testsuite/xargs.gnu/n2-s26-0.exp: Rename to n2-s21-0.exp,
+	update -s argument.
+	* xargs/testsuite/xargs.posix/s30.exp: Rename to s25.exp, update -s.
+	* xargs/testsuite/xargs.posix/s30.xo: Rename to s25.xo.
+	* xargs/testsuite/xargs.gnu/s30-0.exp: Rename to s25-0.exp, update
+	-s argument.
+	* xargs/testsuite/xargs.gnu/s30-0.xo: Rename to s25-0.xo.
+	* xargs/testsuite/xargs.sysv/s30-t.exp: Rename to s25-t.exp,
+	update -s.
+	* xargs/testsuite/xargs.sysv/s30-t.xo: Rename to s25-t.xo.
+	* xargs/testsuite/xargs.sysv/s30-t.xe: Rename to s25-t.xe, change
+	/bin/echo to just echo.
+	* xargs/testsuite/xargs.posix/s47.exp: Rename to s42.exp, update -s.
+	* xargs/testsuite/xargs.posix/s47.xo: Rename to s42.xo.
+	* xargs/testsuite/xargs.gnu/n3-s36-0.exp: Rename to n3-s31-0.exp,
+	update -s.
+	* xargs/testsuite/xargs.gnu/n3-s36-0.xo: Rename to n3-s31-0.xo.
+	* xargs/testsuite/xargs.gnu/s20-0.exp: Rename to s15-0.exp, update
+	-s.
+	* xargs/testsuite/xargs.gnu/s20-0.xo: Rename to s15-0.xo.
+	* xargs/testsuite/xargs.posix/n2-s26.exp: Rename to n2-s21.exp,
+	update -s.
+	* xargs/testsuite/xargs.posix/n2-s26.xo: Rename to n2-s21.xo.
+	* xargs/testsuite/xargs.gnu/s19-0.exp: Rename to s14-0.exp, update
+	-s.
+	* xargs/testsuite/xargs.gnu/s19-0.xo: Rename to s14-0.xo.
+	* xargs/testsuite/xargs.gnu/s19_2-0.exp: Rename to s14_2-0.exp,
+	update -s.
+	* xargs/testsuite/xargs.gnu/s19_2-0.xo: Rename to s14_2-0.xo.
+	* xargs/testsuite/xargs.posix/n3-s36.exp: Rename to n3-s31.exp,
+	update -s.
+	* xargs/testsuite/xargs.posix/n3-s36.xo: Rename to n3-s31.xo.
+	* xargs/testsuite/xargs.posix/s19.exp: Rename to s14.exp, update
+	-s.
+	* xargs/testsuite/xargs.posix/s19.xo: Rename to s14.xo.
+	* xargs/testsuite/xargs.posix/s19_2.exp: Rename to s14_2.exp,
+	update -s.
+	* xargs/testsuite/xargs.posix/s19_2.xo: Rename to s14_2.xo.
+	* xargs/testsuite/xargs.posix/s20.exp: Rename to s15.exp,
+	update -s.
+	* xargs/testsuite/xargs.posix/s20.xo: Rename to s15.xo.
+	* xargs/testsuite/Makefile.am (EXTRA_DIST_XO): Update names.
+	(EXTRA_DIST_EXP): Likewise.
+
 2011-05-17  James Youngman  <jay@gnu.org>
 
 	Document ftsfind/oldfind and configure options.

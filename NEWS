@@ -21,7 +21,13 @@ installed, whichever is appropriate.
 
 #32043: find -name [ doesn't obey posix
 
-** Functional Enhancements to xargs
+** Functional Changes to xargs
+
+If no utility is specified, xargs now calls "echo" (and searches on
+$PATH to find it) rather than "/bin/echo".  This may give rise to
+subtle behaviour differences for some users.   To avoid unexpected
+surprises, just explicitly specify the utility you would like to run.
+For example use "xargs /bin/echo < foo" rather than "xargs < foo".
 
 A new option is provided, --process-slot-var.  If you set this, xargs
 will set the indicated environment variable in each child.  The values
