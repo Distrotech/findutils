@@ -1,3 +1,11 @@
+2011-05-24  James Youngman  <jay@gnu.org>
+
+	Fix Savannah bug #33384.
+	* locate/updatedb.sh: Don't reset $PATH, because the hard-coded
+	value we were using isn't guaranteed to contain all the utilities
+	(for example rm, chmod and so on) we would like to use.
+	* NEWS: Mention this bugfix.
+
 2011-05-22  James Youngman  <jay@gnu.org>
 
 	Don't assume that "echo" lives in /bin.

@@ -246,8 +246,6 @@ do
 done
 
 
-PATH=/bin:/usr/bin:${BINDIR}; export PATH
-
 : ${PRUNEFS="nfs NFS proc afs smbfs autofs iso9660 ncpfs coda devpts ftpfs devfs mfs sysfs shfs"}
 
 if test -n "$PRUNEFS"; then
