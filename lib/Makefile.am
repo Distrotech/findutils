@@ -34,7 +34,7 @@ INCLUDES = -I../gnulib/lib -I$(top_srcdir)/gnulib/lib
 LDADD = ../gnulib/lib/libgnulib.a $(LIBINTL)
 
 libfind_a_SOURCES += nextelem.h printquoted.h listfile.h \
-	regextype.h dircallback.h safe-atoi.h arg-max.h
+	regextype.h dircallback.h safe-atoi.h
 libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c \
 	forcefindlib.c qmark.c printquoted.c regextype.c dircallback.c fdleak.c \
 	safe-atoi.c

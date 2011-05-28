@@ -85,7 +85,6 @@
 #endif
 
 #include "buildcmd.h"
-#include "arg-max.h"		/* must include after unistd.h. */
 
 
 /* Return nonzero if S is the EOF string.  */
