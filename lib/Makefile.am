@@ -30,8 +30,8 @@ DISTCLEANFILES =
 MAINTAINERCLEANFILES =
 
 
-INCLUDES = -I../gnulib/lib -I$(top_srcdir)/gnulib/lib
-LDADD = ../gnulib/lib/libgnulib.a $(LIBINTL)
+INCLUDES = -I../gl/lib -I$(top_srcdir)/gl/lib
+LDADD = ../gl/lib/libgnulib.a $(LIBINTL)
 
 libfind_a_SOURCES += nextelem.h printquoted.h listfile.h \
 	regextype.h dircallback.h safe-atoi.h

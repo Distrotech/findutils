@@ -1,6 +1,6 @@
 /* fstype.c -- determine type of file systems that files are on
    Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000,
-                 2004, 2010 Free Software Foundation, Inc.
+                 2004, 2010, 2011 Free Software Foundation, Inc.
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
@@ -52,11 +52,11 @@ extern int errno;
 #endif
 
 #include "defs.h"
-#include "../gnulib/lib/dirname.h"
+#include "dirname.h"
 #include "xalloc.h"
 
 /* Need declaration of function `xstrtoumax' */
-#include "../gnulib/lib/xstrtol.h"
+#include "xstrtol.h"
 
 #include "extendbuf.h"
 #include "mountlist.h"

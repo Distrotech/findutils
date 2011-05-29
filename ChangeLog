@@ -1,3 +1,40 @@
+2011-05-30  James Youngman  <jay@gnu.org>
+
+	Manage gnulib as a git submodule.
+	* .gitmodules: New file; manage gnulib as a submodule.  For future
+	compatibility with the "bootstrap" script, keep the gnulib
+	submodule in the gnulib directory (instead of the gnulib-git
+	directory as before).  This means we need to find a new directory
+	for the output of gnulib-tool; we will use "gl" for that.
+	* import-gnulib.sh (do_checkout): Replace with do_submodule.
+	(do_submodule): initialise and configure the gnulib module.
+	(main): call do_submodule instead of do_checkout.  Don't call
+	move_cvsdir, it's obsolete.
+	(move_cvsdir): delete
+	(run_gnulib_tool): change gnulib to ${gldest} (and set that variable).
+	(hack_gnulib_tool_output): generate gl/Makefile.am, not
+	gnulib/Makefile.am.
+	(refresh_output_files): Rename gnulib to gl.
+	(update_version_file): Check the state of the submodule.
+	* Makefile.am (SUBDIRS): Rename gnulib to gl.
+	(ACLOCAL_AMFLAGS): Likewise.
+	* lib/Makefile.am (INCLUDES): Likewise.
+	(LDADD): Likewise.
+	(findutils-check-smells): Rename gnulib-git to gnulib.
+	* find/Makefile.am (INCLUDES): Change gnulib to gl.
+	(LDADD): Likewise.
+	* xargs/Makefile.am (INCLUDES): Change gnulib to gl.
+	(LDADD): Likewise.
+	* locate/Makefile.am (INCLUDES): Rename gnulib to gl.
+	(LDADD): Likewise.
+	* .gitignore: Rename gnulib to gl.
+	* configure.ac (AC_CONFIG_MACRO_DIR): Change to gl/m4.
+	(AC_CONFIG_FILES): use gl/Makefile and gl/lib/Makefile instead of
+	gnulib/Makefile and gnulib/lib/Makefile.
+	* find/fstype.c: Include gnulib include files as "foo.h", not
+	"../gnulib/lib/foo.h", because the relative path is not needed and
+	in any case has changed.
+
 2011-05-29  James Youngman  <jay@gnu.org>
 
 	Savannah bug #31424: Revert Interix-specific change.

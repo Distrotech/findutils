@@ -20,11 +20,11 @@ locate_SOURCES = locate.c word_io.c
 code_SOURCES = code.c word_io.c
 locate_TEXINFOS = dblocation.texi
 
-INCLUDES = -I$(top_srcdir)/lib -I../gnulib/lib -I$(top_srcdir)/gnulib/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
+INCLUDES = -I$(top_srcdir)/lib -I../gl/lib -I$(top_srcdir)/gl/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
 
-LDADD = ../lib/libfind.a ../gnulib/lib/libgnulib.a $(LIB_CLOSE) $(LIBINTL)
+LDADD = ../lib/libfind.a ../gl/lib/libgnulib.a $(LIB_CLOSE) $(LIBINTL)
 
-$(PROGRAMS) $(LIBPROGRAMS): ../lib/libfind.a ../gnulib/lib/libgnulib.a
+$(PROGRAMS) $(LIBPROGRAMS): ../lib/libfind.a ../gl/lib/libgnulib.a
 
 # We generate updatedb from the Makefile rather than with AC_OUTPUT in
 # configure.ac in order to allow the user better control of what goes

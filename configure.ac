@@ -6,7 +6,7 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([find/pred.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_HOST
-AC_CONFIG_MACRO_DIR(gnulib/m4)
+AC_CONFIG_MACRO_DIR(gl/m4)
 
 dnl Set of available languages.
 ALL_LINGUAS="be bg cs ca da de el eo es et fi fr ga gl hr hu id it ja ko lg lt ms nl pl pt pt_BR ro ru rw sk sl sr sv tr uk vi zh_CN zh_TW"
@@ -93,7 +93,7 @@ gl_WARN_ADD([-Wdeclaration-after-statement])
 gl_WARN_ADD([-Wall])
 
 
-dnl Older versions of gnulib/m4/nls.m4 provide AM_MKINSTALLDIRS.
+dnl Older versions of gl/m4/nls.m4 provide AM_MKINSTALLDIRS.
 dnl The current version of gnulib does not, but the version of
 dnl po/Makefile.in.in that comes with gettext-0.14.6 expects
 dnl that @MKINSTALLDIRS@ will be expanded.
@@ -222,8 +222,8 @@ build-aux/Makefile
 doc/Makefile
 find/Makefile
 find/testsuite/Makefile
-gnulib/Makefile
-gnulib/lib/Makefile
+gl/Makefile
+gl/lib/Makefile
 lib/Makefile
 locate/Makefile
 locate/testsuite/Makefile

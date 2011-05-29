@@ -9,13 +9,11 @@ DISTCLEANFILES = tool-versions.txt
 
 
 # "tests" is the gnulib unit test dir.
-SUBDIRS = gnulib tests build-aux lib find xargs locate doc po m4
+SUBDIRS = gl tests build-aux lib find xargs locate doc po m4
 
-ACLOCAL_AMFLAGS = -I gnulib/m4 -I m4
+ACLOCAL_AMFLAGS = -I gl/m4 -I m4
 
 TESTFILE_SUFFIXES = .exp .xo .xe .xi
-
-# CONFIG_CLEAN_FILES = gnulib/lib/regex.c
 
 tool-versions.txt: Makefile
 	( automake --version ; echo ; \
@@ -49,7 +47,7 @@ findutils-check-testfiles:
 
 findutils-check-smells:
 	find  $(srcdir) \( -path $(srcdir)/autom4te.cache -o  \
-                           -path $(srcdir)/gnulib-git     -o  \
+                           -path $(srcdir)/gnulib     -o  \
                            -name .git             -o  \
                            \( -type d -name CVS \)  \
                        \) -prune -o                  \
