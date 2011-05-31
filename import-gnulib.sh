@@ -44,7 +44,7 @@ original_cmd_line_args="$@"
 
 usage() {
     cat >&2 <<EOF
-usage: $0 [-d gnulib-directory]
+usage: $0 [-d gnulib-directory] [-a]
 
 The default behaviour is to check out the Gnulib code via anonymous
 CVS (or update it if there is a version already checked out).  The
@@ -53,6 +53,9 @@ the configuration file $configfile.
 
 If you wish to work with a different version of gnulib, use the -d option
 to specify the directory containing the gnulib code.
+
+The -a option skips the import of the gnulib code, and just generates
+the output files (for example 'configure').
 EOF
 }
 
@@ -128,7 +131,7 @@ run_gnulib_tool() {
 
     # gnulib-tool does not remove broken symlinks leftover from previous runs;
     # this assumes GNU find, but should be a safe no-op if it is not
-    find -L gnulib -lname '*' -delete 2>/dev/null || :
+    find -L "${gldest}" -lname '*' -delete 2>/dev/null || :
 }
 
 rehack() {
@@ -239,14 +242,14 @@ check_merge_driver() {
 
 We recommend that you use a git merge driver for the ChangeLog file.
 This simplifies the task of merging branches.
-Please see the README section in gnulib-git/gnulib/lib/git-merge-changelog.c
+Please see the README section in gnulib/gnulib/lib/git-merge-changelog.c
 
 If you've read that and don't want to use it, just set the environment variable
 DO_NOT_WANT_CHANGELOG_DRIVER.
 
 Example:
   git config merge.merge-changelog.name 'GNU-style ChangeLog merge driver'
-  git config merge.merge-changelog.driver /usr/local/bin/git-merge-changelog  %O %A %B
+  git config merge.merge-changelog.driver '/usr/local/bin/git-merge-changelog  %O %A %B'
   echo 'ChangeLog    merge=merge-changelog' >> .gitattributes
 "
     if [ -z "$DO_NOT_WANT_CHANGELOG_DRIVER" ] ; then
@@ -325,7 +328,7 @@ main() {
     done
 
     # We need the config file to tell us which modules
-    # to use, even if we don't want to know the CVS version.
+    # to use, even if we don't want to know the gnulib version.
     . $configfile || exit 1
 
     ## If -d was not given, do update
