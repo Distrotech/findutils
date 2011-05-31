@@ -315,6 +315,56 @@ record_config_change() {
 }
 
 
+check_old_gnulib_dir_layout() {
+    # We used to keep the gnulib git repo in ./gnulib-git/ and use
+    # ./gnulib/ as the destination directory into which we installed
+    # (part of) the gnulib code.  This changed and now ./gnulib/
+    # contains the gnulib submodule and the destination directory is
+    # ./gl/.  In other words, ./gnulib/ used to be the destination,
+    # but now it is the source.
+fixmsg="\
+Findutils now manages the gnulib source code as a git submodule.
+
+If you are still using the directory layout in which the git tree for
+gnulib lives in ./gnulib-git/, please fix this and re-run import-gnulib.sh.
+The fix is very simple; please delete both ./gnulib/ and ./gnulib-git.
+
+This wasn't done automatically for you just in case you had any local changes.
+"
+
+    if test -d ./gl/; then
+	# Looks like we're already in the new directory layout.
+	true
+    elif test -d ./gnulib-git/; then
+	cat >&2 <<EOF
+You still have a ./gnulib-git directory.
+
+$fixmsg
+EOF
+	false
+    else
+	# No ./gl/ and no ./gnulib-git/.   If ./gnulib/ exists, it might
+	# be either.   If there is no ./gnulib/ we are safe to proceed anyway.
+	if test -d ./gnulib/; then
+	    if test -d ./gnulib/.git; then
+		# Looks like it is the submodule.
+		true
+	    else
+	cat >&2 <<EOF
+You have a ./gnulib directory which does not appear to be a submodule.
+
+$fixmsg
+EOF
+	false
+	    fi
+	else
+	    # No ./gl/, no ./gnulib/, no ./gnulib-git/.
+	    # It is safe to proceed anyway.
+	    true
+	fi
+    fi
+}
+
 main() {
     ## Option parsing
     local gnulibdir=/doesnotexist
@@ -340,6 +390,11 @@ of the gnulib code.  See http://git.or.cz/ for more information about git.
 EOF
 	    exit 1
 	fi
+
+        # Check for the old directory layout.
+	echo "Checking the submodule directory layout... "
+        check_old_gnulib_dir_layout || exit 1
+	echo "The submodule directory layout looks OK."
 
 	do_submodule gnulib
 	check_merge_driver

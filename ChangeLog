@@ -1,5 +1,14 @@
 2011-05-31  James Youngman  <jay@gnu.org>
 
+	import-gnulib.sh now stops if it sees the old directory layout.
+	* import-gnulib.sh (check_old_gnulib_dir_layout): Check the
+	./gnulib-git, ./gnulib/ and ./gl/ subdirectories to figure out if
+	we are using a current version of import-gnulib.sh with an old
+	directory layout.  If so, print an explanation of the problem and
+	return false.
+	(main): stop if check_old_gnulib_dir_layout didn't like the
+	directory layout.
+
 	Minor fixes in import-gnulib.sh.
 	* import-gnulib.sh (fixmsg): Fix punctuation in the commands given
 	for installing the changelog driver.
