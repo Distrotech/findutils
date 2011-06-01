@@ -213,7 +213,7 @@ must_read_fs_list (bool need_fs_type)
 static char *
 file_system_type_uncached (const struct stat *statp, const char *path)
 {
-  struct mount_entry *entries, *entry;
+  struct mount_entry *entries, *entry, *best;
   char *type;
 
   (void) path;
@@ -226,6 +226,7 @@ file_system_type_uncached (const struct stat *statp, const char *path)
     }
 #endif
 
+  best = NULL;
   entries = must_read_fs_list (true);
   for (type=NULL, entry=entries; entry; entry=entry->me_next)
     {
@@ -237,10 +238,19 @@ file_system_type_uncached (const struct stat *statp, const char *path)
 	{
 	  if (entry->me_dev == statp->st_dev)
 	    {
-	      type = xstrdup (entry->me_type);
-	      break;
+	      best = entry;
+	      /* Don't exit the loop, because some systems (for
+		 example Linux-based systems in which /etc/mtab is a
+		 symlink to /proc/mounts) can have duplicate entries
+		 in the filesystem list.  This happens most frequently
+		 for /.
+	      */
 	    }
 	}
+    }
+  if (best)
+    {
+      type = xstrdup (best->me_type);
     }
   free_file_system_list (entries);
 

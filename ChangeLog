@@ -1,3 +1,14 @@
+2011-06-01  James Youngman  <jay@gnu.org>
+
+	Take the last matching entry in /etc/mtab, not the first.
+	* find/fstype.c (file_system_type_uncached): Instead of taking the
+	first match, take the last match.  This deals better with mtab
+	implementations in which there can be duplicate entries, for
+	example Linux-based systems in which /etc/mtab is a symlink to
+	/proc/mounts) can have duplicate entries in the file system list.
+	This happens most frequently for /.
+	* NEWS: Mention this change.
+
 2011-06-02  James Youngman  <jay@gnu.org>
 
 	Remove unnecessary header checks and include guards.

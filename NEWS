@@ -37,6 +37,13 @@ are re-used, but no executing child process will have the same value
 as another executing child process.  This wishlist item was Savannah
 bug #29512.
 
+** Functional Changes to find
+
+When expanding "-printf '%F'", find reads /etc/mtab.  We now take the
+last match found in this file, rather than the first, to better deal
+with implementations which have duplicate entries (for example
+/proc/mounts on systems running the Linux kernel).
+
 * Major changes in release 4.5.10, 2011-05-11
 
 ** Documentation Changes
