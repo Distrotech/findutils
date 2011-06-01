@@ -235,11 +235,13 @@ file_system_type_uncached (const struct stat *statp, const char *path)
       if (!strcmp (entry->me_type, MNTTYPE_IGNORE))
 	continue;
 #endif
-      set_fstype_devno (entry);
-      if (entry->me_dev == statp->st_dev)
+      if (0 == set_fstype_devno (entry))
 	{
-	  type = xstrdup (entry->me_type);
-	  break;
+	  if (entry->me_dev == statp->st_dev)
+	    {
+	      type = xstrdup (entry->me_type);
+	      break;
+	    }
 	}
     }
   free_file_system_list (entries);
@@ -269,7 +271,6 @@ get_mounted_filesystems (void)
       if (!strcmp (entry->me_type, MNTTYPE_IGNORE))
 	continue;
 #endif
-      set_fstype_devno (entry);
 
       len = strlen (entry->me_mountdir) + 1;
       p = extendbuf (result, used+len, &alloc_size);
@@ -312,9 +313,11 @@ get_mounted_devices (size_t *n)
       if (p)
 	{
 	  result = p;
-	  set_fstype_devno (entry);
-	  result[used] = entry->me_dev;
-	  ++used;
+	  if (0 == set_fstype_devno (entry))
+	    {
+	      result[used] = entry->me_dev;
+	      ++used;
+	    }
 	}
       else
 	{

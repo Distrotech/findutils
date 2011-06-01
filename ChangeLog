@@ -1,3 +1,14 @@
+2011-06-01  James Youngman  <jay@gnu.org>
+
+	Better error handling for the result of set_fstype_devno.
+	* find/fstype.c (file_system_type_uncached): If set_fstype_devno
+	fails for an entry (that is, the device number stays at -1) don't
+	consider it a match.
+	(get_mounted_filesystems): Don't call set_fstype_devno since we
+	don't need to check the device number.
+	(get_mounted_devices): If set_fstype_devno fails for a file
+	system, don't return it.
+
 2011-05-31  James Youngman  <jay@gnu.org>
 
 	import-gnulib.sh now stops if it sees the old directory layout.
