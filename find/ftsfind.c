@@ -38,10 +38,10 @@
 
 #include <errno.h>
 #include <assert.h>
+#include <locale.h>
 
 #include <fcntl.h>
 #include <sys/stat.h>
-
 #include <unistd.h>
 
 #include "progname.h"
@@ -55,10 +55,6 @@
 #include "cloexec.h"
 #include "fdleak.h"
 #include "unused-result.h"
-
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
 
 #if ENABLE_NLS
 # include <libintl.h>

@@ -37,6 +37,7 @@
 
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <locale.h>
 
 #include "fcntl--.h"
 #include "xalloc.h"
@@ -52,10 +53,6 @@
 #include "fdleak.h"
 #include "progname.h"
 #include "save-cwd.h"
-
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
 
 #if ENABLE_NLS
 # include <libintl.h>

@@ -22,16 +22,8 @@
 #include <config.h>
 
 #include <sys/stat.h>
-
-#if HAVE_SYS_TYPES_H
 # include <sys/types.h>
-#endif
-
-/* The presence of unistd.h is assumed by gnulib these days, so we
- * might as well assume it too.
- */
 #include <unistd.h>
-
 #include <errno.h>
 
 #if HAVE_DIRENT_H

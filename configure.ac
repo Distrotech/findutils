@@ -119,15 +119,13 @@ AC_SUBST([FINDLIBS])
 
 dnl Checks for header files.
 AC_HEADER_STDC
-dnl Assume unistd.h is present - coreutils does too.
-AC_CHECK_HEADERS(fcntl.h string.h limits.h errno.h stdlib.h stddef.h)
-AC_CHECK_HEADERS(unistd.h sys/types.h inttypes.h fcntl.h locale.h stdint.h)
 AC_CHECK_HEADERS(sys/param.h mntent.h sys/mnttab.h sys/mntio.h sys/mkdev.h)
 dnl find.c needs sys/utsname.h because it calls uname(2).
 AC_CHECK_HEADERS(sys/utsname.h)
 dnl fdleak.c needs sys/resource.h because it calls getrlimit(2).
 AC_CHECK_HEADERS(sys/resource.h)
 AC_HEADER_MAJOR
+dnl TODO: it's possible gnulib eliminates the need for AC_HEADER_DIRENT.
 AC_HEADER_DIRENT
 AC_HEADER_STAT
 AC_HEADER_SYS_WAIT

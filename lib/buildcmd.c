@@ -23,6 +23,8 @@
 #include <wchar.h>
 #include <locale.h>
 #include <stdbool.h>
+#include <limits.h>
+
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -41,10 +43,6 @@
 
 #ifndef _POSIX_SOURCE
 #include <sys/param.h>
-#endif
-
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
 #endif
 
 /* The presence of unistd.h is assumed by gnulib these days, so we

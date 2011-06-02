@@ -1,3 +1,17 @@
+2011-06-02  James Youngman  <jay@gnu.org>
+
+	Remove unnecessary header checks and include guards.
+	* configure.ac (AC_CHECK_HEADERS): Remove checks for header files
+	that gnulib either assumes are always present, or provides
+	itself.  These include errno.h fcntl.h inttypes.h limits.h
+	locale.h stddef.h stdint.h stdlib.h string.h sys/types.h
+	unistd.h.
+	* lib/buildcmd.c: Remove include guard for limits.h.
+	* find/fstype.c: Remove include guard for sys/types.h.
+	* lib/savedirinfo.c: Likewise.
+	* find/find.c: Remove include guard for locale.h.
+	* find/ftsfind.c: Likewise.
+
 2011-06-01  James Youngman  <jay@gnu.org>
 
 	Better error handling for the result of set_fstype_devno.
