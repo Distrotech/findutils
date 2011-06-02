@@ -98,7 +98,6 @@
 
 #include <xalloc.h>
 #include "closein.h"
-#include "gnulib-version.h"
 
 void error (int status, int errnum, char *message,...);
 

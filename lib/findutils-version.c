@@ -18,9 +18,6 @@
 #include <config.h>
 #include "stdio-safer.h"
 #include "version-etc.h"
-#include "gnulib-version.h"
-
-
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -61,5 +58,4 @@ display_findutils_version (const char *official_name)
 	       _("James Youngman"),
 	       _("Kevin Dalley"),
 	       (const char*) NULL);
-  printf (_("Built using GNU gnulib version %s\n"), gnulib_version);
 }

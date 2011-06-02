@@ -18,11 +18,10 @@ else
 TESTS += check-regexprops
 endif
 
-libfind_a_SOURCES = gnulib-version.c findutils-version.c
+libfind_a_SOURCES = findutils-version.c
 EXTRA_DIST = extendbuf.h savedirinfo.h buildcmd.h \
-	gnulib-version.h gnulib-version.c findutils-version.h \
+	findutils-version.h \
 	fdleak.h unused-result.h check-regexprops.sh
-BUILT_SOURCES = gnulib-version.c
 SUFFIXES =
 MOSTLYCLEANFILES =
 CLEANFILES = check-regexprops

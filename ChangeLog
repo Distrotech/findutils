@@ -1,3 +1,19 @@
+2011-06-03  James Youngman  <jay@gnu.org>
+
+	Don't display a separate gnulib version.
+	* lib/findutils-version.c (display_findutils_version): Don't
+	display gnulib_version because it's no longer defined (because
+	there is no gnulib version separate from the findutils version,
+	now that gnulib is a submodule).
+	* import-gnulib.config: remove gnulib_version and destdir, they
+	are not needed any more.
+	* lib/Makefile.am (EXTRA_DIST): Don't distribute gnulib-version.h
+	or gnulib-version.c.
+	(BUILT_SOURCES): delete, there are no longer any built sources.
+	* lib/gnulib-version.h: Remove.
+	* locate/code.c: Don't include gnulib-version.h
+	* xargs/xargs.c: Don't include gnulib-version.h
+
 2011-06-01  James Youngman  <jay@gnu.org>
 
 	Take the last matching entry in /etc/mtab, not the first.

@@ -73,7 +73,6 @@
 #include "locatedb.h"
 #include "closeout.h"
 #include "xalloc.h"
-#include "gnulib-version.h"
 #include "progname.h"
 #include "error.h"
 #include "findutils-version.h"
