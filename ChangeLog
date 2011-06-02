@@ -1,5 +1,9 @@
 2011-06-03  James Youngman  <jay@gnu.org>
 
+	Fix some compiler warnings in findutils-version.c.
+	* lib/findutils-version.c: include findutils-version.h.  Make
+	version_string const.  Don't #define N_, since we don't use it.
+
 	Don't display a separate gnulib version.
 	* lib/findutils-version.c (display_findutils_version): Don't
 	display gnulib_version because it's no longer defined (because
