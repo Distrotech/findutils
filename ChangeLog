@@ -1,5 +1,15 @@
 2011-06-03  James Youngman  <jay@gnu.org>
 
+	Compiler warning fixes in find/pred.c.
+	* find/pred.c (mode_to_filetype): return const char*.
+	(impl_pred_exec): Make target and prefix variables const.
+	(impl_pred_exec): Separate 'target' variable (which sometimes
+	points to a string literal) from a separate 'buf' variable (which,
+	if set, is always the value returned by base_name, which needs to
+	be freed.
+	(checked_fwrite): Store the result of fwrite in a size_t (i.e. the
+	same type the function returns).
+
 	Eliminate some compiler warnings in parser.c
 	* find/parser.c: Don't define the macros STRINGIFY and
 	PARSE_ACTION_NP.

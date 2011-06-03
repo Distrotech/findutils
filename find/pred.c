@@ -561,10 +561,11 @@ impl_pred_exec (const char *pathname,
 		struct predicate *pred_ptr)
 {
   struct exec_val *execp = &pred_ptr->args.exec_vec;
-  char *target;
+  char *buf = NULL;
+  const char *target;
   bool result;
   const bool local = is_exec_in_local_dir (pred_ptr->pred_func);
-  char *prefix;
+  const char *prefix;
   size_t pfxlen;
 
   (void) stat_buf;
@@ -582,7 +583,7 @@ impl_pred_exec (const char *pathname,
 		 safely_quote_err_filename (0, pathname));
 	  /*NOTREACHED*/
 	}
-      target = base_name (state.rel_pathname);
+      target = buf = base_name (state.rel_pathname);
       if ('/' == target[0])
 	{
 	  /* find / execdir ls -d {} \; */
@@ -657,10 +658,10 @@ impl_pred_exec (const char *pathname,
 	  result = false;
 	}
     }
-  if (target != pathname)
+  if (buf)
     {
       assert (local);
-      free (target);
+      free (buf);
     }
   return result;
 }
@@ -729,7 +730,7 @@ pred_fprint0 (const char *pathname, struct stat *stat_buf, struct predicate *pre
 
 
 
-static char*
+static const char*
 mode_to_filetype (mode_t m)
 {
 #define HANDLE_TYPE(t,letter) if (m==t) { return letter; }
@@ -810,7 +811,7 @@ checked_print_quoted (struct format_val *dest,
 static void
 checked_fwrite (void *p, size_t siz, size_t nmemb, struct format_val *dest)
 {
-  int items_written = fwrite (p, siz, nmemb, dest->stream);
+  const size_t items_written = fwrite (p, siz, nmemb, dest->stream);
   if (items_written < nmemb)
     nonfatal_nontarget_file_error (errno, dest->filename);
 }
