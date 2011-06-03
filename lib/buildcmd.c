@@ -73,7 +73,7 @@
 
 extern char **environ;
 
-static char *special_terminating_arg = "do_not_care";
+static const char *special_terminating_arg = "do_not_care";
 
 
 

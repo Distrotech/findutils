@@ -1,5 +1,8 @@
 2011-06-03  James Youngman  <jay@gnu.org>
 
+	Fix a compiler warning in lib/buildcmd.c
+	* lib/buildcmd.c: special_terminating_arg should be const.
+
 	Fix compiler warnings in lib/fdleak.c
 	* lib/fdleak.c (visit_open_fds): Rename loop variable from i to j
 	to avoid shadowing.
