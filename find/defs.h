@@ -382,13 +382,13 @@ typedef bool (*PARSE_FUNC)(const struct parser_table *p,
 struct parser_table
 {
   enum arg_type type;
-  char *parser_name;
+  const char *parser_name;
   PARSE_FUNC parser_func;
   PRED_FUNC    pred_func;
 };
 
 /* parser.c */
-const struct parser_table* find_parser (char *search_name);
+const struct parser_table* find_parser (const char *search_name);
 bool parse_print (const struct parser_table*, char *argv[], int *arg_ptr);
 void pred_sanity_check (const struct predicate *predicates);
 void check_option_combinations (const struct predicate *p);

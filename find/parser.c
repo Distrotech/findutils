@@ -157,7 +157,6 @@ static bool parse_warn          (const struct parser_table*, char *argv[], int *
 static bool parse_xtype         (const struct parser_table*, char *argv[], int *arg_ptr);
 static bool parse_quit          (const struct parser_table*, char *argv[], int *arg_ptr);
 static bool parse_context       (const struct parser_table*, char *argv[], int *arg_ptr);
-bool   parse_print              (const struct parser_table*, char *argv[], int *arg_ptr);
 #if 0
 static bool parse_show_control_chars (const struct parser_table*, char *argv[], int *arg_ptr);
 #endif
@@ -648,7 +647,7 @@ found_parser (const char *original_arg, const struct parser_table *entry)
    Return NULL if SEARCH_NAME is not a valid predicate name. */
 
 const struct parser_table*
-find_parser (char *search_name)
+find_parser (const char *search_name)
 {
   int i;
   const char *original_arg = search_name;
@@ -1877,7 +1876,7 @@ is_feasible_path_argument (const char *arg, bool foldcase)
 
 static bool
 insert_path_check (const struct parser_table* entry, char **argv, int *arg_ptr,
-		   const char *pred_name, PREDICATEFUNCTION pred)
+		   const char *predicate_name, PREDICATEFUNCTION pred)
 {
   const char *name;
   bool foldcase = false;
@@ -1899,7 +1898,7 @@ insert_path_check (const struct parser_table* entry, char **argv, int *arg_ptr,
 	{
 	  error (0, 0, _("warning: -%s %s will not match anything "
 			 "because it ends with /."),
-		 pred_name, name);
+		 predicate_name, name);
 	  our_pred->est_success_rate = 1.0e-8;
 	}
       return true;

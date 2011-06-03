@@ -1,5 +1,12 @@
 2011-06-03  James Youngman  <jay@gnu.org>
 
+	Eliminate some compiler warnings in find/parser.c.
+	* find/defs.h (struct parser_table): Make parser_name field const.
+	* find/parser.c: Remove redundant declaration of parse_print.
+	(insert_path_check): Change name of parameter pred_name to avoid
+	shadowing the function of that name.
+	(find_parser): Make search_name parameter const.
+
 	Fix a compiler warning in lib/buildcmd.c
 	* lib/buildcmd.c: special_terminating_arg should be const.
 
