@@ -1,5 +1,12 @@
 2011-06-03  James Youngman  <jay@gnu.org>
 
+	Warn about lack of birth time information only when it's true.
+	* find/pred.c (pred_newerXY): Issue a warning about the inability
+	to get the birth time of a file, only if we actually failed to
+	obtain the birth time of the file.  This is a bugfix; there was a
+	misplaced semicolon after an if condition, so the immediately
+	succeeding block qould be executed unconditionally.
+
 	Compiler warning fixes in find/pred.c.
 	* find/pred.c (mode_to_filetype): return const char*.
 	(impl_pred_exec): Make target and prefix variables const.

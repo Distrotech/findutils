@@ -1502,7 +1502,7 @@ pred_newerXY (const char *pathname, struct stat *stat_buf, struct predicate *pre
     case XVAL_BIRTHTIME:
       ts = get_stat_birthtime (stat_buf);
       collected = true;
-      if (ts.tv_nsec < 0);
+      if (ts.tv_nsec < 0)
 	{
 	  /* XXX: Cannot determine birth time.  Warn once. */
 	  error (0, 0, _("WARNING: cannot determine birth time of file %s"),
