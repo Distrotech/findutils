@@ -132,6 +132,7 @@ static void print_name (register const char *p, FILE *stream, int literal_contro
 size_t
 file_blocksize (const struct stat *p)
 {
+  (void)p;
   return ST_NBLOCKSIZE;
 }
 
@@ -171,7 +172,7 @@ list_file (const char *name,
   fprintf (stream, "%6s ",
 	   human_readable ((uintmax_t) statp->st_ino, hbuf,
 			   human_ceiling,
-			   1, 1));
+			   1u, 1u));
 
   fprintf (stream, "%4s ",
 	   human_readable ((uintmax_t) ST_NBLOCKS (*statp), hbuf,

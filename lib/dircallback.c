@@ -21,7 +21,7 @@
 
 #include <config.h>
 
-
+#include "dircallback.h"
 #include "openat.h"
 #include <stdarg.h>
 #include <stddef.h>

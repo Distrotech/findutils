@@ -624,7 +624,6 @@ struct options
    */
   enum quoting_style err_quoting_style;
 };
-extern struct options options;
 
 
 struct state

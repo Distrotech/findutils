@@ -1,5 +1,11 @@
 2011-06-03  James Youngman  <jay@gnu.org>
 
+	Fix several small compiler warnings.
+	* lib/dircallback.c: Include dircallback.h.
+	* lib/dircallback.h: Correct declaration of run_in_dir.
+	* lib/listfile.c (file_blocksize): Use the otherwise-unused parameter.
+	* find/defs.h: Remove redundant declaration of variable options.
+
 	Fix some compiler warnings in findutils-version.c.
 	* lib/findutils-version.c: include findutils-version.h.  Make
 	version_string const.  Don't #define N_, since we don't use it.
