@@ -1,5 +1,9 @@
 2011-06-03  James Youngman  <jay@gnu.org>
 
+	Avoid code redundancy in lib/buildcmd.c.
+	* lib/buildcmd.c (bc_get_arg_max): Recheck val only if we might
+	have changed it (i.e. when ARG_MAX is defined).
+
 	Eliminate some compiler warnings in find/parser.c.
 	* find/defs.h (struct parser_table): Make parser_name field const.
 	* find/parser.c: Remove redundant declaration of parse_print.

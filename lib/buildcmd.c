@@ -458,10 +458,9 @@ bc_get_arg_max (void)
    */
 #ifdef ARG_MAX
   val = ARG_MAX;
-#endif
-
   if (val > 0)
     return val;
+#endif
 
   /* The value returned by this function bounds the
    * value applied as the ceiling for the -s option.
