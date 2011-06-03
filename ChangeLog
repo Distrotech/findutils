@@ -1,5 +1,11 @@
 2011-06-03  James Youngman  <jay@gnu.org>
 
+	Fix compiler warnings in lib/fdleak.c
+	* lib/fdleak.c (visit_open_fds): Rename loop variable from i to j
+	to avoid shadowing.
+	(get_proc_max_fd): Fix definition (it's a void function, not a
+	traditional pre-ANSI function definition).
+
 	Fix several small compiler warnings.
 	* lib/dircallback.c: Include dircallback.h.
 	* lib/dircallback.h: Correct declaration of run_in_dir.

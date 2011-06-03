@@ -66,7 +66,7 @@ static size_t num_cloexec_fds;
 /* Determine the value of the largest open fd, on systems that
  * offer /proc/self/fd. */
 static int
-get_proc_max_fd ()
+get_proc_max_fd (void)
 {
   const char *path = "/proc/self/fd";
   int maxfd = -1;
@@ -160,12 +160,12 @@ visit_open_fds (int fd_min, int fd_max,
 	}
       else
 	{
-	  int i;
-	  for (i=0; i<limit; i++)
+	  int j;
+	  for (j=0; j<limit; j++)
 	    {
-	      if (pf[i].revents != POLLNVAL)
+	      if (pf[j].revents != POLLNVAL)
 		{
-		  if (0 != (rv = callback (pf[i].fd, cb_context)))
+		  if (0 != (rv = callback (pf[j].fd, cb_context)))
 		    return rv;
 		}
 	    }
