@@ -202,7 +202,7 @@ static bool parse_noop (const struct parser_table* entry,
 			char **argv, int *arg_ptr);
 
 #define PASTE(x,y) x##y
-#define STRINGIFY(s) #s
+
 
 #define PARSE_OPTION(what,suffix) \
   { (ARG_OPTION), (what), PASTE(parse_,suffix), NULL }
@@ -218,9 +218,6 @@ static bool parse_noop (const struct parser_table* entry,
 
 #define PARSE_ACTION(what,suffix) \
   { (ARG_ACTION), (what), PASTE(parse_,suffix), PASTE(pred_,suffix) }
-
-#define PARSE_ACTION_NP(what,suffix) \
-  { (ARG_ACTION), (what), PASTE(parse_,suffix), NULL }
 
 #define PARSE_PUNCTUATION(what,suffix) \
   { (ARG_PUNCTUATION), (what), PASTE(parse_,suffix), PASTE(pred_,suffix) }
@@ -389,7 +386,7 @@ fallback_getfilecon (int fd, const char *name, security_context_t *p,
  *
  * If the item to be examined is not a command-line argument, we
  * examine the link itself. */
-int
+static int
 optionh_getfilecon (int fd, const char *name, security_context_t *p)
 {
   int rv;
@@ -413,7 +410,7 @@ optionh_getfilecon (int fd, const char *name, security_context_t *p)
 /* optionl_getfilecon () implements the getfilecon operation when the
  * -L option is in effect.  That option makes us examine the thing the
  * symbolic link points to, not the symbolic link itself. */
-int
+static int
 optionl_getfilecon (int fd, const char *name, security_context_t *p)
 {
   int rv = getfileconat (fd, name, p);
@@ -426,7 +423,7 @@ optionl_getfilecon (int fd, const char *name, security_context_t *p)
 /* optionp_getfilecon () implements the stat operation when the -P
  * option is in effect (this is also the default).  That option makes
  * us examine the symbolic link itself, not the thing it points to. */
-int
+static int
 optionp_getfilecon (int fd, const char *name, security_context_t *p)
 {
   return lgetfileconat (fd, name, p);
@@ -585,7 +582,7 @@ parse_end_user_args (char **args, int argno,
 /* Check that it is legal to fid the given primary in its
  * position and return it.
  */
-const struct parser_table*
+static const struct parser_table*
 found_parser (const char *original_arg, const struct parser_table *entry)
 {
   /* If this is an option, but we have already had a

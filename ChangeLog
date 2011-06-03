@@ -1,5 +1,14 @@
 2011-06-03  James Youngman  <jay@gnu.org>
 
+	Eliminate some compiler warnings in parser.c
+	* find/parser.c: Don't define the macros STRINGIFY and
+	PARSE_ACTION_NP.
+	(optionh_getfilecon): Make this function static
+	since it is not used elsewhere.
+	(optionl_getfilecon): Likewise.
+	(optionp_getfilecon): Likewise.
+	(found_parser): Likewise.
+
 	Avoid code redundancy in lib/buildcmd.c.
 	* lib/buildcmd.c (bc_get_arg_max): Recheck val only if we might
 	have changed it (i.e. when ARG_MAX is defined).
