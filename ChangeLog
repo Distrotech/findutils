@@ -1,5 +1,14 @@
 2011-06-05  James Youngman  <jay@gnu.org>
 
+	Silence some false positives for sc_prohibit_always_true_header_tests.
+	* .x-sc_prohibit_always_true_header_tests: New file; exclude
+	build-aux/src-sniff.py from C inclusion tests, because it itself
+	contains examples of string the syntac checkers don't like
+	(because it's also a syntax checker).
+	ChangeLog: also exclude this because it frequently contains the
+	specifics of items added/removed, including examples of text which
+	are this syntax check looks for.
+
 	Prefer "cannot" to "can not".
 	* locate/locatedb.5: Change "can not" to "cannot".
 	* locate/updatedb.1: Likewise.
