@@ -1,6 +1,7 @@
 /* qmark.c -- quote 'dangerous' filenames
 
-   Copyright (C) 2005, 2007, 2009, 2010 Free Software Foundation, Inc.
+   Copyright (C) 2005, 2007, 2009, 2010, 2011 Free Software Foundation,
+   Inc.
    Derived from courutils' ls.c:
    Copyright (C) 85, 88, 90, 91, 1995-2005 Free Software Foundation, Inc.
 

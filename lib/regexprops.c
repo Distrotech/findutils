@@ -1,7 +1,7 @@
 /* regexprops.c -- document the properties of the regular expressions
    understood by gnulib.
 
-   Copyright 2005, 2007, 2010 Free Software Foundation, Inc.
+   Copyright 2005, 2007, 2010, 2011 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -451,7 +451,7 @@ copying (void)
   static const char *copy_para[]=
     {
       "Copyright (C) 1994, 1996, 1998, 2000, 2001, 2003, 2004, 2005, 2006,"
-      ,"2007, 2009, 2010 Free Software Foundation, Inc."
+      ,"2007, 2009, 2010, 2011 Free Software Foundation, Inc."
       ,""
       ,"Permission is granted to copy, distribute and/or modify this document"
       ,"under the terms of the GNU Free Documentation License, Version 1.3 or"
