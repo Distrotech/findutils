@@ -42,6 +42,23 @@
 #include "progname.h"
 #include "closeout.h"
 
+/* We use gettext because for example xmalloc may issue an error message. */
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#define textdomain(Domain)
+#define bindtextdomain(Package, Directory)
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop(String)
+#else
+/* See locate.c for explanation as to why not use (String) */
+# define N_(String) String
+#endif
+
+
 /* Return the length of the longest common prefix of strings S1 and S2. */
 
 static int
@@ -66,6 +83,12 @@ main (int argc, char **argv)
     set_program_name (argv[0]);
   else
     set_program_name ("bigram");
+
+#ifdef HAVE_SETLOCALE
+  setlocale (LC_ALL, "");
+#endif
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain (PACKAGE);
 
   (void) argc;
   atexit (close_stdout);

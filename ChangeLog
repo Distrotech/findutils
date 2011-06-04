@@ -1,5 +1,13 @@
 2011-06-04  James Youngman  <jay@gnu.org>
 
+	Add internationalisation support to bigram but not regexprops.
+	* locate/bigram.c: Use libintl.h.
+	(main): Call bindtextdomain.
+	* .x-sc_bindtextdomain: Exempt lib/regexprops.c from needing to
+	use bindtextdomain.  The output of regexprops is intended to be
+	determined entirely by the properties of the GNU regex
+	implementation.
+
 	Update gnulib.
 	* gnulib: update to current head.
 
