@@ -120,8 +120,6 @@ AC_SUBST([FINDLIBS])
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(sys/param.h mntent.h sys/mnttab.h sys/mntio.h sys/mkdev.h)
-dnl find.c needs sys/utsname.h because it calls uname(2).
-AC_CHECK_HEADERS(sys/utsname.h)
 dnl fdleak.c needs sys/resource.h because it calls getrlimit(2).
 AC_CHECK_HEADERS(sys/resource.h)
 AC_HEADER_MAJOR

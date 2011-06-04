@@ -1,5 +1,12 @@
 2011-06-04  James Youngman  <jay@gnu.org>
 
+	Use the gnulib byteswap and uname modules.
+	* import-gnulib.config (modules): Add byteswap and uname.
+	* locate/word_io.c: Include byteswap.h.   Don't #define bswap_32.
+	* find/util.c: sys/utsname.h no longer needs include guards since
+	gnulib always provides it.
+	* configure.ac: Don't check for sys/utsname.
+
 	gnulib already defines O_CLOEXEC.
 	* lib/fdleak.c: gnulib's fcntl.h always defines O_CLOEXEC, so
 	don't define it here.

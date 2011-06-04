@@ -20,9 +20,7 @@
 #include "defs.h"
 
 #include <fcntl.h>
-#ifdef HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>
-#endif
 #include <sys/time.h>
 #include <sys/stat.h> /* for fstatat() */
 #include <ctype.h>
