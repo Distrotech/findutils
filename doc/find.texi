@@ -5529,14 +5529,21 @@ Please try unsetting some environment variables, or exiting the
 current shell.  You can also use @samp{xargs --show-limits} to
 understand the relevant sizes.
 
-@item can not fit single argument within argument list size limit
+@item argument list too long
 You are using the @samp{-I} option and @code{xargs} doesn't have
 enough space to build a command line because it has read a really
-large item and it doesn't fit.  You can probably work around this
+large item and it doesn't fit.  You may be able to work around this
 problem with the @samp{-s} option, but the default size is pretty
 large.  This is a rare situation and is more likely an attempt to test
 the limits of @code{xargs}, or break it.  Otherwise, you will need to
 try to shorten the problematic argument or not use @code{xargs}.
+
+@item argument line too long
+You are using the @samp{-L} or @samp{-l} option and one of the input
+lines is too long.  You may be able to work around this problem with
+the @samp{-s} option, but the default size is pretty large.  If you
+can modify the your @code{xargs} command not to use @samp{-L} or
+@samp{-l}, that will be more likely to result in success.
 
 @item cannot fork
 See the description of the similar message for @code{find}.
