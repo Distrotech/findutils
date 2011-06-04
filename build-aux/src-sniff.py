@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 # src-sniff.py: checks source code for patterns that look like common errors.
-# Copyright (C) 2007, 2010 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2010, 2011 Free Software Foundation, Inc.
 #
 #
 # This program is free software: you can redistribute it and/or modify
