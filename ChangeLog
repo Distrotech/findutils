@@ -1,5 +1,10 @@
 2011-06-05  James Youngman  <jay@gnu.org>
 
+	Include dirent.h uncontintionally (since gnulib provides it).
+	* find/pred.c: Include <dirent.h> unconditionally; gnulib provides
+	it.
+	* lib/savedirinfo.c: Likewise.
+
 	Silence some false positives for sc_prohibit_always_true_header_tests.
 	* .x-sc_prohibit_always_true_header_tests: New file; exclude
 	build-aux/src-sniff.py from C inclusion tests, because it itself
