@@ -1,5 +1,9 @@
 2011-06-04  James Youngman  <jay@gnu.org>
 
+	gnulib already defines O_CLOEXEC.
+	* lib/fdleak.c: gnulib's fcntl.h always defines O_CLOEXEC, so
+	don't define it here.
+
 	Add internationalisation support to bigram but not regexprops.
 	* locate/bigram.c: Use libintl.h.
 	(main): Call bindtextdomain.

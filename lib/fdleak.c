@@ -59,10 +59,6 @@ static int *non_cloexec_fds;
 static size_t num_cloexec_fds;
 
 
-#if !defined(O_CLOEXEC)
-#define O_CLOEXEC 0
-#endif
-
 /* Determine the value of the largest open fd, on systems that
  * offer /proc/self/fd. */
 static int
