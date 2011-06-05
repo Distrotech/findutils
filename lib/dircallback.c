@@ -25,7 +25,6 @@
 #include "dircallback.h"
 #include "openat.h"
 #include <stdarg.h>
-#include <stddef.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <locale.h>

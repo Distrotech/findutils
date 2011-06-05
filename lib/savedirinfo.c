@@ -35,7 +35,6 @@
 # define CLOSEDIR(d) closedir (d)
 #endif
 
-#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 

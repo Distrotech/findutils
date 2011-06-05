@@ -1,5 +1,11 @@
 2011-06-05  James Youngman  <jay@gnu.org>
 
+	Don't include <stddef.h> where it is not used.
+	* lib/dircallback.c: Don't include <stddef.h>, it's not used.
+	* lib/extendbuf.c: Likewise.
+	* lib/qmark.c: Likewise.
+	* lib/savedirinfo.c: Likewise.
+
 	Fixes for empty-lines-at-EOF syntax check.
 	* .x-sc_bindtextdomain: Add newline at EOF.
 	* locate/Makefile.am: Remove empty trailing line at EOF.
