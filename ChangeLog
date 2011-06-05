@@ -1,5 +1,14 @@
 2011-06-05  James Youngman  <jay@gnu.org>
 
+	Fixes for empty-lines-at-EOF syntax check.
+	* .x-sc_bindtextdomain: Add newline at EOF.
+	* locate/Makefile.am: Remove empty trailing line at EOF.
+	* find/testsuite/sv-bug-32043.sh: Likewise.
+	* .x-sc_prohibit_empty_lines_at_EOF: Don't apply this check to
+	m4/order-good.bin m4/order-bad.bin
+	locate/testsuite/locate.gnu/locateddb.old.x86.xi
+	locate/testsuite/locate.gnu/locateddb.old.powerpc.xi.
+
 	Avoid some false positives for the sc_prohibit_doubled_word check.
 	* .x-sc_prohibit_doubled_word: don't perform this check on
 	xargs/testsuite/xargs.sysv/iquotes.xo or ChangeLog.

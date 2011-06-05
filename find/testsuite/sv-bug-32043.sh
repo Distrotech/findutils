@@ -31,4 +31,3 @@ else
     echo "FAIL: could not create a test directory." >&2
     exit 1
 fi
-
