@@ -584,18 +584,18 @@ consider_arm_swap (struct predicate *p)
 	    {
 	      want_swap = succ_rate_r < succ_rate_l;
 	      if (!want_swap)
-		reason = "Operation is OR and right success rate >= left";
+		reason = "Operation is OR; right success rate >= left";
 	    }
 	  else if (pred_is (p, pred_and))
 	    {
 	      want_swap = succ_rate_r > succ_rate_l;
 	      if (!want_swap)
-		reason = "Operation is AND and right success rate <= left";
+		reason = "Operation is AND; right success rate <= left";
 	    }
 	  else
 	    {
 	      want_swap = false;
-	      reason = "Not AND or OR";
+	      reason = "Not 'AND' or 'OR'";
 	    }
 	}
       else
@@ -672,10 +672,10 @@ do_arm_swaps (struct predicate *p)
      tests likely to succeed at the front of the list.  For AND, we
      prefer tests likely to fail at the front of the list.
 
-     This routine "normalizes" the predicate tree by ensuring that
-     all expression predicates have AND (or OR or COMMA) parent nodes
-     which are linked along the left edge of the expression tree.
-     This makes manipulation of subtrees easier.
+     This routine "normalizes" the predicate tree by ensuring that all
+     expression predicates have 'AND' (or 'OR' or 'COMMA') parent
+     nodes which are linked along the left edge of the expression
+     tree.  This makes manipulation of subtrees easier.
 
      EVAL_TREEP points to the root pointer of the predicate tree
      to be rearranged.  opt_expr may return a new root pointer there.
@@ -815,8 +815,9 @@ opt_expr (struct predicate **eval_treep)
 	  break;
 
 	case BI_OP:
-	  /* For nested AND or OR, recurse (AND/OR form layers on the left of
-	     the tree), and continue scanning this level of AND or OR. */
+	  /* For nested 'AND' or 'OR', recurse (AND/OR form layers on
+	     the left of the tree), and continue scanning this level
+	     of 'AND' or 'OR'. */
 	  curr->pred_right->side_effects = opt_expr (&curr->pred_right);
 	  break;
 
@@ -1220,8 +1221,8 @@ calculate_derived_rates (struct predicate *p)
 }
 
 /* opt_expr() rearranges predicates such that each left subtree is
- * rooted at a logical predicate (e.g. and or or).  check_normalization()
- * asserts that this property still holds.
+ * rooted at a logical predicate (e.g. '-a' or '-o').
+ * check_normalization() asserts that this property still holds.
  *
  */
 static void

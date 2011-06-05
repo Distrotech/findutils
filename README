@@ -49,10 +49,10 @@ It does this by:
 1. Checking the number of links to directories and not statting files
 that it knows aren't directories until it encounters a test or action
 that needs the stat info.
-2.  Rearranging the command line, where possible, so that it can do tests
-that don't require a stat before tests that do, in hopes that the
-latter will be skipped because of an OR or AND.  (But it only does
-this where it will leave the output unchanged.)
+2.  Rearranging the command line, where possible, so that it can do
+tests that don't require a stat before tests that do, in hopes that
+the latter will be skipped because of a -o/-a conjunction.  (But it
+only does this where it will leave the output unchanged.)
 
 The locate program and its helper programs are derived (heavily
 modified) from James Woods' public domain fast-find code, which is

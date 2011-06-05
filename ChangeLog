@@ -1,5 +1,16 @@
 2011-06-05  James Youngman  <jay@gnu.org>
 
+	Avoid some false positives for the sc_prohibit_doubled_word check.
+	* .x-sc_prohibit_doubled_word: don't perform this check on
+	xargs/testsuite/xargs.sysv/iquotes.xo or ChangeLog.
+	Don't check .po files for doubled English words (because they're
+	not in English).
+	* find/tree.c: Modify some text to avoid saying "AND and",
+	which one of the syntax checks doesn't like.
+	(opt_expr): Likewise.
+	(consider_arm_swap): Likewise.
+	* README: Likewise.
+
 	Include dirent.h uncontintionally (since gnulib provides it).
 	* find/pred.c: Include <dirent.h> unconditionally; gnulib provides
 	it.
