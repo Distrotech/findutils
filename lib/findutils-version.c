@@ -16,7 +16,6 @@
 */
 
 #include <config.h>
-#include "stdio-safer.h"
 #include "version-etc.h"
 #include "findutils-version.h"
 

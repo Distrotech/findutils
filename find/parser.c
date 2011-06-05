@@ -35,7 +35,6 @@
 #include "quotearg.h"
 #include "buildcmd.h"
 #include "nextelem.h"
-#include "stdio-safer.h"
 #include "regextype.h"
 #include "stat-time.h"
 #include "xstrtod.h"
