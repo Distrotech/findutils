@@ -57,6 +57,7 @@
 
 /* Get or fake the disk device blocksize.
    Usually defined by sys/param.h (if at all).  */
+#include <sys/param.h>
 #ifndef DEV_BSIZE
 # ifdef BSIZE
 #  define DEV_BSIZE BSIZE

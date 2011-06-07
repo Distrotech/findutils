@@ -41,25 +41,25 @@
 # define N_(String) String
 #endif
 
-#ifndef _POSIX_SOURCE
-#include <sys/param.h>
-#endif
-
 /* The presence of unistd.h is assumed by gnulib these days, so we
  * might as well assume it too.
  */
 /* for sysconf() */
 #include <unistd.h>
-
 #include <assert.h>
 
 /* COMPAT:  SYSV version defaults size (and has a max value of) to 470.
    We try to make it as large as possible.  See bc_get_arg_max() below. */
+
+
+#ifndef _POSIX_SOURCE
+#include <sys/param.h>
+#endif
 #if !defined(ARG_MAX) && defined(NCARGS)
-#error "You have an unusual system.  Once you remove this error message from buildcmd.c, it should work, but please make sure that DejaGnu is installed on your system and that 'make check' passes before using the findutils programs"
+/* We include sys/param.h in order to detect this case. */
+#error "You have an unusual system.  Once you remove this error message from buildcmd.c, it should work, but please make sure that DejaGnu is installed on your system and that 'make check' passes before using the findutils programs.  Please mail bug-findutils@gnu.org to tell us about your system."
 #define ARG_MAX NCARGS
 #endif
-
 
 
 #include <xalloc.h>

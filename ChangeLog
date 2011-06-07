@@ -1,5 +1,8 @@
 2011-06-05  James Youngman  <jay@gnu.org>
 
+	Don't include sys/param.h where we don't need it.
+	* xargs/xargs.c: Don't include sys/param.h, we don't use it.
+
 	Don't include "stdio-safer.h" where it is not used.
 	* find/parser.c: Don't include stdio-safer.h, it's not used.
 	* lib/findutils-version.c: Likewise.

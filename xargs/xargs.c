@@ -37,7 +37,6 @@
 #include <fcntl.h>
 #include <assert.h>
 #include <string.h>
-#include <sys/param.h>
 
 #ifndef LONG_MAX
 #define LONG_MAX (~(1 << (sizeof (long) * 8 - 1)))
