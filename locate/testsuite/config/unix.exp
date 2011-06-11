@@ -7,12 +7,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -23,8 +23,8 @@
 
 # use the local version of find for updatedb
 #
-# We normalise (normalize for those over the water) pathnames 
-# because the updatedb shell script uses "cd", which means that 
+# We normalise (normalize for those over the water) pathnames
+# because the updatedb shell script uses "cd", which means that
 # any relative paths no longer point where we thought they did.
 # Because "file normalize" requires tcl 8.4, we have a plan B
 # for normalising the name of a directory, but it is slower.
@@ -41,7 +41,7 @@ set fulldir [ normalize_dir "../../find" ]
 set env{find} "$fulldir/find"
 
 # use the local help commands for updatedb
-set env(LIBEXECDIR) [ normalize_dir .. ] 
+set env(LIBEXECDIR) [ normalize_dir .. ]
 # use our local version of find, too.
 
 # do not ignore any file systems for this test
@@ -208,7 +208,7 @@ proc locate_start { passfail updatedb_options locate_options
 	if $verbose>1 then {
 	    send_user "$comp_output\n"
 	}
-	# If fail_good is set, that refers to the exit 
+	# If fail_good is set, that refers to the exit
 	# status of locate, not updatedb...
 	fail "$testname: updatedb is supposed to be silent, $comp_output"
 	return
@@ -218,7 +218,7 @@ proc locate_start { passfail updatedb_options locate_options
 
 
     eval $between_hook
-    
+
     set locate_cmd "$LOCATE $LOCATEFLAGS $locate_options < $locate_infile > locate.out"
     send_log "$locate_cmd\n"
     if $verbose>1 then {

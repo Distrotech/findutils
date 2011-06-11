@@ -1,9 +1,9 @@
 # Savannah bug #17782.
 # While -execdir echo blah {} works, -execdir echo "blah {}" doesn't.
-# The bug is that the ./ prefix is prepended to the argument containing the 
-# braces, not to the expansion of the braces, so you get output like 
+# The bug is that the ./ prefix is prepended to the argument containing the
+# braces, not to the expansion of the braces, so you get output like
 # ./blah foo
-# instead of 
+# instead of
 # blah ./foo
 #
 if { [ safe_path ] } {

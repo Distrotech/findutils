@@ -32,9 +32,9 @@ exclude_file_name_regexp--sc_space_tab = \
 # any case we don't use help2man at all.
 local-checks-to-skip += sc_two_space_separator_in_usage
 
-# Problems that have some false positives and some real ones; tease
-# apart later.
-local-checks-to-skip += sc_trailing_blank
+# Some test inputs/outputs have trailing blanks.
+exclude_file_name_regexp--sc_trailing_blank = \
+ ^COPYING|(po/.*\.po)|(find/testsuite/find.gnu/printf\.xo)|(xargs/testsuite/(inputs/.*\.xi|xargs\.(gnu|posix|sysv)/.*\.(x[oe])))$$
 
 # sc_texinfo_acronym: perms.texi from coreutils uses @acronym{GNU}.
 exclude_file_name_regexp--sc_texinfo_acronym = doc/perm\.texi

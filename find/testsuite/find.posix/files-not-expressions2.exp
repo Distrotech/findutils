@@ -2,7 +2,7 @@ set files "!2"
 
 foreach file $files { touch $file }
 
-# shoud not result in a fatal error.  
+# shoud not result in a fatal error.
 find_start p { !2 }
 
 foreach file $files { file delete -- $file }

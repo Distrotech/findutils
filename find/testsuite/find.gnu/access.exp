@@ -2,7 +2,7 @@
 exec rm -rf tmp
 exec mkdir tmp
 if { ! [ fs_superuser ] } {
-    touch tmp/x tmp/w tmp/r tmp/rw tmp/rwx tmp/0 
+    touch tmp/x tmp/w tmp/r tmp/rw tmp/rwx tmp/0
     exec chmod 400 tmp/r
     exec chmod 200 tmp/w
     exec chmod 100 tmp/x

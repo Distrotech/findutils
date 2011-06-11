@@ -17,6 +17,56 @@
 
 2011-06-11  James Youngman  <jay@gnu.org>
 
+	Enable the sc_trailing_blank check.
+	* cfg.mk: Enable sc_trailing_blank check.
+	(exclude_file_name_regexp--sc_trailing_blank): Exclude
+	xargs test inputs and outputs.  Exclude the COPYING file.  Exclude
+	a find test output.  Exclude the .po files.
+	* xargs/xargs.c: Remove trailing blanks.
+	* xargs/testsuite/config/unix.exp: Likewise.
+	* find/testsuite/find.posix/bracket-depth.exp: Likewise.
+	* find/testsuite/find.posix/files-not-expressions1.exp: Likewise.
+	* find/testsuite/find.posix/files-not-expressions2.exp: Likewise.
+	* find/testsuite/find.posix/files-not-expressions3.exp: Likewise.
+	* find/testsuite/find.posix/nameslash.exp: Likewise.
+	* find/testsuite/find.posix/perm-vanilla.exp: Likewise.
+	* find/testsuite/find.posix/sizes.exp: Likewise.
+	* find/testsuite/find.posix/sv-bug-25359.exp: Likewise.
+	* find/testsuite/find.posix/typesize.exp: Likewise.
+	* find/testsuite/find.gnu/access.exp: Likewise.
+	* find/testsuite/find.gnu/deletedir.exp: Likewise.
+	* find/testsuite/find.gnu/deletefile.exp: Likewise.
+	* find/testsuite/find.gnu/exec-one-rtn-fail.exp: Likewise.
+	* find/testsuite/find.gnu/execdir-hier.exp: Likewise.
+	* find/testsuite/find.gnu/execdir-pwd.exp: Likewise.
+	* find/testsuite/find.gnu/execdir-root-only.exp: Likewise.
+	* find/testsuite/find.gnu/follow-arg-parent-symlink.exp: Likewise.
+	* find/testsuite/find.gnu/ilname.exp: Likewise.
+	* find/testsuite/find.gnu/lname.exp: Likewise.
+	* find/testsuite/find.gnu/perm-slash.exp: Likewise.
+	* find/testsuite/find.gnu/posix-h.exp: Likewise.
+	* find/testsuite/find.gnu/sv-bug-17782.exp: Likewise.
+	* find/testsuite/find.gnu/sv-bug-24169.exp: Likewise.
+	* find/testsuite/find.gnu/used-invarg.exp: Likewise.
+	* find/testsuite/find.gnu/used-missing.exp: Likewise.
+	* find/testsuite/excuses.txt: Likewise.
+	* locate/testsuite/config/unix.exp: Likewise.
+	* locate/testsuite/locate.gnu/bigendian.exp: Likewise.
+	* locate/testsuite/locate.gnu/bigprefix1.exp: Likewise.
+	* locate/testsuite/locate.gnu/exists2.exp: Likewise.
+	* locate/testsuite/locate.gnu/exists3.exp: Likewise.
+	* locate/testsuite/locate.gnu/littleendian.exp: Likewise.
+	* locate/testsuite/locate.gnu/notexists2.exp: Likewise.
+	* locate/testsuite/locate.gnu/notexists3.exp: Likewise.
+	* locate/testsuite/locate.gnu/sv-bug-14535.exp: Likewise.
+	* xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.exp: Likewise.
+	* xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.exp: Likewise.
+	* xargs/testsuite/xargs.posix/rc-125.exp: Likewise.
+	* xargs/testsuite/xargs.posix/sv-bug-18714.exp: Likewise.
+	* xargs/testsuite/xargs.posix/sv-bug-18714b.exp: Likewise.
+	* po/Makevars (EXTRA_LOCALE_CATEGORIES): Likewise.
+	* xargs/xargs.1 (SEE ALSO): Likewise.
+
 	Enable the sc_space_tab check
 	* cfg.mk: Enable the sc_space_tab check.  Exclude various xargs
 	test inputs and outputs from the check.  Remove some obsolete

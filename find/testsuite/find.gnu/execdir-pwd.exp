@@ -14,7 +14,7 @@ if { [ safe_path ] } {
     # built up by -execdir in the wrong directory.
 
     set SKIP_OLD 1
-    find_start p {tmp -name foo -execdir sh ./foo  \{\} + } "" 
+    find_start p {tmp -name foo -execdir sh ./foo  \{\} + } ""
     set SKIP_OLD 0
     exec rm -rf tmp
 }

@@ -1420,8 +1420,8 @@ wait_for_proc (bool all, unsigned int minreap)
 		{
 		  /* Receipt of SIGUSR1 gave us an extra slot and we
 		   * don't need to wait for all processes to finish.
-		   * We can stop reaping now, but in any case check for 
-		   * further dead children without waiting for another 
+		   * We can stop reaping now, but in any case check for
+		   * further dead children without waiting for another
 		   * to exit.
 		   */
 		  wflags = WNOHANG;
@@ -1518,7 +1518,7 @@ wait_for_proc_all (void)
 
 /* Increment or decrement the number of processes we can start simultaneously,
    when we receive a signal from the outside world.
-   
+
    We must take special care around proc_max == 0 (unlimited children),
    proc_max == 1 (don't decrement to zero).  */
 static void
