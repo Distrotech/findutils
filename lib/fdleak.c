@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include <poll.h>
 #include <fcntl.h>
-#if defined (HAVE_SYS_RESOURCE_H)
+#if defined HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
 #include <limits.h>
@@ -114,7 +114,7 @@ get_max_fd (void)
     open_max = _POSIX_OPEN_MAX;	/* underestimate */
 
   /* We assume if RLIMIT_NOFILE is defined, all the related macros are, too. */
-#if defined (HAVE_GETRUSAGE) && defined (RLIMIT_NOFILE)
+#if defined HAVE_GETRUSAGE && defined RLIMIT_NOFILE
   if (0 == getrlimit (RLIMIT_NOFILE, &fd_limit))
     {
       if (fd_limit.rlim_cur == RLIM_INFINITY)

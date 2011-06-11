@@ -68,8 +68,8 @@
 # define N_(String) String
 #endif
 
-#if !defined(SIGCHLD) && defined(SIGCLD)
-#define SIGCHLD SIGCLD
+#if defined SIGCLD && !defined SIGCHLD
+# define SIGCHLD SIGCLD
 #endif
 
 

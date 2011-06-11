@@ -17,6 +17,20 @@
 
 2011-06-11  James Youngman  <jay@gnu.org>
 
+	Enable more syntax checks, eliminate useless C preprocessor parentheses
+	* find/defs.h: Eliminate useless parentheses in #if.
+	* find/find.c (safely_chdir): Likewise.
+	* find/pred.c: Likewise.
+	* lib/buildcmd.c: Likewise.
+	* lib/fdleak.c: Likewise
+	* xargs/xargs.c: Likewise.
+	* find/parser.c: Likewise.
+	(ISDIGIT): Simplify, and avoid undefining isascii.
+	* cfg.mk (local-checks-to-skip): Remove sc_prohibit_cvs_keyword,
+	since the test produces no hits anyway.  Explain why we avoid
+	sc_two_space_separator_in_usage. Enable the sc_useless_cpp_parens
+	check.
+
 	Use stat-size macros in pred.c also.
 	* find/pred.c: Include stat-size.  Eliminate definitions of
 	DEV_BSIZE, ST_BLKSIZE, ST_NBLOCKS, ST_NBLOCKSIZE macros which are

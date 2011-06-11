@@ -26,16 +26,19 @@ local-checks-to-skip += sc_makefile_at_at_check
 # False positives I don't have a workaround for yet.
 # sc_space_tab: several .xo test output files contain this sequence
 #               for testing xargs's handling of white space.
-local-checks-to-skip += sc_obsolete_symbols sc_prohibit_cvs_keyword \
-	sc_two_space_separator_in_usage \
+local-checks-to-skip += sc_obsolete_symbols \
 	sc_space_tab
+
+
+
+# Skip sc_two_space_separator_in_usage because it reflects the requirements
+# of help2man.   It gets run on files that are not help2man inputs, and in
+# any case we don't use help2man at all.
+local-checks-to-skip += sc_two_space_separator_in_usage
 
 # Problems that have some false positives and some real ones; tease
 # apart later.
 local-checks-to-skip += sc_trailing_blank
-
-# Problems partly fixed in other patches which aren't merged yet.
-local-checks-to-skip += sc_useless_cpp_parens
 
 # Problems we can't esaily fixed because they apply to files which we need
 # to keep in sync, so can't easily make a local change to.

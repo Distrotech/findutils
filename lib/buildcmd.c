@@ -55,7 +55,7 @@
 #ifndef _POSIX_SOURCE
 #include <sys/param.h>
 #endif
-#if !defined(ARG_MAX) && defined(NCARGS)
+#if defined NCARGS && !defined ARG_MAX
 /* We include sys/param.h in order to detect this case. */
 #error "You have an unusual system.  Once you remove this error message from buildcmd.c, it should work, but please make sure that DejaGnu is installed on your system and that 'make check' passes before using the findutils programs.  Please mail bug-findutils@gnu.org to tell us about your system."
 #define ARG_MAX NCARGS

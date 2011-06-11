@@ -57,7 +57,7 @@
 #include <wchar.h>
 #include <stdint.h>
 
-#if !defined(SIGCHLD) && defined(SIGCLD)
+#if defined SIGCLD && !defined SIGCHLD
 #define SIGCHLD SIGCLD
 #endif
 

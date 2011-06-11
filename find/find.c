@@ -878,7 +878,7 @@ safely_chdir (const char *dest,
    */
   complete_pending_execdirs ();
 
-#if !defined(O_NOFOLLOW)
+#if !defined O_NOFOLLOW
   options.open_nofollow_available = false;
 #endif
   if (options.open_nofollow_available)

@@ -70,14 +70,11 @@
 # define N_(String) String
 #endif
 
-#if !defined (isascii) || defined (STDC_HEADERS)
-#ifdef isascii
-#undef isascii
+#if defined STDC_HEADERS
+# define ISDIGIT(c) isdigit ((unsigned char)c)
+#else
+# define ISDIGIT(c) (isascii ((unsigned char)c) && isdigit ((unsigned char)c))
 #endif
-#define isascii(c) 1
-#endif
-
-#define ISDIGIT(c) (isascii ((unsigned char)c) && isdigit ((unsigned char)c))
 
 #ifndef HAVE_ENDGRENT
 #define endgrent ()
@@ -1606,7 +1603,7 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
       y = argv[*arg_ptr][7];
 
 
-#if !defined(HAVE_STRUCT_STAT_ST_BIRTHTIME) && !defined(HAVE_STRUCT_STAT_ST_BIRTHTIMENSEC) && !defined(HAVE_STRUCT_STAT_ST_BIRTHTIMESPEC_TV_NSEC) && !defined HAVE_STRUCT_STAT_ST_BIRTHTIM_TV_NSEC
+#if !defined HAVE_STRUCT_STAT_ST_BIRTHTIME && !defined HAVE_STRUCT_STAT_ST_BIRTHTIMENSEC && !defined HAVE_STRUCT_STAT_ST_BIRTHTIMESPEC_TV_NSEC && !defined HAVE_STRUCT_STAT_ST_BIRTHTIM_TV_NSEC
       if ('B' == x || 'B' == y)
 	{
 	  error (0, 0,

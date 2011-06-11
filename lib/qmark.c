@@ -51,20 +51,20 @@
    outside the range -1 <= c <= 255. One is tempted to write isupper(c)
    with c being of type `char', but this is wrong if c is an 8-bit
    character >= 128 which gets sign-extended to a negative value.
-   The macro ISUPPER protects against this as well."  */
+   The macro ISUPPER protects against this as well."
 
+   (Actually that rule of ISUPPER is now taken by to_uchar).
+*/
 
-
-
-/* ISPRINT is defined in <sys/euc.h> on at least Solaris2.6 systems.  */
-#undef ISPRINT
-#define ISPRINT(c) (IN_CTYPE_DOMAIN (c) && isprint (c))
-
-#if STDC_HEADERS || (!defined (isascii) && !HAVE_ISASCII)
+#if STDC_HEADERS
 # define IN_CTYPE_DOMAIN(c) 1
 #else
 # define IN_CTYPE_DOMAIN(c) isascii(c)
 #endif
+
+/* ISPRINT is defined in <sys/euc.h> on at least Solaris2.6 systems.  */
+#undef ISPRINT
+#define ISPRINT(c) (IN_CTYPE_DOMAIN (c) && isprint (c))
 
 
 

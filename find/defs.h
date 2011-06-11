@@ -20,10 +20,10 @@
 #ifndef INC_DEFS_H
 #define INC_DEFS_H 1
 
-#if !defined(ALREADY_INCLUDED_CONFIG_H)
+#if !defined ALREADY_INCLUDED_CONFIG_H
 /*
  * Savannah bug #20128: if we include some system header and it
- * includes some othersecond system header, the second system header
+ * includes some other second system header, the second system header
  * may in fact turn out to be a file provided by gnulib.  For that
  * situation, we need to have already included <config.h> so that the
  * Gnulib files have access to the information probed by their
