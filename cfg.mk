@@ -26,10 +26,8 @@ local-checks-to-skip += sc_makefile_at_at_check
 # False positives I don't have a workaround for yet.
 # sc_space_tab: several .xo test output files contain this sequence
 #               for testing xargs's handling of white space.
-local-checks-to-skip += sc_obsolete_symbols \
-	sc_space_tab
-
-
+local-checks-to-skip += sc_space_tab
+exclude_file_name_regexp--sc_obsolete_symbols = build-aux/src-sniff\.py
 
 # Skip sc_two_space_separator_in_usage because it reflects the requirements
 # of help2man.   It gets run on files that are not help2man inputs, and in
