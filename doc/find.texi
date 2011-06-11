@@ -4448,7 +4448,7 @@ command to cause the deletion of a file that you can delete but they
 normally cannot.
 
 The problem occurs because the @samp{-exec} action is defined by the
-@acronym{POSIX} standard to invoke its command with the same working directory
+POSIX standard to invoke its command with the same working directory
 as @code{find} had when it was started.  This means that the arguments
 which replace the @{@} include a relative path from @code{find}'s
 starting point down the file that needs to be deleted.  For example,

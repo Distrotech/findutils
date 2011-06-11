@@ -17,6 +17,15 @@
 
 2011-06-11  James Youngman  <jay@gnu.org>
 
+	Enable the sc_texinfo_acronym check
+	* cfg.mk: Enable the sc_texinfo_acronym check.  Exempt
+	doc/perm.text, which isn't ours anyway.
+	* doc/find.texi (Deleting Files): Say just POSIX rather than
+	@acronym{POSIX}, simply because this is the convention in GNU
+	documentation.  The motivation is that it's hard to do so
+	consistently (because, for example, you can't use @acronym in a
+	node name).
+
 	Enable syntax check sc_obsolete_symbols.
 	(exclude_file_name_regexp--sc_obsolete_symbols): Don't check
 	build-aux/src-sniff.py.

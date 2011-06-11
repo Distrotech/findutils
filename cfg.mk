@@ -38,11 +38,10 @@ local-checks-to-skip += sc_two_space_separator_in_usage
 # apart later.
 local-checks-to-skip += sc_trailing_blank
 
-# Problems we can't esaily fixed because they apply to files which we need
-# to keep in sync, so can't easily make a local change to.
+# Problems we can't easily fix because they apply to files which we
+# need to keep in sync, so can't easily make a local change to.
 # sc_texinfo_acronym: perms.texi from coreutils uses @acronym{GNU}.
-local-checks-to-skip += \
-	sc_texinfo_acronym
+exclude_file_name_regexp--sc_texinfo_acronym = doc/perm\.texi
 
 # sc_prohibit_strcmp is broken because it gives false positives for
 # cases where neither argument is a string literal.
