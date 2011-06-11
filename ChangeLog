@@ -1,3 +1,12 @@
+2011-06-11  James Youngman  <jay@gnu.org>
+
+	Adopt the new gnulib module stat-size.
+	* lib/listfile.c: Include "stat-size.h".  Delete the DEV_BSIZE,
+	ST_BLKSIZE, ST_NBLOCKS, ST_NBLOCKSIZE macros which are now in
+	stat-size.h.
+	* gnulib: Update to latest.
+	* import-gnulib.config (modules): Add stat-size.
+
 2011-06-05  James Youngman  <jay@gnu.org>
 
 	Don't include sys/param.h where we don't need it.
