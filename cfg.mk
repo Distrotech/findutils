@@ -43,10 +43,9 @@ local-checks-to-skip += sc_useless_cpp_parens
 local-checks-to-skip += \
 	sc_texinfo_acronym
 
-# sc_prohibit_strcmp is broken because it gives false positives for cases
-# where neither argument is a string literal.
-# sc_prohibit_stat_st_blocks produces a false positive on definition of ST_NBLOCKS.
-local-checks-to-skip += sc_prohibit_strcmp sc_prohibit_stat_st_blocks
+# sc_prohibit_strcmp is broken because it gives false positives for
+# cases where neither argument is a string literal.
+local-checks-to-skip += sc_prohibit_strcmp
 
 
 # NEWS hash.  We use this to detect unintended edits to bits of the NEWS file

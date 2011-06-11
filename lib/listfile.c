@@ -67,15 +67,6 @@
 static void print_name (register const char *p, FILE *stream, int literal_control_chars);
 
 
-size_t
-file_blocksize (const struct stat *p)
-{
-  (void)p;
-  return ST_NBLOCKSIZE;
-}
-
-
-
 /* NAME is the name to print.
    RELNAME is the path to access it from the current directory.
    STATP is the results of stat or lstat on it.

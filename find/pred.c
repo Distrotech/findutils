@@ -44,6 +44,7 @@
 #include "yesno.h"
 #include "listfile.h"
 #include "stat-time.h"
+#include "stat-size.h"
 #include "dircallback.h"
 #include "error.h"
 #include "verify.h"
@@ -78,71 +79,6 @@
 #else
 #define CLOSEDIR(d) closedir (d)
 #endif
-
-
-
-
-/* Get or fake the disk device blocksize.
-   Usually defined by sys/param.h (if at all).  */
-#ifndef DEV_BSIZE
-# ifdef BSIZE
-#  define DEV_BSIZE BSIZE
-# else /* !BSIZE */
-#  define DEV_BSIZE 4096
-# endif /* !BSIZE */
-#endif /* !DEV_BSIZE */
-
-/* Extract or fake data from a `struct stat'.
-   ST_BLKSIZE: Preferred I/O blocksize for the file, in bytes.
-   ST_NBLOCKS: Number of blocks in the file, including indirect blocks.
-   ST_NBLOCKSIZE: Size of blocks used when calculating ST_NBLOCKS.  */
-#ifndef HAVE_STRUCT_STAT_ST_BLOCKS
-# define ST_BLKSIZE(statbuf) DEV_BSIZE
-# if defined _POSIX_SOURCE || !defined BSIZE /* fileblocks.c uses BSIZE.  */
-#  define ST_NBLOCKS(statbuf) \
-  (S_ISREG ((statbuf).st_mode) \
-   || S_ISDIR ((statbuf).st_mode) \
-   ? (statbuf).st_size / ST_NBLOCKSIZE + ((statbuf).st_size % ST_NBLOCKSIZE != 0) : 0)
-# else /* !_POSIX_SOURCE && BSIZE */
-#  define ST_NBLOCKS(statbuf) \
-  (S_ISREG ((statbuf).st_mode) \
-   || S_ISDIR ((statbuf).st_mode) \
-   ? st_blocks ((statbuf).st_size) : 0)
-# endif /* !_POSIX_SOURCE && BSIZE */
-#else /* HAVE_STRUCT_STAT_ST_BLOCKS */
-/* Some systems, like Sequents, return st_blksize of 0 on pipes. */
-# define ST_BLKSIZE(statbuf) ((statbuf).st_blksize > 0 \
-			       ? (statbuf).st_blksize : DEV_BSIZE)
-# if defined hpux || defined __hpux__ || defined __hpux
-/* HP-UX counts st_blocks in 1024-byte units.
-   This loses when mixing HP-UX and BSD file systems with NFS.  */
-#  define ST_NBLOCKSIZE 1024
-# else /* !hpux */
-#  if defined _AIX && defined _I386
-/* AIX PS/2 counts st_blocks in 4K units.  */
-#   define ST_NBLOCKSIZE (4 * 1024)
-#  else /* not AIX PS/2 */
-#   if defined _CRAY
-#    define ST_NBLOCKS(statbuf) \
-  (S_ISREG ((statbuf).st_mode) \
-   || S_ISDIR ((statbuf).st_mode) \
-   ? (statbuf).st_blocks * ST_BLKSIZE(statbuf)/ST_NBLOCKSIZE : 0)
-#   endif /* _CRAY */
-#  endif /* not AIX PS/2 */
-# endif /* !hpux */
-#endif /* HAVE_STRUCT_STAT_ST_BLOCKS */
-
-#ifndef ST_NBLOCKS
-# define ST_NBLOCKS(statbuf) \
-  (S_ISREG ((statbuf).st_mode) \
-   || S_ISDIR ((statbuf).st_mode) \
-   ? (statbuf).st_blocks : 0)
-#endif
-
-#ifndef ST_NBLOCKSIZE
-# define ST_NBLOCKSIZE 512
-#endif
-
 
 #undef MAX
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -746,22 +682,18 @@ mode_to_filetype (mode_t m)
 static double
 file_sparseness (const struct stat *p)
 {
-#if defined HAVE_STRUCT_STAT_ST_BLOCKS
   if (0 == p->st_size)
     {
-      if (0 == p->st_blocks)
+      if (0 == ST_NBLOCKS(*p))
 	return 1.0;
       else
-	return p->st_blocks < 0 ? -HUGE_VAL : HUGE_VAL;
+	return ST_NBLOCKS(*p) < 0 ? -HUGE_VAL : HUGE_VAL;
     }
   else
     {
-      double blklen = file_blocksize (p) * (double)p->st_blocks;
+      double blklen = ST_NBLOCKSIZE * (double)ST_NBLOCKS(*p);
       return blklen / p->st_size;
     }
-#else
-  return 1.0;
-#endif
 }
 
 

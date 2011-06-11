@@ -17,6 +17,19 @@
 
 2011-06-11  James Youngman  <jay@gnu.org>
 
+	Use stat-size macros in pred.c also.
+	* find/pred.c: Include stat-size.  Eliminate definitions of
+	DEV_BSIZE, ST_BLKSIZE, ST_NBLOCKS, ST_NBLOCKSIZE macros which are
+	now in stat-size.h (yes, this is the second set of these macros
+	we've removed).
+	(file_sparseness): Use ST_NBLOCKS and ST_NBLOCKSIZE.
+	* cfg.mk (local-checks-to-skip): Don't skip
+	sc_prohibit_stat_st_blocks, because now we no loner access the
+	st_blocks field of struct stat, directly.
+	* lib/listfile.c (file_blocksize): Eliminate this function, it's
+	no longer needed.
+	* lib/listfile.h: Don't declare file_blocksize.
+
 	Adopt the new gnulib module stat-size.
 	* lib/listfile.c: Include "stat-size.h".  Delete the DEV_BSIZE,
 	ST_BLKSIZE, ST_NBLOCKS, ST_NBLOCKSIZE macros which are now in
