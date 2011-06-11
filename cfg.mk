@@ -23,11 +23,9 @@ local-checks-to-skip += sc_error_message_period sc_error_message_uppercase \
 # Errors I have not investigated; diagnose and fix later.
 local-checks-to-skip += sc_makefile_at_at_check
 
-# False positives I don't have a workaround for yet.
-# sc_space_tab: several .xo test output files contain this sequence
-#               for testing xargs's handling of white space.
-local-checks-to-skip += sc_space_tab
 exclude_file_name_regexp--sc_obsolete_symbols = build-aux/src-sniff\.py
+exclude_file_name_regexp--sc_space_tab = \
+	xargs/testsuite/(inputs/.*\.xi|xargs.(gnu|posix|sysv)/.*\.xo)$$
 
 # Skip sc_two_space_separator_in_usage because it reflects the requirements
 # of help2man.   It gets run on files that are not help2man inputs, and in
@@ -38,8 +36,6 @@ local-checks-to-skip += sc_two_space_separator_in_usage
 # apart later.
 local-checks-to-skip += sc_trailing_blank
 
-# Problems we can't easily fix because they apply to files which we
-# need to keep in sync, so can't easily make a local change to.
 # sc_texinfo_acronym: perms.texi from coreutils uses @acronym{GNU}.
 exclude_file_name_regexp--sc_texinfo_acronym = doc/perm\.texi
 

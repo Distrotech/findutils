@@ -56,9 +56,9 @@ install-data-hook:
 dblocation.texi:
 	echo '@set LOCATE_DB $(LOCATE_DB)' > $@.tmp
 	if test -f $@ && cmp $@.tmp $@ >/dev/null ; then \
-		rm $@.tmp ; 		\
-	else				\
-		mv $@.tmp $@ ;		\
+	    rm $@.tmp ; \
+	else \
+	    mv $@.tmp $@ ; \
 	fi
 .PHONY: dblocation.texi
 
