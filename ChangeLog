@@ -1,5 +1,19 @@
 2011-06-12  James Youngman  <jay@gnu.org>
 
+	Split exec-related code into a new file, exec.c
+	* find/exec.c: New file.
+	(initialise_wd_for_exec): Move out of pred.c
+	(record_exec_dir): Likewise.
+	(impl_pred_exec): Likewise.
+	(prep_child_for_exec): Likewise.
+	(launch): Likewise.
+	* find/pred.c: These functions are moved out of this file.
+	* find/defs.h: impl_pred_exec is no longer static in pred.c, so
+	add an external declaration for it.  Move the declaration of
+	launch to here also.
+	* find/Makefile.am (libfindtools_a_SOURCES): Add exec.c.
+	* po/POTFILES.in: Add find/exec.c.
+
 	Eliminate .x-sc_prohibit_empty_lines_at_EOF and .x-sc_bindtextdomain
 	* cfg.mk: Move definition of which files we should not check to
 	exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF, instead

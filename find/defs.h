@@ -464,9 +464,7 @@ PREDICATEFUNCTION pred_context;
 
 int launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv);
 
-
 char *find_pred_name (PRED_FUNC pred_func);
-
 
 
 void print_predicate (FILE *fp, const struct predicate *p);
@@ -668,6 +666,10 @@ struct state
   /* Avoid multiple error messages for the same file. */
   bool already_issued_stat_error_msg;
 };
+
+/* exec.c */
+bool impl_pred_exec (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr);
+int launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv);
 
 /* finddata.c */
 extern struct options options;
