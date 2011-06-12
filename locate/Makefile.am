@@ -39,8 +39,8 @@ updatedb: updatedb.sh Makefile
 	-e "s,@""bindir""@,$(bindir)," \
 	-e "s,@""libexecdir""@,$(libexecdir)," \
 	-e "s,@""LOCATE_DB""@,$(LOCATE_DB)," \
-	-e "s,@""VERSION""@,@VERSION@," \
-	-e "s,@""PACKAGE_NAME""@,@PACKAGE_NAME@," \
+	-e "s,@""VERSION""@,$(VERSION)," \
+	-e "s,@""PACKAGE_NAME""@,$(PACKAGE_NAME)," \
 	-e "s,@""find""@,$${find}," \
 	-e "s,@""frcode""@,$${frcode}," \
 	-e "s,@""bigram""@,$${bigram}," \

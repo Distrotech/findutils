@@ -1,5 +1,14 @@
 2011-06-12  James Youngman  <jay@gnu.org>
 
+	Enable sc_makefile_at_at_check; fix problems it identifies.
+	* lib/Makefile.am: Use $(FINDLIBOBJS) instead of @FINDLIBOBJS@.
+	* find/Makefile.am (LDADD): Use $(FINDLIBS) instead of @FINDLIBS@.
+	* locate/Makefile.am (updatedb): Use $(VERSION) and
+	$(PACKAGE_NAME) instead of @VERSION@ and @PACKAGE_NAME@.
+	* cfg.mk: remove sc_makefile_at_at_check from local-checks-to-skip
+
+2011-06-12  James Youngman  <jay@gnu.org>
+
 	Improve src-sniff.py.
 
 	* build-aux/src-sniff.py: Mention that many of these checks would

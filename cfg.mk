@@ -20,9 +20,6 @@ local-checks-to-skip :=
 local-checks-to-skip += sc_error_message_period sc_error_message_uppercase \
 	sc_file_system
 
-# Errors I have not investigated; diagnose and fix later.
-local-checks-to-skip += sc_makefile_at_at_check
-
 exclude_file_name_regexp--sc_obsolete_symbols = build-aux/src-sniff\.py
 exclude_file_name_regexp--sc_space_tab = \
 	xargs/testsuite/(inputs/.*\.xi|xargs.(gnu|posix|sysv)/.*\.xo)$$

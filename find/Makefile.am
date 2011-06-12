@@ -31,7 +31,7 @@ endif
 # man_MANS is not always the same, we want to distribute all of those files.
 EXTRA_DIST = defs.h sharefile.h find.1 ftsfind.1 oldfind.1
 INCLUDES = -I../gl/lib -I$(top_srcdir)/lib -I$(top_srcdir)/gl/lib -I../intl -DLOCALEDIR=\"$(localedir)\"
-LDADD = ./libfindtools.a ../lib/libfind.a ../gl/lib/libgnulib.a $(LIBINTL) $(LIB_CLOCK_GETTIME) $(LIB_EACCESS) $(LIB_SELINUX) $(LIB_CLOSE) $(MODF_LIBM) @FINDLIBS@
+LDADD = ./libfindtools.a ../lib/libfind.a ../gl/lib/libgnulib.a $(LIBINTL) $(LIB_CLOCK_GETTIME) $(LIB_EACCESS) $(LIB_SELINUX) $(LIB_CLOSE) $(MODF_LIBM) $(FINDLIBS)
 SUBDIRS = . testsuite
 
 #$(PROGRAMS): ../lib/libfind.a

@@ -40,12 +40,8 @@ libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c 
 
 EXTRA_DIST += waitpid.c forcefindlib.c
 TESTS_ENVIRONMENT = REGEXPROPS=regexprops$(EXEEXT)
-libfind_a_LIBADD = @FINDLIBOBJS@
-libfind_a_DEPENDENCIES = @FINDLIBOBJS@
-# libfind_la_LIBADD = @LTFINDLIBOBJS@
-
-# libfind_a_OBJECTS  += @FINDLIBOBJS@
-# libfind_la_OBJECTS += @LTFINDLIBOBJS@
+libfind_a_LIBADD = $(FINDLIBOBJS)
+libfind_a_DEPENDENCIES = $(FINDLIBOBJS)
 
 check-regexprops: check-regexprops.sh
 	cp  $(srcdir)/check-regexprops.sh check-regexprops
