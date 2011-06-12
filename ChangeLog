@@ -1,5 +1,14 @@
 2011-06-12  James Youngman  <jay@gnu.org>
 
+	Eliminate .x-sc_prohibit_empty_lines_at_EOF and .x-sc_bindtextdomain
+	* cfg.mk: Move definition of which files we should not check to
+	exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF, instead
+	of .x-sc_prohibit_empty_lines_at_EOF.
+	Move contents of .x-sc_bindtextdomain into
+	exclude_file_name_regexp--sc_bindtextdomain.
+	.x-sc_prohibit_empty_lines_at_EOF: Delete.
+	.x-sc_bindtextdomain: Delete.
+
 	Enable sc_makefile_at_at_check; fix problems it identifies.
 	* lib/Makefile.am: Use $(FINDLIBOBJS) instead of @FINDLIBOBJS@.
 	* find/Makefile.am (LDADD): Use $(FINDLIBS) instead of @FINDLIBS@.

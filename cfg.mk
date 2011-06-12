@@ -33,6 +33,11 @@ local-checks-to-skip += sc_two_space_separator_in_usage
 exclude_file_name_regexp--sc_trailing_blank = \
  ^COPYING|(po/.*\.po)|(find/testsuite/find.gnu/printf\.xo)|(xargs/testsuite/(inputs/.*\.xi|xargs\.(gnu|posix|sysv)/.*\.(x[oe])))$$
 
+exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
+	^(.*/testsuite/.*\.(xo|xi|xe))|COPYING|doc/regexprops\.texi|m4/order-(bad|good)\.bin$$
+exclude_file_name_regexp--sc_bindtextdomain = \
+	^lib/regexprops\.c$$
+
 # sc_texinfo_acronym: perms.texi from coreutils uses @acronym{GNU}.
 exclude_file_name_regexp--sc_texinfo_acronym = doc/perm\.texi
 
