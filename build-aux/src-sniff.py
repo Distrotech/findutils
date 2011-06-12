@@ -17,6 +17,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Many of these would probably be better as gnulib syntax checks, because
+# gnulib provides a way of disabling checks for particular files, and
+# has a wider range of checks.   Indeed, many of these checks do in fact
+# check the same thing as "make syntax-check".
 import re
 import sys
 
@@ -40,10 +44,12 @@ def Problem(**kwargs):
 
 
 class RegexSniffer(object):
+
     def __init__(self, source, message, regexflags=0):
         super(RegexSniffer, self).__init__()
         self._regex = re.compile(source, regexflags)
         self._msg = message
+
     def Sniff(self, text, filename, line):
         #print >>sys.stderr, ("Matching %s against %s"
         #                     % (text, self._regex.pattern))
@@ -63,7 +69,7 @@ class RegexSniffer(object):
 
 class RegexChecker(object):
     def __init__(self, regex, line_smells, file_smells):
-        super(RegexChecker, self).__init__(self)
+        super(RegexChecker, self).__init__()
         self._regex = re.compile(regex)
         self._line_sniffers = [RegexSniffer(s[0],s[1]) for s in line_smells]
         self._file_sniffers = [RegexSniffer(s[0],s[1],re.S|re.M) for s in file_smells]
@@ -89,14 +95,13 @@ checkers = [
     [r'\*\) *x(m|c|re)alloc(?!\w)',"don't cast the result of x*alloc"],
     [r'\*\) *alloca(?!\w)',"don't cast the result of alloca"],
     [r'[ ]	',"found SPACE-TAB; remove the space"],
-    [r'(?<!\w)([fs]?scanf|ato([filq]|ll))(?!\w)',
-     'do not use *scan''f, ato''f, ato''i, ato''l, ato''ll, ato''q, or ss''canf'],
+    [r'(?<!\w)([fs]?scanf|ato([filq]|ll))(?!\w)', 'do not use %(matchtext)s'],
     [r'error \(EXIT_SUCCESS',"passing EXIT_SUCCESS to error is confusing"],
     [r'file[s]ystem', "prefer writing 'file system' to 'filesystem'"],
     [r'HAVE''_CONFIG_H', "Avoid checking HAVE_CONFIG_H"],
-    #   [r'HAVE_FCNTL_H', "Avoid checking HAVE_FCNTL_H"],
+    [r'HAVE_FCNTL_H', "Avoid checking HAVE_FCNTL_H"],
     [r'O_NDELAY', "Avoid using O_NDELAY"],
-    [r'the *the', "'the"+" the' is probably not deliberate"],
+    [r'the\s*the', "'the"+" the' is probably not deliberate"],
     [r'(?<!\w)error \([^_"]*[^_]"[^"]*[a-z]{3}', "untranslated error message"],
     [r'^# *if\s+defined *\(', "useless parentheses in '#if defined'"],
 
@@ -114,13 +119,14 @@ checkers = [
                  [ [r'^ ', "Spaces at start of line"], ],
                  []),
     # Check everything for whitespace problems.
-    # RegexChecker('', [], [[r'\s$', "trailing whitespace"],]),
+    RegexChecker('', [], [[r'[	 ]$',
+                           "trailing whitespace '%(matchtext)s'"],]),
     # Check everything for out of date addresses.
     RegexChecker('', [], [
     [r'675\s*Mass\s*Ave,\s*02139[^a-zA-Z]*USA',
      "out of date FSF address"],
     [r'59 Temple Place.*02111-?1307\s*USA',
-     "out of date FSF address"],
+     "out of date FSF address %(matchtext)s"],
     ]),
     # Check everything for GPL version regression
     RegexChecker('',

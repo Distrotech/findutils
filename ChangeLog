@@ -1,3 +1,20 @@
+2011-06-12  James Youngman  <jay@gnu.org>
+
+	Improve src-sniff.py.
+
+	* build-aux/src-sniff.py: Mention that many of these checks would
+	be better as gnulib syntax checks (since there are more flexible
+	ways to disable these).
+	(RegexChecker.__init__): Don't pass a spurious second "self"
+	argument.
+	(RegexChecker.Check): Provide a more intelligible message when
+	complaining about use atof/scanf.
+	(RegexChecker.Check): Enable the check for HAVE_FCNTL_H.
+	(RegexChecker.Check): When checking for trailing whitespace, don't
+	complain about trailing newlines(!)
+	(RegexChecker.Check): Indicate what the out-of-date address is
+	when we find one.
+
 2011-06-11  James Youngman  <jay@gnu.org>
 
 	Adopt the new gnulib module stat-size.
