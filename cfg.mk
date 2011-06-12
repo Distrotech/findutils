@@ -37,6 +37,12 @@ exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
 	^(.*/testsuite/.*\.(xo|xi|xe))|COPYING|doc/regexprops\.texi|m4/order-(bad|good)\.bin$$
 exclude_file_name_regexp--sc_bindtextdomain = \
 	^lib/regexprops\.c$$
+exclude_file_name_regexp--sc_prohibit_always_true_header_tests = \
+	^(build-aux/src-sniff\.py)|ChangeLog$$
+exclude_file_name_regexp--sc_prohibit_test_minus_ao = \
+	^(ChangeLog)|((find|locate|xargs)/testsuite/.*\.exp)$$
+exclude_file_name_regexp--sc_prohibit_doubled_word = \
+	^(xargs/testsuite/xargs\.sysv/iquotes\.xo)|ChangeLog|po/.*\.po$$
 
 # sc_texinfo_acronym: perms.texi from coreutils uses @acronym{GNU}.
 exclude_file_name_regexp--sc_texinfo_acronym = doc/perm\.texi
