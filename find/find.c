@@ -776,7 +776,6 @@ safely_chdir_lstat (const char *dest,
   return rv;
 }
 
-#if defined O_NOFOLLOW
 /* Safely change working directory to the specified subdirectory.  If
  * we are not allowed to follow symbolic links, we use open() with
  * O_NOFOLLOW, followed by fchdir().  This ensures that we don't
@@ -808,7 +807,7 @@ safely_chdir_nofollow (const char *dest,
       if (following_links ())
 	extraflags = 0;
       else
-	extraflags = O_NOFOLLOW;
+	extraflags = O_NOFOLLOW; /* ... which may still be 0. */
       break;
     }
 
@@ -860,7 +859,6 @@ safely_chdir_nofollow (const char *dest,
 	}
     }
 }
-#endif
 
 static enum SafeChdirStatus
 safely_chdir (const char *dest,
@@ -878,9 +876,8 @@ safely_chdir (const char *dest,
    */
   complete_pending_execdirs ();
 
-#if !defined O_NOFOLLOW
-  options.open_nofollow_available = false;
-#endif
+  /* gnulib defines O_NOFOLLOW to 0 if the OS doesn't have it. */
+  options.open_nofollow_available = !!O_NOFOLLOW;
   if (options.open_nofollow_available)
     {
       result = safely_chdir_nofollow (dest, direction, statbuf_dest,

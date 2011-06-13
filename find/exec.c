@@ -53,14 +53,6 @@
 #endif
 
 
-#if defined SIGCLD && !defined SIGCHLD
-# define SIGCHLD SIGCLD
-#endif
-
-
-
-
-
 /* Initialise exec->wd_for_exec.
 
    We save in exec->wd_for_exec the directory whose path relative to

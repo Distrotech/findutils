@@ -57,12 +57,7 @@
 #include <wchar.h>
 #include <stdint.h>
 
-#if defined SIGCLD && !defined SIGCHLD
-#define SIGCHLD SIGCLD
-#endif
-
 #include "verify.h"
-
 #include "progname.h"
 #include "quotearg.h"
 #include "findutils-version.h"
