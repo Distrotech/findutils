@@ -6,7 +6,7 @@ AM_CFLAGS = $(WARN_CFLAGS)
 
 noinst_LIBRARIES = libfind.a
 
-check_PROGRAMS = regexprops
+check_PROGRAMS = regexprops test_splitstring
 check_SCRIPTS = check-regexprops
 regexprops_SOURCES = regexprops.c regextype.c
 
@@ -15,7 +15,7 @@ if CROSS_COMPILING
 # The regexprops program needs to be a native executable, so we
 # can't build it with a cross-compiler.
 else
-TESTS += check-regexprops
+TESTS += check-regexprops test_splitstring
 endif
 
 libfind_a_SOURCES = findutils-version.c
@@ -32,11 +32,11 @@ MAINTAINERCLEANFILES =
 INCLUDES = -I../gl/lib -I$(top_srcdir)/gl/lib
 LDADD = ../gl/lib/libgnulib.a $(LIBINTL)
 
-libfind_a_SOURCES += nextelem.h printquoted.h listfile.h \
-	regextype.h dircallback.h safe-atoi.h
-libfind_a_SOURCES += listfile.c nextelem.c extendbuf.c buildcmd.c savedirinfo.c \
+libfind_a_SOURCES += printquoted.h listfile.h \
+	regextype.h dircallback.h safe-atoi.h splitstring.h
+libfind_a_SOURCES += listfile.c extendbuf.c buildcmd.c savedirinfo.c \
 	forcefindlib.c qmark.c printquoted.c regextype.c dircallback.c fdleak.c \
-	safe-atoi.c
+	safe-atoi.c splitstring.c
 
 EXTRA_DIST += waitpid.c forcefindlib.c
 TESTS_ENVIRONMENT = REGEXPROPS=regexprops$(EXEEXT)
@@ -46,3 +46,5 @@ libfind_a_DEPENDENCIES = $(FINDLIBOBJS)
 check-regexprops: check-regexprops.sh
 	cp  $(srcdir)/check-regexprops.sh check-regexprops
 	chmod +x check-regexprops
+
+test_splitstring_SOURCES = test_splitstring.c splitstring.c

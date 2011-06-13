@@ -34,7 +34,6 @@
 #include "xalloc.h"
 #include "quotearg.h"
 #include "buildcmd.h"
-#include "nextelem.h"
 #include "regextype.h"
 #include "stat-time.h"
 #include "xstrtod.h"
@@ -44,6 +43,7 @@
 #include "findutils-version.h"
 #include "safe-atoi.h"
 #include "fdleak.h"
+#include "splitstring.h"
 
 #include <fcntl.h>
 
@@ -3227,11 +3227,16 @@ make_segment (struct segment **segment,
   return &(*segment)->next;
 }
 
+
+
+
 static void
 check_path_safety (const char *action, char **argv)
 {
-  char *s;
   const char *path = getenv ("PATH");
+  const char *path_separators = ":";
+  size_t pos, len;
+
   if (NULL == path)
     {
       /* $PATH is not set.  Assume the OS default is safe.
@@ -3242,34 +3247,35 @@ check_path_safety (const char *action, char **argv)
       return;
     }
 
-  (void)argv;
-
-  s = next_element (path, 1);
-  while ((s = next_element ((char *) NULL, 1)) != NULL)
+  splitstring (path, path_separators, true, &pos, &len);
+  do
     {
-      if (0 == strcmp (s, "."))
+      if (0 == len || (1 == len && path[pos] == '.'))
 	{
+	  /* empty field signifies . */
 	  error (EXIT_FAILURE, 0,
 		 _("The current directory is included in the PATH "
 		   "environment variable, which is insecure in "
 		   "combination with the %s action of find.  "
 		   "Please remove the current directory from your "
-		   "$PATH (that is, remove \".\" or leading or trailing "
-		   "colons)"),
+		   "$PATH (that is, remove \".\", doubled colons, "
+		   "or leading or trailing colons)"),
 		 action);
 	}
-      else if ('/' != s[0])
+      else if (path[pos] != '/')
 	{
-	  /* Relative paths are also dangerous in $PATH. */
+	  char *relpath = strndup (&path[pos], len);
 	  error (EXIT_FAILURE, 0,
 		 _("The relative path %s is included in the PATH "
 		   "environment variable, which is insecure in "
 		   "combination with the %s action of find.  "
 		   "Please remove that entry from $PATH"),
-		 safely_quote_err_filename (0, s),
+		 safely_quote_err_filename (0, relpath ? relpath : &path[pos]),
 		 action);
+	  /*NOTREACHED*/
+	  free (relpath);
 	}
-    }
+    } while (splitstring (path, path_separators, false, &pos, &len));
 }
 
 

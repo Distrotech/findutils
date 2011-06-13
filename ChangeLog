@@ -1,5 +1,30 @@
 2011-06-13  James Youngman  <jay@gnu.org>
 
+	Split strings into fields nondestructively.
+	* lib/splitstring.c: New file; defines splitstring(), which will
+	non-destructively locate character-separated fields in a string.
+	* lib/splitstring.h: New file; declares splitstring.
+	* lib/test_splitstring.c: New file; unit test for splitstring.c.
+	* lib/nextelem.c: Delete (obsoleted by splitstring.c).
+	* lib/nextelem.h: Delete (obsoleted by splitstring.h).
+	* lib/Makefile.am (libfind_a_SOURCES): Add splitstring.c,
+	splitstring.c.  Remove nextelem.c, nextelem.h.
+	(check_PROGRAMS): Add test_splitstring.
+	(TESTS): Add test_splitstring.
+	(test_splitstring_SOURCES): Sources for the
+	test_splitstring unit test.
+	* locate/locate.c: Include splitstring.h rather than nextelem.h.
+	(dolocate): Use splitstring rather than next_element.  In places
+	where we need a nul-terminated string, use strndup() to create it.
+	Convert some space-tab sequences to regular spacing.
+	* find/parser.c: Include splitstring.h rather than nextelem.h.
+	(check_path_safety): Use splitstring rather than next_element.
+	* import-gnulib.config (modules): Depend on the module strndup.
+	* cfg.mk: Exempt lib/test_splitstring.c from calling
+	bindtextdomain or set_program_name.
+
+2011-06-13  James Youngman  <jay@gnu.org>
+
 	Fix compilation failure in bigram.c by including <locale.h>.
 	* locate/bigram.c: Include <locale.h>.
 
