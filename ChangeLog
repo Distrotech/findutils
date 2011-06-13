@@ -1,3 +1,13 @@
+2011-06-14  James Youngman  <jay@gnu.org>
+
+	Fix coredump bug introduced in the previous change.
+	* locate/locate.c (dolocate): Remove declaration of e, which was
+	replaced by the variable db_name.  Change the last two uses of 'e'
+	to use 'db_name'.  This bugfix prevents possible coredumps when
+	issuing error messages about reads from the locate database (or
+	warnings about byte order for old databases).  This bug had been
+	introduced in the previous change.
+
 2011-06-13  James Youngman  <jay@gnu.org>
 
 	Split strings into fields nondestructively.

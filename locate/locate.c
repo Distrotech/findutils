@@ -1570,7 +1570,6 @@ dolocate (int argc, char **argv, int secure_db_fd)
   int regex_options = RE_SYNTAX_EMACS;
   int stats = 0;
   int op_and = 0;
-  const char *e;
   FILE *fp;
   int they_chose_db = 0;
   bool did_stdin = false;       /* Set to prevent rereading stdin. */
@@ -1785,7 +1784,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
                 }
               else
                 {
-                  e = "<stdin>";
+                  db_name = "<stdin>";
                   fd = 0;
                   did_stdin = true;
                 }
@@ -1879,7 +1878,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
 
       /* Search this database for all patterns simultaneously */
       found = search_one_database (argc - optind, &argv[optind],
-                                   e, fp, filesize,
+                                   db_name, fp, filesize,
                                    ignore_case, print, basename_only,
                                    use_limit, &limits, stats,
                                    op_and, regex, regex_options);
