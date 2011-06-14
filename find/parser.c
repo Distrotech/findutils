@@ -1617,8 +1617,8 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 
       /* -newertY (for any Y) is invalid. */
       if (x == 't'
-	  || (0 == strchr (validchars, x))
-	  || (0 == strchr ( validchars, y)))
+	  || (NULL == strchr (validchars, x))
+	  || (NULL == strchr ( validchars, y)))
 	{
 	  return false;
 	}

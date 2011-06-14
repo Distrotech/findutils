@@ -1,5 +1,9 @@
 2011-06-14  James Youngman  <jay@gnu.org>
 
+	Avoid pointer/integer comparison on value returned by strchr.
+	* find/parser.c (parse_newerXY): Compare the result of strchr
+	against NULL rather than 0.
+
 	Fix further compiler warnings.
 	* find/ftsfind.c (show_outstanding_execdirs): Now that
 	execp->state.cmd_argc is a size_t, we can't print it with %d.  So
