@@ -114,7 +114,8 @@ impl_pred_exec (const char *pathname,
 		struct predicate *pred_ptr)
 {
   struct exec_val *execp = &pred_ptr->args.exec_vec;
-  char *target;
+  char *buf = NULL;
+  const char *target;
   bool result;
   const bool local = is_exec_in_local_dir (pred_ptr->pred_func);
   char *prefix;
@@ -135,7 +136,7 @@ impl_pred_exec (const char *pathname,
 		 safely_quote_err_filename (0, pathname));
 	  /*NOTREACHED*/
 	}
-      target = base_name (state.rel_pathname);
+      target = buf = base_name (state.rel_pathname);
       if ('/' == target[0])
 	{
 	  /* find / execdir ls -d {} \; */
@@ -210,10 +211,10 @@ impl_pred_exec (const char *pathname,
 	  result = false;
 	}
     }
-  if (target != pathname)
+  if (buf)
     {
       assert (local);
-      free (target);
+      free (buf);
     }
   return result;
 }

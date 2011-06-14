@@ -38,6 +38,7 @@
 #include <errno.h>
 #include <assert.h>
 #include <locale.h>
+#include <inttypes.h>
 
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -305,7 +306,7 @@ show_outstanding_execdirs (FILE *fp)
 	      fprintf (fp, "%s ", pfx);
 	      if (execp->multiple)
 		fprintf (fp, "multiple ");
-	      fprintf (fp, "%d args: ", execp->state.cmd_argc);
+	      fprintf (fp, "%" PRIuMAX " args: ", (uintmax_t) execp->state.cmd_argc);
 	      for (i=0; i<execp->state.cmd_argc; ++i)
 		{
 		  fprintf (fp, "%s ", execp->state.cmd_argv[i]);

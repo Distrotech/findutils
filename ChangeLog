@@ -1,5 +1,16 @@
 2011-06-14  James Youngman  <jay@gnu.org>
 
+	Fix further compiler warnings.
+	* find/ftsfind.c (show_outstanding_execdirs): Now that
+	execp->state.cmd_argc is a size_t, we can't print it with %d.  So
+	print it with PRIuMAX (and include <inttypes.h> to define that).
+	* find/tree.c (prec_name): change return type to const char*.
+	(type_name): Likewise.
+	* find/exec.c (impl_pred_exec): use a separate variable (buf) to
+	point the memory allocated/freed with malloc/free, so that the
+	existing variable target can then be const (and so we can assign
+	pathname to it without a compiler warning).
+
 	Eliminate some compiler warnings.
 	* find/find.c: Remove definition of SAFE_CHDIR, which we don't
 	use.
@@ -31,6 +42,7 @@
 	(prec_name): Likewise!  Also remove spurious parentheses around
 	return value.
 	(prec_name): Remove spurious parentheses around return value.
+
 	* lib/buildcmd.h (buildcmd_state): change types of several fields
 	to size_t: cmd_argc, cmd_argv_alloc, largest_successful_arg_count,
 	smallest_failed_arg_count.

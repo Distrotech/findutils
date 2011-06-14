@@ -1642,7 +1642,7 @@ cost_name (enum EvaluationCost cost)
 }
 
 
-static char *
+static const char *
 type_name (short type)
 {
   int i;
@@ -1653,7 +1653,7 @@ type_name (short type)
   return type_table[i].type_name;
 }
 
-static char *
+static const char *
 prec_name (short prec)
 {
   int i;
