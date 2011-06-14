@@ -28,7 +28,6 @@
 #include <config.h>
 #include "defs.h"
 
-#define USE_SAFE_CHDIR 1
 #undef  STAT_MOUNTPOINTS
 
 

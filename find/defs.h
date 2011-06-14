@@ -462,8 +462,6 @@ PREDICATEFUNCTION pred_context;
 
 
 
-int launch (struct buildcmd_control *ctl, void *usercontext, int argc, char **argv);
-
 char *find_pred_name (PRED_FUNC pred_func);
 
 

@@ -1732,6 +1732,8 @@ pred_context (const char *pathname, struct stat *stat_buf,
   security_context_t scontext;
   int rv = (*options.x_getfilecon) (state.cwd_dir_fd, state.rel_pathname,
 				    &scontext);
+  (void) stat_buf;
+
   if (rv < 0)
     {
       error (0, errno, _("getfilecon failed: %s"),
@@ -2040,7 +2042,7 @@ static const char *weekdays[] =
   {
     "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
   };
-static char * months[] =
+static const char * months[] =
   {
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -2051,7 +2053,7 @@ static char *
 ctime_format (struct timespec ts)
 {
   const struct tm * ptm;
-#define TIME_BUF_LEN 1024u
+#define TIME_BUF_LEN 1024
   static char resultbuf[TIME_BUF_LEN];
   int nout;
 
@@ -2094,9 +2096,7 @@ ctime_format (struct timespec ts)
    Return BUF. */
 
 static char *
-blank_rtrim (str, buf)
-     char *str;
-     char *buf;
+blank_rtrim (char *str, char *buf)
 {
   int i;
 
@@ -2107,7 +2107,7 @@ blank_rtrim (str, buf)
   while ((i >= 0) && ((buf[i] == ' ') || buf[i] == '\t'))
     i--;
   buf[++i] = '\0';
-  return (buf);
+  return buf;
 }
 
 /* Print out the predicate list starting at NODE. */

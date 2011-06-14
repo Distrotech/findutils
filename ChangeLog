@@ -1,5 +1,43 @@
 2011-06-14  James Youngman  <jay@gnu.org>
 
+	Eliminate some compiler warnings.
+	* find/find.c: Remove definition of SAFE_CHDIR, which we don't
+	use.
+	* find/defs.h: Remove redundant declaration of launch.
+	* find/parser.c (parse_false): Cast unused arguments to void.
+	(parse_print0): Likewise.
+	(pred_context): Likewise.
+	(parse_newerXY): Add some parens for slightly greater clarity.
+	(make_segment): Avoid switch-missing-default-case warning by
+	turning it into an if statement.
+	(check_path_safety): Remove unused argument.
+	(insert_exec_ok): Don't pass the unwanted arugment to
+	check_path_safety.
+	(get_relative_timestamp): silence compiler warning by adding a
+	case for the remaining enumberation value rather than using
+	default.
+	* find/pred.c (months): the strings can be const char*, rather
+	than just char*.
+	(ctime_format): change TIME_BUF_LEN to an integer constant to
+	avoid signed/unsigned comparison.
+	(blank_rtrim): Change to new-style function definition(!) and
+	remove unnecessary parentheses around a return value.
+	* lib/buildcmd.c: Omit redundant declaration of environ.
+	* find/tree.c (get_expr): Make static.
+	(cost_assoc): make the name field const.
+	(prec_assoc): make the prec_name field const.
+	(op_assoc): make the type_name field const.
+	(type_name): turn into an ANSI function definition(!).
+	(prec_name): Likewise!  Also remove spurious parentheses around
+	return value.
+	(prec_name): Remove spurious parentheses around return value.
+	* lib/buildcmd.h (buildcmd_state): change types of several fields
+	to size_t: cmd_argc, cmd_argv_alloc, largest_successful_arg_count,
+	smallest_failed_arg_count.
+	(buildcmd_control): change types of several fields
+	to size_t: max_arg_count, initial_argc, lines_per_exec,
+	args_per_exec.
+
 	Assume SIGCHLD and O_NOFOLLOW are defined by gnulib.
 	* find/find.c: Since gnulib defines O_NOFOLLOW, don't check to see
 	if the macro is defined.  Check instead to see if it is 0.

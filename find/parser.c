@@ -953,6 +953,9 @@ insert_false(void)
 static bool
 parse_false (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
+  (void) entry;
+  (void) argv;
+  (void) arg_ptr;
   return insert_false ();
 }
 
@@ -1614,8 +1617,8 @@ parse_newerXY (const struct parser_table* entry, char **argv, int *arg_ptr)
 
       /* -newertY (for any Y) is invalid. */
       if (x == 't'
-	  || 0 == strchr (validchars, x)
-	  || 0 == strchr ( validchars, y))
+	  || (0 == strchr (validchars, x))
+	  || (0 == strchr ( validchars, y)))
 	{
 	  return false;
 	}
@@ -2111,6 +2114,9 @@ parse_print (const struct parser_table* entry, char **argv, int *arg_ptr)
 static bool
 parse_print0 (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
+  (void) entry;
+  (void) argv;
+  (void) arg_ptr;
   return insert_fprint (entry, NULL);
 }
 
@@ -3106,17 +3112,15 @@ make_segment (struct segment **segment,
   strncpy (fmt, format, len);
   fmt += len;
 
-  switch (kind)
+  if (kind == KIND_PLAIN     /* Plain text string, no % conversion. */
+      || kind == KIND_STOP)  /* Terminate argument, no newline. */
     {
-    case KIND_PLAIN:		/* Plain text string, no % conversion. */
-    case KIND_STOP:		/* Terminate argument, no newline. */
       assert (0 == format_char);
       assert (0 == aux_format_char);
       *fmt = '\0';
       if (mycost > pred->p_cost)
 	pred->p_cost = NeedsNothing;
       return &(*segment)->next;
-      break;
     }
 
   assert (kind == KIND_FORMAT);
@@ -3231,7 +3235,7 @@ make_segment (struct segment **segment,
 
 
 static void
-check_path_safety (const char *action, char **argv)
+check_path_safety (const char *action)
 {
   const char *path = getenv ("PATH");
   const char *path_separators = ":";
@@ -3328,7 +3332,7 @@ insert_exec_ok (const char *action,
     {
       execp->wd_for_exec = NULL;
       options.ignore_readdir_race = false;
-      check_path_safety (action, argv);
+      check_path_safety (action);
     }
   else
     {
@@ -3532,7 +3536,8 @@ get_relative_timestamp (const char *str,
 	{
 	case COMP_LT: result->kind = COMP_GT; break;
 	case COMP_GT: result->kind = COMP_LT; break;
-	default: break;
+	case COMP_EQ:
+	  break; /* inversion leaves it unchanged */
 	}
 
       /* Convert the ASCII number into floating-point. */

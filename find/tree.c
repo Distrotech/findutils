@@ -112,7 +112,7 @@ matches_start_point (const char *glob, bool foldcase)
    expression, which really is the expression that should be handed to
    our caller, so get_expr recurses. */
 
-struct predicate *
+static struct predicate *
 get_expr (struct predicate **input,
 	  short int prev_prec,
 	  const struct predicate* prev_pred)
@@ -1578,7 +1578,7 @@ get_new_pred_chk_op (const struct parser_table *entry,
 struct cost_assoc
 {
   enum EvaluationCost cost;
-  char *name;
+  const char *name;
 };
 struct cost_assoc cost_table[] =
   {
@@ -1598,7 +1598,7 @@ struct cost_assoc cost_table[] =
 struct prec_assoc
 {
   short prec;
-  char *prec_name;
+  const char *prec_name;
 };
 
 static struct prec_assoc prec_table[] =
@@ -1615,7 +1615,7 @@ static struct prec_assoc prec_table[] =
 struct op_assoc
 {
   short type;
-  char *type_name;
+  const char *type_name;
 };
 
 static struct op_assoc type_table[] =
@@ -1643,27 +1643,25 @@ cost_name (enum EvaluationCost cost)
 
 
 static char *
-type_name (type)
-     short type;
+type_name (short type)
 {
   int i;
 
   for (i = 0; type_table[i].type != (short) -1; i++)
     if (type_table[i].type == type)
       break;
-  return (type_table[i].type_name);
+  return type_table[i].type_name;
 }
 
 static char *
-prec_name (prec)
-     short prec;
+prec_name (short prec)
 {
   int i;
 
   for (i = 0; prec_table[i].prec != (short) -1; i++)
     if (prec_table[i].prec == prec)
       break;
-  return (prec_table[i].prec_name);
+  return prec_table[i].prec_name;
 }
 
 
