@@ -89,9 +89,35 @@ AC_SYS_LARGEFILE
 gl_INIT
 
 dnl Enable various GCC warnings.
-gl_WARN_ADD([-Wdeclaration-after-statement])
-gl_WARN_ADD([-Wall])
+gl_MANYWARN_ALL_GCC([warnings])
+# Set up the list of the pointless, undesired warnings.
+nw=
+nw="$nw -Wsystem-headers"       # Don't let system headers trigger warnings
+nw="$nw -Wundef"                # All compiler preprocessors support #if UNDEF
+nw="$nw -Wtraditional"          # All compilers nowadays support ANSI C
+nw="$nw -Wconversion"           # These warnings usually don't point to mistakes.
+nw="$nw -Wsign-conversion"      # Likewise.
+nw="$nw -Wc++-compat"           # malloc returns void* and a cast would be ugly.
+# Warnings we might enable in the future, but not yet (because they generate a
+# lot of noise).
+marginal=""
+marginal="$marginal -Wtraditional-conversion"
+marginal="$marginal -Wpadded"
+marginal="$marginal -Wformat-nonliteral"
+marginal="$marginal -Wunreachable-code"
+marginal="$marginal -Wunused-parameter"
+excluded_warnings="$nw $marginal"
 
+# Enable all GCC warnings not in this list.
+gl_MANYWARN_COMPLEMENT([warnings], [$warnings], [$excluded_warnings])
+
+AC_ARG_ENABLE(compiler-warnings,
+  AS_HELP_STRING(--enable-compiler-warnings,Enable many compiler warnings),
+  for w in $warnings
+  do
+    gl_WARN_ADD([$w])
+  done
+)
 
 dnl Older versions of gl/m4/nls.m4 provide AM_MKINSTALLDIRS.
 dnl The current version of gnulib does not, but the version of

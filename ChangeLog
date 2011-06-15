@@ -1,3 +1,12 @@
+2011-06-15  James Youngman  <jay@gnu.org>
+
+	Adopt the use of the maywarnings module.
+	* import-gnulib.config (modules): Add manywarnings.
+	* configure.ac: Invoke gl_MANYWARN_ALL_GCC and
+	gl_MANYWARN_COMPLEMENT.
+	* configure.ac: Turn on the compiler warnings only if
+	--enable-compiler-warnings was specified to configure.
+
 2011-06-14  James Youngman  <jay@gnu.org>
 
 	Avoid pointer/integer comparison on value returned by strchr.
