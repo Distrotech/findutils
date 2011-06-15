@@ -2691,7 +2691,7 @@ parse_user (const struct parser_table* entry, char **argv, int *arg_ptr)
 static bool
 parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  int features = 0;
+  bool has_features = false;
   int flags;
 
   (void) argv;
@@ -2703,33 +2703,33 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
 
 #if CACHE_IDS
   printf ("CACHE_IDS ");
-  ++features;
+  has_features = true;
 #endif
 #if DEBUG
   printf ("DEBUG ");
-  ++features;
+  has_features = true;
 #endif
 #if DEBUG_STAT
   printf ("DEBUG_STAT ");
-  ++features;
+  has_features = true;
 #endif
 #if defined HAVE_STRUCT_DIRENT_D_TYPE
   printf ("D_TYPE ");
-  ++features;
+  has_features = true;
 #endif
 #if defined O_NOFOLLOW
   printf ("O_NOFOLLOW(%s) ",
 	  (options.open_nofollow_available ? "enabled" : "disabled"));
-  ++features;
+  has_features = true;
 #endif
 #if defined LEAF_OPTIMISATION
   printf ("LEAF_OPTIMISATION ");
-  ++features;
+  has_features = true;
 #endif
   if (0 < is_selinux_enabled ())
     {
       printf ("SELINUX ");
-      ++features;
+      has_features = true;
     }
 
   flags = 0;
@@ -2737,7 +2737,7 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
     {
       int nflags = 0;
       printf ("FTS(");
-      ++features;
+      has_features = true;
 
       if (flags & FTS_CWDFD)
 	{
@@ -2746,15 +2746,15 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
 	      printf (",");
 	    }
 	  printf ("FTS_CWDFD");
-	  ++nflags;
+	  has_features = true;
 	}
       printf (") ");
     }
 
   printf ("CBO(level=%d) ", (int)(options.optimisation_level));
-  ++features;
+  has_features = true;
 
-  if (0 == features)
+  if (!has_features)
     {
       /* For the moment, leave this as English in case someone wants
 	 to parse these strings. */

@@ -1,5 +1,11 @@
 2011-06-15  James Youngman  <jay@gnu.org>
 
+	Fix compiler warnings in lib/regextype.c and find/parser.c.
+	* lib/regextype.c (tagRegexTypeMap): make the name field const.
+	* find/parser.c (parse_version): instead of counting features, use
+	a boolean variable, nofeatures.  This avoids compiler warnings
+	about overflow.
+
 	Adopt the use of the manywarnings module.
 	* import-gnulib.config (modules): Add manywarnings.
 	* configure.ac: Invoke gl_MANYWARN_ALL_GCC and

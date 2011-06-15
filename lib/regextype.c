@@ -49,9 +49,9 @@
 
 struct tagRegexTypeMap
 {
-  char *name;
+  const char *name;
   int  context;
-  int   option_val;
+  int  option_val;
 };
 
 struct tagRegexTypeMap regex_map[] =
