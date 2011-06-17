@@ -22,7 +22,7 @@ local-checks-to-skip += sc_error_message_period sc_error_message_uppercase \
 
 exclude_file_name_regexp--sc_obsolete_symbols = build-aux/src-sniff\.py
 exclude_file_name_regexp--sc_space_tab = \
-	xargs/testsuite/(inputs/.*\.xi|xargs.(gnu|posix|sysv)/.*\.xo)$$
+	xargs/testsuite/(inputs/.*\.xi|xargs.(gnu|posix|sysv)/.*\.xo)|find/testsuite/test_escapechars\.golden$$
 
 # Skip sc_two_space_separator_in_usage because it reflects the requirements
 # of help2man.   It gets run on files that are not help2man inputs, and in
@@ -31,7 +31,7 @@ local-checks-to-skip += sc_two_space_separator_in_usage
 
 # Some test inputs/outputs have trailing blanks.
 exclude_file_name_regexp--sc_trailing_blank = \
- ^COPYING|(po/.*\.po)|(find/testsuite/find.gnu/printf\.xo)|(xargs/testsuite/(inputs/.*\.xi|xargs\.(gnu|posix|sysv)/.*\.(x[oe])))$$
+ ^COPYING|(po/.*\.po)|(find/testsuite/(test_escapechars\.golden|find.gnu/printf\.xo))|(xargs/testsuite/(inputs/.*\.xi|xargs\.(gnu|posix|sysv)/.*\.(x[oe])))$$
 
 exclude_file_name_regexp--sc_prohibit_empty_lines_at_EOF = \
 	^(.*/testsuite/.*\.(xo|xi|xe))|COPYING|doc/regexprops\.texi|m4/order-(bad|good)\.bin$$

@@ -1,3 +1,17 @@
+2011-06-18  James Youngman  <jay@gnu.org>
+
+	Add new test for octal and letter escapes in -printf format.
+	* find/testsuite/test_escapechars.golden: Expected output file.
+	* find/testsuite/Makefile.am (EXTRA_DIST_GOLDEN): New variable;
+	distribute test_escapechars.golden.
+	* find/testsuite/test_escapechars.sh: New test.
+	* find/testsuite/Makefile.am (test_shell_progs): New variable,
+	where we keep the list of shell script tests.  Move existing
+	examples from TESTS and add test_escapechars.sh.
+	* find/testsuite/Makefile.am (TESTS): Refer to test_shell_progs.
+	* cfg.mk: allow trailing blanks and space-tab sequences in
+	find/testsuite/test_escapechars.golden.
+
 2011-06-17  James Youngman  <jay@gnu.org>
 
 	Split find's printf-related code into a new file.
