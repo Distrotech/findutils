@@ -1,3 +1,17 @@
+2011-06-17  James Youngman  <jay@gnu.org>
+
+	Split find's printf-related code into a new file.
+	* find/print.h: New file.  Declare insert_fprintf and
+	make_segment.
+	* find/print.c: New file. Move definitions of insert_fprintf and
+	make_segment to here.
+	* find/parser.c: Include "parser.h".  Move declarations of
+	insert_fprintf and make_segment into that file; move the
+	definitions into parser.c.
+	* find/Makefile.am (libfindtools_a_SOURCES): Add print.c.
+	(EXTRA_DIST): Add print.h.
+	* po/POTFILES.in: Add find/print.c.
+
 2011-06-15  James Youngman  <jay@gnu.org>
 
 	Fix compiler warnings in lib/regextype.c and find/parser.c.

@@ -5,7 +5,7 @@ localedir = $(datadir)/locale
 # regexprops_SOURCES = regexprops.c
 
 noinst_LIBRARIES = libfindtools.a
-libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c exec.c tree.c util.c sharefile.c
+libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c exec.c tree.c util.c sharefile.c print.c
 
 
 # We always build two versions of find, one with fts, one without.
@@ -29,7 +29,7 @@ endif
 
 # We don't just include man_MANS in EXTRA_DIST because while the value of
 # man_MANS is not always the same, we want to distribute all of those files.
-EXTRA_DIST = defs.h sharefile.h find.1 ftsfind.1 oldfind.1
+EXTRA_DIST = defs.h sharefile.h print.h find.1 ftsfind.1 oldfind.1
 INCLUDES = -I../gl/lib -I$(top_srcdir)/lib -I$(top_srcdir)/gl/lib -I../intl -DLOCALEDIR=\"$(localedir)\"
 LDADD = ./libfindtools.a ../lib/libfind.a ../gl/lib/libgnulib.a $(LIBINTL) $(LIB_CLOCK_GETTIME) $(LIB_EACCESS) $(LIB_SELINUX) $(LIB_CLOSE) $(MODF_LIBM) $(FINDLIBS)
 SUBDIRS = . testsuite
