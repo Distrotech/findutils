@@ -94,7 +94,7 @@ static char *linebuf;
 static int keep_stdin = 0;
 
 /* Line number in stdin since the last command was executed.  */
-static int lineno = 0;
+static size_t lineno = 0;
 
 static struct buildcmd_state bc_state;
 static struct buildcmd_control bc_ctl;
@@ -252,7 +252,7 @@ get_char_oct_or_hex_escape (const char *s)
 	     s);
     }
   errno = 0;
-  endp = (char*)p;
+  endp = NULL;
   val = strtoul (p, &endp, base);
 
   /* This if condition is carefully constructed to do
@@ -363,8 +363,9 @@ main (int argc, char **argv)
   int optc, option_index;
   int show_limits = 0;			/* --show-limits */
   int always_run_command = 1;
-  char *input_file = "-"; /* "-" is stdin */
-  char *default_cmd = "echo";
+  const char *input_file = "-"; /* "-" is stdin */
+  char default_cmd[] = "echo";
+  char *default_arglist[1];
   int (*read_args) (void) = read_line;
   void (*act_on_init_result)(void) = noop;
   enum BC_INIT_STATUS bcstatus;
@@ -599,7 +600,7 @@ main (int argc, char **argv)
 	    {
 	      error (EXIT_FAILURE, 0,
 		     _("option --%s may not be set to a value which includes `='"),
-		     longopts[option_index]);
+		     longopts[option_index].name);
 	    }
 	  slot_var_name = optarg;
 	  if (0 != unsetenv (slot_var_name))
@@ -674,7 +675,8 @@ main (int argc, char **argv)
     {
       optind = 0;
       argc = 1;
-      argv = &default_cmd;
+      default_arglist[0] = default_cmd;
+      argv = default_arglist;
     }
 
   if (show_limits)
@@ -749,15 +751,15 @@ main (int argc, char **argv)
     }
   else
     {
-      int i;
-      size_t len;
+      int i, args;
       size_t *arglen = xmalloc (sizeof (size_t) * argc);
 
       for (i = optind; i < argc; i++)
 	arglen[i] = strlen (argv[i]);
       bc_ctl.rplen = strlen (bc_ctl.replace_pat);
-      while ((len = (*read_args) ()) != -1)
+      while ((args = (*read_args) ()) != -1)
 	{
+	  size_t len = (size_t) args;
 	  /* Don't do insert on the command name.  */
 	  bc_clear_args (&bc_ctl, &bc_state);
 	  bc_state.cmd_argv_chars = 0; /* begin at start of buffer */
@@ -1028,7 +1030,7 @@ read_string (void)
 static bool
 print_args (bool ask)
 {
-  int i;
+  size_t i;
 
   for (i = 0; i < bc_state.cmd_argc - 1; i++)
     fprintf (stderr, "%s ", bc_state.cmd_argv[i]);
@@ -1135,7 +1137,8 @@ prep_child_for_exec (void)
 	   * stdin is almost as good as executing it
 	   * with its stdin attached to /dev/null.
 	   */
-	  error (0, errno, "%s", quotearg_n_style (0, locale_quoting_style, inputfile));
+	  error (0, errno, "%s",
+		 quotearg_n_style (0, locale_quoting_style, inputfile));
 	}
     }
 }
@@ -1158,6 +1161,8 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
   int r;
 
   (void) ctl;
+  (void) argc;
+  (void) usercontext;
 
   if (!query_before_executing || print_args (true))
     {
@@ -1431,7 +1436,7 @@ wait_for_proc (bool all, unsigned int minreap)
 	       * number of child processes still executing, so the
 	       * loop should have terminated.
 	       */
-	      error (0, 0, _("WARNING: Lost track of %d child processes"),
+	      error (0, 0, _("WARNING: Lost track of %lu child processes"),
 		     procs_executing);
 	    }
 	  else
@@ -1508,6 +1513,7 @@ wait_for_proc_all (void)
 static void
 increment_proc_max (int ignore)
 {
+        (void) ignore;
 	/* If user increments from 0 to 1, we'll take it and serialize. */
 	proc_max++;
 	/* If we're waiting for a process to die before doing something,
@@ -1518,6 +1524,7 @@ increment_proc_max (int ignore)
 static void
 decrement_proc_max (int ignore)
 {
+        (void) ignore;
 	if (proc_max > 1)
 		proc_max--;
 }

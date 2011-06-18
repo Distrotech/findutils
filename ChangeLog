@@ -1,3 +1,33 @@
+2011-06-18  James Youngman  <jay@gnu.org>
+
+	Fix some compiler warnings in xargs.
+	* xargs/xargs.c: Remove definition of the unused macro VOID.
+	Include error.h instead of declaring error (incorrectly).
+	Change the type of lineno from int to size_t.
+	(get_char_oct_or_hex_escape): Don't point endp unnecessarily at p,
+	because they have different constness.  There's no need for this,
+	just initialise it to NULL.
+	(main): Make input_file const.   Make the default arglist
+	non-const, to avoid a constness warning.
+	(main): Pass the option name as the argument to error's %s format,
+	as opposed to the whole struct (this was a bug, but since the name
+	member was the first in the struct, there were probably no
+	symptoms).
+	(main): read_args returns an int, but the only negative value it
+	can return is -1.  Once we know that didn't happen, assign the
+	value to a size_t variable to avoid signed/unsigned warnings
+	elsewhere.
+	(xargs_do_exec): Manually inhibit some unused-parameters warnings.
+	(print_args): Use size_t as the type of a loop variable.
+	(wait_for_proc): Since procs_executing is an unsigned long, use a
+	%lu format specifier to print it.
+	(increment_proc_max): Inhibit an unused-parameter warning (the
+	signal number).
+	(decrement_proc_max): Likewise.
+	* lib/buildcmd.h (struct buildcmd_control): Make member
+	replace_pat const.  Change the type of lines_per_exec to unsigned
+	long.
+
 2011-06-20  James Youngman  <jay@gnu.org>
 
 	Use a consistent include order in header files too.

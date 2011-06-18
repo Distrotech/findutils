@@ -87,7 +87,7 @@ struct buildcmd_control
    the end of the command argument list, they are each stuck into the
    initial args, replacing each occurrence of the `replace_pat' in the
    initial args.  */
-  char *replace_pat;
+  const char *replace_pat;
 
   /* Number of initial arguments given on the command line.  */
   size_t initial_argc;		/* 0 */
@@ -97,7 +97,7 @@ struct buildcmd_control
 
   /* If nonzero, the maximum number of nonblank lines from stdin to use
      per command line.  */
-  size_t lines_per_exec;		/* 0 */
+  unsigned long lines_per_exec;		/* 0 */
 
   /* The maximum number of arguments to use per command line.  */
   size_t args_per_exec;
