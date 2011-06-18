@@ -1,5 +1,13 @@
 2011-06-18  James Youngman  <jay@gnu.org>
 
+	Remove an unnecessary argument from insert_fprintf.
+	* find/print.c (insert_fprintf): Eliminate the 'func' argument,
+	since it is always pref_fprintf.
+	* find/print.h: Adjust the prototype accordingly.
+	* find/parser.c (parse_fprintf): Don't pass the func argument to
+	insert_fprintf.
+	(parse_printf): Likewise.
+
 	Add new test for octal and letter escapes in -printf format.
 	* find/testsuite/test_escapechars.golden: Expected output file.
 	* find/testsuite/Makefile.am (EXTRA_DIST_GOLDEN): New variable;

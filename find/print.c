@@ -198,10 +198,9 @@ make_segment (struct segment **segment,
   return &(*segment)->next;
 }
 
-/* XXX: do we need to pass FUNC to this function? */
 bool
 insert_fprintf (struct format_val *vec,
-		const struct parser_table *entry, PRED_FUNC func,
+		const struct parser_table *entry,
 		const char *format_const)
 {
   char *format = (char*)format_const; /* XXX: casting away constness */
@@ -210,7 +209,7 @@ insert_fprintf (struct format_val *vec,
   struct segment **segmentp;	/* Address of current segment. */
   struct predicate *our_pred;
 
-  our_pred = insert_primary_withpred (entry, func, format_const);
+  our_pred = insert_primary_withpred (entry, pred_fprintf, format_const);
   our_pred->side_effects = our_pred->no_default_print = true;
   our_pred->args.printf_vec = *vec;
   our_pred->need_type = false;

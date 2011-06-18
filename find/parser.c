@@ -2115,7 +2115,7 @@ parse_printf (const struct parser_table* entry, char **argv, int *arg_ptr)
     {
       struct format_val fmt;
       open_stdout (&fmt);
-      if (insert_fprintf (&fmt, entry, pred_fprintf, format))
+      if (insert_fprintf (&fmt, entry, format))
 	{
 	  return true;
 	}
@@ -2142,7 +2142,7 @@ parse_fprintf (const struct parser_table* entry, char **argv, int *arg_ptr)
 	  open_output_file (filename, &fmt);
 	  saved_argc = *arg_ptr;
 
-	  if (insert_fprintf (&fmt, entry, pred_fprintf, format))
+	  if (insert_fprintf (&fmt, entry, format))
 	    return true;
 	}
     }

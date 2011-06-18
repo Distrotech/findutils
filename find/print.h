@@ -12,5 +12,5 @@ struct segment **make_segment (struct segment **segment,
 			       struct predicate *pred);
 bool
 insert_fprintf (struct format_val *vec,
-		const struct parser_table *entry, PRED_FUNC func,
+		const struct parser_table *entry,
 		const char *format_const);
