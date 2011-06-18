@@ -1,5 +1,26 @@
 2011-06-18  James Youngman  <jay@gnu.org>
 
+	Move the printing code into print.c.
+	* find/print.c (scan_for_digit_differences): Move to this file
+	from pred.c.
+	(do_time_format): Move to this file from pred.c.
+	(format_date): Likewise.
+	(weekdays): Likewise.
+	(months): Likewise.
+	(ctime_format): Likewise.
+	(file_sparseness): Likewise.
+	(checked_fprintf): Likewise.
+	(checked_print_quoted): Likewise.
+	(checked_fwrite): Likewise.
+	(checked_fflush): Likewise.
+	(HANDLE_TYPE): Likewise.
+	(do_fprintf): Likewise.
+	(pred_fprintf): Likewise.
+	* find/pred.c: Don't include human.h, filemode.h, verify.h or
+	xalloc.h, we don't need them.  Don't define MAX.  Don't declare
+	ctime_format or format_date.  Each of the functions moved into
+	print.c were moved out of this file.
+
 	Reserve format specifiers %(, %{ and %[ for future use.
 	* find/print.c (insert_fprintf): Reject %(, %{ and %[.
 	(make_segment): Remove code which previously supposedly rejected
