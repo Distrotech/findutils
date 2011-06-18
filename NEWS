@@ -39,6 +39,13 @@ bug #29512.
 
 ** Functional Changes to find
 
+For find -printf, the format specifiers %{, %[ and %( are all now
+reserved for future use.  Previously these would print {, [ and (
+respectively, but in any case those characters can just be printed
+literally like this: find -printf "{[(".  Code changes intended to
+explain that these are reserved went into findutils-4.5.5, but this
+code had, before now, had no effect.
+
 When expanding "-printf '%F'", find reads /etc/mtab.  We now take the
 last match found in this file, rather than the first, to better deal
 with implementations which have duplicate entries (for example

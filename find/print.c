@@ -67,6 +67,10 @@ make_segment (struct segment **segment,
   enum EvaluationCost mycost = NeedsNothing;
   char *fmt;
 
+  assert (format_char != '{');
+  assert (format_char != '[');
+  assert (format_char != '(');
+
   *segment = xmalloc (sizeof (struct segment));
 
   (*segment)->segkind = kind;
@@ -180,15 +184,6 @@ make_segment (struct segment **segment,
       *fmt++ = 'o';
       pred->need_stat = true;
       mycost = NeedsStatInfo;
-      break;
-
-    case '{':
-    case '[':
-    case '(':
-      error (EXIT_FAILURE, 0,
-	     _("error: the format directive `%%%c' is reserved for future use"),
-	     (int)kind);
-      /*NOTREACHED*/
       break;
     }
   *fmt = '\0';
@@ -326,13 +321,27 @@ insert_fprintf (struct format_val *vec,
 	    }
 	  else
 	    {
-	      /* An unrecognized % escape.  Print the char after the %. */
-	      error (0, 0, _("warning: unrecognized format directive `%%%c'"),
-		     *scan2);
-	      segmentp = make_segment (segmentp, format, scan - format,
-				       KIND_PLAIN, 0, 0,
-				       our_pred);
-	      format = scan + 1;
+	      switch (*scan2)
+		{
+		case '{':
+		case '[':
+		case '(':
+		  error (EXIT_FAILURE, 0,
+			 _("error: the format directive `%%%c' is reserved for future use"),
+			 (int)*scan2);
+		  /*NOTREACHED*/
+		  break;
+
+		default:
+		  /* An unrecognized % escape.  Print the char after the %. */
+		  error (0, 0,
+			 _("warning: unrecognized format directive `%%%c'"),
+			 *scan2);
+		  segmentp = make_segment (segmentp, format, scan - format,
+					   KIND_PLAIN, 0, 0,
+					   our_pred);
+		  format = scan + 1;
+		}
 	      continue;
 	    }
 	}

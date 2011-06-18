@@ -1742,13 +1742,9 @@ because many of the fields, even numeric ones, are printed with %s.
 The format flag @samp{-} does work; it forces left-alignment of the
 field.
 
-@samp{%%} is a literal percent sign.  A @samp{%} character followed by
-an unrecognised character (i.e., not a known directive or @code{printf}
-field width and precision specifier), is discarded (but the
-unrecognised character is printed), and a warning message is printed
-to the standard error output (because it was probably a typo).  Don't
-rely on this behaviour, because other directives may be added in the
-future.
+@samp{%%} is a literal percent sign.  @xref{Reserved and Unknown
+Directives}, for a description of how format directives not mentioned
+below are handled.
 
 A @samp{%} at the end of the format argument causes undefined
 behaviour since there is no following character.  In some locales, it
@@ -1762,6 +1758,7 @@ from the novel you are reading.
 * Location Directives::
 * Time Directives::
 * Other Directives::
+* Reserved and Unknown Directives::
 * Formatting Flags::
 @end menu
 
@@ -1926,6 +1923,23 @@ File's last modification time in the format specified by @var{k}
 @item %Z
 File's SELinux context, or empty string if the file has no SELinux context.
 @end table
+
+@node Reserved and Unknown Directives
+@subsubsection Reserved and Unknown Directives
+
+The @samp{%(}, @samp{%@{} and @samp{%[} format directives, with or
+without field with and precision specifications, are reserved for
+future use. Don't use them and don't rely on current experiment to
+predict future behaviour.  To print @samp{(}, simply use @samp{(}
+rather than @samp{%(}.  Likewise for @samp{@{} and @samp{[}.
+
+Similarly, a @samp{%} character followed by any other unrecognised
+character (i.e., not a known directive or @code{printf} field width
+and precision specifier), is discarded (but the unrecognised character
+is printed), and a warning message is printed to the standard error
+output (because it was probably a typo).  Don't rely on this
+behaviour, because other directives may be added in the future.
+
 
 @node Time Formats
 @subsection Time Formats

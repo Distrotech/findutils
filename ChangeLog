@@ -1,5 +1,19 @@
 2011-06-18  James Youngman  <jay@gnu.org>
 
+	Reserve format specifiers %(, %{ and %[ for future use.
+	* find/print.c (insert_fprintf): Reject %(, %{ and %[.
+	(make_segment): Remove code which previously supposedly rejected
+	these format specifiers, but in fact did nothing.   Replace with
+	an assertion to document the fact that we do not expect to see
+	these format characters in make_segment.
+	* find/testsuite/find.gnu/printf-reserved.exp: New test case, for
+	%(, %{ and %[, which are all rejected.
+	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add
+	find.gnu/printf-reserved.exp.
+	* doc/find.texi (Reserved and Unkown Directives): Document this.
+	* find/find.1: Document this.
+	* NEWS: Mention this change.
+
 	Additional test cases for printf field width, precision and sign.
 	* find/testsuite/find.gnu/printf.exp: Add test cases for left and
 	right string alignment (%-10p), string truncation (%10.6p),

@@ -170,6 +170,7 @@ find.gnu/printf-nonlocal-symlink.exp \
 find.gnu/printf-slash.exp \
 find.gnu/printf-symlink.exp \
 find.gnu/printf-h.exp \
+find.gnu/printf-reserved.exp \
 find.gnu/prune-default-print.exp \
 find.gnu/regex1.exp \
 find.gnu/regex2.exp \
