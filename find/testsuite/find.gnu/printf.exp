@@ -2,5 +2,5 @@ exec rm -rf tmp
 exec mkdir tmp
 exec touch tmp/file
 exec chmod 600 tmp/file
-find_start p {tmp -type f -printf "a %d\n" -printf "b %f\n" -printf "c %h\n" -printf "d %H\n" -printf "e %l\n" -printf "f %m\n" -printf "g %n\n" -printf "h %p\n" -printf "i %P\n" -printf "j %y\n" -printf "k %Y\n" -printf "percent it%%works%%\n"}
+find_start p {tmp -type f -printf "a %d\n" -printf "b %f\n" -printf "c %h\n" -printf "d %H\n" -printf "e %l\n" -printf "f %m\n" -printf "g %n\n" -printf "h %p\n" -printf "i %P\n" -printf "j %y\n" -printf "k %Y\n" -printf "percent it%%works%%\n" -printf "string-right !%10p!\n" -printf "string-left !%-10p!\n" -printf "trunc-R !%10.6p!\n" -printf "trunc-L !%-10.6p!\n" -printf "a5 !%5d!\n" -printf "a05 !%05d!\n" -printf "a+ %+d\n" }
 exec rm -rf tmp
