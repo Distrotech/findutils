@@ -246,7 +246,8 @@ find.posix/user-missing.exp
 EXTRA_DIST_GOLDEN = \
 	test_escapechars.golden
 
-test_shell_progs = sv-bug-32043.sh test_escapechars.sh test_escape_c.sh
+test_shell_progs = sv-bug-32043.sh test_escapechars.sh test_escape_c.sh \
+	test_inode.sh
 
 EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO) $(EXTRA_DIST_GOLDEN) \
 	$(test_shell_progs) binary_locations.sh
