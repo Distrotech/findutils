@@ -14,7 +14,17 @@ bin_SCRIPTS = updatedb
 man_MANS = locate.1 updatedb.1 locatedb.5
 BUILT_SOURCES = dblocation.texi
 EXTRA_DIST = dblocation.texi locatedb.h updatedb.sh $(man_MANS)
-CLEANFILES = updatedb
+CLEANFILES = \
+	updatedb \
+	$(bigram_SOURCES:.c=.gcno) \
+	$(bigram_SOURCES:.c=.gcda) \
+	$(code_SOURCES:.c=.gcno) \
+	$(code_SOURCES:.c=.gcda) \
+	$(frcode_SOURCES:.c=.gcno) \
+	$(frcode_SOURCES:.c=.gcda) \
+	$(locate_SOURCES:.c=.gcno) \
+	$(locate_SOURCES:.c=.gcda)
+
 DISTCLEANFILES = dblocation.texi
 locate_SOURCES = locate.c word_io.c
 code_SOURCES = code.c word_io.c

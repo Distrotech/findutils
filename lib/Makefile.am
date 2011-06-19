@@ -24,7 +24,6 @@ EXTRA_DIST = extendbuf.h savedirinfo.h buildcmd.h \
 	fdleak.h unused-result.h check-regexprops.sh
 SUFFIXES =
 MOSTLYCLEANFILES =
-CLEANFILES = check-regexprops
 DISTCLEANFILES =
 MAINTAINERCLEANFILES =
 
@@ -37,6 +36,14 @@ libfind_a_SOURCES += printquoted.h listfile.h \
 libfind_a_SOURCES += listfile.c extendbuf.c buildcmd.c savedirinfo.c \
 	forcefindlib.c qmark.c printquoted.c regextype.c dircallback.c fdleak.c \
 	safe-atoi.c splitstring.c
+
+CLEANFILES = check-regexprops \
+	$(regexprops_SOURCES:.c=.gcno) \
+	$(regexprops_SOURCES:.c=.gcda) \
+	$(libfind_a_SOURCES:.c=.gcno) \
+	$(libfind_a_SOURCES:.c=.gcda) \
+	$(test_splitstring_SOURCES:.c=.gcno) \
+	$(test_splitstring_SOURCES:.c=.gcda)
 
 EXTRA_DIST += waitpid.c forcefindlib.c
 TESTS_ENVIRONMENT = REGEXPROPS=regexprops$(EXEEXT)

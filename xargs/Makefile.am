@@ -8,6 +8,8 @@ LDADD = ../lib/libfind.a ../gl/lib/libgnulib.a $(LIB_CLOSE) $(LIBINTL)
 EXTRA_DIST = $(man_MANS)
 SUBDIRS = . testsuite
 
+CLEANFILES = $(xargs_SOURCES:.c=.gcno) $(xargs_SOURCES:.c=.gcda)
+
 $(PROGRAMS): ../lib/libfind.a ../gl/lib/libgnulib.a
 
 dist-hook: findutils-check-manpages

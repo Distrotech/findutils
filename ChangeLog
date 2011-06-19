@@ -103,6 +103,14 @@
 
 2011-06-18  James Youngman  <jay@gnu.org>
 
+	Remove test-coverage output files for "make clean".
+	* find/Makefile.am (CLEANFILES): Clean the .gcda and .gcdo files
+	which are produced by running programs that were compile with gcc
+	-fprofile-arcs -ftest-coverage.
+	* lib/Makefile.am (CLEANFILES): Likewise.
+	* locate/Makefile.am (CLEANFILES): Likewise.
+	* xargs/Makefile.am (CLEANFILES): Likewise.
+
 	Move the printing code into print.c.
 	* find/print.c (scan_for_digit_differences): Move to this file
 	from pred.c.
