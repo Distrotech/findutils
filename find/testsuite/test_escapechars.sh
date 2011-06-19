@@ -1,17 +1,7 @@
 #! /bin/sh
 testname="$(basename $0)"
 
-parent="$(cd .. && pwd)"
-if [[ -f "${parent}/ftsfind" ]]; then
-    ftsfind="${parent}/ftsfind"
-    oldfind="${parent}/find"
-elif [[ -f "${parent}/oldfind" ]]; then
-    ftsfind="${parent}/find"
-    oldfind="${parent}/oldfind"
-else
-    echo "Cannot find the executables to test." >&2
-    exit 1
-fi
+. "${srcdir}"/binary_locations.sh
 
 goldenfile="${srcdir}/test_escapechars.golden"
 

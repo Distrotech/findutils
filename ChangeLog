@@ -1,3 +1,13 @@
+2011-06-19  James Youngman  <jay@gnu.org>
+
+	Extract common test code into a sourced file.
+	* find/testsuite/binary_locations.sh: New file, extracting common
+	code from the test scripts.
+	* find/testsuite/test_escape_c.sh: Source binary_locations.sh.
+	* find/testsuite/test_escapechars.sh: Source binary_locations.sh.
+	* find/testsuite/Makefile.am (EXTRA_DIST): Distribute
+	binary_locations.sh.
+
 2011-06-18  James Youngman  <jay@gnu.org>
 
 	Fix some compiler warnings in xargs.
