@@ -30,6 +30,7 @@
 /* gnulib headers */
 #include "error.h"
 #include "dirname.h"
+#include "gettext.h"
 #include "xalloc.h"
 #include "cloexec.h"
 #include "save-cwd.h"

@@ -40,6 +40,7 @@
 #include <sys/types.h>
 
 #include <xalloc.h>
+#include "gettext.h"
 #include "progname.h"
 #include "closeout.h"
 

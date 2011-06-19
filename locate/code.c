@@ -73,6 +73,7 @@
 
 #include "locatedb.h"
 #include "closeout.h"
+#include "gettext.h"
 #include "xalloc.h"
 #include "progname.h"
 #include "error.h"

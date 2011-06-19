@@ -47,6 +47,7 @@
 #include "savedirinfo.h"
 #include "buildcmd.h"
 #include "dirname.h"
+#include "gettext.h"
 #include "xgetcwd.h"
 #include "error.h"
 #include "fdleak.h"

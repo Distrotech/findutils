@@ -19,7 +19,6 @@
 #include <config.h>
 #include "defs.h"
 
-#include <fnmatch.h>
 #include <math.h>
 #include <pwd.h>
 #include <grp.h>
@@ -42,6 +41,8 @@
 #include "stat-size.h"
 #include "dircallback.h"
 #include "error.h"
+#include "fnmatch.h"
+#include "gettext.h"
 #include "areadlink.h"
 
 #include <selinux/selinux.h>

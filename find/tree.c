@@ -21,10 +21,11 @@
 
 #include <assert.h>
 #include <stdlib.h>
-#include <fnmatch.h>
 
 #include "xalloc.h"
 #include "error.h"
+#include "fnmatch.h"
+#include "gettext.h"
 
 
 #if ENABLE_NLS

@@ -37,6 +37,7 @@
 #include "dirname.h"
 #include "error.h"
 #include "filemode.h"
+#include "gettext.h"
 #include "human.h"
 #include "printquoted.h"
 #include "stat-size.h"

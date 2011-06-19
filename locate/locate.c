@@ -67,7 +67,6 @@
 #include <grp.h>                /* for setgroups() */
 #include <sys/stat.h>
 #include <time.h>
-#include <fnmatch.h>
 #include <getopt.h>
 #include <xstrtol.h>
 
@@ -92,6 +91,7 @@
 
 #include <errno.h>
 #include <locale.h>
+#include <regex.h>
 
 
 #if ENABLE_NLS
@@ -116,6 +116,8 @@
 # define N_(String) String
 #endif
 
+#include "fnmatch.h"
+#include "gettext.h"
 #include "locatedb.h"
 #include "progname.h"
 #include "xalloc.h"
@@ -123,7 +125,6 @@
 #include "human.h"
 #include "dirname.h"
 #include "closeout.h"
-#include "regex.h"
 #include "quotearg.h"
 #include "printquoted.h"
 #include "regextype.h"

@@ -25,6 +25,7 @@
 #include <stdlib.h>
 
 #include "error.h"
+#include "gettext.h"
 #include "quotearg.h"
 #include "byteswap.h"
 #include "locatedb.h"

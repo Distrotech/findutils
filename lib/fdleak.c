@@ -33,6 +33,7 @@
 #include "dirent-safer.h"
 #include "extendbuf.h"
 #include "cloexec.h"
+#include "gettext.h"
 #include "safe-atoi.h"
 #include "fdleak.h"
 #include "error.h"

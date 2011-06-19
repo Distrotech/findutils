@@ -59,6 +59,7 @@ extern int errno;
 #include "extendbuf.h"
 #include "mountlist.h"
 #include "error.h"
+#include "gettext.h"
 
 
 

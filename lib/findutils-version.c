@@ -16,6 +16,8 @@
 */
 
 #include <config.h>
+
+#include "gettext.h"
 #include "version-etc.h"
 #include "findutils-version.h"
 

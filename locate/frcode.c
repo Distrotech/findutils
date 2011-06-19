@@ -98,6 +98,7 @@
 #endif
 
 
+#include "gettext.h"
 #include "locatedb.h"
 #include <getopt.h>
 #include "error.h"

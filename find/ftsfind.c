@@ -54,6 +54,7 @@
 #include "dircallback.h"
 #include "cloexec.h"
 #include "fdleak.h"
+#include "gettext.h"
 #include "unused-result.h"
 
 #if ENABLE_NLS

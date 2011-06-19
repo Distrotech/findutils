@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
+#include "gettext.h"
 #include "safe-atoi.h"
 #include "quotearg.h"
 #include "error.h"

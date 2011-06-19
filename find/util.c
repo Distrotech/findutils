@@ -33,6 +33,7 @@
 #include "quotearg.h"
 #include "timespec.h"
 #include "error.h"
+#include "gettext.h"
 #include "verify.h"
 #include "fdleak.h"
 #include "dircallback.h"

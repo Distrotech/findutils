@@ -33,8 +33,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
+#include <regex.h>
 
-#include "regex.h"
 #include "regextype.h"
 #include "progname.h"
 

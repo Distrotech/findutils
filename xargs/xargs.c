@@ -57,6 +57,7 @@
 #include <wchar.h>
 #include <stdint.h>
 
+#include "gettext.h"
 #include "verify.h"
 #include "progname.h"
 #include "quotearg.h"

@@ -25,6 +25,7 @@
 #include <stdbool.h>
 #include <limits.h>
 
+#include "gettext.h"
 
 #if ENABLE_NLS
 # include <libintl.h>

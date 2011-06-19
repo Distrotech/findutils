@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "gettext.h"
 #include "regextype.h"
 #include "regex.h"
 #include "quote.h"

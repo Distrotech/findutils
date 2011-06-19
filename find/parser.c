@@ -26,8 +26,9 @@
 #include <pwd.h>
 #include <errno.h>
 #include <grp.h>
-#include <fnmatch.h>
 #include <sys/stat.h>
+#include <regex.h>
+#include "fnmatch.h"
 #include "mountlist.h"
 #include "modechange.h"
 #include "xstrtol.h"
@@ -40,6 +41,7 @@
 #include "fts_.h"
 #include "parse-datetime.h"
 #include "error.h"
+#include "gettext.h"
 #include "findutils-version.h"
 #include "safe-atoi.h"
 #include "fdleak.h"

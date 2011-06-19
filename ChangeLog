@@ -1,3 +1,34 @@
+2011-06-20  James Youngman  <jay@gnu.org>
+
+	Take gnulib-tool's advice about which header files to include.
+	* locate/locate.c: Include <regex.h> instead of "regex.h".
+	Include "fnmatch.h" instead of <fnmatch.h> (because we use
+	fnmatch-gnu).  Include "gettext.h".
+	* lib/regexprops.c: Include <regex.h> instead of "regex.h".
+	* find/tree.c: Include "gettext.h".  Include "fnmatch.h" instead
+	of <fnmatch.h> (because we use fnmatch-gnu).
+	* find/parser.c: Include "gettext.h" and <regex.h>.  Include
+	"fnmatch.h" instead of <fnmatch.h> (because we use fnmatch-gnu).
+	* find/pred.c: Likewise.
+	* find/exec.c: Include "gettext.h".
+	* find/find.c: Likewise.
+	* find/fstype.c: Likewise.
+	* find/ftsfind.c: Likewise.
+	* find/print.c: Likewise.
+	* lib/buildcmd.c: Likewise.
+	* lib/fdleak.c: Likewise.
+	* lib/findutils-version.c: Likewise.
+	* lib/regextype.c: Likewise.
+	* lib/safe-atoi.c: Likewise.
+	* find/util.c: Likewise.
+	* locate/bigram.c: Likewise.
+	* locate/code.c: Likewise.
+	* locate/frcode.c: Likewise.
+	* locate/word_io.c: Likewise.
+	* xargs/xargs.c: Likewise.
+	* find/Makefile.am: Add a comment explaining why gnulib-tool
+	advised us to use each library.
+
 2011-06-19  James Youngman  <jay@gnu.org>
 
 	Update gnulib.
