@@ -26,36 +26,39 @@
    Dan Bernstein <brnstnd@kramden.acf.nyu.edu>.
 */
 
-
+/* config.h must always be included first. */
 #include <config.h>
-#include "defs.h"
 
+
+/* system headers. */
+#include <assert.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <locale.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+/* gnulib headers. */
+#include "cloexec.h"
+#include "closeout.h"
+#include "error.h"
+#include "fts_.h"
+#include "gettext.h"
+#include "progname.h"
+#include "quotearg.h"
+#include "save-cwd.h"
+#include "xgetcwd.h"
+
+/* find headers. */
+#include "defs.h"
+#include "dircallback.h"
+#include "fdleak.h"
+#include "unused-result.h"
 
 #define USE_SAFE_CHDIR 1
 #undef  STAT_MOUNTPOINTS
 
-
-#include <errno.h>
-#include <assert.h>
-#include <locale.h>
-#include <inttypes.h>
-
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <unistd.h>
-
-#include "progname.h"
-#include "closeout.h"
-#include "quotearg.h"
-#include "fts_.h"
-#include "save-cwd.h"
-#include "xgetcwd.h"
-#include "error.h"
-#include "dircallback.h"
-#include "cloexec.h"
-#include "fdleak.h"
-#include "gettext.h"
-#include "unused-result.h"
 
 #if ENABLE_NLS
 # include <libintl.h>

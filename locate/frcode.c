@@ -63,18 +63,30 @@
    Modified by James Youngman <jay@gnu.org>.
 */
 
+/* config.h must be included first. */
 #include <config.h>
 
-
-#include <stdio.h>
-#include <limits.h>
+/* system headers. */
 #include <assert.h>
 #include <errno.h>
-#include <sys/types.h>
+#include <getopt.h>
+#include <limits.h>
 #include <stdbool.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
 
+/* gnulib headers. */
+#include "closeout.h"
+#include "error.h"
+#include "gettext.h"
+#include "progname.h"
+#include "xalloc.h"
+
+/* find headers. */
+#include "findutils-version.h"
+#include "locatedb.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -96,17 +108,6 @@
  */
 # define N_(String) String
 #endif
-
-
-#include "gettext.h"
-#include "locatedb.h"
-#include <getopt.h>
-#include "error.h"
-#include "closeout.h"
-#include "findutils-version.h"
-#include "xalloc.h"
-#include "progname.h"
-
 
 
 /* Write out a 16-bit int, high byte first (network byte order).

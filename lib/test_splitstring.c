@@ -14,10 +14,17 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+/* config.h must always be included first. */
 #include <config.h>
+
+/* system headers. */
 #include <stdio.h>
 #include <assert.h>
 
+/* gnulib headers would go here. */
+
+/* find headers. */
 #include "splitstring.h"
 
 static void

@@ -24,35 +24,41 @@
    Improvements have been made by James Youngman <jay@gnu.org>.
 */
 
-
+/* config.h must be included first. */
 #include <config.h>
+
+/* system headers. */
+#include <assert.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <locale.h>
+#include <sys/stat.h>
+
+/* gnulib headers. */
+#include "canonicalize.h"
+#include "closein.h"
+#include "dirname.h"
+#include "error.h"
+#include "fcntl--.h"
+#include "gettext.h"
+#include "human.h"
+#include "progname.h"
+#include "save-cwd.h"
+#include "xalloc.h"
+#include "xgetcwd.h"
+
+
+/* find headers. */
+#include "buildcmd.h"
 #include "defs.h"
+#include "fdleak.h"
+#include "savedirinfo.h"
 
 #undef  STAT_MOUNTPOINTS
 
 
-#include <errno.h>
-#include <assert.h>
 
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <locale.h>
 
-#include "fcntl--.h"
-#include "xalloc.h"
-#include "human.h"
-#include "canonicalize.h"
-
-#include "closein.h"
-#include "savedirinfo.h"
-#include "buildcmd.h"
-#include "dirname.h"
-#include "gettext.h"
-#include "xgetcwd.h"
-#include "error.h"
-#include "fdleak.h"
-#include "progname.h"
-#include "save-cwd.h"
 
 #if ENABLE_NLS
 # include <libintl.h>

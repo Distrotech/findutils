@@ -14,17 +14,21 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+/* config.h must be included first. */
 #include <config.h>
+
+/* system headers. */
+#include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
-#include <errno.h>
 
-#include "gettext.h"
-#include "safe-atoi.h"
-#include "quotearg.h"
+/* gnulib headers. */
 #include "error.h"
+#include "gettext.h"
+#include "quotearg.h"
 
+/* find headers. */
+#include "safe-atoi.h"
 
 #if ENABLE_NLS
 # include <libintl.h>

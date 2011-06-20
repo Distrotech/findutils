@@ -16,17 +16,21 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* config.h must always come first. */
 #include <config.h>
-#include "defs.h"
 
+/* system headers. */
 #include <assert.h>
 #include <stdlib.h>
 
-#include "xalloc.h"
+/* gnulib headers. */
 #include "error.h"
 #include "fnmatch.h"
 #include "gettext.h"
+#include "xalloc.h"
 
+/* find headers. */
+#include "defs.h"
 
 #if ENABLE_NLS
 # include <libintl.h>

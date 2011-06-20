@@ -15,33 +15,35 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+/* config.h must be included first. */
 #include <config.h>
 
+/* system headers. */
 #include <alloca.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <pwd.h>
-#include <grp.h>
-#include <time.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <string.h>
-#include <unistd.h> /* for readlink() */
-#include <openat.h>
+#include <grp.h>
 #include <locale.h>
+#include <openat.h>
+#include <pwd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <time.h>
+#include <unistd.h> /* for readlink() */
 
-#include "human.h"
-#include "pathmax.h"
+/* gnulib headers. */
+#include "areadlink.h"
 #include "error.h"
 #include "filemode.h"
+#include "human.h"
 #include "idcache.h"
-#include "areadlink.h"
+#include "pathmax.h"
 #include "stat-size.h"
 
+/* find headers. */
 #include "listfile.h"
 
 /* Since major is a function on SVR4, we can't use `ifndef major'.  */

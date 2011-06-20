@@ -17,11 +17,16 @@
 /*
  * Written by James Youngman.
  */
-
+/* config.h must be included first. */
 #include <config.h>
+
+/* system headers. */
 #include <stdbool.h>
 #include <string.h>
 
+/* gnulib headers would go here. */
+
+/* find headers. */
 #include "splitstring.h"
 
 static size_t

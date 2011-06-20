@@ -15,20 +15,24 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+/* config.h always comes first. */
 #include <config.h>
 
-#include <errno.h>
-#include <string.h>
-#include <stdlib.h>
+/* system headers. */
 #include <assert.h>
-#include <sys/types.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 
-#include "stdio-safer.h"
-#include "hash.h"
-#include "sharefile.h"
+/* gnulib headers. */
 #include "cloexec.h"
+#include "hash.h"
+#include "stdio-safer.h"
+
+/* find headers. */
+#include "sharefile.h"
 #include "defs.h"
 
 

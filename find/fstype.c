@@ -22,46 +22,42 @@
  * of manual hacking of configure.in).
  */
 
-
+/* config.h must be included first. */
 #include <config.h>
+
+/* system headers. */
 #include <errno.h>
+#include <fcntl.h>
+#if HAVE_MNTENT_H
+# include <mntent.h>
+#endif
 #include <stdbool.h>
-
-#include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
+#ifdef HAVE_SYS_MKDEV_H
+# include <sys/mkdev.h>
+#endif
+#ifdef HAVE_SYS_MNTIO_H
+# include <sys/mntio.h>
+#endif
+#if HAVE_SYS_MNTTAB_H
+# include <sys/mnttab.h>
+#endif
 #include <sys/stat.h>
-
-/* The presence of unistd.h is assumed by gnulib these days, so we
- * might as well assume it too.
- */
+#include <sys/types.h>
 #include <unistd.h>
 
-#include <fcntl.h>
-#ifdef HAVE_SYS_MNTIO_H
-#include <sys/mntio.h>
-#endif
-#ifdef HAVE_SYS_MKDEV_H
-#include <sys/mkdev.h>
-#endif
-
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#else
-extern int errno;
-#endif
-
-#include "defs.h"
+/* gnulib headers. */
 #include "dirname.h"
 #include "xalloc.h"
-
-/* Need declaration of function `xstrtoumax' */
 #include "xstrtol.h"
-
-#include "extendbuf.h"
 #include "mountlist.h"
 #include "error.h"
 #include "gettext.h"
 
-
+/* find headers. */
+#include "defs.h"
+#include "extendbuf.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -77,19 +73,6 @@ extern int errno;
 #endif
 
 static char *file_system_type_uncached (const struct stat *statp, const char *path);
-
-
-/* Get MNTTYPE_IGNORE if it is available. */
-#if HAVE_MNTENT_H
-# include <mntent.h>
-#endif
-#if HAVE_SYS_MNTTAB_H
-# include <stdio.h>
-# include <sys/mnttab.h>
-#endif
-
-
-
 
 
 static void

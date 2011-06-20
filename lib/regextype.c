@@ -19,19 +19,21 @@
 */
 /* Written by James Youngman, <jay@gnu.org>. */
 
-# include <config.h>
+/* config.h must be included first. */
+#include <config.h>
 
+/* system headers. */
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 
-#include "gettext.h"
-#include "regextype.h"
-#include "regex.h"
-#include "quote.h"
-#include "xalloc.h"
+/* gnulib headers. */
 #include "error.h"
+#include "gettext.h"
+#include "quote.h"
+#include "regex.h"
+#include "regextype.h"
+#include "xalloc.h"
 
 
 #if ENABLE_NLS

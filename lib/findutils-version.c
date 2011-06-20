@@ -15,10 +15,16 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* config.h must be included first. */
 #include <config.h>
 
+/* system headers would go here if we needed any. */
+
+/* gnulib headers. */
 #include "gettext.h"
 #include "version-etc.h"
+
+/* find headers. */
 #include "findutils-version.h"
 
 #if ENABLE_NLS

@@ -26,18 +26,21 @@
 
 /* Written by James Youngman, <jay@gnu.org>. */
 
+/* config.h must be included first. */
 #include <config.h>
 
-
+/* system headers */
+#include <errno.h>
+#include <regex.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <errno.h>
-#include <regex.h>
 
-#include "regextype.h"
+/* gnulib headers */
 #include "progname.h"
 
+/* find headers */
+#include "regextype.h"
 
 static void
 output (const char *s, int escape)

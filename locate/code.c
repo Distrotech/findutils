@@ -44,17 +44,27 @@
    Written by James A. Woods <jwoods@adobe.com>.
    Modified by David MacKenzie <djm@gnu.org>.  */
 
+/* config.h should always be included first. */
 #include <config.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <string.h>
+
+/* system headers. */
 #include <errno.h>
 #include <stdbool.h>
-
-
-#ifdef STDC_HEADERS
+#include <stdio.h>
 #include <stdlib.h>
-#endif
+#include <string.h>
+#include <sys/types.h>
+
+/* gnulib headers. */
+#include "closeout.h"
+#include "error.h"
+#include "gettext.h"
+#include "progname.h"
+#include "xalloc.h"
+
+/* find headers. */
+#include "findutils-version.h"
+#include "locatedb.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -71,13 +81,6 @@
 # define N_(String) String
 #endif
 
-#include "locatedb.h"
-#include "closeout.h"
-#include "gettext.h"
-#include "xalloc.h"
-#include "progname.h"
-#include "error.h"
-#include "findutils-version.h"
 
 #ifndef ATTRIBUTE_NORETURN
 # define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))

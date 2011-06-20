@@ -15,17 +15,32 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+/* config.h must be included first. */
 #include <config.h>
 
+/* system headers. */
+#include <assert.h>
+#include <errno.h>
+#include <error.h>
+#include <limits.h>
+#include <locale.h>
+#include <openat.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef _POSIX_SOURCE
+# include <sys/param.h>
+#endif
+#include <unistd.h>
 #include <wchar.h>
-#include <locale.h>
-#include <stdbool.h>
-#include <limits.h>
+#include <xalloc.h>
 
+/* gnulib headers. */
 #include "gettext.h"
+#include "xstrtol.h"
+
+/* find headers. */
+#include "buildcmd.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -42,34 +57,13 @@
 # define N_(String) String
 #endif
 
-/* The presence of unistd.h is assumed by gnulib these days, so we
- * might as well assume it too.
- */
-/* for sysconf() */
-#include <unistd.h>
-#include <assert.h>
-
 /* COMPAT:  SYSV version defaults size (and has a max value of) to 470.
    We try to make it as large as possible.  See bc_get_arg_max() below. */
-
-
-#ifndef _POSIX_SOURCE
-#include <sys/param.h>
-#endif
 #if defined NCARGS && !defined ARG_MAX
 /* We include sys/param.h in order to detect this case. */
 #error "You have an unusual system.  Once you remove this error message from buildcmd.c, it should work, but please make sure that DejaGnu is installed on your system and that 'make check' passes before using the findutils programs.  Please mail bug-findutils@gnu.org to tell us about your system."
 #define ARG_MAX NCARGS
 #endif
-
-
-#include <xalloc.h>
-#include <errno.h>
-#include <error.h>
-#include <openat.h>
-
-#include "xstrtol.h"
-#include "buildcmd.h"
 
 
 static const char *special_terminating_arg = "do_not_care";

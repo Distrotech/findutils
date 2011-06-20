@@ -17,48 +17,49 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* config.h must always come first. */
 #include <config.h>
 
-#include "defs.h"
-#include <ctype.h>
-#include <math.h>
+/* system headers. */
 #include <assert.h>
-#include <pwd.h>
+#include <ctype.h>
 #include <errno.h>
-#include <grp.h>
-#include <sys/stat.h>
-#include <regex.h>
-#include "fnmatch.h"
-#include "mountlist.h"
-#include "modechange.h"
-#include "xstrtol.h"
-#include "xalloc.h"
-#include "quotearg.h"
-#include "buildcmd.h"
-#include "regextype.h"
-#include "stat-time.h"
-#include "xstrtod.h"
-#include "fts_.h"
-#include "parse-datetime.h"
-#include "error.h"
-#include "gettext.h"
-#include "findutils-version.h"
-#include "safe-atoi.h"
-#include "fdleak.h"
-#include "splitstring.h"
-#include "print.h"
-
 #include <fcntl.h>
-
-
-/* The presence of unistd.h is assumed by gnulib these days, so we
- * might as well assume it too.
- */
-/* We need <unistd.h> for isatty(). */
-#include <unistd.h>
+#include <grp.h>
+#include <math.h>
+#include <pwd.h>
+#include <regex.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
+
+/* gnulib headers. */
+#include "error.h"
+#include "fnmatch.h"
+#include "fts_.h"
+#include "gettext.h"
+#include "modechange.h"
+#include "mountlist.h"
+#include "parse-datetime.h"
+#include "print.h"
+#include "quotearg.h"
+#include "regextype.h"
+#include "safe-atoi.h"
 #include "selinux-at.h"
+#include "splitstring.h"
+#include "stat-time.h"
+#include "xalloc.h"
+#include "xstrtod.h"
+#include "xstrtol.h"
+
+/* find headers. */
+#include "buildcmd.h"
+#include "defs.h"
+#include "fdleak.h"
+#include "findutils-version.h"
+
+
+
 
 #if ENABLE_NLS
 # include <libintl.h>

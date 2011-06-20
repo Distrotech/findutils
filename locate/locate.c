@@ -58,40 +58,48 @@
    Additional work by James Youngman and Bas van Gompel.
 */
 
+/* config.h must be included first. */
 #include <config.h>
 
-#include <stdio.h>
-#include <signal.h>
-#include <ctype.h>
-#include <sys/types.h>
-#include <grp.h>                /* for setgroups() */
-#include <sys/stat.h>
-#include <time.h>
-#include <getopt.h>
-#include <xstrtol.h>
-
-#include <stdbool.h>
-
-/* The presence of unistd.h is assumed by gnulib these days, so we
- * might as well assume it too.
- */
-/* We need <unistd.h> for isatty(). */
-#include <unistd.h>
-
-#include <fcntl.h>
-
 #define NDEBUG
+
+/* system headers. */
 #include <assert.h>
-#include <string.h>
-
-
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#endif
-
+#include <ctype.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <getopt.h>
+#include <grp.h>                /* for setgroups() */
 #include <locale.h>
 #include <regex.h>
+#include <signal.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <time.h>
+#include <unistd.h>
+#include <xstrtol.h>
+
+/* gnulib headers. */
+#include "fnmatch.h"
+#include "gettext.h"
+#include "progname.h"
+#include "xalloc.h"
+#include "error.h"
+#include "human.h"
+#include "dirname.h"
+#include "closeout.h"
+#include "quotearg.h"
+#include "regextype.h"
+
+/* find headers. */
+#include "findutils-version.h"
+#include "locatedb.h"
+#include "printquoted.h"
+#include "splitstring.h"
 
 
 #if ENABLE_NLS
@@ -115,21 +123,6 @@
  */
 # define N_(String) String
 #endif
-
-#include "fnmatch.h"
-#include "gettext.h"
-#include "locatedb.h"
-#include "progname.h"
-#include "xalloc.h"
-#include "error.h"
-#include "human.h"
-#include "dirname.h"
-#include "closeout.h"
-#include "quotearg.h"
-#include "printquoted.h"
-#include "regextype.h"
-#include "splitstring.h"
-#include "findutils-version.h"
 
 /* Note that this evaluates Ch many times.  */
 #ifdef _LIBC

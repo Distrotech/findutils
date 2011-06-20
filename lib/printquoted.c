@@ -16,17 +16,18 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+/* config.h must be included first. */
 #include <config.h>
 
-
-#include <stdlib.h>
+/* system headers. */
 #include <stdio.h>
+#include <stdlib.h>
 
-
+/* gnulib headers. */
 #include "xalloc.h"
-#include "printquoted.h"
 
+/* find headers. */
+#include "printquoted.h"
 
 /*
  * Print S according to the format FORMAT, but if the destination is a tty,

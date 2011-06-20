@@ -14,29 +14,34 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+/* config.h must be included first. */
 #include <config.h>
-#include <unistd.h>
-#include <poll.h>
+
+/* system headers. */
+#include <assert.h>
 #include <fcntl.h>
-#if defined HAVE_SYS_RESOURCE_H
-#include <sys/resource.h>
-#endif
 #include <limits.h>
+#include <poll.h>
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include <assert.h>
-#include <stdbool.h>
+#if defined HAVE_SYS_RESOURCE_H
+# include <sys/resource.h>
+#endif
+#include <unistd.h>
 
-#include "fcntl--.h"
-#include "dirent-safer.h"
-#include "extendbuf.h"
+/* gnulib headers. */
 #include "cloexec.h"
-#include "gettext.h"
-#include "safe-atoi.h"
-#include "fdleak.h"
+#include "dirent-safer.h"
 #include "error.h"
+#include "fcntl--.h"
+#include "gettext.h"
+
+/* find headers. */
+#include "extendbuf.h"
+#include "fdleak.h"
+#include "safe-atoi.h"
 
 #if ENABLE_NLS
 # include <libintl.h>

@@ -16,10 +16,16 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* config.h must be included first. */
 #include <config.h>
 
-#include "defs.h"
+/* system headers would go here, but we include none. */
+
+/* gnulib headers. */
 #include "save-cwd.h"
+
+/* find headers. */
+#include "defs.h"
 
 
 struct options options;

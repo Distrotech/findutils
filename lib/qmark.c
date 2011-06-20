@@ -18,14 +18,18 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+/* config.h must be included first. */
 #include <config.h>
 
-#include <stdlib.h>
+/* system headers. */
 #include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
 
+/* gnulib headers would go here if any needed to be included. */
+
+/* find headers. */
 #include "printquoted.h"
 
 

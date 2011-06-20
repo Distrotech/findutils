@@ -23,46 +23,40 @@
 	Dmitry V. Levin
 */
 
+/* config.h must be included first. */
 #include <config.h>
 
-#include <ctype.h>
-#include <stdio.h>
-#include <errno.h>
-#include <limits.h>
-#include <stdint.h>
-#include <inttypes.h>
-
-#include <sys/types.h>
-#include <getopt.h>
-#include <fcntl.h>
+/* system headers. */
 #include <assert.h>
-#include <string.h>
-
-#ifndef LONG_MAX
-#define LONG_MAX (~(1 << (sizeof (long) * 8 - 1)))
-#endif
-
-#define ISBLANK(c) (isascii (c) && isblank (c))
-#define ISSPACE(c) (ISBLANK (c) || (c) == '\n' || (c) == '\r' \
-		    || (c) == '\f' || (c) == '\v')
-
-/* The presence of unistd.h is assumed by gnulib these days, so we
- * might as well assume it too.
- */
-#include <unistd.h>
-#include <signal.h>
-#include <sys/wait.h>
-#include <stdlib.h>
+#include <ctype.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <getopt.h>
+#include <inttypes.h>
+#include <limits.h>
 #include <locale.h>
-#include <wchar.h>
+#include <signal.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <wchar.h>
 
+/* gnulib headers. */
+#include "closein.h"
+#include "error.h"
 #include "gettext.h"
-#include "verify.h"
 #include "progname.h"
 #include "quotearg.h"
-#include "findutils-version.h"
+#include "verify.h"
+#include "xalloc.h"
 
+/* find headers. */
+#include "buildcmd.h"
+#include "findutils-version.h"
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -79,22 +73,16 @@
 # define N_(String) String
 #endif
 
-#include "buildcmd.h"
+#ifndef LONG_MAX
+#define LONG_MAX (~(1 << (sizeof (long) * 8 - 1)))
+#endif
 
+#define ISBLANK(c) (isascii (c) && isblank (c))
+#define ISSPACE(c) (ISBLANK (c) || (c) == '\n' || (c) == '\r' \
+		    || (c) == '\f' || (c) == '\v')
 
 /* Return nonzero if S is the EOF string.  */
 #define EOF_STR(s) (eof_str && *eof_str == *s && !strcmp (eof_str, s))
-
-#if __STDC__
-#define VOID void
-#else
-#define VOID char
-#endif
-
-#include <xalloc.h>
-#include "closein.h"
-
-void error (int status, int errnum, char *message,...);
 
 extern char *version_string;
 

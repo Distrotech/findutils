@@ -16,29 +16,34 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* config.h must always come first. */
 #include <config.h>
-#include "defs.h"
 
-#include <fcntl.h>
-#include <sys/utsname.h>
-#include <sys/time.h>
-#include <sys/stat.h> /* for fstatat() */
-#include <ctype.h>
-#include <string.h>
-#include <limits.h>
-#include <errno.h>
+/* system headers. */
 #include <assert.h>
+#include <ctype.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <limits.h>
+#include <string.h>
+#include <sys/stat.h> /* for fstatat() */
+#include <sys/time.h>
+#include <sys/utsname.h>
 
+/* gnulib headers. */
+#include "error.h"
+#include "fdleak.h"
+#include "gettext.h"
 #include "progname.h"
 #include "quotearg.h"
-#include "timespec.h"
-#include "error.h"
-#include "gettext.h"
-#include "verify.h"
-#include "fdleak.h"
-#include "dircallback.h"
-#include "xalloc.h"
 #include "save-cwd.h"
+#include "timespec.h"
+#include "verify.h"
+#include "xalloc.h"
+
+/* find headers. */
+#include "defs.h"
+#include "dircallback.h"
 
 
 #if ENABLE_NLS

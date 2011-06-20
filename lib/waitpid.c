@@ -15,15 +15,15 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+/* config.h must always be included first. */
 #include <config.h>
 
-
+/* system headers. */
 #include <errno.h>
-#ifndef errno
-extern int errno;
-#endif
 
 
+/* TODO: replace this with gnulib's waitpid. */
 #if defined _MSC_VER || defined __MINGW32__
 /* Native Woe32 API.  */
 #include <process.h>

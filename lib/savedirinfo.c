@@ -19,14 +19,25 @@
 /* Written by James Youngman, <jay@gnu.org>. */
 /* Derived from savedir.c, written by David MacKenzie <djm@gnu.org>. */
 
+/* config.h must be included first. */
 #include <config.h>
 
+/* system headers. */
+#include <dirent.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <errno.h>
-#include <dirent.h>
 
+/* gnulib headers. */
+#include "dirent-safer.h"
+#include "xalloc.h"
+
+/* find headers. */
+#include "extendbuf.h"
+#include "savedirinfo.h"
 
 #ifdef CLOSEDIR_VOID
 /* Fake a return value. */
@@ -34,14 +45,6 @@
 #else
 # define CLOSEDIR(d) closedir (d)
 #endif
-
-#include <stdlib.h>
-#include <string.h>
-
-#include "xalloc.h"
-#include "extendbuf.h"
-#include "dirent-safer.h"
-#include "savedirinfo.h"
 
 #if defined HAVE_STRUCT_DIRENT_D_TYPE
 /* Convert the value of struct dirent.d_type into a value for

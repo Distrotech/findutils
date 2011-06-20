@@ -17,14 +17,18 @@
 */
 /* Written by James Yougnman <jay@gnu.org>. */
 
+/* config.h must be included first. */
 #include <config.h>
 
-
-#include <stdlib.h>
+/* system headers. */
 #include <assert.h>
 #include <errno.h>
+#include <stdlib.h>
 
+/* gnulib headers. */
 #include "xalloc.h"
+
+/* find headers. */
 #include "extendbuf.h"
 
 

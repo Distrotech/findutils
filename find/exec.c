@@ -17,28 +17,29 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* config.h must be included first. */
 #include <config.h>
 
-/* Normal POSIX headers (some of which are replaced by gnulib) */
-#include <fcntl.h>
-#include <errno.h>
+/* system headers. */
 #include <assert.h>
+#include <errno.h>
+#include <fcntl.h>
 #include <signal.h>
 #include <sys/wait.h>
 
 
 /* gnulib headers */
-#include "error.h"
-#include "dirname.h"
-#include "gettext.h"
-#include "xalloc.h"
 #include "cloexec.h"
+#include "dirname.h"
+#include "error.h"
+#include "gettext.h"
 #include "save-cwd.h"
+#include "xalloc.h"
 
 /* findutils headers */
 #include "buildcmd.h"
-#include "fdleak.h"
 #include "defs.h"
+#include "fdleak.h"
 
 #if ENABLE_NLS
 # include <libintl.h>

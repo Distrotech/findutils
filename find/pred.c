@@ -16,36 +16,43 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* config.h always comes first. */
 #include <config.h>
-#include "defs.h"
 
+/* system headers. */
+#include <assert.h>
+#include <ctype.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <grp.h>
+#include <locale.h>
 #include <math.h>
 #include <pwd.h>
-#include <grp.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <errno.h>
-#include <assert.h>
+#include <selinux/selinux.h>
 #include <stdarg.h>
-#include <fcntl.h>
-#include <locale.h>
-#include <ctype.h>
-#include <unistd.h> /* for unlinkat() */
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <sys/wait.h>
-#include <dirent.h>
+#include <unistd.h> /* for unlinkat() */
+
+/* gnulib headers. */
+#include "areadlink.h"
 #include "dirname.h"
-#include "printquoted.h"
-#include "yesno.h"
-#include "listfile.h"
-#include "stat-time.h"
-#include "stat-size.h"
-#include "dircallback.h"
 #include "error.h"
 #include "fnmatch.h"
 #include "gettext.h"
-#include "areadlink.h"
+#include "stat-size.h"
+#include "stat-time.h"
+#include "yesno.h"
 
-#include <selinux/selinux.h>
+/* find headers. */
+#include "defs.h"
+#include "dircallback.h"
+#include "listfile.h"
+#include "printquoted.h"
+
+
 
 #if ENABLE_NLS
 # include <libintl.h>

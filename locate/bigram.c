@@ -30,19 +30,24 @@
    Written by James A. Woods <jwoods@adobe.com>.
    Modified by David MacKenzie <djm@gnu.ai.mit.edu>.  */
 
+/* config.h must always be included first. */
 #include <config.h>
+
+/* system headers. */
 #include <stdio.h>
 #include <locale.h>
-
 #include <string.h>
 #include <stdlib.h>
-
 #include <sys/types.h>
 
-#include <xalloc.h>
+/* gnulib headers. */
+#include "closeout.h"
 #include "gettext.h"
 #include "progname.h"
-#include "closeout.h"
+#include "xalloc.h"
+
+/* find headers would go here but we don't need any. */
+
 
 /* We use gettext because for example xmalloc may issue an error message. */
 #if ENABLE_NLS
