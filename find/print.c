@@ -116,6 +116,10 @@ make_segment (struct segment **segment,
   assert (kind == KIND_FORMAT);
   switch (format_char)
     {
+    case '%':			/* literal % */
+      *fmt++ = '%';
+      break;
+
     case 'l':			/* object of symlink */
       pred->need_stat = true;
       mycost = NeedsLinkName;
@@ -297,36 +301,34 @@ insert_fprintf (struct format_val *vec,
 	  segstart = fmt_inpos + 1; /* Move past the escape. */
 	  fmt_editpos = fmt_inpos;  /* Incremented immediately by `for'. */
 	}
-      else if (*fmt_editpos == '%')
+      else if (fmt_editpos[0] == '%')
 	{
-	  if (fmt_editpos[1] == 0)
+	  if (fmt_editpos[1] == '%')
+	    {
+	      /* % escapes itself.  That is, %% produces just %. */
+	      fmt_inpos = fmt_editpos+1;
+	    }
+	  else if (fmt_editpos[1] == 0)
 	    {
 	      /* Trailing %.  We don't like those. */
 	      error (EXIT_FAILURE, 0,
 		     _("error: %s at end of format string"), fmt_editpos);
 	    }
-	  else if (fmt_editpos[1] == '%')
+	  else
 	    {
-	      segmentp = make_segment (segmentp,
-				       segstart, fmt_editpos - segstart + 1,
-				       KIND_PLAIN, 0, 0,
-				       our_pred);
-	      fmt_editpos++;
-	      segstart = fmt_editpos + 1;
-	      continue;
+	      /* Scan past flags, width and precision, to verify kind. */
+	      for (fmt_inpos = fmt_editpos;
+		   *++fmt_inpos && strchr ("-+ #", *fmt_inpos);)
+		{
+		  /* Do nothing. */
+		}
+	      while (ISDIGIT (*fmt_inpos))
+		fmt_inpos++;
+	      if (*fmt_inpos == '.')
+		for (fmt_inpos++; ISDIGIT (*fmt_inpos); fmt_inpos++)
+		  /* Do nothing. */ ;
 	    }
-	  /* Scan past flags, width and precision, to verify kind. */
-	  for (fmt_inpos = fmt_editpos;
-	       *++fmt_inpos && strchr ("-+ #", *fmt_inpos);)
-	    {
-	      /* Do nothing. */
-	    }
-	  while (ISDIGIT (*fmt_inpos))
-	    fmt_inpos++;
-	  if (*fmt_inpos == '.')
-	    for (fmt_inpos++; ISDIGIT (*fmt_inpos); fmt_inpos++)
-	      /* Do nothing. */ ;
-	  if (strchr ("abcdDfFgGhHiklmMnpPsStuUyYZ", *fmt_inpos))
+	  if (strchr ("abcdDfFgGhHiklmMnpPsStuUyYZ%", *fmt_inpos))
 	    {
 	      segmentp = make_segment (segmentp, segstart, fmt_inpos - segstart,
 				       KIND_FORMAT, *fmt_inpos, 0,
@@ -1173,6 +1175,10 @@ do_fprintf (struct format_val *dest,
 		freecon (scontext);
 	      }
 	  }
+	  break;
+
+	case '%':
+	  checked_fprintf (dest, segment->text);
 	  break;
 	}
       /* end of KIND_FORMAT case */

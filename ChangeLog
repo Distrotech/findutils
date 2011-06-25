@@ -1,5 +1,12 @@
 2011-06-25  James Youngman  <jay@gnu.org>
 
+	Simplify -fprintf %%; handle %% like a regular format specifier.
+	* find/print.c (make_segment): Handle foo%% by simply generating a
+	format string of foo%% (that is, let vfprintf handle the escaped
+	%).
+	(insert_fprintf): Handle %% as KIND_FORMAT instead of KIND_PLAIN.
+	(do_fprintf): Handle %%.
+
 	Clarify variable naming in insert_fprintf.
 	* find/print.c (insert_fprintf): Rename some variables for greater
 	clarity:
