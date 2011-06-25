@@ -239,13 +239,22 @@ insert_fprintf (struct format_val *vec,
 
   for (fmt_editpos = segstart; *fmt_editpos; fmt_editpos++)
     {
-      if (*fmt_editpos == '\\')
+      if (fmt_editpos[0] == '\\' && fmt_editpos[1] == 'c')
 	{
-	  fmt_inpos = fmt_editpos + 1;
-	  if (*fmt_inpos >= '0' && *fmt_inpos <= '7')
+	  make_segment (segmentp, segstart, fmt_editpos - segstart,
+			KIND_STOP, 0, 0,
+			our_pred);
+	  if (our_pred->need_stat && (our_pred->p_cost < NeedsStatInfo))
+	    our_pred->p_cost = NeedsStatInfo;
+	  return true;
+	}
+      else if (*fmt_editpos == '\\')
+	{
+	  if (fmt_editpos[1] >= '0' && fmt_editpos[1] <= '7')
 	    {
 	      register int n, i;
 
+	      fmt_inpos = fmt_editpos + 1;
 	      for (i = n = 0; i < 3 && (*fmt_inpos >= '0' && *fmt_inpos <= '7');
 		   i++, fmt_inpos++)
 		n = 8 * n + *fmt_inpos - '0';
@@ -254,21 +263,15 @@ insert_fprintf (struct format_val *vec,
 	    }
 	  else
 	    {
+	      fmt_inpos = fmt_editpos + 1;
 	      switch (*fmt_inpos)
 		{
 		case 'a':
-		  *fmt_editpos = 7;
+		  *fmt_editpos = '\a';
 		  break;
 		case 'b':
 		  *fmt_editpos = '\b';
 		  break;
-		case 'c':
-		  make_segment (segmentp, segstart, fmt_editpos - segstart,
-				KIND_STOP, 0, 0,
-				our_pred);
-		  if (our_pred->need_stat && (our_pred->p_cost < NeedsStatInfo))
-		    our_pred->p_cost = NeedsStatInfo;
-		  return true;
 		case 'f':
 		  *fmt_editpos = '\f';
 		  break;
@@ -290,6 +293,7 @@ insert_fprintf (struct format_val *vec,
 		default:
 		  error (0, 0,
 			 _("warning: unrecognized escape `\\%c'"), *fmt_inpos);
+
 		  fmt_editpos++;
 		  continue;
 		}
@@ -1175,6 +1179,7 @@ do_fprintf (struct format_val *dest,
 	  }
 	  break;
 
+	case 0:
 	case '%':
 	  checked_fprintf (dest, segment->text);
 	  break;
