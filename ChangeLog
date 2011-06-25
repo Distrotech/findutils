@@ -1,5 +1,9 @@
 2011-06-25  James Youngman  <jay@gnu.org>
 
+	Remove some redundant continue statements.
+	* find/print.c (insert_fprintf): Remove a pair of redundant
+	'continue' statements.
+
 	Simplify -fprintf %%; handle %% like a regular format specifier.
 	* find/print.c (make_segment): Handle foo%% by simply generating a
 	format string of foo%% (that is, let vfprintf handle the escaped

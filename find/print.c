@@ -343,7 +343,6 @@ insert_fprintf (struct format_val *vec,
 				       our_pred);
 	      fmt_editpos = fmt_inpos + 1;
 	      segstart = fmt_editpos + 1;
-	      continue;
 	    }
 	  else
 	    {
@@ -369,7 +368,6 @@ insert_fprintf (struct format_val *vec,
 					   our_pred);
 		  segstart = fmt_editpos + 1;
 		}
-	      continue;
 	    }
 	}
     }
