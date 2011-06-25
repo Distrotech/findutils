@@ -1,3 +1,17 @@
+2011-06-25  James Youngman  <jay@gnu.org>
+
+	Clarify variable naming in insert_fprintf.
+	* find/print.c (insert_fprintf): Rename some variables for greater
+	clarity:
+	format is now segstart, since it points to the start of the part
+	of the format string we're next going to pass to make_segment.
+	scan2 is now fmt_inpos (which is a const char*) and is the
+	scanning position beyond segstart which we're reading to locate
+	the end of this segment.
+	scan is now fmt_editpos and is the scanning position at which we
+	are modifying the format string (for example to change \n in the
+	format to the value of the '\n' character).
+
 2011-06-19  James Youngman  <jay@gnu.org>
 
 	Test find -printf %i.

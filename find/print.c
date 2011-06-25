@@ -217,10 +217,10 @@ insert_fprintf (struct format_val *vec,
 		const struct parser_table *entry,
 		const char *format_const)
 {
-  char *format = (char*)format_const; /* XXX: casting away constness */
-  register char *scan;		/* Current address in scanning `format'. */
-  register char *scan2;		/* Address inside of element being scanned. */
-  struct segment **segmentp;	/* Address of current segment. */
+  char *segstart = (char*)format_const; /* XXX: casting away constness */
+  register char *fmt_editpos; /* Current address in scanning `format_const'. */
+  register const char *fmt_inpos; /* Address inside of element being scanned. */
+  struct segment **segmentp;	  /* Address of current segment. */
   struct predicate *our_pred;
 
   our_pred = insert_primary_withpred (entry, pred_fprintf, format_const);
@@ -233,121 +233,126 @@ insert_fprintf (struct format_val *vec,
   segmentp = &our_pred->args.printf_vec.segment;
   *segmentp = NULL;
 
-  for (scan = format; *scan; scan++)
+  for (fmt_editpos = segstart; *fmt_editpos; fmt_editpos++)
     {
-      if (*scan == '\\')
+      if (*fmt_editpos == '\\')
 	{
-	  scan2 = scan + 1;
-	  if (*scan2 >= '0' && *scan2 <= '7')
+	  fmt_inpos = fmt_editpos + 1;
+	  if (*fmt_inpos >= '0' && *fmt_inpos <= '7')
 	    {
 	      register int n, i;
 
-	      for (i = n = 0; i < 3 && (*scan2 >= '0' && *scan2 <= '7');
-		   i++, scan2++)
-		n = 8 * n + *scan2 - '0';
-	      scan2--;
-	      *scan = n;
+	      for (i = n = 0; i < 3 && (*fmt_inpos >= '0' && *fmt_inpos <= '7');
+		   i++, fmt_inpos++)
+		n = 8 * n + *fmt_inpos - '0';
+	      fmt_inpos--;
+	      *fmt_editpos = n;
 	    }
 	  else
 	    {
-	      switch (*scan2)
+	      switch (*fmt_inpos)
 		{
 		case 'a':
-		  *scan = 7;
+		  *fmt_editpos = 7;
 		  break;
 		case 'b':
-		  *scan = '\b';
+		  *fmt_editpos = '\b';
 		  break;
 		case 'c':
-		  make_segment (segmentp, format, scan - format,
+		  make_segment (segmentp, segstart, fmt_editpos - segstart,
 				KIND_STOP, 0, 0,
 				our_pred);
 		  if (our_pred->need_stat && (our_pred->p_cost < NeedsStatInfo))
 		    our_pred->p_cost = NeedsStatInfo;
 		  return true;
 		case 'f':
-		  *scan = '\f';
+		  *fmt_editpos = '\f';
 		  break;
 		case 'n':
-		  *scan = '\n';
+		  *fmt_editpos = '\n';
 		  break;
 		case 'r':
-		  *scan = '\r';
+		  *fmt_editpos = '\r';
 		  break;
 		case 't':
-		  *scan = '\t';
+		  *fmt_editpos = '\t';
 		  break;
 		case 'v':
-		  *scan = '\v';
+		  *fmt_editpos = '\v';
 		  break;
 		case '\\':
-		  /* *scan = '\\'; * it already is */
+		  /* *fmt_editpos = '\\'; * it already is */
 		  break;
 		default:
 		  error (0, 0,
-			 _("warning: unrecognized escape `\\%c'"), *scan2);
-		  scan++;
+			 _("warning: unrecognized escape `\\%c'"), *fmt_inpos);
+		  fmt_editpos++;
 		  continue;
 		}
 	    }
-	  segmentp = make_segment (segmentp, format, scan - format + 1,
+	  segmentp = make_segment (segmentp,
+				   segstart, fmt_editpos - segstart + 1,
 				   KIND_PLAIN, 0, 0,
 				   our_pred);
-	  format = scan2 + 1;	/* Move past the escape. */
-	  scan = scan2;		/* Incremented immediately by `for'. */
+	  segstart = fmt_inpos + 1; /* Move past the escape. */
+	  fmt_editpos = fmt_inpos;  /* Incremented immediately by `for'. */
 	}
-      else if (*scan == '%')
+      else if (*fmt_editpos == '%')
 	{
-	  if (scan[1] == 0)
+	  if (fmt_editpos[1] == 0)
 	    {
 	      /* Trailing %.  We don't like those. */
 	      error (EXIT_FAILURE, 0,
-		     _("error: %s at end of format string"), scan);
+		     _("error: %s at end of format string"), fmt_editpos);
 	    }
-	  else if (scan[1] == '%')
+	  else if (fmt_editpos[1] == '%')
 	    {
-	      segmentp = make_segment (segmentp, format, scan - format + 1,
+	      segmentp = make_segment (segmentp,
+				       segstart, fmt_editpos - segstart + 1,
 				       KIND_PLAIN, 0, 0,
 				       our_pred);
-	      scan++;
-	      format = scan + 1;
+	      fmt_editpos++;
+	      segstart = fmt_editpos + 1;
 	      continue;
 	    }
 	  /* Scan past flags, width and precision, to verify kind. */
-	  for (scan2 = scan; *++scan2 && strchr ("-+ #", *scan2);)
-	    /* Do nothing. */ ;
-	  while (ISDIGIT (*scan2))
-	    scan2++;
-	  if (*scan2 == '.')
-	    for (scan2++; ISDIGIT (*scan2); scan2++)
-	      /* Do nothing. */ ;
-	  if (strchr ("abcdDfFgGhHiklmMnpPsStuUyYZ", *scan2))
+	  for (fmt_inpos = fmt_editpos;
+	       *++fmt_inpos && strchr ("-+ #", *fmt_inpos);)
 	    {
-	      segmentp = make_segment (segmentp, format, scan2 - format,
-				       KIND_FORMAT, *scan2, 0,
-				       our_pred);
-	      scan = scan2;
-	      format = scan + 1;
+	      /* Do nothing. */
 	    }
-	  else if (strchr ("ABCT", *scan2) && scan2[1])
+	  while (ISDIGIT (*fmt_inpos))
+	    fmt_inpos++;
+	  if (*fmt_inpos == '.')
+	    for (fmt_inpos++; ISDIGIT (*fmt_inpos); fmt_inpos++)
+	      /* Do nothing. */ ;
+	  if (strchr ("abcdDfFgGhHiklmMnpPsStuUyYZ", *fmt_inpos))
 	    {
-	      segmentp = make_segment (segmentp, format, scan2 - format,
-				       KIND_FORMAT, scan2[0], scan2[1],
+	      segmentp = make_segment (segmentp, segstart, fmt_inpos - segstart,
+				       KIND_FORMAT, *fmt_inpos, 0,
 				       our_pred);
-	      scan = scan2 + 1;
-	      format = scan + 1;
+	      fmt_editpos = fmt_inpos;
+	      segstart = fmt_editpos + 1;
+	    }
+	  else if (strchr ("ABCT", *fmt_inpos) && fmt_inpos[1])
+	    {
+	      segmentp = make_segment (segmentp, segstart, fmt_inpos - segstart,
+				       KIND_FORMAT, fmt_inpos[0], fmt_inpos[1],
+				       our_pred);
+	      fmt_editpos = fmt_inpos + 1;
+	      segstart = fmt_editpos + 1;
 	      continue;
 	    }
 	  else
 	    {
-	      switch (*scan2)
+	      switch (*fmt_inpos)
 		{
 		case '{':
 		case '[':
 		case '(':
 		  error (EXIT_FAILURE, 0,
 			 _("error: the format directive `%%%c' is reserved for future use"),
-			 (int)*scan2);
+			 (int)*fmt_inpos);
 		  /*NOTREACHED*/
 		  break;
 
@@ -355,19 +360,20 @@ insert_fprintf (struct format_val *vec,
 		  /* An unrecognized % escape.  Print the char after the %. */
 		  error (0, 0,
 			 _("warning: unrecognized format directive `%%%c'"),
-			 *scan2);
-		  segmentp = make_segment (segmentp, format, scan - format,
+			 *fmt_inpos);
+		  segmentp = make_segment (segmentp,
+					   segstart, fmt_editpos - segstart,
 					   KIND_PLAIN, 0, 0,
 					   our_pred);
-		  format = scan + 1;
+		  segstart = fmt_editpos + 1;
 		}
 	      continue;
 	    }
 	}
     }
 
-  if (scan > format)
-    make_segment (segmentp, format, scan - format, KIND_PLAIN, 0, 0,
+  if (fmt_editpos > segstart)
+    make_segment (segmentp, segstart, fmt_editpos - segstart, KIND_PLAIN, 0, 0,
 		  our_pred);
   return true;
 }
