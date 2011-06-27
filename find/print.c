@@ -216,14 +216,70 @@ make_segment (struct segment **segment,
   return &(*segment)->next;
 }
 
+static bool
+is_octal_char (char ch)
+{
+  return ch >= '0' && ch <= '7';
+}
+
+static char
+parse_octal_escape(const char **in)
+{
+  register int n, i;
+  const char *p = (*in);
+
+  for (i = n = 0; i < 3 && is_octal_char(*p); i++, p++)
+    {
+      n = 8 * n + *p - '0';
+    }
+  p--;
+  *in = p;
+  return n;
+}
+
+static int
+parse_escape_char(const char ch)
+{
+  char value = 0;
+  switch (ch)
+    {
+    case 'a':
+      value = '\a';
+      break;
+    case 'b':
+      value = '\b';
+      break;
+    case 'f':
+      value = '\f';
+      break;
+    case 'n':
+      value = '\n';
+      break;
+    case 'r':
+      value = '\r';
+      break;
+    case 't':
+      value = '\t';
+      break;
+    case 'v':
+      value = '\v';
+      break;
+    case '\\':
+      value = '\\';
+      break;
+    }
+  return value;
+}
+
+
 bool
 insert_fprintf (struct format_val *vec,
 		const struct parser_table *entry,
 		const char *format_const)
 {
   char *segstart = (char*)format_const; /* XXX: casting away constness */
-  register char *fmt_editpos; /* Current address in scanning `format_const'. */
-  register const char *fmt_inpos; /* Address inside of element being scanned. */
+  char *fmt_editpos; /* Current address in scanning `format_const'. */
+  const char *fmt_inpos; /* Address inside of element being scanned. */
   struct segment **segmentp;	  /* Address of current segment. */
   struct predicate *our_pred;
 
@@ -250,50 +306,22 @@ insert_fprintf (struct format_val *vec,
 	}
       else if (*fmt_editpos == '\\')
 	{
-	  if (fmt_editpos[1] >= '0' && fmt_editpos[1] <= '7')
+	  fmt_inpos = fmt_editpos + 1;
+	  if (is_octal_char(fmt_editpos[1]))
 	    {
-	      register int n, i;
-
-	      fmt_inpos = fmt_editpos + 1;
-	      for (i = n = 0; i < 3 && (*fmt_inpos >= '0' && *fmt_inpos <= '7');
-		   i++, fmt_inpos++)
-		n = 8 * n + *fmt_inpos - '0';
-	      fmt_inpos--;
-	      *fmt_editpos = n;
+	      *fmt_editpos = parse_octal_escape(&fmt_inpos);
 	    }
 	  else
 	    {
-	      fmt_inpos = fmt_editpos + 1;
-	      switch (*fmt_inpos)
+	      const char val = parse_escape_char(fmt_editpos[1]);
+	      if (val)
 		{
-		case 'a':
-		  *fmt_editpos = '\a';
-		  break;
-		case 'b':
-		  *fmt_editpos = '\b';
-		  break;
-		case 'f':
-		  *fmt_editpos = '\f';
-		  break;
-		case 'n':
-		  *fmt_editpos = '\n';
-		  break;
-		case 'r':
-		  *fmt_editpos = '\r';
-		  break;
-		case 't':
-		  *fmt_editpos = '\t';
-		  break;
-		case 'v':
-		  *fmt_editpos = '\v';
-		  break;
-		case '\\':
-		  /* *fmt_editpos = '\\'; * it already is */
-		  break;
-		default:
-		  error (0, 0,
-			 _("warning: unrecognized escape `\\%c'"), *fmt_inpos);
-
+		  fmt_editpos[0] = val;
+		}
+	      else
+		{
+		  error (0, 0, _("warning: unrecognized escape `\\%c'"),
+			 fmt_editpos[1]);
 		  fmt_editpos++;
 		  continue;
 		}

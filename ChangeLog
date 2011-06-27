@@ -1,3 +1,10 @@
+2011-06-27  James Youngman  <jay@gnu.org>
+
+	Factor some of the code out of insert_fprintf.
+	* find/print.c (insert_fprintf): Factor out the handling of
+	eascape codes into new functions parse_escape_char,
+	parse_octal_escape.
+
 2011-06-25  James Youngman  <jay@gnu.org>
 
 	Separate out the handling of \c.
