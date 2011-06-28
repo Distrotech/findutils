@@ -272,6 +272,41 @@ parse_escape_char(const char ch)
 }
 
 
+static size_t
+get_format_flags_length(const char *p)
+{
+  size_t n = 0;
+  /* Scan past flags, width and precision, to verify kind. */
+  for (; p[++n] && strchr ("-+ #", p[n]);)
+    {
+      /* Do nothing. */
+    }
+  while (ISDIGIT (p[n]))
+    n++;
+  if (p[n] == '.')
+    for (n++; ISDIGIT (p[n]); n++)
+      /* Do nothing. */ ;
+  return n;
+}
+
+static size_t
+get_format_specifer_length(char ch)
+{
+  if (strchr ("abcdDfFgGhHiklmMnpPsStuUyYZ%", ch))
+    {
+      return 1;
+    }
+  else if (strchr ("ABCT", ch))
+    {
+      return 2;
+    }
+  else
+    {
+      return 0;
+    }
+}
+
+
 bool
 insert_fprintf (struct format_val *vec,
 		const struct parser_table *entry,
@@ -335,72 +370,65 @@ insert_fprintf (struct format_val *vec,
 	}
       else if (fmt_editpos[0] == '%')
 	{
-	  if (fmt_editpos[1] == '%')
-	    {
-	      /* % escapes itself.  That is, %% produces just %. */
-	      fmt_inpos = fmt_editpos+1;
-	    }
-	  else if (fmt_editpos[1] == 0)
+	  size_t len;
+	  fmt_inpos = fmt_editpos;
+	  if (fmt_inpos[1] == 0)
 	    {
 	      /* Trailing %.  We don't like those. */
 	      error (EXIT_FAILURE, 0,
-		     _("error: %s at end of format string"), fmt_editpos);
+		     _("error: %s at end of format string"), fmt_inpos);
+	    }
+
+	  if (fmt_inpos[1] == '%') /* %% produces just %. */
+	    len = 1;
+	  else
+	    len = get_format_flags_length(fmt_inpos);
+	  fmt_inpos += len;
+	  fmt_editpos += len;
+
+	  assert (fmt_inpos == fmt_editpos);
+	  len = get_format_specifer_length (fmt_inpos[0]);
+	  if (len && (fmt_inpos[len-1]))
+	    {
+	      const char fmt2 = (len == 2) ? fmt_inpos[1] : 0;
+	      segmentp = make_segment (segmentp, segstart,
+				       fmt_editpos - segstart,
+				       KIND_FORMAT, *fmt_inpos, fmt2,
+				       our_pred);
+	      fmt_editpos += (len - 1);
+	      fmt_inpos += (len - 1);
 	    }
 	  else
 	    {
-	      /* Scan past flags, width and precision, to verify kind. */
-	      for (fmt_inpos = fmt_editpos;
-		   *++fmt_inpos && strchr ("-+ #", *fmt_inpos);)
+	      if (strchr ("{[(", *fmt_inpos))
 		{
-		  /* Do nothing. */
-		}
-	      while (ISDIGIT (*fmt_inpos))
-		fmt_inpos++;
-	      if (*fmt_inpos == '.')
-		for (fmt_inpos++; ISDIGIT (*fmt_inpos); fmt_inpos++)
-		  /* Do nothing. */ ;
-	    }
-	  if (strchr ("abcdDfFgGhHiklmMnpPsStuUyYZ%", *fmt_inpos))
-	    {
-	      segmentp = make_segment (segmentp, segstart, fmt_inpos - segstart,
-				       KIND_FORMAT, *fmt_inpos, 0,
-				       our_pred);
-	      fmt_editpos = fmt_inpos;
-	      segstart = fmt_editpos + 1;
-	    }
-	  else if (strchr ("ABCT", *fmt_inpos) && fmt_inpos[1])
-	    {
-	      segmentp = make_segment (segmentp, segstart, fmt_inpos - segstart,
-				       KIND_FORMAT, fmt_inpos[0], fmt_inpos[1],
-				       our_pred);
-	      fmt_editpos = fmt_inpos + 1;
-	      segstart = fmt_editpos + 1;
-	    }
-	  else
-	    {
-	      switch (*fmt_inpos)
-		{
-		case '{':
-		case '[':
-		case '(':
 		  error (EXIT_FAILURE, 0,
 			 _("error: the format directive `%%%c' is reserved for future use"),
 			 (int)*fmt_inpos);
 		  /*NOTREACHED*/
-		  break;
+		}
 
-		default:
+	      if (len == 2 && !fmt_inpos[1])
+		{
+		  error (0, 0,
+			 _("warning: format directive `%%%c' "
+			   "should be followed by another character"),
+			 *fmt_inpos);
+		}
+	      else
+		{
 		  /* An unrecognized % escape.  Print the char after the %. */
 		  error (0, 0,
 			 _("warning: unrecognized format directive `%%%c'"),
 			 *fmt_inpos);
-		  segmentp = make_segment (segmentp,
-					   segstart, fmt_editpos - segstart,
-					   KIND_PLAIN, 0, 0,
-					   our_pred);
-		  segstart = fmt_editpos + 1;
 		}
+	      ++fmt_inpos;
+	      segmentp = make_segment (segmentp,
+				       segstart, fmt_inpos - segstart,
+				       KIND_PLAIN, 0, 0,
+				       our_pred);
 	    }
+	  segstart = fmt_editpos + 1;
 	}
     }
 

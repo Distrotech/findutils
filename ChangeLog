@@ -1,3 +1,21 @@
+2011-06-28  James Youngman  <jay@gnu.org>
+
+	Refactor insert_fprintf to minimise calls to make_segment.
+	* find/print.c (get_format_flags_length): Factor out of
+	insert_fprintf; computes the length of the format flags for a
+	format specifier (that is everything after the % but before the
+	format control character).
+	(get_format_specifer_length): Also factored out of insert_fprintf;
+	returns the number of format control characters (e.g. 2 for %A@)
+	or 0 for error.
+	(insert_fprintf): Keep fmt_editpos and fmt_inpos more closely in
+	step, instead of initialising fmt_inpos only when we need it (the
+	idea eventually will be to make fmt_inpos the loop control
+	variable).  Call get_format_specifer_length and
+	get_format_flags_length when needed. Reduce the number of
+	different calls to make_segment.  We now have one for each KIND_
+	value plus one for the error case.
+
 2011-06-27  James Youngman  <jay@gnu.org>
 
 	Factor some of the code out of insert_fprintf.
