@@ -1,3 +1,22 @@
+2011-06-29  James Youngman  <jay@gnu.org>
+
+	Fix some constness warnings when dealing with -printf formats.
+	* find/parser.c (collect_arg_nonconst): Rename collect_arg to
+	collect_arg_nonconst and change the collected argument from const
+	char* to char*.
+	(collect_arg): Call collect_arg_nonconst to do the real work.
+	(parse_printf): Call collect_arg_nonconst instead of collect_arg.
+	Change `format' from const char* to char*.
+	(parse_fprintf): Likewise.
+	* find/print.h: Change 'format' from const char* to char*, since
+	actually we edit it in place.
+	* find/print.c (parse_octal_escape): Instead of updating a const
+	char* pointer to indicate how many characters from the input we
+	consumed, update a size_t value.
+	(insert_fprintf): Change function defintion to match updated
+	prototype.  Eliminate fmt_inpos.  Introduce a `readpos' offset
+	variable which takes the previous role of fmt_inpos.
+
 2011-06-28  James Youngman  <jay@gnu.org>
 
 	Refactor insert_fprintf to minimise calls to make_segment.

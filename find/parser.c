@@ -694,7 +694,7 @@ estimate_timestamp_success_rate (time_t when)
  * return false.
  */
 static bool
-collect_arg (char **argv, int *arg_ptr, const char **collected_arg)
+collect_arg_nonconst (char **argv, int *arg_ptr, char **collected_arg)
 {
   if ((argv == NULL) || (argv[*arg_ptr] == NULL))
     {
@@ -708,6 +708,17 @@ collect_arg (char **argv, int *arg_ptr, const char **collected_arg)
       return true;
     }
 }
+
+static bool
+collect_arg (char **argv, int *arg_ptr, const char **collected_arg)
+{
+  char *arg;
+  const bool result = collect_arg_nonconst (argv, arg_ptr, &arg);
+  *collected_arg = arg;
+  return result;
+}
+
+
 
 static bool
 collect_arg_stat_info (char **argv, int *arg_ptr, struct stat *p,
@@ -2111,10 +2122,10 @@ parse_print0 (const struct parser_table* entry, char **argv, int *arg_ptr)
 static bool
 parse_printf (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  const char *format;
+  char *format;
   const int saved_argc = *arg_ptr;
 
-  if (collect_arg (argv, arg_ptr, &format))
+  if (collect_arg_nonconst (argv, arg_ptr, &format))
     {
       struct format_val fmt;
       open_stdout (&fmt);
@@ -2134,12 +2145,13 @@ parse_printf (const struct parser_table* entry, char **argv, int *arg_ptr)
 static bool
 parse_fprintf (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  const char *format, *filename;
+  const char *filename;
+  char *format;
   int saved_argc = *arg_ptr;
 
   if (collect_arg (argv, arg_ptr, &filename))
     {
-      if (collect_arg (argv, arg_ptr, &format))
+      if (collect_arg_nonconst (argv, arg_ptr, &format))
 	{
 	  struct format_val fmt;
 	  open_output_file (filename, &fmt);

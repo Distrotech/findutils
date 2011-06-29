@@ -13,4 +13,4 @@ struct segment **make_segment (struct segment **segment,
 bool
 insert_fprintf (struct format_val *vec,
 		const struct parser_table *entry,
-		const char *format_const);
+		char *format);

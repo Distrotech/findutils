@@ -223,17 +223,17 @@ is_octal_char (char ch)
 }
 
 static char
-parse_octal_escape(const char **in)
+parse_octal_escape(const char *p, size_t *consumed)
 {
   register int n, i;
-  const char *p = (*in);
+  size_t pos = 0;
 
-  for (i = n = 0; i < 3 && is_octal_char(*p); i++, p++)
+  for (i = n = 0; i < 3 && is_octal_char(p[pos]); i++, pos++)
     {
-      n = 8 * n + *p - '0';
+      n = 8 * n + p[pos] - '0';
     }
-  p--;
-  *in = p;
+  --pos;
+  *consumed = pos;
   return n;
 }
 
@@ -310,15 +310,14 @@ get_format_specifer_length(char ch)
 bool
 insert_fprintf (struct format_val *vec,
 		const struct parser_table *entry,
-		const char *format_const)
+		char *format)
 {
-  char *segstart = (char*)format_const; /* XXX: casting away constness */
-  char *fmt_editpos; /* Current address in scanning `format_const'. */
-  const char *fmt_inpos; /* Address inside of element being scanned. */
+  char *segstart = format;
+  char *fmt_editpos;	   /* Current address in scanning `format'. */
   struct segment **segmentp;	  /* Address of current segment. */
   struct predicate *our_pred;
 
-  our_pred = insert_primary_withpred (entry, pred_fprintf, format_const);
+  our_pred = insert_primary_withpred (entry, pred_fprintf, format);
   our_pred->side_effects = our_pred->no_default_print = true;
   our_pred->args.printf_vec = *vec;
   our_pred->need_type = false;
@@ -341,14 +340,16 @@ insert_fprintf (struct format_val *vec,
 	}
       else if (*fmt_editpos == '\\')
 	{
-	  fmt_inpos = fmt_editpos + 1;
-	  if (is_octal_char(fmt_editpos[1]))
+	  size_t readpos = 1;
+	  if (is_octal_char(fmt_editpos[readpos]))
 	    {
-	      *fmt_editpos = parse_octal_escape(&fmt_inpos);
+	      size_t consumed = 0;
+	      *fmt_editpos = parse_octal_escape(fmt_editpos + readpos, &consumed);
+	      readpos += consumed;
 	    }
 	  else
 	    {
-	      const char val = parse_escape_char(fmt_editpos[1]);
+	      const char val = parse_escape_char(fmt_editpos[readpos]);
 	      if (val)
 		{
 		  fmt_editpos[0] = val;
@@ -356,8 +357,8 @@ insert_fprintf (struct format_val *vec,
 	      else
 		{
 		  error (0, 0, _("warning: unrecognized escape `\\%c'"),
-			 fmt_editpos[1]);
-		  fmt_editpos++;
+			 fmt_editpos[readpos]);
+		  fmt_editpos += readpos;
 		  continue;
 		}
 	    }
@@ -365,66 +366,61 @@ insert_fprintf (struct format_val *vec,
 				   segstart, fmt_editpos - segstart + 1,
 				   KIND_PLAIN, 0, 0,
 				   our_pred);
-	  segstart = fmt_inpos + 1; /* Move past the escape. */
-	  fmt_editpos = fmt_inpos;  /* Incremented immediately by `for'. */
+	  segstart = fmt_editpos + readpos + 1; /* Move past the escape. */
+	  fmt_editpos += readpos;  /* Incremented immediately by `for'. */
 	}
       else if (fmt_editpos[0] == '%')
 	{
 	  size_t len;
-	  fmt_inpos = fmt_editpos;
-	  if (fmt_inpos[1] == 0)
+	  if (fmt_editpos[1] == 0)
 	    {
 	      /* Trailing %.  We don't like those. */
 	      error (EXIT_FAILURE, 0,
-		     _("error: %s at end of format string"), fmt_inpos);
+		     _("error: %s at end of format string"), fmt_editpos);
 	    }
 
-	  if (fmt_inpos[1] == '%') /* %% produces just %. */
+	  if (fmt_editpos[1] == '%') /* %% produces just %. */
 	    len = 1;
 	  else
-	    len = get_format_flags_length(fmt_inpos);
-	  fmt_inpos += len;
+	    len = get_format_flags_length(fmt_editpos);
 	  fmt_editpos += len;
 
-	  assert (fmt_inpos == fmt_editpos);
-	  len = get_format_specifer_length (fmt_inpos[0]);
-	  if (len && (fmt_inpos[len-1]))
+	  len = get_format_specifer_length (fmt_editpos[0]);
+	  if (len && (fmt_editpos[len-1]))
 	    {
-	      const char fmt2 = (len == 2) ? fmt_inpos[1] : 0;
+	      const char fmt2 = (len == 2) ? fmt_editpos[1] : 0;
 	      segmentp = make_segment (segmentp, segstart,
 				       fmt_editpos - segstart,
-				       KIND_FORMAT, *fmt_inpos, fmt2,
+				       KIND_FORMAT, fmt_editpos[0], fmt2,
 				       our_pred);
 	      fmt_editpos += (len - 1);
-	      fmt_inpos += (len - 1);
 	    }
 	  else
 	    {
-	      if (strchr ("{[(", *fmt_inpos))
+	      if (strchr ("{[(", fmt_editpos[0]))
 		{
 		  error (EXIT_FAILURE, 0,
 			 _("error: the format directive `%%%c' is reserved for future use"),
-			 (int)*fmt_inpos);
+			 (int)fmt_editpos[0]);
 		  /*NOTREACHED*/
 		}
 
-	      if (len == 2 && !fmt_inpos[1])
+	      if (len == 2 && !fmt_editpos[1])
 		{
 		  error (0, 0,
 			 _("warning: format directive `%%%c' "
 			   "should be followed by another character"),
-			 *fmt_inpos);
+			 fmt_editpos[0]);
 		}
 	      else
 		{
 		  /* An unrecognized % escape.  Print the char after the %. */
 		  error (0, 0,
 			 _("warning: unrecognized format directive `%%%c'"),
-			 *fmt_inpos);
+			 fmt_editpos[0]);
 		}
-	      ++fmt_inpos;
 	      segmentp = make_segment (segmentp,
-				       segstart, fmt_inpos - segstart,
+				       segstart, fmt_editpos + 1 - segstart,
 				       KIND_PLAIN, 0, 0,
 				       our_pred);
 	    }
