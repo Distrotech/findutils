@@ -11,6 +11,8 @@ installed, whichever is appropriate.
 
 ** Bug Fixes
 
+#34079: Apply gnulib ftw memory fix
+
 #33384: If rm/chmod etc. are not in /bin or /usr/bin, updatedb fails
 
 #18227: find -ls does not display device major/minor numbers.
@@ -50,6 +52,14 @@ When expanding "-printf '%F'", find reads /etc/mtab.  We now take the
 last match found in this file, rather than the first, to better deal
 with implementations which have duplicate entries (for example
 /proc/mounts on systems running the Linux kernel).
+
+Both oldfind and ftsfind now use less heap memory when processing
+directories containing very many files.  However, oldfind now uses one
+file descriptor per recursive subdirectory level, which will further
+limit the depth of directory trees it can search.  If you need find to
+be able to search deep directory trees, use ftsfind (this is, by
+default the binary built and installed as 'find').
+
 
 * Major changes in release 4.5.10, 2011-05-11
 
