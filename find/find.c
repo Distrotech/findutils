@@ -37,6 +37,7 @@
 /* gnulib headers. */
 #include "canonicalize.h"
 #include "closein.h"
+#include "dirent-safer.h"
 #include "dirname.h"
 #include "error.h"
 #include "fcntl--.h"
@@ -52,13 +53,15 @@
 #include "buildcmd.h"
 #include "defs.h"
 #include "fdleak.h"
-#include "savedirinfo.h"
 
 #undef  STAT_MOUNTPOINTS
 
-
-
-
+#ifdef CLOSEDIR_VOID
+/* Fake a return value. */
+# define CLOSEDIR(d) (closedir (d), 0)
+#else
+# define CLOSEDIR(d) closedir (d)
+#endif
 
 #if ENABLE_NLS
 # include <libintl.h>
@@ -113,6 +116,43 @@ enum WdSanityCheckFatality
     RETRY_IF_SANITY_CHECK_FAILS,
     NON_FATAL_IF_SANITY_CHECK_FAILS
   };
+
+#if defined HAVE_STRUCT_DIRENT_D_TYPE
+/* Convert the value of struct dirent.d_type into a value for
+ * struct stat.st_mode (at least the file type bits), or zero
+ * if the type is DT_UNKNOWN or is a value we don't know about.
+ */
+static mode_t
+type_to_mode (unsigned type)
+{
+  switch (type)
+    {
+#ifdef DT_FIFO
+    case DT_FIFO: return S_IFIFO;
+#endif
+#ifdef DT_CHR
+    case DT_CHR:  return S_IFCHR;
+#endif
+#ifdef DT_DIR
+    case DT_DIR:  return S_IFDIR;
+#endif
+#ifdef DT_BLK
+    case DT_BLK:  return S_IFBLK;
+#endif
+#ifdef DT_REG
+    case DT_REG:  return S_IFREG;
+#endif
+#ifdef DT_LNK
+    case DT_LNK:  return S_IFLNK;
+#endif
+#ifdef DT_SOCK
+    case DT_SOCK: return S_IFSOCK;
+#endif
+    default:
+      return 0;			/* Unknown. */
+    }
+}
+#endif
 
 
 int
@@ -1245,7 +1285,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
   unsigned int idx;		/* Which entry are we on? */
   struct stat stat_buf;
   size_t dircount = 0u;
-  struct savedir_dirinfo *dirinfo;
+  DIR *dirp;
 
   if (statp->st_nlink < 2)
     {
@@ -1259,10 +1299,9 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
     }
 
   errno = 0;
-  dirinfo = xsavedir (name, 0);
+  dirp = opendir_safer (name);
 
-
-  if (dirinfo == NULL)
+  if (dirp == NULL)
     {
       assert (errno != 0);
       error (0, errno, "%s", safely_quote_err_filename (0, pathname));
@@ -1270,7 +1309,6 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
     }
   else
     {
-      register char *namep;	/* Current point in `name_space'. */
       char *cur_path;		/* Full path of each file to process. */
       char *cur_name;		/* Base name of each file to process. */
       unsigned cur_path_size;	/* Bytes allocated for `cur_path'. */
@@ -1347,14 +1385,42 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	    }
 	}
 
-      for (idx=0; idx < dirinfo->size; ++idx)
+      while (1)
 	{
-	  /* savedirinfo() may return dirinfo=NULL if extended information
-	   * is not available.
-	   */
-	  mode_t mode = (dirinfo->entries[idx].flags & SavedirHaveFileType) ?
-	    dirinfo->entries[idx].type_info : 0;
-	  namep = dirinfo->entries[idx].name;
+	  const char *namep;
+	  mode_t mode = 0;
+	  const struct dirent *dp;
+
+	  /* We reset errno here to distinguish between end-of-directory and an error */
+	  errno = 0;
+	  dp = readdir (dirp);
+	  if (NULL == dp)
+	    {
+	      if (errno)
+		{
+		  /* an error occurred, but we are not yet at the end
+		     of the directory stream. */
+		  error (0, errno, "%s", safely_quote_err_filename (0, pathname));
+		  continue;
+		}
+	      else
+		{
+		  break;	/* End of the directory stream. */
+		}
+	    }
+	  else
+	    {
+	      namep = dp->d_name;
+	      /* Skip "", ".", and "..".  "" is returned by at least one buggy
+		 implementation: Solaris 2.4 readdir on NFS file systems.  */
+	      if (!namep[0] || (namep[0] == '.' && (namep[1] == '.' || namep[1] == 0)))
+		continue;
+	    }
+
+#if defined HAVE_STRUCT_DIRENT_D_TYPE
+	  if (dp->d_type != DT_UNKNOWN)
+	    mode = type_to_mode (dp->d_type);
+#endif
 
 	  /* Append this directory entry's name to the path being searched. */
 	  file_len = pathname_len + strlen (namep);
@@ -1482,7 +1548,7 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	}
 
       free (cur_path);
-      free_dirinfo (dirinfo);
+      CLOSEDIR (dirp);
     }
 
   if (subdirs_unreliable)

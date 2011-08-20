@@ -52,13 +52,14 @@ if [[ -n "${RUN_VERY_EXPENSIVE_TESTS}" ]]; then
 	    # it stores all the directory entries.  Hence the excessive
 	    # memory consumption bug applies to oldfind even though it is
 	    # not using fts.
-	    exe="${ftsfind}"
-	    echo "Checking memory consumption of ${exe}..." >&2
-	    if ( ulimit -v 50000 && ${exe} "${outdir}" >/dev/null; ); then
-		echo "Memory consumption of ${exe} is reasonable" >&2
-	    else
-		bad="${bad}${bad:+\n}Memory consumption of ${exe} is too high"
-	    fi
+	    for exe in "${ftsfind}" "${oldfind}"; do
+	        echo "Checking memory consumption of ${exe}..." >&2
+                if ( ulimit -v 50000 && ${exe} "${outdir}" >/dev/null; ); then
+                        echo "Memory consumption of ${exe} is reasonable" >&2
+                else
+                        bad="${bad}${bad:+\n}Memory consumption of ${exe} is too high"
+                fi
+	    done
 	else
 	    bad="failed to set up the test in ${outdir}"
 	fi
