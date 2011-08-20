@@ -19,7 +19,7 @@ TESTS += check-regexprops test_splitstring
 endif
 
 libfind_a_SOURCES = findutils-version.c
-EXTRA_DIST = extendbuf.h savedirinfo.h buildcmd.h \
+EXTRA_DIST = extendbuf.h buildcmd.h \
 	findutils-version.h \
 	fdleak.h unused-result.h check-regexprops.sh
 SUFFIXES =
@@ -33,7 +33,7 @@ LDADD = ../gl/lib/libgnulib.a $(LIBINTL)
 
 libfind_a_SOURCES += printquoted.h listfile.h \
 	regextype.h dircallback.h safe-atoi.h splitstring.h
-libfind_a_SOURCES += listfile.c extendbuf.c buildcmd.c savedirinfo.c \
+libfind_a_SOURCES += listfile.c extendbuf.c buildcmd.c \
 	forcefindlib.c qmark.c printquoted.c regextype.c dircallback.c fdleak.c \
 	safe-atoi.c splitstring.c
 

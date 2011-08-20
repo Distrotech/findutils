@@ -1,8 +1,14 @@
 2011-08-20  James Youngman  <jay@gnu.org>
 
+	Remove no-longer-used files savedir.[ch].
+	* lib/savedirinfo.c: delete unused file.
+	* lib/savedirinfo.h: delete unused file.
+	* lib/Makefile.am (libfind_a_SOURCES): Remove savedirinfo.c.
+	(EXTRA_DIST): Remove savedirinfo.h.
+
 	Reduce memory consumption of oldfind on large directories.
 	* find/find.c (process_dir): Reduce memory consumption for large
-	directories.  Don't save the whoel directory content with
+	directories.  Don't save the whole directory content with
 	xsavedir, instead just loop over the results of readdir.  This
 	means that oldfind will consume one file descriptor per directory
 	level.
