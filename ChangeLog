@@ -1,3 +1,14 @@
+2011-08-20  James Youngman  <jay@gnu.org>
+
+	Reduce memory consumption of fts.
+	* gnulib: update to latest, mainly to include a bugfix (gnulib
+	commit 47cb657eca1abf2c26c32c8ce03def994a3ee37c) which limits the
+	memory consumed by fts.
+	* find/testsuite/sv-34079.sh: New test, verifying that memory
+	consumption in ftsfind does not grow indefinitely as the size of
+	directories increases.
+	* find/testsuite/Makefile.am (test_shell_progs): Added sv-34079.sh.
+
 2011-06-29  James Youngman  <jay@gnu.org>
 
 	Fix some constness warnings when dealing with -printf formats.
