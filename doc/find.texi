@@ -31,15 +31,15 @@
 This file documents the GNU utilities for finding files that match
 certain criteria and performing various operations on them.
 
-Copyright (C) 1994, 1996, 1998, 2000, 2001, 2003, 2004, 2005, 2006,
-2007, 2008, 2009, 2010 Free Software Foundation, Inc.
+Copyright @copyright{} 1994, 1996, 1998, 2000, 2001, 2003, 2004, 2005, 2006,
+2007, 2008, 2009, 2010, 2011 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-``GNU Free Documentation License.''
+``GNU Free Documentation License''.
 @end copying
 
 @titlepage
@@ -534,8 +534,8 @@ directories on the disk (which can be slow), you can use the
 displays the file names that contain the pattern.  @xref{Shell Pattern
 Matching}, for details about shell patterns.
 
-If a pattern is a plain string---it contains no
-metacharacters---@code{locate} displays all file names in the database
+If a pattern is a plain string -- it contains no
+metacharacters -- @code{locate} displays all file names in the database
 that contain that string.  If a pattern contains
 metacharacters, @code{locate} only displays file names that match the
 pattern exactly.  As a result, patterns that contain metacharacters
@@ -725,7 +725,7 @@ it on the command line.  This option is deprecated.  Where possible,
 you should use @samp{-L} instead.
 @end table
 
-The following differences in behavior occur when the @samp{-L} option
+The following differences in behaviour occur when the @samp{-L} option
 is used:
 
 @itemize @bullet
@@ -2891,7 +2891,7 @@ entry begins with an offset-differential count byte, which is the
 additional number of characters of prefix of the preceding entry to
 use beyond the number that the preceding entry is using of its
 predecessor.  (The counts can be negative.)  Following the count is a
-null-terminated ASCII remainder---the part of the name that follows
+null-terminated ASCII remainder -- the part of the name that follows
 the shared prefix.
 
 If the offset-differential count is larger than can be stored in a
@@ -4033,7 +4033,7 @@ nothing).  The capitalised @samp{Emacs} on the command line is used as
 
 You can pass a list of files produced by @code{find} to a file
 archiving program.  GNU @code{tar} and @code{cpio} can both read lists
-of file names from the standard input---either delimited by nulls (the
+of file names from the standard input -- either delimited by nulls (the
 safe way) or by blanks (the lazy, risky default way).  To use
 null-delimited names, give them the @samp{--null} option.  You can
 store a file archive in a file, write it on a tape, or send it over a
@@ -4352,7 +4352,7 @@ there are lots of files to delete.  Since the task is to delete
 unwanted files, this is precisely the time we don't want things to go
 wrong.
 
-@subsection Making Use of xargs
+@subsection Making Use of @code{xargs}
 
 So, is there a way to be more efficient in the use of @code{fork()}
 and @code{exec()} without running up against this limit?
@@ -4391,7 +4391,7 @@ the exception of the ASCII NUL character and the slash.
 Slashes can occur in path names (as the directory separator) but
 not in the names of actual directory entries.  This means that the
 list of files that @code{xargs} reads could in fact contain white space
-characters --- spaces, tabs and newline characters.  Since by default,
+characters -- spaces, tabs and newline characters.  Since by default,
 @code{xargs} assumes that the list of files it is reading uses white
 space as an argument separator, it cannot correctly handle the case
 where a filename actually includes white space.  This makes the
@@ -4425,7 +4425,7 @@ this is not a portable construct; although other versions of Unix
 (notably BSD-derived ones) support @samp{-print0}, it's not
 universal.  So, is there a more universal mechanism?
 
-@subsection Going back to -exec
+@subsection Going back to @code{-exec}
 
 There is indeed a more universal mechanism, which is a slight
 modification to the @samp{-exec} action.  The normal @samp{-exec}
@@ -4450,7 +4450,7 @@ until version 4.2.12; one of the reasons for this is that it already
 had the @samp{-print0} action in any case.
 
 
-@subsection A more secure version of -exec
+@subsection A more secure version of @code{-exec}
 
 The command above seems to be efficient and portable.  However,
 within it lurks a security problem.  The problem is shared with
@@ -4530,7 +4530,7 @@ Is it possible to do any better?   In the case of general file
 processing, no.  However, in the specific case of deleting files it is
 indeed possible to do better.
 
-@subsection Using the -delete action
+@subsection Using the @code{-delete} action
 
 The most efficient and secure method of solving this problem is to use
 the @samp{-delete} action:
@@ -4738,7 +4738,7 @@ updated timestamp.
 This is indeed faster in general, but the speed difference will depend
 on how many updated files there are.
 
-@subsection Using -printf and sort to compare timestamps
+@subsection Using @code{-printf} and @code{sort} to compare timestamps
 
 It is possible to use the @samp{-printf} action to abandon the use of
 @code{test} entirely:
@@ -4769,7 +4769,7 @@ Findutils version 4.3.3 and later will print a fractional part with
 %A@@, but older versions will not.
 
 
-@subsection Solving the problem with make
+@subsection Solving the problem with @code{make}
 
 Another tool which often works with timestamps is @code{make}.  We can
 use @code{find} to generate a @file{Makefile} file on the fly and then
@@ -5025,7 +5025,7 @@ filesystem which would not normally be included in the search
 @end menu
 
 @node Problems with -exec and filenames
-@subsection Problems with -exec and filenames
+@subsection Problems with @code{-exec} and filenames
 
 It is safe in many cases to use the @samp{-execdir} action with any
 file name.  Because @samp{-execdir} prefixes the arguments it passes
@@ -5101,7 +5101,7 @@ properties of your system.
 @end menu
 
 @node O_NOFOLLOW
-@subsubsection O_NOFOLLOW
+@subsubsection @code{O_NOFOLLOW}
 
 If your system supports the O_NOFOLLOW flag @footnote{GNU/Linux
 (kernel version 2.1.126 and later) and FreeBSD (3.0-CURRENT and later)
@@ -5141,7 +5141,7 @@ the operating system and version number; when this happens you will
 see ``O_NOFOLLOW(disabled)'' instead.
 
 @node Systems without O_NOFOLLOW
-@subsubsection Systems without O_NOFOLLOW
+@subsubsection Systems without @code{O_NOFOLLOW}
 
 The strategy for preventing this type of problem on systems that lack
 support for the O_NOFOLLOW flag is more complex.  Each time
@@ -5182,7 +5182,7 @@ original parent.  No operations would have been performed within that
 directory.
 
 @node Race Conditions with -exec
-@subsection Race Conditions with -exec
+@subsection Race Conditions with @code{-exec}
 
 The @samp{-exec} action causes another program to be run.  It passes
 to the program the name of the file which is being considered at the
@@ -5236,7 +5236,7 @@ might be writable by untrusted users.  For similar reasons,
 the command to be run.
 
 @node Race Conditions with -print and -print0
-@subsection Race Conditions with -print and -print0
+@subsection Race Conditions with @code{-print} and @code{-print0}
 
 The @samp{-print} and @samp{-print0} actions can be used to produce a
 list of files matching some criteria, which can then be used with some
@@ -5468,7 +5468,7 @@ expected them to be.  If the directory @code{find} has moved into is
 on a network filesystem (NFS), it will not issue this message, because
 @code{automount} frequently mounts new filesystems on directories as
 you move into them (that is how it knows you want to use the
-filesystem).  So, if you do see this message, be wary ---
+filesystem).  So, if you do see this message, be wary --
 @code{automount} may not have been responsible.  Consider the
 possibility that someone else is manipulating the filesystem while
 @code{find} is running.  Some people might do this in order to mislead
@@ -5530,7 +5530,7 @@ with a fatal signal.  This is just an advisory message.
 
 
 @node Error Messages From xargs
-@section Error Messages From xargs
+@section Error Messages From @code{xargs}
 
 @table @samp
 @item environment is too large for exec
@@ -5604,7 +5604,7 @@ these programs should interoperate without problem.  Ask for help on
 
 
 @node Error Messages From updatedb
-@section Error Messages From updatedb
+@section Error Messages From @code{updatedb}
 
 The @code{updatedb} program (and the programs it invokes) do issue
 error messages, but none seem to be candidates for guidance.  If
