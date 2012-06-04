@@ -13,7 +13,7 @@ else
         # sort thinks there is more than one input line there.   We have
         # to make sort -c do its thing with the input lines in the wrong
         # order to determine that (we can't do it in one shot because
-        # if sort returns nonzero we cant tell that it wasn't just
+        # if sort returns nonzero we can't tell that it wasn't just
         # complaining about this unknown -z option.
         if $SORT -z -c < "${srcdir:-.}/m4/order-bad.bin" 2>/dev/null >/dev/null
         then

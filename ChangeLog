@@ -56,7 +56,7 @@
 	* find/print.c (parse_octal_escape): Instead of updating a const
 	char* pointer to indicate how many characters from the input we
 	consumed, update a size_t value.
-	(insert_fprintf): Change function defintion to match updated
+	(insert_fprintf): Change function definition to match updated
 	prototype.  Eliminate fmt_inpos.  Introduce a `readpos' offset
 	variable which takes the previous role of fmt_inpos.
 
@@ -271,7 +271,7 @@
 	%(, %{ and %[, which are all rejected.
 	* find/testsuite/Makefile.am (EXTRA_DIST_EXP): Add
 	find.gnu/printf-reserved.exp.
-	* doc/find.texi (Reserved and Unkown Directives): Document this.
+	* doc/find.texi (Reserved and Unknown Directives): Document this.
 	* find/find.1: Document this.
 	* NEWS: Mention this change.
 
@@ -2892,7 +2892,7 @@
 
 2009-04-13  Andreas Metzler <gnu@downhill.at.eu.org>
 
-	Fix Savannah bug# 26092: find.1 still marks -iwholename as prefered
+	Fix Savannah bug# 26092: find.1 still marks -iwholename as preferred
 	* find/find.1 (-iwholename): Indicate that this option is no
 	longer preferred over -ipath.
 
@@ -3059,7 +3059,7 @@
 	* po/sl.po: Updated Slovenian translation.
 	* po/sv.po: Updated Swedish translation.
 	* po/tr.po: Updated Turkish translation.
-	* po/uk.po: Updated Ukranian translation.
+	* po/uk.po: Updated Ukrainian translation.
 	* po/vi.po: Updated Vietnamese translation.
 	* NEWS: Mention these updates.
 
@@ -3394,7 +3394,7 @@
 	(UNUSUAL FILENAMES): Describe how LC_CTYPE affects -printf %p,
 	-print, -fprint.
 	(STANDARDS CONFORMANCE): -ok and -okdir now obey the system's
-	defintion of yes/no if POSIXLY_CORRECT is set.  In any case,
+	definition of yes/no if POSIXLY_CORRECT is set.  In any case,
 	LC_CTYPE and LC_COLLATE may have some effect.  Point out that
 	the setting of LC_MESSAGES deternmines what pattern is used to
 	interpret the user's response to -ok/-okdir.
@@ -3937,7 +3937,7 @@
 2007-08-18  Eric Blake  <ebb9@byu.net>
 
 	Fix Savannah bug #20751.
-	* lib/listfile.c (list_file): Accomodate gnulib change of 3 Jul
+	* lib/listfile.c (list_file): Accommodate gnulib change of 3 Jul
 	2006.
 	* NEWS: Document this.
 	Reported by Nigel Stepp.
@@ -4885,7 +4885,7 @@
 
 	* find/defs.h (pred_open) Rename to pred_openparen to avoid
 	problems with the macrtos which build the parser tabnles on
-	platforms where 'open' is in fact a macro whcih expands to
+	platforms where 'open' is in fact a macro which expands to
 	open64.   The problem was that token pasting put pred_open64 into
 	the parser table, but the function was still defined as
 	parse_open.   This fixes Savannah bug #19371.
@@ -5035,7 +5035,7 @@
 
 2007-04-20  Maxim V. Dziumanenko <dziumanenko@gmail.com>
 
-	* po/uk.po: New Ukranian translation.
+	* po/uk.po: New Ukrainian translation.
 	* configure.in: Added "uk" for Ukranian.
 
 2007-04-19  Peter Breitenlohner <peb@mppmu.mpg.de> (tiny change)
@@ -5225,7 +5225,7 @@
 2007-04-09  James Youngman  <jay@gnu.org>
 
 	* doc/find.texi: Change fully-specified @node directives to
-	single-argument @node directives in order to accomodate the
+	single-argument @node directives in order to accommodate the
 	inclusion of getdate.texi.
 
 	* doc/find.texi: Document -newerXY.
@@ -5589,7 +5589,7 @@
 	  find/testsuite/find.gnu/perm000.xo: -perm /000 is now quivalent
 	  to -perm -000, as dscussed in Savannah bug #14748.  The warning
 	  message we issue when the user does this now explains that the
-	  defintion changed as we promised it would in 2005.
+	  definition changed as we promised it would in 2005.
 
 	* xargs/xargs.c (read_line): Correctly handle quoted empty
 	arguments occurring first or last on a line (by adding an empty
@@ -6122,7 +6122,7 @@
 
 	* find/fstype.c:
 	Savannah bug #14921: when a Linux bind filesystem is in use, find
-	would expand '-printf %F' to 'none' if a bind mount targetted the same
+	would expand '-printf %F' to 'none' if a bind mount targeted the same
 	filesystem as the one containing the file to be described.
 
 	* NEWS: Updated to describe recent changes
@@ -6604,7 +6604,7 @@
 	from Andreas Metzler)
 
 	* INSTALL, depcomp, doc/texinfo.tex, install-sh, missing, mkinstalldirs:
-	Updated auxilliary files from the automake-1.9 distribution
+	Updated auxiliary files from the automake-1.9 distribution
 
 	* configure.in:
 	Introduce new Automake conditional, CROSS_COMPILING, true when we are corss compiling
@@ -8763,7 +8763,7 @@
 	Debian bug #176201.
 
 	* xargs/xargs.c:
-	Fixed Debian bug #176201, "xargs enviroment size limited to 20k", by
+	Fixed Debian bug #176201, "xargs environment size limited to 20k", by
 	reading a patch offered by Bob Proulx and implementing something
 	substantially similar myself.
 
@@ -10404,7 +10404,7 @@
 	* wait.h: New file taken from xargs.c.
 
 	* xargs.c: Make limits.h vs. sys/param.h conditional on
-	LIMITS_MISSING instead of USG, to accomodate SVR2.
+	LIMITS_MISSING instead of USG, to accommodate SVR2.
 
 1990-11-08  David J. MacKenzie  <djm@gnu.org>
 

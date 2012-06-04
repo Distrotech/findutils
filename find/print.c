@@ -608,7 +608,7 @@ format_date (struct timespec ts, int kind)
 
   /* human_readable() assumes we pass a buffer which is at least as
    * long as LONGEST_HUMAN_READABLE.  We use an assertion here to
-   * ensure that no nasty unsigned overflow happend in our calculation
+   * ensure that no nasty unsigned overflow happened in our calculation
    * of the size of buf.  Do the assertion here rather than in the
    * code for %@ so that we find the problem quickly if it exists.  If
    * you want to submit a patch to move this into the if statement, go

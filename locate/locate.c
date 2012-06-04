@@ -144,7 +144,7 @@ static const char warn_name_units[] = N_("days");
 enum visit_result
   {
     VISIT_CONTINUE = 1,  /* please call the next visitor */
-    VISIT_ACCEPTED = 2,  /* accepted, call no futher callbacks for this file */
+    VISIT_ACCEPTED = 2,  /* accepted, call no further callbacks for this file */
     VISIT_REJECTED = 4,  /* rejected, process next file. */
     VISIT_ABORT    = 8   /* rejected, process no more files. */
   };

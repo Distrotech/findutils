@@ -637,7 +637,7 @@ struct state
   /* The file being operated on, relative to the current directory.
      Used for stat, readlink, remove, and opendir.  */
   char *rel_pathname;
-  /* The directory fd to which rel_pathname is relative.  Thsi is relevant
+  /* The directory fd to which rel_pathname is relative.  This is relevant
    * when we're navigating the hierarchy with fts() and using FTS_CWDFD.
    */
   int cwd_dir_fd;
