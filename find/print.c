@@ -1,6 +1,6 @@
 /* print.c -- print/printf-related code.
    Copyright (C) 1990, 1991, 1992, 1993, 1994, 2000, 2001, 2003, 2004,
-   2005, 2006, 2007, 2008, 2009, 2010, 2011 Free Software Foundation,
+   2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -509,8 +509,11 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
    * on Solaris, since it unconditionally writes the terminating null
    * character.
    */
-  buf_size = 1u;
-  buf = xmalloc (buf_size);
+  if (buf == NULL)
+    {
+      buf_size = 1u;
+      buf = xmalloc (buf_size);
+    }
   while (true)
     {
       /* I'm not sure that Solaris will return 0 when the buffer is too small.
@@ -527,6 +530,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
 			      + 1u /* for \0 */
 			      + ns_size);
 	  buf = xrealloc (buf, final_len);
+	  buf_size = final_len;
 	  altbuf = xmalloc (final_len);
 	  strftime (altbuf, buf_size, timefmt, &altered_time);
 
@@ -561,6 +565,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
 	   * don't want.
 	   */
 	  free (timefmt);
+	  free (altbuf);
 	  return buf+1;
 	}
       else

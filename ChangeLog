@@ -1,5 +1,13 @@
 2012-09-18  Jim Meyering  <meyering@redhat.com>
 
+	find: fix two time-formatting leaks (bug #37356)
+	* find/print.c (do_time_format): Call xmalloc for static "buf" only
+	the first time.
+	When reallocating buf, be sure to update its buf_size.
+	Also free "altbuf".
+	Reported by Nemo Maelstrom Thorx in http://bugs.debian.org/687358
+	via Andreas Metzler in http://savannah.gnu.org/bugs/?37356
+
 	find: minor tweaks
 	* find/print.c (do_time_format): Use memcpy in place of sprintf.
 	When calling x2nrealloc, use "sizeof *buf" as the element size,
