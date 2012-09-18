@@ -1,5 +1,10 @@
 2012-09-18  Jim Meyering  <meyering@redhat.com>
 
+	find: minor tweaks
+	* find/print.c (do_time_format): Use memcpy in place of sprintf.
+	When calling x2nrealloc, use "sizeof *buf" as the element size,
+	rather than "2u".
+
 	build: avoid import-gnulib.sh failure
 	* import-gnulib.config (extra_files): Remove build-aux/missing,
 	since that file has been removed from gnulib.

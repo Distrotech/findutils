@@ -493,7 +493,8 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
    * case.
    */
   timefmt = xmalloc (strlen (fmt) + 2u);
-  sprintf (timefmt, "_%s", fmt);
+  timefmt[0] = '_';
+  memcpy (timefmt + 1, fmt, strlen (fmt) + 1);
 
   /* altered_time is a similar time, but in which both
    * digits of the seconds field are different.
@@ -564,7 +565,7 @@ do_time_format (const char *fmt, const struct tm *p, const char *ns, size_t ns_s
 	}
       else
 	{
-	  buf = x2nrealloc (buf, &buf_size, 2u);
+	  buf = x2nrealloc (buf, &buf_size, sizeof *buf);
 	}
     }
 }
