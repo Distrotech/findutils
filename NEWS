@@ -63,6 +63,14 @@ limit the depth of directory trees it can search.  If you need find to
 be able to search deep directory trees, use ftsfind (this is, by
 default the binary built and installed as 'find').
 
+The behaviour of the "awk", "posix-awk" and "gnu-awk" regular
+expression types selected by the -regextype option have slightly
+changed, to bring them into line with the behaviour of the GNU C
+library.  For "awk", character classes (such as [[:digit:]]) are now
+supported.  For "gnu-awk" and "posix-awk", intervals are supported and
+invalid interval specifcations are treated as literals (for example
+'a{1' is treated as 'a\{1').
+
 
 * Major changes in release 4.5.10, 2011-05-11
 

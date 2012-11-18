@@ -79,7 +79,7 @@
 /* FTS_TIGHT_CYCLE_CHECK tries to work around Savannah bug #17877
  * (but actually using it doesn't fix the bug).
  */
-static int ftsoptions = FTS_NOSTAT|FTS_TIGHT_CYCLE_CHECK|FTS_CWDFD;
+static int ftsoptions = FTS_NOSTAT|FTS_TIGHT_CYCLE_CHECK|FTS_CWDFD|FTS_VERBATIM;
 
 static int prev_depth = INT_MIN; /* fts_level can be < 0 */
 static int curr_fd = -1;

@@ -1,3 +1,20 @@
+2012-12-15  James Youngman  <jay@gnu.org>
+
+	Re-generate doc/regexprops.texi.
+	* doc/regexprops.texi: re-generate to describe the changes to
+	gnulib for the regular expression types "awk" (to add character
+	class support), "gnu-awk" (to add range support) and "posix-awk"
+	(also to add range suport).
+	* NEWS: Describe this change.
+
+2012-11-17  Dmitry V. Levin  <ldv@altlinux.org>
+
+	find: use FTS_VERBATIM
+	* gnulib: update to latest, to get FTS_VERBATIM support.
+	* find/ftsfind.c (ftsoptions): Set the FTS_VERBATIM bit.  This
+	Patch was contributed on 2012-11-18, but was applied with the
+	above regexprops change)
+
 2012-12-14  James Youngman  <jay@gnu.org>
 
 	Fix bug #37926 (wrong result for oldfind -inum)

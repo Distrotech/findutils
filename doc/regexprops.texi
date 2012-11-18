@@ -134,7 +134,7 @@ matches a @samp{?}.
 @end table
 
 
-Bracket expressions are used to match ranges of characters.  Bracket expressions where the range is backward, for example @samp{[z-a]}, are invalid.  Within square brackets, @samp{\} can be used to quote the following character.  Character classes are not supported, so for example you would need to use @samp{[0-9]} instead of @samp{[[:digit:]]}.
+Bracket expressions are used to match ranges of characters.  Bracket expressions where the range is backward, for example @samp{[z-a]}, are invalid.  Within square brackets, @samp{\} can be used to quote the following character.  Character classes are supported; for example @samp{[[:digit:]]} will match a single decimal digit.
 
 GNU extensions are not supported and so @samp{\w}, @samp{\W}, @samp{\<}, @samp{\>}, @samp{\b}, @samp{\B}, @samp{\`}, and @samp{\'} match @samp{w}, @samp{W}, @samp{<}, @samp{>}, @samp{b}, @samp{B}, @samp{`}, and @samp{'} respectively.
 
@@ -371,7 +371,7 @@ The characters @samp{^} and @samp{$} always represent the beginning and end of a
 @end enumerate
 
 
-
+Intervals are specified by @samp{@{} and @samp{@}}.  Invalid intervals are treated as literals, for example @samp{a@{1} is treated as @samp{a\@{1}
 
 The longest possible match is returned; this applies to the regular expression as a whole and (subject to this constraint) to subexpressions within groups.
 
@@ -513,7 +513,7 @@ The characters @samp{^} and @samp{$} always represent the beginning and end of a
 @end enumerate
 
 
-Intervals are specified by @samp{@{} and @samp{@}}.  Invalid intervals such as @samp{a@{1z} are not accepted.
+Intervals are specified by @samp{@{} and @samp{@}}.  Invalid intervals are treated as literals, for example @samp{a@{1} is treated as @samp{a\@{1}
 
 The longest possible match is returned; this applies to the regular expression as a whole and (subject to this constraint) to subexpressions within groups.
 
