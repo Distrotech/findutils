@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.3.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2011-05-11 09:58+0100\n"
+"POT-Creation-Date: 2012-11-18 15:33+0000\n"
 "PO-Revision-Date: 2007-06-25 14:40+0300\n"
 "Last-Translator: Anton Zinoviev <zinoviev@debian.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -22,32 +22,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: find/find.c:148 find/ftsfind.c:667
+#: find/exec.c:136
+#, fuzzy, c-format
+msgid "Failed to save working directory in order to run a command on %s"
+msgstr "Неуспешна смяна на текущия каталог"
+
+#: find/exec.c:253
+#, c-format
+msgid "Cannot close standard input"
+msgstr "Не може да се затвори стандартният вход"
+
+#: find/exec.c:282
+#, c-format
+msgid "Failed to change directory"
+msgstr "Неуспешна смяна на текущия каталог"
+
+#: find/exec.c:309 xargs/xargs.c:1202
+#, c-format
+msgid "cannot fork"
+msgstr "не може да се създаде нов процес с fork"
+
+#: find/exec.c:340
+#, c-format
+msgid "error waiting for %s"
+msgstr "изчакване на грешка за %s"
+
+#: find/exec.c:349
+#, c-format
+msgid "%s terminated by signal %d"
+msgstr "%s бе прекратен със сигнал %d"
+
+#: find/find.c:191 find/ftsfind.c:667
 #, c-format
 msgid "Failed initialise shared-file hash table"
 msgstr ""
 
-#: find/find.c:205
+#: find/find.c:248
 #, c-format
 msgid "cannot stat current directory"
 msgstr "не може да се прочетат атрибутите на текущия каталог"
 
-#: find/find.c:296
+#: find/find.c:339
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr ""
 
-#: find/find.c:385
+#: find/find.c:428
 #, fuzzy, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "Внимание: файловата система %s бе размонтирана неотдавна."
 
-#: find/find.c:395
+#: find/find.c:438
 #, fuzzy, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "Внимание: файловата система %s бе монтирана неотдавна."
 
-#: find/find.c:491
+#: find/find.c:534
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -56,7 +86,7 @@ msgstr ""
 "%s%s е изменен по време на изпълнението на %s (стар номер на устройство %ld, "
 "нов номер на устройство %ld, типът на файловата система е %s) [ref %ld]"
 
-#: find/find.c:528
+#: find/find.c:571
 #, fuzzy, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -65,17 +95,17 @@ msgstr ""
 "%s%s е изменен по време на изпълнението на %s (стар номер на i-възел %ld, "
 "нов номер на i-възел %ld, типът на файловата система е %s) [ref %ld]"
 
-#: find/find.c:693
+#: find/find.c:736
 #, fuzzy, c-format
 msgid "failed to return to parent directory"
 msgstr "Неуспешна смяна на текущия каталог"
 
-#: find/find.c:980
+#: find/find.c:1020
 #, fuzzy, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Неуспешна смяна на текущия каталог"
 
-#: find/find.c:1078 find/ftsfind.c:245
+#: find/find.c:1118 find/ftsfind.c:245
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -84,7 +114,7 @@ msgstr ""
 "Символната връзка „%s“ е част от цикъл в йерархията на каталозите; соченият "
 "каталог вече е бил посещаван."
 
-#: find/find.c:1097
+#: find/find.c:1137
 #, fuzzy, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -99,12 +129,12 @@ msgstr[1] ""
 "Открит бе цикъл във файловата система; „%s“ има същия номер на устройство и "
 "i-възел като каталога, който е %d %s."
 
-#: find/find.c:1343
+#: find/find.c:1381
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "внимание: символната връзка %s не се следва"
 
-#: find/find.c:1386
+#: find/find.c:1452
 #, fuzzy, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -119,12 +149,12 @@ msgstr ""
 "опцията „-noleaf“ на find. В предходните резултати може и да са били "
 "пропуснати по погрешка някои каталози."
 
-#: find/fstype.c:203
+#: find/fstype.c:185
 #, c-format
 msgid "Cannot read mounted file system list"
 msgstr ""
 
-#: find/fstype.c:250
+#: find/fstype.c:244
 msgid "unknown"
 msgstr "непознат"
 
@@ -136,7 +166,7 @@ msgstr ""
 "Открит бе цикъл във файловата система; „%s“ има същия номер на устройство и "
 "i-възел като каталога, който е %d %s."
 
-#: find/ftsfind.c:444 find/util.c:214
+#: find/ftsfind.c:444 find/util.c:218
 #, fuzzy, c-format
 msgid "WARNING: file %s appears to have mode 0000"
 msgstr "Внимание: изглежда, че файлът %s има режим 0000"
@@ -151,7 +181,7 @@ msgstr ""
 msgid "failed to restore working directory after searching %s"
 msgstr "Неуспешна смяна на текущия каталог"
 
-#: find/parser.c:471
+#: find/parser.c:452
 #, c-format
 msgid ""
 "The -delete action automatically turns on -depth, but -prune does nothing "
@@ -159,7 +189,7 @@ msgid ""
 "use the -depth option."
 msgstr ""
 
-#: find/parser.c:618
+#: find/parser.c:599
 #, c-format
 msgid ""
 "warning: you have specified the %s option after a non-option argument %s, "
@@ -172,7 +202,7 @@ msgstr ""
 "на тестовете след нея).  Моля, задавайте опциите преди всички други "
 "аргументи.\n"
 
-#: find/parser.c:914
+#: find/parser.c:906
 #, c-format
 msgid ""
 "warning: the -d option is deprecated; please use -depth instead, because the "
@@ -181,7 +211,7 @@ msgstr ""
 "внимание: опцията „-d“ е остаряла; моля, вместо нея използвайте „-depth“ тъй "
 "като тази опция е според стандарта POSIX."
 
-#: find/parser.c:1184
+#: find/parser.c:1179
 #, c-format
 msgid ""
 "%s is not the name of an existing group and it does not look like a numeric "
@@ -190,17 +220,17 @@ msgstr ""
 "%s не е име на съществуваща група и не изглежда като номер на група, защото "
 "има неочакван суфикс %s"
 
-#: find/parser.c:1199
+#: find/parser.c:1194
 #, c-format
 msgid "%s is not the name of an existing group"
 msgstr "%s не е име на съществуваща група"
 
-#: find/parser.c:1205
+#: find/parser.c:1200
 #, c-format
 msgid "argument to -group is empty, but should be a group name"
 msgstr "аргументът на -group е празен, а трябва да бъде име на група"
 
-#: find/parser.c:1227
+#: find/parser.c:1222
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
@@ -211,7 +241,7 @@ msgstr ""
 "print“\n"
 "изразът се състои от оператори, опции, тестове и действия:\n"
 
-#: find/parser.c:1230
+#: find/parser.c:1225
 msgid ""
 "operators (decreasing precedence; -and is implicit where no others are "
 "given):\n"
@@ -224,7 +254,7 @@ msgstr ""
 "ИЗРАЗ2\n"
 "      ИЗРАЗ1 -o ИЗРАЗ2   ИЗРАЗ1 -or ИЗРАЗ2   ИЗРАЗ1 , ИЗРАЗ2\n"
 
-#: find/parser.c:1234
+#: find/parser.c:1229
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -238,7 +268,7 @@ msgstr ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-#: find/parser.c:1239
+#: find/parser.c:1234
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
@@ -253,7 +283,7 @@ msgstr ""
 "ОБРАЗЕЦ\n"
 "      -links N -lname ОБРАЗЕЦ -mmin N -mtime N -name ОБРАЗЕЦ -newer ФАЙЛ"
 
-#: find/parser.c:1244
+#: find/parser.c:1239
 #, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
@@ -266,11 +296,11 @@ msgstr ""
 "      -wholename ОБРАЗЕЦ -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user ИМЕ -xtype [bcdpfls]\n"
 
-#: find/parser.c:1249
+#: find/parser.c:1244
 msgid "      -context CONTEXT\n"
 msgstr ""
 
-#: find/parser.c:1251
+#: find/parser.c:1246
 #, fuzzy
 msgid ""
 "\n"
@@ -284,7 +314,7 @@ msgstr ""
 "      -exec КОМАНДА ; -exec КОМАНДА {} + -ok КОМАНДА ;\n"
 "      -execdir КОМАНДА ; -execdir КОМАНДА {} + -okdir КОМАНДА ;\n"
 
-#: find/parser.c:1257
+#: find/parser.c:1252
 msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
@@ -296,12 +326,12 @@ msgstr ""
 "чрез електронно писмо до <bug-findutils@gnu.org>.  За грешки в\n"
 "българския превод съобщавайте на <dict@fsa-bg.org>."
 
-#: find/parser.c:1312
+#: find/parser.c:1307
 #, c-format
 msgid "sanity check of the fnmatch() library function failed."
 msgstr "проверката на библиотечната функция fnmatch() за правилност пропадна. "
 
-#: find/parser.c:1326
+#: find/parser.c:1321
 #, c-format
 msgid ""
 "warning: Unix filenames usually don't contain slashes (though pathnames "
@@ -317,48 +347,48 @@ msgstr ""
 "или може би тестът „-samefile“.  Или пък ако е инсталирана версията на grep "
 "на ГНУ, може да използвате „find ... -print0 | grep -FzZ %s“."
 
-#: find/parser.c:1452
+#: find/parser.c:1447
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
 msgstr ""
 "Очаква се положително цяло десетично число като аргумент на %s, а не %s"
 
-#: find/parser.c:1617
+#: find/parser.c:1612
 #, c-format
 msgid "This system does not provide a way to find the birth time of a file."
 msgstr "Тази система не дава начин да се намери времето на раждане на файл."
 
-#: find/parser.c:1638
+#: find/parser.c:1633
 #, fuzzy, c-format
 msgid "The %s test needs an argument"
 msgstr "%s: опцията „%s“ изисква аргумент\n"
 
-#: find/parser.c:1675
+#: find/parser.c:1670
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
 msgstr "Не е ясно как %s може да се интерпретира като дата или време"
 
-#: find/parser.c:1692
+#: find/parser.c:1687
 #, c-format
 msgid "Cannot obtain birth time of file %s"
 msgstr "Не може да се получи времето на раждане на файла %s"
 
-#: find/parser.c:1900
+#: find/parser.c:1895
 #, c-format
 msgid "warning: -%s %s will not match anything because it ends with /."
 msgstr ""
 
-#: find/parser.c:1956
+#: find/parser.c:1951
 #, c-format
 msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 msgstr ""
 
-#: find/parser.c:2039
+#: find/parser.c:2034
 #, c-format
 msgid "invalid mode %s"
 msgstr "неправилен режим %s"
 
-#: find/parser.c:2058
+#: find/parser.c:2053
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -370,22 +400,22 @@ msgstr ""
 "-000, т.е. докато в миналото на него не пасваше нито един файл, в момента му "
 "пасват всички файлове."
 
-#: find/parser.c:2274
+#: find/parser.c:2273
 #, c-format
 msgid "invalid null argument to -size"
 msgstr "недопустим празен аргумент на -size"
 
-#: find/parser.c:2324
+#: find/parser.c:2323
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "неправилен тип „%c“ на -size"
 
-#: find/parser.c:2334
+#: find/parser.c:2333
 #, fuzzy, c-format
 msgid "Invalid argument `%s%s' to -size"
 msgstr "неправилен аргумент „%s%c“ за -size"
 
-#: find/parser.c:2516
+#: find/parser.c:2515
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -393,74 +423,54 @@ msgstr ""
 "Опцията -show-control-chars приема единствен аргумент, който трябва да бъде "
 "„literal“ или „safe“"
 
-#: find/parser.c:2630
+#: find/parser.c:2629
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Недопустим аргумент %s за -used"
 
-#: find/parser.c:2671
+#: find/parser.c:2670
 #, fuzzy, c-format
 msgid "%s is not the name of a known user"
 msgstr "%s не е име на съществуваща група"
 
-#: find/parser.c:2678
+#: find/parser.c:2677
 #, fuzzy, c-format
 msgid "The argument to -user should not be empty"
 msgstr "Аргументите на -type трябва да съдържат само една буква"
 
-#: find/parser.c:2703
+#: find/parser.c:2702
 #, c-format
 msgid "Features enabled: "
 msgstr "Разрешени свойства:"
 
-#: find/parser.c:2780
+#: find/parser.c:2779
 #, c-format
 msgid "invalid predicate -context: SELinux is not enabled."
 msgstr ""
 
-#: find/parser.c:2844
+#: find/parser.c:2843
 #, c-format
 msgid "Arguments to -type should contain only one letter"
 msgstr "Аргументите на -type трябва да съдържат само една буква"
 
-#: find/parser.c:2893
+#: find/parser.c:2892
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Непознат аргумент на -type: %c"
 
-#: find/parser.c:3015
-#, c-format
-msgid "warning: unrecognized escape `\\%c'"
-msgstr "внимание: непозната обратно наклонена черта „\\%c“"
-
-#: find/parser.c:3032
-#, c-format
-msgid "error: %s at end of format string"
-msgstr "грешка: %s в края на форматен низ"
-
-#: find/parser.c:3071
-#, c-format
-msgid "warning: unrecognized format directive `%%%c'"
-msgstr "внимание: непозната форматна директива „%%%c“"
-
-#: find/parser.c:3225
-#, c-format
-msgid "error: the format directive `%%%c' is reserved for future use"
-msgstr "грешка: форматната директива „%%%c“ е запазена за бъдеща употреба"
-
-#: find/parser.c:3260
-#, c-format
+#: find/parser.c:2966
+#, fuzzy, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
 "insecure in combination with the %s action of find.  Please remove the "
-"current directory from your $PATH (that is, remove \".\" or leading or "
-"trailing colons)"
+"current directory from your $PATH (that is, remove \".\", doubled colons, or "
+"leading or trailing colons)"
 msgstr ""
 "Текущият каталог е включен в променливата от обкръжението PATH, което е "
 "несигурно при използване на действието %s на find.  Моля, премахнете текущия "
 "каталог от $PATH (т.е. премахнете „.“ или началните или крайни двоеточия)"
 
-#: find/parser.c:3272
+#: find/parser.c:2978
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -471,7 +481,7 @@ msgstr ""
 "е несигурно при използване на действието %s на find.  Моля, премахнете този "
 "елемент от $PATH"
 
-#: find/parser.c:3379
+#: find/parser.c:3087
 #, c-format
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
@@ -480,95 +490,91 @@ msgstr ""
 "Не може да използвате {} при името на команда за -execdir и -okdir, тъй като "
 "това създава проблем със сигурността."
 
-#: find/parser.c:3405
+#: find/parser.c:3113
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "С -exec%s ... + е позволено само едно използване на {}"
 
-#: find/parser.c:3415
+#: find/parser.c:3123
 #, c-format
 msgid "In %s the %s must appear by itself, but you specified %s"
 msgstr ""
 
-#: find/parser.c:3435
+#: find/parser.c:3143
 #, c-format
 msgid "The environment is too large for exec()."
 msgstr "Обкръжението е твърде голямо за exec()."
 
-#: find/parser.c:3603
+#: find/parser.c:3312
 #, fuzzy, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
 msgstr "аритметично препълване при опит да се пресметне краят на днес"
 
-#: find/parser.c:3627
+#: find/parser.c:3336
 #, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "аритметично препълване при опит да се пресметне краят на днес"
 
-#: find/parser.c:3786
+#: find/parser.c:3495
 msgid "standard error"
 msgstr "стандартна грешка"
 
-#: find/parser.c:3791
+#: find/parser.c:3500
 msgid "standard output"
 msgstr "стандартен изход"
 
-#: find/pred.c:432
+#: find/pred.c:338
 #, c-format
 msgid "cannot delete %s"
 msgstr ""
 
-#: find/pred.c:580
-#, fuzzy, c-format
-msgid "Failed to save working directory in order to run a command on %s"
-msgstr "Неуспешна смяна на текущия каталог"
-
-#: find/pred.c:1183 find/pred.c:1992
-#, c-format
-msgid "getfilecon failed: %s"
-msgstr ""
-
-#: find/pred.c:1507
+#: find/pred.c:718
 #, fuzzy, c-format
 msgid "WARNING: cannot determine birth time of file %s"
 msgstr "Внимание: не може да се намери времето на раждане на файла %s"
 
-#: find/pred.c:1571
+#: find/pred.c:782
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:2032
+#: find/pred.c:1205 find/print.c:1228
 #, c-format
-msgid "Cannot close standard input"
-msgstr "Не може да се затвори стандартният вход"
+msgid "getfilecon failed: %s"
+msgstr ""
 
-#: find/pred.c:2061
+#: find/print.c:359
 #, c-format
-msgid "Failed to change directory"
-msgstr "Неуспешна смяна на текущия каталог"
+msgid "warning: unrecognized escape `\\%c'"
+msgstr "внимание: непозната обратно наклонена черта „\\%c“"
 
-#: find/pred.c:2092 xargs/xargs.c:1126
+#: find/print.c:379
 #, c-format
-msgid "cannot fork"
-msgstr "не може да се създаде нов процес с fork"
+msgid "error: %s at end of format string"
+msgstr "грешка: %s в края на форматен низ"
 
-#: find/pred.c:2123
+#: find/print.c:403
 #, c-format
-msgid "error waiting for %s"
-msgstr "изчакване на грешка за %s"
+msgid "error: the format directive `%%%c' is reserved for future use"
+msgstr "грешка: форматната директива „%%%c“ е запазена за бъдеща употреба"
 
-#: find/pred.c:2132
+#: find/print.c:411
 #, c-format
-msgid "%s terminated by signal %d"
-msgstr "%s бе прекратен със сигнал %d"
+msgid ""
+"warning: format directive `%%%c' should be followed by another character"
+msgstr ""
 
-#: find/tree.c:124 find/tree.c:129 find/tree.c:219 find/tree.c:258
+#: find/print.c:419
+#, c-format
+msgid "warning: unrecognized format directive `%%%c'"
+msgstr "внимание: непозната форматна директива „%%%c“"
+
+#: find/tree.c:129 find/tree.c:134 find/tree.c:224 find/tree.c:263
 #, c-format
 msgid "invalid expression"
 msgstr "неправилен израз"
 
-#: find/tree.c:135
+#: find/tree.c:140
 #, c-format
 msgid ""
 "invalid expression; you have used a binary operator '%s' with nothing before "
@@ -576,22 +582,22 @@ msgid ""
 msgstr ""
 "неправилен израз; използвали сте двуместният оператор „%s“ с нищо преди него."
 
-#: find/tree.c:146
+#: find/tree.c:151
 #, c-format
 msgid "expected an expression between '%s' and ')'"
 msgstr "между „%s“ и „)“ се очакваше израз"
 
-#: find/tree.c:156
+#: find/tree.c:161
 #, c-format
 msgid "expected an expression after '%s'"
 msgstr "след „%s“ се очаква израз"
 
-#: find/tree.c:161
+#: find/tree.c:166
 #, c-format
 msgid "invalid expression; you have too many ')'"
 msgstr "неправилен израз; има твърде много „)“"
 
-#: find/tree.c:184
+#: find/tree.c:189
 #, c-format
 msgid ""
 "invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
@@ -600,12 +606,12 @@ msgstr ""
 "неправилен израз; очакваше се някъде да се срещне затваряща скоба „)“, но "
 "такава не бе открита.  Вероятно след „%s“ има нужда от допълнителен предикат."
 
-#: find/tree.c:192
+#: find/tree.c:197
 #, c-format
 msgid "invalid expression; empty parentheses are not allowed."
 msgstr "неправилен израз; не се позволяват празни скоби."
 
-#: find/tree.c:198
+#: find/tree.c:203
 #, c-format
 msgid ""
 "invalid expression; I was expecting to find a ')' somewhere but did not see "
@@ -614,114 +620,114 @@ msgstr ""
 "неправилен израз; очакваше се някъде да се срещне затваряща скоба „)“, но "
 "такава не бе открита."
 
-#: find/tree.c:204 find/tree.c:827
+#: find/tree.c:209 find/tree.c:833
 #, c-format
 msgid "oops -- invalid expression type!"
 msgstr "Опа! Неправилен тип на израза!"
 
-#: find/tree.c:276
+#: find/tree.c:281
 #, c-format
 msgid "oops -- invalid expression type (%d)!"
 msgstr "Опа! Неправилен тип на израза (%d)!"
 
-#: find/tree.c:1114
+#: find/tree.c:1120
 #, c-format
 msgid ""
 "warning: there is no entry in the predicate evaluation cost table for "
 "predicate %s; please report this as a bug"
 msgstr ""
 
-#: find/tree.c:1288
+#: find/tree.c:1294
 #, c-format
 msgid "paths must precede expression: %s"
 msgstr "пътищата трябва да предхождат израза: %s"
 
-#: find/tree.c:1297
+#: find/tree.c:1303
 #, c-format
 msgid "unknown predicate `%s'"
 msgstr "непознат предикат „%s“"
 
-#: find/tree.c:1317
+#: find/tree.c:1323
 #, c-format
 msgid "invalid predicate `%s'"
 msgstr "неправилен предикат „%s“"
 
-#: find/tree.c:1322
+#: find/tree.c:1328
 #, c-format
 msgid "invalid argument `%s' to `%s'"
 msgstr "неправилен аргумент „%s“ за „%s“"
 
-#: find/tree.c:1330
+#: find/tree.c:1336
 #, c-format
 msgid "missing argument to `%s'"
 msgstr "липсващ аргумент за „%s“"
 
-#: find/tree.c:1406
+#: find/tree.c:1412
 #, c-format
 msgid "you have too many ')'"
 msgstr "има твърде много „)“"
 
-#: find/tree.c:1412
+#: find/tree.c:1418
 #, c-format
 msgid "unexpected extra predicate '%s'"
 msgstr "неочакван допълнителен предикат „%s“"
 
-#: find/tree.c:1414
+#: find/tree.c:1420
 #, c-format
 msgid "unexpected extra predicate"
 msgstr "неочакван допълнителен предикат"
 
-#: find/tree.c:1547
+#: find/tree.c:1553
 #, c-format
 msgid "oops -- invalid default insertion of and!"
 msgstr "Опа! Неправилно вмъкване по подразбиране на оператор „И“!"
 
-#: find/util.c:171
+#: find/util.c:175
 #, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgstr "Използване: %s [-H] [-L] [-P] [-Oниво] [-D "
 
-#: find/util.c:173
+#: find/util.c:177
 #, c-format
 msgid "] [path...] [expression]\n"
 msgstr "] [път...] [израз]\n"
 
-#: find/util.c:451
+#: find/util.c:455
 #, fuzzy, c-format
 msgid "failed to save initial working directory"
 msgstr "не може да се установи текущият каталог"
 
-#: find/util.c:468
+#: find/util.c:472
 #, fuzzy, c-format
 msgid "failed to restore initial working directory"
 msgstr "не може да се установи текущият каталог"
 
-#: find/util.c:816
+#: find/util.c:820
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Пренебрегва се непознатият флаг за програмно тестване %s"
 
-#: find/util.c:823
+#: find/util.c:827
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Празен аргумент за опцията -D."
 
-#: find/util.c:839
+#: find/util.c:843
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "Опцията -O трябва непосредствено да се следва от десетично цяло число."
 
-#: find/util.c:849 find/util.c:860
+#: find/util.c:853 find/util.c:864
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Моля, задайте десетично цяло число непосредствено след -O"
 
-#: find/util.c:865 find/util.c:870
+#: find/util.c:869 find/util.c:874
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Нреправилно ниво за оптимизация %s"
 
-#: find/util.c:878
+#: find/util.c:882
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -730,7 +736,7 @@ msgstr ""
 "Нивото за оптимизация %lu е твърде високо.  Ако желаете да намирате "
 "файловете много бързо, обмислете да използвате locate на ГНУ."
 
-#: find/util.c:1022
+#: find/util.c:1026
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
@@ -739,64 +745,66 @@ msgstr ""
 "Променливата от обкръжението FIND_BLOCK_SIZE не се поддържа.  Единственото "
 "нещо, което влияе на размера на блока, е променливата POSIXLY_CORRECT"
 
-#: lib/buildcmd.c:171
+#: lib/buildcmd.c:161
 #, c-format
 msgid "command too long"
 msgstr ""
 
-#: lib/buildcmd.c:311
+#: lib/buildcmd.c:301
 #, c-format
 msgid "can't call exec() due to argument size restrictions"
 msgstr ""
 
-#: lib/buildcmd.c:381
+#: lib/buildcmd.c:371
 #, c-format
 msgid "cannot fit single argument within argument list size limit"
 msgstr ""
 
-#: lib/buildcmd.c:387
+#: lib/buildcmd.c:377
 #, fuzzy, c-format
 msgid "argument list too long"
 msgstr "реда с аргументи е твърде дълъг"
 
-#: lib/buildcmd.c:640
+#: lib/buildcmd.c:629
 #, c-format
 msgid "Environment variable %s is not set to a valid decimal number"
 msgstr ""
 
-#: lib/findutils-version.c:60
+#: lib/fdleak.c:377
+#, c-format
+msgid ""
+"File descriptor %d will leak; please report this as a bug, remembering to "
+"include a detailed description of the simplest way to reproduce this problem."
+msgstr ""
+
+#: lib/findutils-version.c:55
 msgid "Eric B. Decker"
 msgstr ""
 
-#: lib/findutils-version.c:61
+#: lib/findutils-version.c:56
 msgid "James Youngman"
 msgstr ""
 
-#: lib/findutils-version.c:62
+#: lib/findutils-version.c:57
 msgid "Kevin Dalley"
 msgstr ""
 
-#: lib/findutils-version.c:64
-#, c-format
-msgid "Built using GNU gnulib version %s\n"
-msgstr "Компилиран с използването на gnulib на ГНУ, версия %s\n"
-
-#: lib/safe-atoi.c:76
+#: lib/safe-atoi.c:81
 #, fuzzy, c-format
 msgid "Unexpected suffix %s on %s"
 msgstr "неочакван допълнителен предикат „%s“"
 
-#: lib/safe-atoi.c:82
+#: lib/safe-atoi.c:87
 #, fuzzy, c-format
 msgid "Expected an integer: %s"
 msgstr "след „%s“ се очаква израз"
 
-#: lib/regextype.c:107
+#: lib/regextype.c:110
 #, c-format
 msgid "Unknown regular expression type %s; valid types are %s."
 msgstr ""
 
-#: locate/code.c:127
+#: locate/code.c:131
 #, c-format
 msgid ""
 "Usage: %s [--version | --help]\n"
@@ -805,8 +813,8 @@ msgstr ""
 "Използване: %s [--version | --help]\n"
 "или         %s най-чести_биграми < файлов-списък > база-данни-на-locate\n"
 
-#: locate/code.c:131 locate/frcode.c:159 locate/locate.c:1409
-#: xargs/xargs.c:1519
+#: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1404
+#: xargs/xargs.c:1628
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -815,85 +823,85 @@ msgstr ""
 "Докладвайте за грешки на <bug-findutils@gnu.org>.\n"
 "За грешки в българския превод на <dict@fsa-bg.org>.\n"
 
-#: locate/code.c:149 locate/frcode.c:207
+#: locate/code.c:153 locate/frcode.c:210
 #, c-format
 msgid "write error"
 msgstr "грешка при запис"
 
-#: locate/frcode.c:157
+#: locate/frcode.c:160
 #, c-format
 msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
 msgstr ""
 
-#: locate/frcode.c:177
+#: locate/frcode.c:180
 #, c-format
 msgid "You need to specify a security level as a decimal integer."
 msgstr ""
 
-#: locate/frcode.c:185
+#: locate/frcode.c:188
 #, c-format
 msgid "Security level %s is outside the convertible range."
 msgstr ""
 
-#: locate/frcode.c:193
+#: locate/frcode.c:196
 #, c-format
 msgid "Security level %s has unexpected suffix %s."
 msgstr ""
 
-#: locate/frcode.c:251
+#: locate/frcode.c:254
 #, c-format
 msgid "slocate security level %ld is unsupported."
 msgstr ""
 
-#: locate/frcode.c:289
+#: locate/frcode.c:292
 #, fuzzy, c-format
 msgid "Failed to write to standard output"
 msgstr "стандартен изход"
 
-#: locate/locate.c:146
+#: locate/locate.c:141
 msgid "days"
 msgstr "дена"
 
-#: locate/locate.c:193
+#: locate/locate.c:188
 #, fuzzy, c-format
 msgid "The argument for option --max-database-age must not be empty"
 msgstr "Аргументът на опцията --max-database-age не трябва да бъде празен"
 
-#: locate/locate.c:209 locate/locate.c:216
+#: locate/locate.c:204 locate/locate.c:211
 #, c-format
 msgid "Invalid argument %s for option --max-database-age"
 msgstr "недопустим аргумент %s за опцията --max-database-age"
 
-#: locate/locate.c:468
+#: locate/locate.c:463
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "базата данни на locate (%s) съдържа файлово име, по-дълго от това, с което "
 "locate може да работи"
 
-#: locate/locate.c:603
+#: locate/locate.c:598
 #, c-format
 msgid "locate database %s is corrupt or invalid"
 msgstr "базата данни %s на locate е повредена или грешна"
 
-#: locate/locate.c:893
+#: locate/locate.c:888
 #, fuzzy, c-format
 msgid "Locate database size: %s byte\n"
 msgid_plural "Locate database size: %s bytes\n"
 msgstr[0] "Размер на базата данни на locate: %s байта\n"
 msgstr[1] "Размер на базата данни на locate: %s байта\n"
 
-#: locate/locate.c:900
+#: locate/locate.c:895
 #, fuzzy, c-format
 msgid "Matching Filenames: %s\n"
 msgstr "Пасващи файлови имена: %s "
 
-#: locate/locate.c:901
+#: locate/locate.c:896
 #, fuzzy, c-format
 msgid "All Filenames: %s\n"
 msgstr "Всички файлови имена: %s "
 
-#: locate/locate.c:907
+#: locate/locate.c:902
 #, c-format
 msgid ""
 "File names have a cumulative length of %s bytes.\n"
@@ -904,7 +912,7 @@ msgid ""
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:921
+#: locate/locate.c:916
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
@@ -913,17 +921,17 @@ msgstr ""
 "Някои файлови имена може да са били филтрирани, поради което не може да се "
 "пресметне степента на компресия.\n"
 
-#: locate/locate.c:934
+#: locate/locate.c:929
 #, c-format
 msgid "Compression ratio %4.2f%% (higher is better)\n"
 msgstr "Степен на компресия %4.2f%% (по-голямото число е по-добре)\n"
 
-#: locate/locate.c:941
+#: locate/locate.c:936
 #, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "Степен на компресия: неопределена\n"
 
-#: locate/locate.c:996
+#: locate/locate.c:991
 #, c-format
 msgid ""
 "locate database %s looks like an slocate database but it seems to have "
@@ -932,7 +940,7 @@ msgstr ""
 "базата данни на locate (%s) изглежда от тип slocate, но има ниво на "
 "сигурност %c, което в момента не се поддържа от GNU findutils"
 
-#: locate/locate.c:1109
+#: locate/locate.c:1104
 #, c-format
 msgid ""
 "%s is an slocate database.  Support for these is new, expect problems for "
@@ -941,7 +949,7 @@ msgstr ""
 "%s е база данни от тип slocate.  Поддръжката за такъв тип е от скоро и е "
 "възможно да има проблеми."
 
-#: locate/locate.c:1123
+#: locate/locate.c:1118
 #, c-format
 msgid ""
 "%s is an slocate database of unsupported security level %d; skipping it."
@@ -949,7 +957,7 @@ msgstr ""
 "%s е база данни от тип slocate с неподдържано ниво на сигурност %d; пропуска "
 "се."
 
-#: locate/locate.c:1140
+#: locate/locate.c:1135
 #, c-format
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
@@ -960,36 +968,36 @@ msgstr ""
 "slocate с ненулево ниво на сигурност.  Няма да бъдат генерирани резултати от "
 "тази база данни.\n"
 
-#: locate/locate.c:1151
+#: locate/locate.c:1146
 #, c-format
 msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr "%s е база данни тип slocate.  Включва се опцията „-e“."
 
-#: locate/locate.c:1189
+#: locate/locate.c:1184
 #, c-format
 msgid "Old-format locate database %s is too short to be valid"
 msgstr ""
 "Старият формат на базата данни %s на locate е твърде къс, за да бъде валиден"
 
-#: locate/locate.c:1341
+#: locate/locate.c:1336
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Форматът на базата данни %s е %s.\n"
 
-#: locate/locate.c:1362
+#: locate/locate.c:1357
 msgid "The database has little-endian machine-word encoding.\n"
 msgstr "Базата данни е с кодиране на машинните думи тип little-endian.\n"
 
-#: locate/locate.c:1364
+#: locate/locate.c:1359
 msgid "The database has big-endian machine-word encoding.\n"
 msgstr "Базата данни е с кодиране на машинните думи тип big-endian.\n"
 
-#: locate/locate.c:1377
+#: locate/locate.c:1372
 #, c-format
 msgid "The database machine-word encoding order is not obvious.\n"
 msgstr "Типа на кодиране на машинните думи в базата данни не е ясен.\n"
 
-#: locate/locate.c:1400
+#: locate/locate.c:1395
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -1009,63 +1017,63 @@ msgstr ""
 "      [--max-database-age D] [-version] [--help]\n"
 "      образец...\n"
 
-#: locate/locate.c:1463
+#: locate/locate.c:1458
 msgid "failed to drop group privileges"
 msgstr "не може да се анулират груповите привилегии"
 
-#: locate/locate.c:1481
+#: locate/locate.c:1476
 msgid "failed to drop setuid privileges"
 msgstr "не може да се анулират привилегиите на потребител (seguid)"
 
-#: locate/locate.c:1495
+#: locate/locate.c:1490
 msgid "Failed to fully drop privileges"
 msgstr "Привилегиите не може да се анулират напълно"
 
-#: locate/locate.c:1513
+#: locate/locate.c:1508
 msgid "failed to drop setgid privileges"
 msgstr "не може да се анулират привилегиите за група (setgid)"
 
-#: locate/locate.c:1783
+#: locate/locate.c:1776
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "внимание: базата данни на locate може да се чете от стандартния вход само "
 "веднъж."
 
-#: locate/locate.c:1845
+#: locate/locate.c:1846
 #, c-format
 msgid "time system call failed"
 msgstr ""
 
-#: locate/locate.c:1856
+#: locate/locate.c:1857
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr ""
 "внимание: базата данни %s е по-стара от %d %s (точната възраст е %.1f %s)"
 
-#: locate/word_io.c:96
+#: locate/word_io.c:98
 #, c-format
 msgid "WARNING: locate database %s was built with a different byte order"
 msgstr ""
 
-#: locate/word_io.c:143
+#: locate/word_io.c:145
 #, fuzzy, c-format
 msgid "unexpected EOF in %s"
 msgstr "неочакван допълнителен предикат „%s“"
 
-#: locate/word_io.c:146
+#: locate/word_io.c:148
 #, fuzzy, c-format
 msgid "error reading a word from %s"
 msgstr "изчакване на грешка за %s"
 
-#: xargs/xargs.c:258
+#: xargs/xargs.c:251
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr ""
 "Неправилна поредица с обратно наклонена черта %s в описанието на входния "
 "разделител."
 
-#: xargs/xargs.c:276
+#: xargs/xargs.c:269
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1074,7 +1082,7 @@ msgstr ""
 "Неправилна поредица с обратно наклонена черта %s в описанието на входния "
 "разделител; стойностите на знаците не може да превишават %lx."
 
-#: xargs/xargs.c:282
+#: xargs/xargs.c:275
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1083,7 +1091,7 @@ msgstr ""
 "Неправилна поредица с обратно наклонена черта %s в описанието на входния "
 "разделител; стойностите на знаците не може да превишават %lo."
 
-#: xargs/xargs.c:291
+#: xargs/xargs.c:284
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -1092,7 +1100,7 @@ msgstr ""
 "Неправилна поредица с обратно наклонена черта %s в описанието на входния "
 "разделител; крайните знаци %s не са познати."
 
-#: xargs/xargs.c:336
+#: xargs/xargs.c:329
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -1101,46 +1109,56 @@ msgstr ""
 "Неправилно описание на входния разделител %s: разделителят трябва да бъде "
 "или единичен знак, или поредица с обратно наклонена черта „\\“."
 
-#: xargs/xargs.c:353
+#: xargs/xargs.c:346
 #, c-format
 msgid "environment is too large for exec"
 msgstr "обкръжението е твърде голямо за exec"
 
-#: xargs/xargs.c:561
+#: xargs/xargs.c:555
 #, fuzzy, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "внимание: стойността %ld за опцията -s е твърде голяма, вместо нея се "
 "използва %ld"
 
-#: xargs/xargs.c:629
+#: xargs/xargs.c:602
+#, c-format
+msgid "option --%s may not be set to a value which includes `='"
+msgstr ""
+
+#: xargs/xargs.c:614
+#, c-format
+msgid "failed to unset environment variable %s"
+msgstr ""
+
+#: xargs/xargs.c:644
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:635
+#: xargs/xargs.c:650
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:651
+#: xargs/xargs.c:666
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Не може да се отвори входният файл %s"
 
-#: xargs/xargs.c:669
+#: xargs/xargs.c:685
 #, fuzzy, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Променливите на обкръжението заемат %lu байта\n"
 
-#: xargs/xargs.c:672
+#: xargs/xargs.c:688
 #, fuzzy, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr ""
 "Горна граница на дължината на аргументите според POSIX при тази система: "
 "%lu\n"
 
-#: xargs/xargs.c:675
+#: xargs/xargs.c:691
 #, fuzzy, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): "
@@ -1149,17 +1167,17 @@ msgstr ""
 "Най-малка долна граница на дължината на ргументите при всички системи според "
 "POSIX: %lu\n"
 
-#: xargs/xargs.c:678
+#: xargs/xargs.c:694
 #, fuzzy, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "Максимална дължина на командата, която може да се използва: %ld\n"
 
-#: xargs/xargs.c:681
+#: xargs/xargs.c:697
 #, fuzzy, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Размер на командния буфер, който действително се използва: %lu\n"
 
-#: xargs/xargs.c:687
+#: xargs/xargs.c:703
 #, c-format
 msgid ""
 "\n"
@@ -1172,7 +1190,7 @@ msgstr ""
 "четат командите.  Ако това не е каквото искате да се случи, моля въведете "
 "управляващия код за край на файл (Control-D).\n"
 
-#: xargs/xargs.c:695
+#: xargs/xargs.c:711
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1181,7 +1199,7 @@ msgstr ""
 "Внимание: %s ще се изпълни поне веднъж.  Ако не искате това да се случва, "
 "натиснете управляващия символ за прекъсване (Control-C).\n"
 
-#: xargs/xargs.c:823 xargs/xargs.c:916
+#: xargs/xargs.c:839 xargs/xargs.c:932
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1191,16 +1209,16 @@ msgstr ""
 "специални за xargs, освен ако използвате опцията -0"
 
 # CHECK: да се провери използва ли се другаде, освен в xargs/xargs.c
-#: xargs/xargs.c:824 xargs/xargs.c:917
+#: xargs/xargs.c:840 xargs/xargs.c:933
 msgid "double"
 msgstr "Двойна"
 
 # CHECK: да се провери използва ли се другаде, освен в xargs/xargs.c
-#: xargs/xargs.c:824 xargs/xargs.c:917
+#: xargs/xargs.c:840 xargs/xargs.c:933
 msgid "single"
 msgstr "Единична"
 
-#: xargs/xargs.c:936
+#: xargs/xargs.c:952
 #, fuzzy, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1210,98 +1228,161 @@ msgstr ""
 "предаден в списъка на аргументите.  Може би ще искате да използвате опцията "
 "--null option."
 
-#: xargs/xargs.c:946 xargs/xargs.c:1003
+#: xargs/xargs.c:962 xargs/xargs.c:1019
 #, c-format
 msgid "argument line too long"
 msgstr "реда с аргументи е твърде дълъг"
 
-#: xargs/xargs.c:1031
+#: xargs/xargs.c:1047
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr ""
 
-#: xargs/xargs.c:1115
+#: xargs/xargs.c:1090
+#, c-format
+msgid "unable to allocate memory"
+msgstr ""
+
+#: xargs/xargs.c:1105
+#, c-format
+msgid "failed to set environment variable %s"
+msgstr ""
+
+#: xargs/xargs.c:1191
 #, c-format
 msgid "could not create pipe before fork"
 msgstr ""
 
-#: xargs/xargs.c:1184
+#: xargs/xargs.c:1260
 #, c-format
 msgid ""
 "errno-buffer read failed in xargs_do_exec (this is probably a bug, please "
 "report it)"
 msgstr ""
 
-#: xargs/xargs.c:1237
+#: xargs/xargs.c:1313
 #, c-format
 msgid ""
 "read returned unexpected value %d; this is probably a bug, please report it"
 msgstr ""
 
-#: xargs/xargs.c:1329
+#: xargs/xargs.c:1406
 #, c-format
 msgid "error waiting for child process"
 msgstr "грешка при очакване на дъщерен процес"
 
-#: xargs/xargs.c:1362
+#: xargs/xargs.c:1439
 #, c-format
-msgid "WARNING: Lost track of %d child processes"
+msgid "WARNING: Lost track of %lu child processes"
 msgstr ""
 
-#: xargs/xargs.c:1381
+#: xargs/xargs.c:1458
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: завърши с код 255; прекратяване"
 
-#: xargs/xargs.c:1384
+#: xargs/xargs.c:1461
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: спрян със сигнал %d"
 
-#: xargs/xargs.c:1387
+#: xargs/xargs.c:1464
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: прекратен със сигнал %d"
 
-#: xargs/xargs.c:1469
+#: xargs/xargs.c:1548
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: неправилно число за опцията -%c\n"
 
-#: xargs/xargs.c:1476
+#: xargs/xargs.c:1555
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: стойността на опцията -%c трябва да бъде не по-малка от %ld\n"
 
-#: xargs/xargs.c:1490
+#: xargs/xargs.c:1569
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: стойността на опцията -%c трябва да бъде по-малка от < %ld\n"
 
-#: xargs/xargs.c:1508
+#: xargs/xargs.c:1587
 #, c-format
 msgid ""
-"Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
-"       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
-"       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n"
-"       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n"
-"       [-n max-args] [--max-args=max-args]\n"
-"       [-s max-chars] [--max-chars=max-chars]\n"
-"       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n"
-"       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
-"       [--version] [--help] [command [initial-arguments]]\n"
+"Usage: %s [OPTION]... COMMAND INITIAL-ARGS...\n"
+"Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 msgstr ""
-"Използване: %s [-0prtx] [--interactive] [--null] [-d|--"
-"delimiter=разделител]\n"
-"       [-E eof-str] [-e[eof-str]]  [--eof[=низ-за-край-на-файла]]\n"
-"       [-L max-lines] [-l[max-lines]] [--max-lines[=брой-редове]]\n"
-"       [-I replace-str] [-i[низ-за-замяна]] [--replace[=низ-за-замяна]]\n"
-"       [-n макс-брой-аргументи] [--max-args=макс-брой-аргументи]\n"
-"       [-s макс-брой-знаци] [--max-chars=макс-брой-знаци]\n"
-"       [-P макс-брой-процеси]  [--max-procs=макс-брой-процеси] [--show-"
-"limits]\n"
-"       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=файл]\n"
-"       [--version] [--help] [команда [начални-аргументи]]\n"
+
+#: xargs/xargs.c:1591
+#, c-format
+msgid ""
+"\n"
+"Mandatory arguments to long options are mandatory for short options too.\n"
+"Non-mandatory arguments are indicated by [square brackets]\n"
+"  -0, --null                   Items are separated by a null, not "
+"whitespace.\n"
+"                               Disables quote and backslash processing\n"
+"  -a, --arg-file=FILE          Read arguments from FILE, not standard input\n"
+"  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, not "
+"by\n"
+"                               blank space. Disables quote and backslash\n"
+"                               processing\n"
+"  -E END                       If END occurs as a line of input, the rest "
+"of\n"
+"                               the input is ignored.\n"
+"  -e [END], --eof[=END]        Equivalent to -E END if END is specified.\n"
+"                               Otherwise, there is no end-of-file string\n"
+"  --help                       Print a summary of the options to xargs.\n"
+"  -I R                         same as --replace=R (R must be specified)\n"
+"  -i,--replace=[R]             Replace R in initial arguments with names\n"
+"                               read from standard input. If R is\n"
+"                               unspecified, assume {}\n"
+"  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines "
+"per\n"
+"                               command line\n"
+"  -l                           Use at most one nonblank input line per\n"
+"                               command line\n"
+"  -n, --max-args=MAX-ARGS      Use at most MAX-ARGS arguments per command\n"
+"                               line\n"
+"  -P, --max-procs=MAX-PROCS    Run up to max-procs processes at a time\n"
+"  -p, --interactive            Prompt before running commands\n"
+"  --process-slot-var=VAR       Set environment variable VAR in child\n"
+"                               processes\n"
+"  -r, --no-run-if-empty        If there are no arguments, run no command.\n"
+"                               If this option is not given, COMMAND will be\n"
+"                               run at least once.\n"
+"  -s, --max-chars=MAX-CHARS    Limit commands to MAX-CHARS at most\n"
+"  --show-limits                Show limits on command-line length.\n"
+"  -t, --verbose                Print commands before executing them\n"
+"  --version                    Print the version number\n"
+"  -x, --exit                   Exit if the size (see -s) is exceeded\n"
+msgstr ""
+
+#~ msgid "Built using GNU gnulib version %s\n"
+#~ msgstr "Компилиран с използването на gnulib на ГНУ, версия %s\n"
+
+#~ msgid ""
+#~ "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
+#~ "       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
+#~ "       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n"
+#~ "       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n"
+#~ "       [-n max-args] [--max-args=max-args]\n"
+#~ "       [-s max-chars] [--max-chars=max-chars]\n"
+#~ "       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n"
+#~ "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
+#~ "       [--version] [--help] [command [initial-arguments]]\n"
+#~ msgstr ""
+#~ "Използване: %s [-0prtx] [--interactive] [--null] [-d|--"
+#~ "delimiter=разделител]\n"
+#~ "       [-E eof-str] [-e[eof-str]]  [--eof[=низ-за-край-на-файла]]\n"
+#~ "       [-L max-lines] [-l[max-lines]] [--max-lines[=брой-редове]]\n"
+#~ "       [-I replace-str] [-i[низ-за-замяна]] [--replace[=низ-за-замяна]]\n"
+#~ "       [-n макс-брой-аргументи] [--max-args=макс-брой-аргументи]\n"
+#~ "       [-s макс-брой-знаци] [--max-chars=макс-брой-знаци]\n"
+#~ "       [-P макс-брой-процеси]  [--max-procs=макс-брой-процеси] [--show-"
+#~ "limits]\n"
+#~ "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=файл]\n"
+#~ "       [--version] [--help] [команда [начални-аргументи]]\n"
 
 #~ msgid "cannot get current directory"
 #~ msgstr "не може да се установи текущият каталог"
