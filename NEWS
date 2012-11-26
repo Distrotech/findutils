@@ -2,6 +2,14 @@ GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
 * Major changes in release 4.5.12-git, YYYY-MM-DD
 
+** Documentation Changes
+
+If you use -type or -xtype with a type letter corresponding to a file
+type which is not supported by the system on which find was compiled,
+find will now give a clearer error message (though the functionality
+is unchanged).  Type letters are affected are D, l and p (for Solaris
+Doors, symbolic links and named pipes respectively).
+
 ** Bug Fixes
 
 Some bugs in 4.5.11 were fixed without addinng them to the bug

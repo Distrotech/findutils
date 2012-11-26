@@ -2863,30 +2863,50 @@ insert_type (char **argv, int *arg_ptr,
 	  type_cell = S_IFREG;
 	  rate = 0.95f;
 	  break;
-#ifdef S_IFLNK
 	case 'l':			/* symbolic link */
+#ifdef S_IFLNK
 	  type_cell = S_IFLNK;
 	  rate = 0.1f;
-	  break;
+#else
+	  error (EXIT_FAILURE, 0,
+		 _("-type %c is not supported because symbolic links "
+		   "are not supported on the platform find was compiled on."),
+		 (*typeletter));
 #endif
-#ifdef S_IFIFO
+	  break;
 	case 'p':			/* pipe */
+#ifdef S_IFIFO
 	  type_cell = S_IFIFO;
 	  rate = 0.01f;
-	  break;
+#else
+	  error (EXIT_FAILURE, 0,
+		 _("-type %c is not supported because FIFOs "
+		   "are not supported on the platform find was compiled on."),
+		 (*typeletter));
 #endif
-#ifdef S_IFSOCK
+	  break;
 	case 's':			/* socket */
+#ifdef S_IFSOCK
 	  type_cell = S_IFSOCK;
 	  rate = 0.01f;
-	  break;
+#else
+	  error (EXIT_FAILURE, 0,
+		 _("-type %c is not supported because named sockets "
+		   "are not supported on the platform find was compiled on."),
+		 (*typeletter));
 #endif
-#ifdef S_IFDOOR
+	  break;
 	case 'D':			/* Solaris door */
+#ifdef S_IFDOOR
 	  type_cell = S_IFDOOR;
 	  rate = 0.01f;
-	  break;
+#else
+	  error (EXIT_FAILURE, 0,
+		 _("-type %c is not supported because Solaris doors "
+		   "are not supported on the platform find was compiled on."),
+		 (*typeletter));
 #endif
+	  break;
 	default:			/* None of the above ... nuke 'em. */
 	  error (EXIT_FAILURE, 0,
 		 _("Unknown argument to -type: %c"), (*typeletter));

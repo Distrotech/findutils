@@ -1,3 +1,12 @@
+2013-03-24  Bernhard Voelker  <mail@bernhard-voelker.de>
+
+	Improve error message for find -type X (X = an unknown file type).
+	* find/parser.c (insert_type): Give a more comprehensible error
+	message when the type letter following -type or -xtype corresponds
+	to a type of file which was unknown on the system which compiled
+	the find binary.
+	* NEWS: Mention this improvement.
+
 2013-03-24  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #38583: errno-buffer read failed in xargs_do_exec
