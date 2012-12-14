@@ -63,6 +63,13 @@
 # define CLOSEDIR(d) closedir (d)
 #endif
 
+#ifdef D_INO_IN_DIRENT
+# define D_INO(dp) (dp)->d_ino
+#else
+/* Some systems don't have inodes, so fake them to avoid lots of ifdefs.  */
+# define D_INO(dp) NOT_AN_INODE_NUMBER
+#endif
+
 #if ENABLE_NLS
 # include <libintl.h>
 # define _(Text) gettext (Text)
@@ -83,8 +90,8 @@
 static void init_mounted_dev_list (int mandatory);
 #endif
 
-static void process_top_path (char *pathname, mode_t mode);
-static int process_path (char *pathname, char *name, bool leaf, char *parent, mode_t type);
+static void process_top_path (char *pathname, mode_t mode, ino_t inum);
+static int process_path (char *pathname, char *name, bool leaf, char *parent, mode_t type, ino_t inum);
 static void process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, char *parent);
 
 
@@ -250,7 +257,7 @@ main (int argc, char **argv)
   /* If no paths are given, default to ".".  */
   for (i = end_of_leading_options; i < argc && !looks_like_expression (argv[i], true); i++)
     {
-      process_top_path (argv[i], 0);
+      process_top_path (argv[i], 0, starting_stat_buf.st_ino);
     }
 
   /* If there were no path arguments, default to ".". */
@@ -263,7 +270,7 @@ main (int argc, char **argv)
        * "find -printf %H" (note, not "find . -printf %H").
        */
       char defaultpath[2] = ".";
-      process_top_path (defaultpath, 0);
+      process_top_path (defaultpath, 0, starting_stat_buf.st_ino);
     }
 
   /* If "-exec ... {} +" has been used, there may be some
@@ -967,10 +974,12 @@ chdir_back (void)
 static void
 at_top (char *pathname,
 	mode_t mode,
+	ino_t inum,
 	struct stat *pstat,
 	void (*action)(char *pathname,
 		       char *basename,
 		       int mode,
+		       ino_t inum,
 		       struct stat *pstat))
 {
   int dirchange;
@@ -1029,7 +1038,7 @@ at_top (char *pathname,
   free (parent_dir);
   parent_dir = NULL;
 
-  action (pathname, base, mode, pstat);
+  action (pathname, base, mode, inum, pstat);
 
   if (dirchange)
     {
@@ -1041,11 +1050,12 @@ at_top (char *pathname,
 static void do_process_top_dir (char *pathname,
 				char *base,
 				int mode,
+				ino_t inum,
 				struct stat *pstat)
 {
   (void) pstat;
 
-  process_path (pathname, base, false, ".", mode);
+  process_path (pathname, base, false, ".", mode, inum);
   complete_pending_execdirs ();
 }
 
@@ -1053,10 +1063,11 @@ static void
 do_process_predicate (char *pathname,
 		      char *base,
 		      int mode,
+		      ino_t inum,
 		      struct stat *pstat)
 {
   (void) mode;
-
+  (void) inum;
   state.rel_pathname = base;	/* cwd_dir_fd was already set by safely_chdir */
   apply_predicate (pathname, pstat, get_eval_tree ());
 }
@@ -1075,9 +1086,9 @@ do_process_predicate (char *pathname,
    and move to that.
 */
 static void
-process_top_path (char *pathname, mode_t mode)
+process_top_path (char *pathname, mode_t mode, ino_t inum)
 {
-  at_top (pathname, mode, NULL, do_process_top_dir);
+  at_top (pathname, mode, inum, NULL, do_process_top_dir);
 }
 
 
@@ -1162,7 +1173,7 @@ issue_loop_warning (const char *name, const char *pathname, int level)
 
 static int
 process_path (char *pathname, char *name, bool leaf, char *parent,
-	      mode_t mode)
+	      mode_t mode, ino_t inum)
 {
   struct stat stat_buf;
   static dev_t root_dev;	/* Device ID of current argument pathname. */
@@ -1172,6 +1183,13 @@ process_path (char *pathname, char *name, bool leaf, char *parent,
   eval_tree = get_eval_tree ();
   /* Assume it is a non-directory initially. */
   stat_buf.st_mode = 0;
+
+  /* The caller usually knows the inode number, either from readdir or
+   * a *stat call.  We use that value (the caller passes 0 to indicate
+   * ignorance of the inode number).
+   */
+  stat_buf.st_ino = inum;
+
   state.rel_pathname = name;
   state.type = 0;
   state.have_stat = false;
@@ -1252,11 +1270,13 @@ process_path (char *pathname, char *name, bool leaf, char *parent,
 
       if (0 == dir_curr)
 	{
-	  at_top (pathname, mode, &stat_buf, do_process_predicate);
+	  at_top (pathname, mode, stat_buf.st_ino, &stat_buf,
+		  do_process_predicate);
 	}
       else
 	{
-	  do_process_predicate (pathname, name, mode, &stat_buf);
+	  do_process_predicate (pathname, name, mode, stat_buf.st_ino,
+				&stat_buf);
 	}
     }
 
@@ -1471,8 +1491,8 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	      {
 		int count;
 		count = process_path (cur_path, cur_name,
-					    subdirs_left == 0, pathname,
-					    mode);
+				      subdirs_left == 0, pathname,
+				      mode, D_INO(dp));
 		subdirs_left -= count;
 		dircount += count;
 	      }
@@ -1481,7 +1501,8 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	    {
 	      /* There might be weird (e.g., CD-ROM or MS-DOS) file systems
 		 mounted, which don't have Unix-like directory link counts. */
-	      process_path (cur_path, cur_name, false, pathname, mode);
+	      process_path (cur_path, cur_name, false, pathname, mode,
+			    D_INO(dp));
 	    }
 
 	  state.curdepth--;

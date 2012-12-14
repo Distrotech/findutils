@@ -1,3 +1,24 @@
+2012-12-14  James Youngman  <jay@gnu.org>
+
+	Fix bug #37926 (wrong result for oldfind -inum)
+	* find/find.c (D_INO): Define D_INO as a convenience accessor for
+	the inode number in struct dirent; use 0 if there is no d_ino
+	member in struct dirent.
+	(main): Pass the inode number of the top-level directory to
+	process_top_path.
+	(at_top): Add argument inum, the inode number of the file we are
+	looking at.  Pass this to the action function.
+	(do_process_top_dir): Pass the inode number to process_path.
+	(do_process_predicate): Take (but ignore) the inode number
+	argument.
+	(process_path): Add argument inum, the inode number of the file we are
+	looking at.  Populate statbuf.st_ino with this value.  This avoids
+	a stat call in pred_inum if the stat information would not
+	otherwise be used.
+	(process_dir): Pass the inode number to process_path.
+	* import-gnulib.config (modules): Add d-ino.
+	* NEWS: Mention this bugfix.
+
 2012-11-17  James Youngman  <jay@gnu.org>
 
 	Update the Vietnamese, Ukranian and Croatian translations.
