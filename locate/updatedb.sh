@@ -158,7 +158,15 @@ select_shell() {
 : ${NETPATHS=}
 
 # Directories to not put in the database, which would otherwise be.
-: ${PRUNEPATHS="/tmp /usr/tmp /var/tmp /afs /amd /sfs /proc"}
+: ${PRUNEPATHS="
+/afs
+/amd
+/proc
+/sfs
+/tmp
+/usr/tmp
+/var/tmp
+"}
 
 # Trailing slashes result in regex items that are never matched, which
 # is not what the user will expect.   Therefore we now reject such
@@ -246,7 +254,23 @@ do
 done
 
 
-: ${PRUNEFS="nfs NFS proc afs smbfs autofs iso9660 ncpfs coda devpts ftpfs devfs mfs sysfs shfs"}
+: ${PRUNEFS="
+NFS
+afs
+autofs
+coda
+devfs
+devpts
+ftpfs
+iso9660
+mfs
+ncpfs
+nfs
+proc
+shfs
+smbfs
+sysfs
+"}
 
 if test -n "$PRUNEFS"; then
 prunefs_exp=`echo $PRUNEFS |sed -e 's/\([^ ][^ ]*\)/-o -fstype \1/g' \
