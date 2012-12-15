@@ -255,9 +255,11 @@ done
 
 
 : ${PRUNEFS="
+9P
 NFS
 afs
 autofs
+cifs
 coda
 devfs
 devpts
@@ -266,6 +268,7 @@ iso9660
 mfs
 ncpfs
 nfs
+nfs4
 proc
 shfs
 smbfs
