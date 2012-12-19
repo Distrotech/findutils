@@ -50,7 +50,7 @@ Texts.  A copy of the license is included in the section entitled
 
 @page
 @vskip 0pt plus 1filll
-@insertcopying{}
+@insertcopying
 @end titlepage
 
 @contents
@@ -76,8 +76,8 @@ This is edition @value{EDITION}, for @code{find} version @value{VERSION}.
 * Databases::                   Maintaining file name databases.
 * File Permissions::            How to control access to files.
 * Date input formats::          Specifying literal times.
-* Reference::                   Summary of how to invoke the programs.
 * Configuration::               Options you can select at compile time.
+* Reference::                   Summary of how to invoke the programs.
 * Common Tasks::                Solutions to common real-world problems.
 * Worked Examples::             Examples demonstrating more complex points.
 * Security Considerations::     Security issues relating to findutils.
@@ -1693,6 +1693,7 @@ no output is ever sent to it.
 * Escapes::
 * Format Directives::
 * Time Formats::
+* Formatting Flags::
 @end menu
 
 @node Escapes
@@ -1759,7 +1760,6 @@ from the novel you are reading.
 * Time Directives::
 * Other Directives::
 * Reserved and Unknown Directives::
-* Formatting Flags::
 @end menu
 
 @node Name Directives
@@ -2053,7 +2053,7 @@ seconds field includes a fractional part.
 @end table
 
 @node Formatting Flags
-@subsubsection Formatting Flags
+@subsection Formatting Flags
 
 The @samp{%m} and @samp{%d} directives support the @samp{#}, @samp{0}
 and @samp{+} flags, but the other directives do not, even if they
