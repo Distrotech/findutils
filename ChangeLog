@@ -1,3 +1,11 @@
+2013-02-02  James Youngman  <jay@gnu.org>
+
+	Reduce needless calls to complete_pending_execdirs.
+	* find/exec.c (impl_pred_exec): Once pushing an argument for
+        -exec{,dir} ... +, Only set state.execdirs_outstanding if
+	there were previously no todo items on ths command line.
+	This avoids spurious calls to complete_pending_execdirs().
+
 2012-12-19  James Youngman  <jay@gnu.org>
 
 	Make the manual section ordering and menu item ordering consistent.

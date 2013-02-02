@@ -177,7 +177,8 @@ impl_pred_exec (const char *pathname,
 		   0);
 
       /* remember that there are pending execdirs. */
-      state.execdirs_outstanding = true;
+      if (execp->state.todo)
+	state.execdirs_outstanding = true;
 
       /* POSIX: If the primary expression is punctuated by a plus
        * sign, the primary shall always evaluate as true
