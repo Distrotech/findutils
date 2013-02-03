@@ -1,3 +1,16 @@
+2013-02-03  Kamil Dudka  <kdudka@redhat.com>
+
+	Avoid using 'INCLUDES =' in automake templates.
+	* find/Makefile.am: Use AM_CPPFLAGS instead of deprecated INCLUDES.
+	* lib/Makefile.am: Likewise.
+	* locate/Makefile.am: Likewise.
+	* xargs/Makefile.am: Likewise.
+
+	Eliminate a misleading message of import-gnulib.sh on a fresh
+	repository obtained by 'git clone --recursive'.
+	* import-gnulib.sh (check_old_gnulib_dir_layout): Do not require
+	./gnulib/.git to be a directory.
+
 2013-02-03  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #38239, missing variable initialisation in locate

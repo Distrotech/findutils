@@ -30,7 +30,7 @@ locate_SOURCES = locate.c word_io.c
 code_SOURCES = code.c word_io.c
 locate_TEXINFOS = dblocation.texi
 
-INCLUDES = -I$(top_srcdir)/lib -I../gl/lib -I$(top_srcdir)/gl/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
+AM_CPPFLAGS = -I$(top_srcdir)/lib -I../gl/lib -I$(top_srcdir)/gl/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
 
 LDADD = ../lib/libfind.a ../gl/lib/libgnulib.a $(LIB_CLOSE) $(LIBINTL)
 
