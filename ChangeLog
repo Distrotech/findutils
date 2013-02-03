@@ -1,5 +1,17 @@
 2013-02-03  James Youngman  <jay@gnu.org>
 
+	Fix Savannah bug #38239, missing variable initialisation in locate
+	* locate/locate.c (cleanup_quote_opts): New atexit function, frees
+	quote_opts which otherwise would leak.
+	(dolocate): Eliminate the redundant boolean variable
+	they_chose_db, whose true/false-ness followed the not-NULL-ness of
+	locate_path.  Rename locate_path to user_selected_locate_path to
+	make this explicit.
+	(dolocate): When we get to the bottom of the loop, don't try to
+	check for a further element in user_selected_locate_path if it is
+	NULL (that is, $LOCATE_PATH was unset and the -d option was not
+	used).
+
 	* po/findutils.pot: Updated template file from the Translation
 	Project
 
