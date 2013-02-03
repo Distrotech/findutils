@@ -28,7 +28,7 @@ DISTCLEANFILES =
 MAINTAINERCLEANFILES =
 
 
-INCLUDES = -I../gl/lib -I$(top_srcdir)/gl/lib
+AM_CPPFLAGS = -I../gl/lib -I$(top_srcdir)/gl/lib
 LDADD = ../gl/lib/libgnulib.a $(LIBINTL)
 
 libfind_a_SOURCES += printquoted.h listfile.h \
