@@ -635,9 +635,12 @@ exceeds (const char *env_var_name, size_t quantity)
   return 0;
 }
 
-/* Return nonzero if the indicated argument list exceeds a testing limit. */
+/* Return nonzero if the indicated argument list exceeds a testing limit.
+ * NOTE: argv could be declared 'const char *const *argv', but it works as
+ * expected only with C++ compilers <http://c-faq.com/ansi/constmismatch.html>.
+ */
 bool
-bc_args_exceed_testing_limit (const char **argv)
+bc_args_exceed_testing_limit (char **argv)
 {
   size_t chars, args;
 

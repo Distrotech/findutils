@@ -258,7 +258,7 @@ struct predicate
 
   /* Only used for debugging, but defined unconditionally so individual
      modules can be compiled with -DDEBUG.  */
-  char *p_name;
+  const char *p_name;
 
   /* The type of this node.  There are two kinds.  The first is real
      predicates ("primaries") such as -perm, -print, or -exec.  The

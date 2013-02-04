@@ -555,7 +555,7 @@ main (int argc, char **argv)
 		error (0, 0,
 		       _("warning: value %ld for -s option is too large, "
 			 "using %ld instead"),
-		       arg_size, bc_ctl.posix_arg_size_max);
+		       (long) arg_size, (long) bc_ctl.posix_arg_size_max);
 		arg_size = bc_ctl.posix_arg_size_max;
 	      }
 	    bc_ctl.arg_max = arg_size;

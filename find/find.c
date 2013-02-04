@@ -528,6 +528,7 @@ wd_sanity_check (const char *thing_to_stat,
 #ifdef STAT_MOUNTPOINTS
 	  isfatal = dirchange_is_fatal (specific_what,isfatal,silent,newinfo);
 #else
+	  (void) silent;
 	  isfatal = RETRY_IF_SANITY_CHECK_FAILS;
 #endif
 	}
@@ -1302,7 +1303,6 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 {
   int subdirs_left;		/* Number of unexamined subdirs in PATHNAME. */
   bool subdirs_unreliable;	/* if true, cannot use dir link count as subdir limif (if false, it may STILL be unreliable) */
-  unsigned int idx;		/* Which entry are we on? */
   struct stat stat_buf;
   size_t dircount = 0u;
   DIR *dirp;
@@ -1519,7 +1519,6 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
       if (strcmp (name, "."))
 	{
 	  enum SafeChdirStatus status;
-	  struct dir_id did;
 
 	  /* We could go back and do the next command-line arg
 	     instead, maybe using longjmp.  */
@@ -1554,17 +1553,6 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	      error (EXIT_FAILURE, errno,
 		     "%s", safely_quote_err_filename (0, pathname));
 	      return;
-	    }
-
-	  if (dir_curr > 0)
-	    {
-	      did.dev = dir_ids[dir_curr-1].dev;
-	      did.ino = dir_ids[dir_curr-1].ino;
-	    }
-	  else
-	    {
-	      did.dev = starting_stat_buf.st_dev;
-	      did.ino = starting_stat_buf.st_ino;
 	    }
 	}
 

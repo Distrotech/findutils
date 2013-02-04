@@ -1216,7 +1216,7 @@ pred_context (const char *pathname, struct stat *stat_buf,
    Return BUF. */
 
 static char *
-blank_rtrim (char *str, char *buf)
+blank_rtrim (const char *str, char *buf)
 {
   int i;
 

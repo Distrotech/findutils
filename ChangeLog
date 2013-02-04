@@ -1,3 +1,14 @@
+2013-03-26  Kamil Dudka  <kdudka@redhat.com>
+
+	Fix compile-time warnings.
+	* find/defs.h (struct predicate): Add a missing const modifier.
+	* find/find.c (wd_sanity_check): Suppress a warning in #else branch.
+	(process_dir): Remove an unused variables and statements.
+	* find/pred.c (pred_context): Use const modifier in the prototype.
+	* lib/buildcmd.{c,h} (bc_args_exceed_testing_limit): Remove a const
+	modifier causing unnecessary warnings.
+	* xargs/xargs.c (main): Add explicit type-casts.
+
 2013-03-24  James Youngman  <jay@gnu.org>
 
 	Expand on warning about xargs -P and stdout, including in Info.
