@@ -237,6 +237,10 @@ or a SIGUSR2 to decrease the number.  You cannot decrease it below 1.
 never terminates its commands; when asked to decrease, it merely
 waits for more than one existing command to terminate before starting
 another.
+Please note that it is up to the called processes to properly manage parallel
+access to shared resources, e.g. printing simultaneously to stdout may probably
+lead to undetermined results like mangled lines unless using exclusive locking
+mechanisms.
 .TP
 .PD
 .B \-p, \-\-interactive
