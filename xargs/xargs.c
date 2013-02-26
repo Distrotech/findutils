@@ -1587,46 +1587,48 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
 static void
 usage (FILE *stream)
 {
-  fprintf (stream, _("\
-Usage: %s [OPTION]... COMMAND INITIAL-ARGS...\n\
-Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"),
-	   program_name);
-  fprintf (stream, _("\n\
-Mandatory arguments to long options are mandatory for short options too.\n\
-Non-mandatory arguments are indicated by [square brackets]\n\
-  -0, --null                   Items are separated by a null, not whitespace.\n\
-                               Disables quote and backslash processing\n\
-  -a, --arg-file=FILE          Read arguments from FILE, not standard input\n\
-  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, not by\n\
-                               blank space. Disables quote and backslash\n\
-                               processing\n\
-  -E END                       If END occurs as a line of input, the rest of\n\
-                               the input is ignored.\n\
-  -e [END], --eof[=END]        Equivalent to -E END if END is specified.\n\
-                               Otherwise, there is no end-of-file string\n\
-  --help                       Print a summary of the options to xargs.\n\
-  -I R                         same as --replace=R (R must be specified)\n\
-  -i,--replace=[R]             Replace R in initial arguments with names\n\
-                               read from standard input. If R is\n\
-                               unspecified, assume {}\n\
-  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines per\n\
-                               command line\n\
-  -l                           Use at most one nonblank input line per\n\
-                               command line\n\
-  -n, --max-args=MAX-ARGS      Use at most MAX-ARGS arguments per command\n\
-                               line\n\
-  -P, --max-procs=MAX-PROCS    Run up to max-procs processes at a time\n\
-  -p, --interactive            Prompt before running commands\n\
-  --process-slot-var=VAR       Set environment variable VAR in child\n\
-                               processes\n\
-  -r, --no-run-if-empty        If there are no arguments, run no command.\n\
-                               If this option is not given, COMMAND will be\n\
-                               run at least once.\n\
-  -s, --max-chars=MAX-CHARS    Limit commands to MAX-CHARS at most\n\
-  --show-limits                Show limits on command-line length.\n\
-  -t, --verbose                Print commands before executing them\n\
-  --version                    Print the version number\n\
-  -x, --exit                   Exit if the size (see -s) is exceeded\n\
-"));
-  fputs (_("\nReport bugs to <bug-findutils@gnu.org>.\n"), stream);
+  fprintf (stream,
+           _("Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"),
+           program_name);
+
+#define HTL(t) fputs (t, stream);
+
+  HTL (_("Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
+         "\n"));
+  HTL (_("Mandatory and optional arguments to long options are also\n"
+         "mandatory or optional for the corresponding short option.\n"));
+  HTL (_("  -0, --null                   items are separated by a null, not whitespace;\n"
+         "                                 disables quote and backslash processing\n"));
+  HTL (_("  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"));
+  HTL (_("  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
+         "                                 not by whitespace; disables quote and backslash\n"
+         "                                 processing\n"));
+  HTL (_("  -E END                       if END occurs as a line of input, the rest of\n"
+         "                                 the input is ignored\n"));
+  HTL (_("  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
+         "                                 otherwise, there is no end-of-file string\n"));
+  HTL (_("  -I R                         same as --replace=R\n"));
+  HTL (_("  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
+         "                                 from standard input; if R is unspecified,\n"
+         "                                 assume {}\n"));
+  HTL (_("  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines per\n"
+         "                                 command line\n"));
+  HTL (_("  -l[MAX-LINES]                similar to -L but defaults to at most one non-\n"
+         "                                 blank input line if MAX-LINES is not specified\n"));
+  HTL (_("  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command line\n"));
+  HTL (_("  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"));
+  HTL (_("  -p, --interactive            prompt before running commands\n"));
+  HTL (_("      --process-slot-var=VAR   set environment variable VAR in child processes\n"));
+  HTL (_("  -r, --no-run-if-empty        if there are no arguments, then do not run COMMAND;\n"
+         "                                 if this option is not given, COMMAND will be\n"
+         "                                 run at least once\n"));
+  HTL (_("  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"));
+  HTL (_("      --show-limits            show limits on command-line length\n"));
+  HTL (_("  -t, --verbose                print commands before executing them\n"));
+  HTL (_("  -x, --exit                   exit if the size (see -s) is exceeded\n"));
+
+  HTL (_("      --help                   display this help and exit\n"));
+  HTL (_("      --version                output version information and exit\n"));
+  HTL (_("\n"
+         "Report bugs to <bug-findutils@gnu.org>.\n"));
 }

@@ -7,6 +7,15 @@
 	the find binary.
 	* NEWS: Mention this improvement.
 
+	xargs: split usage text to help translators, and clarify it.
+	* xargs/xargs.c (usage):  Define HTL macro to print one help text
+	line (or entry).  Split the option descriptions up by using the
+	above macro.  Refine the messages to adapt to the common way:
+	change the start of each option's description to lower case, do
+	not use periods at the end, use semicolons where needed, indent
+	secondary lines, several other minor improvements.
+	* NEWS: Mention this improvement.
+
 2013-03-24  James Youngman  <jay@gnu.org>
 
 	Fix Savannah bug #38583: errno-buffer read failed in xargs_do_exec
