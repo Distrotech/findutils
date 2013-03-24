@@ -2,10 +2,10 @@
 testname="$(basename $0)"
 
 parent="$(cd .. && pwd)"
-if [[ -f "${parent}/ftsfind" ]]; then
+if [ -f "${parent}/ftsfind" ]; then
     ftsfind="${parent}/ftsfind"
     oldfind="${parent}/find"
-elif [[ -f "${parent}/oldfind" ]]; then
+elif [ -f "${parent}/oldfind" ]; then
     ftsfind="${parent}/find"
     oldfind="${parent}/oldfind"
 else
@@ -17,7 +17,7 @@ if tstdir=$(mktemp -d); then
     expected="$tstdir/["
     for executable in "$oldfind" "$ftsfind"; do
 	if result=$("$executable" "$tstdir" -name '[' -print); then
-	    if ! [[ "$result" = "$expected" ]]; then
+	    if ! [ "$result" = "$expected" ]; then
 		echo "FAIL: $testname with $executable returned '$result' but '$expected' was expected" >&2
 		exit 1
 	    fi
