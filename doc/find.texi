@@ -2546,6 +2546,17 @@ if xargs is running commands that are waiting for a response from a
 distant network connection, running a few in parallel may reduce the
 overall latency by overlapping their waiting time.
 
+If you are running commands in parallel, you need to think about how
+they should arbitrate access to any resources that they share.  For
+example, if more than one of them tries to print to stdout, the ouptut
+will be produced in an indeterminate order (and very likely mixed up)
+unless the processes collaborate in some way to prevent this.  Using
+some kind of locking scheme is one way to prevent such problems.  In
+general, using a locking scheme will help ensure correct output but
+reduce performance.  If you don't want to tolerate the performance
+difference, simply arrange for each process to produce a separate output
+file (or otherwise use separate resources).
+
 @code{xargs} also allows you to "turn up" or "turn down" its parallelism
 in the middle of a run.  Suppose you are keeping your four-processor
 system busy for hours, processing thousands of images using @code{-P 4}.
