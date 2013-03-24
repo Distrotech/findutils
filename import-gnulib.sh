@@ -346,7 +346,7 @@ EOF
 	# No ./gl/ and no ./gnulib-git/.   If ./gnulib/ exists, it might
 	# be either.   If there is no ./gnulib/ we are safe to proceed anyway.
 	if test -d ./gnulib/; then
-	    if test -d ./gnulib/.git; then
+	    if test -e ./gnulib/.git; then
 		# Looks like it is the submodule.
 		true
 	    else

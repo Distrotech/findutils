@@ -1,5 +1,12 @@
 2013-03-24  James Youngman  <jay@gnu.org>
 
+	Fix misleading message from import-gnulib.sh; allow .git symlink.
+	* import-gnulib.sh (check_old_gnulib_dir_layout): Really apply the
+	bugfix by Kamil Dudka which eliminates a misleading message of
+	import-gnulib.sh on a fresh repository obtained by 'git clone
+	--recursive', by requiring gnulib/.git to exist but not requiring
+	it to be a directory.
+
 	Bugfix to "make clean": do not delete header files.
 	* lib/Makefile.am (coverage-clean): Remove output files left
 	behind by gcc -fprofile-arcs -ftest-coverage by using $(RM) with a
