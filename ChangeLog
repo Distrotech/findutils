@@ -1,5 +1,12 @@
 2013-03-24  James Youngman  <jay@gnu.org>
 
+	Fix Savannah bug #38583: errno-buffer read failed in xargs_do_exec
+	* import-gnulib.config (modules): Import the safe-read module.
+	* xargs/xargs.c (xargs_do_exec): Use safe_read so that the read
+	system-call is retried if we handle a signal (for example
+	SIGUSR[12]) while we are trying to read the errno vlaue from the
+	child process.
+
 	Fix misleading message from import-gnulib.sh; allow .git symlink.
 	* import-gnulib.sh (check_old_gnulib_dir_layout): Really apply the
 	bugfix by Kamil Dudka which eliminates a misleading message of

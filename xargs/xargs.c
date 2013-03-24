@@ -51,6 +51,7 @@
 #include "gettext.h"
 #include "progname.h"
 #include "quotearg.h"
+#include "safe-read.h"
 #include "verify.h"
 #include "xalloc.h"
 
@@ -1251,13 +1252,15 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	} /* switch (child) */
       /*fprintf (stderr, "forked child (bc_state.cmd_argc=%d) -> ", bc_state.cmd_argc);*/
 
-      switch (r = read (fd[0], &buf, sizeof (int)))
+      /* We use safe_read here in order to avoid an error if
+	 SIGUSR[12] is handled during the read system call. */
+      switch (r = safe_read (fd[0], &buf, sizeof (int)))
 	{
-	case -1:
+	case SAFE_READ_ERROR:
 	  {
 	    close (fd[0]);
 	    error (0, errno,
-		   _("errno-buffer read failed in xargs_do_exec "
+		   _("errno-buffer safe_read failed in xargs_do_exec "
 		     "(this is probably a bug, please report it)"));
 	    break;
 	  }
