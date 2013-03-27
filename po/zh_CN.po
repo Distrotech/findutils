@@ -2,13 +2,13 @@
 # Copyright (C) 2002, 2008 Free Software Foundation, Inc.
 # This file is distributed under the same license as the findutils package.
 # Wang Li <charles@linux.net.cn>, 2002.
-# Ji ZhengYu <zhengyuji@gmail.com>, 2008, 2009, 2010.
+# Ji ZhengYu <zhengyuji@gmail.com>, 2008, 2009, 2010, 2011, 2012, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils-4.5.7\n"
+"Project-Id-Version: findutils-4.5.11\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2012-11-18 15:33+0000\n"
-"PO-Revision-Date: 2010-04-20 16:12中国标准时间\n"
+"POT-Creation-Date: 2013-02-02 13:52+0000\n"
+"PO-Revision-Date: 2013-03-08 12:27+0800\n"
 "Last-Translator: Ji ZhengYu <zhengyuji@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -18,125 +18,100 @@ msgstr ""
 "Plural-Forms: Plural-Forms: nplurals=1; plural=0;\n"
 
 #: find/exec.c:136
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to save working directory in order to run a command on %s"
-msgstr "无法在查寻 %s 后还原工作目录"
+msgstr "无法为在 %s 上运行命令而保存工作目录"
 
-#: find/exec.c:253
+#: find/exec.c:254
 #, c-format
 msgid "Cannot close standard input"
 msgstr "无法关闭标准输入"
 
-#: find/exec.c:282
+#: find/exec.c:283
 #, c-format
 msgid "Failed to change directory"
 msgstr "无法更改目录"
 
-#: find/exec.c:309 xargs/xargs.c:1202
+#: find/exec.c:310 xargs/xargs.c:1202
 #, c-format
 msgid "cannot fork"
 msgstr "无法 fork"
 
-#: find/exec.c:340
+#: find/exec.c:341
 #, c-format
 msgid "error waiting for %s"
 msgstr "等待 %s 时出错"
 
-#: find/exec.c:349
+#: find/exec.c:350
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s 由于信号 %d 而终止"
 
-#: find/find.c:191 find/ftsfind.c:667
+#: find/find.c:198 find/ftsfind.c:667
 #, c-format
 msgid "Failed initialise shared-file hash table"
 msgstr "无法初始化共享文件哈希表"
 
-#: find/find.c:248
+#: find/find.c:255
 #, c-format
 msgid "cannot stat current directory"
 msgstr "无法 stat 当前目录"
 
-#: find/find.c:339
+#: find/find.c:346
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "无法读取挂载设备列表。"
 
-#: find/find.c:428
+#: find/find.c:435
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "警告: 文件系统 %s 最近已被卸载过了。"
 
-#: find/find.c:438
+#: find/find.c:445
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "警告: 文件系统 %s 最近已被挂载过了。"
 
-#: find/find.c:534
+#: find/find.c:541
 #, c-format
-msgid ""
-"%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, file system type is %s) [ref %ld]"
-msgstr ""
-"%3$s 执行期间 %1$s%2$s 改变了(原来的设备号 %4$ld，新的设备号 %5$ld，文件系统"
-"类型 %6$s) [ref %7$ld]"
+msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"
+msgstr "%3$s 执行期间 %1$s%2$s 改变了(原来的设备号 %4$ld，新的设备号 %5$ld，文件系统类型 %6$s) [ref %7$ld]"
 
-#: find/find.c:571
+#: find/find.c:578
 #, c-format
-msgid ""
-"%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
-"number %<PRIuMAX>, file system type is %s) [ref %ld]"
-msgstr ""
-"%3$s 执行期间 %1$s%2$s 改变了(原来的索引节点号 %4$<PRIuMAX>，新的索引节点号 "
-"%5$<PRIuMAX>，文件系统类型 %6$s) [ref %7$ld]"
+msgid "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode number %<PRIuMAX>, file system type is %s) [ref %ld]"
+msgstr "%3$s 执行期间 %1$s%2$s 改变了(原来的索引节点号 %4$<PRIuMAX>，新的索引节点号 %5$<PRIuMAX>，文件系统类型 %6$s) [ref %7$ld]"
 
-#: find/find.c:736
+#: find/find.c:743
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "无法回到上级目录"
 
-#: find/find.c:1020
+#: find/find.c:1029
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "无法安全的更改目录至 %s"
 
-#: find/find.c:1118 find/ftsfind.c:245
+#: find/find.c:1129 find/ftsfind.c:245
 #, c-format
-msgid ""
-"Symbolic link %s is part of a loop in the directory hierarchy; we have "
-"already visited the directory to which it points."
-msgstr ""
-"符号链接 %s 是目录层级体系中一个循环的一部分；我们已经浏览过它所指向的目录。"
+msgid "Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."
+msgstr "符号链接 %s 是目录层级体系中一个循环的一部分；我们已经浏览过它所指向的目录。"
 
-#: find/find.c:1137
+#: find/find.c:1148
 #, c-format
-msgid ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d level higher in the file system hierarchy"
-msgid_plural ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d levels higher in the file system hierarchy"
-msgstr[0] ""
-"探测到文件系统循环；%s 拥有与文件系统体系中 %d 级深度的目录一样的设备号和索引"
-"节点"
+msgid "Filesystem loop detected; %s has the same device number and inode as a directory which is %d level higher in the file system hierarchy"
+msgid_plural "Filesystem loop detected; %s has the same device number and inode as a directory which is %d levels higher in the file system hierarchy"
+msgstr[0] "探测到文件系统循环；%s 拥有与文件系统体系中 %d 级深度的目录一样的设备号和索引节点"
 
-#: find/find.c:1381
+#: find/find.c:1401
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "警告: 符号链接 %s 无法检索"
 
-#: find/find.c:1452
+#: find/find.c:1472
 #, c-format
-msgid ""
-"WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
-"we already saw %<PRIuMAX> subdirectories): this may be a bug in your file "
-"system driver.  Automatically turning on find's -noleaf option.  Earlier "
-"results may have failed to include directories that should have been "
-"searched."
-msgstr ""
-"警告: %s 的硬链接数错误(仅查到 st_nlink=%<PRIuMAX> 但我们已经查到 %<PRIuMAX> "
-"个子目录): 这可能是您文件系统驱动中的错误。find 的 -noleaf 选项是自动开启的。"
-"之前的查找结果可能无法包括应该已被找到的目录。"
+msgid "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but we already saw %<PRIuMAX> subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."
+msgstr "警告: %s 的硬链接数错误(仅查到 st_nlink=%<PRIuMAX> 但我们已经查到 %<PRIuMAX> 个子目录): 这可能是您文件系统驱动中的错误。find 的 -noleaf 选项是自动开启的。之前的查找结果可能无法包括应该已被找到的目录。"
 
 #: find/fstype.c:185
 #, c-format
@@ -149,8 +124,7 @@ msgstr "未知"
 
 #: find/ftsfind.c:259
 #, c-format
-msgid ""
-"File system loop detected; %s is part of the same file system loop as %s."
+msgid "File system loop detected; %s is part of the same file system loop as %s."
 msgstr "探测到文件系统循环；%s 是与 %s 相同的文件系统循环的一部分。"
 
 #: find/ftsfind.c:444 find/util.c:218
@@ -169,42 +143,24 @@ msgid "failed to restore working directory after searching %s"
 msgstr "无法在查寻 %s 后还原工作目录"
 
 #: find/parser.c:452
-#, fuzzy, c-format
-msgid ""
-"The -delete action automatically turns on -depth, but -prune does nothing "
-"when -depth is in effect.  If you want to carry on anyway, just explicitly "
-"use the -depth option."
-msgstr ""
-"-delete 动作自动开启了 -depth 选项，但当 -depth 起作用时 -prune 就没什么用"
-"了。如果您真想继续运行，就请明确使用 -depth 选项。"
+#, c-format
+msgid "The -delete action automatically turns on -depth, but -prune does nothing when -depth is in effect.  If you want to carry on anyway, just explicitly use the -depth option."
+msgstr "-delete 动作自动开启了 -depth 选项，但当 -depth 起作用时 -prune 就无效。若您真想继续运行，就请写明使用 -depth 选项。"
 
 #: find/parser.c:599
 #, c-format
-msgid ""
-"warning: you have specified the %s option after a non-option argument %s, "
-"but options are not positional (%s affects tests specified before it as well "
-"as those specified after it).  Please specify options before other "
-"arguments.\n"
-msgstr ""
-"警告: 您在非选项参数 %2$s 后定义了 %1$s 选项，但选项不是位置选项 (%3$s 影响在"
-"它之前或之后的指定的比较测试)。请在其它参数之前指定选项。\n"
+msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
+msgstr "警告: 您在非选项参数 %2$s 后定义了 %1$s 选项，但选项不是位置选项 (%3$s 影响在它之前或之后的指定的比较测试)。请在其它参数之前指定选项。\n"
 
 #: find/parser.c:906
 #, c-format
-msgid ""
-"warning: the -d option is deprecated; please use -depth instead, because the "
-"latter is a POSIX-compliant feature."
-msgstr ""
-"警告: 不赞成使用 -d 选项；请使用 -depth 代替，因为后者更符合 POSIX 特性。"
+msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
+msgstr "警告: 不赞成使用 -d 选项；请使用 -depth 代替，因为后者更符合 POSIX 特性。"
 
 #: find/parser.c:1179
 #, c-format
-msgid ""
-"%s is not the name of an existing group and it does not look like a numeric "
-"group ID because it has the unexpected suffix %s"
-msgstr ""
-"%s 不是已存在用户组的名称并且它看起来不像是个数字组 ID，因为它有个非预期的后"
-"缀 %s"
+msgid "%s is not the name of an existing group and it does not look like a numeric group ID because it has the unexpected suffix %s"
+msgstr "%s 不是已存在用户组的名称并且它看起来不像是个数字组 ID，因为它有个非预期的后缀 %s"
 
 #: find/parser.c:1194
 #, c-format
@@ -228,8 +184,7 @@ msgstr ""
 
 #: find/parser.c:1225
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are "
-"given):\n"
+"operators (decreasing precedence; -and is implicit where no others are given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
@@ -255,14 +210,12 @@ msgstr ""
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
-"PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 "比较测试 (N 可以是 +N 或 -N 或 N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer 文件 -ctime N -empty -false -fstype 类型 -gid N -group 名称\n"
-"      -ilname 匹配模式 -iname 匹配模式 -inum N -ipath 匹配模式 -iregex 匹配模"
-"式\n"
+"      -ilname 匹配模式 -iname 匹配模式 -inum N -ipath 匹配模式 -iregex 匹配模式\n"
 "      -links N -lname 匹配模式 -mmin N -mtime N -name 匹配模式 -newer 文件"
 
 #: find/parser.c:1239
@@ -300,9 +253,7 @@ msgid ""
 "Report (and track progress on fixing) bugs via the findutils bug-reporting\n"
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
-msgstr ""
-"通过 findutils 错误报告页 http://savannah.gnu.org/ 报告错误及跟踪修定过程。如"
-"果您无法浏览网页，请发电子邮件至 <bug-findutils@gnu.org>。"
+msgstr "通过 findutils 错误报告页 http://savannah.gnu.org/ 报告错误及跟踪修定过程。如果您无法浏览网页，请发电子邮件至 <bug-findutils@gnu.org>。"
 
 #: find/parser.c:1307
 #, c-format
@@ -311,17 +262,8 @@ msgstr "fnmatch() 库函数的健全性检测失败了。"
 
 #: find/parser.c:1321
 #, c-format
-msgid ""
-"warning: Unix filenames usually don't contain slashes (though pathnames "
-"do).  That means that '%s %s' will probably evaluate to false all the time "
-"on this system.  You might find the '-wholename' test more useful, or "
-"perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
-"use 'find ... -print0 | grep -FzZ %s'."
-msgstr ""
-"警告: Unix 文件名通常不包括 / 符号(但目录名中有这个符号)。这意味着‘%s %s’可能"
-"在此系统中永远等同于错误。您可能会发现‘-wholename’参数更有效，或者也许是‘-"
-"samefile’。又或者，如果您使用 GNU grep，您可使用‘find ... -print0 | grep -"
-"FzZ %s’。"
+msgid "warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."
+msgstr "警告: Unix 文件名通常不包括 / 符号(但目录名中有这个符号)。这意味着‘%s %s’可能在此系统中永远等同于错误。您可能会发现‘-wholename’参数更有效，或者也许是‘-samefile’。又或者，如果您使用 GNU grep，您可使用‘find ... -print0 | grep -FzZ %s’。"
 
 #: find/parser.c:1447
 #, c-format
@@ -365,14 +307,8 @@ msgstr "非法权限 %s"
 
 #: find/parser.c:2053
 #, c-format
-msgid ""
-"warning: you have specified a mode pattern %s (which is equivalent to /000). "
-"The meaning of -perm /000 has now been changed to be consistent with -perm "
-"-000; that is, while it used to match no files, it now matches all files."
-msgstr ""
-"警告: 您已经指定了一个权限字串 %s(它等同于 /000)。-perm /000 的意思现在已被更"
-"改至与 -perm 000 一致了；那即是说，以前它不匹配任何文件，而现在它匹配所有文"
-"件。"
+msgid "warning: you have specified a mode pattern %s (which is equivalent to /000). The meaning of -perm /000 has now been changed to be consistent with -perm -000; that is, while it used to match no files, it now matches all files."
+msgstr "警告: 您已经指定了一个权限字串 %s(它等同于 /000)。-perm /000 的意思现在已被更改至与 -perm 000 一致了；那即是说，以前它不匹配任何文件，而现在它匹配所有文件。"
 
 #: find/parser.c:2273
 #, c-format
@@ -385,14 +321,12 @@ msgid "invalid -size type `%c'"
 msgstr "无效的 -size 类型“%c”"
 
 #: find/parser.c:2333
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid argument `%s%s' to -size"
-msgstr "-size 的参数‘%s%c’无效"
+msgstr "-size 的参数 `%s%s'无效"
 
 #: find/parser.c:2515
-msgid ""
-"The -show-control-chars option takes a single argument which must be "
-"'literal' or 'safe'"
+msgid "The -show-control-chars option takes a single argument which must be 'literal' or 'safe'"
 msgstr "-show-control-chars 选项仅带一个参数，它必须是‘literal’或‘safe’"
 
 #: find/parser.c:2629
@@ -431,31 +365,18 @@ msgid "Unknown argument to -type: %c"
 msgstr "-type 的参数未知: %c"
 
 #: find/parser.c:2966
-#, fuzzy, c-format
-msgid ""
-"The current directory is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove the "
-"current directory from your $PATH (that is, remove \".\", doubled colons, or "
-"leading or trailing colons)"
-msgstr ""
-"当前目录包含在了 PATH 环境变量中，与 find 的 %s 动作合用时不安全。请从您的 "
-"$PATH 变量中删除当前目录(即删除“.”或冒号前面或后面的东西)"
+#, c-format
+msgid "The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\", doubled colons, or leading or trailing colons)"
+msgstr "当前目录包含在了 PATH 环境变量中，与 find 的 %s 动作合用时不安全。请从您的 $PATH 变量中删除当前目录(即删除“.”，冒号或其前后的东西)"
 
 #: find/parser.c:2978
 #, c-format
-msgid ""
-"The relative path %s is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove that "
-"entry from $PATH"
-msgstr ""
-"相对路径 %s 包含在了 PATH 环境变量中，与 find 的 %s 动作合用时不安全。请从 "
-"$PATH 变量中删除那个条目"
+msgid "The relative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"
+msgstr "相对路径 %s 包含在了 PATH 环境变量中，与 find 的 %s 动作合用时不安全。请从 $PATH 变量中删除那个条目"
 
 #: find/parser.c:3087
 #, c-format
-msgid ""
-"You may not use {} within the utility name for -execdir and -okdir, because "
-"this is a potential security problem."
+msgid "You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."
 msgstr "您不可以在 -execdir 和 -okdir 中使用 {}，因为这会带来潜在的安全问题。"
 
 #: find/parser.c:3113
@@ -466,7 +387,7 @@ msgstr "-exec%s ... + 仅支持一个 {} 实例"
 #: find/parser.c:3123
 #, c-format
 msgid "In %s the %s must appear by itself, but you specified %s"
-msgstr ""
+msgstr "%s 中%s 默认调用自身，但您指定了%s"
 
 #: find/parser.c:3143
 #, c-format
@@ -528,9 +449,8 @@ msgstr "错误: 格式指令‘%%%c’是留给将来使用的。"
 
 #: find/print.c:411
 #, c-format
-msgid ""
-"warning: format directive `%%%c' should be followed by another character"
-msgstr ""
+msgid "warning: format directive `%%%c' should be followed by another character"
+msgstr "警告: 格式命令 `%%%c' 应该后跟另一个字符"
 
 #: find/print.c:419
 #, c-format
@@ -544,9 +464,7 @@ msgstr "非法表达式"
 
 #: find/tree.c:140
 #, c-format
-msgid ""
-"invalid expression; you have used a binary operator '%s' with nothing before "
-"it."
+msgid "invalid expression; you have used a binary operator '%s' with nothing before it."
 msgstr "非法表达式；您在一个二元操作符‘%s’前未带任何东西。"
 
 #: find/tree.c:151
@@ -566,9 +484,7 @@ msgstr "非法表达式；您使用了太多的‘)’"
 
 #: find/tree.c:189
 #, c-format
-msgid ""
-"invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
-"need an extra predicate after '%s'"
+msgid "invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"
 msgstr "非法表达式；需要一个‘)’但未找到。也许您需要在‘%s’后加上额外的判定"
 
 #: find/tree.c:197
@@ -578,9 +494,7 @@ msgstr "非法表达式；不允许使用空白的圆括号。"
 
 #: find/tree.c:203
 #, c-format
-msgid ""
-"invalid expression; I was expecting to find a ')' somewhere but did not see "
-"one."
+msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
 msgstr "非法表达式；我原来希望能在某处找到‘)’，但未找到。"
 
 #: find/tree.c:209 find/tree.c:833
@@ -595,10 +509,8 @@ msgstr "哎 -- 无效的表达式类型(%d)！"
 
 #: find/tree.c:1120
 #, c-format
-msgid ""
-"warning: there is no entry in the predicate evaluation cost table for "
-"predicate %s; please report this as a bug"
-msgstr ""
+msgid "warning: there is no entry in the predicate evaluation cost table for predicate %s; please report this as a bug"
+msgstr "警告: predicate %s 中没有predicate evaluation cost table 的项目; 请上报 bug"
 
 #: find/tree.c:1294
 #, c-format
@@ -641,7 +553,7 @@ msgid "unexpected extra predicate"
 msgstr "非预期的无效断言"
 
 #: find/tree.c:1553
-#, fuzzy, c-format
+#, c-format
 msgid "oops -- invalid default insertion of and!"
 msgstr "哎 -- 无效的默认插入！"
 
@@ -656,14 +568,14 @@ msgid "] [path...] [expression]\n"
 msgstr "] [path...] [expression]\n"
 
 #: find/util.c:455
-#, fuzzy, c-format
+#, c-format
 msgid "failed to save initial working directory"
-msgstr "无法获取当前工作目录"
+msgstr "无法保存起始工作目录"
 
 #: find/util.c:472
-#, fuzzy, c-format
+#, c-format
 msgid "failed to restore initial working directory"
-msgstr "无法获取当前工作目录"
+msgstr "无法还原起始工作目录"
 
 #: find/util.c:820
 #, c-format
@@ -692,18 +604,13 @@ msgstr "无效的优化级 %s"
 
 #: find/util.c:882
 #, c-format
-msgid ""
-"Optimisation level %lu is too high.  If you want to find files very quickly, "
-"consider using GNU locate."
+msgid "Optimisation level %lu is too high.  If you want to find files very quickly, consider using GNU locate."
 msgstr "优化级别 %lu 太高了。如果您想很快地找到文件，考虑使用 GNU locate。"
 
 #: find/util.c:1026
 #, c-format
-msgid ""
-"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
-"that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr ""
-"不支持环境变量 FIND_BLOCK_SIZE，仅环境变量 POSIXLY_CORRECT 会影响块大小"
+msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr "不支持环境变量 FIND_BLOCK_SIZE，仅环境变量 POSIXLY_CORRECT 会影响块大小"
 
 #: lib/buildcmd.c:161
 #, c-format
@@ -716,9 +623,9 @@ msgid "can't call exec() due to argument size restrictions"
 msgstr "由于参数数量限制，无法调用 exec()"
 
 #: lib/buildcmd.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "cannot fit single argument within argument list size limit"
-msgstr "无法使用合适的带参数列表大小限制的单一参数"
+msgstr "无法在参数列表大小限制中适配单一参数"
 
 #: lib/buildcmd.c:377
 #, c-format
@@ -732,10 +639,8 @@ msgstr "环境变量 %s 未设为一个有效十进制数"
 
 #: lib/fdleak.c:377
 #, c-format
-msgid ""
-"File descriptor %d will leak; please report this as a bug, remembering to "
-"include a detailed description of the simplest way to reproduce this problem."
-msgstr ""
+msgid "File descriptor %d will leak; please report this as a bug, remembering to include a detailed description of the simplest way to reproduce this problem."
+msgstr "文件描述符 %d 泄漏; 请上报 bug，记得带上重现这一问题的最简方法的详细说明。"
 
 #: lib/findutils-version.c:55
 msgid "Eric B. Decker"
@@ -876,9 +781,7 @@ msgstr ""
 
 #: locate/locate.c:916
 #, c-format
-msgid ""
-"Some filenames may have been filtered out, so we cannot compute the "
-"compression ratio.\n"
+msgid "Some filenames may have been filtered out, so we cannot compute the compression ratio.\n"
 msgstr "某些文件名可能被过滤掉了，因此我们无法计算压缩率。\n"
 
 #: locate/locate.c:929
@@ -893,36 +796,23 @@ msgstr "压缩率未定义\n"
 
 #: locate/locate.c:991
 #, c-format
-msgid ""
-"locate database %s looks like an slocate database but it seems to have "
-"security level %c, which GNU findutils does not currently support"
-msgstr ""
-"locate 数据库 %s 看上去像是个 slocate 数据库，但它好像有安全级 %c，而目前 "
-"GNU findutils 不支持此安全级"
+msgid "locate database %s looks like an slocate database but it seems to have security level %c, which GNU findutils does not currently support"
+msgstr "locate 数据库 %s 看上去像是个 slocate 数据库，但它好像有安全级 %c，而目前 GNU findutils 不支持此安全级"
 
 #: locate/locate.c:1104
 #, c-format
-msgid ""
-"%s is an slocate database.  Support for these is new, expect problems for "
-"now."
-msgstr ""
-"%s 是一个 slocate 数据库。这些支持都是新开发的，目前希望能提交错误报告。"
+msgid "%s is an slocate database.  Support for these is new, expect problems for now."
+msgstr "%s 是一个 slocate 数据库。这些支持都是新开发的，目前希望能提交错误报告。"
 
 #: locate/locate.c:1118
 #, c-format
-msgid ""
-"%s is an slocate database of unsupported security level %d; skipping it."
+msgid "%s is an slocate database of unsupported security level %d; skipping it."
 msgstr "%s 是一个不支持的安全级为 %d 的 slocate 数据库；跳过。"
 
 #: locate/locate.c:1135
 #, c-format
-msgid ""
-"You specified the -E option, but that option cannot be used with slocate-"
-"format databases with a non-zero security level.  No results will be "
-"generated for this database.\n"
-msgstr ""
-"您指定了 -E 选项，但那个选项无法和带非零安全级的 slocate 格式的数据库一同使"
-"用。此数据库不会生成任何结果。\n"
+msgid "You specified the -E option, but that option cannot be used with slocate-format databases with a non-zero security level.  No results will be generated for this database.\n"
+msgstr "您指定了 -E 选项，但那个选项无法和带非零安全级的 slocate 格式的数据库一同使用。此数据库不会生成任何结果。\n"
 
 #: locate/locate.c:1146
 #, c-format
@@ -966,8 +856,7 @@ msgstr ""
 "用法: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
-"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
-"stdio ]\n"
+"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n"
 "      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TYPE]\n"
 "      [--max-database-age D] [--version] [--help]\n"
 "      pattern...\n"
@@ -1025,32 +914,23 @@ msgstr "在输入分隔定义中有无效转义序列 %s。"
 
 #: xargs/xargs.c:269
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lx."
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."
 msgstr "在输入分隔定义中有无效的转义序列 %s；字符值不能超过 %lx。"
 
 #: xargs/xargs.c:275
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lo."
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."
 msgstr "在输入分隔定义中有无效的转义序列 %s；字符值不能超过 %lo。"
 
 #: xargs/xargs.c:284
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; trailing "
-"characters %s not recognised."
+msgid "Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."
 msgstr "在输入分隔定义中有无效的转义序列 %s；不可识别后续字符 %s。"
 
 #: xargs/xargs.c:329
 #, c-format
-msgid ""
-"Invalid input delimiter specification %s: the delimiter must be either a "
-"single character or an escape sequence starting with \\."
-msgstr ""
-"无效的输入分隔定义 %s: 分隔符要么是单一字符要么是以 \\ 开始的转义序列。"
+msgid "Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."
+msgstr "无效的输入分隔定义 %s: 分隔符要么是单一字符要么是以 \\ 开始的转义序列。"
 
 #: xargs/xargs.c:346
 #, c-format
@@ -1065,22 +945,22 @@ msgstr "警告: -s 选项的值 %ld 太大了，用 %ld 代替"
 #: xargs/xargs.c:602
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
-msgstr ""
+msgstr "选项 --%s 不要设置成带`=' 的值"
 
 #: xargs/xargs.c:614
 #, c-format
 msgid "failed to unset environment variable %s"
-msgstr ""
+msgstr "无法撤消环境变量 %s"
 
 #: xargs/xargs.c:644
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
-msgstr ""
+msgstr "无法设置 SIGUSR1 信号句柄"
 
 #: xargs/xargs.c:650
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
-msgstr ""
+msgstr "无法设置 SIGUSR2 信号句柄"
 
 #: xargs/xargs.c:666
 #, c-format
@@ -1099,9 +979,7 @@ msgstr "此系统的参数长度 POSIX 上限: %<PRIuMAX>\n"
 
 #: xargs/xargs.c:691
 #, c-format
-msgid ""
-"POSIX smallest allowable upper limit on argument length (all systems): "
-"%<PRIuMAX>\n"
+msgid "POSIX smallest allowable upper limit on argument length (all systems): %<PRIuMAX>\n"
 msgstr "所有系统中所允许的最小参数长度 POSIX 上限: %<PRIuMAX>\n"
 
 #: xargs/xargs.c:694
@@ -1118,28 +996,20 @@ msgstr "我们实际能用的命令缓冲区的大小: %<PRIuMAX>\n"
 #, c-format
 msgid ""
 "\n"
-"Execution of xargs will continue now, and it will try to read its input and "
-"run commands; if this is not what you wanted to happen, please type the end-"
-"of-file keystroke.\n"
+"Execution of xargs will continue now, and it will try to read its input and run commands; if this is not what you wanted to happen, please type the end-of-file keystroke.\n"
 msgstr ""
 "\n"
-"xargs 中的命令现在将继续执行，并且它会尝试读取输入并运行命令；如果您不想它发"
-"生，请按下“文件结束”按键(ctrl-D)。\n"
+"xargs 中的命令现在将继续执行，并且它会尝试读取输入并运行命令；如果您不想它发生，请按下“文件结束”按键(ctrl-D)。\n"
 
 #: xargs/xargs.c:711
 #, c-format
-msgid ""
-"Warning: %s will be run at least once.  If you do not want that to happen, "
-"then press the interrupt keystroke.\n"
+msgid "Warning: %s will be run at least once.  If you do not want that to happen, then press the interrupt keystroke.\n"
 msgstr "警告: %s 将至少运行一次。如果您不想它发生，请按下中断按键。(ctrl-C)\n"
 
 #: xargs/xargs.c:839 xargs/xargs.c:932
 #, c-format
-msgid ""
-"unmatched %s quote; by default quotes are special to xargs unless you use "
-"the -0 option"
-msgstr ""
-"未匹配的 %s 引用；默认情况下，引用是针对 xargs 的，除非您使用了 -0 选项"
+msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
+msgstr "未匹配的 %s 引用；默认情况下，引用是针对 xargs 的，除非您使用了 -0 选项"
 
 #: xargs/xargs.c:840 xargs/xargs.c:933
 msgid "double"
@@ -1151,11 +1021,8 @@ msgstr "单"
 
 #: xargs/xargs.c:952
 #, c-format
-msgid ""
-"WARNING: a NUL character occurred in the input.  It cannot be passed through "
-"in the argument list.  Did you mean to use the --null option?"
-msgstr ""
-"警告: 输入中有个 NUL 字符。它不能在参数列表中传送。您是想用 --null 选项吗？"
+msgid "WARNING: a NUL character occurred in the input.  It cannot be passed through in the argument list.  Did you mean to use the --null option?"
+msgstr "警告: 输入中有个 NUL 字符。它不能在参数列表中传送。您是想用 --null 选项吗？"
 
 #: xargs/xargs.c:962 xargs/xargs.c:1019
 #, c-format
@@ -1170,12 +1037,12 @@ msgstr "无法打开 /dev/tty 用于读取"
 #: xargs/xargs.c:1090
 #, c-format
 msgid "unable to allocate memory"
-msgstr ""
+msgstr "无法分配内存"
 
 #: xargs/xargs.c:1105
 #, c-format
 msgid "failed to set environment variable %s"
-msgstr ""
+msgstr "无法设置环境变量 %s"
 
 #: xargs/xargs.c:1191
 #, c-format
@@ -1184,15 +1051,12 @@ msgstr "无法在派生子进程之前创建管道"
 
 #: xargs/xargs.c:1260
 #, c-format
-msgid ""
-"errno-buffer read failed in xargs_do_exec (this is probably a bug, please "
-"report it)"
+msgid "errno-buffer read failed in xargs_do_exec (this is probably a bug, please report it)"
 msgstr "xargs_do_exec 中的 errno-buffer 读取失败(这可能是个 bug，请报告给我们)"
 
 #: xargs/xargs.c:1313
 #, c-format
-msgid ""
-"read returned unexpected value %d; this is probably a bug, please report it"
+msgid "read returned unexpected value %d; this is probably a bug, please report it"
 msgstr "读取操作返回的是非预期值 %d；这可能是个 bug，请报告给我们"
 
 #: xargs/xargs.c:1406
@@ -1201,9 +1065,9 @@ msgid "error waiting for child process"
 msgstr "等待子进程时出错"
 
 #: xargs/xargs.c:1439
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING: Lost track of %lu child processes"
-msgstr "警告: 失去 %d 子进程的踪迹"
+msgstr "警告: 失去 %lu 子进程的踪迹"
 
 #: xargs/xargs.c:1458
 #, c-format
@@ -1241,6 +1105,8 @@ msgid ""
 "Usage: %s [OPTION]... COMMAND INITIAL-ARGS...\n"
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 msgstr ""
+"用法: %s [选项]... COMMAND INITIAL-ARGS...\n"
+"以 INITIAL-ARGS及更多来自控制台的参数来运行 COMMAND。\n"
 
 #: xargs/xargs.c:1591
 #, c-format
@@ -1248,16 +1114,13 @@ msgid ""
 "\n"
 "Mandatory arguments to long options are mandatory for short options too.\n"
 "Non-mandatory arguments are indicated by [square brackets]\n"
-"  -0, --null                   Items are separated by a null, not "
-"whitespace.\n"
+"  -0, --null                   Items are separated by a null, not whitespace.\n"
 "                               Disables quote and backslash processing\n"
 "  -a, --arg-file=FILE          Read arguments from FILE, not standard input\n"
-"  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, not "
-"by\n"
+"  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, not by\n"
 "                               blank space. Disables quote and backslash\n"
 "                               processing\n"
-"  -E END                       If END occurs as a line of input, the rest "
-"of\n"
+"  -E END                       If END occurs as a line of input, the rest of\n"
 "                               the input is ignored.\n"
 "  -e [END], --eof[=END]        Equivalent to -E END if END is specified.\n"
 "                               Otherwise, there is no end-of-file string\n"
@@ -1266,8 +1129,7 @@ msgid ""
 "  -i,--replace=[R]             Replace R in initial arguments with names\n"
 "                               read from standard input. If R is\n"
 "                               unspecified, assume {}\n"
-"  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines "
-"per\n"
+"  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines per\n"
 "                               command line\n"
 "  -l                           Use at most one nonblank input line per\n"
 "                               command line\n"
@@ -1286,6 +1148,45 @@ msgid ""
 "  --version                    Print the version number\n"
 "  -x, --exit                   Exit if the size (see -s) is exceeded\n"
 msgstr ""
+"\n"
+"选项完整形式可用的参数也适用于其缩写形式。\n"
+"可选参数被一对方括号括起\"[参数]\"\n"
+"  -0, --null                   条目以 null分隔，而非空格。\n"
+"                               不处理引号和反斜杠\n"
+"  -a, --arg-file=FILE          从 FILE中获取参数，而非标准输入\n"
+"  -d, --delimiter=CHARACTER    输入项由 CHARACTER分隔，而非空格。\n"
+"                               不处理引号反斜杠\n"
+"\n"
+"  -E END                       若以 END作为一行输入的结尾，余下输入均忽略。\n"
+"                    \n"
+"  -e [END], --eof[=END]        若指定 END，则等同于 -E END。\n"
+"                               否则无文件结尾字串。\n"
+"  --help                       打印 xargs选项的帮助说明。\n"
+"  -I R                         等同于 --replace=R (R 必须指定)\n"
+"  -i,--replace=[R]             以标准输入所读取的名字代替起始参数中的 R。\n"
+"                               若未定义 R，则假定{}\n"
+"\n"
+"  -L,-l, --max-lines=MAX-LINES 每行命令最多用 MAX-LINES个非空输入\n"
+"\n"
+"  -l                           每行命令最多用一个非空输入\n"
+"\n"
+"  -n, --max-args=MAX-ARGS      每行命令最多用 MAX-ARGS个参数\n"
+"\n"
+"  -P, --max-procs=MAX-PROCS    一次最多运行 MAX-PROCS个进程\n"
+"  -p, --interactive            交互式运行命令\n"
+"  --process-slot-var=VAR       在子进程中设置环境变量 VAR。\n"
+"\n"
+"  -r, --no-run-if-empty        若无参数则不运行命令。\n"
+"                               若不指定此选项，COMMAND 将至少运行一次。\n"
+"\n"
+"  -s, --max-chars=MAX-CHARS    最多 MAX-CHARS条命令\n"
+"  --show-limits                在命令行中显示限制。\n"
+"  -t, --verbose                在运行命令前打印\n"
+"  --version                    打印版本号\n"
+"  -x, --exit                   若超出 size(参看 -s)则退出\n"
+
+#~ msgid "cannot get current directory"
+#~ msgstr "无法获取当前目录"
 
 #~ msgid "Built using GNU gnulib version %s\n"
 #~ msgstr "以 GNU gnulib 版本 %s 构建\n"
@@ -1310,9 +1211,6 @@ msgstr ""
 #~ "       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n"
 #~ "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 #~ "       [--version] [--help] [command [initial-arguments]]\n"
-
-#~ msgid "cannot get current directory"
-#~ msgstr "无法获取当前目录"
 
 #~ msgid "invalid argument %s for %s"
 #~ msgstr "“%2$s”的参数 %1$s 无效"
