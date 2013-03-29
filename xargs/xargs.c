@@ -623,6 +623,12 @@ main (int argc, char **argv)
 	}
     }
 
+  if (eof_str && (read_args == read_string))
+    {
+      error (0, 0,
+	     _("warning: the -E option has no effect if -0 or -d is used.\n"));
+    }
+
   /* If we had deferred failing due to problems in bc_init_controlinfo (),
    * do it now.
    *
@@ -969,11 +975,19 @@ read_line (void)
     }
 }
 
-/* Read a null-terminated string from the input and add it to the list of
-   arguments to pass to the command.
-   Return -1 if eof (either physical or logical) is reached,
-   otherwise the length of the string read (including the null).  */
+/* Read a string (terminated by the delimiter, which may be NUL) from
+   the input and add it to the list of arguments to pass to the
+   command.
 
+   The return value is the length of the added argument, including its
+   terminating NUL.  The added argument is always terminated by NUL,
+   even if that is not the delimiter.
+
+   If we reach physical EOF before seeing the delimiter, we treat any
+   characters read as the final argument.
+
+   If no argument was read (that is, we reached physical EOF before
+   reading any characters) then -1 is returned. */
 static int
 read_string (void)
 {
@@ -1598,13 +1612,15 @@ usage (FILE *stream)
   HTL (_("Mandatory and optional arguments to long options are also\n"
          "mandatory or optional for the corresponding short option.\n"));
   HTL (_("  -0, --null                   items are separated by a null, not whitespace;\n"
-         "                                 disables quote and backslash processing\n"));
+         "                                 disables quote and backslash processing and\n"
+	 "                                 logical EOF processing.\n"));
   HTL (_("  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"));
   HTL (_("  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
          "                                 not by whitespace; disables quote and backslash\n"
-         "                                 processing\n"));
-  HTL (_("  -E END                       if END occurs as a line of input, the rest of\n"
-         "                                 the input is ignored\n"));
+         "                                 processing and logical EOF processing\n"));
+  HTL (_("  -E END                       Set logical EOF string; if END occurs as a line\n"
+	 "                                 of input, the rest of the input is ignored\n"
+	 "                                 (ignored if -0 or -d was specified)\n"));
   HTL (_("  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
          "                                 otherwise, there is no end-of-file string\n"));
   HTL (_("  -I R                         same as --replace=R\n"));

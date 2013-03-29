@@ -1,5 +1,22 @@
 2013-03-29  James Youngman  <jay@gnu.org>
 
+	Document that -0/-d turns off logical end-of-file processing.
+	* doc/find.texi (xargs options): Explain that the logical end of
+	file marker string set with -E is not special if -d or -0 was
+	specified.
+	* xargs/xargs.c (usage): Mention this in the --help output.
+	(read_string): Correct the function header comment to point out
+	that there is no logical end-of-file processing for this case.
+	Also point out that the delimiter may not always be NUL.
+	This documentation update fixes Savannah bug #36652.
+	(main): Emit a warning message if -0/-d is specified and -E was
+	also used.
+	* xargs/testsuite/xargs.gnu/E_-0.exp: Don't compare stderr output,
+	since for this case xargs now emits a warning message.
+	* NEWS: Mention this change.
+
+2013-03-29  James Youngman  <jay@gnu.org>
+
 	Updated the Galician translation.
 	* gl.po: Updated Galician translation.
 
