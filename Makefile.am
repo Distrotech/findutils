@@ -48,6 +48,8 @@ findutils-check-testfiles:
 findutils-check-smells:
 	find  $(srcdir) \( -path $(srcdir)/autom4te.cache -o  \
                            -path $(srcdir)/gnulib     -o  \
+                           -path $(srcdir)/gl     -o  \
+                           -path $(srcdir)/tests     -o  \
                            -name .git             -o  \
                            \( -type d -name CVS \)  \
                        \) -prune -o                  \

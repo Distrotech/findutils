@@ -175,7 +175,8 @@ update_licenses() {
 
 hack_gnulib_tool_output() {
     local gnulibdir="${1}"
-    for file in $extra_files; do
+    for file in $extra_files
+    do
       case $file in
 	*/mdate-sh | */texinfo.tex) dest=doc;;
 	*) dest=build-aux;;

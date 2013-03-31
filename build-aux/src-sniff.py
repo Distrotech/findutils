@@ -21,6 +21,7 @@
 # gnulib provides a way of disabling checks for particular files, and
 # has a wider range of checks.   Indeed, many of these checks do in fact
 # check the same thing as "make syntax-check".
+import os.path
 import re
 import sys
 
@@ -68,11 +69,13 @@ class RegexSniffer(object):
 
 
 class RegexChecker(object):
+
     def __init__(self, regex, line_smells, file_smells):
         super(RegexChecker, self).__init__()
         self._regex = re.compile(regex)
         self._line_sniffers = [RegexSniffer(s[0],s[1]) for s in line_smells]
         self._file_sniffers = [RegexSniffer(s[0],s[1],re.S|re.M) for s in file_smells]
+
     def Check(self, filename, lines, fulltext):
         if self._regex.search(filename):
             # We recognise this type of file.
@@ -86,11 +89,49 @@ class RegexChecker(object):
             pass
 
 
+class MakefileRegexChecker(object):
+
+    MAKEFILE_PRIORITY_LIST = ['Makefile.am', 'Makefile.in', 'Makefile']
+    MAKEFILE_REGEX = ''.join(
+        '|'.join(['(%s)' % pattern for pattern in MAKEFILE_PRIORITY_LIST]))
+
+    def __init__(self, line_smells, file_smells):
+        self._file_regex = re.compile(self.MAKEFILE_REGEX)
+        self._rxc = RegexChecker(self.MAKEFILE_REGEX, line_smells, file_smells)
+
+    def WantToCheck(self, filename):
+        if not self._file_regex.search(filename):
+            return False
+        makefile_base = os.path.basename(filename)
+        makefile_dir = os.path.dirname(filename)
+
+        for base in self.MAKEFILE_PRIORITY_LIST:
+            path = os.path.join(makefile_dir, base)
+            if os.path.exists(path):
+                if path == filename:
+                    # The first existing name in MAKEFILE_PRIORITY_LIST
+                    # is actually this file, so we want to check it.
+                    return True
+                else:
+                    # These is another (source) Makefile we want to check
+                    # instead.
+                    return False
+        # If we get to here we were asked about a file which either
+        # doesn't exist or which doesn't look like anything in
+        # MAKEFILE_PRIORITY_LIST.  So give the go-ahead to check it.
+        return True
+
+    def Check(self, filename, lines, fulltext):
+        if self.WantToCheck(filename):
+            self._rxc.Check(filename, lines, fulltext)
+
+
 checkers = [
     # Check C-like languages for C code smells.
     RegexChecker(C_ISH_FILENAME_RE,
     # line smells
     [
+    [r'^\s*#\s*define\s+(_[A-Z_]+)', "Don't use reserved macro names"],
     [r'(?<!\w)free \(\(', "don't cast the argument to free()"],
     [r'\*\) *x(m|c|re)alloc(?!\w)',"don't cast the result of x*alloc"],
     [r'\*\) *alloca(?!\w)',"don't cast the result of alloca"],
@@ -104,7 +145,6 @@ checkers = [
     [r'the\s*the', "'the"+" the' is probably not deliberate"],
     [r'(?<!\w)error \([^_"]*[^_]"[^"]*[a-z]{3}', "untranslated error message"],
     [r'^# *if\s+defined *\(', "useless parentheses in '#if defined'"],
-
     ],
     [
     [r'# *include <assert.h>(?!.*assert \()',
@@ -115,9 +155,8 @@ checkers = [
      "If you include \"quote.h\", use one of its functions."],
     ]),
     # Check Makefiles for Makefile code smells.
-    RegexChecker('(^|/)[Mm]akefile(.am|.in)?',
-                 [ [r'^ ', "Spaces at start of line"], ],
-                 []),
+    MakefileRegexChecker([ [r'^ ', "Spaces at start of makefile line"], ],
+                         []),
     # Check everything for whitespace problems.
     RegexChecker('', [], [[r'[	 ]$',
                            "trailing whitespace '%(matchtext)s'"],]),

@@ -15,8 +15,8 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _LOCATEDB_H
-#define _LOCATEDB_H 1
+#ifndef INC_LOCATEDB_H
+#define INC_LOCATEDB_H 1
 
 /* The magic string at the start of a locate database, to make sure
    it's in the right format.  The 02 is the database format version number.
@@ -69,4 +69,4 @@ bool putword (FILE *fp, int word,
 
 #define SLOCATE_DB_MAGIC_LEN 2
 
-#endif /* !_LOCATEDB_H */
+#endif /* !INC_LOCATEDB_H */

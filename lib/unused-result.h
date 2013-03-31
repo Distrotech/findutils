@@ -16,8 +16,8 @@
 */
 
 /* Taken from coreutils' fts_.h */
-#ifndef _UNUSED_RESULT_H
-# define _UNUSED_RESULT_H 1
+#ifndef INC_UNUSED_RESULT_H
+# define INC_UNUSED_RESULT_H 1
 
 # ifndef __GNUC_PREREQ
 #  if defined __GNUC__ && defined __GNUC_MINOR__

@@ -1,3 +1,19 @@
+2013-03-31  James Youngman  <jay@gnu.org>
+
+	Don't use reserved identifiers in macro names; fix other code smells.
+	* build-aux/src-sniff.py (checkers): Check for #define directives
+	which use a macro name which is reserved.
+	(MakefileRegexChecker): New class which performs regex checks on
+	makefiles; this ensures that we don't check Makefile.in if we're
+	going to check Makefile.am anyway.
+	* lib/unused-result.h: Don't use a reserved identifier in the
+	macro name defined as the #include guard.
+	* locate/locatedb.h: Likewise.
+	* Makefile.am (findutils-check-smells): Don't check gnulib code.
+	* import-gnulib.sh (hack_gnulib_tool_output): Move the 'do' of a
+	for loop onto the line following the 'for' (instead of the same
+	line).
+
 2013-03-29  James Youngman  <jay@gnu.org>
 
 	Document that -0/-d turns off logical end-of-file processing.
