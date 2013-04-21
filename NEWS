@@ -2,6 +2,15 @@ GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
 * Major changes in release 4.5.12-git, YYYY-MM-DD
 
+** Functional Changes to find
+
+The GNU extension "find ... -perm /MODE" is no longer disabled when
+the POSIXLY_CORRECT environment variable is set.
+
+The obsolete GNU extension "find ... -perm +MODE", which was withdrawn
+in release 4.2.21 in 2005 due to compatibility problems, has been
+completely removed.  Use "find ... -perm /MODE" instead.
+
 ** Documentation Changes
 
 If you use -type or -xtype with a type letter corresponding to a file
@@ -18,7 +27,7 @@ The documentation for xargs now warns about parallel processes (xargs
 
 ** Bug Fixes
 
-Some bugs in 4.5.11 were fixed without addinng them to the bug
+Some bugs in 4.5.11 were fixed without adding them to the bug
 database, though they are in the ChangeLog:
 
 *** Use of [[ ... ]] in find/testsuite/sv-bug-32043.sh
@@ -27,6 +36,8 @@ database, though they are in the ChangeLog:
 
 These following fixed bugs are recorded at
 https://savannah.gnu.org/bugs/?group=findutils:
+
+#38474: Unintended (?) behaviour change of -perm +mode predicate
 
 #38583: errno-buffer read failed in xargs_do_exec
 

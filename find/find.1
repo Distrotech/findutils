@@ -801,25 +801,9 @@ with the behaviour of
 .BR \-000 ).
 
 .IP "\-perm +\fImode\fR"
-Deprecated, old way of searching for files with any of the permission
-bits in \fImode\fR set.  You should use
-.B \-perm \fI/mode\fR
-instead. Trying to use the `+' syntax with symbolic modes will yield
-surprising results.  For example, `+u+x' is a valid symbolic mode
-(equivalent to +u,+x, i.e. 0111) and will therefore not be evaluated
-as
-.B \-perm +\fImode\fR
-but instead as the exact mode specifier
-.B \-perm \fImode\fR
-and so it matches files with exact permissions 0111 instead of files with any
-execute bit set.  If you found this paragraph confusing, you're not
-alone - just use
-.B \-perm /\fImode\fR.
-This form of the
-.B \-perm
-test is deprecated because the POSIX specification requires the
-interpretation of a leading `+' as being part of a symbolic mode, and
-so we switched to using `/' instead.
+This is no longer supported (and has been deprecated since 2005).  Use
+.B "\-perm /\fImode\fR"
+instead.
 
 .IP \-readable
 Matches files which are readable.  This takes into account access
@@ -2046,11 +2030,6 @@ As of findutils-4.2.2, shell metacharacters (`*', `?' or `[]' for
 example) used in filename patterns will match a leading `.', because
 IEEE POSIX interpretation 126 requires this.
 .P
-The syntax
-\.B \-perm +MODE
-was deprecated in findutils-4.2.21, in favour of
-\.B \-perm
-.BR /MODE .
 As of findutils-4.3.3,
 .B \-perm /000
 now matches all files instead of none.
@@ -2098,6 +2077,17 @@ Feature	Added in	Also occurs in
 \-ipath	3.8
 \-iregex	3.8
 .TE
+.P
+The syntax
+\.B \-perm +MODE
+was removed in findutils-4.5.12, in favour of
+\.B \-perm
+.BR /MODE .
+The
+.B +MODE
+syntax had been deprecated since findutils-4.2.21
+which was released in 2005.
+.P
 .SH "NON-BUGS"
 .nf
 .B $ find . \-name *.c \-print

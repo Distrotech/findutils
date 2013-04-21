@@ -1237,7 +1237,7 @@ tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n\
       -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n\
       -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"));
   puts (_("\
-      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n\
+      -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN\n\
       -readable -writable -executable\n\
       -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n\
       -used N -user NAME -xtype [bcdpfls]"));
@@ -1942,17 +1942,6 @@ parse_iwholename (const struct parser_table* entry, char **argv, int *arg_ptr)
   return insert_path_check (entry, argv, arg_ptr, "iwholename", pred_ipath);
 }
 
-static void
-non_posix_mode (const char *mode)
-{
-  if (options.posixly_correct)
-    {
-      error (EXIT_FAILURE, 0,
-	     _("Mode %s is not valid when POSIXLY_CORRECT is on."),
-	     quotearg_n_style (0, options.err_quoting_style, mode));
-    }
-}
-
 
 static bool
 parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
@@ -1962,7 +1951,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
   int mode_start = 0;
   bool havekind = false;
   enum permissions_type kind = PERM_EXACT;
-  struct mode_change *change = NULL;
+  struct mode_change *change;
   struct predicate *our_pred;
   const char *perm_expr;
 
@@ -1978,38 +1967,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
       rate = 0.2;
       break;
 
-     case '+':
-       change = mode_compile (perm_expr);
-       if (NULL == change)
-	 {
-	   /* Most likely the caller is an old script that is still
-	    * using the obsolete GNU syntax '-perm +MODE'.  This old
-	    * syntax was withdrawn in favor of '-perm /MODE' because
-	    * it is incompatible with POSIX in some cases, but we
-	    * still support uses of it that are not incompatible with
-	    * POSIX.
-	    *
-	    * Example: POSIXLY_CORRECT=y find -perm +a+x
-	    */
-	   non_posix_mode (perm_expr);
-
-	   /* support the previous behaviour. */
-	   mode_start = 1;
-	   kind = PERM_ANY;
-	   rate = 0.3;
-	 }
-       else
-	 {
-	   /* This is a POSIX-compatible usage */
-	   mode_start = 0;
-	   kind = PERM_EXACT;
-	   rate = 0.1;
-	 }
-       havekind = true;
-       break;
-
     case '/':			/* GNU extension */
-      non_posix_mode (perm_expr);
       mode_start = 1;
       kind = PERM_ANY;
       havekind = true;
@@ -2027,13 +1985,16 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
       break;
     }
 
-  if (NULL == change)
-    {
-      change = mode_compile (perm_expr + mode_start);
-      if (NULL == change)
-	error (EXIT_FAILURE, 0, _("invalid mode %s"),
-	       quotearg_n_style (0, options.err_quoting_style, perm_expr));
-    }
+  change = mode_compile (perm_expr + mode_start);
+
+  /* Reject invalid modes, or modes of the form +NUMERICMODE.
+     The latter were formerly accepted as a GNU extension, but that
+     extension was incompatible with how GNU 'chmod' treats these modes now,
+     and it would be confusing if 'find' continued to support it.  */
+  if (NULL == change
+      || (perm_expr[0] == '+' && '0' <= perm_expr[1] && perm_expr[1] < '8'))
+    error (EXIT_FAILURE, 0, _("invalid mode %s"),
+	   quotearg_n_style (0, options.err_quoting_style, perm_expr));
   perm_val[0] = mode_adjust (0, false, 0, change, NULL);
   perm_val[1] = mode_adjust (0, true, 0, change, NULL);
   free (change);

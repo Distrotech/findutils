@@ -1182,11 +1182,8 @@ optionally prefixed by @samp{-} or @samp{/}.
 
 A @var{pmode} that starts with neither @samp{-} nor @samp{/} matches
 if @var{mode} exactly matches the file mode bits.
-
-A @var{pmode} that starts with @samp{+} but which is not valid (for
-example @samp{+a+x}) is an error if the @code{POSIXLY_CORRECT} environment
-variable is set.  Otherwise this is treated as if the initial
-@samp{+} were a @samp{/}, for backward compatibility.
+(To avoid confusion with an obsolete GNU extension, @var{mode}
+must not start with a @samp{+} immediately followed by an octal digit.)
 
 A @var{pmode} that starts with @samp{-} matches if
 @emph{all} the file mode bits set in @var{mode} are set for the file;
@@ -3981,10 +3978,6 @@ Setting this variable also turns off warning messages (that is, implies
 @samp{-nowarn}) by default, because POSIX requires that apart from
 the output for @samp{-ok}, all messages printed on stderr are
 diagnostics and must result in a non-zero exit status.
-
-Arguments to @samp{-perm} beginning with @samp{+} are treated
-differently when @code{POSIXLY_CORRECT} is set.
-@xref{Mode Bits,-perm,File Mode Bits}.
 
 When @code{POSIXLY_CORRECT} is set, the response to the prompt made by the
 @code{-ok} action is interpreted according to the system's message

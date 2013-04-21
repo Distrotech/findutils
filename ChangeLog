@@ -1,3 +1,20 @@
+2013-04-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Remove support for obsolete -perm +MODE syntax.
+	Also, do not reject -perm /MODE merely because of POSIXLY_CORRECT.
+	Problem reported in <https://savannah.gnu.org/bugs/?38474>.
+	* NEWS:
+	* doc/find.texi (Mode Bits): Document this.
+	(Environment Variables): POSIXLY_CORRECT does not affect -perm.
+	* find/parser.c (parse_help): Mention /MODE, not +MODE.
+	(non_posix_mode): Remove.
+	(parse_perm): Remove support for -perm +MODE.
+	Do not reject -perm /MODE merely because POSIXLY_CORRECT is set;
+	POSIXLY_CORRECT is not supposed to be for pedantic checking.
+	* find/find.1 (-perm): describe this change.
+	(HISTORY): update the existing statement about the deprecation of
+	+MODE to explain that support has now been removed.
+
 2013-04-22  James Youngman  <jay@gnu.org>
 
 	Fix documentation typo.
