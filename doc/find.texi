@@ -1684,6 +1684,26 @@ behaviour means though that the format flag @samp{-} will work; it
 forces left-alignment of the field.  Unlike @samp{-print},
 @samp{-printf} does not add a newline at the end of the string.  If you
 want a newline at the end of the string, add a @samp{\n}.
+
+As an example, an approximate equivalent of @samp{-ls} with
+null-terminated filenames can be achieved with this @code{-printf}
+format:
+
+@example
+find -printf "%i %4k %M %3n %-8u %-8g %8s %T+ %p\n->%l\0" | cat
+@end example
+
+A practical reason for doing this would be to get literal filenames in
+the output, instead of @samp{-ls}'s backslash-escaped names.  (Using
+@code{cat} here prevents this happening for the @samp{%p} format
+specifier; @pxref{Unusual Characters in File Names}).  This format also
+outputs a uniform timestamp format.
+
+As for symlinks, the format above outputs the symlink target on a second
+line, following @samp{\n->}.  There is nothing following the arrow for
+non-symlinks.  Another approach, for complete consistency, would be to
+@code{-fprintf} the symlinks into a separate file, so they too can be
+null-terminated.
 @end deffn
 
 @deffn Action -fprintf file format
