@@ -850,7 +850,7 @@ File refers to the same inode as \fIname\fR.   When
 is in effect, this can include symbolic links.
 
 .IP "\-size \fIn\fR[cwbkMG]"
-File uses \fIn\fP units of space.  The following suffixes
+File uses \fIn\fP units of space, rounding up.  The following suffixes
 can be used:
 .RS
 .IP `b'
@@ -875,7 +875,10 @@ handle sparse files
 differently.  The `b' suffix always denotes 512-byte blocks and never
 1 Kilobyte blocks, which is different to the behaviour of
 .BR \-ls .
-
+The + and - prefixes signifiy greater than and less than, as usual,
+but bear in mind that the size is rounded up to the next unit (so a
+1-byte file is not matched by
+.BR "-size -1M" ).
 .IP \-true
 Always true.
 
