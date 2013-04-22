@@ -61,8 +61,6 @@
 /* config.h must be included first. */
 #include <config.h>
 
-#define NDEBUG
-
 /* system headers. */
 #include <assert.h>
 #include <ctype.h>
