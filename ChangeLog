@@ -1,3 +1,10 @@
+2013-04-22  Paul Eggert  <eggert@cs.ucla.edu>
+
+	More removal of support for -perm +MODE.
+	* find/parser.c (parse_perm): Remove no-longer-needed local var
+	and associated code.  Reported by Eric Blake in
+	<http://savannah.gnu.org/bugs/?38474#comment9>.
+
 2013-04-21  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Remove support for obsolete -perm +MODE syntax.

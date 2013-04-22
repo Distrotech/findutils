@@ -1949,7 +1949,6 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
   mode_t perm_val[2];
   float rate;
   int mode_start = 0;
-  bool havekind = false;
   enum permissions_type kind = PERM_EXACT;
   struct mode_change *change;
   struct predicate *our_pred;
@@ -1963,14 +1962,12 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
     case '-':
       mode_start = 1;
       kind = PERM_AT_LEAST;
-      havekind = true;
       rate = 0.2;
       break;
 
     case '/':			/* GNU extension */
       mode_start = 1;
       kind = PERM_ANY;
-      havekind = true;
       rate = 0.3;
       break;
 
@@ -1980,7 +1977,6 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
        */
       mode_start = 0;
       kind = PERM_EXACT;
-      havekind = true;
       rate = 0.01;
       break;
     }
@@ -2018,7 +2014,6 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 	     perm_expr);
 
       kind = PERM_AT_LEAST;
-      havekind = true;
 
       /* The "magic" number below is just the fraction of files on my
        * own system that "-type l -xtype l" fails for (i.e. unbroken symlinks).
@@ -2029,26 +2024,7 @@ parse_perm (const struct parser_table* entry, char **argv, int *arg_ptr)
 
   our_pred = insert_primary (entry, perm_expr);
   our_pred->est_success_rate = rate;
-  if (havekind)
-    {
-      our_pred->args.perm.kind = kind;
-    }
-  else
-    {
-
-      switch (perm_expr[0])
-	{
-	case '-':
-	  our_pred->args.perm.kind = PERM_AT_LEAST;
-	  break;
-	case '+':
-	  our_pred->args.perm.kind = PERM_ANY;
-	  break;
-	default:
-	  our_pred->args.perm.kind = PERM_EXACT;
-	  break;
-	}
-    }
+  our_pred->args.perm.kind = kind;
   memcpy (our_pred->args.perm.val, perm_val, sizeof perm_val);
   return true;
 }
