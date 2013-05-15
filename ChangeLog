@@ -1,3 +1,10 @@
+2013-09-21  Dmitry V. Levin  <ldv@altlinux.org>
+
+	find: fix potential buffer overflow in -execdir and -okdir.
+	* lib/buildcmd.c (bc_push_arg): Take prefix length into account
+	to avoid state->argbuf overflow.
+	* NEWS: Mention this fix.
+
 2013-09-21  James Youngman  <jay@gnu.org>
 
 	Make sv-34976-execdir-fd-leak.sh test more POSIX-compliant.

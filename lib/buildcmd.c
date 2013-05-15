@@ -364,7 +364,7 @@ bc_push_arg (struct buildcmd_control *ctl,
 
   if (!terminate)
     {
-      if (state->cmd_argv_chars + len > ctl->arg_max)
+      if (state->cmd_argv_chars + len + pfxlen > ctl->arg_max)
         {
           if (initial_args || state->cmd_argc == ctl->initial_argc)
             error (EXIT_FAILURE, 0,
