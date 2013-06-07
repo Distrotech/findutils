@@ -1,0 +1,1 @@
+/usr/src/findutils/findutils/gnulib-git/gnulib/build-aux/snippet/_Noreturn.h
