@@ -52,10 +52,7 @@ host_triplet = @host@
 subdir = locate/testsuite
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
-	$(top_srcdir)/m4/mkinstalldirs.m4 $(top_srcdir)/m4/noreturn.m4 \
-	$(top_srcdir)/m4/nullsort.m4 $(top_srcdir)/m4/withfts.m4 \
-	$(top_srcdir)/gnulib/m4/00gnulib.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/gnulib/m4/00gnulib.m4 \
 	$(top_srcdir)/gnulib/m4/alloca.m4 \
 	$(top_srcdir)/gnulib/m4/argmatch.m4 \
 	$(top_srcdir)/gnulib/m4/assert.m4 \
@@ -120,7 +117,6 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/getline.m4 \
 	$(top_srcdir)/gnulib/m4/getopt.m4 \
 	$(top_srcdir)/gnulib/m4/getpagesize.m4 \
-	$(top_srcdir)/gnulib/m4/gettext.m4 \
 	$(top_srcdir)/gnulib/m4/gettime.m4 \
 	$(top_srcdir)/gnulib/m4/gettimeofday.m4 \
 	$(top_srcdir)/gnulib/m4/getugroups.m4 \
@@ -131,11 +127,9 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/hash.m4 \
 	$(top_srcdir)/gnulib/m4/human.m4 \
 	$(top_srcdir)/gnulib/m4/i-ring.m4 \
-	$(top_srcdir)/gnulib/m4/iconv.m4 \
 	$(top_srcdir)/gnulib/m4/idcache.m4 \
 	$(top_srcdir)/gnulib/m4/include_next.m4 \
 	$(top_srcdir)/gnulib/m4/inline.m4 \
-	$(top_srcdir)/gnulib/m4/intlmacosx.m4 \
 	$(top_srcdir)/gnulib/m4/intmax_t.m4 \
 	$(top_srcdir)/gnulib/m4/inttostr.m4 \
 	$(top_srcdir)/gnulib/m4/inttypes-pri.m4 \
@@ -146,9 +140,6 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/langinfo_h.m4 \
 	$(top_srcdir)/gnulib/m4/lchown.m4 \
 	$(top_srcdir)/gnulib/m4/lcmessage.m4 \
-	$(top_srcdir)/gnulib/m4/lib-ld.m4 \
-	$(top_srcdir)/gnulib/m4/lib-link.m4 \
-	$(top_srcdir)/gnulib/m4/lib-prefix.m4 \
 	$(top_srcdir)/gnulib/m4/libunistring-base.m4 \
 	$(top_srcdir)/gnulib/m4/localcharset.m4 \
 	$(top_srcdir)/gnulib/m4/locale-fr.m4 \
@@ -186,17 +177,14 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/mountlist.m4 \
 	$(top_srcdir)/gnulib/m4/multiarch.m4 \
 	$(top_srcdir)/gnulib/m4/nl_langinfo.m4 \
-	$(top_srcdir)/gnulib/m4/nls.m4 \
 	$(top_srcdir)/gnulib/m4/onceonly.m4 \
 	$(top_srcdir)/gnulib/m4/open.m4 \
 	$(top_srcdir)/gnulib/m4/openat.m4 \
 	$(top_srcdir)/gnulib/m4/parse-datetime.m4 \
 	$(top_srcdir)/gnulib/m4/pathmax.m4 \
 	$(top_srcdir)/gnulib/m4/perror.m4 \
-	$(top_srcdir)/gnulib/m4/po.m4 \
 	$(top_srcdir)/gnulib/m4/printf.m4 \
 	$(top_srcdir)/gnulib/m4/priv-set.m4 \
-	$(top_srcdir)/gnulib/m4/progtest.m4 \
 	$(top_srcdir)/gnulib/m4/putenv.m4 \
 	$(top_srcdir)/gnulib/m4/quote.m4 \
 	$(top_srcdir)/gnulib/m4/quotearg.m4 \
@@ -281,7 +269,14 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/xstrtod.m4 \
 	$(top_srcdir)/gnulib/m4/xstrtol.m4 \
 	$(top_srcdir)/gnulib/m4/yesno.m4 \
-	$(top_srcdir)/gnulib/m4/yield.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/gnulib/m4/yield.m4 $(top_srcdir)/m4/findlib.m4 \
+	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/iconv.m4 \
+	$(top_srcdir)/m4/intlmacosx.m4 $(top_srcdir)/m4/lib-ld.m4 \
+	$(top_srcdir)/m4/lib-link.m4 $(top_srcdir)/m4/lib-prefix.m4 \
+	$(top_srcdir)/m4/mkinstalldirs.m4 $(top_srcdir)/m4/nls.m4 \
+	$(top_srcdir)/m4/noreturn.m4 $(top_srcdir)/m4/nullsort.m4 \
+	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
+	$(top_srcdir)/m4/withfts.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/build-aux/mkinstalldirs
@@ -1238,9 +1233,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnits locate/testsuite/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu locate/testsuite/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnits locate/testsuite/Makefile
+	  $(AUTOMAKE) --gnu locate/testsuite/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

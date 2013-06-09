@@ -56,10 +56,7 @@ host_triplet = @host@
 subdir = find
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
-	$(top_srcdir)/m4/mkinstalldirs.m4 $(top_srcdir)/m4/noreturn.m4 \
-	$(top_srcdir)/m4/nullsort.m4 $(top_srcdir)/m4/withfts.m4 \
-	$(top_srcdir)/gnulib/m4/00gnulib.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/gnulib/m4/00gnulib.m4 \
 	$(top_srcdir)/gnulib/m4/alloca.m4 \
 	$(top_srcdir)/gnulib/m4/argmatch.m4 \
 	$(top_srcdir)/gnulib/m4/assert.m4 \
@@ -124,7 +121,6 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/getline.m4 \
 	$(top_srcdir)/gnulib/m4/getopt.m4 \
 	$(top_srcdir)/gnulib/m4/getpagesize.m4 \
-	$(top_srcdir)/gnulib/m4/gettext.m4 \
 	$(top_srcdir)/gnulib/m4/gettime.m4 \
 	$(top_srcdir)/gnulib/m4/gettimeofday.m4 \
 	$(top_srcdir)/gnulib/m4/getugroups.m4 \
@@ -135,11 +131,9 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/hash.m4 \
 	$(top_srcdir)/gnulib/m4/human.m4 \
 	$(top_srcdir)/gnulib/m4/i-ring.m4 \
-	$(top_srcdir)/gnulib/m4/iconv.m4 \
 	$(top_srcdir)/gnulib/m4/idcache.m4 \
 	$(top_srcdir)/gnulib/m4/include_next.m4 \
 	$(top_srcdir)/gnulib/m4/inline.m4 \
-	$(top_srcdir)/gnulib/m4/intlmacosx.m4 \
 	$(top_srcdir)/gnulib/m4/intmax_t.m4 \
 	$(top_srcdir)/gnulib/m4/inttostr.m4 \
 	$(top_srcdir)/gnulib/m4/inttypes-pri.m4 \
@@ -150,9 +144,6 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/langinfo_h.m4 \
 	$(top_srcdir)/gnulib/m4/lchown.m4 \
 	$(top_srcdir)/gnulib/m4/lcmessage.m4 \
-	$(top_srcdir)/gnulib/m4/lib-ld.m4 \
-	$(top_srcdir)/gnulib/m4/lib-link.m4 \
-	$(top_srcdir)/gnulib/m4/lib-prefix.m4 \
 	$(top_srcdir)/gnulib/m4/libunistring-base.m4 \
 	$(top_srcdir)/gnulib/m4/localcharset.m4 \
 	$(top_srcdir)/gnulib/m4/locale-fr.m4 \
@@ -190,17 +181,14 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/mountlist.m4 \
 	$(top_srcdir)/gnulib/m4/multiarch.m4 \
 	$(top_srcdir)/gnulib/m4/nl_langinfo.m4 \
-	$(top_srcdir)/gnulib/m4/nls.m4 \
 	$(top_srcdir)/gnulib/m4/onceonly.m4 \
 	$(top_srcdir)/gnulib/m4/open.m4 \
 	$(top_srcdir)/gnulib/m4/openat.m4 \
 	$(top_srcdir)/gnulib/m4/parse-datetime.m4 \
 	$(top_srcdir)/gnulib/m4/pathmax.m4 \
 	$(top_srcdir)/gnulib/m4/perror.m4 \
-	$(top_srcdir)/gnulib/m4/po.m4 \
 	$(top_srcdir)/gnulib/m4/printf.m4 \
 	$(top_srcdir)/gnulib/m4/priv-set.m4 \
-	$(top_srcdir)/gnulib/m4/progtest.m4 \
 	$(top_srcdir)/gnulib/m4/putenv.m4 \
 	$(top_srcdir)/gnulib/m4/quote.m4 \
 	$(top_srcdir)/gnulib/m4/quotearg.m4 \
@@ -285,7 +273,14 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
 	$(top_srcdir)/gnulib/m4/xstrtod.m4 \
 	$(top_srcdir)/gnulib/m4/xstrtol.m4 \
 	$(top_srcdir)/gnulib/m4/yesno.m4 \
-	$(top_srcdir)/gnulib/m4/yield.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/gnulib/m4/yield.m4 $(top_srcdir)/m4/findlib.m4 \
+	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/iconv.m4 \
+	$(top_srcdir)/m4/intlmacosx.m4 $(top_srcdir)/m4/lib-ld.m4 \
+	$(top_srcdir)/m4/lib-link.m4 $(top_srcdir)/m4/lib-prefix.m4 \
+	$(top_srcdir)/m4/mkinstalldirs.m4 $(top_srcdir)/m4/nls.m4 \
+	$(top_srcdir)/m4/noreturn.m4 $(top_srcdir)/m4/nullsort.m4 \
+	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
+	$(top_srcdir)/m4/withfts.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/build-aux/mkinstalldirs
@@ -312,7 +307,8 @@ am__DEPENDENCIES_1 =
 find_DEPENDENCIES = ./libfindtools.a ../lib/libfind.a \
 	../gnulib/lib/libgnulib.a $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am__ftsfind_SOURCES_DIST = ftsfind.c
 @WITH_FTS_FALSE@am_ftsfind_OBJECTS = ftsfind.$(OBJEXT)
 ftsfind_OBJECTS = $(am_ftsfind_OBJECTS)
@@ -320,7 +316,8 @@ ftsfind_LDADD = $(LDADD)
 ftsfind_DEPENDENCIES = ./libfindtools.a ../lib/libfind.a \
 	../gnulib/lib/libgnulib.a $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am__oldfind_SOURCES_DIST = find.c
 @WITH_FTS_TRUE@am_oldfind_OBJECTS = find.$(OBJEXT)
 oldfind_OBJECTS = $(am_oldfind_OBJECTS)
@@ -328,7 +325,8 @@ oldfind_LDADD = $(LDADD)
 oldfind_DEPENDENCIES = ./libfindtools.a ../lib/libfind.a \
 	../gnulib/lib/libgnulib.a $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
@@ -1307,7 +1305,7 @@ libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c tree.c util.c share
 @WITH_FTS_TRUE@oldfind_SOURCES = find.c
 @WITH_FTS_FALSE@ftsfind_SOURCES = ftsfind.c
 EXTRA_DIST = defs.h sharefile.h $(man_MANS)
-LDADD = ./libfindtools.a ../lib/libfind.a ../gnulib/lib/libgnulib.a $(LIBINTL) $(LIB_CLOCK_GETTIME) $(LIB_EACCESS) $(LIB_SELINUX) $(LIB_CLOSE) $(MODF_LIBM) @FINDLIBS@
+LDADD = ./libfindtools.a ../lib/libfind.a ../gnulib/lib/libgnulib.a $(LIBINTL) $(LIB_CLOCK_GETTIME) $(LIB_EACCESS) $(LIB_SELINUX) $(LIB_CLOSE) $(MODF_LIBM) @FINDLIBS@ $(LIB_SELINUX)
 man_MANS = find.1
 SUBDIRS = . testsuite
 all: all-recursive
@@ -1323,9 +1321,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnits find/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu find/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnits find/Makefile
+	  $(AUTOMAKE) --gnu find/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
