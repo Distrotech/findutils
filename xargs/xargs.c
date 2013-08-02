@@ -1173,7 +1173,7 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
   pid_t child;
   int fd[2];
   int buf;
-  int r;
+  size_t r;
 
   (void) ctl;
   (void) argc;
