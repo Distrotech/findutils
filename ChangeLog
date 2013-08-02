@@ -1,3 +1,11 @@
+2013-09-21  Bernhard Voelker  <mail@bernhard-voelker.de>
+
+	xargs: wait for process before prompting in interactive mode (-p)
+	* xargs/xargs.c (xargs_do_exec): Move the code for waiting for
+	forked processes up, so that the child process terminates before
+	we prompt for the next command.
+	* NEWS: Mention the fix.
+
 2013-09-21  Dmitry V. Levin  <ldv@altlinux.org>
 
 	find: fix potential buffer overflow in -execdir and -okdir.

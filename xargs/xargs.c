@@ -1179,15 +1179,16 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
   (void) argc;
   (void) usercontext;
 
+  if (proc_max)
+    {
+      while (procs_executing >= proc_max)
+        {
+          wait_for_proc (false, 1u);
+        }
+    }
+
   if (!query_before_executing || print_args (true))
     {
-      if (proc_max)
-	{
-	  while (procs_executing >= proc_max)
-	    {
-	      wait_for_proc (false, 1u);
-	    }
-	}
       if (!query_before_executing && print_command)
 	print_args (false);
 
