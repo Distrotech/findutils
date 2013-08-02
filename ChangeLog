@@ -1,3 +1,13 @@
+2013-09-20  Bernhard Voelker  <mail@bernhard-voelker.de>
+
+	find: fix fd leak with --execdir option (bug#34976)
+	* find/exec.c (impl_pred_exec): Free the working directory if find
+	executes the command in the local dir, i.e. if it has been saved
+	by record_exec_dir().  Re-indent code.
+	* find/testsuite/sv-34976-execdir-fd-leak.sh: Add test.
+	* find/testsuite/Makefile.am (test_shell_progs): Mention the test.
+	* NEWS: Mention the fix.
+
 2013-09-20  James Youngman  <jay@gnu.org>
 
 	Updated Greek translation.

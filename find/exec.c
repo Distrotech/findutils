@@ -112,8 +112,8 @@ record_exec_dir (struct exec_val *execp)
 
 bool
 impl_pred_exec (const char *pathname,
-		struct stat *stat_buf,
-		struct predicate *pred_ptr)
+                struct stat *stat_buf,
+                struct predicate *pred_ptr)
 {
   struct exec_val *execp = &pred_ptr->args.exec_vec;
   char *buf = NULL;
@@ -127,36 +127,36 @@ impl_pred_exec (const char *pathname,
   if (local)
     {
       /* For -execdir/-okdir predicates, the parser did not fill in
-	 the wd_for_exec member of sturct exec_val.  So for those
-	 predicates, we do so now.
+         the wd_for_exec member of sturct exec_val.  So for those
+         predicates, we do so now.
       */
       if (!record_exec_dir (execp))
-	{
-	  error (EXIT_FAILURE, errno,
-		 _("Failed to save working directory in order to "
-		   "run a command on %s"),
-		 safely_quote_err_filename (0, pathname));
-	  /*NOTREACHED*/
-	}
+        {
+          error (EXIT_FAILURE, errno,
+                 _("Failed to save working directory in order to "
+                   "run a command on %s"),
+                 safely_quote_err_filename (0, pathname));
+          /*NOTREACHED*/
+        }
       target = buf = base_name (state.rel_pathname);
       if ('/' == target[0])
-	{
-	  /* find / execdir ls -d {} \; */
-	  prefix = NULL;
-	  pfxlen = 0;
-	}
+        {
+          /* find / execdir ls -d {} \; */
+          prefix = NULL;
+          pfxlen = 0;
+        }
       else
-	{
-	  prefix = "./";
-	  pfxlen = 2u;
-	}
+        {
+          prefix = "./";
+          pfxlen = 2u;
+        }
     }
   else
     {
       /* For the others (-exec, -ok), the parser should
-	 have set wd_for_exec to initial_wd, indicating
-	 that the exec should take place from find's initial
-	 working directory.
+         have set wd_for_exec to initial_wd, indicating
+         that the exec should take place from find's initial
+         working directory.
       */
       assert (execp->wd_for_exec == initial_wd);
       target = pathname;
@@ -171,14 +171,14 @@ impl_pred_exec (const char *pathname,
        * depending on the command line length limits.
        */
       bc_push_arg (&execp->ctl,
-		   &execp->state,
-		   target, strlen (target)+1,
-		   prefix, pfxlen,
-		   0);
+                   &execp->state,
+                   target, strlen (target)+1,
+                   prefix, pfxlen,
+                   0);
 
       /* remember that there are pending execdirs. */
       if (execp->state.todo)
-	state.execdirs_outstanding = true;
+        state.execdirs_outstanding = true;
 
       /* POSIX: If the primary expression is punctuated by a plus
        * sign, the primary shall always evaluate as true
@@ -190,29 +190,31 @@ impl_pred_exec (const char *pathname,
       int i;
 
       for (i=0; i<execp->num_args; ++i)
-	{
-	  bc_do_insert (&execp->ctl,
-			&execp->state,
-			execp->replace_vec[i],
-			strlen (execp->replace_vec[i]),
-			prefix, pfxlen,
-			target, strlen (target),
-			0);
-	}
+        {
+          bc_do_insert (&execp->ctl,
+                        &execp->state,
+                        execp->replace_vec[i],
+                        strlen (execp->replace_vec[i]),
+                        prefix, pfxlen,
+                        target, strlen (target),
+                        0);
+        }
 
       /* Actually invoke the command. */
       bc_do_exec (&execp->ctl, &execp->state);
       if (WIFEXITED(execp->last_child_status))
-	{
-	  if (0 == WEXITSTATUS(execp->last_child_status))
-	    result = true;	/* The child succeeded. */
-	  else
-	    result = false;
-	}
+        {
+          if (0 == WEXITSTATUS(execp->last_child_status))
+            result = true;        /* The child succeeded. */
+          else
+            result = false;
+        }
       else
-	{
-	  result = false;
-	}
+        {
+          result = false;
+        }
+      if (local)
+        free_cwd (execp->wd_for_exec);
     }
   if (buf)
     {
