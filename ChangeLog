@@ -1,3 +1,10 @@
+2013-09-20  Benedikt Morbach  <benedikt.morbach@googlemail.com> (tiny change)
+
+	Check for both prefixed and unprefixed versions of "ar".
+	* configure.ac: Look for '${host}-ar' as set by AC_CANONICAL_HOST
+	before looking for the unprefixed 'ar'.  This is useful when
+	cross-compiling when all your binutils are prefixed.
+
 2013-09-20  James Youngman  <jay@gnu.org>
 
 	Fix compilation error where struct dirent lacks a d_ino member.

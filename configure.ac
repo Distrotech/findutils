@@ -6,6 +6,7 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([find/pred.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_HOST
+AC_CHECK_TOOLS([AR], [ar])
 AC_CONFIG_MACRO_DIR(gl/m4)
 
 dnl Set of available languages.
