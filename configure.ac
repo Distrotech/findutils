@@ -6,7 +6,6 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([find/pred.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_HOST
-AC_CHECK_TOOLS([AR], [ar])
 AC_CONFIG_MACRO_DIR(gl/m4)
 
 dnl Set of available languages.
@@ -78,7 +77,8 @@ dnl for gnulib
 gl_EARLY
 
 AC_PROG_INSTALL
-AC_PROG_RANLIB
+AC_CHECK_TOOLS([AR], [ar])
+AC_CHECK_TOOLS([RANLIB], [ranlib], [:])
 dnl AC_PROG_LIBTOOL
 AC_PROG_MAKE_SET
 AC_SYS_LARGEFILE
