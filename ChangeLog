@@ -1,5 +1,10 @@
 2013-09-21  James Youngman  <jay@gnu.org>
 
+	Make sv-34976-execdir-fd-leak.sh test more POSIX-compliant.
+	* find/testsuite/sv-34976-execdir-fd-leak.sh: Avoid using seq;
+	instead, use pre-generated lists of test file names.  Also avoid
+	using file descriptors 0, 1, 2 in the test.
+
 	Fix typo "sturct".
 	* find/exec.c (impl_pred_exec): Typo fix: struct/struct.
 	* ChangeLog (2007-03-28): Likewise.

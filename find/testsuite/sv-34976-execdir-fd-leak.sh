@@ -22,34 +22,38 @@ testname="$(basename $0)"
 
 . "${srcdir}"/binary_locations.sh
 
+# seq is not required by POSIX, so we have manual lists of number here instead.
+three_to_thirty_five="3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35"
+three_to_hundred="3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100"
+
 # Test if restricting the number of file descriptors via ulimit -n works.
+# We always try to open 33 files (but the ulimit -n value changes).
 test_ulimit() {
-  n="$1"  # number of files
-  l="$2"  # limit to use
+  l="$1"  # limit to use
   (
     ulimit -n "$l" || exit 1
-    for i in $(seq $n) ; do
+    for i in ${three_to_thirty_five} ; do
       printf "exec %d> /dev/null || exit 1\n" $i
-    done | sh ;
+    done | sh -x ;
   ) 2>/dev/null
 }
-# Opening 30 files with a limit of 40 should work.
-test_ulimit 30 40 || { echo "SKIP: ulimit does not work" >&2; exit 0 ; }
-# Opening 30 files with a limit of 20 should fail.
-test_ulimit 30 20 && { echo "SKIP: ulimit does not work" >&2; exit 0 ; }
+# Opening 33 files with a limit of 50 should work.
+test_ulimit 40 || { echo "SKIP: ulimit does not work (case 1)" >&2; exit 0 ; }
+# Opening 33 files with a limit of 20 should fail.
+test_ulimit 20 && { echo "SKIP: ulimit does not work (case 2)" >&2; exit 0 ; }
 
 die() {
   echo "$@" >&2
   exit 1
 }
 
-# Create test files, each 100 in the directories ".", "one" and "two".
+# Create test files, each 98 in the directories ".", "one" and "two".
 make_test_data() {
   d="$1"
   (
     cd "$1" || exit 1
     mkdir one two || exit 1
-    for i in $(seq 0 100) ; do
+    for i in ${three_to_hundred} ; do
       printf "./%03d one/%03d two/%03d " $i $i $i
     done \
       | xargs touch || exit 1
