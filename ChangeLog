@@ -1,3 +1,9 @@
+2013-09-21  James Youngman  <jay@gnu.org>
+
+	Fix typo "sturct".
+	* find/exec.c (impl_pred_exec): Typo fix: struct/struct.
+	* ChangeLog (2007-03-28): Likewise.
+
 2013-09-20  Bernhard Voelker  <mail@bernhard-voelker.de>
 
 	find: fix fd leak with --execdir option (bug#34976)
@@ -5667,7 +5673,7 @@
 2007-03-28  James Youngman  <jay@gnu.org>
 
 	* find/defs.h (set_stat_placeholders): utility function for
-	initialising the sturct stat fields that NetBSD doesn't always set
+	initialising the struct stat fields that NetBSD doesn't always set
 	(like st_birthtime where the file is on a filesystem not
 	supporting birthtime).
 	* find/util.c: set_stat_placeholders(): new function

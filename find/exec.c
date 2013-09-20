@@ -127,7 +127,7 @@ impl_pred_exec (const char *pathname,
   if (local)
     {
       /* For -execdir/-okdir predicates, the parser did not fill in
-         the wd_for_exec member of sturct exec_val.  So for those
+         the wd_for_exec member of struct exec_val.  So for those
          predicates, we do so now.
       */
       if (!record_exec_dir (execp))
