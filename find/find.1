@@ -3,20 +3,21 @@
 find \- search for files in a directory hierarchy
 .SH SYNOPSIS
 .B find
-[\-H] [\-L] [\-P] [\-D debugopts] [\-Olevel] [path...] [expression]
+[\-H] [\-L] [\-P] [\-D debugopts] [\-Olevel] [starting-point...] [expression]
 .SH DESCRIPTION
 This manual page
 documents the GNU version of
 .BR find .
 GNU
 .B find
-searches the directory tree rooted at each given file name by
+searches the directory tree rooted at each given starting-point by
 evaluating the given expression from left to right, according to the
 rules of precedence (see section OPERATORS), until the outcome is
 known (the left hand side is false for \fIand\fR operations, true for
 \fIor\fR), at which point
 .B find
-moves on to the next file name.
+moves on to the next file name.  If no starting-point is specified,
+`.' is assumed.
 .PP
 If you are using
 .B find
@@ -401,15 +402,15 @@ instead, one with the option and one without it).
 
 .IP "\-maxdepth \fIlevels\fR"
 Descend at most \fIlevels\fR (a non-negative integer) levels of
-directories below the command line arguments.
+directories below the starting-points.
 .B \-maxdepth 0
- means only apply the tests and actions to the command line arguments.
+ means only apply the tests and actions to the starting-points themselves.
 
 .IP "\-mindepth \fIlevels\fR"
 Do not apply any tests or actions at levels less than \fIlevels\fR (a
 non-negative integer).
 .B \-mindepth 1
-means process all files except the command line arguments.
+means process all files except the starting-points.
 
 .IP \-mount
 Don't descend directories on other filesystems.  An alternate name for
@@ -1284,8 +1285,7 @@ function.
 File's last status change time in the format specified by \fIk\fR,
 which is the same as for %A.
 .IP %d
-File's depth in the directory tree; 0 means the file is a command line
-argument.
+File's depth in the directory tree; 0 means the file is a starting-point.
 .IP %D
 The device number on which the file exists (the st_dev field of struct
 stat), in decimal.
@@ -1303,7 +1303,7 @@ Leading directories of file's name (all but the last element).
 If the file name contains no slashes (since it is in the current
 directory) the %h specifier expands to ".".
 .IP %H
-Command line argument under which file was found.
+Starting-point under which file was found.
 .IP %i
 File's inode number (in decimal).
 .IP %k
@@ -1330,7 +1330,7 @@ Number of hard links to file.
 .IP %p
 File's name.
 .IP %P
-File's name with the name of the command line argument under which
+File's name with the name of the starting-point under which
 it was found removed.
 .IP %s
 File's size in bytes.
