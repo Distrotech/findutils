@@ -63,6 +63,11 @@
 # define CLOSEDIR(d) closedir (d)
 #endif
 
+enum
+{
+  NOT_AN_INODE_NUMBER = 0
+};
+
 #ifdef D_INO_IN_DIRENT
 # define D_INO(dp) (dp)->d_ino
 #else

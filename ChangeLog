@@ -1,5 +1,10 @@
 2013-09-20  James Youngman  <jay@gnu.org>
 
+	Fix compilation error where struct dirent lacks a d_ino member.
+	* find/find.c (NOT_AN_INODE_NUMBER): Add missing identifier which
+	(when missing) caused a compilation error on system where struct
+	dirent lacks a d_ino member.
+
 	Be consistent about what we call the places the search starts.
 	* find/find.1: Consistently describe the paths at which the search
 	begins as "satrting points".
