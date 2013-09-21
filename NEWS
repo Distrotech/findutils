@@ -25,6 +25,12 @@ clarity.
 The documentation for xargs now warns about parallel processes (xargs
 -P) sharing stdout.
 
+The documentation for find -execdir now describes correctly that the
+command will be executed in the same directory as the file we were
+considering at the time.  The documentation previously (and
+incorrectly) stated that the original working directory of find would
+be used.
+
 ** Bug Fixes
 
 Some bugs in 4.5.11 were fixed without adding them to the bug

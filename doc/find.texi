@@ -2117,8 +2117,9 @@ an argument consisting of @samp{;} is reached.  It replaces the string
 @samp{@{@}} by the current file name being processed everywhere it
 occurs in the command.  Both of these constructions need to be escaped
 (with a @samp{\}) or quoted to protect them from expansion by the
-shell.  The command is executed in the directory in which @code{find}
-was run.
+shell.  The command is executed in the directory which @code{find}
+was searching at the time the action was executed (that is, @{@} will
+expand to a file in the local directory).
 
 For example, to compare each C header file in or below the current
 directory with the file @file{/tmp/master}:
