@@ -564,7 +564,7 @@ find (char *arg)
     {
       int level = INT_MIN;
 
-      while ( (ent=fts_read (p)) != NULL )
+      while ( (errno=0, ent=fts_read (p)) != NULL )
 	{
 	  if (state.execdirs_outstanding)
 	    {
@@ -589,6 +589,16 @@ find (char *arg)
 	  state.type = state.have_type ? ent->fts_statp->st_mode : 0;
 	  consider_visiting (p, ent);
 	}
+      /* fts_read returned NULL; distinguish between "finished" and "error". */
+      if (errno)
+	{
+	  error (0, errno,
+		 "failed to read file names from file system at or below %s",
+		 safely_quote_err_filename (0, arg));
+	  error_severity (EXIT_FAILURE);
+	  return false;
+	}
+
       if (0 != fts_close (p))
 	{
 	  /* Here we break the abstraction of fts_close a bit, because we

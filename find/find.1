@@ -1014,7 +1014,11 @@ command will be much less than the number of matched files.  The
 command line is built in much the same way that
 .B xargs
 builds its command lines.  Only one instance of `{}' is allowed within
-the command.  The command is executed in the starting directory.
+the command.  The command is executed in the starting directory.  If
+.B find
+encounters an error, this can sometimes cause an
+immediate exit, so some pending commands may not be run
+at all.
 
 .IP "\-execdir \fIcommand\fR ;"
 .IP "\-execdir \fIcommand\fR {} +"
@@ -1043,7 +1047,11 @@ appropriately-named file in a directory in which you will run
 .BR \-execdir .
 The same applies to having entries in
 .B $PATH
-which are empty or which are not absolute directory names.
+which are empty or which are not absolute directory names.  If
+.B find
+encounters an error, this can sometimes cause an
+immediate exit, so some pending commands may not be run
+at all.
 
 .IP "\-fls \fIfile\fR"
 True; like
@@ -2019,6 +2027,17 @@ than 0 if errors occur.   This is deliberately a very broad
 description, but if the return value is non-zero, you should not rely
 on the correctness of the results of
 .BR find .
+
+When some error occurs,
+.B find
+may stop immeidately, without completing all the actions specified.
+For example, some starting points may not have been examined or some
+pending program invocations for
+.B \-exec ... {} +
+or
+.B \-execdir ... {} +
+may not have been performed.
+
 
 .SH "SEE ALSO"
 \fBlocate\fP(1), \fBlocatedb\fP(5), \fBupdatedb\fP(1), \fBxargs\fP(1),

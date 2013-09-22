@@ -1,3 +1,15 @@
+2013-09-22  James Youngman  <jay@gnu.org>
+
+	Issue an error message when fts_read fails. Fixes bug #39324.
+	* find/ftsfind.c (find): when fts_read fails, issue an error
+	message, set the exit status to zero and stop.  Previously the
+	program would just stop (i.e. it failed to distinguish "done" from
+	"failed").
+	* find/find.1 (-exec): explain that on failure, some pending
+	command launches may not happen.  The Texinfo documentation
+	already pointed this out, so that didn't need to be changed.
+	* NEWS: Mention this bugfix.
+
 2013-09-21  James Youngman  <jay@gnu.org>
 
 	find: state that -execdir command is run locally to the matched file.
