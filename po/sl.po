@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2012-11-18 15:33+0000\n"
+"POT-Creation-Date: 2013-09-22 22:13+0100\n"
 "PO-Revision-Date: 2011-01-12 14:50+0100\n"
 "Last-Translator: Primož Peterlin <primozz.peterlin@gmail.com>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
@@ -24,57 +24,57 @@ msgstr ""
 msgid "Failed to save working directory in order to run a command on %s"
 msgstr "povrnitev delovnega imenika po preiskovanju %s ni mogoča"
 
-#: find/exec.c:253
+#: find/exec.c:256
 #, c-format
 msgid "Cannot close standard input"
 msgstr "Standardnega vhoda ni mogoče zapreti"
 
-#: find/exec.c:282
+#: find/exec.c:285
 #, c-format
 msgid "Failed to change directory"
 msgstr "Sprememba imenika ni mogoča"
 
-#: find/exec.c:309 xargs/xargs.c:1202
+#: find/exec.c:312 xargs/xargs.c:1218
 #, c-format
 msgid "cannot fork"
 msgstr "vejitev ni mogoča"
 
-#: find/exec.c:340
+#: find/exec.c:343
 #, c-format
 msgid "error waiting for %s"
 msgstr "napaka pri čakanju na %s"
 
-#: find/exec.c:349
+#: find/exec.c:352
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s zaključen s signalom %d"
 
-#: find/find.c:191 find/ftsfind.c:667
+#: find/find.c:203 find/ftsfind.c:677
 #, c-format
 msgid "Failed initialise shared-file hash table"
 msgstr "Inicializacija porazdeljene zgoščevalne tabele ni uspela"
 
-#: find/find.c:248
+#: find/find.c:260
 #, c-format
 msgid "cannot stat current directory"
 msgstr "statusa trenutnega imenika ni mogoče ugotoviti"
 
-#: find/find.c:339
+#: find/find.c:351
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "Seznama priklopljenih naprav ni mogoče prebrati."
 
-#: find/find.c:428
+#: find/find.c:440
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "OPOZORILO: datotečni sistem %s je bil nedavno odklopljen."
 
-#: find/find.c:438
+#: find/find.c:450
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "OPOZORILO: datotečni sistem %s je bil nedavno priklopljen."
 
-#: find/find.c:534
+#: find/find.c:547
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -83,7 +83,7 @@ msgstr ""
 "%s%s se je spremenila med izvajanjem %s (stara številka enote %ld, nova "
 "številka enote %ld, vrsta datotečnega sistema %s) [ref %ld]"
 
-#: find/find.c:571
+#: find/find.c:584
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -92,17 +92,17 @@ msgstr ""
 "%s%s se je spremenila med izvajanjem %s (stara številka inoda %<PRIuMAX>, "
 "nova številka inoda %<PRIuMAX>, vrsta datotečnega sistema %s) [ref %ld]"
 
-#: find/find.c:736
+#: find/find.c:749
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "vrnitev v nadrejeni imenik ni mogoča"
 
-#: find/find.c:1020
+#: find/find.c:1035
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Varna zamenjava imenika v %s ni uspela"
 
-#: find/find.c:1118 find/ftsfind.c:245
+#: find/find.c:1135 find/ftsfind.c:245
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -111,7 +111,7 @@ msgstr ""
 "Simbolna povezava »%s« je del zanke v drevesu imenikov; imenik, na katerega "
 "kaže, smo že obiskali."
 
-#: find/find.c:1137
+#: find/find.c:1154
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -132,12 +132,12 @@ msgstr[3] ""
 "Odkrita zanka v datotečnem sistemu: %s ima isto številko enote in inoda kot "
 "imenik %d ravni višje."
 
-#: find/find.c:1381
+#: find/find.c:1406
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "opozorilo: simbolni povezavi %s ne sledimo"
 
-#: find/find.c:1452
+#: find/find.c:1477
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -179,7 +179,7 @@ msgstr "OPOZORILO: videti je, da ima datoteka %s zaščito 0000"
 msgid "cannot search %s"
 msgstr "ni mogoče preiskati %s"
 
-#: find/ftsfind.c:599
+#: find/ftsfind.c:609
 #, c-format
 msgid "failed to restore working directory after searching %s"
 msgstr "povrnitev delovnega imenika po preiskovanju %s ni mogoča"
@@ -288,8 +288,9 @@ msgstr ""
 "      -links N -lname VZOREC -mmin N -mtime N -name VZOREC -newer DATOTEKA"
 
 #: find/parser.c:1239
+#, fuzzy
 msgid ""
-"      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
+"      -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]"
@@ -378,17 +379,12 @@ msgstr "Časa nastanka datoteke %s ni mogoče ugotoviti"
 msgid "warning: -%s %s will not match anything because it ends with /."
 msgstr "opozorilo: -%s %s se zaključi z /., zato se z njim ne bo ujemalo nič"
 
-#: find/parser.c:1951
-#, c-format
-msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
-msgstr "Način %s ni veljaven, kadar je v veljavi izbira POSIXLY_CORRECT."
-
-#: find/parser.c:2034
+#: find/parser.c:1992
 #, c-format
 msgid "invalid mode %s"
 msgstr "neveljaven način %s"
 
-#: find/parser.c:2053
+#: find/parser.c:2010
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -399,22 +395,22 @@ msgstr ""
 "se je spremenil, tako da je skladen z -perm -000; prej se ni ujemal z nobeno "
 "datoteke, zdaj pa se z vsemi."
 
-#: find/parser.c:2273
+#: find/parser.c:2210
 #, c-format
 msgid "invalid null argument to -size"
 msgstr "neveljaven prazni argument pri -size"
 
-#: find/parser.c:2323
+#: find/parser.c:2260
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "neveljaven tip -size: »%c«"
 
-#: find/parser.c:2333
+#: find/parser.c:2270
 #, fuzzy, c-format
 msgid "Invalid argument `%s%s' to -size"
 msgstr "Neveljaven argument »%s%c« za -size"
 
-#: find/parser.c:2515
+#: find/parser.c:2452
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -422,42 +418,70 @@ msgstr ""
 "Izbira -show-control-chars zahteva en sam argument, ki je bodisi »literal« "
 "bodisi »safe«"
 
-#: find/parser.c:2629
+#: find/parser.c:2566
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Neveljaven argument %s za -used"
 
-#: find/parser.c:2670
+#: find/parser.c:2607
 #, c-format
 msgid "%s is not the name of a known user"
 msgstr "%s ni ime obstoječega uporabnika"
 
-#: find/parser.c:2677
+#: find/parser.c:2614
 #, c-format
 msgid "The argument to -user should not be empty"
 msgstr "Argument k izbiri -user ne sme biti prazen"
 
-#: find/parser.c:2702
+#: find/parser.c:2639
 #, c-format
 msgid "Features enabled: "
 msgstr "Omogočene možnosti: "
 
-#: find/parser.c:2779
+#: find/parser.c:2716
 #, c-format
 msgid "invalid predicate -context: SELinux is not enabled."
 msgstr "neveljaven predikat -context: SELinux ni omogočen"
 
-#: find/parser.c:2843
+#: find/parser.c:2780
 #, c-format
 msgid "Arguments to -type should contain only one letter"
 msgstr "Argument k izbiri -type lahko vsebuje le en znak"
 
-#: find/parser.c:2892
+#: find/parser.c:2809
+#, c-format
+msgid ""
+"-type %c is not supported because symbolic links are not supported on the "
+"platform find was compiled on."
+msgstr ""
+
+#: find/parser.c:2820
+#, c-format
+msgid ""
+"-type %c is not supported because FIFOs are not supported on the platform "
+"find was compiled on."
+msgstr ""
+
+#: find/parser.c:2831
+#, c-format
+msgid ""
+"-type %c is not supported because named sockets are not supported on the "
+"platform find was compiled on."
+msgstr ""
+
+#: find/parser.c:2842
+#, c-format
+msgid ""
+"-type %c is not supported because Solaris doors are not supported on the "
+"platform find was compiled on."
+msgstr ""
+
+#: find/parser.c:2849
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Nepoznan argument k izbiri -type: %c"
 
-#: find/parser.c:2966
+#: find/parser.c:2923
 #, fuzzy, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -469,7 +493,7 @@ msgstr ""
 "kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
 "iz spremenljivke $PATH - odstranite ».« ter uvodna ali zaključna dvopičja."
 
-#: find/parser.c:2978
+#: find/parser.c:2935
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -480,7 +504,7 @@ msgstr ""
 "kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
 "iz spremenljivke $PATH"
 
-#: find/parser.c:3087
+#: find/parser.c:3044
 #, c-format
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
@@ -489,37 +513,37 @@ msgstr ""
 "Raba {} znotraj imena pomožnega programa za -execdir in -okdir zaradi "
 "mogočih varnostnih problemov ni dovoljena."
 
-#: find/parser.c:3113
+#: find/parser.c:3070
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Podprta je le enkratna navedba {} v kombinaciji z -exec%s ... +"
 
-#: find/parser.c:3123
+#: find/parser.c:3080
 #, c-format
 msgid "In %s the %s must appear by itself, but you specified %s"
 msgstr ""
 
-#: find/parser.c:3143
+#: find/parser.c:3100
 #, c-format
 msgid "The environment is too large for exec()."
 msgstr "Okolje je preobsežno za klic exec()."
 
-#: find/parser.c:3312
+#: find/parser.c:3269
 #, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
 msgstr " aritmetična prekoračitev obsega pri pretvorbi %s dni v število sekund"
 
-#: find/parser.c:3336
+#: find/parser.c:3293
 #, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 " aritmetična prekoračitev obsega pri poskusu izračuna konca trenutnega datuma"
 
-#: find/parser.c:3495
+#: find/parser.c:3452
 msgid "standard error"
 msgstr "standardni izhod za napake"
 
-#: find/parser.c:3500
+#: find/parser.c:3457
 msgid "standard output"
 msgstr "standardni izhod"
 
@@ -812,8 +836,8 @@ msgstr ""
 "Uporaba: %s [--version | --help]\n"
 "ali      %s najpogostejši_bigrami < seznam > kodiran_seznam\n"
 
-#: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1404
-#: xargs/xargs.c:1628
+#: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
+#: xargs/xargs.c:1649
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -857,33 +881,33 @@ msgstr "raven varnosti %ld pri slocate ni podprta."
 msgid "Failed to write to standard output"
 msgstr "Pisanje na standardni izhod ni uspelo"
 
-#: locate/locate.c:141
+#: locate/locate.c:139
 msgid "days"
 msgstr "dni"
 
-#: locate/locate.c:188
+#: locate/locate.c:186
 #, c-format
 msgid "The argument for option --max-database-age must not be empty"
 msgstr "Argument k izbiri --max-database-age ne sme biti prazen"
 
-#: locate/locate.c:204 locate/locate.c:211
+#: locate/locate.c:202 locate/locate.c:209
 #, c-format
 msgid "Invalid argument %s for option --max-database-age"
 msgstr "Neveljaven argument %s za izbiro --max-database-age"
 
-#: locate/locate.c:463
+#: locate/locate.c:459
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "zbirka locate %s vsebuje ime datoteke, ki je daljše, kot ga lahko locate "
 "obdela"
 
-#: locate/locate.c:598
+#: locate/locate.c:569 locate/locate.c:588
 #, c-format
 msgid "locate database %s is corrupt or invalid"
 msgstr "zbirka locate %s je poškodovana ali neveljavna"
 
-#: locate/locate.c:888
+#: locate/locate.c:860
 #, c-format
 msgid "Locate database size: %s byte\n"
 msgid_plural "Locate database size: %s bytes\n"
@@ -892,17 +916,17 @@ msgstr[1] "Velikost zbirke locate: %s bajt\n"
 msgstr[2] "Velikost zbirke locate: %s bajta\n"
 msgstr[3] "Velikost zbirke locate: %s bajti\n"
 
-#: locate/locate.c:895
+#: locate/locate.c:867
 #, c-format
 msgid "Matching Filenames: %s\n"
 msgstr "Ujemajoča se imena datotek: %s\n"
 
-#: locate/locate.c:896
+#: locate/locate.c:868
 #, c-format
 msgid "All Filenames: %s\n"
 msgstr "Vsa imena datotek: %s\n"
 
-#: locate/locate.c:902
+#: locate/locate.c:874
 #, c-format
 msgid ""
 "File names have a cumulative length of %s bytes.\n"
@@ -919,7 +943,7 @@ msgstr ""
 "\t%s vsebuje znak za novo vrstico,\n"
 "\tin %s vsebuje znake s postavljenim osmim bitom.\n"
 
-#: locate/locate.c:916
+#: locate/locate.c:888
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
@@ -928,17 +952,17 @@ msgstr ""
 "Nekatere datoteke so bile pri filtriranju izpuščene, zato ni mogoče "
 "izračunati faktorja kompresije.\n"
 
-#: locate/locate.c:929
+#: locate/locate.c:901
 #, c-format
 msgid "Compression ratio %4.2f%% (higher is better)\n"
 msgstr "Faktor kompresije %4.2f%% (večja vrednost je boljša)\n"
 
-#: locate/locate.c:936
+#: locate/locate.c:908
 #, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "Kompresijski faktor ni določen\n"
 
-#: locate/locate.c:991
+#: locate/locate.c:963
 #, c-format
 msgid ""
 "locate database %s looks like an slocate database but it seems to have "
@@ -947,7 +971,7 @@ msgstr ""
 "zbirka locate %s je videti kot zbirka slocate, vendar je videti, da ima "
 "nastavljeno varnostno raven %c, ki je GNU findutils za zdaj ne podpira"
 
-#: locate/locate.c:1104
+#: locate/locate.c:1075
 #, c-format
 msgid ""
 "%s is an slocate database.  Support for these is new, expect problems for "
@@ -955,13 +979,13 @@ msgid ""
 msgstr ""
 "%s je zbirka slocate.  Podpora za tovrstne zbirke je nova, mogoče so težave."
 
-#: locate/locate.c:1118
+#: locate/locate.c:1089
 #, c-format
 msgid ""
 "%s is an slocate database of unsupported security level %d; skipping it."
 msgstr "%s je zbirka slocate z nepodprto varnostno ravnijo %d; preskočimo jo."
 
-#: locate/locate.c:1135
+#: locate/locate.c:1106
 #, c-format
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
@@ -972,36 +996,36 @@ msgstr ""
 "oblike slocate, ki imajo varnostno raven, višjo od 0.  Za to zbirko ne bo "
 "ustvarjenih rezultatov.\n"
 
-#: locate/locate.c:1146
+#: locate/locate.c:1117
 #, c-format
 msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr "%s je zbirka slocate.  Vklapljamo izbiro »-e«."
 
-#: locate/locate.c:1184
+#: locate/locate.c:1155
 #, c-format
 msgid "Old-format locate database %s is too short to be valid"
 msgstr ""
 "Zbirka locate »%s« stare oblike je prekratka, da bi lahko bila veljavna"
 
-#: locate/locate.c:1336
+#: locate/locate.c:1307
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Zbirka %s je v %s obliki.\n"
 
-#: locate/locate.c:1357
+#: locate/locate.c:1334
 msgid "The database has little-endian machine-word encoding.\n"
 msgstr "Zbirka uporablja vrstni red zlogov »big-endian«.\n"
 
-#: locate/locate.c:1359
+#: locate/locate.c:1336
 msgid "The database has big-endian machine-word encoding.\n"
 msgstr "Zbirka uporablja vrstni red zlogov »little-endian«.\n"
 
-#: locate/locate.c:1372
+#: locate/locate.c:1349
 #, c-format
 msgid "The database machine-word encoding order is not obvious.\n"
 msgstr "Vrstni red zlogov v zbirki ni razviden.\n"
 
-#: locate/locate.c:1395
+#: locate/locate.c:1372
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -1020,34 +1044,34 @@ msgstr ""
 "        [--max-database-age D] [--version] [--help] \n"
 "        vzorec...\n"
 
-#: locate/locate.c:1458
+#: locate/locate.c:1435
 msgid "failed to drop group privileges"
 msgstr "ovržba privilegijev skupine ni uspela"
 
-#: locate/locate.c:1476
+#: locate/locate.c:1453
 msgid "failed to drop setuid privileges"
 msgstr "ovržba privilegijev setuid ni uspela"
 
-#: locate/locate.c:1490
+#: locate/locate.c:1467
 msgid "Failed to fully drop privileges"
 msgstr "Celotna ovržba privilegijev ni uspela"
 
-#: locate/locate.c:1508
+#: locate/locate.c:1485
 msgid "failed to drop setgid privileges"
 msgstr "ovržba privilegijev setgid ni uspela"
 
-#: locate/locate.c:1776
+#: locate/locate.c:1761
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "opozorilo: zbirko locate lahko preberemo s standardnega vhoda le enkrat."
 
-#: locate/locate.c:1846
+#: locate/locate.c:1831
 #, c-format
 msgid "time system call failed"
 msgstr "sistemski klic time() ni uspel"
 
-#: locate/locate.c:1857
+#: locate/locate.c:1842
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr ""
@@ -1069,12 +1093,12 @@ msgstr "nepričakovan EOF v %s"
 msgid "error reading a word from %s"
 msgstr "napaka pri branju besede z %s"
 
-#: xargs/xargs.c:251
+#: xargs/xargs.c:252
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika."
 
-#: xargs/xargs.c:269
+#: xargs/xargs.c:270
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1083,7 +1107,7 @@ msgstr ""
 "Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
 "vrednost znaka ne sme presegati %lx."
 
-#: xargs/xargs.c:275
+#: xargs/xargs.c:276
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1092,7 +1116,7 @@ msgstr ""
 "Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
 "vrednost znaka ne sme presegati %lo."
 
-#: xargs/xargs.c:284
+#: xargs/xargs.c:285
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -1101,7 +1125,7 @@ msgstr ""
 "Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
 "neprepoznan sledilni znak %s."
 
-#: xargs/xargs.c:329
+#: xargs/xargs.c:330
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -1110,54 +1134,59 @@ msgstr ""
 "Neveljavno specifikacija vhodnega razmejilnika %s: razmejilnim mora biti "
 "bodisi en sam znak, bodisi ubežno zaporedje, ki se začenja z \\."
 
-#: xargs/xargs.c:346
+#: xargs/xargs.c:347
 #, c-format
 msgid "environment is too large for exec"
 msgstr "okolje je preobsežno za klic exec"
 
-#: xargs/xargs.c:555
+#: xargs/xargs.c:556
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "opozorilo: vrednost %ld za izbiro -s je previsoka, namesto nje uporabljamo "
 "%ld"
 
-#: xargs/xargs.c:602
+#: xargs/xargs.c:603
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr ""
 
-#: xargs/xargs.c:614
+#: xargs/xargs.c:615
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:644
+#: xargs/xargs.c:629
+#, c-format
+msgid "warning: the -E option has no effect if -0 or -d is used.\n"
+msgstr ""
+
+#: xargs/xargs.c:651
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:650
+#: xargs/xargs.c:657
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:666
+#: xargs/xargs.c:673
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Vhodne datoteke %s ni mogoče odpreti"
 
-#: xargs/xargs.c:685
+#: xargs/xargs.c:692
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Vaše spremenljivke okolja zasedajo %<PRIuMAX> bajtov\n"
 
-#: xargs/xargs.c:688
+#: xargs/xargs.c:695
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "Zgornja meja POSIX za dolžino argumenta na tem sistemu: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:691
+#: xargs/xargs.c:698
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): "
@@ -1166,18 +1195,18 @@ msgstr ""
 "Najmanjša dovoljena zgornja meja POSIX za dolžino argumenta na kateremkoli "
 "sistemu: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:694
+#: xargs/xargs.c:701
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "Največja dolžina ukaza, ki ga lahko uporabimo: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:697
+#: xargs/xargs.c:704
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr ""
 "Velikost ukaznega medpomnilnika, ki ga dejansko uporabljamo: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:703
+#: xargs/xargs.c:710
 #, c-format
 msgid ""
 "\n"
@@ -1189,7 +1218,7 @@ msgstr ""
 "Izvajanje ukaza xargs se bo zdaj nadaljevalo, in skušal bo prebrati vhod in "
 "izvesti ukaze; če tega ne želite, vtipkajte kodo za konec datoteke.\n"
 
-#: xargs/xargs.c:711
+#: xargs/xargs.c:718
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1198,7 +1227,7 @@ msgstr ""
 "Opozorilo: %s se bo izvedel najmanj enkrat.  Če tega ne želite, vnesite kodo "
 "za prekinitev.\n"
 
-#: xargs/xargs.c:839 xargs/xargs.c:932
+#: xargs/xargs.c:846 xargs/xargs.c:939
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1207,15 +1236,15 @@ msgstr ""
 "%s narekovaj brez para; privzeto so narekovaji za xargs posebni, razen če "
 "vključite izbiro -O"
 
-#: xargs/xargs.c:840 xargs/xargs.c:933
+#: xargs/xargs.c:847 xargs/xargs.c:940
 msgid "double"
 msgstr "dvojni"
 
-#: xargs/xargs.c:840 xargs/xargs.c:933
+#: xargs/xargs.c:847 xargs/xargs.c:940
 msgid "single"
 msgstr "enojni"
 
-#: xargs/xargs.c:952
+#: xargs/xargs.c:959
 #, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1224,41 +1253,41 @@ msgstr ""
 "OPOZORILO: na vhodu se je pojavil znak NUL.  Ni ga mogoče prenesti v seznamu "
 "argumentov.  Ste nameravali uporabiti izbiro --null?"
 
-#: xargs/xargs.c:962 xargs/xargs.c:1019
+#: xargs/xargs.c:969 xargs/xargs.c:1034
 #, c-format
 msgid "argument line too long"
 msgstr "vrstica z argumenti je predolga"
 
-#: xargs/xargs.c:1047
+#: xargs/xargs.c:1062
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "odpiranje /dev/tty za branje ni uspelo"
 
-#: xargs/xargs.c:1090
+#: xargs/xargs.c:1105
 #, c-format
 msgid "unable to allocate memory"
 msgstr ""
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1120
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:1191
+#: xargs/xargs.c:1207
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "ustvarjanje cevovoda pred vejitvijo ni uspelo"
 
-#: xargs/xargs.c:1260
-#, c-format
+#: xargs/xargs.c:1278
+#, fuzzy, c-format
 msgid ""
-"errno-buffer read failed in xargs_do_exec (this is probably a bug, please "
-"report it)"
+"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
+"please report it)"
 msgstr ""
 "branje medpomnilnika errno v xargs_do_exec ni uspelo (to je najverjetneje "
 "napaka; prosimo, javite jo)"
 
-#: xargs/xargs.c:1313
+#: xargs/xargs.c:1331
 #, c-format
 msgid ""
 "read returned unexpected value %d; this is probably a bug, please report it"
@@ -1266,97 +1295,183 @@ msgstr ""
 "branje je vrnilo nepričakovano vrednost %d; to je najverjetneje napaka, "
 "prosimo, javite jo"
 
-#: xargs/xargs.c:1406
+#: xargs/xargs.c:1424
 #, c-format
 msgid "error waiting for child process"
 msgstr "napaka pri čakanju na proces naslednik"
 
-#: xargs/xargs.c:1439
+#: xargs/xargs.c:1457
 #, fuzzy, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "OPOZORILO: Sled za %d procesi nasledniki se je izgubila"
 
-#: xargs/xargs.c:1458
+#: xargs/xargs.c:1476
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: izhod s statusom 255; prekinjamo"
 
-#: xargs/xargs.c:1461
+#: xargs/xargs.c:1479
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: ustavljeno s signalom %d"
 
-#: xargs/xargs.c:1464
+#: xargs/xargs.c:1482
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: zaključeno s signalom %d"
 
-#: xargs/xargs.c:1548
+#: xargs/xargs.c:1566
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: neveljavno število za izbiro -%c\n"
 
-#: xargs/xargs.c:1555
+#: xargs/xargs.c:1573
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: vrednost za izbiro -%c mora biti >= %ld\n"
 
-#: xargs/xargs.c:1569
+#: xargs/xargs.c:1587
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: vrednost za izbiro -%c mora biti < %ld\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1606
 #, c-format
-msgid ""
-"Usage: %s [OPTION]... COMMAND INITIAL-ARGS...\n"
-"Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
+msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr ""
 
-#: xargs/xargs.c:1591
-#, c-format
+#: xargs/xargs.c:1611
 msgid ""
+"Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
-"Mandatory arguments to long options are mandatory for short options too.\n"
-"Non-mandatory arguments are indicated by [square brackets]\n"
-"  -0, --null                   Items are separated by a null, not "
-"whitespace.\n"
-"                               Disables quote and backslash processing\n"
-"  -a, --arg-file=FILE          Read arguments from FILE, not standard input\n"
-"  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, not "
-"by\n"
-"                               blank space. Disables quote and backslash\n"
-"                               processing\n"
-"  -E END                       If END occurs as a line of input, the rest "
-"of\n"
-"                               the input is ignored.\n"
-"  -e [END], --eof[=END]        Equivalent to -E END if END is specified.\n"
-"                               Otherwise, there is no end-of-file string\n"
-"  --help                       Print a summary of the options to xargs.\n"
-"  -I R                         same as --replace=R (R must be specified)\n"
-"  -i,--replace=[R]             Replace R in initial arguments with names\n"
-"                               read from standard input. If R is\n"
-"                               unspecified, assume {}\n"
-"  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines "
-"per\n"
-"                               command line\n"
-"  -l                           Use at most one nonblank input line per\n"
-"                               command line\n"
-"  -n, --max-args=MAX-ARGS      Use at most MAX-ARGS arguments per command\n"
-"                               line\n"
-"  -P, --max-procs=MAX-PROCS    Run up to max-procs processes at a time\n"
-"  -p, --interactive            Prompt before running commands\n"
-"  --process-slot-var=VAR       Set environment variable VAR in child\n"
-"                               processes\n"
-"  -r, --no-run-if-empty        If there are no arguments, run no command.\n"
-"                               If this option is not given, COMMAND will be\n"
-"                               run at least once.\n"
-"  -s, --max-chars=MAX-CHARS    Limit commands to MAX-CHARS at most\n"
-"  --show-limits                Show limits on command-line length.\n"
-"  -t, --verbose                Print commands before executing them\n"
-"  --version                    Print the version number\n"
-"  -x, --exit                   Exit if the size (see -s) is exceeded\n"
 msgstr ""
+
+#: xargs/xargs.c:1613
+msgid ""
+"Mandatory and optional arguments to long options are also\n"
+"mandatory or optional for the corresponding short option.\n"
+msgstr ""
+
+#: xargs/xargs.c:1615
+msgid ""
+"  -0, --null                   items are separated by a null, not "
+"whitespace;\n"
+"                                 disables quote and backslash processing "
+"and\n"
+"                                 logical EOF processing.\n"
+msgstr ""
+
+#: xargs/xargs.c:1618
+msgid ""
+"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+msgstr ""
+
+#: xargs/xargs.c:1619
+msgid ""
+"  -d, --delimiter=CHARACTER    items in input stream are separated by "
+"CHARACTER,\n"
+"                                 not by whitespace; disables quote and "
+"backslash\n"
+"                                 processing and logical EOF processing\n"
+msgstr ""
+
+#: xargs/xargs.c:1622
+msgid ""
+"  -E END                       Set logical EOF string; if END occurs as a "
+"line\n"
+"                                 of input, the rest of the input is ignored\n"
+"                                 (ignored if -0 or -d was specified)\n"
+msgstr ""
+
+#: xargs/xargs.c:1625
+msgid ""
+"  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
+"                                 otherwise, there is no end-of-file string\n"
+msgstr ""
+
+#: xargs/xargs.c:1627
+msgid "  -I R                         same as --replace=R\n"
+msgstr ""
+
+#: xargs/xargs.c:1628
+msgid ""
+"  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
+"                                 from standard input; if R is unspecified,\n"
+"                                 assume {}\n"
+msgstr ""
+
+#: xargs/xargs.c:1631
+msgid ""
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
+"per\n"
+"                                 command line\n"
+msgstr ""
+
+#: xargs/xargs.c:1633
+msgid ""
+"  -l[MAX-LINES]                similar to -L but defaults to at most one "
+"non-\n"
+"                                 blank input line if MAX-LINES is not "
+"specified\n"
+msgstr ""
+
+#: xargs/xargs.c:1635
+msgid ""
+"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
+"line\n"
+msgstr ""
+
+#: xargs/xargs.c:1636
+msgid ""
+"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgstr ""
+
+#: xargs/xargs.c:1637
+msgid "  -p, --interactive            prompt before running commands\n"
+msgstr ""
+
+#: xargs/xargs.c:1638
+msgid ""
+"      --process-slot-var=VAR   set environment variable VAR in child "
+"processes\n"
+msgstr ""
+
+#: xargs/xargs.c:1639
+msgid ""
+"  -r, --no-run-if-empty        if there are no arguments, then do not run "
+"COMMAND;\n"
+"                                 if this option is not given, COMMAND will "
+"be\n"
+"                                 run at least once\n"
+msgstr ""
+
+#: xargs/xargs.c:1642
+msgid ""
+"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+msgstr ""
+
+#: xargs/xargs.c:1643
+msgid "      --show-limits            show limits on command-line length\n"
+msgstr ""
+
+#: xargs/xargs.c:1644
+msgid "  -t, --verbose                print commands before executing them\n"
+msgstr ""
+
+#: xargs/xargs.c:1645
+msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
+msgstr ""
+
+#: xargs/xargs.c:1647
+msgid "      --help                   display this help and exit\n"
+msgstr ""
+
+#: xargs/xargs.c:1648
+msgid "      --version                output version information and exit\n"
+msgstr ""
+
+#~ msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
+#~ msgstr "Način %s ni veljaven, kadar je v veljavi izbira POSIXLY_CORRECT."
 
 #~ msgid "Built using GNU gnulib version %s\n"
 #~ msgstr "Prevedeno z GNU gnulib, različica %s\n"

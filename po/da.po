@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2012-11-18 15:33+0000\n"
+"POT-Creation-Date: 2013-09-22 22:13+0100\n"
 "PO-Revision-Date: 2010-07-17 21:51+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -33,59 +33,59 @@ msgid "Failed to save working directory in order to run a command on %s"
 msgstr ""
 "kunne ikke vende tilbage til oprindeligt arbejdskatalog efter søgning i %s"
 
-#: find/exec.c:253
+#: find/exec.c:256
 #, c-format
 msgid "Cannot close standard input"
 msgstr "Kan ikke lukke standard-inddata"
 
-#: find/exec.c:282
+#: find/exec.c:285
 #, c-format
 msgid "Failed to change directory"
 msgstr "Kunne ikke ændre katalog"
 
 # der er plads nok at tage af
-#: find/exec.c:309 xargs/xargs.c:1202
+#: find/exec.c:312 xargs/xargs.c:1218
 #, c-format
 msgid "cannot fork"
 msgstr "kan ikke fraspalte en ny proces"
 
 # ditto, ingen grund til kryptiskhed
-#: find/exec.c:340
+#: find/exec.c:343
 #, c-format
 msgid "error waiting for %s"
 msgstr "fejl i forbindelse med at vente på %s"
 
-#: find/exec.c:349
+#: find/exec.c:352
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s afsluttet af signal %d"
 
-#: find/find.c:191 find/ftsfind.c:667
+#: find/find.c:203 find/ftsfind.c:677
 #, c-format
 msgid "Failed initialise shared-file hash table"
 msgstr "Kunne ikke klargøre hashtabel som delt fil"
 
-#: find/find.c:248
+#: find/find.c:260
 #, c-format
 msgid "cannot stat current directory"
 msgstr "kan ikke køre stat() på aktuelle katalog"
 
-#: find/find.c:339
+#: find/find.c:351
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "Kan ikke læse listen af monterede enheder."
 
-#: find/find.c:428
+#: find/find.c:440
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "ADVARSEL: Filsystemet %s er blevet afmonteret for nylig."
 
-#: find/find.c:438
+#: find/find.c:450
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "ADVARSEL: Filsystemet %s er blevet monteret for nylig."
 
-#: find/find.c:534
+#: find/find.c:547
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -94,7 +94,7 @@ msgstr ""
 "%s%s ændrede sig under kørsel af %s (tidligere enhedsnummer %ld, nyt "
 "enhedsnummer %ld, filsystemtype er %s) [ref %ld]"
 
-#: find/find.c:571
+#: find/find.c:584
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -103,17 +103,17 @@ msgstr ""
 "%s%s ændrede sig under kørsel af %s (tidligere inode-nummer %<PRIuMAX>, nyt "
 "inode-nummer %<PRIuMAX>, filsystemtype er %s) [ref %ld]"
 
-#: find/find.c:736
+#: find/find.c:749
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "kunne ikke vende tilbage til ophavskatalog"
 
-#: find/find.c:1020
+#: find/find.c:1035
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Kunne ikke på sikker vis skifte til kataloget %s"
 
-#: find/find.c:1118 find/ftsfind.c:245
+#: find/find.c:1135 find/ftsfind.c:245
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -122,7 +122,7 @@ msgstr ""
 "Den symbolske lænke %s er del af en løkke i kataloghierarkiet; kataloget, "
 "den peger på, er allerede blevet besøgt."
 
-#: find/find.c:1137
+#: find/find.c:1154
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -137,12 +137,12 @@ msgstr[1] ""
 "Filsystemsløkke fundet; %s har det samme enhedsnummer og indekseringsknude "
 "(inode) som et katalog, der er %d niveauer højere oppe i filsystemhierarkiet"
 
-#: find/find.c:1381
+#: find/find.c:1406
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "advarsel: kunne ikke følge det symbolske link %s"
 
-#: find/find.c:1452
+#: find/find.c:1477
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -183,7 +183,7 @@ msgstr "ADVARSEL: Filen %s synes at have tilstand 0000"
 msgid "cannot search %s"
 msgstr "kan ikke søge i %s"
 
-#: find/ftsfind.c:599
+#: find/ftsfind.c:609
 #, c-format
 msgid "failed to restore working directory after searching %s"
 msgstr ""
@@ -290,8 +290,9 @@ msgstr ""
 "      -links N -lname MØNSTER -mmin N -mtime N -name MØNSTER -newer FIL"
 
 #: find/parser.c:1239
+#, fuzzy
 msgid ""
-"      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
+"      -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]"
@@ -381,17 +382,12 @@ msgstr "Kan ikke hente oprettelsestidspunkt for filen %s"
 msgid "warning: -%s %s will not match anything because it ends with /."
 msgstr "advarsel: -%s %s vil ikke matche noget, da det slutter med /."
 
-#: find/parser.c:1951
-#, c-format
-msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
-msgstr "Tilstanden %s er ikke gyldig når POSIXLY_CORRECT er slået til."
-
-#: find/parser.c:2034
+#: find/parser.c:1992
 #, c-format
 msgid "invalid mode %s"
 msgstr "ugyldig tilstand %s"
 
-#: find/parser.c:2053
+#: find/parser.c:2010
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -403,22 +399,22 @@ msgstr ""
 "perm -000; dette vil sige, at mens det før ikke matchede nogen filer, "
 "matcher det nu alle filer."
 
-#: find/parser.c:2273
+#: find/parser.c:2210
 #, c-format
 msgid "invalid null argument to -size"
 msgstr "ugyldig tom parameter til -size"
 
-#: find/parser.c:2323
+#: find/parser.c:2260
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "ugyldig -size type '%c'"
 
-#: find/parser.c:2333
+#: find/parser.c:2270
 #, fuzzy, c-format
 msgid "Invalid argument `%s%s' to -size"
 msgstr "Ugyldig parameter '%s%c' til -size"
 
-#: find/parser.c:2515
+#: find/parser.c:2452
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -426,42 +422,70 @@ msgstr ""
 "Tilvalget -show-control-chars kræver en enkelt parameter som skal være "
 "'literal' eller 'safe'"
 
-#: find/parser.c:2629
+#: find/parser.c:2566
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Ugyldig parameter %s til -used"
 
-#: find/parser.c:2670
+#: find/parser.c:2607
 #, c-format
 msgid "%s is not the name of a known user"
 msgstr "%s er ikke navnet på en kendt bruger"
 
-#: find/parser.c:2677
+#: find/parser.c:2614
 #, c-format
 msgid "The argument to -user should not be empty"
 msgstr "Parameteren til -user bør ikke være tom"
 
-#: find/parser.c:2702
+#: find/parser.c:2639
 #, c-format
 msgid "Features enabled: "
 msgstr "Faciliteter aktiveret: "
 
-#: find/parser.c:2779
+#: find/parser.c:2716
 #, c-format
 msgid "invalid predicate -context: SELinux is not enabled."
 msgstr "ugyldigt prædikat -context: SELinix er ikke aktiveret."
 
-#: find/parser.c:2843
+#: find/parser.c:2780
 #, c-format
 msgid "Arguments to -type should contain only one letter"
 msgstr "Parameteren til -type bør indeholde kun ét tegn"
 
-#: find/parser.c:2892
+#: find/parser.c:2809
+#, c-format
+msgid ""
+"-type %c is not supported because symbolic links are not supported on the "
+"platform find was compiled on."
+msgstr ""
+
+#: find/parser.c:2820
+#, c-format
+msgid ""
+"-type %c is not supported because FIFOs are not supported on the platform "
+"find was compiled on."
+msgstr ""
+
+#: find/parser.c:2831
+#, c-format
+msgid ""
+"-type %c is not supported because named sockets are not supported on the "
+"platform find was compiled on."
+msgstr ""
+
+#: find/parser.c:2842
+#, c-format
+msgid ""
+"-type %c is not supported because Solaris doors are not supported on the "
+"platform find was compiled on."
+msgstr ""
+
+#: find/parser.c:2849
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Ukendt parameter til -type: %c"
 
-#: find/parser.c:2966
+#: find/parser.c:2923
 #, fuzzy, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -474,7 +498,7 @@ msgstr ""
 "katalog fra din $PATH (dvs. fjern \".\" eller begyndende og afsluttende "
 "koloner)"
 
-#: find/parser.c:2978
+#: find/parser.c:2935
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -485,7 +509,7 @@ msgstr ""
 "når det kombineres med handlingen %s til find.  Fjern venligst det aktuelle "
 "katalog fra din $PATH"
 
-#: find/parser.c:3087
+#: find/parser.c:3044
 #, c-format
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
@@ -494,36 +518,36 @@ msgstr ""
 "Det kan ikke bruge {} i programnavnet for -execdir og -okdir fordi der er et "
 "potentielt sikkerhedsproblem."
 
-#: find/parser.c:3113
+#: find/parser.c:3070
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Kun en forekomst af {} er understøttet med -exec%s ... +"
 
-#: find/parser.c:3123
+#: find/parser.c:3080
 #, c-format
 msgid "In %s the %s must appear by itself, but you specified %s"
 msgstr ""
 
-#: find/parser.c:3143
+#: find/parser.c:3100
 #, c-format
 msgid "The environment is too large for exec()."
 msgstr "Miljøet er for stort til exec()."
 
-#: find/parser.c:3312
+#: find/parser.c:3269
 #, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
 msgstr "aritmetisk overløb ved konvertering af %s dage til et antal sekunder"
 
-#: find/parser.c:3336
+#: find/parser.c:3293
 #, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "aritmetisk overløb ved forsøg på at udregne denne dags sluttidspunkt"
 
-#: find/parser.c:3495
+#: find/parser.c:3452
 msgid "standard error"
 msgstr "standardfejl"
 
-#: find/parser.c:3500
+#: find/parser.c:3457
 msgid "standard output"
 msgstr "standard-uddata"
 
@@ -818,8 +842,8 @@ msgstr ""
 "Brug: %s [--version | --help]\n"
 "eller %s mest-brugte-bigrammer < fil-liste > locate-database\n"
 
-#: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1404
-#: xargs/xargs.c:1628
+#: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
+#: xargs/xargs.c:1649
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -864,50 +888,50 @@ msgstr "Sikkerhedsniveauet %ld for slocate understøttes ikke."
 msgid "Failed to write to standard output"
 msgstr "Kunne ikke skrive til standard-uddata"
 
-#: locate/locate.c:141
+#: locate/locate.c:139
 msgid "days"
 msgstr "dage"
 
-#: locate/locate.c:188
+#: locate/locate.c:186
 #, c-format
 msgid "The argument for option --max-database-age must not be empty"
 msgstr "Parameteren for tilvalget --max-database-age må ikke være tom"
 
-#: locate/locate.c:204 locate/locate.c:211
+#: locate/locate.c:202 locate/locate.c:209
 #, c-format
 msgid "Invalid argument %s for option --max-database-age"
 msgstr "Ugyldig parameter %s til tilvalget --max-database-age"
 
-#: locate/locate.c:463
+#: locate/locate.c:459
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "locate-databasen %s indeholder et filnavn, der er længere end locate kan "
 "håndtere"
 
-#: locate/locate.c:598
+#: locate/locate.c:569 locate/locate.c:588
 #, c-format
 msgid "locate database %s is corrupt or invalid"
 msgstr "locate-databasen %s er ødelagt eller ugyldig"
 
-#: locate/locate.c:888
+#: locate/locate.c:860
 #, c-format
 msgid "Locate database size: %s byte\n"
 msgid_plural "Locate database size: %s bytes\n"
 msgstr[0] "Locate-databasestørrelse: %s byte\n"
 msgstr[1] "Locate-databasestørrelse: %s byte\n"
 
-#: locate/locate.c:895
+#: locate/locate.c:867
 #, c-format
 msgid "Matching Filenames: %s\n"
 msgstr "Matchende filnavne: %s\n"
 
-#: locate/locate.c:896
+#: locate/locate.c:868
 #, c-format
 msgid "All Filenames: %s\n"
 msgstr "Alle filnavne: %s\n"
 
-#: locate/locate.c:902
+#: locate/locate.c:874
 #, c-format
 msgid ""
 "File names have a cumulative length of %s bytes.\n"
@@ -924,7 +948,7 @@ msgstr ""
 "\t%s indeholder linjeskiftstegn, \n"
 "\tog %s indeholder tegn med den høje bit givet.\n"
 
-#: locate/locate.c:916
+#: locate/locate.c:888
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
@@ -933,17 +957,17 @@ msgstr ""
 "Visse filnavne kan være filtreret ud, så vi kan ikke beregne "
 "komprimeringsforholdet.\n"
 
-#: locate/locate.c:929
+#: locate/locate.c:901
 #, c-format
 msgid "Compression ratio %4.2f%% (higher is better)\n"
 msgstr "Komprimeringsforhold %4.2f%% (større er bedre)\n"
 
-#: locate/locate.c:936
+#: locate/locate.c:908
 #, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "Komprimeringsforholdet er udefineret\n"
 
-#: locate/locate.c:991
+#: locate/locate.c:963
 #, c-format
 msgid ""
 "locate database %s looks like an slocate database but it seems to have "
@@ -953,7 +977,7 @@ msgstr ""
 "sikkerhedsniveau %c, hvilket GNU findutils ikke understøtter på nuværende "
 "tidspunkt"
 
-#: locate/locate.c:1104
+#: locate/locate.c:1075
 #, c-format
 msgid ""
 "%s is an slocate database.  Support for these is new, expect problems for "
@@ -962,7 +986,7 @@ msgstr ""
 "%s er en slocate-database.  Understøttelse for disse er ny, så forvent "
 "problemer indtil videre."
 
-#: locate/locate.c:1118
+#: locate/locate.c:1089
 #, c-format
 msgid ""
 "%s is an slocate database of unsupported security level %d; skipping it."
@@ -970,7 +994,7 @@ msgstr ""
 "%s er en slocate-database med sikkerhedsniveauet %d, som ikke understøttes; "
 "springer over."
 
-#: locate/locate.c:1135
+#: locate/locate.c:1106
 #, c-format
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
@@ -981,35 +1005,35 @@ msgstr ""
 "formaterede databaser med sikkerhedsniveau forskelligt fra nul.  Ingen "
 "resultater vil blive genereret for denne database.\n"
 
-#: locate/locate.c:1146
+#: locate/locate.c:1117
 #, c-format
 msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr "%s er en slocate-database.  Slår '-e'-tilvaget til."
 
-#: locate/locate.c:1184
+#: locate/locate.c:1155
 #, c-format
 msgid "Old-format locate database %s is too short to be valid"
 msgstr "Locate-databasen %s med gammelt format er for kort til at være gyldig"
 
-#: locate/locate.c:1336
+#: locate/locate.c:1307
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "Database %s er i formatet %s.\n"
 
-#: locate/locate.c:1357
+#: locate/locate.c:1334
 msgid "The database has little-endian machine-word encoding.\n"
 msgstr "Databasen bruger lille-endian kodning af maskinord.\n"
 
-#: locate/locate.c:1359
+#: locate/locate.c:1336
 msgid "The database has big-endian machine-word encoding.\n"
 msgstr "Databasen bruger stor-endian kodning af maskinord.\n"
 
-#: locate/locate.c:1372
+#: locate/locate.c:1349
 #, c-format
 msgid "The database machine-word encoding order is not obvious.\n"
 msgstr "Databasens kodning af maskinord er ikke åbenlys.\n"
 
-#: locate/locate.c:1395
+#: locate/locate.c:1372
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -1028,33 +1052,33 @@ msgstr ""
 "     [--max-database-age D] [--version] [--help]\n"
 "     mønster...\n"
 
-#: locate/locate.c:1458
+#: locate/locate.c:1435
 msgid "failed to drop group privileges"
 msgstr "kunne ikke afgive gruppeprivilegier"
 
-#: locate/locate.c:1476
+#: locate/locate.c:1453
 msgid "failed to drop setuid privileges"
 msgstr "kunne ikke afgive setuid-privilegier"
 
-#: locate/locate.c:1490
+#: locate/locate.c:1467
 msgid "Failed to fully drop privileges"
 msgstr "Kunne ikke fuldt afgive privilegier"
 
-#: locate/locate.c:1508
+#: locate/locate.c:1485
 msgid "failed to drop setgid privileges"
 msgstr "kunne ikke afgive setgid-privilegier"
 
-#: locate/locate.c:1776
+#: locate/locate.c:1761
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "advarsel: locate-databasen kan kun læses fra standard-ind en gang."
 
-#: locate/locate.c:1846
+#: locate/locate.c:1831
 #, c-format
 msgid "time system call failed"
 msgstr "systemkaldet time() mislykkedes"
 
-#: locate/locate.c:1857
+#: locate/locate.c:1842
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr ""
@@ -1075,12 +1099,12 @@ msgstr "uventet EOF i %s"
 msgid "error reading a word from %s"
 msgstr "fejl ved læsning af ord fra %s"
 
-#: xargs/xargs.c:251
+#: xargs/xargs.c:252
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Ugyldig undvigesekvens %s i angivelse af skilletegn for inddata."
 
-#: xargs/xargs.c:269
+#: xargs/xargs.c:270
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1089,7 +1113,7 @@ msgstr ""
 "Ugyldig undvigesekvens %s i angivelse af skilletegn for inddata; tegnværdier "
 "må ikke overstige %lx."
 
-#: xargs/xargs.c:275
+#: xargs/xargs.c:276
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1098,7 +1122,7 @@ msgstr ""
 "Ugyldig undvigesekvens %s i angivelse af skilletegn for inddata; tegnværdier "
 "må ikke overstige %lo."
 
-#: xargs/xargs.c:284
+#: xargs/xargs.c:285
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -1107,7 +1131,7 @@ msgstr ""
 "Ugyldig undvigesekvens %s i angivelse af skilletegn for inddata; afsluttende "
 "tegn %s genkendes ikke."
 
-#: xargs/xargs.c:329
+#: xargs/xargs.c:330
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -1116,54 +1140,59 @@ msgstr ""
 "Ugyldig angivelse af skilletegn %s for inddata: skilletegnet skal være enten "
 "et enkelt tegn eller en undvigesekvens, der begynder med \\."
 
-#: xargs/xargs.c:346
+#: xargs/xargs.c:347
 #, c-format
 msgid "environment is too large for exec"
 msgstr "miljø for stort til at eksekvere"
 
-#: xargs/xargs.c:555
+#: xargs/xargs.c:556
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "advarsel: værdien %ld for tilvalget -s er for stor - bruger %ld i stedet"
 
-#: xargs/xargs.c:602
+#: xargs/xargs.c:603
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr ""
 
-#: xargs/xargs.c:614
+#: xargs/xargs.c:615
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:644
+#: xargs/xargs.c:629
+#, c-format
+msgid "warning: the -E option has no effect if -0 or -d is used.\n"
+msgstr ""
+
+#: xargs/xargs.c:651
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:650
+#: xargs/xargs.c:657
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:666
+#: xargs/xargs.c:673
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Kan ikke åbne inddatafilen %s"
 
-#: xargs/xargs.c:685
+#: xargs/xargs.c:692
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Dine miljøvariable fylder %<PRIuMAX> byte\n"
 
-#: xargs/xargs.c:688
+#: xargs/xargs.c:695
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr ""
 "Øvre grænse på parameterlængde ifølge POSIX (dette system): %<PRIuMAX>\n"
 
-#: xargs/xargs.c:691
+#: xargs/xargs.c:698
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): "
@@ -1172,17 +1201,17 @@ msgstr ""
 "Mindste øvre grænse for parameterlængde tilladt af POSIX (alle systemer): "
 "%<PRIuMAX>\n"
 
-#: xargs/xargs.c:694
+#: xargs/xargs.c:701
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "Maksimal længde af kommando der faktisk kunne bruges: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:697
+#: xargs/xargs.c:704
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Størrelsen af kommandobufferen, som faktisk bruges: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:703
+#: xargs/xargs.c:710
 #, c-format
 msgid ""
 "\n"
@@ -1195,7 +1224,7 @@ msgstr ""
 "og køre kommandoer; hvis dette ikke er hvad du ønsker, så skriv et "
 "filsluttegn (end-of-file).\n"
 
-#: xargs/xargs.c:711
+#: xargs/xargs.c:718
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1204,7 +1233,7 @@ msgstr ""
 "Advarsel: %s vil blive kørt mindst én gang.  Hvis du ikke ønsker at dette "
 "skal ske, så skriv afbrydelsestegnet (interrupt).\n"
 
-#: xargs/xargs.c:839 xargs/xargs.c:932
+#: xargs/xargs.c:846 xargs/xargs.c:939
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1213,15 +1242,15 @@ msgstr ""
 "uafbalanceret citationstegn %s; som standard er citationstegn specielle for "
 "xargs medmindre du bruger tilvalget -0"
 
-#: xargs/xargs.c:840 xargs/xargs.c:933
+#: xargs/xargs.c:847 xargs/xargs.c:940
 msgid "double"
 msgstr "dobbelt"
 
-#: xargs/xargs.c:840 xargs/xargs.c:933
+#: xargs/xargs.c:847 xargs/xargs.c:940
 msgid "single"
 msgstr "enkelt"
 
-#: xargs/xargs.c:952
+#: xargs/xargs.c:959
 #, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1230,41 +1259,41 @@ msgstr ""
 "ADVARSEL: Der var et NUL-tegn i inddata.  Dette kan ikke videregives gennem "
 "parameterlisten.  Ønskede du at bruge tilvalget --null?"
 
-#: xargs/xargs.c:962 xargs/xargs.c:1019
+#: xargs/xargs.c:969 xargs/xargs.c:1034
 #, c-format
 msgid "argument line too long"
 msgstr "parameterlinje for lang"
 
-#: xargs/xargs.c:1047
+#: xargs/xargs.c:1062
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "kunne ikke åbne /dev/tty til læsning"
 
-#: xargs/xargs.c:1090
+#: xargs/xargs.c:1105
 #, c-format
 msgid "unable to allocate memory"
 msgstr ""
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1120
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:1191
+#: xargs/xargs.c:1207
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "kunne ikke oprette dataledning (pipe) før fork"
 
-#: xargs/xargs.c:1260
-#, c-format
+#: xargs/xargs.c:1278
+#, fuzzy, c-format
 msgid ""
-"errno-buffer read failed in xargs_do_exec (this is probably a bug, please "
-"report it)"
+"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
+"please report it)"
 msgstr ""
 "læsning af errno-buffer mislykkedes i xargs_do_exec (dette er sandsynligvis "
 "en programfejl, indrapportér den venligst)"
 
-#: xargs/xargs.c:1313
+#: xargs/xargs.c:1331
 #, c-format
 msgid ""
 "read returned unexpected value %d; this is probably a bug, please report it"
@@ -1272,98 +1301,184 @@ msgstr ""
 "read returnerede den uventede værdi %d; dette er sandsynligvis en "
 "programfejl, indrapportér den venligst"
 
-#: xargs/xargs.c:1406
+#: xargs/xargs.c:1424
 #, c-format
 msgid "error waiting for child process"
 msgstr "fejl i forbindelse med at vente på afkomproces"
 
-#: xargs/xargs.c:1439
+#: xargs/xargs.c:1457
 #, fuzzy, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "ADVARSEL: Kunne ikke holde rede på %d underprocesser"
 
-#: xargs/xargs.c:1458
+#: xargs/xargs.c:1476
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: stoppede med status 255; afbryder"
 
-#: xargs/xargs.c:1461
+#: xargs/xargs.c:1479
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: standset af signal %d"
 
-#: xargs/xargs.c:1464
+#: xargs/xargs.c:1482
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: afsluttet af signal %d"
 
 # omvendt ordstilling for at undgå sammensætningsproblem
-#: xargs/xargs.c:1548
+#: xargs/xargs.c:1566
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: ugyldig værdi til tilvalget -%c\n"
 
-#: xargs/xargs.c:1555
+#: xargs/xargs.c:1573
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: Værdien for tilvalget -%c skal være >= %ld\n"
 
-#: xargs/xargs.c:1569
+#: xargs/xargs.c:1587
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: Værdien for tilvalget -%c skal være < %ld\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1606
 #, c-format
-msgid ""
-"Usage: %s [OPTION]... COMMAND INITIAL-ARGS...\n"
-"Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
+msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr ""
 
-#: xargs/xargs.c:1591
-#, c-format
+#: xargs/xargs.c:1611
 msgid ""
+"Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
-"Mandatory arguments to long options are mandatory for short options too.\n"
-"Non-mandatory arguments are indicated by [square brackets]\n"
-"  -0, --null                   Items are separated by a null, not "
-"whitespace.\n"
-"                               Disables quote and backslash processing\n"
-"  -a, --arg-file=FILE          Read arguments from FILE, not standard input\n"
-"  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, not "
-"by\n"
-"                               blank space. Disables quote and backslash\n"
-"                               processing\n"
-"  -E END                       If END occurs as a line of input, the rest "
-"of\n"
-"                               the input is ignored.\n"
-"  -e [END], --eof[=END]        Equivalent to -E END if END is specified.\n"
-"                               Otherwise, there is no end-of-file string\n"
-"  --help                       Print a summary of the options to xargs.\n"
-"  -I R                         same as --replace=R (R must be specified)\n"
-"  -i,--replace=[R]             Replace R in initial arguments with names\n"
-"                               read from standard input. If R is\n"
-"                               unspecified, assume {}\n"
-"  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines "
-"per\n"
-"                               command line\n"
-"  -l                           Use at most one nonblank input line per\n"
-"                               command line\n"
-"  -n, --max-args=MAX-ARGS      Use at most MAX-ARGS arguments per command\n"
-"                               line\n"
-"  -P, --max-procs=MAX-PROCS    Run up to max-procs processes at a time\n"
-"  -p, --interactive            Prompt before running commands\n"
-"  --process-slot-var=VAR       Set environment variable VAR in child\n"
-"                               processes\n"
-"  -r, --no-run-if-empty        If there are no arguments, run no command.\n"
-"                               If this option is not given, COMMAND will be\n"
-"                               run at least once.\n"
-"  -s, --max-chars=MAX-CHARS    Limit commands to MAX-CHARS at most\n"
-"  --show-limits                Show limits on command-line length.\n"
-"  -t, --verbose                Print commands before executing them\n"
-"  --version                    Print the version number\n"
-"  -x, --exit                   Exit if the size (see -s) is exceeded\n"
 msgstr ""
+
+#: xargs/xargs.c:1613
+msgid ""
+"Mandatory and optional arguments to long options are also\n"
+"mandatory or optional for the corresponding short option.\n"
+msgstr ""
+
+#: xargs/xargs.c:1615
+msgid ""
+"  -0, --null                   items are separated by a null, not "
+"whitespace;\n"
+"                                 disables quote and backslash processing "
+"and\n"
+"                                 logical EOF processing.\n"
+msgstr ""
+
+#: xargs/xargs.c:1618
+msgid ""
+"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+msgstr ""
+
+#: xargs/xargs.c:1619
+msgid ""
+"  -d, --delimiter=CHARACTER    items in input stream are separated by "
+"CHARACTER,\n"
+"                                 not by whitespace; disables quote and "
+"backslash\n"
+"                                 processing and logical EOF processing\n"
+msgstr ""
+
+#: xargs/xargs.c:1622
+msgid ""
+"  -E END                       Set logical EOF string; if END occurs as a "
+"line\n"
+"                                 of input, the rest of the input is ignored\n"
+"                                 (ignored if -0 or -d was specified)\n"
+msgstr ""
+
+#: xargs/xargs.c:1625
+msgid ""
+"  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
+"                                 otherwise, there is no end-of-file string\n"
+msgstr ""
+
+#: xargs/xargs.c:1627
+msgid "  -I R                         same as --replace=R\n"
+msgstr ""
+
+#: xargs/xargs.c:1628
+msgid ""
+"  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
+"                                 from standard input; if R is unspecified,\n"
+"                                 assume {}\n"
+msgstr ""
+
+#: xargs/xargs.c:1631
+msgid ""
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
+"per\n"
+"                                 command line\n"
+msgstr ""
+
+#: xargs/xargs.c:1633
+msgid ""
+"  -l[MAX-LINES]                similar to -L but defaults to at most one "
+"non-\n"
+"                                 blank input line if MAX-LINES is not "
+"specified\n"
+msgstr ""
+
+#: xargs/xargs.c:1635
+msgid ""
+"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
+"line\n"
+msgstr ""
+
+#: xargs/xargs.c:1636
+msgid ""
+"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgstr ""
+
+#: xargs/xargs.c:1637
+msgid "  -p, --interactive            prompt before running commands\n"
+msgstr ""
+
+#: xargs/xargs.c:1638
+msgid ""
+"      --process-slot-var=VAR   set environment variable VAR in child "
+"processes\n"
+msgstr ""
+
+#: xargs/xargs.c:1639
+msgid ""
+"  -r, --no-run-if-empty        if there are no arguments, then do not run "
+"COMMAND;\n"
+"                                 if this option is not given, COMMAND will "
+"be\n"
+"                                 run at least once\n"
+msgstr ""
+
+#: xargs/xargs.c:1642
+msgid ""
+"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+msgstr ""
+
+#: xargs/xargs.c:1643
+msgid "      --show-limits            show limits on command-line length\n"
+msgstr ""
+
+#: xargs/xargs.c:1644
+msgid "  -t, --verbose                print commands before executing them\n"
+msgstr ""
+
+#: xargs/xargs.c:1645
+msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
+msgstr ""
+
+#: xargs/xargs.c:1647
+msgid "      --help                   display this help and exit\n"
+msgstr ""
+
+#: xargs/xargs.c:1648
+msgid "      --version                output version information and exit\n"
+msgstr ""
+
+#~ msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
+#~ msgstr "Tilstanden %s er ikke gyldig når POSIXLY_CORRECT er slået til."
 
 #~ msgid "Built using GNU gnulib version %s\n"
 #~ msgstr "Kompileret med GNU gnulib version %s\n"

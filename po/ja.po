@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2012-11-18 15:33+0000\n"
+"POT-Creation-Date: 2013-09-22 22:13+0100\n"
 "PO-Revision-Date: 2010-08-20 21:49+0900\n"
 "Last-Translator: Yasuaki Taniguchi <yasuakit@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -22,57 +22,57 @@ msgstr ""
 msgid "Failed to save working directory in order to run a command on %s"
 msgstr "%s の探索後に作業ディレクトリを復元できませんでした"
 
-#: find/exec.c:253
+#: find/exec.c:256
 #, c-format
 msgid "Cannot close standard input"
 msgstr "標準出力を閉じることができません"
 
-#: find/exec.c:282
+#: find/exec.c:285
 #, c-format
 msgid "Failed to change directory"
 msgstr "ディレクトリの変更に失敗しました"
 
-#: find/exec.c:309 xargs/xargs.c:1202
+#: find/exec.c:312 xargs/xargs.c:1218
 #, c-format
 msgid "cannot fork"
 msgstr "fork できません"
 
-#: find/exec.c:340
+#: find/exec.c:343
 #, c-format
 msgid "error waiting for %s"
 msgstr "%s を待機中にエラーが発生しました"
 
-#: find/exec.c:349
+#: find/exec.c:352
 #, c-format
 msgid "%s terminated by signal %d"
 msgstr "%s はシグナル %d で終了しました"
 
-#: find/find.c:191 find/ftsfind.c:667
+#: find/find.c:203 find/ftsfind.c:677
 #, c-format
 msgid "Failed initialise shared-file hash table"
 msgstr "共有ファイルハッシュテーブルの初期化に失敗しました"
 
-#: find/find.c:248
+#: find/find.c:260
 #, c-format
 msgid "cannot stat current directory"
 msgstr "カレントディレクトリの情報を取得 (stat) できません"
 
-#: find/find.c:339
+#: find/find.c:351
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "マウントされたデバイスの一覧を読み込めません。"
 
-#: find/find.c:428
+#: find/find.c:440
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "警告: ファイルシステム %s は最近アンマウントされました。"
 
-#: find/find.c:438
+#: find/find.c:450
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "警告: ファイルシステム %s は最近マウントされました。"
 
-#: find/find.c:534
+#: find/find.c:547
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -81,7 +81,7 @@ msgstr ""
 "%s%s は %s の実行中に変更されました (古いデバイス番号 %ld、新しいデバイス番"
 "号 %ld、ファイルシステムの種類 %s) [ref %ld]"
 
-#: find/find.c:571
+#: find/find.c:584
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -90,17 +90,17 @@ msgstr ""
 "%s%s は %s の実行中に変更されました (古い iノード番号 %<PRIuMAX>、新しい i"
 "ノード番号 %<PRIuMAX>、ファイルシステムの種類 %s) [ref %ld]"
 
-#: find/find.c:736
+#: find/find.c:749
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "親ディレクトリに戻ることができませんでした"
 
-#: find/find.c:1020
+#: find/find.c:1035
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "ディレクトリ %s に安全に移動できませんでした"
 
-#: find/find.c:1118 find/ftsfind.c:245
+#: find/find.c:1135 find/ftsfind.c:245
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -109,7 +109,7 @@ msgstr ""
 "シンボリックリンク %s がディレクトリ階層内でループしています。シンボリックリ"
 "ンクが指している先のディレクトリは既に移動したことがあります。"
 
-#: find/find.c:1137
+#: find/find.c:1154
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -121,12 +121,12 @@ msgstr[0] ""
 "ファイルシステムのループが検出されました。%s はファイルシステム内の %d 階層上"
 "ディレクトリと同じデバイス番号および iノード番号です。"
 
-#: find/find.c:1381
+#: find/find.c:1406
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "警告: シンボリックリンク %s をたどれません"
 
-#: find/find.c:1452
+#: find/find.c:1477
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -167,7 +167,7 @@ msgstr "警告: ファイル %s のモードが 0000 になっています"
 msgid "cannot search %s"
 msgstr "%s を探索できません"
 
-#: find/ftsfind.c:599
+#: find/ftsfind.c:609
 #, c-format
 msgid "failed to restore working directory after searching %s"
 msgstr "%s の探索後に作業ディレクトリを復元できませんでした"
@@ -276,8 +276,9 @@ msgstr ""
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 
 #: find/parser.c:1239
+#, fuzzy
 msgid ""
-"      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n"
+"      -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]"
@@ -365,17 +366,12 @@ msgstr "ファイル %s の生成日を取得できません"
 msgid "warning: -%s %s will not match anything because it ends with /."
 msgstr "警告: -%s %s は / で終了しているため何に対しても一致しません。"
 
-#: find/parser.c:1951
-#, c-format
-msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
-msgstr "POSIXLY_CORRECT が有効な時には %s は無効です。"
-
-#: find/parser.c:2034
+#: find/parser.c:1992
 #, c-format
 msgid "invalid mode %s"
 msgstr "無効なモードです: %s"
 
-#: find/parser.c:2053
+#: find/parser.c:2010
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -386,22 +382,22 @@ msgstr ""
 "perm /000 の意味は -perm -000 との一貫性を保つために変更されています。過去に"
 "はどのファイルにも一致しませんでしたが、今は全てのファイルに一致します。"
 
-#: find/parser.c:2273
+#: find/parser.c:2210
 #, c-format
 msgid "invalid null argument to -size"
 msgstr "-size に対する無効な空の引数です"
 
-#: find/parser.c:2323
+#: find/parser.c:2260
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "無効な -size タイプ `%c' です"
 
-#: find/parser.c:2333
+#: find/parser.c:2270
 #, fuzzy, c-format
 msgid "Invalid argument `%s%s' to -size"
 msgstr "`%s%c' は -size に対する無効な引数です"
 
-#: find/parser.c:2515
+#: find/parser.c:2452
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -409,42 +405,70 @@ msgstr ""
 "-show-control-chars オプションは引数を一つだけ指定し、'literal' または "
 "'safe' でなければいけません"
 
-#: find/parser.c:2629
+#: find/parser.c:2566
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "%s は -used に対する無効な引数です"
 
-#: find/parser.c:2670
+#: find/parser.c:2607
 #, c-format
 msgid "%s is not the name of a known user"
 msgstr "%s は存在しているユーザ名ではありません"
 
-#: find/parser.c:2677
+#: find/parser.c:2614
 #, c-format
 msgid "The argument to -user should not be empty"
 msgstr "-user の引数は空であってはいけません"
 
-#: find/parser.c:2702
+#: find/parser.c:2639
 #, c-format
 msgid "Features enabled: "
 msgstr "有効になっている機能: "
 
-#: find/parser.c:2779
+#: find/parser.c:2716
 #, c-format
 msgid "invalid predicate -context: SELinux is not enabled."
 msgstr "-context は無効な述語です: SELinux が有効ではありません。"
 
-#: find/parser.c:2843
+#: find/parser.c:2780
 #, c-format
 msgid "Arguments to -type should contain only one letter"
 msgstr "-type の引数は単一の文字のみ含むことができます"
 
-#: find/parser.c:2892
+#: find/parser.c:2809
+#, c-format
+msgid ""
+"-type %c is not supported because symbolic links are not supported on the "
+"platform find was compiled on."
+msgstr ""
+
+#: find/parser.c:2820
+#, c-format
+msgid ""
+"-type %c is not supported because FIFOs are not supported on the platform "
+"find was compiled on."
+msgstr ""
+
+#: find/parser.c:2831
+#, c-format
+msgid ""
+"-type %c is not supported because named sockets are not supported on the "
+"platform find was compiled on."
+msgstr ""
+
+#: find/parser.c:2842
+#, c-format
+msgid ""
+"-type %c is not supported because Solaris doors are not supported on the "
+"platform find was compiled on."
+msgstr ""
+
+#: find/parser.c:2849
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "-type に対する不明な引数です: %c"
 
-#: find/parser.c:2966
+#: find/parser.c:2923
 #, fuzzy, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -456,7 +480,7 @@ msgstr ""
 "組み合わせて使用すると安全ではありません。カレントディレクトリを $PATH から削"
 "除してください (\".\" または先頭、最後にある \":\" を削除します)。"
 
-#: find/parser.c:2978
+#: find/parser.c:2935
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -466,7 +490,7 @@ msgstr ""
 "PATH 環境変数に相対パス %s が含まれています。これは %s アクションと組み合わせ"
 "て使用すると安全ではありません。 $PATH から要素を削除してください。"
 
-#: find/parser.c:3087
+#: find/parser.c:3044
 #, c-format
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
@@ -475,36 +499,36 @@ msgstr ""
 "-execdir および -okdir のユーティリティ名の中で {} を使用しないでください。潜"
 "在的なセキュリティの問題を引き起こします。"
 
-#: find/parser.c:3113
+#: find/parser.c:3070
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "-exec%s ... + ではただ一つの {} インスタンスのみサポートされます"
 
-#: find/parser.c:3123
+#: find/parser.c:3080
 #, c-format
 msgid "In %s the %s must appear by itself, but you specified %s"
 msgstr ""
 
-#: find/parser.c:3143
+#: find/parser.c:3100
 #, c-format
 msgid "The environment is too large for exec()."
 msgstr "exec () を実行するには環境変数が大きすぎます"
 
-#: find/parser.c:3312
+#: find/parser.c:3269
 #, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
 msgstr "%s日を秒数に変換中に計算オーバーフローが発生しました"
 
-#: find/parser.c:3336
+#: find/parser.c:3293
 #, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr "本日の終了時間を計算中に計算オーバーフローが発生しました"
 
-#: find/parser.c:3495
+#: find/parser.c:3452
 msgid "standard error"
 msgstr "標準エラー出力"
 
-#: find/parser.c:3500
+#: find/parser.c:3457
 msgid "standard output"
 msgstr "標準出力"
 
@@ -797,8 +821,8 @@ msgstr ""
 "使用法: %s [--version | --help]\n"
 "または  %s most_common_bigrams < file-list > locate-database\n"
 
-#: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1404
-#: xargs/xargs.c:1628
+#: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
+#: xargs/xargs.c:1649
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -841,49 +865,49 @@ msgstr "slocate セキュリティレベル %ld はサポートされていま�
 msgid "Failed to write to standard output"
 msgstr "標準出力への書き込みに失敗しました"
 
-#: locate/locate.c:141
+#: locate/locate.c:139
 msgid "days"
 msgstr "日"
 
-#: locate/locate.c:188
+#: locate/locate.c:186
 #, c-format
 msgid "The argument for option --max-database-age must not be empty"
 msgstr "--max-database-age オプションは引数を指定しなければいけません"
 
-#: locate/locate.c:204 locate/locate.c:211
+#: locate/locate.c:202 locate/locate.c:209
 #, c-format
 msgid "Invalid argument %s for option --max-database-age"
 msgstr "オプション --max-database-age に対する無効な引数です: %s"
 
-#: locate/locate.c:463
+#: locate/locate.c:459
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "locate データベース %s には locate が取り扱うことができる長さを超えるファイル"
 "名が含まれています"
 
-#: locate/locate.c:598
+#: locate/locate.c:569 locate/locate.c:588
 #, c-format
 msgid "locate database %s is corrupt or invalid"
 msgstr "locate データベース %s が壊れているか、無効です"
 
-#: locate/locate.c:888
+#: locate/locate.c:860
 #, c-format
 msgid "Locate database size: %s byte\n"
 msgid_plural "Locate database size: %s bytes\n"
 msgstr[0] "Locate データベースの大きさ: %s バイト\n"
 
-#: locate/locate.c:895
+#: locate/locate.c:867
 #, c-format
 msgid "Matching Filenames: %s\n"
 msgstr "一致したファイル名: %s\n"
 
-#: locate/locate.c:896
+#: locate/locate.c:868
 #, c-format
 msgid "All Filenames: %s\n"
 msgstr "全てのファイル名: %s\n"
 
-#: locate/locate.c:902
+#: locate/locate.c:874
 #, c-format
 msgid ""
 "File names have a cumulative length of %s bytes.\n"
@@ -900,7 +924,7 @@ msgstr ""
 "\t%s は改行文字を含み、\n"
 "\tおよび %s 最上位ビットが立っている文字を含みます。\n"
 
-#: locate/locate.c:916
+#: locate/locate.c:888
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
@@ -909,17 +933,17 @@ msgstr ""
 "いくつかのファイル名がフィルタによって取り除かれたため、圧縮率を計算すること"
 "ができません。\n"
 
-#: locate/locate.c:929
+#: locate/locate.c:901
 #, c-format
 msgid "Compression ratio %4.2f%% (higher is better)\n"
 msgstr "圧縮率 %4.2f%% (高いほど良い)\n"
 
-#: locate/locate.c:936
+#: locate/locate.c:908
 #, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "圧縮率が定義されていません\n"
 
-#: locate/locate.c:991
+#: locate/locate.c:963
 #, c-format
 msgid ""
 "locate database %s looks like an slocate database but it seems to have "
@@ -928,7 +952,7 @@ msgstr ""
 "locate データベース %s は slocate データベースであり、そのセキュリティレベル"
 "は %c です。これは GNU findutils ではサポートされていません。"
 
-#: locate/locate.c:1104
+#: locate/locate.c:1075
 #, c-format
 msgid ""
 "%s is an slocate database.  Support for these is new, expect problems for "
@@ -937,14 +961,14 @@ msgstr ""
 "%s は slocate データベースです。これに対するサポートは新しく、現在は問題があ"
 "るかもしれません。"
 
-#: locate/locate.c:1118
+#: locate/locate.c:1089
 #, c-format
 msgid ""
 "%s is an slocate database of unsupported security level %d; skipping it."
 msgstr ""
 "%s は slocate データベースでセキュリティレベルは %d です。スキップします。"
 
-#: locate/locate.c:1135
+#: locate/locate.c:1106
 #, c-format
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
@@ -955,37 +979,37 @@ msgstr ""
 "ベルが 0 でないの場合には使用できません。このデーターベースに対する結果は生成"
 "されません。\n"
 
-#: locate/locate.c:1146
+#: locate/locate.c:1117
 #, c-format
 msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr "%s は slocate データベースです。 '-e' を有効にしてください。"
 
-#: locate/locate.c:1184
+#: locate/locate.c:1155
 #, c-format
 msgid "Old-format locate database %s is too short to be valid"
 msgstr "古い形式の locate データベース %s は短すぎるため有効ではありません"
 
-#: locate/locate.c:1336
+#: locate/locate.c:1307
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "データベース %s は %s 形式です。\n"
 
-#: locate/locate.c:1357
+#: locate/locate.c:1334
 msgid "The database has little-endian machine-word encoding.\n"
 msgstr ""
 "データベースは WORD をリトルエンディアンで扱う計算機用エンコードです。\n"
 
-#: locate/locate.c:1359
+#: locate/locate.c:1336
 msgid "The database has big-endian machine-word encoding.\n"
 msgstr ""
 "データベースは WORD をビッグエンディアンで扱う計算機用エンコードです。\n"
 
-#: locate/locate.c:1372
+#: locate/locate.c:1349
 #, c-format
 msgid "The database machine-word encoding order is not obvious.\n"
 msgstr "データベースのエンディアンが明確ではありません。\n"
 
-#: locate/locate.c:1395
+#: locate/locate.c:1372
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -1004,33 +1028,33 @@ msgstr ""
 "      [--max-database-age D] [--version] [--help]\n"
 "      pattern...\n"
 
-#: locate/locate.c:1458
+#: locate/locate.c:1435
 msgid "failed to drop group privileges"
 msgstr "グループ権限を取り除くことに失敗しました"
 
-#: locate/locate.c:1476
+#: locate/locate.c:1453
 msgid "failed to drop setuid privileges"
 msgstr "setuid 権限を取り除くことに失敗しました"
 
-#: locate/locate.c:1490
+#: locate/locate.c:1467
 msgid "Failed to fully drop privileges"
 msgstr "権限を完全に取り除くことに失敗しました"
 
-#: locate/locate.c:1508
+#: locate/locate.c:1485
 msgid "failed to drop setgid privileges"
 msgstr "setgid 権限を取り除くことに失敗しました"
 
-#: locate/locate.c:1776
+#: locate/locate.c:1761
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "警告: locate データベースは標準入力からは1個しか読み込めません。"
 
-#: locate/locate.c:1846
+#: locate/locate.c:1831
 #, c-format
 msgid "time system call failed"
 msgstr "time システムコールに失敗しました"
 
-#: locate/locate.c:1857
+#: locate/locate.c:1842
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "警告: データベース %s は %d %s より古いです (実際の古さは %.1f %s)"
@@ -1052,12 +1076,12 @@ msgstr "%s 内で予期しないファイル終端 (EOF) です"
 msgid "error reading a word from %s"
 msgstr "%s からの単語読み取り中にエラーが発生しました"
 
-#: xargs/xargs.c:251
+#: xargs/xargs.c:252
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "無効なエスケープ文字列 %s が入力区切り文字指定内にあります。"
 
-#: xargs/xargs.c:269
+#: xargs/xargs.c:270
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1066,7 +1090,7 @@ msgstr ""
 "無効なエスケープ文字列 %s が入力区切り文字指定内にあります。文字は %lx を超え"
 "てはいけません。"
 
-#: xargs/xargs.c:275
+#: xargs/xargs.c:276
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1075,7 +1099,7 @@ msgstr ""
 "無効なエスケープ文字列 %s が入力区切り文字指定内にあります。文字は %lo を超え"
 "てはいけません。"
 
-#: xargs/xargs.c:284
+#: xargs/xargs.c:285
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -1084,7 +1108,7 @@ msgstr ""
 "無効なエスケープ文字列 %s が入力区切り文字指定内にあります。後に続く文字 %s "
 "が認識できません。"
 
-#: xargs/xargs.c:329
+#: xargs/xargs.c:330
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -1093,71 +1117,76 @@ msgstr ""
 "無効なエスケープ文字列 %s が入力区切り文字指定内にあります。区切り文字は単一"
 "の文字か \\ で始まるエスケープ文字列でなければいけません。"
 
-#: xargs/xargs.c:346
+#: xargs/xargs.c:347
 #, c-format
 msgid "environment is too large for exec"
 msgstr "実行するには環境が大きすぎます"
 
-#: xargs/xargs.c:555
+#: xargs/xargs.c:556
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "警告: -s  オプションに対する値 %ld が大きすぎます。 %ld を代わりに使用してい"
 "ます"
 
-#: xargs/xargs.c:602
+#: xargs/xargs.c:603
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr ""
 
-#: xargs/xargs.c:614
+#: xargs/xargs.c:615
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:644
+#: xargs/xargs.c:629
+#, c-format
+msgid "warning: the -E option has no effect if -0 or -d is used.\n"
+msgstr ""
+
+#: xargs/xargs.c:651
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:650
+#: xargs/xargs.c:657
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:666
+#: xargs/xargs.c:673
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "入力ファイル %s を開けません"
 
-#: xargs/xargs.c:685
+#: xargs/xargs.c:692
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "環境変数が %<PRIuMAX> バイトを占めます\n"
 
-#: xargs/xargs.c:688
+#: xargs/xargs.c:695
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "POSIX の引数の長さ上限 (このシステム): %<PRIuMAX>\n"
 
-#: xargs/xargs.c:691
+#: xargs/xargs.c:698
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): "
 "%<PRIuMAX>\n"
 msgstr "POSIX の最小の引数の長さの上限 (すべてのシステム): %<PRIuMAX>\n"
 
-#: xargs/xargs.c:694
+#: xargs/xargs.c:701
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "実際に使用できるコマンド長の最大値: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:697
+#: xargs/xargs.c:704
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "実際に使用しているコマンドバッファの大きさ: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:703
+#: xargs/xargs.c:710
 #, c-format
 msgid ""
 "\n"
@@ -1170,7 +1199,7 @@ msgstr ""
 "込もうと試みています。もしこれを望んでいないなら、ファイル終端 (EOF) のキー入"
 "力を行ってください。\n"
 
-#: xargs/xargs.c:711
+#: xargs/xargs.c:718
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1179,7 +1208,7 @@ msgstr ""
 "警告: %s は最低1回は実行されます。もしこれを望んでいないなら、割り込みのキー"
 "入力を行ってください。\n"
 
-#: xargs/xargs.c:839 xargs/xargs.c:932
+#: xargs/xargs.c:846 xargs/xargs.c:939
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1188,15 +1217,15 @@ msgstr ""
 "%sクオートが一致しません。デフォルトでは -O オプションを指定しない限り xargs "
 "でクォートは特別な意味を持ちます"
 
-#: xargs/xargs.c:840 xargs/xargs.c:933
+#: xargs/xargs.c:847 xargs/xargs.c:940
 msgid "double"
 msgstr "ダブル"
 
-#: xargs/xargs.c:840 xargs/xargs.c:933
+#: xargs/xargs.c:847 xargs/xargs.c:940
 msgid "single"
 msgstr "シングル"
 
-#: xargs/xargs.c:952
+#: xargs/xargs.c:959
 #, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1205,138 +1234,224 @@ msgstr ""
 "警告: NUL 文字が入力にあります。これは引数のリストとして渡すことができませ"
 "ん。 --null オプションを使おうとしているのですか?"
 
-#: xargs/xargs.c:962 xargs/xargs.c:1019
+#: xargs/xargs.c:969 xargs/xargs.c:1034
 #, c-format
 msgid "argument line too long"
 msgstr "引数行が長すぎます"
 
-#: xargs/xargs.c:1047
+#: xargs/xargs.c:1062
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "/dev/tty を読み込むために開けませんでした"
 
-#: xargs/xargs.c:1090
+#: xargs/xargs.c:1105
 #, c-format
 msgid "unable to allocate memory"
 msgstr ""
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1120
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:1191
+#: xargs/xargs.c:1207
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "fork の前にパイプを作成できませんでした"
 
-#: xargs/xargs.c:1260
-#, c-format
+#: xargs/xargs.c:1278
+#, fuzzy, c-format
 msgid ""
-"errno-buffer read failed in xargs_do_exec (this is probably a bug, please "
-"report it)"
+"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
+"please report it)"
 msgstr ""
 "xargs_do_exec 内で errno-buffer の読み込みに失敗しました (これは多分バグで"
 "す。報告してください)"
 
-#: xargs/xargs.c:1313
+#: xargs/xargs.c:1331
 #, c-format
 msgid ""
 "read returned unexpected value %d; this is probably a bug, please report it"
 msgstr ""
 "read が予期しない値 %d を返しました。これは多分バグです。報告してください"
 
-#: xargs/xargs.c:1406
+#: xargs/xargs.c:1424
 #, c-format
 msgid "error waiting for child process"
 msgstr "子プロセスを待機中にエラーが発生しました"
 
-#: xargs/xargs.c:1439
+#: xargs/xargs.c:1457
 #, fuzzy, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "警告: %d 個の子プロセスの追跡が失われました"
 
-#: xargs/xargs.c:1458
+#: xargs/xargs.c:1476
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: 終了ステータス 255。中止しています"
 
-#: xargs/xargs.c:1461
+#: xargs/xargs.c:1479
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: シグナル %d によって停止しました"
 
-#: xargs/xargs.c:1464
+#: xargs/xargs.c:1482
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: シグナル %d によって終了しました"
 
-#: xargs/xargs.c:1548
+#: xargs/xargs.c:1566
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c オプションに対する不正な番号\n"
 
-#: xargs/xargs.c:1555
+#: xargs/xargs.c:1573
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c オプションに対する値は %ld 以上でなければいけません\n"
 
-#: xargs/xargs.c:1569
+#: xargs/xargs.c:1587
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c オプションに対する値は %ld 未満でなければいけません\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1606
 #, c-format
-msgid ""
-"Usage: %s [OPTION]... COMMAND INITIAL-ARGS...\n"
-"Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
+msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr ""
 
-#: xargs/xargs.c:1591
-#, c-format
+#: xargs/xargs.c:1611
 msgid ""
+"Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
-"Mandatory arguments to long options are mandatory for short options too.\n"
-"Non-mandatory arguments are indicated by [square brackets]\n"
-"  -0, --null                   Items are separated by a null, not "
-"whitespace.\n"
-"                               Disables quote and backslash processing\n"
-"  -a, --arg-file=FILE          Read arguments from FILE, not standard input\n"
-"  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, not "
-"by\n"
-"                               blank space. Disables quote and backslash\n"
-"                               processing\n"
-"  -E END                       If END occurs as a line of input, the rest "
-"of\n"
-"                               the input is ignored.\n"
-"  -e [END], --eof[=END]        Equivalent to -E END if END is specified.\n"
-"                               Otherwise, there is no end-of-file string\n"
-"  --help                       Print a summary of the options to xargs.\n"
-"  -I R                         same as --replace=R (R must be specified)\n"
-"  -i,--replace=[R]             Replace R in initial arguments with names\n"
-"                               read from standard input. If R is\n"
-"                               unspecified, assume {}\n"
-"  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines "
-"per\n"
-"                               command line\n"
-"  -l                           Use at most one nonblank input line per\n"
-"                               command line\n"
-"  -n, --max-args=MAX-ARGS      Use at most MAX-ARGS arguments per command\n"
-"                               line\n"
-"  -P, --max-procs=MAX-PROCS    Run up to max-procs processes at a time\n"
-"  -p, --interactive            Prompt before running commands\n"
-"  --process-slot-var=VAR       Set environment variable VAR in child\n"
-"                               processes\n"
-"  -r, --no-run-if-empty        If there are no arguments, run no command.\n"
-"                               If this option is not given, COMMAND will be\n"
-"                               run at least once.\n"
-"  -s, --max-chars=MAX-CHARS    Limit commands to MAX-CHARS at most\n"
-"  --show-limits                Show limits on command-line length.\n"
-"  -t, --verbose                Print commands before executing them\n"
-"  --version                    Print the version number\n"
-"  -x, --exit                   Exit if the size (see -s) is exceeded\n"
 msgstr ""
+
+#: xargs/xargs.c:1613
+msgid ""
+"Mandatory and optional arguments to long options are also\n"
+"mandatory or optional for the corresponding short option.\n"
+msgstr ""
+
+#: xargs/xargs.c:1615
+msgid ""
+"  -0, --null                   items are separated by a null, not "
+"whitespace;\n"
+"                                 disables quote and backslash processing "
+"and\n"
+"                                 logical EOF processing.\n"
+msgstr ""
+
+#: xargs/xargs.c:1618
+msgid ""
+"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+msgstr ""
+
+#: xargs/xargs.c:1619
+msgid ""
+"  -d, --delimiter=CHARACTER    items in input stream are separated by "
+"CHARACTER,\n"
+"                                 not by whitespace; disables quote and "
+"backslash\n"
+"                                 processing and logical EOF processing\n"
+msgstr ""
+
+#: xargs/xargs.c:1622
+msgid ""
+"  -E END                       Set logical EOF string; if END occurs as a "
+"line\n"
+"                                 of input, the rest of the input is ignored\n"
+"                                 (ignored if -0 or -d was specified)\n"
+msgstr ""
+
+#: xargs/xargs.c:1625
+msgid ""
+"  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
+"                                 otherwise, there is no end-of-file string\n"
+msgstr ""
+
+#: xargs/xargs.c:1627
+msgid "  -I R                         same as --replace=R\n"
+msgstr ""
+
+#: xargs/xargs.c:1628
+msgid ""
+"  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
+"                                 from standard input; if R is unspecified,\n"
+"                                 assume {}\n"
+msgstr ""
+
+#: xargs/xargs.c:1631
+msgid ""
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
+"per\n"
+"                                 command line\n"
+msgstr ""
+
+#: xargs/xargs.c:1633
+msgid ""
+"  -l[MAX-LINES]                similar to -L but defaults to at most one "
+"non-\n"
+"                                 blank input line if MAX-LINES is not "
+"specified\n"
+msgstr ""
+
+#: xargs/xargs.c:1635
+msgid ""
+"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
+"line\n"
+msgstr ""
+
+#: xargs/xargs.c:1636
+msgid ""
+"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgstr ""
+
+#: xargs/xargs.c:1637
+msgid "  -p, --interactive            prompt before running commands\n"
+msgstr ""
+
+#: xargs/xargs.c:1638
+msgid ""
+"      --process-slot-var=VAR   set environment variable VAR in child "
+"processes\n"
+msgstr ""
+
+#: xargs/xargs.c:1639
+msgid ""
+"  -r, --no-run-if-empty        if there are no arguments, then do not run "
+"COMMAND;\n"
+"                                 if this option is not given, COMMAND will "
+"be\n"
+"                                 run at least once\n"
+msgstr ""
+
+#: xargs/xargs.c:1642
+msgid ""
+"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+msgstr ""
+
+#: xargs/xargs.c:1643
+msgid "      --show-limits            show limits on command-line length\n"
+msgstr ""
+
+#: xargs/xargs.c:1644
+msgid "  -t, --verbose                print commands before executing them\n"
+msgstr ""
+
+#: xargs/xargs.c:1645
+msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
+msgstr ""
+
+#: xargs/xargs.c:1647
+msgid "      --help                   display this help and exit\n"
+msgstr ""
+
+#: xargs/xargs.c:1648
+msgid "      --version                output version information and exit\n"
+msgstr ""
+
+#~ msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
+#~ msgstr "POSIXLY_CORRECT が有効な時には %s は無効です。"
 
 #~ msgid "Built using GNU gnulib version %s\n"
 #~ msgstr "Built using GNU gnulib version %s\n"
