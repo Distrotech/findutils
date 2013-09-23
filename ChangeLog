@@ -1,5 +1,10 @@
 2013-09-23  James Youngman  <jay@gnu.org>
 
+	Fix bug #39162: -printf reads beyond arguments terminated by \
+	* find/print.c (insert_fprintf): If a \ is found at the end of a
+	format string, issue a warning (and render it as-is).
+	* NEWS: Mention this bugfix.
+
 	Update version number to 4.5.13-git.
 	* configure.ac: Update version number to 4.5.13-git.
 	* NEWS: Likewise.

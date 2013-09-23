@@ -341,7 +341,13 @@ insert_fprintf (struct format_val *vec,
       else if (*fmt_editpos == '\\')
 	{
 	  size_t readpos = 1;
-	  if (is_octal_char(fmt_editpos[readpos]))
+	  if (!fmt_editpos[readpos])
+	    {
+	      error (0, 0, _("warning: escape `\\' followed by nothing at all"));
+	      --readpos;
+	      /* (*fmt_editpos) is already '\\' and that's a reasonable result. */
+	    }
+	  else if (is_octal_char(fmt_editpos[readpos]))
 	    {
 	      size_t consumed = 0;
 	      *fmt_editpos = parse_octal_escape(fmt_editpos + readpos, &consumed);
