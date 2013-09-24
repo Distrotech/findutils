@@ -1614,12 +1614,12 @@ usage (FILE *stream)
          "mandatory or optional for the corresponding short option.\n"));
   HTL (_("  -0, --null                   items are separated by a null, not whitespace;\n"
          "                                 disables quote and backslash processing and\n"
-	 "                                 logical EOF processing.\n"));
+	 "                                 logical EOF processing\n"));
   HTL (_("  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"));
   HTL (_("  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
          "                                 not by whitespace; disables quote and backslash\n"
          "                                 processing and logical EOF processing\n"));
-  HTL (_("  -E END                       Set logical EOF string; if END occurs as a line\n"
+  HTL (_("  -E END                       set logical EOF string; if END occurs as a line\n"
 	 "                                 of input, the rest of the input is ignored\n"
 	 "                                 (ignored if -0 or -d was specified)\n"));
   HTL (_("  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
