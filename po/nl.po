@@ -12,10 +12,10 @@
 # Benno Schulenberg <benno@vertaalt.nl>, 2005, 2006, 2007, 2008, 2010, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils-4.5.11\n"
+"Project-Id-Version: findutils-4.5.12\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2013-09-22 22:13+0100\n"
-"PO-Revision-Date: 2013-02-03 20:17+0100\n"
+"PO-Revision-Date: 2013-09-24 11:24+0200\n"
 "Last-Translator: Benno Schulenberg <benno@vertaalt.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
@@ -82,9 +82,7 @@ msgstr "WAARSCHUWING: bestandssysteem %s is recent aangekoppeld."
 
 #: find/find.c:547
 #, c-format
-msgid ""
-"%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, file system type is %s) [ref %ld]"
+msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s is gewijzigd tijdens het uitvoeren van %s\n"
 "(oud apparaatnummer is %ld, nieuw apparaatnummer is %ld,\n"
@@ -92,9 +90,7 @@ msgstr ""
 
 #: find/find.c:584
 #, c-format
-msgid ""
-"%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
-"number %<PRIuMAX>, file system type is %s) [ref %ld]"
+msgid "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode number %<PRIuMAX>, file system type is %s) [ref %ld]"
 msgstr ""
 "%s%s is gewijzigd tijdens het uitvoeren van %s\n"
 "(oud inode-nummer is %<PRIuMAX>, nieuw inode-nummer is %<PRIuMAX>,\n"
@@ -112,21 +108,15 @@ msgstr "Het veilig wijzigen van de huidige map naar %s is mislukt"
 
 #: find/find.c:1135 find/ftsfind.c:245
 #, c-format
-msgid ""
-"Symbolic link %s is part of a loop in the directory hierarchy; we have "
-"already visited the directory to which it points."
+msgid "Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."
 msgstr ""
 "Symbolische koppeling %s is deel van een oneindige lus in\n"
 "de mappenhiërarchie: de map waarnaar de koppeling wijst is al bezocht."
 
 #: find/find.c:1154
 #, c-format
-msgid ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d level higher in the file system hierarchy"
-msgid_plural ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d levels higher in the file system hierarchy"
+msgid "Filesystem loop detected; %s has the same device number and inode as a directory which is %d level higher in the file system hierarchy"
+msgid_plural "Filesystem loop detected; %s has the same device number and inode as a directory which is %d levels higher in the file system hierarchy"
 msgstr[0] ""
 "Oneindige lus in bestandssysteem: %s heeft hetzelfde apparaatnummer\n"
 "en inode-nummer als een map %d niveau hoger in de mappenhiërarchie."
@@ -141,12 +131,7 @@ msgstr "waarschuwing: symbolische koppeling %s wordt niet gevolgd"
 
 #: find/find.c:1477
 #, c-format
-msgid ""
-"WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
-"we already saw %<PRIuMAX> subdirectories): this may be a bug in your file "
-"system driver.  Automatically turning on find's -noleaf option.  Earlier "
-"results may have failed to include directories that should have been "
-"searched."
+msgid "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but we already saw %<PRIuMAX> subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."
 msgstr ""
 "WAARSCHUWING: het aantal harde koppelingen voor %s is onjuist;\n"
 "volgens het bestandssysteem zijn er %<PRIuMAX> koppelingen naar deze map,\n"
@@ -166,11 +151,8 @@ msgstr "onbekend"
 
 #: find/ftsfind.c:259
 #, c-format
-msgid ""
-"File system loop detected; %s is part of the same file system loop as %s."
-msgstr ""
-"Oneindige lus in bestandssysteem: %s is onderdeel van dezelfde "
-"bestandssysteemlus als %s."
+msgid "File system loop detected; %s is part of the same file system loop as %s."
+msgstr "Oneindige lus in bestandssysteem: %s is onderdeel van dezelfde bestandssysteemlus als %s."
 
 #: find/ftsfind.c:444 find/util.c:218
 #, c-format
@@ -189,10 +171,7 @@ msgstr "kan werkmap niet herstellen na het doorzoeken van %s"
 
 #: find/parser.c:452
 #, c-format
-msgid ""
-"The -delete action automatically turns on -depth, but -prune does nothing "
-"when -depth is in effect.  If you want to carry on anyway, just explicitly "
-"use the -depth option."
+msgid "The -delete action automatically turns on -depth, but -prune does nothing when -depth is in effect.  If you want to carry on anyway, just explicitly use the -depth option."
 msgstr ""
 "De actie '-delete' schakelt automatisch '-depth' in,\n"
 "maar '-prune' doet niets als '-depth' ingeschakeld is.\n"
@@ -200,11 +179,7 @@ msgstr ""
 
 #: find/parser.c:599
 #, c-format
-msgid ""
-"warning: you have specified the %s option after a non-option argument %s, "
-"but options are not positional (%s affects tests specified before it as well "
-"as those specified after it).  Please specify options before other "
-"arguments.\n"
+msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
 msgstr ""
 "Waarschuwing: optie '%s' werd gegeven na het non-optie-argument '%s',\n"
 "maar opties zijn niet positioneel: '%s' beïnvloedt zowel voorgaande\n"
@@ -212,18 +187,14 @@ msgstr ""
 
 #: find/parser.c:906
 #, c-format
-msgid ""
-"warning: the -d option is deprecated; please use -depth instead, because the "
-"latter is a POSIX-compliant feature."
+msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
 msgstr ""
 "Waarschuwing: de optie '-d' wordt afgeraden;\n"
 "gebruik liever '-depth', want dat is een POSIX-optie."
 
 #: find/parser.c:1179
 #, c-format
-msgid ""
-"%s is not the name of an existing group and it does not look like a numeric "
-"group ID because it has the unexpected suffix %s"
+msgid "%s is not the name of an existing group and it does not look like a numeric group ID because it has the unexpected suffix %s"
 msgstr ""
 "%s is geen bestaande groepsnaam, en het lijkt niet op een numeriek ID\n"
 "vanwege het onverwachte achtervoegsel %s"
@@ -250,8 +221,7 @@ msgstr ""
 
 #: find/parser.c:1225
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are "
-"given):\n"
+"operators (decreasing precedence; -and is implicit where no others are given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
@@ -278,8 +248,7 @@ msgstr ""
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
-"PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 "Testen (N mag ook +N of -N zijn):  -amin N  -anewer BESTAND  -atime N\n"
@@ -289,14 +258,13 @@ msgstr ""
 "    -mmin N  -mtime N  -name PATROON  -newer BESTAND  -nouser  -nogroup"
 
 #: find/parser.c:1239
-#, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]"
 msgstr ""
-"    -path PATROON  -perm [+-]MODUS  -regex PATROON  -readable\n"
+"    -path PATROON  -perm [+/]MODUS  -regex PATROON  -readable\n"
 "    -writable  -executable  -size N[bcwkMG]  -true  -type [bcdpflsD]\n"
 "    -uid N  -used N  -user NAAM  -wholename PATROON  -xtype [bcdpfls]"
 
@@ -314,8 +282,7 @@ msgid ""
 msgstr ""
 "\n"
 "Acties:  -fprint BESTAND  -fprint0 BESTAND  -fprintf BESTAND OPMAAK\n"
-"    -exec COMMANDO ;  -exec COMMANDO {} +  -ok COMMANDO ;  -ls  -fls "
-"BESTAND\n"
+"    -exec COMMANDO ;  -exec COMMANDO {} +  -ok COMMANDO ;  -ls  -fls BESTAND\n"
 "    -execdir COMMANDO ;  -execdir COMMANDO {} +  -okdir COMMANDO ;\n"
 "    -print  -print0  -printf OPMAAK  -delete  -prune  -quit\n"
 
@@ -337,12 +304,7 @@ msgstr "de zinnigheidscontrole van de fnmatch()-systeemfunctie is mislukt"
 
 #: find/parser.c:1321
 #, c-format
-msgid ""
-"warning: Unix filenames usually don't contain slashes (though pathnames "
-"do).  That means that '%s %s' will probably evaluate to false all the time "
-"on this system.  You might find the '-wholename' test more useful, or "
-"perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
-"use 'find ... -print0 | grep -FzZ %s'."
+msgid "warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."
 msgstr ""
 "Waarschuwing: bestandsnamen bevatten gewoonlijk geen schuine strepen\n"
 "(padnamen wel); dit betekent dat '%s %s' op dit systeem waarschijnlijk\n"
@@ -360,9 +322,7 @@ msgstr ""
 #: find/parser.c:1612
 #, c-format
 msgid "This system does not provide a way to find the birth time of a file."
-msgstr ""
-"Dit systeem kent niet de mogelijkheid om de ontstaanstijd van een bestand te "
-"bepalen."
+msgstr "Dit systeem kent niet de mogelijkheid om de ontstaanstijd van een bestand te bepalen."
 
 #: find/parser.c:1633
 #, c-format
@@ -382,8 +342,7 @@ msgstr "Kan ontstaanstijd van bestand %s niet bepalen"
 #: find/parser.c:1895
 #, c-format
 msgid "warning: -%s %s will not match anything because it ends with /."
-msgstr ""
-"Waarschuwing: -%s %s zal met niets overeenkomen omdat het eindigt met /."
+msgstr "Waarschuwing: -%s %s zal met niets overeenkomen omdat het eindigt met /."
 
 #: find/parser.c:1992
 #, c-format
@@ -392,14 +351,10 @@ msgstr "ongeldige modus %s"
 
 #: find/parser.c:2010
 #, c-format
-msgid ""
-"warning: you have specified a mode pattern %s (which is equivalent to /000). "
-"The meaning of -perm /000 has now been changed to be consistent with -perm "
-"-000; that is, while it used to match no files, it now matches all files."
+msgid "warning: you have specified a mode pattern %s (which is equivalent to /000). The meaning of -perm /000 has now been changed to be consistent with -perm -000; that is, while it used to match no files, it now matches all files."
 msgstr ""
 "Waarschuwing: het opgegeven moduspatroon %s is gelijkwaardig aan /000.\n"
-"De betekenis van '-perm /000' is gelijkgemaakt aan die van '-perm -000'; "
-"dus\n"
+"De betekenis van '-perm /000' is gelijkgemaakt aan die van '-perm -000'; dus\n"
 "in plaats van met geen enkel bestand komt het nu overeen met alle bestanden."
 
 #: find/parser.c:2210
@@ -418,9 +373,7 @@ msgid "Invalid argument `%s%s' to -size"
 msgstr "Ongeldig argument '%s%s' van '-size'"
 
 #: find/parser.c:2452
-msgid ""
-"The -show-control-chars option takes a single argument which must be "
-"'literal' or 'safe'"
+msgid "The -show-control-chars option takes a single argument which must be 'literal' or 'safe'"
 msgstr ""
 "De optie '-show-control-chars' vereist als argument\n"
 "ofwel 'literal' (letterlijk) ofwel 'safe' (veilig)"
@@ -457,31 +410,23 @@ msgstr "Argument van '-type' dient slechts één letter te zijn"
 
 #: find/parser.c:2809
 #, c-format
-msgid ""
-"-type %c is not supported because symbolic links are not supported on the "
-"platform find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because symbolic links are not supported on the platform find was compiled on."
+msgstr "'-type %c' wordt niet ondersteund omdat symbolische koppelingen niet ondersteund worden op het platform waarop 'find' gecompileerd werd"
 
 #: find/parser.c:2820
 #, c-format
-msgid ""
-"-type %c is not supported because FIFOs are not supported on the platform "
-"find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because FIFOs are not supported on the platform find was compiled on."
+msgstr "'-type %c' wordt niet ondersteund omdat FIFO's niet ondersteund worden op het platform waarop 'find' gecompileerd werd"
 
 #: find/parser.c:2831
 #, c-format
-msgid ""
-"-type %c is not supported because named sockets are not supported on the "
-"platform find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because named sockets are not supported on the platform find was compiled on."
+msgstr "'-type %c' wordt niet ondersteund omdat sockets-met-namen niet ondersteund worden op het platform waarop 'find' gecompileerd werd"
 
 #: find/parser.c:2842
 #, c-format
-msgid ""
-"-type %c is not supported because Solaris doors are not supported on the "
-"platform find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because Solaris doors are not supported on the platform find was compiled on."
+msgstr "'-type %c' wordt niet ondersteund omdat Solaris-deuren niet ondersteund worden op het platform waarop 'find' gecompileerd werd"
 
 #: find/parser.c:2849
 #, c-format
@@ -490,11 +435,7 @@ msgstr "Onbekend argument van '-type': '%c'"
 
 #: find/parser.c:2923
 #, c-format
-msgid ""
-"The current directory is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove the "
-"current directory from your $PATH (that is, remove \".\", doubled colons, or "
-"leading or trailing colons)"
+msgid "The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\", doubled colons, or leading or trailing colons)"
 msgstr ""
 "De huidige map komt voor in de omgevingsvariabele PATH;\n"
 "dit is onveilig in combinatie met de actie '%s' van 'find'.\n"
@@ -503,10 +444,7 @@ msgstr ""
 
 #: find/parser.c:2935
 #, c-format
-msgid ""
-"The relative path %s is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove that "
-"entry from $PATH"
+msgid "The relative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"
 msgstr ""
 "Het relatieve pad %s komt voor in de omgevingsvariabele PATH;\n"
 "dit is onveilig in combinatie met de actie '%s' van 'find'.\n"
@@ -514,9 +452,7 @@ msgstr ""
 
 #: find/parser.c:3044
 #, c-format
-msgid ""
-"You may not use {} within the utility name for -execdir and -okdir, because "
-"this is a potential security problem."
+msgid "You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."
 msgstr ""
 "Om veiligheidsredenen mag {} bij '-execdir' en '-okdir' niet gebruikt\n"
 "worden binnen de naam van het hulpprogramma."
@@ -539,8 +475,7 @@ msgstr "Omgeving is te groot voor exec()."
 #: find/parser.c:3269
 #, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
-msgstr ""
-"rekenkundige overloop tijdens omzetting van %s dagen in aantal seconden"
+msgstr "rekenkundige overloop tijdens omzetting van %s dagen in aantal seconden"
 
 #: find/parser.c:3293
 #, c-format
@@ -592,10 +527,8 @@ msgstr "fout: opmaakcode '%%%c' is gereserveerd voor toekomstig gebruik"
 
 #: find/print.c:411
 #, c-format
-msgid ""
-"warning: format directive `%%%c' should be followed by another character"
-msgstr ""
-"waarschuwing: opmaakcode '%%%c' dient gevolgd te worden door nog een teken"
+msgid "warning: format directive `%%%c' should be followed by another character"
+msgstr "waarschuwing: opmaakcode '%%%c' dient gevolgd te worden door nog een teken"
 
 #: find/print.c:419
 #, c-format
@@ -609,11 +542,8 @@ msgstr "ongeldige expressie"
 
 #: find/tree.c:140
 #, c-format
-msgid ""
-"invalid expression; you have used a binary operator '%s' with nothing before "
-"it."
-msgstr ""
-"ongeldige expressie: binaire operator '%s' is gebruikt met niets ervoor"
+msgid "invalid expression; you have used a binary operator '%s' with nothing before it."
+msgstr "ongeldige expressie: binaire operator '%s' is gebruikt met niets ervoor"
 
 #: find/tree.c:151
 #, c-format
@@ -632,9 +562,7 @@ msgstr "ongeldige expressie: er zijn te veel ')'"
 
 #: find/tree.c:189
 #, c-format
-msgid ""
-"invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
-"need an extra predicate after '%s'"
+msgid "invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"
 msgstr "ongeldige expressie: ontbrekend ')' -- of er ontbreekt iets na '%s'"
 
 #: find/tree.c:197
@@ -644,9 +572,7 @@ msgstr "ongeldige expressie: lege haakjes zijn niet toegestaan"
 
 #: find/tree.c:203
 #, c-format
-msgid ""
-"invalid expression; I was expecting to find a ')' somewhere but did not see "
-"one."
+msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
 msgstr "ongeldige expressie: ontbrekend ')'"
 
 #: find/tree.c:209 find/tree.c:833
@@ -661,9 +587,7 @@ msgstr "oeps -- ongeldig expressietype (%d)!"
 
 #: find/tree.c:1120
 #, c-format
-msgid ""
-"warning: there is no entry in the predicate evaluation cost table for "
-"predicate %s; please report this as a bug"
+msgid "warning: there is no entry in the predicate evaluation cost table for predicate %s; please report this as a bug"
 msgstr ""
 "**interne programmafout**: geen item in de evaluatiekostentabel\n"
 "voor optie, test of actie %s;  gelieve dit te rapporteren"
@@ -760,18 +684,14 @@ msgstr "Ongeldig optimalisatieniveau %s"
 
 #: find/util.c:882
 #, c-format
-msgid ""
-"Optimisation level %lu is too high.  If you want to find files very quickly, "
-"consider using GNU locate."
+msgid "Optimisation level %lu is too high.  If you want to find files very quickly, consider using GNU locate."
 msgstr ""
 "Optimalisatieniveau %lu is te hoog.\n"
 "Als u bestanden heel vlug wilt vinden, gebruik dan 'locate'."
 
 #: find/util.c:1026
 #, c-format
-msgid ""
-"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
-"that affects the block size is the POSIXLY_CORRECT environment variable"
+msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
 "De omgevingsvariabele FIND_BLOCK_SIZE wordt niet ondersteund.\n"
 "Alleen de omgevingsvariabele POSIXLY_CORRECT beïnvloedt de blokgrootte."
@@ -789,9 +709,7 @@ msgstr "kan exec() niet aanroepen wegens beperkingen aan de argumentlengte"
 #: lib/buildcmd.c:371
 #, c-format
 msgid "cannot fit single argument within argument list size limit"
-msgstr ""
-"zelfs één enkel argument past niet binnen beschikbare grootte van "
-"argumentenlijst"
+msgstr "zelfs één enkel argument past niet binnen beschikbare grootte van argumentenlijst"
 
 #: lib/buildcmd.c:377
 #, c-format
@@ -805,9 +723,7 @@ msgstr "Omgevingsvariable %s is niet ingesteld op een geldig decimaal getal"
 
 #: lib/fdleak.c:377
 #, c-format
-msgid ""
-"File descriptor %d will leak; please report this as a bug, remembering to "
-"include a detailed description of the simplest way to reproduce this problem."
+msgid "File descriptor %d will leak; please report this as a bug, remembering to include a detailed description of the simplest way to reproduce this problem."
 msgstr ""
 "Bestandsdescriptor %d zal lekken; rapporteer dit als een **programmafout**,\n"
 "inclusief een gedetailleerde omschrijving plus een eenvoudige manier om het\n"
@@ -846,8 +762,7 @@ msgid ""
 "Usage: %s [--version | --help]\n"
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr ""
-"Gebruik:  %s meest_gebruikte_bigrams  < bestandenlijst  > locate-"
-"gegevensbank\n"
+"Gebruik:  %s meest_gebruikte_bigrams  < bestandenlijst  > locate-gegevensbank\n"
 "     of:  %s [ --version | --help ]\n"
 
 #: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
@@ -954,9 +869,7 @@ msgstr ""
 
 #: locate/locate.c:888
 #, c-format
-msgid ""
-"Some filenames may have been filtered out, so we cannot compute the "
-"compression ratio.\n"
+msgid "Some filenames may have been filtered out, so we cannot compute the compression ratio.\n"
 msgstr ""
 "Er kunnen bestandsnamen uitgefilterd zijn,\n"
 "dus de compressieverhouding kan niet berekend worden.\n"
@@ -973,9 +886,7 @@ msgstr "Compressieverhouding is ongedefinieerd\n"
 
 #: locate/locate.c:963
 #, c-format
-msgid ""
-"locate database %s looks like an slocate database but it seems to have "
-"security level %c, which GNU findutils does not currently support"
+msgid "locate database %s looks like an slocate database but it seems to have security level %c, which GNU findutils does not currently support"
 msgstr ""
 "Gegevensbank %s schijnt een slocate-gegevensbank te zijn,\n"
 "maar lijkt veiligheidsniveau %c te hebben.\n"
@@ -983,27 +894,21 @@ msgstr ""
 
 #: locate/locate.c:1075
 #, c-format
-msgid ""
-"%s is an slocate database.  Support for these is new, expect problems for "
-"now."
+msgid "%s is an slocate database.  Support for these is new, expect problems for now."
 msgstr ""
 "Bestand %s is een slocate-gegevensbank.\n"
 "Ondersteuning hiervoor is nieuw; houd rekening met problemen."
 
 #: locate/locate.c:1089
 #, c-format
-msgid ""
-"%s is an slocate database of unsupported security level %d; skipping it."
+msgid "%s is an slocate database of unsupported security level %d; skipping it."
 msgstr ""
 "Bestand %s wordt overgeslagen;\n"
 "het is een slocate-gegevensbank met een onbekend veiligheidsniveau %d."
 
 #: locate/locate.c:1106
 #, c-format
-msgid ""
-"You specified the -E option, but that option cannot be used with slocate-"
-"format databases with a non-zero security level.  No results will be "
-"generated for this database.\n"
+msgid "You specified the -E option, but that option cannot be used with slocate-format databases with a non-zero security level.  No results will be generated for this database.\n"
 msgstr ""
 "Optie '-E' werd gegeven, maar die optie kan niet gebruikt worden bij\n"
 "slocate-gegevensbanken met een veiligheidsniveau dat niet nul is.\n"
@@ -1017,8 +922,7 @@ msgstr "Bestand %s is een slocate-gegevensbank; optie '-e' wordt ingeschakeld."
 #: locate/locate.c:1155
 #, c-format
 msgid "Old-format locate database %s is too short to be valid"
-msgstr ""
-"Oude-stijl locate-gegevensbank %s is te klein om geldig te kunnen zijn."
+msgstr "Oude-stijl locate-gegevensbank %s is te klein om geldig te kunnen zijn."
 
 #: locate/locate.c:1307
 #, c-format
@@ -1076,9 +980,7 @@ msgstr "Wegnemen van SETGID-privileges is mislukt"
 #: locate/locate.c:1761
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
-msgstr ""
-"Waarschuwing: de locate-gegevensbank kan slechts één keer van "
-"standaardinvoer gelezen worden."
+msgstr "Waarschuwing: de locate-gegevensbank kan slechts één keer van standaardinvoer gelezen worden."
 
 #: locate/locate.c:1831
 #, c-format
@@ -1088,15 +990,12 @@ msgstr "Aanroep van systeemfunctie time() is mislukt"
 #: locate/locate.c:1842
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
-msgstr ""
-"Waarschuwing: gegevensbank %s is meer dan %d %s oud: de leeftijd is %.1f %s."
+msgstr "Waarschuwing: gegevensbank %s is meer dan %d %s oud: de leeftijd is %.1f %s."
 
 #: locate/word_io.c:98
 #, c-format
 msgid "WARNING: locate database %s was built with a different byte order"
-msgstr ""
-"WAARSCHUWING: locate-gegevensbank %s werd met een andere bytevolgorde "
-"samengesteld."
+msgstr "WAARSCHUWING: locate-gegevensbank %s werd met een andere bytevolgorde samengesteld."
 
 #: locate/word_io.c:145
 #, c-format
@@ -1115,36 +1014,28 @@ msgstr "Ongeldige stuurcode '%s' in specificatie van scheidingsteken."
 
 #: xargs/xargs.c:270
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lx."
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."
 msgstr ""
 "Ongeldige stuurcode '%s' in specificatie van scheidingsteken;\n"
 "tekenwaardes mogen niet groter zijn dan %lx."
 
 #: xargs/xargs.c:276
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lo."
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."
 msgstr ""
 "Ongeldige stuurcode '%s' in specificatie van scheidingsteken;\n"
 "tekenwaardes mogen niet groter zijn dan %lo."
 
 #: xargs/xargs.c:285
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; trailing "
-"characters %s not recognised."
+msgid "Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."
 msgstr ""
 "Ongeldige stuurcode '%s' in specificatie van scheidingsteken;\n"
 "onbegrepen nakomende tekens '%s'."
 
 #: xargs/xargs.c:330
 #, c-format
-msgid ""
-"Invalid input delimiter specification %s: the delimiter must be either a "
-"single character or an escape sequence starting with \\."
+msgid "Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."
 msgstr ""
 "Ongeldige specificatie '%s' van scheidingsteken; het scheidingsteken\n"
 "dient een enkel teken te zijn of een stuurcode beginnend met \\."
@@ -1157,8 +1048,7 @@ msgstr "Omgeving is te groot voor exec()."
 #: xargs/xargs.c:556
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
-msgstr ""
-"Waarschuwing: waarde %ld voor optie '-s' is te groot; %ld wordt gebruikt"
+msgstr "Waarschuwing: waarde %ld voor optie '-s' is te groot; %ld wordt gebruikt"
 
 #: xargs/xargs.c:603
 #, c-format
@@ -1173,7 +1063,7 @@ msgstr "verwijderen van omgevingsvariabele %s is mislukt"
 #: xargs/xargs.c:629
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
-msgstr ""
+msgstr "waarschuwing: optie '-E' heeft geen effect samen met '-0' of '-d'\n"
 
 #: xargs/xargs.c:651
 #, c-format
@@ -1202,11 +1092,8 @@ msgstr "POSIX-bovengrens aan argumentlengte (op dit systeem): %<PRIuMAX>\n"
 
 #: xargs/xargs.c:698
 #, c-format
-msgid ""
-"POSIX smallest allowable upper limit on argument length (all systems): "
-"%<PRIuMAX>\n"
-msgstr ""
-"Minimale POSIX-bovengrens aan argumentlengte (op alle systemen): %<PRIuMAX>\n"
+msgid "POSIX smallest allowable upper limit on argument length (all systems): %<PRIuMAX>\n"
+msgstr "Minimale POSIX-bovengrens aan argumentlengte (op alle systemen): %<PRIuMAX>\n"
 
 #: xargs/xargs.c:701
 #, c-format
@@ -1222,9 +1109,7 @@ msgstr "Grootte van het gebruikte commandobuffer: %<PRIuMAX>\n"
 #, c-format
 msgid ""
 "\n"
-"Execution of xargs will continue now, and it will try to read its input and "
-"run commands; if this is not what you wanted to happen, please type the end-"
-"of-file keystroke.\n"
+"Execution of xargs will continue now, and it will try to read its input and run commands; if this is not what you wanted to happen, please type the end-of-file keystroke.\n"
 msgstr ""
 "\n"
 "'xargs' zal nu verdergaan; het zal de invoer lezen en opdrachten uitvoeren.\n"
@@ -1232,18 +1117,14 @@ msgstr ""
 
 #: xargs/xargs.c:718
 #, c-format
-msgid ""
-"Warning: %s will be run at least once.  If you do not want that to happen, "
-"then press the interrupt keystroke.\n"
+msgid "Warning: %s will be run at least once.  If you do not want that to happen, then press the interrupt keystroke.\n"
 msgstr ""
 "Waarschuwing: '%s' zal minstens één keer uitgevoerd worden.\n"
 "Als u dit niet wilt, typ dan de onderbrekingstoets (meestal Ctrl-C).\n"
 
 #: xargs/xargs.c:846 xargs/xargs.c:939
 #, c-format
-msgid ""
-"unmatched %s quote; by default quotes are special to xargs unless you use "
-"the -0 option"
+msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
 msgstr ""
 "Ongepaard %s aanhalingsteken; aanhalingstekens worden door 'xargs'\n"
 "speciaal behandeld tenzij u optie '-0' gebruikt."
@@ -1258,9 +1139,7 @@ msgstr "enkel"
 
 #: xargs/xargs.c:959
 #, c-format
-msgid ""
-"WARNING: a NUL character occurred in the input.  It cannot be passed through "
-"in the argument list.  Did you mean to use the --null option?"
+msgid "WARNING: a NUL character occurred in the input.  It cannot be passed through in the argument list.  Did you mean to use the --null option?"
 msgstr ""
 "WAARSCHUWING: een NUL-teken werd gevonden in de invoer.\n"
 "Deze kan niet doorgegeven worden aan de argumentenlijst.\n"
@@ -1292,18 +1171,15 @@ msgid "could not create pipe before fork"
 msgstr "kan geen pijp aanmaken vóór het starten van een nieuw proces"
 
 #: xargs/xargs.c:1278
-#, fuzzy, c-format
-msgid ""
-"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
-"please report it)"
+#, c-format
+msgid "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, please report it)"
 msgstr ""
 "bufferleesopdracht in xargs_do_exec() is mislukt;\n"
 "dit is waarschijnlijk een programmafout, gelieve dit te melden"
 
 #: xargs/xargs.c:1331
 #, c-format
-msgid ""
-"read returned unexpected value %d; this is probably a bug, please report it"
+msgid "read returned unexpected value %d; this is probably a bug, please report it"
 msgstr ""
 "leesopdracht retouneerde onverwachte waarde %d;\n"
 "dit is waarschijnlijk een programmafout, gelieve dit te melden"
@@ -1351,60 +1227,71 @@ msgstr "%s: waarde bij optie '-%c' moet kleiner dan %ld zijn\n"
 #: xargs/xargs.c:1606
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
-msgstr ""
+msgstr "Gebruik:  %s [OPTIE...] COMMANDO [STARTARGUMENT...]\n"
 
 #: xargs/xargs.c:1611
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
 msgstr ""
+"Voert COMMANDO uit met de eventueel gegeven STARTARGUMENTen en verdere\n"
+"argumenten gelezen van standaardinvoer.\n"
+"\n"
 
 #: xargs/xargs.c:1613
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
 msgstr ""
+"Een argument dat verplicht of optioneel is voor een lange optie,\n"
+"is dat ook voor de overeenkomstige korte optie.\n"
 
 #: xargs/xargs.c:1615
 msgid ""
-"  -0, --null                   items are separated by a null, not "
-"whitespace;\n"
-"                                 disables quote and backslash processing "
-"and\n"
+"  -0, --null                   items are separated by a null, not whitespace;\n"
+"                                 disables quote and backslash processing and\n"
 "                                 logical EOF processing.\n"
 msgstr ""
+"  -0, --null                   items worden gescheiden door een nul-bute en niet\n"
+"                                 door witruimte; dit schakelt het verwerken van\n"
+"                                 aanhalingen en backslashes en logische EOF uit\n"
 
 #: xargs/xargs.c:1618
-msgid ""
-"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
-msgstr ""
+msgid "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+msgstr "  -a, --arg-file=BESTAND       argumenten uit BESTAND lezen, niet van standaardinvoer\n"
 
 #: xargs/xargs.c:1619
 msgid ""
-"  -d, --delimiter=CHARACTER    items in input stream are separated by "
-"CHARACTER,\n"
-"                                 not by whitespace; disables quote and "
-"backslash\n"
+"  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
+"                                 not by whitespace; disables quote and backslash\n"
 "                                 processing and logical EOF processing\n"
 msgstr ""
+"  -d, --delimiter=TEKEN        items worden gescheiden door dit teken en niet\n"
+"                                 door witruimte; dit schakelt het verwerken van\n"
+"                                 aanhalingen en backslashes en logische EOF uit\n"
 
 #: xargs/xargs.c:1622
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a "
-"line\n"
+"  -E END                       Set logical EOF string; if END occurs as a line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
+"  -E EINDE                     te gebruiken tekenreeks voor logische EOF;\n"
+"                                 wanneer EINDE als invoerregel voorkomt,\n"
+"                                 wordt de rest van de invoer overgeslagen\n"
+"                                 (genegeerd als ook '-0' of '-d' gegeven is)\n"
 
 #: xargs/xargs.c:1625
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
 msgstr ""
+"  -e, --eof[=EINDE]            hetzelfde als '-E EINDE' als EINDE gegeven is\n"
+"                                 in het andere geval is de optie zinloos\n"
 
 #: xargs/xargs.c:1627
 msgid "  -I R                         same as --replace=R\n"
-msgstr ""
+msgstr "  -I VV                        hetzelfde als '--replace=VV' (of '-iVV')\n"
 
 #: xargs/xargs.c:1628
 msgid ""
@@ -1412,76 +1299,79 @@ msgid ""
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
+"  -i, --replace[=VV]           tekenreeks VV in STARTARGUMENTen vervangen door\n"
+"                                 namen gelezen vanaf standaardinvoer; wanneer\n"
+"                                 geen VV gegeven is, wordt {} aangenomen\n"
 
 #: xargs/xargs.c:1631
 msgid ""
-"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
-"per\n"
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines per\n"
 "                                 command line\n"
 msgstr ""
+"  -L, --max-lines=AANTAL       maximaal dit aantal niet-lege regels per\n"
+"                                 commandoregel gebruiken\n"
 
 #: xargs/xargs.c:1633
 msgid ""
-"  -l[MAX-LINES]                similar to -L but defaults to at most one "
-"non-\n"
-"                                 blank input line if MAX-LINES is not "
-"specified\n"
+"  -l[MAX-LINES]                similar to -L but defaults to at most one non-\n"
+"                                 blank input line if MAX-LINES is not specified\n"
 msgstr ""
+"  -l[AANTAL]                   als '-L', maar als geen AANTAL gegeven is, dan\n"
+"                                 1 aangenomen\n"
 
 #: xargs/xargs.c:1635
-msgid ""
-"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
-"line\n"
+msgid "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command line\n"
 msgstr ""
+"  -n, --max-args=AANTAL        maximaal dit aantal argumenten per\n"
+"                                 commandoregel gebruiken\n"
 
 #: xargs/xargs.c:1636
-msgid ""
-"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
-msgstr ""
+msgid "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgstr "  -P, --max-procs=AANTAL       maximaal dit aantal processen tegelijk draaien\n"
 
 #: xargs/xargs.c:1637
 msgid "  -p, --interactive            prompt before running commands\n"
-msgstr ""
+msgstr "  -p, --interactive            vragen alvorens de commando's uit te voeren\n"
 
 #: xargs/xargs.c:1638
-msgid ""
-"      --process-slot-var=VAR   set environment variable VAR in child "
-"processes\n"
-msgstr ""
+msgid "      --process-slot-var=VAR   set environment variable VAR in child processes\n"
+msgstr "      --process-slot-var=VAR   omgevingsvariabele VAR in dochterprocessen instellen\n"
 
 #: xargs/xargs.c:1639
 msgid ""
-"  -r, --no-run-if-empty        if there are no arguments, then do not run "
-"COMMAND;\n"
-"                                 if this option is not given, COMMAND will "
-"be\n"
+"  -r, --no-run-if-empty        if there are no arguments, then do not run COMMAND;\n"
+"                                 if this option is not given, COMMAND will be\n"
 "                                 run at least once\n"
 msgstr ""
+"  -r, --no-run-if-empty        als er geen argumenten zijn, dan het COMMANDO\n"
+"                                 niet uitvoeren; zonder deze optie wordt het\n"
+"                                 COMMANDO minstens één keer uitgevoerd\n"
 
 #: xargs/xargs.c:1642
-msgid ""
-"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+msgid "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
 msgstr ""
+"  -s, --max-chars=AANTAL       lengte van commandoregel tot dit aantal tekens\n"
+"                                 beperken\n"
 
 #: xargs/xargs.c:1643
 msgid "      --show-limits            show limits on command-line length\n"
-msgstr ""
+msgstr "      --show-limits            beperkingen op lengte van commandoregel weergeven\n"
 
 #: xargs/xargs.c:1644
 msgid "  -t, --verbose                print commands before executing them\n"
-msgstr ""
+msgstr "  -t, --verbose                commando's weergeven alvorens ze uit te voeren\n"
 
 #: xargs/xargs.c:1645
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
-msgstr ""
+msgstr "  -x, --exit                   afsluiten als grootte overschreden is (zie 's')\n"
 
 #: xargs/xargs.c:1647
 msgid "      --help                   display this help and exit\n"
-msgstr ""
+msgstr "      --help                   deze hulptekst tonen en stoppen\n"
 
 #: xargs/xargs.c:1648
 msgid "      --version                output version information and exit\n"
-msgstr ""
+msgstr "      --version                programmaversie tonen en stoppen\n"
 
 #~ msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 #~ msgstr "Modus %s is ongeldig als POSIXLY_CORRECT aan staat."
@@ -1506,13 +1396,10 @@ msgstr ""
 #~ "Gebruik:  %s [-0prtx] [--interactive]  [-d|--delimiter=scheidingsteken]\n"
 #~ "          [--null]  [-E EOF_reeks]  [-e[EOF_reeks]]  [--eof[=EOF_reeks]]\n"
 #~ "          [-I te_vervangen_tekenreeks]  [-i[te_vervangen_tekenreeks]]\n"
-#~ "          [--replace[=te_vervangen_reeks]]  [--max-lines"
-#~ "[=max_aantal_regels]]\n"
-#~ "          [-L max_aantal_regels]  [-l[max_aantal_regels]]  [--show-"
-#~ "limits]\n"
+#~ "          [--replace[=te_vervangen_reeks]]  [--max-lines[=max_aantal_regels]]\n"
+#~ "          [-L max_aantal_regels]  [-l[max_aantal_regels]]  [--show-limits]\n"
 #~ "          [-n max_aantal_argumenten]  [--max-args=max_aantal_argumenten]\n"
 #~ "          [-P max_aantal_processen]  [--max-procs=max_aantal_processen]\n"
 #~ "          [-s max_aantal_tekens]  [--max-chars=max_aantal_tekens]\n"
-#~ "          [--exit]  [--no-run-if-empty]  [--verbose]  [--arg-"
-#~ "file=bestand]\n"
+#~ "          [--exit]  [--no-run-if-empty]  [--verbose]  [--arg-file=bestand]\n"
 #~ "          [--version]  [--help]  [COMMANDO [eerste_argumenten]]\n"
