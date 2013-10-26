@@ -1018,7 +1018,9 @@ the command.  The command is executed in the starting directory.  If
 .B find
 encounters an error, this can sometimes cause an
 immediate exit, so some pending commands may not be run
-at all.
+at all.  This variant of
+.B \-exec
+always returns true.
 
 .IP "\-execdir \fIcommand\fR ;"
 .IP "\-execdir \fIcommand\fR {} +"
@@ -1051,7 +1053,22 @@ which are empty or which are not absolute directory names.  If
 .B find
 encounters an error, this can sometimes cause an
 immediate exit, so some pending commands may not be run
-at all.
+at all. The result of the action depends on whether the
+.B +
+or the
+.B ;
+variant is being used;
+.B \-execdir
+.I command
+.B {} +
+always returns true, while
+.B \-execdir
+.I command
+.B {} ;
+returns true only if
+.I command
+returns 0.
+
 
 .IP "\-fls \fIfile\fR"
 True; like

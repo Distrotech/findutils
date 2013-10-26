@@ -1,3 +1,12 @@
+2013-10-26  James Youngman  <jay@gnu.org>
+
+	Clearly explain the result of -exec/-execdir ... +
+	* doc/find.texi (Single File): Explain that "-exec command ;"
+	returns true of the command exited with a status of 0.
+	(Multiple Files): Explain that "-execdir command +" always returns
+	true.  Likewise for "-exec command +".
+	* find/find.1: similar changes.
+
 2013-09-24  James Youngman  <jay@gnu.org>
 
 	Fix bug #40094: minor inconsistencies in xargs option descriptions.
