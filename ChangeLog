@@ -1,3 +1,14 @@
+2013-12-08  James Youngman  <jay@gnu.org>
+
+	Bug #35753: detect failure of the atexit library function.
+	* find/find.c (main): Issue a fatal error message if atexit fails.
+	* xargs/xargs.c (main): Likewise.
+	* find/ftsfind.c (main): Likewise.
+	* locate/code.c (main): Likewise.
+	* locate/frcode.c (main): Likewise.
+	* locate/locate.c (dolocate): Likewise.
+	* locate/bigram.c (main): Likewise; also include <errno.h>.
+
 2013-10-27  James Youngman  <jay@gnu.org>
 
 	* THANKS: Add Eric S. Raymond.

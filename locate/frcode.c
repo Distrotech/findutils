@@ -228,7 +228,10 @@ main (int argc, char **argv)
   else
     set_program_name ("frcode");
 
-  atexit (close_stdout);
+  if (atexit (close_stdout))
+    {
+      error (EXIT_FAILURE, errno, _("The atexit library function failed"));
+    }
 
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
   path = xmalloc (pathsize);

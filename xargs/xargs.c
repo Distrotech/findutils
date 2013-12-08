@@ -386,8 +386,11 @@ main (int argc, char **argv)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit (close_stdin);
-  atexit (wait_for_proc_all);
+
+  if (atexit (close_stdin) || atexit (wait_for_proc_all))
+    {
+      error (EXIT_FAILURE, errno, _("The atexit library function failed"));
+    }
 
   /* xargs is required by POSIX to allow 2048 bytes of headroom
    * for extra environment variables (that perhaps the utliity might

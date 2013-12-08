@@ -169,7 +169,10 @@ main (int argc, char **argv)
   int line_len;			/* Length of input line.  */
 
   set_program_name (argv[0]);
-  atexit (close_stdout);
+  if (atexit (close_stdout))
+    {
+      error (EXIT_FAILURE, errno, _("The atexit library function failed"));
+    }
 
   bigram[2] = '\0';
 

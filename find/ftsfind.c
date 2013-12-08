@@ -688,7 +688,10 @@ main (int argc, char **argv)
 
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit (close_stdout);
+  if (atexit (close_stdout))
+    {
+      error (EXIT_FAILURE, errno, _("The atexit library function failed"));
+    }
 
   /* Check for -P, -H or -L options.  Also -D and -O, which are
    * both GNU extensions.

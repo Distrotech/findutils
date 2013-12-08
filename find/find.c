@@ -214,7 +214,10 @@ main (int argc, char **argv)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit (close_stdin);
+  if (atexit (close_stdin))
+    {
+      error (EXIT_FAILURE, errno, _("The atexit library function failed"));
+    }
 
   /* Check for -P, -H or -L options. */
   end_of_leading_options = process_leading_options (argc, argv);

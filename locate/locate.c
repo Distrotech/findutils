@@ -1561,10 +1561,12 @@ dolocate (int argc, char **argv, int secure_db_fd)
 #endif
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
-  atexit (close_stdout);
 
   quote_opts = clone_quoting_options (NULL);
-  atexit (cleanup_quote_opts);
+  if (atexit (close_stdout) || atexit (cleanup_quote_opts))
+    {
+      error (EXIT_FAILURE, errno, _("The atexit library function failed"));
+    }
 
   limits.limit = 0;
   limits.items_accepted = 0;

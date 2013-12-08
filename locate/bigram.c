@@ -34,6 +34,7 @@
 #include <config.h>
 
 /* system headers. */
+#include <errno.h>
 #include <stdio.h>
 #include <locale.h>
 #include <string.h>
@@ -45,6 +46,7 @@
 #include "gettext.h"
 #include "progname.h"
 #include "xalloc.h"
+#include "error.h"
 
 /* find headers would go here but we don't need any. */
 
@@ -98,7 +100,10 @@ main (int argc, char **argv)
   textdomain (PACKAGE);
 
   (void) argc;
-  atexit (close_stdout);
+  if (atexit (close_stdout))
+    {
+      error (EXIT_FAILURE, errno, _("The atexit library function failed"));
+    }
 
   pathsize = oldpathsize = 1026; /* Increased as necessary by getline.  */
   path = xmalloc (pathsize);
