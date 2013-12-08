@@ -779,7 +779,10 @@ is_ok (const char *program, const char *arg)
      This standard does not have requirements for locales other than POSIX
   */
   /* XXX: printing UNTRUSTED data here. */
-  fprintf (stderr, _("< %s ... %s > ? "), program, arg);
+  if (fprintf (stderr, _("< %s ... %s > ? "), program, arg) < 0)
+    {
+      error (EXIT_FAILURE, errno, _("Failed to write prompt for -ok"));
+    }
   fflush (stderr);
   return yesno ();
 }

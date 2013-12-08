@@ -1,5 +1,22 @@
 2013-12-08  James Youngman  <jay@gnu.org>
 
+	Bug #35753: check the success/failure of material I/O operations.
+	* lib/listfile.c (list_file): Check the result of fprintf to
+	determine if there was an I/O error on output.  Return false (bool
+	instead of void) if so.
+	(print_name_without_quoting): Likewise.
+	(print_name_with_quoting): Likewise.
+	(print_name): Propagate the result of print_name_without_quoting
+	or print_name_with_quoting (and make all three functions return bool).
+	* find/pred.c (is_ok): Check the result of fprintf to
+	determine if there was an I/O error on output.  Exit fatally if
+	there was a problem (since we cannot expect the user to say "yes"
+	or "no" to a prompt they will not have seen).
+	* xargs/xargs.c (print_args): Check the result of fprintf and
+	fflush to determine if there was an I/O error on output.  Exit
+	fatally for the same reason as above if there is a problem.
+	* NEWS: Mention this bugfix (now that it is fully fixed).
+
 	Fix some signed/unsigned problems.
 	* find/util.c (show_valid_debug_options): change type of array
 	subscript to size_t to avoid signed/unsigned problems.

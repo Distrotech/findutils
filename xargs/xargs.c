@@ -1051,7 +1051,11 @@ print_args (bool ask)
   size_t i;
 
   for (i = 0; i < bc_state.cmd_argc - 1; i++)
-    fprintf (stderr, "%s ", bc_state.cmd_argv[i]);
+    {
+      if (fprintf (stderr, "%s ", bc_state.cmd_argv[i]) < 0)
+	error (EXIT_FAILURE, errno, _("Failed to write to stderr"));
+    }
+
   if (ask)
     {
       static FILE *tty_stream;
@@ -1065,10 +1069,14 @@ print_args (bool ask)
 		   _("failed to open /dev/tty for reading"));
 	}
       fputs ("?...", stderr);
-      fflush (stderr);
+      if (fflush (stderr) != 0)
+	error (EXIT_FAILURE, errno, _("Failed to write to stderr"));
+
       c = savec = getc (tty_stream);
       while (c != EOF && c != '\n')
 	c = getc (tty_stream);
+      if (EOF == c)
+	error (EXIT_FAILURE, errno, _("Failed to read from stdin"));
       if (savec == 'y' || savec == 'Y')
 	return true;
     }

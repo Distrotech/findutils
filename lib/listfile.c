@@ -42,6 +42,7 @@
 #include "idcache.h"
 #include "pathmax.h"
 #include "stat-size.h"
+#include "gettext.h"
 
 /* find headers. */
 #include "listfile.h"
@@ -65,8 +66,20 @@
 #endif
 #undef HAVE_MAJOR
 
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# define _(Text) Text
+#endif
+#ifdef gettext_noop
+# define N_(String) gettext_noop (String)
+#else
+/* See locate.c for explanation as to why not use (String) */
+# define N_(String) String
+#endif
 
-static void print_name (register const char *p, FILE *stream, int literal_control_chars);
+static bool print_name (register const char *p, FILE *stream, int literal_control_chars);
 
 
 /* NAME is the name to print.
@@ -92,6 +105,7 @@ list_file (const char *name,
   char const *user_name;
   char const *group_name;
   char hbuf[LONGEST_HUMAN_READABLE + 1];
+  bool output_good = true;
 
 #if HAVE_ST_DM_MODE
   /* Cray DMF: look at the file's migrated, not real, status */
@@ -100,181 +114,236 @@ list_file (const char *name,
   strmode (statp->st_mode, modebuf);
 #endif
 
-  fprintf (stream, "%6s ",
-	   human_readable ((uintmax_t) statp->st_ino, hbuf,
-			   human_ceiling,
-			   1u, 1u));
+  if (fprintf (stream, "%6s ",
+	       human_readable ((uintmax_t) statp->st_ino, hbuf,
+			       human_ceiling,
+			       1u, 1u)) < 0)
+    output_good = false;
 
-  fprintf (stream, "%4s ",
-	   human_readable ((uintmax_t) ST_NBLOCKS (*statp), hbuf,
-			   human_ceiling,
-			   ST_NBLOCKSIZE, output_block_size));
+  if (output_good)
+    {
+      if (fprintf (stream, "%4s ",
+		   human_readable ((uintmax_t) ST_NBLOCKS (*statp), hbuf,
+				   human_ceiling,
+				   ST_NBLOCKSIZE, output_block_size)) < 0)
+	output_good = false;
+    }
 
+  if (output_good)
+    {
+      /* modebuf includes the space between the mode and the number of links,
+	 as the POSIX "optional alternate access method flag".  */
+      if (fprintf (stream, "%s%3lu ", modebuf, (unsigned long) statp->st_nlink) < 0)
+	output_good = false;
+    }
 
-  /* modebuf includes the space between the mode and the number of links,
-     as the POSIX "optional alternate access method flag".  */
-  fprintf (stream, "%s%3lu ", modebuf, (unsigned long) statp->st_nlink);
+  if (output_good)
+    {
+      user_name = getuser (statp->st_uid);
+      if (user_name)
+	output_good = (fprintf (stream, "%-8s ", user_name) >= 0);
+      else
+	output_good = (fprintf (stream, "%-8lu ", (unsigned long) statp->st_uid) >= 0);
+    }
 
-  user_name = getuser (statp->st_uid);
-  if (user_name)
-    fprintf (stream, "%-8s ", user_name);
-  else
-    fprintf (stream, "%-8lu ", (unsigned long) statp->st_uid);
+  if (output_good)
+    {
+      group_name = getgroup (statp->st_gid);
+      if (group_name)
+	output_good = (fprintf (stream, "%-8s ", group_name) >= 0);
+      else
+	output_good = (fprintf (stream, "%-8lu ", (unsigned long) statp->st_gid) >= 0);
+    }
 
-  group_name = getgroup (statp->st_gid);
-  if (group_name)
-    fprintf (stream, "%-8s ", group_name);
-  else
-    fprintf (stream, "%-8lu ", (unsigned long) statp->st_gid);
-
-  if (S_ISCHR (statp->st_mode) || S_ISBLK (statp->st_mode))
+  if (output_good)
+    {
+      if (S_ISCHR (statp->st_mode) || S_ISBLK (statp->st_mode))
+	{
 #ifdef HAVE_STRUCT_STAT_ST_RDEV
-    fprintf (stream, "%3lu, %3lu ",
-	     (unsigned long) major (statp->st_rdev),
-	     (unsigned long) minor (statp->st_rdev));
+	  if (fprintf (stream, "%3lu, %3lu ",
+		       (unsigned long) major (statp->st_rdev),
+		       (unsigned long) minor (statp->st_rdev)) < 0)
+	    {
+	      output_good = false;
+	    }
 #else
-    fprintf (stream, "         ");
+	  if (fprintf (stream, "         ") < 0)
+	    output_good = false;
 #endif
-  else
-    fprintf (stream, "%8s ",
-	     human_readable ((uintmax_t) statp->st_size, hbuf,
-			     human_ceiling,
-			     1,
-			     output_block_size < 0 ? output_block_size : 1));
-
-  if ((when_local = localtime (&statp->st_mtime)))
-    {
-      char init_bigbuf[256];
-      char *buf = init_bigbuf;
-      size_t bufsize = sizeof init_bigbuf;
-
-      /* Use strftime rather than ctime, because the former can produce
-	 locale-dependent names for the month (%b).
-
-	 Output the year if the file is fairly old or in the future.
-	 POSIX says the cutoff is 6 months old;
-	 approximate this by 6*30 days.
-	 Allow a 1 hour slop factor for what is considered "the future",
-	 to allow for NFS server/client clock disagreement.  */
-      char const *fmt =
-	((current_time - 6 * 30 * 24 * 60 * 60 <= statp->st_mtime
-	  && statp->st_mtime <= current_time + 60 * 60)
-	 ? "%b %e %H:%M"
-	 : "%b %e  %Y");
-
-      while (!strftime (buf, bufsize, fmt, when_local))
-	buf = alloca (bufsize *= 2);
-
-      fprintf (stream, "%s ", buf);
-    }
-  else
-    {
-      /* The time cannot be represented as a local time;
-	 print it as a huge integer number of seconds.  */
-      int width = 12;
-
-      if (statp->st_mtime < 0)
-	{
-	  char const *num = human_readable (- (uintmax_t) statp->st_mtime,
-					    hbuf, human_ceiling, 1, 1);
-	  int sign_width = width - strlen (num);
-	  fprintf (stream, "%*s%s ",
-		   sign_width < 0 ? 0 : sign_width, "-", num);
-	}
-      else
-	fprintf (stream, "%*s ", width,
-		 human_readable ((uintmax_t) statp->st_mtime, hbuf,
-				 human_ceiling,
-				 1, 1));
-    }
-
-  print_name (name, stream, literal_control_chars);
-
-  if (S_ISLNK (statp->st_mode))
-    {
-      char *linkname = areadlinkat (dir_fd, relname);
-      if (linkname)
-	{
-	  fputs (" -> ", stream);
-	  print_name (linkname, stream, literal_control_chars);
 	}
       else
 	{
-	  /* POSIX requires in the case of find that if we issue a
-	   * diagnostic we should have a nonzero status.  However,
-	   * this function doesn't have a way of telling the caller to
-	   * do that.  However, since this function is only used when
-	   * processing "-ls", we're already using an extension.
-	   */
-	  error (0, errno, "%s", name);
+	  if (fprintf (stream, "%8s ",
+		       human_readable ((uintmax_t) statp->st_size, hbuf,
+				       human_ceiling,
+				       1,
+				       output_block_size < 0 ? output_block_size : 1)) < 0)
+	    output_good = false;
 	}
-      free (linkname);
     }
-  putc ('\n', stream);
+
+  if (output_good)
+    {
+      if ((when_local = localtime (&statp->st_mtime)))
+	{
+	  char init_bigbuf[256];
+	  char *buf = init_bigbuf;
+	  size_t bufsize = sizeof init_bigbuf;
+
+	  /* Use strftime rather than ctime, because the former can produce
+	     locale-dependent names for the month (%b).
+
+	     Output the year if the file is fairly old or in the future.
+	     POSIX says the cutoff is 6 months old;
+	     approximate this by 6*30 days.
+	     Allow a 1 hour slop factor for what is considered "the future",
+	     to allow for NFS server/client clock disagreement.  */
+	  char const *fmt =
+	    ((current_time - 6 * 30 * 24 * 60 * 60 <= statp->st_mtime
+	      && statp->st_mtime <= current_time + 60 * 60)
+	     ? "%b %e %H:%M"
+	     : "%b %e  %Y");
+
+	  while (!strftime (buf, bufsize, fmt, when_local))
+	    buf = alloca (bufsize *= 2);
+
+	  if (fprintf (stream, "%s ", buf) < 0)
+	    output_good = false;
+	}
+      else
+	{
+	  /* The time cannot be represented as a local time;
+	     print it as a huge integer number of seconds.  */
+	  int width = 12;
+
+	  if (statp->st_mtime < 0)
+	    {
+	      char const *num = human_readable (- (uintmax_t) statp->st_mtime,
+						hbuf, human_ceiling, 1, 1);
+	      int sign_width = width - strlen (num);
+	      if (fprintf (stream, "%*s%s ",
+			   sign_width < 0 ? 0 : sign_width, "-", num) < 0)
+		output_good = false;
+	    }
+	  else
+	    {
+	      if (fprintf (stream, "%*s ", width,
+			   human_readable ((uintmax_t) statp->st_mtime, hbuf,
+					   human_ceiling,
+					   1, 1)) < 0)
+		output_good = false;
+	    }
+	}
+    }
+
+  if (output_good)
+    output_good = print_name (name, stream, literal_control_chars);
+
+  if (output_good)
+    {
+      if (S_ISLNK (statp->st_mode))
+	{
+	  char *linkname = areadlinkat (dir_fd, relname);
+	  if (linkname)
+	    {
+	      fputs (" -> ", stream);
+	      output_good = print_name (linkname, stream, literal_control_chars);
+	    }
+	  else
+	    {
+	      /* POSIX requires in the case of find that if we issue a
+	       * diagnostic we should have a nonzero status.  However,
+	       * this function doesn't have a way of telling the caller to
+	       * do that.  However, since this function is only used when
+	       * processing "-ls", we're already using an extension.
+	       */
+	      error (0, errno, "%s", name);
+	    }
+	  free (linkname);
+	}
+      if (output_good)
+	{
+	  if (EOF == putc ('\n', stream))
+	    output_good = false;
+	}
+    }
+  if (!output_good)
+    {
+      error (EXIT_FAILURE, errno, _("Failed to write output"));
+    }
 }
 
 
-static void
+static bool
 print_name_without_quoting (const char *p, FILE *stream)
 {
-  fprintf (stream, "%s", p);
+  return (fprintf (stream, "%s", p) >= 0);
 }
 
 
-static void
+static bool
 print_name_with_quoting (register const char *p, FILE *stream)
 {
   register unsigned char c;
 
   while ((c = *p++) != '\0')
     {
+      int fprintf_result;
       switch (c)
 	{
 	case '\\':
-	  fprintf (stream, "\\\\");
+	  fprintf_result = fprintf (stream, "\\\\");
 	  break;
 
 	case '\n':
-	  fprintf (stream, "\\n");
+	  fprintf_result = fprintf (stream, "\\n");
 	  break;
 
 	case '\b':
-	  fprintf (stream, "\\b");
+	  fprintf_result = fprintf (stream, "\\b");
 	  break;
 
 	case '\r':
-	  fprintf (stream, "\\r");
+	  fprintf_result = fprintf (stream, "\\r");
 	  break;
 
 	case '\t':
-	  fprintf (stream, "\\t");
+	  fprintf_result = fprintf (stream, "\\t");
 	  break;
 
 	case '\f':
-	  fprintf (stream, "\\f");
+	  fprintf_result = fprintf (stream, "\\f");
 	  break;
 
 	case ' ':
-	  fprintf (stream, "\\ ");
+	  fprintf_result = fprintf (stream, "\\ ");
 	  break;
 
 	case '"':
-	  fprintf (stream, "\\\"");
+	  fprintf_result = fprintf (stream, "\\\"");
 	  break;
 
 	default:
 	  if (c > 040 && c < 0177)
-	    putc (c, stream);
+	    {
+	      if (EOF == putc (c, stream))
+		return false;
+	    }
 	  else
-	    fprintf (stream, "\\%03o", (unsigned int) c);
+	    {
+	      fprintf_result = fprintf (stream, "\\%03o", (unsigned int) c);
+	    }
 	}
+      if (fprintf_result < 0)
+	return false;
     }
+  return true;
 }
 
-static void print_name (register const char *p, FILE *stream, int literal_control_chars)
+static bool print_name (register const char *p, FILE *stream, int literal_control_chars)
 {
   if (literal_control_chars)
-    print_name_without_quoting (p, stream);
+    return print_name_without_quoting (p, stream);
   else
-    print_name_with_quoting (p, stream);
+    return print_name_with_quoting (p, stream);
 }
