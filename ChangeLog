@@ -1,5 +1,9 @@
 2013-12-08  James Youngman  <jay@gnu.org>
 
+	Fix format specifier in safe_read error message.
+	* xargs/xargs.c (xargs_do_exec): print size_t values with %zu, not
+	%d (since size_t is not and never can be the same type as int).
+
 	Bug #35753: detect failure of the atexit library function.
 	* find/find.c (main): Issue a fatal error message if atexit fails.
 	* xargs/xargs.c (main): Likewise.

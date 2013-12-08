@@ -1331,7 +1331,7 @@ xargs_do_exec (struct buildcmd_control *ctl, void *usercontext, int argc, char *
 	default:
 	  {
 	    error (EXIT_FAILURE, errno,
-		   _("read returned unexpected value %d; "
+		   _("read returned unexpected value %zu; "
 		     "this is probably a bug, please report it"), r);
 	  }
 	} /* switch on bytes read */
