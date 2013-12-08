@@ -1,5 +1,13 @@
 2013-12-08  James Youngman  <jay@gnu.org>
 
+	Fix some signed/unsigned problems.
+	* find/util.c (show_valid_debug_options): change type of array
+	subscript to size_t to avoid signed/unsigned problems.
+	(set_stat_placeholders): Silence unuseful compiler warning about
+	unused parameter.
+	* find/ftsfind.c (show_outstanding_execdirs): change type of array
+	subscript to size_t to avoid signed/unsizned problems.
+
 	Fix format specifier in safe_read error message.
 	* xargs/xargs.c (xargs_do_exec): print size_t values with %zu, not
 	%d (since size_t is not and never can be the same type as int).

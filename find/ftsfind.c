@@ -303,7 +303,7 @@ show_outstanding_execdirs (FILE *fp)
 	    pfx = NULL;
 	  if (pfx)
 	    {
-	      int i;
+	      size_t i;
 	      const struct exec_val *execp = &p->args.exec_vec;
 	      ++seen;
 

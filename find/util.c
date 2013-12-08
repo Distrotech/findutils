@@ -146,7 +146,7 @@ insert_primary_noarg (const struct parser_table *entry)
 static void
 show_valid_debug_options (FILE *fp, int full)
 {
-  int i;
+  size_t i;
   if (full)
     {
       fprintf (fp, "Valid arguments for -D:\n");
@@ -193,6 +193,10 @@ set_stat_placeholders (struct stat *p)
 #endif
 #if HAVE_STRUCT_STAT_ST_BIRTHTIMESPEC_TV_SEC
   p->st_birthtimespec.tv_sec = 0;
+#else
+  /* Avoid pointless compiler warning about unused parameters if none of these
+     macros are set to nonzero values. */
+  (void) p;
 #endif
 }
 
