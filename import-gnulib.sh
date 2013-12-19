@@ -117,7 +117,7 @@ run_gnulib_tool() {
     fi
 
     set -x
-    if "$tool" --import --symlink --with-tests \
+    if "$tool" --import --copy --with-tests \
 	--dir=. --lib=libgnulib \
 	--source-base="${gldest}"/lib \
 	--m4-base="${gldest}"/m4 --local-dir=gnulib-local $modules

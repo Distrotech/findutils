@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU findutils 4.5.11\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2013-09-22 22:13+0100\n"
+"POT-Creation-Date: 2013-12-19 14:08+0200\n"
 "PO-Revision-Date: 2013-02-27 07:51+0100\n"
 "Last-Translator: Frédéric Marchal <fmarchal@perso.be>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -36,7 +36,7 @@ msgstr "Impossible de fermer l'entrée standard"
 msgid "Failed to change directory"
 msgstr "Impossible de changer de répertoire"
 
-#: find/exec.c:312 xargs/xargs.c:1218
+#: find/exec.c:312 xargs/xargs.c:1229
 #, c-format
 msgid "cannot fork"
 msgstr "impossible de cloner le processus (fork)."
@@ -56,27 +56,33 @@ msgstr "%s a terminé son exécution par le signal %d"
 msgid "Failed initialise shared-file hash table"
 msgstr "Échec d'initialisation de la table de hachage des fichiers partagés"
 
-#: find/find.c:260
+#: find/find.c:219 find/ftsfind.c:693 locate/code.c:174 locate/frcode.c:233
+#: locate/locate.c:1568 xargs/xargs.c:392
+#, fuzzy, c-format
+msgid "The atexit library function failed"
+msgstr "Fonction de librairie fnmatch() : échec de vérification d'intégrité."
+
+#: find/find.c:263
 #, c-format
 msgid "cannot stat current directory"
 msgstr "impossible d'obtenir les « stat » du répertoire courant"
 
-#: find/find.c:351
+#: find/find.c:354
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "Impossible de lister les périphériques montés."
 
-#: find/find.c:440
+#: find/find.c:443
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "AVERTISSEMENT : le système de fichier %s a été récemment démonté."
 
-#: find/find.c:450
+#: find/find.c:453
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "AVERTISSEMENT : le système de fichiers %s a été récemment monté."
 
-#: find/find.c:547
+#: find/find.c:550
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -86,7 +92,7 @@ msgstr ""
 "%ld, nouveau n° de périphérique %ld, type du système de fichiers est %s) "
 "[ref %ld]"
 
-#: find/find.c:584
+#: find/find.c:587
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -95,17 +101,17 @@ msgstr ""
 "modification de %s%s durant l'exécution de %s (ancien n° d'inode %<PRIuMAX>, "
 "nouveau n° d'inode %<PRIuMAX>, type du système de fichiers %s) [ref %ld]"
 
-#: find/find.c:749
+#: find/find.c:752
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "impossible de revenir au répertoire parent"
 
-#: find/find.c:1035
+#: find/find.c:1038
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Impossible de changer vers le répertoire %s en toute sécurité"
 
-#: find/find.c:1135 find/ftsfind.c:245
+#: find/find.c:1138 find/ftsfind.c:245
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -114,7 +120,7 @@ msgstr ""
 "Le lien symbolique « %s » fait partie d'une boucle dans la hiérarchie du "
 "répertoire ; le répertoire sur lequel il pointe a déjà été visité."
 
-#: find/find.c:1154
+#: find/find.c:1157
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -131,12 +137,12 @@ msgstr[1] ""
 "périphérique et d'inode que le répertoire qui est %d niveaux plus haut dans "
 "l'arborescence"
 
-#: find/find.c:1406
+#: find/find.c:1409
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "Attention : lien symbolique non suivi %s"
 
-#: find/find.c:1477
+#: find/find.c:1480
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -169,7 +175,7 @@ msgstr ""
 "Boucle détectée dans le système de fichiers ; « %s » est dans la même boucle "
 "que %s."
 
-#: find/ftsfind.c:444 find/util.c:218
+#: find/ftsfind.c:444 find/util.c:222
 #, c-format
 msgid "WARNING: file %s appears to have mode 0000"
 msgstr "ATTENTION : le fichier %s semble avoir la permission 0000"
@@ -570,28 +576,38 @@ msgstr "ATTENTION : impossible de trouver la date de création du fichier %s"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1205 find/print.c:1228
+#: find/pred.c:784
+#, fuzzy, c-format
+msgid "Failed to write prompt for -ok"
+msgstr "Échec d'écriture sur la sortie standard"
+
+#: find/pred.c:1208 find/print.c:1234
 #, c-format
 msgid "getfilecon failed: %s"
 msgstr "getfilecon a échoué : %s"
 
-#: find/print.c:359
+#: find/print.c:346
+#, c-format
+msgid "warning: escape `\\' followed by nothing at all"
+msgstr ""
+
+#: find/print.c:365
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "AVERTISSEMENT : séquence d'échappement « \\%c » inconnue"
 
-#: find/print.c:379
+#: find/print.c:385
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "erreur : %s à la fin de la chaîne de format"
 
-#: find/print.c:403
+#: find/print.c:409
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr ""
 "erreur : la directive de format « %%%c » est réservée pour un usage futur"
 
-#: find/print.c:411
+#: find/print.c:417
 #, c-format
 msgid ""
 "warning: format directive `%%%c' should be followed by another character"
@@ -599,7 +615,7 @@ msgstr ""
 "avertissement : la directive de formatage « %%%c » devrait être suivie par "
 "un autre caractère"
 
-#: find/print.c:419
+#: find/print.c:425
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "AVERTISSEMENT : directive de formatage « %%%c » inconnue"
@@ -728,42 +744,42 @@ msgstr "Utilisation : %s [-H] [-L] [-P] [-Olevel] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [chemin...] [expression]\n"
 
-#: find/util.c:455
+#: find/util.c:459
 #, c-format
 msgid "failed to save initial working directory"
 msgstr "échec d'enregistrer du répertoire de travail initial"
 
-#: find/util.c:472
+#: find/util.c:476
 #, c-format
 msgid "failed to restore initial working directory"
 msgstr "impossible de rétablir le répertoire de travail initial"
 
-#: find/util.c:820
+#: find/util.c:824
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Option de débogage non reconnue %s, ignorée."
 
-#: find/util.c:827
+#: find/util.c:831
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Argument vide pour l'option -D."
 
-#: find/util.c:843
+#: find/util.c:847
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "L'option -O doit être immédiatement suivie par un nombre décimal"
 
-#: find/util.c:853 find/util.c:864
+#: find/util.c:857 find/util.c:868
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Veuillez spécifier un nombre décimal juste après -O"
 
-#: find/util.c:869 find/util.c:874
+#: find/util.c:873 find/util.c:878
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Niveau d'optimisation non valide %s"
 
-#: find/util.c:882
+#: find/util.c:886
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -772,7 +788,7 @@ msgstr ""
 "Niveau d'optimisation %lu trop élevé. Si vous voulez trouver les fichiers "
 "très rapidement, considérez d'utiliser GNU « locate »."
 
-#: find/util.c:1026
+#: find/util.c:1030
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
@@ -860,7 +876,7 @@ msgstr ""
 "locate\n"
 
 #: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
-#: xargs/xargs.c:1649
+#: xargs/xargs.c:1660
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -893,12 +909,12 @@ msgstr "Le niveau de sécurité %s est hors de la plage convertible."
 msgid "Security level %s has unexpected suffix %s."
 msgstr "Le niveau de sécurité %s a un suffixe inattendu %s."
 
-#: locate/frcode.c:254
+#: locate/frcode.c:257
 #, c-format
 msgid "slocate security level %ld is unsupported."
 msgstr "niveau de sécurité pour « slocate » %ld non supporté."
 
-#: locate/frcode.c:292
+#: locate/frcode.c:295
 #, c-format
 msgid "Failed to write to standard output"
 msgstr "Échec d'écriture sur la sortie standard"
@@ -1083,19 +1099,19 @@ msgstr "Échec de suppression de tous les privilèges"
 msgid "failed to drop setgid privileges"
 msgstr "échec de suppression des privilèges setgid"
 
-#: locate/locate.c:1761
+#: locate/locate.c:1763
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr ""
 "AVERTISSEMENT : la base de données des localisations peut être lue qu'une "
 "seule fois à partir de stdin."
 
-#: locate/locate.c:1831
+#: locate/locate.c:1833
 #, c-format
 msgid "time system call failed"
 msgstr "échec d'obtention de l'heure système"
 
-#: locate/locate.c:1842
+#: locate/locate.c:1844
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr ""
@@ -1167,56 +1183,56 @@ msgstr ""
 msgid "environment is too large for exec"
 msgstr "environnement trop volumineux pour exec"
 
-#: xargs/xargs.c:556
+#: xargs/xargs.c:559
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "attention : la valeur %ld pour l'option -s est trop grande, %ld sera "
 "utilisée à la place"
 
-#: xargs/xargs.c:603
+#: xargs/xargs.c:606
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr "l'option --%s ne peut pas être assignée une valeur contenant des « = »"
 
-#: xargs/xargs.c:615
+#: xargs/xargs.c:618
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr "impossible d'annuler la variable d'environnement %s"
 
-#: xargs/xargs.c:629
+#: xargs/xargs.c:632
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
 msgstr ""
 
-#: xargs/xargs.c:651
+#: xargs/xargs.c:654
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr "Impossible d'activer le gestionnaire de signal SIGUSR1"
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:660
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr "Impossible d'activer le gestionnaire de signal SIGUSR2"
 
-#: xargs/xargs.c:673
+#: xargs/xargs.c:676
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Impossible d'ouvrir le fichier en entrée « %s »"
 
-#: xargs/xargs.c:692
+#: xargs/xargs.c:695
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Vos variables d'environnement occupent %<PRIuMAX> octets\n"
 
-#: xargs/xargs.c:695
+#: xargs/xargs.c:698
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr ""
 "Limite supérieure POSIX de longueur d'argument (sur ce système) : "
 "%<PRIuMAX>\n"
 
-#: xargs/xargs.c:698
+#: xargs/xargs.c:701
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): "
@@ -1225,18 +1241,18 @@ msgstr ""
 "Plus petite limite haute POSIX de longueur d'argument autorisée (tous "
 "systèmes) : %<PRIuMAX>\n"
 
-#: xargs/xargs.c:701
+#: xargs/xargs.c:704
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr ""
 "Longueur maximale de la commande qui pourrait être utilisée : %<PRIuMAX>\n"
 
-#: xargs/xargs.c:704
+#: xargs/xargs.c:707
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Taille du tampon de commande actuellement utilisé : %<PRIuMAX>\n"
 
-#: xargs/xargs.c:710
+#: xargs/xargs.c:713
 #, c-format
 msgid ""
 "\n"
@@ -1249,7 +1265,7 @@ msgstr ""
 "données en entrée et exécuter les commandes ; si vous ne le voulez pas, "
 "pressez <Ctrl-D> (EOF).\n"
 
-#: xargs/xargs.c:718
+#: xargs/xargs.c:721
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1258,7 +1274,7 @@ msgstr ""
 "Attention : %s va s'exécuter au moins une fois. Si vous ne le voulez pas, "
 "pressez les touches d'interruption.\n"
 
-#: xargs/xargs.c:846 xargs/xargs.c:939
+#: xargs/xargs.c:849 xargs/xargs.c:942
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1267,15 +1283,15 @@ msgstr ""
 "guillemets %s non appairés ; par défaut les guillemets sont particuliers à "
 "xargs à moins d'utiliser l'option -0"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "double"
 msgstr "double"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:959
+#: xargs/xargs.c:962
 #, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1284,32 +1300,42 @@ msgstr ""
 "ATTENTION : un caractère nul est arrivé en entrée. Il ne peut être ajouté à "
 "la liste d'arguments. Vouliez-vous en fait spécifier l'option --null ?"
 
-#: xargs/xargs.c:969 xargs/xargs.c:1034
+#: xargs/xargs.c:972 xargs/xargs.c:1037
 #, c-format
 msgid "argument line too long"
 msgstr "ligne de paramètres trop longue"
 
-#: xargs/xargs.c:1062
+#: xargs/xargs.c:1056 xargs/xargs.c:1073
+#, fuzzy, c-format
+msgid "Failed to write to stderr"
+msgstr "Échec d'écriture sur la sortie standard"
+
+#: xargs/xargs.c:1069
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "échec d'ouverture de /dev/tty en lecture"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1079
+#, fuzzy, c-format
+msgid "Failed to read from stdin"
+msgstr "Échec d'écriture sur la sortie standard"
+
+#: xargs/xargs.c:1116
 #, c-format
 msgid "unable to allocate memory"
 msgstr "impossible d'allouer la mémoire"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr "la variable d'environnement %s n'a pas pu être définie"
 
-#: xargs/xargs.c:1207
+#: xargs/xargs.c:1218
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "impossible d'ouvrir un tube (pipe) avant le clônage (fork)"
 
-#: xargs/xargs.c:1278
+#: xargs/xargs.c:1289
 #, fuzzy, c-format
 msgid ""
 "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
@@ -1318,60 +1344,60 @@ msgstr ""
 "échec de lecture de errno-buffer dans xargs_do_exec (probablement un bug, "
 "merci de le signaler)"
 
-#: xargs/xargs.c:1331
-#, c-format
+#: xargs/xargs.c:1342
+#, fuzzy, c-format
 msgid ""
-"read returned unexpected value %d; this is probably a bug, please report it"
+"read returned unexpected value %zu; this is probably a bug, please report it"
 msgstr ""
 "la lecture a retourné la valeur inattendue %d ; probablement un bug, merci "
 "de le signaler"
 
-#: xargs/xargs.c:1424
+#: xargs/xargs.c:1435
 #, c-format
 msgid "error waiting for child process"
 msgstr "erreur en attendant la fin du processus fils"
 
-#: xargs/xargs.c:1457
+#: xargs/xargs.c:1468
 #, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "ATTENTION : On a perdu %lu processus fils de vue"
 
-#: xargs/xargs.c:1476
+#: xargs/xargs.c:1487
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s : a terminé son exécution avec le statut 255 ; arrêt abrupt."
 
-#: xargs/xargs.c:1479
+#: xargs/xargs.c:1490
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s : stoppé par le signal %d"
 
-#: xargs/xargs.c:1482
+#: xargs/xargs.c:1493
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s a terminé son exécution par le signal %d"
 
-#: xargs/xargs.c:1566
+#: xargs/xargs.c:1577
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s : l'option -%c contient un nombre non valide\n"
 
-#: xargs/xargs.c:1573
+#: xargs/xargs.c:1584
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s : la valeur de l'option -%c devrait être >= %ld\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1598
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s : la valeur de l'option -%c devrait être < %ld\n"
 
-#: xargs/xargs.c:1606
+#: xargs/xargs.c:1617
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr ""
 
-#: xargs/xargs.c:1611
+#: xargs/xargs.c:1622
 #, fuzzy
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
@@ -1381,27 +1407,27 @@ msgstr ""
 "Exécuter COMMANDE avec les arguments ARG-INITIAUX et plus d'arguments lus "
 "depuis l'entrée.\n"
 
-#: xargs/xargs.c:1613
+#: xargs/xargs.c:1624
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
 msgstr ""
 
-#: xargs/xargs.c:1615
+#: xargs/xargs.c:1626
 msgid ""
 "  -0, --null                   items are separated by a null, not "
 "whitespace;\n"
 "                                 disables quote and backslash processing "
 "and\n"
-"                                 logical EOF processing.\n"
+"                                 logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1618
+#: xargs/xargs.c:1629
 msgid ""
 "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
 msgstr ""
 
-#: xargs/xargs.c:1619
+#: xargs/xargs.c:1630
 msgid ""
 "  -d, --delimiter=CHARACTER    items in input stream are separated by "
 "CHARACTER,\n"
@@ -1410,39 +1436,39 @@ msgid ""
 "                                 processing and logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1622
+#: xargs/xargs.c:1633
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a "
+"  -E END                       set logical EOF string; if END occurs as a "
 "line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
 
-#: xargs/xargs.c:1625
+#: xargs/xargs.c:1636
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
 msgstr ""
 
-#: xargs/xargs.c:1627
+#: xargs/xargs.c:1638
 msgid "  -I R                         same as --replace=R\n"
 msgstr ""
 
-#: xargs/xargs.c:1628
+#: xargs/xargs.c:1639
 msgid ""
 "  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
 
-#: xargs/xargs.c:1631
+#: xargs/xargs.c:1642
 msgid ""
 "  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
 "per\n"
 "                                 command line\n"
 msgstr ""
 
-#: xargs/xargs.c:1633
+#: xargs/xargs.c:1644
 msgid ""
 "  -l[MAX-LINES]                similar to -L but defaults to at most one "
 "non-\n"
@@ -1450,28 +1476,28 @@ msgid ""
 "specified\n"
 msgstr ""
 
-#: xargs/xargs.c:1635
+#: xargs/xargs.c:1646
 msgid ""
 "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
 "line\n"
 msgstr ""
 
-#: xargs/xargs.c:1636
+#: xargs/xargs.c:1647
 msgid ""
 "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
 msgstr ""
 
-#: xargs/xargs.c:1637
+#: xargs/xargs.c:1648
 msgid "  -p, --interactive            prompt before running commands\n"
 msgstr ""
 
-#: xargs/xargs.c:1638
+#: xargs/xargs.c:1649
 msgid ""
 "      --process-slot-var=VAR   set environment variable VAR in child "
 "processes\n"
 msgstr ""
 
-#: xargs/xargs.c:1639
+#: xargs/xargs.c:1650
 msgid ""
 "  -r, --no-run-if-empty        if there are no arguments, then do not run "
 "COMMAND;\n"
@@ -1480,28 +1506,28 @@ msgid ""
 "                                 run at least once\n"
 msgstr ""
 
-#: xargs/xargs.c:1642
+#: xargs/xargs.c:1653
 msgid ""
 "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
 msgstr ""
 
-#: xargs/xargs.c:1643
+#: xargs/xargs.c:1654
 msgid "      --show-limits            show limits on command-line length\n"
 msgstr ""
 
-#: xargs/xargs.c:1644
+#: xargs/xargs.c:1655
 msgid "  -t, --verbose                print commands before executing them\n"
 msgstr ""
 
-#: xargs/xargs.c:1645
+#: xargs/xargs.c:1656
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
 msgstr ""
 
-#: xargs/xargs.c:1647
+#: xargs/xargs.c:1658
 msgid "      --help                   display this help and exit\n"
 msgstr ""
 
-#: xargs/xargs.c:1648
+#: xargs/xargs.c:1659
 msgid "      --version                output version information and exit\n"
 msgstr ""
 

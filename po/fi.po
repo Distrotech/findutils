@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.11\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2013-09-22 22:13+0100\n"
+"POT-Creation-Date: 2013-12-19 14:08+0200\n"
 "PO-Revision-Date: 2013-02-03 20:36+0200\n"
 "Last-Translator: Jorma Karvonen <karvonen.jorma@gmail.com>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
@@ -34,7 +34,7 @@ msgstr "Vakiosyötteen sulkeminen epäonnistui"
 msgid "Failed to change directory"
 msgstr "Hakemiston vaihtaminen epäonnistui"
 
-#: find/exec.c:312 xargs/xargs.c:1218
+#: find/exec.c:312 xargs/xargs.c:1229
 #, c-format
 msgid "cannot fork"
 msgstr "lapsiprosessin luominen epäonnistui"
@@ -54,29 +54,35 @@ msgstr "%s keskeytettiin signaalilla %d"
 msgid "Failed initialise shared-file hash table"
 msgstr "Jaetun tiedoston hash-taulun alustus epäonnistui"
 
-#: find/find.c:260
+#: find/find.c:219 find/ftsfind.c:693 locate/code.c:174 locate/frcode.c:233
+#: locate/locate.c:1568 xargs/xargs.c:392
+#, fuzzy, c-format
+msgid "The atexit library function failed"
+msgstr "kirjastofunktion fnmatch() järkevyystarkistus epäonnistui."
+
+#: find/find.c:263
 #, c-format
 msgid "cannot stat current directory"
 msgstr "komentoa ”stat” ei voi suorittaa nykyisessä hakemistossa"
 
-#: find/find.c:351
+#: find/find.c:354
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "Liitettyjen laitteiden luettelon lukeminen epäonnistui."
 
-#: find/find.c:440
+#: find/find.c:443
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr ""
 "VAROITUS: tiedostojärjestelmälle %s on äskettäin suoritettu unmount-komento."
 
-#: find/find.c:450
+#: find/find.c:453
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr ""
 "VAROITUS: tiedostojärjestelmälle %s on äskettäin suoritettu mount-komento."
 
-#: find/find.c:547
+#: find/find.c:550
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -85,7 +91,7 @@ msgstr ""
 "%s%s vaihtunut ohjelman %s suorituksen aikana (vanha laitenumero %ld, uusi "
 "laitenumero %ld, tiedostojärjestelmän tyyppi on %s) [viite %ld]"
 
-#: find/find.c:584
+#: find/find.c:587
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -95,17 +101,17 @@ msgstr ""
 "%<PRIuMAX>, uusi inode-numero %<PRIuMAX>, tiedostojärjestelmän tyyppi on %s) "
 "[viite %ld]"
 
-#: find/find.c:749
+#: find/find.c:752
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "paluu ylähakemistoon epäonnistui"
 
-#: find/find.c:1035
+#: find/find.c:1038
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Hakemiston turvallinen vaihtaminen päähakemistoon %s epäonnistui"
 
-#: find/find.c:1135 find/ftsfind.c:245
+#: find/find.c:1138 find/ftsfind.c:245
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -114,7 +120,7 @@ msgstr ""
 "Symbolinen linkki %s on silmukkaosa hakemistohierarkiassa; olemme jo "
 "vierailleet hakemistossa, johon se osoittaa."
 
-#: find/find.c:1154
+#: find/find.c:1157
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -131,12 +137,12 @@ msgstr[1] ""
 "inode hakemistona kuin on %d-tasoa korkeammalla "
 "tiedostojärjestelmähierarkiassa"
 
-#: find/find.c:1406
+#: find/find.c:1409
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "varoitus: ei seurata symbolista linkkiä %s"
 
-#: find/find.c:1477
+#: find/find.c:1480
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -168,7 +174,7 @@ msgstr ""
 "Tiedostojärjestelmäsilmukka havaittu; kohde %s on osa samaa "
 "tiedostojärjestelmäsilmukkaa kuin %s."
 
-#: find/ftsfind.c:444 find/util.c:218
+#: find/ftsfind.c:444 find/util.c:222
 #, c-format
 msgid "WARNING: file %s appears to have mode 0000"
 msgstr "VAROITUS: tiedosto %s näyttää olevan tilassa 0000"
@@ -568,33 +574,43 @@ msgstr "VAROITUS: tiedoston %s syntymäajan määritteleminen epäonnistui"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1205 find/print.c:1228
+#: find/pred.c:784
+#, fuzzy, c-format
+msgid "Failed to write prompt for -ok"
+msgstr "Vakiotulosteeseen kirjoittaminen epäonnistui"
+
+#: find/pred.c:1208 find/print.c:1234
 #, c-format
 msgid "getfilecon failed: %s"
 msgstr "getfilecon epäonnistui: %s"
 
-#: find/print.c:359
+#: find/print.c:346
+#, c-format
+msgid "warning: escape `\\' followed by nothing at all"
+msgstr ""
+
+#: find/print.c:365
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "varoitus: tunnistamaton koodinvaihtomerkki ”\\%c”"
 
-#: find/print.c:379
+#: find/print.c:385
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "virhe: %s muotomerkkijonon lopussa"
 
-#: find/print.c:403
+#: find/print.c:409
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "virhe: muotoilumäärite ”%%%c” on varattu tulevaa käyttöä varten"
 
-#: find/print.c:411
+#: find/print.c:417
 #, c-format
 msgid ""
 "warning: format directive `%%%c' should be followed by another character"
 msgstr "varoitus: jonkun muun merkin pitäisi seurata muotodirektiivia ”%%%c”"
 
-#: find/print.c:419
+#: find/print.c:425
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "varoitus: tunnistamaton muotoilumäärite ”%%%c”"
@@ -725,42 +741,42 @@ msgstr "Käyttö: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [polku...] [lauseke]\n"
 
-#: find/util.c:455
+#: find/util.c:459
 #, c-format
 msgid "failed to save initial working directory"
 msgstr "alkuperäisen työhakemiston tallentaminen epäonnistui"
 
-#: find/util.c:472
+#: find/util.c:476
 #, c-format
 msgid "failed to restore initial working directory"
 msgstr "alkuperäisen työhakemiston palauttaminen epäonnistui"
 
-#: find/util.c:820
+#: find/util.c:824
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Ei välitetä tunnistamattomasta virheenjäljityslipusta %s"
 
-#: find/util.c:827
+#: find/util.c:831
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Tyhjä argumentti valitsimelle -D."
 
-#: find/util.c:843
+#: find/util.c:847
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "Valitsinta -O täytyy välittömästi seurata desimaalikokonaisluku"
 
-#: find/util.c:853 find/util.c:864
+#: find/util.c:857 find/util.c:868
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Määrittele desimaaliluku heti valitsimen -O jälkeen"
 
-#: find/util.c:869 find/util.c:874
+#: find/util.c:873 find/util.c:878
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Virheellinen optimointitaso %s"
 
-#: find/util.c:882
+#: find/util.c:886
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -769,7 +785,7 @@ msgstr ""
 "Optimointitaso %lu on liian korkea. Jos haluat löytää tiedostoja nopeasti, "
 "harkitse GNU locate-ohjelman käyttämistä."
 
-#: find/util.c:1026
+#: find/util.c:1030
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
@@ -851,7 +867,7 @@ msgstr ""
 "tai    %s most_common_bigrams < tiedostoluettelo > locate-tietokanta\n"
 
 #: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
-#: xargs/xargs.c:1649
+#: xargs/xargs.c:1660
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -886,12 +902,12 @@ msgstr "Turvataso %s on muunneltavan alueen ulkopuolella."
 msgid "Security level %s has unexpected suffix %s."
 msgstr "Turvatasolla %s on odottamaton jälkiliite %s."
 
-#: locate/frcode.c:254
+#: locate/frcode.c:257
 #, c-format
 msgid "slocate security level %ld is unsupported."
 msgstr "slocate-turvatasoa %ld ei tueta."
 
-#: locate/frcode.c:292
+#: locate/frcode.c:295
 #, c-format
 msgid "Failed to write to standard output"
 msgstr "Vakiotulosteeseen kirjoittaminen epäonnistui"
@@ -1073,17 +1089,17 @@ msgstr "Täysi drop-käsky tietokannan oikeuksille epäonnistui"
 msgid "failed to drop setgid privileges"
 msgstr "drop setgid-käsky tietokannan oikeuksille epäonnistui"
 
-#: locate/locate.c:1761
+#: locate/locate.c:1763
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "varoitus: locate-tietokanta voidaan lukea vakiosyötteestä vain kerran."
 
-#: locate/locate.c:1831
+#: locate/locate.c:1833
 #, c-format
 msgid "time system call failed"
 msgstr "järjestelmän aikakutsu epäonnistui"
 
-#: locate/locate.c:1842
+#: locate/locate.c:1844
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr ""
@@ -1150,54 +1166,54 @@ msgstr ""
 msgid "environment is too large for exec"
 msgstr "ympäristö on liian iso komennolle ”exec”"
 
-#: xargs/xargs.c:556
+#: xargs/xargs.c:559
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "Varoitus: arvo %ld valitsimelle -s on liian suuri, käytetään sen sijaan "
 "arvoa %ld"
 
-#: xargs/xargs.c:603
+#: xargs/xargs.c:606
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr "valitsin --%s ei voi olla asetettu arvoon, joka sisältää ”=”"
 
-#: xargs/xargs.c:615
+#: xargs/xargs.c:618
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr "unset-toiminto ympäristömuuttujalle %s epäonnistui"
 
-#: xargs/xargs.c:629
+#: xargs/xargs.c:632
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
 msgstr ""
 
-#: xargs/xargs.c:651
+#: xargs/xargs.c:654
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr "SIGUSR1-signaalikäsittelijän asettaminen epäonnistui"
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:660
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr "SIGUSR2-signaalikäsittelijän asettaminen epäonnistui"
 
-#: xargs/xargs.c:673
+#: xargs/xargs.c:676
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Syötetiedoston %s avaaminen epäonnistui"
 
-#: xargs/xargs.c:692
+#: xargs/xargs.c:695
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Ympäristömuuttujasi vievät tilaa %<PRIuMAX> tavua\n"
 
-#: xargs/xargs.c:695
+#: xargs/xargs.c:698
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "POSIX-argumenttipituuden yläraja (tässä järjestelmässä): %<PRIuMAX>\n"
 
-#: xargs/xargs.c:698
+#: xargs/xargs.c:701
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): "
@@ -1206,17 +1222,17 @@ msgstr ""
 "Pienin sallittu POSIX-argumenttipituuden yläraja (kaikissa järjestelmissä): "
 "%<PRIuMAX>\n"
 
-#: xargs/xargs.c:701
+#: xargs/xargs.c:704
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "Komennon maksimipituus, jota voisimme todella käyttää on: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:704
+#: xargs/xargs.c:707
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Meidän todella käyttämämme komentopuskurin koko on: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:710
+#: xargs/xargs.c:713
 #, c-format
 msgid ""
 "\n"
@@ -1229,7 +1245,7 @@ msgstr ""
 "suorituskomennot; jos tämä on jotain, mitä et halua, kirjoita tiedoston "
 "loppumerkki.\n"
 
-#: xargs/xargs.c:718
+#: xargs/xargs.c:721
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1238,7 +1254,7 @@ msgstr ""
 "Varoitus: %s suoritetaan vähintään kerran. Jos et halua sen tapahtuvan, "
 "paina keskeytyspainiketta.\n"
 
-#: xargs/xargs.c:846 xargs/xargs.c:939
+#: xargs/xargs.c:849 xargs/xargs.c:942
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1247,15 +1263,15 @@ msgstr ""
 "pariton %s lainaus; oletuksen lainaukset ovat erityisiä xargs:lle, ellet "
 "käytä valitsinta -0"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "double"
 msgstr "kaksinkertainen"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "single"
 msgstr "yksinkertainen"
 
-#: xargs/xargs.c:959
+#: xargs/xargs.c:962
 #, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1264,32 +1280,42 @@ msgstr ""
 "VAROITUS: syötteessä oli NUL-merkki. Sitä ei voi välittää "
 "argumenttiluettelon lävitse. Oliko tarkoituksesi käyttää valitsinta --null ?"
 
-#: xargs/xargs.c:969 xargs/xargs.c:1034
+#: xargs/xargs.c:972 xargs/xargs.c:1037
 #, c-format
 msgid "argument line too long"
 msgstr "liian pitkä argumenttirivi"
 
-#: xargs/xargs.c:1062
+#: xargs/xargs.c:1056 xargs/xargs.c:1073
+#, fuzzy, c-format
+msgid "Failed to write to stderr"
+msgstr "Vakiotulosteeseen kirjoittaminen epäonnistui"
+
+#: xargs/xargs.c:1069
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "kohteen /dev/tty avaaminen lukemista varten epäonnistui"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1079
+#, fuzzy, c-format
+msgid "Failed to read from stdin"
+msgstr "Vakiotulosteeseen kirjoittaminen epäonnistui"
+
+#: xargs/xargs.c:1116
 #, c-format
 msgid "unable to allocate memory"
 msgstr "muistin varaaminen epäonnistui"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr "ympäristömuuttujan %s asettaminen epäonnistui"
 
-#: xargs/xargs.c:1207
+#: xargs/xargs.c:1218
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "putken luominen ennen fork-kutsua epäonnistui"
 
-#: xargs/xargs.c:1278
+#: xargs/xargs.c:1289
 #, fuzzy, c-format
 msgid ""
 "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
@@ -1298,60 +1324,60 @@ msgstr ""
 "errno-puskurin luku epäonnistui kohteessa xargs_do_exec (tämä on luultavasti "
 "ohjelmointivirhe, ilmoita siitä)"
 
-#: xargs/xargs.c:1331
-#, c-format
+#: xargs/xargs.c:1342
+#, fuzzy, c-format
 msgid ""
-"read returned unexpected value %d; this is probably a bug, please report it"
+"read returned unexpected value %zu; this is probably a bug, please report it"
 msgstr ""
 "read-kutsu palautti odottamattoman arvon %d; tämä on luultavasti "
 "ohjelmointivirhe, ilmoita siitä"
 
-#: xargs/xargs.c:1424
+#: xargs/xargs.c:1435
 #, c-format
 msgid "error waiting for child process"
 msgstr "lapsiprosessin odotuksenaikainen virhe"
 
-#: xargs/xargs.c:1457
+#: xargs/xargs.c:1468
 #, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "VAROITUS: Kadotettiin %lu-lapsiprosessin jälki"
 
-#: xargs/xargs.c:1476
+#: xargs/xargs.c:1487
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: poistumistilakoodi 255; keskeytetään"
 
-#: xargs/xargs.c:1479
+#: xargs/xargs.c:1490
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: pysäytetty signaalilla %d"
 
-#: xargs/xargs.c:1482
+#: xargs/xargs.c:1493
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: keskeytetty signaalilla %d"
 
-#: xargs/xargs.c:1566
+#: xargs/xargs.c:1577
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: epäkelpo numero -%c -valitsimelle\n"
 
-#: xargs/xargs.c:1573
+#: xargs/xargs.c:1584
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: valitsimen -%c arvon pitäisi olla >= %ld\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1598
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: valitsimen -%c arvon pitäisi olla < %ld\n"
 
-#: xargs/xargs.c:1606
+#: xargs/xargs.c:1617
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr ""
 
-#: xargs/xargs.c:1611
+#: xargs/xargs.c:1622
 #, fuzzy
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
@@ -1361,27 +1387,27 @@ msgstr ""
 "Suorita KOMENTO argumenteilla ALUSTUSARGUMENTIT ja lisäargumentit luetaan "
 "syötteestä.\n"
 
-#: xargs/xargs.c:1613
+#: xargs/xargs.c:1624
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
 msgstr ""
 
-#: xargs/xargs.c:1615
+#: xargs/xargs.c:1626
 msgid ""
 "  -0, --null                   items are separated by a null, not "
 "whitespace;\n"
 "                                 disables quote and backslash processing "
 "and\n"
-"                                 logical EOF processing.\n"
+"                                 logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1618
+#: xargs/xargs.c:1629
 msgid ""
 "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
 msgstr ""
 
-#: xargs/xargs.c:1619
+#: xargs/xargs.c:1630
 msgid ""
 "  -d, --delimiter=CHARACTER    items in input stream are separated by "
 "CHARACTER,\n"
@@ -1390,39 +1416,39 @@ msgid ""
 "                                 processing and logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1622
+#: xargs/xargs.c:1633
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a "
+"  -E END                       set logical EOF string; if END occurs as a "
 "line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
 
-#: xargs/xargs.c:1625
+#: xargs/xargs.c:1636
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
 msgstr ""
 
-#: xargs/xargs.c:1627
+#: xargs/xargs.c:1638
 msgid "  -I R                         same as --replace=R\n"
 msgstr ""
 
-#: xargs/xargs.c:1628
+#: xargs/xargs.c:1639
 msgid ""
 "  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
 
-#: xargs/xargs.c:1631
+#: xargs/xargs.c:1642
 msgid ""
 "  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
 "per\n"
 "                                 command line\n"
 msgstr ""
 
-#: xargs/xargs.c:1633
+#: xargs/xargs.c:1644
 msgid ""
 "  -l[MAX-LINES]                similar to -L but defaults to at most one "
 "non-\n"
@@ -1430,28 +1456,28 @@ msgid ""
 "specified\n"
 msgstr ""
 
-#: xargs/xargs.c:1635
+#: xargs/xargs.c:1646
 msgid ""
 "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
 "line\n"
 msgstr ""
 
-#: xargs/xargs.c:1636
+#: xargs/xargs.c:1647
 msgid ""
 "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
 msgstr ""
 
-#: xargs/xargs.c:1637
+#: xargs/xargs.c:1648
 msgid "  -p, --interactive            prompt before running commands\n"
 msgstr ""
 
-#: xargs/xargs.c:1638
+#: xargs/xargs.c:1649
 msgid ""
 "      --process-slot-var=VAR   set environment variable VAR in child "
 "processes\n"
 msgstr ""
 
-#: xargs/xargs.c:1639
+#: xargs/xargs.c:1650
 msgid ""
 "  -r, --no-run-if-empty        if there are no arguments, then do not run "
 "COMMAND;\n"
@@ -1460,28 +1486,28 @@ msgid ""
 "                                 run at least once\n"
 msgstr ""
 
-#: xargs/xargs.c:1642
+#: xargs/xargs.c:1653
 msgid ""
 "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
 msgstr ""
 
-#: xargs/xargs.c:1643
+#: xargs/xargs.c:1654
 msgid "      --show-limits            show limits on command-line length\n"
 msgstr ""
 
-#: xargs/xargs.c:1644
+#: xargs/xargs.c:1655
 msgid "  -t, --verbose                print commands before executing them\n"
 msgstr ""
 
-#: xargs/xargs.c:1645
+#: xargs/xargs.c:1656
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
 msgstr ""
 
-#: xargs/xargs.c:1647
+#: xargs/xargs.c:1658
 msgid "      --help                   display this help and exit\n"
 msgstr ""
 
-#: xargs/xargs.c:1648
+#: xargs/xargs.c:1659
 msgid "      --version                output version information and exit\n"
 msgstr ""
 
@@ -1608,10 +1634,10 @@ msgstr ""
 #~ "Käyttö: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=erotin]\n"
 #~ "       [-E tiedostonloppumerkkijono] [-e[tiedostonloppumerkkijono]]  [--"
 #~ "eof[=tiedostonloppumerkkijono]]\n"
-#~ "       [-L maksimirivimäärä] [-l[maksimirivimäärä]] [--max-lines"
-#~ "[=maksimirivimäärä]]\n"
-#~ "       [-I korvausmerkkijono] [-i[korvausmerkkijono]] [--replace"
-#~ "[=korvausmerkkijono]]\n"
+#~ "       [-L maksimirivimäärä] [-l[maksimirivimäärä]] [--max-"
+#~ "lines[=maksimirivimäärä]]\n"
+#~ "       [-I korvausmerkkijono] [-i[korvausmerkkijono]] [--"
+#~ "replace[=korvausmerkkijono]]\n"
 #~ "       [-n maksimiargumenttimäärä] [--max-args=maksimiargumenttimäärä]\n"
 #~ "       [-s maksimimerkkimäärä] [--max-chars=maksimimerkkimäärä]\n"
 #~ "       [-P maksimiprosessimäärä]  [--max-procs=maksimiprosessimäärä] [--"

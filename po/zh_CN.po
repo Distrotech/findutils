@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.5.11\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2013-09-22 22:13+0100\n"
+"POT-Creation-Date: 2013-12-19 14:08+0200\n"
 "PO-Revision-Date: 2013-03-08 12:27+0800\n"
 "Last-Translator: Ji ZhengYu <zhengyuji@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -32,7 +32,7 @@ msgstr "无法关闭标准输入"
 msgid "Failed to change directory"
 msgstr "无法更改目录"
 
-#: find/exec.c:312 xargs/xargs.c:1218
+#: find/exec.c:312 xargs/xargs.c:1229
 #, c-format
 msgid "cannot fork"
 msgstr "无法 fork"
@@ -52,27 +52,33 @@ msgstr "%s 由于信号 %d 而终止"
 msgid "Failed initialise shared-file hash table"
 msgstr "无法初始化共享文件哈希表"
 
-#: find/find.c:260
+#: find/find.c:219 find/ftsfind.c:693 locate/code.c:174 locate/frcode.c:233
+#: locate/locate.c:1568 xargs/xargs.c:392
+#, fuzzy, c-format
+msgid "The atexit library function failed"
+msgstr "fnmatch() 库函数的健全性检测失败了。"
+
+#: find/find.c:263
 #, c-format
 msgid "cannot stat current directory"
 msgstr "无法 stat 当前目录"
 
-#: find/find.c:351
+#: find/find.c:354
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "无法读取挂载设备列表。"
 
-#: find/find.c:440
+#: find/find.c:443
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "警告: 文件系统 %s 最近已被卸载过了。"
 
-#: find/find.c:450
+#: find/find.c:453
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "警告: 文件系统 %s 最近已被挂载过了。"
 
-#: find/find.c:547
+#: find/find.c:550
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -81,7 +87,7 @@ msgstr ""
 "%3$s 执行期间 %1$s%2$s 改变了(原来的设备号 %4$ld，新的设备号 %5$ld，文件系统"
 "类型 %6$s) [ref %7$ld]"
 
-#: find/find.c:584
+#: find/find.c:587
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -90,17 +96,17 @@ msgstr ""
 "%3$s 执行期间 %1$s%2$s 改变了(原来的索引节点号 %4$<PRIuMAX>，新的索引节点号 "
 "%5$<PRIuMAX>，文件系统类型 %6$s) [ref %7$ld]"
 
-#: find/find.c:749
+#: find/find.c:752
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "无法回到上级目录"
 
-#: find/find.c:1035
+#: find/find.c:1038
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "无法安全的更改目录至 %s"
 
-#: find/find.c:1135 find/ftsfind.c:245
+#: find/find.c:1138 find/ftsfind.c:245
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -108,7 +114,7 @@ msgid ""
 msgstr ""
 "符号链接 %s 是目录层级体系中一个循环的一部分；我们已经浏览过它所指向的目录。"
 
-#: find/find.c:1154
+#: find/find.c:1157
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -120,12 +126,12 @@ msgstr[0] ""
 "探测到文件系统循环；%s 拥有与文件系统体系中 %d 级深度的目录一样的设备号和索引"
 "节点"
 
-#: find/find.c:1406
+#: find/find.c:1409
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "警告: 符号链接 %s 无法检索"
 
-#: find/find.c:1477
+#: find/find.c:1480
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -153,7 +159,7 @@ msgid ""
 "File system loop detected; %s is part of the same file system loop as %s."
 msgstr "探测到文件系统循环；%s 是与 %s 相同的文件系统循环的一部分。"
 
-#: find/ftsfind.c:444 find/util.c:218
+#: find/ftsfind.c:444 find/util.c:222
 #, c-format
 msgid "WARNING: file %s appears to have mode 0000"
 msgstr "警告: 文件 %s 的权限看上去为 0000"
@@ -530,33 +536,43 @@ msgstr "警告: 无法确定文件 %s 的生成时间"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1205 find/print.c:1228
+#: find/pred.c:784
+#, fuzzy, c-format
+msgid "Failed to write prompt for -ok"
+msgstr "无法写入标准输出"
+
+#: find/pred.c:1208 find/print.c:1234
 #, c-format
 msgid "getfilecon failed: %s"
 msgstr "getfilecon 失败: %s"
 
-#: find/print.c:359
+#: find/print.c:346
+#, c-format
+msgid "warning: escape `\\' followed by nothing at all"
+msgstr ""
+
+#: find/print.c:365
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "敬告：无法识别的转义字符“\\%c”"
 
-#: find/print.c:379
+#: find/print.c:385
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "错误: %s 位于格式字符串的末尾"
 
-#: find/print.c:403
+#: find/print.c:409
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "错误: 格式指令‘%%%c’是留给将来使用的。"
 
-#: find/print.c:411
+#: find/print.c:417
 #, c-format
 msgid ""
 "warning: format directive `%%%c' should be followed by another character"
 msgstr "警告: 格式命令 `%%%c' 应该后跟另一个字符"
 
-#: find/print.c:419
+#: find/print.c:425
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "警告：不可识别的格式指令“%%%c”"
@@ -680,49 +696,49 @@ msgstr "用法: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [path...] [expression]\n"
 
-#: find/util.c:455
+#: find/util.c:459
 #, c-format
 msgid "failed to save initial working directory"
 msgstr "无法保存起始工作目录"
 
-#: find/util.c:472
+#: find/util.c:476
 #, c-format
 msgid "failed to restore initial working directory"
 msgstr "无法还原起始工作目录"
 
-#: find/util.c:820
+#: find/util.c:824
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "忽略不可识别的调试标记 %s"
 
-#: find/util.c:827
+#: find/util.c:831
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "-D 选项的参数列表为空"
 
-#: find/util.c:843
+#: find/util.c:847
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "-O 选项后面必须立即带上一个十进制整数"
 
-#: find/util.c:853 find/util.c:864
+#: find/util.c:857 find/util.c:868
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "请在 -O 选项后面立即指定一个十进制数"
 
-#: find/util.c:869 find/util.c:874
+#: find/util.c:873 find/util.c:878
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "无效的优化级 %s"
 
-#: find/util.c:882
+#: find/util.c:886
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
 "consider using GNU locate."
 msgstr "优化级别 %lu 太高了。如果您想很快地找到文件，考虑使用 GNU locate。"
 
-#: find/util.c:1026
+#: find/util.c:1030
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
@@ -800,7 +816,7 @@ msgstr ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 
 #: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
-#: xargs/xargs.c:1649
+#: xargs/xargs.c:1660
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -833,12 +849,12 @@ msgstr "安全级 %s 超出可转换范围"
 msgid "Security level %s has unexpected suffix %s."
 msgstr "安全级 %s 有非预期的后缀 %s。"
 
-#: locate/frcode.c:254
+#: locate/frcode.c:257
 #, c-format
 msgid "slocate security level %ld is unsupported."
 msgstr "不支持 slocate 安全级 %ld。"
 
-#: locate/frcode.c:292
+#: locate/frcode.c:295
 #, c-format
 msgid "Failed to write to standard output"
 msgstr "无法写入标准输出"
@@ -1014,17 +1030,17 @@ msgstr "无法完全放弃特权"
 msgid "failed to drop setgid privileges"
 msgstr "无法放弃 setgid 特权"
 
-#: locate/locate.c:1761
+#: locate/locate.c:1763
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "警告: locate 数据库仅能从标准输入读取一次。"
 
-#: locate/locate.c:1831
+#: locate/locate.c:1833
 #, c-format
 msgid "time system call failed"
 msgstr "时间系统调用失败"
 
-#: locate/locate.c:1842
+#: locate/locate.c:1844
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "警告: 数据库“%s”比 %d %s 还陈旧(实际时间 %.1f %s)"
@@ -1083,69 +1099,69 @@ msgstr ""
 msgid "environment is too large for exec"
 msgstr "对 exec 来说环境过大"
 
-#: xargs/xargs.c:556
+#: xargs/xargs.c:559
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr "警告: -s 选项的值 %ld 太大了，用 %ld 代替"
 
-#: xargs/xargs.c:603
+#: xargs/xargs.c:606
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr "选项 --%s 不要设置成带`=' 的值"
 
-#: xargs/xargs.c:615
+#: xargs/xargs.c:618
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr "无法撤消环境变量 %s"
 
-#: xargs/xargs.c:629
+#: xargs/xargs.c:632
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
 msgstr ""
 
-#: xargs/xargs.c:651
+#: xargs/xargs.c:654
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr "无法设置 SIGUSR1 信号句柄"
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:660
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr "无法设置 SIGUSR2 信号句柄"
 
-#: xargs/xargs.c:673
+#: xargs/xargs.c:676
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "无法打开输入文件 %s"
 
-#: xargs/xargs.c:692
+#: xargs/xargs.c:695
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "您的环境变量占有 %<PRIuMAX> 个字节\n"
 
-#: xargs/xargs.c:695
+#: xargs/xargs.c:698
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "此系统的参数长度 POSIX 上限: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:698
+#: xargs/xargs.c:701
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): "
 "%<PRIuMAX>\n"
 msgstr "所有系统中所允许的最小参数长度 POSIX 上限: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:701
+#: xargs/xargs.c:704
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "我们实际能用的最大命令长度: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:704
+#: xargs/xargs.c:707
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "我们实际能用的命令缓冲区的大小: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:710
+#: xargs/xargs.c:713
 #, c-format
 msgid ""
 "\n"
@@ -1157,14 +1173,14 @@ msgstr ""
 "xargs 中的命令现在将继续执行，并且它会尝试读取输入并运行命令；如果您不想它发"
 "生，请按下“文件结束”按键(ctrl-D)。\n"
 
-#: xargs/xargs.c:718
+#: xargs/xargs.c:721
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
 "then press the interrupt keystroke.\n"
 msgstr "警告: %s 将至少运行一次。如果您不想它发生，请按下中断按键。(ctrl-C)\n"
 
-#: xargs/xargs.c:846 xargs/xargs.c:939
+#: xargs/xargs.c:849 xargs/xargs.c:942
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1172,15 +1188,15 @@ msgid ""
 msgstr ""
 "未匹配的 %s 引用；默认情况下，引用是针对 xargs 的，除非您使用了 -0 选项"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "double"
 msgstr "双"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "single"
 msgstr "单"
 
-#: xargs/xargs.c:959
+#: xargs/xargs.c:962
 #, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1188,90 +1204,100 @@ msgid ""
 msgstr ""
 "警告: 输入中有个 NUL 字符。它不能在参数列表中传送。您是想用 --null 选项吗？"
 
-#: xargs/xargs.c:969 xargs/xargs.c:1034
+#: xargs/xargs.c:972 xargs/xargs.c:1037
 #, c-format
 msgid "argument line too long"
 msgstr "参数行过长"
 
-#: xargs/xargs.c:1062
+#: xargs/xargs.c:1056 xargs/xargs.c:1073
+#, fuzzy, c-format
+msgid "Failed to write to stderr"
+msgstr "无法写入标准输出"
+
+#: xargs/xargs.c:1069
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "无法打开 /dev/tty 用于读取"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1079
+#, fuzzy, c-format
+msgid "Failed to read from stdin"
+msgstr "无法写入标准输出"
+
+#: xargs/xargs.c:1116
 #, c-format
 msgid "unable to allocate memory"
 msgstr "无法分配内存"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr "无法设置环境变量 %s"
 
-#: xargs/xargs.c:1207
+#: xargs/xargs.c:1218
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "无法在派生子进程之前创建管道"
 
-#: xargs/xargs.c:1278
+#: xargs/xargs.c:1289
 #, fuzzy, c-format
 msgid ""
 "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
 "please report it)"
 msgstr "xargs_do_exec 中的 errno-buffer 读取失败(这可能是个 bug，请报告给我们)"
 
-#: xargs/xargs.c:1331
-#, c-format
+#: xargs/xargs.c:1342
+#, fuzzy, c-format
 msgid ""
-"read returned unexpected value %d; this is probably a bug, please report it"
+"read returned unexpected value %zu; this is probably a bug, please report it"
 msgstr "读取操作返回的是非预期值 %d；这可能是个 bug，请报告给我们"
 
-#: xargs/xargs.c:1424
+#: xargs/xargs.c:1435
 #, c-format
 msgid "error waiting for child process"
 msgstr "等待子进程时出错"
 
-#: xargs/xargs.c:1457
+#: xargs/xargs.c:1468
 #, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "警告: 失去 %lu 子进程的踪迹"
 
-#: xargs/xargs.c:1476
+#: xargs/xargs.c:1487
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s：以状态 255 退出；中止"
 
-#: xargs/xargs.c:1479
+#: xargs/xargs.c:1490
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s：因信号 %d 而停止"
 
-#: xargs/xargs.c:1482
+#: xargs/xargs.c:1493
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s：因信号 %d 而终止"
 
-#: xargs/xargs.c:1566
+#: xargs/xargs.c:1577
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s：选项 -%c 的数值无效\n"
 
-#: xargs/xargs.c:1573
+#: xargs/xargs.c:1584
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: 选项 -%c 的值必须 >= %ld\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1598
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: 选项 -%c 的值必须 < %ld\n"
 
-#: xargs/xargs.c:1606
+#: xargs/xargs.c:1617
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr ""
 
-#: xargs/xargs.c:1611
+#: xargs/xargs.c:1622
 #, fuzzy
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
@@ -1280,27 +1306,27 @@ msgstr ""
 "用法: %s [选项]... COMMAND INITIAL-ARGS...\n"
 "以 INITIAL-ARGS及更多来自控制台的参数来运行 COMMAND。\n"
 
-#: xargs/xargs.c:1613
+#: xargs/xargs.c:1624
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
 msgstr ""
 
-#: xargs/xargs.c:1615
+#: xargs/xargs.c:1626
 msgid ""
 "  -0, --null                   items are separated by a null, not "
 "whitespace;\n"
 "                                 disables quote and backslash processing "
 "and\n"
-"                                 logical EOF processing.\n"
+"                                 logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1618
+#: xargs/xargs.c:1629
 msgid ""
 "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
 msgstr ""
 
-#: xargs/xargs.c:1619
+#: xargs/xargs.c:1630
 msgid ""
 "  -d, --delimiter=CHARACTER    items in input stream are separated by "
 "CHARACTER,\n"
@@ -1309,39 +1335,39 @@ msgid ""
 "                                 processing and logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1622
+#: xargs/xargs.c:1633
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a "
+"  -E END                       set logical EOF string; if END occurs as a "
 "line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
 
-#: xargs/xargs.c:1625
+#: xargs/xargs.c:1636
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
 msgstr ""
 
-#: xargs/xargs.c:1627
+#: xargs/xargs.c:1638
 msgid "  -I R                         same as --replace=R\n"
 msgstr ""
 
-#: xargs/xargs.c:1628
+#: xargs/xargs.c:1639
 msgid ""
 "  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
 
-#: xargs/xargs.c:1631
+#: xargs/xargs.c:1642
 msgid ""
 "  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
 "per\n"
 "                                 command line\n"
 msgstr ""
 
-#: xargs/xargs.c:1633
+#: xargs/xargs.c:1644
 msgid ""
 "  -l[MAX-LINES]                similar to -L but defaults to at most one "
 "non-\n"
@@ -1349,28 +1375,28 @@ msgid ""
 "specified\n"
 msgstr ""
 
-#: xargs/xargs.c:1635
+#: xargs/xargs.c:1646
 msgid ""
 "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
 "line\n"
 msgstr ""
 
-#: xargs/xargs.c:1636
+#: xargs/xargs.c:1647
 msgid ""
 "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
 msgstr ""
 
-#: xargs/xargs.c:1637
+#: xargs/xargs.c:1648
 msgid "  -p, --interactive            prompt before running commands\n"
 msgstr ""
 
-#: xargs/xargs.c:1638
+#: xargs/xargs.c:1649
 msgid ""
 "      --process-slot-var=VAR   set environment variable VAR in child "
 "processes\n"
 msgstr ""
 
-#: xargs/xargs.c:1639
+#: xargs/xargs.c:1650
 msgid ""
 "  -r, --no-run-if-empty        if there are no arguments, then do not run "
 "COMMAND;\n"
@@ -1379,28 +1405,28 @@ msgid ""
 "                                 run at least once\n"
 msgstr ""
 
-#: xargs/xargs.c:1642
+#: xargs/xargs.c:1653
 msgid ""
 "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
 msgstr ""
 
-#: xargs/xargs.c:1643
+#: xargs/xargs.c:1654
 msgid "      --show-limits            show limits on command-line length\n"
 msgstr ""
 
-#: xargs/xargs.c:1644
+#: xargs/xargs.c:1655
 msgid "  -t, --verbose                print commands before executing them\n"
 msgstr ""
 
-#: xargs/xargs.c:1645
+#: xargs/xargs.c:1656
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
 msgstr ""
 
-#: xargs/xargs.c:1647
+#: xargs/xargs.c:1658
 msgid "      --help                   display this help and exit\n"
 msgstr ""
 
-#: xargs/xargs.c:1648
+#: xargs/xargs.c:1659
 msgid "      --version                output version information and exit\n"
 msgstr ""
 

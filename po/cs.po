@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.12\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2013-09-22 22:13+0100\n"
+"POT-Creation-Date: 2013-12-19 14:08+0200\n"
 "PO-Revision-Date: 2013-09-24 20:38+0200\n"
 "Last-Translator: Petr Pisar <petr.pisar@atlas.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -32,7 +32,7 @@ msgstr "Standardní vstup nelze uzavřít"
 msgid "Failed to change directory"
 msgstr "Změna adresáře se nezdařila"
 
-#: find/exec.c:312 xargs/xargs.c:1218
+#: find/exec.c:312 xargs/xargs.c:1229
 #, c-format
 msgid "cannot fork"
 msgstr "nelze vykonat fork()"
@@ -52,68 +52,109 @@ msgstr "%s ukončen signálem %d"
 msgid "Failed initialise shared-file hash table"
 msgstr "Inicializace hash tabulky sdílených souborů selhala"
 
-#: find/find.c:260
+#: find/find.c:219 find/ftsfind.c:693 locate/code.c:174 locate/frcode.c:233
+#: locate/locate.c:1568 xargs/xargs.c:392
+#, fuzzy, c-format
+msgid "The atexit library function failed"
+msgstr "kontrola nezávadnosti knihovní funkce fnmatch() selhala."
+
+#: find/find.c:263
 #, c-format
 msgid "cannot stat current directory"
 msgstr "na současný adresář nelze provést stat(2)"
 
-#: find/find.c:351
+#: find/find.c:354
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "Nelze načíst seznam připojených zařízení."
 
-#: find/find.c:440
+#: find/find.c:443
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "POZOR: systém souborů %s byl nedávno odpojen."
 
-#: find/find.c:450
+#: find/find.c:453
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "POZOR: systém souborů %s byl nedávno připojen."
 
-#: find/find.c:547
+#: find/find.c:550
 #, c-format
-msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"
-msgstr "během provádění %3$s změněn %1$s%2$s (staré číslo zařízení %4$ld, nové číslo zařízení %5$ld, druh souborového systému je %6$s) [odkaz %7$ld]"
+msgid ""
+"%s%s changed during execution of %s (old device number %ld, new device "
+"number %ld, file system type is %s) [ref %ld]"
+msgstr ""
+"během provádění %3$s změněn %1$s%2$s (staré číslo zařízení %4$ld, nové číslo "
+"zařízení %5$ld, druh souborového systému je %6$s) [odkaz %7$ld]"
 
-#: find/find.c:584
+#: find/find.c:587
 #, c-format
-msgid "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode number %<PRIuMAX>, file system type is %s) [ref %ld]"
-msgstr "během provádění %3$s změněn %1$s%2$s (staré číslo i-uzlu %4$<PRIuMAX>, nové číslo i-uzlu %5$<PRIuMAX>, druh souborového systému je %6$s) [odkaz %7$ld]"
+msgid ""
+"%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
+"number %<PRIuMAX>, file system type is %s) [ref %ld]"
+msgstr ""
+"během provádění %3$s změněn %1$s%2$s (staré číslo i-uzlu %4$<PRIuMAX>, nové "
+"číslo i-uzlu %5$<PRIuMAX>, druh souborového systému je %6$s) [odkaz %7$ld]"
 
-#: find/find.c:749
+#: find/find.c:752
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "návrat do nadřazeného adresáře selhal"
 
-#: find/find.c:1035
+#: find/find.c:1038
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Bezpečný přechod do adresáře %s se nezdařil"
 
-#: find/find.c:1135 find/ftsfind.c:245
+#: find/find.c:1138 find/ftsfind.c:245
 #, c-format
-msgid "Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."
-msgstr "Symbolický odkaz %s je součástí smyčky v hierarchii adresářů. Adresář, na který ukazuje, jsme již navštívili."
+msgid ""
+"Symbolic link %s is part of a loop in the directory hierarchy; we have "
+"already visited the directory to which it points."
+msgstr ""
+"Symbolický odkaz %s je součástí smyčky v hierarchii adresářů. Adresář, na "
+"který ukazuje, jsme již navštívili."
 
-#: find/find.c:1154
+#: find/find.c:1157
 #, c-format
-msgid "Filesystem loop detected; %s has the same device number and inode as a directory which is %d level higher in the file system hierarchy"
-msgid_plural "Filesystem loop detected; %s has the same device number and inode as a directory which is %d levels higher in the file system hierarchy"
-msgstr[0] "Odhalena smyčka souborových systémů: %s má stejné číslo zařízení a i-uzlu jako adresář, který se nachází o %d úrovni výše v hierarchii souborového systému"
-msgstr[1] "Odhalena smyčka souborových systémů: %s má stejné číslo zařízení a i-uzlu jako adresář, který se nachází o %d úrovně výše v hierarchii souborového systému"
-msgstr[2] "Odhalena smyčka souborových systémů: %s má stejné číslo zařízení a i-uzlu jako adresář, který se nachází o %d úrovní výše v hierarchii souborového systému"
+msgid ""
+"Filesystem loop detected; %s has the same device number and inode as a "
+"directory which is %d level higher in the file system hierarchy"
+msgid_plural ""
+"Filesystem loop detected; %s has the same device number and inode as a "
+"directory which is %d levels higher in the file system hierarchy"
+msgstr[0] ""
+"Odhalena smyčka souborových systémů: %s má stejné číslo zařízení a i-uzlu "
+"jako adresář, který se nachází o %d úrovni výše v hierarchii souborového "
+"systému"
+msgstr[1] ""
+"Odhalena smyčka souborových systémů: %s má stejné číslo zařízení a i-uzlu "
+"jako adresář, který se nachází o %d úrovně výše v hierarchii souborového "
+"systému"
+msgstr[2] ""
+"Odhalena smyčka souborových systémů: %s má stejné číslo zařízení a i-uzlu "
+"jako adresář, který se nachází o %d úrovní výše v hierarchii souborového "
+"systému"
 
-#: find/find.c:1406
+#: find/find.c:1409
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "varování: nenásleduji symbolický odkaz %s"
 
-#: find/find.c:1477
+#: find/find.c:1480
 #, c-format
-msgid "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but we already saw %<PRIuMAX> subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."
-msgstr "POZOR: Počet pevných odkazů na %s je chybný (viděno pouze st_nlink=%<PRIuMAX>, avšak již objeveno %<PRIuMAX> podadresářů): toto může být chyba v ovladači vašeho systému souborů. Automaticky zapínán přepínač findu -noleaf. Dřívější výsledky mohou být ovlivněny chybou spočívající v nezahrnutí adresářů, které by měly být prohledány."
+msgid ""
+"WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
+"we already saw %<PRIuMAX> subdirectories): this may be a bug in your file "
+"system driver.  Automatically turning on find's -noleaf option.  Earlier "
+"results may have failed to include directories that should have been "
+"searched."
+msgstr ""
+"POZOR: Počet pevných odkazů na %s je chybný (viděno pouze st_nlink="
+"%<PRIuMAX>, avšak již objeveno %<PRIuMAX> podadresářů): toto může být chyba "
+"v ovladači vašeho systému souborů. Automaticky zapínán přepínač findu -"
+"noleaf. Dřívější výsledky mohou být ovlivněny chybou spočívající "
+"v nezahrnutí adresářů, které by měly být prohledány."
 
 #: find/fstype.c:185
 #, c-format
@@ -126,10 +167,13 @@ msgstr "neznámý"
 
 #: find/ftsfind.c:259
 #, c-format
-msgid "File system loop detected; %s is part of the same file system loop as %s."
-msgstr "Odhalena smyčka souborových systémů: %s je součástí stejné smyčky souborových systémů jako %s."
+msgid ""
+"File system loop detected; %s is part of the same file system loop as %s."
+msgstr ""
+"Odhalena smyčka souborových systémů: %s je součástí stejné smyčky "
+"souborových systémů jako %s."
 
-#: find/ftsfind.c:444 find/util.c:218
+#: find/ftsfind.c:444 find/util.c:222
 #, c-format
 msgid "WARNING: file %s appears to have mode 0000"
 msgstr "POZOR: zdá se, že soubor %s má mód 0000"
@@ -146,23 +190,44 @@ msgstr "návrat do prvotního pracovního adresáře po prohledání %s selhal"
 
 #: find/parser.c:452
 #, c-format
-msgid "The -delete action automatically turns on -depth, but -prune does nothing when -depth is in effect.  If you want to carry on anyway, just explicitly use the -depth option."
-msgstr "Akce -delete automaticky zapíná -depth, ale -prune nic nedělá, je-li -depth zapnut. Chcete-li přesto pokračovat, prostě explicitně použijte přepínač -depth."
+msgid ""
+"The -delete action automatically turns on -depth, but -prune does nothing "
+"when -depth is in effect.  If you want to carry on anyway, just explicitly "
+"use the -depth option."
+msgstr ""
+"Akce -delete automaticky zapíná -depth, ale -prune nic nedělá, je-li -depth "
+"zapnut. Chcete-li přesto pokračovat, prostě explicitně použijte přepínač -"
+"depth."
 
 #: find/parser.c:599
 #, c-format
-msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
-msgstr "varování: zadali jste přepínač %s po nepřepínačovém argumentu %s, avšak přepínače nejsou poziční (%s ovlivňuje testy uvedené před ním zrovna tak jako ty po něm). Prosím, přepínače uvádějte před ostatními argumenty.\n"
+msgid ""
+"warning: you have specified the %s option after a non-option argument %s, "
+"but options are not positional (%s affects tests specified before it as well "
+"as those specified after it).  Please specify options before other "
+"arguments.\n"
+msgstr ""
+"varování: zadali jste přepínač %s po nepřepínačovém argumentu %s, avšak "
+"přepínače nejsou poziční (%s ovlivňuje testy uvedené před ním zrovna tak "
+"jako ty po něm). Prosím, přepínače uvádějte před ostatními argumenty.\n"
 
 #: find/parser.c:906
 #, c-format
-msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
-msgstr "varování: přepínač -d se nedoporučuje, prosím, místo něj použijte -depth, protože tato druhá forma je podle POSIXU."
+msgid ""
+"warning: the -d option is deprecated; please use -depth instead, because the "
+"latter is a POSIX-compliant feature."
+msgstr ""
+"varování: přepínač -d se nedoporučuje, prosím, místo něj použijte -depth, "
+"protože tato druhá forma je podle POSIXU."
 
 #: find/parser.c:1179
 #, c-format
-msgid "%s is not the name of an existing group and it does not look like a numeric group ID because it has the unexpected suffix %s"
-msgstr "%s není jméno existující skupiny, a ani nevypadá jako číselný identifikátor skupiny, protože obsahuje neočekávanou příponu %s"
+msgid ""
+"%s is not the name of an existing group and it does not look like a numeric "
+"group ID because it has the unexpected suffix %s"
+msgstr ""
+"%s není jméno existující skupiny, a ani nevypadá jako číselný identifikátor "
+"skupiny, protože obsahuje neočekávanou příponu %s"
 
 #: find/parser.c:1194
 #, c-format
@@ -186,12 +251,14 @@ msgstr ""
 
 #: find/parser.c:1225
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are given):\n"
+"operators (decreasing precedence; -and is implicit where no others are "
+"given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
 "operátory (v sestupné prioritě; implicitní je -and, není-li jiný uveden):\n"
-"      ( VÝRAZ )   ! VÝRAZ   -not VÝRAZ   VÝRAZ1 -a VÝRAZ2   VÝRAZ1 -and VÝRAZ2\n"
+"      ( VÝRAZ )   ! VÝRAZ   -not VÝRAZ   VÝRAZ1 -a VÝRAZ2   VÝRAZ1 -and "
+"VÝRAZ2\n"
 "      VÝRAZ1 -o VÝRAZ2   VÝRAZ1 -or VÝRAZ2   VÝRAZ1 , VÝRAZ2\n"
 
 #: find/parser.c:1229
@@ -212,11 +279,14 @@ msgstr ""
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
+"PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
-"testy (N může být +N nebo -N nebo N): -amin N -anewer SOUBOR -atime N -cmin N\n"
-"      -cnewer SOUBOR -ctime N -empty -false -fstype DRUH -gid N -group JMÉNO\n"
+"testy (N může být +N nebo -N nebo N): -amin N -anewer SOUBOR -atime N -cmin "
+"N\n"
+"      -cnewer SOUBOR -ctime N -empty -false -fstype DRUH -gid N -group "
+"JMÉNO\n"
 "      -ilname VZOR -iname VZOR -inum N -iwholename VZOR -iregex VZOR\n"
 "      -links N -lname VZOR -mmin N -mtime N -name VZOR -newer SOUBOR"
 
@@ -257,8 +327,10 @@ msgid ""
 "email to <bug-findutils@gnu.org>."
 msgstr ""
 "Chyby hlaste (a postup jejich opravy sledujte) přes stránku určenou na\n"
-"hlášení chyb ve findutils na http://savannah.gnu.org/ nebo, nemáte-li přístup\n"
-"k webu, odesláním e-mailu na <bug-findutils@gnu.org> (jen anglicky). Připomínky\n"
+"hlášení chyb ve findutils na http://savannah.gnu.org/ nebo, nemáte-li "
+"přístup\n"
+"k webu, odesláním e-mailu na <bug-findutils@gnu.org> (jen anglicky). "
+"Připomínky\n"
 "k překladu zasílejte na <translation-team-cs@lists.sourceforge.net> (česky)."
 
 #: find/parser.c:1307
@@ -268,8 +340,18 @@ msgstr "kontrola nezávadnosti knihovní funkce fnmatch() selhala."
 
 #: find/parser.c:1321
 #, c-format
-msgid "warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."
-msgstr "varování: Unixové názvy souborů obvykle neobsahují lomítka (ačkoliv názvy cest ano). To znamená, že na tomto systému bude „%s %s“ pravděpodobně pokaždé vyhodnoceno jako nepravda. Možná by se vám více hodil test „-wholename“ nebo spíše „-samefile“. Náhradní řešení, pokud používáte GNU grep, spočívá v použití „find … -print0 | grep -FzZ %s“."
+msgid ""
+"warning: Unix filenames usually don't contain slashes (though pathnames "
+"do).  That means that '%s %s' will probably evaluate to false all the time "
+"on this system.  You might find the '-wholename' test more useful, or "
+"perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
+"use 'find ... -print0 | grep -FzZ %s'."
+msgstr ""
+"varování: Unixové názvy souborů obvykle neobsahují lomítka (ačkoliv názvy "
+"cest ano). To znamená, že na tomto systému bude „%s %s“ pravděpodobně "
+"pokaždé vyhodnoceno jako nepravda. Možná by se vám více hodil test „-"
+"wholename“ nebo spíše „-samefile“. Náhradní řešení, pokud používáte GNU "
+"grep, spočívá v použití „find … -print0 | grep -FzZ %s“."
 
 #: find/parser.c:1447
 #, c-format
@@ -308,8 +390,14 @@ msgstr "neplatný mód %s"
 
 #: find/parser.c:2010
 #, c-format
-msgid "warning: you have specified a mode pattern %s (which is equivalent to /000). The meaning of -perm /000 has now been changed to be consistent with -perm -000; that is, while it used to match no files, it now matches all files."
-msgstr "varování: zadali jste vzor módu %s (což je ekvivalentní /000). Význam -perm /000 byl nyní pozměněn tak, aby byl jednotný s -perm -000. To jest, dříve se neshodoval s žádnými soubory, nyní se shoduje se všemi."
+msgid ""
+"warning: you have specified a mode pattern %s (which is equivalent to /000). "
+"The meaning of -perm /000 has now been changed to be consistent with -perm "
+"-000; that is, while it used to match no files, it now matches all files."
+msgstr ""
+"varování: zadali jste vzor módu %s (což je ekvivalentní /000). Význam -"
+"perm /000 byl nyní pozměněn tak, aby byl jednotný s -perm -000. To jest, "
+"dříve se neshodoval s žádnými soubory, nyní se shoduje se všemi."
 
 #: find/parser.c:2210
 #, c-format
@@ -327,8 +415,12 @@ msgid "Invalid argument `%s%s' to -size"
 msgstr "Neplatný argument „%s%s“ u -size"
 
 #: find/parser.c:2452
-msgid "The -show-control-chars option takes a single argument which must be 'literal' or 'safe'"
-msgstr "Přepínač -show-control-chars bere jediný argument, který musí být „literal“ (doslovný) nebo „safe“ (bezpečný)."
+msgid ""
+"The -show-control-chars option takes a single argument which must be "
+"'literal' or 'safe'"
+msgstr ""
+"Přepínač -show-control-chars bere jediný argument, který musí být "
+"„literal“ (doslovný) nebo „safe“ (bezpečný)."
 
 #: find/parser.c:2566
 #, c-format
@@ -362,23 +454,39 @@ msgstr "Argumenty u -type by měly obsahovat pouze jedno písmeno."
 
 #: find/parser.c:2809
 #, c-format
-msgid "-type %c is not supported because symbolic links are not supported on the platform find was compiled on."
-msgstr "-type %c není podporováno, protože na systému, kde byl find sestaven, nejsou symbolické odkazy podporovány."
+msgid ""
+"-type %c is not supported because symbolic links are not supported on the "
+"platform find was compiled on."
+msgstr ""
+"-type %c není podporováno, protože na systému, kde byl find sestaven, nejsou "
+"symbolické odkazy podporovány."
 
 #: find/parser.c:2820
 #, c-format
-msgid "-type %c is not supported because FIFOs are not supported on the platform find was compiled on."
-msgstr "-type %c není podporováno, protože na systému, kde byl find sestaven, nejsou roury podporovány."
+msgid ""
+"-type %c is not supported because FIFOs are not supported on the platform "
+"find was compiled on."
+msgstr ""
+"-type %c není podporováno, protože na systému, kde byl find sestaven, nejsou "
+"roury podporovány."
 
 #: find/parser.c:2831
 #, c-format
-msgid "-type %c is not supported because named sockets are not supported on the platform find was compiled on."
-msgstr "-type %c není podporováno, protože na systému, kde byl find sestaven, nejsou pojmenované sockety podporovány."
+msgid ""
+"-type %c is not supported because named sockets are not supported on the "
+"platform find was compiled on."
+msgstr ""
+"-type %c není podporováno, protože na systému, kde byl find sestaven, nejsou "
+"pojmenované sockety podporovány."
 
 #: find/parser.c:2842
 #, c-format
-msgid "-type %c is not supported because Solaris doors are not supported on the platform find was compiled on."
-msgstr "-type %c není podporováno, protože na systému, kde byl find sestaven, nejsou solarisové doors podporovány."
+msgid ""
+"-type %c is not supported because Solaris doors are not supported on the "
+"platform find was compiled on."
+msgstr ""
+"-type %c není podporováno, protože na systému, kde byl find sestaven, nejsou "
+"solarisové doors podporovány."
 
 #: find/parser.c:2849
 #, c-format
@@ -387,18 +495,34 @@ msgstr "Neznámý argument u -type: %c"
 
 #: find/parser.c:2923
 #, c-format
-msgid "The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\", doubled colons, or leading or trailing colons)"
-msgstr "Současný adresář je obsažen v proměnné prostředí PATH, což je nebezpečné ve spojení s akcí findu %s. Prosím, odstraňte současný adresář z vaší $PATH (to jest, odeberte „.“, zdvojené dvojtečky nebo úvodní nebo závěrečné dvojtečky)."
+msgid ""
+"The current directory is included in the PATH environment variable, which is "
+"insecure in combination with the %s action of find.  Please remove the "
+"current directory from your $PATH (that is, remove \".\", doubled colons, or "
+"leading or trailing colons)"
+msgstr ""
+"Současný adresář je obsažen v proměnné prostředí PATH, což je nebezpečné ve "
+"spojení s akcí findu %s. Prosím, odstraňte současný adresář z vaší $PATH (to "
+"jest, odeberte „.“, zdvojené dvojtečky nebo úvodní nebo závěrečné dvojtečky)."
 
 #: find/parser.c:2935
 #, c-format
-msgid "The relative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"
-msgstr "Relativní cesta %s je obsažena v proměnné prostředí PATH, což je nebezpečné ve spojení s akcí findu %s. Prosím, odstraňte tuto položku z $PATH."
+msgid ""
+"The relative path %s is included in the PATH environment variable, which is "
+"insecure in combination with the %s action of find.  Please remove that "
+"entry from $PATH"
+msgstr ""
+"Relativní cesta %s je obsažena v proměnné prostředí PATH, což je nebezpečné "
+"ve spojení s akcí findu %s. Prosím, odstraňte tuto položku z $PATH."
 
 #: find/parser.c:3044
 #, c-format
-msgid "You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."
-msgstr "Neměli byste používat {} uvnitř názvu nástroje u -execdir a -okdir, protože to představuje možný bezpečnostní problém."
+msgid ""
+"You may not use {} within the utility name for -execdir and -okdir, because "
+"this is a potential security problem."
+msgstr ""
+"Neměli byste používat {} uvnitř názvu nástroje u -execdir a -okdir, protože "
+"to představuje možný bezpečnostní problém."
 
 #: find/parser.c:3070
 #, c-format
@@ -448,32 +572,44 @@ msgstr "POZOR: čas vytvoření souboru %s není možné určit"
 msgid "< %s ... %s > ? "
 msgstr "< %s … %s > ? "
 
-#: find/pred.c:1205 find/print.c:1228
+#: find/pred.c:784
+#, fuzzy, c-format
+msgid "Failed to write prompt for -ok"
+msgstr "Zápis na standardní výstup selhal"
+
+#: find/pred.c:1208 find/print.c:1234
 #, c-format
 msgid "getfilecon failed: %s"
 msgstr "getfilecon selhala: %s"
 
-#: find/print.c:359
+#: find/print.c:346
+#, c-format
+msgid "warning: escape `\\' followed by nothing at all"
+msgstr ""
+
+#: find/print.c:365
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "varování: nerozpoznaný řídicí znak „\\%c“"
 
-#: find/print.c:379
+#: find/print.c:385
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "chyba: na konci formátovací řetězce je %s"
 
-#: find/print.c:403
+#: find/print.c:409
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "chyba: formátovací direktiva „%%%c“ je vyhrazena pro budoucí použití"
 
-#: find/print.c:411
+#: find/print.c:417
 #, c-format
-msgid "warning: format directive `%%%c' should be followed by another character"
-msgstr "varování: formátovací direktiva „%%%c“ by měla být následována dalším znakem"
+msgid ""
+"warning: format directive `%%%c' should be followed by another character"
+msgstr ""
+"varování: formátovací direktiva „%%%c“ by měla být následována dalším znakem"
 
-#: find/print.c:419
+#: find/print.c:425
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "varování: nerozpoznaná formátovací direktiva „%%%c“"
@@ -485,8 +621,12 @@ msgstr "neplatný výraz"
 
 #: find/tree.c:140
 #, c-format
-msgid "invalid expression; you have used a binary operator '%s' with nothing before it."
-msgstr "neplatný výraz: použili jste binární operátor „%s“, aniž by mu cokoliv předcházelo."
+msgid ""
+"invalid expression; you have used a binary operator '%s' with nothing before "
+"it."
+msgstr ""
+"neplatný výraz: použili jste binární operátor „%s“, aniž by mu cokoliv "
+"předcházelo."
 
 #: find/tree.c:151
 #, c-format
@@ -505,8 +645,12 @@ msgstr "neplatný výraz: máte moc „)“"
 
 #: find/tree.c:189
 #, c-format
-msgid "invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"
-msgstr "neplatný výraz: očekávána „)“, ale nenalezena ani jedna. Za „%s“ asi potřebujete další predikát"
+msgid ""
+"invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
+"need an extra predicate after '%s'"
+msgstr ""
+"neplatný výraz: očekávána „)“, ale nenalezena ani jedna. Za „%s“ asi "
+"potřebujete další predikát"
 
 #: find/tree.c:197
 #, c-format
@@ -515,8 +659,11 @@ msgstr "neplatný výraz: prázdné závorky nejsou povoleny."
 
 #: find/tree.c:203
 #, c-format
-msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
-msgstr "neplatný výraz: Čekal jsem, že někde naleznu „)“, ale nenašel jsem ani jednu."
+msgid ""
+"invalid expression; I was expecting to find a ')' somewhere but did not see "
+"one."
+msgstr ""
+"neplatný výraz: Čekal jsem, že někde naleznu „)“, ale nenašel jsem ani jednu."
 
 #: find/tree.c:209 find/tree.c:833
 #, c-format
@@ -530,8 +677,12 @@ msgstr "ajaj – neplatný typ výrazu (%d)!"
 
 #: find/tree.c:1120
 #, c-format
-msgid "warning: there is no entry in the predicate evaluation cost table for predicate %s; please report this as a bug"
-msgstr "varování: predikát %s nemá žádný záznam v tabulce obtížnosti vyhodnocování predikátů. Prosím, nahlaste to jako chybu."
+msgid ""
+"warning: there is no entry in the predicate evaluation cost table for "
+"predicate %s; please report this as a bug"
+msgstr ""
+"varování: predikát %s nemá žádný záznam v tabulce obtížnosti vyhodnocování "
+"predikátů. Prosím, nahlaste to jako chybu."
 
 #: find/tree.c:1294
 #, c-format
@@ -588,50 +739,58 @@ msgstr "Užití: %s [-H] [-L] [-P] [-Oúroveň] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [cesta…] [výraz]\n"
 
-#: find/util.c:455
+#: find/util.c:459
 #, c-format
 msgid "failed to save initial working directory"
 msgstr "prvotní pracovní adresář nelze uložit"
 
-#: find/util.c:472
+#: find/util.c:476
 #, c-format
 msgid "failed to restore initial working directory"
 msgstr "prvotní pracovní adresář nelze obnovit"
 
-#: find/util.c:820
+#: find/util.c:824
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Ignoruji nerozpoznaný ladicí příznak %s"
 
-#: find/util.c:827
+#: find/util.c:831
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Prázdný argument přepínače -D."
 
-#: find/util.c:843
+#: find/util.c:847
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "Přepínač -D musí být bezprostředně následován desítkovým celým číslem."
 
-#: find/util.c:853 find/util.c:864
+#: find/util.c:857 find/util.c:868
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Prosím, zadejte desítkové číslo okamžitě po -O"
 
-#: find/util.c:869 find/util.c:874
+#: find/util.c:873 find/util.c:878
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Neplatná úroveň optimalizace %s"
 
-#: find/util.c:882
+#: find/util.c:886
 #, c-format
-msgid "Optimisation level %lu is too high.  If you want to find files very quickly, consider using GNU locate."
-msgstr "Úroveň optimalizace %lu je příliš vysoká. Potřebujte-li hledat soubory velmi rychle, zvažte použití GNU locate."
+msgid ""
+"Optimisation level %lu is too high.  If you want to find files very quickly, "
+"consider using GNU locate."
+msgstr ""
+"Úroveň optimalizace %lu je příliš vysoká. Potřebujte-li hledat soubory velmi "
+"rychle, zvažte použití GNU locate."
 
-#: find/util.c:1026
+#: find/util.c:1030
 #, c-format
-msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr "Proměnná prostředí FIND_BLOCK_SIZE není podporována. Jediná věc, která ovlivňuje velikost bloku je proměnná prostředí POSIXLY_CORRECT."
+msgid ""
+"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
+"that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr ""
+"Proměnná prostředí FIND_BLOCK_SIZE není podporována. Jediná věc, která "
+"ovlivňuje velikost bloku je proměnná prostředí POSIXLY_CORRECT."
 
 #: lib/buildcmd.c:161
 #, c-format
@@ -646,7 +805,8 @@ msgstr "kvůli omezením velikosti argumentů není možné zavolat exec()"
 #: lib/buildcmd.c:371
 #, c-format
 msgid "cannot fit single argument within argument list size limit"
-msgstr "s jediným argumentem se nelze vejít do limitu velikosti seznamu argumentů"
+msgstr ""
+"s jediným argumentem se nelze vejít do limitu velikosti seznamu argumentů"
 
 #: lib/buildcmd.c:377
 #, c-format
@@ -660,8 +820,12 @@ msgstr "Proměnná prostředí %s není nastavena na platné desítkové číslo
 
 #: lib/fdleak.c:377
 #, c-format
-msgid "File descriptor %d will leak; please report this as a bug, remembering to include a detailed description of the simplest way to reproduce this problem."
-msgstr "Deskriptor souboru %d unikne. Prosím, ohlaste to jako chybu a nezapomeňte uvést podrobný popis nejjednoduššího způsobu, jak tento problém vyvolat."
+msgid ""
+"File descriptor %d will leak; please report this as a bug, remembering to "
+"include a detailed description of the simplest way to reproduce this problem."
+msgstr ""
+"Deskriptor souboru %d unikne. Prosím, ohlaste to jako chybu a nezapomeňte "
+"uvést podrobný popis nejjednoduššího způsobu, jak tento problém vyvolat."
 
 #: lib/findutils-version.c:55
 msgid "Eric B. Decker"
@@ -700,14 +864,15 @@ msgstr ""
 "nebo   %s nejčastější_dvojhlásky < soubor_se_seznamem > databáze_locate\n"
 
 #: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
-#: xargs/xargs.c:1649
+#: xargs/xargs.c:1660
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
 msgstr ""
 "\n"
 "Chyby hlaste na <bug-findutils@gnu.org> (jen anglicky). Připomínky\n"
-"k překladu zasílejte na <translation-team-cs@lists.sourceforge.net> (česky).\n"
+"k překladu zasílejte na <translation-team-cs@lists.sourceforge.net> "
+"(česky).\n"
 
 #: locate/code.c:153 locate/frcode.c:210
 #, c-format
@@ -734,12 +899,12 @@ msgstr "Úroveň zabezpečení %s je mimo převoditelný rozsah."
 msgid "Security level %s has unexpected suffix %s."
 msgstr "úroveň zabezpečení %s má neočekávanou příponu %s."
 
-#: locate/frcode.c:254
+#: locate/frcode.c:257
 #, c-format
 msgid "slocate security level %ld is unsupported."
 msgstr "Úroveň zabezpečení slocate %ld není podporována."
 
-#: locate/frcode.c:292
+#: locate/frcode.c:295
 #, c-format
 msgid "Failed to write to standard output"
 msgstr "Zápis na standardní výstup selhal"
@@ -762,7 +927,9 @@ msgstr "Neplatný argument %s přepínače -max-database-age"
 #: locate/locate.c:459
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
-msgstr "locate databáze %s obsahuje delší název souboru, než s jakým může locate zacházet"
+msgstr ""
+"locate databáze %s obsahuje delší název souboru, než s jakým může locate "
+"zacházet"
 
 #: locate/locate.c:569 locate/locate.c:588
 #, c-format
@@ -807,8 +974,12 @@ msgstr ""
 
 #: locate/locate.c:888
 #, c-format
-msgid "Some filenames may have been filtered out, so we cannot compute the compression ratio.\n"
-msgstr "Některé názvy souborů mohly být vynechány, takže nemůžeme spočítat kompresní poměr.\n"
+msgid ""
+"Some filenames may have been filtered out, so we cannot compute the "
+"compression ratio.\n"
+msgstr ""
+"Některé názvy souborů mohly být vynechány, takže nemůžeme spočítat kompresní "
+"poměr.\n"
 
 #: locate/locate.c:901
 #, c-format
@@ -822,23 +993,38 @@ msgstr "Kompresní poměr není definován\n"
 
 #: locate/locate.c:963
 #, c-format
-msgid "locate database %s looks like an slocate database but it seems to have security level %c, which GNU findutils does not currently support"
-msgstr "locate databáze %s vypadá jako slocate databáze, akorát má úroveň zabezpečení %c, což GNU findutils zatím nepodporuje."
+msgid ""
+"locate database %s looks like an slocate database but it seems to have "
+"security level %c, which GNU findutils does not currently support"
+msgstr ""
+"locate databáze %s vypadá jako slocate databáze, akorát má úroveň "
+"zabezpečení %c, což GNU findutils zatím nepodporuje."
 
 #: locate/locate.c:1075
 #, c-format
-msgid "%s is an slocate database.  Support for these is new, expect problems for now."
-msgstr "%s je databáze slocate. Jejich podpora je nová, zatím očekávejte problémy."
+msgid ""
+"%s is an slocate database.  Support for these is new, expect problems for "
+"now."
+msgstr ""
+"%s je databáze slocate. Jejich podpora je nová, zatím očekávejte problémy."
 
 #: locate/locate.c:1089
 #, c-format
-msgid "%s is an slocate database of unsupported security level %d; skipping it."
-msgstr "%s je slocate databáze s nepodporovanou úrovní zabezpečení %d, vynechávám ji."
+msgid ""
+"%s is an slocate database of unsupported security level %d; skipping it."
+msgstr ""
+"%s je slocate databáze s nepodporovanou úrovní zabezpečení %d, vynechávám ji."
 
 #: locate/locate.c:1106
 #, c-format
-msgid "You specified the -E option, but that option cannot be used with slocate-format databases with a non-zero security level.  No results will be generated for this database.\n"
-msgstr "Zadali jste přepínač -E, ale tento přepínač nemůže být použit s databází v slocate formátu a nenulovou úrovní zabezpečení. Pro tuto databázi nebudou vytvořeny žádné výsledky.\n"
+msgid ""
+"You specified the -E option, but that option cannot be used with slocate-"
+"format databases with a non-zero security level.  No results will be "
+"generated for this database.\n"
+msgstr ""
+"Zadali jste přepínač -E, ale tento přepínač nemůže být použit s databází "
+"v slocate formátu a nenulovou úrovní zabezpečení. Pro tuto databázi nebudou "
+"vytvořeny žádné výsledky.\n"
 
 #: locate/locate.c:1117
 #, c-format
@@ -848,7 +1034,8 @@ msgstr "%s je slocate databáze. Zapínám přepínač „-e“."
 #: locate/locate.c:1155
 #, c-format
 msgid "Old-format locate database %s is too short to be valid"
-msgstr "Locate databáze %s ve starém formátu je příliš krátká na to, aby byla platná."
+msgstr ""
+"Locate databáze %s ve starém formátu je příliš krátká na to, aby byla platná."
 
 #: locate/locate.c:1307
 #, c-format
@@ -903,20 +1090,21 @@ msgstr "Zbavení se všech práv selhalo"
 msgid "failed to drop setgid privileges"
 msgstr "zbavení se setgid práv selhalo"
 
-#: locate/locate.c:1761
+#: locate/locate.c:1763
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "varování: locate databázi lze ze standardního vstupu číst jen jednou."
 
-#: locate/locate.c:1831
+#: locate/locate.c:1833
 #, c-format
 msgid "time system call failed"
 msgstr "služba systému time selhala"
 
-#: locate/locate.c:1842
+#: locate/locate.c:1844
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
-msgstr "varování: databáze %s je více jak %d %s stará (současný věk je %.1f %s)"
+msgstr ""
+"varování: databáze %s je více jak %d %s stará (současný věk je %.1f %s)"
 
 #: locate/word_io.c:98
 #, c-format
@@ -940,212 +1128,267 @@ msgstr "Neplatná escape posloupnost %s v zadání oddělovače vstupu."
 
 #: xargs/xargs.c:270
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."
-msgstr "Neplatná escape posloupnost %s v zadání oddělovače vstupu, hodnoty znaků nesmí přesáhnout %lx."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lx."
+msgstr ""
+"Neplatná escape posloupnost %s v zadání oddělovače vstupu, hodnoty znaků "
+"nesmí přesáhnout %lx."
 
 #: xargs/xargs.c:276
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."
-msgstr "Neplatná escape posloupnost %s v zadání oddělovače vstupu, hodnoty znaků nesmí přesáhnout %lo."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lo."
+msgstr ""
+"Neplatná escape posloupnost %s v zadání oddělovače vstupu, hodnoty znaků "
+"nesmí přesáhnout %lo."
 
 #: xargs/xargs.c:285
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."
-msgstr "Neplatná escape posloupnost %s v zadání oddělovače vstupu, závěrečné znaky %s nebyly rozeznány."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; trailing "
+"characters %s not recognised."
+msgstr ""
+"Neplatná escape posloupnost %s v zadání oddělovače vstupu, závěrečné znaky "
+"%s nebyly rozeznány."
 
 #: xargs/xargs.c:330
 #, c-format
-msgid "Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."
-msgstr "Neplatné určení oddělovače vstupu %s: oddělovač musí být buď jediný znak, nebo escape posloupnost začínající \\."
+msgid ""
+"Invalid input delimiter specification %s: the delimiter must be either a "
+"single character or an escape sequence starting with \\."
+msgstr ""
+"Neplatné určení oddělovače vstupu %s: oddělovač musí být buď jediný znak, "
+"nebo escape posloupnost začínající \\."
 
 #: xargs/xargs.c:347
 #, c-format
 msgid "environment is too large for exec"
 msgstr "prostředí je na exec() příliš velké"
 
-#: xargs/xargs.c:556
+#: xargs/xargs.c:559
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
-msgstr "pozor: hodnota %ld přepínače -s je příliš velká, místo toho se použije %ld"
+msgstr ""
+"pozor: hodnota %ld přepínače -s je příliš velká, místo toho se použije %ld"
 
-#: xargs/xargs.c:603
+#: xargs/xargs.c:606
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr "přepínači --%s nesmí být zadána hodnota obsahující „=“"
 
-#: xargs/xargs.c:615
+#: xargs/xargs.c:618
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr "nepodařilo se zrušit proměnnou prostředí %s"
 
-#: xargs/xargs.c:629
+#: xargs/xargs.c:632
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
 msgstr "pozor: přepínač -E je bez účinku, je-li použit -0 nebo -d.\n"
 
-#: xargs/xargs.c:651
+#: xargs/xargs.c:654
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr "Nelze nastavit obsluhu signálu SIGUSR1"
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:660
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr "Nelze nastavit obsluhu signálu SIGUSR2"
 
-#: xargs/xargs.c:673
+#: xargs/xargs.c:676
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Vstupní soubor %s nelze otevřít."
 
-#: xargs/xargs.c:692
+#: xargs/xargs.c:695
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Vaše proměnné prostředí zabírají %'<PRIuMAX> bajtů\n"
 
-#: xargs/xargs.c:695
+#: xargs/xargs.c:698
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "Horní mez délky argumentů dle POSIXU (tento sytém): %'<PRIuMAX>\n"
 
-#: xargs/xargs.c:698
-#, c-format
-msgid "POSIX smallest allowable upper limit on argument length (all systems): %<PRIuMAX>\n"
-msgstr "Nejmenší možná horní mez délky argumentů dle POSIXU (všechny systémy): %'<PRIuMAX>\n"
-
 #: xargs/xargs.c:701
+#, c-format
+msgid ""
+"POSIX smallest allowable upper limit on argument length (all systems): "
+"%<PRIuMAX>\n"
+msgstr ""
+"Nejmenší možná horní mez délky argumentů dle POSIXU (všechny systémy): "
+"%'<PRIuMAX>\n"
+
+#: xargs/xargs.c:704
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "Maximální délka příkazu, který tedy můžeme použít: %'<PRIuMAX>\n"
 
-#: xargs/xargs.c:704
+#: xargs/xargs.c:707
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Velikost bufferu příkazu, který tedy používáme: %'<PRIuMAX>\n"
 
-#: xargs/xargs.c:710
+#: xargs/xargs.c:713
 #, c-format
 msgid ""
 "\n"
-"Execution of xargs will continue now, and it will try to read its input and run commands; if this is not what you wanted to happen, please type the end-of-file keystroke.\n"
+"Execution of xargs will continue now, and it will try to read its input and "
+"run commands; if this is not what you wanted to happen, please type the end-"
+"of-file keystroke.\n"
 msgstr ""
 "\n"
-"Vykonávání xargs bude nyní pokračovat. Bude se pokoušet číst svůj vstup a spouštět příkazy. Pokud to není to, co chcete, aby se dělo, prosím, stiskněte klávesy konce souboru.\n"
+"Vykonávání xargs bude nyní pokračovat. Bude se pokoušet číst svůj vstup a "
+"spouštět příkazy. Pokud to není to, co chcete, aby se dělo, prosím, "
+"stiskněte klávesy konce souboru.\n"
 
-#: xargs/xargs.c:718
+#: xargs/xargs.c:721
 #, c-format
-msgid "Warning: %s will be run at least once.  If you do not want that to happen, then press the interrupt keystroke.\n"
-msgstr "Varování: %s bude spuštěn alespoň jednou. Pokud nechcete, aby se stalo, pak stiskněte klávesy přerušení.\n"
+msgid ""
+"Warning: %s will be run at least once.  If you do not want that to happen, "
+"then press the interrupt keystroke.\n"
+msgstr ""
+"Varování: %s bude spuštěn alespoň jednou. Pokud nechcete, aby se stalo, pak "
+"stiskněte klávesy přerušení.\n"
 
 # XXX: unmatched {single|double} quote
-#: xargs/xargs.c:846 xargs/xargs.c:939
+#: xargs/xargs.c:849 xargs/xargs.c:942
 #, c-format
-msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
-msgstr "neodpovídající %s uvozovka; implicitně jsou pro xargs uvozovky zvláštními znaky, dokud nepoužijete přepínač -0"
+msgid ""
+"unmatched %s quote; by default quotes are special to xargs unless you use "
+"the -0 option"
+msgstr ""
+"neodpovídající %s uvozovka; implicitně jsou pro xargs uvozovky zvláštními "
+"znaky, dokud nepoužijete přepínač -0"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "double"
 msgstr "dvojitá"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "single"
 msgstr "jednoduchá"
 
-#: xargs/xargs.c:959
+#: xargs/xargs.c:962
 #, c-format
-msgid "WARNING: a NUL character occurred in the input.  It cannot be passed through in the argument list.  Did you mean to use the --null option?"
-msgstr "POZOR: Na vstupu se objevil znak NULL. Není možné jej předat do seznamu argumentů. Nezamýšleli jste použít přepínač --null?"
+msgid ""
+"WARNING: a NUL character occurred in the input.  It cannot be passed through "
+"in the argument list.  Did you mean to use the --null option?"
+msgstr ""
+"POZOR: Na vstupu se objevil znak NULL. Není možné jej předat do seznamu "
+"argumentů. Nezamýšleli jste použít přepínač --null?"
 
-#: xargs/xargs.c:969 xargs/xargs.c:1034
+#: xargs/xargs.c:972 xargs/xargs.c:1037
 #, c-format
 msgid "argument line too long"
 msgstr "řádka s argumenty je příliš dlouhá"
 
-#: xargs/xargs.c:1062
+#: xargs/xargs.c:1056 xargs/xargs.c:1073
+#, fuzzy, c-format
+msgid "Failed to write to stderr"
+msgstr "Zápis na standardní výstup selhal"
+
+#: xargs/xargs.c:1069
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "/dev/tty nebylo možné otevřít pro čtení"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1079
+#, fuzzy, c-format
+msgid "Failed to read from stdin"
+msgstr "Zápis na standardní výstup selhal"
+
+#: xargs/xargs.c:1116
 #, c-format
 msgid "unable to allocate memory"
 msgstr "nelze alokovat paměť"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr "nastavení proměnné prostředí %s selhalo"
 
-#: xargs/xargs.c:1207
+#: xargs/xargs.c:1218
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "před fork() nebylo možné vyrobit rouru"
 
-#: xargs/xargs.c:1278
+#: xargs/xargs.c:1289
 #, c-format
-msgid "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, please report it)"
-msgstr "volání safe_read nad errno-buffer selhalo v xargs_do_exec (pravděpodobně se jedná o chybu, prosím, ohlaste to)"
+msgid ""
+"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
+"please report it)"
+msgstr ""
+"volání safe_read nad errno-buffer selhalo v xargs_do_exec (pravděpodobně se "
+"jedná o chybu, prosím, ohlaste to)"
 
-#: xargs/xargs.c:1331
-#, c-format
-msgid "read returned unexpected value %d; this is probably a bug, please report it"
-msgstr "read vrátilo neočekávanou hodnotu %d; pravděpodobně se jedná o chybu, prosím, ohlaste to"
+#: xargs/xargs.c:1342
+#, fuzzy, c-format
+msgid ""
+"read returned unexpected value %zu; this is probably a bug, please report it"
+msgstr ""
+"read vrátilo neočekávanou hodnotu %d; pravděpodobně se jedná o chybu, "
+"prosím, ohlaste to"
 
-#: xargs/xargs.c:1424
+#: xargs/xargs.c:1435
 #, c-format
 msgid "error waiting for child process"
 msgstr "chyba při čekání na proces potomka"
 
 # TODO: plural
-#: xargs/xargs.c:1457
+#: xargs/xargs.c:1468
 #, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "POZOR: Ztracena stopa %lu potomků"
 
-#: xargs/xargs.c:1476
+#: xargs/xargs.c:1487
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: ukončen s kódem 255, končím"
 
-#: xargs/xargs.c:1479
+#: xargs/xargs.c:1490
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: pozastaven signálem %d"
 
-#: xargs/xargs.c:1482
+#: xargs/xargs.c:1493
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: ukončen signálem %d"
 
-#: xargs/xargs.c:1566
+#: xargs/xargs.c:1577
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: neplatné číslo u přepínače -%c\n"
 
-#: xargs/xargs.c:1573
+#: xargs/xargs.c:1584
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: hodnota přepínače -%c by měla být >= %ld\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1598
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: hodnota přepínače -%c by měla být < %ld\n"
 
-#: xargs/xargs.c:1606
+#: xargs/xargs.c:1617
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr "Použití: %s [PŘEPÍNAČ]… PŘÍKAZ [ÚVODNÍ_ARGUMENTY]…\n"
 
-#: xargs/xargs.c:1611
+#: xargs/xargs.c:1622
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
 msgstr ""
-"Spustí PŘÍKAZ s ÚVODNÍMI_ARGUMENTY následovanými dalšími argumenty přečtenými\n"
+"Spustí PŘÍKAZ s ÚVODNÍMI_ARGUMENTY následovanými dalšími argumenty "
+"přečtenými\n"
 "ze standardního vstupu.\n"
 
-#: xargs/xargs.c:1613
+#: xargs/xargs.c:1624
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
@@ -1153,57 +1396,70 @@ msgstr ""
 "Povinné a volitelné argumenty dlouhých přepínačů jsou také povinné nebo\n"
 "volitelné u odpovídajících krátkých přepínačů.\n"
 
-#: xargs/xargs.c:1615
+#: xargs/xargs.c:1626
+#, fuzzy
 msgid ""
-"  -0, --null                   items are separated by a null, not whitespace;\n"
-"                                 disables quote and backslash processing and\n"
-"                                 logical EOF processing.\n"
+"  -0, --null                   items are separated by a null, not "
+"whitespace;\n"
+"                                 disables quote and backslash processing "
+"and\n"
+"                                 logical EOF processing\n"
 msgstr ""
-"  -0, --null                   položky jsou odděleny nulovým bajtem, nikoliv\n"
+"  -0, --null                   položky jsou odděleny nulovým bajtem, "
+"nikoliv\n"
 "                               bílým znakem. Vypne zpracování uvozovek,\n"
 "                               zpětných lomítek a konce souboru.\n"
 
-#: xargs/xargs.c:1618
-msgid "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+#: xargs/xargs.c:1629
+msgid ""
+"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
 msgstr ""
 "  -a, --arg-file=SOUBOR        načte argumenty ze SOUBORU, ne ze\n"
 "                               standardního vstupu\n"
 
-#: xargs/xargs.c:1619
+#: xargs/xargs.c:1630
 msgid ""
-"  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
-"                                 not by whitespace; disables quote and backslash\n"
+"  -d, --delimiter=CHARACTER    items in input stream are separated by "
+"CHARACTER,\n"
+"                                 not by whitespace; disables quote and "
+"backslash\n"
 "                                 processing and logical EOF processing\n"
 msgstr ""
-"  -d, --delimiter=ZNAK         položky ve vstupním proudu jsou odděleny ZNAKEM,\n"
-"                               nikoliv býlím místem. Vypne zpracování uvozovek,\n"
+"  -d, --delimiter=ZNAK         položky ve vstupním proudu jsou odděleny "
+"ZNAKEM,\n"
+"                               nikoliv býlím místem. Vypne zpracování "
+"uvozovek,\n"
 "                               zpětných lomítek a konce souboru.\n"
 
-#: xargs/xargs.c:1622
+#: xargs/xargs.c:1633
+#, fuzzy
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a line\n"
+"  -E END                       set logical EOF string; if END occurs as a "
+"line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
 "  -E KONEC                     Nastaví značkou logického konce souboru.\n"
 "                               Vyskytne-li se KONEC jako řádek ve vstupu,\n"
-"                               zbytek vstupu bude ignorován. (Tento přepínač\n"
+"                               zbytek vstupu bude ignorován. (Tento "
+"přepínač\n"
 "                               je potlačen přepínačem -0 nebo -d.)\n"
 
-#: xargs/xargs.c:1625
+#: xargs/xargs.c:1636
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
 msgstr ""
 "  -e, --eof[=KONEC]            stejné jako -E KONEC, je-li KONEC zadán.\n"
-"                               Jinak nebude rozpoznáván žádný řetězec značící\n"
+"                               Jinak nebude rozpoznáván žádný řetězec "
+"značící\n"
 "                               konec souboru.\n"
 
-#: xargs/xargs.c:1627
+#: xargs/xargs.c:1638
 msgid "  -I R                         same as --replace=R\n"
 msgstr "  -I N                         stejné jako --replace=N\n"
 
-#: xargs/xargs.c:1628
+#: xargs/xargs.c:1639
 msgid ""
 "  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
 "                                 from standard input; if R is unspecified,\n"
@@ -1213,74 +1469,93 @@ msgstr ""
 "                               načtenými ze standardního vstupu. Není-li N\n"
 "                               zadáno, předpokládá se {}.\n"
 
-#: xargs/xargs.c:1631
+#: xargs/xargs.c:1642
 msgid ""
-"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines per\n"
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
+"per\n"
 "                                 command line\n"
 msgstr ""
-"  -L, --max-lines=MAXIMUM      použije nejvýše MAXIMUM neprázdných vstupních\n"
+"  -L, --max-lines=MAXIMUM      použije nejvýše MAXIMUM neprázdných "
+"vstupních\n"
 "                               řádků na každé spuštění příkazu\n"
 
-#: xargs/xargs.c:1633
+#: xargs/xargs.c:1644
 msgid ""
-"  -l[MAX-LINES]                similar to -L but defaults to at most one non-\n"
-"                                 blank input line if MAX-LINES is not specified\n"
+"  -l[MAX-LINES]                similar to -L but defaults to at most one "
+"non-\n"
+"                                 blank input line if MAX-LINES is not "
+"specified\n"
 msgstr ""
 "  -l[MAXIMUM]                  podobné jako -L, ale není-li MAXIMUM zadáno,\n"
-"                               použije se nejvýše jeden neprázdný vstupní řádek\n"
+"                               použije se nejvýše jeden neprázdný vstupní "
+"řádek\n"
 
-#: xargs/xargs.c:1635
-msgid "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command line\n"
+#: xargs/xargs.c:1646
+msgid ""
+"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
+"line\n"
 msgstr ""
 "  -n, --max-args=MAXIMUM       použije nejvýše MAXIMUM argumentů na\n"
 "                               každé spuštění příkazu\n"
 
-#: xargs/xargs.c:1636
-msgid "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
-msgstr "  -P, --max-procs=MAXIMUM      spustí najednou nejvýše MAXIMUM procesů\n"
+#: xargs/xargs.c:1647
+msgid ""
+"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgstr ""
+"  -P, --max-procs=MAXIMUM      spustí najednou nejvýše MAXIMUM procesů\n"
 
-#: xargs/xargs.c:1637
+#: xargs/xargs.c:1648
 msgid "  -p, --interactive            prompt before running commands\n"
 msgstr "  -p, --interactive            před spuštěním příkazů se dotáže\n"
 
-#: xargs/xargs.c:1638
-msgid "      --process-slot-var=VAR   set environment variable VAR in child processes\n"
+#: xargs/xargs.c:1649
+msgid ""
+"      --process-slot-var=VAR   set environment variable VAR in child "
+"processes\n"
 msgstr ""
 "      --process-slot-var=PROMĚNNÁ\n"
 "                               nastaví PROMĚNNOU prostředí v procesech\n"
 "                               potomků\n"
 
-#: xargs/xargs.c:1639
+#: xargs/xargs.c:1650
 msgid ""
-"  -r, --no-run-if-empty        if there are no arguments, then do not run COMMAND;\n"
-"                                 if this option is not given, COMMAND will be\n"
+"  -r, --no-run-if-empty        if there are no arguments, then do not run "
+"COMMAND;\n"
+"                                 if this option is not given, COMMAND will "
+"be\n"
 "                                 run at least once\n"
 msgstr ""
 "  -r, --no-run-if-empty        neexistují-li argumenty, PŘÍKAZ nebude\n"
-"                               spuštěn. Není-li tento přepínač zadán, PŘÍKAZ\n"
+"                               spuštěn. Není-li tento přepínač zadán, "
+"PŘÍKAZ\n"
 "                               bude spuštěn alespoň jednou.\n"
 
-#: xargs/xargs.c:1642
-msgid "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
-msgstr "  -s, --max-chars=MAXIMUM      omezí délku spouštěného příkazu na MAXIMUM znaků\n"
+#: xargs/xargs.c:1653
+msgid ""
+"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+msgstr ""
+"  -s, --max-chars=MAXIMUM      omezí délku spouštěného příkazu na MAXIMUM "
+"znaků\n"
 
-#: xargs/xargs.c:1643
+#: xargs/xargs.c:1654
 msgid "      --show-limits            show limits on command-line length\n"
-msgstr "      --show-limits            zobrazí omezení na délku spouštěného příkazu\n"
+msgstr ""
+"      --show-limits            zobrazí omezení na délku spouštěného příkazu\n"
 
-#: xargs/xargs.c:1644
+#: xargs/xargs.c:1655
 msgid "  -t, --verbose                print commands before executing them\n"
 msgstr "  -t, --verbose                vypíše příkazy před jejich spuštěním\n"
 
-#: xargs/xargs.c:1645
+#: xargs/xargs.c:1656
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
-msgstr "  -x, --exit                   skončí, je-li délka (vizte -s) překročena\n"
+msgstr ""
+"  -x, --exit                   skončí, je-li délka (vizte -s) překročena\n"
 
-#: xargs/xargs.c:1647
+#: xargs/xargs.c:1658
 msgid "      --help                   display this help and exit\n"
 msgstr "      --help                   zobrazí tuto nápovědu a skončí\n"
 
-#: xargs/xargs.c:1648
+#: xargs/xargs.c:1659
 msgid "      --version                output version information and exit\n"
 msgstr "      --version                vypíše údaje o verzi a skončí\n"
 
@@ -1291,13 +1566,17 @@ msgstr "      --version                vypíše údaje o verzi a skončí\n"
 #~ "\n"
 #~ "Mandatory arguments to long options are mandatory for short options too.\n"
 #~ "Non-mandatory arguments are indicated by [square brackets]\n"
-#~ "  -0, --null                   Items are separated by a null, not whitespace.\n"
+#~ "  -0, --null                   Items are separated by a null, not "
+#~ "whitespace.\n"
 #~ "                               Disables quote and backslash processing\n"
-#~ "  -a, --arg-file=FILE          Read arguments from FILE, not standard input\n"
-#~ "  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, not by\n"
+#~ "  -a, --arg-file=FILE          Read arguments from FILE, not standard "
+#~ "input\n"
+#~ "  -d, --delimiter=CHARACTER    Input items are separated by CHARACTER, "
+#~ "not by\n"
 #~ "                               blank space. Disables quote and backslash\n"
 #~ "                               processing\n"
-#~ "  -E END                       If END occurs as a line of input, the rest of\n"
+#~ "  -E END                       If END occurs as a line of input, the rest "
+#~ "of\n"
 #~ "                               the input is ignored.\n"
 #~ "  -e [END], --eof[=END]        Equivalent to -E END if END is specified.\n"
 #~ "                               Otherwise, there is no end-of-file string\n"
@@ -1306,18 +1585,22 @@ msgstr "      --version                vypíše údaje o verzi a skončí\n"
 #~ "  -i,--replace=[R]             Replace R in initial arguments with names\n"
 #~ "                               read from standard input. If R is\n"
 #~ "                               unspecified, assume {}\n"
-#~ "  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines per\n"
+#~ "  -L,-l, --max-lines=MAX-LINES Use at most MAX-LINES nonblank input lines "
+#~ "per\n"
 #~ "                               command line\n"
 #~ "  -l                           Use at most one nonblank input line per\n"
 #~ "                               command line\n"
-#~ "  -n, --max-args=MAX-ARGS      Use at most MAX-ARGS arguments per command\n"
+#~ "  -n, --max-args=MAX-ARGS      Use at most MAX-ARGS arguments per "
+#~ "command\n"
 #~ "                               line\n"
 #~ "  -P, --max-procs=MAX-PROCS    Run up to max-procs processes at a time\n"
 #~ "  -p, --interactive            Prompt before running commands\n"
 #~ "  --process-slot-var=VAR       Set environment variable VAR in child\n"
 #~ "                               processes\n"
-#~ "  -r, --no-run-if-empty        If there are no arguments, run no command.\n"
-#~ "                               If this option is not given, COMMAND will be\n"
+#~ "  -r, --no-run-if-empty        If there are no arguments, run no "
+#~ "command.\n"
+#~ "                               If this option is not given, COMMAND will "
+#~ "be\n"
 #~ "                               run at least once.\n"
 #~ "  -s, --max-chars=MAX-CHARS    Limit commands to MAX-CHARS at most\n"
 #~ "  --show-limits                Show limits on command-line length.\n"
@@ -1326,42 +1609,55 @@ msgstr "      --version                vypíše údaje o verzi a skončí\n"
 #~ "  -x, --exit                   Exit if the size (see -s) is exceeded\n"
 #~ msgstr ""
 #~ "\n"
-#~ "Povinné argumenty u dlouhých přepínačů jsou rovněž povinné u krátkých variant.\n"
+#~ "Povinné argumenty u dlouhých přepínačů jsou rovněž povinné u krátkých "
+#~ "variant.\n"
 #~ "Nepovinné argumenty jsou vyznačeny [hranatými závorkami].\n"
 #~ "  -0, --null                   Položky jsou odděleny nulovým znakem,\n"
 #~ "                               nikoliv bílým místem.\n"
-#~ "                               Vypne zpracování uvozovek a zpětných lomítek.\n"
-#~ "  -a, --arg-file=SOUBOR        Argumenty načte ze SOUBORU, ne ze standardního\n"
+#~ "                               Vypne zpracování uvozovek a zpětných "
+#~ "lomítek.\n"
+#~ "  -a, --arg-file=SOUBOR        Argumenty načte ze SOUBORU, ne ze "
+#~ "standardního\n"
 #~ "                               vstupu\n"
-#~ "  -d, --delimiter=ZNAK         Vstupní položky jsou odděleny ZNAKEM, nikoliv\n"
+#~ "  -d, --delimiter=ZNAK         Vstupní položky jsou odděleny ZNAKEM, "
+#~ "nikoliv\n"
 #~ "                               bílým místem. Vypne zpracování uvozovek a\n"
 #~ "                               zpětných lomítek\n"
-#~ "  -E KONEC                     Pokud KONEC představuje řádek vstupu, zbytek\n"
+#~ "  -E KONEC                     Pokud KONEC představuje řádek vstupu, "
+#~ "zbytek\n"
 #~ "                               vstupu bude ignorován.\n"
 #~ "  -e [KONEC], --eof[=KONEC]    Stejné jako -E KONEC, je-li KONEC zadán.\n"
 #~ "                               Jinak neexistuje žádný řetězec pro konec\n"
 #~ "                               souboru.\n"
 #~ "  --help                       Vypíše přehled přepínačů nástroje xargs.\n"
-#~ "  -I R                         Stejné jako --replace=R (R musí být uvedeno)\n"
+#~ "  -I R                         Stejné jako --replace=R (R musí být "
+#~ "uvedeno)\n"
 #~ "  -i,--replace=[R]             Nahradí R v úvodních argumentech názvy\n"
-#~ "                               přečtenými ze standardního vstupu. Není-li R\n"
+#~ "                               přečtenými ze standardního vstupu. Není-li "
+#~ "R\n"
 #~ "                               uvedeno, předpokládá se „{}“.\n"
-#~ "  -L,-l, --max-lines=MAXIMUM   Použije nejvýše MAXIMUM neprázdných vstupních\n"
+#~ "  -L,-l, --max-lines=MAXIMUM   Použije nejvýše MAXIMUM neprázdných "
+#~ "vstupních\n"
 #~ "                               řádků na jeden řádek příkazu.\n"
-#~ "  -l                           Použije nejvýše jeden neprázdný vstupní řádek\n"
+#~ "  -l                           Použije nejvýše jeden neprázdný vstupní "
+#~ "řádek\n"
 #~ "                               na jeden řádek příkazu.\n"
-#~ "  -n, --max-args=MAXIMUM       Použije nejvýše MAXIMUM argumentů na řádek\n"
+#~ "  -n, --max-args=MAXIMUM       Použije nejvýše MAXIMUM argumentů na "
+#~ "řádek\n"
 #~ "                               příkazu\n"
 #~ "  -P, --max-procs=MAXIMUM      Spustí nejvýše MAXIMUM procesů najednou\n"
 #~ "  -p, --interactive            Před spuštěním příkazu se dotáže\n"
-#~ "  --process-slot-var=PROMĚNNÁ  Nastaví proměnnou prostředí PROMĚNNÁ v procesu\n"
+#~ "  --process-slot-var=PROMĚNNÁ  Nastaví proměnnou prostředí PROMĚNNÁ "
+#~ "v procesu\n"
 #~ "                               potomka\n"
-#~ "  -r, --no-run-if-empty        Jestliže neexistují žádné argumenty, nespustí\n"
+#~ "  -r, --no-run-if-empty        Jestliže neexistují žádné argumenty, "
+#~ "nespustí\n"
 #~ "                               žádný příkaz.\n"
 #~ "                               Není-li tento přepínač zadán, PŘÍKAZ bude\n"
 #~ "                               spuštěn alespoň jednou.\n"
 #~ "  -s, --max-chars=MAXIMUM      Omezí příkazy na MAXIMUM znaků\n"
-#~ "  --show-limits                Zobrazí omezení na délku příkazového řádku\n"
+#~ "  --show-limits                Zobrazí omezení na délku příkazového "
+#~ "řádku\n"
 #~ "  -t, --verbose                Před každým spuštěním příkazu jej vypíše\n"
 #~ "  --version                    Zobrazí číslo verze\n"
 #~ "  -x, --exit                   Skončí, pokud by velikost (vizte -s) byla\n"
@@ -1387,7 +1683,8 @@ msgstr "      --version                vypíše údaje o verzi a skončí\n"
 #~ "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=oddělovač]\n"
 #~ "       [-E řet-eof] [-e[řet-eof]]  [--eof[=řet-eof]]\n"
 #~ "       [-L max-řádků] [-l[max-řádků]] [--max-lines[=max-řádků]]\n"
-#~ "       [-I řet-nahrazení] [-i[řet-nahrazení]] [--replace[=řet-nahrazení]]\n"
+#~ "       [-I řet-nahrazení] [-i[řet-nahrazení]] [--replace[=řet-"
+#~ "nahrazení]]\n"
 #~ "       [-n max-argumentů] [--max-args=max-argumentů]\n"
 #~ "       [-s max-znaků] [--max-chars=max-znaků]\n"
 #~ "       [-P max-procesů]  [--max-procs=max-procesů] [--show-limits]\n"
