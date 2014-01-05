@@ -1,28 +1,27 @@
 # -*- mode:po; coding:utf-8; -*- Slovenian messages for findutils.
-# Copyright (C) 1996, 2000, 2001, 2005, 2006, 2009, 2011 Free Software Foundation, Inc.
+# Copyright (C) 1996, 2000, 2001, 2005, 2006, 2009, 2011, 2013 Free Software Foundation, Inc.
 # This file is distributed under the same license as the findutils package.
-# Primož Peterlin <primozz.peterlin@gmail.com>, 2000, 2001, 2005, 2006, 2009, 2011.
-# $Id: findutils-4.5.7.sl.po,v 1.2 2011/01/12 13:50:29 peterlin Exp $
+# Primož Peterlin <primozz.peterlin@gmail.com>, 2000, 2001, 2005, 2006, 2009, 2011, 2013.
+# $Id: findutils-4.5.12.sl.po,v 1.3 2013/12/11 21:56:03 peterlin Exp $
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.5.7\n"
+"Project-Id-Version: findutils 4.5.12\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2013-09-22 22:13+0100\n"
-"PO-Revision-Date: 2011-01-12 14:50+0100\n"
+"PO-Revision-Date: 2013-12-11 22:55+0100\n"
 "Last-Translator: Primož Peterlin <primozz.peterlin@gmail.com>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 
 #: find/exec.c:136
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to save working directory in order to run a command on %s"
-msgstr "povrnitev delovnega imenika po preiskovanju %s ni mogoča"
+msgstr "Neuspela shranitev delovnega imenika, da bi lahko pognali ukaz na %s"
 
 #: find/exec.c:256
 #, c-format
@@ -76,21 +75,13 @@ msgstr "OPOZORILO: datotečni sistem %s je bil nedavno priklopljen."
 
 #: find/find.c:547
 #, c-format
-msgid ""
-"%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, file system type is %s) [ref %ld]"
-msgstr ""
-"%s%s se je spremenila med izvajanjem %s (stara številka enote %ld, nova "
-"številka enote %ld, vrsta datotečnega sistema %s) [ref %ld]"
+msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"
+msgstr "%s%s se je spremenila med izvajanjem %s (stara številka enote %ld, nova številka enote %ld, vrsta datotečnega sistema %s) [ref %ld]"
 
 #: find/find.c:584
 #, c-format
-msgid ""
-"%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
-"number %<PRIuMAX>, file system type is %s) [ref %ld]"
-msgstr ""
-"%s%s se je spremenila med izvajanjem %s (stara številka inoda %<PRIuMAX>, "
-"nova številka inoda %<PRIuMAX>, vrsta datotečnega sistema %s) [ref %ld]"
+msgid "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode number %<PRIuMAX>, file system type is %s) [ref %ld]"
+msgstr "%s%s se je spremenila med izvajanjem %s (stara številka inoda %<PRIuMAX>, nova številka inoda %<PRIuMAX>, vrsta datotečnega sistema %s) [ref %ld]"
 
 #: find/find.c:749
 #, c-format
@@ -104,33 +95,17 @@ msgstr "Varna zamenjava imenika v %s ni uspela"
 
 #: find/find.c:1135 find/ftsfind.c:245
 #, c-format
-msgid ""
-"Symbolic link %s is part of a loop in the directory hierarchy; we have "
-"already visited the directory to which it points."
-msgstr ""
-"Simbolna povezava »%s« je del zanke v drevesu imenikov; imenik, na katerega "
-"kaže, smo že obiskali."
+msgid "Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."
+msgstr "Simbolna povezava »%s« je del zanke v drevesu imenikov; imenik, na katerega kaže, smo že obiskali."
 
 #: find/find.c:1154
 #, c-format
-msgid ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d level higher in the file system hierarchy"
-msgid_plural ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d levels higher in the file system hierarchy"
-msgstr[0] ""
-"Odkrita zanka v datotečnem sistemu: %s ima isto številko enote in inoda kot "
-"imenik %d ravni višje."
-msgstr[1] ""
-"Odkrita zanka v datotečnem sistemu: %s ima isto številko enote in inoda kot "
-"imenik %d raven višje."
-msgstr[2] ""
-"Odkrita zanka v datotečnem sistemu: %s ima isto številko enote in inoda kot "
-"imenik %d ravni višje."
-msgstr[3] ""
-"Odkrita zanka v datotečnem sistemu: %s ima isto številko enote in inoda kot "
-"imenik %d ravni višje."
+msgid "Filesystem loop detected; %s has the same device number and inode as a directory which is %d level higher in the file system hierarchy"
+msgid_plural "Filesystem loop detected; %s has the same device number and inode as a directory which is %d levels higher in the file system hierarchy"
+msgstr[0] "Odkrita zanka v datotečnem sistemu: %s ima isto številko enote in inoda kot imenik %d ravni višje."
+msgstr[1] "Odkrita zanka v datotečnem sistemu: %s ima isto številko enote in inoda kot imenik %d raven višje."
+msgstr[2] "Odkrita zanka v datotečnem sistemu: %s ima isto številko enote in inoda kot imenik %d ravni višje."
+msgstr[3] "Odkrita zanka v datotečnem sistemu: %s ima isto številko enote in inoda kot imenik %d ravni višje."
 
 #: find/find.c:1406
 #, c-format
@@ -139,18 +114,8 @@ msgstr "opozorilo: simbolni povezavi %s ne sledimo"
 
 #: find/find.c:1477
 #, c-format
-msgid ""
-"WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
-"we already saw %<PRIuMAX> subdirectories): this may be a bug in your file "
-"system driver.  Automatically turning on find's -noleaf option.  Earlier "
-"results may have failed to include directories that should have been "
-"searched."
-msgstr ""
-"OPOZORILO: Število trdih povezav za %s je napačno (vidno je st_nlink="
-"%<PRIuMAX>, vendar smo našteli že %<PRIuMAX> podimenikov): lahko gre za "
-"napako v gonilniku za vaš datotečni sistem. Samodejno vklapljamo izbiro -"
-"noleaf. Prejšnji rezultati so lahko bili napačni, ker v iskanje niso bili "
-"vključeni vsi potrebni imeniki."
+msgid "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but we already saw %<PRIuMAX> subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."
+msgstr "OPOZORILO: Število trdih povezav za %s je napačno (vidno je st_nlink=%<PRIuMAX>, vendar smo našteli že %<PRIuMAX> podimenikov): lahko gre za napako v gonilniku za vaš datotečni sistem. Samodejno vklapljamo izbiro -noleaf. Prejšnji rezultati so lahko bili napačni, ker v iskanje niso bili vključeni vsi potrebni imeniki."
 
 #: find/fstype.c:185
 #, c-format
@@ -163,11 +128,8 @@ msgstr "neznano"
 
 #: find/ftsfind.c:259
 #, c-format
-msgid ""
-"File system loop detected; %s is part of the same file system loop as %s."
-msgstr ""
-"Odkrita zanka v datotečnem sistemu: %s je del iste zanke datotečnega sistema "
-"kot %s."
+msgid "File system loop detected; %s is part of the same file system loop as %s."
+msgstr "Odkrita zanka v datotečnem sistemu: %s je del iste zanke datotečnega sistema kot %s."
 
 #: find/ftsfind.c:444 find/util.c:218
 #, c-format
@@ -185,45 +147,24 @@ msgid "failed to restore working directory after searching %s"
 msgstr "povrnitev delovnega imenika po preiskovanju %s ni mogoča"
 
 #: find/parser.c:452
-#, fuzzy, c-format
-msgid ""
-"The -delete action automatically turns on -depth, but -prune does nothing "
-"when -depth is in effect.  If you want to carry on anyway, just explicitly "
-"use the -depth option."
-msgstr ""
-"Dejanje -delete samodejno vklopi izbiro -depth, dejanje -prune pa ob "
-"vklopljeni izbiri -depth ne izvede ničesar. Če želite vseeno nadaljevati, "
-"izrecno uporabite izbiro -depth."
+#, c-format
+msgid "The -delete action automatically turns on -depth, but -prune does nothing when -depth is in effect.  If you want to carry on anyway, just explicitly use the -depth option."
+msgstr "Dejanje -delete samodejno vklopi izbiro -depth, dejanje -prune pa ob vklopljeni izbiri -depth ne izvede ničesar. Če želite vseeno nadaljevati, izrecno uporabite izbiro -depth."
 
 #: find/parser.c:599
 #, c-format
-msgid ""
-"warning: you have specified the %s option after a non-option argument %s, "
-"but options are not positional (%s affects tests specified before it as well "
-"as those specified after it).  Please specify options before other "
-"arguments.\n"
-msgstr ""
-"opozorilo: izbiro %s ste navedli za neizbirnim argumentom %s, vendar izbire "
-"niso pozicijske (%s vpliva na teste, navadene pred njo in za njo). Prosimo, "
-"navedite izbire pred drugimi argumenti.\n"
+msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
+msgstr "opozorilo: izbiro %s ste navedli za neizbirnim argumentom %s, vendar izbire niso pozicijske (%s vpliva na teste, navadene pred njo in za njo). Prosimo, navedite izbire pred drugimi argumenti.\n"
 
 #: find/parser.c:906
 #, c-format
-msgid ""
-"warning: the -d option is deprecated; please use -depth instead, because the "
-"latter is a POSIX-compliant feature."
-msgstr ""
-"opozorilo: raba izbire -d je odsvetovana; zaradi skladnosti s POSIX namesto "
-"nje priporočamo -depth."
+msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
+msgstr "opozorilo: raba izbire -d je odsvetovana; zaradi skladnosti s POSIX namesto nje priporočamo -depth."
 
 #: find/parser.c:1179
 #, c-format
-msgid ""
-"%s is not the name of an existing group and it does not look like a numeric "
-"group ID because it has the unexpected suffix %s"
-msgstr ""
-"%s ni niti ime obstoječe skupine, niti ni videti kot številčni GID, saj ima "
-"nepričakovano pripono %s"
+msgid "%s is not the name of an existing group and it does not look like a numeric group ID because it has the unexpected suffix %s"
+msgstr "%s ni niti ime obstoječe skupine, niti ni videti kot številčni GID, saj ima nepričakovano pripono %s"
 
 #: find/parser.c:1194
 #, c-format
@@ -247,15 +188,12 @@ msgstr ""
 
 #: find/parser.c:1225
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are "
-"given):\n"
+"operators (decreasing precedence; -and is implicit where no others are given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
-"operatorji (po padajoči prednosti; če ni podano nič drugega, se privzame -"
-"and):\n"
-"      ( IZRAZ )   ! IZRAZ   -not IZRAZ   IZRAZ1 -a IZRAZ2   IZRAZ1 -and -"
-"IZRAZ2\n"
+"operatorji (po padajoči prednosti; če ni podano nič drugega, se privzame -and):\n"
+"      ( IZRAZ )   ! IZRAZ   -not IZRAZ   IZRAZ1 -a IZRAZ2   IZRAZ1 -and -IZRAZ2\n"
 "      IZRAZ1 -o IZRAZ2   IZRAZ1 -or IZRAZ2   IZRAZ1 , IZRAZ2\n"
 
 #: find/parser.c:1229
@@ -277,25 +215,22 @@ msgstr ""
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
-"PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 "testi (N je lakko +N, -N ali N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer DATOTEKA -ctime N -empty -false -fstype TIP -gid N -group IME\n"
-"      -ilname VZOREC -iname VZOREC -inum N -iwholename VZOREC -iregex "
-"VZOREC\n"
+"      -ilname VZOREC -iname VZOREC -inum N -iwholename VZOREC -iregex VZOREC\n"
 "      -links N -lname VZOREC -mmin N -mtime N -name VZOREC -newer DATOTEKA"
 
 #: find/parser.c:1239
-#, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]"
 msgstr ""
-"      -nouser -nogroup -path VZOREC -perm [+-]ZAŠČITA -regex VZOREC\n"
+"      -nouser -nogroup -path VZOREC -perm [-/]ZAŠČITA -regex VZOREC\n"
 "      -readable -writable -executable\n"
 "      -wholename VZOREC -size N[bcwkMG] -true -type [bcdpflsD] -uid N \n"
 "      -used N -user IME -xtype [bcdpfls]"
@@ -324,8 +259,7 @@ msgid ""
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
-"Napake lahko sporočate (in sledite napredek pri popravljanju) na spletni "
-"strani\n"
+"Napake lahko sporočate (in sledite napredek pri popravljanju) na spletni strani\n"
 "za prijavljanje napak findutils, http://savannah.gnu.org/, ali, če nimate\n"
 "dostopa do spleta, po elektronski pošti na naslov <bug-findutils@gnu.org>."
 
@@ -336,18 +270,8 @@ msgstr "preizkus koherentnosti knjižnične funkcije fnmatch() ni uspel."
 
 #: find/parser.c:1321
 #, c-format
-msgid ""
-"warning: Unix filenames usually don't contain slashes (though pathnames "
-"do).  That means that '%s %s' will probably evaluate to false all the time "
-"on this system.  You might find the '-wholename' test more useful, or "
-"perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
-"use 'find ... -print0 | grep -FzZ %s'."
-msgstr ""
-"opozorilo: Imena datotek v Unixu navadno ne vsebujejo poševnic (poti pa "
-"jih). To pomeni, da se bo »%s %s« na tem sistemu najverjetneje vedno "
-"ovrednotilo kot neresnično. Testa »-wholename« ali »-samefile« bosta morda "
-"uporabnejša. Če uporabljate GNU grep, lahko uporabite tudi »find ... -print0 "
-"| grep -FzZ %s«."
+msgid "warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."
+msgstr "opozorilo: Imena datotek v Unixu navadno ne vsebujejo poševnic (poti pa jih). To pomeni, da se bo »%s %s« na tem sistemu najverjetneje vedno ovrednotilo kot neresnično. Testa »-wholename« ali »-samefile« bosta morda uporabnejša. Če uporabljate GNU grep, lahko uporabite tudi »find ... -print0 | grep -FzZ %s«."
 
 #: find/parser.c:1447
 #, c-format
@@ -386,14 +310,8 @@ msgstr "neveljaven način %s"
 
 #: find/parser.c:2010
 #, c-format
-msgid ""
-"warning: you have specified a mode pattern %s (which is equivalent to /000). "
-"The meaning of -perm /000 has now been changed to be consistent with -perm "
-"-000; that is, while it used to match no files, it now matches all files."
-msgstr ""
-"opozorilo: določili ste vzorec %s, ki je enakovreden /000. Pomen -perm /000 "
-"se je spremenil, tako da je skladen z -perm -000; prej se ni ujemal z nobeno "
-"datoteke, zdaj pa se z vsemi."
+msgid "warning: you have specified a mode pattern %s (which is equivalent to /000). The meaning of -perm /000 has now been changed to be consistent with -perm -000; that is, while it used to match no files, it now matches all files."
+msgstr "opozorilo: določili ste vzorec %s, ki je enakovreden /000. Pomen -perm /000 se je spremenil, tako da je skladen z -perm -000; prej se ni ujemal z nobeno datoteke, zdaj pa se z vsemi."
 
 #: find/parser.c:2210
 #, c-format
@@ -406,17 +324,13 @@ msgid "invalid -size type `%c'"
 msgstr "neveljaven tip -size: »%c«"
 
 #: find/parser.c:2270
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid argument `%s%s' to -size"
-msgstr "Neveljaven argument »%s%c« za -size"
+msgstr "Neveljaven argument »%s%s« za -size"
 
 #: find/parser.c:2452
-msgid ""
-"The -show-control-chars option takes a single argument which must be "
-"'literal' or 'safe'"
-msgstr ""
-"Izbira -show-control-chars zahteva en sam argument, ki je bodisi »literal« "
-"bodisi »safe«"
+msgid "The -show-control-chars option takes a single argument which must be 'literal' or 'safe'"
+msgstr "Izbira -show-control-chars zahteva en sam argument, ki je bodisi »literal« bodisi »safe«"
 
 #: find/parser.c:2566
 #, c-format
@@ -450,31 +364,23 @@ msgstr "Argument k izbiri -type lahko vsebuje le en znak"
 
 #: find/parser.c:2809
 #, c-format
-msgid ""
-"-type %c is not supported because symbolic links are not supported on the "
-"platform find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because symbolic links are not supported on the platform find was compiled on."
+msgstr "-type %c ni podprt, ker ob prevajanju find za to okolje podpora za simbolne povezave ni bila vključena"
 
 #: find/parser.c:2820
 #, c-format
-msgid ""
-"-type %c is not supported because FIFOs are not supported on the platform "
-"find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because FIFOs are not supported on the platform find was compiled on."
+msgstr "-type %c ni podprt, ker ob prevajanju find za to okolje podpora za FIFO ni bila vključena"
 
 #: find/parser.c:2831
 #, c-format
-msgid ""
-"-type %c is not supported because named sockets are not supported on the "
-"platform find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because named sockets are not supported on the platform find was compiled on."
+msgstr "-type %c ni podprt, ker ob prevajanju find za to okolje podpora za poimenovane vtičnice ni bila vključena"
 
 #: find/parser.c:2842
 #, c-format
-msgid ""
-"-type %c is not supported because Solaris doors are not supported on the "
-"platform find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because Solaris doors are not supported on the platform find was compiled on."
+msgstr "-type %c ni podprt, ker ob prevajanju find za to okolje podpora za vrata Solaris ni bila vključena"
 
 #: find/parser.c:2849
 #, c-format
@@ -482,36 +388,19 @@ msgid "Unknown argument to -type: %c"
 msgstr "Nepoznan argument k izbiri -type: %c"
 
 #: find/parser.c:2923
-#, fuzzy, c-format
-msgid ""
-"The current directory is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove the "
-"current directory from your $PATH (that is, remove \".\", doubled colons, or "
-"leading or trailing colons)"
-msgstr ""
-"Trenutni imenik je naveden v spremenljivki PATH, kar je nevarno v "
-"kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
-"iz spremenljivke $PATH - odstranite ».« ter uvodna ali zaključna dvopičja."
+#, c-format
+msgid "The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\", doubled colons, or leading or trailing colons)"
+msgstr "Trenutni imenik je naveden v spremenljivki PATH, kar je nevarno v kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik iz spremenljivke $PATH - odstranite ».«, podvojena dvopičja ter uvodna ali zaključna dvopičja."
 
 #: find/parser.c:2935
 #, c-format
-msgid ""
-"The relative path %s is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove that "
-"entry from $PATH"
-msgstr ""
-"Relativna pot %s je vključena v spremenljivki PATH, kar je nevarno v "
-"kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik "
-"iz spremenljivke $PATH"
+msgid "The relative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"
+msgstr "Relativna pot %s je vključena v spremenljivki PATH, kar je nevarno v kombinaciji z dejanjem %s programa find. Prosim, odstranite trenutni imenik iz spremenljivke $PATH"
 
 #: find/parser.c:3044
 #, c-format
-msgid ""
-"You may not use {} within the utility name for -execdir and -okdir, because "
-"this is a potential security problem."
-msgstr ""
-"Raba {} znotraj imena pomožnega programa za -execdir in -okdir zaradi "
-"mogočih varnostnih problemov ni dovoljena."
+msgid "You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."
+msgstr "Raba {} znotraj imena pomožnega programa za -execdir in -okdir zaradi mogočih varnostnih problemov ni dovoljena."
 
 #: find/parser.c:3070
 #, c-format
@@ -521,7 +410,7 @@ msgstr "Podprta je le enkratna navedba {} v kombinaciji z -exec%s ... +"
 #: find/parser.c:3080
 #, c-format
 msgid "In %s the %s must appear by itself, but you specified %s"
-msgstr ""
+msgstr "V %s se mora %s pojaviti samostojno, vi pa ste določili %s"
 
 #: find/parser.c:3100
 #, c-format
@@ -536,8 +425,7 @@ msgstr " aritmetična prekoračitev obsega pri pretvorbi %s dni v število sekun
 #: find/parser.c:3293
 #, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
-msgstr ""
-" aritmetična prekoračitev obsega pri poskusu izračuna konca trenutnega datuma"
+msgstr " aritmetična prekoračitev obsega pri poskusu izračuna konca trenutnega datuma"
 
 #: find/parser.c:3452
 msgid "standard error"
@@ -584,9 +472,8 @@ msgstr "napaka: formatno določilo »%%%c« je rezervirano za rabo v prihodnosti
 
 #: find/print.c:411
 #, c-format
-msgid ""
-"warning: format directive `%%%c' should be followed by another character"
-msgstr ""
+msgid "warning: format directive `%%%c' should be followed by another character"
+msgstr "opozorilo: formatnemu določilu »%%%c« bi moral slediti drug znak"
 
 #: find/print.c:419
 #, c-format
@@ -600,12 +487,8 @@ msgstr "neveljaven izraz"
 
 #: find/tree.c:140
 #, c-format
-msgid ""
-"invalid expression; you have used a binary operator '%s' with nothing before "
-"it."
-msgstr ""
-"neveljaven izraz: uporabili ste binarni operator  »%s«, pred katerim ni "
-"argumenta"
+msgid "invalid expression; you have used a binary operator '%s' with nothing before it."
+msgstr "neveljaven izraz: uporabili ste binarni operator  »%s«, pred katerim ni argumenta"
 
 #: find/tree.c:151
 #, c-format
@@ -624,12 +507,8 @@ msgstr "neveljaven izraz; preveč zaklepajev »)«"
 
 #: find/tree.c:189
 #, c-format
-msgid ""
-"invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
-"need an extra predicate after '%s'"
-msgstr ""
-"neveljaven izraz: pričakovali smo zaklepaj »)«, ki ga ni.  Morda potrebujete "
-"dodatni predikat za »%s«"
+msgid "invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"
+msgstr "neveljaven izraz: pričakovali smo zaklepaj »)«, ki ga ni.  Morda potrebujete dodatni predikat za »%s«"
 
 #: find/tree.c:197
 #, c-format
@@ -638,9 +517,7 @@ msgstr "neveljaven izraz; prazni oklepaji niso dovoljeni"
 
 #: find/tree.c:203
 #, c-format
-msgid ""
-"invalid expression; I was expecting to find a ')' somewhere but did not see "
-"one."
+msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
 msgstr "neveljaven izraz: manjkajoč zaklepaj »)«."
 
 #: find/tree.c:209 find/tree.c:833
@@ -655,10 +532,8 @@ msgstr "opla -- neveljaven tip izraza (%d)!"
 
 #: find/tree.c:1120
 #, c-format
-msgid ""
-"warning: there is no entry in the predicate evaluation cost table for "
-"predicate %s; please report this as a bug"
-msgstr ""
+msgid "warning: there is no entry in the predicate evaluation cost table for predicate %s; please report this as a bug"
+msgstr "opozorilo: v stroškovni tabeli za vrednotenje predikatov ni vnosa za predikat %s; prosimo, javite to kot napako"
 
 #: find/tree.c:1294
 #, c-format
@@ -716,19 +591,19 @@ msgid "] [path...] [expression]\n"
 msgstr "] [POT...] [IZRAZ]\n"
 
 #: find/util.c:455
-#, fuzzy, c-format
+#, c-format
 msgid "failed to save initial working directory"
-msgstr "trenutnega imenika ni mogoče zabeležiti"
+msgstr "začetnega delovnega imenika ni uspelo shraniti"
 
 #: find/util.c:472
-#, fuzzy, c-format
+#, c-format
 msgid "failed to restore initial working directory"
-msgstr "trenutnega imenika ni mogoče zabeležiti"
+msgstr "začetnega delovnega imenika ni uspelo povrniti"
 
 #: find/util.c:820
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
-msgstr "Ne upoštevamo neprepoznanega stikala za odpravljanje napak %s"
+msgstr "Ne upošteva se neprepoznano stikala za odpravljanje napak %s"
 
 #: find/util.c:827
 #, c-format
@@ -752,21 +627,13 @@ msgstr "Neveljavna raven optimizacije %s"
 
 #: find/util.c:882
 #, c-format
-msgid ""
-"Optimisation level %lu is too high.  If you want to find files very quickly, "
-"consider using GNU locate."
-msgstr ""
-"Raven optimizacije %lu je previsoka.  Če želite najti datoteke zares hitro, "
-"razmislite o uporabi GNU locate."
+msgid "Optimisation level %lu is too high.  If you want to find files very quickly, consider using GNU locate."
+msgstr "Raven optimizacije %lu je previsoka.  Če želite najti datoteke zares hitro, razmislite o uporabi GNU locate."
 
 #: find/util.c:1026
 #, c-format
-msgid ""
-"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
-"that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr ""
-"Spremenljivka FIND_BLOCK_SIZE ni podprta; na velikost bloka vpliva "
-"spremenljivka POSIXLY_CORRECT"
+msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr "Spremenljivka FIND_BLOCK_SIZE ni podprta; na velikost bloka vpliva spremenljivka POSIXLY_CORRECT"
 
 #: lib/buildcmd.c:161
 #, c-format
@@ -779,7 +646,7 @@ msgid "can't call exec() due to argument size restrictions"
 msgstr "klic exec() ni mogoč zaradi omejitev glede velikosti argumenta"
 
 #: lib/buildcmd.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "cannot fit single argument within argument list size limit"
 msgstr "posameznega argumenta ni mogoče umestiti v obseg seznama argumentov"
 
@@ -795,10 +662,8 @@ msgstr "Spremenljivka okolja %s ni nastavljena na veljavno decimalno število"
 
 #: lib/fdleak.c:377
 #, c-format
-msgid ""
-"File descriptor %d will leak; please report this as a bug, remembering to "
-"include a detailed description of the simplest way to reproduce this problem."
-msgstr ""
+msgid "File descriptor %d will leak; please report this as a bug, remembering to include a detailed description of the simplest way to reproduce this problem."
+msgstr "Datotečni deskriptor %d bo puščal; prosim, javite to kot napako in podajte natančen opis najenostavnejše situacije, ki privede to te težave"
 
 #: lib/findutils-version.c:55
 msgid "Eric B. Decker"
@@ -898,9 +763,7 @@ msgstr "Neveljaven argument %s za izbiro --max-database-age"
 #: locate/locate.c:459
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
-msgstr ""
-"zbirka locate %s vsebuje ime datoteke, ki je daljše, kot ga lahko locate "
-"obdela"
+msgstr "zbirka locate %s vsebuje ime datoteke, ki je daljše, kot ga lahko locate obdela"
 
 #: locate/locate.c:569 locate/locate.c:588
 #, c-format
@@ -945,12 +808,8 @@ msgstr ""
 
 #: locate/locate.c:888
 #, c-format
-msgid ""
-"Some filenames may have been filtered out, so we cannot compute the "
-"compression ratio.\n"
-msgstr ""
-"Nekatere datoteke so bile pri filtriranju izpuščene, zato ni mogoče "
-"izračunati faktorja kompresije.\n"
+msgid "Some filenames may have been filtered out, so we cannot compute the compression ratio.\n"
+msgstr "Nekatere datoteke so bile pri filtriranju izpuščene, zato ni mogoče izračunati faktorja kompresije.\n"
 
 #: locate/locate.c:901
 #, c-format
@@ -964,37 +823,23 @@ msgstr "Kompresijski faktor ni določen\n"
 
 #: locate/locate.c:963
 #, c-format
-msgid ""
-"locate database %s looks like an slocate database but it seems to have "
-"security level %c, which GNU findutils does not currently support"
-msgstr ""
-"zbirka locate %s je videti kot zbirka slocate, vendar je videti, da ima "
-"nastavljeno varnostno raven %c, ki je GNU findutils za zdaj ne podpira"
+msgid "locate database %s looks like an slocate database but it seems to have security level %c, which GNU findutils does not currently support"
+msgstr "zbirka locate %s je videti kot zbirka slocate, vendar je videti, da ima nastavljeno varnostno raven %c, ki je GNU findutils za zdaj ne podpira"
 
 #: locate/locate.c:1075
 #, c-format
-msgid ""
-"%s is an slocate database.  Support for these is new, expect problems for "
-"now."
-msgstr ""
-"%s je zbirka slocate.  Podpora za tovrstne zbirke je nova, mogoče so težave."
+msgid "%s is an slocate database.  Support for these is new, expect problems for now."
+msgstr "%s je zbirka slocate.  Podpora za tovrstne zbirke je nova, mogoče so težave."
 
 #: locate/locate.c:1089
 #, c-format
-msgid ""
-"%s is an slocate database of unsupported security level %d; skipping it."
+msgid "%s is an slocate database of unsupported security level %d; skipping it."
 msgstr "%s je zbirka slocate z nepodprto varnostno ravnijo %d; preskočimo jo."
 
 #: locate/locate.c:1106
 #, c-format
-msgid ""
-"You specified the -E option, but that option cannot be used with slocate-"
-"format databases with a non-zero security level.  No results will be "
-"generated for this database.\n"
-msgstr ""
-"Navedli ste izbiro -E, vendar te izbire ni mogoče uporabiti z zbirkami "
-"oblike slocate, ki imajo varnostno raven, višjo od 0.  Za to zbirko ne bo "
-"ustvarjenih rezultatov.\n"
+msgid "You specified the -E option, but that option cannot be used with slocate-format databases with a non-zero security level.  No results will be generated for this database.\n"
+msgstr "Navedli ste izbiro -E, vendar te izbire ni mogoče uporabiti z zbirkami oblike slocate, ki imajo varnostno raven, višjo od 0.  Za to zbirko ne bo ustvarjenih rezultatov.\n"
 
 #: locate/locate.c:1117
 #, c-format
@@ -1004,8 +849,7 @@ msgstr "%s je zbirka slocate.  Vklapljamo izbiro »-e«."
 #: locate/locate.c:1155
 #, c-format
 msgid "Old-format locate database %s is too short to be valid"
-msgstr ""
-"Zbirka locate »%s« stare oblike je prekratka, da bi lahko bila veljavna"
+msgstr "Zbirka locate »%s« stare oblike je prekratka, da bi lahko bila veljavna"
 
 #: locate/locate.c:1307
 #, c-format
@@ -1063,8 +907,7 @@ msgstr "ovržba privilegijev setgid ni uspela"
 #: locate/locate.c:1761
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
-msgstr ""
-"opozorilo: zbirko locate lahko preberemo s standardnega vhoda le enkrat."
+msgstr "opozorilo: zbirko locate lahko preberemo s standardnega vhoda le enkrat."
 
 #: locate/locate.c:1831
 #, c-format
@@ -1074,14 +917,12 @@ msgstr "sistemski klic time() ni uspel"
 #: locate/locate.c:1842
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
-msgstr ""
-"opozorilo: zbirka »%s« je starejša od %d %s (dejanska starost je %.1f %s)"
+msgstr "opozorilo: zbirka »%s« je starejša od %d %s (dejanska starost je %.1f %s)"
 
 #: locate/word_io.c:98
 #, c-format
 msgid "WARNING: locate database %s was built with a different byte order"
-msgstr ""
-"OPOZORILO: zbirla locate %s je bila zgrajena z drugačnim vrstnim redom zlogov"
+msgstr "OPOZORILO: zbirla locate %s je bila zgrajena z drugačnim vrstnim redom zlogov"
 
 #: locate/word_io.c:145
 #, c-format
@@ -1100,39 +941,23 @@ msgstr "Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika."
 
 #: xargs/xargs.c:270
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lx."
-msgstr ""
-"Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
-"vrednost znaka ne sme presegati %lx."
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."
+msgstr "Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; vrednost znaka ne sme presegati %lx."
 
 #: xargs/xargs.c:276
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lo."
-msgstr ""
-"Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
-"vrednost znaka ne sme presegati %lo."
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."
+msgstr "Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; vrednost znaka ne sme presegati %lo."
 
 #: xargs/xargs.c:285
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; trailing "
-"characters %s not recognised."
-msgstr ""
-"Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; "
-"neprepoznan sledilni znak %s."
+msgid "Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."
+msgstr "Neveljavno ubežno zaporedje %s v specifikaciji vhodnega razmejilnika; neprepoznan sledilni znak %s."
 
 #: xargs/xargs.c:330
 #, c-format
-msgid ""
-"Invalid input delimiter specification %s: the delimiter must be either a "
-"single character or an escape sequence starting with \\."
-msgstr ""
-"Neveljavno specifikacija vhodnega razmejilnika %s: razmejilnim mora biti "
-"bodisi en sam znak, bodisi ubežno zaporedje, ki se začenja z \\."
+msgid "Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."
+msgstr "Neveljavno specifikacija vhodnega razmejilnika %s: razmejilnim mora biti bodisi en sam znak, bodisi ubežno zaporedje, ki se začenja z \\."
 
 #: xargs/xargs.c:347
 #, c-format
@@ -1142,34 +967,32 @@ msgstr "okolje je preobsežno za klic exec"
 #: xargs/xargs.c:556
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
-msgstr ""
-"opozorilo: vrednost %ld za izbiro -s je previsoka, namesto nje uporabljamo "
-"%ld"
+msgstr "opozorilo: vrednost %ld za izbiro -s je previsoka, namesto nje uporabljamo %ld"
 
 #: xargs/xargs.c:603
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
-msgstr ""
+msgstr "izbire --%s ni dovoljeno nastaviti na vrednost, ki vsebuje »=«"
 
 #: xargs/xargs.c:615
 #, c-format
 msgid "failed to unset environment variable %s"
-msgstr ""
+msgstr "ni mogoče odnastaviti spremenljivke %s"
 
 #: xargs/xargs.c:629
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
-msgstr ""
+msgstr "opozorilo: izbira -E nima vpliva, če sta uporabljena -0 ali -d.\n"
 
 #: xargs/xargs.c:651
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
-msgstr ""
+msgstr "Signalnega ročnika SIGUSR1 ni mogoče nastaviti"
 
 #: xargs/xargs.c:657
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
-msgstr ""
+msgstr "Signalnega ročnika SIGUSR2 ni mogoče nastaviti"
 
 #: xargs/xargs.c:673
 #, c-format
@@ -1188,12 +1011,8 @@ msgstr "Zgornja meja POSIX za dolžino argumenta na tem sistemu: %<PRIuMAX>\n"
 
 #: xargs/xargs.c:698
 #, c-format
-msgid ""
-"POSIX smallest allowable upper limit on argument length (all systems): "
-"%<PRIuMAX>\n"
-msgstr ""
-"Najmanjša dovoljena zgornja meja POSIX za dolžino argumenta na kateremkoli "
-"sistemu: %<PRIuMAX>\n"
+msgid "POSIX smallest allowable upper limit on argument length (all systems): %<PRIuMAX>\n"
+msgstr "Najmanjša dovoljena zgornja meja POSIX za dolžino argumenta na kateremkoli sistemu: %<PRIuMAX>\n"
 
 #: xargs/xargs.c:701
 #, c-format
@@ -1203,38 +1022,26 @@ msgstr "Največja dolžina ukaza, ki ga lahko uporabimo: %<PRIuMAX>\n"
 #: xargs/xargs.c:704
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
-msgstr ""
-"Velikost ukaznega medpomnilnika, ki ga dejansko uporabljamo: %<PRIuMAX>\n"
+msgstr "Velikost ukaznega medpomnilnika, ki ga dejansko uporabljamo: %<PRIuMAX>\n"
 
 #: xargs/xargs.c:710
 #, c-format
 msgid ""
 "\n"
-"Execution of xargs will continue now, and it will try to read its input and "
-"run commands; if this is not what you wanted to happen, please type the end-"
-"of-file keystroke.\n"
+"Execution of xargs will continue now, and it will try to read its input and run commands; if this is not what you wanted to happen, please type the end-of-file keystroke.\n"
 msgstr ""
 "\n"
-"Izvajanje ukaza xargs se bo zdaj nadaljevalo, in skušal bo prebrati vhod in "
-"izvesti ukaze; če tega ne želite, vtipkajte kodo za konec datoteke.\n"
+"Izvajanje ukaza xargs se bo zdaj nadaljevalo, in skušal bo prebrati vhod in izvesti ukaze; če tega ne želite, vtipkajte kodo za konec datoteke.\n"
 
 #: xargs/xargs.c:718
 #, c-format
-msgid ""
-"Warning: %s will be run at least once.  If you do not want that to happen, "
-"then press the interrupt keystroke.\n"
-msgstr ""
-"Opozorilo: %s se bo izvedel najmanj enkrat.  Če tega ne želite, vnesite kodo "
-"za prekinitev.\n"
+msgid "Warning: %s will be run at least once.  If you do not want that to happen, then press the interrupt keystroke.\n"
+msgstr "Opozorilo: %s se bo izvedel najmanj enkrat.  Če tega ne želite, vnesite kodo za prekinitev.\n"
 
 #: xargs/xargs.c:846 xargs/xargs.c:939
 #, c-format
-msgid ""
-"unmatched %s quote; by default quotes are special to xargs unless you use "
-"the -0 option"
-msgstr ""
-"%s narekovaj brez para; privzeto so narekovaji za xargs posebni, razen če "
-"vključite izbiro -O"
+msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
+msgstr "%s narekovaj brez para; privzeto so narekovaji za xargs posebni, razen če vključite izbiro -O"
 
 #: xargs/xargs.c:847 xargs/xargs.c:940
 msgid "double"
@@ -1246,12 +1053,8 @@ msgstr "enojni"
 
 #: xargs/xargs.c:959
 #, c-format
-msgid ""
-"WARNING: a NUL character occurred in the input.  It cannot be passed through "
-"in the argument list.  Did you mean to use the --null option?"
-msgstr ""
-"OPOZORILO: na vhodu se je pojavil znak NUL.  Ni ga mogoče prenesti v seznamu "
-"argumentov.  Ste nameravali uporabiti izbiro --null?"
+msgid "WARNING: a NUL character occurred in the input.  It cannot be passed through in the argument list.  Did you mean to use the --null option?"
+msgstr "OPOZORILO: na vhodu se je pojavil znak NUL.  Ni ga mogoče prenesti v seznamu argumentov.  Ste nameravali uporabiti izbiro --null?"
 
 #: xargs/xargs.c:969 xargs/xargs.c:1034
 #, c-format
@@ -1266,12 +1069,12 @@ msgstr "odpiranje /dev/tty za branje ni uspelo"
 #: xargs/xargs.c:1105
 #, c-format
 msgid "unable to allocate memory"
-msgstr ""
+msgstr "pomnilnika ni mogoče dodeliti"
 
 #: xargs/xargs.c:1120
 #, c-format
 msgid "failed to set environment variable %s"
-msgstr ""
+msgstr "nastavitev spremenljivke okolja %s ni uspela"
 
 #: xargs/xargs.c:1207
 #, c-format
@@ -1279,21 +1082,14 @@ msgid "could not create pipe before fork"
 msgstr "ustvarjanje cevovoda pred vejitvijo ni uspelo"
 
 #: xargs/xargs.c:1278
-#, fuzzy, c-format
-msgid ""
-"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
-"please report it)"
-msgstr ""
-"branje medpomnilnika errno v xargs_do_exec ni uspelo (to je najverjetneje "
-"napaka; prosimo, javite jo)"
+#, c-format
+msgid "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, please report it)"
+msgstr "varno branje medpomnilnika errno v xargs_do_exec ni uspelo (to je najverjetneje napaka; prosimo, javite jo)"
 
 #: xargs/xargs.c:1331
 #, c-format
-msgid ""
-"read returned unexpected value %d; this is probably a bug, please report it"
-msgstr ""
-"branje je vrnilo nepričakovano vrednost %d; to je najverjetneje napaka, "
-"prosimo, javite jo"
+msgid "read returned unexpected value %d; this is probably a bug, please report it"
+msgstr "branje je vrnilo nepričakovano vrednost %d; to je najverjetneje napaka, prosimo, javite jo"
 
 #: xargs/xargs.c:1424
 #, c-format
@@ -1301,9 +1097,9 @@ msgid "error waiting for child process"
 msgstr "napaka pri čakanju na proces naslednik"
 
 #: xargs/xargs.c:1457
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING: Lost track of %lu child processes"
-msgstr "OPOZORILO: Sled za %d procesi nasledniki se je izgubila"
+msgstr "OPOZORILO: Sled za %lu procesi nasledniki se je izgubila"
 
 #: xargs/xargs.c:1476
 #, c-format
@@ -1338,60 +1134,73 @@ msgstr "%s: vrednost za izbiro -%c mora biti < %ld\n"
 #: xargs/xargs.c:1606
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
-msgstr ""
+msgstr "Uporaba: %s [IZBIRA]... UKAZ [ZAČETNI_ARGUMENTI]...\n"
 
 #: xargs/xargs.c:1611
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
 msgstr ""
+"Izvede se UKAZ z ZAČETNIMI_ARGUMENTI in dodatnimi argumenti, prebranimi z vhoda.\n"
+"\n"
 
 #: xargs/xargs.c:1613
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
 msgstr ""
+"Argumenti, ki so obvezni ali neobvezni pri dolgi obliki izbire,\n"
+"so obvezni ali neobvezni tudi pri pripadajoči kratki obliki izbire.\n"
 
 #: xargs/xargs.c:1615
 msgid ""
-"  -0, --null                   items are separated by a null, not "
-"whitespace;\n"
-"                                 disables quote and backslash processing "
-"and\n"
+"  -0, --null                   items are separated by a null, not whitespace;\n"
+"                                 disables quote and backslash processing and\n"
 "                                 logical EOF processing.\n"
 msgstr ""
+"  -0, --null                   deli so med seboj ločeni z znakom NUL, ne s\n"
+"                                 presledkom; izbira onemogoči obdelavo \n"
+"                                 narekovajev in obrnjene poševnice, kot tudi\n"
+"                                 logično obdelavo EOF.\n"
 
 #: xargs/xargs.c:1618
-msgid ""
-"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+msgid "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
 msgstr ""
+"  -a, --arg-file=DATOTEKA      preberi argumente iz datoteke namesto \n"
+"                                 s standardnega vhoda\n"
 
 #: xargs/xargs.c:1619
 msgid ""
-"  -d, --delimiter=CHARACTER    items in input stream are separated by "
-"CHARACTER,\n"
-"                                 not by whitespace; disables quote and "
-"backslash\n"
+"  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
+"                                 not by whitespace; disables quote and backslash\n"
 "                                 processing and logical EOF processing\n"
 msgstr ""
+"  -d, --delimiter=ZNAK         deli v vhodnem toku so ločeni z ZNAKOM namesto\n"
+"                                 s presledkom; izbira onemogoči obdelavo \n"
+"                                 narekovajev in obrnjene poševnice, kot tudi\n"
+"                                 logično obdelavo EOF.\n"
 
 #: xargs/xargs.c:1622
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a "
-"line\n"
+"  -E END                       Set logical EOF string; if END occurs as a line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
+"  -E NIZ                       Nastavi logični niz EOF, če se pojavi NIZ v\n"
+"                                 vhodni vrstici, se preostanka vhoda ne upošteva\n"
+"                                 (izbiri -0 in -d prevladata nad to izbiro)\n"
 
 #: xargs/xargs.c:1625
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
 msgstr ""
+"  -e, --eof[=NIZ]              enakovredno izbiri -E NIZ, če je NIZ podan;\n"
+"                                 sicer ni nobenega niza za konec datoteke\n"
 
 #: xargs/xargs.c:1627
 msgid "  -I R                         same as --replace=R\n"
-msgstr ""
+msgstr "  -I R                         isto kot --replace=R\n"
 
 #: xargs/xargs.c:1628
 msgid ""
@@ -1399,76 +1208,83 @@ msgid ""
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
+"  -i, --replace[=R]            niz R v ZAČETNIH_ARGUMENTIH nadomesti z imeni,\n"
+"                                 prebranimi s standardnega vhoda; če R ni\n"
+"                                 določen, privzemi {}\n"
 
 #: xargs/xargs.c:1631
 msgid ""
-"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
-"per\n"
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines per\n"
 "                                 command line\n"
 msgstr ""
+"  -L, --max-lines=NAJVEČ_VRSTIC  uporabi kvečjemu NAJVEČ_VRSTIC nepraznih\n"
+"                                 vhodnih vrstic na posamezno ukazno vrstico\n"
 
 #: xargs/xargs.c:1633
 msgid ""
-"  -l[MAX-LINES]                similar to -L but defaults to at most one "
-"non-\n"
-"                                 blank input line if MAX-LINES is not "
-"specified\n"
+"  -l[MAX-LINES]                similar to -L but defaults to at most one non-\n"
+"                                 blank input line if MAX-LINES is not specified\n"
 msgstr ""
+"  -l[NAJVEČ_VRSTIC]            podobno kot -L, vendar privzeto vzame le eno\n"
+"                                 neprazno vhodno vrstico, če NAJVEČ_VRSTIC ni\n"
+"                                 definirano\n"
 
 #: xargs/xargs.c:1635
-msgid ""
-"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
-"line\n"
+msgid "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command line\n"
 msgstr ""
+"  -n, --max-args=NAJVEČ_ARGUMENTOV  uporabi kvečjemu NAJVEČ_ARGUMENTOV na\n"
+"                                 ukazno vrstico\n"
 
 #: xargs/xargs.c:1636
-msgid ""
-"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
-msgstr ""
+msgid "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgstr "  -P, --max-procs=NAJVEČ_PROCESOV  poganjaj kvečjemu NAJVEČ_PROCESOV naenkrat\n"
 
 #: xargs/xargs.c:1637
 msgid "  -p, --interactive            prompt before running commands\n"
-msgstr ""
+msgstr "  -p, --interactive            s pozivom pred izvedbo ukaza\n"
 
 #: xargs/xargs.c:1638
-msgid ""
-"      --process-slot-var=VAR   set environment variable VAR in child "
-"processes\n"
+msgid "      --process-slot-var=VAR   set environment variable VAR in child processes\n"
 msgstr ""
+"      --process-slot-var=SPREMENLJIVKA  nastavi SPREMENLJIVKO okolja v procesih\n"
+"                                 naslednikih\n"
+"\n"
 
 #: xargs/xargs.c:1639
 msgid ""
-"  -r, --no-run-if-empty        if there are no arguments, then do not run "
-"COMMAND;\n"
-"                                 if this option is not given, COMMAND will "
-"be\n"
+"  -r, --no-run-if-empty        if there are no arguments, then do not run COMMAND;\n"
+"                                 if this option is not given, COMMAND will be\n"
 "                                 run at least once\n"
 msgstr ""
+"  -r, --no-run-if-empty        če ni podan noben argument, ne poženi UKAZA;\n"
+"                                 brez te izbire bo UKAZ izveden najman enkrat\n"
 
 #: xargs/xargs.c:1642
-msgid ""
-"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
-msgstr ""
+msgid "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+msgstr "  -s, --max-chars=NAJVEČ_ZNAKOV  omeji dolžino ukazne vrstice na NAJVEČ_ZNAKOV\n"
 
 #: xargs/xargs.c:1643
 msgid "      --show-limits            show limits on command-line length\n"
-msgstr ""
+msgstr "      --show-limits            prikaži omejitve glede dolžine ukazne vrstice\n"
 
 #: xargs/xargs.c:1644
 msgid "  -t, --verbose                print commands before executing them\n"
-msgstr ""
+msgstr "  -t, --verbose                izpiši ukaze pred njihovo izvedbo\n"
 
 #: xargs/xargs.c:1645
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
-msgstr ""
+msgstr "  -x, --exit                   zaključi če je velikost presežena (glej -s)\n"
 
 #: xargs/xargs.c:1647
 msgid "      --help                   display this help and exit\n"
-msgstr ""
+msgstr "      --help                   prikaži ta navodila in zaključi\n"
 
 #: xargs/xargs.c:1648
 msgid "      --version                output version information and exit\n"
-msgstr ""
+msgstr "      --version                različica programa\n"
+
+#~ msgid "cannot get current directory"
+#~ msgstr "trenutnega imenika ni mogoče ugotoviti"
 
 #~ msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 #~ msgstr "Način %s ni veljaven, kadar je v veljavi izbira POSIXLY_CORRECT."
@@ -1487,21 +1303,15 @@ msgstr ""
 #~ "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
 #~ "       [--version] [--help] [command [initial-arguments]]\n"
 #~ msgstr ""
-#~ "Uporaba: %s [-0prtx] [--interactive] [--null] [-d|--"
-#~ "delimiter=razmejilnik]\n"
+#~ "Uporaba: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=razmejilnik]\n"
 #~ "       [-E eof-str] [-e[niz-eof]]  [--eof[=niz-eof]]\n"
-#~ "       [-L največ-vrstic] [-l[največ-vrstic]] [--max-lines[=največ-"
-#~ "vrstic]]\n"
-#~ "       [-I nadomestni-niz] [-i[nadomestni-niz]] [--replace[=nadomestni-"
-#~ "niz]]\n"
+#~ "       [-L največ-vrstic] [-l[največ-vrstic]] [--max-lines[=največ-vrstic]]\n"
+#~ "       [-I nadomestni-niz] [-i[nadomestni-niz]] [--replace[=nadomestni-niz]]\n"
 #~ "       [-n največ-argumentov] [--max-args=največ-argumentov]\n"
 #~ "       [-s največ-znakov] [--max-chars=največ-znakov]\n"
 #~ "       [-P največ-procesov]  [--max-procs=največ-procesov]\n"
 #~ "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=datoteka]\n"
 #~ "       [--version] [--help] [ukaz [začetni-argumenti]]\n"
-
-#~ msgid "cannot get current directory"
-#~ msgstr "trenutnega imenika ni mogoče ugotoviti"
 
 #~ msgid "invalid argument %s for %s"
 #~ msgstr "neveljaven argument %s za %s"
@@ -1635,12 +1445,8 @@ msgstr ""
 #~ msgid "levels higher in the filesystem hierarchy"
 #~ msgstr "ravni višje v datotečni hierarhiji"
 
-#~ msgid ""
-#~ "warning: the predicate -ipath is deprecated; please use -iwholename "
-#~ "instead."
-#~ msgstr ""
-#~ "opozorilo: predikat -ipath odsvetujemo; priporočamo zamenjavo z -"
-#~ "iwholename."
+#~ msgid "warning: the predicate -ipath is deprecated; please use -iwholename instead."
+#~ msgstr "opozorilo: predikat -ipath odsvetujemo; priporočamo zamenjavo z -iwholename."
 
 #~ msgid "GNU find version %s\n"
 #~ msgstr "GNU find, različica %s\n"
@@ -1720,15 +1526,13 @@ msgstr ""
 #~ "      IZRAZ1 -o IZRAZ2 IZRAZ1 -or IZRAZ2 IZRAZ1 , IZRAZ2\n"
 #~ "izbire (vedno vklapljamo): -daystart -depth  -follow --help\n"
 #~ "      -maxdepth RAVNI -mindepth RAVNI -mount -noleaf --version -xdev\n"
-#~ "testi (N can be +N or -N or N): -amin N -anewer DATOTEKA -atime N -cmin "
-#~ "N\n"
+#~ "testi (N can be +N or -N or N): -amin N -anewer DATOTEKA -atime N -cmin N\n"
 
 #~ msgid ""
 #~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 #~ "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
 #~ msgstr ""
-#~ "dejanja: -exec UKAZ ; -fprint DATOTEKA -fprint0 DATOTEKA -fprintf "
-#~ "DATOTEKA FORMAT\n"
+#~ "dejanja: -exec UKAZ ; -fprint DATOTEKA -fprint0 DATOTEKA -fprintf DATOTEKA FORMAT\n"
 #~ "      -ok UKAZ ; -print -print0 -printf FORMAT -prune -ls\n"
 
 #~ msgid "inserting %s\n"
