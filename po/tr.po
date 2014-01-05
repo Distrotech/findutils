@@ -1,26 +1,28 @@
 # Turkish translations for findutils messages.
-# Copyright (C) 2007, 2010 Free Software Foundation, Inc.
+# Copyright (C) 2007 Free Software Foundation, Inc.
+# This file is distributed under the same license as the findutils package.
 #
 # Nilgün Belma Bugüner <nilgun@buguner.name.tr>, 2001,...,2007.
+# Volkan Gezer <vlkngzr@gmail.com>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: findutils 4.3.8\n"
+"Project-Id-Version: findutils 4.5.12\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
 "POT-Creation-Date: 2013-09-22 22:13+0100\n"
-"PO-Revision-Date: 2007-07-09 11:01+0300\n"
-"Last-Translator: Nilgün Belma Bugüner <nilgun@buguner.name.tr>\n"
+"PO-Revision-Date: 2013-11-07 21:02+0100\n"
+"Last-Translator: Volkan Gezer <vlkngzr@gmail.com>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: find/exec.c:136
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to save working directory in order to run a command on %s"
-msgstr "Dizin değiştirilemedi"
+msgstr "%s üzerinde bir komut çalıştırmak için çalışma dizini kaydetme başarısız"
 
 #: find/exec.c:256
 #, c-format
@@ -50,7 +52,7 @@ msgstr "%s, %d sinyali ile sonlandırıldı"
 #: find/find.c:203 find/ftsfind.c:677
 #, c-format
 msgid "Failed initialise shared-file hash table"
-msgstr ""
+msgstr "Paylaşılan dosya karma tablosu başlatılamadı"
 
 #: find/find.c:260
 #, c-format
@@ -60,69 +62,49 @@ msgstr "çalışılan dizin durumlanamadı"
 #: find/find.c:351
 #, c-format
 msgid "Cannot read list of mounted devices."
-msgstr ""
+msgstr "Bağlanmış aygıtların listesi okunamıyor"
 
 #: find/find.c:440
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING: file system %s has recently been unmounted."
-msgstr "Uyarı: %s dosya sistemi zaten ayrılmıştı."
+msgstr "UYARI: %s dosya sistemi yakın zamanda ayrıldı."
 
 #: find/find.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING: file system %s has recently been mounted."
-msgstr "Uyarı: %s dosya sistemi zaten bağlanmıştı."
+msgstr "UYARI: %s dosya sistemi zaten bağlanmıştı."
 
 #: find/find.c:547
-#, fuzzy, c-format
-msgid ""
-"%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, file system type is %s) [ref %ld]"
-msgstr ""
-"%s%s, %s yürütülürken değişti (eski aygıt numarası: %ld, yeni aygıt "
-"numarası: %ld, dosya sistemi türü: %s) [ref %ld]"
+#, c-format
+msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"
+msgstr "%s%s, %s çalıştırma sırasında değişti (eski aygıt numarası %ld, yeni aygıt numarası %ld, dosya sistemi türü %s) [ref %ld]"
 
 #: find/find.c:584
-#, fuzzy, c-format
-msgid ""
-"%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
-"number %<PRIuMAX>, file system type is %s) [ref %ld]"
-msgstr ""
-"%s%s, %s yürütülürken değişti (eski dosya indisi: %ld, yeni dosya indisi: "
-"%ld, dosya sistemi türü: %s) [ref %ld]"
+#, c-format
+msgid "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode number %<PRIuMAX>, file system type is %s) [ref %ld]"
+msgstr "%s%s, %s çalıştırma sırasında değişti (eski düğüm numarası %<PRIuMAX>, yeni düğüm numarası %<PRIuMAX>, dosya sistem türü %s) [ref %ld]"
 
 #: find/find.c:749
-#, fuzzy, c-format
+#, c-format
 msgid "failed to return to parent directory"
-msgstr "Dizin değiştirilemedi"
+msgstr "üst dizine dönme başarısız"
 
 #: find/find.c:1035
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to safely change directory into %s"
-msgstr "Dizin değiştirilemedi"
+msgstr "Dizini güenlice %s ile değiştirme başarısız"
 
 #: find/find.c:1135 find/ftsfind.c:245
 #, c-format
-msgid ""
-"Symbolic link %s is part of a loop in the directory hierarchy; we have "
-"already visited the directory to which it points."
-msgstr ""
-"%s sembolik bağı dizin hiyerarşisinde bir döngünün parçası ve gösterdiği "
-"dizini zaten ziyaret etmiştik."
+msgid "Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."
+msgstr "%s sembolik bağı dizin hiyerarşisinde bir döngünün parçası ve gösterdiği dizini zaten ziyaret etmiştik."
 
 #: find/find.c:1154
-#, fuzzy, c-format
-msgid ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d level higher in the file system hierarchy"
-msgid_plural ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d levels higher in the file system hierarchy"
-msgstr[0] ""
-"Dosya sisteminde döngü saptandı; %s, bir dizin gibi %d %s olarak aynı aygıt "
-"ve düğüm numarasına sahip."
-msgstr[1] ""
-"Dosya sisteminde döngü saptandı; %s, bir dizin gibi %d %s olarak aynı aygıt "
-"ve düğüm numarasına sahip."
+#, c-format
+msgid "Filesystem loop detected; %s has the same device number and inode as a directory which is %d level higher in the file system hierarchy"
+msgid_plural "Filesystem loop detected; %s has the same device number and inode as a directory which is %d levels higher in the file system hierarchy"
+msgstr[0] "Dosya sistemi döngüsü tespit edildi; %s, dosya sistemin hiyerarşisinde %d daha yüksek seviye olan bir dizin olarak aynı aygıt sayısı ve düğümü içeriyor."
+msgstr[1] "Dosya sistemi döngüsü tespit edildi; %s, dosya sistemin hiyerarşisinde %d daha yüksek seviye olan bir dizin olarak aynı aygıt sayısı ve düğümü içeriyor."
 
 #: find/find.c:1406
 #, c-format
@@ -130,89 +112,58 @@ msgid "warning: not following the symbolic link %s"
 msgstr "uyarı: %s sembolik bağı izlenemiyor"
 
 #: find/find.c:1477
-#, fuzzy, c-format
-msgid ""
-"WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
-"we already saw %<PRIuMAX> subdirectories): this may be a bug in your file "
-"system driver.  Automatically turning on find's -noleaf option.  Earlier "
-"results may have failed to include directories that should have been "
-"searched."
-msgstr ""
-"UYARI: Sabit bağ sayısı %s için hatalı (st_nlink=%d ve biz zaten %d "
-"altdizine baktık): bu dosya sistemi sürücünüzle ilgili bir yazılım hatası "
-"olabilir. Find'in -noleaf seçeneği etkinleştiriliyor. Önceki sonuçlar "
-"evvelce araştırılan dizinleri de içererek başarısız olmuş olabilir."
+#, c-format
+msgid "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but we already saw %<PRIuMAX> subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."
+msgstr "UYARI: Sabit bağ sayısı %s için hatalı (st_nlink=%<PRIuMAX> ve biz zaten %<PRIuMAX> altdizine baktık): bu dosya sistemi sürücünüzle ilgili bir yazılım hatası olabilir. Find'ın -noleaf seçeneği etkinleştiriliyor. Önceki sonuçlar evvelce araştırılan dizinleri de içererek başarısız olmuş olabilir."
 
 #: find/fstype.c:185
 #, c-format
 msgid "Cannot read mounted file system list"
-msgstr ""
+msgstr "Bağlanmış dosya sistem listesi okunamıyor"
 
 #: find/fstype.c:244
 msgid "unknown"
 msgstr "bilinmeyen"
 
 #: find/ftsfind.c:259
-#, fuzzy, c-format
-msgid ""
-"File system loop detected; %s is part of the same file system loop as %s."
-msgstr ""
-"Dosya sisteminde döngü saptandı; %s, bir dizin gibi %d %s olarak aynı aygıt "
-"ve düğüm numarasına sahip."
+#, c-format
+msgid "File system loop detected; %s is part of the same file system loop as %s."
+msgstr "Dosya sistemi döngüsü saptandı; %s, aynı dosya sistemi döngüsünün %s olarak bir parçası."
 
 #: find/ftsfind.c:444 find/util.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING: file %s appears to have mode 0000"
-msgstr "Uyarı: %s dosyasının kipi 0000 olarak görünüyor"
+msgstr "UYARI: %s dosyasının kipi 0000 olarak görünüyor"
 
 #: find/ftsfind.c:559
 #, c-format
 msgid "cannot search %s"
-msgstr ""
+msgstr "%s aranamıyor"
 
 #: find/ftsfind.c:609
-#, fuzzy, c-format
+#, c-format
 msgid "failed to restore working directory after searching %s"
-msgstr "Dizin değiştirilemedi"
+msgstr "%s aramasından sonra çalışma dizinini geri yükleme başarısız"
 
 #: find/parser.c:452
 #, c-format
-msgid ""
-"The -delete action automatically turns on -depth, but -prune does nothing "
-"when -depth is in effect.  If you want to carry on anyway, just explicitly "
-"use the -depth option."
-msgstr ""
+msgid "The -delete action automatically turns on -depth, but -prune does nothing when -depth is in effect.  If you want to carry on anyway, just explicitly use the -depth option."
+msgstr "-delete işlemi -depth seçeneğini otomatik etkinleştirir ancak -prune, -depth etkili olduğunda hiçbir şey yapmaz. Yine de devam etmek isterseniz, -depth seçeneğini açıkça kullanın."
 
 #: find/parser.c:599
 #, c-format
-msgid ""
-"warning: you have specified the %s option after a non-option argument %s, "
-"but options are not positional (%s affects tests specified before it as well "
-"as those specified after it).  Please specify options before other "
-"arguments.\n"
-msgstr ""
-"uyarı: %s seçeneğini bir seçeneğin argümanı olmayan %s argümanından sonra "
-"belirttiniz, ama seçenekler konuma bağlı değil ( %s kendinden önce de sonra "
-"da belirtilse sınamaları etkiler). Lütfen seçenekleri diğer argümanlardan "
-"önce belirtin.\n"
+msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
+msgstr "uyarı: %s seçeneğini bir seçeneğin argümanı olmayan %s argümanından sonra belirttiniz, ama seçenekler konuma bağlı değil ( %s kendinden önce de sonra da belirtilse sınamaları etkiler). Lütfen seçenekleri diğer argümanlardan önce belirtin.\n"
 
 #: find/parser.c:906
 #, c-format
-msgid ""
-"warning: the -d option is deprecated; please use -depth instead, because the "
-"latter is a POSIX-compliant feature."
-msgstr ""
-"uyarı: -d seçeneği artık önerilmiyor; lütfen yerine POSIX uyumlu olan -depth "
-"seçeneğini kullanın."
+msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
+msgstr "uyarı: -d seçeneği artık önerilmiyor; lütfen yerine POSIX uyumlu olan -depth seçeneğini kullanın."
 
 #: find/parser.c:1179
 #, c-format
-msgid ""
-"%s is not the name of an existing group and it does not look like a numeric "
-"group ID because it has the unexpected suffix %s"
-msgstr ""
-"%s mevcut bir grubun ismi değil ve bir sayısal grup kimliği gibi de "
-"görünmüyor, çünkü beklenmedik bir %s sonekine sahip"
+msgid "%s is not the name of an existing group and it does not look like a numeric group ID because it has the unexpected suffix %s"
+msgstr "%s mevcut bir grubun ismi değil ve bir sayısal grup kimliği gibi de görünmüyor, çünkü beklenmedik bir %s sonekine sahip"
 
 #: find/parser.c:1194
 #, c-format
@@ -237,13 +188,11 @@ msgstr ""
 
 #: find/parser.c:1225
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are "
-"given):\n"
+"operators (decreasing precedence; -and is implicit where no others are given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
-"operatörler (önceliği azaltan; -and başka bir şey verilmediğinden "
-"örtüktür):\n"
+"işleçler (önceliği azaltan; -ve başka bir şey verilmediğinde örtüktür):\n"
 "      ( İFADE )     ! İFADE     -not İFADE      İFADE1 -a İFADE2\n"
 "      İFADE1 -and İFADE2     İFADE1 -o İFADE2     İFADE1 -or İFADE2\n"
 "      İFADE1 , İFADE2\n"
@@ -257,6 +206,7 @@ msgid ""
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
 "konumsal seçenekler (daima `true'):  -daystart -follow -regextype\n"
+"\n"
 "normal  seçenekler (daima `true', diğer ifadelerden önce belirtilirler):\n"
 "      -depth --help -maxdepth DÜZEYLER -mindepth DÜZEYLER -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
@@ -265,36 +215,32 @@ msgstr ""
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
-"PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
-"sınamalar (N, +N veya -N ya da N olabilir):       -amin N -anewer DOSYA -"
-"atime N -cmin N -cnewer DOSYA -ctime N -empty\n"
+"sınamalar (N, +N veya -N ya da N olabilir): -amin N -anewer DOSYA -atime N -cmin N\n"
+"      -cnewer DOSYA -ctime N -empty\n"
 "      -false -fstype TÜR -gid N -group İSİM -ilname KALIP -iname KALIP\n"
-"      -inum N --iwholename KALIP -iregex KALIP -links N -lname KALIP -mmin "
-"N\n"
+"      -inum N --iwholename KALIP -iregex KALIP -links N -lname KALIP -mmin N\n"
 "      -mtime N -name KALIP -newer DOSYA"
 
 #: find/parser.c:1239
-#, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]"
 msgstr ""
-"      -nouser -nogroup -path KALIP -perm [+-]KİP -regex KALIP\n"
+"      -nouser -nogroup -path KALIP -perm [-/]KİP -regex KALIP\n"
 "      -readable -writable -executable\n"
 "      -wholename KALIP -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
-"      -used N -user İSİM -xtype [bcdpfls]\n"
+"      -used N -user İSİM -xtype [bcdpfls]"
 
 #: find/parser.c:1244
 msgid "      -context CONTEXT\n"
-msgstr ""
+msgstr "      -context BAĞLAM\n"
 
 #: find/parser.c:1246
-#, fuzzy
 msgid ""
 "\n"
 "actions: -delete -print0 -printf FORMAT -fprintf FILE FORMAT -print \n"
@@ -302,6 +248,7 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"\n"
 "eylemler: -delete -print0 -printf BİÇİM -fprintf DOSYA BİÇİM -print \n"
 "      -fprint0 DOSYA -fprint DOSYA -ls -fls DOSYA -prune -quit\n"
 "      -exec KOMUT ; -exec KOMUT {} + -ok KOMUT ;\n"
@@ -325,18 +272,8 @@ msgstr "fnmatch() kütüphane işlevinin tutarlılık sınaması başarısız ol
 
 #: find/parser.c:1321
 #, c-format
-msgid ""
-"warning: Unix filenames usually don't contain slashes (though pathnames "
-"do).  That means that '%s %s' will probably evaluate to false all the time "
-"on this system.  You might find the '-wholename' test more useful, or "
-"perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
-"use 'find ... -print0 | grep -FzZ %s'."
-msgstr ""
-"Uyarı: Unix dosya isimleri genellikle / içermezler (dosya yolları içerir).  "
-"Bu, '%s %s' ifadesinin bu sistemde her zaman yanlış olarak sonuçlanacağı "
-"anlamına gelir.  '-wholename' veya '-samefile' sınamalarını daha kullanışlı "
-"bulabilirsiniz.  Ayrıca, eğer GNU grep kullanıyorsanız, 'find ... -print0 | "
-"grep -FzZ %s' kullanabilirdiniz."
+msgid "warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."
+msgstr "Uyarı: Unix dosya isimleri genellikle / içermezler (dosya yolları içerir).  Bu, '%s %s' ifadesinin bu sistemde her zaman yanlış olarak sonuçlanacağı anlamına gelir.  '-wholename' veya '-samefile' sınamalarını daha kullanışlı bulabilirsiniz.  Ayrıca, eğer GNU grep kullanıyorsanız, 'find ... -print0 | grep -FzZ %s' kullanabilirdiniz."
 
 #: find/parser.c:1447
 #, c-format
@@ -349,9 +286,9 @@ msgid "This system does not provide a way to find the birth time of a file."
 msgstr "Bu sistem dosyanın doğum tarihini bulmak için bir yöntem sağlamıyor."
 
 #: find/parser.c:1633
-#, fuzzy, c-format
+#, c-format
 msgid "The %s test needs an argument"
-msgstr "%s: `%s' seçeneği bir argümanla kullanılır\n"
+msgstr "%s testine bir argüman gerekir"
 
 #: find/parser.c:1670
 #, c-format
@@ -366,7 +303,7 @@ msgstr "%s için doğum tarihi saptanamadı"
 #: find/parser.c:1895
 #, c-format
 msgid "warning: -%s %s will not match anything because it ends with /."
-msgstr ""
+msgstr "uyarı: -%s %s hiçbir şey eşleştirmeyecek çünkü / ile bitiyor."
 
 #: find/parser.c:1992
 #, c-format
@@ -375,14 +312,8 @@ msgstr "geçersiz kip %s"
 
 #: find/parser.c:2010
 #, c-format
-msgid ""
-"warning: you have specified a mode pattern %s (which is equivalent to /000). "
-"The meaning of -perm /000 has now been changed to be consistent with -perm "
-"-000; that is, while it used to match no files, it now matches all files."
-msgstr ""
-"uyarı: %s ile /000'a eşdeğer bir kip şablonu belirttiniz. -perm /000 kalıcı "
-"olarak  -perm -000 ile değiştirilmiş olacaktır; yani, hiçbir dosya ile "
-"eşleşmemek üzere kullanılmıştı, artık bütün dosyalarla eşleşecek."
+msgid "warning: you have specified a mode pattern %s (which is equivalent to /000). The meaning of -perm /000 has now been changed to be consistent with -perm -000; that is, while it used to match no files, it now matches all files."
+msgstr "uyarı: %s ile /000'a eşdeğer bir kip şablonu belirttiniz. -perm /000 kalıcı olarak  -perm -000 ile değiştirilmiş olacaktır; yani, hiçbir dosya ile eşleşmemek üzere kullanılmıştı, artık bütün dosyalarla eşleşecek."
 
 #: find/parser.c:2210
 #, c-format
@@ -395,17 +326,13 @@ msgid "invalid -size type `%c'"
 msgstr "-size türü `%c' geçersiz"
 
 #: find/parser.c:2270
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid argument `%s%s' to -size"
-msgstr "-size için argüman olarak `%s%c' geçersiz"
+msgstr "-size için argüman olarak `%s%s' geçersiz"
 
 #: find/parser.c:2452
-msgid ""
-"The -show-control-chars option takes a single argument which must be "
-"'literal' or 'safe'"
-msgstr ""
-"-show-control-chars seçeneği ya 'literal' ya da 'safe' olması gereken tek "
-"bir argüman alır"
+msgid "The -show-control-chars option takes a single argument which must be 'literal' or 'safe'"
+msgstr "-show-control-chars seçeneği ya 'literal' ya da 'safe' olması gereken tek bir argüman alır"
 
 #: find/parser.c:2566
 #, c-format
@@ -413,14 +340,14 @@ msgid "Invalid argument %s to -used"
 msgstr "-used için argüman olarak %s geçersiz"
 
 #: find/parser.c:2607
-#, fuzzy, c-format
+#, c-format
 msgid "%s is not the name of a known user"
-msgstr "%s mevcut bir grubun ismi değil"
+msgstr "%s bilinen kullanıcının adı değildir"
 
 #: find/parser.c:2614
-#, fuzzy, c-format
+#, c-format
 msgid "The argument to -user should not be empty"
-msgstr "-type için argümanlar tek bir harf içermemeli"
+msgstr "-kullanıcı argümanı boş geçilemez"
 
 #: find/parser.c:2639
 #, c-format
@@ -430,7 +357,7 @@ msgstr "Etkin özellikler:"
 #: find/parser.c:2716
 #, c-format
 msgid "invalid predicate -context: SELinux is not enabled."
-msgstr ""
+msgstr "geçersiz koşul -context: SELinux etkin değil."
 
 #: find/parser.c:2780
 #, c-format
@@ -439,31 +366,23 @@ msgstr "-type için argümanlar tek bir harf içermemeli"
 
 #: find/parser.c:2809
 #, c-format
-msgid ""
-"-type %c is not supported because symbolic links are not supported on the "
-"platform find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because symbolic links are not supported on the platform find was compiled on."
+msgstr "-type %c desteklenmiyor, çünkü find'ın derlendiği platformda sembolik bağlantılar desteklenmiyor."
 
 #: find/parser.c:2820
 #, c-format
-msgid ""
-"-type %c is not supported because FIFOs are not supported on the platform "
-"find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because FIFOs are not supported on the platform find was compiled on."
+msgstr "-type %c desteklenmiyor, çünkü find'ın derlendiği platformda FIFO'lar (İGİÇ) desteklenmiyor."
 
 #: find/parser.c:2831
 #, c-format
-msgid ""
-"-type %c is not supported because named sockets are not supported on the "
-"platform find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because named sockets are not supported on the platform find was compiled on."
+msgstr "-type %c desteklenmiyor, çünkü find'ın derlendiği platformda isimlendirilmiş soketler desteklenmiyor."
 
 #: find/parser.c:2842
 #, c-format
-msgid ""
-"-type %c is not supported because Solaris doors are not supported on the "
-"platform find was compiled on."
-msgstr ""
+msgid "-type %c is not supported because Solaris doors are not supported on the platform find was compiled on."
+msgstr "-type %c desteklenmiyor, çünkü find'ın derlendiği platformda Solaris kapıları desteklenmiyor."
 
 #: find/parser.c:2849
 #, c-format
@@ -471,37 +390,19 @@ msgid "Unknown argument to -type: %c"
 msgstr "-type için bilinmeyen argüman: %c"
 
 #: find/parser.c:2923
-#, fuzzy, c-format
-msgid ""
-"The current directory is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove the "
-"current directory from your $PATH (that is, remove \".\", doubled colons, or "
-"leading or trailing colons)"
-msgstr ""
-"Çalışma dizini PATH ortam değişkeninde bulunuyor ve find'in %s eylemi ile "
-"birlikte güvensiz oluyor. Lütfen bu dizini PATH ortam değişkeninizden "
-"kaldırın (yani, \".\" ile bunun önündeki ve ardındaki iki nokta üstüste "
-"işaretlerini kaldırın)"
+#, c-format
+msgid "The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\", doubled colons, or leading or trailing colons)"
+msgstr "Çalışma dizini PATH ortam değişkeninde bulunuyor ve find'in %s eylemi ile birlikte güvensiz oluyor. Lütfen bu dizini PATH ortam değişkeninizden kaldırın (yani, \".\", çift tırnak ile bunun önündeki ve ardındaki iki nokta üstüste işaretlerini kaldırın)"
 
 #: find/parser.c:2935
 #, c-format
-msgid ""
-"The relative path %s is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove that "
-"entry from $PATH"
-msgstr ""
-"%s göreli yolu PATH ortam değişkeninde bulunuyor ve find'in %s eylemi ile "
-"birlikte güvensiz oluyor. Lütfen bu girdiyi $PATH ortam değişkeninizden "
-"kaldırın"
+msgid "The relative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"
+msgstr "%s göreli yolu PATH ortam değişkeninde bulunuyor ve find'in %s eylemi ile birlikte güvensiz oluyor. Lütfen bu girdiyi $PATH ortam değişkeninizden kaldırın"
 
 #: find/parser.c:3044
 #, c-format
-msgid ""
-"You may not use {} within the utility name for -execdir and -okdir, because "
-"this is a potential security problem."
-msgstr ""
-"-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, "
-"çünkü bu potensiyel bir güvenlik açığıdır."
+msgid "You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."
+msgstr "-execdir ve -okdir seçeneklerinde uygulama ismi içinde {} kullanmamalısınız, çünkü bu potensiyel bir güvenlik açığıdır."
 
 #: find/parser.c:3070
 #, c-format
@@ -511,7 +412,7 @@ msgstr "-exec%s ... + ile sadece bir {} desteklenmektedir"
 #: find/parser.c:3080
 #, c-format
 msgid "In %s the %s must appear by itself, but you specified %s"
-msgstr ""
+msgstr "%s içerisinde %s kendi başına görülmeli ancak %s belirttiniz"
 
 #: find/parser.c:3100
 #, c-format
@@ -519,9 +420,9 @@ msgid "The environment is too large for exec()."
 msgstr "exec() için ortam çok geniş."
 
 #: find/parser.c:3269
-#, fuzzy, c-format
+#, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
-msgstr "bugünün sonu bulunmaya çalışılırken aritmetiksel üstten taşma oluştu"
+msgstr "%s gün saniyeye dönüştürülürken aritmetiksel taşma oluştu"
 
 #: find/parser.c:3293
 #, c-format
@@ -539,12 +440,12 @@ msgstr "standart çıktı"
 #: find/pred.c:338
 #, c-format
 msgid "cannot delete %s"
-msgstr ""
+msgstr "%s silinemiyor"
 
 #: find/pred.c:718
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING: cannot determine birth time of file %s"
-msgstr "Uyarı: %s dosyasının doğum günü saptanamadı"
+msgstr "UYARI: %s dosyasının doğum günü saptanamadı"
 
 #: find/pred.c:782
 #, c-format
@@ -554,7 +455,7 @@ msgstr "< %s ... %s > ? "
 #: find/pred.c:1205 find/print.c:1228
 #, c-format
 msgid "getfilecon failed: %s"
-msgstr ""
+msgstr "getfilecon başarısız: %s"
 
 #: find/print.c:359
 #, c-format
@@ -569,14 +470,12 @@ msgstr "hata: biçim dizgesi sonunda %s"
 #: find/print.c:403
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
-msgstr ""
-"hata: biçem yönergesi `%%%c' gelecekte kullanmak üzere yedeğe ayrılmıştır"
+msgstr "hata: biçem yönergesi `%%%c' gelecekte kullanmak üzere yedeğe ayrılmıştır"
 
 #: find/print.c:411
 #, c-format
-msgid ""
-"warning: format directive `%%%c' should be followed by another character"
-msgstr ""
+msgid "warning: format directive `%%%c' should be followed by another character"
+msgstr "uyarı: `%%%c' dizin yönergesi ardından farklı bir karakter içermelidir"
 
 #: find/print.c:419
 #, c-format
@@ -590,12 +489,8 @@ msgstr "ifade geçersiz"
 
 #: find/tree.c:140
 #, c-format
-msgid ""
-"invalid expression; you have used a binary operator '%s' with nothing before "
-"it."
-msgstr ""
-"geçersiz ifade; öncesinde başka hiçbirşey olmaksızın  bir iki terimli '%s' "
-"işleci kullanmalısınız"
+msgid "invalid expression; you have used a binary operator '%s' with nothing before it."
+msgstr "geçersiz ifade; öncesinde başka hiçbirşey olmaksızın  bir iki terimli '%s' işleci kullanmalısınız"
 
 #: find/tree.c:151
 #, c-format
@@ -614,12 +509,8 @@ msgstr "geçersiz ifade; çok fazla ')' var"
 
 #: find/tree.c:189
 #, c-format
-msgid ""
-"invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
-"need an extra predicate after '%s'"
-msgstr ""
-"geçersiz ifade; bir ')' umuluyordu ama yok. Belki de '%s' sonrasında ek bir "
-"dayanağa ihtiyacınız var"
+msgid "invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"
+msgstr "geçersiz ifade; bir ')' umuluyordu ama yok. Belki de '%s' sonrasında ek bir dayanağa ihtiyacınız var"
 
 #: find/tree.c:197
 #, c-format
@@ -628,9 +519,7 @@ msgstr "geçersiz ifade; boş parantezlere izin yok"
 
 #: find/tree.c:203
 #, c-format
-msgid ""
-"invalid expression; I was expecting to find a ')' somewhere but did not see "
-"one."
+msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
 msgstr "geçersiz ifade; bir ')' olmalıydı ama hiç yok."
 
 #: find/tree.c:209 find/tree.c:833
@@ -645,10 +534,8 @@ msgstr "hooop -- geçersiz ifade türü (%d)!"
 
 #: find/tree.c:1120
 #, c-format
-msgid ""
-"warning: there is no entry in the predicate evaluation cost table for "
-"predicate %s; please report this as a bug"
-msgstr ""
+msgid "warning: there is no entry in the predicate evaluation cost table for predicate %s; please report this as a bug"
+msgstr "uyarı: %s koşulu için koşul değerlendirme maliyet tablosunda bir girdi yok; lütfen bunu bir hata kaydı olarak bildirin"
 
 #: find/tree.c:1294
 #, c-format
@@ -706,14 +593,14 @@ msgid "] [path...] [expression]\n"
 msgstr "] [dosyaYolu...] [ifade]\n"
 
 #: find/util.c:455
-#, fuzzy, c-format
+#, c-format
 msgid "failed to save initial working directory"
-msgstr "çalışılan dizin alınamadı"
+msgstr "başlangıç çalışma dizinine kaydedilemedi"
 
 #: find/util.c:472
-#, fuzzy, c-format
+#, c-format
 msgid "failed to restore initial working directory"
-msgstr "çalışılan dizin alınamadı"
+msgstr "başlangıç çalışma dizinine geri yüklenemedi"
 
 #: find/util.c:820
 #, c-format
@@ -742,80 +629,70 @@ msgstr "En iyileme seviyesi %s geçersiz"
 
 #: find/util.c:882
 #, c-format
-msgid ""
-"Optimisation level %lu is too high.  If you want to find files very quickly, "
-"consider using GNU locate."
-msgstr ""
-"En iyileme seviyesi %lu çok büyük. Dosyaları çabucak bulmak istiyorsanız, "
-"GNU locate kullanmayı düşünebilirsiniz"
+msgid "Optimisation level %lu is too high.  If you want to find files very quickly, consider using GNU locate."
+msgstr "En iyileme seviyesi %lu çok büyük. Dosyaları çabucak bulmak istiyorsanız, GNU locate kullanmayı düşünebilirsiniz"
 
 #: find/util.c:1026
 #, c-format
-msgid ""
-"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
-"that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr ""
-"FIND_BLOCK_SIZE ortam değişkeni destekenmiyor, blok boyunu etkileyen tek şey "
-"POSIXLY_CORRECT ortam değişkenidir"
+msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr "FIND_BLOCK_SIZE ortam değişkeni destekenmiyor, blok boyunu etkileyen tek şey POSIXLY_CORRECT ortam değişkenidir"
 
 #: lib/buildcmd.c:161
 #, c-format
 msgid "command too long"
-msgstr ""
+msgstr "komut çok uzun"
 
 #: lib/buildcmd.c:301
 #, c-format
 msgid "can't call exec() due to argument size restrictions"
-msgstr ""
+msgstr "argüman boyut kısıtlamaları nedeniyle exec() çağrılamıyor"
 
 #: lib/buildcmd.c:371
 #, c-format
 msgid "cannot fit single argument within argument list size limit"
-msgstr ""
+msgstr "argüman liste boyut sınırı içerisinde tek argüman sığdırılamıyor"
 
 #: lib/buildcmd.c:377
-#, fuzzy, c-format
+#, c-format
 msgid "argument list too long"
-msgstr "argüman satırı çok uzun"
+msgstr "argüman listesi çok uzun"
 
 #: lib/buildcmd.c:629
 #, c-format
 msgid "Environment variable %s is not set to a valid decimal number"
-msgstr ""
+msgstr "%s ortam değişkeni geçerli bir ondalık sayıya ayarlanmadı"
 
 #: lib/fdleak.c:377
 #, c-format
-msgid ""
-"File descriptor %d will leak; please report this as a bug, remembering to "
-"include a detailed description of the simplest way to reproduce this problem."
-msgstr ""
+msgid "File descriptor %d will leak; please report this as a bug, remembering to include a detailed description of the simplest way to reproduce this problem."
+msgstr "%d dosya tanımlayıcısı sızdırma yapacak. Lütfen bu sorunu yinelemek için en kolay yolun ayrıntılı açıklamasını dahil ederek, bunu bir hata kaydı olarak bildirin."
 
 #: lib/findutils-version.c:55
 msgid "Eric B. Decker"
-msgstr ""
+msgstr "Eric B. Decker"
 
 #: lib/findutils-version.c:56
 msgid "James Youngman"
-msgstr ""
+msgstr "James Youngman"
 
 #: lib/findutils-version.c:57
 msgid "Kevin Dalley"
-msgstr ""
+msgstr "Kevin Dalley"
 
 #: lib/safe-atoi.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected suffix %s on %s"
-msgstr "umulmayan ek dayanak '%s'"
+msgstr "Beklenmeyen %s eki, %s üzerinde"
 
 #: lib/safe-atoi.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "Expected an integer: %s"
-msgstr "'%s' sonrasında bir ifade umuluyordu"
+msgstr "Bir tamsayı bekleniyor: %s"
 
 #: lib/regextype.c:110
 #, c-format
 msgid "Unknown regular expression type %s; valid types are %s."
-msgstr ""
+msgstr "Bilinmeyen düzenli anlatım türü %s; geçerli türler, %s."
 
 #: locate/code.c:131
 #, c-format
@@ -844,41 +721,41 @@ msgstr "yazma hatası"
 #: locate/frcode.c:160
 #, c-format
 msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
-msgstr ""
+msgstr "Kullanım: %s [-0 | --null] [--version] [--help]\n"
 
 #: locate/frcode.c:180
 #, c-format
 msgid "You need to specify a security level as a decimal integer."
-msgstr ""
+msgstr "Güvenlik düzeyini bir ondalık tamsayı olarak belirtmeniz gerekli."
 
 #: locate/frcode.c:188
 #, c-format
 msgid "Security level %s is outside the convertible range."
-msgstr ""
+msgstr "Güvenlik düzeyi %s, değiştirilebilir erimin dışında."
 
 #: locate/frcode.c:196
 #, c-format
 msgid "Security level %s has unexpected suffix %s."
-msgstr ""
+msgstr "Güvenlik düzeyi %s, beklenmeyen %s sonekine sahip."
 
 #: locate/frcode.c:254
 #, c-format
 msgid "slocate security level %ld is unsupported."
-msgstr ""
+msgstr "tahsis edilen güvenlik düzeyi %ld desteklenmiyor."
 
 #: locate/frcode.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to write to standard output"
-msgstr "standart çıktı"
+msgstr "Standart çıktıyı yazma başarısız"
 
 #: locate/locate.c:139
 msgid "days"
 msgstr "gün"
 
 #: locate/locate.c:186
-#, fuzzy, c-format
+#, c-format
 msgid "The argument for option --max-database-age must not be empty"
-msgstr "--max-database-age seçeneğinin argümanı boş olmamalı"
+msgstr "--max-database-age seçeneği için bağımsız değişken boş olmalı"
 
 #: locate/locate.c:202 locate/locate.c:209
 #, c-format
@@ -888,9 +765,7 @@ msgstr "--max-database-age seçeneği için %s argümanı geçersiz"
 #: locate/locate.c:459
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
-msgstr ""
-"locate veritabanı %s locate'in artık çalışmadığı bir dosya türünün ismini "
-"içeriyor"
+msgstr "locate veritabanı %s locate'in artık çalışmadığı bir dosya türünün ismini içeriyor"
 
 #: locate/locate.c:569 locate/locate.c:588
 #, c-format
@@ -898,21 +773,21 @@ msgid "locate database %s is corrupt or invalid"
 msgstr "locate veritabanı %s ya bozuk ya da geçersiz"
 
 #: locate/locate.c:860
-#, fuzzy, c-format
+#, c-format
 msgid "Locate database size: %s byte\n"
 msgid_plural "Locate database size: %s bytes\n"
-msgstr[0] "Locate veritabanı boyu: %s bayt\n"
-msgstr[1] "Locate veritabanı boyu: %s bayt\n"
+msgstr[0] "Veritabanı boyutunu belirle: %s  bayt\n"
+msgstr[1] "Veritabanı boyutunu belirle: %s  bayt\n"
 
 #: locate/locate.c:867
-#, fuzzy, c-format
+#, c-format
 msgid "Matching Filenames: %s\n"
-msgstr "Eşleşen Dosya isimleri: %s "
+msgstr "Eşleşen Dosya adları: %s\n"
 
 #: locate/locate.c:868
-#, fuzzy, c-format
+#, c-format
 msgid "All Filenames: %s\n"
-msgstr "Tüm Dosya isimleri: %s "
+msgstr "Tüm Dosya adları: %s\n"
 
 #: locate/locate.c:874
 #, c-format
@@ -924,15 +799,17 @@ msgid ""
 "\t%s contain newline characters, \n"
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
+"Dosya isimleri artan %s bayt içeriyor.\n"
+"Bu dosya isimlerinin,\n"
+"\n"
+"\t%s tanesi boşluk içeriyor, \n"
+"\t%s tanesi yeni satır karakteri içeriyor,\n"
+"\tve %s tanesi yüksek bit seti ile karakter içeriyor.\n"
 
 #: locate/locate.c:888
 #, c-format
-msgid ""
-"Some filenames may have been filtered out, so we cannot compute the "
-"compression ratio.\n"
-msgstr ""
-"Bazı dosyalar süzülüp atılmış olabilir, bu nedenle sıkıştırma oranını "
-"hesaplayamayız.\n"
+msgid "Some filenames may have been filtered out, so we cannot compute the compression ratio.\n"
+msgstr "Bazı dosyalar süzülüp atılmış olabilir, bu nedenle sıkıştırma oranını hesaplayamayız.\n"
 
 #: locate/locate.c:901
 #, c-format
@@ -946,39 +823,23 @@ msgstr "Sıkıştırma oranı tanımlanmamış\n"
 
 #: locate/locate.c:963
 #, c-format
-msgid ""
-"locate database %s looks like an slocate database but it seems to have "
-"security level %c, which GNU findutils does not currently support"
-msgstr ""
-"locate veritabanı %s bir slocate veritabanı gibi görünüyor ama GNU findutils "
-"tarafından desteklenmeyen %c güvenlik seviyesine de sahipmiş gibi görünüyor"
+msgid "locate database %s looks like an slocate database but it seems to have security level %c, which GNU findutils does not currently support"
+msgstr "locate veritabanı %s bir slocate veritabanı gibi görünüyor ama GNU findutils tarafından desteklenmeyen %c güvenlik seviyesine de sahipmiş gibi görünüyor"
 
 #: locate/locate.c:1075
 #, c-format
-msgid ""
-"%s is an slocate database.  Support for these is new, expect problems for "
-"now."
-msgstr ""
-"%s bir slocate veritabanıdır.  Henüz yeni yeni desteklenmektedir, şu an "
-"sorunları olabilir."
+msgid "%s is an slocate database.  Support for these is new, expect problems for now."
+msgstr "%s bir slocate veritabanıdır.  Henüz yeni yeni desteklenmektedir, şu an sorunları olabilir."
 
 #: locate/locate.c:1089
 #, c-format
-msgid ""
-"%s is an slocate database of unsupported security level %d; skipping it."
-msgstr ""
-"%s desteklenmeyen %d güvenlik seviyeli bir slocate veritabanıdır; atlanıyor"
+msgid "%s is an slocate database of unsupported security level %d; skipping it."
+msgstr "%s desteklenmeyen %d güvenlik seviyeli bir slocate veritabanıdır; atlanıyor"
 
 #: locate/locate.c:1106
 #, c-format
-msgid ""
-"You specified the -E option, but that option cannot be used with slocate-"
-"format databases with a non-zero security level.  No results will be "
-"generated for this database.\n"
-msgstr ""
-"-E seçeneğini belirttiniz ama bu seçenek sıfırdan farklı güvenlik seviyeli "
-"slocate biçimli veritabanları ile kullanılmamalıdır. Bu veritabanı için "
-"hiçbir sonuç üretilmeyecek.\n"
+msgid "You specified the -E option, but that option cannot be used with slocate-format databases with a non-zero security level.  No results will be generated for this database.\n"
+msgstr "-E seçeneğini belirttiniz ama bu seçenek sıfırdan farklı güvenlik seviyeli slocate biçimli veritabanları ile kullanılmamalıdır. Bu veritabanı için hiçbir sonuç üretilmeyecek.\n"
 
 #: locate/locate.c:1117
 #, c-format
@@ -1009,7 +870,7 @@ msgid "The database machine-word encoding order is not obvious.\n"
 msgstr "Veritabanın bayt sıralamasının ne olduğu belli değil.\n"
 
 #: locate/locate.c:1372
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename] \n"
@@ -1019,16 +880,13 @@ msgid ""
 "      [--max-database-age D] [--version] [--help]\n"
 "      pattern...\n"
 msgstr ""
-"Kullanımı: %s [-d DosyaYolu | --database=DosyaYolu]\n"
-"       [-e | | -E | --[non-]existing] [-i | --ignore-case] [-w | --"
-"wholename]\n"
-"       [-b | --basename] [--limit=N | -l N] [-S | --statistics] [-0 | --"
-"null]\n"
-"       [-c | --count]  [-P | -H | --nofollow]  [-L | --follow] [-m | --"
-"mmap ]\n"
-"       [ -s | --stdio ] [-A | --all] [-p | --print] [-r | --regex ]\n"
+"Kullanımı: %s [-d yol | --database=yol]\n"
+"       [-e | | -E | --[non-]existing] [-i | --ignore-case] [-w | --wholename]\n"
+"       [-b | --basename] [--limit=N | -l N] [-S | --statistics] [-0 | --null]\n"
+"       [-c | --count]  [-P | -H | --nofollow]  [-L | --follow] [-m | --mmap]\n"
+"       [ -s | --stdio] [-A | --all] [-p | --print] [-r | --regex]\n"
 "       [--regextype=TÜR] [--max-database-age D] [--version] [--help]\n"
-"       KALIP...\n"
+"       kalıp...\n"
 
 #: locate/locate.c:1435
 msgid "failed to drop group privileges"
@@ -1054,7 +912,7 @@ msgstr "Uyarı: locate veritabanı standart girdiden sadece bir kere okunabilir"
 #: locate/locate.c:1831
 #, c-format
 msgid "time system call failed"
-msgstr ""
+msgstr "sistem zaman çağrısı başarısız"
 
 #: locate/locate.c:1842
 #, c-format
@@ -1064,17 +922,17 @@ msgstr "uyarı: %s veritabanı %d den %s daha eski (aslında %.1f %s yaşında)"
 #: locate/word_io.c:98
 #, c-format
 msgid "WARNING: locate database %s was built with a different byte order"
-msgstr ""
+msgstr "UYARI: %s veritabanı yeri farklı bir sekiz ikil düzeniyle yapıldı"
 
 #: locate/word_io.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected EOF in %s"
-msgstr "umulmayan ek dayanak '%s'"
+msgstr "%s içinde beklenmeyen dosya sonu"
 
 #: locate/word_io.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "error reading a word from %s"
-msgstr "%s beklenirken hata oluştu"
+msgstr "%s içinden bir kelime okunurken hata"
 
 #: xargs/xargs.c:252
 #, c-format
@@ -1083,39 +941,23 @@ msgstr "Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz."
 
 #: xargs/xargs.c:270
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lx."
-msgstr ""
-"Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz; karakter "
-"değerleri %lx değerini aşmamalı."
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."
+msgstr "Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz; karakter değerleri %lx değerini aşmamalı."
 
 #: xargs/xargs.c:276
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lo."
-msgstr ""
-"Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz; karakter "
-"değerleri %lo değerini aşmamalı."
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."
+msgstr "Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz; karakter değerleri %lo değerini aşmamalı."
 
 #: xargs/xargs.c:285
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; trailing "
-"characters %s not recognised."
-msgstr ""
-"Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz; ardındaki %s "
-"karakterleri tanınmıyor."
+msgid "Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."
+msgstr "Girdi sınırlayıcı belirtimindeki %s önceleme dizgesi geçersiz; ardındaki %s karakterleri tanınmıyor."
 
 #: xargs/xargs.c:330
 #, c-format
-msgid ""
-"Invalid input delimiter specification %s: the delimiter must be either a "
-"single character or an escape sequence starting with \\."
-msgstr ""
-"Girdi sınırlayıcı belirtimi %s geçersiz: sınırlanan şey ya tek bir karakter "
-"ya da \\ ile öncelenmiş bir dizge olmalı."
+msgid "Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."
+msgstr "Girdi sınırlayıcı belirtimi %s geçersiz: sınırlanan şey ya tek bir karakter ya da \\ ile öncelenmiş bir dizge olmalı."
 
 #: xargs/xargs.c:347
 #, c-format
@@ -1123,34 +965,34 @@ msgid "environment is too large for exec"
 msgstr "icra edilebilir olarak ortam çok geniş"
 
 #: xargs/xargs.c:556
-#, fuzzy, c-format
+#, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr "uyarı: %ld değeri -s seçeneği için çok büyük, yerine %ld kullanılıyor"
 
 #: xargs/xargs.c:603
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
-msgstr ""
+msgstr "option --%s, `=' simgesini dahil eden bir değere ayarlanamaz"
 
 #: xargs/xargs.c:615
 #, c-format
 msgid "failed to unset environment variable %s"
-msgstr ""
+msgstr "%s ortam değişkeni kaldırılamadı"
 
 #: xargs/xargs.c:629
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
-msgstr ""
+msgstr "uyarı: -0 veya -d kullanıldığında -E seçeneğinin bir etkisi yoktur.\n"
 
 #: xargs/xargs.c:651
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
-msgstr ""
+msgstr "SIGUSR1 sinyal işleyici ayarlanamıyor"
 
 #: xargs/xargs.c:657
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
-msgstr ""
+msgstr "SIGUSR2 sinyal işleyici ayarlanamıyor"
 
 #: xargs/xargs.c:673
 #, c-format
@@ -1158,64 +1000,48 @@ msgid "Cannot open input file %s"
 msgstr "Girdi dosyası %s açılamıyor"
 
 #: xargs/xargs.c:692
-#, fuzzy, c-format
+#, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
-msgstr "Ortam değişkenleriniz %lu bayt tutuyor\n"
+msgstr "Ortam değişkenleriniz %<PRIuMAX> bayt tutuyor\n"
 
 #: xargs/xargs.c:695
-#, fuzzy, c-format
+#, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
-msgstr "Argüman uzunluğunun POSIX üst sınırı (bu sistem): %lu\n"
+msgstr "Argüman uzunluğunun POSIX üst sınırı (bu sistem): %<PRIuMAX>\n"
 
 #: xargs/xargs.c:698
-#, fuzzy, c-format
-msgid ""
-"POSIX smallest allowable upper limit on argument length (all systems): "
-"%<PRIuMAX>\n"
-msgstr ""
-"Argüman uzunluğu için izin verilen en küçük POSIX üst sınırı (tüm sistemler: "
-"%lu\n"
+#, c-format
+msgid "POSIX smallest allowable upper limit on argument length (all systems): %<PRIuMAX>\n"
+msgstr "Argüman uzunluğu için izin verilen en küçük POSIX üst sınırı (tüm sistemler: %<PRIuMAX>)\n"
 
 #: xargs/xargs.c:701
-#, fuzzy, c-format
+#, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
-msgstr "Kullanabileceğimiz asgari komut uzunluğu: %ld\n"
+msgstr "Kullanabileceğimiz asgari komut uzunluğu: %<PRIuMAX>\n"
 
 #: xargs/xargs.c:704
-#, fuzzy, c-format
+#, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
-msgstr "Kullanmakta olduğumuz komut tamponunun boyu: %lu\n"
+msgstr "Kullanmakta olduğumuz komut tamponunun boyu: %<PRIuMAX>\n"
 
 #: xargs/xargs.c:710
 #, c-format
 msgid ""
 "\n"
-"Execution of xargs will continue now, and it will try to read its input and "
-"run commands; if this is not what you wanted to happen, please type the end-"
-"of-file keystroke.\n"
+"Execution of xargs will continue now, and it will try to read its input and run commands; if this is not what you wanted to happen, please type the end-of-file keystroke.\n"
 msgstr ""
 "\n"
-"xargs şimdi çalışmaya devam edecek ve girdisini okumayı ve komutları "
-"çalıştırmayı deneyecek; eğer istediğiniz bu değilse lütfen dosyasonu "
-"tuşlayınız.\n"
+"xargs şimdi çalışmaya devam edecek ve girdisini okumayı ve komutları çalıştırmayı deneyecek; eğer istediğiniz bu değilse lütfen dosyasonu tuşlayınız.\n"
 
 #: xargs/xargs.c:718
 #, c-format
-msgid ""
-"Warning: %s will be run at least once.  If you do not want that to happen, "
-"then press the interrupt keystroke.\n"
-msgstr ""
-"Uyarı: %s en azından bir kere çalışacak. İstediğiniz bu değilse kesme "
-"tuşlarına basınız.\n"
+msgid "Warning: %s will be run at least once.  If you do not want that to happen, then press the interrupt keystroke.\n"
+msgstr "Uyarı: %s en azından bir kere çalışacak. İstediğiniz bu değilse kesme tuşlarına basınız.\n"
 
 #: xargs/xargs.c:846 xargs/xargs.c:939
 #, c-format
-msgid ""
-"unmatched %s quote; by default quotes are special to xargs unless you use "
-"the -0 option"
-msgstr ""
-"%s karşılığı ile eşleşmiyor; -0 seçeneği ile belirtilmedikçe öntanımlı "
-"olarak sarmalayıcı karakterler xarg'lara özeldir"
+msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
+msgstr "%s karşılığı ile eşleşmiyor; -0 seçeneği ile belirtilmedikçe öntanımlı olarak sarmalayıcı karakterler xarg'lara özeldir"
 
 #: xargs/xargs.c:847 xargs/xargs.c:940
 msgid "double"
@@ -1226,13 +1052,9 @@ msgid "single"
 msgstr "tek"
 
 #: xargs/xargs.c:959
-#, fuzzy, c-format
-msgid ""
-"WARNING: a NUL character occurred in the input.  It cannot be passed through "
-"in the argument list.  Did you mean to use the --null option?"
-msgstr ""
-"Uyarı: girdide bir NUL karakter algılandı. Argüman listesi üzerinden "
-"aktarılamaz. --null seçeneğini kullanmayı düşündünüz mü?"
+#, c-format
+msgid "WARNING: a NUL character occurred in the input.  It cannot be passed through in the argument list.  Did you mean to use the --null option?"
+msgstr "UYARI: girdide bir NUL karakter algılandı. Argüman listesi üzerinden aktarılamaz. --null seçeneğini kullanmayı düşündünüz mü?"
 
 #: xargs/xargs.c:969 xargs/xargs.c:1034
 #, c-format
@@ -1242,35 +1064,32 @@ msgstr "argüman satırı çok uzun"
 #: xargs/xargs.c:1062
 #, c-format
 msgid "failed to open /dev/tty for reading"
-msgstr ""
+msgstr "/dev/tty okumak için açılamadı"
 
 #: xargs/xargs.c:1105
 #, c-format
 msgid "unable to allocate memory"
-msgstr ""
+msgstr "bellek ayrılamıyor"
 
 #: xargs/xargs.c:1120
 #, c-format
 msgid "failed to set environment variable %s"
-msgstr ""
+msgstr "%s ortam değişkeni ayarlanamadı"
 
 #: xargs/xargs.c:1207
 #, c-format
 msgid "could not create pipe before fork"
-msgstr ""
+msgstr "çatallamadan önce iletişim tüneli oluşturulamadı"
 
 #: xargs/xargs.c:1278
 #, c-format
-msgid ""
-"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
-"please report it)"
-msgstr ""
+msgid "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, please report it)"
+msgstr "xargs_do_exec içerisinde errno-buffer safe_read başarısız (bu, muhtemelen bir hata, lütfen bildirin)"
 
 #: xargs/xargs.c:1331
 #, c-format
-msgid ""
-"read returned unexpected value %d; this is probably a bug, please report it"
-msgstr ""
+msgid "read returned unexpected value %d; this is probably a bug, please report it"
+msgstr "read beklenmedik %d değerini döndürdü; bu, muhtemelen bir hata, lütfen bildirin"
 
 #: xargs/xargs.c:1424
 #, c-format
@@ -1280,7 +1099,7 @@ msgstr "ast süreç beklenirken hata oluştu"
 #: xargs/xargs.c:1457
 #, c-format
 msgid "WARNING: Lost track of %lu child processes"
-msgstr ""
+msgstr "UYARI: %lu alt sürecin izi kaybedildi"
 
 #: xargs/xargs.c:1476
 #, c-format
@@ -1315,60 +1134,70 @@ msgstr "%s: -%c seçeneği için değer < %ld olmalı\n"
 #: xargs/xargs.c:1606
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
-msgstr ""
+msgstr "Kullanım: %s [SEÇENEK]... KOMUT [BAŞLANGIÇ-ARG.]...\n"
 
 #: xargs/xargs.c:1611
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
 msgstr ""
+"KOMUTu BAŞLANGIÇ-ARG. ve girdiden okunan sonraki argümanlar ile çalıştır.\n"
+"\n"
 
 #: xargs/xargs.c:1613
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
 msgstr ""
+"Uzun seçeneklerdeki zorunlu ve isteğe bağlı argümanlar\n"
+"kısa seçeneklerde de geçerlidir.\n"
 
 #: xargs/xargs.c:1615
 msgid ""
-"  -0, --null                   items are separated by a null, not "
-"whitespace;\n"
-"                                 disables quote and backslash processing "
-"and\n"
+"  -0, --null                   items are separated by a null, not whitespace;\n"
+"                                 disables quote and backslash processing and\n"
 "                                 logical EOF processing.\n"
 msgstr ""
+"  -0, --null                   ögeler bir null karakteri ile ayrılır, boşlukla değil;\n"
+"                                 tek tırnak ve ters bölü işleme ile mantıksal EOF (dosya sonu)\n"
+"                                 işlemeyi devre dışı bırakır.\n"
 
 #: xargs/xargs.c:1618
-msgid ""
-"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
-msgstr ""
+msgid "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+msgstr "  -a, --arg-file=DOSYA          argümanları standart girdiden değil, DOSYAdan oku\n"
 
 #: xargs/xargs.c:1619
 msgid ""
-"  -d, --delimiter=CHARACTER    items in input stream are separated by "
-"CHARACTER,\n"
-"                                 not by whitespace; disables quote and "
-"backslash\n"
+"  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
+"                                 not by whitespace; disables quote and backslash\n"
 "                                 processing and logical EOF processing\n"
 msgstr ""
+"  -d, --delimiter=KARAKTER    girdi akışındaki ögeler KARAKTER ile ayrılır,\n"
+"                                 boşlukla değil; tırnak ve ters bölü\n"
+"                                 işleme ile mantıksal dosya sonu işlemeyi yü devre dışı bırakır\n"
 
 #: xargs/xargs.c:1622
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a "
-"line\n"
+"  -E END                       Set logical EOF string; if END occurs as a line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
+"  -E SON                       Mantıksal dosya sonu dizgesini ayarla\n"
+"                                 bir girdi satırında SON gerçekleşirse, girdinin\n"
+"                                 geri kalanı yoksayılır\n"
+"                                 (-0 veya -d belirtilmişse yoksayılır)\n"
 
 #: xargs/xargs.c:1625
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
 msgstr ""
+"  -e, --eof[=SON]              SON belirtilmişse -E SON ile aynıdır;\n"
+"                                 aksi halde, dosya sonu dizgesi yoktur\n"
 
 #: xargs/xargs.c:1627
 msgid "  -I R                         same as --replace=R\n"
-msgstr ""
+msgstr "  -I R                         --replace=R ile aynı\n"
 
 #: xargs/xargs.c:1628
 msgid ""
@@ -1376,104 +1205,75 @@ msgid ""
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
+"  -i, --replace[=R]            BAŞLANGIÇ-ARG. içindeki R'yi standart\n"
+"                                 girdiden okunan isimler ile değiştir; R belirtilmemişse\n"
+"                                 {} farzet\n"
 
 #: xargs/xargs.c:1631
 msgid ""
-"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
-"per\n"
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines per\n"
 "                                 command line\n"
 msgstr ""
+"  -L, --max-lines=AZAMİ-SATIR    her komut satırı için en fazla AZAMİ-SATIR\n"
+"                                 boş olmayan girdi satırı kullan\n"
 
 #: xargs/xargs.c:1633
 msgid ""
-"  -l[MAX-LINES]                similar to -L but defaults to at most one "
-"non-\n"
-"                                 blank input line if MAX-LINES is not "
-"specified\n"
+"  -l[MAX-LINES]                similar to -L but defaults to at most one non-\n"
+"                                 blank input line if MAX-LINES is not specified\n"
 msgstr ""
+"  -l[AZAMİ-SATIR]                -L ile aynı ancak AZAMİ-SATIR belirtilmemişse\n"
+"                                 en fazla bir boş olmayan satır varsayılır\n"
 
 #: xargs/xargs.c:1635
-msgid ""
-"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
-"line\n"
-msgstr ""
+msgid "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command line\n"
+msgstr "  -n, --max-args=AZAMİ-ARG.      her komut satırı için en çok AZAMİ-ARG. argüman kullan\n"
 
 #: xargs/xargs.c:1636
-msgid ""
-"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
-msgstr ""
+msgid "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgstr "  -P, --max-procs=AZAMİ-SÜREÇ    aynı anda en çok AZAMİ-SÜREÇ süreç çalıştır\n"
 
 #: xargs/xargs.c:1637
 msgid "  -p, --interactive            prompt before running commands\n"
-msgstr ""
+msgstr "  -p, --interactive            komutları çalıştırmadan önce sor\n"
 
 #: xargs/xargs.c:1638
-msgid ""
-"      --process-slot-var=VAR   set environment variable VAR in child "
-"processes\n"
-msgstr ""
+msgid "      --process-slot-var=VAR   set environment variable VAR in child processes\n"
+msgstr "      --process-slot-var=DEĞŞ.   alt süreçlerde DEĞŞ. ortam değişkenini ayarla\n"
 
 #: xargs/xargs.c:1639
 msgid ""
-"  -r, --no-run-if-empty        if there are no arguments, then do not run "
-"COMMAND;\n"
-"                                 if this option is not given, COMMAND will "
-"be\n"
+"  -r, --no-run-if-empty        if there are no arguments, then do not run COMMAND;\n"
+"                                 if this option is not given, COMMAND will be\n"
 "                                 run at least once\n"
 msgstr ""
+"  -r, --no-run-if-empty        eğer argüman yoksa, KOMUTu çalıştırma;\n"
+"                                 bu seçenek girilmezse, KOMUT en az bir kez\n"
+"                                 çalıştırılacaktır\n"
 
 #: xargs/xargs.c:1642
-msgid ""
-"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
-msgstr ""
+msgid "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+msgstr "  -s, --max-chars=AZAMİ-KARAKTER    komut satırı sınırını AZAMİ-KARAKTER olarak sınırla\n"
 
 #: xargs/xargs.c:1643
 msgid "      --show-limits            show limits on command-line length\n"
-msgstr ""
+msgstr "      --show-limits            komut satırı uzunluğu sınırlarını göster\n"
 
 #: xargs/xargs.c:1644
 msgid "  -t, --verbose                print commands before executing them\n"
-msgstr ""
+msgstr "  -t, --verbose                komutları çalıştırmadan önce yazdır\n"
 
 #: xargs/xargs.c:1645
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
-msgstr ""
+msgstr "  -x, --exit                   boyut aşarsa (bkz. -s) çık\n"
 
 #: xargs/xargs.c:1647
 msgid "      --help                   display this help and exit\n"
-msgstr ""
+msgstr "      --help                   bu yardımı göster ve çık\n"
 
 #: xargs/xargs.c:1648
 msgid "      --version                output version information and exit\n"
-msgstr ""
-
-#~ msgid "Built using GNU gnulib version %s\n"
-#~ msgstr "GNU gnulib sürüm %s kullanarak derlenmiş\n"
-
-#~ msgid ""
-#~ "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
-#~ "       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
-#~ "       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n"
-#~ "       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n"
-#~ "       [-n max-args] [--max-args=max-args]\n"
-#~ "       [-s max-chars] [--max-chars=max-chars]\n"
-#~ "       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n"
-#~ "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
-#~ "       [--version] [--help] [command [initial-arguments]]\n"
-#~ msgstr ""
-#~ "Kullanımı: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=ayraç]\n"
-#~ "       [-E eof-dizgesi] -e[eof-dizgesi]]  [--eof[=eof-dizgesi]]\n"
-#~ "       [-L azami-satır-sayısı] [-l[azami-satır-sayısı]]\n"
-#~ "       [--max-lines[=azami-satır-sayısı]] [-I değiştirme-dizgesi]\n"
-#~ "       [-i[değiştirme-dizgesi]] [--replace[=değiştirme-dizgesi]]\n"
-#~ "       [-n azami-arg-sayısı] [--max-args=azami-arg-sayısı]\n"
-#~ "       [-s azami-karakter-sayısı] [--max-chars=azami-karakter-sayısı]\n"
-#~ "       [-P azami-işlem-sayısı] [--max-procs=azami-işlem-sayısı]\n"
-#~ "       [--show-limits] [--verbose] [--exit] [--no-run-if-empty]\n"
-#~ "       [--arg-file=dosya] [--version] [--help] [komut [ilk-argümanlar]]\n"
-
-#~ msgid "cannot get current directory"
-#~ msgstr "çalışılan dizin alınamadı"
+msgstr "      --version                sürüm bilgisini göster ve çık\n"
 
 #~ msgid "invalid argument %s for %s"
 #~ msgstr "%2$s için %1$s argümanı geçersiz"
@@ -1487,45 +1287,38 @@ msgstr ""
 #~ msgid "Unknown system error"
 #~ msgstr "Bilinmeyen sistem hatası"
 
-#, fuzzy
-#~ msgid "%s: option '%s' is ambiguous\n"
+#~ msgid "%s: option `%s' is ambiguous\n"
 #~ msgstr "%s: `%s' seçeneği belirsiz\n"
 
-#, fuzzy
-#~ msgid "%s: option '--%s' doesn't allow an argument\n"
+#~ msgid "%s: option `--%s' doesn't allow an argument\n"
 #~ msgstr "%s: `--%s' seçeneği argümansız kullanılır\n"
 
-#, fuzzy
-#~ msgid "%s: option '%c%s' doesn't allow an argument\n"
+#~ msgid "%s: option `%c%s' doesn't allow an argument\n"
 #~ msgstr "%s: seçenek `%c%s' argümansız kullanılır\n"
 
-#, fuzzy
-#~ msgid "%s: option '%s' requires an argument\n"
-#~ msgstr "%s: `%s' seçeneği bir argümanla kullanılır\n"
-
-#, fuzzy
-#~ msgid "%s: unrecognized option '--%s'\n"
+#~ msgid "%s: unrecognized option `--%s'\n"
 #~ msgstr "%s: `--%s' seçeneği bilinmiyor\n"
 
-#, fuzzy
-#~ msgid "%s: unrecognized option '%c%s'\n"
+#~ msgid "%s: unrecognized option `%c%s'\n"
 #~ msgstr "%s: `%c%s' seçeneği tanınmıyor\n"
 
-#, fuzzy
-#~ msgid "%s: invalid option -- '%c'\n"
+#~ msgid "%s: illegal option -- %c\n"
+#~ msgstr "%s: kuraldışı seçenek -- %c\n"
+
+#~ msgid "%s: invalid option -- %c\n"
 #~ msgstr "%s: geçersiz seçenek -- %c\n"
 
-#, fuzzy
-#~ msgid "%s: option requires an argument -- '%c'\n"
+#~ msgid "%s: option requires an argument -- %c\n"
 #~ msgstr "%s: seçenek bir argümanla kullanılır -- %c\n"
 
-#, fuzzy
-#~ msgid "%s: option '-W %s' is ambiguous\n"
+#~ msgid "%s: option `-W %s' is ambiguous\n"
 #~ msgstr "%s: `-W %s' seçeneği belirsiz\n"
 
-#, fuzzy
-#~ msgid "%s: option '-W %s' doesn't allow an argument\n"
+#~ msgid "%s: option `-W %s' doesn't allow an argument\n"
 #~ msgstr "%s: `-W %s' seçeneği argümansız kullanılır\n"
+
+#~ msgid "block size"
+#~ msgstr "blok uzunluğu"
 
 #~ msgid "`"
 #~ msgstr "“"
@@ -1533,41 +1326,14 @@ msgstr ""
 #~ msgid "'"
 #~ msgstr "”"
 
-#, fuzzy
-#~ msgid "Invalid regular expression"
-#~ msgstr "ifade geçersiz"
-
-#, fuzzy
-#~ msgid "Invalid range end"
-#~ msgstr "-used için argüman olarak %s geçersiz"
-
-#, fuzzy
-#~ msgid "Invalid preceding regular expression"
-#~ msgstr "ifade geçersiz"
-
 #~ msgid "^[yY]"
 #~ msgstr "^[eE]"
 
 #~ msgid "^[nN]"
 #~ msgstr "^[hH]"
 
-#, fuzzy
-#~ msgid "invalid %s%s argument `%s'"
-#~ msgstr "`%s' argümanı `%s'de geçersiz"
-
-#, fuzzy
-#~ msgid "invalid suffix in %s%s argument `%s'"
-#~ msgstr "`%s' argümanı `%s'de geçersiz"
-
-#, fuzzy
-#~ msgid "%s%s argument `%s' too large"
-#~ msgstr "argüman satırı çok uzun"
-
-#~ msgid "%s: illegal option -- %c\n"
-#~ msgstr "%s: kuraldışı seçenek -- %c\n"
-
-#~ msgid "block size"
-#~ msgstr "blok uzunluğu"
+#~ msgid "cannot get current directory"
+#~ msgstr "çalışılan dizin alınamadı"
 
 #~ msgid "level higher in the filesystem hierarchy"
 #~ msgstr "seviye, dosya sistemi hiyerarşisinde daha yüksek"
@@ -1575,15 +1341,14 @@ msgstr ""
 #~ msgid "levels higher in the filesystem hierarchy"
 #~ msgstr "seviyeler, dosya sistemi hiyerarşisinde daha yüksek"
 
-#~ msgid ""
-#~ "warning: the predicate -ipath is deprecated; please use -iwholename "
-#~ "instead."
-#~ msgstr ""
-#~ "uyarı: -ipath dayanağının kullanımı önerilmiyor; yerine lütfen -"
-#~ "iwholename kullanın."
+#~ msgid "warning: the predicate -ipath is deprecated; please use -iwholename instead."
+#~ msgstr "uyarı: -ipath dayanağının kullanımı önerilmiyor; yerine lütfen -iwholename kullanın."
 
 #~ msgid "GNU find version %s\n"
 #~ msgstr "GNU find sürüm %s\n"
+
+#~ msgid "Built using GNU gnulib version %s\n"
+#~ msgstr "GNU gnulib sürüm %s kullanarak derlenmiş\n"
 
 #~ msgid "GNU findutils version %s\n"
 #~ msgstr "GNU findutils sürüm %s\n"
@@ -1620,3 +1385,25 @@ msgstr ""
 
 #~ msgid "GNU xargs version %s\n"
 #~ msgstr "GNU xargs sürüm %s\n"
+
+#~ msgid ""
+#~ "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
+#~ "       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
+#~ "       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n"
+#~ "       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n"
+#~ "       [-n max-args] [--max-args=max-args]\n"
+#~ "       [-s max-chars] [--max-chars=max-chars]\n"
+#~ "       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n"
+#~ "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
+#~ "       [--version] [--help] [command [initial-arguments]]\n"
+#~ msgstr ""
+#~ "Kullanımı: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=ayraç]\n"
+#~ "       [-E eof-dizgesi] -e[eof-dizgesi]]  [--eof[=eof-dizgesi]]\n"
+#~ "       [-L azami-satır-sayısı] [-l[azami-satır-sayısı]]\n"
+#~ "       [--max-lines[=azami-satır-sayısı]] [-I değiştirme-dizgesi]\n"
+#~ "       [-i[değiştirme-dizgesi]] [--replace[=değiştirme-dizgesi]]\n"
+#~ "       [-n azami-arg-sayısı] [--max-args=azami-arg-sayısı]\n"
+#~ "       [-s azami-karakter-sayısı] [--max-chars=azami-karakter-sayısı]\n"
+#~ "       [-P azami-işlem-sayısı] [--max-procs=azami-işlem-sayısı]\n"
+#~ "       [--show-limits] [--verbose] [--exit] [--no-run-if-empty]\n"
+#~ "       [--arg-file=dosya] [--version] [--help] [komut [ilk-argümanlar]]\n"
