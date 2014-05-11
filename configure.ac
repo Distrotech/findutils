@@ -111,11 +111,13 @@ gl_MANYWARN_COMPLEMENT([warnings], [$warnings], [$excluded_warnings])
 
 AC_ARG_ENABLE(compiler-warnings,
   AS_HELP_STRING(--enable-compiler-warnings,Enable many compiler warnings),
-  for w in $warnings
-  do
-    gl_WARN_ADD([$w])
-  done
-)
+  [
+    for w in $warnings
+    do
+      gl_WARN_ADD([$w])
+    done
+  ]
+  )
 
 dnl Older versions of gl/m4/nls.m4 provide AM_MKINSTALLDIRS.
 dnl The current version of gnulib does not, but the version of
