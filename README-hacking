@@ -18,10 +18,15 @@ Prerequisites
  * GNU gettext
  * GNU Dejagnu
 
+Dejagnu is in fact optional, but it's strongly recommened, since it is
+needed to run findutils' test suite (which is how you know that find
+works once it is built on your system).
+
 The configure program should tell you if you try to use a version of
-one of these tools which is not oif a recent enough version.  The file
+one of these tools which is not of a recent enough version.  The file
 tool-versions.txt indicates which version of each tool the current
-release was built and tested with.
+release was built and tested with.  This is included in the tar-file
+releases, but it's not checked in to git.
 
 
 Use the latest upstream sources
@@ -31,8 +36,8 @@ Use the latest upstream sources
 
   git clone git://git.sv.gnu.org/findutils
 
-This will download the whole repository, it's about 14MB.  If you
-already have a copy you can refresh it with
+This will download the whole repository, it's about 16MB once fetched.
+If you already have a copy you can refresh it with:
 
   git checkout master  (to switch to your copy of the master branch)
   git pull (to collect and merge changes)
@@ -46,17 +51,10 @@ already have a copy you can refresh it with
     sh import-gnulib.sh
 
  This command will use git to check out the version of gnulib which is
- intended to work with the findutils source you already have, as
- configured by the file import-gnulib.config.  The gnulib code itself
- is left in the directory "gnulib-git".  The "gnulib" directory
- contains just the gnulib files that findutils needs during the build
- process.
-
- If you want to build findutils with a different version of gnulib,
- just edit import-gnulib.config to change the version and then re-run
- import-gnulib.sh.  When specifying the version, you can specify
- either the date or a tag.  If making any kind of release, please
- use a fully identifying version (rather than just, say, "HEAD").
+ intended to work with the findutils source you already have (gnulib
+ is used as a git submodule).  The gnulib code itself is left in the
+ directory "gnulib".  The "gl" directory contains just the gnulib
+ files that findutils needs during the build process.
 
  The import-gnulib.sh script will also run Autoconf and Automake to
  generate the "configure" script and "Makefile.in" files.  Should you
@@ -66,10 +64,6 @@ already have a copy you can refresh it with
     autoheader			   && \
     autoconf			   && \
     automake --add-missing --copy
-
-3. (Optional) Update the translations
-
-    rsync -Lrtvz  translationproject.org::tp/latest/findutils/ po
 
 3. Run "configure" and "make" in the normal way.
 
@@ -143,9 +137,9 @@ If you plan to submit changes to findutils, please make sure you have
 read the GNU coding standard (http://www.gnu.org/prep/standards/).
 Some common things you might have forgotten to do are:
 
+ - add a ChangeLog entry (for now we still do that manually)
  - document your change in both the manual pages and the Texinfo file
  - re-run the test suite (with Dejagnu installed!)
- - add a ChangeLog entry (for now we still do that manually)
  - add a test case for the bug you're fixing or feature you're adding
  - mention your fix or change (if it's significant) in the NEWS file
 
@@ -189,9 +183,11 @@ Copyright assignment
 If your change is significant (i.e., if it adds more than ~10 lines),
 then you'll have to have a copyright assignment on file with the FSF.
 Since that involves first an email exchange between you and the FSF,
-and then the exchange (FSF to you, then back) of an actual sheet of paper
-with your signature on it, and finally, some administrative processing
-in Boston, the process can take a few weeks.
+and then the exchange (FSF to you, then back) of an actual sheet of
+paper with your signature on it, and finally, some administrative
+processing in Boston, the process can take a few weeks (for
+contributors in some geographies, this can all be done electronically,
+saving a lot of time).
 
 The forms to choose from are in gnulib's doc/Copyright/ directory.
 If you want to assign a single change, you should use the file,
@@ -212,7 +208,7 @@ In case you're wondering why we bother with all of this, read this:
 
 
 ========================================================================
-Copyright (C) 2009, 2010 Free Software Foundation, Inc.
+Copyright (C) 2009, 2010, 2014 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
