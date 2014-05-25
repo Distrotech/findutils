@@ -231,6 +231,12 @@ dnl Hence they need to know if they are being compiled into findutils or not.
 AC_DEFINE([FINDUTILS], 1, [Define if we are compiling GNU findutils])
 AC_DEFINE([ALREADY_INCLUDED_CONFIG_H], 1, [Define so that source code can verify that config.h was already included])
 
+dnl Test support.
+AM_PATH_PYTHON(,, [:])
+AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" != :])
+AC_CHECK_PROGS([FAKETIME],[faketime],[:])
+AM_CONDITIONAL([HAVE_FAKETIME], [test "$FAKETIME" != :])
+
 # This is necessary so that .o files in LIBOBJS are also built via
 # the ANSI2KNR-filtering rules.
 #LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
