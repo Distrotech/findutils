@@ -5,6 +5,14 @@
 	parallel-tests.  This will only include tests known directly via
 	$(TESTS), not DejaGnu tests.
 
+	Check there are no duplicate configuration entries for test files.
+	* find/testsuite/Makefile.am (EXTRA_DIST_XO): Remove duplicate items.
+	(EXTRA_DIST_EXP): Likewise.
+	(checklists): Run with the other checks, using check-local.  Don't
+	echo the full command, because it will make the summary of the
+	Automake-driven tests scroll offscreen.
+	(TEST_EXTENSIONS): Add .sh and .py.
+
 2014-05-25  Eric S. Raymond  <esr@thyrsus.com>
 
 	Fix errant backslash in find manpage.
