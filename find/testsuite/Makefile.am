@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS=dejagnu
+AUTOMAKE_OPTIONS = dejagnu parallel-tests
 FIND = ../find
 FINDFLAGS =
 
