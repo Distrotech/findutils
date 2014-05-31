@@ -13,6 +13,12 @@
 	Automake-driven tests scroll offscreen.
 	(TEST_EXTENSIONS): Add .sh and .py.
 
+	Routinely check .xo and .exp test file lists in a clearer way.
+	* find/testsuite/checklists.py: Tiny program for checking that the
+	correct lists of .xo and .exp files exist in the Makefile.am file.
+	* Makefile.am (checklists): Update target to use the new program.
+	Make this target phony.
+
 2014-05-25  Eric S. Raymond  <esr@thyrsus.com>
 
 	Fix errant backslash in find manpage.

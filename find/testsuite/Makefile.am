@@ -239,9 +239,9 @@ sv-34079.sh \
 sv-34976-execdir-fd-leak.sh
 
 EXTRA_DIST = $(EXTRA_DIST_EXP) $(EXTRA_DIST_XO) $(EXTRA_DIST_GOLDEN) \
-	$(test_shell_progs) binary_locations.sh
+	$(test_shell_progs) binary_locations.sh checklists.py
 
-CLEANFILES = *.log *.sum site.exp site.bak
+CLEANFILES = *.log *.sum site.exp site.bak configured-testfiles.txt
 
 #DIST_SUBDIRS = config
 
@@ -251,10 +251,13 @@ TEST_EXTENSIONS = .sh .py
 
 check-local: checklists
 
-checklists:
-	@cd $(srcdir) && \
-	( find config find.gnu find.posix \( -name "*.exp" -o -name "*.xo" \) -print ; \
-	  ls $(EXTRA_DIST_XO)  ; \
-	  ls  $(EXTRA_DIST_EXP)  ; ) | \
-	sort | uniq -c | \
-	awk '$$1 != 2 { print; fail=1; } END { if (fail) { print "FAIL: Duplicate test files"; exit(1); } }'
+configured-testfiles.txt: Makefile
+	@echo Generating $@
+	@( cd $(srcdir) && ls $(EXTRA_DIST_XO) && ls  $(EXTRA_DIST_EXP) ) >| $@
+
+.PHONY: checklists
+
+checklists: configured-testfiles.txt Makefile
+	$(PYTHON) $(srcdir)/checklists.py configured-testfiles.txt $(srcdir) config find.gnu find.posix
+
+
