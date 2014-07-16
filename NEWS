@@ -1,14 +1,32 @@
 GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
-* Major changes in release 4.5.13-git, 2013-MM-DD
+* Major changes in release 4.5.13, 2014-07-16
+
+** Documentation Changes
+
+Some minor documentation improvements are listed in "Bug Fixes" below.
 
 ** Bug Fixes
 
+#40339: Fix leaked directory handle when listing mounted file
+        systems.
+
+#40094: The xargs --help output has a small number of cosmetic
+        improvements.
+
+#39197: Small fix to find's manual page to remove an unwanted
+        backslash, which made the troff incompatible with Eric
+        Raymond's doclifter software.
+
 #39162: -printf reads beyond arguments terminated by \
 
-#35753: check the success/failure of material I/O operations where
+#35753: Check the success/failure of material I/O operations where
         these are important to the use of the output (i.e. check the
         output for "find -ok" but not debugging output).
+
+#31005: The find manual page and Texinfo manual now more clearly state
+        that -exec ... + always returns true.
+
 
 ** Translations
 
