@@ -1,5 +1,10 @@
 2014-07-19  James Youngman  <jay@gnu.org>
 
+	Fix bug #42793: "Failed to write output" with -ls.
+	* lib/listfile.c (print_name_with_quoting): Avoid using the
+	variable fprintf_result before it is initialised.  I hope this
+	fixes Savannah bug #42793.
+
 	Update the version number following the recent release.
 	* configure.ac: Move on from 4.5.13.
 	* NEWS: Move on from 4.5.13.

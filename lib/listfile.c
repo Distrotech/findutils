@@ -106,6 +106,7 @@ list_file (const char *name,
   char const *group_name;
   char hbuf[LONGEST_HUMAN_READABLE + 1];
   bool output_good = true;
+  int failed_at = 000;
 
 #if HAVE_ST_DM_MODE
   /* Cray DMF: look at the file's migrated, not real, status */
@@ -118,7 +119,10 @@ list_file (const char *name,
 	       human_readable ((uintmax_t) statp->st_ino, hbuf,
 			       human_ceiling,
 			       1u, 1u)) < 0)
-    output_good = false;
+    {
+      output_good = false;
+      failed_at = 100;
+    }
 
   if (output_good)
     {
@@ -126,7 +130,10 @@ list_file (const char *name,
 		   human_readable ((uintmax_t) ST_NBLOCKS (*statp), hbuf,
 				   human_ceiling,
 				   ST_NBLOCKSIZE, output_block_size)) < 0)
-	output_good = false;
+	{
+	  output_good = false;
+	  failed_at = 200;
+	}
     }
 
   if (output_good)
@@ -134,25 +141,44 @@ list_file (const char *name,
       /* modebuf includes the space between the mode and the number of links,
 	 as the POSIX "optional alternate access method flag".  */
       if (fprintf (stream, "%s%3lu ", modebuf, (unsigned long) statp->st_nlink) < 0)
-	output_good = false;
+	{
+	  output_good = false;
+	  failed_at = 300;
+	}
     }
 
   if (output_good)
     {
       user_name = getuser (statp->st_uid);
       if (user_name)
-	output_good = (fprintf (stream, "%-8s ", user_name) >= 0);
+	{
+	  output_good = (fprintf (stream, "%-8s ", user_name) >= 0);
+	  if (!output_good)
+	    failed_at = 400;
+	}
       else
-	output_good = (fprintf (stream, "%-8lu ", (unsigned long) statp->st_uid) >= 0);
+	{
+	  output_good = (fprintf (stream, "%-8lu ", (unsigned long) statp->st_uid) >= 0);
+	  if (!output_good)
+	    failed_at = 450;
+	}
     }
 
   if (output_good)
     {
       group_name = getgroup (statp->st_gid);
       if (group_name)
-	output_good = (fprintf (stream, "%-8s ", group_name) >= 0);
+	{
+	  output_good = (fprintf (stream, "%-8s ", group_name) >= 0);
+	  if (!output_good)
+	    failed_at = 500;
+	}
       else
-	output_good = (fprintf (stream, "%-8lu ", (unsigned long) statp->st_gid) >= 0);
+	{
+	  output_good = (fprintf (stream, "%-8lu ", (unsigned long) statp->st_gid) >= 0);
+	  if (!output_good)
+	    failed_at = 550;
+	}
     }
 
   if (output_good)
@@ -165,10 +191,14 @@ list_file (const char *name,
 		       (unsigned long) minor (statp->st_rdev)) < 0)
 	    {
 	      output_good = false;
+	      failed_at = 600;
 	    }
 #else
 	  if (fprintf (stream, "         ") < 0)
-	    output_good = false;
+	    {
+	      output_good = false;
+	      failed_at = 700;
+	    }
 #endif
 	}
       else
@@ -178,7 +208,10 @@ list_file (const char *name,
 				       human_ceiling,
 				       1,
 				       output_block_size < 0 ? output_block_size : 1)) < 0)
-	    output_good = false;
+	    {
+	      output_good = false;
+	      failed_at = 800;
+	    }
 	}
     }
 
@@ -208,7 +241,10 @@ list_file (const char *name,
 	    buf = alloca (bufsize *= 2);
 
 	  if (fprintf (stream, "%s ", buf) < 0)
-	    output_good = false;
+	    {
+	      output_good = false;
+	      failed_at = 900;
+	    }
 	}
       else
 	{
@@ -223,7 +259,10 @@ list_file (const char *name,
 	      int sign_width = width - strlen (num);
 	      if (fprintf (stream, "%*s%s ",
 			   sign_width < 0 ? 0 : sign_width, "-", num) < 0)
-		output_good = false;
+		{
+		  output_good = false;
+		  failed_at = 1000;
+		}
 	    }
 	  else
 	    {
@@ -231,13 +270,22 @@ list_file (const char *name,
 			   human_readable ((uintmax_t) statp->st_mtime, hbuf,
 					   human_ceiling,
 					   1, 1)) < 0)
-		output_good = false;
+		{
+		  output_good = false;
+		  failed_at = 1100;
+		}
 	    }
 	}
     }
 
   if (output_good)
-    output_good = print_name (name, stream, literal_control_chars);
+    {
+      output_good = print_name (name, stream, literal_control_chars);
+      if (!output_good)
+	{
+	  failed_at = 1200;
+	}
+    }
 
   if (output_good)
     {
@@ -246,8 +294,19 @@ list_file (const char *name,
 	  char *linkname = areadlinkat (dir_fd, relname);
 	  if (linkname)
 	    {
-	      fputs (" -> ", stream);
-	      output_good = print_name (linkname, stream, literal_control_chars);
+	      if (fputs (" -> ", stream) < 0)
+		{
+		  output_good = false;
+		  failed_at = 1300;
+		}
+	      if (output_good)
+		{
+		  output_good = print_name (linkname, stream, literal_control_chars);
+		  if (!output_good)
+		    {
+		      failed_at = 1350;
+		    }
+		}
 	    }
 	  else
 	    {
@@ -264,12 +323,18 @@ list_file (const char *name,
       if (output_good)
 	{
 	  if (EOF == putc ('\n', stream))
-	    output_good = false;
+	    {
+	      output_good = false;
+	      if (!output_good)
+		{
+		  failed_at = 1400;
+		}
+	    }
 	}
     }
   if (!output_good)
     {
-      error (EXIT_FAILURE, errno, _("Failed to write output"));
+      error (EXIT_FAILURE, errno, _("Failed to write output (at stage %d)"), failed_at);
     }
 }
 
@@ -288,7 +353,7 @@ print_name_with_quoting (register const char *p, FILE *stream)
 
   while ((c = *p++) != '\0')
     {
-      int fprintf_result;
+      int fprintf_result = -1;
       switch (c)
 	{
 	case '\\':
@@ -328,6 +393,7 @@ print_name_with_quoting (register const char *p, FILE *stream)
 	    {
 	      if (EOF == putc (c, stream))
 		return false;
+	      fprintf_result = 1; /* otherwise it's used uninitialised. */
 	    }
 	  else
 	    {
