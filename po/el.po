@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.5.12\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2014-07-16 07:27+0100\n"
+"POT-Creation-Date: 2014-07-19 11:27+0100\n"
 "PO-Revision-Date: 2013-12-18 07:43+0200\n"
 "Last-Translator: Lefteris Dimitroulakis <ledimitro@gmail.com>\n"
 "Language-Team: Greek <team@lists.gnome.gr>\n"
@@ -48,9 +48,9 @@ msgstr "σφάλμα περιμένοντας γιά %s"
 msgid "%s terminated by signal %d"
 msgstr "%s τερματίστηκε από το σήμα %d"
 
-#: find/find.c:203 find/ftsfind.c:677
-#, c-format
-msgid "Failed initialise shared-file hash table"
+#: find/find.c:203
+#, fuzzy, c-format
+msgid "Failed to initialize shared-file hash table"
 msgstr "Αποτυχία ενεργοποίησης hash table"
 
 #: find/find.c:219 find/ftsfind.c:693 locate/bigram.c:105 locate/code.c:174
@@ -184,6 +184,11 @@ msgstr "αδυναμία αναζήτησης %s"
 #, c-format
 msgid "failed to restore working directory after searching %s"
 msgstr "αποτυχία αποκατάστασης καταλόγου εργασίας μετά την αναζήτηση %s"
+
+#: find/ftsfind.c:677
+#, fuzzy, c-format
+msgid "Failed initialize shared-file hash table"
+msgstr "Αποτυχία ενεργοποίησης hash table"
 
 #: find/parser.c:452
 #, c-format
@@ -1153,9 +1158,9 @@ msgstr "James Youngman"
 msgid "Kevin Dalley"
 msgstr "Kevin Dalley"
 
-#: lib/listfile.c:272
+#: lib/listfile.c:337
 #, fuzzy, c-format
-msgid "Failed to write output"
+msgid "Failed to write output (at stage %d)"
 msgstr "Αδυναμία εγγραφής στη standard output"
 
 #: lib/regextype.c:110

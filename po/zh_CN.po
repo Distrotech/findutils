@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils-4.5.11\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2014-07-16 07:27+0100\n"
+"POT-Creation-Date: 2014-07-19 11:27+0100\n"
 "PO-Revision-Date: 2013-03-08 12:27+0800\n"
 "Last-Translator: Ji ZhengYu <zhengyuji@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -47,9 +47,9 @@ msgstr "等待 %s 时出错"
 msgid "%s terminated by signal %d"
 msgstr "%s 由于信号 %d 而终止"
 
-#: find/find.c:203 find/ftsfind.c:677
-#, c-format
-msgid "Failed initialise shared-file hash table"
+#: find/find.c:203
+#, fuzzy, c-format
+msgid "Failed to initialize shared-file hash table"
 msgstr "无法初始化共享文件哈希表"
 
 #: find/find.c:219 find/ftsfind.c:693 locate/bigram.c:105 locate/code.c:174
@@ -173,6 +173,11 @@ msgstr "无法查找 %s"
 #, c-format
 msgid "failed to restore working directory after searching %s"
 msgstr "无法在查寻 %s 后还原工作目录"
+
+#: find/ftsfind.c:677
+#, fuzzy, c-format
+msgid "Failed initialize shared-file hash table"
+msgstr "无法初始化共享文件哈希表"
 
 #: find/parser.c:452
 #, c-format
@@ -1100,9 +1105,9 @@ msgstr "James Youngman"
 msgid "Kevin Dalley"
 msgstr "Kevin Dalley"
 
-#: lib/listfile.c:272
+#: lib/listfile.c:337
 #, fuzzy, c-format
-msgid "Failed to write output"
+msgid "Failed to write output (at stage %d)"
 msgstr "无法写入标准输出"
 
 #: lib/regextype.c:110
