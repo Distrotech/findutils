@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2013-09-22 22:13+0100\n"
+"POT-Creation-Date: 2014-07-16 07:27+0100\n"
 "PO-Revision-Date: 2010-08-20 21:49+0900\n"
 "Last-Translator: Yasuaki Taniguchi <yasuakit@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -32,7 +32,7 @@ msgstr "標準出力を閉じることができません"
 msgid "Failed to change directory"
 msgstr "ディレクトリの変更に失敗しました"
 
-#: find/exec.c:312 xargs/xargs.c:1218
+#: find/exec.c:312 xargs/xargs.c:1229
 #, c-format
 msgid "cannot fork"
 msgstr "fork できません"
@@ -52,27 +52,33 @@ msgstr "%s はシグナル %d で終了しました"
 msgid "Failed initialise shared-file hash table"
 msgstr "共有ファイルハッシュテーブルの初期化に失敗しました"
 
-#: find/find.c:260
+#: find/find.c:219 find/ftsfind.c:693 locate/bigram.c:105 locate/code.c:174
+#: locate/frcode.c:233 locate/locate.c:1568 xargs/xargs.c:392
+#, fuzzy, c-format
+msgid "The atexit library function failed"
+msgstr "fnmatch() ライブラリ関数による精密な検査に失敗しました。"
+
+#: find/find.c:263
 #, c-format
 msgid "cannot stat current directory"
 msgstr "カレントディレクトリの情報を取得 (stat) できません"
 
-#: find/find.c:351
+#: find/find.c:354
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "マウントされたデバイスの一覧を読み込めません。"
 
-#: find/find.c:440
+#: find/find.c:443
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "警告: ファイルシステム %s は最近アンマウントされました。"
 
-#: find/find.c:450
+#: find/find.c:453
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "警告: ファイルシステム %s は最近マウントされました。"
 
-#: find/find.c:547
+#: find/find.c:550
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old device number %ld, new device "
@@ -81,7 +87,7 @@ msgstr ""
 "%s%s は %s の実行中に変更されました (古いデバイス番号 %ld、新しいデバイス番"
 "号 %ld、ファイルシステムの種類 %s) [ref %ld]"
 
-#: find/find.c:584
+#: find/find.c:587
 #, c-format
 msgid ""
 "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
@@ -90,17 +96,17 @@ msgstr ""
 "%s%s は %s の実行中に変更されました (古い iノード番号 %<PRIuMAX>、新しい i"
 "ノード番号 %<PRIuMAX>、ファイルシステムの種類 %s) [ref %ld]"
 
-#: find/find.c:749
+#: find/find.c:752
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "親ディレクトリに戻ることができませんでした"
 
-#: find/find.c:1035
+#: find/find.c:1038
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "ディレクトリ %s に安全に移動できませんでした"
 
-#: find/find.c:1135 find/ftsfind.c:245
+#: find/find.c:1138 find/ftsfind.c:245
 #, c-format
 msgid ""
 "Symbolic link %s is part of a loop in the directory hierarchy; we have "
@@ -109,7 +115,7 @@ msgstr ""
 "シンボリックリンク %s がディレクトリ階層内でループしています。シンボリックリ"
 "ンクが指している先のディレクトリは既に移動したことがあります。"
 
-#: find/find.c:1154
+#: find/find.c:1157
 #, c-format
 msgid ""
 "Filesystem loop detected; %s has the same device number and inode as a "
@@ -121,12 +127,12 @@ msgstr[0] ""
 "ファイルシステムのループが検出されました。%s はファイルシステム内の %d 階層上"
 "ディレクトリと同じデバイス番号および iノード番号です。"
 
-#: find/find.c:1406
+#: find/find.c:1409
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "警告: シンボリックリンク %s をたどれません"
 
-#: find/find.c:1477
+#: find/find.c:1480
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -157,7 +163,7 @@ msgstr ""
 "ファイルシステムのループが検出されました。 %s は %s のファイルシステムのルー"
 "プの一部になっています。"
 
-#: find/ftsfind.c:444 find/util.c:218
+#: find/ftsfind.c:444 find/util.c:222
 #, c-format
 msgid "WARNING: file %s appears to have mode 0000"
 msgstr "警告: ファイル %s のモードが 0000 になっています"
@@ -547,33 +553,43 @@ msgstr "警告: ファイル %s の生成日時を決定できません"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1205 find/print.c:1228
+#: find/pred.c:784
+#, fuzzy, c-format
+msgid "Failed to write prompt for -ok"
+msgstr "標準出力への書き込みに失敗しました"
+
+#: find/pred.c:1208 find/print.c:1234
 #, c-format
 msgid "getfilecon failed: %s"
 msgstr "getfilecon に失敗しました: %s"
 
-#: find/print.c:359
+#: find/print.c:346
+#, c-format
+msgid "warning: escape `\\' followed by nothing at all"
+msgstr ""
+
+#: find/print.c:365
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "警告: 認識できないエスケープ `\\%c' です"
 
-#: find/print.c:379
+#: find/print.c:385
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "エラー: 書式文字列の最後に %s があります"
 
-#: find/print.c:403
+#: find/print.c:409
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "エラー: 書式指定 `%%%c' は将来使用するために予約されています"
 
-#: find/print.c:411
+#: find/print.c:417
 #, c-format
 msgid ""
 "warning: format directive `%%%c' should be followed by another character"
 msgstr ""
 
-#: find/print.c:419
+#: find/print.c:425
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "警告:  `%%%c' は認識できない書式指定です"
@@ -700,42 +716,42 @@ msgstr "使用法: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [path...] [expression]\n"
 
-#: find/util.c:455
+#: find/util.c:459
 #, fuzzy, c-format
 msgid "failed to save initial working directory"
 msgstr "親ディレクトリに戻ることができませんでした"
 
-#: find/util.c:472
+#: find/util.c:476
 #, fuzzy, c-format
 msgid "failed to restore initial working directory"
 msgstr "親ディレクトリに戻ることができませんでした"
 
-#: find/util.c:820
+#: find/util.c:824
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "認識できないデバッグフラグ %s を無視しています"
 
-#: find/util.c:827
+#: find/util.c:831
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "-D オプションに引数がありません。"
 
-#: find/util.c:843
+#: find/util.c:847
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "-O オプションには直後に十進整数を続けなければいけません"
 
-#: find/util.c:853 find/util.c:864
+#: find/util.c:857 find/util.c:868
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "-O の後には直後に十進整数を指定してください"
 
-#: find/util.c:869 find/util.c:874
+#: find/util.c:873 find/util.c:878
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "無効な最適化レベルです: %s"
 
-#: find/util.c:882
+#: find/util.c:886
 #, c-format
 msgid ""
 "Optimisation level %lu is too high.  If you want to find files very quickly, "
@@ -744,7 +760,7 @@ msgstr ""
 "最適化レベル %lu は高すぎます。ファイル等を非常に素早く探したい場合は、GNU "
 "locate の使用を検討してください。"
 
-#: find/util.c:1026
+#: find/util.c:1030
 #, c-format
 msgid ""
 "The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
@@ -752,6 +768,316 @@ msgid ""
 msgstr ""
 "環境変数 FIND_BLOCK_SIZE はサポートされていません。ブロックサイズに影響するの"
 "は POSIXLY_CORRECT 環境変数だけです。"
+
+#: gl/lib/argmatch.c:133
+#, fuzzy, c-format
+msgid "invalid argument %s for %s"
+msgstr "不正な引数 `%s' から `%s'"
+
+#: gl/lib/argmatch.c:134
+#, fuzzy, c-format
+msgid "ambiguous argument %s for %s"
+msgstr "`%2$s' に対する不明瞭な引数 %1$s"
+
+#: gl/lib/argmatch.c:153
+msgid "Valid arguments are:"
+msgstr "有効な引数は:"
+
+#: gl/lib/closein.c:100
+msgid "error closing file"
+msgstr ""
+
+#: gl/lib/closeout.c:112 locate/code.c:153 locate/frcode.c:210
+#, c-format
+msgid "write error"
+msgstr "書き込みエラー"
+
+#: gl/lib/error.c:188
+msgid "Unknown system error"
+msgstr "未知のシステムエラー"
+
+#: gl/lib/getopt.c:547 gl/lib/getopt.c:576
+#, fuzzy, c-format
+msgid "%s: option '%s' is ambiguous; possibilities:"
+msgstr "%s: オプション`%s'は曖昧です\n"
+
+#: gl/lib/getopt.c:624 gl/lib/getopt.c:628
+#, fuzzy, c-format
+msgid "%s: option '--%s' doesn't allow an argument\n"
+msgstr "%s: オプション`--%s'は引数をとりません\n"
+
+#: gl/lib/getopt.c:637 gl/lib/getopt.c:642
+#, fuzzy, c-format
+msgid "%s: option '%c%s' doesn't allow an argument\n"
+msgstr "%s: オプション`%c%s'は引数をとりません\n"
+
+#: gl/lib/getopt.c:685 gl/lib/getopt.c:704
+#, fuzzy, c-format
+msgid "%s: option '--%s' requires an argument\n"
+msgstr "%s: オプションには引数が必要です -- %c\n"
+
+#: gl/lib/getopt.c:742 gl/lib/getopt.c:745
+#, fuzzy, c-format
+msgid "%s: unrecognized option '--%s'\n"
+msgstr "%s: 認識できないオプション`--%s'です\n"
+
+#: gl/lib/getopt.c:753 gl/lib/getopt.c:756
+#, fuzzy, c-format
+msgid "%s: unrecognized option '%c%s'\n"
+msgstr "%s: 認識できないオプション`%c%s'です\n"
+
+#: gl/lib/getopt.c:805 gl/lib/getopt.c:808
+#, fuzzy, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: オプションが違います -- %c\n"
+
+#: gl/lib/getopt.c:861 gl/lib/getopt.c:878 gl/lib/getopt.c:1088
+#: gl/lib/getopt.c:1106
+#, fuzzy, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: オプションには引数が必要です -- %c\n"
+
+#: gl/lib/getopt.c:934 gl/lib/getopt.c:950
+#, fuzzy, c-format
+msgid "%s: option '-W %s' is ambiguous\n"
+msgstr "%s: オプション `-W %s' が曖昧です\n"
+
+#: gl/lib/getopt.c:974 gl/lib/getopt.c:992
+#, fuzzy, c-format
+msgid "%s: option '-W %s' doesn't allow an argument\n"
+msgstr "%s: オプション`-W %s'は引数をとりません\n"
+
+#: gl/lib/getopt.c:1013 gl/lib/getopt.c:1031
+#, fuzzy, c-format
+msgid "%s: option '-W %s' requires an argument\n"
+msgstr "%s: オプションには引数が必要です -- %c\n"
+
+#: gl/lib/openat-die.c:38
+#, fuzzy, c-format
+msgid "unable to record current working directory"
+msgstr "親ディレクトリに戻ることができませんでした"
+
+#: gl/lib/openat-die.c:57
+#, fuzzy, c-format
+msgid "failed to return to initial working directory"
+msgstr "親ディレクトリに戻ることができませんでした"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <http://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: gl/lib/quotearg.c:312
+msgid "`"
+msgstr "`"
+
+#: gl/lib/quotearg.c:313
+msgid "'"
+msgstr "'"
+
+#. TRANSLATORS: A regular expression testing for an affirmative answer
+#. (english: "yes").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^yesexpr='
+#: gl/lib/rpmatch.c:150
+msgid "^[yY]"
+msgstr "^[yY]"
+
+#. TRANSLATORS: A regular expression testing for a negative answer
+#. (english: "no").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^noexpr='
+#: gl/lib/rpmatch.c:163
+msgid "^[nN]"
+msgstr "^[nN]"
+
+#: gl/lib/version-etc.c:74
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:77
+#, c-format
+msgid "Packaged by %s\n"
+msgstr ""
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: gl/lib/version-etc.c:84
+msgid "(C)"
+msgstr ""
+
+#: gl/lib/version-etc.c:86
+msgid ""
+"\n"
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+"\n"
+msgstr ""
+
+#. TRANSLATORS: %s denotes an author name.
+#: gl/lib/version-etc.c:102
+#, c-format
+msgid "Written by %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: gl/lib/version-etc.c:106
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: gl/lib/version-etc.c:110
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:117
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:124
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:131
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:139
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:147
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:156
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:167
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: gl/lib/version-etc.c:245
+#, c-format
+msgid ""
+"\n"
+"Report bugs to: %s\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:247
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:251
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:253
+#, c-format
+msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:256
+msgid "General help using GNU software: <http://www.gnu.org/gethelp/>\n"
+msgstr ""
+
+#: gl/lib/xalloc-die.c:34
+#, fuzzy
+msgid "memory exhausted"
+msgstr "メモリを使い尽しました"
+
+#: gl/lib/xstrtol-error.c:63
+#, fuzzy, c-format
+msgid "invalid %s%s argument '%s'"
+msgstr "不正な引数 `%s' から `%s'"
+
+#: gl/lib/xstrtol-error.c:68
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument '%s'"
+msgstr "不正な引数 `%s' から `%s'"
+
+#: gl/lib/xstrtol-error.c:72
+#, fuzzy, c-format
+msgid "%s%s argument '%s' too large"
+msgstr "引数リストが長すぎます"
 
 #: lib/buildcmd.c:161
 #, c-format
@@ -797,6 +1123,16 @@ msgstr "James Youngman"
 msgid "Kevin Dalley"
 msgstr "Kevin Dalley"
 
+#: lib/listfile.c:272
+#, fuzzy, c-format
+msgid "Failed to write output"
+msgstr "標準出力への書き込みに失敗しました"
+
+#: lib/regextype.c:110
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr "%s は不明な正規表現タイプです。有効なタイプは %sです。"
+
 #: lib/safe-atoi.c:81
 #, c-format
 msgid "Unexpected suffix %s on %s"
@@ -806,11 +1142,6 @@ msgstr "%2$s に予期しない接尾辞 %1$s があります"
 #, c-format
 msgid "Expected an integer: %s"
 msgstr "整数が予期されます: %s"
-
-#: lib/regextype.c:110
-#, c-format
-msgid "Unknown regular expression type %s; valid types are %s."
-msgstr "%s は不明な正規表現タイプです。有効なタイプは %sです。"
 
 #: locate/code.c:131
 #, c-format
@@ -822,18 +1153,13 @@ msgstr ""
 "または  %s most_common_bigrams < file-list > locate-database\n"
 
 #: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
-#: xargs/xargs.c:1649
+#: xargs/xargs.c:1660
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
 msgstr ""
 "\n"
 "バグを発見した場合は <bug-findutils@gnu.org> まで報告してください。\n"
-
-#: locate/code.c:153 locate/frcode.c:210
-#, c-format
-msgid "write error"
-msgstr "書き込みエラー"
 
 #: locate/frcode.c:160
 #, c-format
@@ -855,12 +1181,12 @@ msgstr "セキュリティレベル %s は変換できる範囲を超えてい�
 msgid "Security level %s has unexpected suffix %s."
 msgstr "セキュリティレベル %s に不明な接尾辞 %s があります。"
 
-#: locate/frcode.c:254
+#: locate/frcode.c:257
 #, c-format
 msgid "slocate security level %ld is unsupported."
 msgstr "slocate セキュリティレベル %ld はサポートされていません。"
 
-#: locate/frcode.c:292
+#: locate/frcode.c:295
 #, c-format
 msgid "Failed to write to standard output"
 msgstr "標準出力への書き込みに失敗しました"
@@ -1044,17 +1370,17 @@ msgstr "権限を完全に取り除くことに失敗しました"
 msgid "failed to drop setgid privileges"
 msgstr "setgid 権限を取り除くことに失敗しました"
 
-#: locate/locate.c:1761
+#: locate/locate.c:1763
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "警告: locate データベースは標準入力からは1個しか読み込めません。"
 
-#: locate/locate.c:1831
+#: locate/locate.c:1833
 #, c-format
 msgid "time system call failed"
 msgstr "time システムコールに失敗しました"
 
-#: locate/locate.c:1842
+#: locate/locate.c:1844
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "警告: データベース %s は %d %s より古いです (実際の古さは %.1f %s)"
@@ -1122,71 +1448,71 @@ msgstr ""
 msgid "environment is too large for exec"
 msgstr "実行するには環境が大きすぎます"
 
-#: xargs/xargs.c:556
+#: xargs/xargs.c:559
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "警告: -s  オプションに対する値 %ld が大きすぎます。 %ld を代わりに使用してい"
 "ます"
 
-#: xargs/xargs.c:603
+#: xargs/xargs.c:606
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr ""
 
-#: xargs/xargs.c:615
+#: xargs/xargs.c:618
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:629
+#: xargs/xargs.c:632
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
 msgstr ""
 
-#: xargs/xargs.c:651
+#: xargs/xargs.c:654
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:660
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:673
+#: xargs/xargs.c:676
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "入力ファイル %s を開けません"
 
-#: xargs/xargs.c:692
+#: xargs/xargs.c:695
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "環境変数が %<PRIuMAX> バイトを占めます\n"
 
-#: xargs/xargs.c:695
+#: xargs/xargs.c:698
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "POSIX の引数の長さ上限 (このシステム): %<PRIuMAX>\n"
 
-#: xargs/xargs.c:698
+#: xargs/xargs.c:701
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): "
 "%<PRIuMAX>\n"
 msgstr "POSIX の最小の引数の長さの上限 (すべてのシステム): %<PRIuMAX>\n"
 
-#: xargs/xargs.c:701
+#: xargs/xargs.c:704
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "実際に使用できるコマンド長の最大値: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:704
+#: xargs/xargs.c:707
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "実際に使用しているコマンドバッファの大きさ: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:710
+#: xargs/xargs.c:713
 #, c-format
 msgid ""
 "\n"
@@ -1199,7 +1525,7 @@ msgstr ""
 "込もうと試みています。もしこれを望んでいないなら、ファイル終端 (EOF) のキー入"
 "力を行ってください。\n"
 
-#: xargs/xargs.c:718
+#: xargs/xargs.c:721
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1208,7 +1534,7 @@ msgstr ""
 "警告: %s は最低1回は実行されます。もしこれを望んでいないなら、割り込みのキー"
 "入力を行ってください。\n"
 
-#: xargs/xargs.c:846 xargs/xargs.c:939
+#: xargs/xargs.c:849 xargs/xargs.c:942
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1217,15 +1543,15 @@ msgstr ""
 "%sクオートが一致しません。デフォルトでは -O オプションを指定しない限り xargs "
 "でクォートは特別な意味を持ちます"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "double"
 msgstr "ダブル"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "single"
 msgstr "シングル"
 
-#: xargs/xargs.c:959
+#: xargs/xargs.c:962
 #, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1234,32 +1560,42 @@ msgstr ""
 "警告: NUL 文字が入力にあります。これは引数のリストとして渡すことができませ"
 "ん。 --null オプションを使おうとしているのですか?"
 
-#: xargs/xargs.c:969 xargs/xargs.c:1034
+#: xargs/xargs.c:972 xargs/xargs.c:1037
 #, c-format
 msgid "argument line too long"
 msgstr "引数行が長すぎます"
 
-#: xargs/xargs.c:1062
+#: xargs/xargs.c:1056 xargs/xargs.c:1073
+#, fuzzy, c-format
+msgid "Failed to write to stderr"
+msgstr "標準出力への書き込みに失敗しました"
+
+#: xargs/xargs.c:1069
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "/dev/tty を読み込むために開けませんでした"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1079
+#, fuzzy, c-format
+msgid "Failed to read from stdin"
+msgstr "標準出力への書き込みに失敗しました"
+
+#: xargs/xargs.c:1116
 #, c-format
 msgid "unable to allocate memory"
 msgstr ""
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:1207
+#: xargs/xargs.c:1218
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "fork の前にパイプを作成できませんでした"
 
-#: xargs/xargs.c:1278
+#: xargs/xargs.c:1289
 #, fuzzy, c-format
 msgid ""
 "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
@@ -1268,85 +1604,85 @@ msgstr ""
 "xargs_do_exec 内で errno-buffer の読み込みに失敗しました (これは多分バグで"
 "す。報告してください)"
 
-#: xargs/xargs.c:1331
-#, c-format
+#: xargs/xargs.c:1342
+#, fuzzy, c-format
 msgid ""
-"read returned unexpected value %d; this is probably a bug, please report it"
+"read returned unexpected value %zu; this is probably a bug, please report it"
 msgstr ""
 "read が予期しない値 %d を返しました。これは多分バグです。報告してください"
 
-#: xargs/xargs.c:1424
+#: xargs/xargs.c:1435
 #, c-format
 msgid "error waiting for child process"
 msgstr "子プロセスを待機中にエラーが発生しました"
 
-#: xargs/xargs.c:1457
+#: xargs/xargs.c:1468
 #, fuzzy, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "警告: %d 個の子プロセスの追跡が失われました"
 
-#: xargs/xargs.c:1476
+#: xargs/xargs.c:1487
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: 終了ステータス 255。中止しています"
 
-#: xargs/xargs.c:1479
+#: xargs/xargs.c:1490
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: シグナル %d によって停止しました"
 
-#: xargs/xargs.c:1482
+#: xargs/xargs.c:1493
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: シグナル %d によって終了しました"
 
-#: xargs/xargs.c:1566
+#: xargs/xargs.c:1577
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: -%c オプションに対する不正な番号\n"
 
-#: xargs/xargs.c:1573
+#: xargs/xargs.c:1584
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: -%c オプションに対する値は %ld 以上でなければいけません\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1598
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: -%c オプションに対する値は %ld 未満でなければいけません\n"
 
-#: xargs/xargs.c:1606
+#: xargs/xargs.c:1617
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr ""
 
-#: xargs/xargs.c:1611
+#: xargs/xargs.c:1622
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
 msgstr ""
 
-#: xargs/xargs.c:1613
+#: xargs/xargs.c:1624
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
 msgstr ""
 
-#: xargs/xargs.c:1615
+#: xargs/xargs.c:1626
 msgid ""
 "  -0, --null                   items are separated by a null, not "
 "whitespace;\n"
 "                                 disables quote and backslash processing "
 "and\n"
-"                                 logical EOF processing.\n"
+"                                 logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1618
+#: xargs/xargs.c:1629
 msgid ""
 "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
 msgstr ""
 
-#: xargs/xargs.c:1619
+#: xargs/xargs.c:1630
 msgid ""
 "  -d, --delimiter=CHARACTER    items in input stream are separated by "
 "CHARACTER,\n"
@@ -1355,39 +1691,39 @@ msgid ""
 "                                 processing and logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1622
+#: xargs/xargs.c:1633
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a "
+"  -E END                       set logical EOF string; if END occurs as a "
 "line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
 
-#: xargs/xargs.c:1625
+#: xargs/xargs.c:1636
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
 msgstr ""
 
-#: xargs/xargs.c:1627
+#: xargs/xargs.c:1638
 msgid "  -I R                         same as --replace=R\n"
 msgstr ""
 
-#: xargs/xargs.c:1628
+#: xargs/xargs.c:1639
 msgid ""
 "  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
 
-#: xargs/xargs.c:1631
+#: xargs/xargs.c:1642
 msgid ""
 "  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
 "per\n"
 "                                 command line\n"
 msgstr ""
 
-#: xargs/xargs.c:1633
+#: xargs/xargs.c:1644
 msgid ""
 "  -l[MAX-LINES]                similar to -L but defaults to at most one "
 "non-\n"
@@ -1395,28 +1731,28 @@ msgid ""
 "specified\n"
 msgstr ""
 
-#: xargs/xargs.c:1635
+#: xargs/xargs.c:1646
 msgid ""
 "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
 "line\n"
 msgstr ""
 
-#: xargs/xargs.c:1636
+#: xargs/xargs.c:1647
 msgid ""
 "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
 msgstr ""
 
-#: xargs/xargs.c:1637
+#: xargs/xargs.c:1648
 msgid "  -p, --interactive            prompt before running commands\n"
 msgstr ""
 
-#: xargs/xargs.c:1638
+#: xargs/xargs.c:1649
 msgid ""
 "      --process-slot-var=VAR   set environment variable VAR in child "
 "processes\n"
 msgstr ""
 
-#: xargs/xargs.c:1639
+#: xargs/xargs.c:1650
 msgid ""
 "  -r, --no-run-if-empty        if there are no arguments, then do not run "
 "COMMAND;\n"
@@ -1425,28 +1761,28 @@ msgid ""
 "                                 run at least once\n"
 msgstr ""
 
-#: xargs/xargs.c:1642
+#: xargs/xargs.c:1653
 msgid ""
 "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
 msgstr ""
 
-#: xargs/xargs.c:1643
+#: xargs/xargs.c:1654
 msgid "      --show-limits            show limits on command-line length\n"
 msgstr ""
 
-#: xargs/xargs.c:1644
+#: xargs/xargs.c:1655
 msgid "  -t, --verbose                print commands before executing them\n"
 msgstr ""
 
-#: xargs/xargs.c:1645
+#: xargs/xargs.c:1656
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
 msgstr ""
 
-#: xargs/xargs.c:1647
+#: xargs/xargs.c:1658
 msgid "      --help                   display this help and exit\n"
 msgstr ""
 
-#: xargs/xargs.c:1648
+#: xargs/xargs.c:1659
 msgid "      --version                output version information and exit\n"
 msgstr ""
 
@@ -1480,53 +1816,11 @@ msgstr ""
 #~ msgid "cannot get current directory"
 #~ msgstr "カレントディレクトリを取得できません"
 
-#~ msgid "ambiguous argument %s for `%s'"
-#~ msgstr "`%2$s' に対する不明瞭な引数 %1$s"
-
-#~ msgid "Valid arguments are:"
-#~ msgstr "有効な引数は:"
-
-#~ msgid "Unknown system error"
-#~ msgstr "未知のシステムエラー"
-
-#~ msgid "%s: option `%s' is ambiguous\n"
-#~ msgstr "%s: オプション`%s'は曖昧です\n"
-
-#~ msgid "%s: option `--%s' doesn't allow an argument\n"
-#~ msgstr "%s: オプション`--%s'は引数をとりません\n"
-
-#~ msgid "%s: option `%c%s' doesn't allow an argument\n"
-#~ msgstr "%s: オプション`%c%s'は引数をとりません\n"
-
-#~ msgid "%s: unrecognized option `--%s'\n"
-#~ msgstr "%s: 認識できないオプション`--%s'です\n"
-
-#~ msgid "%s: unrecognized option `%c%s'\n"
-#~ msgstr "%s: 認識できないオプション`%c%s'です\n"
-
 #~ msgid "%s: illegal option -- %c\n"
 #~ msgstr "%s: 不正なオプションです -- %c\n"
 
-#~ msgid "%s: invalid option -- %c\n"
-#~ msgstr "%s: オプションが違います -- %c\n"
-
-#~ msgid "%s: option requires an argument -- %c\n"
-#~ msgstr "%s: オプションには引数が必要です -- %c\n"
-
-#~ msgid "%s: option `-W %s' is ambiguous\n"
-#~ msgstr "%s: オプション `-W %s' が曖昧です\n"
-
-#~ msgid "%s: option `-W %s' doesn't allow an argument\n"
-#~ msgstr "%s: オプション`-W %s'は引数をとりません\n"
-
 #~ msgid "block size"
 #~ msgstr "ブロックサイズ"
-
-#~ msgid "`"
-#~ msgstr "`"
-
-#~ msgid "'"
-#~ msgstr "'"
 
 #~ msgid "Success"
 #~ msgstr "成功です"
@@ -1564,9 +1858,6 @@ msgstr ""
 #~ msgid "Invalid range end"
 #~ msgstr "無効な終端範囲です"
 
-#~ msgid "Memory exhausted"
-#~ msgstr "メモリを使い尽しました"
-
 #~ msgid "Invalid preceding regular expression"
 #~ msgstr "無効な前述の正規表現です"
 
@@ -1581,12 +1872,6 @@ msgstr ""
 
 #~ msgid "No previous regular expression"
 #~ msgstr "以前に正規表現が定義されていません"
-
-#~ msgid "^[yY]"
-#~ msgstr "^[yY]"
-
-#~ msgid "^[nN]"
-#~ msgstr "^[nN]"
 
 #~ msgid "Predicate List:\n"
 #~ msgstr "述語リスト:\n"

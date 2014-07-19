@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.12\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2013-09-22 22:13+0100\n"
+"POT-Creation-Date: 2014-07-16 07:27+0100\n"
 "PO-Revision-Date: 2013-09-23 20:08+0300\n"
 "Last-Translator: Toomas Soome <tsoome@me.com>\n"
 "Language-Team: Estonian <linux-ee@lists.eenet.ee>\n"
@@ -32,7 +32,7 @@ msgstr "Standardsisendit ei saa sulgeda"
 msgid "Failed to change directory"
 msgstr "Kataloogi vahetamine ei õnnestu"
 
-#: find/exec.c:312 xargs/xargs.c:1218
+#: find/exec.c:312 xargs/xargs.c:1229
 #, c-format
 msgid "cannot fork"
 msgstr "fork ebaõnnestus"
@@ -52,67 +52,102 @@ msgstr "%s katkestati signaaliga %d"
 msgid "Failed initialise shared-file hash table"
 msgstr "Jagatud failide paisktabeli initisaliseerimine ebaõnnestus"
 
-#: find/find.c:260
+#: find/find.c:219 find/ftsfind.c:693 locate/bigram.c:105 locate/code.c:174
+#: locate/frcode.c:233 locate/locate.c:1568 xargs/xargs.c:392
+#, fuzzy, c-format
+msgid "The atexit library function failed"
+msgstr "funktsiooni fnmatch() korrektsuse kontroll ebaõnnestus."
+
+#: find/find.c:263
 #, c-format
 msgid "cannot stat current directory"
 msgstr "stat jooksval kataloogil ebaõnnestus"
 
-#: find/find.c:351
+#: find/find.c:354
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "Haagitud seadmete nimekirja lugemine ebaõnnestus."
 
-#: find/find.c:440
+#: find/find.c:443
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "HOIATUS: failisüsteem %s on just lahti haagitud."
 
-#: find/find.c:450
+#: find/find.c:453
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "HOIATUS: failisüsteem %s on just haagitud."
 
-#: find/find.c:547
+#: find/find.c:550
 #, c-format
-msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"
-msgstr "%s%s muutus %s töö ajal (vana seadme number %ld, uus seadme number %ld, failisüsteemi tüüp on %s) [viit %ld]"
+msgid ""
+"%s%s changed during execution of %s (old device number %ld, new device "
+"number %ld, file system type is %s) [ref %ld]"
+msgstr ""
+"%s%s muutus %s töö ajal (vana seadme number %ld, uus seadme number %ld, "
+"failisüsteemi tüüp on %s) [viit %ld]"
 
-#: find/find.c:584
+#: find/find.c:587
 #, c-format
-msgid "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode number %<PRIuMAX>, file system type is %s) [ref %ld]"
-msgstr "%s%s muutus %s töö ajal (vana i-kirje number %<PRIuMAX>, uus i-kirje number %<PRIuMAX>, failisüsteemi tüüp on %s) [viit %ld]"
+msgid ""
+"%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
+"number %<PRIuMAX>, file system type is %s) [ref %ld]"
+msgstr ""
+"%s%s muutus %s töö ajal (vana i-kirje number %<PRIuMAX>, uus i-kirje number "
+"%<PRIuMAX>, failisüsteemi tüüp on %s) [viit %ld]"
 
-#: find/find.c:749
+#: find/find.c:752
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "vanemkataloogi ei õnnestu tagasi minna"
 
-#: find/find.c:1035
+#: find/find.c:1038
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Turvaline kataloogi %s sisenemine ebaõnnestus"
 
-#: find/find.c:1135 find/ftsfind.c:245
+#: find/find.c:1138 find/ftsfind.c:245
 #, c-format
-msgid "Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."
-msgstr "Nimeviide %s on osa tsüklist kataloogipuus; me oleme juba külastanad kataloogi, millele see viitab."
+msgid ""
+"Symbolic link %s is part of a loop in the directory hierarchy; we have "
+"already visited the directory to which it points."
+msgstr ""
+"Nimeviide %s on osa tsüklist kataloogipuus; me oleme juba külastanad "
+"kataloogi, millele see viitab."
 
-#: find/find.c:1154
+#: find/find.c:1157
 #, c-format
-msgid "Filesystem loop detected; %s has the same device number and inode as a directory which is %d level higher in the file system hierarchy"
-msgid_plural "Filesystem loop detected; %s has the same device number and inode as a directory which is %d levels higher in the file system hierarchy"
-msgstr[0] "Failisüsteemis on tuvastatud tsükkel; %s omab sama seadme ja i-kirje numbreid kui kataloog, mis on %d taset failisüsteemi hierarhias kõrgemal."
-msgstr[1] "Failisüsteemis on tuvastatud tsükkel; %s omab sama seadme ja i-kirje numbreid kui kataloog, mis on %d taset failisüsteemi hierarhias kõrgemal."
+msgid ""
+"Filesystem loop detected; %s has the same device number and inode as a "
+"directory which is %d level higher in the file system hierarchy"
+msgid_plural ""
+"Filesystem loop detected; %s has the same device number and inode as a "
+"directory which is %d levels higher in the file system hierarchy"
+msgstr[0] ""
+"Failisüsteemis on tuvastatud tsükkel; %s omab sama seadme ja i-kirje "
+"numbreid kui kataloog, mis on %d taset failisüsteemi hierarhias kõrgemal."
+msgstr[1] ""
+"Failisüsteemis on tuvastatud tsükkel; %s omab sama seadme ja i-kirje "
+"numbreid kui kataloog, mis on %d taset failisüsteemi hierarhias kõrgemal."
 
-#: find/find.c:1406
+#: find/find.c:1409
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "hoiatus: ei järgi nimeviidet %s"
 
-#: find/find.c:1477
+#: find/find.c:1480
 #, c-format
-msgid "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but we already saw %<PRIuMAX> subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."
-msgstr "HOIATUS: %s viidete arv on vale (nägin ainult st_nlink=%<PRIuMAX>, aga leidsin juba %<PRIuMAX> alamkataloogi): see võib olla viga teie failisüsteemi draiveris. Kasutan automaatselt find'i -noleaf võtit.  Varasemad tulemused ei pruugi sisaldada kõiki katalooge."
+msgid ""
+"WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
+"we already saw %<PRIuMAX> subdirectories): this may be a bug in your file "
+"system driver.  Automatically turning on find's -noleaf option.  Earlier "
+"results may have failed to include directories that should have been "
+"searched."
+msgstr ""
+"HOIATUS: %s viidete arv on vale (nägin ainult st_nlink=%<PRIuMAX>, aga "
+"leidsin juba %<PRIuMAX> alamkataloogi): see võib olla viga teie "
+"failisüsteemi draiveris. Kasutan automaatselt find'i -noleaf võtit.  "
+"Varasemad tulemused ei pruugi sisaldada kõiki katalooge."
 
 #: find/fstype.c:185
 #, c-format
@@ -125,10 +160,11 @@ msgstr "tundmatu"
 
 #: find/ftsfind.c:259
 #, c-format
-msgid "File system loop detected; %s is part of the same file system loop as %s."
+msgid ""
+"File system loop detected; %s is part of the same file system loop as %s."
 msgstr "Failisüsteemis on tsükkel; %s on sama failisüsteemi tsükli osa kui %s."
 
-#: find/ftsfind.c:444 find/util.c:218
+#: find/ftsfind.c:444 find/util.c:222
 #, c-format
 msgid "WARNING: file %s appears to have mode 0000"
 msgstr "HOIATUS: failil %s on õigused 0000"
@@ -145,23 +181,43 @@ msgstr "%s otsingu lõppedes ei õnnestu taastada töökataloogi"
 
 #: find/parser.c:452
 #, c-format
-msgid "The -delete action automatically turns on -depth, but -prune does nothing when -depth is in effect.  If you want to carry on anyway, just explicitly use the -depth option."
-msgstr "-delete tegevus lülitab automaatselt sisse -depth, aga -prune ei toimi sellega. Kui te soovite jätkata, kasutage ilmutatult -depth."
+msgid ""
+"The -delete action automatically turns on -depth, but -prune does nothing "
+"when -depth is in effect.  If you want to carry on anyway, just explicitly "
+"use the -depth option."
+msgstr ""
+"-delete tegevus lülitab automaatselt sisse -depth, aga -prune ei toimi "
+"sellega. Kui te soovite jätkata, kasutage ilmutatult -depth."
 
 #: find/parser.c:599
 #, c-format
-msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
-msgstr "hoiatus: te olete kasutanud võtit %s peale mitte-võtit %s, aga võtmed ei ole positsioonilised (%s mõjutab eelnevalt ja järgnevalt määratud teste).  Palun andke võtmed enne muid argumente.\n"
+msgid ""
+"warning: you have specified the %s option after a non-option argument %s, "
+"but options are not positional (%s affects tests specified before it as well "
+"as those specified after it).  Please specify options before other "
+"arguments.\n"
+msgstr ""
+"hoiatus: te olete kasutanud võtit %s peale mitte-võtit %s, aga võtmed ei ole "
+"positsioonilised (%s mõjutab eelnevalt ja järgnevalt määratud teste).  Palun "
+"andke võtmed enne muid argumente.\n"
 
 #: find/parser.c:906
 #, c-format
-msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
-msgstr "hoiatus: võti -d on aegunud; kasutage palun võtit -depth, viimane on POSIX-ühilduv."
+msgid ""
+"warning: the -d option is deprecated; please use -depth instead, because the "
+"latter is a POSIX-compliant feature."
+msgstr ""
+"hoiatus: võti -d on aegunud; kasutage palun võtit -depth, viimane on POSIX-"
+"ühilduv."
 
 #: find/parser.c:1179
 #, c-format
-msgid "%s is not the name of an existing group and it does not look like a numeric group ID because it has the unexpected suffix %s"
-msgstr "%s ei ole defineeritud grupi nimi ega ole grupi numbriline identifikaator, kuna omab ootamatut sufiksit %s"
+msgid ""
+"%s is not the name of an existing group and it does not look like a numeric "
+"group ID because it has the unexpected suffix %s"
+msgstr ""
+"%s ei ole defineeritud grupi nimi ega ole grupi numbriline identifikaator, "
+"kuna omab ootamatut sufiksit %s"
 
 #: find/parser.c:1194
 #, c-format
@@ -185,11 +241,13 @@ msgstr ""
 
 #: find/parser.c:1225
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are given):\n"
+"operators (decreasing precedence; -and is implicit where no others are "
+"given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
-"operaatorid (kahanevas eelistusjärjekorras; kui muid pole, on operaator -and):\n"
+"operaatorid (kahanevas eelistusjärjekorras; kui muid pole, on operaator -"
+"and):\n"
 "      ( AVALD ) ! AVALD -not AVALD   AVALD1 -a AVALD2   AVALD1 -and AVALD2\n"
 "      AVALD1 -o AVALD2   AVALD1 -or AVALD2   AVALD1 , AVALD2\n"
 
@@ -210,12 +268,14 @@ msgstr ""
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
+"PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
 "testid (N võib olla +N või -N või N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FAIL -ctime N -empty -false -fstype TÜÜP -gid N -group NIMI\n"
-"      -ilname MUSTER -iname MUSTER -inum N -iwholename MUSTER -iregex MUSTER\n"
+"      -ilname MUSTER -iname MUSTER -inum N -iwholename MUSTER -iregex "
+"MUSTER\n"
 "      -links N -lname MUSTER -mmin N -mtime N -name MUSTER -newer FAIL"
 
 #: find/parser.c:1239
@@ -265,8 +325,18 @@ msgstr "funktsiooni fnmatch() korrektsuse kontroll ebaõnnestus."
 
 #: find/parser.c:1321
 #, c-format
-msgid "warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."
-msgstr "hoiatus: failinimed Unixis ei sisalda tavaliselt kaldkriipse (kuigi teed sisaldavad). See tähendab et '%s %s' saab ilmselt selles süsteemis kogu aeg väärtuse 'false'.  Tõenäoliselt on '-wholename' või siis '-samefile' test märksa kasulikum.  Alternatiivina, kui te kasutate GNU grep, võiks proovida 'find ... -print0 | grep -FzZ %s'."
+msgid ""
+"warning: Unix filenames usually don't contain slashes (though pathnames "
+"do).  That means that '%s %s' will probably evaluate to false all the time "
+"on this system.  You might find the '-wholename' test more useful, or "
+"perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
+"use 'find ... -print0 | grep -FzZ %s'."
+msgstr ""
+"hoiatus: failinimed Unixis ei sisalda tavaliselt kaldkriipse (kuigi teed "
+"sisaldavad). See tähendab et '%s %s' saab ilmselt selles süsteemis kogu aeg "
+"väärtuse 'false'.  Tõenäoliselt on '-wholename' või siis '-samefile' test "
+"märksa kasulikum.  Alternatiivina, kui te kasutate GNU grep, võiks proovida "
+"'find ... -print0 | grep -FzZ %s'."
 
 #: find/parser.c:1447
 #, c-format
@@ -305,8 +375,15 @@ msgstr "vigane mood %s"
 
 #: find/parser.c:2010
 #, c-format
-msgid "warning: you have specified a mode pattern %s (which is equivalent to /000). The meaning of -perm /000 has now been changed to be consistent with -perm -000; that is, while it used to match no files, it now matches all files."
-msgstr "hoiatus: te määrasite moodi mustri %s (mis on sama, kui /000). -perm /000 tähendus on nüüd muudetud kooskõlla võtmega -perm -000; see tähendab, kui enne seda kasutati mitte ühegi faili otsimise määramiseks, aga nüüd leiab kõik failid. "
+msgid ""
+"warning: you have specified a mode pattern %s (which is equivalent to /000). "
+"The meaning of -perm /000 has now been changed to be consistent with -perm "
+"-000; that is, while it used to match no files, it now matches all files."
+msgstr ""
+"hoiatus: te määrasite moodi mustri %s (mis on sama, kui /000). -perm /000 "
+"tähendus on nüüd muudetud kooskõlla võtmega -perm -000; see tähendab, kui "
+"enne seda kasutati mitte ühegi faili otsimise määramiseks, aga nüüd leiab "
+"kõik failid. "
 
 #: find/parser.c:2210
 #, c-format
@@ -324,7 +401,9 @@ msgid "Invalid argument `%s%s' to -size"
 msgstr "Vigane argument `%s%s' predikaadil -size"
 
 #: find/parser.c:2452
-msgid "The -show-control-chars option takes a single argument which must be 'literal' or 'safe'"
+msgid ""
+"The -show-control-chars option takes a single argument which must be "
+"'literal' or 'safe'"
 msgstr "Võti -show-control-chars vajab argumenti 'literal' või 'safe'"
 
 #: find/parser.c:2566
@@ -359,23 +438,37 @@ msgstr "-type argumendid saavad sisaldada ainult ühte tähte"
 
 #: find/parser.c:2809
 #, c-format
-msgid "-type %c is not supported because symbolic links are not supported on the platform find was compiled on."
-msgstr "-type %c ei ole toetatud, kuna nimeviited ei ole sellel platvormil toetatud."
+msgid ""
+"-type %c is not supported because symbolic links are not supported on the "
+"platform find was compiled on."
+msgstr ""
+"-type %c ei ole toetatud, kuna nimeviited ei ole sellel platvormil toetatud."
 
 #: find/parser.c:2820
 #, c-format
-msgid "-type %c is not supported because FIFOs are not supported on the platform find was compiled on."
-msgstr "-type %c ei ole toetatud, kuna FIFO failid ei ole sellel platvormil toetatud."
+msgid ""
+"-type %c is not supported because FIFOs are not supported on the platform "
+"find was compiled on."
+msgstr ""
+"-type %c ei ole toetatud, kuna FIFO failid ei ole sellel platvormil toetatud."
 
 #: find/parser.c:2831
 #, c-format
-msgid "-type %c is not supported because named sockets are not supported on the platform find was compiled on."
-msgstr "-type %c ei ole toetatud, kuna nimelised pistikud ei ole sellel platvormil toetatud."
+msgid ""
+"-type %c is not supported because named sockets are not supported on the "
+"platform find was compiled on."
+msgstr ""
+"-type %c ei ole toetatud, kuna nimelised pistikud ei ole sellel platvormil "
+"toetatud."
 
 #: find/parser.c:2842
 #, c-format
-msgid "-type %c is not supported because Solaris doors are not supported on the platform find was compiled on."
-msgstr "-type %c ei ole toetatud, kuna Solaris door failid ei ole sellel platvormil toetatud."
+msgid ""
+"-type %c is not supported because Solaris doors are not supported on the "
+"platform find was compiled on."
+msgstr ""
+"-type %c ei ole toetatud, kuna Solaris door failid ei ole sellel platvormil "
+"toetatud."
 
 #: find/parser.c:2849
 #, c-format
@@ -384,18 +477,34 @@ msgstr "Tundmatu -type argument: %c"
 
 #: find/parser.c:2923
 #, c-format
-msgid "The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\", doubled colons, or leading or trailing colons)"
-msgstr "Keskkonnamuutuja PATH sisaldab jooksvat kataloogi, mis on find tegevuse %s korral ebaturvaline.  Palun eemaldage jooksev kataloog PATH muutujast (eemaldage \".\", topeltkoolonid või algavad või lõpetavad koolonid)"
+msgid ""
+"The current directory is included in the PATH environment variable, which is "
+"insecure in combination with the %s action of find.  Please remove the "
+"current directory from your $PATH (that is, remove \".\", doubled colons, or "
+"leading or trailing colons)"
+msgstr ""
+"Keskkonnamuutuja PATH sisaldab jooksvat kataloogi, mis on find tegevuse %s "
+"korral ebaturvaline.  Palun eemaldage jooksev kataloog PATH muutujast "
+"(eemaldage \".\", topeltkoolonid või algavad või lõpetavad koolonid)"
 
 #: find/parser.c:2935
 #, c-format
-msgid "The relative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"
-msgstr "Keskkonnamuutuja PATH sisaldab suhtelist kataloogi %s, mis on find tegevuse %s korral ebaturvaline.  Palun eemaldage see kataloog PATH muutujast."
+msgid ""
+"The relative path %s is included in the PATH environment variable, which is "
+"insecure in combination with the %s action of find.  Please remove that "
+"entry from $PATH"
+msgstr ""
+"Keskkonnamuutuja PATH sisaldab suhtelist kataloogi %s, mis on find tegevuse "
+"%s korral ebaturvaline.  Palun eemaldage see kataloog PATH muutujast."
 
 #: find/parser.c:3044
 #, c-format
-msgid "You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."
-msgstr "Võtmetega -execdir ja -okdir ei ole lubatud programmi nimes kasutada {}, kuna see võib olla turvarisk."
+msgid ""
+"You may not use {} within the utility name for -execdir and -okdir, because "
+"this is a potential security problem."
+msgstr ""
+"Võtmetega -execdir ja -okdir ei ole lubatud programmi nimes kasutada {}, "
+"kuna see võib olla turvarisk."
 
 #: find/parser.c:3070
 #, c-format
@@ -445,32 +554,44 @@ msgstr "HOIATUS: faili %s loomise aega ei õnnestu lugeda"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1205 find/print.c:1228
+#: find/pred.c:784
+#, fuzzy, c-format
+msgid "Failed to write prompt for -ok"
+msgstr "Standardväljundisse kirjutamine ebaõnnestus"
+
+#: find/pred.c:1208 find/print.c:1234
 #, c-format
 msgid "getfilecon failed: %s"
 msgstr "getfilecon ebaõnnestus: %s"
 
-#: find/print.c:359
+#: find/print.c:346
+#, c-format
+msgid "warning: escape `\\' followed by nothing at all"
+msgstr ""
+
+#: find/print.c:365
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "hoiatus: tundmatu paojada `\\%c'"
 
-#: find/print.c:379
+#: find/print.c:385
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "viga: %s vormingu sõne lõpus"
 
-#: find/print.c:403
+#: find/print.c:409
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
-msgstr "viga: vormingu direktiiv `%%%c' on reserveeritud tulevikus kasutamiseks"
+msgstr ""
+"viga: vormingu direktiiv `%%%c' on reserveeritud tulevikus kasutamiseks"
 
-#: find/print.c:411
+#: find/print.c:417
 #, c-format
-msgid "warning: format directive `%%%c' should be followed by another character"
+msgid ""
+"warning: format directive `%%%c' should be followed by another character"
 msgstr "hoiatus: vormingu direktiivile `%%%c' peab järgnema sümbol"
 
-#: find/print.c:419
+#: find/print.c:425
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "hoiatus: tundmatu formaadidirektiiv `%%%c'"
@@ -482,8 +603,12 @@ msgstr "vigane avaldis"
 
 #: find/tree.c:140
 #, c-format
-msgid "invalid expression; you have used a binary operator '%s' with nothing before it."
-msgstr "vigane avaldis; te olete kasutanud binaarset operaatorit '%s', aga tema ees ei ole midagi."
+msgid ""
+"invalid expression; you have used a binary operator '%s' with nothing before "
+"it."
+msgstr ""
+"vigane avaldis; te olete kasutanud binaarset operaatorit '%s', aga tema ees "
+"ei ole midagi."
 
 #: find/tree.c:151
 #, c-format
@@ -502,8 +627,12 @@ msgstr "vigane avaldis; liiga palju ')'"
 
 #: find/tree.c:189
 #, c-format
-msgid "invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"
-msgstr "vigane avaldis; eeldasin leida sümbolit ')', aga see puudub. Võibolla tuleb lisada '%s' järele predikaat"
+msgid ""
+"invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
+"need an extra predicate after '%s'"
+msgstr ""
+"vigane avaldis; eeldasin leida sümbolit ')', aga see puudub. Võibolla tuleb "
+"lisada '%s' järele predikaat"
 
 #: find/tree.c:197
 #, c-format
@@ -512,7 +641,9 @@ msgstr "vigane avaldis; tühjad sulud pole lubatud."
 
 #: find/tree.c:203
 #, c-format
-msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
+msgid ""
+"invalid expression; I was expecting to find a ')' somewhere but did not see "
+"one."
 msgstr "vigane avaldis: eeldasin leida sümbolit ')', aga see puudub."
 
 #: find/tree.c:209 find/tree.c:833
@@ -527,8 +658,12 @@ msgstr "oops -- vigane avaldise tüüp (%d)!"
 
 #: find/tree.c:1120
 #, c-format
-msgid "warning: there is no entry in the predicate evaluation cost table for predicate %s; please report this as a bug"
-msgstr "hoiatus: predikaatide hindamise kaalude tabelis pole infot predikaadile %s; palun teatage sellest veast"
+msgid ""
+"warning: there is no entry in the predicate evaluation cost table for "
+"predicate %s; please report this as a bug"
+msgstr ""
+"hoiatus: predikaatide hindamise kaalude tabelis pole infot predikaadile %s; "
+"palun teatage sellest veast"
 
 #: find/tree.c:1294
 #, c-format
@@ -585,50 +720,368 @@ msgstr "Kasuta: %s [-H] [-L] [-P] [-Otase] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [tee...] [avaldis]\n"
 
-#: find/util.c:455
+#: find/util.c:459
 #, c-format
 msgid "failed to save initial working directory"
 msgstr "algse töötakaloogi salvestamine ei õnnestu"
 
-#: find/util.c:472
+#: find/util.c:476
 #, c-format
 msgid "failed to restore initial working directory"
 msgstr "algset töökataloogi ei õnnestu taastada"
 
-#: find/util.c:820
+#: find/util.c:824
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Ignoreerin tundmatut silumise võtit %s"
 
-#: find/util.c:827
+#: find/util.c:831
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Võtmel -D puudub argument."
 
-#: find/util.c:843
+#: find/util.c:847
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "Võtme -O järel peab olema numbriline argument"
 
-#: find/util.c:853 find/util.c:864
+#: find/util.c:857 find/util.c:868
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Palun kirjutage võtme -O järel number"
 
-#: find/util.c:869 find/util.c:874
+#: find/util.c:873 find/util.c:878
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Vigane optimeerimise tase %s"
 
-#: find/util.c:882
+#: find/util.c:886
 #, c-format
-msgid "Optimisation level %lu is too high.  If you want to find files very quickly, consider using GNU locate."
-msgstr "Optimiseerimise tase %lu on liiga kõrge. Kui soovite leida faile väga kiiresti, kasutage GNU locate programmi."
+msgid ""
+"Optimisation level %lu is too high.  If you want to find files very quickly, "
+"consider using GNU locate."
+msgstr ""
+"Optimiseerimise tase %lu on liiga kõrge. Kui soovite leida faile väga "
+"kiiresti, kasutage GNU locate programmi."
 
-#: find/util.c:1026
+#: find/util.c:1030
 #, c-format
-msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr "Keskkonnamuutujat FIND_BLOCK_SIZE ei toetata, bloki suurust mõjutab ainult keskkonna muutuja POSIXLY_CORRECT"
+msgid ""
+"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
+"that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr ""
+"Keskkonnamuutujat FIND_BLOCK_SIZE ei toetata, bloki suurust mõjutab ainult "
+"keskkonna muutuja POSIXLY_CORRECT"
+
+#: gl/lib/argmatch.c:133
+#, fuzzy, c-format
+msgid "invalid argument %s for %s"
+msgstr "vigane argument `%s' predikaadil `%s'"
+
+#: gl/lib/argmatch.c:134
+#, fuzzy, c-format
+msgid "ambiguous argument %s for %s"
+msgstr "vigane argument `%s' predikaadil `%s'"
+
+#: gl/lib/argmatch.c:153
+#, fuzzy
+msgid "Valid arguments are:"
+msgstr "vigane argument %s predikaadil -used"
+
+#: gl/lib/closein.c:100
+msgid "error closing file"
+msgstr ""
+
+#: gl/lib/closeout.c:112 locate/code.c:153 locate/frcode.c:210
+#, c-format
+msgid "write error"
+msgstr "viga kirjutamisel"
+
+#: gl/lib/error.c:188
+msgid "Unknown system error"
+msgstr ""
+
+#: gl/lib/getopt.c:547 gl/lib/getopt.c:576
+#, c-format
+msgid "%s: option '%s' is ambiguous; possibilities:"
+msgstr ""
+
+#: gl/lib/getopt.c:624 gl/lib/getopt.c:628
+#, c-format
+msgid "%s: option '--%s' doesn't allow an argument\n"
+msgstr ""
+
+#: gl/lib/getopt.c:637 gl/lib/getopt.c:642
+#, c-format
+msgid "%s: option '%c%s' doesn't allow an argument\n"
+msgstr ""
+
+#: gl/lib/getopt.c:685 gl/lib/getopt.c:704
+#, fuzzy, c-format
+msgid "%s: option '--%s' requires an argument\n"
+msgstr "test %s nõuab argumenti"
+
+#: gl/lib/getopt.c:742 gl/lib/getopt.c:745
+#, c-format
+msgid "%s: unrecognized option '--%s'\n"
+msgstr ""
+
+#: gl/lib/getopt.c:753 gl/lib/getopt.c:756
+#, fuzzy, c-format
+msgid "%s: unrecognized option '%c%s'\n"
+msgstr "hoiatus: tundmatu paojada `\\%c'"
+
+#: gl/lib/getopt.c:805 gl/lib/getopt.c:808
+#, fuzzy, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: vigane number võtmele -%c\n"
+
+#: gl/lib/getopt.c:861 gl/lib/getopt.c:878 gl/lib/getopt.c:1088
+#: gl/lib/getopt.c:1106
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr ""
+
+#: gl/lib/getopt.c:934 gl/lib/getopt.c:950
+#, c-format
+msgid "%s: option '-W %s' is ambiguous\n"
+msgstr ""
+
+#: gl/lib/getopt.c:974 gl/lib/getopt.c:992
+#, c-format
+msgid "%s: option '-W %s' doesn't allow an argument\n"
+msgstr ""
+
+#: gl/lib/getopt.c:1013 gl/lib/getopt.c:1031
+#, fuzzy, c-format
+msgid "%s: option '-W %s' requires an argument\n"
+msgstr "test %s nõuab argumenti"
+
+#: gl/lib/openat-die.c:38
+#, fuzzy, c-format
+msgid "unable to record current working directory"
+msgstr "algset töökataloogi ei õnnestu taastada"
+
+#: gl/lib/openat-die.c:57
+#, fuzzy, c-format
+msgid "failed to return to initial working directory"
+msgstr "algset töökataloogi ei õnnestu taastada"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <http://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: gl/lib/quotearg.c:312
+msgid "`"
+msgstr ""
+
+#: gl/lib/quotearg.c:313
+msgid "'"
+msgstr ""
+
+#. TRANSLATORS: A regular expression testing for an affirmative answer
+#. (english: "yes").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^yesexpr='
+#: gl/lib/rpmatch.c:150
+msgid "^[yY]"
+msgstr ""
+
+#. TRANSLATORS: A regular expression testing for a negative answer
+#. (english: "no").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^noexpr='
+#: gl/lib/rpmatch.c:163
+msgid "^[nN]"
+msgstr ""
+
+#: gl/lib/version-etc.c:74
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:77
+#, c-format
+msgid "Packaged by %s\n"
+msgstr ""
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: gl/lib/version-etc.c:84
+msgid "(C)"
+msgstr ""
+
+#: gl/lib/version-etc.c:86
+msgid ""
+"\n"
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+"\n"
+msgstr ""
+
+#. TRANSLATORS: %s denotes an author name.
+#: gl/lib/version-etc.c:102
+#, c-format
+msgid "Written by %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: gl/lib/version-etc.c:106
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: gl/lib/version-etc.c:110
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:117
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:124
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:131
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:139
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:147
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:156
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:167
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: gl/lib/version-etc.c:245
+#, c-format
+msgid ""
+"\n"
+"Report bugs to: %s\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:247
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:251
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:253
+#, c-format
+msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:256
+msgid "General help using GNU software: <http://www.gnu.org/gethelp/>\n"
+msgstr ""
+
+#: gl/lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr ""
+
+#: gl/lib/xstrtol-error.c:63
+#, fuzzy, c-format
+msgid "invalid %s%s argument '%s'"
+msgstr "vigane argument `%s' predikaadil `%s'"
+
+#: gl/lib/xstrtol-error.c:68
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument '%s'"
+msgstr "vigane argument `%s' predikaadil `%s'"
+
+#: gl/lib/xstrtol-error.c:72
+#, fuzzy, c-format
+msgid "%s%s argument '%s' too large"
+msgstr "argumentide loend on liiga pikk"
 
 #: lib/buildcmd.c:161
 #, c-format
@@ -657,8 +1110,12 @@ msgstr "Keskkonnamuutuja %s väärtus ei ole lubatud kümnendnumber"
 
 #: lib/fdleak.c:377
 #, c-format
-msgid "File descriptor %d will leak; please report this as a bug, remembering to include a detailed description of the simplest way to reproduce this problem."
-msgstr "Fail %d lekib; palun teatage sellest veast, pidage meeles lisada kirjeldus, kuidas seda viga korrata."
+msgid ""
+"File descriptor %d will leak; please report this as a bug, remembering to "
+"include a detailed description of the simplest way to reproduce this problem."
+msgstr ""
+"Fail %d lekib; palun teatage sellest veast, pidage meeles lisada kirjeldus, "
+"kuidas seda viga korrata."
 
 #: lib/findutils-version.c:55
 msgid "Eric B. Decker"
@@ -672,6 +1129,16 @@ msgstr "James Youngman"
 msgid "Kevin Dalley"
 msgstr "Kevin Dalley"
 
+#: lib/listfile.c:272
+#, fuzzy, c-format
+msgid "Failed to write output"
+msgstr "Standardväljundisse kirjutamine ebaõnnestus"
+
+#: lib/regextype.c:110
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr "Tundmatu regulaaravaldise tüüp %s; lubatud tüübid on %s."
+
 #: lib/safe-atoi.c:81
 #, c-format
 msgid "Unexpected suffix %s on %s"
@@ -681,11 +1148,6 @@ msgstr "Ootamatu sufiks %s kohal %s"
 #, c-format
 msgid "Expected an integer: %s"
 msgstr "Ootasin täisarvu: %s"
-
-#: lib/regextype.c:110
-#, c-format
-msgid "Unknown regular expression type %s; valid types are %s."
-msgstr "Tundmatu regulaaravaldise tüüp %s; lubatud tüübid on %s."
 
 #: locate/code.c:131
 #, c-format
@@ -697,18 +1159,13 @@ msgstr ""
 "või     %s enamus_bigram_koode < faili-loend > locate-andmebaas\n"
 
 #: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
-#: xargs/xargs.c:1649
+#: xargs/xargs.c:1660
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
 msgstr ""
 "\n"
 "Vigadest teatage aadressil <bug-findutils@gnu.org>.\n"
-
-#: locate/code.c:153 locate/frcode.c:210
-#, c-format
-msgid "write error"
-msgstr "viga kirjutamisel"
 
 #: locate/frcode.c:160
 #, c-format
@@ -730,12 +1187,12 @@ msgstr "Turvatase %s on väljaspool teisendamise piire."
 msgid "Security level %s has unexpected suffix %s."
 msgstr "Turvatase %s omab ootamatut sufiksit %s."
 
-#: locate/frcode.c:254
+#: locate/frcode.c:257
 #, c-format
 msgid "slocate security level %ld is unsupported."
 msgstr "slocate turvatase %ld ei ole toetatud."
 
-#: locate/frcode.c:292
+#: locate/frcode.c:295
 #, c-format
 msgid "Failed to write to standard output"
 msgstr "Standardväljundisse kirjutamine ebaõnnestus"
@@ -800,7 +1257,9 @@ msgstr ""
 
 #: locate/locate.c:888
 #, c-format
-msgid "Some filenames may have been filtered out, so we cannot compute the compression ratio.\n"
+msgid ""
+"Some filenames may have been filtered out, so we cannot compute the "
+"compression ratio.\n"
 msgstr "Osad failinimed filtreeriti välja, tihenduse suhet ei saa arvutada.\n"
 
 #: locate/locate.c:901
@@ -815,23 +1274,36 @@ msgstr "Tihenduse suhe ei ole defineeritud\n"
 
 #: locate/locate.c:963
 #, c-format
-msgid "locate database %s looks like an slocate database but it seems to have security level %c, which GNU findutils does not currently support"
-msgstr "locate andmebaas %s tundub olema slocate andmebaas, aga sel on turvatase %c, mida GNU findutils praegu ei toeta"
+msgid ""
+"locate database %s looks like an slocate database but it seems to have "
+"security level %c, which GNU findutils does not currently support"
+msgstr ""
+"locate andmebaas %s tundub olema slocate andmebaas, aga sel on turvatase %c, "
+"mida GNU findutils praegu ei toeta"
 
 #: locate/locate.c:1075
 #, c-format
-msgid "%s is an slocate database.  Support for these is new, expect problems for now."
+msgid ""
+"%s is an slocate database.  Support for these is new, expect problems for "
+"now."
 msgstr "%s on slocate andmebaas. Selle tugi on uus, võib esineda probleeme."
 
 #: locate/locate.c:1089
 #, c-format
-msgid "%s is an slocate database of unsupported security level %d; skipping it."
+msgid ""
+"%s is an slocate database of unsupported security level %d; skipping it."
 msgstr "%s on slocate andmebaas mittetoetatud turvatasemega %d; jätan vahele."
 
 #: locate/locate.c:1106
 #, c-format
-msgid "You specified the -E option, but that option cannot be used with slocate-format databases with a non-zero security level.  No results will be generated for this database.\n"
-msgstr "Te kasutasite võtit -E, aga seda võtit ei saa slocate vormingus nullist erineva turvatasemega andmebaasiga kasutada. Selle andmebaasi jaoks tulemusi ei väljastata.\n"
+msgid ""
+"You specified the -E option, but that option cannot be used with slocate-"
+"format databases with a non-zero security level.  No results will be "
+"generated for this database.\n"
+msgstr ""
+"Te kasutasite võtit -E, aga seda võtit ei saa slocate vormingus nullist "
+"erineva turvatasemega andmebaasiga kasutada. Selle andmebaasi jaoks tulemusi "
+"ei väljastata.\n"
 
 #: locate/locate.c:1117
 #, c-format
@@ -875,7 +1347,8 @@ msgstr ""
 "Kasuta: %s [-d tee | --database=tee] [-e | -E | --[non-]existing]\n"
 "      [-i | --ignore-case] [-w | --wholename] [-b | --basename]\n"
 "      [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
-"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --stdio ]\n"
+"      [-P | -H | --nofollow] [-L | --follow] [-m | --mmap ] [ -s | --"
+"stdio ]\n"
 "      [-A | --all] [-p | --print] [-r | --regex ] [--regextype=TÜÜP]\n"
 "      [--max-database-age D] [--version] [--help]\n"
 "      muster...\n"
@@ -896,17 +1369,17 @@ msgstr "Kõikide privileegide eemaldamine ebaõnnestus"
 msgid "failed to drop setgid privileges"
 msgstr "setgid privileegide eemaldamine ebaõnnestus"
 
-#: locate/locate.c:1761
+#: locate/locate.c:1763
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "hoiatus: locate andmebaasi saab standardsisendist ainult korra lugeda."
 
-#: locate/locate.c:1831
+#: locate/locate.c:1833
 #, c-format
 msgid "time system call failed"
 msgstr "süsteemifunktsioon time sai vea"
 
-#: locate/locate.c:1842
+#: locate/locate.c:1844
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "hoiatus: andmebaas %s on rohkem kui %d %s vana (vanus on %.1f %s)"
@@ -933,208 +1406,261 @@ msgstr "Sisendi eraldaja määrangus on vigane paojada %s."
 
 #: xargs/xargs.c:270
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."
-msgstr "Sisendi eraldaja määrangus on vigane paojada %s; sümboli väärtus ei või ületada %lx."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lx."
+msgstr ""
+"Sisendi eraldaja määrangus on vigane paojada %s; sümboli väärtus ei või "
+"ületada %lx."
 
 #: xargs/xargs.c:276
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."
-msgstr "Sisendi eraldaja määrangus on vigane paojada %s; sümboli väärtus ei või ületada %lo."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lo."
+msgstr ""
+"Sisendi eraldaja määrangus on vigane paojada %s; sümboli väärtus ei või "
+"ületada %lo."
 
 #: xargs/xargs.c:285
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."
-msgstr "Sisendi eraldaja määrangus on vigane paojada %s; lõpetavad sümbolid %s on tundmatud."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; trailing "
+"characters %s not recognised."
+msgstr ""
+"Sisendi eraldaja määrangus on vigane paojada %s; lõpetavad sümbolid %s on "
+"tundmatud."
 
 #: xargs/xargs.c:330
 #, c-format
-msgid "Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."
-msgstr "Vigane sisendi eraldaja määrang %s: eraldaja peab olema kas üks sümbol või sümboliga \\ algav paojada."
+msgid ""
+"Invalid input delimiter specification %s: the delimiter must be either a "
+"single character or an escape sequence starting with \\."
+msgstr ""
+"Vigane sisendi eraldaja määrang %s: eraldaja peab olema kas üks sümbol või "
+"sümboliga \\ algav paojada."
 
 #: xargs/xargs.c:347
 #, c-format
 msgid "environment is too large for exec"
 msgstr "exec funktsioonile antud keskkond on liiga suur"
 
-#: xargs/xargs.c:556
+#: xargs/xargs.c:559
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr "hoiatus: võtme -s väärtus %ld on liiga suur, kasutan %ld"
 
-#: xargs/xargs.c:603
+#: xargs/xargs.c:606
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr "võtmele --%s ei saa anda väärtust mis sisaldab `='"
 
-#: xargs/xargs.c:615
+#: xargs/xargs.c:618
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr "keskkonnamuutujat %s ei saa eemaldada"
 
-#: xargs/xargs.c:629
+#: xargs/xargs.c:632
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
 msgstr "hoiatus: võtmete -0 või -d korral on võti -E kasutu.\n"
 
-#: xargs/xargs.c:651
+#: xargs/xargs.c:654
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr "Ei õnnestu seada SIGUSR1 signaali käsitlejat"
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:660
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr "Ei õnnestu seada SIGUSR2 signaali käsitlejat"
 
-#: xargs/xargs.c:673
+#: xargs/xargs.c:676
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Ei õnnestu avada sisendfaili %s"
 
-#: xargs/xargs.c:692
+#: xargs/xargs.c:695
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Teie keskkonnamuutujad kasutavad %<PRIuMAX> baiti\n"
 
-#: xargs/xargs.c:695
-#, c-format
-msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
-msgstr "POSIX ülemine piirang argumendi pikkusele (selles süsteemis): %<PRIuMAX>\n"
-
 #: xargs/xargs.c:698
 #, c-format
-msgid "POSIX smallest allowable upper limit on argument length (all systems): %<PRIuMAX>\n"
-msgstr "POSIX vähim lubatud ülemine piirang argumendi pikkusele (kõikides süsteemides): %<PRIuMAX>\n"
+msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
+msgstr ""
+"POSIX ülemine piirang argumendi pikkusele (selles süsteemis): %<PRIuMAX>\n"
 
 #: xargs/xargs.c:701
+#, c-format
+msgid ""
+"POSIX smallest allowable upper limit on argument length (all systems): "
+"%<PRIuMAX>\n"
+msgstr ""
+"POSIX vähim lubatud ülemine piirang argumendi pikkusele (kõikides "
+"süsteemides): %<PRIuMAX>\n"
+
+#: xargs/xargs.c:704
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "Tegelikult kasutatava käsu maksimum pikkus on: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:704
+#: xargs/xargs.c:707
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Tegelikult kasutatava käsupuhvri suurus on: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:710
+#: xargs/xargs.c:713
 #, c-format
 msgid ""
 "\n"
-"Execution of xargs will continue now, and it will try to read its input and run commands; if this is not what you wanted to happen, please type the end-of-file keystroke.\n"
+"Execution of xargs will continue now, and it will try to read its input and "
+"run commands; if this is not what you wanted to happen, please type the end-"
+"of-file keystroke.\n"
 msgstr ""
 "\n"
-"xargs käivitamine jätkub nüüd ja see loeb sisendist info ja käivitab käsud; kui te ei soovi seda, vajutage faililõppu tähistavat klahvikombinatsiooni.\n"
+"xargs käivitamine jätkub nüüd ja see loeb sisendist info ja käivitab käsud; "
+"kui te ei soovi seda, vajutage faililõppu tähistavat klahvikombinatsiooni.\n"
 
-#: xargs/xargs.c:718
+#: xargs/xargs.c:721
 #, c-format
-msgid "Warning: %s will be run at least once.  If you do not want that to happen, then press the interrupt keystroke.\n"
-msgstr "Hoiatus: %s käivitatakse vähemalt korra. Kui te ei soovi seda, vajutage katkestamise klahvikombinatsiooni.\n"
+msgid ""
+"Warning: %s will be run at least once.  If you do not want that to happen, "
+"then press the interrupt keystroke.\n"
+msgstr ""
+"Hoiatus: %s käivitatakse vähemalt korra. Kui te ei soovi seda, vajutage "
+"katkestamise klahvikombinatsiooni.\n"
 
-#: xargs/xargs.c:846 xargs/xargs.c:939
+#: xargs/xargs.c:849 xargs/xargs.c:942
 #, c-format
-msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
-msgstr "puudub kvoot %s; vaikimisi kasutatab xargs omi kvoote, kui just pole kasutatud võtit -O"
+msgid ""
+"unmatched %s quote; by default quotes are special to xargs unless you use "
+"the -0 option"
+msgstr ""
+"puudub kvoot %s; vaikimisi kasutatab xargs omi kvoote, kui just pole "
+"kasutatud võtit -O"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "double"
 msgstr "dubleeritud"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "single"
 msgstr "ühekordne"
 
-#: xargs/xargs.c:959
+#: xargs/xargs.c:962
 #, c-format
-msgid "WARNING: a NUL character occurred in the input.  It cannot be passed through in the argument list.  Did you mean to use the --null option?"
-msgstr "HOIATUS: sisendis on sümbol NUL. Seda ei saa argumentide loendis kasutada. Kas te soovite kasutada võtit --null?"
+msgid ""
+"WARNING: a NUL character occurred in the input.  It cannot be passed through "
+"in the argument list.  Did you mean to use the --null option?"
+msgstr ""
+"HOIATUS: sisendis on sümbol NUL. Seda ei saa argumentide loendis kasutada. "
+"Kas te soovite kasutada võtit --null?"
 
-#: xargs/xargs.c:969 xargs/xargs.c:1034
+#: xargs/xargs.c:972 xargs/xargs.c:1037
 #, c-format
 msgid "argument line too long"
 msgstr "argumendi rida on liiga pikk"
 
-#: xargs/xargs.c:1062
+#: xargs/xargs.c:1056 xargs/xargs.c:1073
+#, fuzzy, c-format
+msgid "Failed to write to stderr"
+msgstr "Standardväljundisse kirjutamine ebaõnnestus"
+
+#: xargs/xargs.c:1069
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "/dev/tty ei õnnestunud lugemiseks avada"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1079
+#, fuzzy, c-format
+msgid "Failed to read from stdin"
+msgstr "Standardväljundisse kirjutamine ebaõnnestus"
+
+#: xargs/xargs.c:1116
 #, c-format
 msgid "unable to allocate memory"
 msgstr "mälu on otsas"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr "keskkonna muutujat %s ei saa seada"
 
-#: xargs/xargs.c:1207
+#: xargs/xargs.c:1218
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "enne fork kasutamist ei õnnestunud toru luua"
 
-#: xargs/xargs.c:1278
+#: xargs/xargs.c:1289
 #, c-format
-msgid "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, please report it)"
-msgstr "xargs_do_exec funktsioonis ebaõnnestus errno-buffer safe_read (see on ilmselt tarkvaraline viga, palun raporteerige)"
+msgid ""
+"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
+"please report it)"
+msgstr ""
+"xargs_do_exec funktsioonis ebaõnnestus errno-buffer safe_read (see on "
+"ilmselt tarkvaraline viga, palun raporteerige)"
 
-#: xargs/xargs.c:1331
-#, c-format
-msgid "read returned unexpected value %d; this is probably a bug, please report it"
+#: xargs/xargs.c:1342
+#, fuzzy, c-format
+msgid ""
+"read returned unexpected value %zu; this is probably a bug, please report it"
 msgstr "read sai ootamatu väärtuse %d; see on ilmselt viga, palun raporteerige"
 
-#: xargs/xargs.c:1424
+#: xargs/xargs.c:1435
 #, c-format
 msgid "error waiting for child process"
 msgstr "viga alamprotsessi ootamisel"
 
-#: xargs/xargs.c:1457
+#: xargs/xargs.c:1468
 #, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "HOIATUS: Ei tea enam palju %lu omab alamprotsesse"
 
-#: xargs/xargs.c:1476
+#: xargs/xargs.c:1487
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: lõpetas olekuga 255; katkestan"
 
-#: xargs/xargs.c:1479
+#: xargs/xargs.c:1490
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: peatatud signaaliga %d"
 
-#: xargs/xargs.c:1482
+#: xargs/xargs.c:1493
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: katkestatud signaaliga %d"
 
-#: xargs/xargs.c:1566
+#: xargs/xargs.c:1577
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: vigane number võtmele -%c\n"
 
-#: xargs/xargs.c:1573
+#: xargs/xargs.c:1584
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: võtme -%c väärtus peab olema suurem või võrdne kui %ld\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1598
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: võtme -%c väärtus peab olema väiksem kui %ld\n"
 
-#: xargs/xargs.c:1606
+#: xargs/xargs.c:1617
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr "Kasutamine: %s [VÕTI]... KÄSKLUS [ARGUMENDID]...\n"
 
-#: xargs/xargs.c:1611
+#: xargs/xargs.c:1622
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
-msgstr "Käivita KÄSK argumentidega ARGUMENDID, täiendavad argumendid loetakse sisendist.\n"
+msgstr ""
+"Käivita KÄSK argumentidega ARGUMENDID, täiendavad argumendid loetakse "
+"sisendist.\n"
 
-#: xargs/xargs.c:1613
+#: xargs/xargs.c:1624
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
@@ -1142,41 +1668,55 @@ msgstr ""
 "Kohustuslikud ja mittekohustuslikud argumendid pikkadel võtmetel on\n"
 "kohustuslikud või mittekohustuslikud ka lühikestel võtmetel.\n"
 
-#: xargs/xargs.c:1615
+#: xargs/xargs.c:1626
+#, fuzzy
 msgid ""
-"  -0, --null                   items are separated by a null, not whitespace;\n"
-"                                 disables quote and backslash processing and\n"
-"                                 logical EOF processing.\n"
+"  -0, --null                   items are separated by a null, not "
+"whitespace;\n"
+"                                 disables quote and backslash processing "
+"and\n"
+"                                 logical EOF processing\n"
 msgstr ""
 "  -0, --null                   elemente eraldab tühiku asemel null;\n"
-"                                 blokeerib kvootimise ja langkriipsu töötlemise\n"
+"                                 blokeerib kvootimise ja langkriipsu "
+"töötlemise\n"
 "                                 ja loogilise faili lõpu töötlemise.\n"
 
-#: xargs/xargs.c:1618
-msgid "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
-msgstr "  -a, --arg-file=FAIL          loe argumendid failist, mitte standadrsisendist\n"
-
-#: xargs/xargs.c:1619
+#: xargs/xargs.c:1629
 msgid ""
-"  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
-"                                 not by whitespace; disables quote and backslash\n"
+"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+msgstr ""
+"  -a, --arg-file=FAIL          loe argumendid failist, mitte "
+"standadrsisendist\n"
+
+#: xargs/xargs.c:1630
+msgid ""
+"  -d, --delimiter=CHARACTER    items in input stream are separated by "
+"CHARACTER,\n"
+"                                 not by whitespace; disables quote and "
+"backslash\n"
 "                                 processing and logical EOF processing\n"
 msgstr ""
-"  -d, --delimiter=SÜMBOL       elemendid sisendis on eraldatud tühikute asemel\n"
-"                               SÜMBOLIGA; blokeerib kvootimise ja langkriipsu\n"
+"  -d, --delimiter=SÜMBOL       elemendid sisendis on eraldatud tühikute "
+"asemel\n"
+"                               SÜMBOLIGA; blokeerib kvootimise ja "
+"langkriipsu\n"
 "                               ning loogilise faililõpu töötlemise\n"
 
-#: xargs/xargs.c:1622
+#: xargs/xargs.c:1633
+#, fuzzy
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a line\n"
+"  -E END                       set logical EOF string; if END occurs as a "
+"line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
-"  -E LÕPP                      Sea loogiline faililõpu sõne; kui LÕPP leitakse\n"
+"  -E LÕPP                      Sea loogiline faililõpu sõne; kui LÕPP "
+"leitakse\n"
 "                                 sisendist, ignoreeritakse järgnevat infot\n"
 "                                 (ignoreeritakse, kui kasutati -0 või -d)\n"
 
-#: xargs/xargs.c:1625
+#: xargs/xargs.c:1636
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
@@ -1184,83 +1724,104 @@ msgstr ""
 "  -e, --eof[=LÕPP]             sama, kui -E LÕPP, kui LÕPP on määratud;\n"
 "                                 muidu, faili lõpu sõne ei ole määratud\n"
 
-#: xargs/xargs.c:1627
+#: xargs/xargs.c:1638
 msgid "  -I R                         same as --replace=R\n"
 msgstr "  -I R                         sama, kui --replace=R\n"
 
-#: xargs/xargs.c:1628
+#: xargs/xargs.c:1639
 msgid ""
 "  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
-"  -i, --replace[=R]            asenda R ARGUMENDID nimekirjas standardsisendist\n"
+"  -i, --replace[=R]            asenda R ARGUMENDID nimekirjas "
+"standardsisendist\n"
 "                                 loetud nimedega; kui R ei ole määratud,\n"
 "                                 kasuta {}\n"
 
-#: xargs/xargs.c:1631
+#: xargs/xargs.c:1642
 msgid ""
-"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines per\n"
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
+"per\n"
 "                                 command line\n"
 msgstr ""
-"  -L, --max-lines=MAX-RIDU   kasuta ülimalt MAX-RIDU mitte-tühja sisendi rida\n"
+"  -L, --max-lines=MAX-RIDU   kasuta ülimalt MAX-RIDU mitte-tühja sisendi "
+"rida\n"
 "                                 käsurea kohta\n"
 
-#: xargs/xargs.c:1633
+#: xargs/xargs.c:1644
 msgid ""
-"  -l[MAX-LINES]                similar to -L but defaults to at most one non-\n"
-"                                 blank input line if MAX-LINES is not specified\n"
+"  -l[MAX-LINES]                similar to -L but defaults to at most one "
+"non-\n"
+"                                 blank input line if MAX-LINES is not "
+"specified\n"
 msgstr ""
-"  -l[MAX-RIDU]                 sarnane võtmele -L, aga eeldab vaikimisi ülimalt\n"
+"  -l[MAX-RIDU]                 sarnane võtmele -L, aga eeldab vaikimisi "
+"ülimalt\n"
 "                                 ühte mittetühja sisendi rida, kui MAX-RIDU\n"
 "                                 ei ole määratud\n"
 
-#: xargs/xargs.c:1635
-msgid "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command line\n"
-msgstr "  -n, --max-args=MAX-ARGS      kasuta ülimalt MAX-ARGS argumenti käsurea kohta\n"
+#: xargs/xargs.c:1646
+msgid ""
+"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
+"line\n"
+msgstr ""
+"  -n, --max-args=MAX-ARGS      kasuta ülimalt MAX-ARGS argumenti käsurea "
+"kohta\n"
 
-#: xargs/xargs.c:1636
-msgid "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
-msgstr "  -P, --max-procs=MAX-PROTS    käivita samaaegselt ülimalt MAX-PROTS protsessi\n"
+#: xargs/xargs.c:1647
+msgid ""
+"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgstr ""
+"  -P, --max-procs=MAX-PROTS    käivita samaaegselt ülimalt MAX-PROTS "
+"protsessi\n"
 
-#: xargs/xargs.c:1637
+#: xargs/xargs.c:1648
 msgid "  -p, --interactive            prompt before running commands\n"
 msgstr "  -p, --interactive            küsi enne käskude käivitamist\n"
 
-#: xargs/xargs.c:1638
-msgid "      --process-slot-var=VAR   set environment variable VAR in child processes\n"
-msgstr "      --process-slot-var=VAR   sea alamprotsessidele keskkonnamuutuja VAR\n"
-
-#: xargs/xargs.c:1639
+#: xargs/xargs.c:1649
 msgid ""
-"  -r, --no-run-if-empty        if there are no arguments, then do not run COMMAND;\n"
-"                                 if this option is not given, COMMAND will be\n"
+"      --process-slot-var=VAR   set environment variable VAR in child "
+"processes\n"
+msgstr ""
+"      --process-slot-var=VAR   sea alamprotsessidele keskkonnamuutuja VAR\n"
+
+#: xargs/xargs.c:1650
+msgid ""
+"  -r, --no-run-if-empty        if there are no arguments, then do not run "
+"COMMAND;\n"
+"                                 if this option is not given, COMMAND will "
+"be\n"
 "                                 run at least once\n"
 msgstr ""
 "  -r, --no-run-if-empty        kui argumendid puuduvad, ei käivita käsku;\n"
 "                                 kui seda võtit ei kasutata, käivitatakse\n"
 "                                 käsk vähemalt korra\n"
 
-#: xargs/xargs.c:1642
-msgid "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+#: xargs/xargs.c:1653
+msgid ""
+"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
 msgstr "  -s, --max-chars=MAX-CHARS    sea käsurea pikkuseks MAX-CHARS\n"
 
-#: xargs/xargs.c:1643
+#: xargs/xargs.c:1654
 msgid "      --show-limits            show limits on command-line length\n"
 msgstr "      --show-limits            näita käsurea pikkuse piirangut\n"
 
-#: xargs/xargs.c:1644
+#: xargs/xargs.c:1655
 msgid "  -t, --verbose                print commands before executing them\n"
 msgstr "  -t, --verbose                väljasta käsud enne nende täitmist\n"
 
-#: xargs/xargs.c:1645
+#: xargs/xargs.c:1656
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
-msgstr "  -x, --exit                   lõpeta töö kui suurus on ületatud (vaadake -s)\n"
+msgstr ""
+"  -x, --exit                   lõpeta töö kui suurus on ületatud (vaadake -"
+"s)\n"
 
-#: xargs/xargs.c:1647
+#: xargs/xargs.c:1658
 msgid "      --help                   display this help and exit\n"
 msgstr "      --help                   väljasta see abiinfo ja lõpeta töö\n"
 
-#: xargs/xargs.c:1648
+#: xargs/xargs.c:1659
 msgid "      --version                output version information and exit\n"
 msgstr "      --version                väljasta versioon ja lõpeta töö\n"

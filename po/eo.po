@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.12\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2013-09-22 22:13+0100\n"
+"POT-Creation-Date: 2014-07-16 07:27+0100\n"
 "PO-Revision-Date: 2013-11-05 16:23-0300\n"
 "Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -34,7 +34,7 @@ msgstr "Ne eblas fermi la ĉefenigujon"
 msgid "Failed to change directory"
 msgstr "Ni fiaskis ŝanĝi la dosierujon"
 
-#: find/exec.c:312 xargs/xargs.c:1218
+#: find/exec.c:312 xargs/xargs.c:1229
 #, c-format
 msgid "cannot fork"
 msgstr "ne eblas forki"
@@ -54,67 +54,105 @@ msgstr "%s ĉesigita per signalo %d"
 msgid "Failed initialise shared-file hash table"
 msgstr "Ni fiaskis ekigi komun-dosieran haket-tabelon"
 
-#: find/find.c:260
+#: find/find.c:219 find/ftsfind.c:693 locate/bigram.c:105 locate/code.c:174
+#: locate/frcode.c:233 locate/locate.c:1568 xargs/xargs.c:392
+#, fuzzy, c-format
+msgid "The atexit library function failed"
+msgstr "purig-kontrolo de la biblioteka funkcio fnmatch() fiaskis."
+
+#: find/find.c:263
 #, c-format
 msgid "cannot stat current directory"
 msgstr "ne eblas informiĝi pri la kuranta dosierujo"
 
-#: find/find.c:351
+#: find/find.c:354
 #, c-format
 msgid "Cannot read list of mounted devices."
 msgstr "Ne eblas legi liston da muntitaj aparatoj."
 
-#: find/find.c:440
+#: find/find.c:443
 #, c-format
 msgid "WARNING: file system %s has recently been unmounted."
 msgstr "AVERTO: dosiersistemo %s estas ĵus malmuntita."
 
-#: find/find.c:450
+#: find/find.c:453
 #, c-format
 msgid "WARNING: file system %s has recently been mounted."
 msgstr "AVERTO: dosiersistemo %s estas ĵus muntita."
 
-#: find/find.c:547
+#: find/find.c:550
 #, c-format
-msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"
-msgstr "%s%s ŝanĝis dum plenumo de %s (malnova aparat-numero %ld, nova aparat-numero %ld, dosiersistema tipo estas %s) [ref %ld]"
+msgid ""
+"%s%s changed during execution of %s (old device number %ld, new device "
+"number %ld, file system type is %s) [ref %ld]"
+msgstr ""
+"%s%s ŝanĝis dum plenumo de %s (malnova aparat-numero %ld, nova aparat-numero "
+"%ld, dosiersistema tipo estas %s) [ref %ld]"
 
-#: find/find.c:584
+#: find/find.c:587
 #, c-format
-msgid "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode number %<PRIuMAX>, file system type is %s) [ref %ld]"
-msgstr "%s%s ŝanĝis dum plenumo de %s (malnova inod-numero %<PRIuMAX>, nova inod-numero %<PRIuMAX>, dosiersistema tipo estas %s) [ref %ld]"
+msgid ""
+"%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
+"number %<PRIuMAX>, file system type is %s) [ref %ld]"
+msgstr ""
+"%s%s ŝanĝis dum plenumo de %s (malnova inod-numero %<PRIuMAX>, nova inod-"
+"numero %<PRIuMAX>, dosiersistema tipo estas %s) [ref %ld]"
 
-#: find/find.c:749
+#: find/find.c:752
 #, c-format
 msgid "failed to return to parent directory"
 msgstr "ni fiaskis retroiri al patra dosierujo"
 
-#: find/find.c:1035
+#: find/find.c:1038
 #, c-format
 msgid "Failed to safely change directory into %s"
 msgstr "Ni fiaskis sekure ŝanĝi dosierujon al %s"
 
-#: find/find.c:1135 find/ftsfind.c:245
+#: find/find.c:1138 find/ftsfind.c:245
 #, c-format
-msgid "Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."
-msgstr "Simbola ligo %s estas parto de ciklo en dosieruja hierarkio; ni jam vizitis la dosierujon al kiu ĝi kondukas."
+msgid ""
+"Symbolic link %s is part of a loop in the directory hierarchy; we have "
+"already visited the directory to which it points."
+msgstr ""
+"Simbola ligo %s estas parto de ciklo en dosieruja hierarkio; ni jam vizitis "
+"la dosierujon al kiu ĝi kondukas."
 
-#: find/find.c:1154
+#: find/find.c:1157
 #, c-format
-msgid "Filesystem loop detected; %s has the same device number and inode as a directory which is %d level higher in the file system hierarchy"
-msgid_plural "Filesystem loop detected; %s has the same device number and inode as a directory which is %d levels higher in the file system hierarchy"
-msgstr[0] "Dosiersistema ciklo estis detektata; %s havas la saman aparat-numeron kaj inodon kiel dosierujo kiu estas %d nivelo pli alta en la dosiersistema hierarkio"
-msgstr[1] "Dosiersistema ciklo estis detektata; %s havas la saman aparat-numeron kaj inodon kiel dosierujo kiu estas %d niveloj pli alta en la dosiersistema hierarkio"
+msgid ""
+"Filesystem loop detected; %s has the same device number and inode as a "
+"directory which is %d level higher in the file system hierarchy"
+msgid_plural ""
+"Filesystem loop detected; %s has the same device number and inode as a "
+"directory which is %d levels higher in the file system hierarchy"
+msgstr[0] ""
+"Dosiersistema ciklo estis detektata; %s havas la saman aparat-numeron kaj "
+"inodon kiel dosierujo kiu estas %d nivelo pli alta en la dosiersistema "
+"hierarkio"
+msgstr[1] ""
+"Dosiersistema ciklo estis detektata; %s havas la saman aparat-numeron kaj "
+"inodon kiel dosierujo kiu estas %d niveloj pli alta en la dosiersistema "
+"hierarkio"
 
-#: find/find.c:1406
+#: find/find.c:1409
 #, c-format
 msgid "warning: not following the symbolic link %s"
 msgstr "averto: ni ne sekvas la simbolan ligon %s"
 
-#: find/find.c:1477
+#: find/find.c:1480
 #, c-format
-msgid "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but we already saw %<PRIuMAX> subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."
-msgstr "AVERTO: rekta liga kalkulo malĝustas por %s (ni vidis nur st_nlink=%<PRIuMAX> sed ni jam vidis %<PRIuMAX> subdosierujojn): tio ĉi povas estis miso en via dosier-sistema pelilo.  Ni aŭtomate ebligas la modifilon -noleaf de 'find'.  Pli fruaj rezultoj povas esti fiaskintaj inkluzivigi dosierujojn kiu devus esti serĉataj."
+msgid ""
+"WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
+"we already saw %<PRIuMAX> subdirectories): this may be a bug in your file "
+"system driver.  Automatically turning on find's -noleaf option.  Earlier "
+"results may have failed to include directories that should have been "
+"searched."
+msgstr ""
+"AVERTO: rekta liga kalkulo malĝustas por %s (ni vidis nur st_nlink="
+"%<PRIuMAX> sed ni jam vidis %<PRIuMAX> subdosierujojn): tio ĉi povas estis "
+"miso en via dosier-sistema pelilo.  Ni aŭtomate ebligas la modifilon -noleaf "
+"de 'find'.  Pli fruaj rezultoj povas esti fiaskintaj inkluzivigi dosierujojn "
+"kiu devus esti serĉataj."
 
 #: find/fstype.c:185
 #, c-format
@@ -127,10 +165,13 @@ msgstr "nekonata"
 
 #: find/ftsfind.c:259
 #, c-format
-msgid "File system loop detected; %s is part of the same file system loop as %s."
-msgstr "Dosiersistema ciklo estis detektata; %s estas parto de sama dosiersistema ciklo kiel %s."
+msgid ""
+"File system loop detected; %s is part of the same file system loop as %s."
+msgstr ""
+"Dosiersistema ciklo estis detektata; %s estas parto de sama dosiersistema "
+"ciklo kiel %s."
 
-#: find/ftsfind.c:444 find/util.c:218
+#: find/ftsfind.c:444 find/util.c:222
 #, c-format
 msgid "WARNING: file %s appears to have mode 0000"
 msgstr "AVERTO: la dosiero %s ŝajne havas reĝimon 0000"
@@ -147,23 +188,45 @@ msgstr "ni fiaskis restarigi la kurantan dosierujon post serĉo de %s"
 
 #: find/parser.c:452
 #, c-format
-msgid "The -delete action automatically turns on -depth, but -prune does nothing when -depth is in effect.  If you want to carry on anyway, just explicitly use the -depth option."
-msgstr "La ago -delete aŭtomate aktivigas -depth, sed -prune faras nenion kiam -depth aktivas.  Se vi volas daŭrigi iel ajn, simply uzu la modifilon -depth malimplice."
+msgid ""
+"The -delete action automatically turns on -depth, but -prune does nothing "
+"when -depth is in effect.  If you want to carry on anyway, just explicitly "
+"use the -depth option."
+msgstr ""
+"La ago -delete aŭtomate aktivigas -depth, sed -prune faras nenion kiam -"
+"depth aktivas.  Se vi volas daŭrigi iel ajn, simply uzu la modifilon -depth "
+"malimplice."
 
 #: find/parser.c:599
 #, c-format
-msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
-msgstr "averto: vi indikis la modifilon %s post ne-modifila argumento %s, sed modifiloj ne estas poziciaj (%s influas testojn indikitajn antaŭ ol ĝi same kiel tiujn indikitajn post ĝi).  Bonvolu indiki modifilojn antaŭ aliaj argumentoj.\n"
+msgid ""
+"warning: you have specified the %s option after a non-option argument %s, "
+"but options are not positional (%s affects tests specified before it as well "
+"as those specified after it).  Please specify options before other "
+"arguments.\n"
+msgstr ""
+"averto: vi indikis la modifilon %s post ne-modifila argumento %s, sed "
+"modifiloj ne estas poziciaj (%s influas testojn indikitajn antaŭ ol ĝi same "
+"kiel tiujn indikitajn post ĝi).  Bonvolu indiki modifilojn antaŭ aliaj "
+"argumentoj.\n"
 
 #: find/parser.c:906
 #, c-format
-msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
-msgstr "averto: la modifilo -d estas malrekomendinda; bonvolu uzi -depth anstataŭe, ĉar ĝi estas trajto kiu akordas kun POSIX."
+msgid ""
+"warning: the -d option is deprecated; please use -depth instead, because the "
+"latter is a POSIX-compliant feature."
+msgstr ""
+"averto: la modifilo -d estas malrekomendinda; bonvolu uzi -depth anstataŭe, "
+"ĉar ĝi estas trajto kiu akordas kun POSIX."
 
 #: find/parser.c:1179
 #, c-format
-msgid "%s is not the name of an existing group and it does not look like a numeric group ID because it has the unexpected suffix %s"
-msgstr "%s ne estas nomo de ekzistanta grupo kaj ĝi ne ŝajnas numera grupa ID ĉar ĝi havas la neatenditan sufikson %s"
+msgid ""
+"%s is not the name of an existing group and it does not look like a numeric "
+"group ID because it has the unexpected suffix %s"
+msgstr ""
+"%s ne estas nomo de ekzistanta grupo kaj ĝi ne ŝajnas numera grupa ID ĉar ĝi "
+"havas la neatenditan sufikson %s"
 
 #: find/parser.c:1194
 #, c-format
@@ -187,11 +250,13 @@ msgstr ""
 
 #: find/parser.c:1225
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are given):\n"
+"operators (decreasing precedence; -and is implicit where no others are "
+"given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
-"operatoroj (en ordo de malpliiĝanta antaŭeco; -and estas implicita kie neniuj aliaj estas donitaj):\n"
+"operatoroj (en ordo de malpliiĝanta antaŭeco; -and estas implicita kie "
+"neniuj aliaj estas donitaj):\n"
 "      ( ESPR )   ! ESPR   -not ESPR   ESPR1 -a ESPR2   ESPR1 -and ESPR2\n"
 "      ESPR1 -o ESPR2   ESPR1 -or ESPR2   ESPR1 , ESPR2\n"
 
@@ -213,12 +278,16 @@ msgstr ""
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
+"PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
-"tests (N povas esti +N aŭ -N aŭ N): -amin N -anewer DOSIERO -atime N -cmin N\n"
-"      -cnewer DOSIERO -ctime N -empty -false -fstype SPECO -gid N -group NOMO\n"
-"      -ilname ŜABLONO -iname ŜABLONO -inum N -iwholename ŜABLONO -iregex ŜABLONO\n"
+"tests (N povas esti +N aŭ -N aŭ N): -amin N -anewer DOSIERO -atime N -cmin "
+"N\n"
+"      -cnewer DOSIERO -ctime N -empty -false -fstype SPECO -gid N -group "
+"NOMO\n"
+"      -ilname ŜABLONO -iname ŜABLONO -inum N -iwholename ŜABLONO -iregex "
+"ŜABLONO\n"
 "      -links N -lname ŜABLONO -mmin N -mtime N -name ŜABLONO -newer DOSIERO"
 
 #: find/parser.c:1239
@@ -257,8 +326,10 @@ msgid ""
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
-"Reporti (kaj sekvi progreson kaj riparon de) program-misojn per la program-raporta\n"
-"paĝo de findutils ĉe http://savannah.gnu.org/ aŭ, se vi ne havas aliron al la reto,\n"
+"Reporti (kaj sekvi progreson kaj riparon de) program-misojn per la program-"
+"raporta\n"
+"paĝo de findutils ĉe http://savannah.gnu.org/ aŭ, se vi ne havas aliron al "
+"la reto,\n"
 "per sendo de mesaĝo al <bug-findutils@gnu.org>."
 
 #: find/parser.c:1307
@@ -268,13 +339,24 @@ msgstr "purig-kontrolo de la biblioteka funkcio fnmatch() fiaskis."
 
 #: find/parser.c:1321
 #, c-format
-msgid "warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."
-msgstr "averto: Uniksaj dosiernomoj ordinare ne enhavas suprenstrekojn (tamen vojojn jes).  Tio signifas ke '%s %s' estos probable rezulti falson ĉiam en tiu ĉi sistemo.  Vi eble trovos la teston '-wholename' pli utila, aŭ eble '-samefile'.  Alternative, se vi uzas GNU grep, vi povos apliki 'find ... -print0 | grep -FzZ %s'."
+msgid ""
+"warning: Unix filenames usually don't contain slashes (though pathnames "
+"do).  That means that '%s %s' will probably evaluate to false all the time "
+"on this system.  You might find the '-wholename' test more useful, or "
+"perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
+"use 'find ... -print0 | grep -FzZ %s'."
+msgstr ""
+"averto: Uniksaj dosiernomoj ordinare ne enhavas suprenstrekojn (tamen vojojn "
+"jes).  Tio signifas ke '%s %s' estos probable rezulti falson ĉiam en tiu ĉi "
+"sistemo.  Vi eble trovos la teston '-wholename' pli utila, aŭ eble '-"
+"samefile'.  Alternative, se vi uzas GNU grep, vi povos apliki 'find ... -"
+"print0 | grep -FzZ %s'."
 
 #: find/parser.c:1447
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
-msgstr "Ni atendis pozitivan dekuman entjeran argumenton por %s, sed ni ricevis %s"
+msgstr ""
+"Ni atendis pozitivan dekuman entjeran argumenton por %s, sed ni ricevis %s"
 
 #: find/parser.c:1612
 #, c-format
@@ -308,8 +390,14 @@ msgstr "malvalida reĝimo %s"
 
 #: find/parser.c:2010
 #, c-format
-msgid "warning: you have specified a mode pattern %s (which is equivalent to /000). The meaning of -perm /000 has now been changed to be consistent with -perm -000; that is, while it used to match no files, it now matches all files."
-msgstr "averto: vi indikis reĝiman ŝablonon %s (kiu ekvivalentas al /000). La signifo de -perm /000 nun ŝanĝis por esti akorda al -perm -000; tio estas, se antaŭe ĝi kongruis al neniu dosiero, nun ĝi kongruas al ĉiuj."
+msgid ""
+"warning: you have specified a mode pattern %s (which is equivalent to /000). "
+"The meaning of -perm /000 has now been changed to be consistent with -perm "
+"-000; that is, while it used to match no files, it now matches all files."
+msgstr ""
+"averto: vi indikis reĝiman ŝablonon %s (kiu ekvivalentas al /000). La "
+"signifo de -perm /000 nun ŝanĝis por esti akorda al -perm -000; tio estas, "
+"se antaŭe ĝi kongruis al neniu dosiero, nun ĝi kongruas al ĉiuj."
 
 #: find/parser.c:2210
 #, c-format
@@ -327,8 +415,12 @@ msgid "Invalid argument `%s%s' to -size"
 msgstr "Malvalida argumento '%s%s' por -size"
 
 #: find/parser.c:2452
-msgid "The -show-control-chars option takes a single argument which must be 'literal' or 'safe'"
-msgstr "La modifilo -show-control-chars prenas unu solan argumenton kiu devas esti 'literal' aŭ 'safe'"
+msgid ""
+"The -show-control-chars option takes a single argument which must be "
+"'literal' or 'safe'"
+msgstr ""
+"La modifilo -show-control-chars prenas unu solan argumenton kiu devas esti "
+"'literal' aŭ 'safe'"
 
 #: find/parser.c:2566
 #, c-format
@@ -362,23 +454,39 @@ msgstr "Argumentoj por -type devus enhavi nur unu literon"
 
 #: find/parser.c:2809
 #, c-format
-msgid "-type %c is not supported because symbolic links are not supported on the platform find was compiled on."
-msgstr "-type %c ne estas subtenata ĉar simbolaj ligoj ne estas subtenataj en la platormo kie find estis kompilata."
+msgid ""
+"-type %c is not supported because symbolic links are not supported on the "
+"platform find was compiled on."
+msgstr ""
+"-type %c ne estas subtenata ĉar simbolaj ligoj ne estas subtenataj en la "
+"platormo kie find estis kompilata."
 
 #: find/parser.c:2820
 #, c-format
-msgid "-type %c is not supported because FIFOs are not supported on the platform find was compiled on."
-msgstr "-type %c ne estas subtenata ĉar FIFO-j ne estas subtenataj en la platormo kie find estis kompilata."
+msgid ""
+"-type %c is not supported because FIFOs are not supported on the platform "
+"find was compiled on."
+msgstr ""
+"-type %c ne estas subtenata ĉar FIFO-j ne estas subtenataj en la platormo "
+"kie find estis kompilata."
 
 #: find/parser.c:2831
 #, c-format
-msgid "-type %c is not supported because named sockets are not supported on the platform find was compiled on."
-msgstr "-type %c ne estas subtenata ĉar nomitaj ingoj ne estas subtenataj en la platormo kie find estis kompilata."
+msgid ""
+"-type %c is not supported because named sockets are not supported on the "
+"platform find was compiled on."
+msgstr ""
+"-type %c ne estas subtenata ĉar nomitaj ingoj ne estas subtenataj en la "
+"platormo kie find estis kompilata."
 
 #: find/parser.c:2842
 #, c-format
-msgid "-type %c is not supported because Solaris doors are not supported on the platform find was compiled on."
-msgstr "-type %c ne estas subtenata ĉar pordoj de Solaris ne estas subtenataj en la platormo kie find estis kompilata."
+msgid ""
+"-type %c is not supported because Solaris doors are not supported on the "
+"platform find was compiled on."
+msgstr ""
+"-type %c ne estas subtenata ĉar pordoj de Solaris ne estas subtenataj en la "
+"platormo kie find estis kompilata."
 
 #: find/parser.c:2849
 #, c-format
@@ -387,18 +495,36 @@ msgstr "Nekonata argumento por -type: %c"
 
 #: find/parser.c:2923
 #, c-format
-msgid "The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\", doubled colons, or leading or trailing colons)"
-msgstr "La kuranta dosierujo estas inkluzivita en la medivariablo PATH, kio estas malsekura kiam kombinite kun la ago %s de find.  Bonvolu forigi la kurantan dosierujon el via $PATH (tio estas, forigu \".\", duobligitajn dupunktojn, aŭ antaŭirajn aŭ vostajn dupunktojn)"
+msgid ""
+"The current directory is included in the PATH environment variable, which is "
+"insecure in combination with the %s action of find.  Please remove the "
+"current directory from your $PATH (that is, remove \".\", doubled colons, or "
+"leading or trailing colons)"
+msgstr ""
+"La kuranta dosierujo estas inkluzivita en la medivariablo PATH, kio estas "
+"malsekura kiam kombinite kun la ago %s de find.  Bonvolu forigi la kurantan "
+"dosierujon el via $PATH (tio estas, forigu \".\", duobligitajn dupunktojn, "
+"aŭ antaŭirajn aŭ vostajn dupunktojn)"
 
 #: find/parser.c:2935
 #, c-format
-msgid "The relative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"
-msgstr "La relativa vojo %sestas inkluzivita en la medivariablo PATH, kio estas malsekura kiam kombinite kun la ago %s de find.  Bonvolu forigi tiun eron el $PATH"
+msgid ""
+"The relative path %s is included in the PATH environment variable, which is "
+"insecure in combination with the %s action of find.  Please remove that "
+"entry from $PATH"
+msgstr ""
+"La relativa vojo %sestas inkluzivita en la medivariablo PATH, kio estas "
+"malsekura kiam kombinite kun la ago %s de find.  Bonvolu forigi tiun eron el "
+"$PATH"
 
 #: find/parser.c:3044
 #, c-format
-msgid "You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."
-msgstr "Vi ne povas uzi {} ene de la utileca nomo por -execdir kaj -okdir, ĉar tio ĉi estas latenta sekureca problemo."
+msgid ""
+"You may not use {} within the utility name for -execdir and -okdir, because "
+"this is a potential security problem."
+msgstr ""
+"Vi ne povas uzi {} ene de la utileca nomo por -execdir kaj -okdir, ĉar tio "
+"ĉi estas latenta sekureca problemo."
 
 #: find/parser.c:3070
 #, c-format
@@ -448,32 +574,43 @@ msgstr "AVERTO: ne eblas difini naskiĝ-horon de la dosiero %s"
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:1205 find/print.c:1228
+#: find/pred.c:784
+#, fuzzy, c-format
+msgid "Failed to write prompt for -ok"
+msgstr "Ni fiaskis skribi al la ĉefeligujo"
+
+#: find/pred.c:1208 find/print.c:1234
 #, c-format
 msgid "getfilecon failed: %s"
 msgstr "getfilecon fiaskis: %s"
 
-#: find/print.c:359
+#: find/print.c:346
+#, c-format
+msgid "warning: escape `\\' followed by nothing at all"
+msgstr ""
+
+#: find/print.c:365
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
 msgstr "averto: nerekonata eskapsigno `\\%c'"
 
-#: find/print.c:379
+#: find/print.c:385
 #, c-format
 msgid "error: %s at end of format string"
 msgstr "eraro: %s ĉe fino de formig-ĉeno"
 
-#: find/print.c:403
+#: find/print.c:409
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
 msgstr "eraro: la formig-instrukcio '%%%c' estas rezervata por estonta uzo"
 
-#: find/print.c:411
+#: find/print.c:417
 #, c-format
-msgid "warning: format directive `%%%c' should be followed by another character"
+msgid ""
+"warning: format directive `%%%c' should be followed by another character"
 msgstr "averto: la formig-instrukcio '%%%c' devus esti sekvata de alia signo"
 
-#: find/print.c:419
+#: find/print.c:425
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
 msgstr "averto: nerekonata formig-instrukcio '%%%c'"
@@ -485,7 +622,9 @@ msgstr "malvalida esprimo"
 
 #: find/tree.c:140
 #, c-format
-msgid "invalid expression; you have used a binary operator '%s' with nothing before it."
+msgid ""
+"invalid expression; you have used a binary operator '%s' with nothing before "
+"it."
 msgstr "malvalida esprimo; vi uzis duuman operatoron '%s' sen io ajn antaŭ ĝi."
 
 #: find/tree.c:151
@@ -505,8 +644,12 @@ msgstr "malvalida esprimo; vi havas tro da ')'"
 
 #: find/tree.c:189
 #, c-format
-msgid "invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"
-msgstr "malvalida esprimo; ni atendis trovi ')' sed ni ne vidis iun ajn.  Eble vi bezonas kroman predikaton post '%s'"
+msgid ""
+"invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
+"need an extra predicate after '%s'"
+msgstr ""
+"malvalida esprimo; ni atendis trovi ')' sed ni ne vidis iun ajn.  Eble vi "
+"bezonas kroman predikaton post '%s'"
 
 #: find/tree.c:197
 #, c-format
@@ -515,7 +658,9 @@ msgstr "malvalida esprimo; malplenaj krampoj ne estas permesataj."
 
 #: find/tree.c:203
 #, c-format
-msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
+msgid ""
+"invalid expression; I was expecting to find a ')' somewhere but did not see "
+"one."
 msgstr "malvalida esprimo; ni atendis trovi ')' ie sed ni vidis neniun."
 
 #: find/tree.c:209 find/tree.c:833
@@ -530,8 +675,12 @@ msgstr "hoho -- malvalida esprimo-tipo (%d)!"
 
 #: find/tree.c:1120
 #, c-format
-msgid "warning: there is no entry in the predicate evaluation cost table for predicate %s; please report this as a bug"
-msgstr "averto: estas neniu enigo en la kosto-tabelo de predikato-taksado por la predikato %s; bonvolu raporti tion ĉi kiel program-mison"
+msgid ""
+"warning: there is no entry in the predicate evaluation cost table for "
+"predicate %s; please report this as a bug"
+msgstr ""
+"averto: estas neniu enigo en la kosto-tabelo de predikato-taksado por la "
+"predikato %s; bonvolu raporti tion ĉi kiel program-mison"
 
 #: find/tree.c:1294
 #, c-format
@@ -588,50 +737,367 @@ msgstr "Uzmaniero: %s [-H] [-L] [-P] [-Olevel] [-D "
 msgid "] [path...] [expression]\n"
 msgstr "] [vojo...] [esprimo]\n"
 
-#: find/util.c:455
+#: find/util.c:459
 #, c-format
 msgid "failed to save initial working directory"
 msgstr "ni fiaskis konservi komencan kurantan dosierujon"
 
-#: find/util.c:472
+#: find/util.c:476
 #, c-format
 msgid "failed to restore initial working directory"
 msgstr "ni fiaskis restarigi komencan kurantan dosierujon"
 
-#: find/util.c:820
+#: find/util.c:824
 #, c-format
 msgid "Ignoring unrecognised debug flag %s"
 msgstr "Ni preteratentas nerekonatan rafinigan flagon %s"
 
-#: find/util.c:827
+#: find/util.c:831
 #, c-format
 msgid "Empty argument to the -D option."
 msgstr "Vaka argumento por la modifilo -D."
 
-#: find/util.c:843
+#: find/util.c:847
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
 msgstr "La modifilo -O devas estis tuj sekvata de dekuma entjero"
 
-#: find/util.c:853 find/util.c:864
+#: find/util.c:857 find/util.c:868
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
 msgstr "Bonvolu indiki dekuman numeron tuj post -O"
 
-#: find/util.c:869 find/util.c:874
+#: find/util.c:873 find/util.c:878
 #, c-format
 msgid "Invalid optimisation level %s"
 msgstr "Malvalida optimumiga nivelo %s"
 
-#: find/util.c:882
+#: find/util.c:886
 #, c-format
-msgid "Optimisation level %lu is too high.  If you want to find files very quickly, consider using GNU locate."
-msgstr "Optimumiga nivelo %lu tro altas.  Se vi volas trovi dosierojn tre rapile, konsideru aplikon de GNU locate."
+msgid ""
+"Optimisation level %lu is too high.  If you want to find files very quickly, "
+"consider using GNU locate."
+msgstr ""
+"Optimumiga nivelo %lu tro altas.  Se vi volas trovi dosierojn tre rapile, "
+"konsideru aplikon de GNU locate."
 
-#: find/util.c:1026
+#: find/util.c:1030
 #, c-format
-msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
-msgstr "La medi-variablo FIND_BLOCK_SIZE ne estas subtenata, la nura afero kiu influas la blok-grandon estas la medi-variablo POSIXLY_CORRECT"
+msgid ""
+"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
+"that affects the block size is the POSIXLY_CORRECT environment variable"
+msgstr ""
+"La medi-variablo FIND_BLOCK_SIZE ne estas subtenata, la nura afero kiu "
+"influas la blok-grandon estas la medi-variablo POSIXLY_CORRECT"
+
+#: gl/lib/argmatch.c:133
+#, fuzzy, c-format
+msgid "invalid argument %s for %s"
+msgstr "malvalida argumento '%s' por '%s'"
+
+#: gl/lib/argmatch.c:134
+#, c-format
+msgid "ambiguous argument %s for %s"
+msgstr "plursenca argumento %s por %s"
+
+#: gl/lib/argmatch.c:153
+msgid "Valid arguments are:"
+msgstr "Validaj argumentoj estas:"
+
+#: gl/lib/closein.c:100
+msgid "error closing file"
+msgstr ""
+
+#: gl/lib/closeout.c:112 locate/code.c:153 locate/frcode.c:210
+#, c-format
+msgid "write error"
+msgstr "skrib-eraro"
+
+#: gl/lib/error.c:188
+msgid "Unknown system error"
+msgstr "Nekonata sistemeraro"
+
+#: gl/lib/getopt.c:547 gl/lib/getopt.c:576
+#, fuzzy, c-format
+msgid "%s: option '%s' is ambiguous; possibilities:"
+msgstr "%s: opcio `%s' estas plursenca\n"
+
+#: gl/lib/getopt.c:624 gl/lib/getopt.c:628
+#, fuzzy, c-format
+msgid "%s: option '--%s' doesn't allow an argument\n"
+msgstr "%s: opcio `--%s' ne permesas argumenton\n"
+
+#: gl/lib/getopt.c:637 gl/lib/getopt.c:642
+#, fuzzy, c-format
+msgid "%s: option '%c%s' doesn't allow an argument\n"
+msgstr "%s: opcio `%c%s' ne permesas argumenton\n"
+
+#: gl/lib/getopt.c:685 gl/lib/getopt.c:704
+#, fuzzy, c-format
+msgid "%s: option '--%s' requires an argument\n"
+msgstr "%s: opcio postulas argumenton -- %c\n"
+
+#: gl/lib/getopt.c:742 gl/lib/getopt.c:745
+#, fuzzy, c-format
+msgid "%s: unrecognized option '--%s'\n"
+msgstr "%s: nerekonata opcio `--%s'\n"
+
+#: gl/lib/getopt.c:753 gl/lib/getopt.c:756
+#, fuzzy, c-format
+msgid "%s: unrecognized option '%c%s'\n"
+msgstr "%s: nerekonata opcio `%c%s'\n"
+
+#: gl/lib/getopt.c:805 gl/lib/getopt.c:808
+#, fuzzy, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: malvalida opcio -- %c\n"
+
+#: gl/lib/getopt.c:861 gl/lib/getopt.c:878 gl/lib/getopt.c:1088
+#: gl/lib/getopt.c:1106
+#, fuzzy, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: opcio postulas argumenton -- %c\n"
+
+#: gl/lib/getopt.c:934 gl/lib/getopt.c:950
+#, fuzzy, c-format
+msgid "%s: option '-W %s' is ambiguous\n"
+msgstr "%s: opcio `-W %s' estas plursenca\n"
+
+#: gl/lib/getopt.c:974 gl/lib/getopt.c:992
+#, fuzzy, c-format
+msgid "%s: option '-W %s' doesn't allow an argument\n"
+msgstr "%s: opcio `-W %s' malpermesas argumenton\n"
+
+#: gl/lib/getopt.c:1013 gl/lib/getopt.c:1031
+#, fuzzy, c-format
+msgid "%s: option '-W %s' requires an argument\n"
+msgstr "%s: opcio postulas argumenton -- %c\n"
+
+#: gl/lib/openat-die.c:38
+#, fuzzy, c-format
+msgid "unable to record current working directory"
+msgstr "ni fiaskis restarigi komencan kurantan dosierujon"
+
+#: gl/lib/openat-die.c:57
+#, fuzzy, c-format
+msgid "failed to return to initial working directory"
+msgstr "ni fiaskis restarigi komencan kurantan dosierujon"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
+#.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
+#.
+#. If you don't know what to put here, please see
+#. <http://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
+#. and use glyphs suitable for your language.
+#: gl/lib/quotearg.c:312
+msgid "`"
+msgstr "`"
+
+#: gl/lib/quotearg.c:313
+msgid "'"
+msgstr "'"
+
+#. TRANSLATORS: A regular expression testing for an affirmative answer
+#. (english: "yes").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^yesexpr='
+#: gl/lib/rpmatch.c:150
+msgid "^[yY]"
+msgstr "^[jJ]"
+
+#. TRANSLATORS: A regular expression testing for a negative answer
+#. (english: "no").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^noexpr='
+#: gl/lib/rpmatch.c:163
+msgid "^[nN]"
+msgstr ""
+
+#: gl/lib/version-etc.c:74
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:77
+#, c-format
+msgid "Packaged by %s\n"
+msgstr ""
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: gl/lib/version-etc.c:84
+msgid "(C)"
+msgstr ""
+
+#: gl/lib/version-etc.c:86
+msgid ""
+"\n"
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+"\n"
+msgstr ""
+
+#. TRANSLATORS: %s denotes an author name.
+#: gl/lib/version-etc.c:102
+#, c-format
+msgid "Written by %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: gl/lib/version-etc.c:106
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: gl/lib/version-etc.c:110
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:117
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:124
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:131
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:139
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:147
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:156
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gl/lib/version-etc.c:167
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: gl/lib/version-etc.c:245
+#, c-format
+msgid ""
+"\n"
+"Report bugs to: %s\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:247
+#, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:251
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:253
+#, c-format
+msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
+msgstr ""
+
+#: gl/lib/version-etc.c:256
+msgid "General help using GNU software: <http://www.gnu.org/gethelp/>\n"
+msgstr ""
+
+#: gl/lib/xalloc-die.c:34
+msgid "memory exhausted"
+msgstr "memoro elĉerpita"
+
+#: gl/lib/xstrtol-error.c:63
+#, fuzzy, c-format
+msgid "invalid %s%s argument '%s'"
+msgstr "malvalida argumento '%s' por '%s'"
+
+#: gl/lib/xstrtol-error.c:68
+#, fuzzy, c-format
+msgid "invalid suffix in %s%s argument '%s'"
+msgstr "malvalida argumento '%s' por '%s'"
+
+#: gl/lib/xstrtol-error.c:72
+#, fuzzy, c-format
+msgid "%s%s argument '%s' too large"
+msgstr "argumentlisto tro longas"
 
 #: lib/buildcmd.c:161
 #, c-format
@@ -660,8 +1126,13 @@ msgstr "Medi-variablo %s ne estas difinita kiel validan dekuman numeron"
 
 #: lib/fdleak.c:377
 #, c-format
-msgid "File descriptor %d will leak; please report this as a bug, remembering to include a detailed description of the simplest way to reproduce this problem."
-msgstr "Dosier-priskribilo %d likos; bonvolu raporti tion kiel program-mison, memorante inkluzivigi detalan priskribon de la plej simpla maniero reprodukti la problemon."
+msgid ""
+"File descriptor %d will leak; please report this as a bug, remembering to "
+"include a detailed description of the simplest way to reproduce this problem."
+msgstr ""
+"Dosier-priskribilo %d likos; bonvolu raporti tion kiel program-mison, "
+"memorante inkluzivigi detalan priskribon de la plej simpla maniero "
+"reprodukti la problemon."
 
 #: lib/findutils-version.c:55
 msgid "Eric B. Decker"
@@ -675,6 +1146,16 @@ msgstr "James YOUNGMAN"
 msgid "Kevin Dalley"
 msgstr "Kevin DALLEY"
 
+#: lib/listfile.c:272
+#, fuzzy, c-format
+msgid "Failed to write output"
+msgstr "Ni fiaskis skribi al la ĉefeligujo"
+
+#: lib/regextype.c:110
+#, c-format
+msgid "Unknown regular expression type %s; valid types are %s."
+msgstr "Nekonata regul-esprima tipo %s; validaj tipoj estas %s."
+
 #: lib/safe-atoi.c:81
 #, c-format
 msgid "Unexpected suffix %s on %s"
@@ -684,11 +1165,6 @@ msgstr "Neatendita sufikso %s en %s"
 #, c-format
 msgid "Expected an integer: %s"
 msgstr "Ni atendis entjeron: %s"
-
-#: lib/regextype.c:110
-#, c-format
-msgid "Unknown regular expression type %s; valid types are %s."
-msgstr "Nekonata regul-esprima tipo %s; validaj tipoj estas %s."
 
 #: locate/code.c:131
 #, c-format
@@ -700,18 +1176,13 @@ msgstr ""
 "aŭ         %s plej_oftaj_dusignaĵoj < dosier-listo > locate-datumbazo\n"
 
 #: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
-#: xargs/xargs.c:1649
+#: xargs/xargs.c:1660
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
 msgstr ""
 "\n"
 "Raportu program-misojn al <bug-findutils@gnu.org>.\n"
-
-#: locate/code.c:153 locate/frcode.c:210
-#, c-format
-msgid "write error"
-msgstr "skrib-eraro"
 
 #: locate/frcode.c:160
 #, c-format
@@ -733,12 +1204,12 @@ msgstr "Sekureca nivelo %s estas for de konvertebla intervalo."
 msgid "Security level %s has unexpected suffix %s."
 msgstr "Sekureca nivelo %s havas neatenditan sufikson %s."
 
-#: locate/frcode.c:254
+#: locate/frcode.c:257
 #, c-format
 msgid "slocate security level %ld is unsupported."
 msgstr "Sekureca nivelo %ld de slocate ne estas subtenata."
 
-#: locate/frcode.c:292
+#: locate/frcode.c:295
 #, c-format
 msgid "Failed to write to standard output"
 msgstr "Ni fiaskis skribi al la ĉefeligujo"
@@ -760,7 +1231,8 @@ msgstr "Malvalida argumento %s por la modifilo --max-database-age"
 #: locate/locate.c:459
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
-msgstr "locate-datumbazo %s enhavas dosiernomon pli longa ol kion locate povas trakti"
+msgstr ""
+"locate-datumbazo %s enhavas dosiernomon pli longa ol kion locate povas trakti"
 
 #: locate/locate.c:569 locate/locate.c:588
 #, c-format
@@ -803,8 +1275,12 @@ msgstr ""
 
 #: locate/locate.c:888
 #, c-format
-msgid "Some filenames may have been filtered out, so we cannot compute the compression ratio.\n"
-msgstr "Kelkaj dosiernomoj ebles estas forfiltritaj, do ni ne povas kalkuli la densigan frakcion.\n"
+msgid ""
+"Some filenames may have been filtered out, so we cannot compute the "
+"compression ratio.\n"
+msgstr ""
+"Kelkaj dosiernomoj ebles estas forfiltritaj, do ni ne povas kalkuli la "
+"densigan frakcion.\n"
 
 #: locate/locate.c:901
 #, c-format
@@ -818,23 +1294,40 @@ msgstr "Densiga frakcio estas nedifinita\n"
 
 #: locate/locate.c:963
 #, c-format
-msgid "locate database %s looks like an slocate database but it seems to have security level %c, which GNU findutils does not currently support"
-msgstr "locate-damumbazo %s ŝajnas slocate-datumbazo sed ĝi ŝajnas havi sekurecan nivelon %c, kiun GNU findutils ne subtenas nune"
+msgid ""
+"locate database %s looks like an slocate database but it seems to have "
+"security level %c, which GNU findutils does not currently support"
+msgstr ""
+"locate-damumbazo %s ŝajnas slocate-datumbazo sed ĝi ŝajnas havi sekurecan "
+"nivelon %c, kiun GNU findutils ne subtenas nune"
 
 #: locate/locate.c:1075
 #, c-format
-msgid "%s is an slocate database.  Support for these is new, expect problems for now."
-msgstr "%s estas datumbazo de slocate.  Subteno por tiuj estas nova, atendu problemojn dumtempe."
+msgid ""
+"%s is an slocate database.  Support for these is new, expect problems for "
+"now."
+msgstr ""
+"%s estas datumbazo de slocate.  Subteno por tiuj estas nova, atendu "
+"problemojn dumtempe."
 
 #: locate/locate.c:1089
 #, c-format
-msgid "%s is an slocate database of unsupported security level %d; skipping it."
-msgstr "%s estas datumbazo de slocate kun nesubtenata sekureca nivelo %d; ni preterpasas ĝin."
+msgid ""
+"%s is an slocate database of unsupported security level %d; skipping it."
+msgstr ""
+"%s estas datumbazo de slocate kun nesubtenata sekureca nivelo %d; ni "
+"preterpasas ĝin."
 
 #: locate/locate.c:1106
 #, c-format
-msgid "You specified the -E option, but that option cannot be used with slocate-format databases with a non-zero security level.  No results will be generated for this database.\n"
-msgstr "Vi indikis la modifilon -E, sed tiu modifilo ne povs esti uzata kun datumbazoj laŭ formo de slocate kaj ne-nula sekureca nivelo.  Neniu rezultoj estos generataj por tiu ĉi datumbazo.\n"
+msgid ""
+"You specified the -E option, but that option cannot be used with slocate-"
+"format databases with a non-zero security level.  No results will be "
+"generated for this database.\n"
+msgstr ""
+"Vi indikis la modifilon -E, sed tiu modifilo ne povs esti uzata kun "
+"datumbazoj laŭ formo de slocate kaj ne-nula sekureca nivelo.  Neniu rezultoj "
+"estos generataj por tiu ĉi datumbazo.\n"
 
 #: locate/locate.c:1117
 #, c-format
@@ -899,17 +1392,18 @@ msgstr "Ni fiaskis tute forĵeti privilegiojn"
 msgid "failed to drop setgid privileges"
 msgstr "ni fiaskis forĵeti setgid-privilegiojn"
 
-#: locate/locate.c:1761
+#: locate/locate.c:1763
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
-msgstr "averto: la locate-datumbazo nur povas esti legata el ĉefenigujo unu foje."
+msgstr ""
+"averto: la locate-datumbazo nur povas esti legata el ĉefenigujo unu foje."
 
-#: locate/locate.c:1831
+#: locate/locate.c:1833
 #, c-format
 msgid "time system call failed"
 msgstr "alvoko de temp-sistemo fiaskis"
 
-#: locate/locate.c:1842
+#: locate/locate.c:1844
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr "averto: datumbazo %s pli aĝas ol %d %s (vera aĝo estas %.1f %s)"
@@ -936,210 +1430,265 @@ msgstr "Malvalida eskap-sekvo %s en indiko de enig-apartigilo."
 
 #: xargs/xargs.c:270
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."
-msgstr "Malvalida eskap-sekvo %s en indiko de enig-apartigilo; signaj valoroj ne povas troigi %lx."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lx."
+msgstr ""
+"Malvalida eskap-sekvo %s en indiko de enig-apartigilo; signaj valoroj ne "
+"povas troigi %lx."
 
 #: xargs/xargs.c:276
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."
-msgstr "Malvalida eskap-sekvo %s en indiko de enig-apartigilo; signaj valoroj ne povas troigi %lo."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; character "
+"values must not exceed %lo."
+msgstr ""
+"Malvalida eskap-sekvo %s en indiko de enig-apartigilo; signaj valoroj ne "
+"povas troigi %lo."
 
 #: xargs/xargs.c:285
 #, c-format
-msgid "Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."
-msgstr "Malvalida eskap-sekvo %s en indiko de enig-apartigilo; vostaj signoj %s ne estis rekonataj."
+msgid ""
+"Invalid escape sequence %s in input delimiter specification; trailing "
+"characters %s not recognised."
+msgstr ""
+"Malvalida eskap-sekvo %s en indiko de enig-apartigilo; vostaj signoj %s ne "
+"estis rekonataj."
 
 #: xargs/xargs.c:330
 #, c-format
-msgid "Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."
-msgstr "Malvalida eskap-sekvo %s en indiko de enig-apartigilo: la apartigilo devas esti aŭ unuopa signo aŭ eskap-sekvo komencanta per \\."
+msgid ""
+"Invalid input delimiter specification %s: the delimiter must be either a "
+"single character or an escape sequence starting with \\."
+msgstr ""
+"Malvalida eskap-sekvo %s en indiko de enig-apartigilo: la apartigilo devas "
+"esti aŭ unuopa signo aŭ eskap-sekvo komencanta per \\."
 
 #: xargs/xargs.c:347
 #, c-format
 msgid "environment is too large for exec"
 msgstr "medio estas tro granda por exec"
 
-#: xargs/xargs.c:556
+#: xargs/xargs.c:559
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
-msgstr "averto: valoro %ld por la modifilo -s tro grandas, ni uzas %ld anstataŭe"
+msgstr ""
+"averto: valoro %ld por la modifilo -s tro grandas, ni uzas %ld anstataŭe"
 
-#: xargs/xargs.c:603
+#: xargs/xargs.c:606
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr "la modifilo --%s ne povas esti difinata al valoro kiu inkluzivigas '='"
 
-#: xargs/xargs.c:615
+#: xargs/xargs.c:618
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr "ni fiaskis maldifini la medi-variablon %s"
 
-#: xargs/xargs.c:629
+#: xargs/xargs.c:632
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
 msgstr "averto: la modifilo -E influas nenior se -0 aŭ -d estas uzataj.\n"
 
-#: xargs/xargs.c:651
+#: xargs/xargs.c:654
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr "Ne eblas difini signal-traktilon SIGUSR1"
 
-#: xargs/xargs.c:657
+#: xargs/xargs.c:660
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr "Ne eblas difini signal-traktilon SIGUSR2"
 
-#: xargs/xargs.c:673
+#: xargs/xargs.c:676
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Ne eblas malfermi enig-dosieron %s"
 
-#: xargs/xargs.c:692
+#: xargs/xargs.c:695
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "Viaj medi-variabloj uzas ĝis %<PRIuMAX> bajtoj\n"
 
-#: xargs/xargs.c:695
+#: xargs/xargs.c:698
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr "Supra limo de POSIX pri argument-longo (tiu ĉi sistemo): %<PRIuMAX>\n"
 
-#: xargs/xargs.c:698
-#, c-format
-msgid "POSIX smallest allowable upper limit on argument length (all systems): %<PRIuMAX>\n"
-msgstr "Plej eta permesebla supra limo de POSIX pri argumet-longo (ĉiuj sistemoj): %<PRIuMAX>\n"
-
 #: xargs/xargs.c:701
+#, c-format
+msgid ""
+"POSIX smallest allowable upper limit on argument length (all systems): "
+"%<PRIuMAX>\n"
+msgstr ""
+"Plej eta permesebla supra limo de POSIX pri argumet-longo (ĉiuj sistemoj): "
+"%<PRIuMAX>\n"
+
+#: xargs/xargs.c:704
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr "Maksimuma longo de komando kiun ni povas fakte uzi: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:704
+#: xargs/xargs.c:707
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "Grando de komand-bufro kiun ni fakte uzas: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:710
+#: xargs/xargs.c:713
 #, c-format
 msgid ""
 "\n"
-"Execution of xargs will continue now, and it will try to read its input and run commands; if this is not what you wanted to happen, please type the end-of-file keystroke.\n"
+"Execution of xargs will continue now, and it will try to read its input and "
+"run commands; if this is not what you wanted to happen, please type the end-"
+"of-file keystroke.\n"
 msgstr ""
 "\n"
-"Funkciado de xargs daŭrigos nun, kaj ĝi provos legi ĝiajn enigan kaj lanĉan komandojn; se tio ĉi ne estas kion vi volis ke okazu, bonvolu tajpi la dosier-finan klavkomandon.\n"
+"Funkciado de xargs daŭrigos nun, kaj ĝi provos legi ĝiajn enigan kaj lanĉan "
+"komandojn; se tio ĉi ne estas kion vi volis ke okazu, bonvolu tajpi la "
+"dosier-finan klavkomandon.\n"
 
-#: xargs/xargs.c:718
+#: xargs/xargs.c:721
 #, c-format
-msgid "Warning: %s will be run at least once.  If you do not want that to happen, then press the interrupt keystroke.\n"
-msgstr "Averto: %s estos lanĉata minimume unu foje.  Se vi ne volas ke tio okazu, premu la interrompan klavkomandon.\n"
+msgid ""
+"Warning: %s will be run at least once.  If you do not want that to happen, "
+"then press the interrupt keystroke.\n"
+msgstr ""
+"Averto: %s estos lanĉata minimume unu foje.  Se vi ne volas ke tio okazu, "
+"premu la interrompan klavkomandon.\n"
 
-#: xargs/xargs.c:846 xargs/xargs.c:939
+#: xargs/xargs.c:849 xargs/xargs.c:942
 #, c-format
-msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
-msgstr "nekongruaj citiloj %s; apriore citiloj estas specialaj por xargs krom se vi uzas la modifilon -0"
+msgid ""
+"unmatched %s quote; by default quotes are special to xargs unless you use "
+"the -0 option"
+msgstr ""
+"nekongruaj citiloj %s; apriore citiloj estas specialaj por xargs krom se vi "
+"uzas la modifilon -0"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "double"
 msgstr "duobla"
 
-#: xargs/xargs.c:847 xargs/xargs.c:940
+#: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "single"
 msgstr "unuobla"
 
-#: xargs/xargs.c:959
+#: xargs/xargs.c:962
 #, c-format
-msgid "WARNING: a NUL character occurred in the input.  It cannot be passed through in the argument list.  Did you mean to use the --null option?"
-msgstr "AVERTO: signo NUL okazis en la enigo.  Ĝi ne povas esti pasata per la argument-listo.  Ĉu vi ne volis uzi la modifilon --null?"
+msgid ""
+"WARNING: a NUL character occurred in the input.  It cannot be passed through "
+"in the argument list.  Did you mean to use the --null option?"
+msgstr ""
+"AVERTO: signo NUL okazis en la enigo.  Ĝi ne povas esti pasata per la "
+"argument-listo.  Ĉu vi ne volis uzi la modifilon --null?"
 
-#: xargs/xargs.c:969 xargs/xargs.c:1034
+#: xargs/xargs.c:972 xargs/xargs.c:1037
 #, c-format
 msgid "argument line too long"
 msgstr "argumentlinio tro longas"
 
-#: xargs/xargs.c:1062
+#: xargs/xargs.c:1056 xargs/xargs.c:1073
+#, fuzzy, c-format
+msgid "Failed to write to stderr"
+msgstr "Ni fiaskis skribi al la ĉefeligujo"
+
+#: xargs/xargs.c:1069
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "ni fiaskis malfermi /dev/tty por legi"
 
-#: xargs/xargs.c:1105
+#: xargs/xargs.c:1079
+#, fuzzy, c-format
+msgid "Failed to read from stdin"
+msgstr "Ni fiaskis skribi al la ĉefeligujo"
+
+#: xargs/xargs.c:1116
 #, c-format
 msgid "unable to allocate memory"
 msgstr "ne eblas rezervi memoron"
 
-#: xargs/xargs.c:1120
+#: xargs/xargs.c:1131
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr "ni fiaskis difini la medi-variablon %s"
 
-#: xargs/xargs.c:1207
+#: xargs/xargs.c:1218
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "ne eblis krei dukton antaŭ ol forki"
 
-#: xargs/xargs.c:1278
+#: xargs/xargs.c:1289
 #, c-format
-msgid "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, please report it)"
-msgstr "errno-buffer safe_read fiaskis en xargs_do_exec (tio ĉi probable estat program-miso, bonvolu raporti ĝin)"
+msgid ""
+"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
+"please report it)"
+msgstr ""
+"errno-buffer safe_read fiaskis en xargs_do_exec (tio ĉi probable estat "
+"program-miso, bonvolu raporti ĝin)"
 
-#: xargs/xargs.c:1331
-#, c-format
-msgid "read returned unexpected value %d; this is probably a bug, please report it"
-msgstr "read liveris neatenditan valoron %d; tio ĉi probable estas program-miso, bonvolu raporti ĝin"
+#: xargs/xargs.c:1342
+#, fuzzy, c-format
+msgid ""
+"read returned unexpected value %zu; this is probably a bug, please report it"
+msgstr ""
+"read liveris neatenditan valoron %d; tio ĉi probable estas program-miso, "
+"bonvolu raporti ĝin"
 
-#: xargs/xargs.c:1424
+#: xargs/xargs.c:1435
 #, c-format
 msgid "error waiting for child process"
 msgstr "eraro dum atenddo de ida procezo"
 
-#: xargs/xargs.c:1457
+#: xargs/xargs.c:1468
 #, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "AVERTO: ni perdis la ŝpurojn de %lu idaj procezoj"
 
-#: xargs/xargs.c:1476
+#: xargs/xargs.c:1487
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: finis kun stato 255; ni ĉesas"
 
-#: xargs/xargs.c:1479
+#: xargs/xargs.c:1490
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: haltigita de signalo %d"
 
-#: xargs/xargs.c:1482
+#: xargs/xargs.c:1493
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: ĉesigita de signalo %d"
 
-#: xargs/xargs.c:1566
+#: xargs/xargs.c:1577
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: malvalida numero por la modifilo -%c\n"
 
-#: xargs/xargs.c:1573
+#: xargs/xargs.c:1584
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: valoro por la modifilo -%c devas esti >= %ld\n"
 
-#: xargs/xargs.c:1587
+#: xargs/xargs.c:1598
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
 msgstr "%s: valoro por la modifilo -%c devas esti < %ld\n"
 
-#: xargs/xargs.c:1606
+#: xargs/xargs.c:1617
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr "Uzmaniero: %s [MODIFILO]... KOMANDO [EK-ARGUMENTOJ]...\n"
 
-#: xargs/xargs.c:1611
+#: xargs/xargs.c:1622
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
 msgstr ""
-"Lanĉi KOMANDOn kun argumentoj EK-ARGUMENTOJ kaj pli da argumentoj legataj el la enigilo.\n"
+"Lanĉi KOMANDOn kun argumentoj EK-ARGUMENTOJ kaj pli da argumentoj legataj el "
+"la enigilo.\n"
 "\n"
 
-#: xargs/xargs.c:1613
+#: xargs/xargs.c:1624
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
@@ -1147,41 +1696,57 @@ msgstr ""
 "Nepraj kaj malnepraj argumentoj por longaj modifiloj ankaŭ\n"
 "estas nepraj kaj malnepraj por la koresponda mallonga modifilo.\n"
 
-#: xargs/xargs.c:1615
+#: xargs/xargs.c:1626
+#, fuzzy
 msgid ""
-"  -0, --null                   items are separated by a null, not whitespace;\n"
-"                                 disables quote and backslash processing and\n"
-"                                 logical EOF processing.\n"
+"  -0, --null                   items are separated by a null, not "
+"whitespace;\n"
+"                                 disables quote and backslash processing "
+"and\n"
+"                                 logical EOF processing\n"
 msgstr ""
 "  -0, --null                   eroj estas apartitaj de nulo, ne blankspaco;\n"
-"                                 malebligas citilojn kaj procezado de retroklino kaj\n"
+"                                 malebligas citilojn kaj procezado de "
+"retroklino kaj\n"
 "                                 procezado de logika EOF.\n"
 
-#: xargs/xargs.c:1618
-msgid "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
-msgstr "  -a, --arg-file=DOSIERO       legi argumentoj el DOSIERO, ne el la ĉefenigujo\n"
-
-#: xargs/xargs.c:1619
+#: xargs/xargs.c:1629
 msgid ""
-"  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
-"                                 not by whitespace; disables quote and backslash\n"
+"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+msgstr ""
+"  -a, --arg-file=DOSIERO       legi argumentoj el DOSIERO, ne el la "
+"ĉefenigujo\n"
+
+#: xargs/xargs.c:1630
+msgid ""
+"  -d, --delimiter=CHARACTER    items in input stream are separated by "
+"CHARACTER,\n"
+"                                 not by whitespace; disables quote and "
+"backslash\n"
 "                                 processing and logical EOF processing\n"
 msgstr ""
-"  -d, --delimiter=SIGNO        eroj en la enig-fluo estas apartitaj de SIGNO,\n"
-"                                 ne de blankspaco; malebligas citilojn kaj procezado\n"
+"  -d, --delimiter=SIGNO        eroj en la enig-fluo estas apartitaj de "
+"SIGNO,\n"
+"                                 ne de blankspaco; malebligas citilojn kaj "
+"procezado\n"
 "                                 de retroklino kaj procezado de logika EOF\n"
 
-#: xargs/xargs.c:1622
+#: xargs/xargs.c:1633
+#, fuzzy
 msgid ""
-"  -E END                       Set logical EOF string; if END occurs as a line\n"
+"  -E END                       set logical EOF string; if END occurs as a "
+"line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
-"  -E FINO                      Difini ĉenon por logika EOF; se FINO aperas kiel\n"
-"                                 enig-linion, la resto de la enigo estas preter-\n"
-"                                 atentata (ne efikas se -0 aŭ -d estis indikataj)\n"
+"  -E FINO                      Difini ĉenon por logika EOF; se FINO aperas "
+"kiel\n"
+"                                 enig-linion, la resto de la enigo estas "
+"preter-\n"
+"                                 atentata (ne efikas se -0 aŭ -d estis "
+"indikataj)\n"
 
-#: xargs/xargs.c:1625
+#: xargs/xargs.c:1636
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
@@ -1189,133 +1754,116 @@ msgstr ""
 "  -e, --eof[=FINO]             egalas al -E FINO se FINO estas indikita;\n"
 "                                 se ne, signifas neniu ĉeno por dosier-fino\n"
 
-#: xargs/xargs.c:1627
+#: xargs/xargs.c:1638
 msgid "  -I R                         same as --replace=R\n"
 msgstr "  -I R                         same ol --replace=R\n"
 
-#: xargs/xargs.c:1628
+#: xargs/xargs.c:1639
 msgid ""
 "  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
-"  -i, --replace[=R]            anstataŭigi R en EK-ARGUMENTOJ per nomoj legataj\n"
+"  -i, --replace[=R]            anstataŭigi R en EK-ARGUMENTOJ per nomoj "
+"legataj\n"
 "                                 el la cefenigujo; se R ne estas indikita,\n"
 "                                 konsideri {}\n"
 
-#: xargs/xargs.c:1631
+#: xargs/xargs.c:1642
 msgid ""
-"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines per\n"
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
+"per\n"
 "                                 command line\n"
 msgstr ""
-"  -L, --max-lines=MAKS-LINIOJ  uzi maksimume MAKS-LINIOJ ne-blankajn enig-liniojn\n"
+"  -L, --max-lines=MAKS-LINIOJ  uzi maksimume MAKS-LINIOJ ne-blankajn enig-"
+"liniojn\n"
 "                                 por komand-linio\n"
 
-#: xargs/xargs.c:1633
+#: xargs/xargs.c:1644
 msgid ""
-"  -l[MAX-LINES]                similar to -L but defaults to at most one non-\n"
-"                                 blank input line if MAX-LINES is not specified\n"
+"  -l[MAX-LINES]                similar to -L but defaults to at most one "
+"non-\n"
+"                                 blank input line if MAX-LINES is not "
+"specified\n"
 msgstr ""
-"  -l[MAKS-LINIOJ]              simile al -L sed aprioras kiel maksimume unu ne-\n"
-"                                 blanka enig-linio se MAKS-LINIOJ ne estas indikita.\n"
+"  -l[MAKS-LINIOJ]              simile al -L sed aprioras kiel maksimume unu "
+"ne-\n"
+"                                 blanka enig-linio se MAKS-LINIOJ ne estas "
+"indikita.\n"
 
-#: xargs/xargs.c:1635
-msgid "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command line\n"
-msgstr "  -n, --max-args=MAKS-ARG      uzi maksimume MAKS-ARG argumentoj por komand-linio\n"
-
-#: xargs/xargs.c:1636
-msgid "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
-msgstr "  -P, --max-procs=MAKS-PROC    lanĉi maksimume MAKS-PROC procezojn dum momento\n"
-
-#: xargs/xargs.c:1637
-msgid "  -p, --interactive            prompt before running commands\n"
-msgstr "  -p, --interactive            komand-inviti antaŭ ol lanĉi komandojn\n"
-
-#: xargs/xargs.c:1638
-msgid "      --process-slot-var=VAR   set environment variable VAR in child processes\n"
-msgstr "      --process-slot-var=VAR   difini la medi-variablon VAR en idaj procezoj\n"
-
-#: xargs/xargs.c:1639
+#: xargs/xargs.c:1646
 msgid ""
-"  -r, --no-run-if-empty        if there are no arguments, then do not run COMMAND;\n"
-"                                 if this option is not given, COMMAND will be\n"
+"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
+"line\n"
+msgstr ""
+"  -n, --max-args=MAKS-ARG      uzi maksimume MAKS-ARG argumentoj por komand-"
+"linio\n"
+
+#: xargs/xargs.c:1647
+msgid ""
+"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgstr ""
+"  -P, --max-procs=MAKS-PROC    lanĉi maksimume MAKS-PROC procezojn dum "
+"momento\n"
+
+#: xargs/xargs.c:1648
+msgid "  -p, --interactive            prompt before running commands\n"
+msgstr ""
+"  -p, --interactive            komand-inviti antaŭ ol lanĉi komandojn\n"
+
+#: xargs/xargs.c:1649
+msgid ""
+"      --process-slot-var=VAR   set environment variable VAR in child "
+"processes\n"
+msgstr ""
+"      --process-slot-var=VAR   difini la medi-variablon VAR en idaj "
+"procezoj\n"
+
+#: xargs/xargs.c:1650
+msgid ""
+"  -r, --no-run-if-empty        if there are no arguments, then do not run "
+"COMMAND;\n"
+"                                 if this option is not given, COMMAND will "
+"be\n"
 "                                 run at least once\n"
 msgstr ""
-"  -r, --no-run-if-empty        se estas neniu argumento, do ne lanĉi KOMANDOn;\n"
-"                                 se tiu ĉi modifilo ne estas indikita, KOMANDO estos\n"
+"  -r, --no-run-if-empty        se estas neniu argumento, do ne lanĉi "
+"KOMANDOn;\n"
+"                                 se tiu ĉi modifilo ne estas indikita, "
+"KOMANDO estos\n"
 "                                 lanĉata minimume unu foje\n"
 
-#: xargs/xargs.c:1642
-msgid "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
-msgstr "  -s, --max-chars=MAKS-SIGNOJ  limigi longon de komand-linio al MAKS-SIGNOJ\n"
+#: xargs/xargs.c:1653
+msgid ""
+"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+msgstr ""
+"  -s, --max-chars=MAKS-SIGNOJ  limigi longon de komand-linio al MAKS-SIGNOJ\n"
 
-#: xargs/xargs.c:1643
+#: xargs/xargs.c:1654
 msgid "      --show-limits            show limits on command-line length\n"
 msgstr "      --show-limits            montri limigon de komand-linia longo\n"
 
-#: xargs/xargs.c:1644
+#: xargs/xargs.c:1655
 msgid "  -t, --verbose                print commands before executing them\n"
 msgstr "  -t, --verbose                montri komandoj antaŭ ol lanĉi ilin\n"
 
-#: xargs/xargs.c:1645
+#: xargs/xargs.c:1656
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
 msgstr "  -x, --exit                   eliri se la grando (vidu -s) troigas\n"
 
-#: xargs/xargs.c:1647
+#: xargs/xargs.c:1658
 msgid "      --help                   display this help and exit\n"
 msgstr "      --help                   montri ĉi tiun helpon kaj eliri\n"
 
-#: xargs/xargs.c:1648
+#: xargs/xargs.c:1659
 msgid "      --version                output version information and exit\n"
 msgstr "      --version                montri informon pri versio kaj eliri\n"
-
-#~ msgid "ambiguous argument %s for %s"
-#~ msgstr "plursenca argumento %s por %s"
-
-#~ msgid "Valid arguments are:"
-#~ msgstr "Validaj argumentoj estas:"
-
-#~ msgid "Unknown system error"
-#~ msgstr "Nekonata sistemeraro"
-
-#~ msgid "%s: option `%s' is ambiguous\n"
-#~ msgstr "%s: opcio `%s' estas plursenca\n"
-
-#~ msgid "%s: option `--%s' doesn't allow an argument\n"
-#~ msgstr "%s: opcio `--%s' ne permesas argumenton\n"
-
-#~ msgid "%s: option `%c%s' doesn't allow an argument\n"
-#~ msgstr "%s: opcio `%c%s' ne permesas argumenton\n"
-
-#~ msgid "%s: unrecognized option `--%s'\n"
-#~ msgstr "%s: nerekonata opcio `--%s'\n"
-
-#~ msgid "%s: unrecognized option `%c%s'\n"
-#~ msgstr "%s: nerekonata opcio `%c%s'\n"
 
 #~ msgid "%s: illegal option -- %c\n"
 #~ msgstr "%s: malpermesata opcio -- %c\n"
 
-#~ msgid "%s: invalid option -- %c\n"
-#~ msgstr "%s: malvalida opcio -- %c\n"
-
-#~ msgid "%s: option requires an argument -- %c\n"
-#~ msgstr "%s: opcio postulas argumenton -- %c\n"
-
-#~ msgid "%s: option `-W %s' is ambiguous\n"
-#~ msgstr "%s: opcio `-W %s' estas plursenca\n"
-
-#~ msgid "%s: option `-W %s' doesn't allow an argument\n"
-#~ msgstr "%s: opcio `-W %s' malpermesas argumenton\n"
-
 #~ msgid "block size"
 #~ msgstr "blokgrandeco"
-
-#~ msgid "`"
-#~ msgstr "`"
-
-#~ msgid "'"
-#~ msgstr "'"
 
 #~ msgid "Success"
 #~ msgstr "Sukceso"
@@ -1371,12 +1919,6 @@ msgstr "      --version                montri informon pri versio kaj eliri\n"
 #~ msgid "No previous regular expression"
 #~ msgstr "Neniu antaŭa regulesprimo"
 
-#~ msgid "^[yY]"
-#~ msgstr "^[jJ]"
-
-#~ msgid "memory exhausted"
-#~ msgstr "memoro elĉerpita"
-
 #~ msgid "Predicate List:\n"
 #~ msgstr "Predikatolisto:\n"
 
@@ -1398,13 +1940,15 @@ msgstr "      --version                montri informon pri versio kaj eliri\n"
 #~ "      ESPR1 -o ESPR2 ESPR1 -or ESPR2 ESPR1 , ESPR2\n"
 #~ "opcioj (ĉiam vera): -daystart -depth -follow --help\n"
 #~ "      -maxdepth NIVELOJ -mindepth NIVELOJ -mount -noleaf --version -xdev\n"
-#~ "provoj (N povas esti +N aŭ -N aŭ N): -amin N -anewer DOSIERO -atime N -cmin N\n"
+#~ "provoj (N povas esti +N aŭ -N aŭ N): -amin N -anewer DOSIERO -atime N -"
+#~ "cmin N\n"
 
 #~ msgid ""
 #~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
 #~ "      -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls\n"
 #~ msgstr ""
-#~ "agoj: -exec ORDONO ; -fprint DOSIERO -fprint0 DOSIERO -fprintf DOSIERO FORMATO\n"
+#~ "agoj: -exec ORDONO ; -fprint DOSIERO -fprint0 DOSIERO -fprintf DOSIERO "
+#~ "FORMATO\n"
 #~ "      -ok ORDONO ; -print -print0 -printf FORMATO -prune -ls\n"
 
 #~ msgid "GNU find version %s\n"
