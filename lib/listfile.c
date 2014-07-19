@@ -393,7 +393,7 @@ print_name_with_quoting (register const char *p, FILE *stream)
 	    {
 	      if (EOF == putc (c, stream))
 		return false;
-	      fprintf_result = 1; /* otherwise it's used uninitialised. */
+	      fprintf_result = 1; /* otherwise it's used uninitialized. */
 	    }
 	  else
 	    {

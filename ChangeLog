@@ -1,5 +1,22 @@
 2014-07-19  James Youngman  <jay@gnu.org>
 
+	Standardize on "initialize".
+	* find/exec.c (initialise_wd_for_exec): rename to
+	initialize_wd_for_exec, since "initialize" is the preferred form
+	even in UK spelling (the OED says "initialise" is a variant).
+	Update callers (it's a static function).  Update spelling in
+	comments.
+	* find/find.c (main): Fix missing "to" in error message and update
+	"initialise" to "initialize".  Update comment too.
+	* find/ftsfind.c (main): Update spelling in error message.
+	* lib/listfile.c (print_name_with_quoting): spelling change in
+	comment.
+	* find/tree.c (init_pred_perf): Likewise.
+	* lib/extendbuf.c (extendbuf): Likewise.
+	* lib/splitstring.h: Likewise.
+	* find/print.c (format_date): Likewise.
+	* doc/find-maint.texi (Tools): Update spelling.
+
 	Bug #42793: mention the bugfix in NEWS.
 	* NEWS: mention the bugfix.
 

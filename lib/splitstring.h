@@ -25,7 +25,7 @@
  * has length *LEN.
  *
  * Set FIRST to true only on the first call for any given value of s.
- * *POS and *LEN do not need to be initialised in this case.
+ * *POS and *LEN do not need to be initialized in this case.
  * On subsequent calls, these values should be left at the values
  * set by the last call.
  *

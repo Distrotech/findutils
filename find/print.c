@@ -604,7 +604,7 @@ format_date (struct timespec ts, int kind)
    * runtime and examining files on an msdos filesytem.  So for that
    * reason we set NS_BUF_LEN to 32, which is simply "long enough" as
    * opposed to "exactly the right size".  Note that the behaviour of
-   * NetBSD appears to be a result of the use of uninitialised data,
+   * NetBSD appears to be a result of the use of uninitialized data,
    * as it's not 100% reproducible (more like 25%).
    */
   enum {

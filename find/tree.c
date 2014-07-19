@@ -1452,7 +1452,7 @@ build_expression_tree (int argc, char *argv[], int end_of_leading_options)
   return eval_tree;
 }
 
-/* Initialise the performance data for a predicate.
+/* Initialize the performance data for a predicate.
  */
 static void
 init_pred_perf (struct predicate *pred)

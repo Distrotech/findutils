@@ -2311,7 +2311,7 @@ parse_samefile (const struct parser_table* entry, char **argv, int *arg_ptr)
    * the file open if we can.  This would prevent the system reusing
    * the file.
    */
-  fd = -3;			/* means, uninitialised */
+  fd = -3;			/* -3 means uninitialized */
   openflags = O_RDONLY;
 
   if (options.symlink_handling == SYMLINK_NEVER_DEREF)

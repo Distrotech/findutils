@@ -55,13 +55,13 @@
 #endif
 
 
-/* Initialise exec->wd_for_exec.
+/* Initialize exec->wd_for_exec.
 
    We save in exec->wd_for_exec the directory whose path relative to
    cwd_df is dir.
  */
 static bool
-initialise_wd_for_exec (struct exec_val *execp, int cwd_fd, const char *dir)
+initialize_wd_for_exec (struct exec_val *execp, int cwd_fd, const char *dir)
 {
   execp->wd_for_exec = xmalloc (sizeof (*execp->wd_for_exec));
   execp->wd_for_exec->name = NULL;
@@ -95,13 +95,13 @@ record_exec_dir (struct exec_val *execp)
       if (strchr (state.rel_pathname, '/'))
 	{
 	  char *dir = mdir_name (state.rel_pathname);
-	  bool result = initialise_wd_for_exec (execp, state.cwd_dir_fd, dir);
+	  bool result = initialize_wd_for_exec (execp, state.cwd_dir_fd, dir);
 	  free (dir);
 	  return result;
 	}
       else
 	{
-	  return initialise_wd_for_exec (execp, state.cwd_dir_fd, ".");
+	  return initialize_wd_for_exec (execp, state.cwd_dir_fd, ".");
 	}
     }
   return true;

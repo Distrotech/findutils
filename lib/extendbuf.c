@@ -64,7 +64,7 @@ extendbuf (void* existing, size_t wanted, size_t *allocated)
 {
   int saved_errno;
   size_t newsize;
-  void *result; /* leave uninitialised to allow static code checkers to identify bugs */
+  void *result; /* leave uninitialized to allow static code checkers to identify bugs */
 
   saved_errno = errno;
 

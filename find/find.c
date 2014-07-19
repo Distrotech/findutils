@@ -200,7 +200,7 @@ main (int argc, char **argv)
   if (NULL == state.shared_files)
     {
       error (EXIT_FAILURE, errno,
-	     _("Failed initialise shared-file hash table"));
+	     _("Failed to initialize shared-file hash table"));
     }
 
   /* Set the option defaults before we do the locale
@@ -229,7 +229,7 @@ main (int argc, char **argv)
   fprintf (stderr, "cur_day_start = %s", ctime (&options.cur_day_start));
 #endif /* DEBUG */
 
-  /* state.cwd_dir_fd has to be initialised before we call build_expression_tree ()
+  /* state.cwd_dir_fd has to be initialized before we call build_expression_tree ()
    * because command-line parsing may lead us to stat some files.
    */
   state.cwd_dir_fd = AT_FDCWD;
