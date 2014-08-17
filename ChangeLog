@@ -1,3 +1,13 @@
+2014-08-21  Sami Kerola  <kerolasa@iki.fi> (tiny change)
+
+	When reporting failure to change/save directory, mention its name.
+	* find/exec.c (prep_child_for_exec): When issuing an error message
+	about a failure to change directory, mention the directory.
+	* find/util.c (record_initial_cwd): Do the same when saving the
+	initial working directory.
+	(cleanup_initial_cwd): Also when restoring the initial working
+	directory.
+
 2014-08-19  James Youngman  <jay@gnu.org>
 
 	Fix bug #42903: the print statement doesn't exist in Python 3.
