@@ -77,7 +77,8 @@ def main(args):
     dupes, configured = configured_file_names(args[1])
     with TemporaryWorkingDirectory(args[2]):
         actual = set(find_test_files(args[3:]))
-    print '%d test files configured for find, %s files on-disk' % (len(configured), len(actual))
+    sys.stdout.write('%d test files configured for find, %s files on-disk'
+                     % (len(configured), len(actual)))
     problem_count = 0
     problem_count += report_problems(dupes, report_dupe)
     problem_count += report_problems(configured - actual, report_missing)

@@ -1,3 +1,10 @@
+2014-08-19  James Youngman  <jay@gnu.org>
+
+	Fix bug #42903: the print statement doesn't exist in Python 3.
+	* find/testsuite/checklists.py (main): Avoid using the print
+	statement as it is not compatible with Python 3.  We use
+	sys.stdout.write, since our needs here are simple.
+
 2014-08-19  Bernhard Voelker <mail@bernhard-voelker.de>
 
 	doc: remove repeated paragraph in locate's texinfo manual
