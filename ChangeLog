@@ -1,5 +1,23 @@
 2014-08-23  James Youngman  <jay@gnu.org>
 
+	Don't overflow sig_atomic_t for --max-procs.
+	* xargs/xargs.c (__STDC_LIMIT_MACROS): Define __STDC_LIMIT_MACROS
+	in order to ensure that <stdint.h> defines the SIG_ATOMIC_MAX
+	macro, which we need.
+	(MAX_PROC_MAX): Define this as the maximum allowed value of
+	proc_max.
+	(main): Show the value of MAX_PROC_MAX for --show-limits.
+	(increment_proc_max): Don't increment proc_max beyond
+	MAX_PROC_MAX.
+	(parse_num): Fix small error in the error message; if the limit on
+	the value of a command-line argument is N, explain that the user
+	should specify a value <= N, not < N.
+	* xargs/xargs.1: Document the upper limit on --max-procs.
+	* doc/find.texi (Controlling Parallelism): Document the upper
+	limit on the amount of parallelism.
+	(xargs options): Document the limit on the value you can specify
+	for --max-procs.
+
 	Prepare for later generating the ChangeLog file from the git log.
 	* ChangeLog-2008: Split this file out from the main ChangeLog file.
 	* Makefile.am (EXTRA_DIST): Distribute ChangeLog-2008.

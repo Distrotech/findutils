@@ -229,10 +229,11 @@ option with
 otherwise chances are that only one exec will be done.
 While
 .B xargs
-is running, you can
-send its process
-a SIGUSR1 signal to increase the number of commands to run simultaneously,
-or a SIGUSR2 to decrease the number.  You cannot decrease it below 1.
+is running, you can send its process a SIGUSR1 signal to increase the
+number of commands to run simultaneously, or a SIGUSR2 to decrease the
+number.  You cannot increase it above an implementation-defined limit
+(which is shown with \-\-show-limits).  You cannot decrease it below
+1.
 .B xargs
 never terminates its commands; when asked to decrease, it merely
 waits for more than one existing command to terminate before starting

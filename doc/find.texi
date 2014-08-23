@@ -2617,7 +2617,15 @@ it a @code{SIGUSR1}.
 @code{xargs} will never terminate any existing commands when you ask it
 to run fewer processes.  It merely waits for the excess commands to
 finish.  If you ask it to run more commands, it will start the next
-one immediately (if it has more work to do).
+one immediately (if it has more work to do).  If the degree of
+parallelism is already 1, sending @code{SIGUSR2} will have no futher
+effect (since @code{--max-procs=0} means that there should be no limit
+on the number of processes to run).
+
+There is an implementation-defined limit on the number of processes.
+This limit is shown with @code{xargs --show-limits}.  The limit is at
+least 127 on all systems (and on the author's system it is
+2147483647).
 
 If you send several identical signals quickly, the operating system
 does not guarantee that each of them will be delivered to @code{xargs}.
@@ -3794,7 +3802,8 @@ Exit if the size (see the @samp{-s} option) is exceeded.
 @itemx -P @var{max-procs}
 Run simultaneously up to @var{max-procs} processes at once; the default is 1.  If
 @var{max-procs} is 0, @code{xargs} will run as many processes as
-possible simultaneously.
+possible simultaneously.   @xref{Controlling Parallelism} for
+information on dynamically controlling parallelism.
 
 @item --process-slot-var=@var{environment-variable-name}
 Set the environment variable @var{environment-variable-name} to a

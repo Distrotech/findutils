@@ -23,10 +23,18 @@
 	Dmitry V. Levin
 */
 
+/* We want SIG_ATOMIC_MAX to be defined.  The implementation only does
+   this if __STDC_LIMIT_MACROS is #defined before <stdint.h> is
+   included (see the footnote to section 7.18.3 of ISO C99).  Because
+   some other header may #include <stdint.h>, we define the macro
+   here, first. */
+#define __STDC_LIMIT_MACROS
+
 /* config.h must be included first. */
 #include <config.h>
 
 /* system headers. */
+
 #include <assert.h>
 #include <ctype.h>
 #include <errno.h>
@@ -120,6 +128,7 @@ static bool initial_args = true;
 /* If nonzero, the maximum number of child processes that can be running
    at once.  */
 /* TODO: check conversion safety (i.e. range) for -P option. */
+#define MAX_PROC_MAX SIG_ATOMIC_MAX
 static volatile sig_atomic_t proc_max = 1;
 
 /* Did we fork a child yet? */
@@ -587,8 +596,8 @@ main (int argc, char **argv)
 	  break;
 
 	case 'P':
-	  /* Allow only up to LONG_MAX child processes. */
-	  proc_max = parse_num (optarg, 'P', 0L, LONG_MAX, 1);
+	  /* Allow only up to MAX_PROC_MAX child processes. */
+	  proc_max = parse_num (optarg, 'P', 0L, MAX_PROC_MAX, 1);
 	  break;
 
         case 'a':
@@ -706,6 +715,9 @@ main (int argc, char **argv)
       fprintf (stderr,
 	      _("Size of command buffer we are actually using: %" PRIuMAX "\n"),
 	      (uintmax_t)bc_ctl.arg_max);
+      fprintf (stderr,
+	      _("Maximum parallelism (--max-procs must be no greater): %" PRIuMAX "\n"),
+	      (uintmax_t)MAX_PROC_MAX);
 
       if (isatty (STDIN_FILENO))
 	{
@@ -1544,7 +1556,8 @@ increment_proc_max (int ignore)
 {
         (void) ignore;
 	/* If user increments from 0 to 1, we'll take it and serialize. */
-	proc_max++;
+	if (proc_max < MAX_PROC_MAX)
+	  proc_max++;
 	/* If we're waiting for a process to die before doing something,
 	   no need to wait any more. */
 	stop_waiting = 1;
@@ -1595,7 +1608,7 @@ parse_num (char *str, int option, long int min, long int max, int fatal)
     }
   else if (max >= 0 && val > max)
     {
-      fprintf (stderr, _("%s: value for -%c option should be < %ld\n"),
+      fprintf (stderr, _("%s: value for -%c option should be <= %ld\n"),
 	       program_name, option, max);
       if (fatal)
 	{
