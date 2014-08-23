@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS=gnits
 # readme-alpha
 AM_CFLAGS = $(WARN_CFLAGS)
 
-EXTRA_DIST = COPYING ChangeLog ChangeLog-2008 TODO config.h.in stamp-h.in \
+EXTRA_DIST = COPYING ChangeLog ChangeLog-2013 TODO config.h.in stamp-h.in \
 		THANKS import-gnulib.sh import-gnulib.config \
 		tool-versions.txt README-hacking
 DISTCLEANFILES = tool-versions.txt
