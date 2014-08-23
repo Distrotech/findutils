@@ -1,5 +1,18 @@
 2014-08-23  James Youngman  <jay@gnu.org>
 
+	Remove obsolete TODO entries.
+	* TODO: remove BeOS multibyte entry (we fixed this by using the
+	gnulib wcwidth module; see https://savannah.gnu.org/bugs/?19979).
+	Remove comment about problems with gcc-2.95.2 on
+	sparc-sun-sunos4.1.3_U1; we'll look at the problem if anyone ever
+	complains that something doesn't work (though gnulib may in fact
+	no longer work on such an old platform in any case).
+	Remove some TODOs around locate performance; nobody's reported
+	performance issues, and we can examine any specific issues when
+	the arise.
+	Remove TODO about the largeness of depcomp; at 22KiB, it's much
+	smaller than this ChangeLog file, for example.
+
 	Remove obsolete TOLOWER/TOUPPER macros.
 	* locate/locate.c: The TOLOWER and TOUPPER macros are no longer
 	used.   Do not define them.

@@ -1,15 +1,6 @@
 -*-outline-*-
-* -fstype core dumps on sparc-sun-sunos4.1.3_U1 with gcc-2.95.2
-This is on foxtrot.rahul.net.  dbx does not work on compiled find.
-Perhaps gcc is installed incorrectly.  "find / -fstype ufs" core dumps
-quickly.  cc works correctly.
-
-* Speed of locate without "-i" option needs to be increased.
-
 * Internationalization
 ** updatedb.sh should be internationalized
-
-* Eliminate unnecessary strcpy calls in xargs.
 
 * man pages for frcode, bigram, and code
 Perhaps a better description in texi pages as well.
@@ -24,13 +15,6 @@ my point is:
 - sort on a big list is costly (here we do locate on big big file system)
 - find may (in theory) sort incrementally very easily by sorting only the current
 directory entries before recursion
-
-
-* large file problems
-depcomp gets added by automake
-
-* BeOS problems with multibyte
-Bruno Haible reported problems with BeOS.
 
 * Include example of use of updatedb in documentation.
 Use something close to the Debian daily cron job.
