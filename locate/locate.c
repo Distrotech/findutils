@@ -122,15 +122,6 @@
 # define N_(String) String
 #endif
 
-/* Note that this evaluates Ch many times.  */
-#ifdef _LIBC
-# define TOUPPER(Ch) toupper (Ch)
-# define TOLOWER(Ch) tolower (Ch)
-#else
-# define TOUPPER(Ch) (islower (Ch) ? toupper (Ch) : (Ch))
-# define TOLOWER(Ch) (isupper (Ch) ? tolower (Ch) : (Ch))
-#endif
-
 /* Warn if a database is older than this.  8 days allows for a weekly
    update that takes up to a day to perform.  */
 static unsigned int warn_number_units = 8;

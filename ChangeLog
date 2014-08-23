@@ -1,5 +1,10 @@
 2014-08-23  James Youngman  <jay@gnu.org>
 
+	Remove obsolete TOLOWER/TOUPPER macros.
+	* locate/locate.c: The TOLOWER and TOUPPER macros are no longer
+	used.   Do not define them.
+	* TODO: Remove obsolete entry for TOLOWER/TOUPPER.
+
 	Don't overflow sig_atomic_t for --max-procs.
 	* xargs/xargs.c (__STDC_LIMIT_MACROS): Define __STDC_LIMIT_MACROS
 	in order to ensure that <stdint.h> defines the SIG_ATOMIC_MAX
