@@ -90,12 +90,48 @@ example values:
   email = joe.user@example.com
 
 
-In order to simplify the handling of merges, we recommend that you
-use a specialised merge driver for the ChangeLog file.  Otherwise,
-you will end up spending time resolving merge conflicts for your
-ChangeLog edits.  You can install the ChangeLog merge driver by
-following the instructions in the README section of the file
-gnulib-git/gnulib/lib/git-merge-changelog.c.
+Required format for check-in messages
+=====================================
+
+We use a specific style for check-in messages.  See "git log" for
+examples.  The format corresponds to the standard GNU ChangeLog
+format, but without date & author headers (since git provides this
+data) and without a left margin (since there are no headers).
+
+--- example begins ---
+Don't overflow sig_atomic_t for --max-procs.
+
+* xargs/xargs.c (__STDC_LIMIT_MACROS): Define __STDC_LIMIT_MACROS
+in order to ensure that <stdint.h> defines the SIG_ATOMIC_MAX
+macro, which we need.
+(MAX_PROC_MAX): Define this as the maximum allowed value of
+proc_max.
+(main): Show the value of MAX_PROC_MAX for --show-limits.
+(increment_proc_max): Don't increment proc_max beyond
+MAX_PROC_MAX.
+--- example ends ---
+
+There are several things to notice about this checkin message.  Most
+importatly, it begins with a single line summary of the whole change.
+This needs to be short.  It would be used as the subject line of
+patches mailed by "git send-email".  Some people begin that line with
+a one-word tag indicating what is addected (for example find: for
+changes to find, doc: to changes to the documentation, maint: for
+changes to the maintainer automation and so forth).
+
+All changes a file are grouped together in an entry which begins with
+an asterisk (*) and the file name.  The name of the modified function
+(if any) follows immediately in parentheses followed by a colon.  If
+you're modifying a file for which "function" isn't the logical unit of
+organisation, use whatever seems most useful.  For example when
+modifying the Texinfo source, use the section name.
+
+After the colon, describe the change you made to that function.  If
+you made a related change mention the places you made that change,
+too.  If you maded many individually small changes, you can summarise
+these if they're not individually interesting.  For example you could
+just say "Update all callers to remove this function argument".  If
+that change spans several files, mention the other files modifies.
 
 
 
