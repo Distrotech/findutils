@@ -1,0 +1,21 @@
+# This file is expected to be used via gitlog-to-changelog's --amend=FILE
+# option.  It specifies what changes to make to each given SHA1's commit
+# log and metadata, using Perl-eval'able expressions.
+
+# Remove superfluous "Conflicts:" marker.
+718bde657248dfc2270f6e0ed16cfb38e2510c2c
+s/Conflicts:$//m;
+s/ChangeLog$//m
+
+# Insert "* " before file name.
+68e2b1d6fd420787903142c02ce1a5e3ea2a7754
+s,(doc/find.texi),* $1,
+
+# Insert "* " before file name.
+603ccd84db3b4b8d6476b9217adeecaa77337781
+s,(find),* $1,
+
+# Insert name of changed file.
+1d6d1afa52f40ad7c776e3ff0d4415409377e6fb
+s/Mark/* po\/POTFILES.in: mark/;
+s/(translation)/$1./

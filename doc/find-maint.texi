@@ -684,9 +684,10 @@ This file enumerates all changes to the findutils source code (with
 the possible exception of @file{.cvsignore} and @code{.gitignore}
 changes).  The level of detail used for this file should be sufficient
 to answer the questions ``what changed?'' and ``why was it changed?''.
-If a change fixes a bug, always give the bug reference number in both
-the @file{ChangeLog} and @file{NEWS} files and of course also in the
-checkin message.  In general, it should be possible to enumerate all
+The file is generated from the git commit messages during @code{make dist}.
+If a change fixes a bug, always give the bug reference number in the
+@file{NEWS} file and of course also in the checkin message.
+In general, it should be possible to enumerate all
 material changes to a function by searching for its name in
 @file{ChangeLog}.  Mention when each release is made.
 @end table

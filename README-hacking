@@ -137,11 +137,11 @@ If you plan to submit changes to findutils, please make sure you have
 read the GNU coding standard (http://www.gnu.org/prep/standards/).
 Some common things you might have forgotten to do are:
 
- - add a ChangeLog entry (for now we still do that manually)
  - document your change in both the manual pages and the Texinfo file
  - re-run the test suite (with Dejagnu installed!)
  - add a test case for the bug you're fixing or feature you're adding
  - mention your fix or change (if it's significant) in the NEWS file
+ - commit using a descriptive commit message
 
 If you have patches, please generate them with "git format-patch" and
 mail them to these addresses:
@@ -161,7 +161,7 @@ Here is a complete session
   emacs doc/find.texi xargs/xargs.1
   emacs xargs/testsuite/Makefile.am  xargs/testsuite/xargs.gnu/blah.exp
   make check
-  emacs ChangeLog NEWS
+  emacs NEWS
 
   # make sure you didn't break anything
   make distcheck
