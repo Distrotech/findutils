@@ -2,7 +2,7 @@
 #
 # import-gnulib.sh -- imports a copy of gnulib into findutils
 # Copyright (C) 2003, 2004, 2005, 2006, 2007, 2009, 2010,
-#               2011 Free Software Foundation, Inc.
+#               2011, 2013, 2014 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -236,75 +236,6 @@ EOF
     mv "${outfile}".new "${outfile}"
 }
 
-
-check_merge_driver() {
-    local config_file=".git/config"
-    fixmsg="
-
-We recommend that you use a git merge driver for the ChangeLog file.
-This simplifies the task of merging branches.
-Please see the README section in gnulib/gnulib/lib/git-merge-changelog.c
-
-If you've read that and don't want to use it, just set the environment variable
-DO_NOT_WANT_CHANGELOG_DRIVER.
-
-Example:
-  git config merge.merge-changelog.name 'GNU-style ChangeLog merge driver'
-  git config merge.merge-changelog.driver '/usr/local/bin/git-merge-changelog  %O %A %B'
-  echo 'ChangeLog    merge=merge-changelog' >> .gitattributes
-"
-    if [ -z "$DO_NOT_WANT_CHANGELOG_DRIVER" ] ; then
-	if git branch | egrep -q '\* *(master|rel-)'; then
-	# We are on the master branch or a release branch.
-	# Perhaps the user is simply building from git sources.
-	# Issue our message as a warning rather than an error.
-	    fatal=false
-	    label="Warning"
-	else
-	    fatal=true
-	    label="ERROR"
-	fi
-    else
-	fatal=false
-	label="Warning"
-    fi
-    if git config --get  merge.merge-changelog.name >/dev/null ; then
-        driver="$(git config --get merge.merge-changelog.driver |
-                  sed -e 's/[   ].*//')"
-	if [ $? -eq 0 ]; then
-	    if ! [ -x "$driver" ]; then
-		echo "ERROR: Merge driver $driver is not executable." >&2
-		echo "ERROR: Please fix $config_file or install $driver" >&2
-		# Always fatal - if configured, the merge driver should work.
-		exit 1
-	    else
-		if [ -f .gitattributes ] ; then
-		    echo "The ChangeLog merge driver configuration seems OK."
-		else
-		    echo "$label"': you have no .gitattributes file' >&2
-		    echo "$fixmsg" >&2
-		    if $fatal; then
-			exit 1
-		    fi
-		fi
-	    fi
-	else
-	    echo "$label"': There is no driver specified in [merge "merge-changelog"] in' "$config_file" >&2
-	    echo "$fixmsg" >&2
-	    if $fatal; then
-		exit 1
-	    fi
-	fi
-    else
-	echo "$label"': There is no name specified in [merge "merge-changelog"] in' "$config_file" >&2
-	echo "$fixmsg" >&2
-	if $fatal; then
-	    exit 1
-	fi
-    fi
-}
-
-
 record_config_change() {
     # $1: name of the import-gnulib.config file
     # $2: name of the last.config file
@@ -398,7 +329,6 @@ EOF
 	echo "The submodule directory layout looks OK."
 
 	do_submodule gnulib
-	check_merge_driver
 	gnulibdir=gnulib
     else
 	echo "Warning: using gnulib code which already exists in $gnulibdir" >&2
