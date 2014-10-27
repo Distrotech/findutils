@@ -1,55 +1,57 @@
-# Mensajes en espaÒol para GNU findutils.
-# Copyright (C) 1996, 2001, 2004, 2010 Free Software Foundation, Inc.
-# IÒaky PÈrez Gonz·lez <inaky@peloncho.fis.ucm.es>, 1996.
-# Santiago Vila Doncel <sanvila@unex.es>, 2001, 2004.
+# Mensajes en espa√±ol para GNU findutils.
+# Copyright (C) 1996, 2001, 2004, 2014 Free Software Foundation, Inc.
+# This file is distributed under the same license as the findutils package.
+# I√±aky P√©rez Gonz√°lez <inaky@peloncho.fis.ucm.es>, 1996.
+# Santiago Vila Doncel <sanvila@unex.es>, 2001, 2004, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU findutils 4.2.6\n"
+"Project-Id-Version: GNU findutils 4.5.13\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2014-07-19 11:27+0100\n"
-"PO-Revision-Date: 2004-12-23 16:57+0100\n"
+"POT-Creation-Date: 2014-07-16 07:27+0100\n"
+"PO-Revision-Date: 2014-07-20 20:59+0200\n"
 "Last-Translator: Santiago Vila Doncel <sanvila@unex.es>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"Language-Team: Spanish <es@tp.org.es>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: find/exec.c:136
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to save working directory in order to run a command on %s"
-msgstr "no se puede volver al directorio de partida"
+msgstr "Fallo al guardar el directorio de trabajo para ejecutar una orden en %s"
 
 #: find/exec.c:256
 #, c-format
 msgid "Cannot close standard input"
-msgstr ""
+msgstr "No se puede cerrar la entrada est√°ndar"
 
 #: find/exec.c:285
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to change directory"
-msgstr "no se puede volver al directorio de partida"
+msgstr "Fallo al cambiar de directorio"
 
-# FIXME: øøø??? °°øøY cÛmo leches traduzco yo esto??!!  IPG
-#        DespuÈs de que me hayan llamado de todo por intentar traducir
+# FIXME: ¬ø¬ø¬ø??? ¬°¬°¬ø¬øY c√≥mo leches traduzco yo esto??!!  IPG
+#        Despu√©s de que me hayan llamado de todo por intentar traducir
 #        una llamada al sistema ;) sigo pensando que este mensaje es
-#        m·s claro e informativo que el original (de hecho, es un
-#        pelÌn m·s largo y no exige saber tanto UNIX ...) IPG
+#        m√°s claro e informativo que el original (de hecho, es un
+#        pel√≠n m√°s largo y no exige saber tanto UNIX ...) IPG
 #
 # Esto me parece muy muy muy largo.
 # Sugerencia: "No se puede ejecutar fork". sv
-# E insisto: Si no eres experto en programaciÛn Unix lo mismo te da
+# E insisto: Si no eres experto en programaci√≥n Unix lo mismo te da
 # "duplicar un proceso" que "fork".
-# De hecho, yo todavÌa no sÈ lo que es (ninguna de las dos cosas). sv
+# De hecho, yo todav√≠a no s√© lo que es (ninguna de las dos cosas). sv
 #
-# °°Otia!! Eso es grave ... fork() es la llamada al sistema que se usa
-# para duplicar un programa en dos idÈnticos, pero con distinto PID.
+# ¬°¬°Otia!! Eso es grave ... fork() es la llamada al sistema que se usa
+# para duplicar un programa en dos id√©nticos, pero con distinto PID.
 # Una vez que vuelve, en el padre devuelve el PID del hijo, y en el
 # hijo, cero. El hijo entonces lo detecta y una de dos, o sigue, o
 # ejecuta otro programa con exec() (que solapa todo el espacio del
-# proceso con el del nuevo programa). Prefiero dejar la explicaciÛn
-# larga, en beneficio de gente como t˙ :) ipg
+# proceso con el del nuevo programa). Prefiero dejar la explicaci√≥n
+# larga, en beneficio de gente como t√∫ :) ipg
 #
 # Vale, pues ahora te digo:
 #
@@ -59,22 +61,22 @@ msgstr "no se puede volver al directorio de partida"
 # exclusivamente lo de fork() a que me pongas la larga parrafada que
 # tienes en este momento. sv
 #
-# øVes por quÈ no me acaba de gustar? sv
+# ¬øVes por qu√© no me acaba de gustar? sv
 #
-# Nota: Jim Meyering tenÌa en fileutils un mensaje parecido a este, que al
+# Nota: Jim Meyering ten√≠a en fileutils un mensaje parecido a este, que al
 # final conseguimos (Ulises y yo) que lo cambiara por
 # msgid "fork system call failed"
-#  que yo traduje asÌ:
-# msgstr "fallÛ la llamada al sistema `fork'"
-# øQuÈ te parece?
+#  que yo traduje as√≠:
+# msgstr "fall√≥ la llamada al sistema `fork'"
+# ¬øQu√© te parece?
 #
 # Al fin y al cabo es la coletilla que tengo yo al final de mi
-# comentario, øno? Me parece lo mismo, m· o meno, pero por no meternos
-# en darle caÒa y acabar ya esto de una vez :) ...
+# comentario, ¬øno? Me parece lo mismo, m√° o meno, pero por no meternos
+# en darle ca√±a y acabar ya esto de una vez :) ...
 #: find/exec.c:312 xargs/xargs.c:1229
 #, c-format
 msgid "cannot fork"
-msgstr "fallÛ la llamada al sistema `fork()'"
+msgstr "fall√≥ la llamada al sistema `fork()'"
 
 #: find/exec.c:343
 #, c-format
@@ -84,107 +86,89 @@ msgstr "error esperando al proceso %s"
 #: find/exec.c:352
 #, c-format
 msgid "%s terminated by signal %d"
-msgstr "%s terminado por la seÒal %d"
+msgstr "%s terminado por la se√±al %d"
 
-#: find/find.c:203
+#: find/find.c:203 find/ftsfind.c:677
 #, c-format
-msgid "Failed to initialize shared-file hash table"
+msgid "Failed initialise shared-file hash table"
 msgstr ""
 
 #: find/find.c:219 find/ftsfind.c:693 locate/bigram.c:105 locate/code.c:174
 #: locate/frcode.c:233 locate/locate.c:1568 xargs/xargs.c:392
-#, fuzzy, c-format
+#, c-format
 msgid "The atexit library function failed"
-msgstr ""
-"la comprobaciÛn de adecuaciÛn de la funciÛn de biblioteca fnmatch() fallÛ."
+msgstr "La funci√≥n de biblioteca atexit() fall√≥"
 
 #: find/find.c:263
-#, fuzzy, c-format
+#, c-format
 msgid "cannot stat current directory"
-msgstr "no se puede obtener el directorio actual"
+msgstr "no se puede efectuar 'stat' sobre el directorio actual"
 
 #: find/find.c:354
 #, c-format
 msgid "Cannot read list of mounted devices."
-msgstr ""
+msgstr "No se puede leer la lista de dispositivos montados."
 
 #: find/find.c:443
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING: file system %s has recently been unmounted."
-msgstr "El sistema de ficheros %s ha sido desmontado recientemente."
+msgstr "ATENCI√ìN: el sistema de ficheros %s ha sido desmontado recientemente."
 
 #: find/find.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING: file system %s has recently been mounted."
-msgstr "El sistema de ficheros %s ha sido montado recientemente."
+msgstr "ATENCI√ìN: el sistema de ficheros %s ha sido montado recientemente."
 
 #: find/find.c:550
-#, fuzzy, c-format
-msgid ""
-"%s%s changed during execution of %s (old device number %ld, new device "
-"number %ld, file system type is %s) [ref %ld]"
+#, c-format
+msgid "%s%s changed during execution of %s (old device number %ld, new device number %ld, file system type is %s) [ref %ld]"
 msgstr ""
-"%s%s ha cambiado durante la ejecuciÛn de %s (n˙mero de dispositivo antiguo "
-"%ld,\n"
-"n˙mero de dispositivo nuevo %ld, el tipo de sistema de ficheros es %s [ref "
-"%ld]"
+"%s%s ha cambiado durante la ejecuci√≥n de %s (n√∫mero de dispositivo antiguo %ld,\n"
+"n√∫mero de dispositivo nuevo %ld, el tipo de sistema de ficheros es %s [ref %ld]"
 
 #: find/find.c:587
-#, fuzzy, c-format
-msgid ""
-"%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode "
-"number %<PRIuMAX>, file system type is %s) [ref %ld]"
+#, c-format
+msgid "%s%s changed during execution of %s (old inode number %<PRIuMAX>, new inode number %<PRIuMAX>, file system type is %s) [ref %ld]"
 msgstr ""
-"%s%s ha cambiado durante la ejecuciÛn de %s (n˙mero de nodo-i antiguo %ld,\n"
-"n˙mero de nodo-i nuevo %ld, tipo de sistema de ficheros %s) [ref %ld]"
+"%s%s ha cambiado durante la ejecuci√≥n de %s (n√∫mero de nodo-i antiguo %<PRIuMAX>,\n"
+"n√∫mero de nodo-i nuevo %<PRIuMAX>, tipo de sistema de ficheros %s) [ref %ld]"
 
 #: find/find.c:752
-#, fuzzy, c-format
+#, c-format
 msgid "failed to return to parent directory"
-msgstr "no se puede volver al directorio de partida"
+msgstr "fallo al volver al directorio padre"
 
 #: find/find.c:1038
 #, c-format
 msgid "Failed to safely change directory into %s"
-msgstr ""
+msgstr "Fallo al cambiar de directorio a %s de forma segura"
 
 #: find/find.c:1138 find/ftsfind.c:245
 #, c-format
-msgid ""
-"Symbolic link %s is part of a loop in the directory hierarchy; we have "
-"already visited the directory to which it points."
-msgstr ""
+msgid "Symbolic link %s is part of a loop in the directory hierarchy; we have already visited the directory to which it points."
+msgstr "El enlace simb√≥lico %s es parte de un bucle en la jerarqu√≠a de directorios; ya hemos visitado el directorio al que apunta."
 
 #: find/find.c:1157
 #, c-format
-msgid ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d level higher in the file system hierarchy"
-msgid_plural ""
-"Filesystem loop detected; %s has the same device number and inode as a "
-"directory which is %d levels higher in the file system hierarchy"
-msgstr[0] ""
-msgstr[1] ""
+msgid "Filesystem loop detected; %s has the same device number and inode as a directory which is %d level higher in the file system hierarchy"
+msgid_plural "Filesystem loop detected; %s has the same device number and inode as a directory which is %d levels higher in the file system hierarchy"
+msgstr[0] "Se ha detectado un bucle en el sistema de ficheros; %s tiene el mismo n√∫mero de dispositivo y nodo-i que un directorio que est√° %d nivel m√°s arriba en la jerarqu√≠a del sistema de ficheros"
+msgstr[1] "Se ha detectado un bucle en el sistema de ficheros; %s tiene el mismo n√∫mero de dispositivo y nodo-i que un directorio que est√° %d niveles m√°s arriba en la jerarqu√≠a del sistema de ficheros\""
 
 #: find/find.c:1409
 #, c-format
 msgid "warning: not following the symbolic link %s"
-msgstr ""
+msgstr "atenci√≥n: no se sigue el enlace simb√≥lico %s"
 
 #: find/find.c:1480
 #, c-format
-msgid ""
-"WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
-"we already saw %<PRIuMAX> subdirectories): this may be a bug in your file "
-"system driver.  Automatically turning on find's -noleaf option.  Earlier "
-"results may have failed to include directories that should have been "
-"searched."
-msgstr ""
+msgid "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but we already saw %<PRIuMAX> subdirectories): this may be a bug in your file system driver.  Automatically turning on find's -noleaf option.  Earlier results may have failed to include directories that should have been searched."
+msgstr "ATENCI√ìN: La cuenta de enlaces duros para %s es err√≥nea (st_nlink=%<PRIuMAX> pero ya se han visto %<PRIuMAX> subdirectorios): esto puede ser un `bug' en el controlador del sistema de ficheros. Se activa autom√°ticamente la opci√≥n -noleaf de find. Los resultados anteriores pueden no haber inclu√≠do directorios que deber√≠an haberse explorado."
 
 #: find/fstype.c:185
 #, c-format
 msgid "Cannot read mounted file system list"
-msgstr ""
+msgstr "No se puede leer la lista de sistemas de ficheros montados"
 
 #: find/fstype.c:244
 msgid "unknown"
@@ -192,65 +176,48 @@ msgstr "desconocido"
 
 #: find/ftsfind.c:259
 #, c-format
-msgid ""
-"File system loop detected; %s is part of the same file system loop as %s."
-msgstr ""
+msgid "File system loop detected; %s is part of the same file system loop as %s."
+msgstr "Se ha detectado un bucle en el sistema de ficheros; %s es parte del mismo bucle de sistema de ficheros que %s."
 
 #: find/ftsfind.c:444 find/util.c:222
 #, c-format
 msgid "WARNING: file %s appears to have mode 0000"
-msgstr ""
+msgstr "ATENCI√ìN: el fichero %s parece tener modo 0000"
 
 #: find/ftsfind.c:559
 #, c-format
 msgid "cannot search %s"
-msgstr ""
+msgstr "no se puede examinar %s"
 
 #: find/ftsfind.c:609
-#, fuzzy, c-format
-msgid "failed to restore working directory after searching %s"
-msgstr "no se puede volver al directorio de partida"
-
-#: find/ftsfind.c:677
 #, c-format
-msgid "Failed initialize shared-file hash table"
-msgstr ""
+msgid "failed to restore working directory after searching %s"
+msgstr "fallo al restaurar el directorio de trabajo inicial despu√©s de examinar %s"
 
 #: find/parser.c:452
 #, c-format
-msgid ""
-"The -delete action automatically turns on -depth, but -prune does nothing "
-"when -depth is in effect.  If you want to carry on anyway, just explicitly "
-"use the -depth option."
+msgid "The -delete action automatically turns on -depth, but -prune does nothing when -depth is in effect.  If you want to carry on anyway, just explicitly use the -depth option."
 msgstr ""
 
 #: find/parser.c:599
 #, c-format
-msgid ""
-"warning: you have specified the %s option after a non-option argument %s, "
-"but options are not positional (%s affects tests specified before it as well "
-"as those specified after it).  Please specify options before other "
-"arguments.\n"
+msgid "warning: you have specified the %s option after a non-option argument %s, but options are not positional (%s affects tests specified before it as well as those specified after it).  Please specify options before other arguments.\n"
 msgstr ""
-"atenciÛn: ha especificado la opciÛn %s despuÈs de un argumento %s que no\n"
-"es una opciÛn, pero las opciones no son de posiciÛn (%s afecta tanto a\n"
-"las evaluaciones especificadas antes de Èl como a las especificadas\n"
-"despuÈs). Por favor especifique las opciones antes de otros argumentos.\n"
+"atenci√≥n: ha especificado la opci√≥n %s despu√©s de un argumento %s que no\n"
+"es una opci√≥n, pero las opciones no son de posici√≥n (%s afecta tanto a\n"
+"las evaluaciones especificadas antes de √©l como a las especificadas\n"
+"despu√©s). Por favor especifique las opciones antes de otros argumentos.\n"
 
 #: find/parser.c:906
 #, c-format
-msgid ""
-"warning: the -d option is deprecated; please use -depth instead, because the "
-"latter is a POSIX-compliant feature."
+msgid "warning: the -d option is deprecated; please use -depth instead, because the latter is a POSIX-compliant feature."
 msgstr ""
-"atenciÛn: la opciÛn -d est· obsoleta; por favor utilice -depth en su lugar,\n"
-"ya que se trata de una caracterÌstica que cumple con POSIX."
+"atenci√≥n: la opci√≥n -d est√° obsoleta; por favor utilice -depth en su lugar,\n"
+"ya que se trata de una caracter√≠stica que cumple con POSIX."
 
 #: find/parser.c:1179
 #, c-format
-msgid ""
-"%s is not the name of an existing group and it does not look like a numeric "
-"group ID because it has the unexpected suffix %s"
+msgid "%s is not the name of an existing group and it does not look like a numeric group ID because it has the unexpected suffix %s"
 msgstr ""
 
 #: find/parser.c:1194
@@ -265,81 +232,74 @@ msgstr ""
 
 # sugerencia: si no se dan -> si no hay otros. sv
 #
-# No, aquÌ creo que no vale, ya que es "si no das operadores", esto
+# No, aqu√≠ creo que no vale, ya que es "si no das operadores", esto
 # es, si no das ninguno, no que no haya otros. Se refiere al caso
-# de que no se dÈ un operador entre dos `sentencias' (adem·s claro
-# de que sÛlo se puede dar uno).
+# de que no se d√© un operador entre dos `sentencias' (adem√°s claro
+# de que s√≥lo se puede dar uno).
 #
 # Bueno, el plural ("others") del original tiene un sentido "respectivo",
 # Quiere decir que si en cada sitio donde puedes poner un operador o no
 # ponerlo, no pones uno que sea distinto de -and, se supone -and.
 # Obviamente para poner otro que no sea -and tienes que poner alguno...
-# La ˙nica diferencia, yo creo, es que seg˙n el original, si pones -and,
+# La √∫nica diferencia, yo creo, es que seg√∫n el original, si pones -and,
 # no le hace caso, y toma el operador por defecto, que vuelve a ser -and
-# °Mira que son retorcidos! :-) sv
+# ¬°Mira que son retorcidos! :-) sv
 #
-# Bueno, dÈjalo asÌ si quieres, pero fÌjate en lo soso que queda el "dan",
-# queda a mil kilÛmetros de la palabra "operadores" (me refiero a lo lejos
-# que est·n el verbo y el objeto directo, me suena un poco rarillo).
+# Bueno, d√©jalo as√≠ si quieres, pero f√≠jate en lo soso que queda el "dan",
+# queda a mil kil√≥metros de la palabra "operadores" (me refiero a lo lejos
+# que est√°n el verbo y el objeto directo, me suena un poco rarillo).
 # Parece que es "si no se dan de tortas". sv
 #
-# Sugerencia: "se supone -and si no se da ning˙n operador"
+# Sugerencia: "se supone -and si no se da ning√∫n operador"
 # o mejor "si no se da ninguno". sv
 #
-# Lo dejo asÌ. ipg
+# Lo dejo as√≠. ipg
 #: find/parser.c:1222
-#, fuzzy
 msgid ""
 "\n"
 "default path is the current directory; default expression is -print\n"
 "expression may consist of: operators, options, tests, and actions:\n"
 msgstr ""
-"la ruta de acceso por defecto es el directorio actual; la expresiÛn por\n"
+"\n"
+"la ruta de acceso por defecto es el directorio actual; la expresi√≥n por\n"
 "defecto es -print\n"
-"la expresiÛn puede ser:\n"
-"operadores (prioridad decreciente; se supone -and si no se dan):\n"
-"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
+"la expresi√≥n puede consistir en: operadores, opciones, evaluaciones, y acciones:\n"
 
 # sugerencia: si no se dan -> si no hay otros. sv
 #
-# No, aquÌ creo que no vale, ya que es "si no das operadores", esto
+# No, aqu√≠ creo que no vale, ya que es "si no das operadores", esto
 # es, si no das ninguno, no que no haya otros. Se refiere al caso
-# de que no se dÈ un operador entre dos `sentencias' (adem·s claro
-# de que sÛlo se puede dar uno).
+# de que no se d√© un operador entre dos `sentencias' (adem√°s claro
+# de que s√≥lo se puede dar uno).
 #
 # Bueno, el plural ("others") del original tiene un sentido "respectivo",
 # Quiere decir que si en cada sitio donde puedes poner un operador o no
 # ponerlo, no pones uno que sea distinto de -and, se supone -and.
 # Obviamente para poner otro que no sea -and tienes que poner alguno...
-# La ˙nica diferencia, yo creo, es que seg˙n el original, si pones -and,
+# La √∫nica diferencia, yo creo, es que seg√∫n el original, si pones -and,
 # no le hace caso, y toma el operador por defecto, que vuelve a ser -and
-# °Mira que son retorcidos! :-) sv
+# ¬°Mira que son retorcidos! :-) sv
 #
-# Bueno, dÈjalo asÌ si quieres, pero fÌjate en lo soso que queda el "dan",
-# queda a mil kilÛmetros de la palabra "operadores" (me refiero a lo lejos
-# que est·n el verbo y el objeto directo, me suena un poco rarillo).
+# Bueno, d√©jalo as√≠ si quieres, pero f√≠jate en lo soso que queda el "dan",
+# queda a mil kil√≥metros de la palabra "operadores" (me refiero a lo lejos
+# que est√°n el verbo y el objeto directo, me suena un poco rarillo).
 # Parece que es "si no se dan de tortas". sv
 #
-# Sugerencia: "se supone -and si no se da ning˙n operador"
+# Sugerencia: "se supone -and si no se da ning√∫n operador"
 # o mejor "si no se da ninguno". sv
 #
-# Lo dejo asÌ. ipg
+# Lo dejo as√≠. ipg
 #: find/parser.c:1225
-#, fuzzy
 msgid ""
-"operators (decreasing precedence; -and is implicit where no others are "
-"given):\n"
+"operators (decreasing precedence; -and is implicit where no others are given):\n"
 "      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
 "      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 msgstr ""
-"la ruta de acceso por defecto es el directorio actual; la expresiÛn por\n"
-"defecto es -print\n"
-"la expresiÛn puede ser:\n"
 "operadores (prioridad decreciente; se supone -and si no se dan):\n"
-"      ( EXPR ) ! EXPR -not EXPR EXPR1 -a EXPR2 EXPR1 -and EXPR2"
+"      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n"
+"      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n"
 
 #: find/parser.c:1229
-#, fuzzy
 msgid ""
 "positional options (always true): -daystart -follow -regextype\n"
 "\n"
@@ -347,55 +307,51 @@ msgid ""
 "      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n"
 "      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 msgstr ""
-"      EXPR1 -o EXPR2 EXPR1 -or EXPR2 EXPR1 , EXPR2\n"
-"opciones de posiciÛn (siempre verdaderas): -daystart -follow\n"
-"opciones normales (siempre verdaderas, se ponen despuÈs de otras "
-"expresiones):\n"
-"        -depth --help -maxdepth NIVELES -mindepth NIVELES -mount -noleaf\n"
-"        --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
-"evaluaciones (N puede ser +N, -N o N): -amin N -anewer FICHERO -atime N\n"
-"                                       -cmin N"
+"opciones de posici√≥n (siempre verdaderas): -daystart -follow -regextype\n"
+"\n"
+"opciones normales (siempre verdaderas, se ponen despu√©s de otras expresiones):\n"
+"      -depth --help -maxdepth NIVELES -mindepth NIVELES -mount -noleaf\n"
+"      --version -xdev -ignore_readdir_race -noignore_readdir_race\n"
 
-# FIXME: øCÛmo traducir pattern? Plantilla queda de pena; he dejado EXPR-REG,
+# FIXME: ¬øC√≥mo traducir pattern? Plantilla queda de pena; he dejado EXPR-REG,
 #        a ver si cuela. IPG
-#        Consulto mi "Libro gordo de Petete metido a hacker" (usÈase, mi madre)
+#        Consulto mi "Libro gordo de Petete metido a hacker" (us√©ase, mi madre)
 #        y dice que ella en todos los libros de UNIX ha visto que se le llama
-#        expresiÛn regular, y que le parece el tÈrmino m·s adecuado (cosa
-#        que a mÌ tambiÈn). Me inclino por su experiencia (que para algo es
+#        expresi√≥n regular, y que le parece el t√©rmino m√°s adecuado (cosa
+#        que a m√≠ tambi√©n). Me inclino por su experiencia (que para algo es
 #        una telekita que lleva desarrollando en UN*X desde que lo inventaron)
-#        y usarÈ esta traducciÛn, hasta que salga una que parezca mejor. IPG
+#        y usar√© esta traducci√≥n, hasta que salga una que parezca mejor. IPG
 #
-#        TambiÈn me han sugerido `patrÛn', pero prefiero EXPR-REG. IPG
+#        Tambi√©n me han sugerido `patr√≥n', pero prefiero EXPR-REG. IPG
 #
 #: find/parser.c:1234
-#, fuzzy
 msgid ""
 "tests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n"
 "      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n"
-"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex "
-"PATTERN\n"
+"      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n"
 "      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE"
 msgstr ""
-"      -cnewer FICHERO -ctime N -empty -false -fstype TIPO -gid N\n"
+"evaluaciones (N puede ser +N, -N o N): -amin N -anewer FICHERO -atime N\n"
+"      -cmin N -cnewer FICHERO -ctime N -empty -false -fstype TIPO -gid N\n"
 "      -group NOMBRE -ilname EXPR-REG -iname EXPR-REG -inum N\n"
 "      -iwholename EXPR-REG -iregex EXPR-REG -links N -lname EXPR-REG\n"
 "      -mmin N -mtime N -name EXPR-REG -newer FICHERO"
 
 #: find/parser.c:1239
-#, fuzzy
 msgid ""
 "      -nouser -nogroup -path PATTERN -perm [-/]MODE -regex PATTERN\n"
 "      -readable -writable -executable\n"
 "      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NAME -xtype [bcdpfls]"
 msgstr ""
-"      -nouser -nogroup -path EXPR-REG -perm [+-]MODO -regex EXPR-REG\n"
+"      -nouser -nogroup -path EXPR-REG -perm [-/]MODO -regex EXPR-REG\n"
+"      -readable -writable -executable\n"
 "      -wholename EXPR-REG -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n"
 "      -used N -user NOMBRE -xtype [bcdpfls]"
 
 #: find/parser.c:1244
 msgid "      -context CONTEXT\n"
-msgstr ""
+msgstr "      -context CONTEXTO\n"
 
 #: find/parser.c:1246
 msgid ""
@@ -405,6 +361,11 @@ msgid ""
 "      -exec COMMAND ; -exec COMMAND {} + -ok COMMAND ;\n"
 "      -execdir COMMAND ; -execdir COMMAND {} + -okdir COMMAND ;\n"
 msgstr ""
+"\n"
+"acciones: -delete -print0 -printf FORMATO -fprintf FICHERO FORMATO -print \n"
+"      -fprint0 FICHERO -fprint FICHERO -ls -fls FICHERO -prune -quit\n"
+"      -exec ORDEN ; -exec ORDEN {} + -ok ORDEN ;\n"
+"      -execdir ORDEN ; -execdir ORDEN {} + -okdir ORDEN ;\n"
 
 #: find/parser.c:1252
 msgid ""
@@ -412,70 +373,61 @@ msgid ""
 "page at http://savannah.gnu.org/ or, if you have no web access, by sending\n"
 "email to <bug-findutils@gnu.org>."
 msgstr ""
-"Informe sobre bichos (y siga el progreso de su correcciÛn) a travÈs de la\n"
-"p·gina de comunicaciÛn de bichos en http://savannah.gnu.org/ o bien, si no\n"
+"Informe sobre errores (y siga el progreso de su correcci√≥n) a trav√©s de la\n"
+"p√°gina de comunicaci√≥n de errores en http://savannah.gnu.org/ o bien, si no\n"
 "tiene acceso a web, enviando un mensaje a <bug-findutils@gnu.org>."
 
 #: find/parser.c:1307
 #, c-format
 msgid "sanity check of the fnmatch() library function failed."
-msgstr ""
-"la comprobaciÛn de adecuaciÛn de la funciÛn de biblioteca fnmatch() fallÛ."
+msgstr "la comprobaci√≥n de adecuaci√≥n de la funci√≥n de biblioteca fnmatch() fall√≥."
 
 #: find/parser.c:1321
 #, c-format
-msgid ""
-"warning: Unix filenames usually don't contain slashes (though pathnames "
-"do).  That means that '%s %s' will probably evaluate to false all the time "
-"on this system.  You might find the '-wholename' test more useful, or "
-"perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could "
-"use 'find ... -print0 | grep -FzZ %s'."
-msgstr ""
+msgid "warning: Unix filenames usually don't contain slashes (though pathnames do).  That means that '%s %s' will probably evaluate to false all the time on this system.  You might find the '-wholename' test more useful, or perhaps '-samefile'.  Alternatively, if you are using GNU grep, you could use 'find ... -print0 | grep -FzZ %s'."
+msgstr "atenci√≥n: Los nombres de ficheros en Unix normalmente no contienen barras (aunque las rutas s√≠). Esto quiere decir que '%s %s' probablemente siempre valdr√° false en este sistema. Puede que encuentre m√°s √∫til la opci√≥n '-wholename', o tal vez '-samefile'. Alternativamente, si est√° usando GNU grep, podr√≠a usar 'find ... -print0 | grep -FzZ %s'."
 
 #: find/parser.c:1447
 #, c-format
 msgid "Expected a positive decimal integer argument to %s, but got %s"
-msgstr ""
+msgstr "Se esperaba un entero positivo en decimal como argumento para %s, pero se encontr√≥ %s"
 
 #: find/parser.c:1612
 #, c-format
 msgid "This system does not provide a way to find the birth time of a file."
-msgstr ""
+msgstr "Este sistema no proporciona una forma de encontrar la fecha de creaci√≥n de un fichero."
 
 #: find/parser.c:1633
-#, fuzzy, c-format
+#, c-format
 msgid "The %s test needs an argument"
-msgstr "%s: la opciÛn `%s' necesita un argumento\n"
+msgstr "La comprobaci√≥n %s necesita un argumento"
 
 #: find/parser.c:1670
 #, c-format
 msgid "I cannot figure out how to interpret %s as a date or time"
-msgstr ""
+msgstr "No soy capaz de intepretar %s como una fecha o una hora"
 
 #: find/parser.c:1687
 #, c-format
 msgid "Cannot obtain birth time of file %s"
-msgstr ""
+msgstr "No se puede obtener la fecha de creaci√≥n del fichero %s"
 
 #: find/parser.c:1895
 #, c-format
 msgid "warning: -%s %s will not match anything because it ends with /."
-msgstr ""
+msgstr "atenci√≥n: -%s %s no encajar√° con nada porque termina con /."
 
 #: find/parser.c:1992
-#, fuzzy, c-format
+#, c-format
 msgid "invalid mode %s"
-msgstr "modo inv·lido `%s'"
+msgstr "modo inv√°lido %s"
 
 #: find/parser.c:2010
 #, c-format
-msgid ""
-"warning: you have specified a mode pattern %s (which is equivalent to /000). "
-"The meaning of -perm /000 has now been changed to be consistent with -perm "
-"-000; that is, while it used to match no files, it now matches all files."
-msgstr ""
+msgid "warning: you have specified a mode pattern %s (which is equivalent to /000). The meaning of -perm /000 has now been changed to be consistent with -perm -000; that is, while it used to match no files, it now matches all files."
+msgstr "atenci√≥n: ha especificado un patr√≥n de modo %s (que equivale a /000). El significado de -perm /000 ha cambiado para que sea consistente con -perm -000; esto es, cuando antes no coincid√≠a con ning√∫n fichero, ahora coincide con todos los ficheros."
 
-# Nota: No es que no se haya dado el argumento requerido a la opciÛn -size,
+# Nota: No es que no se haya dado el argumento requerido a la opci√≥n -size,
 # sino que se ha dado un argumento nulo, que es distinto.
 # Para ver la sutil diferencia, poner LANG=C y comparar esto:
 #
@@ -488,48 +440,46 @@ msgstr ""
 #: find/parser.c:2210
 #, c-format
 msgid "invalid null argument to -size"
-msgstr "argumento nulo inv·lido para la opciÛn -size"
+msgstr "argumento nulo inv√°lido para la opci√≥n -size"
 
 #: find/parser.c:2260
 #, c-format
 msgid "invalid -size type `%c'"
-msgstr "tipo dado a -size inv·lido `%c'"
+msgstr "tipo dado a -size inv√°lido `%c'"
 
 #: find/parser.c:2270
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid argument `%s%s' to -size"
-msgstr "argumento `%s' inv·lido para la opciÛn `%s'"
+msgstr "Argumento `%s%s' inv√°lido para la opci√≥n -size"
 
 #: find/parser.c:2452
-msgid ""
-"The -show-control-chars option takes a single argument which must be "
-"'literal' or 'safe'"
-msgstr ""
+msgid "The -show-control-chars option takes a single argument which must be 'literal' or 'safe'"
+msgstr "La opci√≥n -show-control-chars tiene un √∫nico argumento que debe ser 'literal' o 'safe'"
 
 #: find/parser.c:2566
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid argument %s to -used"
-msgstr "argumento %s inv·lido para %s"
+msgstr "Argumento %s inv√°lido para -used"
 
 #: find/parser.c:2607
 #, c-format
 msgid "%s is not the name of a known user"
-msgstr ""
+msgstr "%s no es el nombre de ning√∫n usuario conocido"
 
 #: find/parser.c:2614
 #, c-format
 msgid "The argument to -user should not be empty"
-msgstr ""
+msgstr "El argumento para la opci√≥n -user no debe ser vac√≠o"
 
 #: find/parser.c:2639
 #, c-format
 msgid "Features enabled: "
-msgstr ""
+msgstr "Caracter√≠sticas activadas: "
 
 #: find/parser.c:2716
 #, c-format
 msgid "invalid predicate -context: SELinux is not enabled."
-msgstr ""
+msgstr "predicado -context inv√°lido: SELinux no est√° activo."
 
 #: find/parser.c:2780
 #, c-format
@@ -538,65 +488,48 @@ msgstr ""
 
 #: find/parser.c:2809
 #, c-format
-msgid ""
-"-type %c is not supported because symbolic links are not supported on the "
-"platform find was compiled on."
+msgid "-type %c is not supported because symbolic links are not supported on the platform find was compiled on."
 msgstr ""
 
 #: find/parser.c:2820
 #, c-format
-msgid ""
-"-type %c is not supported because FIFOs are not supported on the platform "
-"find was compiled on."
+msgid "-type %c is not supported because FIFOs are not supported on the platform find was compiled on."
 msgstr ""
 
 #: find/parser.c:2831
 #, c-format
-msgid ""
-"-type %c is not supported because named sockets are not supported on the "
-"platform find was compiled on."
+msgid "-type %c is not supported because named sockets are not supported on the platform find was compiled on."
 msgstr ""
 
 #: find/parser.c:2842
 #, c-format
-msgid ""
-"-type %c is not supported because Solaris doors are not supported on the "
-"platform find was compiled on."
+msgid "-type %c is not supported because Solaris doors are not supported on the platform find was compiled on."
 msgstr ""
 
 #: find/parser.c:2849
 #, c-format
 msgid "Unknown argument to -type: %c"
-msgstr ""
+msgstr "Argumento desconocido para -type: %c"
 
 #: find/parser.c:2923
 #, c-format
-msgid ""
-"The current directory is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove the "
-"current directory from your $PATH (that is, remove \".\", doubled colons, or "
-"leading or trailing colons)"
-msgstr ""
+msgid "The current directory is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove the current directory from your $PATH (that is, remove \".\", doubled colons, or leading or trailing colons)"
+msgstr "El directorio actual est√° inclu√≠do en la variable de entorno PATH, lo que es inseguro en combinaci√≥n con la acci√≥n %s de find. Por favor elimine el directorio actual de su $PATH (esto es, borre \".\", dos puntos repetidos, o los dos puntos iniciales o finales)"
 
 #: find/parser.c:2935
 #, c-format
-msgid ""
-"The relative path %s is included in the PATH environment variable, which is "
-"insecure in combination with the %s action of find.  Please remove that "
-"entry from $PATH"
-msgstr ""
+msgid "The relative path %s is included in the PATH environment variable, which is insecure in combination with the %s action of find.  Please remove that entry from $PATH"
+msgstr "La ruta relativa %s est√° inclu√≠da en la variable de entorno PATH, lo que es inseguro en combinaci√≥n con la acci√≥n %s de find. Por favor elimine esa entrada del $PATH"
 
 #: find/parser.c:3044
 #, c-format
-msgid ""
-"You may not use {} within the utility name for -execdir and -okdir, because "
-"this is a potential security problem."
-msgstr ""
+msgid "You may not use {} within the utility name for -execdir and -okdir, because this is a potential security problem."
+msgstr "No se puede usar {} dentro de la utilidad nombre para -execdir y -okdir, porque esto es un potencial problema de seguridad."
 
 #: find/parser.c:3070
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
-msgstr ""
+msgstr "Solamente se permite {} una vez con -exec%s ... +"
 
 #: find/parser.c:3080
 #, c-format
@@ -604,9 +537,9 @@ msgid "In %s the %s must appear by itself, but you specified %s"
 msgstr ""
 
 #: find/parser.c:3100
-#, fuzzy, c-format
+#, c-format
 msgid "The environment is too large for exec()."
-msgstr "el entorno es demasiado grande para exec"
+msgstr "El entorno es demasiado grande para exec()."
 
 #: find/parser.c:3269
 #, c-format
@@ -620,21 +553,21 @@ msgstr ""
 
 #: find/parser.c:3452
 msgid "standard error"
-msgstr ""
+msgstr "salida de error est√°ndar"
 
 #: find/parser.c:3457
 msgid "standard output"
-msgstr ""
+msgstr "salida est√°ndar"
 
 #: find/pred.c:338
 #, c-format
 msgid "cannot delete %s"
-msgstr ""
+msgstr "no se puede borrar %s"
 
 #: find/pred.c:718
 #, c-format
 msgid "WARNING: cannot determine birth time of file %s"
-msgstr ""
+msgstr "ATENCI√ìN: No se puede determinar la fecha de creaci√≥n del fichero %s"
 
 #: find/pred.c:782
 #, c-format
@@ -654,184 +587,175 @@ msgstr ""
 #: find/print.c:346
 #, c-format
 msgid "warning: escape `\\' followed by nothing at all"
-msgstr ""
+msgstr "atenci√≥n: escape `\\' seguido por nada en absoluto"
 
 #: find/print.c:365
 #, c-format
 msgid "warning: unrecognized escape `\\%c'"
-msgstr "atenciÛn: secuencia de escape `\\%c' no reconocida"
+msgstr "atenci√≥n: secuencia de escape `\\%c' no reconocida"
 
 #: find/print.c:385
 #, c-format
 msgid "error: %s at end of format string"
-msgstr ""
+msgstr "error: %s al final de la cadena de formato"
 
 #: find/print.c:409
 #, c-format
 msgid "error: the format directive `%%%c' is reserved for future use"
-msgstr ""
+msgstr "error: la directiva de formato `%%%c' est√° reservada para uso futuro"
 
 #: find/print.c:417
 #, c-format
-msgid ""
-"warning: format directive `%%%c' should be followed by another character"
-msgstr ""
+msgid "warning: format directive `%%%c' should be followed by another character"
+msgstr "atenci√≥n: la directiva de formato `%%%c' debe estar seguida por otro car√°cter"
 
 #: find/print.c:425
 #, c-format
 msgid "warning: unrecognized format directive `%%%c'"
-msgstr "atenciÛn: directiva de formato `%%%c' no reconocida"
+msgstr "atenci√≥n: directiva de formato `%%%c' no reconocida"
 
 #: find/tree.c:129 find/tree.c:134 find/tree.c:224 find/tree.c:263
 #, c-format
 msgid "invalid expression"
-msgstr "expresiÛn inv·lida"
+msgstr "expresi√≥n inv√°lida"
 
 #: find/tree.c:140
 #, c-format
-msgid ""
-"invalid expression; you have used a binary operator '%s' with nothing before "
-"it."
-msgstr ""
+msgid "invalid expression; you have used a binary operator '%s' with nothing before it."
+msgstr "expresi√≥n inv√°lida; se ha utilizado un operador binario '%s' con nada antes de √©l."
 
 #: find/tree.c:151
 #, c-format
 msgid "expected an expression between '%s' and ')'"
-msgstr ""
+msgstr "se esperaba una expresi√≥n entre '%s' y ')'"
 
 #: find/tree.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "expected an expression after '%s'"
-msgstr "predicado extra inesperado"
+msgstr "se esperaba una expresi√≥n despu√©s de '%s'"
 
 #: find/tree.c:166
-#, fuzzy, c-format
+#, c-format
 msgid "invalid expression; you have too many ')'"
-msgstr "expresiÛn inv·lida"
+msgstr "expresi√≥n inv√°lida; demasiados ')'"
 
 #: find/tree.c:189
 #, c-format
-msgid ""
-"invalid expression; expected to find a ')' but didn't see one.  Perhaps you "
-"need an extra predicate after '%s'"
-msgstr ""
+msgid "invalid expression; expected to find a ')' but didn't see one.  Perhaps you need an extra predicate after '%s'"
+msgstr "expresi√≥n inv√°lida; se esperaba encontrar un ')', pero no est√°. A lo mejor necesita un predicado extra despu√©s de '%s'"
 
 #: find/tree.c:197
 #, c-format
 msgid "invalid expression; empty parentheses are not allowed."
-msgstr ""
+msgstr "expresi√≥n inv√°lida; no se permiten par√©ntesis vac√≠os."
 
 #: find/tree.c:203
 #, c-format
-msgid ""
-"invalid expression; I was expecting to find a ')' somewhere but did not see "
-"one."
-msgstr ""
+msgid "invalid expression; I was expecting to find a ')' somewhere but did not see one."
+msgstr "expresi√≥n inv√°lida; se esperaba encontrar un ')' en alguna parte, pero no est√°."
 
-# Creo que la traducciÛn ideal de oops serÌa °huy! sv
-# Y si no: øA alg˙n espaÒol le has visto que diga "oops"?
+# Creo que la traducci√≥n ideal de oops ser√≠a ¬°huy! sv
+# Y si no: ¬øA alg√∫n espa√±ol le has visto que diga "oops"?
 #
-# Si :) Todas las maÒanas en el espejo. De todas maneras,
-# `°huy!' creo que no expresa exactamente el `indicar que
-# parece que hay un problema' ... yo creo que quedarÌa
+# Si :) Todas las ma√±anas en el espejo. De todas maneras,
+# `¬°huy!' creo que no expresa exactamente el `indicar que
+# parece que hay un problema' ... yo creo que quedar√≠a
 # mejor `oh, oh' (Rainman ... :). ipg
 #
-# Pero si despuÈs del huy te dicen que la expresiÛn no es v·lida, est·
-# claro que habÌa un problema...
-# Ya, pero puestos, casi podrÌamos buscar una expresiÛn com˙n para
+# Pero si despu√©s del huy te dicen que la expresi√≥n no es v√°lida, est√°
+# claro que hab√≠a un problema...
+# Ya, pero puestos, casi podr√≠amos buscar una expresi√≥n com√∫n para
 # los `oops'
 # Pon `oh, oh', si crees que es lo apropiado.
-# Lo decÌa m·s que nada por no dejarlo en inglÈs siendo el espaÒol
+# Lo dec√≠a m√°s que nada por no dejarlo en ingl√©s siendo el espa√±ol
 # tan rico y variado para las interjecciones.
-# (Y me consta que t˙ sabes bastante de esto :-)
-# °°Carajo!! øyo?. Voy a dejar `oh, oh', y si a la gente le gusta
-# (a mÌ me parece coÒero), lo dejamos, y si no, ponemos `huy'. ipg
+# (Y me consta que t√∫ sabes bastante de esto :-)
+# ¬°¬°Carajo!! ¬øyo?. Voy a dejar `oh, oh', y si a la gente le gusta
+# (a m√≠ me parece co√±ero), lo dejamos, y si no, ponemos `huy'. ipg
 # Vale. sv
 #
-# AquÌ tambiÈn tengo pensado hacer publicidad ;-) sv
+# Aqu√≠ tambi√©n tengo pensado hacer publicidad ;-) sv
 #
-# Aparte de lo anterior. Si vas a dejar "oh, oh", øno serÌa mejor
+# Aparte de lo anterior. Si vas a dejar "oh, oh", ¬øno ser√≠a mejor
 # ponerlo sin tantas exclamaciones? (no me pegan)
 #
 # Ok. ipg
 #
-# Pero yo decÌa al revÈs... (como en el original).
+# Pero yo dec√≠a al rev√©s... (como en el original).
 # Lo cambio. sv
-# E incluso si te parece, no ponemos ninguna exclamaciÛn en ninguno
+# E incluso si te parece, no ponemos ninguna exclamaci√≥n en ninguno
 # de los dos sitios.
-# (Donde menos me pegan es en el "oh, oh", parece cosa de Pap· Noel...). sv
+# (Donde menos me pegan es en el "oh, oh", parece cosa de Pap√° Noel...). sv
 #
-# Ser· por las fechas ... ;) ok, claudico. ipg
+# Ser√° por las fechas ... ;) ok, claudico. ipg
 #: find/tree.c:209 find/tree.c:833
 #, c-format
 msgid "oops -- invalid expression type!"
-msgstr "oh, oh -- °tipo de expresiÛn inv·lido!"
+msgstr "oh, oh -- ¬°tipo de expresi√≥n inv√°lido!"
 
-# Creo que la traducciÛn ideal de oops serÌa °huy! sv
-# Y si no: øA alg˙n espaÒol le has visto que diga "oops"?
+# Creo que la traducci√≥n ideal de oops ser√≠a ¬°huy! sv
+# Y si no: ¬øA alg√∫n espa√±ol le has visto que diga "oops"?
 #
-# Si :) Todas las maÒanas en el espejo. De todas maneras,
-# `°huy!' creo que no expresa exactamente el `indicar que
-# parece que hay un problema' ... yo creo que quedarÌa
+# Si :) Todas las ma√±anas en el espejo. De todas maneras,
+# `¬°huy!' creo que no expresa exactamente el `indicar que
+# parece que hay un problema' ... yo creo que quedar√≠a
 # mejor `oh, oh' (Rainman ... :). ipg
 #
-# Pero si despuÈs del huy te dicen que la expresiÛn no es v·lida, est·
-# claro que habÌa un problema...
-# Ya, pero puestos, casi podrÌamos buscar una expresiÛn com˙n para
+# Pero si despu√©s del huy te dicen que la expresi√≥n no es v√°lida, est√°
+# claro que hab√≠a un problema...
+# Ya, pero puestos, casi podr√≠amos buscar una expresi√≥n com√∫n para
 # los `oops'
 # Pon `oh, oh', si crees que es lo apropiado.
-# Lo decÌa m·s que nada por no dejarlo en inglÈs siendo el espaÒol
+# Lo dec√≠a m√°s que nada por no dejarlo en ingl√©s siendo el espa√±ol
 # tan rico y variado para las interjecciones.
-# (Y me consta que t˙ sabes bastante de esto :-)
-# °°Carajo!! øyo?. Voy a dejar `oh, oh', y si a la gente le gusta
-# (a mÌ me parece coÒero), lo dejamos, y si no, ponemos `huy'. ipg
+# (Y me consta que t√∫ sabes bastante de esto :-)
+# ¬°¬°Carajo!! ¬øyo?. Voy a dejar `oh, oh', y si a la gente le gusta
+# (a m√≠ me parece co√±ero), lo dejamos, y si no, ponemos `huy'. ipg
 # Vale. sv
 #
-# AquÌ tambiÈn tengo pensado hacer publicidad ;-) sv
+# Aqu√≠ tambi√©n tengo pensado hacer publicidad ;-) sv
 #
-# Aparte de lo anterior. Si vas a dejar "oh, oh", øno serÌa mejor
+# Aparte de lo anterior. Si vas a dejar "oh, oh", ¬øno ser√≠a mejor
 # ponerlo sin tantas exclamaciones? (no me pegan)
 #
 # Ok. ipg
 #
-# Pero yo decÌa al revÈs... (como en el original).
+# Pero yo dec√≠a al rev√©s... (como en el original).
 # Lo cambio. sv
-# E incluso si te parece, no ponemos ninguna exclamaciÛn en ninguno
+# E incluso si te parece, no ponemos ninguna exclamaci√≥n en ninguno
 # de los dos sitios.
-# (Donde menos me pegan es en el "oh, oh", parece cosa de Pap· Noel...). sv
+# (Donde menos me pegan es en el "oh, oh", parece cosa de Pap√° Noel...). sv
 #
-# Ser· por las fechas ... ;) ok, claudico. ipg
+# Ser√° por las fechas ... ;) ok, claudico. ipg
 #: find/tree.c:281
-#, fuzzy, c-format
+#, c-format
 msgid "oops -- invalid expression type (%d)!"
-msgstr "oh, oh -- °tipo de expresiÛn inv·lido!"
+msgstr "oh, oh -- ¬°tipo de expresi√≥n (%d) inv√°lido!"
 
 #: find/tree.c:1120
 #, c-format
-msgid ""
-"warning: there is no entry in the predicate evaluation cost table for "
-"predicate %s; please report this as a bug"
+msgid "warning: there is no entry in the predicate evaluation cost table for predicate %s; please report this as a bug"
 msgstr ""
 
 #: find/tree.c:1294
-#, fuzzy, c-format
+#, c-format
 msgid "paths must precede expression: %s"
-msgstr "Las rutas-de-acceso deben preceder la expresiÛn"
+msgstr "Las rutas-de-acceso deben preceder la expresi√≥n: %s"
 
 #: find/tree.c:1303
-#, fuzzy, c-format
+#, c-format
 msgid "unknown predicate `%s'"
-msgstr "predicado inv·lido `%s'"
+msgstr "predicado desconocido `%s'"
 
 #: find/tree.c:1323
 #, c-format
 msgid "invalid predicate `%s'"
-msgstr "predicado inv·lido `%s'"
+msgstr "predicado inv√°lido `%s'"
 
 #: find/tree.c:1328
 #, c-format
 msgid "invalid argument `%s' to `%s'"
-msgstr "argumento `%s' inv·lido para la opciÛn `%s'"
+msgstr "argumento `%s' inv√°lido para la opci√≥n `%s'"
 
 #: find/tree.c:1336
 #, c-format
@@ -841,12 +765,12 @@ msgstr "falta el argumento de `%s'"
 #: find/tree.c:1412
 #, c-format
 msgid "you have too many ')'"
-msgstr ""
+msgstr "hay demasiados ')'"
 
 #: find/tree.c:1418
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected extra predicate '%s'"
-msgstr "predicado extra inesperado"
+msgstr "predicado extra '%s' inesperado"
 
 #: find/tree.c:1420
 #, c-format
@@ -856,83 +780,79 @@ msgstr "predicado extra inesperado"
 #: find/tree.c:1553
 #, c-format
 msgid "oops -- invalid default insertion of and!"
-msgstr "oh, oh -- °inserciÛn por defecto de `and' inv·lida!"
+msgstr "oh, oh -- ¬°inserci√≥n por defecto de `and' inv√°lida!"
 
-#  øCÛmo traducir "path"? Me inclino por ahora por camino, pero quiz· serÌa
-#  m·s mejor que bueno poner directorio o algo asÌ. IPG
-#  °OlÈ! Gracias a tos los de es@li.org que me habeis dado "ruta de acceso".
-#  No se quÈ significado tendrÌa mi vida sin vuestra ayuda ;), snif ... :~)
+#  ¬øC√≥mo traducir "path"? Me inclino por ahora por camino, pero quiz√° ser√≠a
+#  m√°s mejor que bueno poner directorio o algo as√≠. IPG
+#  ¬°Ol√©! Gracias a tos los de es@li.org que me habeis dado "ruta de acceso".
+#  No se qu√© significado tendr√≠a mi vida sin vuestra ayuda ;), snif ... :~)
 #  IPG
 #: find/util.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "Usage: %s [-H] [-L] [-P] [-Olevel] [-D "
-msgstr "Modo de empleo: %s [-H] [-L] [-P] [ruta-de-acceso...] [expresiÛn]\n"
+msgstr "Modo de empleo: %s [-H] [-L] [-P] [-Onivel] [-D "
 
-#  øCÛmo traducir "path"? Me inclino por ahora por camino, pero quiz· serÌa
-#  m·s mejor que bueno poner directorio o algo asÌ. IPG
-#  °OlÈ! Gracias a tos los de es@li.org que me habeis dado "ruta de acceso".
-#  No se quÈ significado tendrÌa mi vida sin vuestra ayuda ;), snif ... :~)
+#  ¬øC√≥mo traducir "path"? Me inclino por ahora por camino, pero quiz√° ser√≠a
+#  m√°s mejor que bueno poner directorio o algo as√≠. IPG
+#  ¬°Ol√©! Gracias a tos los de es@li.org que me habeis dado "ruta de acceso".
+#  No se qu√© significado tendr√≠a mi vida sin vuestra ayuda ;), snif ... :~)
 #  IPG
 #: find/util.c:177
-#, fuzzy, c-format
+#, c-format
 msgid "] [path...] [expression]\n"
-msgstr "Modo de empleo: %s [ruta-de-acceso...] [expresiÛn]\n"
+msgstr "] [ruta-de-acceso...] [expresi√≥n]\n"
 
 #: find/util.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "failed to save initial working directory"
-msgstr "no se puede obtener el directorio actual"
+msgstr "fallo al guardar el directorio de trabajo inicial"
 
 #: find/util.c:476
-#, fuzzy, c-format
+#, c-format
 msgid "failed to restore initial working directory"
-msgstr "no se puede obtener el directorio actual"
+msgstr "fallo al restaurar el directorio de trabajo inicial"
 
 #: find/util.c:824
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring unrecognised debug flag %s"
-msgstr "atenciÛn: secuencia de escape `\\%c' no reconocida"
+msgstr "No se tendr√° en cuenta la opci√≥n de depuraci√≥n no reconocida %s"
 
 #: find/util.c:831
 #, c-format
 msgid "Empty argument to the -D option."
-msgstr ""
+msgstr "Argumento vac√≠o para la opci√≥n -D."
 
 #: find/util.c:847
 #, c-format
 msgid "The -O option must be immediately followed by a decimal integer"
-msgstr ""
+msgstr "La opci√≥n -O debe estar seguida inmediatamente por un entero decimal"
 
 #: find/util.c:857 find/util.c:868
 #, c-format
 msgid "Please specify a decimal number immediately after -O"
-msgstr ""
+msgstr "Por favor especifique un n√∫mero decimal inmediatamente despu√©s de -O"
 
 #: find/util.c:873 find/util.c:878
 #, c-format
 msgid "Invalid optimisation level %s"
-msgstr ""
+msgstr "Nivel de optimizaci√≥n %s inv√°lido"
 
 #: find/util.c:886
 #, c-format
-msgid ""
-"Optimisation level %lu is too high.  If you want to find files very quickly, "
-"consider using GNU locate."
-msgstr ""
+msgid "Optimisation level %lu is too high.  If you want to find files very quickly, consider using GNU locate."
+msgstr "El nivel de optimizaci√≥n %lu es demasiado alto. Si quiere encontrar ficheros r√°pidamente, considere utilizar GNU locate."
 
 #: find/util.c:1030
 #, c-format
-msgid ""
-"The environment variable FIND_BLOCK_SIZE is not supported, the only thing "
-"that affects the block size is the POSIXLY_CORRECT environment variable"
+msgid "The environment variable FIND_BLOCK_SIZE is not supported, the only thing that affects the block size is the POSIXLY_CORRECT environment variable"
 msgstr ""
-"La variable de entorno FIND_BLOCK_SIZE no est· soportada, lo ˙nico que\n"
-"afecta al tamaÒo del bloque es la variable de entorno POSIXLY_CORRECT"
+"La variable de entorno FIND_BLOCK_SIZE no est√° soportada, lo √∫nico que\n"
+"afecta al tama√±o del bloque es la variable de entorno POSIXLY_CORRECT"
 
 #: gl/lib/argmatch.c:133
 #, c-format
 msgid "invalid argument %s for %s"
-msgstr "argumento %s inv·lido para %s"
+msgstr "argumento %s inv√°lido para %s"
 
 #: gl/lib/argmatch.c:134
 #, c-format
@@ -941,89 +861,89 @@ msgstr "argumento %s ambiguo para %s"
 
 #: gl/lib/argmatch.c:153
 msgid "Valid arguments are:"
-msgstr "Los argumentos v·lidos son:"
+msgstr "Los argumentos v√°lidos son:"
 
 #: gl/lib/closein.c:100
 msgid "error closing file"
-msgstr ""
+msgstr "error al cerrar el fichero"
 
 #: gl/lib/closeout.c:112 locate/code.c:153 locate/frcode.c:210
 #, c-format
 msgid "write error"
-msgstr ""
+msgstr "error de escritura"
 
 #: gl/lib/error.c:188
 msgid "Unknown system error"
 msgstr "Error del sistema desconocido"
 
 #: gl/lib/getopt.c:547 gl/lib/getopt.c:576
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s' is ambiguous; possibilities:"
-msgstr "%s: la opciÛn `%s' es ambigua\n"
+msgstr "%s: la opci√≥n '%s' es ambigua; posibilidades:"
 
 #: gl/lib/getopt.c:624 gl/lib/getopt.c:628
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '--%s' doesn't allow an argument\n"
-msgstr "%s: la opciÛn `--%s' no admite ning˙n argumento\n"
+msgstr "%s: la opci√≥n '--%s' no admite ning√∫n argumento\n"
 
 #: gl/lib/getopt.c:637 gl/lib/getopt.c:642
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%c%s' doesn't allow an argument\n"
-msgstr "%s: la opciÛn `%c%s' no admite ning˙n argumento\n"
+msgstr "%s: la opci√≥n '%c%s' no admite ning√∫n argumento\n"
 
 #: gl/lib/getopt.c:685 gl/lib/getopt.c:704
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '--%s' requires an argument\n"
-msgstr "%s: la opciÛn `%s' necesita un argumento\n"
+msgstr "%s: la opci√≥n '--%s' necesita un argumento\n"
 
 #: gl/lib/getopt.c:742 gl/lib/getopt.c:745
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '--%s'\n"
-msgstr "%s: opciÛn no reconocida `--%s'\n"
+msgstr "%s: opci√≥n no reconocida '--%s'\n"
 
 #: gl/lib/getopt.c:753 gl/lib/getopt.c:756
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '%c%s'\n"
-msgstr "%s: opciÛn no reconocida `%c%s'\n"
+msgstr "%s: opci√≥n no reconocida '%c%s'\n"
 
 #: gl/lib/getopt.c:805 gl/lib/getopt.c:808
-#, fuzzy, c-format
+#, c-format
 msgid "%s: invalid option -- '%c'\n"
-msgstr "%s: opciÛn inv·lida -- %c\n"
+msgstr "%s: opci√≥n inv√°lida -- '%c'\n"
 
 #: gl/lib/getopt.c:861 gl/lib/getopt.c:878 gl/lib/getopt.c:1088
 #: gl/lib/getopt.c:1106
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option requires an argument -- '%c'\n"
-msgstr "%s: la opciÛn necesita un argumento -- %c\n"
+msgstr "%s: la opci√≥n necesita un argumento -- '%c'\n"
 
 #: gl/lib/getopt.c:934 gl/lib/getopt.c:950
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '-W %s' is ambiguous\n"
-msgstr "%s: la opciÛn `-W %s' es ambigua\n"
+msgstr "%s: la opci√≥n '-W %s' es ambigua\n"
 
 #: gl/lib/getopt.c:974 gl/lib/getopt.c:992
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '-W %s' doesn't allow an argument\n"
-msgstr "%s: la opciÛn `-W %s' no admite ning˙n argumento\n"
+msgstr "%s: la opci√≥n '-W %s' no admite ning√∫n argumento\n"
 
 #: gl/lib/getopt.c:1013 gl/lib/getopt.c:1031
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '-W %s' requires an argument\n"
-msgstr "%s: la opciÛn `%s' necesita un argumento\n"
+msgstr "%s: la opci√≥n '-W %s' necesita un argumento\n"
 
 #: gl/lib/openat-die.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to record current working directory"
-msgstr "no se puede obtener el directorio actual"
+msgstr "no se puede registrar el directorio actual de trabajo"
 
 #: gl/lib/openat-die.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "failed to return to initial working directory"
-msgstr "no se puede obtener el directorio actual"
+msgstr "fallo al volver al directorio de trabajo inicial"
 
-# No ha habido ninguna queja en coreutils, pongamos aquÌ tambiÈn los
-# sÌmbolos de cita tradicionales en espaÒol.
+# No ha habido ninguna queja en coreutils, pongamos aqu√≠ tambi√©n los
+# s√≠mbolos de cita tradicionales en espa√±ol.
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
 #. The message catalog should translate "`" to a left
@@ -1047,11 +967,11 @@ msgstr "no se puede obtener el directorio actual"
 #. and use glyphs suitable for your language.
 #: gl/lib/quotearg.c:312
 msgid "`"
-msgstr "´"
+msgstr "¬´"
 
 #: gl/lib/quotearg.c:313
 msgid "'"
-msgstr "ª"
+msgstr "¬ª"
 
 #. TRANSLATORS: A regular expression testing for an affirmative answer
 #. (english: "yes").  Testing the first character may be sufficient.
@@ -1076,47 +996,52 @@ msgstr "^[nN]"
 #: gl/lib/version-etc.c:74
 #, c-format
 msgid "Packaged by %s (%s)\n"
-msgstr ""
+msgstr "Empaquetado por %s (%s)\n"
 
 #: gl/lib/version-etc.c:77
 #, c-format
 msgid "Packaged by %s\n"
-msgstr ""
+msgstr "Empaquetado por %s\n"
 
 #. TRANSLATORS: Translate "(C)" to the copyright symbol
 #. (C-in-a-circle), if this symbol is available in the user's
 #. locale.  Otherwise, do not translate "(C)"; leave it as-is.
 #: gl/lib/version-etc.c:84
 msgid "(C)"
-msgstr ""
+msgstr "¬©"
 
 #: gl/lib/version-etc.c:86
 msgid ""
 "\n"
-"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
-"html>.\n"
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.\n"
 "This is free software: you are free to change and redistribute it.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 "\n"
 msgstr ""
+"\n"
+"Licencia GPLv3+: GPL de GNU versi√≥n 3 o posterior\n"
+"<http://gnu.org/licenses/gpl.html>.\n"
+"Esto es software libre: usted es libre de cambiarlo y redistribuirlo.\n"
+"No hay NINGUNA GARANT√çA, hasta donde permite la ley.\n"
+"\n"
 
 #. TRANSLATORS: %s denotes an author name.
 #: gl/lib/version-etc.c:102
 #, c-format
 msgid "Written by %s.\n"
-msgstr ""
+msgstr "Escrito por %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
 #: gl/lib/version-etc.c:106
 #, c-format
 msgid "Written by %s and %s.\n"
-msgstr ""
+msgstr "Escrito por %s y %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
 #: gl/lib/version-etc.c:110
 #, c-format
 msgid "Written by %s, %s, and %s.\n"
-msgstr ""
+msgstr "Escrito por %s, %s, y %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
@@ -1127,6 +1052,8 @@ msgid ""
 "Written by %s, %s, %s,\n"
 "and %s.\n"
 msgstr ""
+"Escrito por %s, %s, %s,\n"
+"y %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
@@ -1137,6 +1064,8 @@ msgid ""
 "Written by %s, %s, %s,\n"
 "%s, and %s.\n"
 msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, y %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
@@ -1147,6 +1076,8 @@ msgid ""
 "Written by %s, %s, %s,\n"
 "%s, %s, and %s.\n"
 msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, y %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
@@ -1157,6 +1088,8 @@ msgid ""
 "Written by %s, %s, %s,\n"
 "%s, %s, %s, and %s.\n"
 msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, %s, y %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
@@ -1168,6 +1101,9 @@ msgid ""
 "%s, %s, %s, %s,\n"
 "and %s.\n"
 msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"y %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
@@ -1179,6 +1115,9 @@ msgid ""
 "%s, %s, %s, %s,\n"
 "%s, and %s.\n"
 msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, y %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
@@ -1190,7 +1129,16 @@ msgid ""
 "%s, %s, %s, %s,\n"
 "%s, %s, and others.\n"
 msgstr ""
+"Escrito por %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, y otros.\n"
 
+# "We could, for instance, begin with cleaning up our language by no
+# longer calling a bug a bug but by calling it an error."
+#
+# Edsger W. Dijkstra, "On the cruelty of really teaching computing science"
+#
+# http://www.cs.utexas.edu/users/EWD/transcriptions/EWD10xx/EWD1036.html
 #. TRANSLATORS: The placeholder indicates the bug-reporting address
 #. for this package.  Please add _another line_ saying
 #. "Report translation bugs to <...>\n" with the address for translation
@@ -1201,45 +1149,46 @@ msgid ""
 "\n"
 "Report bugs to: %s\n"
 msgstr ""
+"\n"
+"Comunicar errores a: %s\n"
 
 #: gl/lib/version-etc.c:247
 #, c-format
 msgid "Report %s bugs to: %s\n"
-msgstr ""
+msgstr "Comunicar errores en %s a: %s\n"
 
 #: gl/lib/version-etc.c:251
 #, c-format
 msgid "%s home page: <%s>\n"
-msgstr ""
+msgstr "P√°gina inicial de %s: <%s>\n"
 
 #: gl/lib/version-etc.c:253
 #, c-format
 msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
-msgstr ""
+msgstr "P√°gina inicial de %s: <http://www.gnu.org/software/%s/>\n"
 
 #: gl/lib/version-etc.c:256
 msgid "General help using GNU software: <http://www.gnu.org/gethelp/>\n"
-msgstr ""
+msgstr "Ayuda general sobre el uso de software de GNU: <http://www.gnu.org/gethelp/>\n"
 
 #: gl/lib/xalloc-die.c:34
-#, fuzzy
 msgid "memory exhausted"
-msgstr "Memoria agotada"
+msgstr "memoria agotada"
 
 #: gl/lib/xstrtol-error.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "invalid %s%s argument '%s'"
-msgstr "argumento `%s' inv·lido para la opciÛn `%s'"
+msgstr "argumento %s%s inv√°lido '%s'"
 
 #: gl/lib/xstrtol-error.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "invalid suffix in %s%s argument '%s'"
-msgstr "argumento `%s' inv·lido para la opciÛn `%s'"
+msgstr "sufijo inv√°lido en el argumento %s%s '%s'"
 
 #: gl/lib/xstrtol-error.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "%s%s argument '%s' too large"
-msgstr "lista de argumentos demasiado larga"
+msgstr "%s%s: argumento '%s' demasiado grande"
 
 #: lib/buildcmd.c:161
 #, c-format
@@ -1249,13 +1198,12 @@ msgstr "orden demasiado larga"
 #: lib/buildcmd.c:301
 #, c-format
 msgid "can't call exec() due to argument size restrictions"
-msgstr ""
+msgstr "no se puede llamar a exec() a causa de restricciones en el tama√±o de los argumentos"
 
 #: lib/buildcmd.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "cannot fit single argument within argument list size limit"
-msgstr ""
-"Un argumento no cabe dentro del tamaÒo lÌmite de la lista de argumentos"
+msgstr "un argumento no cabe dentro del tama√±o l√≠mite de la lista de argumentos"
 
 #: lib/buildcmd.c:377
 #, c-format
@@ -1265,46 +1213,44 @@ msgstr "lista de argumentos demasiado larga"
 #: lib/buildcmd.c:629
 #, c-format
 msgid "Environment variable %s is not set to a valid decimal number"
-msgstr ""
+msgstr "La variable de entorno %s no tiene como valor un n√∫mero decimal v√°lido"
 
 #: lib/fdleak.c:377
 #, c-format
-msgid ""
-"File descriptor %d will leak; please report this as a bug, remembering to "
-"include a detailed description of the simplest way to reproduce this problem."
+msgid "File descriptor %d will leak; please report this as a bug, remembering to include a detailed description of the simplest way to reproduce this problem."
 msgstr ""
 
 #: lib/findutils-version.c:55
 msgid "Eric B. Decker"
-msgstr ""
+msgstr "Eric B. Decker"
 
 #: lib/findutils-version.c:56
 msgid "James Youngman"
-msgstr ""
+msgstr "James Youngman"
 
 #: lib/findutils-version.c:57
 msgid "Kevin Dalley"
-msgstr ""
+msgstr "Kevin Dalley"
 
-#: lib/listfile.c:337
-#, fuzzy, c-format
-msgid "Failed to write output (at stage %d)"
-msgstr "no se puede volver al directorio de partida"
+#: lib/listfile.c:272
+#, c-format
+msgid "Failed to write output"
+msgstr "Fallo al escribir el resultado"
 
 #: lib/regextype.c:110
 #, c-format
 msgid "Unknown regular expression type %s; valid types are %s."
-msgstr ""
+msgstr "Tipo de expresi√≥n regular %s desconocido; los tipos v√°lidos son %s."
 
 #: lib/safe-atoi.c:81
 #, c-format
 msgid "Unexpected suffix %s on %s"
-msgstr ""
+msgstr "Sufijo %s inesperado en %s"
 
 #: lib/safe-atoi.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "Expected an integer: %s"
-msgstr "predicado extra inesperado"
+msgstr "Se esperaba un entero: %s"
 
 #: locate/code.c:131
 #, c-format
@@ -1313,8 +1259,7 @@ msgid ""
 "or     %s most_common_bigrams < file-list > locate-database\n"
 msgstr ""
 "Modo de empleo: %s [--version | --help]\n"
-"o bien  %s bigramas_m·s_comunes < lista-de-ficheros > base-de-datos-de-"
-"locate\n"
+"o bien  %s bigramas_m√°s_comunes < lista-de-ficheros > base-de-datos-de-locate\n"
 
 #: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
 #: xargs/xargs.c:1660
@@ -1323,17 +1268,17 @@ msgid ""
 "Report bugs to <bug-findutils@gnu.org>.\n"
 msgstr ""
 "\n"
-"Comunicar bichos a <bug-findutils@gnu.org>.\n"
+"Comunicar errores a <bug-findutils@gnu.org>.\n"
 
 #: locate/frcode.c:160
 #, c-format
 msgid "Usage: %s [-0 | --null] [--version] [--help]\n"
-msgstr ""
+msgstr "Modo de empleo: %s [-0 | --null] [--version] [--help]\n"
 
 #: locate/frcode.c:180
 #, c-format
 msgid "You need to specify a security level as a decimal integer."
-msgstr ""
+msgstr "Debe especificar un nivel de seguridad como entero decimal."
 
 #: locate/frcode.c:188
 #, c-format
@@ -1357,46 +1302,44 @@ msgstr ""
 
 #: locate/locate.c:139
 msgid "days"
-msgstr "dÌas"
+msgstr "d√≠as"
 
 #: locate/locate.c:186
 #, c-format
 msgid "The argument for option --max-database-age must not be empty"
-msgstr ""
+msgstr "El argumento para la opci√≥n --max-database-age no debe ser vac√≠o"
 
 #: locate/locate.c:202 locate/locate.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid argument %s for option --max-database-age"
-msgstr "argumento %s inv·lido para %s"
+msgstr "Argumento %s inv√°lido para la opci√≥n --max-database-age"
 
 #: locate/locate.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
-msgstr ""
-"atenciÛn: la ruta de acceso de la base de datos de locate `%s' comienza\n"
-"por dos puntos, no es un nombre v·lido de base de datos"
+msgstr "la base de datos de locate %s contiene un nombre de fichero m√°s largo de lo que locate puede manejar"
 
 #: locate/locate.c:569 locate/locate.c:588
-#, fuzzy, c-format
+#, c-format
 msgid "locate database %s is corrupt or invalid"
-msgstr "la base de datos de locate `%s' est· corrupta o es inv·lida"
+msgstr "la base de datos de locate %s est√° corrupta o es inv√°lida"
 
 #: locate/locate.c:860
 #, c-format
 msgid "Locate database size: %s byte\n"
 msgid_plural "Locate database size: %s bytes\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tama√±o de la base de datos de locate: %s byte\n"
+msgstr[1] "Tama√±o de la base de datos de locate: %s bytes\n"
 
 #: locate/locate.c:867
 #, c-format
 msgid "Matching Filenames: %s\n"
-msgstr ""
+msgstr "Nombres de ficheros que encajan: %s\n"
 
 #: locate/locate.c:868
 #, c-format
 msgid "All Filenames: %s\n"
-msgstr ""
+msgstr "Todos los nombres de ficheros: %s\n"
 
 #: locate/locate.c:874
 #, c-format
@@ -1411,76 +1354,67 @@ msgstr ""
 
 #: locate/locate.c:888
 #, c-format
-msgid ""
-"Some filenames may have been filtered out, so we cannot compute the "
-"compression ratio.\n"
-msgstr ""
+msgid "Some filenames may have been filtered out, so we cannot compute the compression ratio.\n"
+msgstr "Algunos nombres de ficheros pueden haber sido filtrados, as√≠ que no se puede calcular la tasa de compresi√≥n.\n"
 
 #: locate/locate.c:901
 #, c-format
 msgid "Compression ratio %4.2f%% (higher is better)\n"
-msgstr ""
+msgstr "Raz√≥n de compresi√≥n %4.2f%% (m√°s alto significa mejor)\n"
 
 #: locate/locate.c:908
 #, c-format
 msgid "Compression ratio is undefined\n"
-msgstr ""
+msgstr "La raz√≥n de compresi√≥n es indefinida\n"
 
 #: locate/locate.c:963
 #, c-format
-msgid ""
-"locate database %s looks like an slocate database but it seems to have "
-"security level %c, which GNU findutils does not currently support"
-msgstr ""
+msgid "locate database %s looks like an slocate database but it seems to have security level %c, which GNU findutils does not currently support"
+msgstr "la base de datos de locate %s parece una base de datos de slocate pero tiene nivel de seguridad %c, que no est√° actualmente soportado por GNU findutils"
 
 #: locate/locate.c:1075
 #, c-format
-msgid ""
-"%s is an slocate database.  Support for these is new, expect problems for "
-"now."
-msgstr ""
+msgid "%s is an slocate database.  Support for these is new, expect problems for now."
+msgstr "%s es una base de datos de slocate. El soporte para estas bases de datos es nuevo, puede que tenga problemas por ahora."
 
 #: locate/locate.c:1089
 #, c-format
-msgid ""
-"%s is an slocate database of unsupported security level %d; skipping it."
-msgstr ""
+msgid "%s is an slocate database of unsupported security level %d; skipping it."
+msgstr "%s es una base de datos de slocate con nivel de seguridad %d no soportado; descartada."
 
 #: locate/locate.c:1106
 #, c-format
-msgid ""
-"You specified the -E option, but that option cannot be used with slocate-"
-"format databases with a non-zero security level.  No results will be "
-"generated for this database.\n"
-msgstr ""
+msgid "You specified the -E option, but that option cannot be used with slocate-format databases with a non-zero security level.  No results will be generated for this database.\n"
+msgstr "Ha especificado la opci√≥n -E, pero esa opci√≥n no se puede usar con bases de datos en formato slocate que tengan un nivel de seguridad distinto de cero. No se generar√°n resultados para esta base de datos.\n"
 
 #: locate/locate.c:1117
 #, c-format
 msgid "%s is an slocate database.  Turning on the '-e' option."
-msgstr ""
+msgstr "%s es una base de datos de slocate. Se activa la opci√≥n '-e'."
 
 #: locate/locate.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid "Old-format locate database %s is too short to be valid"
-msgstr "la base de datos de locate `%s' est· corrupta o es inv·lida"
+msgstr "La base de datos de locate en formato antiguo %s es demasiado corta para ser v√°lida"
 
 #: locate/locate.c:1307
 #, c-format
 msgid "Database %s is in the %s format.\n"
-msgstr ""
+msgstr "La base de datos %s est√° en el formato %s.\n"
 
 #: locate/locate.c:1334
 msgid "The database has little-endian machine-word encoding.\n"
-msgstr ""
+msgstr "La base de datos tiene una codificaci√≥n little-endian.\n"
 
 #: locate/locate.c:1336
 msgid "The database has big-endian machine-word encoding.\n"
-msgstr ""
+msgstr "La base de datos tiene una codificaci√≥n big-endian.\n"
 
+# Traducci√≥n libre, pero el significado es ese. sv
 #: locate/locate.c:1349
 #, c-format
 msgid "The database machine-word encoding order is not obvious.\n"
-msgstr ""
+msgstr "No se sabe si la base de datos es little-endian o big-endian.\n"
 
 #: locate/locate.c:1372
 #, c-format
@@ -1493,27 +1427,34 @@ msgid ""
 "      [--max-database-age D] [--version] [--help]\n"
 "      pattern...\n"
 msgstr ""
+"Modo de empleo: %s [-d ruta-de-acceso | --database=ruta-de-acceso]\n"
+"   [-e | -E | --[non-]existing] [-i | --ignore-case] [-w | --wholename] [-b | --basename]\n"
+"   [--limit=N | -l N] [-S | --statistics] [-0 | --null] [-c | --count]\n"
+"   [-P | -H | --nofollow] [-L | --follow] [-m | --mmap] [ -s | --stdio]\n"
+"   [-A | --all] [-p | --print] [-r | --regex] [--regextype=TIPO]\n"
+"   [--max-database-age D] [-version] [--help]\n"
+"   expr-reg...\n"
 
 #: locate/locate.c:1435
 msgid "failed to drop group privileges"
-msgstr ""
+msgstr "fallo al abandonar los privilegios de grupo"
 
 #: locate/locate.c:1453
 msgid "failed to drop setuid privileges"
-msgstr ""
+msgstr "fallo al abandonar los privilegios setuid"
 
 #: locate/locate.c:1467
 msgid "Failed to fully drop privileges"
-msgstr ""
+msgstr "Fallo al abandonar todos los privilegios"
 
 #: locate/locate.c:1485
 msgid "failed to drop setgid privileges"
-msgstr ""
+msgstr "fallo al abandonar los privilegios setgid"
 
 #: locate/locate.c:1763
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
-msgstr ""
+msgstr "atenci√≥n: la base de datos de locate solamente se puede leer una vez de la entrada est√°ndar."
 
 #: locate/locate.c:1833
 #, c-format
@@ -1521,57 +1462,49 @@ msgid "time system call failed"
 msgstr ""
 
 #: locate/locate.c:1844
-#, fuzzy, c-format
+#, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
-msgstr "atenciÛn: la base de datos `%s' tiene una antig¸edad de m·s de %d %s"
+msgstr "atenci√≥n: la base de datos %s tiene una antig√ºedad de m√°s de %d %s (la edad real es %.1f %s)"
 
 #: locate/word_io.c:98
 #, c-format
 msgid "WARNING: locate database %s was built with a different byte order"
-msgstr ""
+msgstr "ATENCI√ìN: la base de datos de locate %s fue creada con un orden de bytes distinto"
 
 #: locate/word_io.c:145
 #, c-format
 msgid "unexpected EOF in %s"
-msgstr ""
+msgstr "fin de fichero inesperado en %s"
 
 #: locate/word_io.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "error reading a word from %s"
-msgstr "error esperando al proceso %s"
+msgstr "error al leer una palabra de %s"
 
 #: xargs/xargs.c:252
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
-msgstr ""
+msgstr "Secuencia de escape %s inv√°lida en la especificaci√≥n del delimitador de entrada."
 
 #: xargs/xargs.c:270
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lx."
-msgstr ""
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lx."
+msgstr "Secuencia de escape %s inv√°lida en la especificaci√≥n del delimitador de entrada; los valores de los caracteres no deben superar %lx."
 
 #: xargs/xargs.c:276
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; character "
-"values must not exceed %lo."
-msgstr ""
+msgid "Invalid escape sequence %s in input delimiter specification; character values must not exceed %lo."
+msgstr "Secuencia de escape %s inv√°lida en la especificaci√≥n del delimitador de entrada; los valores de los caracteres no deben superar %lo."
 
 #: xargs/xargs.c:285
 #, c-format
-msgid ""
-"Invalid escape sequence %s in input delimiter specification; trailing "
-"characters %s not recognised."
-msgstr ""
+msgid "Invalid escape sequence %s in input delimiter specification; trailing characters %s not recognised."
+msgstr "Secuencia de escape %s inv√°lida en la especificaci√≥n del delimitador de entrada; no se reconocen los caracteres finales %s."
 
 #: xargs/xargs.c:330
 #, c-format
-msgid ""
-"Invalid input delimiter specification %s: the delimiter must be either a "
-"single character or an escape sequence starting with \\."
-msgstr ""
+msgid "Invalid input delimiter specification %s: the delimiter must be either a single character or an escape sequence starting with \\."
+msgstr "Especificaci√≥n del delimitador de entrada %s inv√°lido: el delimitador debe ser o bien un √∫nico car√°cter o una secuencia de escape que comience por \\."
 
 #: xargs/xargs.c:347
 #, c-format
@@ -1581,7 +1514,7 @@ msgstr "el entorno es demasiado grande para exec"
 #: xargs/xargs.c:559
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
-msgstr ""
+msgstr "atenci√≥n: el valor %ld para la opci√≥n -s es demasiado grande, se utilizar√° %ld en su lugar"
 
 #: xargs/xargs.c:606
 #, c-format
@@ -1591,12 +1524,12 @@ msgstr ""
 #: xargs/xargs.c:618
 #, c-format
 msgid "failed to unset environment variable %s"
-msgstr ""
+msgstr "fallo al borrar la variable de entorno %s"
 
 #: xargs/xargs.c:632
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
-msgstr ""
+msgstr "atenci√≥n: la opci√≥n -E no tiene ning√∫n efecto si se utiliza -0 o -d.\n"
 
 #: xargs/xargs.c:654
 #, c-format
@@ -1611,62 +1544,51 @@ msgstr ""
 #: xargs/xargs.c:676
 #, c-format
 msgid "Cannot open input file %s"
-msgstr ""
+msgstr "No se puede abrir el fichero de entrada %s"
 
 #: xargs/xargs.c:695
-#, fuzzy, c-format
+#, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
-msgstr "Las variables de entorno ocupan %ld bytes\n"
+msgstr "Las variables de entorno ocupan <%<PRIuMAX> bytes\n"
 
 #: xargs/xargs.c:698
-#, fuzzy, c-format
+#, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
-msgstr ""
-"LÌmites POSIX inferior y superior sobre la longitud del argumento: %ld, %ld\n"
+msgstr "L√≠mite superior POSIX sobre la longitud del argumento (este sistema): %<PRIuMAX>\n"
 
 #: xargs/xargs.c:701
-#, fuzzy, c-format
-msgid ""
-"POSIX smallest allowable upper limit on argument length (all systems): "
-"%<PRIuMAX>\n"
-msgstr ""
-"LÌmites POSIX inferior y superior sobre la longitud del argumento: %ld, %ld\n"
+#, c-format
+msgid "POSIX smallest allowable upper limit on argument length (all systems): %<PRIuMAX>\n"
+msgstr "L√≠mites superior m√°s peque√±o permitido por POSIX sobre la longitud del argumento (todos los sistemas): %<PRIuMAX>\n"
 
 #: xargs/xargs.c:704
-#, fuzzy, c-format
+#, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
-msgstr "M·xima longitud de orden que se podrÌa usar realmente: %ld\n"
+msgstr "M√°xima longitud de orden que se podr√≠a usar realmente: %<PRIuMAX>\n"
 
 #: xargs/xargs.c:707
-#, fuzzy, c-format
+#, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
-msgstr "TamaÒo del b˙fer de Ûrdenes que se est· usando realmente: %ld\n"
+msgstr "Tama√±o del b√∫fer de √≥rdenes que se est√° usando realmente: %<PRIuMAX>\n"
 
 #: xargs/xargs.c:713
 #, c-format
 msgid ""
 "\n"
-"Execution of xargs will continue now, and it will try to read its input and "
-"run commands; if this is not what you wanted to happen, please type the end-"
-"of-file keystroke.\n"
+"Execution of xargs will continue now, and it will try to read its input and run commands; if this is not what you wanted to happen, please type the end-of-file keystroke.\n"
 msgstr ""
 
 #: xargs/xargs.c:721
 #, c-format
-msgid ""
-"Warning: %s will be run at least once.  If you do not want that to happen, "
-"then press the interrupt keystroke.\n"
+msgid "Warning: %s will be run at least once.  If you do not want that to happen, then press the interrupt keystroke.\n"
 msgstr ""
 
 #: xargs/xargs.c:849 xargs/xargs.c:942
 #, c-format
-msgid ""
-"unmatched %s quote; by default quotes are special to xargs unless you use "
-"the -0 option"
+msgid "unmatched %s quote; by default quotes are special to xargs unless you use the -0 option"
 msgstr ""
-"comilla %s desemparejada; por omisiÛn las comillas son especiales para "
-"xargs\n"
-"a menos que utilice la opciÛn -0"
+"comilla %s desemparejada; por omisi√≥n las comillas son especiales para xargs\n"
+"a menos que utilice la opci√≥n -0"
 
 #: xargs/xargs.c:850 xargs/xargs.c:943
 msgid "double"
@@ -1678,20 +1600,18 @@ msgstr "simple"
 
 #: xargs/xargs.c:962
 #, c-format
-msgid ""
-"WARNING: a NUL character occurred in the input.  It cannot be passed through "
-"in the argument list.  Did you mean to use the --null option?"
+msgid "WARNING: a NUL character occurred in the input.  It cannot be passed through in the argument list.  Did you mean to use the --null option?"
 msgstr ""
 
 #: xargs/xargs.c:972 xargs/xargs.c:1037
 #, c-format
 msgid "argument line too long"
-msgstr "lÌnea de argumentos demasiado larga"
+msgstr "l√≠nea de argumentos demasiado larga"
 
 #: xargs/xargs.c:1056 xargs/xargs.c:1073
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to write to stderr"
-msgstr "no se puede volver al directorio de partida"
+msgstr ""
 
 #: xargs/xargs.c:1069
 #, c-format
@@ -1711,7 +1631,7 @@ msgstr ""
 #: xargs/xargs.c:1131
 #, c-format
 msgid "failed to set environment variable %s"
-msgstr ""
+msgstr "fallo al establecer la variable de entorno %s"
 
 #: xargs/xargs.c:1218
 #, c-format
@@ -1720,15 +1640,12 @@ msgstr ""
 
 #: xargs/xargs.c:1289
 #, c-format
-msgid ""
-"errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
-"please report it)"
+msgid "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, please report it)"
 msgstr ""
 
 #: xargs/xargs.c:1342
 #, c-format
-msgid ""
-"read returned unexpected value %zu; this is probably a bug, please report it"
+msgid "read returned unexpected value %zu; this is probably a bug, please report it"
 msgstr ""
 
 #: xargs/xargs.c:1435
@@ -1741,42 +1658,42 @@ msgstr "error esperando al proceso hijo"
 msgid "WARNING: Lost track of %lu child processes"
 msgstr ""
 
-# Pregunta (no es por crear polÈmica): ø"status" o "estado"? sv
+# Pregunta (no es por crear pol√©mica): ¬ø"status" o "estado"? sv
 #
-# "Estado", aunque tambiÈn existe "status". øDejamos "status"? ipg
+# "Estado", aunque tambi√©n existe "status". ¬øDejamos "status"? ipg
 #
-# No sÈ, si se refiere a lo que en MS-DOG se llama ERRORLEVEL,
-# y al resultado numÈrico que devuelve el main() del proceso, la
-# pregunta serÌa: øcÛmo se le llama a eso en espaÒol? sv
+# No s√©, si se refiere a lo que en MS-DOG se llama ERRORLEVEL,
+# y al resultado num√©rico que devuelve el main() del proceso, la
+# pregunta ser√≠a: ¬øc√≥mo se le llama a eso en espa√±ol? sv
 #
-# Creo que podrÌamos dejar `status', ya que existe en castellano,
+# Creo que podr√≠amos dejar `status', ya que existe en castellano,
 #  (Nota: Ver http://www.anaya.es/dict por ejemplo).
-# y expresa un estado de actividad, siendo m·s preciso que `estado'
-# (°ahora, que el/la que lo confunda con el Estado EspaÒol, es pa
+# y expresa un estado de actividad, siendo m√°s preciso que `estado'
+# (¬°ahora, que el/la que lo confunda con el Estado Espa√±ol, es pa
 # matal-le! :). ipg
 #
-# Me quedo con la duda de cÛmo se llama eso en espaÒol.
+# Me quedo con la duda de c√≥mo se llama eso en espa√±ol.
 # Esperemos que lo vea otro. sv
 #
 #: xargs/xargs.c:1487
 #, c-format
 msgid "%s: exited with status 255; aborting"
-msgstr "%s: acabÛ con status 255; abortando"
+msgstr "%s: acab√≥ con status 255; abortando"
 
 #: xargs/xargs.c:1490
 #, c-format
 msgid "%s: stopped by signal %d"
-msgstr "%s: interrumpido por la seÒal %d"
+msgstr "%s: interrumpido por la se√±al %d"
 
 #: xargs/xargs.c:1493
 #, c-format
 msgid "%s: terminated by signal %d"
-msgstr "%s: terminado por la seÒal %d"
+msgstr "%s: terminado por la se√±al %d"
 
 #: xargs/xargs.c:1577
 #, c-format
 msgid "%s: invalid number for -%c option\n"
-msgstr "%s: n˙mero inv·lido para la opciÛn -%c\n"
+msgstr "%s: n√∫mero inv√°lido para la opci√≥n -%c\n"
 
 # Me he tomado la libertad de poner mayor o igual que en lugar de >= ...
 # queda mucho mejor. Si a alguien no le gusta, que me lo diga ;). IPG
@@ -1785,12 +1702,12 @@ msgstr "%s: n˙mero inv·lido para la opciÛn -%c\n"
 #: xargs/xargs.c:1584
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
-msgstr "%s: el valor para la opciÛn -%c deberÌa ser mayor o igual que %ld\n"
+msgstr "%s: el valor para la opci√≥n -%c deber√≠a ser mayor o igual que %ld\n"
 
 #: xargs/xargs.c:1598
 #, c-format
 msgid "%s: value for -%c option should be < %ld\n"
-msgstr "%s: el valor para la opciÛn -%c deberÌa ser menor que %ld\n"
+msgstr "%s: el valor para la opci√≥n -%c deber√≠a ser menor que %ld\n"
 
 #: xargs/xargs.c:1617
 #, c-format
@@ -1811,31 +1728,25 @@ msgstr ""
 
 #: xargs/xargs.c:1626
 msgid ""
-"  -0, --null                   items are separated by a null, not "
-"whitespace;\n"
-"                                 disables quote and backslash processing "
-"and\n"
+"  -0, --null                   items are separated by a null, not whitespace;\n"
+"                                 disables quote and backslash processing and\n"
 "                                 logical EOF processing\n"
 msgstr ""
 
 #: xargs/xargs.c:1629
-msgid ""
-"  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
+msgid "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
 msgstr ""
 
 #: xargs/xargs.c:1630
 msgid ""
-"  -d, --delimiter=CHARACTER    items in input stream are separated by "
-"CHARACTER,\n"
-"                                 not by whitespace; disables quote and "
-"backslash\n"
+"  -d, --delimiter=CHARACTER    items in input stream are separated by CHARACTER,\n"
+"                                 not by whitespace; disables quote and backslash\n"
 "                                 processing and logical EOF processing\n"
 msgstr ""
 
 #: xargs/xargs.c:1633
 msgid ""
-"  -E END                       set logical EOF string; if END occurs as a "
-"line\n"
+"  -E END                       set logical EOF string; if END occurs as a line\n"
 "                                 of input, the rest of the input is ignored\n"
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
@@ -1859,28 +1770,22 @@ msgstr ""
 
 #: xargs/xargs.c:1642
 msgid ""
-"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
-"per\n"
+"  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines per\n"
 "                                 command line\n"
 msgstr ""
 
 #: xargs/xargs.c:1644
 msgid ""
-"  -l[MAX-LINES]                similar to -L but defaults to at most one "
-"non-\n"
-"                                 blank input line if MAX-LINES is not "
-"specified\n"
+"  -l[MAX-LINES]                similar to -L but defaults to at most one non-\n"
+"                                 blank input line if MAX-LINES is not specified\n"
 msgstr ""
 
 #: xargs/xargs.c:1646
-msgid ""
-"  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
-"line\n"
+msgid "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command line\n"
 msgstr ""
 
 #: xargs/xargs.c:1647
-msgid ""
-"  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
+msgid "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
 msgstr ""
 
 #: xargs/xargs.c:1648
@@ -1888,23 +1793,18 @@ msgid "  -p, --interactive            prompt before running commands\n"
 msgstr ""
 
 #: xargs/xargs.c:1649
-msgid ""
-"      --process-slot-var=VAR   set environment variable VAR in child "
-"processes\n"
+msgid "      --process-slot-var=VAR   set environment variable VAR in child processes\n"
 msgstr ""
 
 #: xargs/xargs.c:1650
 msgid ""
-"  -r, --no-run-if-empty        if there are no arguments, then do not run "
-"COMMAND;\n"
-"                                 if this option is not given, COMMAND will "
-"be\n"
+"  -r, --no-run-if-empty        if there are no arguments, then do not run COMMAND;\n"
+"                                 if this option is not given, COMMAND will be\n"
 "                                 run at least once\n"
 msgstr ""
 
 #: xargs/xargs.c:1653
-msgid ""
-"  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
+msgid "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
 msgstr ""
 
 #: xargs/xargs.c:1654
@@ -1926,209 +1826,3 @@ msgstr ""
 #: xargs/xargs.c:1659
 msgid "      --version                output version information and exit\n"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Built using GNU gnulib version %s\n"
-#~ msgstr "GNU findutils versiÛn %s\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "Usage: %s [-0prtx] [--interactive] [--null] [-d|--delimiter=delim]\n"
-#~ "       [-E eof-str] [-e[eof-str]]  [--eof[=eof-str]]\n"
-#~ "       [-L max-lines] [-l[max-lines]] [--max-lines[=max-lines]]\n"
-#~ "       [-I replace-str] [-i[replace-str]] [--replace[=replace-str]]\n"
-#~ "       [-n max-args] [--max-args=max-args]\n"
-#~ "       [-s max-chars] [--max-chars=max-chars]\n"
-#~ "       [-P max-procs]  [--max-procs=max-procs] [--show-limits]\n"
-#~ "       [--verbose] [--exit] [--no-run-if-empty] [--arg-file=file]\n"
-#~ "       [--version] [--help] [command [initial-arguments]]\n"
-#~ msgstr ""
-#~ "Modo de empleo: %s [-0prtx] [-e[cadena-eof]] [-i[cadena-de-reemplazo]]\n"
-#~ "       [-l[m·x-lÌneas]] [-n m·x-argumentos] [-s m·x-caracteres]\n"
-#~ "       [-P m·x-procesos] [--null] [--eof[=cadena-eof]]\n"
-#~ "       [--replace[=cadena-de-reemplazo]] [--max-lines[=m·x-lÌneas]]\n"
-#~ "       [--interactive] [--max-chars=m·x-caracteres] [--verbose] [--exit]\n"
-#~ "       [--max-procs=m·x-procesos] [--max-args=m·x-argumentos]\n"
-#~ "       [--no-run-if-empty] [--version] [--help]\n"
-#~ "       [orden [argumentos-iniciales]]\n"
-
-#~ msgid "cannot get current directory"
-#~ msgstr "no se puede obtener el directorio actual"
-
-#~ msgid "Success"
-#~ msgstr "…xito"
-
-#~ msgid "No match"
-#~ msgstr "No hay ninguna coincidencia"
-
-#~ msgid "Invalid regular expression"
-#~ msgstr "ExpresiÛn regular inv·lida"
-
-#~ msgid "Invalid collation character"
-#~ msgstr "Car·cter de secuencia inv·lido"
-
-#~ msgid "Invalid character class name"
-#~ msgstr "Nombre de clase de caracteres inv·lido"
-
-#~ msgid "Trailing backslash"
-#~ msgstr "Barra invertida final"
-
-#~ msgid "Invalid back reference"
-#~ msgstr "Referencia hacia atr·s inv·lida"
-
-#~ msgid "Unmatched [ or [^"
-#~ msgstr "[ o [^ desemparejado"
-
-#~ msgid "Unmatched ( or \\("
-#~ msgstr "( o \\( desemparejado"
-
-#~ msgid "Unmatched \\{"
-#~ msgstr "\\{ desemparejada"
-
-#~ msgid "Invalid content of \\{\\}"
-#~ msgstr "Contenido de \\{\\} inv·lido"
-
-#~ msgid "Invalid range end"
-#~ msgstr "Final de rango inv·lido"
-
-#~ msgid "Memory exhausted"
-#~ msgstr "Memoria agotada"
-
-#~ msgid "Invalid preceding regular expression"
-#~ msgstr "ExpresiÛn regular precedente inv·lida"
-
-#~ msgid "Premature end of regular expression"
-#~ msgstr "Fin prematuro de la expresiÛn regular"
-
-#~ msgid "Regular expression too big"
-#~ msgstr "ExpresiÛn regular demasiado grande"
-
-#~ msgid "Unmatched ) or \\)"
-#~ msgstr ") o \\) desemparejado"
-
-#~ msgid "No previous regular expression"
-#~ msgstr "No hay ninguna expresiÛn regular anterior"
-
-#~ msgid "%s: illegal option -- %c\n"
-#~ msgstr "%s: opciÛn ilegal -- %c\n"
-
-#~ msgid "block size"
-#~ msgstr "tamaÒo del bloque"
-
-#~ msgid "Predicate List:\n"
-#~ msgstr "Lista Predicado:\n"
-
-#~ msgid "Eval Tree:\n"
-#~ msgstr "¡rbol de EvaluaciÛn:\n"
-
-#~ msgid "Optimized Eval Tree:\n"
-#~ msgstr "¡rbol de EvaluaciÛn Optimizado:\n"
-
-# Propongo eliminar la palabra virtual. En un sistema GNU, la memoria virtual
-# y la otra son la misma cosa, desde el punto de vista de las aplicaciones
-# no se distinguen una de otra. QuedarÌa m·s corto, m·s sencillo y m·s bonito.
-# Y adem·s Javier RomaÒach (hello) est· de acuerdo conmigo. sv
-# Y a mÌ me apoya Richard Stallman };) (qui malo soy :)
-# Fuera coÒas ... sÌ, estoy de acuerdo ipg
-#
-# En cualquier caso, me gustarÌa saber por quÈ en GNU se empeÒan en poner
-# siempre "virtual". Parece como si hacerlo asÌ estuviera el mensaje
-# m·s orientado al usuario final [ quitando el virtual el mensaje estarÌa
-# escrito desde el punto de vista de la aplicaciÛn (para la cual, todos
-# los malloc()'s son iguales ante la ley...) ]
-#
-# No estoy completamente convencido de quÈ deberÌamos hacer.
-# De hecho, esto contradice mis principios (la fidelidad ante todo).
-# (Creo que tendrÈ que revisar mis principios...). sv
-#
-# SÌ ... a fondo :) ipg
-#
-# FIXME: Preguntar a Richard Stallman por quÈ se empeÒa en usar la
-# palabra virtual. sv
-#~ msgid "virtual memory exhausted"
-#~ msgstr "memoria agotada"
-
-#~ msgid "error in %s: %s"
-#~ msgstr "error en %s: %s"
-
-#~ msgid ""
-#~ "actions: -exec COMMAND ; -fprint FILE -fprint0 FILE -fprintf FILE FORMAT\n"
-#~ "      -fls FILE -ok COMMAND ; -print -print0 -printf FORMAT -prune -ls -"
-#~ "delete\n"
-#~ "      -quit\n"
-#~ msgstr ""
-#~ "acciones: -exec ORDEN ; -fprint FICHERO -fprint0 FICHERO\n"
-#~ "      -fprintf FICHERO FORMATO -fls FICHERO -ok ORDEN ;\n"
-#~ "      -print -print0 -printf FORMATO -prune -ls -delete -quit\n"
-
-#~ msgid ""
-#~ "warning: the predicate -ipath is deprecated; please use -iwholename "
-#~ "instead."
-#~ msgstr ""
-#~ "atenciÛn: el predicado -ipath est· obsoleto; por favor use -iwholename "
-#~ "en\n"
-#~ "su lugar"
-
-#~ msgid "GNU find version %s\n"
-#~ msgstr "GNU find versiÛn %s\n"
-
-#~ msgid "inserting %s\n"
-#~ msgstr "insertando %s\n"
-
-#~ msgid "    type: %s    %s  "
-#~ msgstr "    tipo: %s    %s  "
-
-#~ msgid "left:\n"
-#~ msgstr "izquierda:\n"
-
-#~ msgid "right:\n"
-#~ msgstr "derecha:\n"
-
-#~ msgid "Normalized Eval Tree:\n"
-#~ msgstr "¡rbol de EvaluaciÛn Normalizado:\n"
-
-#~ msgid ""
-#~ "Usage: %s [-d path | --database=path] [-e | --existing]\n"
-#~ "      [-i | --ignore-case] [--wholepath] [--basename] [--limit=N | -l N]\n"
-#~ "      [--version] [--help] pattern...\n"
-#~ msgstr ""
-#~ "Modo de empleo: %s [-d ruta-de-acceso | --database=ruta-de-acceso]\n"
-#~ "   [-e | --existing] [-i | --ignore-case] [--wholepath] [--basename]\n"
-#~ "   [--limit=N | -l N] [--version] [--help] expr-reg...\n"
-
-#~ msgid ""
-#~ "warning: locate database path `%s' contains a trailing colon, which is "
-#~ "not a valid database name"
-#~ msgstr ""
-#~ "atenciÛn: la ruta de acceso de la base de datos de locate `%s'\n"
-#~ "contiene dos puntos al final, no es un nombre v·lido de base de datos"
-
-#~ msgid "GNU locate version %s\n"
-#~ msgstr "GNU locate versiÛn %s\n"
-
-#~ msgid "argument to --limit"
-#~ msgstr "argumento para --limit"
-
-#~ msgid "GNU xargs version %s\n"
-#~ msgstr "GNU xargs versiÛn %s\n"
-
-#~ msgid "Reducing arg_max (%ld) to arg_size (%ld)\n"
-#~ msgstr "Se reduce arg_max (%ld) a arg_size (%ld)\n"
-
-#~ msgid "%s changed during execution of %s"
-#~ msgstr "%s cambiÛ durante la ejecuciÛn de %s"
-
-#~ msgid "%s/.. changed during execution of %s"
-#~ msgstr "%s/.. cambiÛ durante la ejecuciÛn de %s"
-
-#~ msgid "unmatched %s quote"
-#~ msgstr "comilla %s desemparejada"
-
-#~ msgid "cannot open current directory"
-#~ msgstr "no se puede abrir el directorio actual"
-
-#~ msgid "wait got pid %d, expected pid %d"
-#~ msgstr "wait obtuvo el pid %d, y se esperaba un pid %d"
-
-#~ msgid "%s stopped by signal %d"
-#~ msgstr "%s interrumpido por la seÒal %d"
