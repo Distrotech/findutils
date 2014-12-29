@@ -1441,7 +1441,9 @@ process_dir (char *pathname, char *name, int pathlen, const struct stat *statp, 
 	      namep = dp->d_name;
 	      /* Skip "", ".", and "..".  "" is returned by at least one buggy
 		 implementation: Solaris 2.4 readdir on NFS file systems.  */
-	      if (!namep[0] || (namep[0] == '.' && (namep[1] == '.' || namep[1] == 0)))
+	      if (!namep[0] ||
+                  (namep[0] == '.' && (namep[1] == 0 ||
+                                       (namep[1] == '.' && namep[2] == 0))))
 		continue;
 	    }
 
