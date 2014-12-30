@@ -1,0 +1,8 @@
+# Test entries starting with "..", e.g. "..tmp".
+# Commit v4.5.10-95-ga29e61b introduced a regression
+# which made oldfind(1) skip such entries.
+# This is Savannah bug #45090.
+exec rm -rf tmp
+exec mkdir tmp tmp/..tmp
+find_start p {tmp}
+exec rm -rf tmp
