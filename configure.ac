@@ -9,7 +9,7 @@ AC_CANONICAL_HOST
 AC_CONFIG_MACRO_DIR(gl/m4)
 
 dnl Set of available languages.
-ALL_LINGUAS="be bg cs ca da de el eo es et fi fr ga gl hr hu id it ja ko lg lt ms nl pl pt pt_BR ro ru rw sk sl sr sv tr uk vi zh_CN zh_TW"
+ALL_LINGUAS="be bg cs ca da de el eo es et fi fr ga gl hr hu id it ja ko lg lt ms nb nl pl pt pt_BR ro ru rw sk sl sr sv tr uk vi zh_CN zh_TW"
 
 AC_SUBST(AUXDIR,$ac_aux_dir)
 dnl check for --with-fts
