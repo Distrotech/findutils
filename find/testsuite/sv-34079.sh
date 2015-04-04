@@ -41,7 +41,7 @@ make_test_data() {
 }
 
 
-if [[ -n "${RUN_VERY_EXPENSIVE_TESTS}" ]]; then
+if [ -n "${RUN_VERY_EXPENSIVE_TESTS}" ]; then
     if outdir=$(mktemp -d); then
 	# Create some test files.
 	bad=""
@@ -64,7 +64,7 @@ if [[ -n "${RUN_VERY_EXPENSIVE_TESTS}" ]]; then
 	    bad="failed to set up the test in ${outdir}"
 	fi
 	rm -rf "${outdir}" || exit 1
-	if [[ -n "${bad}" ]]; then
+	if [ -n "${bad}" ]; then
 	    echo "${bad}" >&2
 	    exit 1
 	fi
