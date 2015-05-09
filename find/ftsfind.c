@@ -674,7 +674,7 @@ main (int argc, char **argv)
   if (NULL == state.shared_files)
     {
       error (EXIT_FAILURE, errno,
-	     _("Failed initialize shared-file hash table"));
+	     _("Failed to initialize shared-file hash table"));
     }
 
   /* Set the option defaults before we do the locale initialisation as
