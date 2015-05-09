@@ -160,7 +160,10 @@ copyhack() {
     then
 	dst="$dst"/"$(basename $src)"
     fi
-    cp -fp "$src" "$dst" && rehack "$dst"
+    if ( cmp "$src" "$dst" >/dev/null || cp -fp "$src" "$dst" )
+    then
+        rehack "$dst"
+    fi
 }
 
 
