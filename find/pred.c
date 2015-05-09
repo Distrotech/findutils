@@ -741,31 +741,15 @@ pred_nogroup (const char *pathname, struct stat *stat_buf, struct predicate *pre
 {
   (void) pathname;
   (void) pred_ptr;
-
-#ifdef CACHE_IDS
-  extern char *gid_unused;
-
-  return gid_unused[(unsigned) stat_buf->st_gid];
-#else
   return getgrgid (stat_buf->st_gid) == NULL;
-#endif
 }
 
 bool
 pred_nouser (const char *pathname, struct stat *stat_buf, struct predicate *pred_ptr)
 {
-#ifdef CACHE_IDS
-  extern char *uid_unused;
-#endif
-
   (void) pathname;
   (void) pred_ptr;
-
-#ifdef CACHE_IDS
-  return uid_unused[(unsigned) stat_buf->st_uid];
-#else
   return getpwuid (stat_buf->st_uid) == NULL;
-#endif
 }
 
 

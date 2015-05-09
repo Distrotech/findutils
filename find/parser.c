@@ -1708,22 +1708,6 @@ parse_noleaf (const struct parser_table* entry, char **argv, int *arg_ptr)
   return parse_noop (entry, argv, arg_ptr);
 }
 
-#ifdef CACHE_IDS
-/* Arbitrary amount by which to increase size
-   of `uid_unused' and `gid_unused'. */
-#define ALLOC_STEP 2048
-
-/* Boolean: if uid_unused[n] is nonzero, then UID n has no passwd entry. */
-char *uid_unused = NULL;
-
-/* Number of elements in `uid_unused'. */
-unsigned uid_allocated;
-
-/* Similar for GIDs and group entries. */
-char *gid_unused = NULL;
-unsigned gid_allocated;
-#endif
-
 static bool
 parse_nogroup (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
@@ -1734,30 +1718,6 @@ parse_nogroup (const struct parser_table* entry, char **argv, int *arg_ptr)
 
   our_pred = insert_primary (entry, NULL);
   our_pred->est_success_rate = 1e-4;
-#ifdef CACHE_IDS
-  if (gid_unused == NULL)
-    {
-      struct group *gr;
-
-      gid_allocated = ALLOC_STEP;
-      gid_unused = xmalloc (gid_allocated);
-      memset (gid_unused, 1, gid_allocated);
-      setgrent ();
-      while ((gr = getgrent ()) != NULL)
-	{
-	  if ((unsigned) gr->gr_gid >= gid_allocated)
-	    {
-	      unsigned new_allocated = (unsigned) gr->gr_gid + ALLOC_STEP;
-	      gid_unused = xrealloc (gid_unused, new_allocated);
-	      memset (gid_unused + gid_allocated, 1,
-		      new_allocated - gid_allocated);
-	      gid_allocated = new_allocated;
-	    }
-	  gid_unused[(unsigned) gr->gr_gid] = 0;
-	}
-      endgrent ();
-    }
-#endif
   return true;
 }
 
@@ -1771,30 +1731,6 @@ parse_nouser (const struct parser_table* entry, char **argv, int *arg_ptr)
 
   our_pred = insert_primary_noarg (entry);
   our_pred->est_success_rate = 1e-3;
-#ifdef CACHE_IDS
-  if (uid_unused == NULL)
-    {
-      struct passwd *pw;
-
-      uid_allocated = ALLOC_STEP;
-      uid_unused = xmalloc (uid_allocated);
-      memset (uid_unused, 1, uid_allocated);
-      setpwent ();
-      while ((pw = getpwent ()) != NULL)
-	{
-	  if ((unsigned) pw->pw_uid >= uid_allocated)
-	    {
-	      unsigned new_allocated = (unsigned) pw->pw_uid + ALLOC_STEP;
-	      uid_unused = xrealloc (uid_unused, new_allocated);
-	      memset (uid_unused + uid_allocated, 1,
-		      new_allocated - uid_allocated);
-	      uid_allocated = new_allocated;
-	    }
-	  uid_unused[(unsigned) pw->pw_uid] = 0;
-	}
-      endpwent ();
-    }
-#endif
   return true;
 }
 
@@ -2639,7 +2575,7 @@ parse_version (const struct parser_table* entry, char **argv, int *arg_ptr)
   printf (_("Features enabled: "));
 
 #if CACHE_IDS
-  printf ("CACHE_IDS ");
+  printf ("CACHE_IDS(ignored) ");
   has_features = true;
 #endif
 #if DEBUG

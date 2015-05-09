@@ -16,12 +16,7 @@ dnl check for --with-fts
 FIND_WITH_FTS
 
 AC_ARG_ENABLE(id-cache,
-[  --enable-id-cache       cache all UIDs & GIDs; avoid if using NIS or Hesiod],
-  AC_DEFINE([CACHE_IDS], 1, [Define if you want find -nouser and -nogroup to make tables of
-   used UIDs and GIDs at startup instead of using getpwuid or
-   getgrgid when needed.  Speeds up -nouser and -nogroup unless you
-   are running NIS or Hesiod, which make password and group calls
-   very expensive.]))
+[  --enable-id-cache       This currently has no effect.],)
 
 AC_ARG_ENABLE(debug,
 	AS_HELP_STRING(--enable-debug,Enable debugging output which is likely to be interesting to people debugging findutils),
