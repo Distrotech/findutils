@@ -75,7 +75,7 @@ AC_PROG_CPP
 
 dnl for gnulib
 gl_EARLY
-
+AC_PROG_LN_S
 AC_PROG_INSTALL
 AC_CHECK_TOOLS([AR], [ar])
 AC_CHECK_TOOLS([RANLIB], [ranlib], [:])

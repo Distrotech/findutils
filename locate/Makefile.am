@@ -13,13 +13,13 @@ libexec_PROGRAMS = frcode code bigram
 bin_SCRIPTS = updatedb
 man_MANS = locate.1 updatedb.1 locatedb.5
 BUILT_SOURCES = dblocation.texi
-EXTRA_DIST = dblocation.texi locatedb.h updatedb.sh $(man_MANS)
+EXTRA_DIST = locatedb.h updatedb.sh $(man_MANS)
 CLEANFILES = updatedb
 
 DISTCLEANFILES = dblocation.texi
 locate_SOURCES = locate.c word_io.c
 code_SOURCES = code.c word_io.c
-locate_TEXINFOS = dblocation.texi
+nodist_locate_TEXINFOS = dblocation.texi
 
 AM_CPPFLAGS = -I$(top_srcdir)/lib -I../gl/lib -I$(top_srcdir)/gl/lib -I../intl -DLOCATE_DB=\"$(LOCATE_DB)\" -DLOCALEDIR=\"$(localedir)\"
 

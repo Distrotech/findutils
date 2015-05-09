@@ -2,9 +2,11 @@ AM_CFLAGS = $(WARN_CFLAGS)
 
 info_TEXINFOS = find.texi find-maint.texi
 find_TEXINFOS = perm.texi parse-datetime.texi regexprops.texi fdl.texi
+BUILT_SOURCES = dblocation.texi
+nodist_find_TEXINFOS = dblocation.texi
 find_maint_TEXINFOS = fdl.texi
 MOSTLYCLEANFILES = find.cps
-CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz
+CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz dblocation.texi
 
 MAKEINFOTXT = $(MAKEINFO) --plaintext
 
@@ -53,3 +55,7 @@ find_mono.html: find.texi
 # for "make all" or "make install" (or even "make check").
 findutils.texi_html_node.tar.gz: find.html
 	tar zcf $@ $<
+
+
+dblocation.texi: ../locate/dblocation.texi
+	$(LN_S) ../locate/dblocation.texi $@
