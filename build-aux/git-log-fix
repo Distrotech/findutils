@@ -2,6 +2,12 @@
 # option.  It specifies what changes to make to each given SHA1's commit
 # log and metadata, using Perl-eval'able expressions.
 
+# Remove a spurious date header and leading tabs (i.e. fix up following
+# the use of ChangeLog-formatted string as a git log message).
+0734748302f5a09e225784e953c469217dfa2d85
+s,2015-02-22  James Youngman  <jay.gnu.org>,Update some translations; add Norwegian Bokmaal.,;
+s,\t,,g
+
 # Remove superfluous "Conflicts:" marker.
 718bde657248dfc2270f6e0ed16cfb38e2510c2c
 s/Conflicts:$//m;
@@ -19,3 +25,4 @@ s,(find),* $1,
 1d6d1afa52f40ad7c776e3ff0d4415409377e6fb
 s/Mark/* po\/POTFILES.in: mark/;
 s/(translation)/$1./
+
