@@ -92,6 +92,7 @@
 #include "closeout.h"
 #include "quotearg.h"
 #include "regextype.h"
+#include "stat-time.h"
 
 /* find headers. */
 #include "findutils-version.h"
@@ -577,7 +578,7 @@ visit_locate02_format (struct process_data *procdata, void *context)
        * cannot prevent it.
        */
       error(1, 0, _("locate database %s is corrupt or invalid"),
-	    quotearg_n_style(0, locale_quoting_style, procdata->dbfile));
+            quotearg_n_style(0, locale_quoting_style, procdata->dbfile));
     }
 
   s = procdata->original_filename + procdata->len - 1; /* Move to the last char in path.  */
@@ -841,19 +842,39 @@ visit_count (struct process_data *procdata, void *context)
 /* Emit the statistics.
  */
 static void
-print_stats (int argc, size_t database_file_size)
+print_stats (int argc, size_t database_file_size, const struct timespec* database_mtime)
 {
   char hbuf1[LONGEST_HUMAN_READABLE + 1];
   char hbuf2[LONGEST_HUMAN_READABLE + 1];
   char hbuf3[LONGEST_HUMAN_READABLE + 1];
   char hbuf4[LONGEST_HUMAN_READABLE + 1];
 
+  if (database_mtime)
+    {
+      const struct tm *ptm = localtime (&(database_mtime->tv_sec));
+      if (ptm)
+        {
+          enum { TIME_BUF_LEN = 20 };
+          char whenbuf[TIME_BUF_LEN];
+          size_t printed = strftime (whenbuf, TIME_BUF_LEN,
+                                     "%Y:%m:%d %H:%M:%S", ptm);
+          /* Ensure the buffer is exactly the right length. */
+          assert (printed == TIME_BUF_LEN-1);
+          assert (whenbuf[TIME_BUF_LEN-1] == 0);
+          assert (whenbuf[TIME_BUF_LEN-2] != 0);
+          printf (_("Database was last modified at %s.%09ld"),
+                  whenbuf, (long int) database_mtime->tv_nsec);
+          printed = strftime (whenbuf, TIME_BUF_LEN, "%z", ptm);
+          assert (printed == 5);
+          printf(" %s\n", whenbuf);
+        }
+    }
+
   printf (ngettext ("Locate database size: %s byte\n",
                   "Locate database size: %s bytes\n",
                   database_file_size),
          human_readable ((uintmax_t) database_file_size,
                          hbuf1, human_ceiling, 1, 1));
-
   printf ( (results_were_filtered ?
            _("Matching Filenames: %s\n") :
            _("All Filenames: %s\n")),
@@ -1004,6 +1025,7 @@ search_one_database (int argc,
                      const char *dbfile,
                      FILE *fp,
                      off_t filesize,
+                     const struct timespec *database_mtime,
                      int ignore_case,
                      int enable_print,
                      int basename_only,
@@ -1341,8 +1363,8 @@ search_one_database (int argc,
                        "is not obvious.\n"));
             }
         }
-      if (filesize)
-        print_stats (argc, filesize);
+      if (filesize || (database_mtime != NULL))
+        print_stats (argc, filesize, database_mtime);
     }
 
   if (ferror (procdata.fp))
@@ -1601,7 +1623,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
 
         case 'd':
           user_selected_locate_path = optarg;
-	  assert (optarg != NULL);
+          assert (optarg != NULL);
           break;
 
         case 'e':
@@ -1725,13 +1747,15 @@ dolocate (int argc, char **argv, int secure_db_fd)
   if (user_selected_locate_path)
     {
       splitstring (user_selected_locate_path, path_separators, true,
-		   &path_element_pos, &path_element_len);
+                   &path_element_pos, &path_element_len);
     }
 
   /* Bail out early if limit already reached. */
   while (!use_limit || limits.limit > limits.items_accepted)
     {
       struct stat st;
+      struct timespec database_mtime;
+      int have_mtime;
       int fd;
       off_t filesize;
 
@@ -1746,7 +1770,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
         {
           /* Take the next element from the list of databases */
           if (1 == path_element_len
-	      && '-' == user_selected_locate_path[path_element_pos])
+              && '-' == user_selected_locate_path[path_element_pos])
             {
               if (did_stdin)
                 {
@@ -1808,12 +1832,15 @@ dolocate (int argc, char **argv, int secure_db_fd)
                  quotearg_n_style (0, locale_quoting_style, db_name));
           /* continue anyway */
           filesize = (off_t)0;
+          have_mtime = 0;
         }
       else
         {
           time_t now;
 
           filesize = st.st_size;
+          database_mtime = get_stat_mtime(&st);
+          have_mtime = 1;
 
           if ((time_t)-1 == time (&now))
             {
@@ -1851,6 +1878,7 @@ dolocate (int argc, char **argv, int secure_db_fd)
       /* Search this database for all patterns simultaneously */
       found = search_one_database (argc - optind, &argv[optind],
                                    db_name, fp, filesize,
+                                   have_mtime ? (&database_mtime) : NULL,
                                    ignore_case, print, basename_only,
                                    use_limit, &limits, stats,
                                    op_and, regex, regex_options);
@@ -1869,18 +1897,18 @@ dolocate (int argc, char **argv, int secure_db_fd)
         }
 
        if (!user_selected_locate_path)
-	 {
-	   /* We're not actually iterating through the values in
-	      $LOCATE_PATH so we don't want to check for the next
-	      element in user_selected_locate_path (since we manually set db_name =
-	      LOCATE_DB without using user_selected_locate_path). */
-	   break;
-	 }
+         {
+           /* We're not actually iterating through the values in
+              $LOCATE_PATH so we don't want to check for the next
+              element in user_selected_locate_path (since we manually set db_name =
+              LOCATE_DB without using user_selected_locate_path). */
+           break;
+         }
        else if (!splitstring (user_selected_locate_path, path_separators, false,
-			      &path_element_pos, &path_element_len))
-	 {
-	   break;
-	 }
+                              &path_element_pos, &path_element_len))
+         {
+           break;
+         }
     }
 
   if (just_count)
