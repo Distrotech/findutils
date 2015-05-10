@@ -764,7 +764,7 @@ ctime_format (struct timespec ts)
 
       /* wkday mon mday hh:mm:ss.nnnnnnnnn yyyy */
       nout = snprintf (resultbuf, TIME_BUF_LEN,
-		       "%3s %3s %2d %02d:%02d:%02d.%010ld %04d",
+		       "%3s %3s %2d %02d:%02d:%02d.%09ld0 %04d",
 		       weekdays[ptm->tm_wday],
 		       months[ptm->tm_mon],
 		       ptm->tm_mday,
