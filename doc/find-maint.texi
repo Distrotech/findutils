@@ -495,51 +495,14 @@ GNU libc system with a bug in the regex implementation.
 @section How and Why we Import the Gnulib Code
 Gnulib does not have a release process which results in a source
 tarball you can download.  Instead, the code is simply made available
-by GIT.   The code is also available via @code{git-cvspserver}, but
-we decided not to use this, since @code{import-gnulib.sh} depended on
-@code{cvs update -D}, which at the time @code{git-cvspserver} did not
-support.
-
-GNU projects vary in how they interact with Gnulib.  Many import a
-selection of code from Gnulib into the working directory and then
-check the updated files into the repository for their project.  The
-coreutils project does this, for example.
-
-At the last maintainer changeover for findutils (2003) it turned out
-that there was a lot of material in findutils in common with Gnulib,
-but it had not been updated in a long time.  It was difficult to
-figure out which source files were intended to track external sources
-and which were intended to contain incompatible changes, or diverge
-for other reasons.
-
-To reduce this uncertainty, I decided to treat Gnulib much like
-Automake.  Files supplied by Automake are simply absent from the
-findutils source tree.  When Automake is run with @code{automake
---add-missing --copy}, it adds in all the files it thinks should be
-there which aren't there already.
-
-An analogous approach is taken with Gnulib.  The Gnulib code is
-imported from the git repository for Gnulib with a findutils helper
-script, @code{import-gnulib.sh}.  That script fetches a copy of the
-Gnulib code into the subdirectory @file{gnulib-git} and then runs
-@code{gnulib-tool}.  The @code{gnulib-tool} program copies the
-required parts of Gnulib into the findutils source tree in the
-subdirectory @file{gnulib}.  This process gives us the property that
-the code in @file{gnulib} and @code{gnulib-git} is not included in the
-findutils git tree.   Both directories are listed in @file{.gitignore}
-and so git ignores them.
+by GIT, so we import gnulib via the submodule feature.  The bootstrap
+script performs the necessary steps.
 
 Findutils does not use all the Gnulib code.  The modules we need are
-listed in the file @file{import-gnulib.config}.  The same file also
-indicates the version of Gnulib that we want to use.  Since Gnulib has
-no actual release process, we just use a date.  Both
-@file{import-gnulib.sh} and @file{import-gnulib.config} are in the
-findutils git repository.
+listed in the file @file{bootstrap.conf}.
 
 The upshot of all this is that we can use the findutils git repository
-to track which version of Gnulib every findutils release uses.  That
-information is also provided when the user invokes a findutils program
-with the @samp{--version} option.
+to track which version of Gnulib every findutils release uses.
 
 A small number of files are installed by automake and will therefore
 vary according to which version of automake was used to generate a
@@ -548,15 +511,6 @@ release.  This includes for example boiler-plate GNU files such as
 
 
 @section How We Fix Gnulib Bugs
-If we always directly import the Gnulib code directly from the git
-repository in this way, it is impossible to maintain a locally
-different copy of Gnulib.  This is often a benefit in that accidental
-version skew is prevented.
-
-However, sometimes we want deliberate version skew in order to use a
-findutils-specific patched version of a Gnulib file, for example
-because we fixed a bug.
-
 Gnulib is used by quite a number of GNU projects, and this means that
 it gets plenty of testing.  Therefore there are relatively few bugs in
 the Gnulib code, but it does happen from time to time.
@@ -571,18 +525,8 @@ is not already fixed in the current Gnulib git tree):
 @item Begin with a vanilla git tree
 Download the Findutils source code from git (or use the tree you have
 already)
-@item Check out a copy of the Gnulib source
-Check out a copy of the Gnulib source tree.  The
-@code{import-gnulib.sh} script may have generated a shallow git clone
-as opposed to a normal, full clone in the directory @file{gnulib-git}.
-This means that you may not be able to clone the repository that
-@code{import-gnulib.sh} generates.  However, you can make a normal
-(full) clone with @code{git clone
-git_repo="git://git.savannah.gnu.org/gnulib.git"}.  Do this somewhere
-outside the findutils source tree.
-@item Import Gnulib from your local copy
-The @code{import-gnulib.sh} tool has a @samp{-d} option which you can
-use to import the code from a local copy of Gnulib.
+@item Run the bootstrap script
+@item Run configure
 @item Build findutils
 Build findutils and run the test suite, which should pass.  In our
 example we assume you have just noticed a bug in Gnulib, not that
@@ -596,24 +540,14 @@ Make sure your editor follows symbolic links so that your changes to
 @file{gnulib/...} actually affect the files in the git working
 directory you checked out earlier.   Observe that your test now passes.
 @item Prepare a Gnulib patch
-Use @code{git format-patch} to prepare the patch.  Follow the normal
-usage for checkin comments (take a look at the output of @code{git
-log}).  Check that the patch conforms with the GNU coding standards,
-and email it to the Gnulib mailing list.
+In the gnulib subdirectory, use @code{git format-patch} to prepare the
+patch.  Follow the normal usage for checkin comments (take a look at
+the output of @code{git log}).  Check that the patch conforms with the
+GNU coding standards, and email it to the Gnulib mailing list.
 @item Wait for the patch to be applied
-Once your bug fix has been applied, you can update your local directory
-from git, re-import the code into Findutils (still using the @code{-d}
-option), and re-run the tests.  This verifies that the fix the Gnulib
-team made actually fixes your problem.
-@item Reimport the Gnulib code
-Update the findutils file @file{import-gnulib.config} to specify git
-commit which is after the point at which the bug fix was committed to
-Gnulib.  You can do this with @code{git rev-parse HEAD}.  Finally,
-re-import the Gnulib code directly from git by using
-@samp{import-gnulib.sh} without the @samp{-d} option, and run the
-tests again.  This verifies that there was no remaining local change
-that we were relying on to fix the bug.   Make sure you checked
-everything in by running @code{git status}.
+Once your bug fix has been applied, you can update your gnulib
+directory from git, and then check in the change to the submodule as
+normal (you can check @code{git help submodule} for details).
 @end table
 
 There is an alternative to the method above; it is possible to store

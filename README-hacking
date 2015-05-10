@@ -48,7 +48,7 @@ If you already have a copy you can refresh it with:
  is, the directory containing this file).   Then run the following
  command:-
 
-    sh import-gnulib.sh
+    ./bootstrap
 
  This command will use git to check out the version of gnulib which is
  intended to work with the findutils source you already have (gnulib
@@ -56,14 +56,8 @@ If you already have a copy you can refresh it with:
  directory "gnulib".  The "gl" directory contains just the gnulib
  files that findutils needs during the build process.
 
- The import-gnulib.sh script will also run Autoconf and Automake to
- generate the "configure" script and "Makefile.in" files.  Should you
- need to do this manually, you can do it like this :-
-
-    aclocal -I m4 -I gnulib/m4     && \
-    autoheader			   && \
-    autoconf			   && \
-    automake --add-missing --copy
+ This will also run Autoconf and Automake to generate the "configure"
+ script and "Makefile.in" files.
 
 3. Run "configure" and "make" in the normal way.
 
