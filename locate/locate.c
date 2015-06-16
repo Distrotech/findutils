@@ -1051,7 +1051,7 @@ search_one_database (int argc,
   /* We may turn on existence checking for a given database.
    * We ensure that we can return to the previous behaviour
    * by using two variables, do_check_existence (which we act on)
-   * and check_existence (whcih indicates the default before we
+   * and check_existence (which indicates the default before we
    * adjust it on the bassis of what kind of database we;re using
    */
   do_check_existence = check_existence;
