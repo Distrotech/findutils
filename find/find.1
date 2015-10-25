@@ -673,20 +673,10 @@ option is in effect, the
 modification time of the file it points to is always used.
 
 .IP "\-newerXY \fIreference\fR"
-Compares the timestamp of the current file with \fIreference\fR.
-The
-.I reference
-argument is normally the name of a file (and one of its timestamps is
-used for the comparison) but it may also be a string describing an
-absolute time.
-.I X
-and
-.I Y
-are placeholders for other letters, and these letters select which
-time belonging to
-how
-.I reference
-is used for the comparison.
+Succeeds if timestamp \fIX\fR of the file being considered is newer
+than timestamp \fIY\fR of the file \fIreference\fR.   The letters
+\fIX\fR and \fIY\fR can be any of the following letters:
+
 .TS
 ll
 ll
