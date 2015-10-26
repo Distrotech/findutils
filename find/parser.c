@@ -2115,7 +2115,8 @@ insert_regex (char **argv,
 
       error_message = re_compile_pattern (rx, strlen (rx), re);
       if (error_message)
-	error (EXIT_FAILURE, 0, "%s", error_message);
+        error (EXIT_FAILURE, 0, "failed to compile regular expression '%s': %s",
+	       rx, error_message);
       our_pred->est_success_rate = estimate_pattern_match_rate (rx, 1);
       return true;
     }
