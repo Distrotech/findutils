@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: findutils 4.5.7\n"
 "Report-Msgid-Bugs-To: bug-findutils@gnu.org\n"
-"POT-Creation-Date: 2014-07-19 11:27+0100\n"
+"POT-Creation-Date: 2015-10-31 23:27+0000\n"
 "PO-Revision-Date: 2012-02-24 12:27+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
@@ -36,11 +36,11 @@ msgid "Cannot close standard input"
 msgstr "Non é posíbel pechar a saída estándar"
 
 #: find/exec.c:285
-#, c-format
-msgid "Failed to change directory"
+#, fuzzy, c-format
+msgid "Failed to change directory: %s"
 msgstr "Produciuse un fallo ao cambiar o directorio"
 
-#: find/exec.c:312 xargs/xargs.c:1229
+#: find/exec.c:312 xargs/xargs.c:1241
 #, c-format
 msgid "cannot fork"
 msgstr "non se pode facer fork"
@@ -55,13 +55,13 @@ msgstr "erro agardando a %s"
 msgid "%s terminated by signal %d"
 msgstr "%s terminado por sinal %d"
 
-#: find/find.c:203
+#: find/find.c:203 find/ftsfind.c:677
 #, fuzzy, c-format
 msgid "Failed to initialize shared-file hash table"
 msgstr "Produciuse un fallo ao inicializar a táboa de shared-file hash"
 
 #: find/find.c:219 find/ftsfind.c:693 locate/bigram.c:105 locate/code.c:174
-#: locate/frcode.c:233 locate/locate.c:1568 xargs/xargs.c:392
+#: locate/frcode.c:233 locate/locate.c:1581 xargs/xargs.c:401
 #, fuzzy, c-format
 msgid "The atexit library function failed"
 msgstr "fallou a comprobación de sanidade da función da biblioteca fnmatch()."
@@ -147,7 +147,7 @@ msgstr[1] ""
 msgid "warning: not following the symbolic link %s"
 msgstr "aviso: non se sigue a ligazóns simbólica %s"
 
-#: find/find.c:1480
+#: find/find.c:1482
 #, c-format
 msgid ""
 "WARNING: Hard link count is wrong for %s (saw only st_nlink=%<PRIuMAX> but "
@@ -190,11 +190,6 @@ msgid "failed to restore working directory after searching %s"
 msgstr ""
 "produciuse un fallo ao restaurar o directorio de traballo despois de buscar "
 "%s"
-
-#: find/ftsfind.c:677
-#, fuzzy, c-format
-msgid "Failed initialize shared-file hash table"
-msgstr "Produciuse un fallo ao inicializar a táboa de shared-file hash"
 
 #: find/parser.c:452
 #, fuzzy, c-format
@@ -387,17 +382,17 @@ msgstr "Non é posíbel adiviñar como interpretar %s como unha data ou hora"
 msgid "Cannot obtain birth time of file %s"
 msgstr "Non é posíbel obter a hora de nacemento do ficheiro %s"
 
-#: find/parser.c:1895
+#: find/parser.c:1831
 #, c-format
 msgid "warning: -%s %s will not match anything because it ends with /."
 msgstr "aviso: -%s %s non coincidirá con nada xa que remata con /."
 
-#: find/parser.c:1992
+#: find/parser.c:1928
 #, c-format
 msgid "invalid mode %s"
 msgstr "modo %s non válido"
 
-#: find/parser.c:2010
+#: find/parser.c:1946
 #, c-format
 msgid ""
 "warning: you have specified a mode pattern %s (which is equivalent to /000). "
@@ -409,22 +404,22 @@ msgstr ""
 "é, foi usado para coincidir con non ficheiros, agora coincide con todos os "
 "ficheiros."
 
-#: find/parser.c:2210
+#: find/parser.c:2147
 #, c-format
 msgid "invalid null argument to -size"
 msgstr "argumento nuloo non válido para -size"
 
-#: find/parser.c:2260
+#: find/parser.c:2197
 #, c-format
 msgid "invalid -size type `%c'"
 msgstr "tipo -size non válido «%c»"
 
-#: find/parser.c:2270
+#: find/parser.c:2207
 #, fuzzy, c-format
 msgid "Invalid argument `%s%s' to -size"
 msgstr "Argumento «%s%c» non válido para -size"
 
-#: find/parser.c:2452
+#: find/parser.c:2389
 msgid ""
 "The -show-control-chars option takes a single argument which must be "
 "'literal' or 'safe'"
@@ -432,70 +427,70 @@ msgstr ""
 "A opción -show-control-chars toma un único argumento que debe ser «literal» "
 "ou «safe»"
 
-#: find/parser.c:2566
+#: find/parser.c:2503
 #, c-format
 msgid "Invalid argument %s to -used"
 msgstr "Argumento %s non válido para -used"
 
-#: find/parser.c:2607
+#: find/parser.c:2544
 #, c-format
 msgid "%s is not the name of a known user"
 msgstr "%s non é o nome dun usuario coñecido"
 
-#: find/parser.c:2614
+#: find/parser.c:2551
 #, c-format
 msgid "The argument to -user should not be empty"
 msgstr "O argumento para -user non debe estar baleiro"
 
-#: find/parser.c:2639
+#: find/parser.c:2576
 #, c-format
 msgid "Features enabled: "
 msgstr "Características activadas:"
 
-#: find/parser.c:2716
+#: find/parser.c:2653
 #, c-format
 msgid "invalid predicate -context: SELinux is not enabled."
 msgstr "predicado non válido -context: SELinux non está activado."
 
-#: find/parser.c:2780
+#: find/parser.c:2717
 #, c-format
 msgid "Arguments to -type should contain only one letter"
 msgstr "Os argumentos para -type non deben conter só unha letra"
 
-#: find/parser.c:2809
+#: find/parser.c:2746
 #, c-format
 msgid ""
 "-type %c is not supported because symbolic links are not supported on the "
 "platform find was compiled on."
 msgstr ""
 
-#: find/parser.c:2820
+#: find/parser.c:2757
 #, c-format
 msgid ""
 "-type %c is not supported because FIFOs are not supported on the platform "
 "find was compiled on."
 msgstr ""
 
-#: find/parser.c:2831
+#: find/parser.c:2768
 #, c-format
 msgid ""
 "-type %c is not supported because named sockets are not supported on the "
 "platform find was compiled on."
 msgstr ""
 
-#: find/parser.c:2842
+#: find/parser.c:2779
 #, c-format
 msgid ""
 "-type %c is not supported because Solaris doors are not supported on the "
 "platform find was compiled on."
 msgstr ""
 
-#: find/parser.c:2849
+#: find/parser.c:2786
 #, c-format
 msgid "Unknown argument to -type: %c"
 msgstr "Argumento descoñecido a -type: %c"
 
-#: find/parser.c:2923
+#: find/parser.c:2860
 #, fuzzy, c-format
 msgid ""
 "The current directory is included in the PATH environment variable, which is "
@@ -507,7 +502,7 @@ msgstr ""
 "seguro en combinación coa acción %s de find. Elimine o directorio actual do "
 "seu $PATH (isto é, elimine «.» ou puntos e comas iniciais ou finais)."
 
-#: find/parser.c:2935
+#: find/parser.c:2872
 #, c-format
 msgid ""
 "The relative path %s is included in the PATH environment variable, which is "
@@ -517,7 +512,7 @@ msgstr ""
 "A ruta relativa %s está incluida na variábel de contorno PATH, que non é "
 "segura en combinación coa acción %s de find. Elimine dita entradad e $PATH"
 
-#: find/parser.c:3044
+#: find/parser.c:2981
 #, c-format
 msgid ""
 "You may not use {} within the utility name for -execdir and -okdir, because "
@@ -526,36 +521,36 @@ msgstr ""
 "Non debe usar {} nunha utilidade de nome para -execdir e -okdir, xa que é un "
 "potencial problema de seguranza."
 
-#: find/parser.c:3070
+#: find/parser.c:3007
 #, c-format
 msgid "Only one instance of {} is supported with -exec%s ... +"
 msgstr "Só se admite unha instancia de {} con -exec%s ... +"
 
-#: find/parser.c:3080
+#: find/parser.c:3017
 #, c-format
 msgid "In %s the %s must appear by itself, but you specified %s"
 msgstr ""
 
-#: find/parser.c:3100
+#: find/parser.c:3037
 #, c-format
 msgid "The environment is too large for exec()."
 msgstr "O contorno é demasiado grande para exec()."
 
-#: find/parser.c:3269
+#: find/parser.c:3206
 #, c-format
 msgid "arithmetic overflow while converting %s days to a number of seconds"
 msgstr ""
 
-#: find/parser.c:3293
+#: find/parser.c:3230
 #, c-format
 msgid "arithmetic overflow when trying to calculate the end of today"
 msgstr ""
 
-#: find/parser.c:3452
+#: find/parser.c:3389
 msgid "standard error"
 msgstr "erro estándar"
 
-#: find/parser.c:3457
+#: find/parser.c:3394
 msgid "standard output"
 msgstr "saída estándar"
 
@@ -569,17 +564,17 @@ msgstr "non é posíbel eliminar %s"
 msgid "WARNING: cannot determine birth time of file %s"
 msgstr "AVISO: non é posíbel determinar a hora de nacemento do ficheiro %s"
 
-#: find/pred.c:782
+#: find/pred.c:766
 #, c-format
 msgid "< %s ... %s > ? "
 msgstr "< %s ... %s > ? "
 
-#: find/pred.c:784
+#: find/pred.c:768
 #, fuzzy, c-format
 msgid "Failed to write prompt for -ok"
 msgstr "Produciuse un fallo ao escribir na entrada estándar"
 
-#: find/pred.c:1208 find/print.c:1234
+#: find/pred.c:1192 find/print.c:1239
 #, c-format
 msgid "getfilecon failed: %s"
 msgstr "getfilecon fallou: %s"
@@ -739,12 +734,12 @@ msgstr "] [ruta...] [expresión]\n"
 
 #: find/util.c:459
 #, fuzzy, c-format
-msgid "failed to save initial working directory"
+msgid "failed to save initial working directory: %s"
 msgstr "produciuse un fallo ao volver ao directorio pai"
 
 #: find/util.c:476
 #, fuzzy, c-format
-msgid "failed to restore initial working directory"
+msgid "failed to restore initial working directory: %s"
 msgstr "produciuse un fallo ao volver ao directorio pai"
 
 #: find/util.c:824
@@ -1148,7 +1143,7 @@ msgstr "James Youngman"
 msgid "Kevin Dalley"
 msgstr "Kevin Dalley"
 
-#: lib/listfile.c:337
+#: lib/listfile.c:452
 #, fuzzy, c-format
 msgid "Failed to write output (at stage %d)"
 msgstr "Produciuse un fallo ao escribir na entrada estándar"
@@ -1177,8 +1172,8 @@ msgstr ""
 "Uso: %s [--version | --help]\n"
 "ou     %s most_common_bigrams < file-list > base-de-datos-de-locate\n"
 
-#: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1381
-#: xargs/xargs.c:1660
+#: locate/code.c:135 locate/frcode.c:162 locate/locate.c:1394
+#: xargs/xargs.c:1673
 msgid ""
 "\n"
 "Report bugs to <bug-findutils@gnu.org>.\n"
@@ -1216,50 +1211,55 @@ msgstr "Nivel de seguranza %ld de slocate non admitido."
 msgid "Failed to write to standard output"
 msgstr "Produciuse un fallo ao escribir na entrada estándar"
 
-#: locate/locate.c:139
+#: locate/locate.c:131
 msgid "days"
 msgstr "días"
 
-#: locate/locate.c:186
+#: locate/locate.c:178
 #, c-format
 msgid "The argument for option --max-database-age must not be empty"
 msgstr "O argumento para a opción --max-database-age non debe estar baleiro"
 
-#: locate/locate.c:202 locate/locate.c:209
+#: locate/locate.c:194 locate/locate.c:201
 #, c-format
 msgid "Invalid argument %s for option --max-database-age"
 msgstr "Argumento %s non válido para a opción --max-database-age"
 
-#: locate/locate.c:459
+#: locate/locate.c:451
 #, c-format
 msgid "locate database %s contains a filename longer than locate can handle"
 msgstr ""
 "A base de datos %s de locate contén un nome de ficheiro máis grande do que "
 "locate pode xestionar"
 
-#: locate/locate.c:569 locate/locate.c:588
+#: locate/locate.c:561 locate/locate.c:580
 #, c-format
 msgid "locate database %s is corrupt or invalid"
 msgstr "A base de datos %s de locate está corrompida ou non válida"
 
-#: locate/locate.c:860
+#: locate/locate.c:865
+#, c-format
+msgid "Database was last modified at %s.%09ld"
+msgstr ""
+
+#: locate/locate.c:873
 #, c-format
 msgid "Locate database size: %s byte\n"
 msgid_plural "Locate database size: %s bytes\n"
 msgstr[0] "Tamaño de base de datos de locate: %s byte\n"
 msgstr[1] "Tamaño de base de datos de locate: %s bytes\n"
 
-#: locate/locate.c:867
+#: locate/locate.c:879
 #, c-format
 msgid "Matching Filenames: %s\n"
 msgstr "Nomes de ficheiro coincidentes: %s\n"
 
-#: locate/locate.c:868
+#: locate/locate.c:880
 #, c-format
 msgid "All Filenames: %s\n"
 msgstr "Todos os nomes de ficheiro: %s\n"
 
-#: locate/locate.c:874
+#: locate/locate.c:886
 #, c-format
 msgid ""
 "File names have a cumulative length of %s bytes.\n"
@@ -1270,7 +1270,7 @@ msgid ""
 "\tand %s contain characters with the high bit set.\n"
 msgstr ""
 
-#: locate/locate.c:888
+#: locate/locate.c:900
 #, c-format
 msgid ""
 "Some filenames may have been filtered out, so we cannot compute the "
@@ -1279,17 +1279,17 @@ msgstr ""
 "Algúns nomes de ficheiro foron filtrados, polo que non pode computar a taxa "
 "de compresión.\n"
 
-#: locate/locate.c:901
+#: locate/locate.c:913
 #, c-format
 msgid "Compression ratio %4.2f%% (higher is better)\n"
 msgstr "Taxa de compresión %4.2f%% (máis grande mellor)\n"
 
-#: locate/locate.c:908
+#: locate/locate.c:920
 #, c-format
 msgid "Compression ratio is undefined\n"
 msgstr "Taxa de compresión non definida\n"
 
-#: locate/locate.c:963
+#: locate/locate.c:975
 #, c-format
 msgid ""
 "locate database %s looks like an slocate database but it seems to have "
@@ -1299,7 +1299,7 @@ msgstr ""
 "semella ter un nivel de seguranza %c, que GNU findutils non admite "
 "actualmente"
 
-#: locate/locate.c:1075
+#: locate/locate.c:1088
 #, c-format
 msgid ""
 "%s is an slocate database.  Support for these is new, expect problems for "
@@ -1308,7 +1308,7 @@ msgstr ""
 "%s é unha base de datos de slocate.  A compatibilidade para estas é moi "
 "nova, pode ver algún erro por agora."
 
-#: locate/locate.c:1089
+#: locate/locate.c:1102
 #, c-format
 msgid ""
 "%s is an slocate database of unsupported security level %d; skipping it."
@@ -1316,7 +1316,7 @@ msgstr ""
 "%s é unha base de datos de slocate dun nivel de seguranza %d non admitido; "
 "omitíndoa."
 
-#: locate/locate.c:1106
+#: locate/locate.c:1119
 #, c-format
 msgid ""
 "You specified the -E option, but that option cannot be used with slocate-"
@@ -1327,40 +1327,40 @@ msgstr ""
 "de formato slocate con un nivel de seguranza non cero.  Non se xerarán "
 "resultados para esta base de datos.\n"
 
-#: locate/locate.c:1117
+#: locate/locate.c:1130
 #, c-format
 msgid "%s is an slocate database.  Turning on the '-e' option."
 msgstr "%s é unha base de datos slocate.  Activando a opción «-e»."
 
-#: locate/locate.c:1155
+#: locate/locate.c:1168
 #, c-format
 msgid "Old-format locate database %s is too short to be valid"
 msgstr ""
 "Base de datos de locate %s de formato antigo é demasiado antiga para ser "
 "válida"
 
-#: locate/locate.c:1307
+#: locate/locate.c:1320
 #, c-format
 msgid "Database %s is in the %s format.\n"
 msgstr "A base de datos %s están no formato %s.\n"
 
-#: locate/locate.c:1334
+#: locate/locate.c:1347
 msgid "The database has little-endian machine-word encoding.\n"
 msgstr ""
 "A base de datos ten unha codificación de palabra-de-máquina little-endian.\n"
 
-#: locate/locate.c:1336
+#: locate/locate.c:1349
 msgid "The database has big-endian machine-word encoding.\n"
 msgstr ""
 "A base de datos ten unha codificación de palabra-de-máquina big-endian.\n"
 
-#: locate/locate.c:1349
+#: locate/locate.c:1362
 #, c-format
 msgid "The database machine-word encoding order is not obvious.\n"
 msgstr ""
 "A base de datos ten unha codificación de palabra-de-máquina non é obvia.\n"
 
-#: locate/locate.c:1372
+#: locate/locate.c:1385
 #, c-format
 msgid ""
 "Usage: %s [-d path | --database=path] [-e | -E | --[non-]existing]\n"
@@ -1379,33 +1379,33 @@ msgstr ""
 "      [--max-database-age D] [--version] [--help]\n"
 "      patrón...\n"
 
-#: locate/locate.c:1435
+#: locate/locate.c:1448
 msgid "failed to drop group privileges"
 msgstr "produciuse un fallo ao eliminar os privilexios de grupo"
 
-#: locate/locate.c:1453
+#: locate/locate.c:1466
 msgid "failed to drop setuid privileges"
 msgstr "produciuse un fallo ao eliminar os privilexios de setuid"
 
-#: locate/locate.c:1467
+#: locate/locate.c:1480
 msgid "Failed to fully drop privileges"
 msgstr "produciuse un fallo ao eliminar os privilexios por completo"
 
-#: locate/locate.c:1485
+#: locate/locate.c:1498
 msgid "failed to drop setgid privileges"
 msgstr "produciuse un fallo ao eliminar os privilexios de setgid"
 
-#: locate/locate.c:1763
+#: locate/locate.c:1778
 #, c-format
 msgid "warning: the locate database can only be read from stdin once."
 msgstr "aviso: a base de datos de locate só pode lerse desde stdin unha vez."
 
-#: locate/locate.c:1833
+#: locate/locate.c:1851
 #, c-format
 msgid "time system call failed"
 msgstr "produciuse un fallo na chamada do sistema «time»"
 
-#: locate/locate.c:1844
+#: locate/locate.c:1862
 #, c-format
 msgid "warning: database %s is more than %d %s old (actual age is %.1f %s)"
 msgstr ""
@@ -1428,12 +1428,12 @@ msgstr "EOF non agardado en %s"
 msgid "error reading a word from %s"
 msgstr "produciuse un erro ao ler a palabra desde %s"
 
-#: xargs/xargs.c:252
+#: xargs/xargs.c:261
 #, c-format
 msgid "Invalid escape sequence %s in input delimiter specification."
 msgstr "Secuencia de escape %s na especificación do delimitador de entrada."
 
-#: xargs/xargs.c:270
+#: xargs/xargs.c:279
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1442,7 +1442,7 @@ msgstr ""
 "Secuencia de escape %s na especificación do delimitador de entrada; os "
 "valores de caracteres non deben esceder %lx."
 
-#: xargs/xargs.c:276
+#: xargs/xargs.c:285
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; character "
@@ -1451,7 +1451,7 @@ msgstr ""
 "Secuencia de escape %s na especificación do delimitador de entrada os "
 "valores de caracteres non deben exceder %lo."
 
-#: xargs/xargs.c:285
+#: xargs/xargs.c:294
 #, c-format
 msgid ""
 "Invalid escape sequence %s in input delimiter specification; trailing "
@@ -1460,7 +1460,7 @@ msgstr ""
 "Secuencia de escape %s na especificación do delimitador de entrada; os "
 "caracteres finais %s non se recoñecen."
 
-#: xargs/xargs.c:330
+#: xargs/xargs.c:339
 #, c-format
 msgid ""
 "Invalid input delimiter specification %s: the delimiter must be either a "
@@ -1469,77 +1469,82 @@ msgstr ""
 "Especificación de delimitador de entrada %s non vaĺida: o delimitador debe "
 "ser ou un só caractér ou unha secuencia de escape que comece por \\."
 
-#: xargs/xargs.c:347
+#: xargs/xargs.c:356
 #, c-format
 msgid "environment is too large for exec"
 msgstr "o ambiente  grande de mis para exec"
 
-#: xargs/xargs.c:559
+#: xargs/xargs.c:568
 #, c-format
 msgid "warning: value %ld for -s option is too large, using %ld instead"
 msgstr ""
 "aviso: o valor %ld para a opción -s é demasiado longo, usando %ld non seu "
 "lugar."
 
-#: xargs/xargs.c:606
+#: xargs/xargs.c:615
 #, c-format
 msgid "option --%s may not be set to a value which includes `='"
 msgstr ""
 
-#: xargs/xargs.c:618
+#: xargs/xargs.c:627
 #, c-format
 msgid "failed to unset environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:632
+#: xargs/xargs.c:641
 #, c-format
 msgid "warning: the -E option has no effect if -0 or -d is used.\n"
 msgstr ""
 
-#: xargs/xargs.c:654
+#: xargs/xargs.c:663
 #, c-format
 msgid "Cannot set SIGUSR1 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:660
+#: xargs/xargs.c:669
 #, c-format
 msgid "Cannot set SIGUSR2 signal handler"
 msgstr ""
 
-#: xargs/xargs.c:676
+#: xargs/xargs.c:685
 #, c-format
 msgid "Cannot open input file %s"
 msgstr "Non é posíbel abrir o ficheiro de entrada %s"
 
-#: xargs/xargs.c:695
+#: xargs/xargs.c:704
 #, c-format
 msgid "Your environment variables take up %<PRIuMAX> bytes\n"
 msgstr "As súas variábeis de contorno ocupan %<PRIuMAX> bytes\n"
 
-#: xargs/xargs.c:698
+#: xargs/xargs.c:707
 #, c-format
 msgid "POSIX upper limit on argument length (this system): %<PRIuMAX>\n"
 msgstr ""
 
-#: xargs/xargs.c:701
+#: xargs/xargs.c:710
 #, c-format
 msgid ""
 "POSIX smallest allowable upper limit on argument length (all systems): "
 "%<PRIuMAX>\n"
 msgstr ""
 
-#: xargs/xargs.c:704
+#: xargs/xargs.c:713
 #, c-format
 msgid "Maximum length of command we could actually use: %<PRIuMAX>\n"
 msgstr ""
 "Lonxitude máxida para a orde que podemos usar actualmente: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:707
+#: xargs/xargs.c:716
 #, c-format
 msgid "Size of command buffer we are actually using: %<PRIuMAX>\n"
 msgstr "O tamaño do bufer de orde está usando actualmente: %<PRIuMAX>\n"
 
-#: xargs/xargs.c:713
+#: xargs/xargs.c:719
+#, c-format
+msgid "Maximum parallelism (--max-procs must be no greater): %<PRIuMAX>\n"
+msgstr ""
+
+#: xargs/xargs.c:725
 #, c-format
 msgid ""
 "\n"
@@ -1551,7 +1556,7 @@ msgstr ""
 "A execución de xargs continuará agora, e tentará ler a súa entrada e "
 "executar ordes; se non quere que isto aconteza, prema «end-of-file».\n"
 
-#: xargs/xargs.c:721
+#: xargs/xargs.c:733
 #, c-format
 msgid ""
 "Warning: %s will be run at least once.  If you do not want that to happen, "
@@ -1560,7 +1565,7 @@ msgstr ""
 "Aviso: %s execuratase cando menos unha vez.  Se non quere que isto se "
 "produza, prema a combinación de interrupción.\n"
 
-#: xargs/xargs.c:849 xargs/xargs.c:942
+#: xargs/xargs.c:861 xargs/xargs.c:954
 #, c-format
 msgid ""
 "unmatched %s quote; by default quotes are special to xargs unless you use "
@@ -1569,15 +1574,15 @@ msgstr ""
 "comiña %s non emparellada; por omisión as comiñas son especiais para xargs a "
 "menos que use a opción -0."
 
-#: xargs/xargs.c:850 xargs/xargs.c:943
+#: xargs/xargs.c:862 xargs/xargs.c:955
 msgid "double"
 msgstr "dobre"
 
-#: xargs/xargs.c:850 xargs/xargs.c:943
+#: xargs/xargs.c:862 xargs/xargs.c:955
 msgid "single"
 msgstr "simple"
 
-#: xargs/xargs.c:962
+#: xargs/xargs.c:974
 #, c-format
 msgid ""
 "WARNING: a NUL character occurred in the input.  It cannot be passed through "
@@ -1586,112 +1591,112 @@ msgstr ""
 "AVISO: hai un caracter NUL na entrada.  Non pode pasarse mediante unha lista "
 "de argumentos.  Desexa usar a opcións --null?"
 
-#: xargs/xargs.c:972 xargs/xargs.c:1037
+#: xargs/xargs.c:984 xargs/xargs.c:1049
 #, c-format
 msgid "argument line too long"
 msgstr "liña de argumento demasaido longa"
 
-#: xargs/xargs.c:1056 xargs/xargs.c:1073
+#: xargs/xargs.c:1068 xargs/xargs.c:1085
 #, fuzzy, c-format
 msgid "Failed to write to stderr"
 msgstr "Produciuse un fallo ao escribir na entrada estándar"
 
-#: xargs/xargs.c:1069
+#: xargs/xargs.c:1081
 #, c-format
 msgid "failed to open /dev/tty for reading"
 msgstr "produciuse un fallo ao abrir /dev/tty para a súa lectura"
 
-#: xargs/xargs.c:1079
+#: xargs/xargs.c:1091
 #, fuzzy, c-format
 msgid "Failed to read from stdin"
 msgstr "Produciuse un fallo ao escribir na entrada estándar"
 
-#: xargs/xargs.c:1116
+#: xargs/xargs.c:1128
 #, c-format
 msgid "unable to allocate memory"
 msgstr ""
 
-#: xargs/xargs.c:1131
+#: xargs/xargs.c:1143
 #, c-format
 msgid "failed to set environment variable %s"
 msgstr ""
 
-#: xargs/xargs.c:1218
+#: xargs/xargs.c:1230
 #, c-format
 msgid "could not create pipe before fork"
 msgstr "non é posíbel crear unha canalización despois de fork"
 
-#: xargs/xargs.c:1289
+#: xargs/xargs.c:1301
 #, c-format
 msgid ""
 "errno-buffer safe_read failed in xargs_do_exec (this is probably a bug, "
 "please report it)"
 msgstr ""
 
-#: xargs/xargs.c:1342
+#: xargs/xargs.c:1354
 #, c-format
 msgid ""
 "read returned unexpected value %zu; this is probably a bug, please report it"
 msgstr ""
 
-#: xargs/xargs.c:1435
+#: xargs/xargs.c:1447
 #, c-format
 msgid "error waiting for child process"
 msgstr "erro agardando polo proceso fillo"
 
-#: xargs/xargs.c:1468
+#: xargs/xargs.c:1480
 #, fuzzy, c-format
 msgid "WARNING: Lost track of %lu child processes"
 msgstr "AVISO: Pista perdida para os %d procesos fillo"
 
-#: xargs/xargs.c:1487
+#: xargs/xargs.c:1499
 #, c-format
 msgid "%s: exited with status 255; aborting"
 msgstr "%s: saíu co estado 255; abortando"
 
-#: xargs/xargs.c:1490
+#: xargs/xargs.c:1502
 #, c-format
 msgid "%s: stopped by signal %d"
 msgstr "%s: parado polo sinal %d"
 
-#: xargs/xargs.c:1493
+#: xargs/xargs.c:1505
 #, c-format
 msgid "%s: terminated by signal %d"
 msgstr "%s: terminado polo sinal %d"
 
-#: xargs/xargs.c:1577
+#: xargs/xargs.c:1590
 #, c-format
 msgid "%s: invalid number for -%c option\n"
 msgstr "%s: número non válido para a opción -%c\n"
 
-#: xargs/xargs.c:1584
+#: xargs/xargs.c:1597
 #, c-format
 msgid "%s: value for -%c option should be >= %ld\n"
 msgstr "%s: o valor para a opción -%c debería ser >= %ld\n"
 
-#: xargs/xargs.c:1598
-#, c-format
-msgid "%s: value for -%c option should be < %ld\n"
+#: xargs/xargs.c:1611
+#, fuzzy, c-format
+msgid "%s: value for -%c option should be <= %ld\n"
 msgstr "%s: o valor para a opción -%c debería ser < %ld\n"
 
-#: xargs/xargs.c:1617
+#: xargs/xargs.c:1630
 #, c-format
 msgid "Usage: %s [OPTION]... COMMAND [INITIAL-ARGS]...\n"
 msgstr ""
 
-#: xargs/xargs.c:1622
+#: xargs/xargs.c:1635
 msgid ""
 "Run COMMAND with arguments INITIAL-ARGS and more arguments read from input.\n"
 "\n"
 msgstr ""
 
-#: xargs/xargs.c:1624
+#: xargs/xargs.c:1637
 msgid ""
 "Mandatory and optional arguments to long options are also\n"
 "mandatory or optional for the corresponding short option.\n"
 msgstr ""
 
-#: xargs/xargs.c:1626
+#: xargs/xargs.c:1639
 msgid ""
 "  -0, --null                   items are separated by a null, not "
 "whitespace;\n"
@@ -1700,12 +1705,12 @@ msgid ""
 "                                 logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1629
+#: xargs/xargs.c:1642
 msgid ""
 "  -a, --arg-file=FILE          read arguments from FILE, not standard input\n"
 msgstr ""
 
-#: xargs/xargs.c:1630
+#: xargs/xargs.c:1643
 msgid ""
 "  -d, --delimiter=CHARACTER    items in input stream are separated by "
 "CHARACTER,\n"
@@ -1714,7 +1719,7 @@ msgid ""
 "                                 processing and logical EOF processing\n"
 msgstr ""
 
-#: xargs/xargs.c:1633
+#: xargs/xargs.c:1646
 msgid ""
 "  -E END                       set logical EOF string; if END occurs as a "
 "line\n"
@@ -1722,31 +1727,31 @@ msgid ""
 "                                 (ignored if -0 or -d was specified)\n"
 msgstr ""
 
-#: xargs/xargs.c:1636
+#: xargs/xargs.c:1649
 msgid ""
 "  -e, --eof[=END]              equivalent to -E END if END is specified;\n"
 "                                 otherwise, there is no end-of-file string\n"
 msgstr ""
 
-#: xargs/xargs.c:1638
+#: xargs/xargs.c:1651
 msgid "  -I R                         same as --replace=R\n"
 msgstr ""
 
-#: xargs/xargs.c:1639
+#: xargs/xargs.c:1652
 msgid ""
 "  -i, --replace[=R]            replace R in INITIAL-ARGS with names read\n"
 "                                 from standard input; if R is unspecified,\n"
 "                                 assume {}\n"
 msgstr ""
 
-#: xargs/xargs.c:1642
+#: xargs/xargs.c:1655
 msgid ""
 "  -L, --max-lines=MAX-LINES    use at most MAX-LINES non-blank input lines "
 "per\n"
 "                                 command line\n"
 msgstr ""
 
-#: xargs/xargs.c:1644
+#: xargs/xargs.c:1657
 msgid ""
 "  -l[MAX-LINES]                similar to -L but defaults to at most one "
 "non-\n"
@@ -1754,28 +1759,28 @@ msgid ""
 "specified\n"
 msgstr ""
 
-#: xargs/xargs.c:1646
+#: xargs/xargs.c:1659
 msgid ""
 "  -n, --max-args=MAX-ARGS      use at most MAX-ARGS arguments per command "
 "line\n"
 msgstr ""
 
-#: xargs/xargs.c:1647
+#: xargs/xargs.c:1660
 msgid ""
 "  -P, --max-procs=MAX-PROCS    run at most MAX-PROCS processes at a time\n"
 msgstr ""
 
-#: xargs/xargs.c:1648
+#: xargs/xargs.c:1661
 msgid "  -p, --interactive            prompt before running commands\n"
 msgstr ""
 
-#: xargs/xargs.c:1649
+#: xargs/xargs.c:1662
 msgid ""
 "      --process-slot-var=VAR   set environment variable VAR in child "
 "processes\n"
 msgstr ""
 
-#: xargs/xargs.c:1650
+#: xargs/xargs.c:1663
 msgid ""
 "  -r, --no-run-if-empty        if there are no arguments, then do not run "
 "COMMAND;\n"
@@ -1784,30 +1789,34 @@ msgid ""
 "                                 run at least once\n"
 msgstr ""
 
-#: xargs/xargs.c:1653
+#: xargs/xargs.c:1666
 msgid ""
 "  -s, --max-chars=MAX-CHARS    limit length of command line to MAX-CHARS\n"
 msgstr ""
 
-#: xargs/xargs.c:1654
+#: xargs/xargs.c:1667
 msgid "      --show-limits            show limits on command-line length\n"
 msgstr ""
 
-#: xargs/xargs.c:1655
+#: xargs/xargs.c:1668
 msgid "  -t, --verbose                print commands before executing them\n"
 msgstr ""
 
-#: xargs/xargs.c:1656
+#: xargs/xargs.c:1669
 msgid "  -x, --exit                   exit if the size (see -s) is exceeded\n"
 msgstr ""
 
-#: xargs/xargs.c:1658
+#: xargs/xargs.c:1671
 msgid "      --help                   display this help and exit\n"
 msgstr ""
 
-#: xargs/xargs.c:1659
+#: xargs/xargs.c:1672
 msgid "      --version                output version information and exit\n"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Failed initialize shared-file hash table"
+#~ msgstr "Produciuse un fallo ao inicializar a táboa de shared-file hash"
 
 #~ msgid "Mode %s is not valid when POSIXLY_CORRECT is on."
 #~ msgstr "O modo %s non é válido cando POSIXLY_CORRECT está activado."
