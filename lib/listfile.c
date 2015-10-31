@@ -39,6 +39,7 @@
 #include "error.h"
 #include "filemode.h"
 #include "human.h"
+#include "mbswidth.h"
 #include "idcache.h"
 #include "pathmax.h"
 #include "stat-size.h"
@@ -57,7 +58,7 @@
 #define HAVE_MAJOR
 #endif
 
-#ifdef major			/* Might be defined in sys/types.h.  */
+#ifdef major                    /* Might be defined in sys/types.h.  */
 #define HAVE_MAJOR
 #endif
 #ifndef HAVE_MAJOR
@@ -81,6 +82,30 @@
 
 static bool print_name (register const char *p, FILE *stream, int literal_control_chars);
 
+/* We have some minimum field sizes, though we try to widen these fields on systems
+ * where we discover examples where the field width we started with is not enough. */
+static int inode_number_width = 9;
+static int block_size_width = 6;
+static int nlink_width = 3;
+static int owner_width = 8;
+static int group_width = 8;
+/* We don't print st_author even if the system has it. */
+static int major_device_number_width = 3;
+static int minor_device_number_width = 3;
+static int file_size_width = 8;
+
+static bool print_num(FILE *stream, unsigned long num, int *width)
+{
+  const int chars_out = fprintf (stream, "%*lu", *width, num);
+  if (chars_out >= 0)
+    {
+      if (*width < chars_out)
+        *width = chars_out;
+      return true;
+    }
+  return false;
+}
+
 
 /* NAME is the name to print.
    RELNAME is the path to access it from the current directory.
@@ -92,13 +117,13 @@ static bool print_name (register const char *p, FILE *stream, int literal_contro
 
 void
 list_file (const char *name,
-	   int dir_fd,
-	   char *relname,
-	   const struct stat *statp,
-	   time_t current_time,
-	   int output_block_size,
-	   int literal_control_chars,
-	   FILE *stream)
+           int dir_fd,
+           char *relname,
+           const struct stat *statp,
+           time_t current_time,
+           int output_block_size,
+           int literal_control_chars,
+           FILE *stream)
 {
   char modebuf[12];
   struct tm const *when_local;
@@ -106,7 +131,9 @@ list_file (const char *name,
   char const *group_name;
   char hbuf[LONGEST_HUMAN_READABLE + 1];
   bool output_good = true;
+  int chars_out;
   int failed_at = 000;
+  int inode_field_width;
 
 #if HAVE_ST_DM_MODE
   /* Cray DMF: look at the file's migrated, not real, status */
@@ -115,222 +142,310 @@ list_file (const char *name,
   strmode (statp->st_mode, modebuf);
 #endif
 
-  if (fprintf (stream, "%6s ",
-	       human_readable ((uintmax_t) statp->st_ino, hbuf,
-			       human_ceiling,
-			       1u, 1u)) < 0)
+  chars_out = fprintf (stream, "%*s", inode_number_width,
+                       human_readable ((uintmax_t) statp->st_ino, hbuf,
+                                       human_ceiling,
+                                       1u, 1u));
+  if (chars_out < 0)
     {
       output_good = false;
       failed_at = 100;
     }
-
+  else if (chars_out > inode_number_width)
+    {
+      inode_number_width = chars_out;
+    }
   if (output_good)
     {
-      if (fprintf (stream, "%4s ",
-		   human_readable ((uintmax_t) ST_NBLOCKS (*statp), hbuf,
-				   human_ceiling,
-				   ST_NBLOCKSIZE, output_block_size)) < 0)
-	{
-	  output_good = false;
-	  failed_at = 200;
-	}
+      if (EOF == putc(' ', stream))
+        {
+          output_good = false;
+          failed_at = 150;
+        }
+      chars_out = fprintf (stream, "%*s",
+                           block_size_width,
+                           human_readable ((uintmax_t) ST_NBLOCKS (*statp), hbuf,
+                                           human_ceiling,
+                                           ST_NBLOCKSIZE, output_block_size));
+      if (chars_out < 0)
+        {
+          output_good = false;
+          failed_at = 200;
+        }
+      else
+        {
+          if (chars_out > block_size_width)
+            block_size_width = chars_out;
+        }
     }
 
   if (output_good)
     {
+      if (EOF == putc(' ', stream))
+        {
+          output_good = false;
+          failed_at = 250;
+        }
       /* modebuf includes the space between the mode and the number of links,
-	 as the POSIX "optional alternate access method flag".  */
+         as the POSIX "optional alternate access method flag".  */
       if (fprintf (stream, "%s%3lu ", modebuf, (unsigned long) statp->st_nlink) < 0)
-	{
-	  output_good = false;
-	  failed_at = 300;
-	}
+        {
+          output_good = false;
+          failed_at = 300;
+        }
     }
 
   if (output_good)
     {
+      if (EOF == putc(' ', stream))
+        {
+          output_good = false;
+          failed_at = 250;
+        }
       user_name = getuser (statp->st_uid);
       if (user_name)
-	{
-	  output_good = (fprintf (stream, "%-8s ", user_name) >= 0);
-	  if (!output_good)
-	    failed_at = 400;
-	}
+        {
+          int len = mbswidth (user_name, 0);
+          if (len > owner_width)
+            owner_width = len;
+          output_good = (fprintf (stream, "%-*s ", owner_width, user_name) >= 0);
+          if (!output_good)
+            failed_at = 400;
+        }
       else
-	{
-	  output_good = (fprintf (stream, "%-8lu ", (unsigned long) statp->st_uid) >= 0);
-	  if (!output_good)
-	    failed_at = 450;
-	}
+        {
+          chars_out = fprintf (stream, "%-8lu ", (unsigned long) statp->st_uid);
+          if (chars_out > owner_width)
+            owner_width = chars_out;
+          output_good = (chars_out > 0);
+          if (!output_good)
+            failed_at = 450;
+        }
     }
 
   if (output_good)
     {
       group_name = getgroup (statp->st_gid);
       if (group_name)
-	{
-	  output_good = (fprintf (stream, "%-8s ", group_name) >= 0);
-	  if (!output_good)
-	    failed_at = 500;
-	}
+        {
+          int len = mbswidth (group_name, 0);
+          if (len > group_width)
+            group_width = len;
+          output_good = (fprintf (stream, "%-*s ", group_width, group_name) >= 0);
+          if (!output_good)
+            failed_at = 500;
+        }
       else
-	{
-	  output_good = (fprintf (stream, "%-8lu ", (unsigned long) statp->st_gid) >= 0);
-	  if (!output_good)
-	    failed_at = 550;
-	}
+        {
+          chars_out = fprintf (stream, "%-*lu",
+                               group_width, (unsigned long) statp->st_gid);
+          if (chars_out > group_width)
+            group_width = chars_out;
+          output_good = (chars_out >= 0);
+          if (output_good)
+            {
+              if (EOF == putc(' ', stream))
+                {
+                  output_good = false;
+                  failed_at = 525;
+                }
+            }
+          else
+            {
+              if (!output_good)
+                failed_at = 550;
+            }
+        }
     }
 
   if (output_good)
     {
       if (S_ISCHR (statp->st_mode) || S_ISBLK (statp->st_mode))
-	{
+        {
 #ifdef HAVE_STRUCT_STAT_ST_RDEV
-	  if (fprintf (stream, "%3lu, %3lu ",
-		       (unsigned long) major (statp->st_rdev),
-		       (unsigned long) minor (statp->st_rdev)) < 0)
-	    {
-	      output_good = false;
-	      failed_at = 600;
-	    }
+          if (!print_num (stream,
+                          (unsigned long) major (statp->st_rdev),
+                          &major_device_number_width))
+            {
+              output_good = false;
+              failed_at = 600;
+            }
+          if (output_good)
+            {
+              if (fprintf (stream, ", ") < 0)
+                {
+                  output_good = false;
+                  failed_at = 625;
+                }
+            }
+          if (output_good)
+            {
+              if (!print_num (stream,
+                              (unsigned long) minor (statp->st_rdev),
+                              &minor_device_number_width))
+                {
+                  output_good = false;
+                  failed_at = 650;
+                }
+            }
 #else
-	  if (fprintf (stream, "         ") < 0)
-	    {
-	      output_good = false;
-	      failed_at = 700;
-	    }
+          if (fprintf (stream, "%*s  %*s",
+                       major_device_number_width,
+                       minor_device_number_width) < 0)
+            {
+              output_good = false;
+              failed_at = 700;
+            }
 #endif
-	}
+        }
       else
-	{
-	  if (fprintf (stream, "%8s ",
-		       human_readable ((uintmax_t) statp->st_size, hbuf,
-				       human_ceiling,
-				       1,
-				       output_block_size < 0 ? output_block_size : 1)) < 0)
-	    {
-	      output_good = false;
-	      failed_at = 800;
-	    }
-	}
+        {
+          const int blocksize = output_block_size < 0 ? output_block_size : 1;
+          chars_out = fprintf (stream, "%*s",
+                               file_size_width,
+                               human_readable ((uintmax_t) statp->st_size, hbuf,
+                                               human_ceiling,
+                                               1, blocksize));
+          if (chars_out < 0)
+            {
+              output_good = false;
+              failed_at = 800;
+            }
+          else
+            {
+              if (chars_out > file_size_width)
+                {
+                  file_size_width = chars_out;
+                }
+            }
+        }
+    }
+
+  if (output_good)
+    {
+      if (EOF == putc(' ', stream))
+        {
+          output_good = false;
+          failed_at = 850;
+        }
     }
 
   if (output_good)
     {
       if ((when_local = localtime (&statp->st_mtime)))
-	{
-	  char init_bigbuf[256];
-	  char *buf = init_bigbuf;
-	  size_t bufsize = sizeof init_bigbuf;
+        {
+          char init_bigbuf[256];
+          char *buf = init_bigbuf;
+          size_t bufsize = sizeof init_bigbuf;
 
-	  /* Use strftime rather than ctime, because the former can produce
-	     locale-dependent names for the month (%b).
+          /* Use strftime rather than ctime, because the former can produce
+             locale-dependent names for the month (%b).
 
-	     Output the year if the file is fairly old or in the future.
-	     POSIX says the cutoff is 6 months old;
-	     approximate this by 6*30 days.
-	     Allow a 1 hour slop factor for what is considered "the future",
-	     to allow for NFS server/client clock disagreement.  */
-	  char const *fmt =
-	    ((current_time - 6 * 30 * 24 * 60 * 60 <= statp->st_mtime
-	      && statp->st_mtime <= current_time + 60 * 60)
-	     ? "%b %e %H:%M"
-	     : "%b %e  %Y");
+             Output the year if the file is fairly old or in the future.
+             POSIX says the cutoff is 6 months old;
+             approximate this by 6*30 days.
+             Allow a 1 hour slop factor for what is considered "the future",
+             to allow for NFS server/client clock disagreement.  */
+          char const *fmt =
+            ((current_time - 6 * 30 * 24 * 60 * 60 <= statp->st_mtime
+              && statp->st_mtime <= current_time + 60 * 60)
+             ? "%b %e %H:%M"
+             : "%b %e  %Y");
 
-	  while (!strftime (buf, bufsize, fmt, when_local))
-	    buf = alloca (bufsize *= 2);
+          while (!strftime (buf, bufsize, fmt, when_local))
+            buf = alloca (bufsize *= 2);
 
-	  if (fprintf (stream, "%s ", buf) < 0)
-	    {
-	      output_good = false;
-	      failed_at = 900;
-	    }
-	}
+          if (fprintf (stream, "%s ", buf) < 0)
+            {
+              output_good = false;
+              failed_at = 900;
+            }
+        }
       else
-	{
-	  /* The time cannot be represented as a local time;
-	     print it as a huge integer number of seconds.  */
-	  int width = 12;
+        {
+          /* The time cannot be represented as a local time;
+             print it as a huge integer number of seconds.  */
+          int width = 12;
 
-	  if (statp->st_mtime < 0)
-	    {
-	      char const *num = human_readable (- (uintmax_t) statp->st_mtime,
-						hbuf, human_ceiling, 1, 1);
-	      int sign_width = width - strlen (num);
-	      if (fprintf (stream, "%*s%s ",
-			   sign_width < 0 ? 0 : sign_width, "-", num) < 0)
-		{
-		  output_good = false;
-		  failed_at = 1000;
-		}
-	    }
-	  else
-	    {
-	      if (fprintf (stream, "%*s ", width,
-			   human_readable ((uintmax_t) statp->st_mtime, hbuf,
-					   human_ceiling,
-					   1, 1)) < 0)
-		{
-		  output_good = false;
-		  failed_at = 1100;
-		}
-	    }
-	}
+          if (statp->st_mtime < 0)
+            {
+              char const *num = human_readable (- (uintmax_t) statp->st_mtime,
+                                                hbuf, human_ceiling, 1, 1);
+              int sign_width = width - strlen (num);
+              if (fprintf (stream, "%*s%s ",
+                           sign_width < 0 ? 0 : sign_width, "-", num) < 0)
+                {
+                  output_good = false;
+                  failed_at = 1000;
+                }
+            }
+          else
+            {
+              if (fprintf (stream, "%*s ", width,
+                           human_readable ((uintmax_t) statp->st_mtime, hbuf,
+                                           human_ceiling,
+                                           1, 1)) < 0)
+                {
+                  output_good = false;
+                  failed_at = 1100;
+                }
+            }
+        }
     }
 
   if (output_good)
     {
       output_good = print_name (name, stream, literal_control_chars);
       if (!output_good)
-	{
-	  failed_at = 1200;
-	}
+        {
+          failed_at = 1200;
+        }
     }
 
   if (output_good)
     {
       if (S_ISLNK (statp->st_mode))
-	{
-	  char *linkname = areadlinkat (dir_fd, relname);
-	  if (linkname)
-	    {
-	      if (fputs (" -> ", stream) < 0)
-		{
-		  output_good = false;
-		  failed_at = 1300;
-		}
-	      if (output_good)
-		{
-		  output_good = print_name (linkname, stream, literal_control_chars);
-		  if (!output_good)
-		    {
-		      failed_at = 1350;
-		    }
-		}
-	    }
-	  else
-	    {
-	      /* POSIX requires in the case of find that if we issue a
-	       * diagnostic we should have a nonzero status.  However,
-	       * this function doesn't have a way of telling the caller to
-	       * do that.  However, since this function is only used when
-	       * processing "-ls", we're already using an extension.
-	       */
-	      error (0, errno, "%s", name);
-	    }
-	  free (linkname);
-	}
+        {
+          char *linkname = areadlinkat (dir_fd, relname);
+          if (linkname)
+            {
+              if (fputs (" -> ", stream) < 0)
+                {
+                  output_good = false;
+                  failed_at = 1300;
+                }
+              if (output_good)
+                {
+                  output_good = print_name (linkname, stream, literal_control_chars);
+                  if (!output_good)
+                    {
+                      failed_at = 1350;
+                    }
+                }
+            }
+          else
+            {
+              /* POSIX requires in the case of find that if we issue a
+               * diagnostic we should have a nonzero status.  However,
+               * this function doesn't have a way of telling the caller to
+               * do that.  However, since this function is only used when
+               * processing "-ls", we're already using an extension.
+               */
+              error (0, errno, "%s", name);
+            }
+          free (linkname);
+        }
       if (output_good)
-	{
-	  if (EOF == putc ('\n', stream))
-	    {
-	      output_good = false;
-	      if (!output_good)
-		{
-		  failed_at = 1400;
-		}
-	    }
-	}
+        {
+          if (EOF == putc ('\n', stream))
+            {
+              output_good = false;
+              if (!output_good)
+                {
+                  failed_at = 1400;
+                }
+            }
+        }
     }
   if (!output_good)
     {
@@ -355,53 +470,53 @@ print_name_with_quoting (register const char *p, FILE *stream)
     {
       int fprintf_result = -1;
       switch (c)
-	{
-	case '\\':
-	  fprintf_result = fprintf (stream, "\\\\");
-	  break;
+        {
+        case '\\':
+          fprintf_result = fprintf (stream, "\\\\");
+          break;
 
-	case '\n':
-	  fprintf_result = fprintf (stream, "\\n");
-	  break;
+        case '\n':
+          fprintf_result = fprintf (stream, "\\n");
+          break;
 
-	case '\b':
-	  fprintf_result = fprintf (stream, "\\b");
-	  break;
+        case '\b':
+          fprintf_result = fprintf (stream, "\\b");
+          break;
 
-	case '\r':
-	  fprintf_result = fprintf (stream, "\\r");
-	  break;
+        case '\r':
+          fprintf_result = fprintf (stream, "\\r");
+          break;
 
-	case '\t':
-	  fprintf_result = fprintf (stream, "\\t");
-	  break;
+        case '\t':
+          fprintf_result = fprintf (stream, "\\t");
+          break;
 
-	case '\f':
-	  fprintf_result = fprintf (stream, "\\f");
-	  break;
+        case '\f':
+          fprintf_result = fprintf (stream, "\\f");
+          break;
 
-	case ' ':
-	  fprintf_result = fprintf (stream, "\\ ");
-	  break;
+        case ' ':
+          fprintf_result = fprintf (stream, "\\ ");
+          break;
 
-	case '"':
-	  fprintf_result = fprintf (stream, "\\\"");
-	  break;
+        case '"':
+          fprintf_result = fprintf (stream, "\\\"");
+          break;
 
-	default:
-	  if (c > 040 && c < 0177)
-	    {
-	      if (EOF == putc (c, stream))
-		return false;
-	      fprintf_result = 1; /* otherwise it's used uninitialized. */
-	    }
-	  else
-	    {
-	      fprintf_result = fprintf (stream, "\\%03o", (unsigned int) c);
-	    }
-	}
+        default:
+          if (c > 040 && c < 0177)
+            {
+              if (EOF == putc (c, stream))
+                return false;
+              fprintf_result = 1; /* otherwise it's used uninitialized. */
+            }
+          else
+            {
+              fprintf_result = fprintf (stream, "\\%03o", (unsigned int) c);
+            }
+        }
       if (fprintf_result < 0)
-	return false;
+        return false;
     }
   return true;
 }

@@ -8,7 +8,17 @@ subdir = po
 top_builddir = ..
 
 # These options get passed to xgettext.
-XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ --from-code=UTF-8
+XGETTEXT_OPTIONS = --keyword=_ --keyword=N_ \
+          \
+ --flag=_:1:pass-c-format\
+ --flag=N_:1:pass-c-format\
+ --flag=error:3:c-format --flag=error_at_line:5:c-format\
+\
+ --from-code=UTF-8\
+ --flag=asprintf:2:c-format --flag=vasprintf:2:c-format\
+ --flag=asnprintf:3:c-format --flag=vasnprintf:3:c-format\
+ --flag=wrapf:1:c-format\
+ $${end_of_xgettext_options+}
 
 # This is the copyright holder that gets inserted into the header of the
 # $(DOMAIN).pot file.  Set this to the copyright holder of the surrounding
