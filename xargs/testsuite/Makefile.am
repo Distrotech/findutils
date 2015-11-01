@@ -1,3 +1,25 @@
+# Copyright (C) 2001, 2002, 2003-2015 Free Software Foundation, Inc.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# The 2001 copyright line above was added in 2015 based on James
+# Youngman's best estimate of the original publication date of this
+# file (it appeared in findutils release 4.1.7 but may have appeared
+# in earlier releases which I don't have copies of).
+
+# Essentially this test verifies that ls -i and find -printf %i produce
+# the same output.
 AUTOMAKE_OPTIONS=dejagnu
 XARGS = ../xargs
 XARGSFLAGS =
