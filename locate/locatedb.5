@@ -39,7 +39,7 @@ null-terminated ASCII remainder \(em the part of the name that follows
 the shared prefix.
 .P
 If the offset-differential count is larger than can be stored in a
-signed byte (+/\-127), the byte has the value 0x80 (binary 10000000)
+signed byte (\(+-127), the byte has the value 0x80 (binary 10000000)
 and the actual count follows in a 2-byte word, with the high byte
 first (network byte order).  This count can also be negative (the sign
 bit being in the first of the two bytes).
@@ -91,21 +91,21 @@ programs called \fBbigram\fP and \fBcode\fP to produce old-format
 databases.  The old format differs from the above description in the
 following ways.  Instead of each entry starting with an
 offset-differential count byte and ending with a null, byte values
-from 0 through 28 indicate offset-differential counts from \-14 through
+from 0 through 28 indicate offset-differential counts from -14 through
 14.  The byte value indicating that a long offset-differential count
 follows is 0x1e (30), not 0x80.  The long counts are stored in host
 byte order, which is not necessarily network byte order, and host
 integer word size, which is usually 4 bytes.  They also represent a
 count 14 less than their value.  The database lines have no
 termination byte; the start of the next line is indicated by its first
-byte having a value <= 30.
+byte having a value \(<= 30.
 .P
 In addition, instead of starting with a dummy entry, the old database
 format starts with a 256 byte table containing the 128 most common
 bigrams in the file list.  A bigram is a pair of adjacent bytes.
 Bytes in the database that have the high bit set are indexes (with the
 high bit cleared) into the bigram table.  The bigram and
-offset-differential count coding makes these databases 20-25% smaller
+offset-differential count coding makes these databases 20\(en25% smaller
 than the new format, but makes them not 8-bit clean.  Any byte in a
 file name that is in the ranges used for the special codes is replaced
 in the database by a question mark, which not coincidentally is the
@@ -136,7 +136,7 @@ and count bytes made printable:
 6 rmadillo.c
 \-9 tmp/zoo
 
-(6 = 14 \- 8, and \-9 = 5 \- 14)
+(6 = 14 - 8, and -9 = 5 - 14)
 .fi
 .SH "SEE ALSO"
 \fBfind\fP(1), \fBlocate\fP(1), \fBlocatedb\fP(5), \fBxargs\fP(1),
