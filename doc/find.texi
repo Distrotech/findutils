@@ -717,6 +717,16 @@ command line.  Use of this option also implies the same behaviour as
 the @samp{-noleaf} option.  If you later use the @samp{-H} or
 @samp{-P} options, this does not turn off @samp{-noleaf}.
 
+Actions that can cause symbolic links to become broken while
+@samp{find} is executing (for example @samp{-delete}) can give rise to
+confusing behaviour.  Take for example the command line
+@samp{find -L . -type d -delete}.   This will delete empty
+directories.  If a subtree includes only directories and symbolic
+links to directoires, this command may still not successfully delete
+it, since deletion of the target of the symbolic link will cause the
+symbolic link to become broken and @samp{-type d} is false for broken
+symbolic links.
+
 @item -follow
 This option forms part of the ``expression'' and must be specified
 after the file names, but it is otherwise equivalent to @samp{-L}.

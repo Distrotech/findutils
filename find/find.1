@@ -100,6 +100,11 @@ option is in effect, the
 predicate will always
 match against the type of the file that a symbolic link points to
 rather than the link itself (unless the symbolic link is broken).
+Actions that can cause symbolic links to become broken while
+.B find
+is executing (for example
+.BR \-delete )
+can give rise to confusing behaviour.
 Using
 .B \-L
 causes the
