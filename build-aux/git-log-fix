@@ -2,6 +2,23 @@
 # option.  It specifies what changes to make to each given SHA1's commit
 # log and metadata, using Perl-eval'able expressions.
 
+# Ignore the revert message (since it reverts a commit which just had an incorrect
+# log message)
+4bce720c01367736e101f484b0939f5e0e56debb
+s,Revert change.*,,m;
+s,This reverts.*,,m
+
+# Ignore the log message resulting from a spurious merge.
+f05ecf7731f6107f68979876643f5d7adc20227d
+s,Merge branch.*,,m
+
+# This is a commit with a badly-formatted commit log message.  Change
+# e7a2c8f67b9af8a32f035bc41c074a547ec44fae has a correctly formatted
+# version of the message, which is why this change was reverted.
+db79379e3bae8d3dbdad1400c34a65820bac8cb7
+s,\t.*,,mg;
+s,2015-12-18.*,,mg;
+
 # Remove a spurious date header and leading tabs (i.e. fix up following
 # the use of ChangeLog-formatted string as a git log message).
 0734748302f5a09e225784e953c469217dfa2d85
