@@ -975,7 +975,10 @@ and
 together.
 
 .IP "\-exec \fIcommand\fR ;"
-Execute \fIcommand\fR; true if 0 status is returned.  All following
+Execute \fIcommand\fR; true if 0 status is returned.  The exit status
+of
+.B find
+itself is not affected.  All following
 arguments to
 .B find
 are taken to be arguments to the command until an argument consisting
@@ -1015,7 +1018,12 @@ encounters an error, this can sometimes cause an
 immediate exit, so some pending commands may not be run
 at all.  This variant of
 .B \-exec
-always returns true.
+always returns true.  When the invoked command exits
+with a non-zero status, the exit status of
+.B find
+itself is non-zero, but the
+.B \-exec
+action itself will still have evaluated as true.
 
 .IP "\-execdir \fIcommand\fR ;"
 .IP "\-execdir \fIcommand\fR {} +"
@@ -1062,7 +1070,10 @@ always returns true, while
 .B {} ;
 returns true only if
 .I command
-returns 0.
+returns 0.  The exit status of
+.B find
+itself is affected or not according to the rule for
+.BR \-exec .
 
 
 .IP "\-fls \fIfile\fR"
@@ -2050,6 +2061,26 @@ pending program invocations for
 or
 .B \-execdir ... {} +
 may not have been performed.
+
+If a command run by
+.B \-exec ... {} +
+or
+.B \-execdir ... {} +
+or
+.B \-ok ... {} +
+or
+.B \-okdir ... {} +
+exits with a non-zero status, the exit status of
+.B find
+will also be non-zero (though it is not guaranteed to be the same
+value).  The equivalent actions when terminated by
+.B ;
+instead of
+.B +
+do not affect the exit status, except in some cases of failure to
+invoke the command itself (for example, failure of the
+.BR fork (2)
+system call).
 
 
 .SH "SEE ALSO"
