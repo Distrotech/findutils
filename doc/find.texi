@@ -2113,6 +2113,7 @@ perform arbitrary actions on the files.
 * Single File::
 * Multiple Files::
 * Querying::
+* Child Exit Status::
 @end menu
 
 @node Single File
@@ -2763,6 +2764,44 @@ Prompt the user about whether to run each command line and read a line
 from the terminal.  Only run the command line if the response starts
 with @samp{y} or @samp{Y}.  Implies @samp{-t}.
 @end table
+
+
+@node Child Exit Status
+@subsection Child Exit Status
+
+The handling of the exit status of commands run by @code{find} depends
+on which action was used to launch the command.  Single-argument
+actions carry the exit status of the child forward as the result of
+the action itself.  Multiple-argument actions always return true, but
+if the launched command exits with a non-zero status, the exit status
+of @code{find} itself will be non-zero.
+
+The effect of a non-zero command exit status is as follows:
+
+@table @samp
+@item -exec ... ;
+The action returns false; the exit status of @code{find} is unaffected.
+@item -execdir ... ;
+The action returns false; the exit status of @code{find} is unaffected.
+@item -ok ... ;
+The action returns false; the exit status of @code{find} is unaffected.
+@item -okdir ... ;
+The action returns false; the exit status of @code{find} is unaffected.
+@item -exec ... +
+The action returns true; the exit status of @code{find} will be non-zero.
+@item -execdir ... +
+The action returns true; the exit status of @code{find} will be non-zero.
+@item -ok ... +
+The action returns true; the exit status of @code{find} will be non-zero.
+@item -okdir ... +
+The action returns true; the exit status of @code{find} will be non-zero.
+@end table
+
+If a command cannot be launched at all and the failure occurs in the
+parent process (i.e. the running @code{find} program) it will exit
+with a non-zero status.  If the failure occurs in the child process,
+it is unspecified whether or not this is distinguished from a failure
+of the command itself.
 
 @node Delete Files
 @section Delete Files
