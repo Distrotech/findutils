@@ -2,10 +2,18 @@ GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
 * Major changes in release 4.5.16-git, 2015-12-DD
 
-** Translations
+** Functional Changes to find
+Using -regextype egrep now has the same effect -regextype
+posix-egrep.  This is the result of a change to gnulib to bring it
+into line with GNU grep (see
+http://debbugs.gnu.org/cgi/bugreport.cgi?bug=20974#22).
 
+** Translations
 Updated translations: Estonian, Swedish, Polish, Vietnamese, Ukranian,
 Norwegian Bokmaal, Czech, Russian, French, Hungarian.
+
+** Bug Fixes:
+#46715: testsuite error with perl 5.22, gnulib outdated
 
 * Major changes in release 4.5.15, 2015-12-18
 
