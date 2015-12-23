@@ -65,6 +65,7 @@
 
 /* find headers. */
 #include "buildcmd.h"
+#include "fdleak.h"
 #include "findutils-version.h"
 
 #if ENABLE_NLS
@@ -366,6 +367,11 @@ smaller_of (size_t a, size_t b)
 }
 
 
+static FILE* fopen_cloexec_for_read_only (const char *file_name) {
+  int fd = open_cloexec (file_name, O_RDONLY);
+  return (fd < 0) ? NULL : fdopen (fd, "r");
+}
+
 
 int
 main (int argc, char **argv)
@@ -387,6 +393,7 @@ main (int argc, char **argv)
   else
     set_program_name ("xargs");
 
+  remember_non_cloexec_fds ();
   parent = getpid ();
   original_exit_value = EXIT_SUCCESS;
 
@@ -678,7 +685,7 @@ main (int argc, char **argv)
   else
     {
       keep_stdin = 1;		/* see prep_child_for_exec () */
-      input_stream = fopen (input_file, "r");
+      input_stream = fopen_cloexec_for_read_only (input_file);
       if (NULL == input_stream)
 	{
 	  error (EXIT_FAILURE, errno,
@@ -1075,7 +1082,7 @@ print_args (bool ask)
 
       if (!tty_stream)
 	{
-	  tty_stream = fopen ("/dev/tty", "r");
+	  tty_stream = fopen_cloexec_for_read_only ("/dev/tty");
 	  if (!tty_stream)
 	    error (EXIT_FAILURE, errno,
 		   _("failed to open /dev/tty for reading"));
@@ -1154,6 +1161,8 @@ set_slot_var (unsigned int n)
 static void
 prep_child_for_exec (void)
 {
+  complain_about_leaky_fds ();
+
   /* The parent will call add_proc to allocate a slot.  We do the same in the
      child to make sure we get the same value.
 
