@@ -282,7 +282,9 @@ prep_child_for_exec (bool close_stdin, const struct saved_cwd *wd)
    */
   if (0 != restore_cwd (wd))
     {
-      error (0, errno, _("Failed to change directory: %s"), wd);
+      error (0, errno, _("Failed to change directory%s%s"),
+	     (wd->desc < 0 && wd->name) ? ": " : "",
+	     (wd->desc < 0 && wd->name) ? wd->name : "");
       ok = false;
     }
   return ok;

@@ -456,7 +456,9 @@ record_initial_cwd (void)
   if (0 != save_cwd (initial_wd))
     {
       error (EXIT_FAILURE, errno,
-	     _("failed to save initial working directory: %s"), initial_wd);
+	     _("Failed to save initial working directory%s%s"),
+	     (initial_wd->desc < 0 && initial_wd->name) ? ": " : "",
+	     (initial_wd->desc < 0 && initial_wd->name) ? initial_wd->name : "");
     }
 }
 
@@ -473,7 +475,9 @@ cleanup_initial_cwd (void)
     {
       /* since we may already be in atexit, die with _exit(). */
       error (0, errno,
-	     _("failed to restore initial working directory: %s"), initial_wd);
+	     _("Failed to restore initial working directory%s%s"),
+	     (initial_wd->desc < 0 && initial_wd->name) ? ": " : "",
+	     (initial_wd->desc < 0 && initial_wd->name) ? initial_wd->name : "");
       _exit (EXIT_FAILURE);
     }
 }
