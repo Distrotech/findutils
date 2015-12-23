@@ -367,9 +367,24 @@ smaller_of (size_t a, size_t b)
 }
 
 
-static FILE* fopen_cloexec_for_read_only (const char *file_name) {
+static FILE* fopen_cloexec_for_read_only (const char *file_name)
+{
   int fd = open_cloexec (file_name, O_RDONLY);
-  return (fd < 0) ? NULL : fdopen (fd, "r");
+  if (fd < 0)
+    {
+      return NULL;
+    }
+  else
+    {
+      FILE *result = fdopen (fd, "r");
+      if (!result)
+	{
+	  int saved_errno = errno;
+	  close (fd);
+	  errno = saved_errno;
+	  return NULL;
+	}
+    }
 }
 
 
