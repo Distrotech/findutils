@@ -2,6 +2,23 @@ GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
 * Major changes in release 4.5.17-git, 2015-12-DD
 
+** Future Changes to Release Signing Keys
+
+Future findutils releases will be signed with a new GPG key, though
+this release will be signed with the existing key.  Here are the old
+and new key fingerprints:
+
+pub   1024R/64A95EE5 1996-04-04
+      Key fingerprint = 0C 1C D7 CA 66 33 D2 E9  14 E0 5F 16 D5 24 60 E9
+uid                  James Youngman <jay@gnu.org>
+uid                  James Youngman <JYoungman@vggas.com>
+
+pub   4096R/C5DDACB9 2015-12-24
+      Key fingerprint = 0CF4 E8D8 7159 3224 8428  32B8 88DD 9E08 C5DD ACB9
+uid                  James Youngman <james@youngman.org>
+uid                  James Youngman <jay@gnu.org>
+sub   4096R/771CE15D 2015-12-24
+
 ** Functional changes to find
 When the POSIXLY_CORRECT environment variable is set, a warning is no
 longer issued when '/' is found in the argument to -name.  Use of
