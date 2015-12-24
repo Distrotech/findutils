@@ -2,8 +2,18 @@ GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
 * Major changes in release 4.5.17-git, 2015-12-DD
 
-** Bug Fixes:
+** Functional changes to find
+When the POSIXLY_CORRECT environment variable is set, a warning is no
+longer issued when '/' is found in the argument to -name.  Use of
+POSIXLY_CORRECT also turns off warnings about use of the deprecated
+option -d  and the use of global options in surpising positions.
 
+** Documentation Changes
+The EXPRESSION section of the find manpage is now organised somewhat
+more clearly.  The -regextype option is now correctly documented as
+being positional.
+
+** Bug Fixes:
 When the -a option of xargs is used, xargs no longer leaks a file
 descriptor (fixing a bug reported by Kyle Sallee).
 

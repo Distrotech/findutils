@@ -297,43 +297,68 @@ findutils test suite runs all the tests on
 .B find
 at each optimisation level and ensures that the result is the same.
 .P
-.SH EXPRESSIONS
-The expression is made up of options (which affect overall operation
-rather than the processing of a specific file, and always return
-true), tests (which return a true or false value), and actions (which
-have side effects and return a true or false value), all separated by
-operators.
-.B \-and
-is assumed where the operator is omitted.
+.SH EXPRESSION
+The part of the command line after the list of starting points is the
+.IR expression .
+This is a kind of query specification describing how we match files
+and what we do with the files that were matched.
+An expression is composed of a sequence of things:
 
-If the expression contains no actions other than
-.BR \-prune ,
+.IP Tests
+Tests return a true or false value, usually on the basis of some
+property of a file we are considering.  The
+.B \-empty
+test for example is true only when the current file is empty.
+
+.IP Actions
+Actions have side effects (such as printing something on the standard
+output) and return either true or false, usually based on whether or
+not they are successful.  The
 .B \-print
-is
-performed on all files for which the expression is true.
+action for example prints the name of the current file on the standard
+output.
 
-.SS OPTIONS
-.P
-All options always return true.  Except for
-.BR \-daystart ,
-.B \-follow
-and
-.BR \-regextype ,
-the options affect all tests, including tests specified
-before the option.  This is because the options are processed when the
-command line is parsed, while the tests don't do anything until files
-are examined.  The
-.BR \-daystart ,
-.B \-follow
-and
+.IP "Global options"
+Global options affect the operation of tests and actions specified on
+any part of the command line.  Global options always return true.  The
+.B \-depth
+option for example makes
+.B find
+traverse the file system in a depth-first order.
+
+.IP "Positional options"
+Positional optiona affect only tests or actions which follow them.
+Positional options always return true.  The
 .B \-regextype
-options are different in this respect, and have an effect only on tests which
-appear later in the command line.  Therefore, for clarity, it is best
-to place them at the beginning of the expression.  A warning is issued
-if you don't do this.
+option for example is positional, specifying the regular expression
+dialect for regulat expressions occurring later on the command line.
 
-.IP \-d
-A synonym for \-depth, for compatibility with FreeBSD, NetBSD, MacOS X and OpenBSD.
+.IP Operators
+Operators join together the other items within the expression.  They
+include for example
+.B \-o
+(meaning logical OR) and
+.B \-a
+(meaning logical AND).  Where an operator is missing,
+.B \-a
+is assumed.
+
+.P
+If the whole expression contains no actions other than
+.B \-prune
+or
+.BR \-print ,
+.B \-print
+is performed on all files for which the whole expression is true.
+
+The
+.B \-delete
+action also acts like an option (since it implies
+.BR \-depth ).
+
+.SS POSITIONAL OPTIONS
+Positional options always return true.  They affect only tests occurring
+later on the command line.
 
 .IP \-daystart
 Measure times (for
@@ -346,11 +371,6 @@ and
 .BR \-mtime )
 from the beginning of today rather than from 24 hours ago.  This
 option only affects tests which appear later on the command line.
-
-.IP \-depth
-Process each directory's contents before the directory itself.  The
-\-delete action also implies
-.BR \-depth .
 
 .IP \-follow
 Deprecated; use the
@@ -388,6 +408,60 @@ causes the
 .B \-lname and
 .B \-ilname
 predicates always to return false.
+
+.IP "\-regextype \fItype\fR"
+Changes the regular expression syntax understood by
+.B \-regex
+and
+.B \-iregex
+tests which occur later on the command line.  To see which regular
+expression types are known, use
+.B -regextype
+.BR help .
+The Texinfo documentation (see
+.B SEE
+.BR ALSO )
+explains the meaning of and
+differences between the various types of regular expression.
+
+.IP "\-warn, \-nowarn"
+Turn warning messages on or off.  These warnings apply only to the
+command line usage, not to any conditions that
+.B find
+might encounter when it searches directories.  The default behaviour
+corresponds to
+.B \-warn
+if standard input is a tty, and to
+.B \-nowarn
+otherwise.  If a warning message relating to command-line usage is
+produced, the exit status of
+.B find
+is not affected.  If the POSIXLY_CORRECT environment variable is set,
+and
+.B \-warn is also used, it is not specified which, if any, warnings will be active.
+
+.SS GLOBAL OPTIONS
+Global options always return true.
+Global options take effect even for tests which occurr earlier on the
+command line.  To prevent confusion, global options should specified
+on the command-line after the list of start points, just before the
+first test, positional option or action. If you specify a global
+option in some other place,
+.B find
+will issue a warning message explaining that this can be confusing.
+
+The global options occur after the list of start points, and so are
+not the same kind of option as
+.BR \-L ,
+for example.
+
+.IP \-d
+A synonym for \-depth, for compatibility with FreeBSD, NetBSD, MacOS X and OpenBSD.
+
+.IP \-depth
+Process each directory's contents before the directory itself.  The
+\-delete action also implies
+.BR \-depth .
 
 .IP "\-help, \-\-help"
 Print a summary of the command-line usage of
@@ -443,28 +517,8 @@ in the directory are non-directories (`leaf' files in the directory
 tree).  If only the files' names need to be examined, there is no need
 to stat them; this gives a significant increase in search speed.
 
-.IP "\-regextype \fItype\fR"
-Changes the regular expression syntax understood by
-.B \-regex
-and
-.B \-iregex
-tests which occur later on the command line.  Currently-implemented
-types are emacs (this is the default), posix-awk, posix-basic,
-posix-egrep and posix-extended.
-
 .IP "\-version, \-\-version"
 Print the \fBfind\fR version number and exit.
-
-.IP "\-warn, \-nowarn"
-Turn warning messages on or off.  These warnings apply only to the
-command line usage, not to any conditions that
-.B find
-might encounter when it searches directories.  The default behaviour
-corresponds to
-.B \-warn
-if standard input is a tty, and to
-.B \-nowarn
-otherwise.
 
 .IP \-xdev
 Don't descend directories on other filesystems.
@@ -652,7 +706,9 @@ are removed, the file names considered for a match with
 will never include a slash, so `\-name a/b' will never match anything
 (you probably need to use
 .B \-path
-instead).  The metacharacters (`*', `?',
+instead).  A warning is issued if you try to do this, unless the environment variable
+POSIXLY_CORRECT is set.
+The metacharacters (`*', `?',
 and `[]') match a `.' at the start of the base name (this is a change
 in findutils-4.2.2; see section STANDARDS CONFORMANCE below).  To ignore a
 directory and the files under it, use
@@ -1442,7 +1498,52 @@ will be invoked before
 exits.   The exit status may or may not be zero, depending on whether
 an error has already occurred.
 
-.SS UNUSUAL FILENAMES
+.SS OPERATORS
+.P
+Listed in order of decreasing precedence:
+
+.IP "( \fIexpr\fR )"
+Force precedence.  Since parentheses are special to the shell, you
+will normally need to quote them.  Many of the examples in this manual
+page use backslashes for this purpose: `\e(...\e)' instead of `(...)'.
+
+.IP "! \fIexpr\fR"
+True if \fIexpr\fR is false.  This character will also usually need
+protection from interpretation by the shell.
+
+.IP "\-not \fIexpr\fR"
+Same as ! \fIexpr\fR, but not POSIX compliant.
+
+.IP "\fIexpr1 expr2\fR"
+Two expressions in a row are taken to be joined with an
+implied "and"; \fIexpr2\fR is not evaluated if \fIexpr1\fR is false.
+
+.IP "\fIexpr1\fR \-a \fIexpr2\fR"
+Same as \fIexpr1 expr2\fR.
+
+.IP "\fIexpr1\fR \-and \fIexpr2\fR"
+Same as \fIexpr1 expr2\fR, but not POSIX compliant.
+
+.IP "\fIexpr1\fR \-o \fIexpr2\fR"
+Or; \fIexpr2\fR is not evaluated if \fIexpr1\fR is true.
+
+.IP "\fIexpr1\fR \-or \fIexpr2\fR"
+Same as \fIexpr1\fR
+.B \-o
+\fIexpr2\fR, but not POSIX compliant.
+
+.IP "\fIexpr1\fR , \fIexpr2\fR"
+List; both \fIexpr1\fR and \fIexpr2\fR are always evaluated.  The
+value of \fIexpr1\fR is discarded; the value of the list is the value
+of \fIexpr2\fR. The comma operator can be useful for searching for
+several different types of thing, but traversing the filesystem
+hierarchy only once.  The
+.B \-fprintf
+action can be used to list the various matched items into several
+different output files.
+
+
+.SH UNUSUAL FILENAMES
 Many of the actions of
 .B find
 result in the printing of data which is under the control of other
@@ -1508,51 +1609,6 @@ The
 and
 .B \-okdir
 actions print the current filename as-is.  This may change in a future release.
-
-.SS OPERATORS
-.P
-Listed in order of decreasing precedence:
-
-.IP "( \fIexpr\fR )"
-Force precedence.  Since parentheses are special to the shell, you
-will normally need to quote them.  Many of the examples in this manual
-page use backslashes for this purpose: `\e(...\e)' instead of `(...)'.
-
-.IP "! \fIexpr\fR"
-True if \fIexpr\fR is false.  This character will also usually need
-protection from interpretation by the shell.
-
-.IP "\-not \fIexpr\fR"
-Same as ! \fIexpr\fR, but not POSIX compliant.
-
-.IP "\fIexpr1 expr2\fR"
-Two expressions in a row are taken to be joined with an
-implied "and"; \fIexpr2\fR is not evaluated if \fIexpr1\fR is false.
-
-.IP "\fIexpr1\fR \-a \fIexpr2\fR"
-Same as \fIexpr1 expr2\fR.
-
-.IP "\fIexpr1\fR \-and \fIexpr2\fR"
-Same as \fIexpr1 expr2\fR, but not POSIX compliant.
-
-.IP "\fIexpr1\fR \-o \fIexpr2\fR"
-Or; \fIexpr2\fR is not evaluated if \fIexpr1\fR is true.
-
-.IP "\fIexpr1\fR \-or \fIexpr2\fR"
-Same as \fIexpr1\fR
-.B \-o
-\fIexpr2\fR, but not POSIX compliant.
-
-.IP "\fIexpr1\fR , \fIexpr2\fR"
-List; both \fIexpr1\fR and \fIexpr2\fR are always evaluated.  The
-value of \fIexpr1\fR is discarded; the value of the list is the value
-of \fIexpr2\fR. The comma operator can be useful for searching for
-several different types of thing, but traversing the filesystem
-hierarchy only once.  The
-.B \-fprintf
-action can be used to list the various matched items into several
-different output files.
-
 
 .SH "STANDARDS CONFORMANCE"
 For closest compliance to the POSIX standard, you should set the

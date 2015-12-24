@@ -279,6 +279,7 @@ static struct parser_table const parse_table[] =
   PARSE_TEST       ("nouser",                nouser), /* POSIX */
   PARSE_OPTION     ("noignore_readdir_race", noignore_race), /* GNU */
   PARSE_POSOPT     ("nowarn",                nowarn),	     /* GNU */
+  PARSE_POSOPT     ("warn",                  warn),	     /* GNU */
   PARSE_PUNCTUATION("o",                     or), /* POSIX */
   PARSE_PUNCTUATION("or",                    or),	     /* GNU */
   PARSE_ACTION     ("ok",                    ok), /* POSIX */
@@ -302,7 +303,6 @@ static struct parser_table const parse_table[] =
   PARSE_TEST       ("uid",                   uid),	     /* GNU */
   PARSE_TEST       ("used",                  used),	     /* GNU */
   PARSE_TEST       ("user",                  user), /* POSIX */
-  PARSE_OPTION     ("warn",                  warn),	     /* GNU */
   PARSE_TEST_NP    ("wholename",             wholename), /* GNU, replaced -path, but anyway -path will soon be in POSIX */
   {ARG_TEST,       "writable",               parse_accesscheck, pred_writable}, /* GNU, 4.3.0+ */
   PARSE_OPTION     ("xdev",                  xdev), /* POSIX */
@@ -563,6 +563,15 @@ parse_end_user_args (char **args, int argno,
   (void) predicates;
 }
 
+static bool
+should_issue_warnings (void)
+{
+  if (options.posixly_correct)
+    return false;
+  else
+    return options.warnings;
+}
+
 
 /* Check that it is legal to fid the given primary in its
  * position and return it.
@@ -592,7 +601,7 @@ found_parser (const char *original_arg, const struct parser_table *entry)
       if (entry->type == ARG_OPTION)
 	{
 	  if ((first_nonoption_arg != NULL)
-	      && options.warnings )
+	      && should_issue_warnings ())
 	    {
 	      /* option which follows a non-option */
 	      error (0, 0,
@@ -900,7 +909,7 @@ parse_depth (const struct parser_table* entry, char **argv, int *arg_ptr)
 static bool
 parse_d (const struct parser_table* entry, char **argv, int *arg_ptr)
 {
-  if (options.warnings)
+  if (should_issue_warnings ())
     {
       error (0, 0,
 	     _("warning: the -d option is deprecated; please use "
@@ -1316,7 +1325,7 @@ fnmatch_sanitycheck (void)
 static bool
 check_name_arg (const char *pred, const char *arg)
 {
-  if (options.warnings && strchr (arg, '/'))
+  if (should_issue_warnings () && strchr (arg, '/'))
     {
       error (0, 0,_("warning: Unix filenames usually don't contain slashes "
 		    "(though pathnames do).  That means that '%s %s' will "
