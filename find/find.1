@@ -270,7 +270,7 @@ starts, that predicate is equivalent to
 .BR \-false .
 .IP 3
 At this optimisation level, the full cost-based query optimiser is
-enabled.  The order of tests is modified so that cheap (i.e. fast)
+enabled.  The order of tests is modified so that cheap (i.e.\& fast)
 tests are performed first and more expensive ones are performed later,
 if necessary.  Within each cost band, predicates are evaluated earlier
 or later according to whether they are likely to succeed or not.  For
@@ -291,7 +291,7 @@ not actually improve the performance of
 .BR find ,
 it will be removed again.  Conversely, optimisations that prove to be
 reliable, robust and effective may be enabled at lower optimisation
-levels over time.  However, the default behaviour (i.e. optimisation
+levels over time.  However, the default behaviour (i.e.\& optimisation
 level 1) will not be changed in the 4.3.x release series.  The
 findutils test suite runs all the tests on
 .B find
@@ -508,7 +508,7 @@ searching filesystems that do not follow the Unix directory-link
 convention, such as CD-ROM or MS-DOS filesystems or AFS volume mount
 points.  Each directory on a normal Unix filesystem has at least 2
 hard links: its name and its `.'  entry.  Additionally, its
-subdirectories (if any) each have a `..'  entry linked to that
+subdirectories (if any) each have a `..\&' entry linked to that
 directory.  When
 .B find
 is examining a directory, after it has statted 2 fewer subdirectories
@@ -672,7 +672,7 @@ Like
 but the match is case insensitive.
 
 .IP "\-iwholename \fIpattern\fR"
-See \-ipath.    This alternative is less portable than
+See \-ipath.  This alternative is less portable than
 .BR \-ipath .
 
 .IP "\-links \fIn\fR"
@@ -956,7 +956,7 @@ File was last accessed \fIn\fR days after its status was last changed.
 File is owned by user \fIuname\fR (numeric user ID allowed).
 
 .IP "\-wholename \fIpattern\fR"
-See \-path.    This alternative is less portable than
+See \-path.  This alternative is less portable than
 .BR \-path .
 
 .IP "\-writable"
@@ -1281,7 +1281,7 @@ available on all systems, due to differences in `strftime' between
 systems.
 .RS
 .IP @
-seconds since Jan. 1, 1970, 00:00 GMT, with fractional part.
+seconds since Jan.\& 1, 1970, 00:00 GMT, with fractional part.
 .PP
 Time fields:
 .IP H
@@ -1351,7 +1351,7 @@ last two digits of year (00..99)
 year (1970...)
 .RE
 .IP %b
-The amount of disk space used for this file in 512-byte blocks. Since disk
+The amount of disk space used for this file in 512-byte blocks.  Since disk
 space is allocated in multiples of the filesystem block size this is usually
 greater than %s/512, but it can also be smaller if the file is a sparse file.
 .IP %c
@@ -1383,7 +1383,7 @@ Starting-point under which file was found.
 .IP %i
 File's inode number (in decimal).
 .IP %k
-The amount of disk space used for this file in 1K blocks. Since disk space is
+The amount of disk space used for this file in 1K blocks.  Since disk space is
 allocated in multiples of the filesystem block size this is usually greater
 than %s/1024, but it can also be smaller if the file is a sparse file.
 .IP %l
@@ -1473,7 +1473,7 @@ section for information about how unusual characters in filenames are handled.
 
 .RE
 .IP \-prune
-True; if the file is a directory, do not descend into it. If
+True; if the file is a directory, do not descend into it.  If
 .B \-depth
 is given, false; no effect.  Because
 .B \-delete
@@ -1492,7 +1492,7 @@ paths specified on the command line will be processed.  For example,
 will print only
 .BR /tmp/foo .
 Any command lines which have been built up with
-.B \-execdir ... {} +
+.B \-execdir \&...\& {} +
 will be invoked before
 .B find
 exits.   The exit status may or may not be zero, depending on whether
@@ -1535,7 +1535,7 @@ Same as \fIexpr1\fR
 .IP "\fIexpr1\fR , \fIexpr2\fR"
 List; both \fIexpr1\fR and \fIexpr2\fR are always evaluated.  The
 value of \fIexpr1\fR is discarded; the value of the list is the value
-of \fIexpr2\fR. The comma operator can be useful for searching for
+of \fIexpr2\fR.  The comma operator can be useful for searching for
 several different types of thing, but traversing the filesystem
 hierarchy only once.  The
 .B \-fprintf
@@ -1640,7 +1640,7 @@ Interpretation of the response is according to the "yes" and "no"
 patterns selected by setting the `LC_MESSAGES' environment variable.
 When the `POSIXLY_CORRECT' environment variable is set, these patterns
 are taken system's definition of a positive (yes) or negative (no)
-response. See the system's
+response.  See the system's
 documentation for \fBnl_langinfo\fP(3), in particular YESEXPR and
 NOEXPR.    When `POSIXLY_CORRECT' is not set, the patterns are instead
 taken from
@@ -1708,7 +1708,7 @@ The
 .B find
 utility shall detect infinite loops; that is, entering a
 previously visited directory that is an ancestor of the last file
-encountered. When it detects an infinite loop, find shall write a
+encountered.  When it detects an infinite loop, find shall write a
 diagnostic message to standard error and shall either recover its
 position in the hierarchy or terminate.
 .P
@@ -2019,7 +2019,7 @@ but omits files and directories named
 ends in
 .BR ~ ,
 but not their contents.  The construct
-.B \-prune \-o \e( ... \-print0 \e)
+.B \-prune \-o \e( \&...\& \-print0 \e)
 is quite common.  The idea here is that the expression before
 .B \-prune
 matches things which are to be pruned.  However, the
@@ -2081,9 +2081,9 @@ When some error occurs,
 may stop immediately, without completing all the actions specified.
 For example, some starting points may not have been examined or some
 pending program invocations for
-.B \-exec ... {} +
+.B \-exec \&...\& {} +
 or
-.B \-execdir ... {} +
+.B \-execdir \&...\& {} +
 may not have been performed.
 
 
@@ -2093,7 +2093,7 @@ may not have been performed.
 \fBlstat\fP(2), \fBls\fP(1), \fBprintf\fP(3), \fBstrftime\fP(3),
 \fBctime\fP(3)
 
-The  full documentation for
+The full documentation for
 .B find
 is maintained as a Texinfo manual.  If the
 .B info
