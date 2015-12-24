@@ -28,7 +28,7 @@ do
 	    -printf 'hello^\cthere' \
 	    -exec printf %s {} \; \
 	    -printf '^world\n' )"; then
-        if [[ "${result}" != "${expected}" ]]; then
+        if [ "${result}" != "${expected}" ]; then
             exec >&2
             echo "$executable produced incorrect output:"
             echo "${result}"
