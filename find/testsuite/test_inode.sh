@@ -60,6 +60,3 @@ if tmpfile=$(mktemp); then
     fi
     rm -f "${tmpfile}"
 fi
-
-
-

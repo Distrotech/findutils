@@ -60,7 +60,6 @@
 #include "progname.h"
 #include "quotearg.h"
 #include "safe-read.h"
-#include "verify.h"
 #include "xalloc.h"
 
 /* find headers. */

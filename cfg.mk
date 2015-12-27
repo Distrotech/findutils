@@ -46,6 +46,9 @@ exclude_file_name_regexp--sc_prohibit_doubled_word = \
 exclude_file_name_regexp--sc_program_name = \
 	^lib/test_splitstring\.c$$
 
+# Suppress syntax-check failure regarding possibly evil strncpy use for now.
+exclude_file_name_regexp--sc_prohibit_strncpy = ^(find/print.c|lib/buildcmd.c)$$
+
 # sc_texinfo_acronym: perms.texi from coreutils uses @acronym{GNU}.
 exclude_file_name_regexp--sc_texinfo_acronym = doc/perm\.texi
 

@@ -76,4 +76,3 @@ else
     echo "${testname} was not run because" '${RUN_VERY_EXPENSIVE_TESTS}' \
 	"is unset."
 fi
-

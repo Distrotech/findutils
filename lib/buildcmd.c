@@ -24,7 +24,6 @@
 #include <error.h>
 #include <limits.h>
 #include <locale.h>
-#include <openat.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>

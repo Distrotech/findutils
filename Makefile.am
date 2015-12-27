@@ -44,7 +44,7 @@ gen-ChangeLog:
 	      && cat $(top_srcdir)/ChangeLog-2013 ;                \
 	    } > $(distdir)/cl-t                                    \
 	      && { rm -f $(distdir)/ChangeLog                      \
-	             && mv $(distdir)/cl-t $(distdir)/ChangeLog; } \
+		     && mv $(distdir)/cl-t $(distdir)/ChangeLog; } \
 	else                                                       \
 	  echo "WARNING: $@: cannot generate ChangeLog since" >&2 && \
 	  echo "$(top_srcdir) has no .git subdirectory" >&2 ;      \

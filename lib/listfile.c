@@ -24,7 +24,6 @@
 #include <fcntl.h>
 #include <grp.h>
 #include <locale.h>
-#include <openat.h>
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>

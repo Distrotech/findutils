@@ -38,7 +38,6 @@
 #include "quotearg.h"
 #include "save-cwd.h"
 #include "timespec.h"
-#include "verify.h"
 #include "xalloc.h"
 
 /* find headers. */
@@ -728,7 +727,7 @@ digest_mode (mode_t *mode,
       if (leaf)
 	{
 	  state.have_stat = false;
-	  state.have_type = false;;
+	  state.have_type = false;
 	  state.type = 0;
 	}
       else

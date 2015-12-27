@@ -1132,7 +1132,7 @@ do_fprintf (struct format_val *dest,
 
         case 'S':               /* sparseness */
           /* UNTRUSTED, probably unexploitable */
-          checked_fprintf (dest, segment->text, file_sparseness (stat_buf));;
+          checked_fprintf (dest, segment->text, file_sparseness (stat_buf));
           break;
 
         case 't':               /* mtime in `ctime' format */

@@ -281,5 +281,3 @@ configured-testfiles.txt: Makefile
 
 checklists: configured-testfiles.txt Makefile
 	$(PYTHON) $(srcdir)/checklists.py configured-testfiles.txt $(srcdir) config find.gnu find.posix
-
-
