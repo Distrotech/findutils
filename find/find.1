@@ -1856,27 +1856,6 @@ directives of
 .B \-printf
 and
 .BR \-fprintf .
-.SH BINARIES
-The findutils source distribution contains two different
-implementations of
-.BR find .
-The older implementation descends the file system recursively, while
-the newer one uses
-.BR fts (3).
-Both are normally installed.
-.P
-If the option
-.B \-\-without\-fts
-was passed to
-.BR configure ,
-the recursive implementation is installed as
-.B find
-and the fts-based implementation is installed as
-.BR ftsfind .
-Otherwise, the fts-based implementation is installed as
-.B find
-and the recursive implementation is installed as
-.BR oldfind .
 .SH "EXAMPLES"
 .nf
 .B find /tmp \-name core \-type f \-print | xargs /bin/rm \-f

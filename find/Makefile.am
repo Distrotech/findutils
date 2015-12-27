@@ -1,46 +1,30 @@
 AUTOMAKE_OPTIONS = std-options
 AM_CFLAGS = $(WARN_CFLAGS)
 localedir = $(datadir)/locale
-# noinst_PROGRAMS = regexprops
-# regexprops_SOURCES = regexprops.c
 
 noinst_LIBRARIES = libfindtools.a
 libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c exec.c tree.c util.c sharefile.c print.c
 
-# We always build two versions of find, one with fts, one without.
-# Their names depend on whether the user specified --with-fts.
-#
-# --with-fts            find            extra binary
-#       yes             with fts        'oldfind', without fts
-#        no             without fts     'ftsfind', with fts
-#
-if WITH_FTS
-bin_PROGRAMS     = find oldfind
+# We always build two versions of find, one with fts (called "find"),
+# one without (called "oldfind").  The oldfind binary is no longer
+# installed.
+bin_PROGRAMS     = find
+noinst_PROGRAMS = oldfind
 find_SOURCES     = ftsfind.c
 oldfind_SOURCES  = find.c
-man_MANS         = find.1 oldfind.1
-else
-bin_PROGRAMS      = find ftsfind
-find_SOURCES      = find.c
-ftsfind_SOURCES   = ftsfind.c
-man_MANS          = find.1 ftsfind.1
-endif
+man_MANS         = find.1
 
-# We don't just include man_MANS in EXTRA_DIST because while the value of
-# man_MANS is not always the same, we want to distribute all of those files.
-EXTRA_DIST = defs.h sharefile.h print.h find.1 ftsfind.1 oldfind.1
+EXTRA_DIST = defs.h sharefile.h print.h $(man_MANS)
 AM_CPPFLAGS = -I../gl/lib -I$(top_srcdir)/lib -I$(top_srcdir)/gl/lib -I../intl -DLOCALEDIR=\"$(localedir)\"
 LDADD = ./libfindtools.a ../lib/libfind.a ../gl/lib/libgnulib.a $(LIBINTL) $(LIB_CLOCK_GETTIME) $(LIB_EACCESS) $(LIB_SELINUX) $(LIB_CLOSE) $(MODF_LIBM) $(FINDLIBS) $(GETHOSTNAME_LIB) $(LIB_EACCESS)
 # gnulib advises we link against <first> because we use <second>:
 # $(GETHOSTNAME_LIB)            uname
-# $(LIB_CLOCK_GETTIME)          (some inditrect dependency)
+# $(LIB_CLOCK_GETTIME)          (some indirect dependency)
 # $(LIB_EACCESS)                faccessat
 # $(LIB_SELINUX)                selinux-h
 # $(MODF_LIBM)                  modf
 
 SUBDIRS = . testsuite
-
-#$(PROGRAMS): ../lib/libfind.a
 
 dist-hook: findutils-check-manpages
 

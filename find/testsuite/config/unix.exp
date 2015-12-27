@@ -37,15 +37,8 @@ if { ![info exists OLDFIND] || ![info exists FTSFIND] } {
     if ![file exists "$dir/$objfile"] then {
 	error "dir is $dir, but I cannot see $objfile in that directory"
     }
-    if ([findfile $dir/oldfind 1 0]) {
-	verbose "found oldfind, so ftsfind must be called find"
-	set OLDFIND [findfile $dir/oldfind $dir/oldfind [transform oldfind]]
-	set FTSFIND [findfile $dir/find    $dir/find    [transform find   ]]
-    } else {
-	verbose "did not find oldfind, so ftsfind must be called ftsfind"
-	set OLDFIND [findfile $dir/find    $dir/find    [transform find   ]]
-	set FTSFIND [findfile $dir/ftsfind $dir/ftsfind [transform ftsfind]]
-    }
+    set OLDFIND [findfile $dir/oldfind $dir/oldfind [transform oldfind]]
+    set FTSFIND [findfile $dir/find    $dir/find    [transform find   ]]
 }
 
 verbose "ftsfind is at $FTSFIND" 2

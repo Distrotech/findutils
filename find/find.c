@@ -173,7 +173,8 @@ get_current_dirfd (void)
   return AT_FDCWD;
 }
 
-
+/* CAUTION: this is the entry point for the oldfind executable, which is not the binary that
+ * will actually get installed.   See ftsfind.c. */
 int
 main (int argc, char **argv)
 {

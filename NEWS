@@ -2,6 +2,14 @@ GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
 * Major changes in release 4.5.18-git, 2015-12-DD
 
+** Changes to find
+
+Only the ftsfind binary will be installed, as "find".  Installing
+oldfind, under any name, is no longer supported.  The configure option
+--with-fts is still allowed, but trying to use it to enable the
+installation of oldfind (for example by using --with-fts=no) results
+in configure stopping with an error message.
+
 ** Translations
 
 Updated the Slovenian translation.
