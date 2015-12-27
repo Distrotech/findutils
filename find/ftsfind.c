@@ -16,7 +16,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/* This file was written by James Youngman, based on find.c.
+/* This file was written by James Youngman, based on oldfind.c.
 
    GNU find was written by Eric Decker <cire@soe.ucsc.edu>,
    with enhancements by David MacKenzie <djm@gnu.org>,

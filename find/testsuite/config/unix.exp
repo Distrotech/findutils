@@ -33,7 +33,7 @@ if { ![info exists OLDFIND] || ![info exists FTSFIND] } {
     verbose "Searching for oldfind"
     set dir "$base_dir/.."
 
-    set objfile "find.o"
+    set objfile "ftsfind.o"
     if ![file exists "$dir/$objfile"] then {
 	error "dir is $dir, but I cannot see $objfile in that directory"
     }

@@ -11,7 +11,7 @@ libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c exec.c tree.c util.
 bin_PROGRAMS     = find
 noinst_PROGRAMS = oldfind
 find_SOURCES     = ftsfind.c
-oldfind_SOURCES  = find.c
+oldfind_SOURCES  = oldfind.c
 man_MANS         = find.1
 
 EXTRA_DIST = defs.h sharefile.h print.h $(man_MANS)

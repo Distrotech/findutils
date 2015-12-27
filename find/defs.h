@@ -146,7 +146,7 @@ struct perm_val
   mode_t val[2];
 };
 
-/* dir_id is used to support loop detection in find.c
+/* dir_id is used to support loop detection in oldfind.c
  */
 struct dir_id
 {
@@ -334,14 +334,14 @@ struct predicate
   const struct parser_table* parser_entry;
 };
 
-/* find.c, ftsfind.c */
+/* oldfind.c, ftsfind.c */
 bool is_fts_enabled(int *ftsoptions);
 
 /* find library function declarations.  */
 
 /* find global function declarations.  */
 
-/* find.c */
+/* oldfind.c */
 /* SymlinkOption represents the choice of
  * -P, -L or -P (default) on the command line.
  */
@@ -351,7 +351,7 @@ enum SymlinkOption
     SYMLINK_ALWAYS_DEREF,	/* Option -L */
     SYMLINK_DEREF_ARGSONLY	/* Option -H */
   };
-extern enum SymlinkOption symlink_handling; /* defined in find.c. */
+extern enum SymlinkOption symlink_handling; /* defined in oldfind.c. */
 
 void set_follow_state (enum SymlinkOption opt);
 void cleanup(void);
@@ -515,7 +515,7 @@ bool apply_predicate(const char *pathname, struct stat *stat_buf, struct predica
 #define pred_is(node, fn) ( ((node)->pred_func) == (fn) )
 
 
-/* find.c. */
+/* oldfind.c. */
 int get_info (const char *pathname, struct stat *p, struct predicate *pred_ptr);
 bool following_links (void);
 bool digest_mode (mode_t *mode, const char *pathname, const char *name, struct stat *pstat, bool leaf);
