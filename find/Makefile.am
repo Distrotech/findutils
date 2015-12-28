@@ -9,7 +9,7 @@ libfindtools_a_SOURCES = finddata.c fstype.c parser.c pred.c exec.c tree.c util.
 # one without (called "oldfind").  The oldfind binary is no longer
 # installed.
 bin_PROGRAMS     = find
-noinst_PROGRAMS = oldfind
+check_PROGRAMS   = oldfind
 find_SOURCES     = ftsfind.c
 oldfind_SOURCES  = oldfind.c
 man_MANS         = find.1
