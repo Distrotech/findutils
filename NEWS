@@ -1,6 +1,38 @@
 GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
-* Major changes in release 4.5.20-git, 2015-12-DD
+* Major changes in release 4.6.0, 2015-12-28
+
+** Stable Release
+
+This is the first stable release since findutils-4.4.2.  The entries
+below in this file detail the changes that have occurred since release
+4.3.13 (which is the common ancestor of this release and
+findutils-4.4.0).  This release includes all the bug fixes
+incorporated into the 4.4.x release series, since those bug fixes were
+also applied to the 4.5.x release series.
+
+** Summary of Changes
+
+The most significant changes since the 4.4.2 release are:
+
+1. Some backward-incompatible changes have been made to find:
+  - egrep regular expressions now work like GNU grep -E
+  - Minor changes to the way nanoseconds fields are printed
+  - find -perm +mode is now fully POSIX compliant (if you want the old
+    behaviour use -perm /mode).
+  - find -perm +numeric_mode is not supported any more. This syntax is
+    unspecified by POSIX. The prior functionality continues to be
+    available with -perm /numeric_mode. For more details see Savannah
+    bug #38474.
+
+2. Some backward-incompatible changes have been made to xargs:
+  - if the child exits with status 126 or 127, xargs exits with status
+    123.
+
+3. There are also a large number of bugfixes, performance enhancements
+   and documentation improvements, as detailed below.
+
+4. The "oldfind" binary is no longer installed.
 
 ** Translations
 
