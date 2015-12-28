@@ -383,6 +383,7 @@ static FILE* fopen_cloexec_for_read_only (const char *file_name)
 	  errno = saved_errno;
 	  return NULL;
 	}
+      return result;
     }
 }
 
